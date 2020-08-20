@@ -13,10 +13,11 @@
 #  limitations under the License.
 
 module BaseType
-
-    attr_accessor :name, :variables, :accessor, :inheritFrom, :package, :sameFileTypes
+    
+    attr_accessor :name, :variables, :accessor, :inheritFrom, :package, :sameFileTypes, :type
 
     def initialize(params = {})
+        @type = nil # setting this to something else will overwrite @templateHelper.defaultDeclarationType in the templates
         @name = params.fetch(:name, '')
         @variables = params.fetch(:variables, [])
         @accessor = params.fetch(:accessor, "public")

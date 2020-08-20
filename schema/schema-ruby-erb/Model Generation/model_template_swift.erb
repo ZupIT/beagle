@@ -23,6 +23,7 @@
   @doubleTab = @tab + @tab
   @templateHelper = TemplateHelper.new
   @templateHelper.languageIdentifier = SupportedLanguages.new.swift
+  @templateHelper.defaultDeclarationType = "struct"
 
   def handleTypeName(variable)
       typeName = @templateHelper.fetchType(variable.typeName)
@@ -104,7 +105,7 @@
   def fullDeclaration(objectType)
     objectType.synthaxType.inheritFrom.append("Decodable")
     isEnumDeclaration = @templateHelper.isEnum(objectType)
-    typeKind = isEnumDeclaration ? "enum" : "struct"
+    typeKind = @templateHelper.fetchBuiltInTypeDeclaration(objectType.synthaxType.type)
     output = "#{objectType.synthaxType.accessor} #{typeKind} #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)} {\n\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)

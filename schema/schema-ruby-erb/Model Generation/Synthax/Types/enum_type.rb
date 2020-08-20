@@ -19,6 +19,7 @@ class EnumType
 
     def initialize(params = {})
         super
+        @type = BasicTypeKeys.new.enum
     end
 
 end

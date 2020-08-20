@@ -42,8 +42,6 @@ class BasicType < SupportedLanguages
             keys.interface => {@swift => "protocol", @kotlin => "interface"},
             keys.enum => {@swift => "enum", @kotlin => "enum"}
         }
-        
-        #puts @grammar["String"]["swift"]
 
     end
     
@@ -51,9 +49,10 @@ end
 
 class TemplateHelper
 
-    attr_accessor :languageIdentifier
+    attr_accessor :languageIdentifier, :defaultDeclarationType
 
     def initialize
+        @defaultDeclarationType= ''
         @languageIdentifier = ''
         @types = BasicType.new
     end
@@ -64,6 +63,10 @@ class TemplateHelper
         else
             key
         end
+    end
+
+    def fetchBuiltInTypeDeclaration(key)
+        key == nil ? @defaultDeclarationType : fetchType(key)
     end
 
     def addPadding(padding, multiplier, text)

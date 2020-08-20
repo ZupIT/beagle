@@ -16,8 +16,10 @@ require_relative './type.rb'
 
 class BuiltInType
     include BaseType
+
     def initialize(params = {})
         super
+        @type = params.fetch(:type, nil)
     end
-
+    
 end
