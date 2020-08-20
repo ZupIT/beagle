@@ -27,8 +27,6 @@ internal class UrlBuilderDefault : UrlBuilder {
             newPath.isEmpty() -> null
             endpoint.isNullOrEmpty() -> newPath
             endpoint?.takeLast(1) == "/" && newPath.take(1) == "/" -> endpoint + newPath.takeLast(newPath.length - 1)
-            endpoint?.takeLast(1) == "/" && newPath == "/" -> endpoint
-            endpoint?.takeLast(1) != "/" && newPath == "/" -> endpoint + newPath
             isRelativePath(newPath) -> endpoint + newPath
             else -> newPath
         }
