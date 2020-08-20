@@ -21,43 +21,45 @@ import BeagleSchema
 
 final class AddChildrenTests: XCTestCase {
 
+    private let imageSize = ImageSize.custom(CGSize(width: 200, height: 100))
+    private let controller = BeagleScreenViewController(Container(widgetProperties: WidgetProperties(id: "containerId")) {
+        Text("some text")
+    })
+    
     func testAddChildrenDefault() {
         // Given
-        let addChildren = AddChildren(componentId: "", value: [Text("text 1"), Text("text 2")])
-        let view = UIView()
-        let controller = BeagleControllerNavigationSpy()
-
+        let addChildren = AddChildren(componentId: "containerId", value: [Text("text")])
+        assertSnapshotImage(controller, size: imageSize)
+        
         // When
-        addChildren.execute(controller: controller, origin: view)
+        addChildren.execute(controller: controller, origin: UIView())
 
         // Then
-//        TODO: take snapshot
+        assertSnapshotImage(controller, size: imageSize)
     }
     
     func testAddChildrenPrepend() {
         // Given
-        let addChildren = AddChildren(componentId: "", value: [Text("text")], mode: .prepend)
-        let view = UIView()
-        let controller = BeagleControllerNavigationSpy()
-
+        let addChildren = AddChildren(componentId: "containerId", value: [Text("text")], mode: .prepend)
+        assertSnapshotImage(controller, size: imageSize)
+        
         // When
-        addChildren.execute(controller: controller, origin: view)
+        addChildren.execute(controller: controller, origin: UIView())
 
         // Then
-//        TODO: take snapshot
+        assertSnapshotImage(controller, size: imageSize)
     }
     
     func testAddChildrenReplace() {
         // Given
-        let addChildren = AddChildren(componentId: "", value: [Text("text")], mode: .replace)
-        let view = UIView()
-        let controller = BeagleControllerNavigationSpy()
-
+        let addChildren = AddChildren(componentId: "containerId", value: [Text("text")], mode: .replace)
+        assertSnapshotImage(controller, size: imageSize)
+        
         // When
-        addChildren.execute(controller: controller, origin: view)
+        addChildren.execute(controller: controller, origin: UIView())
 
         // Then
-//        TODO: take snapshot
+        assertSnapshotImage(controller, size: imageSize)
     }
     
 }

@@ -28,13 +28,13 @@ extension AddChildren: Action {
         case .append, .none:
             break
         case .prepend:
-            var existingViews: [UIView] = []
-            view.subviews.forEach { existingViews.append($0); $0.removeFromSuperview() }
-            views = views + existingViews
+            views = views + view.subviews
+            view.subviews.forEach { $0.removeFromSuperview() }
         case .replace:
             view.subviews.forEach { $0.removeFromSuperview() }
         }
         views.forEach { view.addSubview($0) }
+        
         controller.view.setNeedsLayout()
     }
 }
