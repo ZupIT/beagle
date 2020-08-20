@@ -43,7 +43,7 @@ private var step1Screen =
             createButton(text: "PopView", action: Navigate.popView, backgroundColor: "#0f4c81")
             createButton(text: "PushView (Step 2)", action: Navigate.openNativeRoute(.init(route: .NAVIGATE_STEP2_ENDPOINT)), backgroundColor: "#ed6663")
         }
-}
+    }
 
 private var step2Screen =
     Screen(navigationBar: NavigationBar(title: "Step 2")) {
@@ -52,7 +52,7 @@ private var step2Screen =
             createButton(text: "PushView (Step 3)", action: Navigate.pushView(.declarative(step3Screen)), backgroundColor: "#ed6663")
             createButton(text: "PushStack", action: Navigate.pushStack(.declarative(presentView)), backgroundColor: "#ffa372")
         }
-}
+    }
 
 private var step3Screen =
     Screen(navigationBar: NavigationBar(title: "Step 3")) {
@@ -62,7 +62,7 @@ private var step3Screen =
             createButton(text: "ResetApplication (Step 1)", action: Navigate.resetApplication(.declarative(step1Screen)), backgroundColor: "#ed6663")
             createButton(text: "PushView (Step 1)", action: Navigate.pushView(.declarative(step1Screen)), backgroundColor: "#c81912")
         }
-}
+    }
 
 private var presentView =
     Screen(navigationBar: NavigationBar(title: "Present")) {
@@ -70,7 +70,7 @@ private var presentView =
             createButton(text: "PushView (Step 1)", action: Navigate.pushView(.declarative(step1Screen)), backgroundColor: "#ed6663")
             createButton(text: "PopStack", action: Navigate.popStack, backgroundColor: "#2a7886")
         }
-}
+    }
 
 private func createButton(text: String, action: Navigate, backgroundColor: String) -> Button {
     Button(text: .value(text),
