@@ -26,8 +26,13 @@
   end
 -%>
 
+<% if objectType.synthaxType.class == CommonType -%>
 export interface <%= objectType.synthaxType.name -%> { <% -%>
   <% for variable in objectType.synthaxType.variables %>
   <%= handleTypeNameWithName(variable) %>: <%= variable.typeName.downcase -%>, <% -%>
   <% end %>
 }
+<% elsif objectType.synthaxType.class == EnumType -%>
+export type <%= objectType.synthaxType.name -%> = <%= objectType.synthaxType.variables.map { |enumCase| "'#{enumCase.defaultValue}'" }.join(" | ") -%>
+
+<% end -%>

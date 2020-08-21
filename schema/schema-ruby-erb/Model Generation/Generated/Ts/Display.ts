@@ -15,7 +15,4 @@
  * limitations under the License.
  */
 
-export interface Display {   
-  flex: ,   
-  none: ,   
-}
+export type Display = 'FLEX' | 'NONE'
