@@ -35,6 +35,7 @@ require './Models/Analytics/analytics_models.rb'
 
 require './Models/Widgets/button.rb'
 require './Models/Widgets/text.rb'
+require './Models/Widgets/container.rb'
 
 require './FileHandler/file_handler.rb'
 require './Common/constants.rb'
@@ -108,6 +109,7 @@ if __FILE__ == $0
     # Components
     Button,
     Text,
+    Container,
     # Layout
     CornerRadius,
     EdgeValue,
