@@ -19,7 +19,6 @@ import BeagleSchema
 @testable import Beagle
 import XCTest
 
-// swiftlint:disable multiline_literal_brackets
 final class OperationOtherEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateIsNull() {

@@ -161,12 +161,13 @@ final class OperationComparisonEvaluationTests: OperationEvaluationTests {
     
     private func evaluateOperation(_ name: BeagleSchema.Operation.Name, comparableResults: [DynamicObject]) {
         // Given
-        let contexts = [Context(id: "context1", value: .int(2)),
-                        Context(id: "context2", value: .double(2.5))]
+        let contexts = [Context(id: "context1", value: .int(2)), Context(id: "context2", value: .double(2.5))]
         let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
         
+        // swiftlint:disable multiline_literal_brackets
         let sums = [Operation(name: .sum, parameters: [.value(.literal(.int(10))), .value(.literal(.int(4)))]),
                     Operation(name: .sum, parameters: [.value(.literal(.double(12.5))), .value(.literal(.double(5.5)))])]
+        // swiftlint:enable multiline_literal_brackets
         let subtract = Operation(name: .subtract, parameters: [.value(.literal(.int(28))), .operation(sums[0])])
         
         let successfulOperations =

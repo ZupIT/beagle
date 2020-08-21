@@ -178,8 +178,7 @@ final class OperationStringEvaluationTests: OperationEvaluationTests {
     
     private func evaluateOperation(_ name: BeagleSchema.Operation.Name, comparableResults: [DynamicObject]) {
         // Given
-        let contexts = [Context(id: "context1", value: .string("name")),
-                        Context(id: "context2", value: .string("Lastname"))]
+        let contexts = [Context(id: "context1", value: .string("name")), Context(id: "context2", value: .string("Lastname"))]
         let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
         let concat = Operation(name: .concat, parameters: [.value(.binding(bindings[0])), .value(.literal(.string(" "))), .value(.binding(bindings[1]))])
         
