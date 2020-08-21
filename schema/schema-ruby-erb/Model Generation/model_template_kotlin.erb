@@ -16,8 +16,7 @@
  */
 <%
   def handleTypeName(variable, importManager)
-    #todo variables now have default values!
-      output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
+    output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
     output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
@@ -31,6 +30,7 @@
 
 package <%= objectType.synthaxType.package -%>
 
+<% if objectType.synthaxType.class == CommonType -%>
 
 <% if objectType.synthaxType.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
@@ -44,3 +44,9 @@ interface <%= objectType.synthaxType.name -%>Schema {<% -%>
   <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>
 <% end -%> 
 }
+<% elsif objectType.synthaxType.class == EnumType -%>
+
+enum class <%= objectType.synthaxType.name -%>Schema {
+  <%= objectType.synthaxType.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
+}
+<% end -%>
