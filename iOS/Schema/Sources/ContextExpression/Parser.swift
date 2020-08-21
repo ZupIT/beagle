@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-public struct Parser<A> {
-    let run: (inout Substring) -> A?
+public struct Parser<Type> {
+    let run: (inout Substring) -> Type?
 }
 
 extension Parser {
-    func run(_ str: String) -> (match: A?, rest: Substring) {
+    func run(_ str: String) -> (match: Type?, rest: Substring) {
         var str = str[...]
         let match = self.run(&str)
         return (match, str)
@@ -151,7 +151,7 @@ let parameter: Parser<Operation.Parameter> = oneOf(
 
 let parameters: Parser<[Operation.Parameter]> = zip(
     literal(string: "("),
-    zeroOrMore(parameter, separatedBy: prefix(with: "\\s*,\\s*")),
+    zeroOrMore(parameter, separatedBy: prefix(with: #"\s*,\s*"#)),
     literal(string: ")")
 ).map { _, parameters, _ in
     parameters
@@ -212,72 +212,71 @@ extension Parser {
 }
 
 extension Parser {
-    func map<B>(_ transform: @escaping (A) -> B) -> Parser<B> {
-        return Parser<B> { str -> B? in
+    func map<U>(_ transform: @escaping (Type) -> U) -> Parser<U> {
+        return Parser<U> { str -> U? in
             self.run(&str).map(transform)
         }
     }
     
-    func flatMap<B>(_ transform: @escaping (A) -> Parser<B>) -> Parser<B> {
-        return Parser<B> { str -> B? in
+    func flatMap<U>(_ transform: @escaping (Type) -> Parser<U>) -> Parser<U> {
+        return Parser<U> { str -> U? in
             let original = str
-            let matchA = self.run(&str)
-            let parserB = matchA.map(transform)
-            guard let matchB = parserB?.run(&str) else {
+            let matchType = self.run(&str)
+            let parserU = matchType.map(transform)
+            guard let matchU = parserU?.run(&str) else {
                 str = original
                 return nil
             }
-            return matchB
+            return matchU
         }
     }
 }
 
-func zip<A, B>(_ a: Parser<A>, _ b: Parser<B>) -> Parser<(A, B)> {
-    return Parser<(A, B)> { str -> (A, B)? in
+func zip<Type1, Type2>(_ parser1: Parser<Type1>, _ parser2: Parser<Type2>) -> Parser<(Type1, Type2)> {
+    return Parser<(Type1, Type2)> { str -> (Type1, Type2)? in
         let original = str
-        guard let matchA = a.run(&str) else { return nil }
-        guard let matchB = b.run(&str) else {
+        guard let matchType1 = parser1.run(&str) else { return nil }
+        guard let matchType2 = parser2.run(&str) else {
             str = original
             return nil
         }
-        return (matchA, matchB)
+        return (matchType1, matchType2)
     }
 }
 
 // swiftlint:disable large_tuple
-func zip<A, B, C>(
-    _ a: Parser<A>,
-    _ b: Parser<B>,
-    _ c: Parser<C>
-) -> Parser<(A, B, C)> {
-    return zip(a, zip(b, c))
-        .map { a, bc in (a, bc.0, bc.1) }
+func zip<Type1, Type2, Type3>(
+    _ parser1: Parser<Type1>,
+    _ parser2: Parser<Type2>,
+    _ parser3: Parser<Type3>
+) -> Parser<(Type1, Type2, Type3)> {
+    zip(parser1, zip(parser2, parser3)).map { ($0, $1.0, $1.1) }
 }
 // swiftlint:enable large_tuple
 
-func zeroOrOne<A>(
-    _ p: Parser<A>
-) -> Parser<[A]> {
-    return Parser<[A]> { str in
-        var matches: [A] = []
-        if let match = p.run(&str) {
+func zeroOrOne<Type>(
+    _ parser: Parser<Type>
+) -> Parser<[Type]> {
+    return Parser<[Type]> { str in
+        var matches: [Type] = []
+        if let match = parser.run(&str) {
             matches.append(match)
         }
         return matches
     }
 }
 
-func zeroOrMore<A, B>(
-    _ p: Parser<A>,
-    separatedBy s: Parser<B>
-) -> Parser<[A]> {
-    return Parser<[A]> { str in
+func zeroOrMore<Type, S>(
+    _ parser: Parser<Type>,
+    separatedBy separator: Parser<S>
+) -> Parser<[Type]> {
+    return Parser<[Type]> { str in
         var rest = str
-        var matches: [A] = []
-        while let match = p.run(&str) {
+        var matches: [Type] = []
+        while let match = parser.run(&str) {
             rest = str
             matches.append(match)
-            if s.run(&str) == nil {
+            if separator.run(&str) == nil {
                 return matches
             }
         }
@@ -286,12 +285,12 @@ func zeroOrMore<A, B>(
     }
 }
 
-func oneOf<A>(
-    _ ps: Parser<A>...
-) -> Parser<A> {
-    return Parser<A> { str -> A? in
-        for p in ps {
-            if let match = p.run(&str) {
+func oneOf<Type>(
+    _ parsers: Parser<Type>...
+) -> Parser<Type> {
+    return Parser<Type> { str -> Type? in
+        for parser in parsers {
+            if let match = parser.run(&str) {
                 return match
             }
         }
@@ -301,7 +300,7 @@ func oneOf<A>(
 
 /// Delays the creation of parser. Use it to break dependency cycles when
 /// creating recursive parsers.
-func lazy<A>(_ closure: @autoclosure @escaping () -> Parser<A>) -> Parser<A> {
+func lazy<Type>(_ closure: @autoclosure @escaping () -> Parser<Type>) -> Parser<Type> {
     Parser { str in
         closure().run(&str)
     }
