@@ -23,7 +23,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateSum() {
         // Given
-        let results: [DynamicObject] =
+        let comparableResults: [DynamicObject] =
         [
             .int(10),
             .double(10.5),
@@ -38,13 +38,16 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
-        // When/Then
-        evaluateOperation(.sum, comparableResults: results)
+        // When
+        evaluateOperation(.sum) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
     func testEvaluateSubtract() {
         // Given
-        let results: [DynamicObject] =
+        let comparableResults: [DynamicObject] =
         [
             .int(2),
             .double(-1.5),
@@ -59,13 +62,16 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
-        // When/Then
-        evaluateOperation(.subtract, comparableResults: results)
+        // When
+        evaluateOperation(.subtract) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
     func testEvaluateMultiply() {
         // Given
-        let results: [DynamicObject] =
+        let comparableResults: [DynamicObject] =
         [
             .int(24),
             .double(27.0),
@@ -80,13 +86,16 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
-        // When/Then
-        evaluateOperation(.multiply, comparableResults: results)
+        // When
+        evaluateOperation(.multiply) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
     func testEvaluateDivide() {
         // Given
-        let results: [DynamicObject] =
+        let comparableResults: [DynamicObject] =
         [
             .int(1),
             .double(0.75),
@@ -101,46 +110,44 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
-        // When/Then
-        evaluateOperation(.divide, comparableResults: results)
+        // When
+        evaluateOperation(.divide) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
-    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, comparableResults: [DynamicObject]) {
+    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, completion: ([DynamicObject]) -> Void) {
         // Given
         let contexts = [Context(id: "context1", value: .int(2)), Context(id: "context2", value: .double(2.5))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let bindings = contexts.map { $0.id }
         
         let simpleOperations =
         [
-            [.value(.literal(.int(6))), .value(.literal(.int(4)))],
-            [.value(.literal(.double(4.5))), .value(.literal(.double(6.0)))],
-            [.value(.literal(.int(4))), .value(.binding(bindings[0]))],
-            [.value(.literal(.double(4.0))), .value(.binding(bindings[1]))]
-        ].map { Operation(name: name, parameters: $0) }
+            "6, 4",
+            "4.5, 6.0",
+            "4, \(bindings[0])",
+            "4.0, \(bindings[1])"
+        ].toOperations(name: name)
         
         let complexOperations =
         [
-            [.value(.literal(.int(4))), .operation(simpleOperations[0])],
-            [.value(.literal(.double(2.8))), .operation(simpleOperations[1])],
-            [.operation(simpleOperations[1]), .operation(simpleOperations[3]), .operation(simpleOperations[1])]
-        ].map { Operation(name: name, parameters: $0) }
+            "4, \(simpleOperations[0].rawValue)",
+            "2.8, \(simpleOperations[1].rawValue)",
+            "\(simpleOperations[1].rawValue), \(simpleOperations[3].rawValue), \(simpleOperations[1].rawValue)"
+        ].toOperations(name: name)
         
         let failingOperations =
         [
-            [.value(.literal(.int(1))), .value(.literal(.double(1.5)))],
-            [.value(.literal(.int(1))), .value(.literal(.string("1")))],
-            [.value(.literal(.int(1))), .value(.literal(.string("true")))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
+            "1, 1.5",
+            "1, '1'",
+            "1, true",
+            ""
+        ].toOperations(name: name)
         
-        // When/Then
         let operations = simpleOperations + complexOperations + failingOperations
         
-        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
-        }
-        
+        // When/Then
+        evaluateOperations(operations, contexts: contexts, completion: completion)
     }
 }

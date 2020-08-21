@@ -20,10 +20,11 @@ import BeagleSchema
 import XCTest
 
 class OperationEvaluationTests: XCTestCase {
-    
+    // swiftlint:disable multiline_literal_brackets
     func evaluateOperations(_ operations: [BeagleSchema.Operation],
                             contexts: [Context],
                             completion: ([DynamicObject]) -> Void) {
+    // swiftlint:enable multiline_literal_brackets
         // Given
         let view = UIView()
         

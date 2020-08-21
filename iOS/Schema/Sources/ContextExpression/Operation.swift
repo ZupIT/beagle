@@ -38,7 +38,7 @@ extension Operation: RepresentableByParsableString {
     public var rawValue: String {
         var result = "\(name)("
         
-        for parameter in parameters {
+        for (index, parameter) in parameters.enumerated() {
             switch parameter {
             case let .operation(operation):
                 result += operation.rawValue
@@ -46,7 +46,7 @@ extension Operation: RepresentableByParsableString {
                 result += value.rawValue
             }
             
-            if parameter != parameters.last {
+            if index != parameters.count - 1 {
                 result += ", "
             }
         }

@@ -25,27 +25,27 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         // Given
         let name = BeagleSchema.Operation.Name.condition
         let contexts = [Context(id: "context", value: .bool(true))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let binding = contexts[0].id
         
         let simpleOperations =
         [
-            [.value(.literal(.bool(true))), .value(.literal(.int(1))), .value(.literal(.int(0)))],
-            [.value(.literal(.bool(false))), .value(.literal(.string("yes"))), .value(.literal(.string("no")))],
-            [.value(.binding(bindings[0])), .value(.literal(.bool(true))), .value(.literal(.bool(false)))]
-        ].map { Operation(name: name, parameters: $0) }
+            "true, 1, 0",
+            "false, 'yes', 'no'",
+            "\(binding), true, false"
+        ].toOperations(name: name)
         
         let complexOperations =
         [
-            [.operation(simpleOperations[2]), .value(.literal(.double(1.1))), .value(.literal(.double(0.0)))]
-        ].map { Operation(name: name, parameters: $0) }
+            "\(simpleOperations[2].rawValue), 1.1, 0.0"
+        ].toOperations(name: name)
         
         let failingOperations =
         [
-            [.value(.literal(.int(1))), .value(.literal(.int(0)))],
-            [.value(.literal(.int(1))), .value(.literal(.int(1))), .value(.literal(.int(0)))],
-            [.value(.literal(.bool(true))), .value(.literal(.int(1))), .value(.literal(.double(0.0)))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
+            "1, 0",
+            "1, 1, 0",
+            "true, 1, 0.0",
+            ""
+        ].toOperations(name: name)
         
         let comparableResults: [DynamicObject] =
         [
@@ -61,11 +61,10 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         
         let operations = simpleOperations + complexOperations + failingOperations
         
-        // When/Then
+        // When
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
@@ -73,26 +72,26 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         // Given
         let name = BeagleSchema.Operation.Name.not
         let contexts = [Context(id: "context", value: .bool(true))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let binding = contexts[0].id
         
         let simpleOperations =
         [
-            [.value(.literal(.bool(true)))],
-            [.value(.literal(.bool(false)))],
-            [.value(.binding(bindings[0]))]
-        ].map { Operation(name: name, parameters: $0) }
+            "true",
+            "false",
+            "\(binding)"
+        ].toOperations(name: name)
         
         let complexOperations =
         [
-            [.operation(simpleOperations[2])]
-        ].map { Operation(name: name, parameters: $0) }
+            "\(simpleOperations[2].rawValue)"
+        ].toOperations(name: name)
         
         let failingOperations =
         [
-            [.value(.literal(.int(1)))],
-            [.value(.literal(.int(1))), .value(.literal(.int(1)))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
+            "1",
+            "1, 1",
+            ""
+        ].toOperations(name: name)
         
         let comparableResults: [DynamicObject] =
         [
@@ -107,17 +106,16 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         
         let operations = simpleOperations + complexOperations + failingOperations
         
-        // When/Then
+        // When
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
     func testEvaluateAnd() {
         // Given
-        let results: [DynamicObject] =
+        let comparableResults: [DynamicObject] =
         [
             .bool(true),
             .bool(false),
@@ -131,12 +129,15 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         ]
         
         // When/Then
-        evaluateOperation(.and, comparableResults: results)
+        evaluateOperation(.and) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
     func testEvaluateOr() {
         // Given
-        let results: [DynamicObject] =
+        let comparableResults: [DynamicObject] =
         [
             .bool(true),
             .bool(false),
@@ -150,42 +151,41 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         ]
         
         // When/Then
-        evaluateOperation(.or, comparableResults: results)
+        evaluateOperation(.or) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
-    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, comparableResults: [DynamicObject]) {
+    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, completion: ([DynamicObject]) -> Void) {
         // Given
         let contexts = [Context(id: "context1", value: .bool(false))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let binding = contexts[0].id
         
         let simpleOperations =
         [
-            [.value(.literal(.bool(true))), .value(.literal(.bool(true)))],
-            [.value(.literal(.bool(false))), .value(.literal(.bool(false)))],
-            [.value(.literal(.bool(true))), .value(.binding(bindings[0]))]
-        ].map { Operation(name: name, parameters: $0) }
+            "true, true",
+            "false, false",
+            "true, \(binding)"
+        ].toOperations(name: name)
         
         let complexOperations =
         [
-            [.value(.literal(.bool(true))), .operation(simpleOperations[0])],
-            [.operation(simpleOperations[0]), .operation(simpleOperations[1]), .operation(simpleOperations[2])]
-        ].map { Operation(name: name, parameters: $0) }
+            "true, \(simpleOperations[0].rawValue)",
+            "\(simpleOperations[0].rawValue), \(simpleOperations[1].rawValue), \(simpleOperations[2].rawValue)"
+        ].toOperations(name: name)
         
         let failingOperations =
         [
-            [.value(.literal(.int(1))), .value(.literal(.double(1.5)))],
-            [.value(.literal(.int(1))), .value(.literal(.string("1")))],
-            [.value(.literal(.int(1))), .value(.literal(.string("true")))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
+            "0, 1.5",
+            "0, '1'",
+            "0, false",
+            ""
+        ].toOperations(name: name)
         
-        // When/Then
         let operations = simpleOperations + complexOperations + failingOperations
         
-        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
-        }
+        // When/Then
+        evaluateOperations(operations, contexts: contexts, completion: completion)
     }
 }
