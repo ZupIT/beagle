@@ -15,8 +15,3 @@
  * limitations under the License.
  */
 
-export interface Container {   
-  children: widget,   
-  onInit?: action,   
-  context?: context,   
-}

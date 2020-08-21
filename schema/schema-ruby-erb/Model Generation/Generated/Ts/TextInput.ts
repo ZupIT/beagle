@@ -15,15 +15,3 @@
  * limitations under the License.
  */
 
-export interface TextInput {   
-  value?: string,   
-  placeholder?: string,   
-  disabled?: bool,   
-  readOnly?: bool,   
-  type?: textinputtype,   
-  hidden?: bool,   
-  styleId?: string,   
-  onChange?: action,   
-  onBlur?: action,   
-  onFocus?: action,   
-}

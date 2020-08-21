@@ -15,12 +15,3 @@
  * limitations under the License.
  */
 
-export interface EdgeValue {   
-  left?: unitvalue,   
-  top?: unitvalue,   
-  right?: unitvalue,   
-  bottom?: unitvalue,   
-  horizontal?: unitvalue,   
-  vertical?: unitvalue,   
-  all?: unitvalue,   
-}

@@ -15,6 +15,3 @@
  * limitations under the License.
  */
 
-export interface AnalyticsScreen {   
-  screenName: string,   
-}

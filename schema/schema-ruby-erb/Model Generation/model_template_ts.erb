@@ -31,11 +31,14 @@
   #todo downcase only primitive types
   end
 -%>
-<% if @templateHelper.isEnum(objectType) %>
-  #todo enum generation logic not implemented
-<% else %>
+
+<% if objectType.synthaxType.class == BaseType -%>
 export interface <%= objectType.synthaxType.name -%> { <% -%>
   <% for variable in objectType.synthaxType.variables %>
   <%= handleTypeNameWithName(variable) %>: <%= variable.typeName.downcase -%>, <% -%>
   <% end %>
-}<% end %>
+}
+<% elsif objectType.synthaxType.class == EnumType -%>
+export type <%= objectType.synthaxType.name -%> = <%= objectType.synthaxType.variables.map { |enumCase| "'#{enumCase.defaultValue}'" }.join(" | ") -%>
+
+<% end -%>

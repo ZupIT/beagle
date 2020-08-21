@@ -15,7 +15,3 @@
  * limitations under the License.
  */
 
-export interface Image {   
-  path: imagepath,   
-  mode?: imagecontentmode,   
-}

@@ -47,7 +47,9 @@ import <%= qualifiedName -%>Schema
 <% end -%>
 interface <%= objectType.synthaxType.name -%>Schema {<% -%>
 <% if @templateHelper.isEnum(objectType) %>
-  
+enum class <%= objectType.synthaxType.name -%>Schema {
+  <%= objectType.synthaxType.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
+}
 <% else %><% -%>
 <% for variable in objectType.synthaxType.variables %>
   <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>

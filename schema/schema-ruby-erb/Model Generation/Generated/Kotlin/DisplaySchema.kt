@@ -15,3 +15,9 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
+enum class DisplaySchema {
+  FLEX,
+  NONE
+}

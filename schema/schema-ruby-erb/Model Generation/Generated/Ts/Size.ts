@@ -15,11 +15,3 @@
  * limitations under the License.
  */
 
-export interface Size {   
-  height?: unitvalue,   
-  maxWidth?: unitvalue,   
-  maxHeight?: unitvalue,   
-  minWidth?: unitvalue,   
-  minHeight?: unitvalue,   
-  aspectRatio?: enum,   
-}

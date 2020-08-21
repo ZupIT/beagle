@@ -15,15 +15,3 @@
  * limitations under the License.
  */
 
-export interface Flex {   
-  flexDirection?: flexdirection,   
-  flexWrap?: flexwrap,   
-  justifyContent?: justifycontent,   
-  alignItems?: alignitems,   
-  alignSelf?: alignself,   
-  alignContent?: aligncontent,   
-  basis?: unitvalue,   
-  flex?: enum,   
-  flexDirection?: enum,   
-  shrink?: enum,   
-}

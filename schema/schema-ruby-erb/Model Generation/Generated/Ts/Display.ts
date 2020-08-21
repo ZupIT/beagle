@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 
+export type Display = 'FLEX' | 'NONE'

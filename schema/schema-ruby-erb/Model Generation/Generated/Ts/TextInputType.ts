@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 
-  #todo enum generation logic not implemented
+export type TextInputType = 'DATE' | 'EMAIL' | 'PASSWORD' | 'NUMBER' | 'TEXT'

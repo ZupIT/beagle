@@ -38,7 +38,7 @@ class BasicType < SupportedLanguages
             BasicTypeKeys.string => {@swift => "String", @kotlin => "String"},
             BasicTypeKeys.bool => {@swift => "Bool", @kotlin => "Bool"},
             BasicTypeKeys.interface => {@swift => "protocol", @kotlin => "interface"},
-            BasicTypeKeys.enum => {@swift => "enum", @kotlin => "enum"}
+            BasicTypeKeys.enum => {@swift => "enum", @kotlin => "enum class"}
         }
 
     end

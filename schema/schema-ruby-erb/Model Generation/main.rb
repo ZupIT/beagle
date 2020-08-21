@@ -86,7 +86,9 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.kotlin_backend_path, @objectType.name + ".kt", to_s)
+      if @objectType.synthaxType.class == BaseType
+        @writer.write(Constants.new.kotlin_backend_path, @objectType.name + ".kt", to_s)
+      end
     end
   end
   
@@ -125,15 +127,13 @@ if __FILE__ == $0
     UnitType,
     # Accessibility
     Accessibility,
-    # Analytics
-    AnalyticsEvent,
-    AnalyticsClick,
-    AnalyticsScreen,
-
     # Far from being usable
     Container,
     Image,
-    TextInput
+    TextInput,
+    AnalyticsEvent,
+    AnalyticsClick,
+    AnalyticsScreen
 
   ]
   

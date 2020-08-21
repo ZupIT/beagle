@@ -15,7 +15,3 @@
  * limitations under the License.
  */
 
-export interface AnalyticsClick {   
-  accessibilityLabel?: string,   
-  accessible: bool,   
-}
