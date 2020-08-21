@@ -35,7 +35,11 @@ require './Models/Analytics/analytics_models.rb'
 
 require './Models/Widgets/button.rb'
 require './Models/Widgets/text.rb'
+require './Models/Widgets/text_input.rb'
+require './Models/Widgets/text_input_type.rb'
 require './Models/Widgets/container.rb'
+require './Models/Widgets/image.rb'
+require './Models/Widgets/image_content.rb'
 
 require './FileHandler/file_handler.rb'
 require './Common/constants.rb'
@@ -109,7 +113,8 @@ if __FILE__ == $0
     # Components
     Button,
     Text,
-    Container,
+    TextInputType,
+    ImageContentMode,
     # Layout
     CornerRadius,
     EdgeValue,
@@ -123,7 +128,12 @@ if __FILE__ == $0
     # Analytics
     AnalyticsEvent,
     AnalyticsClick,
-    AnalyticsScreen
+    AnalyticsScreen,
+
+    # Far from being usable
+    Container,
+    Image,
+    TextInput
 
   ]
   

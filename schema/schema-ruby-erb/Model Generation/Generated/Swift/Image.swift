@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
+public struct Image: Widget {
 
-    public let value: enum
-    public let type: UnitType
+    public let path: Expression<ImagePath>
+    public let mode: ImageContentMode?
 
     public init(
-        value: enum,
-        type: UnitType
+        path: Expression<ImagePath>,
+        mode: ImageContentMode? = nil
     ) {
-        self.value = value
-        self.type = type
+        self.path = path
+        self.mode = mode
     }
 
 }

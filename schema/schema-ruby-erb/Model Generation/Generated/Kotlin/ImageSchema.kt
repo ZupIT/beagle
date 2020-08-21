@@ -15,17 +15,12 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
+package br.com.zup.beagle.widget.ui
 
-    public let value: enum
-    public let type: UnitType
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.core.ImageContentModeSchema
 
-    public init(
-        value: enum,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-
+interface ImageSchema {
+  public val path: Bind<ImagePath>
+  public val mode: ImageContentModeSchema? 
 }

@@ -15,17 +15,4 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
-
-    public let value: enum
-    public let type: UnitType
-
-    public init(
-        value: enum,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-
-}
+  #todo enum generation logic not implemented

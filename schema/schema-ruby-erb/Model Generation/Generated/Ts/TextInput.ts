@@ -15,17 +15,15 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
-
-    public let value: enum
-    public let type: UnitType
-
-    public init(
-        value: enum,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-
+export interface TextInput {   
+  value?: string,   
+  placeholder?: string,   
+  disabled?: bool,   
+  readOnly?: bool,   
+  type?: textinputtype,   
+  hidden?: bool,   
+  styleId?: string,   
+  onChange?: action,   
+  onBlur?: action,   
+  onFocus?: action,   
 }

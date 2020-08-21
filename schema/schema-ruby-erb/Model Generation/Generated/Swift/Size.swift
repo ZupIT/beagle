@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Size: Decodable {
+public struct Size {
 
     public let height: UnitValue?
     public let maxWidth: UnitValue?

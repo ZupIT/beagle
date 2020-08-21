@@ -15,17 +15,9 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
+package br.com.zup.beagle.widget.core
+// todo implement enum logic
 
-    public let value: enum
-    public let type: UnitType
 
-    public init(
-        value: enum,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-
-}
+data class TextInputType (
+// todo implement enum logic

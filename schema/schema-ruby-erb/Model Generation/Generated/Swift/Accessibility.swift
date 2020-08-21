@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Accessibility: Decodable {
+public struct Accessibility {
 
     public let accessibilityLabel: String?
     public let accessible: Bool

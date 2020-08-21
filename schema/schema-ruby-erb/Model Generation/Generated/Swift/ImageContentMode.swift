@@ -15,17 +15,11 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
+public enum ImageContentMode: String {
 
-    public let value: enum
-    public let type: UnitType
-
-    public init(
-        value: enum,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
+    case fitXY = "FIT_XY"
+    case fitCenter = "FIT_CENTER"
+    case centerCrop = "CENTER_CROP"
+    case center = "CENTER"
 
 }

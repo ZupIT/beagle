@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Button: Widget, ClickedOnComponent, Decodable {
+public struct Button: Widget, ClickedOnComponent {
 
     public let text: Expression<String>
     public let styleId: String?

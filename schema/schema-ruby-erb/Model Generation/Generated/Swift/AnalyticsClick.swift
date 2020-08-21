@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct AnalyticsClick: AnalyticsEvent, Decodable {
+public struct AnalyticsClick: AnalyticsEvent {
 
     public let accessibilityLabel: String?
     public let accessible: Bool

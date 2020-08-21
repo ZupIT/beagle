@@ -15,17 +15,20 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
+package br.com.zup.beagle.widget.ui
 
-    public let value: enum
-    public let type: UnitType
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.core.TextInputTypeSchema
 
-    public init(
-        value: enum,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-
+interface TextInputSchema {
+  public val value: Bind<String>?
+  public val placeholder: Bind<String>?
+  public val disabled: Bind<Bool>?
+  public val readOnly: Bind<Bool>?
+  public val type: Bind<TextInputTypeSchema>?
+  public val hidden: Bind<Bool>?
+  public val styleId: String?
+  public val onChange: List<Action>?
+  public val onBlur: List<Action>?
+  public val onFocus: List<Action>? 
 }

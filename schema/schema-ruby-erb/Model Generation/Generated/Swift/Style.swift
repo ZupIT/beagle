@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Style: Decodable {
+public struct Style {
 
     public let backgroundColor: String?
     public let cornerRadius: String?
@@ -49,14 +49,14 @@ public struct Style: Decodable {
         self.display = display
     }
     
-    public enum PositionType: String, Decodable {
+    public enum PositionType: String {
     
         case relative = "RELATIVE"
         case absolute = "ABSOLUTE"
     
     }
     
-    public enum Display: String, Decodable {
+    public enum Display: String {
     
         case flex = "FLEX"
         case none = "NONE"

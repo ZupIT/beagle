@@ -15,17 +15,7 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
-
-    public let value: enum
-    public let type: UnitType
-
-    public init(
-        value: enum,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-
+export interface Image {   
+  path: imagepath,   
+  mode?: imagecontentmode,   
 }

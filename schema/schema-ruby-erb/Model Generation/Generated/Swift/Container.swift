@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Container: Widget, Decodable {
+public struct Container: Widget {
 
     public let children: [Widget]
     public let onInit: [Action]?

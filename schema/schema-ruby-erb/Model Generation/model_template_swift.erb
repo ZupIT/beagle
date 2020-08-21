@@ -103,7 +103,7 @@
   end
 
   def fullDeclaration(objectType)
-    objectType.synthaxType.inheritFrom.append("Decodable")
+    #objectType.synthaxType.inheritFrom.append("Decodable")
     isEnumDeclaration = @templateHelper.isEnum(objectType)
     typeKind = @templateHelper.fetchBuiltInTypeDeclaration(objectType.synthaxType.type)
     output = "#{objectType.synthaxType.accessor} #{typeKind} #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)} {\n\n"

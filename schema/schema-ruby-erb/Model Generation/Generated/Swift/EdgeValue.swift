@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct EdgeValue: Decodable {
+public struct EdgeValue {
 
     public let left: UnitValue?
     public let top: UnitValue?

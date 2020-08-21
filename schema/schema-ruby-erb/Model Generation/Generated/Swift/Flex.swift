@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Flex: Decodable {
+public struct Flex {
 
     public let flexDirection: FlexDirection?
     public let flexWrap: FlexWrap?
@@ -52,7 +52,7 @@ public struct Flex: Decodable {
         self.shrink = shrink
     }
     
-    public enum FlexDirection: String, Decodable {
+    public enum FlexDirection: String {
     
         case row = "ROW"
         case rowReverse = "ROW_REVERSE"
@@ -61,7 +61,7 @@ public struct Flex: Decodable {
     
     }
     
-    public enum FlexWrap: String, Decodable {
+    public enum FlexWrap: String {
     
         case noWrap = "NO_WRAP"
         case wrap = "WRAP"
@@ -69,7 +69,7 @@ public struct Flex: Decodable {
     
     }
     
-    public enum JustifyContent: String, Decodable {
+    public enum JustifyContent: String {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -80,7 +80,7 @@ public struct Flex: Decodable {
     
     }
     
-    public enum AlignItems: String, Decodable {
+    public enum AlignItems: String {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -90,7 +90,7 @@ public struct Flex: Decodable {
     
     }
     
-    public enum AlignSelf: String, Decodable {
+    public enum AlignSelf: String {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -101,7 +101,7 @@ public struct Flex: Decodable {
     
     }
     
-    public enum AlignContent: String, Decodable {
+    public enum AlignContent: String {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"

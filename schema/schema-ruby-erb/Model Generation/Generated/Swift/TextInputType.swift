@@ -15,17 +15,12 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
+public enum TextInputType: String {
 
-    public let value: enum
-    public let type: UnitType
-
-    public init(
-        value: enum,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
+    case date = "DATE"
+    case email = "EMAIL"
+    case password = "PASSWORD"
+    case number = "NUMBER"
+    case text = "TEXT"
 
 }
