@@ -15,19 +15,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.widget.core.UnitValueSchema
+import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.context.Bind
 
-interface FlexSchema {
-  public val flexDirection: FlexDirection?
-  public val flexWrap: FlexWrap?
-  public val justifyContent: JustifyContent?
-  public val alignItems: AlignItems?
-  public val alignSelf: AlignSelf?
-  public val alignContent: AlignContent?
-  public val basis: UnitValueSchema?
-  public val flex: Double?
-  public val flexDirection: Double?
-  public val shrink: Double? 
+interface ButtonSchema {
+    val text: Bind<String>
+    val styleId: String?
+    val onPress: List<Action>?
+    val clickAnalyticsEvent: ClickEvent?
 }

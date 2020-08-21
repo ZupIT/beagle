@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components
 import android.view.View
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.schema.ButtonSchema
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.PreFetchHelper
@@ -33,11 +34,11 @@ import br.com.zup.beagle.annotation.RegisterWidget
 
 @RegisterWidget
 data class Button(
-    val text: Bind<String>,
-    val styleId: String? = null,
-    val onPress: List<Action>? = null,
-    val clickAnalyticsEvent: ClickEvent? = null
-) : WidgetView() {
+    override val text: Bind<String>,
+    override val styleId: String? = null,
+    override val onPress: List<Action>? = null,
+    override val clickAnalyticsEvent: ClickEvent? = null
+) : WidgetView(), ButtonSchema {
 
     constructor(
         text: String,

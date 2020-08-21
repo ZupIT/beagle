@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
+import br.com.zup.beagle.android.components.schema.TextSchema
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
@@ -33,11 +34,11 @@ import br.com.zup.beagle.widget.core.TextAlignment
 
 @RegisterWidget
 data class Text(
-    val text: Bind<String>,
-    val styleId: String? = null,
+    override val text: Bind<String>,
+    override val styleId: String? = null,
     val textColor: Bind<String>? = null,
     val alignment: Bind<TextAlignment>? = null
-) : WidgetView() {
+) : WidgetView(), TextSchema {
     constructor(
         text: String,
         styleId: String? = null,
