@@ -184,12 +184,12 @@ extension BeagleSchema.Operation {
         guard parameters.count == 2 else { return nil }
         
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
-        if let first = anyParameters.first as? Int,
-            let last = anyParameters.last as? Int {
-            return .bool(first > last)
-        } else if let first = anyParameters.first as? Double,
-            let last = anyParameters.last as? Double {
-            return .bool(first > last)
+        if let firstInt = anyParameters.first as? Int,
+            let lastInt = anyParameters.last as? Int {
+            return .bool(firstInt > lastInt)
+        } else if let firstDouble = anyParameters.first as? Double,
+            let lastDouble = anyParameters.last as? Double {
+            return .bool(firstDouble > lastDouble)
         }
         
         return nil
@@ -199,12 +199,12 @@ extension BeagleSchema.Operation {
         guard parameters.count == 2 else { return nil }
         
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
-        if let first = anyParameters.first as? Int,
-            let last = anyParameters.last as? Int {
-            return .bool(first >= last)
-        } else if let first = anyParameters.first as? Double,
-            let last = anyParameters.last as? Double {
-            return .bool(first >= last)
+        if let firstInt = anyParameters.first as? Int,
+            let lastInt = anyParameters.last as? Int {
+            return .bool(firstInt >= lastInt)
+        } else if let firstDouble = anyParameters.first as? Double,
+            let lastDouble = anyParameters.last as? Double {
+            return .bool(firstDouble >= lastDouble)
         }
         
         return nil
@@ -214,12 +214,12 @@ extension BeagleSchema.Operation {
         guard parameters.count == 2 else { return nil }
         
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
-        if let first = anyParameters.first as? Int,
-            let last = anyParameters.last as? Int {
-            return .bool(first < last)
-        } else if let first = anyParameters.first as? Double,
-            let last = anyParameters.last as? Double {
-            return .bool(first < last)
+        if let firstInt = anyParameters.first as? Int,
+            let lastInt = anyParameters.last as? Int {
+            return .bool(firstInt < lastInt)
+        } else if let firstDouble = anyParameters.first as? Double,
+            let lastDouble = anyParameters.last as? Double {
+            return .bool(firstDouble < lastDouble)
         }
         
         return nil
@@ -229,12 +229,12 @@ extension BeagleSchema.Operation {
         guard parameters.count == 2 else { return nil }
         
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
-        if let first = anyParameters.first as? Int,
-            let last = anyParameters.last as? Int {
-            return .bool(first <= last)
-        } else if let first = anyParameters.first as? Double,
-            let last = anyParameters.last as? Double {
-            return .bool(first <= last)
+        if let firstInt = anyParameters.first as? Int,
+            let lastInt = anyParameters.last as? Int {
+            return .bool(firstInt <= lastInt)
+        } else if let firstDouble = anyParameters.first as? Double,
+            let lastDouble = anyParameters.last as? Double {
+            return .bool(firstDouble <= lastDouble)
         }
         
         return nil
