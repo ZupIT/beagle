@@ -19,180 +19,179 @@ import BeagleSchema
 @testable import Beagle
 import XCTest
 
-// swiftlint:disable multiline_literal_brackets
-final class OperationComparisonEvaluationTests: XCTestCase {
+final class OperationComparisonEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateGt() {
         // Given
-        // When
-        evaluateOperation(.gt) { array in
-            // Then
-            XCTAssertEqual(array[0], DynamicObject.bool(false))
-            XCTAssertEqual(array[1], DynamicObject.bool(false))
-            XCTAssertEqual(array[2], DynamicObject.bool(true))
-            XCTAssertEqual(array[3], DynamicObject.bool(true))
-            XCTAssertEqual(array[4], DynamicObject.bool(false))
-            XCTAssertEqual(array[5], DynamicObject.bool(false))
-            XCTAssertEqual(array[6], DynamicObject.bool(false))
-            XCTAssertEqual(array[7], DynamicObject.empty)
-            XCTAssertEqual(array[8], DynamicObject.empty)
-            XCTAssertEqual(array[9], DynamicObject.empty)
-            XCTAssertEqual(array[10], DynamicObject.empty)
-            XCTAssertEqual(array[11], DynamicObject.empty)
-        }
+        let results: [DynamicObject] =
+        [
+            .bool(false),
+            .bool(false),
+            .bool(true),
+            .bool(true),
+            .bool(false),
+            .bool(false),
+            .bool(false),
+            .empty,
+            .empty,
+            .empty,
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperation(.gt, comparableResults: results)
     }
     
     func testEvaluateGte() {
         // Given
-        // When
-        evaluateOperation(.gte) { array in
-            // Then
-            XCTAssertEqual(array[0], DynamicObject.bool(true))
-            XCTAssertEqual(array[1], DynamicObject.bool(false))
-            XCTAssertEqual(array[2], DynamicObject.bool(true))
-            XCTAssertEqual(array[3], DynamicObject.bool(true))
-            XCTAssertEqual(array[4], DynamicObject.bool(false))
-            XCTAssertEqual(array[5], DynamicObject.bool(false))
-            XCTAssertEqual(array[6], DynamicObject.bool(true))
-            XCTAssertEqual(array[7], DynamicObject.empty)
-            XCTAssertEqual(array[8], DynamicObject.empty)
-            XCTAssertEqual(array[9], DynamicObject.empty)
-            XCTAssertEqual(array[10], DynamicObject.empty)
-            XCTAssertEqual(array[11], DynamicObject.empty)
-        }
+        let results: [DynamicObject] =
+        [
+            .bool(true),
+            .bool(false),
+            .bool(true),
+            .bool(true),
+            .bool(false),
+            .bool(false),
+            .bool(true),
+            .empty,
+            .empty,
+            .empty,
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperation(.gte, comparableResults: results)
     }
     
     func testEvaluateLt() {
         // Given
-        // When
-        evaluateOperation(.lt) { array in
-            // Then
-            XCTAssertEqual(array[0], DynamicObject.bool(false))
-            XCTAssertEqual(array[1], DynamicObject.bool(true))
-            XCTAssertEqual(array[2], DynamicObject.bool(false))
-            XCTAssertEqual(array[3], DynamicObject.bool(false))
-            XCTAssertEqual(array[4], DynamicObject.bool(true))
-            XCTAssertEqual(array[5], DynamicObject.bool(true))
-            XCTAssertEqual(array[6], DynamicObject.bool(false))
-            XCTAssertEqual(array[7], DynamicObject.empty)
-            XCTAssertEqual(array[8], DynamicObject.empty)
-            XCTAssertEqual(array[9], DynamicObject.empty)
-            XCTAssertEqual(array[10], DynamicObject.empty)
-            XCTAssertEqual(array[11], DynamicObject.empty)
-        }
+        let results: [DynamicObject] =
+        [
+            .bool(false),
+            .bool(true),
+            .bool(false),
+            .bool(false),
+            .bool(true),
+            .bool(true),
+            .bool(false),
+            .empty,
+            .empty,
+            .empty,
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperation(.lt, comparableResults: results)
     }
     
     func testEvaluateLte() {
         // Given
-        // When
-        evaluateOperation(.lte) { array in
-            // Then
-            XCTAssertEqual(array[0], DynamicObject.bool(true))
-            XCTAssertEqual(array[1], DynamicObject.bool(true))
-            XCTAssertEqual(array[2], DynamicObject.bool(false))
-            XCTAssertEqual(array[3], DynamicObject.bool(false))
-            XCTAssertEqual(array[4], DynamicObject.bool(true))
-            XCTAssertEqual(array[5], DynamicObject.bool(true))
-            XCTAssertEqual(array[6], DynamicObject.bool(true))
-            XCTAssertEqual(array[7], DynamicObject.empty)
-            XCTAssertEqual(array[8], DynamicObject.empty)
-            XCTAssertEqual(array[9], DynamicObject.empty)
-            XCTAssertEqual(array[10], DynamicObject.empty)
-            XCTAssertEqual(array[11], DynamicObject.empty)
-        }
+        let results: [DynamicObject] =
+        [
+            .bool(true),
+            .bool(true),
+            .bool(false),
+            .bool(false),
+            .bool(true),
+            .bool(true),
+            .bool(true),
+            .empty,
+            .empty,
+            .empty,
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperation(.lte, comparableResults: results)
     }
     
     func testEvaluateEq() {
         // Given
-        let view = UIView()
-        let context = Context(id: "context", value: .bool(true))
-        let binding = Binding(context: context.id, path: Path(nodes: []))
         let name = BeagleSchema.Operation.Name.eq
+        let contexts = [Context(id: "context", value: .bool(true))]
+        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
         
-        let eq1 = Operation(name: name, parameters: [.value(.literal(.bool(true))), .value(.literal(.bool(true)))])
-        let eq2 = Operation(name: name, parameters: [.value(.literal(.string("no"))), .value(.literal(.string("no")))])
-        let eq3 = Operation(name: name, parameters: [.value(.literal(.int(1))), .value(.literal(.int(1)))])
-        let eq4 = Operation(name: name, parameters: [.value(.literal(.double(2.2))), .value(.literal(.double(2.2)))])
-        let eq5 = Operation(name: name, parameters: [.value(.binding(binding)), .value(.binding(binding))])
-        let eq6 = Operation(name: name, parameters: [.operation(eq3), .operation(eq3)])
-        let eq7 = Operation(name: name, parameters: [.value(.literal(.int(1))), .value(.literal(.int(0)))])
-        let eq8 = Operation(name: name, parameters: [.value(.literal(.double(2.2))), .value(.literal(.double(2.5)))])
-        let eq9 = Operation(name: name, parameters: [.value(.literal(.bool(true))), .value(.literal(.int(1)))])
-        let eq10 = Operation(name: name, parameters: [.value(.literal(.int(0))), .value(.literal(.int(0))), .value(.literal(.int(0)))])
-        let eq11 = Operation(name: name, parameters: [])
+        let simpleOperations =
+        [
+            [.value(.literal(.bool(true))), .value(.literal(.bool(true)))],
+            [.value(.literal(.string("no"))), .value(.literal(.string("no")))],
+            [.value(.literal(.int(1))), .value(.literal(.int(1)))],
+            [.value(.literal(.double(2.2))), .value(.literal(.double(2.2)))],
+            [.value(.binding(bindings[0])), .value(.binding(bindings[0]))]
+        ].map { Operation(name: name, parameters: $0) }
         
-        // When
-        view.setContext(context)
+        let complexOperations =
+        [
+            [.operation(simpleOperations[2]), .operation(simpleOperations[2])]
+        ].map { Operation(name: name, parameters: $0) }
         
-        let result1 = eq1.evaluate(in: view)
-        let result2 = eq2.evaluate(in: view)
-        let result3 = eq3.evaluate(in: view)
-        let result4 = eq4.evaluate(in: view)
-        let result5 = eq5.evaluate(in: view)
-        let result6 = eq6.evaluate(in: view)
-        let result7 = eq7.evaluate(in: view)
-        let result8 = eq8.evaluate(in: view)
-        let result9 = eq9.evaluate(in: view)
-        let result10 = eq10.evaluate(in: view)
-        let result11 = eq11.evaluate(in: view)
+        let failingOperations =
+        [
+            [.value(.literal(.int(1))), .value(.literal(.int(0)))],
+            [.value(.literal(.double(2.2))), .value(.literal(.double(2.5)))],
+            [.value(.literal(.bool(true))), .value(.literal(.int(1)))],
+            [.value(.literal(.int(0))), .value(.literal(.int(0))), .value(.literal(.int(0)))],
+            []
+        ].map { Operation(name: name, parameters: $0) }
         
-        // Then
-        XCTAssertEqual(result1, DynamicObject.bool(true))
-        XCTAssertEqual(result2, DynamicObject.bool(true))
-        XCTAssertEqual(result3, DynamicObject.bool(true))
-        XCTAssertEqual(result4, DynamicObject.bool(true))
-        XCTAssertEqual(result5, DynamicObject.bool(true))
-        XCTAssertEqual(result6, DynamicObject.bool(true))
-        XCTAssertEqual(result7, DynamicObject.bool(false))
-        XCTAssertEqual(result8, DynamicObject.bool(false))
-        XCTAssertEqual(result9, DynamicObject.bool(false))
-        XCTAssertEqual(result10, DynamicObject.empty)
-        XCTAssertEqual(result11, DynamicObject.empty)
+        let comparableResults: [DynamicObject] =
+        [
+            .bool(true),
+            .bool(true),
+            .bool(true),
+            .bool(true),
+            .bool(true),
+            .bool(true),
+            .bool(false),
+            .bool(false),
+            .bool(false),
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperations(simpleOperations + complexOperations + failingOperations,
+                           contexts: contexts,
+                           comparableResults: comparableResults)
     }
     
-    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, comparableResults: [DynamicObject]) {
         // Given
-        var array: [DynamicObject] = []
-        let view = UIView()
-        let context1 = Context(id: "context1", value: .int(2))
-        let binding1 = Binding(context: context1.id, path: Path(nodes: []))
-        let context2 = Context(id: "context2", value: .double(2.5))
-        let binding2 = Binding(context: context2.id, path: Path(nodes: []))
-        let sum1 = Operation(name: .sum, parameters: [.value(.literal(.int(10))), .value(.literal(.int(4)))])
-        let sum2 = Operation(name: .sum, parameters: [.value(.literal(.double(12.5))), .value(.literal(.double(5.5)))])
-        let sum3 = Operation(name: .subtract, parameters: [.value(.literal(.int(28))), .operation(sum1)])
+        let contexts = [Context(id: "context1", value: .int(2)),
+                        Context(id: "context2", value: .double(2.5))]
+        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
         
-        let operation1 = Operation(name: name, parameters: [.value(.literal(.int(6))), .value(.literal(.int(6)))])
-        let operation2 = Operation(name: name, parameters: [.value(.literal(.double(4.5))), .value(.literal(.double(6.0)))])
-        let operation3 = Operation(name: name, parameters: [.value(.literal(.int(4))), .value(.binding(binding1))])
-        let operation4 = Operation(name: name, parameters: [.value(.literal(.double(4.0))), .value(.binding(binding2))])
-        let operation5 = Operation(name: name, parameters: [.value(.literal(.int(4))), .operation(sum1)])
-        let operation6 = Operation(name: name, parameters: [.value(.literal(.double(2.8))), .operation(sum2)])
-        let operation7 = Operation(name: name, parameters: [.operation(sum1), .operation(sum3)])
-        let operation8 = Operation(name: name, parameters: [.value(.literal(.int(6))), .value(.literal(.int(4))), .value(.literal(.int(4)))])
-        let operation9 = Operation(name: name, parameters: [.value(.literal(.int(1))), .value(.literal(.double(1.5)))])
-        let operation10 = Operation(name: name, parameters: [.value(.literal(.int(1))), .value(.literal(.string("1")))])
-        let operation11 = Operation(name: name, parameters: [.value(.literal(.int(1))), .value(.literal(.string("true")))])
-        let operation12 = Operation(name: name, parameters: [])
+        let sums = [Operation(name: .sum, parameters: [.value(.literal(.int(10))), .value(.literal(.int(4)))]),
+                    Operation(name: .sum, parameters: [.value(.literal(.double(12.5))), .value(.literal(.double(5.5)))])]
+        let subtract = Operation(name: .subtract, parameters: [.value(.literal(.int(28))), .operation(sums[0])])
         
-        // When
-        view.setContext(context1)
-        view.setContext(context2)
+        let successfulOperations =
+        [
+            [.value(.literal(.int(6))), .value(.literal(.int(6)))],
+            [.value(.literal(.double(4.5))), .value(.literal(.double(6.0)))],
+            [.value(.literal(.int(4))), .value(.binding(bindings[0]))],
+            [.value(.literal(.double(4.0))), .value(.binding(bindings[1]))],
+            [.value(.literal(.int(4))), .operation(sums[0])],
+            [.value(.literal(.double(2.8))), .operation(sums[1])],
+            [.operation(sums[0]), .operation(subtract)]
+        ].map { Operation(name: name, parameters: $0) }
         
-        array.append(operation1.evaluate(in: view))
-        array.append(operation2.evaluate(in: view))
-        array.append(operation3.evaluate(in: view))
-        array.append(operation4.evaluate(in: view))
-        array.append(operation5.evaluate(in: view))
-        array.append(operation6.evaluate(in: view))
-        array.append(operation7.evaluate(in: view))
-        array.append(operation8.evaluate(in: view))
-        array.append(operation9.evaluate(in: view))
-        array.append(operation10.evaluate(in: view))
-        array.append(operation11.evaluate(in: view))
-        array.append(operation12.evaluate(in: view))
+        let failingOperations =
+        [
+            [.value(.literal(.int(6))), .value(.literal(.int(4))), .value(.literal(.int(4)))],
+            [.value(.literal(.int(1))), .value(.literal(.double(1.5)))],
+            [.value(.literal(.int(1))), .value(.literal(.string("1")))],
+            [.value(.literal(.int(1))), .value(.literal(.string("true")))],
+            []
+        ].map { Operation(name: name, parameters: $0) }
         
-        // Then
-        completion(array)
+        // When/Then
+        evaluateOperations(successfulOperations + failingOperations,
+                           contexts: contexts,
+                           comparableResults: comparableResults)
     }
 }

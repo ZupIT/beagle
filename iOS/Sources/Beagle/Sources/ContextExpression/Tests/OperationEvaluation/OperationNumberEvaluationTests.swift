@@ -19,7 +19,6 @@ import BeagleSchema
 @testable import Beagle
 import XCTest
 
-// swiftlint:disable multiline_literal_brackets
 final class OperationNumberEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateSum() {
@@ -135,7 +134,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
         ].map { Operation(name: name, parameters: $0) }
         
         // When/Then
-        evaluateOperations((simpleOperations + complexOperations + failingOperations),
+        evaluateOperations(simpleOperations + complexOperations + failingOperations,
                            contexts: contexts,
                            comparableResults: comparableResults)
         
