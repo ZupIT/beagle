@@ -21,7 +21,7 @@ import SnapshotTesting
 
 final class PathTests: XCTestCase {
     
-    func testValidRawRepresentable() {
+    func testValidPaths() {
         // Given
         let data = [
             "client",
@@ -38,11 +38,10 @@ final class PathTests: XCTestCase {
         let rawValues = result.map(\.rawValue)
         
         // Then
-        assertSnapshot(matching: result, as: .dump)
         XCTAssertEqual(rawValues, data)
     }
     
-    func testInvalidRawRepresentable() {
+    func testInvalidPaths() {
         // Given
         [
             "",
