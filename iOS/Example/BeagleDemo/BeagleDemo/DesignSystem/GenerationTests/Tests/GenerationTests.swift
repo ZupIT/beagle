@@ -86,14 +86,13 @@ class GenerationTests: XCTestCase {
     }
     
     private func registerDummyComponents() {
-        Beagle.registerCustomComponent("TextContainer", componentType: TextContainer.self)
-        Beagle.registerCustomComponent("SingleTextContainer", componentType: SingleTextContainer.self)
-        Beagle.registerCustomComponent("CustomActionableContainer", componentType: CustomActionableContainer.self)
-        Beagle.registerCustomComponent("TextContainerWithAction", componentType: TextContainerWithAction.self)
-        Beagle.registerCustomComponent("SingleCustomActionableContainer", componentType: SingleCustomActionableContainer.self)
-        
-        Beagle.registerCustomComponent("TextComponentHeaderDefault", componentType: TextComponentHeaderDefault.self)
-        Beagle.registerCustomComponent("TextComponentsDefault", componentType: TextComponentsDefault.self)
-        Beagle.registerCustomAction("ActionDummyDefault", actionType: ActionDummyDefault.self)
+        dependencies.decoder.register(component: TextContainer.self)
+        dependencies.decoder.register(component: SingleTextContainer.self)
+        dependencies.decoder.register(component: CustomActionableContainer.self)
+        dependencies.decoder.register(component: TextContainerWithAction.self)
+        dependencies.decoder.register(component: SingleCustomActionableContainer.self)
+        dependencies.decoder.register(component: TextComponentHeaderDefault.self)
+        dependencies.decoder.register(component: TextComponentsDefault.self)
+        dependencies.decoder.register(action: ActionDummyDefault.self)
     }
 }
