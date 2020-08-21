@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-public struct Parser<Type> {
-    let run: (inout Substring) -> Type?
+public struct Parser<A> {
+    let run: (inout Substring) -> A?
 }
 
 extension Parser {
-    func run(_ str: String) -> (match: Type?, rest: Substring) {
+    func run(_ str: String) -> (match: A?, rest: Substring) {
         var str = str[...]
         let match = self.run(&str)
         return (match, str)
@@ -122,36 +122,20 @@ let binding: Parser<Binding> = path.flatMap { path in
 
 // MARK: Literal
 
-let literal = Parser<Literal> { str in
-    if let int = int.run(&str) {
-        return .int(int)
-    } else if let double = double.run(&str) {
-        return .double(double)
-    } else if let bool = bool.run(&str) {
-        return .bool(bool)
-    } else if let string = literalString.run(&str) {
-        return .string(string)
-    } else if literalNull.run(&str) != nil {
-        return .null
-    } else {
-        return nil
-    }
-}
+let literal: Parser<Literal> = oneOf(
+    int.map { .int($0) } ,
+    double.map { .double($0) },
+    bool.map { .bool($0) },
+    literalString.map { .string($0) },
+    literalNull.map { .null }
+)
 
 // MARK: Value
 
-let value: Parser<Value> = zip(
-    zeroOrOne(binding),
-    zeroOrOne(literal)
-).flatMap { bindingArray, literalArray in
-    if let binding = bindingArray.first {
-        return always(.binding(binding))
-    } else if let literal = literalArray.first {
-        return always(.literal(literal))
-    }
-    
-    return .never
-}
+let value: Parser<Value> = oneOf(
+    binding.map { .binding($0) },
+    literal.map { .literal($0) }
+)
 
 // MARK: Operation
 
@@ -160,50 +144,14 @@ let oparationName: Parser<Operation.Name> = prefix(with: #"^(?!\d)\w+"#).flatMap
     return always(name)
 }
 
-let parameter = Parser<Operation.Parameter> { str in
-    let original = str
-    var result = ""
-    var parenthesesCount = 0
-    var isSingleQuoteOpen = false
-    
-    while !str.isEmpty {
-        guard let element = str.first else { return nil }
-        
-        if (element == "," || element == ")") && parenthesesCount == 0 && isSingleQuoteOpen == false {
-            break
-        } else if element == "(" && isSingleQuoteOpen == false {
-            parenthesesCount += 1
-        } else if element == ")" && isSingleQuoteOpen == false {
-            parenthesesCount -= 1
-        } else if element == "'" {
-            isSingleQuoteOpen.toggle()
-        } else if element == "\\" && str.first == "'" {
-            result.append(element)
-            str.removeFirst()
-        } else if element == " " && isSingleQuoteOpen == false {
-            str.removeFirst()
-            continue
-        }
-        
-        result.append(element)
-        str.removeFirst()
-    }
-    
-    if let valueMatch = value.run(result).match {
-        str += value.run(result).rest
-        return .value(valueMatch)
-    } else if let operationMatch = operation.run(result).match {
-        str += operation.run(result).rest
-        return .operation(operationMatch)
-    } else {
-        str = original
-        return nil
-    }
-}
+let parameter: Parser<Operation.Parameter> = oneOf(
+    value.map { .value($0) },
+    lazy(operation.map { .operation($0) })
+)
 
 let parameters: Parser<[Operation.Parameter]> = zip(
     literal(string: "("),
-    zeroOrMore(parameter, separatedBy: literal(string: ",")),
+    zeroOrMore(parameter, separatedBy: prefix(with: "\\s*,\\s*")),
     literal(string: ")")
 ).map { _, parameters, _ in
     parameters
@@ -212,24 +160,21 @@ let parameters: Parser<[Operation.Parameter]> = zip(
 let operation: Parser<Operation> = zip(
     oparationName,
     parameters
-).flatMap { name, parameters in
-    always(Operation(name: name, parameters: parameters))
+).map { name, parameters in
+    Operation(name: name, parameters: parameters)
 }
 
 // MARK: Single Expression
 
 let singleExpression: Parser<SingleExpression> = zip(
     literal(string: "@{"),
-    zip(zeroOrOne(value), zeroOrOne(operation)),
+    oneOf(
+        value.map { SingleExpression.value($0) },
+        operation.map { SingleExpression.operation($0) }
+    ),
     literal(string: "}")
-).flatMap { _, tupleArray, _ in
-    if let value = tupleArray.0.first {
-        return always(.value(value))
-    } else if let operation = tupleArray.1.first {
-        return always(.operation(operation))
-    }
-    
-    return .never
+).map { _, singleExpression, _ in
+    singleExpression
 }
 
 // MARK: Multiple Expression
@@ -238,7 +183,7 @@ let stringNode: Parser<MultipleExpression.Node> = prefix(with: "(\\\\\\\\|\\\\@|
 let expressionNode: Parser<MultipleExpression.Node> = singleExpression.map { .expression($0) }
 
 let multipleExpression: Parser<MultipleExpression> = zeroOrMore(
-    oneOf([stringNode, expressionNode]), separatedBy: literal(string: "")
+    oneOf(stringNode, expressionNode), separatedBy: literal(string: "")
 ).flatMap { array in
     var result: [MultipleExpression.Node] = []
     var hasExpression = false
@@ -267,35 +212,35 @@ extension Parser {
 }
 
 extension Parser {
-    func map<OtherType>(_ transform: @escaping (Type) -> OtherType) -> Parser<OtherType> {
-        return Parser<OtherType> { str -> OtherType? in
+    func map<B>(_ transform: @escaping (A) -> B) -> Parser<B> {
+        return Parser<B> { str -> B? in
             self.run(&str).map(transform)
         }
     }
     
-    func flatMap<OtherType>(_ transform: @escaping (Type) -> Parser<OtherType>) -> Parser<OtherType> {
-        return Parser<OtherType> { str -> OtherType? in
+    func flatMap<B>(_ transform: @escaping (A) -> Parser<B>) -> Parser<B> {
+        return Parser<B> { str -> B? in
             let original = str
-            let matchType = self.run(&str)
-            let parserOtherType = matchType.map(transform)
-            guard let matchOtherType = parserOtherType?.run(&str) else {
+            let matchA = self.run(&str)
+            let parserB = matchA.map(transform)
+            guard let matchB = parserB?.run(&str) else {
                 str = original
                 return nil
             }
-            return matchOtherType
+            return matchB
         }
     }
 }
 
-func zip<Type, OtherType>(_ parserType: Parser<Type>, _ parserOtherType: Parser<OtherType>) -> Parser<(Type, OtherType)> {
-    return Parser<(Type, OtherType)> { str -> (Type, OtherType)? in
+func zip<A, B>(_ a: Parser<A>, _ b: Parser<B>) -> Parser<(A, B)> {
+    return Parser<(A, B)> { str -> (A, B)? in
         let original = str
-        guard let matchType = parserType.run(&str) else { return nil }
-        guard let matchOtherType = parserOtherType.run(&str) else {
+        guard let matchA = a.run(&str) else { return nil }
+        guard let matchB = b.run(&str) else {
             str = original
             return nil
         }
-        return (matchType, matchOtherType)
+        return (matchA, matchB)
     }
 }
 
@@ -310,11 +255,11 @@ func zip<A, B, C>(
 }
 // swiftlint:enable large_tuple
 
-func zeroOrOne<Type>(
-    _ p: Parser<Type>
-) -> Parser<[Type]> {
-    return Parser<[Type]> { str in
-        var matches: [Type] = []
+func zeroOrOne<A>(
+    _ p: Parser<A>
+) -> Parser<[A]> {
+    return Parser<[A]> { str in
+        var matches: [A] = []
         if let match = p.run(&str) {
             matches.append(match)
         }
@@ -322,17 +267,17 @@ func zeroOrOne<Type>(
     }
 }
 
-func zeroOrMore<Type>(
-    _ p: Parser<Type>,
-    separatedBy separatorParser: Parser<Void>
-) -> Parser<[Type]> {
-    return Parser<[Type]> { str in
+func zeroOrMore<A, B>(
+    _ p: Parser<A>,
+    separatedBy s: Parser<B>
+) -> Parser<[A]> {
+    return Parser<[A]> { str in
         var rest = str
-        var matches: [Type] = []
+        var matches: [A] = []
         while let match = p.run(&str) {
             rest = str
             matches.append(match)
-            if separatorParser.run(&str) == nil {
+            if s.run(&str) == nil {
                 return matches
             }
         }
@@ -341,15 +286,23 @@ func zeroOrMore<Type>(
     }
 }
 
-func oneOf<Type>(
-    _ parsers: [Parser<Type>]
-) -> Parser<Type> {
-    return Parser<Type> { str -> Type? in
-        for parser in parsers {
-            if let match = parser.run(&str) {
+func oneOf<A>(
+    _ ps: Parser<A>...
+) -> Parser<A> {
+    return Parser<A> { str -> A? in
+        for p in ps {
+            if let match = p.run(&str) {
                 return match
             }
         }
         return nil
+    }
+}
+
+/// Delays the creation of parser. Use it to break dependency cycles when
+/// creating recursive parsers.
+func lazy<A>(_ closure: @autoclosure @escaping () -> Parser<A>) -> Parser<A> {
+    Parser { str in
+        closure().run(&str)
     }
 }
