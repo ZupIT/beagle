@@ -17,14 +17,14 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.UnitValue
+import br.com.zup.beagle.widget.core.UnitValueSchema
 
 interface EdgeValueSchema {
-  public val left: UnitValue?
-  public val top: UnitValue?
-  public val right: UnitValue?
-  public val bottom: UnitValue?
-  public val horizontal: UnitValue?
-  public val vertical: UnitValue?
-  public val all: UnitValue? 
+  public val left: UnitValueSchema?
+  public val top: UnitValueSchema?
+  public val right: UnitValueSchema?
+  public val bottom: UnitValueSchema?
+  public val horizontal: UnitValueSchema?
+  public val vertical: UnitValueSchema?
+  public val all: UnitValueSchema? 
 }

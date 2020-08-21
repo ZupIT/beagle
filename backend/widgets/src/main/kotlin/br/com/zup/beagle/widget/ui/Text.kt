@@ -34,11 +34,11 @@ import br.com.zup.beagle.widget.core.TextAlignment
  *
  */
 data class Text(
-    val text: Bind<String>,
-    val styleId: String? = null,
+    override val text: Bind<String>,
+    override val styleId: String? = null,
     val textColor: Bind<String>? = null,
     val alignment: Bind<TextAlignment>? = null
-) : Widget() {
+) : Widget(), TextSchema {
     constructor(
         text: String,
         styleId: String? = null,

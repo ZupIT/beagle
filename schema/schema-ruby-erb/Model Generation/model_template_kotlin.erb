@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 <%
-  def handleTypeName(variable)
-      #todo variables now have default values!
-      output = variable.isBindable ? "Bind<" + variable.typeName + ">" : variable.typeName
-      output = variable.class == List ? "List<" + output + ">" : output
-      output = variable.isOptional ? output + "?" : output
-      output
+  def handleTypeName(variable, importManager)
+    #todo variables now have default values!
+      output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
+    output = variable.isBindable ? "Bind<#{output}>" : output
+    output = variable.class == List ? "List<#{output}>" : output
+    output = variable.isOptional ? output + "?" : output
+    output
   end
 
   def getImports(variables, importManager)
@@ -35,12 +36,11 @@ package <%= objectType.synthaxType.package -%>
 import br.com.zup.beagle.widget.context.Bind
 <% end -%>
 <% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
-import <%= qualifiedName -%>
-
+import <%= qualifiedName -%>Schema
 <% end -%>
 
 interface <%= objectType.synthaxType.name -%>Schema {<% -%>
 <% for variable in objectType.synthaxType.variables %>
-  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable) -%>
+  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>
 <% end -%> 
 }

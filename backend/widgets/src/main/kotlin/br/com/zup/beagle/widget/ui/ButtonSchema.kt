@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.widget.core.UnitValueSchema
+import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.context.Bind
 
-interface SizeSchema {
-  public val height: UnitValueSchema?
-  public val maxWidth: UnitValueSchema?
-  public val maxHeight: UnitValueSchema?
-  public val minWidth: UnitValueSchema?
-  public val minHeight: UnitValueSchema?
-  public val aspectRatio: Double? 
+interface ButtonSchema {
+    val text: Bind<String>
+    val styleId: String?
+    val onPress: List<Action>?
+    val clickAnalyticsEvent: ClickEvent?
 }
