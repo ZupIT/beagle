@@ -15,11 +15,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.android.components.schema
 
-import br.com.zup.beagle.widget.core.UnitTypeSchema
+import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.Bind
 
-interface UnitValueSchema {
-  public val value: Enum
-  public val type: UnitTypeSchema 
+interface ButtonSchema {
+    val text: Bind<String>
+    val styleId: String?
+    val onPress: List<Action>?
+    val clickAnalyticsEvent: ClickEvent?
 }

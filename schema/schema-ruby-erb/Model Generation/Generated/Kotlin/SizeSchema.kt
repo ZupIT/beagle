@@ -17,13 +17,13 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.UnitValue
+import br.com.zup.beagle.widget.core.UnitValueSchema
 
 interface SizeSchema {
-  public val height: UnitValue?
-  public val maxWidth: UnitValue?
-  public val maxHeight: UnitValue?
-  public val minWidth: UnitValue?
-  public val minHeight: UnitValue?
+  public val height: UnitValueSchema?
+  public val maxWidth: UnitValueSchema?
+  public val maxHeight: UnitValueSchema?
+  public val minWidth: UnitValueSchema?
+  public val minHeight: UnitValueSchema?
   public val aspectRatio: Enum? 
 }
