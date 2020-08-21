@@ -75,7 +75,9 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.kotlin_backend_path, @objectType.name + ".kt", to_s)
+      if @objectType.synthaxType.class == CommonType
+        @writer.write(Constants.new.kotlin_backend_path, @objectType.name + ".kt", to_s)
+      end
     end
   end
   

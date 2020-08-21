@@ -16,23 +16,22 @@
  */
 <%
   def handleTypeName(variable, shouldAddComma = false)
-      #todo variables now have default values!
-      output = variable.isBindable ? "Bind<" + variable.typeName + ">" : variable.typeName
-      output = variable.class == List ? "List<" + output + ">" : output
+      output = variable.isBindable ? "Bind<#{variable.typeName}>" : variable.typeName
+      output = variable.class == List ? "List<#{output}>" : output
       output = variable.isOptional ? output + "?" : output
       output = shouldAddComma ? output + "," : output 
       output
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = variable.class == List ? "List<" + variable.typeName + ">" : variable.typeName
+    output = variable.class == List ? "List<#{variable.typeName}>" : variable.typeName
     output = variable.isOptional ? output + "? = null" : output
     output = shouldAddComma ?  output + "," : output
     output
   end
 
   def handleVariableAssignementInsideConstructor(variable, shouldAddComma = false)
-    output = variable.isBindable ? "valueOf(" + variable.name + ")" : variable.name
+    output = variable.isBindable ? "valueOf(#{variable.name})" : variable.name
     output = shouldAddComma ? output + "," : output
     output
   end

@@ -17,8 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
-
-interface DisplaySchema {
-   val flex: 
-   val none:  
+enum class DisplaySchema {
+  FLEX,
+  NONE
 }
