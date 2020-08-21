@@ -23,7 +23,7 @@ class OperationEvaluationTests: XCTestCase {
     
     func evaluateOperations(_ operations: [BeagleSchema.Operation],
                             contexts: [Context],
-                            comparableResults: [DynamicObject]) {
+                            completion: ([DynamicObject]) -> Void) {
         // Given
         let view = UIView()
         
@@ -34,9 +34,12 @@ class OperationEvaluationTests: XCTestCase {
         }
         
         // Then
-        for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-            XCTAssertEqual(evaluated, comparable)
-        }
+        completion(evaluatedResults)
     }
-    
+}
+
+extension Array where Element == String {
+    func toOperations(name: BeagleSchema.Operation.Name) -> [BeagleSchema.Operation] {
+        self.compactMap { Operation(rawValue: name.rawValue + "(\($0))") }
+    }
 }

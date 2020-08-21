@@ -134,9 +134,13 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
         ].map { Operation(name: name, parameters: $0) }
         
         // When/Then
-        evaluateOperations(simpleOperations + complexOperations + failingOperations,
-                           contexts: contexts,
-                           comparableResults: comparableResults)
+        let operations = simpleOperations + complexOperations + failingOperations
+        
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
+                XCTAssertEqual(evaluated, comparable)
+            }
+        }
         
     }
 }

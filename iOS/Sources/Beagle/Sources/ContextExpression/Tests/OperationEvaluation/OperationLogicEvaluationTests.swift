@@ -59,10 +59,14 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
+        let operations = simpleOperations + complexOperations + failingOperations
+        
         // When/Then
-        evaluateOperations(simpleOperations + complexOperations + failingOperations,
-                           contexts: contexts,
-                           comparableResults: comparableResults)
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
+                XCTAssertEqual(evaluated, comparable)
+            }
+        }
     }
     
     func testEvaluateNot() {
@@ -101,10 +105,14 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
+        let operations = simpleOperations + complexOperations + failingOperations
+        
         // When/Then
-        evaluateOperations(simpleOperations + complexOperations + failingOperations,
-                           contexts: contexts,
-                           comparableResults: comparableResults)
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
+                XCTAssertEqual(evaluated, comparable)
+            }
+        }
     }
     
     func testEvaluateAnd() {
@@ -172,8 +180,12 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         ].map { Operation(name: name, parameters: $0) }
         
         // When/Then
-        evaluateOperations(simpleOperations + complexOperations + failingOperations,
-                           contexts: contexts,
-                           comparableResults: comparableResults)
+        let operations = simpleOperations + complexOperations + failingOperations
+        
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
+                XCTAssertEqual(evaluated, comparable)
+            }
+        }
     }
 }

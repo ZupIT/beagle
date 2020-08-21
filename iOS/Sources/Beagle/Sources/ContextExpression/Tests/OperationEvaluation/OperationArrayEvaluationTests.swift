@@ -59,10 +59,14 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
+        let operations = simpleOperations + complexOperations + failingOperations
+        
         // When/Then
-        evaluateOperations(simpleOperations + complexOperations + failingOperations,
-                           contexts: contexts,
-                           comparableResults: comparableResults)
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
+                XCTAssertEqual(evaluated, comparable)
+            }
+        }
     }
     
     func testEvaluateRemove() {
@@ -101,10 +105,14 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
+        let operations = simpleOperations + complexOperations + failingOperations
+        
         // When/Then
-        evaluateOperations(simpleOperations + complexOperations + failingOperations,
-                           contexts: contexts,
-                           comparableResults: comparableResults)
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
+                XCTAssertEqual(evaluated, comparable)
+            }
+        }
     }
     
     func testEvaluateRemoveIndex() {
@@ -143,10 +151,14 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
+        let operations = simpleOperations + complexOperations + failingOperations
+        
         // When/Then
-        evaluateOperations(simpleOperations + complexOperations + failingOperations,
-                           contexts: contexts,
-                           comparableResults: comparableResults)
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
+                XCTAssertEqual(evaluated, comparable)
+            }
+        }
     }
     
     func testEvaluateIncludes() {
@@ -180,10 +192,14 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
             .empty
         ]
         
+        let operations = successfulOperations + failingOperations
+        
         // When/Then
-        evaluateOperations(successfulOperations + failingOperations,
-                           contexts: contexts,
-                           comparableResults: comparableResults)
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
+                XCTAssertEqual(evaluated, comparable)
+            }
+        }
         
     }
 
