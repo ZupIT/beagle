@@ -19,12 +19,10 @@ import BeagleSchema
 @testable import Beagle
 import XCTest
 
+typealias Operation = BeagleSchema.Operation
+
 class OperationEvaluationTests: XCTestCase {
-    // swiftlint:disable multiline_literal_brackets
-    func evaluateOperations(_ operations: [BeagleSchema.Operation],
-                            contexts: [Context],
-                            completion: ([DynamicObject]) -> Void) {
-    // swiftlint:enable multiline_literal_brackets
+    func evaluateOperations(_ operations: [Operation], contexts: [Context], completion: ([DynamicObject]) -> Void) {
         // Given
         let view = UIView()
         
@@ -39,8 +37,14 @@ class OperationEvaluationTests: XCTestCase {
     }
 }
 
+extension String {
+    func toOperation(name: Operation.Name) -> Operation? {
+        Operation(rawValue: name.rawValue + "(\(self))")
+    }
+}
+
 extension Array where Element == String {
-    func toOperations(name: BeagleSchema.Operation.Name) -> [BeagleSchema.Operation] {
-        self.compactMap { Operation(rawValue: name.rawValue + "(\($0))") }
+    func toOperations(name: Operation.Name) -> [Operation] {
+        self.compactMap { $0.toOperation(name: name) }
     }
 }

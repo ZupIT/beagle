@@ -23,197 +23,128 @@ final class OperationStringEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateConcat() {
         // Given
-        let name = BeagleSchema.Operation.Name.concat
-        let contexts = [Context(id: "context", value: .string("Lastname"))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let name = Operation.Name.concat
+        let contexts = [Context(id: "context", value: "Lastname")]
+        let binding = contexts[0].id
         
-        let simpleOperations =
-         [
-            [.value(.literal(.string("string"))), .value(.literal(.string("STRING")))],
-            [.value(.literal(.string("Name"))), .value(.binding(bindings[0]))]
-         ].map { Operation(name: name, parameters: $0) }
+        let simpleOperations = ["'string', 'STRING'", "'Name', \(binding)"].toOperations(name: name)
          
-         let complexOperations =
-         [
-            [.value(.literal(.string("StRiNg"))), .operation(simpleOperations[0])],
-            [.operation(simpleOperations[0]), .value(.literal(.string(" "))), .value(.binding(bindings[0]))]
-         ].map { Operation(name: name, parameters: $0) }
+        let complexOperations = [
+            "'StRiNg', \(simpleOperations[0].rawValue)",
+            "\(simpleOperations[0].rawValue), ' ', \(binding)"
+        ].toOperations(name: name)
          
-         let failingOperations =
-         [
-            [.value(.literal(.int(1))), .value(.literal(.int(0)))],
-            [.value(.literal(.string("1"))), .value(.literal(.int(1)))],
-            [.value(.literal(.bool(true))), .value(.literal(.string("false")))],
-            []
-         ].map { Operation(name: name, parameters: $0) }
-        
-        let comparableResults: [DynamicObject] =
-        [
-            .string("stringSTRING"),
-            .string("NameLastname"),
-            .string("StRiNgstringSTRING"),
-            .string("stringSTRING Lastname"),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let failingOperations = ["1, 0", "'1', 1", "true, 'false'", ""].toOperations(name: name)
         
         let operations = simpleOperations + complexOperations + failingOperations
         
-        // When/Then
+        let comparableResults: [DynamicObject] = [
+            "stringSTRING",
+            "NameLastname",
+            "StRiNgstringSTRING",
+            "stringSTRING Lastname",
+            nil, nil, nil, nil
+        ]
+        
+        // When
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
     func testEvaluateCapitalize() {
         // Given
-        let results: [DynamicObject] =
-        [
-            .string("String"),
-            .string("String"),
-            .string("Name"),
-            .string("Lastname"),
-            .string("Name Lastname"),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = ["String", "String", "Name", "Lastname", "Name Lastname", nil, nil, nil, nil]
         
-        // When/Then
-        evaluateOperation(.capitalize, comparableResults: results)
+        // When
+        evaluateOperation(.capitalize) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
     func testEvaluateUppercase() {
         // Given
-        let results: [DynamicObject] =
-        [
-            .string("STRING"),
-            .string("STRING"),
-            .string("NAME"),
-            .string("LASTNAME"),
-            .string("NAME LASTNAME"),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = ["STRING", "STRING", "NAME", "LASTNAME", "NAME LASTNAME", nil, nil, nil, nil]
         
-        // When/Then
-        evaluateOperation(.uppercase, comparableResults: results)
+        // When
+        evaluateOperation(.uppercase) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
     func testEvaluateLowercase() {
         // Given
-        let results: [DynamicObject] =
-        [
-            .string("string"),
-            .string("string"),
-            .string("name"),
-            .string("lastname"),
-            .string("name lastname"),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = ["string", "string", "name", "lastname", "name lastname", nil, nil, nil, nil]
         
-        // When/Then
-        evaluateOperation(.lowercase, comparableResults: results)
+        // When
+        evaluateOperation(.lowercase) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
     func testEvaluateSubstr() {
         // Given
-        let name = BeagleSchema.Operation.Name.substr
-        let contexts = [Context(id: "context", value: .string("some long string"))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let name = Operation.Name.substr
+        let contexts = [Context(id: "context", value: "some long string")]
+        let binding = contexts[0].id
         
-        let simpleOperations =
-         [
-            [.value(.literal(.string("string"))), .value(.literal(.int(0))), .value(.literal(.int(3)))],
-            [.value(.binding(bindings[0])), .value(.literal(.int(0))), .value(.literal(.int(4)))],
-            [.value(.binding(bindings[0])), .value(.literal(.int(5))), .value(.literal(.int(4)))],
-            [.value(.binding(bindings[0])), .value(.literal(.int(5)))]
-         ].map { Operation(name: name, parameters: $0) }
+        let simpleOperations = [
+            "'str', 0, 0",
+            "'string', 0, 3",
+            "\(binding), 0, 4",
+            "\(binding), 5, 4",
+            "\(binding), 5"
+        ].toOperations(name: name)
          
-         let complexOperations =
-         [
-            [.operation(simpleOperations[3]), .value(.literal(.int(5)))]
-         ].map { Operation(name: name, parameters: $0) }
+        let complexOperations = ["\(simpleOperations[4].rawValue), 5"].toOperations(name: name)
          
-         let failingOperations =
-         [
-            [.value(.literal(.string("str"))), .value(.literal(.int(0))), .value(.literal(.int(0)))],
-            [.value(.literal(.string("str"))), .value(.literal(.int(-1))), .value(.literal(.int(1)))],
-            [.value(.literal(.string("str"))), .value(.literal(.int(0))), .value(.literal(.int(5)))],
-            [.value(.literal(.string("str"))), .value(.literal(.int(3))), .value(.literal(.int(2)))],
-            [.value(.literal(.int(1))), .value(.literal(.int(0)))],
-            [.value(.literal(.string("1"))), .value(.literal(.double(0.0)))],
-            [.value(.literal(.string("1"))), .value(.literal(.int(0))), .value(.literal(.double(1.0)))],
-            []
-         ].map { Operation(name: name, parameters: $0) }
-        
-        let comparableResults: [DynamicObject] =
-        [
-            .string("str"),
-            .string("some"),
-            .string("long"),
-            .string("long string"),
-            .string("string"),
-            .string(""),
-            .empty,
-            .empty,
-            .empty,
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let failingOperations = [
+            "'str', -1, 1",
+            "'str', 0, 5",
+            "'str', 3, 2",
+            "1, 0",
+            "'1', 0.0",
+            "'1', 0, 1.0",
+            ""
+        ].toOperations(name: name)
         
         let operations = simpleOperations + complexOperations + failingOperations
         
-        // When/Then
+        let comparableResults: [DynamicObject] = ["", "str", "some", "long", "long string", "string", nil, nil, nil, nil, nil, nil, nil]
+        
+        // When
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
-    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, comparableResults: [DynamicObject]) {
+    private func evaluateOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
         // Given
-        let contexts = [Context(id: "context1", value: .string("name")), Context(id: "context2", value: .string("Lastname"))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
-        let concat = Operation(name: .concat, parameters: [.value(.binding(bindings[0])), .value(.literal(.string(" "))), .value(.binding(bindings[1]))])
+        let contexts = [Context(id: "context1", value: "name"), Context(id: "context2", value: "Lastname")]
+        let bindings = contexts.map { $0.id }
+        guard let concat = "\(bindings[0]), ' ', \(bindings[1])".toOperation(name: .concat) else {
+            XCTFail("Failed to get operation")
+            return
+        }
         
-        let successfulOperations =
-        [
-            [.value(.literal(.string("string")))],
-            [.value(.literal(.string("String")))],
-            [.value(.binding(bindings[0]))],
-            [.value(.binding(bindings[1]))],
-            [.operation(concat)]
-        ].map { Operation(name: name, parameters: $0) }
+        let successfulOperations = [
+            "'string'",
+            "'String'",
+            "\(bindings[0])",
+            "\(bindings[1])",
+            "\(concat.rawValue)"
+        ].toOperations(name: name)
         
-        let failingOperations =
-        [
-            [.value(.literal(.int(1)))],
-            [.value(.literal(.bool(true)))],
-            [.value(.literal(.string("0"))), .value(.literal(.string("1")))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
+        let failingOperations = ["1", "true", "'0', '1'", ""].toOperations(name: name)
         
         let operations = successfulOperations + failingOperations
         
         // When/Then
-        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
-        }
+        evaluateOperations(operations, contexts: contexts, completion: completion)
     }
 }

@@ -29,12 +29,12 @@ extension Parser {
 // MARK: Basic Parsers
 
 let int = Parser<Int> { str in
-    let intString = prefix(with: #"^\d+\b(?!\.\d)"#).run(&str)
+    let intString = prefix(with: #"^(-\d+|\d+)\b(?!\.\d)"#).run(&str)
     return Int(intString ?? "")
 }
 
 let double = Parser<Double> { str in
-    let doubleString = prefix(with: #"^\d+\.\d+"#).run(&str)
+    let doubleString = prefix(with: #"^(-\d+|\d+)\.\d+"#).run(&str)
     return Double(doubleString ?? "")
 }
 
@@ -179,7 +179,7 @@ let singleExpression: Parser<SingleExpression> = zip(
 
 // MARK: Multiple Expression
 
-let stringNode: Parser<MultipleExpression.Node> = prefix(with: "(\\\\\\\\|\\\\@|[^\\@]|\\@(?!\\{))+").map { .string($0) }
+let stringNode: Parser<MultipleExpression.Node> = prefix(with: #"(\\\\|\\@|[^\@]|\@(?!\{))+"#).map { .string($0) }
 let expressionNode: Parser<MultipleExpression.Node> = singleExpression.map { .expression($0) }
 
 let multipleExpression: Parser<MultipleExpression> = zeroOrMore(

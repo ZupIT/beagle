@@ -23,117 +23,72 @@ final class OperationOtherEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateIsNull() {
         // Given
-        let name = BeagleSchema.Operation.Name.isNull
-        let contexts = [Context(id: "context", value: .array([.int(1), .int(2), .int(3)]))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
-        let insert = Operation(name: .insert, parameters: [])
+        let name = Operation.Name.isNull
+        let contexts = [Context(id: "context", value: [1, 2, 3])]
+        let binding = contexts[0].id
+        guard let insert = "".toOperation(name: .insert) else {
+            XCTFail("Failed to get operation")
+            return
+        }
         
-        let simpleOperations =
-        [
-            [.value(.literal(.null))],
-            [.value(.literal(.int(1)))],
-            [.value(.binding(bindings[0]))]
-        ].map { Operation(name: name, parameters: $0) }
+        let simpleOperations = ["null", "1", "\(binding)"].toOperations(name: name)
          
-        let complexOperations =
-        [
-            [.operation(simpleOperations[0])],
-            [.operation(insert)]
-        ].map { Operation(name: name, parameters: $0) }
+        let complexOperations = ["\(simpleOperations[0].rawValue)", "\(insert.rawValue)"].toOperations(name: name)
          
-        let failingOperations =
-        [
-            [.value(.literal(.null)), .value(.literal(.null))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
-        
-        let comparableResults: [DynamicObject] =
-        [
-            .bool(true),
-            .bool(false),
-            .bool(false),
-            .bool(false),
-            .bool(true),
-            .empty,
-            .empty
-        ]
+        let failingOperations = ["null, null", ""].toOperations(name: name)
         
         let operations = simpleOperations + complexOperations + failingOperations
         
-        // When/Then
+        let comparableResults: [DynamicObject] = [true, false, false, false, true, nil, nil]
+        
+        // When
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
     func testEvaluateIsEmpty() {
         // Given
-        let comparableResults: [DynamicObject] =
-        [
-            .bool(true),
-            .bool(false),
-            .bool(false),
-            .bool(true),
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = [true, false, false, true, nil, nil, nil]
         
-        // When/Then
-        evaluateOperation(.isEmpty, comparableResults: comparableResults)
+        // When
+        evaluateOperation(.isEmpty) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
     func testEvaluateLength() {
         // Given
-        let comparableResults: [DynamicObject] =
-        [
-            .int(0),
-            .int(1),
-            .int(3),
-            .int(0),
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = [0, 1, 3, 0, nil, nil, nil]
         
-        // When/Then
-        evaluateOperation(.length, comparableResults: comparableResults)
+        // When
+        evaluateOperation(.length) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
     
-    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, comparableResults: [DynamicObject]) {
+    private func evaluateOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
         // Given
         // swiftlint:disable multiline_literal_brackets
-        let contexts = [Context(id: "context1", value: .array([.int(1)])),
-                        Context(id: "context2", value: .dictionary(["one": .int(1), "two": .int(2), "three": .int(3)]))]
+        let contexts = [Context(id: "context1", value: [1]),
+                        Context(id: "context2", value: ["one": 1, "two": 2, "three": 3])]
         // swiftlint:enable multiline_literal_brackets
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
-        let removeIndex = Operation(name: .removeIndex, parameters: [.value(.binding(bindings[0]))])
+        let bindings = contexts.map { $0.id }
+        guard let removeIndex = "\(bindings[0])".toOperation(name: .removeIndex) else {
+            XCTFail("Failed to get operation")
+            return
+        }
         
-        let successfulOperations =
-        [
-            [.value(.literal(.string("")))],
-            [.value(.binding(bindings[0]))],
-            [.value(.binding(bindings[1]))],
-            [.operation(removeIndex)]
-        ].map { Operation(name: name, parameters: $0) }
+        let successfulOperations = ["''", "\(bindings[0])", "\(bindings[1])", "\(removeIndex.rawValue)"].toOperations(name: name)
          
-        let failingOperations =
-        [
-            [.value(.literal(.int(0)))],
-            [.value(.literal(.string("string"))), .value(.literal(.string("string")))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
+        let failingOperations = ["0", "'string', 'string'", ""].toOperations(name: name)
         
         let operations = successfulOperations + failingOperations
         
         // When/Then
-        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
-        }
+        evaluateOperations(operations, contexts: contexts, completion: completion)
     }
-
 }

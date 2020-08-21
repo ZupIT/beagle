@@ -23,20 +23,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateSum() {
         // Given
-        let comparableResults: [DynamicObject] =
-        [
-            .int(10),
-            .double(10.5),
-            .int(6),
-            .double(6.5),
-            .int(14),
-            .double(13.3),
-            .double(27.5),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = [10, 10.5, 6, 6.5, 14, 13.3, 27.5, nil, nil, nil, nil]
         
         // When
         evaluateOperation(.sum) { evaluatedResults in
@@ -47,20 +34,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateSubtract() {
         // Given
-        let comparableResults: [DynamicObject] =
-        [
-            .int(2),
-            .double(-1.5),
-            .int(2),
-            .double(1.5),
-            .int(2),
-            .double(4.3),
-            .double(-1.5),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = [2, -1.5, 2, 1.5, 2, 4.3, -1.5, nil, nil, nil, nil]
         
         // When
         evaluateOperation(.subtract) { evaluatedResults in
@@ -71,20 +45,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateMultiply() {
         // Given
-        let comparableResults: [DynamicObject] =
-        [
-            .int(24),
-            .double(27.0),
-            .int(8),
-            .double(10.0),
-            .int(96),
-            .double(75.6),
-            .double(7290.0),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = [24, 27.0, 8, 10.0, 96, 75.6, 7290.0, nil, nil, nil, nil]
         
         // When
         evaluateOperation(.multiply) { evaluatedResults in
@@ -95,20 +56,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateDivide() {
         // Given
-        let comparableResults: [DynamicObject] =
-        [
-            .int(1),
-            .double(0.75),
-            .int(2),
-            .double(1.6),
-            .int(4),
-            .double(3.733333333333333),
-            .double(0.625),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let comparableResults: [DynamicObject] = [1, 0.75, 2, 1.6, 4, 3.733333333333333, 0.625, nil, nil, nil, nil]
         
         // When
         evaluateOperation(.divide) { evaluatedResults in
@@ -117,33 +65,20 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
         }
     }
     
-    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
         // Given
-        let contexts = [Context(id: "context1", value: .int(2)), Context(id: "context2", value: .double(2.5))]
+        let contexts = [Context(id: "context1", value: 2), Context(id: "context2", value: 2.5)]
         let bindings = contexts.map { $0.id }
         
-        let simpleOperations =
-        [
-            "6, 4",
-            "4.5, 6.0",
-            "4, \(bindings[0])",
-            "4.0, \(bindings[1])"
-        ].toOperations(name: name)
+        let simpleOperations = ["6, 4", "4.5, 6.0", "4, \(bindings[0])", "4.0, \(bindings[1])"].toOperations(name: name)
         
-        let complexOperations =
-        [
+        let complexOperations = [
             "4, \(simpleOperations[0].rawValue)",
             "2.8, \(simpleOperations[1].rawValue)",
             "\(simpleOperations[1].rawValue), \(simpleOperations[3].rawValue), \(simpleOperations[1].rawValue)"
         ].toOperations(name: name)
         
-        let failingOperations =
-        [
-            "1, 1.5",
-            "1, '1'",
-            "1, true",
-            ""
-        ].toOperations(name: name)
+        let failingOperations = ["1, 1.5", "1, '1'", "1, true", ""].toOperations(name: name)
         
         let operations = simpleOperations + complexOperations + failingOperations
         

@@ -23,184 +23,95 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateInsert() {
         // Given
-        let name = BeagleSchema.Operation.Name.insert
-        let contexts = [Context(id: "context", value: .array([.int(1), .int(2), .int(3)]))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let name = Operation.Name.insert
+        let contexts = [Context(id: "context", value: [1, 2, 3])]
+        let binding = contexts[0].id
         
-        let simpleOperations =
-        [
-            [.value(.binding(bindings[0])), .value(.literal(.int(3))), .value(.literal(.int(2)))],
-            [.value(.binding(bindings[0])), .value(.literal(.double(3.0))), .value(.literal(.int(1)))],
-            [.value(.binding(bindings[0])), .value(.literal(.int(0)))]
-        ].map { Operation(name: name, parameters: $0) }
+        let simpleOperations = ["\(binding), 3, 2", "\(binding), 3.0, 1", "\(binding), 0"].toOperations(name: name)
          
-        let complexOperations =
-        [
-            [.operation(simpleOperations[0]), .value(.literal(.int(4)))]
-        ].map { Operation(name: name, parameters: $0) }
+        let complexOperations = ["\(simpleOperations[0].rawValue), 4"].toOperations(name: name)
          
-        let failingOperations =
-        [
-            [.value(.binding(bindings[0])), .value(.literal(.int(3))), .value(.literal(.double(2.0)))],
-            [.value(.binding(bindings[0])), .value(.literal(.int(3))), .value(.literal(.int(5)))],
-            [.value(.literal(.string("array"))), .value(.literal(.string(""))), .value(.literal(.int(0)))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
-        
-        let comparableResults: [DynamicObject] =
-        [
-            .array([.int(1), .int(2), .int(3), .int(3)]),
-            .array([.int(1), .double(3.0), .int(2), .int(3)]),
-            .array([.int(1), .int(2), .int(3), .int(0)]),
-            .array([.int(1), .int(2), .int(3), .int(3), .int(4)]),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let failingOperations = ["\(binding), 3, 2.0", "\(binding), 3, 5", "'array', '', 0", ""].toOperations(name: name)
         
         let operations = simpleOperations + complexOperations + failingOperations
         
-        // When/Then
+        let comparableResults: [DynamicObject] = [[1, 2, 3, 3], [1, 3.0, 2, 3], [1, 2, 3, 0], [1, 2, 3, 3, 4], nil, nil, nil, nil]
+        
+        // When/
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
     func testEvaluateRemove() {
         // Given
-        let name = BeagleSchema.Operation.Name.remove
-        let contexts = [Context(id: "context", value: .array([.int(1), .int(2), .double(3.0), .double(3.0)]))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let name = Operation.Name.remove
+        let contexts = [Context(id: "context", value: [1, 2, 3.0, 3.0])]
+        let binding = contexts[0].id
         
-        let simpleOperations =
-        [
-            [.value(.binding(bindings[0])), .value(.literal(.int(2)))],
-            [.value(.binding(bindings[0])), .value(.literal(.double(3.0)))],
-            [.value(.binding(bindings[0])), .value(.literal(.int(4)))]
-        ].map { Operation(name: name, parameters: $0) }
+        let simpleOperations = ["\(binding), 2", "\(binding), 3.0", "\(binding), 4"].toOperations(name: name)
          
-        let complexOperations =
-        [
-            [.operation(simpleOperations[0]), .value(.literal(.int(1)))]
-        ].map { Operation(name: name, parameters: $0) }
+        let complexOperations = ["\(simpleOperations[0].rawValue), 1"].toOperations(name: name)
          
-        let failingOperations =
-        [
-            [.value(.binding(bindings[0])), .value(.literal(.int(2))), .value(.literal(.double(3.0)))],
-            [.value(.literal(.string("array"))), .value(.literal(.string(""))), .value(.literal(.int(0)))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
-        
-        let comparableResults: [DynamicObject] =
-        [
-            .array([.int(1), .double(3.0), .double(3.0)]),
-            .array([.int(1), .int(2)]),
-            .array([.int(1), .int(2), .double(3.0), .double(3.0)]),
-            .array([.double(3.0), .double(3.0)]),
-            .empty,
-            .empty,
-            .empty
-        ]
+        let failingOperations = ["\(binding), 2, 3.0", "'array', '', 0", ""].toOperations(name: name)
         
         let operations = simpleOperations + complexOperations + failingOperations
         
-        // When/Then
+        let comparableResults: [DynamicObject] = [[1, 3.0, 3.0], [1, 2], [1, 2, 3.0, 3.0], [3.0, 3.0], nil, nil, nil]
+        
+        // When
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
     func testEvaluateRemoveIndex() {
         // Given
-        let name = BeagleSchema.Operation.Name.removeIndex
-        let contexts = [Context(id: "context", value: .array([.int(1), .int(2), .double(3.0), .double(3.0)]))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
+        let name = Operation.Name.removeIndex
+        let contexts = [Context(id: "context", value: [1, 2, 3.0, 3.0])]
+        let binding = contexts[0].id
         
-        let simpleOperations =
-        [
-            [.value(.binding(bindings[0])), .value(.literal(.int(1)))],
-            [.value(.binding(bindings[0]))]
-        ].map { Operation(name: name, parameters: $0) }
+        let simpleOperations = ["\(binding), 1", "\(binding)"].toOperations(name: name)
          
-        let complexOperations =
-        [
-            [.operation(simpleOperations[0]), .value(.literal(.int(0)))]
-        ].map { Operation(name: name, parameters: $0) }
+        let complexOperations = ["\(simpleOperations[0].rawValue), 0"].toOperations(name: name)
          
-        let failingOperations =
-        [
-            [.value(.binding(bindings[0])), .value(.literal(.int(4)))],
-            [.value(.binding(bindings[0])), .value(.literal(.double(3.0)))],
-            [.value(.literal(.string("array"))), .value(.literal(.int(0)))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
-        
-        let comparableResults: [DynamicObject] =
-        [
-            .array([.int(1), .double(3.0), .double(3.0)]),
-            .array([.int(1), .int(2), .double(3.0)]),
-            .array([.double(3.0), .double(3.0)]),
-            .empty,
-            .empty,
-            .empty,
-            .empty
-        ]
+        let failingOperations = ["\(binding), 4", "\(binding), 3.0", "'array', 0", ""].toOperations(name: name)
         
         let operations = simpleOperations + complexOperations + failingOperations
         
-        // When/Then
+        let comparableResults: [DynamicObject] = [[1, 3.0, 3.0], [1, 2, 3.0], [3.0, 3.0], nil, nil, nil, nil]
+        
+        // When
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
     func testEvaluateIncludes() {
         // Given
-        let name = BeagleSchema.Operation.Name.includes
-        let contexts = [Context(id: "context", value: .array([.int(1), .int(2), .int(3)]))]
-        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
-        let insert = Operation(name: .insert, parameters: [.value(.binding(bindings[0])), .value(.literal(.int(4))), .value(.literal(.int(2)))])
+        let name = Operation.Name.includes
+        let contexts = [Context(id: "context", value: [1, 2, 3])]
+        let binding = contexts[0].id
+        guard let insert = "\(binding), 4, 2".toOperation(name: .insert) else {
+            XCTFail()
+            return
+        }
         
-        let successfulOperations =
-        [
-            [.value(.binding(bindings[0])), .value(.literal(.int(3)))],
-            [.value(.binding(bindings[0])), .value(.literal(.int(4)))],
-            [.operation(insert), .value(.literal(.int(4)))]
-        ].map { Operation(name: name, parameters: $0) }
+        let successfulOperations = ["\(binding), 3", "\(binding), 4", "\(insert.rawValue), 4"].toOperations(name: name)
          
-        let failingOperations =
-        [
-            [.value(.binding(bindings[0]))],
-            [.value(.literal(.string("array"))), .value(.literal(.int(0)))],
-            []
-        ].map { Operation(name: name, parameters: $0) }
-        
-        let comparableResults: [DynamicObject] =
-        [
-            .bool(true),
-            .bool(false),
-            .bool(true),
-            .empty,
-            .empty,
-            .empty
-        ]
+        let failingOperations = ["\(binding)", "'array', 0", ""].toOperations(name: name)
         
         let operations = successfulOperations + failingOperations
         
-        // When/Then
-        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
-            for (evaluated, comparable) in zip(evaluatedResults, comparableResults) {
-                XCTAssertEqual(evaluated, comparable)
-            }
-        }
+        let comparableResults: [DynamicObject] = [true, false, true, nil, nil, nil]
         
+        // When
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
     }
-
 }
