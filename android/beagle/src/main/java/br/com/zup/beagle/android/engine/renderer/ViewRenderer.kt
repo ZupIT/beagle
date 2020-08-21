@@ -35,7 +35,8 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
         val builtView = buildView(rootView)
         componentStylization.apply(builtView, component)
         if (builtView.id == View.NO_ID) {
-            builtView.id = rootView.generateViewModelInstance<ScreenContextViewModel>().generateNewViewId()
+            builtView.id = rootView.generateViewModelInstance<ScreenContextViewModel>()
+                .getViewId(rootView.getParentId())
         }
         contextComponentHandler.handleContext(rootView, builtView, component)
         return builtView

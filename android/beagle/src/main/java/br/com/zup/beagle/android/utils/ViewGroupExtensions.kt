@@ -38,7 +38,7 @@ internal var beagleSerializerFactory = BeagleSerializer()
  * @property listener is called when the loading is started and finished
  */
 fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
-    loadView(this, ActivityRootView(activity), screenRequest, listener)
+    loadView(this, ActivityRootView(activity, this), screenRequest, listener)
 }
 
 /**
@@ -48,7 +48,7 @@ fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest
  * @property listener is called when the loading is started and finished
  */
 fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
-    loadView(this, FragmentRootView(fragment), screenRequest, listener)
+    loadView(this, FragmentRootView(fragment, this), screenRequest, listener)
 }
 
 private fun loadView(
@@ -58,7 +58,7 @@ private fun loadView(
     listener: OnStateChanged?
 ) {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-    viewModel.resetIds()
+    viewModel.createOrUpdate(rootView.getParentId())
     val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
         stateChangedListener = listener
         loadView(rootView, screenRequest)
@@ -76,7 +76,7 @@ private fun loadView(
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
-    this.renderScreen(ActivityRootView(activity), screenJson)
+    this.renderScreen(ActivityRootView(activity, this), screenJson)
 }
 
 /**
@@ -86,7 +86,7 @@ fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
-    this.renderScreen(FragmentRootView(fragment), screenJson)
+    this.renderScreen(FragmentRootView(fragment, this), screenJson)
 }
 
 internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String) {

@@ -109,22 +109,22 @@ internal class BeagleViewModel(
                         } else {
                             setLoading(screenRequest.url, true)
                             val component = componentRequester.fetchComponent(screenRequest)
-                            postLivedataResponse(ViewState.DoRender(screenRequest.url, component))
+                            postLiveDataResponse(ViewState.DoRender(screenRequest.url, component))
                         }
                     } catch (exception: BeagleException) {
                         if (screen != null) {
-                            postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
+                            postLiveDataResponse(ViewState.DoRender(screen.identifier, screen))
                         } else {
-                            postLivedataResponse(ViewState.Error(exception) { fetchComponents() })
+                            postLiveDataResponse(ViewState.Error(exception) { fetchComponents() })
                         }
                     }
                 } else if (screen != null) {
-                    postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
+                    postLiveDataResponse(ViewState.DoRender(screen.identifier, screen))
                 }
             }
         }
 
-        private suspend fun postLivedataResponse(viewState: ViewState) {
+        private suspend fun postLiveDataResponse(viewState: ViewState) {
             withContext(coroutineScope.coroutineContext) {
                 postValue(viewState)
                 setLoading(screenRequest.url, false)

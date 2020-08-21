@@ -21,13 +21,15 @@ import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.ContextBinding
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.ContextDataEvaluation
 import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.context.ImplicitContextManager
 import br.com.zup.beagle.android.utils.Observer
+import java.util.LinkedList
+import java.util.Queue
 import java.util.Stack
+
 
 @Suppress("TooManyFunctions")
 internal class ScreenContextViewModel(
@@ -36,22 +38,33 @@ internal class ScreenContextViewModel(
     private val implicitContextManager: ImplicitContextManager = ImplicitContextManager()
 ) : ViewModel() {
 
-    private val viewIds = Stack<Int>()
+    private val views = mutableListOf<ViewIdStruct>()
 
-    fun resetIds() {
-        viewIds.clear()
-    }
-
-    fun generateNewViewId(): Int {
-        val newId = if (viewIds.empty()) {
-            0
-        } else {
-            viewIds.peek() + 1
+    fun createOrUpdate(parentId: Int) {
+        val view = views.firstOrNull { viewIdStruct -> viewIdStruct.parentId == parentId }
+        if (view != null) {
+            views.remove(view)
         }
 
-        return viewIds.push(newId)
+        views.add(ViewIdStruct(parentId))
     }
 
+    fun getViewId(parentId: Int): Int {
+        val view = views[parentId]
+
+        if (view.created) {
+            val id = view.localIds.pollFirst()!!
+            if (view.localIds.isEmpty()) {
+                view.localIds = LinkedList(view.generatedIds)
+            }
+            return id
+        }
+
+        val id = View.generateViewId()
+        view.generatedIds.add(id)
+
+        return id
+    }
 
     fun addContext(view: View, contextData: ContextData) {
         contextDataManager.addContext(view, contextData)
@@ -65,17 +78,9 @@ internal class ScreenContextViewModel(
         contextDataManager.addBinding(view, bind, observer)
     }
 
-    fun linkBindingToContext() {
-        contextDataManager.linkBindingToContext()
-    }
-
     fun linkBindingToContextAndEvaluateThem() {
         contextDataManager.linkBindingToContext()
         contextDataManager.evaluateContexts()
-    }
-
-    fun notifyBindingChanges(contextBinding: ContextBinding) {
-        contextDataManager.notifyBindingChanges(contextBinding)
     }
 
     fun addImplicitContext(contextData: ContextData, sender: Any, actions: List<Action>) {
@@ -90,11 +95,15 @@ internal class ScreenContextViewModel(
     }
 
     fun clearContexts() {
-        resetIds()
+//        resetIds(parentId)
         contextDataManager.clearContexts()
     }
 
     override fun onCleared() {
-        clearContexts()
+        contextDataManager.clearContexts()
     }
 }
+
+data class ViewIdStruct(val parentId: Int, val generatedIds: MutableList<Int> = mutableListOf(),
+                        var localIds: LinkedList<Int> = LinkedList(),
+                        val created: Boolean = false)

@@ -17,8 +17,10 @@
 package br.com.zup.beagle.android.utils
 
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
@@ -28,6 +30,7 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -135,19 +138,25 @@ fun <T> ServerDrivenComponent.observeBindChanges(
  * @property activity <p>is the reference for your activity.
  * Make sure to use this method if you are inside a Activity because of the lifecycle</p>
  */
-fun ServerDrivenComponent.toView(activity: AppCompatActivity) = this.toView(ActivityRootView(activity))
+fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id.beagle_default_id): View {
+    val view = viewFactory.makeBeagleFlexView(activity).apply { id = idView }
+    return this.toView(ActivityRootView(activity, view), view)
+}
 
 /**
  * Transform your Component to a view.
  * @property fragment <p>is the reference for your fragment.
  * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  */
-fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootView(fragment))
+fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View {
+    val view = viewFactory.makeBeagleFlexView(fragment.requireContext()).apply { id = idView }
+    return this.toView(FragmentRootView(fragment, view), view)
+}
 
-fun ServerDrivenComponent.toView(rootView: RootView): View {
+internal fun ServerDrivenComponent.toView(rootView: RootView, beagleFlexView: BeagleFlexView): View {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-    viewModel.resetIds()
-    return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
+    viewModel.createOrUpdate(rootView.getParentId())
+    return beagleFlexView.apply {
         addServerDrivenComponent(this@toView, rootView)
         viewModel.linkBindingToContextAndEvaluateThem()
     }
