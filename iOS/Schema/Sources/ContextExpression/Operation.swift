@@ -47,7 +47,7 @@ extension Operation: RepresentableByParsableString {
             }
             
             if parameter != parameters.last {
-                result += ","
+                result += ", "
             }
         }
         result += ")"

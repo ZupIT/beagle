@@ -16,9 +16,9 @@
     ▿ value: DynamicObject
       - string: "1"
   ▿ (2 elements)
-    - key: "leaf.[0]"
-    ▿ value: DynamicObject
-      - string: "test"
-  ▿ (2 elements)
     - key: "leaf.unknown"
     - value: DynamicObject.empty
+  ▿ (2 elements)
+    - key: "leaf[0]"
+    ▿ value: DynamicObject
+      - string: "test"

@@ -32,9 +32,11 @@ extension Binding: RepresentableByParsableString {
 
     public var rawValue: String {
         var result = "\(context)"
-        if !path.nodes.isEmpty {
-            result += ".\(path.rawValue)"
+        guard let first = path.nodes.first else { return result }
+        
+        if case .key = first {
+            result += "."
         }
-        return result
+        return result + "\(path.rawValue)"
     }
 }
