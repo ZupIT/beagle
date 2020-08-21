@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 <%
-  def handleTypeName(variable, shouldAddComma = false)
+  def handleTypeNameAndDefault(variable, shouldAddComma = false)
       output = variable.isBindable ? "Bind<#{variable.typeName}>" : variable.typeName
       output = variable.class == List ? "List<#{output}>" : output
       output = variable.isOptional ? output + "?" : output
-      output = shouldAddComma ? output + "," : output 
+      output = !variable.defaultValue.empty? ? "#{output} = #{variable.defaultValue}" : output
+      output = shouldAddComma ? output + "," : output
       output
   end
 
@@ -57,7 +58,7 @@ import <%= qualifiedName -%>
 data class <%= objectType.synthaxType.name -%> (<% -%>
 <% counter = 0 -%>
 <% for variable in objectType.synthaxType.variables %>
-  <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeName(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
+  <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeNameAndDefault(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
   <% counter += 1 -%>
 <% end -%> 
 ) : <%= objectType.synthaxType.name -%>Schema {
