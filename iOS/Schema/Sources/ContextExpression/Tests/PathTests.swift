@@ -23,7 +23,7 @@ final class PathTests: XCTestCase {
     
     func testValidRawRepresentable() {
         // Given
-        [
+        let data = [
             "client",
             "client2.name",
             "client_[2].matrix[1][1]",
@@ -32,14 +32,14 @@ final class PathTests: XCTestCase {
         ]
         
         // When
-        .map {
+        let result = data.compactMap {
             Path(rawValue: $0)
         }
+        let rawValues = result.map(\.rawValue)
         
         // Then
-        .forEach {
-            XCTAssertNotNil($0)
-        }
+        assertSnapshot(matching: result, as: .dump)
+        XCTAssertEqual(rawValues, data)
     }
     
     func testInvalidRawRepresentable() {

@@ -19,8 +19,12 @@ import Beagle
 import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
-    init() {}
-    init(path: String, data: [String: String]?) {}
+    init() {
+        // Intentionally unimplemented...
+    }
+    init(path: String, data: [String: String]?) {
+        // Intentionally unimplemented...
+    }
     
     func screenController() -> UIViewController {
         let screen = Screen(
