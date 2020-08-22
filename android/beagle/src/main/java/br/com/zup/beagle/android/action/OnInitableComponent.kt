@@ -16,18 +16,10 @@
 
 package br.com.zup.beagle.android.action
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
-
 /**
- * Interface that represents actions in Beagle
+ * Interface that has onInit property
+ * @property onInit list of actions performed as soon as the component is rendered
  */
-interface Action {
-
-    /**
-     * Method executed when the function is triggered
-     * @property rootView component that holds context, lifeCycleOwner and ViewModelStoreOwner
-     * @property origin view that triggered the action
-     */
-    fun execute(rootView: RootView, origin: View)
+interface OnInitableComponent {
+    val onInit: List<Action>?
 }
