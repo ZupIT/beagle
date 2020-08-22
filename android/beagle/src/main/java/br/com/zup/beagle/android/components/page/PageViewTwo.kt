@@ -30,16 +30,17 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
 internal data class PageViewTwo(
-    val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
     val currentPage: Bind<Int>? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

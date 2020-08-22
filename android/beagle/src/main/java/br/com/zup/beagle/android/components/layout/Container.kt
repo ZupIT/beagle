@@ -27,14 +27,15 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 @RegisterWidget
 data class Container(
-    val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     val onInit: List<Action>? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory = ViewFactory()

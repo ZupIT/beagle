@@ -17,9 +17,9 @@
 package br.com.zup.beagle.core
 
 /**
- * Component that hold the ghost view
- * @property child show the current view
+ * Component that has children
+ * @property children list of views that the component has in its hierarchy
  */
-interface GhostComponent : SingleChildComponent {
-    override val child: ServerDrivenComponent
+interface MultiChildComponent {
+    val children: List<ServerDrivenComponent>
 }

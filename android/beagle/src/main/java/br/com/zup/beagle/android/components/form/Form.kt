@@ -43,16 +43,17 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.SingleChildComponent
 
 @RegisterWidget
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class Form(
-    val child: ServerDrivenComponent,
+    override val child: ServerDrivenComponent,
     val onSubmit: List<Action>? = null,
     val group: String? = null,
     val additionalData: Map<String, String>? = null,
     val shouldStoreFields: Boolean = false
-) : WidgetView() {
+) : WidgetView(), SingleChildComponent {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
