@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.Widget
@@ -45,7 +46,8 @@ private open class AbstractViewRenderer(
 
 class AbstractViewRendererTest : BaseTest() {
 
-    private val viewModel = mockk<ScreenContextViewModel>()
+    private val contextViewModel = mockk<ScreenContextViewModel>()
+    private val generateIdViewModel = mockk<GenerateIdViewModel>()
     private val component = mockk<Widget>(relaxed = true)
     private val componentStylization = mockk<ComponentStylization<Widget>>(relaxed = true)
     private val contextViewRenderer = mockk<ContextComponentHandler>(relaxed = true)
@@ -55,7 +57,8 @@ class AbstractViewRendererTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        prepareViewModelMock(viewModel)
+        prepareViewModelMock(contextViewModel)
+        prepareViewModelMock(generateIdViewModel)
 
         viewRenderer = spyk(AbstractViewRenderer(
             component,
@@ -70,7 +73,7 @@ class AbstractViewRendererTest : BaseTest() {
         val viewId = RandomData.int()
         val view = mockk<View>()
         every { viewRenderer.buildView(any()) } returns view
-        every { viewModel.generateNewViewId() } returns viewId
+        every { generateIdViewModel.getViewId(rootView.getParentId()) } returns viewId
         every { view.id } returns View.NO_ID
         every { view.id = any() } just Runs
 
@@ -81,7 +84,9 @@ class AbstractViewRendererTest : BaseTest() {
         verifySequence {
             componentStylization.apply(view, component)
             view.id
-            viewModel.generateNewViewId()
+            rootView.getViewModelStoreOwner()
+            rootView.getParentId()
+            generateIdViewModel.getViewId(0)
             view.id = viewId
             contextViewRenderer.handleContext(rootView, view, component)
         }

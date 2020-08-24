@@ -156,10 +156,11 @@ fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_d
 
 internal fun ServerDrivenComponent.toView(rootView: RootView, beagleFlexView: BeagleFlexView): View {
     val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
+    val contextViewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     viewModel.createIfNotExisting(rootView.getParentId())
     return beagleFlexView.apply {
         addServerDrivenComponent(this@toView, rootView)
         viewModel.setViewCreated(rootView.getParentId())
-        rootView.generateViewModelInstance<ScreenContextViewModel>().linkBindingToContextAndEvaluateThem()
+        contextViewModel.linkBindingToContextAndEvaluateThem()
     }
 }
