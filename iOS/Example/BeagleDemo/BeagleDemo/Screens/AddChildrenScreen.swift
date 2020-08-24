@@ -30,9 +30,21 @@ let addChildrenScreen: Screen = {
                     ]
                 )
                 Button(
-                    text: "Add Children",
+                    text: "Append",
+                    onPress: [
+                        AddChildren(componentId: "containerId", value: [ Text("@{context}")])
+                    ]
+                )
+                Button(
+                    text: "Prepend",
                     onPress: [
                         AddChildren(componentId: "containerId", value: [ Text("@{context}")], mode: .prepend)
+                    ]
+                )
+                Button(
+                    text: "Replace",
+                    onPress: [
+                        AddChildren(componentId: "containerId", value: [ Text("@{context}")], mode: .replace)
                     ]
                 )
             }

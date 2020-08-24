@@ -22,18 +22,21 @@ extension AddChildren: Action {
     public func execute(controller: BeagleController, origin: UIView) {
         guard let view = controller.view.getView(by: componentId) else { return }
         let renderer = controller.dependencies.renderer(controller)
-        var views = renderer.render(value)
+        let views = renderer.render(value)
         
         switch mode {
         case .append, .none:
-            break
+            views.forEach { view.addSubview($0) }
         case .prepend:
-            views = views + view.subviews
-            view.subviews.forEach { $0.removeFromSuperview() }
+            var index = 0
+            for subView in views {
+                view.insertSubview(subView, at: index)
+                index += 1
+            }
         case .replace:
             view.subviews.forEach { $0.removeFromSuperview() }
+            views.forEach { view.addSubview($0) }
         }
-        views.forEach { view.addSubview($0) }
         
         controller.view.setNeedsLayout()
     }
