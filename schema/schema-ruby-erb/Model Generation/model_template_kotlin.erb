@@ -45,14 +45,15 @@ import <%= qualifiedName -%>Schema
 <% end -%>
 
 <% end -%>
-interface <%= objectType.synthax_type.name -%>Schema {<% -%>
+
 <% if @templateHelper.is_enum(objectType) %>
 enum class <%= objectType.synthax_type.name -%>Schema {
   <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
 }
 <% else %><% -%>
+interface <%= objectType.synthax_type.name -%>Schema {<% -%>
 <% for variable in objectType.synthax_type.variables %>
   <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>
 <% end -%> 
-<% end %><% -%>
 }
+<% end %><% -%>

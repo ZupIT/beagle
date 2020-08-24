@@ -21,6 +21,7 @@ import br.com.zup.beagle.widget.core.SizeSchema
 import br.com.zup.beagle.widget.core.EdgeValueSchema
 import br.com.zup.beagle.widget.core.FlexSchema
 
+
 interface StyleSchema {
   public val backgroundColor: String?
   public val cornerRadius: String?

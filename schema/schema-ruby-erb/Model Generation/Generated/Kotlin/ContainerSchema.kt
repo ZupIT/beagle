@@ -18,6 +18,7 @@
 package br.com.zup.beagle.widget.ui
 
 
+
 interface ContainerSchema {
   public val children: List<Widget>
   public val onInit: List<Action>?
