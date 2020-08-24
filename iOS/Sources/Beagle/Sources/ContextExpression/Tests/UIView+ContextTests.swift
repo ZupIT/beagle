@@ -141,7 +141,9 @@ final class UIViewContextTests: XCTestCase {
         
         let singleExpression = SingleExpression(context: contextId, path: .init(nodes: []))
         let multipleExpression = MultipleExpression(nodes: [.expression(singleExpression)])
-        let updateFunction: (String?) -> Void = { _ in }
+        let updateFunction: (String?) -> Void = { _ in
+            // ...
+        }
 
         view?.configBinding(for: .single(singleExpression), completion: updateFunction)
         view?.configBinding(for: .multiple(multipleExpression), completion: updateFunction)
@@ -150,6 +152,7 @@ final class UIViewContextTests: XCTestCase {
         view = nil
         
         // Then
+        XCTAssertNil(view)
         XCTAssertNil(weakReference)
     }
 
