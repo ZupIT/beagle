@@ -1,10 +1,14 @@
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import com.squareup.moshi.*
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.JsonReader
 import org.json.JSONArray
 import org.json.JSONObject
 import com.squareup.moshi.JsonReader.Token.END_ARRAY
 import com.squareup.moshi.JsonReader.Token.END_OBJECT
+import com.squareup.moshi.JsonEncodingException
+import com.squareup.moshi.JsonWriter
+import com.squareup.moshi.ToJson
 import okio.Buffer
 
 class SimpleJsonAdapter {
