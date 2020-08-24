@@ -26,45 +26,12 @@ import br.com.zup.beagle.android.context.ContextDataEvaluation
 import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.context.ImplicitContextManager
 import br.com.zup.beagle.android.utils.Observer
-import java.util.LinkedList
-import java.util.Queue
-import java.util.Stack
 
-
-@Suppress("TooManyFunctions")
 internal class ScreenContextViewModel(
     private val contextDataManager: ContextDataManager = ContextDataManager(),
     private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation(),
     private val implicitContextManager: ImplicitContextManager = ImplicitContextManager()
 ) : ViewModel() {
-
-    private val views = mutableListOf<ViewIdStruct>()
-
-    fun createOrUpdate(parentId: Int) {
-        val view = views.firstOrNull { viewIdStruct -> viewIdStruct.parentId == parentId }
-        if (view != null) {
-            views.remove(view)
-        }
-
-        views.add(ViewIdStruct(parentId))
-    }
-
-    fun getViewId(parentId: Int): Int {
-        val view = views[parentId]
-
-        if (view.created) {
-            val id = view.localIds.pollFirst()!!
-            if (view.localIds.isEmpty()) {
-                view.localIds = LinkedList(view.generatedIds)
-            }
-            return id
-        }
-
-        val id = View.generateViewId()
-        view.generatedIds.add(id)
-
-        return id
-    }
 
     fun addContext(view: View, contextData: ContextData) {
         contextDataManager.addContext(view, contextData)
@@ -95,7 +62,6 @@ internal class ScreenContextViewModel(
     }
 
     fun clearContexts() {
-//        resetIds(parentId)
         contextDataManager.clearContexts()
     }
 
@@ -103,7 +69,3 @@ internal class ScreenContextViewModel(
         contextDataManager.clearContexts()
     }
 }
-
-data class ViewIdStruct(val parentId: Int, val generatedIds: MutableList<Int> = mutableListOf(),
-                        var localIds: LinkedList<Int> = LinkedList(),
-                        val created: Boolean = false)

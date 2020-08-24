@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.custom.OnStateChanged
+import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
@@ -57,15 +58,16 @@ private fun loadView(
     screenRequest: ScreenRequest,
     listener: OnStateChanged?
 ) {
-    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-    viewModel.createOrUpdate(rootView.getParentId())
+    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
+    viewModel.createIfNotExisting(rootView.getParentId())
     val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
         stateChangedListener = listener
         loadView(rootView, screenRequest)
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
-        viewModel.linkBindingToContextAndEvaluateThem()
+        viewModel.setViewCreated(rootView.getParentId())
+        rootView.generateViewModelInstance<ScreenContextViewModel>().linkBindingToContextAndEvaluateThem()
     }
 }
 
