@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.android.exception.BeagleException
 import java.lang.Exception
 import java.util.LinkedList
 
@@ -35,9 +36,9 @@ internal class GenerateIdViewModel : ViewModel() {
     }
 
     fun getViewId(parentId: Int): Int {
-        val view = views[parentId] ?: throw Exception(PARENT_ID_NOT_FOUND)
+        val view = views[parentId] ?: throw BeagleException(PARENT_ID_NOT_FOUND)
         return if (!view.created) generateNewViewId(view) else view.temporaryIds.pollFirst()
-            ?: throw Exception("temporary ids can't be empty")
+            ?: throw BeagleException("temporary ids can't be empty")
     }
 
     private fun generateNewViewId(view: LocalView): Int {
@@ -47,7 +48,7 @@ internal class GenerateIdViewModel : ViewModel() {
     }
 
     fun setViewCreated(parentId: Int) {
-        if (views[parentId] == null) throw Exception(PARENT_ID_NOT_FOUND)
+        if (views[parentId] == null) throw BeagleException(PARENT_ID_NOT_FOUND)
 
         views[parentId] = views[parentId]!!.apply {
             created = true
