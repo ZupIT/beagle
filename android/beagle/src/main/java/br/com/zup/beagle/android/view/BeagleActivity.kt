@@ -150,6 +150,8 @@ abstract class BeagleActivity : AppCompatActivity() {
         }
     }
 
+    fun hasServerDrivenScreen(): Boolean = supportFragmentManager.backStackEntryCount > 0
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 1) {
             finish()
@@ -157,6 +159,8 @@ abstract class BeagleActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
+
+    fun hasServerDrivenScreen(): Boolean = supportFragmentManager.backStackEntryCount > 0
 
     fun navigateTo(screenRequest: ScreenRequest, screen: Screen?) {
         fetch(screenRequest, screen?.toComponent())
