@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.utils
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
@@ -92,7 +91,7 @@ class WidgetExtensionsKtTest : BaseTest() {
         // Then
         verifySequence {
             viewModelMock.resetIds()
-            beagleFlexView.addServerDrivenComponent(component, rootView)
+            beagleFlexView.addServerDrivenComponent(component)
             viewModelMock.linkBindingToContextAndEvaluateThem()
         }
         assertEquals(beagleFlexView, actual)
