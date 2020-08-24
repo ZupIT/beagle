@@ -141,13 +141,10 @@ final class UIViewContextTests: XCTestCase {
         
         let singleExpression = SingleExpression(context: contextId, path: .init(nodes: []))
         let multipleExpression = MultipleExpression(nodes: [.expression(singleExpression)])
+        let updateFunction: (String?) -> Void = { _ in }
 
-        view?.configBinding(for: .single(singleExpression), completion: {
-            view?.text = $0
-        })
-        view?.configBinding(for: .multiple(multipleExpression), completion: {
-            view?.text = $0
-        })
+        view?.configBinding(for: .single(singleExpression), completion: updateFunction)
+        view?.configBinding(for: .multiple(multipleExpression), completion: updateFunction)
         
         // When
         view = nil
