@@ -31,14 +31,14 @@ extension Text: Widget {
         textView.font = .systemFont(ofSize: 16)
         textView.backgroundColor = .clear
 
+        renderer.observe(textColor, andUpdate: \.textColor, in: textView) {
+            $0.flatMap { UIColor(hex: $0) }
+        }
+        
         renderer.observe(text, andUpdate: \.text, in: textView)
 
         renderer.observe(alignment, andUpdate: \.textAlignment, in: textView) { alignment in
             alignment?.toUIKit() ?? .natural
-        }
-
-        renderer.observe(textColor, andUpdate: \.textColor, in: textView) {
-            $0.flatMap { UIColor(hex: $0) }
         }
 
         if let styleId = styleId {
