@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.android.components.utils
 
-
 import android.app.Activity
-import android.os.IBinder
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -45,7 +43,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
@@ -62,7 +59,7 @@ class ViewExtensionsKtTest : BaseTest() {
     private lateinit var viewGroup: ViewGroup
 
     @MockK(relaxUnitFun = true, relaxed = true)
-    private lateinit var viewModel : ScreenContextViewModel
+    private lateinit var viewModel: ScreenContextViewModel
 
     @RelaxedMockK
     private lateinit var fragment: Fragment
@@ -102,7 +99,7 @@ class ViewExtensionsKtTest : BaseTest() {
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
         every { viewGroup.context } returns activity
-        every { beagleView.loadView(any(), any()) } just Runs
+        every { beagleView.loadView(any()) } just Runs
         every { activity.getSystemService(Activity.INPUT_METHOD_SERVICE) } returns inputMethodManager
         every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
@@ -118,9 +115,9 @@ class ViewExtensionsKtTest : BaseTest() {
         // Then
         verifySequence {
             viewModel.resetIds()
-            viewFactory.makeBeagleView(activity)
+            viewFactory.makeBeagleView(any<FragmentRootView>())
             beagleView.stateChangedListener = any()
-            beagleView.loadView(any<FragmentRootView>(), screenRequest)
+            beagleView.loadView(screenRequest)
             beagleView.loadCompletedListener = any()
         }
     }
@@ -131,8 +128,8 @@ class ViewExtensionsKtTest : BaseTest() {
         viewGroup.loadView(activity, screenRequest)
 
         // Then
-        verify { viewFactory.makeBeagleView(activity) }
-        verify { beagleView.loadView(any<ActivityRootView>(), screenRequest) }
+        verify { viewFactory.makeBeagleView(any<ActivityRootView>()) }
+        verify { beagleView.loadView(screenRequest) }
     }
 
     @Test

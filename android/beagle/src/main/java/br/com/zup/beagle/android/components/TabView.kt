@@ -58,7 +58,7 @@ data class TabView(
     override fun buildView(rootView: RootView): View {
         val containerFlex = Style(flex = Flex(grow = 1.0))
 
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), containerFlex)
+        val container = viewFactory.makeBeagleFlexView(rootView, containerFlex)
 
         val tabLayout = makeTabLayout(rootView)
 
@@ -70,10 +70,9 @@ data class TabView(
             )
         }
 
-        val containerViewPager =
-            viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
-                addView(viewPager)
-            }
+        val containerViewPager = viewFactory.makeBeagleFlexView(rootView).apply {
+            addView(viewPager)
+        }
 
         tabLayout.addOnTabSelectedListener(getTabSelectedListener(viewPager))
         viewPager.addOnPageChangeListener(getViewPagerChangePageListener(tabLayout))
@@ -171,8 +170,8 @@ internal class ContentAdapter(
     override fun getCount(): Int = children.size
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = viewFactory.makeBeagleFlexView(container.context).also {
-            it.addServerDrivenComponent(children[position].child, rootView)
+        val view = viewFactory.makeBeagleFlexView(rootView).also {
+            it.addServerDrivenComponent(children[position].child)
         }
         container.addView(view)
         return view
