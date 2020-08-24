@@ -19,13 +19,13 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 class PositionType < BaseComponent
 
     def initialize
-        enumCases = [
+        enum_cases = [
             EnumCase.new(:name => "relative", :defaultValue => "RELATIVE"),
             EnumCase.new(:name => "absolute", :defaultValue => "ABSOLUTE")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
-            :variables => enumCases,
+            :variables => enum_cases,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [BasicTypeKeys.string]
         )

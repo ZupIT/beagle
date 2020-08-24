@@ -19,14 +19,14 @@ require_relative '../../Synthax/Types/enum_type.rb'
 class UnitType < BaseComponent
 
     def initialize
-        enumCases = [
+        enum_cases = [
             EnumCase.new(:name => "auto", :defaultValue => "AUTO"),
             EnumCase.new(:name => "real", :defaultValue => "REAL"),
             EnumCase.new(:name => "percent", :defaultValue => "PERCENT")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
-            :variables => enumCases,
+            :variables => enum_cases,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [BasicTypeKeys.string]
         )

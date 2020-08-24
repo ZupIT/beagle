@@ -19,13 +19,13 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 class Size < BaseComponent
 
     def initialize
-        unitValue = UnitValue.new.name
+        unit_value = UnitValue.new.name
         variables = [
-            Variable.new(:name => "height", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "maxWidth", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "maxHeight", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "minWidth", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "minHeight", :typeName => unitValue, :isOptional => true),
+            Variable.new(:name => "height", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "maxWidth", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "maxHeight", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "minWidth", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "minHeight", :typeName => unit_value, :isOptional => true),
             Variable.new(:name => "aspectRatio", :typeName => BasicTypeKeys.double, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(

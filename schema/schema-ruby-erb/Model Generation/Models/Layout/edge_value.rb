@@ -20,15 +20,15 @@ require_relative './unit_value.rb'
 class EdgeValue < BaseComponent
 
     def initialize
-        unitValue = UnitValue.new.name
+        unit_value = UnitValue.new.name
         variables = [
-            Variable.new(:name => "left", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "top", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "right", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "bottom", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "horizontal", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "vertical", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "all", :typeName => unitValue, :isOptional => true)
+            Variable.new(:name => "left", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "top", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "right", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "bottom", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "horizontal", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "vertical", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "all", :typeName => unit_value, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

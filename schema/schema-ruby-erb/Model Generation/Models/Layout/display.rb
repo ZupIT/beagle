@@ -19,13 +19,13 @@ require_relative '../../Synthax/Types/enum_type.rb'
 class Display < BaseComponent
 
     def initialize
-        displayCases = [
+        enum_cases = [
             EnumCase.new(:name => "flex", :defaultValue => "FLEX"),
             EnumCase.new(:name => "none", :defaultValue => "NONE")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
-            :variables => displayCases,
+            :variables => enum_cases,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [BasicTypeKeys.string]
         )

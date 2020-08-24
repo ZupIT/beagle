@@ -19,7 +19,7 @@ require_relative '../../../Synthax/Types/enum_type.rb'
 class AlignContent < BaseComponent
 
     def initialize
-        enumCases = [
+        enum_cases = [
             EnumCase.new(:name => "flexStart", :defaultValue => "FLEX_START"),
             EnumCase.new(:name => "center", :defaultValue => "CENTER"),
             EnumCase.new(:name => "flexEnd", :defaultValue => "FLEX_END"),
@@ -29,7 +29,7 @@ class AlignContent < BaseComponent
         ]
         synthax_type = EnumType.new(
             :name => self.name,
-            :variables => enumCases,
+            :variables => enum_cases,
             :inheritFrom => [BasicTypeKeys.string],
             :package => "br.com.zup.beagle.widget.core"
         )

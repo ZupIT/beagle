@@ -19,21 +19,21 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 class Style < BaseComponent
 
     def initialize
-        edgeValue = EdgeValue.new.name
-        textVariables = [
+        edge_value = EdgeValue.new.name
+        variables = [
             Variable.new(:name => "backgroundColor", :typeName => BasicTypeKeys.string, :isOptional => true),
             Variable.new(:name => "cornerRadius", :typeName => BasicTypeKeys.string, :isOptional => true),
             Variable.new(:name => "size", :typeName => Size.new.name, :isOptional => true),
-            Variable.new(:name => "margin", :typeName => edgeValue, :isOptional => true),
-            Variable.new(:name => "padding", :typeName => edgeValue, :isOptional => true),
-            Variable.new(:name => "position", :typeName => edgeValue, :isOptional => true),
+            Variable.new(:name => "margin", :typeName => edge_value, :isOptional => true),
+            Variable.new(:name => "padding", :typeName => edge_value, :isOptional => true),
+            Variable.new(:name => "position", :typeName => edge_value, :isOptional => true),
             Variable.new(:name => "flex", :typeName => Flex.new.name, :isOptional => true),
             Variable.new(:name => "positionType", :typeName => PositionType.new.name, :isOptional => true),
             Variable.new(:name => "display", :typeName => Display.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :sameFileTypes => [PositionType.new, Display.new]
         )

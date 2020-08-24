@@ -23,7 +23,7 @@ require_relative './widget.rb'
 class Button < BaseComponent
 
     def initialize
-        buttonVariables = [
+        variables = [
             Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
             Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true),
             List.new(:name => "onPress", :typeName => "Action", :isOptional => true), #todo create action
@@ -31,7 +31,7 @@ class Button < BaseComponent
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => buttonVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
                Widget.new.name,

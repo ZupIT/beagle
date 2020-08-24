@@ -19,7 +19,7 @@ require_relative '../../../Synthax/Types/enum_type.rb'
 class FlexDirection < BaseComponent
 
     def initialize
-        enumCases = [
+        enum_cases = [
             EnumCase.new(:name => "row", :defaultValue => "ROW"),
             EnumCase.new(:name => "rowReverse", :defaultValue => "ROW_REVERSE"),
             EnumCase.new(:name => "column", :defaultValue => "COLUMN"),
@@ -27,7 +27,7 @@ class FlexDirection < BaseComponent
         ]
         synthax_type = EnumType.new(
             :name => self.name,
-            :variables => enumCases,
+            :variables => enum_cases,
             :inheritFrom => [BasicTypeKeys.string],
             :package => "br.com.zup.beagle.widget.core"
         )

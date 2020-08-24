@@ -19,14 +19,14 @@ require_relative '../../../Synthax/Types/enum_type.rb'
 class FlexWrap < BaseComponent
 
     def initialize
-        enumCases = [
+        enum_cases = [
             EnumCase.new(:name => "noWrap", :defaultValue => "NO_WRAP"),
             EnumCase.new(:name => "wrap", :defaultValue => "WRAP"),
             EnumCase.new(:name => "wrapReverse", :defaultValue => "WRAP_REVERSE")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
-            :variables => enumCases,
+            :variables => enum_cases,
             :inheritFrom => [BasicTypeKeys.string],
             :package => "br.com.zup.beagle.widget.core"
         )

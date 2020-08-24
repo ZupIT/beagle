@@ -26,7 +26,7 @@
   @templateHelper.defaultDeclarationType = "struct"
 
   def handleTypeName(variable)
-      typeName = @templateHelper.fetchType(variable.typeName)
+      typeName = @templateHelper.fetch_type(variable.typeName)
       output = variable.isBindable ? "Expression<#{typeName}>" : typeName
       output = variable.class == List ? "[#{output}]" : output
       output = variable.isOptional ? output + "?" : output
@@ -34,7 +34,7 @@
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-  typeName = @templateHelper.fetchType(variable.typeName)
+  typeName = @templateHelper.fetch_type(variable.typeName)
     output = variable.isBindable ? "Expression<#{typeName}>" : typeName
     output = variable.class == List ? "[#{output}]" : output
     output = variable.isOptional ? output + "?" : output
@@ -104,7 +104,7 @@
 
   def fullDeclaration(objectType)
     #objectType.synthax_type.inheritFrom.append("Decodable")
-    isEnumDeclaration = @templateHelper.isEnum(objectType)
+    isEnumDeclaration = @templateHelper.is_enum(objectType)
     typeKind = @templateHelper.fetch_built_in_type_declaration(objectType.synthax_type.type)
     output = "#{objectType.synthax_type.accessor} #{typeKind} #{objectType.synthax_type.name}#{handleInheritance(objectType.synthax_type)} {\n\n"
     if isEnumDeclaration
@@ -126,7 +126,7 @@
     output = input
     for objectType in objectTypes
       aux = "\n#{fullDeclaration(objectType)}"
-      output += @templateHelper.addPadding(@tab, paddingMultiplier, aux)
+      output += @templateHelper.add_padding(@tab, paddingMultiplier, aux)
 
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0

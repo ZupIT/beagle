@@ -36,7 +36,7 @@
 package <%= objectType.synthax_type.package -%>
 
 
-<% if !@templateHelper.isEnum(objectType) -%>
+<% if !@templateHelper.is_enum(objectType) -%>
 <% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 <% end -%>
@@ -46,7 +46,7 @@ import <%= qualifiedName -%>Schema
 
 <% end -%>
 interface <%= objectType.synthax_type.name -%>Schema {<% -%>
-<% if @templateHelper.isEnum(objectType) %>
+<% if @templateHelper.is_enum(objectType) %>
 enum class <%= objectType.synthax_type.name -%>Schema {
   <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
 }

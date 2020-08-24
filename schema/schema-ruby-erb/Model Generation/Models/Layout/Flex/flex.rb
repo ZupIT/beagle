@@ -25,20 +25,20 @@ require_relative './align_content.rb'
 class Flex < BaseComponent
 
     def initialize
-        flexDirection = FlexDirection.new
-        flexWrap = FlexWrap.new
-        justifyContent = JustifyContent.new
-        alignItems = AlignItems.new
-        alignSelf = AlignSelf.new
-        alignContent = AlignContent.new
+        flex_direction = FlexDirection.new
+        flex_wrap = FlexWrap.new
+        justify_content = JustifyContent.new
+        align_items = AlignItems.new
+        align_self = AlignSelf.new
+        align_content = AlignContent.new
         
         variables = [
-            Variable.new(:name => "flexDirection", :typeName => flexDirection.name, :isOptional => true),
-            Variable.new(:name => "flexWrap", :typeName => flexWrap.name, :isOptional => true),
-            Variable.new(:name => "justifyContent", :typeName => justifyContent.name, :isOptional => true),
-            Variable.new(:name => "alignItems", :typeName => alignItems.name, :isOptional => true),
-            Variable.new(:name => "alignSelf", :typeName => alignSelf.name, :isOptional => true),
-            Variable.new(:name => "alignContent", :typeName => alignContent.name, :isOptional => true),
+            Variable.new(:name => "flexDirection", :typeName => flex_direction.name, :isOptional => true),
+            Variable.new(:name => "flexWrap", :typeName => flex_wrap.name, :isOptional => true),
+            Variable.new(:name => "justifyContent", :typeName => justify_content.name, :isOptional => true),
+            Variable.new(:name => "alignItems", :typeName => align_items.name, :isOptional => true),
+            Variable.new(:name => "alignSelf", :typeName => align_self.name, :isOptional => true),
+            Variable.new(:name => "alignContent", :typeName => align_content.name, :isOptional => true),
             Variable.new(:name => "basis", :typeName => UnitValue.new.name, :isOptional => true),
             Variable.new(:name => "flex", :typeName => BasicTypeKeys.double, :isOptional => true),
             Variable.new(:name => "flexDirection", :typeName => BasicTypeKeys.double, :isOptional => true),
@@ -48,7 +48,7 @@ class Flex < BaseComponent
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
-            :sameFileTypes => [flexDirection, flexWrap, justifyContent, alignItems, alignSelf, alignContent]
+            :sameFileTypes => [flex_direction, flex_wrap, justify_content, align_items, align_self, align_content]
         )
 
         super(synthax_type)

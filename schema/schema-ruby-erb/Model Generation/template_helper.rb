@@ -55,7 +55,7 @@ class TemplateHelper
         @types = BasicType.new
     end
 
-    def fetchType(key)
+    def fetch_type(key)
         if @types.grammar.key?(key) && @types.grammar[key].key?(@languageIdentifier)
             @types.grammar[key][@languageIdentifier]
         else
@@ -64,10 +64,10 @@ class TemplateHelper
     end
 
     def fetch_built_in_type_declaration(key)
-        key == nil ? @defaultDeclarationType : fetchType(key)
+        key == nil ? @defaultDeclarationType : fetch_type(key)
     end
 
-    def addPadding(padding, multiplier, text)
+    def add_padding(padding, multiplier, text)
         output = ""
         text.each_line do |line|
             output += "#{padding * multiplier}#{line}"
@@ -76,7 +76,7 @@ class TemplateHelper
         output
     end
 
-    def isEnum(objectType)
+    def is_enum(objectType)
         objectType.synthax_type.class == EnumType
     end
 
