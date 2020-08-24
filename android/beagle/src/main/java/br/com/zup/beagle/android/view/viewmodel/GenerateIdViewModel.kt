@@ -33,14 +33,12 @@ internal class GenerateIdViewModel : ViewModel() {
 
     fun getViewId(parentId: Int): Int {
         val view = views[parentId]!!
+        return if (!view.created) generateNewViewId(view) else view.temporaryIds.pollFirst()!!
+    }
 
-        if (view.created) {
-            return view.temporaryIds.pollFirst()!!
-        }
-
+    private fun generateNewViewId(view: LocalView): Int {
         val id = View.generateViewId()
         view.ids.add(id)
-
         return id
     }
 
