@@ -58,6 +58,10 @@ extension UIView {
             configBinding(for: expression, completion: completion)
         }
     }
+
+    func evaluate<T: Decodable>(expression: Expression<T>) -> T? {
+        return expression.evaluate(with: self)
+    }
     
     func evaluate<T: Decodable>(for expression: ContextExpression) -> T? {
         switch expression {
