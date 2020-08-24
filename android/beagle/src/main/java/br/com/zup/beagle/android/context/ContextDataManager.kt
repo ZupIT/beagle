@@ -139,7 +139,7 @@ internal class ContextDataManager(
         }
     }
 
-    private fun notifyBindingChanges(contextBinding: ContextBinding) {
+    internal fun notifyBindingChanges(contextBinding: ContextBinding) {
         val contextData = contextBinding.context
         val bindings = contextBinding.bindings
 
