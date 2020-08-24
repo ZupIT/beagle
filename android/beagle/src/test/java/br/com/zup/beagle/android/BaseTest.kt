@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView

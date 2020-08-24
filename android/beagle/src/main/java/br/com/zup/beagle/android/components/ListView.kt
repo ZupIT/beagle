@@ -27,6 +27,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
+
 @RegisterWidget
 data class ListView(
     override val children: List<ServerDrivenComponent>,
@@ -54,7 +55,6 @@ data class ListView(
     }
 }
 
-
 internal class ListViewRecyclerAdapter(
     private val children: List<ServerDrivenComponent>,
     private val viewFactory: ViewFactory,
@@ -65,13 +65,13 @@ internal class ListViewRecyclerAdapter(
     override fun getItemViewType(position: Int): Int = position
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ViewHolder {
-        val view = viewFactory.makeBeagleFlexView(rootView.getContext()).also {
+        val view = viewFactory.makeBeagleFlexView(rootView).also {
             val width = if (orientation == RecyclerView.VERTICAL)
                 ViewGroup.LayoutParams.MATCH_PARENT else
                 ViewGroup.LayoutParams.WRAP_CONTENT
             val layoutParams = ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT)
             it.layoutParams = layoutParams
-            it.addServerDrivenComponent(children[position], rootView)
+            it.addServerDrivenComponent(children[position])
         }
         return ViewHolder(view)
     }
