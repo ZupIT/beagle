@@ -38,6 +38,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
 
@@ -46,10 +47,10 @@ private val TAB_BAR_HEIGHT = 48.dp()
 @RegisterWidget
 @Deprecated(DEPRECATED_TAB_VIEW)
 data class TabView(
-    val children: List<TabItem>,
+    override val children: List<TabItem>,
     val styleId: String? = null,
     override val context: ContextData? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

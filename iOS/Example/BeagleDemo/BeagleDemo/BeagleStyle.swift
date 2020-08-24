@@ -21,19 +21,19 @@ import BeagleSchema
 struct AppTheme {
     
     static let theme = Beagle.AppTheme(styles: [
-        .BUTTON_BLACK_TEXT_STYLE: Self.blackTextNormalStyle,
-        .TEXT_HELLO_WORD_STYLE: Self.designSystemTextHelloWord,
-        .TEXT_IMAGE_STYLE: Self.designSystemTextImage,
-        .TEXT_ACTION_CLICK_STYLE: Self.designSystemTextActionClick,
-        .TEXT_STYLISH_STYLE: Self.designSystemStylishButton,
-        .BUTTON_WITH_APPEARANCE_STYLE: Self.designSystemStylishButtonAndAppearance,
-        .FORM_SUBMIT_STYLE: Self.formButton,
-        .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
-        .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
-        .TAB_VIEW_STYLE: Self.tabView,
-        .TEXT_INPUT_STYLE: Self.designSystemTextInput,
-        .TEXT_INPUT_STYLE_BFF: textInput,
-        .BUTTON_STYLE_CONTEXT_BFF: designSystemButtonScreenContext
+        .blackButtonStyle: Self.blackTextNormalStyle,
+        .textHelloWorldStyle: Self.designSystemTextHelloWord,
+        .textImageSyle: Self.designSystemTextImage,
+        .textActionClickStyle: Self.designSystemTextActionClick,
+        .buttonStyle: Self.designSystemStylishButton,
+        .buttonWithAppearanceStyle: Self.designSystemStylishButtonAndAppearance,
+        .formSubmitStyle: Self.formButton,
+        .navigationBarGreenStyle: Self.designSystemStyleNavigationBar,
+        .navigationBarDefaultStyle: Self.designSystemStyleNavigationBarDefault,
+        .tabViewStyle: Self.tabView,
+        .textInputStyle: Self.designSystemTextInput,
+        .textInputBFFStyle: textInput,
+        .buttonContextStyle: designSystemButtonScreenContext
     ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {

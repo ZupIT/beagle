@@ -28,6 +28,7 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 
@@ -45,8 +46,8 @@ import br.com.zup.beagle.core.Style
 data class SimpleForm(
     override val context: ContextData? = null,
     val onSubmit: List<Action>,
-    val children: List<ServerDrivenComponent>
-) : WidgetView(), ContextComponent {
+    override val children: List<ServerDrivenComponent>
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

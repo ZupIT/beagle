@@ -31,19 +31,20 @@ import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
 @RegisterWidget
 data class PageView(
-    val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>,
     @Deprecated(message = DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
     val currentPage: Bind<Int>? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Deprecated(message = DEPRECATED_PAGE_VIEW)
     constructor(

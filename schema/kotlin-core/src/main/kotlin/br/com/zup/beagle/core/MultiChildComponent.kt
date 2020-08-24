@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
-
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
+package br.com.zup.beagle.core
 
 /**
- * Interface that represents actions in Beagle
+ * Component that has children
+ * @property children list of views that the component has in its hierarchy
  */
-interface Action {
-
-    /**
-     * Method executed when the function is triggered
-     * @property rootView component that holds context, lifeCycleOwner and ViewModelStoreOwner
-     * @property origin view that triggered the action
-     */
-    fun execute(rootView: RootView, origin: View)
+interface MultiChildComponent {
+    val children: List<ServerDrivenComponent>
 }

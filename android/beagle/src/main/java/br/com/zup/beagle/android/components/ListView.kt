@@ -24,13 +24,14 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 @RegisterWidget
 data class ListView(
-    val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL
-) : WidgetView() {
+) : WidgetView(), MultiChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
