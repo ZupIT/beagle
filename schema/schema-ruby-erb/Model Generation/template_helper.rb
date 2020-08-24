@@ -76,8 +76,8 @@ class TemplateHelper
         output
     end
 
-    def is_enum(objectType)
-        objectType.synthax_type.class == EnumType
+    def is_enum(object_type)
+        object_type.synthax_type.class == EnumType
     end
 
 end
