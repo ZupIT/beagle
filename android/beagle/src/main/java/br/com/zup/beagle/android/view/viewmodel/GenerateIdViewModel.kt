@@ -18,7 +18,10 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import java.lang.Exception
 import java.util.LinkedList
+
+internal const val PARENT_ID_NOT_FOUND = "The parent id not found, check if you call function createIfNotExisting"
 
 internal class GenerateIdViewModel : ViewModel() {
 
@@ -32,8 +35,9 @@ internal class GenerateIdViewModel : ViewModel() {
     }
 
     fun getViewId(parentId: Int): Int {
-        val view = views[parentId]!!
-        return if (!view.created) generateNewViewId(view) else view.temporaryIds.pollFirst()!!
+        val view = views[parentId] ?: throw Exception(PARENT_ID_NOT_FOUND)
+        return if (!view.created) generateNewViewId(view) else view.temporaryIds.pollFirst()
+            ?: throw Exception("temporary ids can't be empty")
     }
 
     private fun generateNewViewId(view: LocalView): Int {
@@ -43,6 +47,8 @@ internal class GenerateIdViewModel : ViewModel() {
     }
 
     fun setViewCreated(parentId: Int) {
+        if (views[parentId] == null) throw Exception(PARENT_ID_NOT_FOUND)
+
         views[parentId] = views[parentId]!!.apply {
             created = true
             temporaryIds = LinkedList(ids)

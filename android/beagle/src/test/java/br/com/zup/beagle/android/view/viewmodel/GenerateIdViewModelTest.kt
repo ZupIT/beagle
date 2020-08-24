@@ -24,6 +24,7 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
+import java.lang.Exception
 import java.util.LinkedList
 import kotlin.test.assertEquals
 
@@ -100,5 +101,46 @@ class GenerateIdViewModelTest {
         // Then
         assertEquals(10, result)
         verify(exactly = 1) { View.generateViewId() }
+    }
+
+    @Test
+    fun `should throw exception when call get id without parent id existing`() {
+        // When
+        var actual: Exception? = null
+        try {
+            viewModel.getViewId(1)
+        } catch (exception: Exception) {
+            actual = exception
+        }
+
+        assertEquals(PARENT_ID_NOT_FOUND, actual!!.message)
+    }
+
+    @Test
+    fun `should throw exception when set view created without parent id`() {
+        // When
+        var actual: Exception? = null
+        try {
+            viewModel.setViewCreated(1)
+        } catch (exception: Exception) {
+            actual = exception
+        }
+
+        assertEquals(PARENT_ID_NOT_FOUND, actual!!.message)
+    }
+
+    @Test
+    fun `should throw exception when get id with list empty`() {
+        // When
+        var actual: Exception? = null
+        try {
+            viewModel.createIfNotExisting(1)
+            viewModel.setViewCreated(1)
+            viewModel.getViewId(1)
+        } catch (exception: Exception) {
+            actual = exception
+        }
+
+        assertEquals("temporary ids can't be empty", actual!!.message)
     }
 }
