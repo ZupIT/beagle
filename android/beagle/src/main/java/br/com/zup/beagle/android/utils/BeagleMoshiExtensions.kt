@@ -17,14 +17,23 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Types
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.NumberFormatException
 
 internal fun String.tryToDeserialize(): Any? =
     try {
         when (val value = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(this)) {
-            is Collection<*> -> JSONArray(value)
+            is Collection<*> -> {
+                try {
+                    val type = Types.newParameterizedType(List::class.java, JSONObject::class.java)
+                    val adapter: JsonAdapter<MutableList<JSONObject>> = BeagleMoshi.moshi.adapter(type)
+                    JSONArray(adapter.fromJson(this))
+                } catch (ex: Exception) {
+                    JSONArray(value)
+                }
+            }
             is Map<*, *> -> BeagleMoshi.moshi.adapter(JSONObject::class.java).fromJson(this)
             is Number -> {
                 try {
