@@ -17,9 +17,7 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -28,7 +26,6 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
@@ -51,7 +48,6 @@ class ContextComponentHandlerTest {
         every { rootView.getViewModelStoreOwner() } returns rootView.activity
         mockkConstructor(ViewModelProvider::class)
         every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
-
     }
 
     @After
@@ -68,7 +64,7 @@ class ContextComponentHandlerTest {
         every { viewModel.addContext(any(), any()) } just Runs
 
         // When
-        contextComponentHandler.handleContext(rootView, view, component)
+        contextComponentHandler.handleContext(viewModel, view, component)
 
         // Then
         verify(exactly = 1) { viewModel.addContext(view, context) }

@@ -55,7 +55,7 @@ data class ScrollView(
         val styleParent = Style(flex = Flex(grow = 1.0))
         val styleChild = Style(flex = Flex(flexDirection = flexDirection))
 
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), styleParent).apply {
+        return viewFactory.makeBeagleFlexView(rootView, styleParent).apply {
 
             addView(if (scrollDirection == ScrollAxis.HORIZONTAL) {
                 viewFactory.makeHorizontalScrollView(context).apply {
@@ -77,9 +77,9 @@ data class ScrollView(
         rootView: RootView,
         styleChild: Style
     ) {
-        val viewGroup = viewFactory.makeBeagleFlexView(rootView.getContext(), styleChild)
+        val viewGroup = viewFactory.makeBeagleFlexView(rootView, styleChild)
         children.forEach { component ->
-            viewGroup.addServerDrivenComponent(component, rootView)
+            viewGroup.addServerDrivenComponent(component)
         }
         scrollView.addView(viewGroup)
     }
