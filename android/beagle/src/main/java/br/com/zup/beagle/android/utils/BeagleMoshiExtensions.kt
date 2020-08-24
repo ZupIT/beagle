@@ -27,7 +27,7 @@ internal fun String.tryToDeserialize(): Any? =
         when (val value = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(this)) {
             is Collection<*> -> {
                 try {
-                    val type = Types.newParameterizedType(List::class.java, JSONObject::class.java)
+                    val type = Types.newParameterizedType(MutableList::class.java, JSONObject::class.java)
                     val adapter: JsonAdapter<MutableList<JSONObject>> = BeagleMoshi.moshi.adapter(type)
                     JSONArray(adapter.fromJson(this))
                 } catch (ex: Exception) {
