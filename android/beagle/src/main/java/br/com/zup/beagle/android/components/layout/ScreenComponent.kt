@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components.layout
 
 import android.view.View
+import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
@@ -28,6 +29,7 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
@@ -36,11 +38,11 @@ internal data class ScreenComponent(
     val identifier: String? = null,
     val safeArea: SafeArea? = null,
     val navigationBar: NavigationBar? = null,
-    val child: ServerDrivenComponent,
-    val screenAnalyticsEvent: ScreenEvent? = null,
+    override val child: ServerDrivenComponent,
+    override val screenAnalyticsEvent: ScreenEvent? = null,
     override var style: Style? = null,
     override val context: ContextData? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView(), ScreenAnalytics, ContextComponent, SingleChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
