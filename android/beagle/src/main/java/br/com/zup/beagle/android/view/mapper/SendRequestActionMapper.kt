@@ -24,7 +24,6 @@ import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.viewmodel.Response
-import java.lang.Exception
 import java.net.URI
 
 internal fun SendRequestInternal.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
@@ -62,10 +61,6 @@ internal object SendRequestActionMapper {
     }
 
     private fun getDataFormatted(data: ByteArray): Any? {
-        return try {
-            String(data).tryToDeserialize()
-        } catch (e: Exception) {
-            String(data)
-        }
+        return String(data).tryToDeserialize()
     }
 }
