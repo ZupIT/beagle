@@ -48,6 +48,7 @@ data class Container(
         }
 
         return view.apply {
+
             addChildren(this, rootView)
         }
     }
