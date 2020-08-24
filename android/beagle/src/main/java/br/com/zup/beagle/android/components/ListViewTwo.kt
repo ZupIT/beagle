@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
@@ -27,6 +28,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.utils.setContextData
 import br.com.zup.beagle.android.utils.toView
@@ -62,11 +64,12 @@ internal data class ListViewTwo(
 
     override fun buildView(rootView: RootView): View {
         val recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
-        onInit?.forEach { action ->
-            action.execute(rootView, recyclerView)
-        }
+        Log.wtf("context", "buildRecycler - $recyclerView")
+        //onInit?.forEach { action ->
+         //   action.execute(rootView, recyclerView)
+        //}
         val orientation = toRecyclerViewOrientation()
-        contextAdapter = ListViewContextAdapter2(template, viewFactory, orientation, rootView)
+        contextAdapter = ListViewContextAdapter2(template, viewFactory, orientation, rootView, onInit)
         recyclerView.apply {
             adapter = contextAdapter
             layoutManager = LinearLayoutManager(context, orientation, false)
@@ -74,6 +77,22 @@ internal data class ListViewTwo(
         }
         configDataSourceObserver(rootView, recyclerView)
         configRecyclerViewScrollListener(recyclerView, rootView)
+
+        var onInitCalled = false
+        recyclerView.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener{
+            override fun onViewDetachedFromWindow(v: View?) {
+            }
+
+            override fun onViewAttachedToWindow(v: View?) {
+                if(!onInitCalled){
+                    onInit?.forEach { action ->
+                        action.execute(rootView, recyclerView)
+                    }
+                    onInitCalled = true
+                }
+            }
+
+        })
 
         return recyclerView
     }
@@ -88,9 +107,9 @@ internal data class ListViewTwo(
         observeBindChanges(rootView, recyclerView, dataSource) { value ->
             if (value != list) {
                 if (value.isNullOrEmpty()) {
-                    contextAdapter.clearList()
+                    (recyclerView.adapter as ListViewContextAdapter2).clearList()
                 } else {
-                    contextAdapter.setList(value)
+                    (recyclerView.adapter as ListViewContextAdapter2).setList(value)
                 }
                 list = value
             }
@@ -135,26 +154,38 @@ internal data class ListViewTwo(
     }
 }
 
-
 internal class ListViewContextAdapter2(
     private val template: ServerDrivenComponent,
     private val viewFactory: ViewFactory,
     private val orientation: Int,
     private val rootView: RootView,
+    val onInit: List<Action>?,
     private var listItems: ArrayList<Any> = ArrayList()
 ) : RecyclerView.Adapter<ContextViewHolderTwo>() {
 
-    override fun getItemViewType(position: Int): Int = position
+    class BeagleAdapterItem(val data: Any, var childAdapter: ListViewContextAdapter2? = null, var initialized: Boolean = false)
 
-    override fun onCreateViewHolder(parent: ViewGroup, position: Int): ContextViewHolderTwo {
-        /**
-         * TODO: verificar se vai ser mantida essa chamada para toView() em função do problema de viewID
-         */
-        val view = template
+    var adapterItens = listOf<BeagleAdapterItem>()
+
+    var viewHolder = 0
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContextViewHolderTwo {
+
+        val oldTemplate = BeagleSerializer().serializeComponent(template)
+        val newTemplate = BeagleSerializer().deserializeComponent(oldTemplate)
+
+        val view = newTemplate
             .toView(rootView)
             .also {
                 it.layoutParams = LayoutParams(layoutParamWidth(), layoutParamHeight())
             }
+
+        val recycler = findNestedRecyclerView(view)
+        recycler?.let {
+            adapterItens[viewHolder].childAdapter = it.adapter as ListViewContextAdapter2
+        }
+        adapterItens[viewHolder].initialized = true
+        viewHolder++
         return ContextViewHolderTwo(view, rootView)
     }
 
@@ -167,13 +198,38 @@ internal class ListViewContextAdapter2(
     private fun isOrientationVertical() = (orientation == RecyclerView.VERTICAL)
 
     override fun onBindViewHolder(holder: ContextViewHolderTwo, position: Int) {
-        holder.itemView.setContextData(ContextData(id = "item", value = listItems[position]))
+        holder.itemView.setContextData(ContextData(id = "item", value = adapterItens[position].data))
+
+        val innerRecycler = findNestedRecyclerView(holder.itemView)
+        innerRecycler?.let{
+            if(!adapterItens[position].initialized) {
+                val recyclerAdapter = it.adapter as ListViewContextAdapter2
+                adapterItens[position].childAdapter =
+                    ListViewContextAdapter2(
+                        recyclerAdapter.template,
+                        recyclerAdapter.viewFactory,
+                        recyclerAdapter.orientation,
+                        recyclerAdapter.rootView,
+                        recyclerAdapter.onInit
+                    )
+                adapterItens[position].initialized = true
+                adapterItens[position].childAdapter?.executeInit(it)
+            }
+
+            it.adapter = adapterItens[position].childAdapter
+            it.adapter?.notifyDataSetChanged()
+        }
+    }
+
+    fun executeInit(recyclerView: RecyclerView){
+        onInit?.forEach { action ->
+            action.execute(rootView, recyclerView)
+        }
     }
 
     fun setList(list: List<Any>) {
         try {
-            clearList()
-            listItems = ArrayList(list)
+            adapterItens = list.map { BeagleAdapterItem(it) }
             notifyDataSetChanged()
         } catch (e: Exception) {
 
@@ -186,7 +242,26 @@ internal class ListViewContextAdapter2(
         notifyItemRangeRemoved(0, initialSize)
     }
 
-    override fun getItemCount(): Int = listItems.size
+    override fun getItemCount(): Int = adapterItens.size
+
+    fun findNestedRecyclerView(view: View): RecyclerView? {
+        if (view !is ViewGroup) {
+            return null
+        }
+        if (view is RecyclerView) {
+            return view
+        }
+        val parent = view
+        val count = parent.childCount
+        for (i in 0 until count) {
+            val child = parent.getChildAt(i)
+            val descendant = findNestedRecyclerView(child)
+            if (descendant != null) {
+                return descendant
+            }
+        }
+        return null
+    }
 }
 
 internal class ContextViewHolderTwo(itemView: View, val rootView: RootView) : RecyclerView.ViewHolder(itemView) {

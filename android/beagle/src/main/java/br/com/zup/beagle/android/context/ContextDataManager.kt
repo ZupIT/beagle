@@ -16,11 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import androidx.collection.LruCache
-import androidx.core.view.children
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.Observer
@@ -29,7 +25,6 @@ import br.com.zup.beagle.android.utils.getAllParentContexts
 import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
-import br.com.zup.beagle.android.utils.getParentContextBinding
 import br.com.zup.beagle.android.utils.setContextBinding
 import br.com.zup.beagle.android.utils.setContextData
 
@@ -100,7 +95,6 @@ internal class ContextDataManager(
                 binding.bind.value.getExpressions().forEach bindingIteration@{ expression ->
                     val contextId = expression.getContextId()
                     // TODO: arrumar
-                    //parentContexts[contextId]?.bindings?.add(binding)
                     parentContexts.forEach { contextBinding ->
                         if (contextBinding.context.id == contextId) {
                             contextBinding.bindings?.add(binding)
@@ -120,7 +114,7 @@ internal class ContextDataManager(
      */
     fun resolveBindings(view: View) {
 
-        if(bindingQueue.contains(view)) {
+        if (bindingQueue.contains(view)) {
             val contextStack = view.getAllParentContextWithGlobal()
 
             bindingQueue[view]?.forEach { binding ->
@@ -128,6 +122,9 @@ internal class ContextDataManager(
                 binding.bind.value.getExpressions().forEach { expression ->
                     val contextId = expression.getContextId()
 
+                    //TODO:
+                    //"text": "@{item.name} [@{item.id}]"
+                    //notifica bindings duas vezes
                     for (contextBinding in contextStack) {
                         if (contextBinding.context.id == contextId) {
                             contextBinding.bindings.add(binding)
@@ -159,16 +156,12 @@ internal class ContextDataManager(
         val contextIds = binding.value.getExpressions().map { it.getContextId() }
         //return parentContexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
         return parentContexts
-            .filter { contextBinding -> contextIds.contains(contextBinding.context.id)}
+            .filter { contextBinding -> contextIds.contains(contextBinding.context.id) }
             .map { it.context }
     }
 
     fun updateContext(view: View, setContextInternal: SetContextInternal) {
-        var contextStack = ""
-        view.getAllParentContexts().forEach { contextBinding ->
-            contextStack += " - ${contextBinding.context.id}"
-        }
-        Log.wtf("context", "$contextStack")
+
         if (setContextInternal.contextId == globalContext.context.id) {
             GlobalContext.set(setContextInternal.value, setContextInternal.path)
         } else {
@@ -217,11 +210,9 @@ internal class ContextDataManager(
         bindings.forEach { binding ->
             val value = contextDataEvaluation.evaluateBindExpression(
                 contextData,
-                //contextBinding.cache,
-                LruCache(10),
+                contextBinding.cache,
                 binding.bind,
-                //binding.evaluatedExpressions, //TODO: ver problema no cache
-                mutableMapOf()
+                binding.evaluatedExpressions
             )
             binding.notifyChanges(value)
         }

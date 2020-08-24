@@ -16,15 +16,14 @@
 
 package br.com.zup.beagle.android.engine.renderer
 
-import android.util.Log
 import android.view.View
 import br.com.zup.beagle.android.components.utils.ComponentStylization
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.context.ContextComponentHandler
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     private val componentStylization: ComponentStylization<T> = ComponentStylization(),
@@ -40,6 +39,7 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
      * viewFactory.makeBeagleFlexView(rootView.getContext())
      */
     fun build(rootView: RootView): View {
+
         val builtView = buildView(rootView)
         componentStylization.apply(builtView, component)
         if (builtView.id == View.NO_ID) {
@@ -48,7 +48,8 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
 
         contextComponentHandler.handleContext(rootView, builtView, component)
 
-        builtView.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener{
+
+        builtView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewDetachedFromWindow(v: View?) {
             }
 

@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import br.com.zup.beagle.R
@@ -37,33 +36,17 @@ internal fun View.findParentContextWithId(contextId: String): View? {
     return null
 }
 
-/**
- * No caso de lista dentro de lista, é possível que um contexto com o mesmo nome esteja na stack de contextos da view,
- * por isso foi alterado de Set para List.
- *
- * Ainda nesse método, foi criado um esquema de cache de parent contexts, pois é muito custoso ficar evaluando os
- * parent contexts da view a todo instante
- */
 internal fun View.getAllParentContexts(): MutableList<ContextBinding> {
     val contexts = mutableListOf<ContextBinding>()
 
-    this.getParentContextBinding()?.let {
-        contexts.addAll(it)
-    }
-
-    if(contexts.isEmpty()) {
-
-        var parentView: View? = this.getParentContextData()
-        do {
-            val contextBinding = parentView?.getContextBinding()
-            if (contextBinding != null) {
-                contexts.add(contextBinding)
-            }
-            parentView = (parentView?.parent as? ViewGroup)?.getParentContextData()
-        } while (parentView != null)
-
-        this.setParentContextBinding(contexts)
-    }
+    var parentView: View? = this.getParentContextData()
+    do {
+        val contextBinding = parentView?.getContextBinding()
+        if (contextBinding != null) {
+            contexts.add(contextBinding)
+        }
+        parentView = (parentView?.parent as? ViewGroup)?.getParentContextData()
+    } while (parentView != null)
 
     return contexts
 }
