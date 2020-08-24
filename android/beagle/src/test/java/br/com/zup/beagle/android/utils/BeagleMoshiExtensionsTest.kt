@@ -64,65 +64,65 @@ class BeagleMoshiExtensionsTest : BaseTest() {
     @Test
     fun getMoshiDataFormatted_evaluate_JSONObject_with_string() {
         // Given
-        val value = """{"value":"hello"}"""
+        val value = "{\"value\":\"hello\"}"
 
         // When
         val result = value.tryToDeserialize()
 
         // Then
         assertTrue(result is JSONObject)
-        assertEquals("""{"value":"hello"}""", result.toString())
+        assertEquals(value, result.toString())
     }
 
     @Test
     fun getMoshiDataFormatted_evaluate_JSONArray_with_int() {
         // Given
-        val value = """[{"value":2}]"""
+        val value = "[{\"value\":2}]"
 
         // When
         val result = value.tryToDeserialize()
 
         // Then
         assertTrue(result is JSONArray)
-        assertEquals("""[{"value":2}]""", result.toString())
+        assertEquals(value, result.toString())
     }
 
     @Test
     fun getMoshiDataFormatted_evaluate_JSONArray_with_double() {
         // Given
-        val value = """[{"value":2.5}]"""
+        val value = "[{\"value\":2.5}]"
 
         // When
         val result = value.tryToDeserialize()
 
         // Then
         assertTrue(result is JSONArray)
-        assertEquals("""[{"value":2.5}]""", result.toString())
+        assertEquals(value, result.toString())
     }
 
     @Test
     fun getMoshiDataFormatted_evaluate_JSONObject_with_int() {
         // Given
-        val value = """{"value":2}"""
+        val value = "{\"value\":2}"
 
         // When
         val result = value.tryToDeserialize()
 
         // Then
         assertTrue(result is JSONObject)
-        assertEquals("""{"value":2}""", result.toString())
+        assertEquals(value, result.toString())
     }
 
     @Test
     fun getMoshiDataFormatted_evaluate_json_with_double() {
         // Given
-        val value = """{"value":2.5}"""
+        val value = "{\"value\":2.5}"
 
         // When
         val result = value.tryToDeserialize()
 
         // Then
         assertTrue(result is JSONObject)
-        assertEquals("""{"value":2.5}""", result.toString())
+        assertEquals(value, result.toString())
     }
 }
