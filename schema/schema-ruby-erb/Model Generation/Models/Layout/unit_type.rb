@@ -24,14 +24,14 @@ class UnitType < BaseComponent
             EnumCase.new(:name => "real", :defaultValue => "REAL"),
             EnumCase.new(:name => "percent", :defaultValue => "PERCENT")
         ]
-        synthaxType = EnumType.new(
+        synthax_type = EnumType.new(
             :name => self.name,
             :variables => enumCases,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [BasicTypeKeys.string]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

@@ -24,13 +24,13 @@ class Widget < BaseComponent
             Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
             Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.ui"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

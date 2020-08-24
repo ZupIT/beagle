@@ -27,14 +27,14 @@ class JustifyContent < BaseComponent
             EnumCase.new(:name => "spaceAround", :defaultValue => "SPACE_AROUND"),
             EnumCase.new(:name => "spaceEvenly", :defaultValue => "SPACE_EVENLY")
         ]
-        synthaxType = EnumType.new(
+        synthax_type = EnumType.new(
             :name => self.name,
             :variables => enumCases,
             :inheritFrom => [BasicTypeKeys.string],
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

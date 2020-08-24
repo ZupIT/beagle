@@ -29,7 +29,7 @@ class Button < BaseComponent
             List.new(:name => "onPress", :typeName => "Action", :isOptional => true), #todo create action
             Variable.new(:name => "clickAnalyticsEvent", :typeName => AnalyticsClick.new.name, :isOptional => true)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => buttonVariables,
             :package => "br.com.zup.beagle.widget.ui",
@@ -39,7 +39,7 @@ class Button < BaseComponent
             ]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
     

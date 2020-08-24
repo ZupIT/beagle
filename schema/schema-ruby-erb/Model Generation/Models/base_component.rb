@@ -15,11 +15,11 @@
 require_relative '../Synthax/Types/basic_type.rb'
 
 class BaseComponent  
-    attr_accessor :synthaxType
+    attr_accessor :synthax_type
     include BasicTypeKeys
 
     def initialize(type)
-        @synthaxType = type
+        @synthax_type = type
     end
 
     def name

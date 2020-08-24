@@ -29,7 +29,7 @@ class Container < BaseComponent
             List.new(:name => "onInit", :typeName => "Action", :isOptional => true),
             Variable.new(:name => "context", :typeName => "Context", :isOptional => true)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.ui",
@@ -38,7 +38,7 @@ class Container < BaseComponent
             ]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
     

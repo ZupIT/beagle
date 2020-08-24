@@ -24,14 +24,14 @@ class AnalyticsClick < BaseComponent
             Variable.new(:name => "accessible", :typeName => BasicTypeKeys.bool, :defaultValue => "true")
 
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [AnalyticsEvent.new.name]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 
@@ -43,14 +43,14 @@ class AnalyticsScreen < BaseComponent
         variables = [
             Variable.new(:name => "screenName", :typeName => BasicTypeKeys.string)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [AnalyticsEvent.new.name]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

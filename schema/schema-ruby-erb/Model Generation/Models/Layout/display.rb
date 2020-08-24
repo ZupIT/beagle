@@ -23,14 +23,14 @@ class Display < BaseComponent
             EnumCase.new(:name => "flex", :defaultValue => "FLEX"),
             EnumCase.new(:name => "none", :defaultValue => "NONE")
         ]
-        synthaxType = EnumType.new(
+        synthax_type = EnumType.new(
             :name => self.name,
             :variables => displayCases,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [BasicTypeKeys.string]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

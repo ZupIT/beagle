@@ -26,7 +26,7 @@ class Image < BaseComponent
             Variable.new(:name => "path", :typeName => "ImagePath", :isBindable => true),
             Variable.new(:name => "mode", :typeName => ImageContentMode.new.name, :isOptional => true)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.ui",
@@ -35,7 +35,7 @@ class Image < BaseComponent
             ]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
     

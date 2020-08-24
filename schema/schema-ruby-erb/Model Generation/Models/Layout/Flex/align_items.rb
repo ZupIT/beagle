@@ -26,14 +26,14 @@ class AlignItems < BaseComponent
             EnumCase.new(:name => "baseline", :defaultValue => "BASELINE"),
             EnumCase.new(:name => "stretch", :defaultValue => "STRETCH")
         ]
-        synthaxType = EnumType.new(
+        synthax_type = EnumType.new(
             :name => self.name,
             :variables => enumCases,
             :inheritFrom => [BasicTypeKeys.string],
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

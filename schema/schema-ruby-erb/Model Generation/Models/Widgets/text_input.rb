@@ -34,7 +34,7 @@ class TextInput < BaseComponent
             List.new(:name => "onBlur", :typeName => "Action", :isOptional => true),
             List.new(:name => "onFocus", :typeName => "Action", :isOptional => true)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.ui",
@@ -43,7 +43,7 @@ class TextInput < BaseComponent
             ]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

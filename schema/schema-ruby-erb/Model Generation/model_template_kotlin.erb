@@ -33,25 +33,25 @@
   end
 -%>
 
-package <%= objectType.synthaxType.package -%>
+package <%= objectType.synthax_type.package -%>
 
 
 <% if !@templateHelper.isEnum(objectType) -%>
-<% if objectType.synthaxType.variables.any? { |variable| variable.isBindable }-%>
+<% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 <% end -%>
-<% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
+<% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
 import <%= qualifiedName -%>Schema
 <% end -%>
 
 <% end -%>
-interface <%= objectType.synthaxType.name -%>Schema {<% -%>
+interface <%= objectType.synthax_type.name -%>Schema {<% -%>
 <% if @templateHelper.isEnum(objectType) %>
-enum class <%= objectType.synthaxType.name -%>Schema {
-  <%= objectType.synthaxType.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
+enum class <%= objectType.synthax_type.name -%>Schema {
+  <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
 }
 <% else %><% -%>
-<% for variable in objectType.synthaxType.variables %>
+<% for variable in objectType.synthax_type.variables %>
   <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>
 <% end -%> 
 <% end %><% -%>

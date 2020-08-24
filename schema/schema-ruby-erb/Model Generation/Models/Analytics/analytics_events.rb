@@ -19,13 +19,13 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 class AnalyticsEvent < BaseComponent
 
     def initialize
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :type => BasicTypeKeys.interface,
             :name => self.name,
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

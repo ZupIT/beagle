@@ -28,13 +28,13 @@ class Size < BaseComponent
             Variable.new(:name => "minHeight", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "aspectRatio", :typeName => BasicTypeKeys.double, :isOptional => true)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

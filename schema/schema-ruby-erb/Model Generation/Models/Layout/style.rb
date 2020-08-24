@@ -31,14 +31,14 @@ class Style < BaseComponent
             Variable.new(:name => "positionType", :typeName => PositionType.new.name, :isOptional => true),
             Variable.new(:name => "display", :typeName => Display.new.name, :isOptional => true)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => textVariables,
             :package => "br.com.zup.beagle.widget.core",
             :sameFileTypes => [PositionType.new, Display.new]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

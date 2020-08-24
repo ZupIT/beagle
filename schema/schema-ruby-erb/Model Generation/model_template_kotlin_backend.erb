@@ -48,36 +48,36 @@
   end
 -%>
 
-package <%= objectType.synthaxType.package -%>
-<% if objectType.synthaxType.variables.any? { |variable| variable.isBindable }-%>
+package <%= objectType.synthax_type.package -%>
+<% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 <% end -%>
 <% end %><% -%>
 
-<% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
+<% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
 import <%= qualifiedName -%>
 
 <% end -%>
 
-data class <%= objectType.synthaxType.name -%> (<% -%>
+data class <%= objectType.synthax_type.name -%> (<% -%>
 <% counter = 0 -%>
-<% for variable in objectType.synthaxType.variables %>
-  <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeNameAndDefault(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
+<% for variable in objectType.synthax_type.variables %>
+  <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeNameAndDefault(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
   <% counter += 1 -%>
 <% end -%> 
-) : <%= objectType.synthaxType.name -%>Schema {
+) : <%= objectType.synthax_type.name -%>Schema {
   constructor (<% -%>
   <% counter = 0 -%>
-  <% for variable in objectType.synthaxType.variables %>
-    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
+  <% for variable in objectType.synthax_type.variables %>
+    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
     <% counter += 1 -%>
   <% end %>
   ) : this (<% -%>
   <% counter = 0 -%>
-  <% for variable in objectType.synthaxType.variables %>
-      <%= handleVariableAssignementInsideConstructor(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
+  <% for variable in objectType.synthax_type.variables %>
+      <%= handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
     <% counter += 1 -%>
   <% end %>
   )

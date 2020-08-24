@@ -24,13 +24,13 @@ class UnitValue < BaseComponent
             Variable.new(:name => "value", :typeName => BasicTypeKeys.double),
             Variable.new(:name => "type", :typeName => UnitType.new.name)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

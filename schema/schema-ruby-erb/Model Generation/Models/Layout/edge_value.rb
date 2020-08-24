@@ -30,13 +30,13 @@ class EdgeValue < BaseComponent
             Variable.new(:name => "vertical", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "all", :typeName => unitValue, :isOptional => true)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

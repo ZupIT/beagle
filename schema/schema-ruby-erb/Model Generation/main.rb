@@ -54,7 +54,7 @@ class ModelGenerator
     @importManager = Hash.new("")
     
     components.each do |component|
-      type = component.new.synthaxType
+      type = component.new.synthax_type
       @importManager[type.name] = "#{type.package}.#{type.name}"
     end
   end
@@ -86,7 +86,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      if @objectType.synthaxType.class == BaseType
+      if @objectType.synthax_type.class == BaseType
         @writer.write(Constants.new.kotlin_backend_path, @objectType.name + ".kt", to_s)
       end
     end

@@ -44,14 +44,14 @@ class Flex < BaseComponent
             Variable.new(:name => "flexDirection", :typeName => BasicTypeKeys.double, :isOptional => true),
             Variable.new(:name => "shrink", :typeName => BasicTypeKeys.double, :isOptional => true),
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :sameFileTypes => [flexDirection, flexWrap, justifyContent, alignItems, alignSelf, alignContent]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

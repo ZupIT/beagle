@@ -22,13 +22,13 @@ class CornerRadius < BaseComponent
         variables = [
             Variable.new(:name => "radius", :typeName => BasicTypeKeys.double)
         ]
-        synthaxType = BuiltInType.new(
+        synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

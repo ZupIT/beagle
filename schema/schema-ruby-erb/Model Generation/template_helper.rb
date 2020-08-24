@@ -63,7 +63,7 @@ class TemplateHelper
         end
     end
 
-    def fetchBuiltInTypeDeclaration(key)
+    def fetch_built_in_type_declaration(key)
         key == nil ? @defaultDeclarationType : fetchType(key)
     end
 
@@ -77,7 +77,7 @@ class TemplateHelper
     end
 
     def isEnum(objectType)
-        objectType.synthaxType.class == EnumType
+        objectType.synthax_type.class == EnumType
     end
 
 end

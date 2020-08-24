@@ -26,14 +26,14 @@ class TextInputType < BaseComponent
             EnumCase.new(:name => "number", :defaultValue => "NUMBER"),
             EnumCase.new(:name => "text", :defaultValue => "TEXT")
         ]
-        synthaxType = EnumType.new(
+        synthax_type = EnumType.new(
             :name => self.name,
             :variables => cases,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [BasicTypeKeys.string]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

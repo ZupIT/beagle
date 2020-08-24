@@ -25,14 +25,14 @@ class ImageContentMode < BaseComponent
             EnumCase.new(:name => "centerCrop", :defaultValue => "CENTER_CROP"),
             EnumCase.new(:name => "center", :defaultValue => "CENTER")
         ]
-        synthaxType = EnumType.new(
+        synthax_type = EnumType.new(
             :name => self.name,
             :variables => cases,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [BasicTypeKeys.string]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

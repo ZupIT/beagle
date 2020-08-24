@@ -24,14 +24,14 @@ class FlexWrap < BaseComponent
             EnumCase.new(:name => "wrap", :defaultValue => "WRAP"),
             EnumCase.new(:name => "wrapReverse", :defaultValue => "WRAP_REVERSE")
         ]
-        synthaxType = EnumType.new(
+        synthax_type = EnumType.new(
             :name => self.name,
             :variables => enumCases,
             :inheritFrom => [BasicTypeKeys.string],
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

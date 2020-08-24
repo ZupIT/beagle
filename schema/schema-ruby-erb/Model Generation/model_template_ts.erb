@@ -32,13 +32,13 @@
   end
 -%>
 
-<% if objectType.synthaxType.class == BaseType -%>
-export interface <%= objectType.synthaxType.name -%> { <% -%>
-  <% for variable in objectType.synthaxType.variables %>
+<% if objectType.synthax_type.class == BaseType -%>
+export interface <%= objectType.synthax_type.name -%> { <% -%>
+  <% for variable in objectType.synthax_type.variables %>
   <%= handleTypeNameWithName(variable) %>: <%= variable.typeName.downcase -%>, <% -%>
   <% end %>
 }
-<% elsif objectType.synthaxType.class == EnumType -%>
-export type <%= objectType.synthaxType.name -%> = <%= objectType.synthaxType.variables.map { |enumCase| "'#{enumCase.defaultValue}'" }.join(" | ") -%>
+<% elsif objectType.synthax_type.class == EnumType -%>
+export type <%= objectType.synthax_type.name -%> = <%= objectType.synthax_type.variables.map { |enumCase| "'#{enumCase.defaultValue}'" }.join(" | ") -%>
 
 <% end -%>
