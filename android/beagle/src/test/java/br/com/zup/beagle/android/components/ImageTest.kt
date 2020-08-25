@@ -157,7 +157,7 @@ class ImageViewRendererTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) {
-            imageView.setImageDrawable(any())
+            imageView.setImageResource(any())
         }
 
     }

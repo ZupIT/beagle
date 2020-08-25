@@ -96,7 +96,7 @@ data class Image(
 
     private fun setPlaceHolder(placeholder: String?, imageView: ImageView) {
         getImage(placeholder)?.let {
-            imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context, it))
+            imageView.setImageResource(it)
         }
     }
 
