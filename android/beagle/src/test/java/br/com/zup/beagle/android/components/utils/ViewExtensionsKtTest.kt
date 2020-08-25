@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components.utils
 
-
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
@@ -105,7 +104,7 @@ class ViewExtensionsKtTest : BaseTest() {
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
         every { viewGroup.context } returns activity
-        every { beagleView.loadView(any(), any()) } just Runs
+        every { beagleView.loadView(any()) } just Runs
         every { activity.getSystemService(Activity.INPUT_METHOD_SERVICE) } returns inputMethodManager
         every { beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
@@ -121,9 +120,9 @@ class ViewExtensionsKtTest : BaseTest() {
         // Then
         verifySequence {
             generateIdViewModel.createIfNotExisting(0)
-            viewFactory.makeBeagleView(activity)
+            viewFactory.makeBeagleView(any<FragmentRootView>())
             beagleView.stateChangedListener = any()
-            beagleView.loadView(any<FragmentRootView>(), screenRequest)
+            beagleView.loadView(screenRequest)
             beagleView.loadCompletedListener = any()
         }
     }
@@ -134,8 +133,8 @@ class ViewExtensionsKtTest : BaseTest() {
         viewGroup.loadView(activity, screenRequest)
 
         // Then
-        verify { viewFactory.makeBeagleView(activity) }
-        verify { beagleView.loadView(any<ActivityRootView>(), screenRequest) }
+        verify { viewFactory.makeBeagleView(any<ActivityRootView>()) }
+        verify { beagleView.loadView(screenRequest) }
     }
 
     @Test

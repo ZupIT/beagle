@@ -84,12 +84,13 @@ class WidgetExtensionsKtTest : BaseTest() {
         every { rootView.getContext() } returns mockk()
 
         // When
-        val actual = component.toView(rootView, beagleFlexView)
+        val actual = component.toView(rootView)
 
         // Then
         verifySequence {
             generateIdViewModel.createIfNotExisting(0)
-            beagleFlexView.addServerDrivenComponent(component, rootView)
+            beagleFlexView.id = 0
+            beagleFlexView.addServerDrivenComponent(component)
             generateIdViewModel.setViewCreated(0)
             contextViewModel.linkBindingToContextAndEvaluateThem()
         }

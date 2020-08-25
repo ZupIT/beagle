@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler
@@ -57,8 +58,9 @@ class AbstractViewRendererTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        prepareViewModelMock(contextViewModel)
+
         prepareViewModelMock(generateIdViewModel)
+        every { anyConstructed<ViewModelProvider>().get(contextViewModel::class.java) } returns contextViewModel
 
         viewRenderer = spyk(AbstractViewRenderer(
             component,
@@ -82,13 +84,14 @@ class AbstractViewRendererTest : BaseTest() {
 
         // Then
         verifySequence {
+            rootView.getViewModelStoreOwner()
             componentStylization.apply(view, component)
             view.id
             rootView.getViewModelStoreOwner()
             rootView.getParentId()
             generateIdViewModel.getViewId(0)
             view.id = viewId
-            contextViewRenderer.handleContext(rootView, view, component)
+            contextViewRenderer.handleContext(contextViewModel, view, component)
         }
     }
 
