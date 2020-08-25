@@ -33,7 +33,7 @@ sealed class Navigate : Action {
                           val shouldResetApplication: Boolean = false,
                           val data: Map<String, String>? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.openNativeRoute(rootView.getContext(), route, data, shouldResetApplication)
+            BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication)
         }
     }
 

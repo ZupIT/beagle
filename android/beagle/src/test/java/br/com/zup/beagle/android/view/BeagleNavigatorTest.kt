@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
+import br.com.zup.beagle.android.widget.RootView
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -61,6 +62,9 @@ class BeagleNavigatorTest {
 
     @MockK(relaxed = true)
     private lateinit var intent: Intent
+
+    @MockK(relaxed = true)
+    private lateinit var rootView: RootView
 
     @MockK
     private lateinit var deepLinkHandler: DeepLinkHandler
@@ -137,13 +141,13 @@ class BeagleNavigatorTest {
         val intent = mockk<Intent>()
         every { context.startActivity(any()) } just Runs
         every { BeagleEnvironment.beagleSdk.deepLinkHandler } returns deepLinkHandler
-        every { deepLinkHandler.getDeepLinkIntent(any(), any(), any()) } returns intent
+        every { deepLinkHandler.getDeepLinkIntent(any(), any(), any(), any()) } returns intent
 
         // When
-        BeagleNavigator.openNativeRoute(context, url, map, false)
+        BeagleNavigator.openNativeRoute(rootView, url, map, false)
 
         // Then
-        verify(exactly = once()) { context.startActivity(intent) }
+        verify(exactly = once()) { rootView.getContext().startActivity(intent) }
     }
 
     @Test
