@@ -27,7 +27,7 @@ import java.io.EOFException
 import java.net.HttpURLConnection
 
 typealias OnSuccess = (responseData: ResponseData) -> Unit
-typealias OnError = (responseData: ResponseData) -> Unit
+typealias OnError = (beagleApiException: BeagleApiException) -> Unit
 
 internal class HttpClientDefault : HttpClient, CoroutineScope {
 
@@ -40,7 +40,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         onError: OnError
     ): RequestCall {
         if (getOrDeleteOrHeadHasData(request)) {
-            onError(ResponseData(-1, data = byteArrayOf()))
+            onError(BeagleApiException(ResponseData(-1, data = byteArrayOf())))
             return createRequestCall()
         }
 
@@ -49,7 +49,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
                 val responseData = doHttpRequest(request)
                 onSuccess(responseData)
             } catch (ex: BeagleApiException) {
-                onError(ex.responseData)
+                onError(ex)
             }
         }
 
@@ -82,20 +82,20 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         try {
             return createResponseData(urlConnection)
         } catch (e: Exception) {
-            throw tryFormatException(urlConnection)
+            throw tryFormatException(urlConnection, e)
         } finally {
             urlConnection.disconnect()
         }
     }
 
-    private fun tryFormatException(urlConnection: HttpURLConnection): BeagleApiException {
+    private fun tryFormatException(urlConnection: HttpURLConnection, cause: Throwable): BeagleApiException {
         val response = urlConnection.getSafeError() ?: byteArrayOf()
         val statusCode = urlConnection.getSafeResponseCode()
         val statusText = urlConnection.getSafeResponseMessage()
         val responseData = ResponseData(statusCode = statusCode,
             data = response, statusText = statusText)
 
-        return BeagleApiException(responseData)
+        return BeagleApiException(responseData, cause = cause)
     }
 
 
