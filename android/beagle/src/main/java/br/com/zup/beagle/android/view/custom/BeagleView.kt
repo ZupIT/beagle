@@ -19,8 +19,9 @@ package br.com.zup.beagle.android.view.custom
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.interfaces.OnStateUpdatable
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_ON_STATE_CHANGED
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.implementsGenericTypeOf
@@ -29,12 +30,16 @@ import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.ServerDrivenComponent
 
+
+@Deprecated(DEPRECATED_ON_STATE_CHANGED, replaceWith = ReplaceWith("OnServerStateChanged", "br.com.zup.beagle.android.view.custom.OnServerStateChanged"))
 typealias OnStateChanged = (state: BeagleViewState) -> Unit
 
 typealias OnServerStateChanged = (serverState: ServerDrivenState) -> Unit
 
 typealias OnLoadCompleted = () -> Unit
+
 
 sealed class BeagleViewState {
     data class Error(val throwable: Throwable) : BeagleViewState()
@@ -46,6 +51,7 @@ internal class BeagleView(
     context: Context
 ) : BeagleFlexView(context) {
 
+    @Deprecated(DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER)
     var stateChangedListener: OnStateChanged? = null
 
     var serverStateChangedListener: OnServerStateChanged? = null
@@ -102,7 +108,7 @@ internal class BeagleView(
     }
 
     private fun renderComponent(component: ServerDrivenComponent, view: View? = null) {
-        ServerDrivenState.Success()
+        serverStateChangedListener?.invoke(ServerDrivenState.Success())
         if (view != null) {
             if (component.implementsGenericTypeOf(OnStateUpdatable::class.java, component::class.java)) {
                 (component as? OnStateUpdatable<ServerDrivenComponent>)?.onUpdateState(component)

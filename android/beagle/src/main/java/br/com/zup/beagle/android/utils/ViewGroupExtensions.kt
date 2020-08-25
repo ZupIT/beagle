@@ -39,12 +39,13 @@ internal var beagleSerializerFactory = BeagleSerializer()
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is Started, Finished and Success
  */
-fun ViewGroup.newLoadView(
+@JvmName("loadView2")
+fun ViewGroup.loadView(
     activity: AppCompatActivity,
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null
 ) {
-    newLoadView(this, ActivityRootView(activity), screenRequest, listener)
+    loadView(this, ActivityRootView(activity), screenRequest, listener)
 }
 
 /**
@@ -53,12 +54,13 @@ fun ViewGroup.newLoadView(
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is Started, Finished and Success
  */
-fun ViewGroup.newLoadView(
+@JvmName("loadView2")
+fun ViewGroup.loadView(
     fragment: Fragment,
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null
 ) {
-    newLoadView(this, FragmentRootView(fragment), screenRequest, listener)
+    loadView(this, FragmentRootView(fragment), screenRequest, listener)
 }
 
 /**
@@ -83,6 +85,7 @@ fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listene
     loadView(this, FragmentRootView(fragment), screenRequest, listener)
 }
 
+@Deprecated(DEPRECATED_LOADINGVIEW)
 private fun loadView(
     viewGroup: ViewGroup,
     rootView: RootView,
@@ -101,7 +104,8 @@ private fun loadView(
     }
 }
 
-private fun newLoadView(
+@JvmName("loadView2")
+private fun loadView(
     viewGroup: ViewGroup,
     rootView: RootView,
     screenRequest: ScreenRequest,

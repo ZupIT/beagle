@@ -42,14 +42,34 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
-    open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
+
     class FormError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
     class WebViewError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
     @Deprecated(DEPRECATED_STATE_LOADING)
     data class Loading(val loading: Boolean) : ServerDrivenState()
-    open class Started(): ServerDrivenState()
-    open class Finished(): ServerDrivenState()
-    open class Success(): ServerDrivenState()
+
+    /**
+     * indicates that a server-driven component fetch has begun
+     */
+    open class Started: ServerDrivenState()
+
+    /**
+     * indicates that a server-driven component fetch has finished
+     */
+    open class Finished: ServerDrivenState()
+
+    /**
+     * indicates a success state while fetching a server-driven component
+     */
+    open class Success: ServerDrivenState()
+
+    /**
+     * indicates an error state while fetching a server-driven component
+     *
+     * @param throwable error occurred. See {@link br.com.zup.beagle.android.exception.BeagleApiException}
+     * @param retry action to be performed when an error occurs
+     */
+    open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
 }
 
 @Parcelize
@@ -175,9 +195,20 @@ abstract class BeagleActivity : AppCompatActivity() {
     private fun handleLiveData(state: LiveData<ViewState>) {
         state.observe(this, Observer {
             when (it) {
-              is ViewState.Error -> onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable,it.retry))
-              is ViewState.Loading -> onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
-              is ViewState.DoRender -> showScreen(it.screenId, it.component)
+              is ViewState.Error -> {
+                  onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable,it.retry))
+              }
+              is ViewState.Loading -> {
+                  if(it.value) {
+                      onServerDrivenContainerStateChanged(ServerDrivenState.Started())
+                  } else {
+                      onServerDrivenContainerStateChanged(ServerDrivenState.Finished())
+                  }
+              }
+              is ViewState.DoRender -> {
+                  onServerDrivenContainerStateChanged(ServerDrivenState.Success())
+                  showScreen(it.screenId, it.component)
+              }
             }
         })
     }

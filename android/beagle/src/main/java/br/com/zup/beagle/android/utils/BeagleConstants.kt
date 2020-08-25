@@ -25,6 +25,10 @@ internal object BeagleConstants {
         "State loading will be removed in a future version, use Started and Finished."
     const val DEPRECATED_LOADINGVIEW =
      "This method will be removed in a future version, use the method with listener attribute of type ServerDrivenState"
+    const val DEPRECATED_ON_STATE_CHANGED =
+        "OnStateChanged will be removed in a future version, use OnServerStateChanged instead."
+    const val DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER =
+        "stateChangedListener will be removed in a future version, use serverStateChangedListener instead."
 }
 
 internal object HandleEventDeprecatedConstants {
