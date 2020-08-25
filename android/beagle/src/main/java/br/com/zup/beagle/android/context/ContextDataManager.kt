@@ -18,13 +18,15 @@ package br.com.zup.beagle.android.context
 
 import android.view.View
 import br.com.zup.beagle.android.action.SetContextInternal
+import br.com.zup.beagle.android.context.tokenizer.Token
+import br.com.zup.beagle.android.context.tokenizer.TokenBinding
+import br.com.zup.beagle.android.context.tokenizer.TokenFunction
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.findParentContextWithId
 import br.com.zup.beagle.android.utils.getAllParentContexts
 import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextId
-import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.android.utils.setContextBinding
 import br.com.zup.beagle.android.utils.setContextData
 
@@ -85,7 +87,7 @@ internal class ContextDataManager(
         viewBinding.forEach { entry ->
             val parentContexts = entry.key.getAllParentContextWithGlobal()
             entry.value.forEach { binding ->
-                binding.bind.value.getExpressions().forEach { expression ->
+                binding.bind.filterBindingTokens().forEach { expression ->
                     val contextId = expression.getContextId()
                     parentContexts[contextId]?.bindings?.add(binding)
                 }
@@ -97,7 +99,7 @@ internal class ContextDataManager(
 
     fun getContextsFromBind(originView: View, binding: Bind.Expression<*>): List<ContextData> {
         val parentContexts = originView.getAllParentContextWithGlobal()
-        val contextIds = binding.value.getExpressions().map { it.getContextId() }
+        val contextIds = binding.filterBindingTokens().map { it.getContextId() }
         return parentContexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
     }
 
@@ -165,5 +167,25 @@ internal class ContextDataManager(
         globalContext.cache.evictAll()
         contexts[GLOBAL_CONTEXT_ID] = globalContext
         notifyBindingChanges(globalContext)
+    }
+
+    private fun <T> Bind.Expression<T>.filterBindingTokens(): List<String> {
+        val bindings = mutableListOf<String>()
+
+        fun addBindings(token: Token) {
+            if (token is TokenFunction) {
+                token.value.forEach { paramToken ->
+                    addBindings(paramToken)
+                }
+            } else if (token is TokenBinding) {
+                bindings.add(token.value)
+            }
+        }
+
+        expressions.forEach { expressionToken ->
+            addBindings(expressionToken.token)
+        }
+
+        return bindings
     }
 }

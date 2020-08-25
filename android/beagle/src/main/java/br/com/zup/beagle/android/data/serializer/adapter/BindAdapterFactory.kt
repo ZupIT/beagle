@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.isExpression
+import br.com.zup.beagle.android.context.tokenizer.TokenParser
+import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
@@ -46,19 +48,23 @@ internal class BindAdapterFactory : JsonAdapter.Factory {
 
 private class BindAdapter(
     private val adapter: JsonAdapter<Any>,
-    private val type: Type
+    private val type: Type,
+    private val tokenParser: TokenParser = TokenParser()
 ) : JsonAdapter<Bind<Any>>() {
 
     override fun fromJson(reader: JsonReader): Bind<Any>? {
-        val expression = reader.peekJson().readJsonValue()
-        if (expression != null && expression is String && expression.isExpression()) {
+        val expressionText = reader.peekJson().readJsonValue()
+        if (expressionText != null && expressionText is String && expressionText.isExpression()) {
             reader.skipValue()
             val valueType = if (type is ParameterizedType) {
                 type.rawType
             } else {
                 type
             }
-            return Bind.Expression(expression, valueType)
+            val expressionTokens = expressionText.getExpressions().map { expression ->
+                tokenParser.parse(expression)
+            }
+            return Bind.Expression(expressionTokens, expressionText, valueType)
         }
 
         val value = adapter.fromJson(reader)

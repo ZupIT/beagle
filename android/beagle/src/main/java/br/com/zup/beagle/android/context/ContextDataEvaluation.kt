@@ -17,11 +17,11 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
+import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
+import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathUtils
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.utils.getContextId
-import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
@@ -30,6 +30,7 @@ import kotlin.text.Regex.Companion.escapeReplacement
 
 internal class ContextDataEvaluation(
     private val contextDataManipulator: ContextDataManipulator = ContextDataManipulator(),
+    private val expressionTokenExecutor: ExpressionTokenExecutor = ExpressionTokenExecutor(),
     private val moshi: Moshi = BeagleMoshi.moshi
 ) {
 
@@ -55,19 +56,23 @@ internal class ContextDataEvaluation(
         contextCache: LruCache<String, Any>? = null,
         evaluatedExpressions: MutableMap<String, Any> = mutableMapOf()
     ): Any? {
-        val expressions = bind.value.getExpressions()
+        val expressions = bind.expressions
 
         return when {
             bind.type == String::class.java -> {
-                contextsData.forEach { contextData ->
-                    expressions.filter { it.getContextId() == contextData.id }.forEach { expression ->
-                        evaluateExpressionsForContext(contextData, contextCache, expression, bind, evaluatedExpressions)
-                    }
+                expressions.forEach { expressionToken ->
+                    evaluateExpressionsForContext(
+                        contextsData,
+                        contextCache,
+                        expressionToken,
+                        bind,
+                        evaluatedExpressions
+                    )
                 }
 
                 evaluateMultipleExpressions(bind, evaluatedExpressions)
             }
-            expressions.size == 1 -> evaluateExpression(contextsData[0], contextCache, bind, expressions[0])
+            expressions.size == 1 -> evaluateExpression(contextsData, contextCache, bind, expressions[0])
             else -> {
                 BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
                 null
@@ -76,13 +81,18 @@ internal class ContextDataEvaluation(
     }
 
     private fun evaluateExpressionsForContext(
-        contextData: ContextData,
+        contextData: List<ContextData>,
         contextCache: LruCache<String, Any>?,
-        expression: String,
+        expressionToken: ExpressionToken,
         bind: Bind.Expression<*>,
         evaluatedExpressions: MutableMap<String, Any>
     ) {
-        evaluatedExpressions[expression] = evaluateExpression(contextData, contextCache, bind, expression) ?: ""
+        evaluatedExpressions[expressionToken.value] = evaluateExpression(
+            contextData,
+            contextCache,
+            bind,
+            expressionToken
+        ) ?: ""
     }
 
     private fun evaluateMultipleExpressions(
@@ -105,12 +115,14 @@ internal class ContextDataEvaluation(
     }
 
     private fun evaluateExpression(
-        contextData: ContextData,
+        contextsData: List<ContextData>,
         contextCache: LruCache<String, Any>?,
         bind: Bind.Expression<*>,
-        expression: String
+        expressionToken: ExpressionToken
     ): Any? {
-        val value = getValue(contextData, contextCache, expression, bind.type)
+        val value = expressionTokenExecutor.execute(contextsData, expressionToken) { binding, contextData ->
+            return@execute getValue(contextData, contextCache, binding, bind.type)
+        }
 
         return try {
             if (bind.type == String::class.java) {
@@ -138,7 +150,9 @@ internal class ContextDataEvaluation(
         type: Type
     ): Any? {
         return if (expression != contextData.id) {
-            contextCache?.get(expression) ?: findValueAndCache(contextData, contextCache, expression)
+            contextCache?.get(expression) ?: findValueAndCache(contextData, expression)?.also {
+                contextCache?.put(expression, it)
+            }
         } else {
             ContextValueHandler.treatValue(contextData.value, type)
         }
@@ -146,15 +160,12 @@ internal class ContextDataEvaluation(
 
     private fun findValueAndCache(
         contextData: ContextData,
-        contextCache: LruCache<String, Any>?,
         expression: String
     ): Any? {
         val newPath = expression.replaceFirst("${contextData.id}.", "")
         if (newPath.isEmpty()) {
             throw JsonPathUtils.createInvalidPathException(newPath)
         }
-        return contextDataManipulator.get(contextData, newPath)?.also {
-            contextCache?.put(expression, it)
-        }
+        return contextDataManipulator.get(contextData, newPath)
     }
 }

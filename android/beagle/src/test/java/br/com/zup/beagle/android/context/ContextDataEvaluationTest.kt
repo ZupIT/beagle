@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
+import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
@@ -40,6 +41,7 @@ private val BIND = expressionOf<ComponentModel>("@{$CONTEXT_ID.a}")
 internal class ContextDataEvaluationTest {
 
     private val contextDataManipulator = mockk<ContextDataManipulator>()
+    private val expressionTokenExecutor = mockk<ExpressionTokenExecutor>()
     private val moshi = mockk<Moshi>()
 
     private lateinit var contextDataEvaluation: ContextDataEvaluation
@@ -48,6 +50,7 @@ internal class ContextDataEvaluationTest {
     fun setUp() {
         contextDataEvaluation = ContextDataEvaluation(
             contextDataManipulator,
+            expressionTokenExecutor,
             moshi
         )
 

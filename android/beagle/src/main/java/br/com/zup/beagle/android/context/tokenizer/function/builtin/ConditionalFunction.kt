@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.android.context.tokenizer.function.builtin
 
-apply plugin: 'kotlin'
+import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+class ConditionalFunction : Function<Any?> {
 
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
+    override fun execute(params: List<Any?>): Any? {
+        return if (params[0] as Boolean) {
+            params[1]
+        } else {
+            params[2]
+        }
+    }
+
+    override fun isParametersValid(params: List<Any?>): Boolean {
+        return params.size == 3 && params[0] is Boolean
+    }
+
+    override fun functionName(): String = "conditional"
 }
-
- apply from: rootProject.file('../maven-publish.gradle')

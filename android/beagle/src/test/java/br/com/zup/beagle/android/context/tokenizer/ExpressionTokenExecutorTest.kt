@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.android.context.tokenizer
 
-apply plugin: 'kotlin'
+import org.junit.Test
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+import org.junit.Assert.*
 
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
+class ExpressionTokenExecutorTest {
+
+    private val expressionTokenExecutor = ExpressionTokenExecutor()
+
+    @Test
+    fun execute() {
+    }
 }
-
- apply from: rootProject.file('../maven-publish.gradle')

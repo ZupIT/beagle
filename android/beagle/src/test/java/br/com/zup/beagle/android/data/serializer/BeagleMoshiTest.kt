@@ -740,7 +740,7 @@ class BeagleMoshiTest : BaseTest() {
         val component = ComponentBinding(
             value1 = null,
             value2 = Bind.Value("Hello"),
-            value3 = Bind.Expression("@{hello}", Boolean::class.java),
+            value3 = Bind.Expression(listOf(), "@{hello}", Boolean::class.java),
             value4 = Bind.Value(
                 InternalObject(
                     "",

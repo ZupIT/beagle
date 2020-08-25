@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.android.context.tokenizer.function
 
-apply plugin: 'kotlin'
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
+interface Function<T> {
+    fun functionName(): String
+    fun isParametersValid(params: List<Any?>): Boolean
+    fun execute(params: List<Any?>): T
 }
-
- apply from: rootProject.file('../maven-publish.gradle')

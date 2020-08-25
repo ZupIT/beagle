@@ -28,7 +28,7 @@ internal fun String.toAndroidColor(): Int? = try {
 
 internal fun String.getContextId() = this.split(".", "[")[0]
 
-internal fun String.getExpressions(): List<String> {
+fun String.getExpressions(): List<String> {
     val expressionPattern = "@{"
     val patterns = this.substringAfter(expressionPattern, "").split(expressionPattern)
     return if (patterns[0].isNotEmpty()) {
