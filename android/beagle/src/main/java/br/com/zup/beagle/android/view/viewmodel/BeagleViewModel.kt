@@ -79,7 +79,7 @@ internal class BeagleViewModel(
                         setLoading(true)
                         val component = componentRequester.fetchComponent(screenRequest)
                         postLivedataResponse(ViewState.DoRender(screenRequest.url, component))
-                    } catch (exception: BeagleApiException) {
+                    } catch (exception: BeagleException) {
                         if (screen != null) {
                             postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
                         } else {
