@@ -66,7 +66,8 @@ sealed class ServerDrivenState {
     /**
      * indicates an error state while fetching a server-driven component
      *
-     * @param throwable error occurred. See {@link br.com.zup.beagle.android.exception.BeagleApiException}
+     * @param throwable error occurred. See {@link br.com.zup.beagle.android.exception.BeagleApiException},
+     * See {@link br.com.zup.beagle.android.exception.BeagleException}
      * @param retry action to be performed when an error occurs
      */
     open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
@@ -199,6 +200,8 @@ abstract class BeagleActivity : AppCompatActivity() {
                   onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable,it.retry))
               }
               is ViewState.Loading -> {
+                  onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
+
                   if(it.value) {
                       onServerDrivenContainerStateChanged(ServerDrivenState.Started())
                   } else {
