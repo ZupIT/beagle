@@ -41,6 +41,7 @@ import javax.lang.model.element.TypeElement
 class BeagleAnnotationProcessor : AbstractProcessor() {
 
     private lateinit var validatorHandlerProcessor: ValidatorHandlerProcessor
+    private lateinit var registerAnnotationProcessor: RegisterControllerProcessor
     private lateinit var beagleSetupProcessor: BeagleSetupProcessor
 
     override fun getSupportedAnnotationTypes(): Set<String> {
@@ -56,6 +57,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
         super.init(processingEnvironment)
 
         validatorHandlerProcessor = ValidatorHandlerProcessor(processingEnvironment)
+        registerAnnotationProcessor = RegisterControllerProcessor(processingEnvironment)
         beagleSetupProcessor = BeagleSetupProcessor(processingEnvironment)
     }
 
@@ -85,6 +87,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             )
             val basePackageName = fullClassName.replace(".$beagleConfigClassName", "")
             validatorHandlerProcessor.process(basePackageName, roundEnvironment)
+            registerAnnotationProcessor.process(basePackageName, roundEnvironment)
             beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
         }
 

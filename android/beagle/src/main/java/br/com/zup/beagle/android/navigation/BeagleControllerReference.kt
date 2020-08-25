@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.page
+package br.com.zup.beagle.android.navigation
 
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_PAGE_VIEW
-import br.com.zup.beagle.android.widget.ViewConvertable
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.view.BeagleActivity
 
-@Deprecated(message = DEPRECATED_PAGE_VIEW)
-interface PageIndicatorComponent : ServerDrivenComponent,
-    ViewConvertable {
-    fun setCount(pages: Int)
-    fun onItemUpdated(newIndex: Int)
-    fun initPageView(pageIndicatorOutput: PageIndicatorOutput)
+interface BeagleControllerReference {
+    /**
+     * Map each name for a specific activity class that inherit from BeagleActivity and
+     * return a default one if name is not found
+     * @property id is the controller id used in @RegisterController.
+     */
+    fun classFor(id: String): Class<BeagleActivity>
 }

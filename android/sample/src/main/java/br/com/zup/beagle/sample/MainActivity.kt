@@ -22,6 +22,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.loadView
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
@@ -38,6 +39,7 @@ import br.com.zup.beagle.sample.fragment.ScrollViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,11 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportActionBar?.apply {
-            title = "Beagle Sample"
-            elevation = 4.0f.dp()
-        }
-
+        fragment_content.loadView(this, ScreenRequest("/components"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -54,7 +54,7 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
             checkIfOtherAttributesExists(typeElement, propertySpecifications)
         }
 
-        if (propertySpecifications?.beagleActivity == null) {
+        if (propertySpecifications?.defaultBeagleActivity == null) {
             processingEnv.messager.error("BeagleActivity were not defined. " +
                 "Did you miss to create your own Activity that extends from BeagleActivity " +
                 "and annotate it with @BeagleComponent?")
@@ -129,8 +129,8 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                 }
             }
             typeElement.extendsFromClass(BEAGLE_ACTIVITY.toString()) -> {
-                if (propertySpecifications?.beagleActivity == null) {
-                    propertySpecifications?.beagleActivity = typeElement
+                if (propertySpecifications?.defaultBeagleActivity == null) {
+                    propertySpecifications?.defaultBeagleActivity = typeElement
                 } else {
                     logImplementationErrorMessage(typeElement, "BeagleActivity")
                 }
@@ -200,7 +200,7 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                 "logger",
                 BEAGLE_LOGGER
             ),
-            implementServerDrivenActivityProperty(propertySpecifications?.beagleActivity)
+            implementServerDrivenActivityProperty(propertySpecifications?.defaultBeagleActivity)
         )
     }
 
@@ -247,7 +247,8 @@ internal data class PropertySpecifications(
     var formLocalActionHandler: TypeElement? = null,
     var httpClient: TypeElement? = null,
     var designSystem: TypeElement? = null,
-    var beagleActivity: TypeElement? = null,
+    var defaultBeagleActivity: TypeElement? = null,
+    var beagleActivities: List<TypeElement>? = null,
     var urlBuilder: TypeElement? = null,
     var storeHandler: TypeElement? = null,
     var analytics: TypeElement? = null,

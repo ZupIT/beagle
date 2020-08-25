@@ -16,11 +16,28 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.content.Context
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ScreenRequest
+
 internal object BeagleConstants {
     val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
+}
+
+internal object DeprecationMessages {
     const val DEPRECATED_PAGE_VIEW =
         "This constructor will be removed in a future version, use the constructor with Bind"
     const val DEPRECATED_TAB_VIEW = "This component will be removed in a future version, use TabBar instead."
+}
+
+internal object NewIntentDeprecatedConstants {
+    const val BEAGLE_ACTIVITY_COMPONENT = "Use @RegisterController with no arguments to register " +
+        "your default BeagleActivity"
+
+    const val DEPRECATED_NEW_INTENT = "To create a intent of your sub-class of BeagleActivity use " +
+        "Context.newServerDrivenIntent instead."
+
+    const val NEW_INTENT_NEW_IMPORT = "br.com.zup.beagle.android.utils.newServerDrivenIntent"
 }
 
 internal object HandleEventDeprecatedConstants {

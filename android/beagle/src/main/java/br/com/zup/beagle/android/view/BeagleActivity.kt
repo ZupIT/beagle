@@ -34,6 +34,7 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
+import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
@@ -75,21 +76,42 @@ abstract class BeagleActivity : AppCompatActivity() {
     private val screen by lazy { intent.extras?.getString(FIRST_SCREEN_KEY) }
 
     companion object {
+        @Deprecated(
+            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            replaceWith = ReplaceWith(
+                "context.newServerDrivenIntent<YourBeagleActivity>(context, screenJson)",
+                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+            )
+        )
         fun newIntent(context: Context, screenJson: String): Intent {
             return newIntent(context).apply {
                 putExtra(FIRST_SCREEN_KEY, screenJson)
             }
         }
 
+        @Deprecated(
+            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            replaceWith = ReplaceWith(
+                "context.newServerDrivenIntent<YourBeagleActivity>(context, screen)",
+                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+            )
+        )
         fun newIntent(context: Context, screen: Screen): Intent {
             return newIntent(context, null, screen)
         }
 
+        @Deprecated(
+            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            replaceWith = ReplaceWith(
+                "context.newServerDrivenIntent<YourBeagleActivity>(context, screenRequest)",
+                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+            )
+        )
         fun newIntent(context: Context, screenRequest: ScreenRequest): Intent {
             return newIntent(context, screenRequest, null)
         }
 
-        fun newIntent(
+        internal fun newIntent(
             context: Context,
             screenRequest: ScreenRequest? = null,
             screen: Screen? = null
@@ -107,6 +129,31 @@ abstract class BeagleActivity : AppCompatActivity() {
         private fun newIntent(context: Context): Intent {
             val activityClass = BeagleEnvironment.beagleSdk.serverDrivenActivity
             return Intent(context, activityClass)
+        }
+
+        fun bundleOf(screenRequest: ScreenRequest): Bundle {
+            return Bundle(1).apply {
+                putParcelable(FIRST_SCREEN_REQUEST_KEY, screenRequest)
+            }
+        }
+
+        fun bundleOf(screenRequest: ScreenRequest, fallbackScreen: Screen): Bundle {
+            return Bundle(2).apply {
+                putParcelable(FIRST_SCREEN_REQUEST_KEY, screenRequest)
+                putAll(bundleOf(fallbackScreen))
+            }
+        }
+
+        fun bundleOf(screen: Screen): Bundle {
+            return Bundle(1).apply {
+                putString(FIRST_SCREEN_KEY, beagleSerializer.serializeComponent(screen.toComponent()))
+            }
+        }
+
+        fun bundleOf(screenJson: String): Bundle {
+            return Bundle(1).apply {
+                putString(FIRST_SCREEN_KEY, screenJson)
+            }
         }
     }
 
