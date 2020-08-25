@@ -17,14 +17,11 @@
 package br.com.zup.beagle.android.components.layout
 
 import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.components.Button
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.core.Flex
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -52,7 +49,7 @@ class ContainerTest : BaseComponentTest() {
         container.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(), style) }
+        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView, style) }
     }
 
     @Test
@@ -61,6 +58,6 @@ class ContainerTest : BaseComponentTest() {
         container.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(containerChildren[0], rootView) }
+        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(containerChildren[0]) }
     }
 }

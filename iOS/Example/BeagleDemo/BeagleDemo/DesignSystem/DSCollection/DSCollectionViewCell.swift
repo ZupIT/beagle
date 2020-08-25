@@ -18,11 +18,11 @@ import UIKit
 
 class DSCollectionViewCell: UICollectionViewCell {
     
-    //MARK: Views
+    // MARK: - Views
     
     private lazy var avatarImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "BeagleImage")
+        image.image = UIImage(named: "imageBeagle")
         image.layer.masksToBounds = false
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -31,7 +31,7 @@ class DSCollectionViewCell: UICollectionViewCell {
     private lazy var nameLabel = buildLabel()
     private lazy var ageLabel = buildLabel()
     
-    //MARK: Initialization
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,40 +43,43 @@ class DSCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: Properties
+    // MARK: - Properties
     
     static let reuseId = String(describing: DSCollectionViewCell.self)
     
     private let spacing: CGFloat = 20.0
     
-    //MARK: Public functions
+    // MARK: - Public functions
     
     func setupCell(for card: DSCollectionDataSource.Card) {
         nameLabel.text = "\(card.name)"
         ageLabel.text = "\(card.age) years old"
     }
     
-    //MARK: Private functions
+    // MARK: - Private functions
     
     private func setupCellLayout() {
         addSubview(avatarImage)
         addSubview(nameLabel)
         addSubview(ageLabel)
         
-        [avatarImage.heightAnchor.constraint(equalToConstant: bounds.width - spacing*2),
-         avatarImage.widthAnchor.constraint(equalToConstant: bounds.width - spacing*2),
-         avatarImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-         avatarImage.bottomAnchor.constraint(equalTo: centerYAnchor),
+        [
+            avatarImage.heightAnchor.constraint(equalToConstant: bounds.width - spacing * 2),
+            avatarImage.widthAnchor.constraint(equalToConstant: bounds.width - spacing * 2),
+            avatarImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            avatarImage.bottomAnchor.constraint(equalTo: centerYAnchor)
         ].forEach { $0.isActive = true }
         
-        [nameLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: spacing),
-         nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-         nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+        [
+            nameLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: spacing),
+            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ].forEach { $0.isActive = true }
         
-        [ageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: spacing),
-         ageLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-         ageLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+        [
+            ageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: spacing),
+            ageLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            ageLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ].forEach { $0.isActive = true }
     }
     
@@ -85,7 +88,7 @@ class DSCollectionViewCell: UICollectionViewCell {
         backgroundColor = .lightGray
         layer.cornerRadius = 20
         avatarImage.clipsToBounds = true
-        avatarImage.layer.cornerRadius = (bounds.width - spacing*2)/2
+        avatarImage.layer.cornerRadius = (bounds.width - spacing * 2) / 2
         avatarImage.layer.borderWidth = 2
         avatarImage.layer.borderColor = UIColor.white.cgColor
     }
@@ -98,5 +101,3 @@ class DSCollectionViewCell: UICollectionViewCell {
         return label
     }
 }
-
-

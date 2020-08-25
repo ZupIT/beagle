@@ -139,7 +139,7 @@ internal class ContextDataManager(
         }
     }
 
-    fun notifyBindingChanges(contextBinding: ContextBinding) {
+    internal fun notifyBindingChanges(contextBinding: ContextBinding) {
         val contextData = contextBinding.context
         val bindings = contextBinding.bindings
 
@@ -162,6 +162,7 @@ internal class ContextDataManager(
 
     private fun updateGlobalContext(contextData: ContextData) {
         globalContext = globalContext.copy(context = contextData)
+        globalContext.cache.evictAll()
         contexts[GLOBAL_CONTEXT_ID] = globalContext
         notifyBindingChanges(globalContext)
     }

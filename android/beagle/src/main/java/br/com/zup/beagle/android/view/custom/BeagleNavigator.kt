@@ -30,6 +30,7 @@ import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.widget.RootView
 import java.lang.Exception
 
 internal object BeagleNavigator {
@@ -44,9 +45,13 @@ internal object BeagleNavigator {
         }
     }
 
-    fun openNativeRoute(context: Context, route: String, data: Map<String, String>?, shouldResetApplication: Boolean) {
-        BeagleEnvironment.beagleSdk.deepLinkHandler?.getDeepLinkIntent(route, data, shouldResetApplication)?.let {
-            context.startActivity(it)
+    fun openNativeRoute(rootView: RootView,
+                        route: String,
+                        data: Map<String, String>?,
+                        shouldResetApplication: Boolean) {
+        BeagleEnvironment.beagleSdk.deepLinkHandler?.getDeepLinkIntent(
+            rootView, route, data, shouldResetApplication)?.let {
+            rootView.getContext().startActivity(it)
         }
     }
 

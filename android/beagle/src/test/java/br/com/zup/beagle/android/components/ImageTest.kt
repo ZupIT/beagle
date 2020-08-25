@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.data.formatUrl
@@ -33,13 +33,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.target.CustomTarget
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.verify
+import io.mockk.*
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertTrue
@@ -52,10 +46,8 @@ class ImageViewRendererTest : BaseComponentTest() {
     private val imageView: RoundedImageView = mockk(relaxed = true, relaxUnitFun = true)
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
     private val requestManager: RequestManager = mockk()
-    private val requestBuilder: RequestBuilder<Bitmap> = mockk()
-    private val bitmap: Bitmap = mockk()
+    private val requestBuilder: RequestBuilder<Drawable> = mockk()
     private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
-    private val onRequestListenerSlot = slot<CustomTarget<Bitmap>>()
 
     private lateinit var imageLocal: Image
     private lateinit var imageRemote: Image
@@ -68,15 +60,15 @@ class ImageViewRendererTest : BaseComponentTest() {
 
         every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), any()) } returns imageView
         every { Glide.with(imageView) } returns requestManager
-        every { requestManager.asBitmap() } returns requestBuilder
-        every { requestBuilder.load(any<String>()) } returns requestBuilder
-        every { requestBuilder.into(capture(onRequestListenerSlot)) } returns mockk()
+        every { requestManager.load(any<String>()) } returns requestBuilder
+        every { requestBuilder.into(any<CustomTarget<Drawable>>()) } returns mockk()
+
         every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         every { beagleSdk.designSystem } returns mockk()
         every { beagleSdk.designSystem!!.image(any()) } returns IMAGE_RES
 
         imageLocal = Image(ImagePath.Local("imageName"))
-        imageRemote = Image(ImagePath.Remote(DEFAULT_URL)).applyStyle(style)
+        imageRemote = Image(ImagePath.Remote(DEFAULT_URL, ImagePath.Local("imageName"))).applyStyle(style)
     }
 
     @Test
@@ -153,23 +145,21 @@ class ImageViewRendererTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { Glide.with(imageView) }
-        verify(exactly = once()) { requestBuilder.load(urlFormatted) }
+        verify(exactly = once()) { requestManager.load(urlFormatted) }
     }
 
     @Test
-    fun build_should_call_setImageBitmap_reloadNetworkImageView_when_component_has_not_flex() {
+    fun build_should_setPlaceholder_when_imagePath_is_remote_and_placeholder_is_declared() {
         imageRemote.style = null
 
         // When
-        callBuildAndRequest()
+        imageRemote.buildView(rootView)
 
         // Then
-        verify(exactly = once()) { imageView.setImageBitmap(bitmap) }
+        verify(exactly = once()) {
+            imageView.setImageResource(any())
+        }
 
     }
 
-    private fun callBuildAndRequest() {
-        imageRemote.buildView(rootView)
-        onRequestListenerSlot.captured.onResourceReady(bitmap, mockk())
-    }
 }

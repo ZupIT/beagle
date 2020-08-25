@@ -25,6 +25,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
@@ -32,11 +33,11 @@ import br.com.zup.beagle.widget.core.ScrollAxis
 
 @RegisterWidget
 data class ScrollView(
-    val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,
     val scrollBarEnabled: Boolean? = null,
     override val context: ContextData? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -54,7 +55,7 @@ data class ScrollView(
         val styleParent = Style(flex = Flex(grow = 1.0))
         val styleChild = Style(flex = Flex(flexDirection = flexDirection))
 
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), styleParent).apply {
+        return viewFactory.makeBeagleFlexView(rootView, styleParent).apply {
 
             addView(if (scrollDirection == ScrollAxis.HORIZONTAL) {
                 viewFactory.makeHorizontalScrollView(context).apply {
@@ -76,9 +77,9 @@ data class ScrollView(
         rootView: RootView,
         styleChild: Style
     ) {
-        val viewGroup = viewFactory.makeBeagleFlexView(rootView.getContext(), styleChild)
+        val viewGroup = viewFactory.makeBeagleFlexView(rootView, styleChild)
         children.forEach { component ->
-            viewGroup.addServerDrivenComponent(component, rootView)
+            viewGroup.addServerDrivenComponent(component)
         }
         scrollView.addView(viewGroup)
     }

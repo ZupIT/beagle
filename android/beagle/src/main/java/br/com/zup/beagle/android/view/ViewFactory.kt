@@ -36,30 +36,26 @@ import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import br.com.zup.beagle.android.view.custom.BeagleView
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.Style
 
 internal class ViewFactory {
 
     fun makeView(context: Context) = View(context)
 
-    fun makeBeagleView(context: Context) =
-        BeagleView(context = context)
+    fun makeBeagleView(rootView: RootView) = BeagleView(rootView)
 
-    fun makeBeagleFlexView(context: Context) =
-        BeagleFlexView(context = context)
+    fun makeBeagleFlexView(rootView: RootView) = BeagleFlexView(rootView)
 
-    fun makeBeagleFlexView(context: Context, style: Style) =
-        BeagleFlexView(context = context, style = style)
+    fun makeBeagleFlexView(rootView: RootView, style: Style) = BeagleFlexView(rootView, style)
 
-    fun makeScrollView(context: Context) =
-        ScrollView(context).apply {
-            isFillViewport = true
-        }
+    fun makeScrollView(context: Context) = ScrollView(context).apply {
+        isFillViewport = true
+    }
 
-    fun makeHorizontalScrollView(context: Context) =
-        HorizontalScrollView(context).apply {
-            isFillViewport = true
-        }
+    fun makeHorizontalScrollView(context: Context) = HorizontalScrollView(context).apply {
+        isFillViewport = true
+    }
 
     fun makeButton(context: Context, id: Int) = Button(ContextThemeWrapper(context, id), null, 0)
 

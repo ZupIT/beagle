@@ -18,7 +18,7 @@ import UIKit
 
 class DSCollectionUIComponent: UIView {
     
-    //MARK: Views
+    // MARK: - Views
     
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: buildCollectionViewFlowLayout())
@@ -29,12 +29,12 @@ class DSCollectionUIComponent: UIView {
         return collection
     }()
     
-    //MARK: Properties
+    // MARK: - Properties
     
     private let collectionSpacing: CGFloat = 20
     private let dataSource: DSCollectionDataSource
     
-    //MARK: Initialization
+    // MARK: - Initialization
     
     init(dataSource: DSCollectionDataSource) {
         self.dataSource = dataSource
@@ -46,7 +46,7 @@ class DSCollectionUIComponent: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: Private functions
+    // MARK: - Private functions
     
     ///This needs to be overridden by all custom component views
     override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -66,14 +66,15 @@ class DSCollectionUIComponent: UIView {
     private func setupViewLayout() {
         addSubview(collectionView)
         
-        [collectionView.topAnchor.constraint(equalTo: topAnchor),
-         collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-         collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        [
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ].forEach { $0.isActive = true }
     }
     
-    private func buildCollectionViewFlowLayout() -> UICollectionViewFlowLayout{
+    private func buildCollectionViewFlowLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         flowLayout.minimumInteritemSpacing = collectionSpacing
@@ -81,9 +82,9 @@ class DSCollectionUIComponent: UIView {
     }
 }
 
-//MARK: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
-extension DSCollectionUIComponent: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
+extension DSCollectionUIComponent: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.cards.count
     }

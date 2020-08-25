@@ -20,6 +20,6 @@ package br.com.zup.beagle.core
  * Component that hold the ghost view
  * @property child show the current view
  */
-interface GhostComponent {
-    val child: ServerDrivenComponent
+interface GhostComponent : SingleChildComponent {
+    override val child: ServerDrivenComponent
 }

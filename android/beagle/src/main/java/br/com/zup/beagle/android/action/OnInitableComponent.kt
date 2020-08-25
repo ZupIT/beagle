@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context
+package br.com.zup.beagle.android.action
 
-import android.view.View
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-internal class ContextComponentHandler {
-
-    fun handleContext(viewModel: ScreenContextViewModel, view: View, component: ServerDrivenComponent) {
-        if (component is ContextComponent) {
-            component.context?.let { context ->
-                viewModel.addContext(view, context)
-            }
-        }
-    }
+/**
+ * Interface that has onInit property
+ * @property onInit list of actions performed as soon as the component is rendered
+ */
+interface OnInitableComponent {
+    val onInit: List<Action>?
 }
