@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 <%
+
+  require_relative 'template_helper.rb'
+
+  @templateHelper = TemplateHelper.new
+  #@templateHelper.defaultDeclarationType = todo add default declaration type
+  
   def handleTypeNameWithName(variable)
       #todo variables now have default values!
       output = variable.isOptional ? variable.name + "?" : variable.name
@@ -26,13 +32,13 @@
   end
 -%>
 
-<% if objectType.synthaxType.class == CommonType -%>
-export interface <%= objectType.synthaxType.name -%> { <% -%>
-  <% for variable in objectType.synthaxType.variables %>
+<% if objectType.synthax_type.class == BaseType -%>
+export interface <%= objectType.synthax_type.name -%> { <% -%>
+  <% for variable in objectType.synthax_type.variables %>
   <%= handleTypeNameWithName(variable) %>: <%= variable.typeName.downcase -%>, <% -%>
   <% end %>
 }
-<% elsif objectType.synthaxType.class == EnumType -%>
-export type <%= objectType.synthaxType.name -%> = <%= objectType.synthaxType.variables.map { |enumCase| "'#{enumCase.defaultValue}'" }.join(" | ") -%>
+<% elsif objectType.synthax_type.class == EnumType -%>
+export type <%= objectType.synthax_type.name -%> = <%= objectType.synthax_type.variables.map { |enumCase| "'#{enumCase.defaultValue}'" }.join(" | ") -%>
 
 <% end -%>

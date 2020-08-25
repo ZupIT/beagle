@@ -16,17 +16,16 @@
  */
 
 public struct UnitValue {
-  
-    // MARK: - Public Properties
 
-    public let value: Double
-    public let type: UnityType
+    public let value: enum
+    public let type: UnitType
 
     public init(
-        value: Double,
-        type: UnityType
+        value: enum,
+        type: UnitType
     ) {
         self.value = value
         self.type = type
     }
+
 }

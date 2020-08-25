@@ -14,31 +14,31 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 
 class Style < BaseComponent
 
     def initialize
-        edgeValue = EdgeValue.class.to_s
-        textVariables = [
-            Variable.new(:name => "backgroundColor", :typeName => "String", :isOptional => true),
-            Variable.new(:name => "cornerRadius", :typeName => "String", :isOptional => true),
+        edge_value = EdgeValue.new.name
+        variables = [
+            Variable.new(:name => "backgroundColor", :typeName => BasicTypeKeys.string, :isOptional => true),
+            Variable.new(:name => "cornerRadius", :typeName => BasicTypeKeys.string, :isOptional => true),
             Variable.new(:name => "size", :typeName => Size.new.name, :isOptional => true),
-            Variable.new(:name => "margin", :typeName => edgeValue, :isOptional => true),
-            Variable.new(:name => "padding", :typeName => edgeValue, :isOptional => true),
-            Variable.new(:name => "position", :typeName => edgeValue, :isOptional => true),
+            Variable.new(:name => "margin", :typeName => edge_value, :isOptional => true),
+            Variable.new(:name => "padding", :typeName => edge_value, :isOptional => true),
+            Variable.new(:name => "position", :typeName => edge_value, :isOptional => true),
             Variable.new(:name => "flex", :typeName => Flex.new.name, :isOptional => true),
             Variable.new(:name => "positionType", :typeName => PositionType.new.name, :isOptional => true),
             Variable.new(:name => "display", :typeName => Display.new.name, :isOptional => true)
         ]
-        synthaxType = CommonType.new(
-            :kind => 'struct',
+        synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
-            :package => "br.com.zup.beagle.widget.core"
+            :variables => variables,
+            :package => "br.com.zup.beagle.widget.core",
+            :sameFileTypes => [PositionType.new, Display.new]
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

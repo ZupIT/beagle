@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-public struct PositionType {
-  
-    // MARK: - Public Properties
+package br.com.zup.beagle.widget.core
 
-    public let backgroundColor: String?
 
-    public init(
-        backgroundColor: String? = nil
-    ) {
-        self.backgroundColor = backgroundColor
-    }
+data class AnalyticsScreen (
+  public override val screenName: String   
+) : AnalyticsScreenSchema {
+  constructor (    
+    screenName: String      
+  ) : this (    
+      screenName      
+  )
 }

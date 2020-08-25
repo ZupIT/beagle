@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
-export interface PositionType {   
-  backgroundColor?: string,   
-}
+package br.com.zup.beagle.widget.core
+// todo implement enum logic
+
+
+data class ImageContentMode (
+// todo implement enum logic

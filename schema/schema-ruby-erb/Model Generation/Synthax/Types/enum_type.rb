@@ -14,10 +14,12 @@
 
 require_relative './type.rb'
 
-class EnumType < BaseType
+class EnumType
+    include BaseType
 
     def initialize(params = {})
         super
+        @type = BasicTypeKeys.enum
     end
 
 end

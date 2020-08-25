@@ -107,3 +107,5 @@ flutter/**/**/ios/Runner/GeneratedPluginRegistrant.*
 !flutter/**/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 schema/schema-ruby-erb/Model Generation/.bundle/
+
+*.orig

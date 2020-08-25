@@ -18,12 +18,15 @@
 package br.com.zup.beagle.widget.core
 
 
-data class PositionType (
-  public override val backgroundColor: String?   
-) : PositionTypeSchema {
+data class Accessibility (
+  public override val accessibilityLabel: String?,  
+  public override val accessible: Bool   
+) : AccessibilitySchema {
   constructor (    
-    backgroundColor: String? = null      
+    accessibilityLabel: String? = null,      
+    accessible: Bool      
   ) : this (    
-      backgroundColor      
+      accessibilityLabel,      
+      accessible      
   )
 }

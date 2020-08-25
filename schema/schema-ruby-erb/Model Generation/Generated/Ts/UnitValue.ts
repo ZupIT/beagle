@@ -15,7 +15,3 @@
  * limitations under the License.
  */
 
-export interface UnitValue {   
-  value: double,   
-  type: unitytype,   
-}

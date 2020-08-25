@@ -16,8 +16,12 @@ require_relative './base_attributes.rb'
 
 class Variable < BaseAttributes
     
+    attr_accessor :isBindable, :isOptional
+
     def initialize(params = {})
         super
+        @isBindable = params.fetch(:isBindable, false)
+        @isOptional = params.fetch(:isOptional, false)
     end
 
 end

@@ -16,15 +16,13 @@
  */
 
 public struct Style {
-  
-    // MARK: - Public Properties
 
     public let backgroundColor: String?
     public let cornerRadius: String?
     public let size: Size?
-    public let margin: Class?
-    public let padding: Class?
-    public let position: Class?
+    public let margin: EdgeValue?
+    public let padding: EdgeValue?
+    public let position: EdgeValue?
     public let flex: Flex?
     public let positionType: PositionType?
     public let display: Display?
@@ -33,9 +31,9 @@ public struct Style {
         backgroundColor: String? = nil,
         cornerRadius: String? = nil,
         size: Size? = nil,
-        margin: Class? = nil,
-        padding: Class? = nil,
-        position: Class? = nil,
+        margin: EdgeValue? = nil,
+        padding: EdgeValue? = nil,
+        position: EdgeValue? = nil,
         flex: Flex? = nil,
         positionType: PositionType? = nil,
         display: Display? = nil
@@ -50,4 +48,19 @@ public struct Style {
         self.positionType = positionType
         self.display = display
     }
+    
+    public enum PositionType: String {
+    
+        case relative = "RELATIVE"
+        case absolute = "ABSOLUTE"
+    
+    }
+    
+    public enum Display: String {
+    
+        case flex = "FLEX"
+        case none = "NONE"
+    
+    }
+
 }

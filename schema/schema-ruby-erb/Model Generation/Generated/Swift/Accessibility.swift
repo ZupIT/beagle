@@ -15,7 +15,17 @@
  * limitations under the License.
  */
 
-public enum Display: String, Decodable {
-    case flex = "FLEX"
-    case none = "NONE"
+public struct Accessibility {
+
+    public let accessibilityLabel: String?
+    public let accessible: Bool
+
+    public init(
+        accessibilityLabel: String? = nil,
+        accessible: Bool = true
+    ) {
+        self.accessibilityLabel = accessibilityLabel
+        self.accessible = accessible
+    }
+
 }

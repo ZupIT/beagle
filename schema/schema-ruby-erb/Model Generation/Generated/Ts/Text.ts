@@ -15,7 +15,3 @@
  * limitations under the License.
  */
 
-export interface Text {   
-  text: string,   
-  styleId?: string,   
-}

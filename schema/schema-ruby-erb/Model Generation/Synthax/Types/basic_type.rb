@@ -12,13 +12,31 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative './type.rb'
+module BasicTypeKeys
+    
+    @@string = "String"
+    def self.string
+        @@string
+    end
 
-#todo the name of the class could be better
-class CommonType < BaseType
+    @@bool = "Bool"
+    def self.bool
+        @@bool
+    end
 
-    def initialize(params = {})
-        super
+    @@enum = "Double"
+    def self.double
+        @@enum
+    end
+
+    @@interface = "interface"
+    def self.interface
+        @@interface
+    end
+
+    @@enum = "Enum"
+    def self.enum
+        @@enum
     end
 
 end

@@ -16,54 +16,57 @@
  */
 <%
   require_relative './Synthax/Types/enum_type'
+  require_relative './Synthax/Types/basic_type'
   require_relative './Synthax/Attributes/list'
+  require_relative 'template_helper.rb'
   @tab = "    "
   @doubleTab = @tab + @tab
+  @templateHelper = TemplateHelper.new
+  @templateHelper.languageIdentifier = SupportedLanguages.new.swift
+  @templateHelper.defaultDeclarationType = "struct"
 
   def handleTypeName(variable)
-      output = variable.isBindable ? "Expression<#{variable.typeName}>" : variable.typeName
+      typeName = @templateHelper.fetch_type(variable.typeName)
+      output = variable.isBindable ? "Expression<#{typeName}>" : typeName
       output = variable.class == List ? "[#{output}]" : output
       output = variable.isOptional ? output + "?" : output
       output
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = variable.isBindable ? "Expression<#{variable.typeName}>" : variable.typeName
+  typeName = @templateHelper.fetch_type(variable.typeName)
+    output = variable.isBindable ? "Expression<#{typeName}>" : typeName
     output = variable.class == List ? "[#{output}]" : output
     output = variable.isOptional ? output + "?" : output
 
     if variable.isOptional && variable.defaultValue == ''
       output += " = nil"
     elsif variable.defaultValue != ''
-      output += " #{variable.defaultValue}"
+      output += " = #{variable.defaultValue}"
     end
     
     output = shouldAddComma ? output + ",\n" : output
     output
   end
 
-  def handleInheritance(synthaxType)
-    output = synthaxType.inheritFrom.size == 0 ? "" : ": "
+  def handleInheritance(synthax_type)
+    output = synthax_type.inheritFrom.size == 0 ? "" : ": "
     counter = 0
-    for type in synthaxType.inheritFrom
+    for type in synthax_type.inheritFrom
       output += type
-      output = synthaxType.inheritFrom.size - 1 != counter ? output + ", " : output
+      output = synthax_type.inheritFrom.size - 1 != counter ? output + ", " : output
       counter += 1
     end
 
     output
   end
 
-  def isEnum(objectType)
-    objectType.synthaxType.class == EnumType
-  end
-
   def casesForEnum(objectType)
     output = ""
-    for variable in objectType.synthaxType.variables
+    for variable in objectType.synthax_type.variables
       output += "#{@tab}case #{variable.name}"
       if variable.defaultValue != ''
-         output = objectType.synthaxType.inheritFrom.include?("String") ?
+         output = objectType.synthax_type.inheritFrom.include?("String") ?
          output + " = \"#{variable.defaultValue}\"" :
          output + " = #{variable.defaultValue}" 
       end
@@ -72,25 +75,25 @@
     output
   end
 
-  def declareProperitesForCommonObject(objectType)
+  def declarePropertiesForCommonObject(objectType)
     output = ""
-    for variable in objectType.synthaxType.variables
+    for variable in objectType.synthax_type.variables
       output += "#{@tab}#{variable.accessor} let #{variable.name}: #{handleTypeName(variable)}\n"
     end
     output
   end
 
-  def initForCommomObject(objectType)
-    output = "#{@tab}#{objectType.synthaxType.accessor} init(\n"
+  def initForCommonObject(objectType)
+    output = "#{@tab}#{objectType.synthax_type.accessor} init(\n"
     counter = 0
-    for variable in objectType.synthaxType.variables
-      output += "#{@doubleTab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthaxType.variables.size - 1 != counter)}"
+    for variable in objectType.synthax_type.variables
+      output += "#{@doubleTab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter)}"
       counter += 1
     end
     
     output += "\n#{@tab}) {\n"
 
-    for variable in objectType.synthaxType.variables
+    for variable in objectType.synthax_type.variables
       output += "#{@doubleTab}self.#{variable.name} = #{variable.name}\n"
     end
 
@@ -99,18 +102,40 @@
     output
   end
 
+  def fullDeclaration(objectType)
+    #objectType.synthax_type.inheritFrom.append("Decodable")
+    isEnumDeclaration = @templateHelper.is_enum(objectType)
+    typeKind = @templateHelper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    output = "#{objectType.synthax_type.accessor} #{typeKind} #{objectType.synthax_type.name}#{handleInheritance(objectType.synthax_type)} {\n\n"
+    if isEnumDeclaration
+      output += casesForEnum(objectType)
+    else
+      output += declarePropertiesForCommonObject(objectType)
+      output += "\n"
+      output += "#{initForCommonObject(objectType)}\n"
+    end
+
+    output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+
+    output += "\n}\n"
+    output
+
+  end
+
+  def handleInnerTypes(objectTypes, input, paddingMultiplier = 1)
+    output = input
+    for objectType in objectTypes
+      aux = "\n#{fullDeclaration(objectType)}"
+      output += @templateHelper.add_padding(@tab, paddingMultiplier, aux)
+
+      possibleNestedTypes = objectType.synthax_type.sameFileTypes
+      if possibleNestedTypes.size > 0
+        handleInnerTypes(objectType.synthax_type.sameFileTypes, output, paddingMultiplier + 1)
+      end
+    end
+    output
+  end
+
 -%>
-<% if isEnum(objectType) %>
-<%= objectType.synthaxType.accessor %> enum <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %>, Decodable {
-<%= casesForEnum(objectType)-%>
-}<%  -%>
-<% else %>
-<%= objectType.synthaxType.accessor %> struct <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %> {
-  
-<%=@tab-%>// MARK: - Public Properties
 
-<%= declareProperitesForCommonObject(objectType)-%>
-
-<%= initForCommomObject(objectType)-%><%-%>
-}<%  -%>
-<% end %>
+<%= fullDeclaration(objectType) %>

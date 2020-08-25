@@ -15,8 +15,14 @@
  * limitations under the License.
  */
 <%
+  # TODO: Secondary constructor in Analytics Screen is the same as the primary. It should only be generated if at least one field is bindable.
+  require_relative 'template_helper.rb'
+  @templateHelper = TemplateHelper.new
+  #@templateHelper.defaultDeclarationType = todo add default declaration type
+  
   def handleTypeName(variable, importManager)
-    output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
+    #todo variables now have default values!
+      output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
     output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
@@ -28,25 +34,27 @@
   end
 -%>
 
-package <%= objectType.synthaxType.package -%>
+package <%= objectType.synthax_type.package -%>
 
-<% if objectType.synthaxType.class == CommonType -%>
 
-<% if objectType.synthaxType.variables.any? { |variable| variable.isBindable }-%>
+<% if !@templateHelper.is_enum(objectType) -%>
+<% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 <% end -%>
-<% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
+<% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
 import <%= qualifiedName -%>Schema
 <% end -%>
 
-interface <%= objectType.synthaxType.name -%>Schema {<% -%>
-<% for variable in objectType.synthaxType.variables %>
+<% end -%>
+
+<% if @templateHelper.is_enum(objectType) %>
+enum class <%= objectType.synthax_type.name -%>Schema {
+  <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
+}
+<% else %><% -%>
+interface <%= objectType.synthax_type.name -%>Schema {<% -%>
+<% for variable in objectType.synthax_type.variables %>
   <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>
 <% end -%> 
 }
-<% elsif objectType.synthaxType.class == EnumType -%>
-
-enum class <%= objectType.synthaxType.name -%>Schema {
-  <%= objectType.synthaxType.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
-}
-<% end -%>
+<% end %><% -%>

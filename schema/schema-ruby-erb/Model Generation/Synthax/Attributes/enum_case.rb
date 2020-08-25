@@ -12,13 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+require_relative './base_attributes.rb'
+
 class EnumCase < BaseAttributes
     
     def initialize(params = {})
         super
-        @accessor = ''
-        @isBindable = false
-        @isOptional = false
     end
 
 end

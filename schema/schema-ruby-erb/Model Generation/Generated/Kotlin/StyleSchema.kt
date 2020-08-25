@@ -18,18 +18,18 @@
 package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.SizeSchema
+import br.com.zup.beagle.widget.core.EdgeValueSchema
 import br.com.zup.beagle.widget.core.FlexSchema
-import br.com.zup.beagle.widget.core.PositionTypeSchema
-import br.com.zup.beagle.widget.core.DisplaySchema
+
 
 interface StyleSchema {
   public val backgroundColor: String?
   public val cornerRadius: String?
   public val size: SizeSchema?
-  public val margin: Class?
-  public val padding: Class?
-  public val position: Class?
+  public val margin: EdgeValueSchema?
+  public val padding: EdgeValueSchema?
+  public val position: EdgeValueSchema?
   public val flex: FlexSchema?
-  public val positionType: PositionTypeSchema?
-  public val display: DisplaySchema? 
+  public val positionType: PositionType?
+  public val display: Display? 
 }

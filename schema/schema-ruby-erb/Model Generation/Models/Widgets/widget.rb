@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
 
@@ -20,18 +20,17 @@ class Widget < BaseComponent
 
     #todo finish implementation, missing accessibility
     def initialize
-        textVariables = [
-            Variable.new(:name => "text", :typeName => "String", :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => "String", :isOptional => true)
+        variables = [
+            Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
+            Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true)
         ]
-        synthaxType = CommonType.new(
-            :kind => 'struct',
+        synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.ui"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

@@ -16,14 +16,13 @@
  */
 
 public struct CornerRadius {
-  
-    // MARK: - Public Properties
 
-    public let radius: Double
+    public let radius: enum
 
     public init(
-        radius: Double
+        radius: enum
     ) {
         self.radius = radius
     }
+
 }

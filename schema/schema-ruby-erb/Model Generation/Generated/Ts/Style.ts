@@ -15,14 +15,3 @@
  * limitations under the License.
  */
 
-export interface Style {   
-  backgroundColor?: string,   
-  cornerRadius?: string,   
-  size?: size,   
-  margin?: class,   
-  padding?: class,   
-  position?: class,   
-  flex?: flex,   
-  positionType?: positiontype,   
-  display?: display,   
-}

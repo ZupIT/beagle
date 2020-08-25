@@ -14,11 +14,12 @@
 
 require_relative './type.rb'
 
-#todo the name of the class could be better
-class TestType < BaseType
+class BuiltInType
+    include BaseType
 
     def initialize(params = {})
         super
+        @type = params.fetch(:type, nil)
     end
-
+    
 end

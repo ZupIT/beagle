@@ -21,14 +21,25 @@ require './Synthax/Types/type.rb'
 require './Models/Layout/corner_radius.rb'
 require './Models/Layout/display.rb'
 require './Models/Layout/edge_value.rb'
-require './Models/Layout/flex.rb'
+require './Models/Layout/Flex/flex.rb'
 require './Models/Layout/position_type.rb'
 require './Models/Layout/size.rb'
 require './Models/Layout/style.rb'
 require './Models/Layout/unit_value.rb'
+require './Models/Layout/unit_type.rb'
+
+require './Models/Accessibility/accessibility.rb'
+
+require './Models/Analytics/analytics_events.rb'
+require './Models/Analytics/analytics_models.rb'
 
 require './Models/Widgets/button.rb'
 require './Models/Widgets/text.rb'
+require './Models/Widgets/text_input.rb'
+require './Models/Widgets/text_input_type.rb'
+require './Models/Widgets/container.rb'
+require './Models/Widgets/image.rb'
+require './Models/Widgets/image_content.rb'
 
 require './FileHandler/file_handler.rb'
 require './Common/constants.rb'
@@ -43,7 +54,7 @@ class ModelGenerator
     @importManager = Hash.new("")
     
     components.each do |component|
-      type = component.new.synthaxType
+      type = component.new.synthax_type
       @importManager[type.name] = "#{type.package}.#{type.name}"
     end
   end
@@ -75,7 +86,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      if @objectType.synthaxType.class == CommonType
+      if @objectType.synthax_type.class == BaseType
         @writer.write(Constants.new.kotlin_backend_path, @objectType.name + ".kt", to_s)
       end
     end
@@ -104,15 +115,26 @@ if __FILE__ == $0
     # Components
     Button,
     Text,
+    TextInputType,
+    ImageContentMode,
     # Layout
     CornerRadius,
-    Display,
     EdgeValue,
     Flex,
-    PositionType,
     Size,
     Style,
-    UnitValue
+    UnitValue,
+    UnitType,
+    # Accessibility
+    Accessibility,
+    # Far from being usable
+    Container,
+    Image,
+    TextInput,
+    AnalyticsEvent,
+    AnalyticsClick,
+    AnalyticsScreen
+
   ]
   
   ModelGenerator.new(components).generate

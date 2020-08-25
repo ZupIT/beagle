@@ -16,8 +16,6 @@
  */
 
 public struct Flex {
-  
-    // MARK: - Public Properties
 
     public let flexDirection: FlexDirection?
     public let flexWrap: FlexWrap?
@@ -26,9 +24,9 @@ public struct Flex {
     public let alignSelf: AlignSelf?
     public let alignContent: AlignContent?
     public let basis: UnitValue?
-    public let flex: Double?
-    public let flexDirection: Double?
-    public let shrink: Double?
+    public let flex: enum?
+    public let flexDirection: enum?
+    public let shrink: enum?
 
     public init(
         flexDirection: FlexDirection? = nil,
@@ -38,9 +36,9 @@ public struct Flex {
         alignSelf: AlignSelf? = nil,
         alignContent: AlignContent? = nil,
         basis: UnitValue? = nil,
-        flex: Double? = nil,
-        flexDirection: Double? = nil,
-        shrink: Double? = nil
+        flex: enum? = nil,
+        flexDirection: enum? = nil,
+        shrink: enum? = nil
     ) {
         self.flexDirection = flexDirection
         self.flexWrap = flexWrap
@@ -53,4 +51,65 @@ public struct Flex {
         self.flexDirection = flexDirection
         self.shrink = shrink
     }
+    
+    public enum FlexDirection: String {
+    
+        case row = "ROW"
+        case rowReverse = "ROW_REVERSE"
+        case column = "COLUMN"
+        case columnReverse = "COLUMN_REVERSE"
+    
+    }
+    
+    public enum FlexWrap: String {
+    
+        case noWrap = "NO_WRAP"
+        case wrap = "WRAP"
+        case wrapReverse = "WRAP_REVERSE"
+    
+    }
+    
+    public enum JustifyContent: String {
+    
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case spaceBetween = "SPACE_BETWEEN"
+        case spaceAround = "SPACE_AROUND"
+        case spaceEvenly = "SPACE_EVENLY"
+    
+    }
+    
+    public enum AlignItems: String {
+    
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case baseline = "BASELINE"
+        case stretch = "STRETCH"
+    
+    }
+    
+    public enum AlignSelf: String {
+    
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case baseline = "BASELINE"
+        case auto = "AUTO"
+        case stretch = "STRETCH"
+    
+    }
+    
+    public enum AlignContent: String {
+    
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case spaceBetween = "SPACE_BETWEEN"
+        case spaceAround = "SPACE_AROUND"
+        case stretch = "STRETCH"
+    
+    }
+
 }

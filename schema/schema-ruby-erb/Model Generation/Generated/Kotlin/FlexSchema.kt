@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.UnitValueSchema
 
+
 interface FlexSchema {
   public val flexDirection: FlexDirection?
   public val flexWrap: FlexWrap?
@@ -27,7 +28,7 @@ interface FlexSchema {
   public val alignSelf: AlignSelf?
   public val alignContent: AlignContent?
   public val basis: UnitValueSchema?
-  public val flex: Double?
-  public val flexDirection: Double?
-  public val shrink: Double? 
+  public val flex: Enum?
+  public val flexDirection: Enum?
+  public val shrink: Enum? 
 }

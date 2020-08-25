@@ -14,15 +14,13 @@
 
 class BaseAttributes
 
-    attr_accessor :name, :typeName, :accessor, :defaultValue, :isBindable, :isOptional, :isArray
+    attr_accessor :name, :typeName, :accessor, :defaultValue
     
     def initialize(params = {})
         @name = params.fetch(:name, '')
         @typeName = params.fetch(:typeName, '')
         @accessor = params.fetch(:accessor, 'public')
         @defaultValue = params.fetch(:defaultValue, '')
-        @isBindable = params.fetch(:isBindable, false)
-        @isOptional = params.fetch(:isOptional, false)
     end
 
 end

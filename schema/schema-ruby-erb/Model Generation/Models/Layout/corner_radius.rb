@@ -14,22 +14,21 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 
 class CornerRadius < BaseComponent
 
     def initialize
-        textVariables = [
-            Variable.new(:name => "radius", :typeName => "Double")
+        variables = [
+            Variable.new(:name => "radius", :typeName => BasicTypeKeys.double)
         ]
-        synthaxType = CommonType.new(
-            :kind => 'struct',
+        synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 

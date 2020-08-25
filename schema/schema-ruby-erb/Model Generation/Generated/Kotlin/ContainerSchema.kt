@@ -15,9 +15,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.widget.ui
 
 
-interface PositionTypeSchema {
-  public val backgroundColor: String? 
+
+interface ContainerSchema {
+  public val children: List<Widget>
+  public val onInit: List<Action>?
+  public val context: Context? 
 }

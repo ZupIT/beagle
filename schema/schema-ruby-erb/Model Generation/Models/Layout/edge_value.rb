@@ -14,29 +14,29 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
+require_relative './unit_value.rb'
 
 class EdgeValue < BaseComponent
 
     def initialize
-        unitValue = UnitValue.new.name
-        textVariables = [
-            Variable.new(:name => "left", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "top", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "right", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "bottom", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "horizontal", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "vertical", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "all", :typeName => unitValue, :isOptional => true)
+        unit_value = UnitValue.new.name
+        variables = [
+            Variable.new(:name => "left", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "top", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "right", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "bottom", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "horizontal", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "vertical", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "all", :typeName => unit_value, :isOptional => true)
         ]
-        synthaxType = CommonType.new(
-            :kind => 'struct',
+        synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 
-        super(synthaxType)
+        super(synthax_type)
 
     end
 
