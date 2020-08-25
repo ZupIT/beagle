@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.tokenizer.function.builtin
+package br.com.zup.beagle.android.context.tokenizer.function.builtin.other
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class SumFunction : Function<Number> {
+class IsNullFunction : Function<Number> {
+    override fun functionName(): String = "isNull"
 
     override fun execute(params: List<Any?>): Number {
-        val value1 = params[0]
-        val value2 = params[1]
-
-        return if (value1 is Int && value2 is Int) {
-            value1 + value2
-        } else {
-            (value1 as Double) + (value2 as Double)
-        }
+        TODO("Not yet implemented")
     }
 
-    override fun isParametersValid(params: List<Any?>): Boolean {
-        return params.size == 2 &&
-                (params[0] is Double && params[1] is Double) ||
-                (params[0] is Int && params[1] is Int)
-    }
-
-    override fun functionName(): String = "sum"
 }

@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.tokenizer.function
+package br.com.zup.beagle.android.context.tokenizer.function.builtin.other
 
-interface Function<T> {
-    fun functionName(): String
-    fun execute(params: List<Any?>): T
+import br.com.zup.beagle.android.context.tokenizer.function.Function
+
+class LengthFunction : Function<Number> {
+    override fun functionName(): String = "length"
+
+    override fun execute(params: List<Any?>): Number {
+        TODO("Not yet implemented")
+    }
+
 }

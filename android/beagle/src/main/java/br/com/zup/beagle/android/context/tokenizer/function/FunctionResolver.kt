@@ -16,26 +16,22 @@
 
 package br.com.zup.beagle.android.context.tokenizer.function
 
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.ConditionalFunction
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.GreaterFunction
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.SumFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.logic.ConditionFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.comparison.GtFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.number.SumFunction
 
 class FunctionResolver {
 
     private val functions = createFunctions()
 
     fun execute(functionName: String, params: List<Any?>): Any? {
-        val func = functions[functionName]
-        require(func?.isParametersValid(params) == true) {
-            "Invalid parameters at function \"$functionName\""
-        }
-        return func?.execute(params)
+        return functions[functionName]?.execute(params)
     }
 
     private fun createFunctions(): Map<String, Function<*>> {
-        val gt = GreaterFunction()
+        val gt = GtFunction()
         val sum = SumFunction()
-        val conditional = ConditionalFunction()
+        val conditional = ConditionFunction()
 
         return mapOf(
             gt.functionName() to gt,

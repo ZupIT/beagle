@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.tokenizer.function
+package br.com.zup.beagle.android.context.tokenizer.function.builtin.logic
 
-interface Function<T> {
-    fun functionName(): String
-    fun execute(params: List<Any?>): T
+import br.com.zup.beagle.android.context.tokenizer.function.Function
+
+class ConditionFunction : Function<Any?> {
+
+    override fun execute(params: List<Any?>): Any? {
+        return if (params[0] as Boolean) {
+            params[1]
+        } else {
+            params[2]
+        }
+    }
+
+    override fun functionName(): String = "condition"
 }

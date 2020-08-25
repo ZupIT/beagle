@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.tokenizer.function
+package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
-interface Function<T> {
-    fun functionName(): String
-    fun execute(params: List<Any?>): T
+import br.com.zup.beagle.android.context.tokenizer.function.Function
+
+class ConcatFunction : Function<Number> {
+    override fun functionName(): String = "concat"
+
+    override fun execute(params: List<Any?>): Number {
+        TODO("Not yet implemented")
+    }
+
 }

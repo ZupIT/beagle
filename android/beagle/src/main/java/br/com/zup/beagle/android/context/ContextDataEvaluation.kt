@@ -150,7 +150,7 @@ internal class ContextDataEvaluation(
         type: Type
     ): Any? {
         return if (expression != contextData.id) {
-            contextCache?.get(expression) ?: findValueAndCache(contextData, expression)?.also {
+            contextCache?.get(expression) ?: findValue(contextData, expression)?.also {
                 contextCache?.put(expression, it)
             }
         } else {
@@ -158,7 +158,7 @@ internal class ContextDataEvaluation(
         }
     }
 
-    private fun findValueAndCache(
+    private fun findValue(
         contextData: ContextData,
         expression: String
     ): Any? {

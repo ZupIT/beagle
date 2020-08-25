@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.tokenizer.function
+package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
-interface Function<T> {
-    fun functionName(): String
-    fun execute(params: List<Any?>): T
+import br.com.zup.beagle.android.context.tokenizer.function.Function
+
+class CapitalizeFunction : Function<Number> {
+    override fun functionName(): String = "capitalize"
+
+    override fun execute(params: List<Any?>): Number {
+        TODO("Not yet implemented")
+    }
+
 }

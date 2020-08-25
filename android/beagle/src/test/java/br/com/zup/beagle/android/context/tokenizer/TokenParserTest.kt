@@ -97,7 +97,7 @@ class TokenParserTest {
 
         // Then
         assertTrue { result.token is TokenNumber }
-        assertEquals(1L, result.token.value)
+        assertEquals(1, result.token.value)
     }
 
     @Test
@@ -151,9 +151,9 @@ class TokenParserTest {
         assertTrue { result.token is TokenFunction }
         val function = result.token as TokenFunction
         assertTrue { function.value[0] is TokenNumber }
-        assertEquals(1L, function.value[0].value)
+        assertEquals(1, function.value[0].value)
         assertTrue { function.value[1] is TokenNumber }
-        assertEquals(2L, function.value[1].value)
+        assertEquals(2, function.value[1].value)
     }
 
     @Test
@@ -179,10 +179,10 @@ class TokenParserTest {
         assertTrue { function.value[0] is TokenFunction }
         val innerFunction = function.value[0] as TokenFunction
         assertTrue { innerFunction.value[0] is TokenNumber }
-        assertEquals(1L, innerFunction.value[0].value)
+        assertEquals(1, innerFunction.value[0].value)
         assertTrue { innerFunction.value[1] is TokenNumber }
-        assertEquals(3L, innerFunction.value[1].value)
+        assertEquals(3, innerFunction.value[1].value)
         assertTrue { function.value[1] is TokenNumber }
-        assertEquals(2L, function.value[1].value)
+        assertEquals(2, function.value[1].value)
     }
 }
