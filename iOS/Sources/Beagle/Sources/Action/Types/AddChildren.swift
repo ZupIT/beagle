@@ -28,10 +28,8 @@ extension AddChildren: Action {
         case .append, .none:
             views.forEach { view.addSubview($0) }
         case .prepend:
-            var index = 0
-            for subView in views {
+            for (index, subView) in views.enumerated() {
                 view.insertSubview(subView, at: index)
-                index += 1
             }
         case .replace:
             view.subviews.forEach { $0.removeFromSuperview() }
