@@ -32,7 +32,7 @@ import org.junit.Before
 
 abstract class BaseTest {
 
-    protected val rootView = mockk<ActivityRootView>(relaxed = true)
+    protected val rootView = mockk<ActivityRootView>(relaxed = true, relaxUnitFun = true)
     protected val beagleSdk = mockk<BeagleSdk>(relaxed = true)
 
     @Before
