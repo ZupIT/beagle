@@ -66,6 +66,6 @@ internal class ScreenContextViewModel(
     }
 
     override fun onCleared() {
-        contextDataManager.clearContexts()
+        clearContexts()
     }
 }
