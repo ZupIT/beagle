@@ -22,7 +22,7 @@ import BeagleSchema
 final class AddChildrenTests: XCTestCase {
 
     private let imageSize = ImageSize.custom(CGSize(width: 200, height: 100))
-    private let controller = BeagleScreenViewController(Container(widgetProperties: WidgetProperties(id: "containerId")) {
+    private let controller = BeagleScreenViewController(Container(context: Context(id: "contextId", value: "context value"), widgetProperties: WidgetProperties(id: "containerId")) {
         Text("some text")
     })
     
@@ -53,6 +53,18 @@ final class AddChildrenTests: XCTestCase {
     func testAddChildrenReplace() {
         // Given
         let addChildren = AddChildren(componentId: "containerId", value: [Text("text")], mode: .replace)
+        assertSnapshotImage(controller, size: imageSize)
+        
+        // When
+        addChildren.execute(controller: controller, origin: UIView())
+
+        // Then
+        assertSnapshotImage(controller, size: imageSize)
+    }
+    
+    func testAddChildrenContext() {
+        // Given
+        let addChildren = AddChildren(componentId: "containerId", value: [Text("@{contextId}")], mode: .replace)
         assertSnapshotImage(controller, size: imageSize)
         
         // When
