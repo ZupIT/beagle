@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+
+
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
@@ -26,10 +29,8 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
 import br.com.zup.beagle.sample.constants.CYAN_BLUE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.action.*
-import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -38,7 +39,6 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
-import br.com.zup.beagle.widget.ui.Text
 
 object ButtonScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
@@ -59,27 +59,34 @@ object ButtonScreenBuilder : ScreenBuilder {
             )
         ),
         child = Container(
-            context = ContextData("context", "ola"),
             children = listOf(
-                Button(
-                    text = "Olá",
-                    onPress = listOf(
-                        AddChildrenAction("teste", listOf(
-                            Text("sem contexto")
-                        ), Mode.prepend)
+                createButton(
+                    text = "Button",
+                    style = Style(
+                        margin = EdgeValue(
+                            top = 15.unitReal()
+                        )
                     )
                 ),
-                Container(
-                    listOf(
-                        Text("@{context}"),
-                        Text(text = "Test @{context}"),
-                        Text(text = "Test ")
 
+                createButton(
+                    text = "Button with style",
+                    styleId = BUTTON_STYLE,
+                    style = Style(
+                        margin = EdgeValue(
+                            top = 15.unitReal()
+                        )
                     )
-                ).apply { id = "teste" }
-            )
-        ))
+                ),
 
+                buttonWithAppearanceAndStyle(text = "Button with Appearance"),
+                buttonWithAppearanceAndStyle(
+                    text = "Button with Appearance and style",
+                    styleId = BUTTON_STYLE_APPEARANCE
+                )
+            )
+        )
+    )
 
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
