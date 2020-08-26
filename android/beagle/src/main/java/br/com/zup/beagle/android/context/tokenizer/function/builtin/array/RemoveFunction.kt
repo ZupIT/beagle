@@ -17,19 +17,42 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.getFirstElementAsMutableList
+import org.json.JSONArray
 
 internal class RemoveFunction : Function {
     override fun functionName(): String = "remove"
 
-    override fun execute(vararg params: Any?): List<Any> {
-        val array = params.getFirstElementAsMutableList()
+    override fun execute(vararg params: Any?): Any {
+        val array = params[0]
         val element = params[1] as Any
+
+        if (array is Collection<*>) {
+            val list = array.toMutableList()
+            return removeElementsOnList(list, element)
+        } else if (array is JSONArray) {
+            return removeElementsOnJSONArray(array, element)
+        }
+
+
+        return emptyList<Any>()
+    }
+
+    private fun removeElementsOnList(list: MutableList<Any?>, element: Any): List<Any?> {
         var shouldRemove = true
         while (shouldRemove) {
-            shouldRemove = array.remove(element)
+            shouldRemove = list.remove(element)
+        }
+        return list
+    }
+
+    private fun removeElementsOnJSONArray(array: JSONArray, element: Any): JSONArray {
+        var elementsRemoved = 0
+        for(index in 0 until array.length()) {
+            if (array[index - elementsRemoved] == element) {
+                array.remove(index)
+                elementsRemoved++
+            }
         }
         return array
     }
-
 }

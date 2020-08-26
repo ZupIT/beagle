@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.context.tokenizer.function.builtin
 
+import org.json.JSONArray
+
 internal fun Array<out Any?>.toListOfDoubles(): List<Double> {
     return this.map {
         it as Double
@@ -34,6 +36,6 @@ internal fun Array<out Any?>.toListOfBooleans(): List<Boolean> {
     }
 }
 
-internal fun Array<out Any?>.getFirstElementAsMutableList(): MutableList<Any> {
-    return (this[0] as Collection<Any>).toMutableList()
+internal fun Any?.toJSONArray(): JSONArray {
+    return this as JSONArray
 }

@@ -17,6 +17,8 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.other
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal class IsEmptyFunction : Function {
     override fun functionName(): String = "isEmpty"
@@ -25,6 +27,8 @@ internal class IsEmptyFunction : Function {
         return when (val value = params[0]) {
             is String -> value.isEmpty()
             is Collection<Any?> -> value.isEmpty()
+            is JSONArray -> value.length() == 0
+            is JSONObject -> value.length() == 0
             is Map<*, *> -> value.isEmpty()
             else -> true
         }

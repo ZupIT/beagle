@@ -17,6 +17,8 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.other
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal class LengthFunction : Function {
     override fun functionName(): String = "length"
@@ -25,6 +27,8 @@ internal class LengthFunction : Function {
         return when (val value = params[0]) {
             is String -> value.length
             is Collection<*> -> value.size
+            is JSONArray -> value.length()
+            is JSONObject -> value.length()
             is Map<*, *> -> value.size
             else -> 0
         }

@@ -17,16 +17,25 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.getFirstElementAsMutableList
+import org.json.JSONArray
 
 internal class RemoveIndexFunction : Function {
     override fun functionName(): String = "removeIndex"
 
-    override fun execute(vararg params: Any?): List<Any> {
-        val array = params.getFirstElementAsMutableList()
+    override fun execute(vararg params: Any?): Any {
+        val array = params[0]
         val index = params[1] as Int
-        array.removeAt(index)
-        return array
+
+        if (array is Collection<*>) {
+            val list = array.toMutableList()
+            list.removeAt(index)
+            return list
+        } else if (array is JSONArray) {
+            array.remove(index)
+            return array
+        }
+
+        return emptyList<Any>()
     }
 
 }

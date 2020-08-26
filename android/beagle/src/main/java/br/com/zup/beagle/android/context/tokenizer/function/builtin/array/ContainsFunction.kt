@@ -17,15 +17,27 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.getFirstElementAsMutableList
+import org.json.JSONArray
 
 internal class ContainsFunction : Function {
     override fun functionName(): String = "contains"
 
     override fun execute(vararg params: Any?): Boolean {
-        val array = params.getFirstElementAsMutableList()
-        val element = params[1] as Any
-        return array.contains(element)
+        val array = params[0]
+        val element = params[1]
+
+        if (array is Collection<*>) {
+            val list = array.toMutableList()
+            return list.contains(element)
+        } else if (array is JSONArray) {
+            for(index in 0 until array.length()) {
+                if (array[index] == element) {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 
 }

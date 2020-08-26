@@ -17,21 +17,45 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.getFirstElementAsMutableList
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.toJSONArray
+import org.json.JSONArray
 
 internal class InsertFunction : Function {
     override fun functionName(): String = "insert"
 
-    override fun execute(vararg params: Any?): List<Any> {
-        val array = params.getFirstElementAsMutableList()
+    override fun execute(vararg params: Any?): Any {
+        val array = params[0]
         val element = params[1] as Any
         val index = params.getOrNull(2) as? Int
-        if (index != null) {
-            array.add(index, element)
-        } else {
-            array.add(element)
+
+        if (array is Collection<*>) {
+            val list = array.toMutableList()
+            return insertOnList(list, element, index)
+        } else if (array is JSONArray) {
+            return insertOnJSONArray(array, element, index)
         }
-        return array
+
+        return emptyList<Any>()
     }
 
+    private fun insertOnList(list: MutableList<Any?>, element: Any, index: Int?): List<Any?> {
+        if (index != null) {
+            list.add(index, element)
+        } else {
+            list.add(element)
+        }
+
+        return list
+    }
+
+
+    private fun insertOnJSONArray(list: JSONArray, element: Any, index: Int?): JSONArray {
+        if (index != null) {
+            list.put(index, element)
+        } else {
+            list.put(element)
+        }
+
+        return list
+    }
 }
