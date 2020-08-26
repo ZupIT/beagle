@@ -25,5 +25,5 @@ enum class Mode {
 data class AddChildrenAction(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
-    var mode: Mode? = Mode.append
+    var mode: Mode? = Mode.APPEND
 ) : Action
