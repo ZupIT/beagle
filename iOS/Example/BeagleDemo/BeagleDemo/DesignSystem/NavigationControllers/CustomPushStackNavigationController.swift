@@ -15,32 +15,13 @@
  * limitations under the License.
  */
 
-import Foundation
+import UIKit
+import Beagle
 
-@_functionBuilder
-public struct ChildBuilder {
-    public static func buildBlock(_ child: RawComponent) -> RawComponent {
-        return child
-    }
-}
+class CustomPushStackNavigationController: BeagleNavigationController {
 
-@_functionBuilder
-public struct ChildrenBuilder {
-    public static func buildBlock(_ children: RawComponent...) -> [RawComponent] {
-        return children
-    }
-}
-
-@_functionBuilder
-public struct TabItemBuilder {
-    public static func buildBlock(_ tabItem: TabItem) -> TabItem {
-        return tabItem
-    }
-}
-
-@_functionBuilder
-public struct TabItemsBuilder {
-    public static func buildBlock(_ tabItems: TabItem...) -> [TabItem] {
-        return tabItems
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationBar.barTintColor = .systemRed
     }
 }

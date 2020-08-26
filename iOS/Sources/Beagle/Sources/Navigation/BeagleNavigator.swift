@@ -25,6 +25,10 @@ public protocol BeagleNavigation {
     var defaultAnimation: BeagleNavigatorAnimation? { get set }
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool)
+    
+    func register<T: BeagleNavigationController>(controller type: T.Type)
+    func register<T: BeagleNavigationController>(controller type: T.Type, named: String)
+    func controllerType(forType type: String) -> BeagleNavigationController.Type?
 }
 
 public protocol DependencyNavigation {
@@ -36,6 +40,8 @@ class BeagleNavigator: BeagleNavigation {
     var defaultAnimation: BeagleNavigatorAnimation?
     
     private typealias Transition = (BeagleController, UIViewController, Bool) -> Void
+    
+    private(set) var controllerTypes: [String: BeagleNavigationController.Type] = [:]
     
     // MARK: - Navigate
     
@@ -56,8 +62,12 @@ class BeagleNavigator: BeagleNavigation {
             popView(controller: controller, animated: animated)
         case let .popToView(route):
             popToView(identifier: route, controller: controller, animated: animated)
-        case let .pushStack(route):
-            navigate(route: route, origin: controller, animated: animated, transition: pushStack(origin:destination:animated:))
+        case let .pushStack(route, controllerId):
+            navigate(route: route,
+                     origin: controller,
+                     animated: animated) { [weak self] origin, destination, animated in
+                self?.pushStack(origin: origin, destination: destination, controllerId: controllerId, animated: animated)
+            }
         case .popStack:
             popStack(controller: controller, animated: animated)
         }
@@ -147,8 +157,8 @@ class BeagleNavigator: BeagleNavigation {
         controller.navigationController?.popToViewController(target, animated: animated)
     }
     
-    private func pushStack(origin: BeagleController, destination: UIViewController, animated: Bool) {
-        let navigationToPresent = origin.dependencies.navigationControllerType.init()
+    private func pushStack(origin: BeagleController, destination: UIViewController, controllerId: String? = nil, animated: Bool) {
+        let navigationToPresent = getBeagleNavigationController(controllerId: controllerId)
         navigationToPresent.viewControllers = [destination]
         
         if #available(iOS 13.0, *) {
@@ -162,6 +172,15 @@ class BeagleNavigator: BeagleNavigation {
         }
         
         origin.present(navigationToPresent, animated: animated)
+    }
+    
+    private func getBeagleNavigationController(controllerId: String?) -> BeagleNavigationController {
+        if let controllerId = controllerId,
+            let controllerType = dependencies.navigation.controllerType(forType: controllerId) {
+            return controllerType.init()
+        } else {
+            return dependencies.navigationControllerType.init()
+        }
     }
     
     private func popStack(controller: UIViewController, animated: Bool) {
@@ -232,5 +251,24 @@ class BeagleNavigator: BeagleNavigation {
                 origin.serverDrivenState = .error(.remoteScreen(error), retry)
             }
         }
+    }
+    
+    // MARK: - Register
+    
+    public func register<T: BeagleNavigationController>(controller type: T.Type) {
+        let componentTypeName = String(describing: T.self)
+        registerController(type, key: componentTypeName)
+    }
+    
+    public func controllerType(forType type: String) -> BeagleNavigationController.Type? {
+        return controllerTypes[type.lowercased()]
+    }
+    
+    public func register<T: BeagleNavigationController>(controller type: T.Type, named: String) {
+        registerController(type, key: named)
+    }
+    
+    private func registerController<T: BeagleNavigationController>(_ type: T.Type, key: String) {
+        controllerTypes[key.lowercased()] = type
     }
 }

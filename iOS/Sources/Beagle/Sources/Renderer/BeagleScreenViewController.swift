@@ -50,6 +50,8 @@ public class BeagleScreenViewController: BeagleController {
     
     private var bindings: [() -> Void] = []
     
+    private var navigationControllerId: String?
+    
     // MARK: - Initialization
     
     @discardableResult
@@ -65,16 +67,19 @@ public class BeagleScreenViewController: BeagleController {
         }
     }
     
-    public convenience init(_ component: RawComponent) {
+    public convenience init(_ component: RawComponent, controllerId: String? = nil) {
         self.init(.declarative(component.toScreen()))
+        self.navigationControllerId = controllerId
     }
     
-    public convenience init(_ screenType: ScreenType) {
+    public convenience init(_ screenType: ScreenType, controllerId: String? = nil) {
         self.init(viewModel: .init(screenType: screenType))
+        self.navigationControllerId = controllerId
     }
     
-    required init(viewModel: BeagleScreenViewModel) {
+    required init(viewModel: BeagleScreenViewModel, controllerId: String? = nil) {
         self.viewModel = viewModel
+        self.navigationControllerId = controllerId
         super.init(nibName: nil, bundle: nil)
         extendedLayoutIncludesOpaqueBars = true
     }
@@ -168,9 +173,18 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func createNavigationContent() {
-        let beagleNavigation = dependencies.navigationControllerType.init()
+        let beagleNavigation = getBeagleNavigationController()
         beagleNavigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
         content = .navigation(beagleNavigation)
+    }
+    
+    private func getBeagleNavigationController() -> BeagleNavigationController {
+        if let controllerId = navigationControllerId,
+            let controllerType = dependencies.navigation.controllerType(forType: controllerId) {
+            return controllerType.init()
+        } else {
+            return dependencies.navigationControllerType.init()
+        }
     }
     
     private func updateNavigationBar(animated: Bool) {
