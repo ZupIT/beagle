@@ -9,6 +9,7 @@ import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
 
 data class SafeArea(
@@ -39,8 +40,8 @@ data class Screen(
     val identifier: String? = null,
     val safeArea: SafeArea? = null,
     val navigationBar: NavigationBar? = null,
-    val child: ServerDrivenComponent,
+    override val child: ServerDrivenComponent,
     val style: Style? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override val context: ContextData? = null
-) : ScreenAnalytics, ContextComponent
+) : ScreenAnalytics, ContextComponent, SingleChildComponent

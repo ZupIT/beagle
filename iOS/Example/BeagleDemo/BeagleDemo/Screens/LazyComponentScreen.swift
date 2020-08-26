@@ -36,7 +36,7 @@ struct LazyComponentScreen: DeeplinkScreen {
                     Deprecated.FormInput(
                         name: "field",
                         child: LazyComponent(
-                            path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
+                            path: .textLazyComponentEndpoint,
                             initialState: Text("Loading...")
                         )
                     )
@@ -54,13 +54,13 @@ struct LazyComponentScreen: DeeplinkScreen {
         return Screen(
             navigationBar: NavigationBar(title: "Form & LazyComponent")) {
             Deprecated.Form(
-                onSubmit: [FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get)],
+                onSubmit: [FormRemoteAction(path: .textFormEndpoint, method: .get)],
                 child: Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween))) {
                     Text("Form & LazyComponent")
                     Deprecated.FormInput(
                         name: "field1",
                         child: LazyComponent(
-                            path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
+                            path: .textLazyComponentEndpoint,
                             initialState: Text("Loading...")
                         )
                     )

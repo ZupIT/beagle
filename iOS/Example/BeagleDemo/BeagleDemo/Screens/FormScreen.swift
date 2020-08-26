@@ -34,7 +34,7 @@ struct FormScreen: DeeplinkScreen {
     func screenController() -> UIViewController {
         let styleHorizontalMargin = Style().margin(EdgeValue().all(10))
         let form = Deprecated.Form(
-            onSubmit: [FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .post)],
+            onSubmit: [FormRemoteAction(path: .textFormEndpoint, method: .post)],
             child: Container(widgetProperties: .init(style: Style(padding: EdgeValue().all(10)))) {
                     Deprecated.FormInput(
                         name: "optional-field",
@@ -64,7 +64,7 @@ struct FormScreen: DeeplinkScreen {
                     )
                     Container(children: [], widgetProperties: .init(style: Style(flex: Flex(grow: 1))))
                     Deprecated.FormSubmit(
-                        child: Button(text: "Submit Form", styleId: .FORM_SUBMIT_STYLE, widgetProperties: .init(style: styleHorizontalMargin)),
+                        child: Button(text: "Submit Form", styleId: .formSubmitStyle, widgetProperties: .init(style: styleHorizontalMargin)),
                         enabled: false
                     )
                 

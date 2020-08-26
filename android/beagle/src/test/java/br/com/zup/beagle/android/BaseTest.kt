@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
@@ -33,7 +32,7 @@ import org.junit.Before
 
 abstract class BaseTest {
 
-    protected val rootView = mockk<ActivityRootView>(relaxed = true)
+    protected val rootView = mockk<ActivityRootView>(relaxed = true, relaxUnitFun = true)
     protected val beagleSdk = mockk<BeagleSdk>(relaxed = true)
 
     @Before

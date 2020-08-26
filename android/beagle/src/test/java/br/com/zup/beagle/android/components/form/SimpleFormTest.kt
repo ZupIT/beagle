@@ -23,7 +23,11 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertTrue
 
@@ -58,7 +62,7 @@ internal class SimpleFormTest : BaseComponentTest() {
         simpleForm.buildView(rootView)
 
         // Then
-        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(children[0], rootView) }
+        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(children[0]) }
     }
 
     @Test

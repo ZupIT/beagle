@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context
+package br.com.zup.beagle.core
 
-import android.view.View
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-internal class ContextComponentHandler {
-
-    fun handleContext(viewModel: ScreenContextViewModel, view: View, component: ServerDrivenComponent) {
-        if (component is ContextComponent) {
-            component.context?.let { context ->
-                viewModel.addContext(view, context)
-            }
-        }
-    }
+/**
+ * Component that has children
+ * @property children list of views that the component has in its hierarchy
+ */
+interface MultiChildComponent {
+    val children: List<ServerDrivenComponent>
 }
