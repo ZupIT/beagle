@@ -59,6 +59,8 @@ internal class TokenBoolean(
 
 internal class TokenNull : Token(Any())
 
+internal class InvalidToken : Token(Any())
+
 internal class TokenFunction(
     val name: String,
     override val value: List<Token>

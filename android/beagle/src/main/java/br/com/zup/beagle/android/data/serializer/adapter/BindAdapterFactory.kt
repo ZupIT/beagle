@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.isExpression
+import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.TokenParser
 import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.JsonAdapter
@@ -25,6 +26,7 @@ import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import java.lang.Exception
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 

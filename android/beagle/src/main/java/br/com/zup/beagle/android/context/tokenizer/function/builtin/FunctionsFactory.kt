@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.array.IncludesFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.array.ContainsFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.array.InsertFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.array.RemoveFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.array.RemoveIndexFunction
@@ -37,14 +37,14 @@ import br.com.zup.beagle.android.context.tokenizer.function.builtin.number.SumFu
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.other.IsEmptyFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.other.IsNullFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.other.LengthFunction
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.*
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.CapitalizeFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.ConcatFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.LowercaseFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.SubstrFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.UppercaseFunction
 
 internal fun mapOfArrayFunctions(): Map<String, Function> {
-    val includes = IncludesFunction()
+    val includes = ContainsFunction()
     val insert = InsertFunction()
     val remove = RemoveFunction()
     val removeIndex = RemoveIndexFunction()

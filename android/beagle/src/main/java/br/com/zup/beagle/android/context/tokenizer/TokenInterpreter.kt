@@ -30,31 +30,22 @@ internal class TokenInterpreter(value: String) {
     }
 
     private fun readToken(): Token? {
-        if (lastChar.isDigit()) {
-            return readNumber()
-        }
-
-        when (lastChar) {
-            '\'' -> return readString()
-            '(' -> {
+        return when {
+            lastChar == '\'' -> readString()
+            lastChar == '(' -> {
                 resetLastChar()
-                return tokenOpenBracket()
+                tokenOpenBracket()
             }
-            ')' -> {
+            lastChar == ')' -> {
                 resetLastChar()
-                return tokenOfCloseBracket()
+                tokenOfCloseBracket()
             }
-            ',' -> {
+            lastChar == ',' -> {
                 resetLastChar()
-                return tokenOfComma()
+                tokenOfComma()
             }
+            else -> readVariableOrFunction()
         }
-
-        if (!lastChar.isJavaIdentifierStart()) {
-            return null
-        }
-
-        return readVariableOrFunction()
     }
 
     private fun readString(): Token? {
@@ -86,31 +77,6 @@ internal class TokenInterpreter(value: String) {
         return sb.toString()
     }
 
-    private fun readNumber(): Token? {
-        val text = StringBuilder()
-
-        text.append(lastChar)
-        lastChar = reader.read().toChar()
-
-        var decimal = false
-        while (lastChar.isDigit() || '.' == lastChar) {
-            text.append(lastChar)
-            if (lastChar == '.') decimal = true
-            lastChar = reader.read().toChar()
-        }
-
-        val value = text.toString()
-        return if (decimal) {
-            tokenOfNumber(value.toDouble())
-        } else {
-            try {
-                tokenOfNumber(value.toInt())
-            } catch (e: NumberFormatException) {
-                null
-            }
-        }
-    }
-
     private fun readVariableOrFunction(): Token? {
         val sb = StringBuilder()
         while (lastChar.isJavaIdentifierPart() || lastChar == '.') {
@@ -131,11 +97,25 @@ internal class TokenInterpreter(value: String) {
         } else if (value == "null") {
             tokenOfNull()
         } else {
-            tokenOfBinding(value)
+            value.getTokenNumber() ?: tokenOfBinding(value)
         }
     }
 
     private fun resetLastChar() {
         lastChar = Char.MIN_VALUE
+    }
+
+    private fun String.getTokenNumber(): TokenNumber? {
+        val value: Number? = try {
+            this.toInt()
+        } catch (ex: NumberFormatException) {
+            try {
+                this.toDouble()
+            } catch (ex: NumberFormatException) {
+                null
+            }
+        }
+
+        return if (value != null) tokenOfNumber(value) else null
     }
 }

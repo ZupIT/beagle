@@ -32,6 +32,9 @@ internal class ExpressionTokenExecutor(
         expressionToken: ExpressionToken,
         findValue: FindValue
     ): Any? {
+        if (expressionToken.token is InvalidToken) {
+            return null
+        }
         return interpretToken(findValue, contexts, expressionToken.token)
     }
 
@@ -45,14 +48,18 @@ internal class ExpressionTokenExecutor(
         }
     }
 
-    private fun interpretFunction(findValue: FindValue, contexts: List<ContextData>, tokenFunction: TokenFunction): Any? {
-        val params = mutableListOf<Any?>()
+    private fun interpretFunction(
+        findValue: FindValue,
+        contexts: List<ContextData>,
+        tokenFunction: TokenFunction
+    ): Any? {
+        val params = arrayOfNulls<Any?>(tokenFunction.value.size)
 
-        tokenFunction.value.forEach { token ->
-            params.add(interpretToken(findValue, contexts, token))
+        tokenFunction.value.forEachIndexed { index, token ->
+            params[index] = interpretToken(findValue, contexts, token)
         }
 
-        return functionResolver.execute(tokenFunction.name, params)
+        return functionResolver.execute(tokenFunction.name, *params)
     }
 
     private fun interpretBinding(findValue: FindValue, contexts: List<ContextData>, tokenBinding: TokenBinding): Any? {

@@ -17,10 +17,7 @@
 package br.com.zup.beagle.android.context.tokenizer.function
 
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import io.mockk.every
-import io.mockk.mockkObject
-import io.mockk.unmockkAll
-import io.mockk.verify
+import io.mockk.*
 import org.junit.After
 import org.junit.Test
 
@@ -46,7 +43,7 @@ class FunctionResolverTest {
         assertNotNull(functionResolver.execute("divide", 1, 2))
         assertNotNull(functionResolver.execute("multiply", 1, 2))
         assertNotNull(functionResolver.execute("subtract", 1, 2))
-        assertNotNull(functionResolver.execute("includes", listOf(1), 1))
+        assertNotNull(functionResolver.execute("contains", listOf(1), 1))
         assertNotNull(functionResolver.execute("insert", listOf(1), 1))
         assertNotNull(functionResolver.execute("remove", listOf(1), 1))
         assertNotNull(functionResolver.execute("removeIndex", listOf(1), 0))
@@ -71,10 +68,10 @@ class FunctionResolverTest {
 
     @Test
     fun execute_should_log_function_that_does_not_exists() {
-        every { BeagleMessageLogs.functionWithNameDoesNotExist(any()) }
+        every { BeagleMessageLogs.functionWithNameDoesNotExist(any()) } just Runs
 
         assertNull(functionResolver.execute("aa", ""))
 
-        verify { BeagleMessageLogs.functionWithNameDoesNotExist("a") }
+        verify { BeagleMessageLogs.functionWithNameDoesNotExist("aa") }
     }
 }

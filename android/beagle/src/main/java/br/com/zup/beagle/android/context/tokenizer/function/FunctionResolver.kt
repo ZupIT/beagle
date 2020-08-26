@@ -16,11 +16,12 @@
 
 package br.com.zup.beagle.android.context.tokenizer.function
 
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.*
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfArrayFunctions
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfComparisonFunctions
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfLogicFunctions
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfNumberFunctions
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfOtherFunctions
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfStringFunctions
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 
 internal class FunctionResolver {

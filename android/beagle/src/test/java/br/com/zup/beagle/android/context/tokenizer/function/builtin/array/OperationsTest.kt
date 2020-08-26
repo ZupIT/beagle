@@ -44,7 +44,7 @@ class OperationsTest {
 
     @Test
     fun includes_should_check_if_contains_element() {
-        assertTrue(IncludesFunction().execute(listOf(1, 2, 3), 2))
+        assertTrue(ContainsFunction().execute(listOf(1, 2, 3), 2))
     }
 
     @Test

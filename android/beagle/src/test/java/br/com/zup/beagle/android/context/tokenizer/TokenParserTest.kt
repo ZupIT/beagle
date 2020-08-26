@@ -142,6 +142,19 @@ class TokenParserTest {
     }
 
     @Test
+    fun parse_should_return_binding_with_number() {
+        // Given
+        val expression = "1bind2ingId3.4bind5ingValue6"
+
+        // When
+        val result = tokenParser.parse(expression)
+
+        // Then
+        assertTrue { result.token is TokenBinding }
+        assertEquals(expression, result.token.value)
+    }
+
+    @Test
     fun parse_should_return_1_0() {
         // Given
         val expression = "1.0"
@@ -179,25 +192,23 @@ class TokenParserTest {
         // When
         val result = tokenParser.parse(value)
 
-
         // Then
         assertNotNull(result)
     }
 
     @Test
     fun parse_should_throw_exception_when_function_is_invalid() {
-        assertFails { tokenParser.parse("gt(1, 2") }
-        assertFails { tokenParser.parse("gt(2, 4))") }
-        assertFails { tokenParser.parse("sum(4(2)") }
-        assertFails { tokenParser.parse("sum(2))") }
-        assertFails { tokenParser.parse("sum(,),)") }
+        assertTrue { tokenParser.parse("gt(1, 2").token is InvalidToken }
+        assertTrue { tokenParser.parse("gt(2, 4))").token is InvalidToken }
+        assertTrue { tokenParser.parse("sum(4(2)").token is InvalidToken }
+        assertTrue { tokenParser.parse("sum(2))").token is InvalidToken }
+        assertTrue { tokenParser.parse("sum(,),)").token is InvalidToken }
     }
 
     @Test
     fun parse_should_throw_exception_when_function_name_is_invalid() {
-        assertFails { tokenParser.parse("2sum(4, 2)") }
-        assertFails { tokenParser.parse("sum-test(4, 2)") }
-        assertFails { tokenParser.parse("s?um(4, 2)") }
+        assertTrue { tokenParser.parse("sum-test(4, 2)").token is InvalidToken }
+        assertTrue { tokenParser.parse("s?um(4, 2)").token is InvalidToken }
     }
 
     @Test

@@ -20,7 +20,3 @@ internal interface Function {
     fun functionName(): String
     fun execute(vararg params: Any?): Any?
 }
-
-internal inline fun <reified T> Array<out Any>.getParam(index: Int): T {
-    return this[index] as T
-}

@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.getFirstElementAsMutableList
 
-internal class IncludesFunction : Function {
-    override fun functionName(): String = "includes"
+internal class ContainsFunction : Function {
+    override fun functionName(): String = "contains"
 
     override fun execute(vararg params: Any?): Boolean {
         val array = params.getFirstElementAsMutableList()
