@@ -183,10 +183,6 @@ internal class ContextDataEvaluation(
         contextData: ContextData,
         expression: String
     ): Any? {
-        val newPath = expression.replaceFirst("${contextData.id}.", "")
-        if (newPath.isEmpty()) {
-            throw JsonPathUtils.createInvalidPathException(newPath)
-        }
-        return contextDataManipulator.get(contextData, newPath)
+        return contextDataManipulator.get(contextData, expression)
     }
 }
