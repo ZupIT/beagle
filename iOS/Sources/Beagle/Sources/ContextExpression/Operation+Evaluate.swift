@@ -63,8 +63,8 @@ extension BeagleSchema.Operation {
             return remove(in: view)
         case .removeIndex:
             return removeIndex(in: view)
-        case .includes:
-            return includes(in: view)
+        case .contains:
+            return contains(in: view)
         case .isNull:
             return isNull(in: view)
         case .isEmpty:
@@ -357,7 +357,7 @@ extension BeagleSchema.Operation {
         return .array(array)
     }
     
-    private func includes(in view: UIView) -> DynamicObject {
+    private func contains(in view: UIView) -> DynamicObject {
         guard parameters.count == 2 else { return nil }
         
         let parameters = evaluatedParameters(in: view)

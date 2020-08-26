@@ -71,7 +71,7 @@ extension Operation {
         case concat, capitalize, uppercase, lowercase, substr
 
         // array
-        case insert, remove, removeIndex, includes
+        case insert, remove, removeIndex, contains
 
         //other
         case isNull, isEmpty, length

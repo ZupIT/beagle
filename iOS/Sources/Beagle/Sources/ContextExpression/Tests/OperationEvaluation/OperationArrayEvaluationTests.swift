@@ -90,13 +90,13 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
         }
     }
     
-    func testEvaluateIncludes() {
+    func testEvaluateContains() {
         // Given
-        let name = Operation.Name.includes
+        let name = Operation.Name.contains
         let contexts = [Context(id: "context", value: [1, 2, 3])]
         let binding = contexts[0].id
         guard let insert = "\(binding), 4, 2".toOperation(name: .insert) else {
-            XCTFail()
+            XCTFail("Failed to get operation")
             return
         }
         

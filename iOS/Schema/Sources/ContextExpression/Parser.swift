@@ -139,7 +139,7 @@ let value: Parser<Value> = oneOf(
 
 // MARK: Operation
 
-let oparationName: Parser<Operation.Name> = prefix(with: #"^(?!\d)\w+"#).flatMap {
+let operationName: Parser<Operation.Name> = prefix(with: #"^\w+"#).flatMap {
     guard let name = Operation.Name(rawValue: $0) else { return .never }
     return always(name)
 }
@@ -158,7 +158,7 @@ let parameters: Parser<[Operation.Parameter]> = zip(
 }
 
 let operation: Parser<Operation> = zip(
-    oparationName,
+    operationName,
     parameters
 ).map { name, parameters in
     Operation(name: name, parameters: parameters)
