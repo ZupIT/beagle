@@ -40,6 +40,7 @@ internal class ContextDataManager(
     private var globalContext: ContextBinding = ContextBinding(GlobalContext.getContext())
     private val contexts = mutableMapOf<Int, ContextBinding>()
     private val viewBinding = mutableMapOf<View, MutableSet<Binding<*>>>()
+    private val orphanBindings = mutableSetOf<Binding<*>>()
     private val globalContextObserver: GlobalContextObserver = {
         updateGlobalContext(it)
     }
@@ -87,9 +88,14 @@ internal class ContextDataManager(
         viewBinding.forEach { entry ->
             val parentContexts = entry.key.getAllParentContextWithGlobal()
             entry.value.forEach { binding ->
-                binding.bind.filterBindingTokens().forEach { expression ->
-                    val contextId = expression.getContextId()
-                    parentContexts[contextId]?.bindings?.add(binding)
+                val bindingTokens = binding.bind.filterBindingTokens()
+                if (bindingTokens.isNotEmpty()) {
+                    bindingTokens.forEach { expression ->
+                        val contextId = expression.getContextId()
+                        parentContexts[contextId]?.bindings?.add(binding)
+                    }
+                } else {
+                    orphanBindings.add(binding)
                 }
             }
         }
@@ -136,6 +142,10 @@ internal class ContextDataManager(
     }
 
     fun evaluateContexts() {
+        orphanBindings.forEach { binding ->
+            val value = contextDataEvaluation.evaluateBindExpression(listOf(), binding.bind)
+            binding.notifyChanges(value)
+        }
         contexts.forEach { entry ->
             notifyBindingChanges(entry.value)
         }

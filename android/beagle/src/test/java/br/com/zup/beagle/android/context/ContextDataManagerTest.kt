@@ -339,6 +339,21 @@ class ContextDataManagerTest : BaseTest() {
     }
 
     @Test
+    fun evaluateContexts_should_trigger_orphanBindings() {
+        // Given
+        val bind = expressionOf<Int>("@{sum(1,1)}")
+        val observer = mockk<Observer<Int?>>(relaxed = true)
+        contextDataManager.addBinding(viewContext, bind, observer)
+        contextDataManager.linkBindingToContext()
+
+        // When
+        contextDataManager.evaluateContexts()
+
+        // Then
+        verify(exactly = once()) { observer(2) }
+    }
+
+    @Test
     fun evaluateContexts_should_get_null_value_from_evaluation() {
         // Given
         val value = true
