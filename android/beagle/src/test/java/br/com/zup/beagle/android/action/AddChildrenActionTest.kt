@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -49,7 +50,6 @@ class AddChildrenActionTest {
     @MockK(relaxed = true, relaxUnitFun = true)
     private lateinit var view: View
 
-    private val valueCount = 4
     private val id = "id"
 
     @Before
@@ -75,9 +75,55 @@ class AddChildrenActionTest {
         action.execute(rootView, origin)
 
         //THEN
-        verify { viewGroup.addView(view) }
-
+        verify(exactly = once()) { viewGroup.addView(view) }
     }
 
+    @Test
+    fun addChildren_with_append_mode_should_call_view_group_add_view() {
+        //GIVEN
+        val action = AddChildrenAction(
+            id,
+            value,
+            Mode.APPEND
+        )
 
+        //WHEN
+        action.execute(rootView, origin)
+
+        //THEN
+        verify(exactly = once()) { viewGroup.addView(view) }
+    }
+
+    @Test
+    fun addChildren_with_replace_mode_should_call_view_group_remove_all_views_than_add_view() {
+        //GIVEN
+        val action = AddChildrenAction(
+            id,
+            value,
+            Mode.REPLACE
+        )
+
+        //WHEN
+        action.execute(rootView, origin)
+
+        //THEN
+        verify(exactly = once()) { viewGroup.removeAllViews() }
+        verify(exactly = once()) { viewGroup.addView(view) }
+    }
+
+    @Test
+    fun addChildren_with_prepend_mode_should_call_view_group_add_view_index_zero() {
+        //GIVEN
+        val action = AddChildrenAction(
+            id,
+            value,
+            Mode.PREPEND
+        )
+
+        //WHEN
+        action.execute(rootView, origin)
+
+        //THEN
+        verify(exactly = once()) { viewGroup.addView(view, 0) }
+    }
 }

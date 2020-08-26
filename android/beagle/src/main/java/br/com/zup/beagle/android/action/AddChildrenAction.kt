@@ -26,57 +26,63 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 enum class Mode {
-    append, prepend, replace
+    APPEND, PREPEND, REPLACE
 }
 
 data class AddChildrenAction(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
-    var mode: Mode? = Mode.append
+    var mode: Mode? = Mode.APPEND
 ) : Action {
     override fun execute(rootView: RootView, origin: View) {
         try {
             val view = (rootView.getContext() as AppCompatActivity).findViewById<ViewGroup>(componentId.toAndroidId())
-            addValueToView(view, rootView)
+            val viewList = convertServerDrivenListOnViewList(value, rootView)
+            addValueToView(view, viewList)
         } catch (exception: Exception) {
             BeagleLoggerDefault().error("This view cannot receive children")
         }
     }
 
-    private fun addValueToView(view: ViewGroup, rootView: RootView) {
+    private fun convertServerDrivenListOnViewList(list: List<ServerDrivenComponent>, rootView: RootView): List<View> {
+        val result: ArrayList<View> = ArrayList()
+        list.forEach {
+            result.add(it.toView(rootView))
+        }
+        return result
+    }
+
+    private fun addValueToView(view: ViewGroup, viewList: List<View>) {
         when (mode) {
-            Mode.append -> {
-                appendValue(view, rootView)
+            Mode.APPEND -> {
+                appendListOnViewGroupChildren(view, viewList)
             }
-            Mode.prepend -> {
-                prependValue(view, rootView)
+            Mode.PREPEND -> {
+                prependValue(view, viewList)
             }
-            Mode.replace -> {
-                replaceValue(view, rootView)
-                //fazer testes de todos modos
-                //Fazer Unit test
-
+            Mode.REPLACE -> {
+                replaceValue(view, viewList)
             }
         }
     }
 
-    private fun appendValue(view: ViewGroup, rootView: RootView) {
-        value.forEach {
-            view.addView(it.toView(rootView))
+    private fun prependValue(viewGroup: ViewGroup, viewList: List<View>) {
+        viewList.forEach {
+            viewGroup.addView(it, 0)
+        }
+        viewGroup.invalidate()
+    }
+
+    private fun replaceValue(viewGroup: ViewGroup, viewList: List<View>) {
+        viewGroup.removeAllViews()
+        appendListOnViewGroupChildren(viewGroup, viewList)
+    }
+
+    private fun appendListOnViewGroupChildren(viewGroup: ViewGroup, list: List<View>) {
+        list.forEach {
+            viewGroup.addView(it)
         }
     }
 
-    private fun prependValue(view: ViewGroup, rootView: RootView) {
-        value.forEach {
-            view.addView(it.toView(rootView), 0)
-        }
-    }
-
-    private fun replaceValue(view: ViewGroup, rootView: RootView){
-        view.removeAllViews()
-        value.forEach {
-            view.addView(it.toView(rootView))
-        }
-    }
 
 }
