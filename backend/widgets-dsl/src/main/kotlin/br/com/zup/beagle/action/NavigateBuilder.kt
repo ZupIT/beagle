@@ -88,9 +88,11 @@ class RouteLocalBuilder : BeagleBuilder<Route.Local> {
 
 }
 
-fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit) = NavigateOpenExternalURLBuilder().apply(block).build()
+fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit) =
+    NavigateOpenExternalURLBuilder().apply(block).build()
 
-fun navigateOpenNativeRoute(block: NavigateOpenNativeRouteBuilder.() -> Unit) = NavigateOpenNativeRouteBuilder().apply(block).build()
+fun navigateOpenNativeRoute(block: NavigateOpenNativeRouteBuilder.() -> Unit) =
+    NavigateOpenNativeRouteBuilder().apply(block).build()
 
 fun navigatePushStack(block: NavigatePushStackBuilder.() -> Unit) = NavigatePushStackBuilder().apply(block).build()
 
@@ -102,9 +104,11 @@ fun navigatePopView(block: NavigatePopViewBuilder.() -> Unit) = NavigatePopViewB
 
 fun navigatePopToView(block: NavigatePopToViewBuilder.() -> Unit) = NavigatePopToViewBuilder().apply(block).build()
 
-fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit) = NavigateResetApplicationBuilder().apply(block).build()
+fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit) =
+    NavigateResetApplicationBuilder().apply(block).build()
 
-fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit) = NavigateResetStackBuilder().apply(block).build()
+fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit) =
+    zNavigateResetStackBuilder().apply(block).build()
 
 interface NavigateBuilderHelper {
     var navigate: Navigate
@@ -171,7 +175,9 @@ class NavigateOpenNativeRouteBuilder : BeagleBuilder<Navigate.OpenNativeRoute> {
     var data: MutableMap<String, String>? = null
 
     fun route(route: String) = this.apply { this.route = route }
-    fun shouldResetApplication(shouldResetApplication: Boolean) = this.apply { this.shouldResetApplication = shouldResetApplication }
+    fun shouldResetApplication(shouldResetApplication: Boolean) =
+        this.apply { this.shouldResetApplication = shouldResetApplication }
+
     fun data(data: MutableMap<String, String>?) = this.apply { this.data = data }
 
     fun route(block: () -> String) {
