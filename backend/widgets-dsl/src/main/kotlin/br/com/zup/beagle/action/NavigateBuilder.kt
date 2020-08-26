@@ -108,7 +108,7 @@ fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit) 
     NavigateResetApplicationBuilder().apply(block).build()
 
 fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit) =
-    zNavigateResetStackBuilder().apply(block).build()
+    NavigateResetStackBuilder().apply(block).build()
 
 interface NavigateBuilderHelper {
     var navigate: Navigate

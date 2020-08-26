@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.view.ScreenRequest
 
 /**
  * Create a intent to start BeagleActivity's sub-classes.
- * @property screenJson that represents a Screen to be show
+ * @property screenJson that represents a Screen to be shown
  */
 inline fun <reified T : BeagleActivity> Context.newServerDrivenIntent(screenJson: String): Intent {
     return Intent(this, T::class.java).putExtras(BeagleActivity.bundleOf(screenJson))
@@ -32,7 +32,7 @@ inline fun <reified T : BeagleActivity> Context.newServerDrivenIntent(screenJson
 
 /**
  * Create a intent to start BeagleActivity's sub-classes.
- * @property screen to be show
+ * @property screen to be shown
  */
 inline fun <reified T : BeagleActivity> Context.newServerDrivenIntent(screen: Screen): Intent {
     return Intent(this, T::class.java).putExtras(BeagleActivity.bundleOf(screen))
