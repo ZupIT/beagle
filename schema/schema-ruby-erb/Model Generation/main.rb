@@ -72,8 +72,6 @@ class ModelGenerator
     generateTs
   end
 
-  private
-
   def generateKotlin
     @erb = ERB.new(File.read("model_template_kotlin.erb"), nil, '-')
     for component in @components
@@ -111,6 +109,7 @@ class ModelGenerator
 end
 
 if __FILE__ == $0
+
   components = [
     # Components
     Button,
@@ -134,9 +133,19 @@ if __FILE__ == $0
     AnalyticsEvent,
     AnalyticsClick,
     AnalyticsScreen
-
   ]
   
-  ModelGenerator.new(components).generate
+  case ARGV[0]
+  when "s"
+    ModelGenerator.new(components).generate
+  when "t"
+    ModelGenerator.new(components).generate
+  when "k"
+    ModelGenerator.new(components).generate
+  when "a"
+    ModelGenerator.new(components).generate
+  else
+    "You gave me #{x} -- I have no idea what to do with that."
+  end
 
 end
