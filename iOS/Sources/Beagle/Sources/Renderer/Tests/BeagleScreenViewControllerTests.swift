@@ -359,7 +359,7 @@ struct SimpleComponent {
 class BeagleControllerStub: BeagleController {
     
     var dependencies: BeagleDependenciesProtocol
-    var serverDrivenState: ServerDrivenState = .loading(false)
+    var serverDrivenState: ServerDrivenState = .finished
     var screenType: ScreenType
     var screen: Screen?
 

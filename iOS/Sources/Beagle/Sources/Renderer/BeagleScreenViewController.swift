@@ -90,7 +90,7 @@ public class BeagleScreenViewController: BeagleController {
         return viewModel.dependencies
     }
 
-    public var serverDrivenState: ServerDrivenState = .loading(false) {
+    public var serverDrivenState: ServerDrivenState = .finished {
         didSet { notifyBeagleNavigation(state: serverDrivenState) }
     }
         
@@ -201,12 +201,14 @@ public class BeagleScreenViewController: BeagleController {
         case .initialized:
             break
         case .loading:
-            serverDrivenState = .loading(true)
+            serverDrivenState = .started
         case .success:
-            serverDrivenState = .loading(false)
+            serverDrivenState = .finished
+            serverDrivenState = .success
             renderScreenIfNeeded()
         case .failure(let error):
             renderScreenIfNeeded()
+            serverDrivenState = .finished
             serverDrivenState = .error(error, viewModel.loadScreen)
         }
     }
