@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.android.components.utils
 
-
 import android.app.Activity
-import android.os.IBinder
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -39,13 +37,13 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleView
 import br.com.zup.beagle.android.view.custom.OnLoadCompleted
 import br.com.zup.beagle.android.view.custom.OnStateChanged
+import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
@@ -62,7 +60,10 @@ class ViewExtensionsKtTest : BaseTest() {
     private lateinit var viewGroup: ViewGroup
 
     @MockK(relaxUnitFun = true, relaxed = true)
-    private lateinit var viewModel : ScreenContextViewModel
+    private lateinit var contextViewModel: ScreenContextViewModel
+
+    @MockK(relaxUnitFun = true, relaxed = true)
+    private lateinit var generateIdViewModel: GenerateIdViewModel
 
     @RelaxedMockK
     private lateinit var fragment: Fragment
@@ -97,14 +98,15 @@ class ViewExtensionsKtTest : BaseTest() {
 
         viewExtensionsViewFactory = viewFactory
 
-        prepareViewModelMock(viewModel)
+        prepareViewModelMock(contextViewModel)
+        prepareViewModelMock(generateIdViewModel)
         every { viewFactory.makeBeagleView(any()) } returns beagleView
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
         every { viewGroup.context } returns activity
-        every { beagleView.loadView(any(), any()) } just Runs
+        every { beagleView.loadView(any()) } just Runs
         every { activity.getSystemService(Activity.INPUT_METHOD_SERVICE) } returns inputMethodManager
-        every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
+        every { beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
         every { imageView.scaleType = any() } just Runs
         every { imageView.setImageResource(any()) } just Runs
@@ -117,10 +119,10 @@ class ViewExtensionsKtTest : BaseTest() {
 
         // Then
         verifySequence {
-            viewModel.resetIds()
-            viewFactory.makeBeagleView(activity)
+            generateIdViewModel.createIfNotExisting(0)
+            viewFactory.makeBeagleView(any<FragmentRootView>())
             beagleView.stateChangedListener = any()
-            beagleView.loadView(any<FragmentRootView>(), screenRequest)
+            beagleView.loadView(screenRequest)
             beagleView.loadCompletedListener = any()
         }
     }
@@ -131,8 +133,8 @@ class ViewExtensionsKtTest : BaseTest() {
         viewGroup.loadView(activity, screenRequest, onStateChanged)
 
         // Then
-        verify { viewFactory.makeBeagleView(activity) }
-        verify { beagleView.loadView(any<ActivityRootView>(), screenRequest) }
+        verify { viewFactory.makeBeagleView(any<ActivityRootView>()) }
+        verify { beagleView.loadView(screenRequest) }
     }
 
     @Test

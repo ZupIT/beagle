@@ -16,30 +16,36 @@
 
 package br.com.zup.beagle.android.networking.urlbuilder
 
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+
 internal class UrlBuilderDefault : UrlBuilder {
 
     override fun format(endpoint: String?, path: String): String? {
+        val newPath = encodeUrlBeforeCalls(path)
         return when {
-            path.isEmpty() -> null
-            endpointIsNullAndHasAPath(endpoint, path) -> path
-            endpointIsNullAndHasNotAPath(endpoint, path) -> null
-            endpoint?.takeLast(1) == "/" && path.take(1) == "/" -> endpoint + path.takeLast(path.length - 1)
-            endpoint?.takeLast(1) == "/" && path == "/" -> endpoint
-            endpoint?.takeLast(1) != "/" && path == "/" -> endpoint + path
-            isRelativePath(path) -> endpoint + path
-            else -> path
+            newPath.isEmpty() -> null
+            endpoint.isNullOrEmpty() -> newPath
+            endpoint?.takeLast(1) == "/" && newPath.take(1) == "/" -> endpoint + newPath.takeLast(newPath.length - 1)
+            isRelativePath(newPath) -> endpoint + newPath
+            else -> newPath
         }
     }
 
-    private fun endpointIsNullAndHasNotAPath(
-        endpoint: String?,
-        path: String
-    ) = endpoint.isNullOrEmpty() && (path == "/" || path.isEmpty())
-
-    private fun endpointIsNullAndHasAPath(
-        endpoint: String?,
-        path: String
-    ) = endpoint.isNullOrEmpty() && path != "/" && path.isNotEmpty()
+    private fun encodeUrlBeforeCalls(baseUrl: String): String {
+        return URLEncoder.encode(baseUrl, StandardCharsets.UTF_8.toString())
+            .replace("+", "%20")
+            .replace("%2F", "/")
+            .replace("%25", "%")
+            .replace("%2B", "+")
+            .replace("%23", "#")
+            .replace("*", "%2A")
+            .replace("%7E", "~")
+            .replace("%3A", ":")
+            .replace("%3F", "?")
+            .replace("%3D", "=")
+            .replace("%26", "&")
+    }
 
     private fun isRelativePath(path: String): Boolean {
         return path.startsWith("/")

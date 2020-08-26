@@ -28,6 +28,7 @@ import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
+import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
@@ -71,7 +72,7 @@ fun ViewGroup.loadView(
  */
 @Deprecated(DEPRECATED_LOADINGVIEW)
 fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
-    loadView(this, ActivityRootView(activity), screenRequest, listener)
+    loadView(this, ActivityRootView(activity, this.id), screenRequest, listener)
 }
 
 /**
@@ -82,7 +83,7 @@ fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest
  */
 @Deprecated(DEPRECATED_LOADINGVIEW)
 fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
-    loadView(this, FragmentRootView(fragment), screenRequest, listener)
+    loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
 }
 
 @Deprecated(DEPRECATED_LOADINGVIEW)
@@ -92,15 +93,18 @@ private fun loadView(
     screenRequest: ScreenRequest,
     listener: OnStateChanged?
 ) {
-    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-    viewModel.resetIds()
-    val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
+    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
+    val contextViewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+
+    viewModel.createIfNotExisting(rootView.getParentId())
+    val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
         stateChangedListener = listener
-        loadView(rootView, screenRequest)
+        loadView(screenRequest)
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
-        viewModel.linkBindingToContextAndEvaluateThem()
+        viewModel.setViewCreated(rootView.getParentId())
+        contextViewModel.linkBindingToContextAndEvaluateThem()
     }
 }
 
@@ -130,7 +134,7 @@ private fun loadView(
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
-    this.renderScreen(ActivityRootView(activity), screenJson)
+    this.renderScreen(ActivityRootView(activity, this.id), screenJson)
 }
 
 /**
@@ -140,7 +144,7 @@ fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
-    this.renderScreen(FragmentRootView(fragment), screenJson)
+    this.renderScreen(FragmentRootView(fragment, this.id), screenJson)
 }
 
 internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String) {

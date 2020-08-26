@@ -28,6 +28,7 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 
@@ -45,8 +46,8 @@ import br.com.zup.beagle.core.Style
 data class SimpleForm(
     override val context: ContextData? = null,
     val onSubmit: List<Action>,
-    val children: List<ServerDrivenComponent>
-) : WidgetView(), ContextComponent {
+    override val children: List<ServerDrivenComponent>
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -56,16 +57,16 @@ data class SimpleForm(
 
     override fun buildView(rootView: RootView): View {
         preFetchHelper.handlePreFetch(rootView, onSubmit)
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
+        return viewFactory.makeBeagleFlexView(rootView, style ?: Style())
             .apply {
                 beagleComponent = this@SimpleForm
-                addChildrenForm(this, rootView)
+                addChildrenForm(this)
             }
     }
 
-    private fun addChildrenForm(beagleFlexView: BeagleFlexView, rootView: RootView) {
+    private fun addChildrenForm(beagleFlexView: BeagleFlexView) {
         children.forEach { child ->
-            beagleFlexView.addServerDrivenComponent(child, rootView)
+            beagleFlexView.addServerDrivenComponent(child)
         }
     }
 

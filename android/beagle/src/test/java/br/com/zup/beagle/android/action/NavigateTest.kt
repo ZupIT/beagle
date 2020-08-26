@@ -63,7 +63,7 @@ class NavigateTest {
         navigate.execute(rootView, view)
 
         // Then
-        verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any(), any()) }
+        verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any(), any(), any()) }
     }
 
     @Test
@@ -93,7 +93,7 @@ class NavigateTest {
         navigate.execute(rootView, view)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.openNativeRoute(rootView.getContext(), route, data, shouldResetApplication) }
+        verify(exactly = once()) { BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication) }
     }
 
     @Test

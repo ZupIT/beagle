@@ -30,16 +30,17 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
 internal data class PageViewTwo(
-    val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
     val currentPage: Bind<Int>? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -50,7 +51,7 @@ internal data class PageViewTwo(
             adapter = PageViewAdapterTwo(rootView, children, viewFactory)
         }
 
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), style).apply {
+        val container = viewFactory.makeBeagleFlexView(rootView, style).apply {
             addView(viewPager, style)
         }
 
@@ -92,7 +93,6 @@ internal data class PageViewTwo(
             }
         }
     }
-
 }
 
 internal class PageViewAdapterTwo(
@@ -102,8 +102,8 @@ internal class PageViewAdapterTwo(
 ) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-            it.addServerDrivenComponent(children[position], rootView)
+        val view = viewFactory.makeBeagleFlexView(rootView).also {
+            it.addServerDrivenComponent(children[position])
         }
         container.addView(view)
         return view

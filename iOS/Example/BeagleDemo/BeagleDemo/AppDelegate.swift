@@ -25,23 +25,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let deepLinkHandler = DeeplinkScreenManager.shared
-        deepLinkHandler[.LAZY_COMPONENTS_ENDPOINT] = LazyComponentScreen.self
-        deepLinkHandler[.PAGE_VIEW_ENDPOINT] = PageViewScreen.self
-        deepLinkHandler[.TAB_VIEW_ENDPOINT] = TabViewScreen.self
-        deepLinkHandler[.FORM_ENDPOINT] = FormScreen.self
-        deepLinkHandler[.CUSTOM_COMPONENT_ENDPOINT] = CustomComponentScreen.self
-        deepLinkHandler[.DEEPLINK_ENDPOINT] = ScreenDeepLink.self
-        deepLinkHandler[.LIST_VIEW_ENDPOINT] = ListViewScreen.self
-        deepLinkHandler[.WEB_VIEW_ENDPOINT] = WebViewScreen.self
-        deepLinkHandler[.COMPONENT_INTERACTION_ENDPOINT] = ComponentInteractionText.self
-        deepLinkHandler[.SIMPLE_FORM_ENDPOINT] = SimpleFormScreen.self
+        deepLinkHandler[.lazyComponentEndpoint] = LazyComponentScreen.self
+        deepLinkHandler[.pageViewEndpoint] = PageViewScreen.self
+        deepLinkHandler[.tabViewEndpoint] = TabViewScreen.self
+        deepLinkHandler[.formEndpoint] = FormScreen.self
+        deepLinkHandler[.customComponentEndpoint] = CustomComponentScreen.self
+        deepLinkHandler[.screenDeeplinkEndpoint] = ScreenDeepLink.self
+        deepLinkHandler[.listViewEndpoint] = ListViewScreen.self
+        deepLinkHandler[.webViewEndpoint] = WebViewScreen.self
+        deepLinkHandler[.componentInterationEndpoint] = ComponentInteractionText.self
+        deepLinkHandler[.simpleFormEndpoint] = SimpleFormScreen.self
+        deepLinkHandler[.navigateStep1Endpoint] = NavigateStep1Screen.self
+        deepLinkHandler[.navigateStep2Endpoint] = NavigateStep2Screen.self
 
         let validator = ValidatorProviding()
         validator[FormScreen.textValidatorName] = FormScreen.textValidator
         
         let dependencies = BeagleDependencies()
         dependencies.theme = AppTheme.theme
-        dependencies.urlBuilder = UrlBuilder(baseUrl: URL(string: .BASE_URL))
+        dependencies.urlBuilder = UrlBuilder(baseUrl: URL(string: .baseURL))
         dependencies.navigation.defaultAnimation = .init(pushTransition: .init(type: .fade, subtype: .fromRight, duration: 0.1), modalPresentationStyle: .formSheet)
         dependencies.deepLinkHandler = deepLinkHandler
         dependencies.validatorProvider = validator

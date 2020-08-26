@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.view.custom
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.interfaces.OnStateUpdatable
@@ -31,7 +31,6 @@ import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
-
 
 @Deprecated(DEPRECATED_ON_STATE_CHANGED, replaceWith = ReplaceWith("OnServerStateChanged",
     "br.com.zup.beagle.android.view.custom.OnServerStateChanged"))
@@ -48,9 +47,11 @@ sealed class BeagleViewState {
     object LoadFinished : BeagleViewState()
 }
 
+@SuppressLint("ViewConstructor")
 internal class BeagleView(
-    context: Context
-) : BeagleFlexView(context) {
+    private val rootView: RootView,
+    private val viewModel: BeagleViewModel = rootView.generateViewModelInstance()
+) : BeagleFlexView(rootView) {
 
     @Deprecated(DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER)
     var stateChangedListener: OnStateChanged? = null
@@ -59,20 +60,15 @@ internal class BeagleView(
 
     var loadCompletedListener: OnLoadCompleted? = null
 
-    private lateinit var rootView: RootView
-
-    private val viewModel by lazy { rootView.generateViewModelInstance<BeagleViewModel>() }
-
-    fun loadView(rootView: RootView, screenRequest: ScreenRequest) {
-        loadView(rootView, screenRequest, null)
+    fun loadView(screenRequest: ScreenRequest) {
+        loadView(screenRequest, null)
     }
 
-    fun updateView(rootView: RootView, url: String, view: View) {
-        loadView(rootView, ScreenRequest(url), view)
+    fun updateView(url: String, view: View) {
+        loadView(ScreenRequest(url), view)
     }
 
-    private fun loadView(rootView: RootView, screenRequest: ScreenRequest, view: View?) {
-        this.rootView = rootView
+    private fun loadView(screenRequest: ScreenRequest, view: View?) {
         viewModel.fetchComponent(screenRequest).observe(rootView.getLifecycleOwner(), Observer { state ->
             handleResponse(state, view)
         })
@@ -115,11 +111,11 @@ internal class BeagleView(
                 (component as? OnStateUpdatable<ServerDrivenComponent>)?.onUpdateState(component)
             } else {
                 removeView(view)
-                addServerDrivenComponent(component, rootView)
+                addServerDrivenComponent(component)
             }
         } else {
             removeAllViewsInLayout()
-            addServerDrivenComponent(component, rootView)
+            addServerDrivenComponent(component)
             loadCompletedListener?.invoke()
         }
     }

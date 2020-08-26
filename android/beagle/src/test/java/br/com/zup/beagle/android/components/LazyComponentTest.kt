@@ -59,7 +59,7 @@ class LazyComponentTest : BaseComponentTest() {
     fun build_should_add_initialState_and_trigger_updateView() {
         lazyComponent.buildView(rootView)
 
-        verify(exactly = once()) { beagleView.addServerDrivenComponent(initialState, rootView) }
-        verify(exactly = once()) { beagleView.updateView(rootView, URL, initialStateView) }
+        verify(exactly = once()) { beagleView.addServerDrivenComponent(initialState) }
+        verify(exactly = once()) { beagleView.updateView(URL, initialStateView) }
     }
 }
