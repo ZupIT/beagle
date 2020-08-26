@@ -111,8 +111,9 @@ class BeagleApiTest {
     fun fetch_should_return_a_exception_when_some_http_call_fails() = runBlockingTest {
         // Given
         val responseData: ResponseData = mockk()
+        val requestData: RequestData = mockk()
         val message = "fetchData error for url ${REQUEST_DATA.uri}"
-        val expectedException = BeagleApiException(responseData, message)
+        val expectedException = BeagleApiException(responseData, requestData, message)
         mockListenersAndExecuteHttpClient { onErrorSlot.captured(responseData) }
 
         // When
