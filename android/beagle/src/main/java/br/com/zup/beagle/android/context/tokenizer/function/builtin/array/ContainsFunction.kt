@@ -22,13 +22,13 @@ import org.json.JSONArray
 internal class ContainsFunction : Function {
     override fun functionName(): String = "contains"
 
+    @Suppress("ReturnCount")
     override fun execute(vararg params: Any?): Boolean {
         val array = params[0]
         val element = params[1]
 
         if (array is Collection<*>) {
-            val list = array.toMutableList()
-            return list.contains(element)
+            return array.contains(element)
         } else if (array is JSONArray) {
             for(index in 0 until array.length()) {
                 if (array[index] == element) {
@@ -39,5 +39,4 @@ internal class ContainsFunction : Function {
 
         return false
     }
-
 }

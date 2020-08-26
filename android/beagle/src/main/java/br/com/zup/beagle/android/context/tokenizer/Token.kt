@@ -65,14 +65,3 @@ internal class TokenFunction(
     val name: String,
     override val value: List<Token>
 ) : Token(value)
-
-internal fun tokenOpenBracket() = GenericToken("(", TokenType.OPEN_BRACKET)
-internal fun tokenOfCloseBracket() = GenericToken(")", TokenType.CLOSE_BRACKET)
-internal fun tokenOfComma() = GenericToken(",", TokenType.COMMA)
-internal fun tokenOfFunctionStart(value: String) = GenericToken(value, TokenType.FUNCTION_START)
-internal fun tokenOfNumber(value: Number) = TokenNumber(value)
-internal fun tokenOfBoolean(value: Boolean) = TokenBoolean(value)
-internal fun tokenOfString(value: String) = TokenString(value)
-internal fun tokenOfFunction(value: String, params: List<Token>) = TokenFunction(value, params)
-internal fun tokenOfBinding(value: String) = TokenBinding(value)
-internal fun tokenOfNull() = TokenNull()

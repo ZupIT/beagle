@@ -23,6 +23,7 @@ import org.json.JSONArray
 internal class InsertFunction : Function {
     override fun functionName(): String = "insert"
 
+    @Suppress("ReturnCount")
     override fun execute(vararg params: Any?): Any {
         val array = params[0]
         val element = params[1] as Any

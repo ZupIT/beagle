@@ -22,6 +22,7 @@ import org.json.JSONArray
 internal class RemoveIndexFunction : Function {
     override fun functionName(): String = "removeIndex"
 
+    @Suppress("ReturnCount")
     override fun execute(vararg params: Any?): Any {
         val array = params[0]
         val index = params[1] as Int
