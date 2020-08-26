@@ -129,4 +129,8 @@ internal object BeagleMessageLogs {
         val errorMessage = "Context name global is a reserved keyword for Global Context only"
         BeagleLoggerProxy.warning(errorMessage)
     }
+
+    fun somethingHappenGenerateId(ex: Exception) {
+        BeagleLoggerProxy.error("Something Happen when generate id", ex)
+    }
 }
