@@ -16,13 +16,6 @@
 
 package br.com.zup.beagle.android.context.tokenizer
 
-enum class TokenType {
-    FUNCTION_START,
-    OPEN_BRACKET,
-    CLOSE_BRACKET,
-    COMMA
-}
-
 data class ExpressionToken(
     val value: String,
     val token: Token
@@ -32,34 +25,41 @@ open class Token(
     open val value: Any
 )
 
-open class TokenValue(
+internal open class TokenValue(
     value: Any
 ) : Token(value)
 
-open class GenericToken(
+internal enum class TokenType {
+    FUNCTION_START,
+    OPEN_BRACKET,
+    CLOSE_BRACKET,
+    COMMA
+}
+
+internal open class GenericToken(
     override val value: String,
     val type: TokenType
 ) : Token(value)
 
-class TokenBinding(
+internal class TokenBinding(
     override val value: String
 ) : TokenValue(value)
 
-class TokenNumber(
+internal class TokenNumber(
     override val value: Number
 ) : TokenValue(value)
 
-class TokenString(
+internal class TokenString(
     override val value: String
 ) : TokenValue(value)
 
-class TokenBoolean(
+internal class TokenBoolean(
     override val value: Boolean
 ) : TokenValue(value)
 
-class TokenNull : Token(Any())
+internal class TokenNull : Token(Any())
 
-class TokenFunction(
+internal class TokenFunction(
     val name: String,
     override val value: List<Token>
 ) : Token(value)

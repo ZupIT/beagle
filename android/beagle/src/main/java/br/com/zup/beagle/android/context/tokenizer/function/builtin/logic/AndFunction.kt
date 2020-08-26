@@ -17,15 +17,12 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.logic
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.toListOfBooleans
 
-class AndFunction : Function<Any?> {
+internal class AndFunction : Function {
 
-    override fun execute(params: List<Any?>): Any? {
-        return if (params[0] as Boolean) {
-            params[1]
-        } else {
-            params[2]
-        }
+    override fun execute(vararg params: Any?): Boolean {
+        return params.toListOfBooleans().reduce{ boolean1, boolean2 -> boolean1 && boolean2 }
     }
 
     override fun functionName(): String = "and"

@@ -16,7 +16,11 @@
 
 package br.com.zup.beagle.android.context.tokenizer.function
 
-interface Function<T> {
+internal interface Function {
     fun functionName(): String
-    fun execute(params: List<Any?>): T
+    fun execute(vararg params: Any?): Any?
+}
+
+internal inline fun <reified T> Array<out Any>.getParam(index: Int): T {
+    return this[index] as T
 }

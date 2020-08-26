@@ -17,12 +17,16 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.getFirstElementAsMutableList
 
-class RemoveIndexFunction : Function<Number> {
+internal class RemoveIndexFunction : Function {
     override fun functionName(): String = "removeIndex"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): List<Any> {
+        val array = params.getFirstElementAsMutableList()
+        val index = params[1] as Int
+        array.removeAt(index)
+        return array
     }
 
 }

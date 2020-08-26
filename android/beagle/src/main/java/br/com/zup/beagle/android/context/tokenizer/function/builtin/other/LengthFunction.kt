@@ -18,11 +18,16 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.other
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class LengthFunction : Function<Number> {
+internal class LengthFunction : Function {
     override fun functionName(): String = "length"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): Int {
+        return when (val value = params[0]) {
+            is String -> value.length
+            is Collection<*> -> value.size
+            is Map<*, *> -> value.size
+            else -> 0
+        }
     }
 
 }

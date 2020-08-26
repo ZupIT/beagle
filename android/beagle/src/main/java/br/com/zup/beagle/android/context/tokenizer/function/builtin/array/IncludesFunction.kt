@@ -17,12 +17,15 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.getFirstElementAsMutableList
 
-class IncludesFunction : Function<Number> {
+internal class IncludesFunction : Function {
     override fun functionName(): String = "includes"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): Boolean {
+        val array = params.getFirstElementAsMutableList()
+        val element = params[1] as Any
+        return array.contains(element)
     }
 
 }

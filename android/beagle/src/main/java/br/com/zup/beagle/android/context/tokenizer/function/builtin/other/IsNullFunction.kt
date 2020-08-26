@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.other
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class IsNullFunction : Function<Number> {
+internal class IsNullFunction : Function {
     override fun functionName(): String = "isNull"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): Boolean {
+        return params.getOrNull(0) == null
     }
 
 }

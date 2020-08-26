@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.tokenizer
+package br.com.zup.beagle.android.context.tokenizer.function.builtin
 
-import org.junit.Test
-
-import org.junit.Assert.*
-
-class ExpressionTokenExecutorTest {
-
-    private val expressionTokenExecutor = ExpressionTokenExecutor()
-
-    @Test
-    fun execute() {
+internal fun Array<out Any?>.toListOfDoubles(): List<Double> {
+    return this.map {
+        it as Double
     }
+}
+
+internal fun Array<out Any?>.toListOfInts(): List<Int> {
+    return this.map {
+        it as Int
+    }
+}
+
+internal fun Array<out Any?>.toListOfBooleans(): List<Boolean> {
+    return this.map {
+        it as Boolean
+    }
+}
+
+internal fun Array<out Any?>.getFirstElementAsMutableList(): MutableList<Any> {
+    return (this[0] as Collection<Any>).toMutableList()
 }

@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class CapitalizeFunction : Function<Number> {
+internal class CapitalizeFunction : Function {
     override fun functionName(): String = "capitalize"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): String {
+        return params[0].toString().capitalize()
     }
 
 }

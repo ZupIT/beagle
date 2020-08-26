@@ -54,25 +54,33 @@ internal class ContextDataEvaluation(
         contextsData: List<ContextData>,
         bind: Bind.Expression<*>,
         contextCache: LruCache<String, Any>? = null,
-        evaluatedExpressions: MutableMap<String, Any> = mutableMapOf()
+        evaluatedBindings: MutableMap<String, Any> = mutableMapOf()
     ): Any? {
         val expressions = bind.expressions
 
         return when {
             bind.type == String::class.java -> {
+                val evaluatedExpressions = mutableMapOf<String, Any>()
                 expressions.forEach { expressionToken ->
                     evaluateExpressionsForContext(
                         contextsData,
                         contextCache,
                         expressionToken,
                         bind,
-                        evaluatedExpressions
+                        evaluatedExpressions,
+                        evaluatedBindings
                     )
                 }
 
                 evaluateMultipleExpressions(bind, evaluatedExpressions)
             }
-            expressions.size == 1 -> evaluateExpression(contextsData, contextCache, bind, expressions[0])
+            expressions.size == 1 -> evaluateExpression(
+                contextsData,
+                contextCache,
+                bind,
+                expressions[0],
+                evaluatedBindings
+            )
             else -> {
                 BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
                 null
@@ -85,13 +93,15 @@ internal class ContextDataEvaluation(
         contextCache: LruCache<String, Any>?,
         expressionToken: ExpressionToken,
         bind: Bind.Expression<*>,
-        evaluatedExpressions: MutableMap<String, Any>
+        evaluatedExpressions: MutableMap<String, Any>,
+        evaluatedBindings: MutableMap<String, Any>
     ) {
         evaluatedExpressions[expressionToken.value] = evaluateExpression(
             contextData,
             contextCache,
             bind,
-            expressionToken
+            expressionToken,
+            evaluatedBindings
         ) ?: ""
     }
 
@@ -104,10 +114,8 @@ internal class ContextDataEvaluation(
             val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
             if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
                 val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
-                it.replace(
-                    "\\@\\{\\w.+(\\.|\\w+)\\}".toRegex(),
-                    escapeReplacement(evaluatedExpressions[key].toString())
-                )
+                val value = escapeReplacement(evaluatedExpressions[key].toString())
+                it.replace("@{$key}", value)
             } else {
                 it
             }
@@ -118,10 +126,22 @@ internal class ContextDataEvaluation(
         contextsData: List<ContextData>,
         contextCache: LruCache<String, Any>?,
         bind: Bind.Expression<*>,
-        expressionToken: ExpressionToken
+        expressionToken: ExpressionToken,
+        evaluatedBindings: MutableMap<String, Any>
     ): Any? {
-        val value = expressionTokenExecutor.execute(contextsData, expressionToken) { binding, contextData ->
-            return@execute getValue(contextData, contextCache, binding, bind.type)
+        val value = try {
+             expressionTokenExecutor.execute(contextsData, expressionToken) { binding, contextData ->
+                 return@execute if (contextData != null) {
+                     getValue(contextData, contextCache, binding, bind.type)?.also {
+                         evaluatedBindings[binding] = it
+                     }
+                 } else {
+                     evaluatedBindings[binding]
+                 }
+            }
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingExecuteExpressionFunction(ex)
+            null
         }
 
         return try {

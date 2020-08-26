@@ -17,17 +17,16 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.number
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.toListOfDoubles
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.toListOfInts
 
-class SubtractFunction : Function<Boolean> {
+internal class SubtractFunction : Function {
 
-    override fun execute(params: List<Any?>): Boolean {
-        val value1 = params[0]
-        val value2 = params[1]
-
-        return if (value1 is Int && value2 is Int) {
-            value1 > value2
+    override fun execute(vararg params: Any?): Number {
+        return if (params[0] is Int) {
+            params.toListOfInts().reduce { num1, num2 -> num1 - num2 }
         } else {
-            (value1 as Double) > (value2 as Double)
+            params.toListOfDoubles().reduce { num1, num2 -> num1 - num2 }
         }
     }
 

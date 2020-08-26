@@ -16,27 +16,34 @@
 
 package br.com.zup.beagle.android.context.tokenizer.function
 
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.logic.ConditionFunction
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.comparison.GtFunction
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.number.SumFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.*
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfArrayFunctions
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfComparisonFunctions
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfLogicFunctions
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.mapOfNumberFunctions
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 
-class FunctionResolver {
+internal class FunctionResolver {
 
     private val functions = createFunctions()
 
-    fun execute(functionName: String, params: List<Any?>): Any? {
-        return functions[functionName]?.execute(params)
+    fun execute(functionName: String, vararg params: Any?): Any? {
+        val function = functions[functionName]
+
+        if (function == null) {
+            BeagleMessageLogs.functionWithNameDoesNotExist(functionName)
+        }
+
+        return function?.execute(*params)
     }
 
-    private fun createFunctions(): Map<String, Function<*>> {
-        val gt = GtFunction()
-        val sum = SumFunction()
-        val conditional = ConditionFunction()
-
-        return mapOf(
-            gt.functionName() to gt,
-            sum.functionName() to sum,
-            conditional.functionName() to conditional
-        )
+    private fun createFunctions(): Map<String, Function> {
+        return mutableMapOf<String, Function>() +
+            mapOfNumberFunctions() +
+            mapOfArrayFunctions() +
+            mapOfLogicFunctions() +
+            mapOfComparisonFunctions() +
+            mapOfStringFunctions() +
+            mapOfOtherFunctions()
     }
 }

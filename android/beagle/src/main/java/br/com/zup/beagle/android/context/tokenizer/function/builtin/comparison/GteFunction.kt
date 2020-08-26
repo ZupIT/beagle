@@ -18,15 +18,18 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.comparison
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class GteFunction : Function<Any?> {
+internal class GteFunction : Function {
 
-    override fun execute(params: List<Any?>): Any? {
-        return if (params[0] as Boolean) {
-            params[1]
+    override fun execute(vararg params: Any?): Boolean {
+        val value1 = params[0]
+        val value2 = params[1]
+
+        return if (value1 is Int && value2 is Int) {
+            value1 >= value2
         } else {
-            params[2]
+            (value1 as Double) >= (value2 as Double)
         }
     }
 
-    override fun functionName(): String = "conditional"
+    override fun functionName(): String = "gte"
 }

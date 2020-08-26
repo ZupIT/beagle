@@ -18,18 +18,18 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.comparison
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class LtFunction : Function<Boolean> {
+internal class LtFunction : Function {
 
-    override fun execute(params: List<Any?>): Boolean {
+    override fun execute(vararg params: Any?): Boolean {
         val value1 = params[0]
         val value2 = params[1]
 
         return if (value1 is Int && value2 is Int) {
-            value1 > value2
+            value1 < value2
         } else {
-            (value1 as Double) > (value2 as Double)
+            (value1 as Double) < (value2 as Double)
         }
     }
 
-    override fun functionName(): String = "gt"
+    override fun functionName(): String = "lt"
 }

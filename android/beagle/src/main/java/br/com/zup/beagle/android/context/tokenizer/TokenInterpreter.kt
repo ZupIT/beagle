@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.context.tokenizer
 
-class TokenInterpreter(value: String) {
+internal class TokenInterpreter(value: String) {
 
     private val reader: TokenReader = TokenReader(value)
     private var lastChar = Char.MIN_VALUE

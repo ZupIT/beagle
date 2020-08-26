@@ -17,12 +17,18 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.number
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.toListOfDoubles
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.toListOfInts
 
-class MultiplyFunction : Function<Number> {
+internal class MultiplyFunction : Function {
     override fun functionName(): String = "multiply"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): Number {
+        return if (params[0] is Int) {
+            params.toListOfInts().reduce { num1, num2 -> num1 * num2 }
+        } else {
+            params.toListOfDoubles().reduce { num1, num2 -> num1 * num2 }
+        }
     }
 
 }

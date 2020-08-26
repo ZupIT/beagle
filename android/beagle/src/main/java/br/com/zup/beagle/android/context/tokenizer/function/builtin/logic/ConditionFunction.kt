@@ -18,9 +18,9 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.logic
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class ConditionFunction : Function<Any?> {
+internal class ConditionFunction : Function {
 
-    override fun execute(params: List<Any?>): Any? {
+    override fun execute(vararg params: Any?): Any? {
         return if (params[0] as Boolean) {
             params[1]
         } else {

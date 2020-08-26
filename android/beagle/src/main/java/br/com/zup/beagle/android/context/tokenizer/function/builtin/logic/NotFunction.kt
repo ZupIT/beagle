@@ -18,14 +18,10 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.logic
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class NotFunction : Function<Any?> {
+internal class NotFunction : Function {
 
-    override fun execute(params: List<Any?>): Any? {
-        return if (params[0] as Boolean) {
-            params[1]
-        } else {
-            params[2]
-        }
+    override fun execute(vararg params: Any?): Boolean {
+        return !(params[0] as Boolean)
     }
 
     override fun functionName(): String = "not"

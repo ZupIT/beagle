@@ -129,4 +129,14 @@ internal object BeagleMessageLogs {
         val errorMessage = "Context name global is a reserved keyword for Global Context only"
         BeagleLoggerProxy.warning(errorMessage)
     }
+
+    fun errorWhileTryingExecuteExpressionFunction(ex: Exception) {
+        val errorMessage = "Error while trying to execute expression function."
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
+
+    fun functionWithNameDoesNotExist(functionName: String) {
+        val errorMessage = "Function with named $functionName does not exist."
+        BeagleLoggerProxy.warning(errorMessage)
+    }
 }

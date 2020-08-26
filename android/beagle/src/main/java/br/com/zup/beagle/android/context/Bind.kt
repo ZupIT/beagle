@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.context
 import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.TokenParser
 import br.com.zup.beagle.android.utils.BeagleConstants
+import br.com.zup.beagle.android.utils.BeagleRegex
 import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.core.BindAttribute
 import java.lang.reflect.Type
@@ -53,6 +54,6 @@ inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> 
 inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
 inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
 
-fun Any.isExpression(): Boolean {
-    return this is String && this.contains(BeagleConstants.EXPRESSION_REGEX)
+internal fun Any.isExpression(): Boolean {
+    return this is String && this.contains(BeagleRegex.EXPRESSION_REGEX)
 }

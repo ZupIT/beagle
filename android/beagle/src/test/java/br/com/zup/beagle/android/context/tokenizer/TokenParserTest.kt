@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.context.tokenizer
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class TokenParserTest {
@@ -29,6 +30,20 @@ class TokenParserTest {
     fun parse_should_return_string() {
         // Given
         val expression = "'hello'"
+
+        // When
+        val result = tokenParser.parse(expression)
+
+        // Then
+        assertEquals(expression, result.value)
+        assertTrue { result.token is TokenString }
+        assertEquals("hello", (result.token as TokenString).value)
+    }
+
+    @Test
+    fun parse_should_return_string_escaped() {
+        // Given
+        val expression = "'hello \\'world\\'!'"
 
         // When
         val result = tokenParser.parse(expression)
@@ -157,12 +172,32 @@ class TokenParserTest {
     }
 
     @Test
-    fun parse_should_throw_exception_when_function_is_invalid() {
+    fun parse_should_ignore_spaces() {
         // Given
-        val expression = "gt(1, 2"
+        val value = "sum  ( 4 ,   2  )   "
 
-        // When Then
-        assertFails { tokenParser.parse(expression) }
+        // When
+        val result = tokenParser.parse(value)
+
+
+        // Then
+        assertNotNull(result)
+    }
+
+    @Test
+    fun parse_should_throw_exception_when_function_is_invalid() {
+        assertFails { tokenParser.parse("gt(1, 2") }
+        assertFails { tokenParser.parse("gt(2, 4))") }
+        assertFails { tokenParser.parse("sum(4(2)") }
+        assertFails { tokenParser.parse("sum(2))") }
+        assertFails { tokenParser.parse("sum(,),)") }
+    }
+
+    @Test
+    fun parse_should_throw_exception_when_function_name_is_invalid() {
+        assertFails { tokenParser.parse("2sum(4, 2)") }
+        assertFails { tokenParser.parse("sum-test(4, 2)") }
+        assertFails { tokenParser.parse("s?um(4, 2)") }
     }
 
     @Test

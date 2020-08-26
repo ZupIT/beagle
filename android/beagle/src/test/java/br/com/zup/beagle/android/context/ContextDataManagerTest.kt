@@ -173,7 +173,7 @@ class ContextDataManagerTest : BaseTest() {
     fun addBinding_should_add_binding_to_context_on_top_of_stack() {
         // Given
         val viewWithBind = createViewForContext(viewContext)
-        val bind = Bind.Expression(listOf(), "@{$CONTEXT_ID}", type = Boolean::class.java)
+        val bind = expressionOf<Boolean>("@{$CONTEXT_ID}")
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         val contextData = ContextData(CONTEXT_ID, true)
         contextDataManager.addContext(viewContext, contextData)
@@ -193,7 +193,7 @@ class ContextDataManagerTest : BaseTest() {
     fun addBinding_should_add_binding_to_global_context() {
         // Given
         val viewWithBind = createViewForContext()
-        val bind = Bind.Expression(listOf(), "@{global}", type = Boolean::class.java)
+        val bind = expressionOf<Boolean>("@{global}")
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addBinding(viewWithBind, bind, observer)
 

@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.context.tokenizer
 
 import java.io.StringReader
 
-class TokenReader(
+internal class TokenReader(
     value: String
 ) : StringReader(value) {
 

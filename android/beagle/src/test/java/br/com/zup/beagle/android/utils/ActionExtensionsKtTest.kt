@@ -77,7 +77,7 @@ class ActionExtensionsKtTest : BaseTest() {
     @Test
     fun evaluateExpression_should_evaluate_bind_of_type_String_with_multiple_expressions2() {
         // Given
-        val bind = expressionOf<Int>("@{gt(context1, context2)}")
+        val bind = expressionOf<String>("Hello @{sum(context1, context2)}")
         val contextValue = 1
         val context1 = ContextData(
             id = "context1",
@@ -94,10 +94,10 @@ class ActionExtensionsKtTest : BaseTest() {
         viewModel.addContext(contextView2, context2)
 
         // When
-        val actualValue = action.evaluateExpression(rootView, bindView, bind) as Boolean
+        val actualValue = action.evaluateExpression(rootView, bindView, bind) as String
 
         // Then
-        assertFalse { actualValue  }
+        assertEquals("Hello 2", actualValue)
     }
 
     @Test

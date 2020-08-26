@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class LowercaseFunction : Function<Number> {
+class LowercaseFunction : Function {
     override fun functionName(): String = "lowercase"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): String {
+        return params[0].toString().toLowerCase()
     }
 
 }

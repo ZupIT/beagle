@@ -18,11 +18,18 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class ConcatFunction : Function<Number> {
+internal class ConcatFunction : Function {
     override fun functionName(): String = "concat"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): String {
+        val value = StringBuilder()
+
+        params.forEach {
+            if (it != null) {
+                value.append(it)
+            }
+        }
+        return value.toString()
     }
 
 }

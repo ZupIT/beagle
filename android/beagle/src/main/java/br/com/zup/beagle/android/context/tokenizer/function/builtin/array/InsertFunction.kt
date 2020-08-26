@@ -17,12 +17,21 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.getFirstElementAsMutableList
 
-class InsertFunction : Function<Number> {
+internal class InsertFunction : Function {
     override fun functionName(): String = "insert"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): List<Any> {
+        val array = params.getFirstElementAsMutableList()
+        val element = params[1] as Any
+        val index = params.getOrNull(2) as? Int
+        if (index != null) {
+            array.add(index, element)
+        } else {
+            array.add(element)
+        }
+        return array
     }
 
 }

@@ -18,11 +18,16 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.other
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class IsEmptyFunction : Function<Number> {
+internal class IsEmptyFunction : Function {
     override fun functionName(): String = "isEmpty"
 
-    override fun execute(params: List<Any?>): Number {
-        TODO("Not yet implemented")
+    override fun execute(vararg params: Any?): Boolean {
+        return when (val value = params[0]) {
+            is String -> value.isEmpty()
+            is Collection<Any?> -> value.isEmpty()
+            is Map<*, *> -> value.isEmpty()
+            else -> true
+        }
     }
 
 }

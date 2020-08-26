@@ -18,9 +18,9 @@ package br.com.zup.beagle.android.context.tokenizer.function.builtin.comparison
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
 
-class GtFunction : Function<Boolean> {
+internal class GtFunction : Function {
 
-    override fun execute(params: List<Any?>): Boolean {
+    override fun execute(vararg params: Any?): Boolean {
         val value1 = params[0]
         val value2 = params[1]
 
