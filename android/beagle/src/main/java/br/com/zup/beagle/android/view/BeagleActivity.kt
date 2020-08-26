@@ -79,7 +79,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         @Deprecated(
             message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
             replaceWith = ReplaceWith(
-                "context.newServerDrivenIntent<YourBeagleActivity>(context, screenJson)",
+                "context.newServerDrivenIntent<YourBeagleActivity>(screenJson)",
                 imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
             )
         )
@@ -92,7 +92,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         @Deprecated(
             message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
             replaceWith = ReplaceWith(
-                "context.newServerDrivenIntent<YourBeagleActivity>(context, screen)",
+                "context.newServerDrivenIntent<YourBeagleActivity>(screen)",
                 imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
             )
         )
@@ -103,7 +103,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         @Deprecated(
             message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
             replaceWith = ReplaceWith(
-                "context.newServerDrivenIntent<YourBeagleActivity>(context, screenRequest)",
+                "context.newServerDrivenIntent<YourBeagleActivity>(screenRequest)",
                 imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
             )
         )

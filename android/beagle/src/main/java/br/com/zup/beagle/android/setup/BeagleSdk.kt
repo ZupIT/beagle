@@ -42,6 +42,7 @@ interface BeagleSdk {
     val designSystem: DesignSystem?
     val storeHandler: StoreHandler?
     val controllerReference: BeagleControllerReference?
+
     @Deprecated(NewIntentDeprecatedConstants.BEAGLE_ACTIVITY_COMPONENT)
     val serverDrivenActivity: Class<BeagleActivity>
     val urlBuilder: UrlBuilder?

@@ -69,8 +69,8 @@ val ANALYTICS = BeagleClass(
     "Analytics"
 )
 val CONTROLLER_REFERENCE = BeagleClass(
-    "br.com.zup.beagle.navigation",
-    "ControllerReference"
+    "br.com.zup.beagle.android.navigation",
+    "BeagleControllerReference"
 )
 val BEAGLE_LOGGER = BeagleClass(
     "br.com.zup.beagle.android.logger",

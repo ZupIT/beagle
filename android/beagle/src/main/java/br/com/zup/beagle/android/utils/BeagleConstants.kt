@@ -16,10 +16,6 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.content.Context
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ScreenRequest
-
 internal object BeagleConstants {
     val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 }

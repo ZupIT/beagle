@@ -24,5 +24,5 @@ interface BeagleControllerReference {
      * return a default one if name is not found
      * @property id is the controller id used in @RegisterController.
      */
-    fun classFor(id: String): Class<BeagleActivity>
+    fun classFor(id: String?): Class<BeagleActivity>
 }

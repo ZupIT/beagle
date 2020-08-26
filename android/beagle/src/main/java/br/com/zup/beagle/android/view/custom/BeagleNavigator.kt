@@ -43,10 +43,12 @@ internal object BeagleNavigator {
         }
     }
 
-    fun openNativeRoute(rootView: RootView,
-                        route: String,
-                        data: Map<String, String>?,
-                        shouldResetApplication: Boolean) {
+    fun openNativeRoute(
+        rootView: RootView,
+        route: String,
+        data: Map<String, String>?,
+        shouldResetApplication: Boolean
+    ) {
         BeagleEnvironment.beagleSdk.deepLinkHandler?.getDeepLinkIntent(
             rootView, route, data, shouldResetApplication)?.let {
             rootView.getContext().startActivity(it)
@@ -115,14 +117,7 @@ internal object BeagleNavigator {
             is Route.Local -> BeagleActivity.bundleOf(route.screen)
         }
 
-        val activityClass = when {
-            controllerName != null -> {
-                val controllerClass = BeagleEnvironment.beagleSdk.controllerReference?.classFor(controllerName)
-                controllerClass ?: BeagleEnvironment.beagleSdk.serverDrivenActivity
-            }
-            context is BeagleActivity -> context::class.java
-            else -> BeagleEnvironment.beagleSdk.serverDrivenActivity
-        }
+        val activityClass = BeagleEnvironment.beagleSdk.controllerReference?.classFor(controllerName)
 
         return Intent(context, activityClass).apply {
             putExtras(bundle)

@@ -17,10 +17,12 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.compiler.ANALYTICS
 import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
 import br.com.zup.beagle.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.compiler.BeagleClass
+import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
 import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.DESIGN_SYSTEM
 import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
@@ -54,10 +56,14 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
             checkIfOtherAttributesExists(typeElement, propertySpecifications)
         }
 
-        if (propertySpecifications?.defaultBeagleActivity == null) {
-            processingEnv.messager.error("BeagleActivity were not defined. " +
-                "Did you miss to create your own Activity that extends from BeagleActivity " +
-                "and annotate it with @BeagleComponent?")
+        val registerValidatorAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(
+            RegisterController::class.java
+        )
+
+        if (propertySpecifications?.defaultBeagleActivity == null && registerValidatorAnnotatedClasses.isEmpty()) {
+            processingEnv.messager.error("Default Beagle Activity were not defined. " +
+                "Did you miss to create your own Activity that extends" +
+                " from Beagle Activity and annotate it with @RegisterController and without id?")
         }
 
         return createListOfPropertySpec(
@@ -200,6 +206,11 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                 "logger",
                 BEAGLE_LOGGER
             ),
+            implementProperty(
+                CONTROLLER_REFERENCE_GENERATED,
+                "controllerReference",
+                CONTROLLER_REFERENCE
+            ),
             implementServerDrivenActivityProperty(propertySpecifications?.defaultBeagleActivity)
         )
     }
@@ -232,13 +243,18 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
     }
 
     private fun implementServerDrivenActivityProperty(typeElement: TypeElement?): PropertySpec {
+        return implementServerDrivenActivityProperty(typeElement.toString())
+    }
+
+    fun implementServerDrivenActivityProperty(activity: String, isFormatted: Boolean = false): PropertySpec {
+        val initializer = if (!isFormatted) "$activity::class.java as Class<BeagleActivity>" else activity
         return PropertySpec.builder(
             "serverDrivenActivity",
             Class::class.asClassName().parameterizedBy(
                 ClassName(BEAGLE_ACTIVITY.packageName, BEAGLE_ACTIVITY.className)
             ),
             KModifier.OVERRIDE
-        ).initializer("$typeElement::class.java as Class<BeagleActivity>").build()
+        ).initializer(initializer).build()
     }
 }
 

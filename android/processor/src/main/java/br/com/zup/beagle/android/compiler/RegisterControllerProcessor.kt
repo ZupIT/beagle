@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.compiler.*
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -25,6 +26,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
+import com.squareup.kotlinpoet.asTypeName
 import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
@@ -34,54 +36,71 @@ const val CONTROLLER_REFERENCE_GENERATED = "ControllerReferenceGenerated"
 
 class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironment) {
 
-    fun process(packageName: String, roundEnvironment: RoundEnvironment) {
+    var defaultActivityRegistered: String = ""
+
+    fun process(packageName: String, roundEnvironment: RoundEnvironment, defaultActivity: String) {
         val typeSpec = TypeSpec.classBuilder(CONTROLLER_REFERENCE_GENERATED)
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(
                 CONTROLLER_REFERENCE.packageName,
                 CONTROLLER_REFERENCE.className
             ))
-            .addFunction(createClassForMethod(roundEnvironment))
+            .addFunction(createClassForMethod(roundEnvironment, defaultActivity))
             .build()
 
         try {
             FileSpec.builder(packageName, CONTROLLER_REFERENCE_GENERATED)
                 .addImport(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
                 .addImport(BEAGLE_ACTIVITY.packageName, BEAGLE_ACTIVITY.className)
+                .addAnnotation(
+                    AnnotationSpec.builder(Suppress::class.java)
+                        .addMember("%S", "UNCHECKED_CAST")
+                        .build()
+                )
                 .addType(typeSpec)
                 .build()
+                .writeTo(processingEnv.filer)
         } catch (e: IOException) {
             val errorMessage = "Error when trying to generate code.\n${e.message!!}"
             processingEnv.messager.error(errorMessage)
         }
     }
 
-    private fun createClassForMethod(roundEnvironment: RoundEnvironment): FunSpec {
+    private fun createClassForMethod(roundEnvironment: RoundEnvironment, defaultActivity: String): FunSpec {
         val validatorLines = createValidatorLines(roundEnvironment)
-        val returnType = List::class.asClassName().parameterizedBy(
-            Class::class.asClassName().parameterizedBy(
-                ClassName(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
-            )
+        val returnType = Class::class.asClassName().parameterizedBy(
+            ClassName(BEAGLE_ACTIVITY.packageName, BEAGLE_ACTIVITY.className)
         )
 
-        return FunSpec.builder("classFor")
+        val spec = FunSpec.builder("classFor")
             .addModifiers(KModifier.OVERRIDE)
-            .addParameter("name", String::class)
-            .returns(returnType)
-            .addStatement("""
-                |return when(name) {
-                |   $validatorLines
-                |   else -> null
+            .addParameter("id", String::class.asTypeName().copy(true))
+
+        defaultActivityRegistered = validatorLines.second
+
+        if (validatorLines.second.isEmpty()) {
+            defaultActivityRegistered = defaultActivity
+            spec.addStatement("return $defaultActivityRegistered")
+        } else {
+            spec.addStatement("""
+                |return when(id) {
+                |   ${validatorLines.first}
+                |   else -> ${validatorLines.second}
                 |}
             |""".trimMargin())
+        }
+        return spec.returns(returnType)
             .build()
     }
 
-    private fun createValidatorLines(roundEnvironment: RoundEnvironment): String {
+    private fun createValidatorLines(roundEnvironment: RoundEnvironment): Pair<String, String> {
         val validators = StringBuilder()
         val registerValidatorAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(
             RegisterController::class.java
         )
+
+        var defaultControllerClass = ""
+
         registerValidatorAnnotatedClasses.forEachIndexed { index, element ->
             val registerValidatorAnnotation = element.getAnnotation(RegisterController::class.java)
             val name = try {
@@ -89,11 +108,24 @@ class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironme
             } catch (mte: MirroredTypeException) {
                 mte.typeMirror.toString()
             }
-            validators.append("\"$name\" -> $element as Class<BeagleActivity>")
+
+            if (name.isEmpty()) {
+                defaultControllerClass = "$element::class.java as Class<BeagleActivity>"
+                return@forEachIndexed
+            }
+
+            validators.append("\"$name\" -> $element::class.java as Class<BeagleActivity>")
             if (index < registerValidatorAnnotatedClasses.size - 1) {
                 validators.append("\n")
             }
         }
-        return validators.toString()
+
+
+        if (defaultControllerClass.isEmpty() && registerValidatorAnnotatedClasses.isNotEmpty()) {
+            processingEnv.messager.error(" Default Beagle Activity were not defined. " +
+                "Did you miss to create your own Activity that extends" +
+                " from Beagle Activity and annotate it with @RegisterController and without id?")
+        }
+        return validators.toString() to defaultControllerClass
     }
 }

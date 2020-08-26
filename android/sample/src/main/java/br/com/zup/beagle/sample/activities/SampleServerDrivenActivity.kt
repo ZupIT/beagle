@@ -29,7 +29,6 @@ import br.com.zup.beagle.android.view.FragmentTransitionAnimation
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.sample.R
 
-@BeagleComponent
 @RegisterController
 class SampleServerDrivenActivity : BeagleActivity() {
 
