@@ -135,17 +135,26 @@ if __FILE__ == $0
     AnalyticsScreen
   ]
   
+  generator = ModelGenerator.new(components)
+  message = "models generated!"
+  
   case ARGV[0]
-  when "s"
-    ModelGenerator.new(components).generate
-  when "t"
-    ModelGenerator.new(components).generate
-  when "k"
-    ModelGenerator.new(components).generate
-  when "a"
-    ModelGenerator.new(components).generate
+  when "swift"
+    generator.generateSwift
+    puts "Swift #{message}"
+  when "ts"
+    generator.generateTs
+    puts "Type Script #{message}"
+  when "kotlin"
+    generator.generateKotlin
+    puts "Kotlin #{message}"
+    generator.generateKotlinBackend
+    puts "Kotlin Backend #{message}"
+  when "all"
+    generator.generate
+    puts "All languange #{message}"
   else
-    "You gave me #{x} -- I have no idea what to do with that."
+    "You gave me #{ARGV[0]} -- I have no idea what to do with that."
   end
 
 end

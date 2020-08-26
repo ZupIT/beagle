@@ -24,6 +24,7 @@ helpFunction()
         supported languages
         
     OPTIONS
+        -a                        Generates code for all the supported languages
         -s                        Generates code in swift
         -k                        Generates code in kotlin
         -t                        Generates code in type script
@@ -52,12 +53,13 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
-while getopts skth flag
+while getopts sktha flag
 do
     case "${flag}" in
         s) ruby main.rb "swift";;
         k) ruby main.rb "kotlin";;
         t) ruby main.rb "ts";;
+        a) ruby main.rb "all";;
         h) helpFunction;;
         ?) echo "Invalid options. Use -h to get more info";;
     esac
