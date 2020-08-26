@@ -17,7 +17,9 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.RegisterController
-import br.com.zup.beagle.compiler.*
+import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
+import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
+import br.com.zup.beagle.compiler.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
