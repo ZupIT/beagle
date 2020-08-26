@@ -31,8 +31,13 @@ internal class RemoveIndexFunction : Function {
             list.removeAt(index)
             return list
         } else if (array is JSONArray) {
-            array.remove(index)
-            return array
+            val newArray = JSONArray()
+            for (i in 0 until array.length()) {
+                if (i != index) {
+                    newArray.put(array[i])
+                }
+            }
+            return newArray
         }
 
         return emptyList<Any>()

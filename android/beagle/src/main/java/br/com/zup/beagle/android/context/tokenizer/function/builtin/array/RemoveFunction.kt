@@ -46,13 +46,12 @@ internal class RemoveFunction : Function {
     }
 
     private fun removeElementsOnJSONArray(array: JSONArray, element: Any): JSONArray {
-        var elementsRemoved = 0
-        for(index in 0 until array.length()) {
-            if (array[index - elementsRemoved] == element) {
-                array.remove(index)
-                elementsRemoved++
+        val newArray = JSONArray()
+        for (i in 0 until array.length()) {
+            if (array[i] != element) {
+                newArray.put(array[i])
             }
         }
-        return array
+        return newArray
     }
 }
