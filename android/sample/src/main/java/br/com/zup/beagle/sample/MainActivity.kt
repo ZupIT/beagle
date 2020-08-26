@@ -38,6 +38,7 @@ import br.com.zup.beagle.sample.fragment.ScrollViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
+import br.com.zup.beagle.sample.fragment.ContextOperationsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
     @Suppress("ComplexMethod")
     private fun menuSelected(itemSelected: Int) {
         when (itemSelected) {
+            R.id.contextOperations -> goToFragment(ContextOperationsFragment.newInstance())
             R.id.textInput -> goToFragment(TextInputFragment.newInstance())
             R.id.scroll -> goToFragment(ScrollViewFragment.newInstance())
             R.id.lazycomponent -> goToFragment(LazyComponentFragment.newInstance())
