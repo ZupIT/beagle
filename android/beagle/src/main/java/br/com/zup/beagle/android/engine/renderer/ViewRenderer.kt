@@ -20,11 +20,13 @@ import android.view.View
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.context.ContextComponentHandler
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
+import java.lang.Exception
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     private val componentStylization: ComponentStylization<T> = ComponentStylization(),
@@ -37,8 +39,13 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
         val builtView = buildView(rootView)
         componentStylization.apply(builtView, component)
         if (builtView.id == View.NO_ID) {
-            builtView.id = rootView.generateViewModelInstance<GenerateIdViewModel>()
-                .getViewId(rootView.getParentId())
+            val generateIdViewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
+            builtView.id = try {
+                generateIdViewModel.getViewId(rootView.getParentId())
+            } catch (exception: Exception) {
+                BeagleMessageLogs.somethingHappenGenerateId(exception)
+                View.generateViewId()
+            }
         }
         contextComponentHandler.handleContext(viewModel, builtView, component)
         return builtView
