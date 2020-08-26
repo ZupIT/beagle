@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.android.logger.BeagleLoggerDefault
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
@@ -40,7 +40,7 @@ data class AddChildrenAction(
             val viewList = convertServerDrivenListOnViewList(value, rootView)
             addValueToView(view, viewList)
         } catch (exception: Exception) {
-            BeagleLoggerDefault().error("This view cannot receive children")
+            BeagleMessageLogs.errorWhileTryingToAddViewWithAddChildrenAction(componentId)
         }
     }
 

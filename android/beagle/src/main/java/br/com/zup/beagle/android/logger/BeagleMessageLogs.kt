@@ -133,4 +133,9 @@ internal object BeagleMessageLogs {
     fun somethingHappenGenerateId(ex: Exception) {
         BeagleLoggerProxy.error("Something Happen when generate id", ex)
     }
+
+    fun errorWhileTryingToAddViewWithAddChildrenAction(id : String){
+        val errorMessage = "The view with id:$id cannot receive children"
+        BeagleLoggerProxy.error(errorMessage)
+    }
 }
