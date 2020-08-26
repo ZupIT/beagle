@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-
-
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.widget.action.Alert
