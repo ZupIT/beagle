@@ -67,6 +67,12 @@ class TextInputFragment : Fragment() {
         return declarative.toView(this)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //inflar a main
+        //loadView no endpoint
+
+    }
     companion object {
         fun newInstance(): TextInputFragment {
             return TextInputFragment()

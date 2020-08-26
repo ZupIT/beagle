@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.android.logger.BeagleLoggerDefault
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
@@ -32,27 +33,49 @@ data class AddChildrenAction(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
     var mode: Mode? = Mode.append
-
 ) : Action {
     override fun execute(rootView: RootView, origin: View) {
-        val view = (rootView.getContext() as AppCompatActivity).findViewById<ViewGroup>(componentId.toAndroidId())
+        try {
+            val view = (rootView.getContext() as AppCompatActivity).findViewById<ViewGroup>(componentId.toAndroidId())
+            addValueToView(view, rootView)
+        } catch (exception: Exception) {
+            BeagleLoggerDefault().error("This view cannot receive children")
+        }
+    }
+
+    private fun addValueToView(view: ViewGroup, rootView: RootView) {
         when (mode) {
             Mode.append -> {
-                value.forEach {
-                    view.addView(it.toView(rootView))
-                }
+                appendValue(view, rootView)
             }
             Mode.prepend -> {
-                value.forEach {
-                    view.addView(it.toView(rootView), view.childCount)
-                }
+                prependValue(view, rootView)
             }
             Mode.replace -> {
-                view.removeAllViews()
-                value.forEach{
-                    view.addView(it.toView(rootView))
-                }
+                replaceValue(view, rootView)
+                //fazer testes de todos modos
+                //Fazer Unit test
+
             }
+        }
+    }
+
+    private fun appendValue(view: ViewGroup, rootView: RootView) {
+        value.forEach {
+            view.addView(it.toView(rootView))
+        }
+    }
+
+    private fun prependValue(view: ViewGroup, rootView: RootView) {
+        value.forEach {
+            view.addView(it.toView(rootView), 0)
+        }
+    }
+
+    private fun replaceValue(view: ViewGroup, rootView: RootView){
+        view.removeAllViews()
+        value.forEach {
+            view.addView(it.toView(rootView))
         }
     }
 

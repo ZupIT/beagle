@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.core.ServerDrivenComponent
+
 enum class Mode {
     append, prepend, replace
 }
