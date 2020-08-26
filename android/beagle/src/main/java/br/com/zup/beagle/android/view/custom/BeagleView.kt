@@ -33,7 +33,8 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 
-@Deprecated(DEPRECATED_ON_STATE_CHANGED, replaceWith = ReplaceWith("OnServerStateChanged", "br.com.zup.beagle.android.view.custom.OnServerStateChanged"))
+@Deprecated(DEPRECATED_ON_STATE_CHANGED, replaceWith = ReplaceWith("OnServerStateChanged",
+    "br.com.zup.beagle.android.view.custom.OnServerStateChanged"))
 typealias OnStateChanged = (state: BeagleViewState) -> Unit
 
 typealias OnServerStateChanged = (serverState: ServerDrivenState) -> Unit
