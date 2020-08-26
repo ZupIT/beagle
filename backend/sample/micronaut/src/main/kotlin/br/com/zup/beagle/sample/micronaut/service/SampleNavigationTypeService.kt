@@ -83,7 +83,7 @@ class SampleNavigationTypeService {
                     text = "PushView (Step 2)",
                     navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)),
                     backgroundColor = LIGHT_RED
-                )z
+                )
             )
         )
     )
