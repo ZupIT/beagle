@@ -46,11 +46,9 @@ helpFunction()
     exit 1
 }
 
-script_name=$0
-script_full_path=$(dirname "$0")
+full_path=$(dirname "$0")
 
-echo "script_name: $script_name"
-echo "full path: $script_full_path"
+echo "full path: $full_path"
 
 # Print helpFunction in case parameters are empty
 if [ $# -eq 0 ]
@@ -62,10 +60,10 @@ fi
 while getopts sktha flag
 do
     case "${flag}" in
-        s) ruby $script_full_path/main.rb "swift";;
-        k) ruby main.rb "kotlin";;
-        t) ruby main.rb "ts";;
-        a) ruby main.rb "all";;
+        s) ruby $full_path/main.rb "swift";;
+        k) ruby $full_path/main.rb "kotlin";;
+        t) ruby $full_path/main.rb "ts";;
+        a) ruby $full_path/main.rb "all";;
         h) helpFunction;;
         ?) echo "Invalid options. Use -h to get more info";;
     esac
