@@ -20,8 +20,8 @@ helpFunction()
     ================================================================
 
     DESCRIPTION
-        This script uses ruby to generate files for other
-        supported languages
+        This script uses ruby to generate beagle models
+        for other supported languages
         
     OPTIONS
         -a                        Generates code for all the supported languages

@@ -52,7 +52,8 @@ class ModelGenerator
     @writer = FileHandler.new
     @components = components
     @importManager = Hash.new("")
-    
+    @c = Constants.new
+
     components.each do |component|
       type = component.new.synthax_type
       @importManager[type.name] = "#{type.package}.#{type.name}"
@@ -73,36 +74,36 @@ class ModelGenerator
   end
 
   def generateKotlin
-    @erb = ERB.new(File.read("model_template_kotlin.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}model_template_kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.kotlin_path, @objectType.name + "Schema.kt", to_s)
+      @writer.write(@c.kotlin_path, @objectType.name + "Schema.kt", to_s)
     end
   end
 
   def generateKotlinBackend
-    @erb = ERB.new(File.read("model_template_kotlin_backend.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}model_template_kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
       if @objectType.synthax_type.class == BaseType
-        @writer.write(Constants.new.kotlin_backend_path, @objectType.name + ".kt", to_s)
+        @writer.write(@c.kotlin_backend_path, @objectType.name + ".kt", to_s)
       end
     end
   end
   
   def generateSwift
-    @erb = ERB.new(File.read("model_template_swift.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}model_template_swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.swift_path, @objectType.name + ".swift", to_s)
+      @writer.write(@c.swift_path, @objectType.name + ".swift", to_s)
     end
   end
 
   def generateTs
-    @erb = ERB.new(File.read("model_template_ts.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}model_template_ts.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.ts_path, @objectType.name + ".ts", to_s)
+      @writer.write(@c.ts_path, @objectType.name + ".ts", to_s)
     end
   end
 
@@ -152,7 +153,7 @@ if __FILE__ == $0
     puts "Kotlin Backend #{message}"
   when "all"
     generator.generate
-    puts "All languange #{message}"
+    puts "All language #{message}"
   else
     "You gave me #{ARGV[0]} -- I have no idea what to do with that."
   end
