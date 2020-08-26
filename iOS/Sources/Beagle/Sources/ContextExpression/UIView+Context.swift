@@ -72,9 +72,9 @@ extension UIView {
     
     private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T?) -> Void) {
         guard let context = getContext(with: expression.context) else { return }
-        let closure: (Context) -> Void = { context in
+        let closure: (Context) -> Void = { [weak self] context in
             let dynamicObject = expression.evaluate(model: context.value)
-            let value: T? = self.transform(dynamicObject)
+            let value: T? = self?.transform(dynamicObject)
             completion(value)
         }
         let contextObserver = ContextObserver(onContextChange: closure)
@@ -95,15 +95,15 @@ extension UIView {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
                 guard let context = getContext(with: single.context) else { return }
-                let closure: (Context) -> Void = { _ in
-                    let value: T? = self.evaluate(for: expression, contextId: single.context)
+                let closure: (Context) -> Void = { [weak self] _ in
+                    let value: T? = self?.evaluate(for: expression, contextId: single.context)
                     completion(value)
                 }
                 let contextObserver = ContextObserver(onContextChange: closure)
                 context.addObserver(contextObserver)
             }
         }
-        let value: T? = self.evaluate(for: expression)
+        let value: T? = evaluate(for: expression)
         completion(value)
     }
     

@@ -129,6 +129,31 @@ final class UIViewContextTests: XCTestCase {
         contextObservableRoot.value = Context(id: "context", value: ["a": 2])
         XCTAssertEqual(leaf.text, "")
         XCTAssertEqual(leaf.placeholder, "exp: ")
-   }
+    }
+    
+    func testConfigBindingShouldNotRetainTheView() {
+        // Given
+        var view: UILabel? = UILabel()
+        weak var weakReference = view
+        
+        let contextId = "context"
+        view?.setContext(Context(id: contextId, value: .empty))
+        
+        let singleExpression = SingleExpression(context: contextId, path: .init(nodes: []))
+        let multipleExpression = MultipleExpression(nodes: [.expression(singleExpression)])
+        let updateFunction: (String?) -> Void = { _ in
+            // ...
+        }
+
+        view?.configBinding(for: .single(singleExpression), completion: updateFunction)
+        view?.configBinding(for: .multiple(multipleExpression), completion: updateFunction)
+        
+        // When
+        view = nil
+        
+        // Then
+        XCTAssertNil(view)
+        XCTAssertNil(weakReference)
+    }
 
 }
