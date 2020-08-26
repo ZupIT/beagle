@@ -94,9 +94,9 @@ internal class BeagleView(
         }
 
         val serverState = if (isLoading) {
-            ServerDrivenState.Started()
+            ServerDrivenState.Started
         } else {
-            ServerDrivenState.Finished()
+            ServerDrivenState.Finished
         }
         serverStateChangedListener?.invoke(serverState)
         stateChangedListener?.invoke(state)
@@ -108,7 +108,7 @@ internal class BeagleView(
     }
 
     private fun renderComponent(component: ServerDrivenComponent, view: View? = null) {
-        serverStateChangedListener?.invoke(ServerDrivenState.Success())
+        serverStateChangedListener?.invoke(ServerDrivenState.Success)
         if (view != null) {
             if (component.implementsGenericTypeOf(OnStateUpdatable::class.java, component::class.java)) {
                 (component as? OnStateUpdatable<ServerDrivenComponent>)?.onUpdateState(component)
