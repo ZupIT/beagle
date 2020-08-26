@@ -223,7 +223,7 @@ final class StyleViewConfiguratorTests: XCTestCase {
         assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 50, height: 50)))
 
         // When
-        view.setNewFrame()
+        view.addRedSubview()
         view.style.markDirty()
         assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 50, height: 50)))
         
@@ -258,8 +258,7 @@ final class ViewDummy: UIView {
         didCallLayoutSubviews = true
     }
     
-    func setNewFrame() {
-        frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+    func addRedSubview() {
         let view = UIView(frame: .init(x: 1, y: 1, width: 20, height: 20))
         view.backgroundColor = .red
         addSubview(view)
