@@ -13,34 +13,25 @@
 #  limitations under the License.
 
 require_relative '../../Synthax/Attributes/variable.rb'
-require_relative '../../Synthax/Attributes/list.rb'
-require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
-require_relative '../Analytics/analytics_events.rb'
-require_relative '../Analytics/analytics_models.rb'
-require_relative './widget.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
+require_relative 'unit_type.rb'
 
-class Button < BaseComponent
+class UnitValue < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true),
-            List.new(:name => "onPress", :typeName => "Action", :isOptional => true), #todo create action
-            Variable.new(:name => "clickAnalyticsEvent", :typeName => AnalyticsClick.new.name, :isOptional => true)
+            Variable.new(:name => "value", :typeName => BasicTypeKeys.double),
+            Variable.new(:name => "type", :typeName => UnitType.new.name)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.ui",
-            :inheritFrom => [
-               Widget.new.name,
-               "ClickedOnComponent" #todo create
-            ]
+            :package => "br.com.zup.beagle.widget.core"
         )
 
         super(synthax_type)
 
     end
-    
+
 end

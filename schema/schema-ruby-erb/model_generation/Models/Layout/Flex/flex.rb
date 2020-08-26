@@ -15,12 +15,12 @@
 require_relative '../../../Synthax/Attributes/variable.rb'
 require_relative '../../base_component.rb'
 require_relative '../../../Synthax/Types/built_in_type.rb'
-require_relative './flex_direction.rb'
-require_relative './flex_wrap.rb'
-require_relative './justify_content.rb'
-require_relative './align_items.rb'
-require_relative './align_self.rb'
-require_relative './align_content.rb'
+require_relative 'flex_direction.rb'
+require_relative 'flex_wrap.rb'
+require_relative 'justify_content.rb'
+require_relative 'align_items.rb'
+require_relative 'align_self.rb'
+require_relative 'align_content.rb'
 
 class Flex < BaseComponent
 

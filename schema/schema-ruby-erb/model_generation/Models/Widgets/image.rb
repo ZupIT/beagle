@@ -16,8 +16,8 @@ require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../../Synthax/Attributes/list.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
-require_relative './widget.rb'
-require_relative './image_content.rb'
+require_relative 'widget.rb'
+require_relative 'image_content.rb'
 
 class Image < BaseComponent
 

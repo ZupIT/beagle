@@ -15,14 +15,20 @@
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative './unit_type.rb'
+require_relative 'unit_value.rb'
 
-class UnitValue < BaseComponent
+class EdgeValue < BaseComponent
 
     def initialize
+        unit_value = UnitValue.new.name
         variables = [
-            Variable.new(:name => "value", :typeName => BasicTypeKeys.double),
-            Variable.new(:name => "type", :typeName => UnitType.new.name)
+            Variable.new(:name => "left", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "top", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "right", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "bottom", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "horizontal", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "vertical", :typeName => unit_value, :isOptional => true),
+            Variable.new(:name => "all", :typeName => unit_value, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

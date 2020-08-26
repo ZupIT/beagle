@@ -1094,7 +1094,6 @@
 			buildPhases = (
 				1D8019DF24F69B0E00A63CFF /* Schema Generated */,
 				C0FBBD122475803900B72A9B /* Headers */,
-				1D8019DE24F5909800A63CFF /* ShellScript */,
 				C0FBBE1A2475CA4E00B72A9B /* Sourcery Run Script */,
 				C0FBBD132475803900B72A9B /* Sources */,
 				C0FBBD142475803900B72A9B /* Frameworks */,
@@ -1215,23 +1214,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1D8019DE24F5909800A63CFF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
-		};
 		1D8019DF24F69B0E00A63CFF /* Schema Generated */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1248,7 +1230,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../schema/schema-ruby-erb/Model\\ Generation/schema.sh -s\n";
 		};
 		C02918A3247EF8AC00C3AA13 /* SwiftLint Run Script */ = {
 			isa = PBXShellScriptBuildPhase;

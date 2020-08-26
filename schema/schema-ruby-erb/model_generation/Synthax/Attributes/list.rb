@@ -12,14 +12,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative './type.rb'
+require_relative 'base_attributes.rb'
 
-class BuiltInType
-    include BaseType
+class List < BaseAttributes
+
+    attr_accessor :isBindable, :isOptional
 
     def initialize(params = {})
         super
-        @type = params.fetch(:type, nil)
+        @isBindable = params.fetch(:isBindable, false)
+        @isOptional = params.fetch(:isOptional, false)
     end
-    
+
 end

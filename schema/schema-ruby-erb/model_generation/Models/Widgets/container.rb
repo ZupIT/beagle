@@ -12,29 +12,34 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/list.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
-require_relative './widget.rb'
+require_relative '../Analytics/analytics_events.rb'
+require_relative '../Analytics/analytics_models.rb'
+require_relative 'widget.rb'
 
-class Text < BaseComponent
+class Container < BaseComponent
 
+    # todo build context, action, and finish widget
     def initialize
         variables = [
-            Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true)
+            List.new(:name => "children", :typeName => Widget.name),
+            List.new(:name => "onInit", :typeName => "Action", :isOptional => true),
+            Variable.new(:name => "context", :typeName => "Context", :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
-               Widget.new.name
+               Widget.new.name,
             ]
         )
 
         super(synthax_type)
 
     end
-
+    
 end

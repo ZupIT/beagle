@@ -12,14 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative './type.rb'
+require_relative 'base_attributes.rb'
 
-class EnumType
-    include BaseType
-
+class EnumCase < BaseAttributes
+    
     def initialize(params = {})
         super
-        @type = BasicTypeKeys.enum
     end
 
 end
