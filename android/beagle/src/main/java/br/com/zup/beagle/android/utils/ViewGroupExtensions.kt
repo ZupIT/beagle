@@ -46,7 +46,7 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null
 ) {
-    loadView(this, ActivityRootView(activity), screenRequest, listener)
+    loadView(this, ActivityRootView(activity, this.id), screenRequest, listener)
 }
 
 /**
@@ -61,7 +61,7 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null
 ) {
-    loadView(this, FragmentRootView(fragment), screenRequest, listener)
+    loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
 }
 
 /**
@@ -115,15 +115,18 @@ private fun loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged?
 ) {
-    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-    viewModel.resetIds()
-    val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
+    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
+    val contextViewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+
+    viewModel.createIfNotExisting(rootView.getParentId())
+    val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
         serverStateChangedListener = listener
-        loadView(rootView, screenRequest)
+        loadView(screenRequest)
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
-        viewModel.linkBindingToContextAndEvaluateThem()
+        viewModel.setViewCreated(rootView.getParentId())
+        contextViewModel.linkBindingToContextAndEvaluateThem()
     }
 }
 
