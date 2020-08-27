@@ -43,7 +43,7 @@ final class AddChildrenTests: XCTestCase {
 
     func testIfDefaultIsAppend() {
         let sut = AddChildren(componentId: "id", value: [])
-        XCTAssert(sut.mode == .append)
+        XCTAssertEqual(sut.mode, .append)
     }
 
     private func runTest(
