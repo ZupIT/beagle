@@ -47,20 +47,8 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
                 View.generateViewId()
             }
         }
-        contextComponentHandler.handleContext(viewModel, builtView, component)
-        builtView.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener{
-            override fun onViewDetachedFromWindow(v: View?) {
-                v?.let {
-                    viewModel.clearContext(it)
-                }
-            }
-
-            override fun onViewAttachedToWindow(v: View?) {
-                v?.let {
-                    viewModel.linkBindingToContextAndEvaluateThem(it)
-                }
-            }
-        })
+        contextComponentHandler.addContext(viewModel, builtView, component)
+        contextComponentHandler.addListenerToHandleContext(viewModel, builtView)
         return builtView
     }
 

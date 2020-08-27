@@ -79,7 +79,6 @@ class AbstractViewRendererTest : BaseTest() {
         every { generateIdViewModel.getViewId(rootView.getParentId()) } returns viewId
         every { view.id } returns View.NO_ID
         every { view.id = any() } just Runs
-        every { view.addOnAttachStateChangeListener(any()) } just Runs
 
         // When
         viewRenderer.build(rootView)
@@ -93,8 +92,8 @@ class AbstractViewRendererTest : BaseTest() {
             rootView.getParentId()
             generateIdViewModel.getViewId(0)
             view.id = viewId
-            contextViewRenderer.handleContext(contextViewModel, view, component)
-            view.addOnAttachStateChangeListener(any())
+            contextViewRenderer.addContext(contextViewModel, view, component)
+            contextViewRenderer.addListenerToHandleContext(contextViewModel, view)
         }
     }
 
@@ -111,39 +110,5 @@ class AbstractViewRendererTest : BaseTest() {
 
         // Then
         verify(exactly = 0) { view.id = any() }
-    }
-
-    @Test
-    fun onViewDetachedFromWindow_should_call_clearContext() {
-        // Given
-        val view = mockk<View>()
-        val listenerSlot = slot<View.OnAttachStateChangeListener>()
-        every { viewRenderer.buildView(any()) } returns view
-        every { view.id } returns RandomData.int()
-        every { view.addOnAttachStateChangeListener(capture(listenerSlot)) } just Runs
-
-        // When
-        val builtView = viewRenderer.build(rootView)
-        listenerSlot.captured.onViewDetachedFromWindow(builtView)
-
-        // Then
-        verify(exactly = once()) { contextViewModel.clearContext(builtView) }
-    }
-
-    @Test
-    fun onViewAttachedToWindow_should_call_linkBindingToContextAndEvaluateThem() {
-        // Given
-        val view = mockk<View>()
-        val listenerSlot = slot<View.OnAttachStateChangeListener>()
-        every { viewRenderer.buildView(any()) } returns view
-        every { view.id } returns RandomData.int()
-        every { view.addOnAttachStateChangeListener(capture(listenerSlot)) } just Runs
-
-        // When
-        val builtView = viewRenderer.build(rootView)
-        listenerSlot.captured.onViewAttachedToWindow(builtView)
-
-        // Then
-        verify(exactly = once()) { contextViewModel.linkBindingToContextAndEvaluateThem(builtView) }
     }
 }
