@@ -23,6 +23,7 @@
       - container: (Function)
     - logger: BeagleLoggerDefault
   ▿ navigation: BeagleNavigator
+    - controllerTypes: 0 key/value pairs
     - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
   - navigationControllerType: BeagleNavigationController
   - networkClient: NetworkClientDummy

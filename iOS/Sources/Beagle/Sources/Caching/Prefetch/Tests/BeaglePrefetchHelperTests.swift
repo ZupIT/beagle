@@ -104,6 +104,10 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             Navigate.pushStack(.declarative(Screen(child: container))),
             Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: true))),
             Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: false))),
+            
+            Navigate.pushStack(.declarative(Screen(child: container)), controllerId: "customId"),
+            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: true)), controllerId: "customId"),
+            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: false)), controllerId: "customId"),
 
             Navigate.pushView(.declarative(Screen(child: container))),
             Navigate.pushView(.remote(.init(url: path, shouldPrefetch: true))),

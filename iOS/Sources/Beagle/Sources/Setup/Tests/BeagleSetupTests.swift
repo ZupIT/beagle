@@ -203,6 +203,10 @@ class BeagleNavigationDummy: BeagleNavigation {
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
     }
+    
+    func register<T: BeagleNavigationController>(controller type: T.Type) {}
+    func register<T: BeagleNavigationController>(controller type: T.Type, named: String) {}
+    func controllerType(forType type: String) -> BeagleNavigationController.Type? { return nil }
 }
 
 class GlobalContextDummy: GlobalContext {

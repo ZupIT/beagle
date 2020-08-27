@@ -900,6 +900,7 @@
 		C8BB30A22486FCE9002DD3C1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				25B7473324F7E52B00AFE60A /* __Snapshots__ */,
 				C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */,
 				C8BB30AF2486FDB1002DD3C1 /* Json */,
 			);
