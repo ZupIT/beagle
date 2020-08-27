@@ -20,4 +20,4 @@ internal fun tokenOfFunctionStart(value: String) = GenericToken(value, TokenType
 internal fun tokenOfFunction(value: String, params: List<Token>) = TokenFunction(value, params)
 internal fun tokenOfBinding(value: String) = TokenBinding(value)
 internal fun tokenOfNull() = TokenNull()
-internal fun invalidToken() = TokenNull()
+internal fun invalidToken() = InvalidToken()
