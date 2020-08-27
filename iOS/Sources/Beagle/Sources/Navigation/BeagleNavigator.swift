@@ -218,14 +218,15 @@ class BeagleNavigator: BeagleNavigation {
         success: @escaping (BeagleScreenViewController) -> Void
     ) -> RequestToken? {
         
-        origin.serverDrivenState = .loading(true)
+        origin.serverDrivenState = .started
         let remote = ScreenType.Remote(url: path.url, fallback: path.fallback, additionalData: nil)
         
         return BeagleScreenViewController.remote(remote, dependencies: origin.dependencies) {
             [weak origin] result in guard let origin = origin else { return }
+            origin.serverDrivenState = .finished
             switch result {
             case .success(let viewController):
-                origin.serverDrivenState = .loading(false)
+                origin.serverDrivenState = .success
                 success(viewController)
             case .failure(let error):
                 origin.serverDrivenState = .error(.remoteScreen(error), retry)

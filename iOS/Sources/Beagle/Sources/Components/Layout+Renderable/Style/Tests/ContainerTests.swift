@@ -113,7 +113,7 @@ final class ContainerTests: XCTestCase {
 class BeagleControllerSpy: BeagleController {
     
     var dependencies: BeagleDependenciesProtocol = Beagle.dependencies
-    var serverDrivenState: ServerDrivenState = .loading(false)
+    var serverDrivenState: ServerDrivenState = .finished
     var screenType: ScreenType = .declarativeText("")
     var screen: Screen?
     
