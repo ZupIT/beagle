@@ -115,11 +115,9 @@ public enum Log {
         }
         
         public init(
-            data: Data? = nil,
-            response: URLResponse? = nil
+            url: URLRequest? = nil
         ) {
-            self.data = data
-            self.response = response
+            self.url = url
         }
         
     }
