@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.ContextData
@@ -23,7 +24,8 @@ import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.mockdata.createViewForContext
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
@@ -433,5 +435,23 @@ class ActionExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(implicitContextValue, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_return_cached_result_if_there_is() {
+        // Given
+        val contextValue = "hello"
+        viewModel.addContext(contextView, ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+        every { bindView.getTag(R.id.beagle_context_view_parent) } answers { contextValue }
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue)
     }
 }

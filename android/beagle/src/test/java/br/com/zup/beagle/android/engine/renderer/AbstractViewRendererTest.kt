@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -30,6 +31,7 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
@@ -47,7 +49,7 @@ private open class AbstractViewRenderer(
 
 class AbstractViewRendererTest : BaseTest() {
 
-    private val contextViewModel = mockk<ScreenContextViewModel>()
+    private val contextViewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val generateIdViewModel = mockk<GenerateIdViewModel>()
     private val component = mockk<Widget>(relaxed = true)
     private val componentStylization = mockk<ComponentStylization<Widget>>(relaxed = true)
@@ -57,7 +59,6 @@ class AbstractViewRendererTest : BaseTest() {
 
     override fun setUp() {
         super.setUp()
-
 
         prepareViewModelMock(generateIdViewModel)
         every { anyConstructed<ViewModelProvider>().get(contextViewModel::class.java) } returns contextViewModel
@@ -78,6 +79,7 @@ class AbstractViewRendererTest : BaseTest() {
         every { generateIdViewModel.getViewId(rootView.getParentId()) } returns viewId
         every { view.id } returns View.NO_ID
         every { view.id = any() } just Runs
+        every { view.addOnAttachStateChangeListener(any()) } just Runs
 
         // When
         viewRenderer.build(rootView)
@@ -92,6 +94,7 @@ class AbstractViewRendererTest : BaseTest() {
             generateIdViewModel.getViewId(0)
             view.id = viewId
             contextViewRenderer.handleContext(contextViewModel, view, component)
+            view.addOnAttachStateChangeListener(any())
         }
     }
 
@@ -101,11 +104,46 @@ class AbstractViewRendererTest : BaseTest() {
         val view = mockk<View>()
         every { viewRenderer.buildView(any()) } returns view
         every { view.id } returns RandomData.int()
+        every { view.addOnAttachStateChangeListener(any()) } just Runs
 
         // When
         viewRenderer.build(rootView)
 
         // Then
         verify(exactly = 0) { view.id = any() }
+    }
+
+    @Test
+    fun onViewDetachedFromWindow_should_call_clearContext() {
+        // Given
+        val view = mockk<View>()
+        val listenerSlot = slot<View.OnAttachStateChangeListener>()
+        every { viewRenderer.buildView(any()) } returns view
+        every { view.id } returns RandomData.int()
+        every { view.addOnAttachStateChangeListener(capture(listenerSlot)) } just Runs
+
+        // When
+        val builtView = viewRenderer.build(rootView)
+        listenerSlot.captured.onViewDetachedFromWindow(builtView)
+
+        // Then
+        verify(exactly = once()) { contextViewModel.clearContext(builtView) }
+    }
+
+    @Test
+    fun onViewAttachedToWindow_should_call_linkBindingToContextAndEvaluateThem() {
+        // Given
+        val view = mockk<View>()
+        val listenerSlot = slot<View.OnAttachStateChangeListener>()
+        every { viewRenderer.buildView(any()) } returns view
+        every { view.id } returns RandomData.int()
+        every { view.addOnAttachStateChangeListener(capture(listenerSlot)) } just Runs
+
+        // When
+        val builtView = viewRenderer.build(rootView)
+        listenerSlot.captured.onViewAttachedToWindow(builtView)
+
+        // Then
+        verify(exactly = once()) { contextViewModel.linkBindingToContextAndEvaluateThem(builtView) }
     }
 }

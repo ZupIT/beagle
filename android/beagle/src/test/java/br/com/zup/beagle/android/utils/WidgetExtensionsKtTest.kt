@@ -30,11 +30,8 @@ import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import io.mockk.Runs
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import io.mockk.verifySequence
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -72,7 +69,7 @@ class WidgetExtensionsKtTest : BaseTest() {
             assertEquals(expected, evaluated)
         }
 
-        contextViewModel.linkBindingToContextAndEvaluateThem()
+        contextViewModel.linkBindingToContextAndEvaluateThem(view)
     }
 
     @Test
@@ -92,10 +89,7 @@ class WidgetExtensionsKtTest : BaseTest() {
             beagleFlexView.id = 0
             beagleFlexView.addServerDrivenComponent(component)
             generateIdViewModel.setViewCreated(0)
-            contextViewModel.linkBindingToContextAndEvaluateThem()
         }
-
-        verify { contextViewModel.linkBindingToContextAndEvaluateThem() }
 
         assertEquals(beagleFlexView, actual)
     }
