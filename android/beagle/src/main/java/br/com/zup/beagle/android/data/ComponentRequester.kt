@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.android.data
 
-import android.util.Log
 import br.com.zup.beagle.android.cache.CacheManager
-import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.view.ScreenRequest
@@ -43,9 +41,6 @@ internal class ComponentRequester(
             val responseData = beagleApi.fetchData(requestData)
             cacheManager.handleResponseData(url, beagleCache, responseData)
         }
-        val start = System.currentTimeMillis()
-        val component = serializer.deserializeComponent(responseBody)
-        Log.d("moshi deserialization", (System.currentTimeMillis() - start).toString())
-        return component
+        return serializer.deserializeComponent(responseBody)
     }
 }

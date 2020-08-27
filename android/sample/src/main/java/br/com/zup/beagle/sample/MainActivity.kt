@@ -17,17 +17,12 @@
 package br.com.zup.beagle.sample
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.android.utils.dp
-import br.com.zup.beagle.android.utils.loadView
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
-import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.activities.SampleServerDrivenActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
@@ -50,9 +45,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        fragment_content.loadView(this, ScreenRequest("/components")) { serverState: ServerDrivenState ->
-            Log.d("loadView", serverState.toString())
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
