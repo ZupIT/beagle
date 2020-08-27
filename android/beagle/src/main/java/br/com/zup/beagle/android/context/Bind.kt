@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.TokenParser
-import br.com.zup.beagle.android.utils.BeagleConstants
 import br.com.zup.beagle.android.utils.BeagleRegex
 import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.core.BindAttribute
