@@ -22,10 +22,12 @@ import BeagleSchema
 
 final class BeagleScreenViewControllerTests: XCTestCase {
     
+    private typealias RegisterAction = (BeagleNavigationController.Type, String) -> Void
+    
     private func initWith<T: BeagleNavigationController>(
         controllerId: String? = nil,
         gives controllerType: T.Type,
-        registerAction: ((T.Type, String) -> Void)? = nil) -> Bool {
+        registerAction: RegisterAction? = nil) -> Bool {
         
         // Given
         dependencies = BeagleDependencies()
@@ -51,14 +53,13 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         beagleSCViewModel.viewDidLoad()
         
         // Then
-        switch (beagleSCScreenType.content, beagleSCComponent.content, beagleSCViewModel.content) {
-        case let (.navigation(screenTypeNavigation),
-                  .navigation(componentNavigation),
-                  .navigation(viewModelNavigation)):
-            givesType = type(of: screenTypeNavigation) == controllerType
-            givesType = type(of: componentNavigation) == controllerType
-            givesType = type(of: viewModelNavigation) == controllerType
-        default:
+        if case let .navigation(screenTypeNavigation) = beagleSCScreenType.content,
+            case let .navigation(componentNavigation) = beagleSCComponent.content,
+            case let .navigation(viewModelNavigation) = beagleSCViewModel.content {
+            givesType = type(of: screenTypeNavigation) == controllerType &&
+                type(of: componentNavigation) == controllerType &&
+                type(of: viewModelNavigation) == controllerType
+        } else {
             givesType = false
         }
         
@@ -76,11 +77,11 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         
         let sut2 = initWith(gives: dependencies.navigationControllerType)
         
-        let sut3 = initWith(controllerId: controllerId, gives: dependencies.navigationControllerType) { controllerType, controllerId in
+        let sut3 = initWith(controllerId: controllerId, gives: dependencies.navigationControllerType) { controllerType, _ in
             dependencies.navigation.register(controller: controllerType)
         }
         
-        let sut4 = initWith(controllerId: controllerId, gives: dependencies.navigationControllerType) { controllerType, controllerId in
+        let sut4 = initWith(controllerId: controllerId, gives: dependencies.navigationControllerType) { controllerType, _ in
             dependencies.navigation.register(controller: controllerType, named: "OtherId")
         }
         
@@ -443,7 +444,9 @@ struct ComponentStub: RawComponent {
 }
 
 class BeagleNavigationStub: BeagleNavigationController {
-    // Intentionally unimplemented...
+    override func serverDrivenStateDidChange(to state: ServerDrivenState, at screenController: BeagleController) {
+        super.serverDrivenStateDidChange(to: state, at: screenController)
+    }
 }
 
 class BeagleControllerStub: BeagleController {

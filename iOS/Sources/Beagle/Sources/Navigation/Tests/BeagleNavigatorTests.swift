@@ -352,7 +352,9 @@ final class BeagleNavigatorTests: XCTestCase {
 }
 
 class BeagleNavigationStub2: BeagleNavigationController {
-    // Intentionally unimplemented...
+    override func serverDrivenStateDidChange(to state: ServerDrivenState, at screenController: BeagleController) {
+        super.serverDrivenStateDidChange(to: state, at: screenController)
+    }
 }
 
 class DeepLinkHandlerSpy: DeepLinkScreenManaging {
