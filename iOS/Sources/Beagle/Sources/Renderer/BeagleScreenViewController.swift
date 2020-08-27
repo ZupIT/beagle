@@ -121,7 +121,7 @@ public class BeagleScreenViewController: BeagleController {
     public func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         guard let actions = actions else { return }
         let context = Context(id: contextId, value: contextValue)
-        view.setContext(context)
+        origin.setContext(context)
         execute(actions: actions, origin: origin)
     }
             
