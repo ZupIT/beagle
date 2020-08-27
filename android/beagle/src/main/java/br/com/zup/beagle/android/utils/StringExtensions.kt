@@ -31,7 +31,8 @@ fun String.getExpressions(): List<String> {
     val expressions = mutableListOf<String>()
     val expressionContentRegex = "(\\\\*)@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}"
     expressionContentRegex.toRegex().findAll(this).iterator().forEach {
-        expressions.add(it.groupValues[2])
+        val expressionContent = it.groupValues[2]
+        expressions.add(expressionContent)
     }
     return expressions
 }

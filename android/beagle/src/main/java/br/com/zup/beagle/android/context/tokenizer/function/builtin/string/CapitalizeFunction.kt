@@ -16,15 +16,15 @@
 
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
+import android.annotation.SuppressLint
 import br.com.zup.beagle.android.context.tokenizer.function.Function
-import java.util.Locale
 
 internal class CapitalizeFunction : Function {
     override fun functionName(): String = "capitalize"
 
-    @ExperimentalStdlibApi
+    @SuppressLint("DefaultLocale")
     override fun execute(vararg params: Any?): String {
-        return params[0].toString().capitalize(Locale.getDefault())
+        return params[0].toString().capitalize()
     }
 
 }
