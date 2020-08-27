@@ -226,6 +226,10 @@ public class BeagleScreenViewController: BeagleController {
         createContent()
     }
     
+    public func hasServerDrivenScreen() -> Bool {
+        return screen != nil
+    }
+    
     // MARK: - View Setup
     
     private func initView() {
