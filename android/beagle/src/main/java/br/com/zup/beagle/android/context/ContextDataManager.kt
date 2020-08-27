@@ -53,6 +53,7 @@ internal class ContextDataManager(
     fun clearContexts() {
         contexts.clear()
         viewBinding.clear()
+        orphanBindings.clear()
         GlobalContext.clearObserverGlobalContext(globalContextObserver)
     }
 
