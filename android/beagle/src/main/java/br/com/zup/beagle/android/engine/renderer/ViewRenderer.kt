@@ -43,7 +43,6 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
             builtView.id = try {
                 generateIdViewModel.getViewId(rootView.getParentId())
             } catch (exception: Exception) {
-                BeagleMessageLogs.somethingHappenGenerateId(exception)
                 View.generateViewId()
             }
         }
