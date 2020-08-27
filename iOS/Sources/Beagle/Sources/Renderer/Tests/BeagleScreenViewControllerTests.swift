@@ -27,7 +27,8 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     private func initWith<T: BeagleNavigationController>(
         controllerId: String? = nil,
         gives controllerType: T.Type,
-        registerAction: RegisterAction? = nil) -> Bool {
+        registerAction: RegisterAction? = nil
+    ) -> Bool {
         
         // Given
         dependencies = BeagleDependencies()
