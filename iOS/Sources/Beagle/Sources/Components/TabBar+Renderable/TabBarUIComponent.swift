@@ -139,7 +139,6 @@ final class TabBarUIComponent: UIView {
 private extension TabBarUIComponent {
     private func moveIndicatorView(to cell: UICollectionViewCell?) {
         guard let cell = cell else { return }
-        // swiftlint:disable trailing_closure
         UIView.animate(
             withDuration: 0.2,
             delay: 0,
@@ -150,7 +149,6 @@ private extension TabBarUIComponent {
                 self.layoutIfNeeded()
             }
         )
-        // swiftlint:enable trailing_closure
     }
 }
 

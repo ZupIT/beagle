@@ -68,12 +68,12 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     public convenience init(_ component: RawComponent, controllerId: String? = nil) {
-        self.init(.declarative(component.toScreen()))
+        self.init(.declarative(component.toScreen()), controllerId: controllerId)
         self.navigationControllerId = controllerId
     }
     
     public convenience init(_ screenType: ScreenType, controllerId: String? = nil) {
-        self.init(viewModel: .init(screenType: screenType))
+        self.init(viewModel: .init(screenType: screenType), controllerId: controllerId)
         self.navigationControllerId = controllerId
     }
     

@@ -260,12 +260,12 @@ class BeagleNavigator: BeagleNavigation {
         registerController(type, key: componentTypeName)
     }
     
-    public func controllerType(forType type: String) -> BeagleNavigationController.Type? {
-        return controllerTypes[type.lowercased()]
-    }
-    
     public func register<T: BeagleNavigationController>(controller type: T.Type, named: String) {
         registerController(type, key: named)
+    }
+    
+    public func controllerType(forType type: String) -> BeagleNavigationController.Type? {
+        return controllerTypes[type.lowercased()]
     }
     
     private func registerController<T: BeagleNavigationController>(_ type: T.Type, key: String) {

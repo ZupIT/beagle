@@ -294,7 +294,65 @@ final class BeagleNavigatorTests: XCTestCase {
         XCTAssertEqual(data, deepLinkSpy.calledData)
         XCTAssertEqual(path, deepLinkSpy.calledPath)
     }
+    
+    private func configNavigator() -> BeagleNavigator {
+        let dependencies = BeagleDependencies()
+        let beagleNavigator = BeagleNavigator()
+        dependencies.navigation = beagleNavigator
+        Beagle.dependencies = dependencies
+        
+        return beagleNavigator
+    }
+    
+    func testRegisterController() {
+        // Given
+        let beagleNavigator = configNavigator()
+        
+        // Then
+        XCTAssertTrue(beagleNavigator.controllerTypes.isEmpty)
+        
+        // When
+        beagleNavigator.register(controller: BeagleNavigationStub.self)
+        
+        // Then
+        XCTAssertFalse(beagleNavigator.controllerTypes.isEmpty)
+        XCTAssertTrue(beagleNavigator.controllerTypes.first?.value is BeagleNavigationStub.Type)
+    }
+    
+    func testRegisterControllerNamed() {
+        // Given
+        let controllerId = "customId"
+        let beagleNavigator = configNavigator()
+        
+        // Then
+        XCTAssertTrue(beagleNavigator.controllerTypes.isEmpty)
+        
+        // When
+        beagleNavigator.register(controller: BeagleNavigationStub.self, named: controllerId)
+        
+        // Then
+        XCTAssertFalse(beagleNavigator.controllerTypes.isEmpty)
+        XCTAssertTrue(beagleNavigator.controllerTypes.first?.value is BeagleNavigationStub.Type)
+        XCTAssertEqual(beagleNavigator.controllerTypes.first?.key, controllerId.lowercased())
+    }
+    
+    func testControllerType() {
+        // Given
+        let controllerId = "customId"
+        let controllerId2 = String(describing: BeagleNavigationStub2.self)
+        
+        // When
+        dependencies.navigation.register(controller: BeagleNavigationStub.self, named: controllerId)
+        dependencies.navigation.register(controller: BeagleNavigationStub2.self)
+        
+        // Then
+        XCTAssertTrue(dependencies.navigation.controllerType(forType: controllerId) is BeagleNavigationStub.Type)
+        XCTAssertTrue(dependencies.navigation.controllerType(forType: controllerId2) is BeagleNavigationStub2.Type)
+    }
+}
 
+class BeagleNavigationStub2: BeagleNavigationController {
+    // Intentionally unimplemented...
 }
 
 class DeepLinkHandlerSpy: DeepLinkScreenManaging {

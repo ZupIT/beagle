@@ -36,7 +36,7 @@ struct NavigateStep1Screen: DeeplinkScreen {
                 createButton(text: "PopView", action: Navigate.popView, backgroundColor: .blueButton)
                 createButton(text: "PushView (Step 2)", action: Navigate.openNativeRoute(.init(route: .navigateStep2Endpoint)), backgroundColor: .salmonButton)
             }
-    }
+        }
 }
 
 struct NavigateStep2Screen: DeeplinkScreen {
@@ -57,7 +57,7 @@ struct NavigateStep2Screen: DeeplinkScreen {
                              action: Navigate.pushStack(.declarative(presentView), controllerId: "PushStackNavigationController"),
                              backgroundColor: .lightOrangeButton)
             }
-    }
+        }
     
     static var step3Screen: Screen =
         Screen(navigationBar: NavigationBar(title: "Step 3")) {
@@ -67,7 +67,7 @@ struct NavigateStep2Screen: DeeplinkScreen {
                 createButton(text: "ResetApplication (Step 1)", action: Navigate.resetApplication(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .salmonButton)
                 createButton(text: "PushView (Step 1)", action: Navigate.pushView(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .redButton)
             }
-    }
+        }
     
     static var presentView: Screen =
         Screen(navigationBar: NavigationBar(title: "Present")) {
@@ -75,7 +75,7 @@ struct NavigateStep2Screen: DeeplinkScreen {
                 createButton(text: "PushView (Step 1)", action: Navigate.pushView(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .salmonButton)
                 createButton(text: "PopStack", action: Navigate.popStack, backgroundColor: .greenWaterButton)
             }
-    }
+        }
 }
 
 private func createButton(text: String, action: Navigate, backgroundColor: String) -> Button {
