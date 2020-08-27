@@ -48,8 +48,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        fragment_content.loadView(this, ScreenRequest("/components"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

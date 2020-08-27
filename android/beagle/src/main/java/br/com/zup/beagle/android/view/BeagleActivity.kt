@@ -33,8 +33,8 @@ import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_STATE_LOADING
 import br.com.zup.beagle.android.utils.BeagleRetry
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_STATE_LOADING
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
