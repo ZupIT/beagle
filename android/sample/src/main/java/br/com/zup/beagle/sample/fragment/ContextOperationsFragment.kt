@@ -58,8 +58,9 @@ class ContextOperationsFragment : Fragment() {
             showBackButton = true
         ),
         child = Container(
-            context = ContextData("counter", 0),
+            context = ContextData("counter", 2),
             children = listOf(
+                Text(expressionOf("Counter: @{sum(2, 1)}")),
                 Text(expressionOf("Counter: @{counter}")),
                 Button(
                     text = "increment",

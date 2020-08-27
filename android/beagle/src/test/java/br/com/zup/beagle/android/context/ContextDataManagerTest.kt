@@ -180,7 +180,7 @@ class ContextDataManagerTest : BaseTest() {
 
         // When
         contextDataManager.addBinding(viewWithBind, bind, observer)
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
 
         // Then
         val contextBinding = contexts[viewContext.id]?.bindings?.first()
@@ -198,7 +198,7 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.addBinding(viewWithBind, bind, observer)
 
         // When
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
 
         // Then
         val contextBinding = contexts[Int.MAX_VALUE]?.bindings?.first()
@@ -329,28 +329,29 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
         verify(exactly = once()) { observer(value) }
     }
 
     @Test
-    fun evaluateContexts_should_trigger_orphanBindings() {
+    fun evaluateContexts_should_get_value_from_operation() {
         // Given
-        val bind = expressionOf<Int>("@{sum(1,1)}")
+        val value = 2
+        val contextData = ContextData(CONTEXT_ID, value)
+        val bind = expressionOf<Int>("@{sum(1, 1)}")
         val observer = mockk<Observer<Int?>>(relaxed = true)
+        contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
-        verify(exactly = once()) { observer(2) }
+        verify(exactly = once()) { observer(value) }
     }
 
     @Test
@@ -362,10 +363,9 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
         verify(exactly = once()) { observer(null) }
@@ -381,10 +381,7 @@ class ContextDataManagerTest : BaseTest() {
             // Then
             assertNull(it)
         }
-        contextDataManager.linkBindingToContext()
-
-        // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
     }
 
     @Test

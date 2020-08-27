@@ -127,22 +127,26 @@ fun <T> Action.evaluateExpression(
     return bind.evaluateForAction(rootView, origin, this)
 }
 
-internal fun Action.evaluateExpression(
-    rootView: RootView,
-    view: View,
-    data: Any
-): Any? {
+internal fun Action.evaluateExpression(rootView: RootView, view: View, data: Any): Any? {
     return try {
-        return if (data is JSONObject || data is JSONArray || data.isExpression()) {
-            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, view, this)
-            value.tryToDeserialize()
-        } else {
-            data
+        when {
+            data is Bind.Value<*> -> data.value
+            data is Bind.Expression<*> ->
+                data.value.generateBindAndEvaluateForAction(rootView, view, this)
+            data is JSONObject || data is JSONArray || data.isExpression() ->
+                data.toString().generateBindAndEvaluateForAction(rootView, view, this)
+            else -> data
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
     }
+}
+
+private fun String.generateBindAndEvaluateForAction(rootView: RootView, view: View, caller: Action): Any? {
+    return expressionOf<String>(this)
+        .evaluateForAction(rootView, view, caller)
+        .tryToDeserialize()
 }
 
 private fun String?.tryToDeserialize(): Any? {

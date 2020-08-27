@@ -27,6 +27,9 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.components.page.PageView
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.core.TextAlignment
 
@@ -37,24 +40,32 @@ class PageViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val declarative = PageView(
+            context = ContextData(
+                id = "pages",
+                value = listOf(
+                    "Page 1",
+                    "Page 2",
+                    "Page 3"
+                )
+            ),
             pageIndicator = PageIndicator(
                 selectedColor = "#000000",
                 unselectedColor = "#888888"
             ),
             children = listOf(
-                Text("Page 1", alignment = TextAlignment.CENTER).applyFlex(
+                Text(text = expressionOf("@{pages[0]}"), alignment = valueOf(TextAlignment.CENTER)).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0
                     )
                 ),
-                Text("Page 2", alignment = TextAlignment.CENTER).applyFlex(
+                Text(text = expressionOf("@{pages[1]}"), alignment = valueOf(TextAlignment.CENTER)).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0
                     )
                 ),
-                Text("Page 3", alignment = TextAlignment.CENTER).applyFlex(
+                Text(text = expressionOf("@{pages[2]}"), alignment = valueOf(TextAlignment.CENTER)).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0
