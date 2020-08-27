@@ -115,7 +115,7 @@ class ViewExtensionsKtTest : BaseTest() {
     @Test
     fun loadView_should_create_BeagleView_and_call_loadView_with_fragment() {
         // Given When
-        viewGroup.loadView(fragment, screenRequest)
+        viewGroup.loadView(fragment, screenRequest, onStateChanged)
 
         // Then
         verifySequence {
@@ -130,7 +130,7 @@ class ViewExtensionsKtTest : BaseTest() {
     @Test
     fun loadView_should_create_BeagleView_and_call_loadView_with_activity() {
         // When
-        viewGroup.loadView(activity, screenRequest)
+        viewGroup.loadView(activity, screenRequest, onStateChanged)
 
         // Then
         verify { viewFactory.makeBeagleView(any<ActivityRootView>()) }
@@ -144,7 +144,7 @@ class ViewExtensionsKtTest : BaseTest() {
         every { beagleView.loadCompletedListener = capture(slot) } just Runs
 
         // When
-        viewGroup.loadView(fragment, screenRequest)
+        viewGroup.loadView(fragment, screenRequest, onStateChanged)
         slot.captured.invoke()
 
         // Then
