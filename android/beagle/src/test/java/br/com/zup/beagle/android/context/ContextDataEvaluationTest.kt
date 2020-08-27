@@ -292,19 +292,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
         assertEquals(expected.toString(), value.toString().replace(" ", ""))
     }
 
-    // TODO: escape expression code is doing incorrect evaluation
-    /*@Test
-    fun evaluateAllContext_with_literal_string() {
-        // Given
-        val bind = expressionOf<String>("@{'hello world, this is { beagle }!}'}")
-
-        // When
-        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
-
-        // Then
-        assertEquals("hello world, this is { beagle }!}", value)
-    }*/
-
     @Test
     fun evaluateAllContext_with_literal_true() {
         // Given
