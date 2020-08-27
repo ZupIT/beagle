@@ -21,57 +21,55 @@ import BeagleSchema
 
 final class AddChildrenTests: XCTestCase {
 
-    private let imageSize = ImageSize.custom(CGSize(width: 200, height: 100))
-    private let controller = BeagleScreenViewController(Container(context: Context(id: "contextId", value: "context value"), widgetProperties: WidgetProperties(id: "containerId")) {
-        Text("some text")
-    })
-    
-    func testAddChildrenDefault() {
-        // Given
-        let addChildren = AddChildren(componentId: "containerId", value: [Text("text")])
-        assertSnapshotImage(controller, size: imageSize)
-        
-        // When
-        addChildren.execute(controller: controller, origin: UIView())
-
-        // Then
-        assertSnapshotImage(controller, size: imageSize)
+    func testModeAppend() {
+        runTest(mode: .append)
     }
     
-    func testAddChildrenPrepend() {
-        // Given
-        let addChildren = AddChildren(componentId: "containerId", value: [Text("text")], mode: .prepend)
-        assertSnapshotImage(controller, size: imageSize)
-        
-        // When
-        addChildren.execute(controller: controller, origin: UIView())
-
-        // Then
-        assertSnapshotImage(controller, size: imageSize)
+    func testModePrepend() {
+        runTest(mode: .prepend)
     }
     
-    func testAddChildrenReplace() {
-        // Given
-        let addChildren = AddChildren(componentId: "containerId", value: [Text("text")], mode: .replace)
-        assertSnapshotImage(controller, size: imageSize)
-        
-        // When
-        addChildren.execute(controller: controller, origin: UIView())
+    func testModeReplace() {
+        runTest(mode: .replace)
+    }
 
-        // Then
-        assertSnapshotImage(controller, size: imageSize)
+    func testModeAppendWithContext() {
+        runTest(mode: .append, text: Text("@{contextId}"))
     }
     
-    func testAddChildrenContext() {
+    func testModeReplaceWithContext() {
+        runTest(mode: .replace, text: Text("@{contextId}"))
+    }
+
+    func testIfDefaultIsAppend() {
+        let sut = AddChildren(componentId: "id", value: [])
+        XCTAssert(sut.mode == .append)
+    }
+
+    private func runTest(
+        mode: AddChildren.Mode,
+        text: Text = Text("NEW"),
+        testName: String = #function,
+        line: UInt = #line
+    ) {
         // Given
-        let addChildren = AddChildren(componentId: "containerId", value: [Text("@{contextId}")], mode: .replace)
-        assertSnapshotImage(controller, size: imageSize)
-        
+        let sut = AddChildren(componentId: "componentId", value: [text], mode: mode)
+
+        let controller = BeagleScreenViewController(Container(
+            context: Context(id: "contextId", value: "CONTEXT"),
+            widgetProperties: WidgetProperties(id: "componentId")
+        ) {
+            Text("initial")
+        })
+
+        assertSnapshotImage(controller, size: imageSize, testName: testName, line: line)
+
         // When
-        addChildren.execute(controller: controller, origin: UIView())
+        sut.execute(controller: controller, origin: UIView())
 
         // Then
-        assertSnapshotImage(controller, size: imageSize)
+        assertSnapshotImage(controller, size: imageSize, testName: testName, line: line)
     }
-    
+
+    private let imageSize = ImageSize.custom(CGSize(width: 80, height: 60))
 }
