@@ -33,6 +33,7 @@ import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_STATE_LOADING
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
@@ -42,10 +43,36 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
-    open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
+
     class FormError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
     class WebViewError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
+
+    @Deprecated(DEPRECATED_STATE_LOADING)
     data class Loading(val loading: Boolean) : ServerDrivenState()
+
+    /**
+     * indicates that a server-driven component fetch has begun
+     */
+    object Started : ServerDrivenState()
+
+    /**
+     * indicates that a server-driven component fetch has finished
+     */
+    object Finished : ServerDrivenState()
+
+    /**
+     * indicates a success state while fetching a server-driven component
+     */
+    object Success : ServerDrivenState()
+
+    /**
+     * indicates an error state while fetching a server-driven component
+     *
+     * @param throwable error occurred. See {@link br.com.zup.beagle.android.exception.BeagleApiException},
+     * See {@link br.com.zup.beagle.android.exception.BeagleException}
+     * @param retry action to be performed when an error occurs
+     */
+    open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
 }
 
 @Parcelize
@@ -217,9 +244,22 @@ abstract class BeagleActivity : AppCompatActivity() {
     private fun handleLiveData(state: LiveData<ViewState>) {
         state.observe(this, Observer {
             when (it) {
-              is ViewState.Error -> onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable,it.retry))
-              is ViewState.Loading -> onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
-              is ViewState.DoRender -> showScreen(it.screenId, it.component)
+                is ViewState.Error -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable, it.retry))
+                }
+                is ViewState.Loading -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
+
+                    if (it.value) {
+                        onServerDrivenContainerStateChanged(ServerDrivenState.Started)
+                    } else {
+                        onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
+                    }
+                }
+                is ViewState.DoRender -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Success)
+                    showScreen(it.screenId, it.component)
+                }
             }
         })
     }
