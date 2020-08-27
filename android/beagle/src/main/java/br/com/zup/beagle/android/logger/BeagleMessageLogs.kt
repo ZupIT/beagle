@@ -144,4 +144,8 @@ internal object BeagleMessageLogs {
         val errorMessage = "Function with named $functionName does not exist."
         BeagleLoggerProxy.warning(errorMessage)
     }
+
+    fun somethingHappenGenerateId(ex: Exception) {
+        BeagleLoggerProxy.error("Something Happen when generate id", ex)
+    }
 }

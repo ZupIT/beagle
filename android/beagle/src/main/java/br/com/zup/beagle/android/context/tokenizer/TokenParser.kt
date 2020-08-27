@@ -95,7 +95,7 @@ class TokenParser {
     private fun createInvalidToken(expression: String): ExpressionToken {
         return ExpressionToken(
             value = expression,
-            token = InvalidToken()
+            token = invalidToken()
         )
     }
 }

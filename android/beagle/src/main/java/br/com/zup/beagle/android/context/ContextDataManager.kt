@@ -89,18 +89,26 @@ internal class ContextDataManager(
             val parentContexts = entry.key.getAllParentContextWithGlobal()
             entry.value.forEach { binding ->
                 val bindingTokens = binding.bind.filterBindingTokens()
-                if (bindingTokens.isNotEmpty()) {
-                    bindingTokens.forEach { expression ->
-                        val contextId = expression.getContextId()
-                        parentContexts[contextId]?.bindings?.add(binding)
-                    }
-                } else {
-                    orphanBindings.add(binding)
-                }
+                addBidingToContext(parentContexts, bindingTokens, binding)
             }
         }
 
         viewBinding.clear()
+    }
+
+    private fun addBidingToContext(
+        parentContexts: MutableMap<String, ContextBinding>,
+        bindingTokens: List<String>,
+        binding: Binding<*>
+    ) {
+        if (bindingTokens.isNotEmpty()) {
+            bindingTokens.forEach { expression ->
+                val contextId = expression.getContextId()
+                parentContexts[contextId]?.bindings?.add(binding)
+            }
+        } else {
+            orphanBindings.add(binding)
+        }
     }
 
     fun getContextsFromBind(originView: View, binding: Bind.Expression<*>): List<ContextData> {
@@ -151,7 +159,7 @@ internal class ContextDataManager(
         }
     }
 
-    fun notifyBindingChanges(contextBinding: ContextBinding) {
+    internal fun notifyBindingChanges(contextBinding: ContextBinding) {
         val contextData = contextBinding.context
         val bindings = contextBinding.bindings
 

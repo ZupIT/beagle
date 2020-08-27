@@ -270,6 +270,28 @@ internal class ContextDataEvaluationTest : BaseTest() {
         assertEquals(3, value)
     }
 
+    @Test
+    fun evaluateAllContext_with_operation_insert_with_binding() {
+        // Given
+        val context = ContextData(
+            id = "binding",
+            value = listOf(1, 2, 3)
+        )
+        val bind = expressionOf<Int>("@{insert(binding, 2)}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(context), bind)
+
+        // Then
+        val expected = JSONArray().apply {
+            put(1)
+            put(2)
+            put(3)
+            put(2)
+        }
+        assertEquals(expected.toString(), value.toString().replace(" ", ""))
+    }
+
     // TODO: escape expression code is doing incorrect evaluation
     /*@Test
     fun evaluateAllContext_with_literal_string() {

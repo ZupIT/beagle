@@ -28,6 +28,7 @@ import br.com.zup.beagle.android.context.tokenizer.function.builtin.number.SumFu
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.other.IsEmptyFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.other.LengthFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.*
+import org.json.JSONArray
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -39,22 +40,34 @@ class OperationsTest {
 
     @Test
     fun insert_should_insert_element() {
-        assertEquals(listOf(9, 1, 2, 3), InsertFunction().execute(listOf(1, 2, 3), 9, 0))
+        val insert = InsertFunction()
+        assertEquals(listOf(9, 1, 2, 3), insert.execute(listOf(1, 2, 3), 9, 0))
+        assertEquals(listOf(1, 2, 3, 9), insert.execute(listOf(1, 2, 3), 9))
+        assertEquals(jsonArrayOf(9, 1, 2, 3).toString(), insert.execute(jsonArrayOf(1, 2, 3), 9, 0).toString())
+        assertEquals(jsonArrayOf(1, 2, 3, 9).toString(), insert.execute(jsonArrayOf(1, 2, 3), 9).toString())
     }
 
     @Test
-    fun includes_should_check_if_contains_element() {
-        assertTrue(ContainsFunction().execute(listOf(1, 2, 3), 2))
+    fun contains_should_check_if_contains_element() {
+        val contains = ContainsFunction()
+        assertTrue(contains.execute(listOf(1, 2, 3), 2))
+        assertFalse(contains.execute(listOf(1, 2, 3), 4))
+        assertTrue(contains.execute(jsonArrayOf(1, 2, 3), 2))
+        assertFalse(contains.execute(jsonArrayOf(1, 2, 3), 4))
     }
 
     @Test
     fun remove_should_remove_all_elements() {
-        assertEquals(listOf(1, 3), RemoveFunction().execute(listOf(1, 2, 3, 2), 2))
+        val remove = RemoveFunction()
+        assertEquals(listOf(1, 3), remove.execute(listOf(1, 2, 3, 2), 2))
+        assertEquals(jsonArrayOf(1, 3).toString(), remove.execute(jsonArrayOf(1, 2, 3, 2), 2).toString())
     }
 
     @Test
     fun removeIndex_should_remove_element_at_index() {
-        assertEquals(listOf(2, 3), RemoveIndexFunction().execute(listOf(1, 2, 3), 0))
+        val removeIndex = RemoveIndexFunction()
+        assertEquals(listOf(2, 3), removeIndex.execute(listOf(1, 2, 3), 0))
+        assertEquals(jsonArrayOf(2, 3).toString(), removeIndex.execute(jsonArrayOf(1, 2, 3), 0).toString())
     }
 
     // Comparison
@@ -269,5 +282,13 @@ class OperationsTest {
         assertEquals("12345", substr.execute(str, 0, 5))
         assertEquals("456", substr.execute(str, 3, 3))
         assertEquals("6789", substr.execute(str, 5))
+    }
+
+    private fun jsonArrayOf(vararg items: Int): JSONArray {
+        return JSONArray().apply {
+            items.forEach {
+                put(it)
+            }
+        }
     }
 }

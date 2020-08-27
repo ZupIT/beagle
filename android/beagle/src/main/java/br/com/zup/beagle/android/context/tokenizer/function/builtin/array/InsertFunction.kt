@@ -23,6 +23,7 @@ import org.json.JSONArray
 internal class InsertFunction : Function {
     override fun functionName(): String = "insert"
 
+    @Suppress("ReturnCount")
     override fun execute(vararg params: Any?): Any {
         val array = params[0]
         val element = params[1] as Any
@@ -49,13 +50,28 @@ internal class InsertFunction : Function {
     }
 
 
-    private fun insertOnJSONArray(list: JSONArray, element: Any, index: Int?): JSONArray {
+    private fun insertOnJSONArray(array: JSONArray, element: Any, index: Int?): JSONArray {
         if (index != null) {
-            list.put(index, element)
+            return appendValueToJSONArray(array, element, index)
         } else {
-            list.put(element)
+            array.put(element)
         }
 
-        return list
+        return array
+    }
+
+    private fun appendValueToJSONArray(array: JSONArray, element: Any, index: Int): JSONArray {
+        val newArray = JSONArray()
+        for (i in 0 until array.length()) {
+            if (i == index) {
+                newArray.put(element)
+                if (array[i] != null) {
+                    newArray.put(array[i])
+                }
+            } else {
+                newArray.put(array[i])
+            }
+        }
+        return newArray
     }
 }
