@@ -346,6 +346,21 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         XCTAssert(label.text == previousText)
         XCTAssert(label.isEnabled == previousIsEnabled)
     }
+    
+    func testExecuteActions() {
+        // Given
+        let action = ActionSpy()
+        let context = Context(id: "implicitContext", value: ["key": "value"])
+        let origin = UIView()
+        
+        // When
+        controller.execute(actions: [action], with: context.id, and: context.value, origin: origin)
+        
+        // Then
+        XCTAssertEqual(action.executionCount, 1)
+        XCTAssertEqual(action.lastOrigin, origin)
+        XCTAssertEqual(origin.contextMap[context.id]?.value, context)
+    }
 }
 
 // MARK: - Testing Helpers
