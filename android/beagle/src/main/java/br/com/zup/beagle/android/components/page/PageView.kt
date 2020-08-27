@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
@@ -95,7 +95,7 @@ data class PageView(
             adapter = PageViewAdapter(rootView, children, viewFactory)
         }
 
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), style).apply {
+        val container = viewFactory.makeBeagleFlexView(rootView, style).apply {
             addView(viewPager, style)
         }
 
@@ -139,8 +139,8 @@ internal class PageViewAdapter(
 ) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-            it.addServerDrivenComponent(children[position], rootView)
+        val view = viewFactory.makeBeagleFlexView(rootView).also {
+            it.addServerDrivenComponent(children[position])
         }
         container.addView(view)
         return view

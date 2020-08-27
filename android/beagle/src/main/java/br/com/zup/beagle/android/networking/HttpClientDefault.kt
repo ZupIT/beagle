@@ -82,20 +82,20 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         try {
             return createResponseData(urlConnection)
         } catch (e: Exception) {
-            throw tryFormatException(urlConnection)
+            throw tryFormatException(urlConnection, request)
         } finally {
             urlConnection.disconnect()
         }
     }
 
-    private fun tryFormatException(urlConnection: HttpURLConnection): BeagleApiException {
+    private fun tryFormatException(urlConnection: HttpURLConnection, request: RequestData): BeagleApiException {
         val response = urlConnection.getSafeError() ?: byteArrayOf()
         val statusCode = urlConnection.getSafeResponseCode()
         val statusText = urlConnection.getSafeResponseMessage()
         val responseData = ResponseData(statusCode = statusCode,
             data = response, statusText = statusText)
 
-        return BeagleApiException(responseData)
+        return BeagleApiException(responseData, request)
     }
 
 

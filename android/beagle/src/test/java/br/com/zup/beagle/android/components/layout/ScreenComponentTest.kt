@@ -26,10 +26,10 @@ import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -40,7 +40,6 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
-import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
 import org.junit.Test
@@ -104,7 +103,7 @@ class ScreenComponentTest : BaseComponentTest() {
         screenComponent.buildView(rootView)
 
         // Then
-        verify(atLeast = once()) { beagleFlexView.addServerDrivenComponent(component, rootView) }
+        verify(atLeast = once()) { beagleFlexView.addServerDrivenComponent(component) }
     }
 
     @Test

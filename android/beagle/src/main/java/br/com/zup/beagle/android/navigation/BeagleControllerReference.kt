@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.exception
+package br.com.zup.beagle.android.navigation
 
-import br.com.zup.beagle.android.networking.RequestData
-import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.android.view.BeagleActivity
 
-data class BeagleApiException(
-    val responseData: ResponseData,
-    val requestData: RequestData,
-    override val message: String = responseData.toString()
-) : BeagleException(message)
+interface BeagleControllerReference {
+    /**
+     * Map each name for a specific activity class that inherit from BeagleActivity and
+     * return a default one if name is not found
+     * @property id is the controller id used in @RegisterController.
+     */
+    fun classFor(id: String?): Class<BeagleActivity>
+}

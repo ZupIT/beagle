@@ -37,7 +37,7 @@ class NavigateTest {
 
     @MockK
     private lateinit var deepLinkHandler: DeepLinkHandler
-    
+
     private val view: View = mockk()
 
     @Before
@@ -63,7 +63,7 @@ class NavigateTest {
         navigate.execute(rootView, view)
 
         // Then
-        verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any(), any()) }
+        verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any(), any(), any()) }
     }
 
     @Test
@@ -93,7 +93,7 @@ class NavigateTest {
         navigate.execute(rootView, view)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.openNativeRoute(rootView.getContext(), route, data, shouldResetApplication) }
+        verify(exactly = once()) { BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication) }
     }
 
     @Test
@@ -101,13 +101,13 @@ class NavigateTest {
         // Given
         val route = Route.Remote(RandomData.httpUrl())
         val navigate = Navigate.ResetApplication(route)
-        every { BeagleNavigator.resetApplication(any(), any()) } just Runs
+        every { BeagleNavigator.resetApplication(any(), any(), any()) } just Runs
 
         // When
         navigate.execute(rootView, view)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.resetApplication(rootView.getContext(), route) }
+        verify(exactly = once()) { BeagleNavigator.resetApplication(rootView.getContext(), route, null) }
     }
 
     @Test
@@ -115,13 +115,13 @@ class NavigateTest {
         // Given
         val route = Route.Remote(RandomData.httpUrl())
         val navigate = Navigate.ResetStack(route)
-        every { BeagleNavigator.resetStack(any(), any()) } just Runs
+        every { BeagleNavigator.resetStack(any(), any(), any()) } just Runs
 
         // When
         navigate.execute(rootView, view)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.resetStack(rootView.getContext(), route) }
+        verify(exactly = once()) { BeagleNavigator.resetStack(rootView.getContext(), route, null) }
     }
 
     @Test
@@ -183,12 +183,12 @@ class NavigateTest {
         // Given
         val route = Route.Remote(RandomData.httpUrl())
         val navigate = Navigate.PushStack(route)
-        every { BeagleNavigator.pushStack(any(), any()) } just Runs
+        every { BeagleNavigator.pushStack(any(), any(), any()) } just Runs
 
         // When
         navigate.execute(rootView, view)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.pushStack(rootView.getContext(), route) }
+        verify(exactly = once()) { BeagleNavigator.pushStack(rootView.getContext(), route, null) }
     }
 }
