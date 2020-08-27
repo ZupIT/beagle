@@ -46,6 +46,7 @@ final class RepositoryTests: XCTestCase {
         }
     }
 
+    // swiftlint:disable force_unwrapping
     func test_requestWithInvalidURL_itShouldFail() {
         let sut = RepositoryDefault(dependencies: BeagleDependencies())
         let invalidURL = "🥶"
@@ -53,7 +54,9 @@ final class RepositoryTests: XCTestCase {
         // When
         let fetchComponentExpectation = expectation(description: "fetchComponent")
         var fetchError: Request.Error?
-        let expectedError = Request.Error.networkError(NSError(domain: "kCFErrorDomainCFNetwork", code: 1002, description: ""))
+        let expectedError = Request.Error.networkError(.init(error:
+            NSError(domain: "kCFErrorDomainCFNetwork", code: 1002, description: ""), request: .init(url: URL(string: "url")!)
+        ))
 
         sut.fetchComponent(url: invalidURL, additionalData: nil) {
             if case let .failure(error) = $0 {
