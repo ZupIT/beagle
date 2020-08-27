@@ -38,20 +38,24 @@
                   - string: "Email: "
                 ▿ Node
                   ▿ expression: SingleExpression
-                    - context: "cadastro"
-                    ▿ path: Path
-                      ▿ nodes: 1 element
-                        ▿ Node
-                          - key: "email"
+                    ▿ value: Value
+                      ▿ binding: Binding
+                        - context: "cadastro"
+                        ▿ path: Path
+                          ▿ nodes: 1 element
+                            ▿ Node
+                              - key: "email"
                 ▿ Node
                   - string: "Message: "
                 ▿ Node
                   ▿ expression: SingleExpression
-                    - context: "cadastro"
-                    ▿ path: Path
-                      ▿ nodes: 1 element
-                        ▿ Node
-                          - key: "message"
+                    ▿ value: Value
+                      ▿ binding: Binding
+                        - context: "cadastro"
+                        ▿ path: Path
+                          ▿ nodes: 1 element
+                            ▿ Node
+                              - key: "message"
         - onPressCancel: Optional<RawAction>.none
         - onPressOk: Optional<RawAction>.none
         ▿ title: Optional<Expression<String>>

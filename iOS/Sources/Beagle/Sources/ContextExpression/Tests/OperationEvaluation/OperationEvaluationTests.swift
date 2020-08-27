@@ -18,41 +18,33 @@
 import BeagleSchema
 @testable import Beagle
 import XCTest
-import SnapshotTesting
 
-final class DynamicObjectTests: XCTestCase {
+typealias Operation = BeagleSchema.Operation
 
-    func testSetObjectWithVariousPaths() {
+class OperationEvaluationTests: XCTestCase {
+    func evaluateOperations(_ operations: [Operation], contexts: [Context], completion: ([DynamicObject]) -> Void) {
         // Given
-        let object: DynamicObject = [
-            "a": "default",
-            "c": [1, 2]
-        ]
-
-        let result: [Result] = [
-            "a",
-            "b",
-            "c[0]",
-            "c[4]",
-            "",
-            "[4]"
-        ]
-        .compactMap { Path(rawValue: $0) }
-
+        let view = UIView()
+        
         // When
-        .map {
-            var obj = object
-            obj.set("UPDATED", forPath: $0)
-            
-            return Result(input: $0.rawValue, output: obj)
+        contexts.forEach { view.setContext($0) }
+        let evaluatedResults = operations.map {
+            $0.evaluate(in: view)
         }
-
+        
         // Then
-        assertSnapshot(matching: result, as: .json)
+        completion(evaluatedResults)
     }
+}
 
-    fileprivate struct Result: Encodable {
-        let input: String
-        let output: DynamicObject
+extension String {
+    func toOperation(name: Operation.Name) -> Operation? {
+        Operation(rawValue: name.rawValue + "(\(self))")
+    }
+}
+
+extension Array where Element == String {
+    func toOperations(name: Operation.Name) -> [Operation] {
+        self.compactMap { $0.toOperation(name: name) }
     }
 }

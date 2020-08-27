@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,33 +15,22 @@
  * limitations under the License.
  */
 
-public struct Path {
-    public let nodes: [Node]
-    
-    public enum Node: Equatable {
-        case key(String)
-        case index(Int)
-    }
-    
-    public init(nodes: [Node]) {
-        self.nodes = nodes
-    }
+import Foundation
+
+public enum Value {
+    case binding(Binding)
+    case literal(Literal)
 }
 
-extension Path: RepresentableByParsableString {
-    public static let parser = path
-
+extension Value: RepresentableByParsableString {
+    public static let parser = value
+    
     public var rawValue: String {
-        var path = ""
-        for node in self.nodes {
-            switch node {
-            case let .key(string):
-                if node != nodes.first { path += "." }
-                path += string
-            case let .index(index):
-                path += "[\(index)]"
-            }
+        switch self {
+        case let .binding(binding):
+            return binding.rawValue
+        case let .literal(literal):
+            return literal.rawValue
         }
-        return path
     }
 }

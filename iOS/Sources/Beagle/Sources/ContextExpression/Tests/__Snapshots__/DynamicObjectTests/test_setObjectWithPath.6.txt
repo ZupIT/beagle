@@ -1,8 +1,0 @@
-▿ DynamicObject
-  ▿ array: 5 elements
-    - DynamicObject.empty
-    - DynamicObject.empty
-    - DynamicObject.empty
-    - DynamicObject.empty
-    ▿ DynamicObject
-      - string: "update"
