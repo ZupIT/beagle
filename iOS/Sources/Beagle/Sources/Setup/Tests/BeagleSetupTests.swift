@@ -202,10 +202,17 @@ class BeagleNavigationDummy: BeagleNavigation {
     var defaultAnimation: BeagleNavigatorAnimation?
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
+        // Intentionally unimplemented...
     }
     
-    func register<T: BeagleNavigationController>(controller type: T.Type) {}
-    func register<T: BeagleNavigationController>(controller type: T.Type, named: String) {}
+    func register<T: BeagleNavigationController>(controller type: T.Type) {
+        // Intentionally unimplemented...
+    }
+    
+    func register<T: BeagleNavigationController>(controller type: T.Type, named: String) {
+        // Intentionally unimplemented...
+    }
+    
     func controllerType(forType type: String) -> BeagleNavigationController.Type? { return nil }
 }
 

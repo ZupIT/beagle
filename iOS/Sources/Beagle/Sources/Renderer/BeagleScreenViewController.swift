@@ -173,9 +173,9 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func createNavigationContent() {
-        let beagleNavigation = getBeagleNavigationController()
-        beagleNavigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
-        content = .navigation(beagleNavigation)
+        let navigationController = getBeagleNavigationController()
+        navigationController.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
+        content = .navigation(navigationController)
     }
     
     private func getBeagleNavigationController() -> BeagleNavigationController {
