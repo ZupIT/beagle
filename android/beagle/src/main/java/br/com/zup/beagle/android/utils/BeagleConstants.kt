@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.utils
 
-internal object BeagleConstants {
-    val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
+internal object BeagleRegex {
+    val EXPRESSION_REGEX = "(\\\\*)@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}".toRegex()
 }
 
 internal object DeprecationMessages {

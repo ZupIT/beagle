@@ -30,6 +30,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ActionExtensionsKtTest : BaseTest() {
@@ -73,6 +74,32 @@ class ActionExtensionsKtTest : BaseTest() {
         // Then
         val expected = "Hello $contextValue and $contextValue"
         assertEquals(expected, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_bind_of_type_String_with_multiple_expressions2() {
+        // Given
+        val bind = expressionOf<String>("Hello @{sum(context1, context2)}")
+        val contextValue = 1
+        val context1 = ContextData(
+            id = "context1",
+            value = contextValue
+        )
+        val context2 = ContextData(
+            id = "context2",
+            value = contextValue
+        )
+        val contextView1 = createViewForContext()
+        val contextView2 = createViewForContext(contextView1)
+        val bindView = createViewForContext(contextView2)
+        viewModel.addContext(contextView1, context1)
+        viewModel.addContext(contextView2, context2)
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, bindView, bind) as String
+
+        // Then
+        assertEquals("Hello 2", actualValue)
     }
 
     @Test

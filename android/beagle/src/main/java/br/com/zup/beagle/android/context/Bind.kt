@@ -16,7 +16,10 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.android.utils.BeagleConstants
+import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
+import br.com.zup.beagle.android.context.tokenizer.TokenParser
+import br.com.zup.beagle.android.utils.BeagleRegex
+import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.core.BindAttribute
 import java.lang.reflect.Type
 
@@ -24,13 +27,15 @@ sealed class Bind<T> : BindAttribute<T> {
     abstract val type: Type
 
     class Expression<T>(
+        val expressions: List<ExpressionToken>,
         override val value: String,
         override val type: Type
     ): Bind<T>() {
         constructor(
+            expressions: List<ExpressionToken>,
             value: String,
             type: Class<T>
-        ) : this(value, type as Type)
+        ) : this(expressions, value, type as Type)
     }
 
     data class Value<T: Any>(override val value: T) : Bind<T>() {
@@ -38,10 +43,14 @@ sealed class Bind<T> : BindAttribute<T> {
     }
 }
 
-inline fun <reified T> expressionOf(expression: String) = Bind.Expression(expression, T::class.java)
+inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> {
+    val tokenParser = TokenParser()
+    val expressionTokens = expressionText.getExpressions().map { expression ->
+        tokenParser.parse(expression)
+    }
+    return Bind.Expression(expressionTokens, expressionText, T::class.java)
+}
 inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
 inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
 
-fun Any.isExpression(): Boolean {
-    return this is String && this.contains(BeagleConstants.EXPRESSION_REGEX)
-}
+internal fun Any.isExpression() = this is String && this.contains(BeagleRegex.EXPRESSION_REGEX)

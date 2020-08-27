@@ -64,9 +64,4 @@ internal open class BeagleFlexView(
         super.onAttachedToWindow()
         viewModel.linkBindingToContextAndEvaluateThem(this)
     }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        viewModel.clearContext(this)
-    }
 }

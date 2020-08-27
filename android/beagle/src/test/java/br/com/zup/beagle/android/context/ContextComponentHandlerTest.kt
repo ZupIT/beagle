@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import io.mockk.Runs
 import io.mockk.every
@@ -70,20 +69,6 @@ class ContextComponentHandlerTest {
 
         // Then
         verify(exactly = 1) { viewModel.addContext(view, context) }
-    }
-
-    @Test
-    fun onViewDetachedFromWindow_should_call_clearContext() {
-        // Given
-        val listenerSlot = slot<View.OnAttachStateChangeListener>()
-        every { view.addOnAttachStateChangeListener(capture(listenerSlot)) } just Runs
-
-        // When
-        contextComponentHandler.addListenerToHandleContext(viewModel, view)
-        listenerSlot.captured.onViewDetachedFromWindow(view)
-
-        // Then
-        verify(exactly = once()) { viewModel.clearContext(view) }
     }
 
     @Test

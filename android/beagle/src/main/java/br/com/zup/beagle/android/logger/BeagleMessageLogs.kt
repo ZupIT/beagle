@@ -130,6 +130,21 @@ internal object BeagleMessageLogs {
         BeagleLoggerProxy.warning(errorMessage)
     }
 
+    fun errorWhileTryingParseExpressionFunction(expression: String, ex: Exception) {
+        val errorMessage = "Error while trying to parse expression: $expression"
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
+
+    fun errorWhileTryingExecuteExpressionFunction(ex: Exception) {
+        val errorMessage = "Error while trying to execute expression function."
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
+
+    fun functionWithNameDoesNotExist(functionName: String) {
+        val errorMessage = "Function with named $functionName does not exist."
+        BeagleLoggerProxy.warning(errorMessage)
+    }
+
     fun somethingHappenGenerateId(ex: Exception) {
         BeagleLoggerProxy.error("Something Happen when generate id", ex)
     }
