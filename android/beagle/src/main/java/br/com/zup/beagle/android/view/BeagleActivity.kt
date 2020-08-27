@@ -232,6 +232,8 @@ abstract class BeagleActivity : AppCompatActivity() {
         }
     }
 
+    fun hasServerDrivenScreen(): Boolean = supportFragmentManager.backStackEntryCount > 0
+
     fun navigateTo(screenRequest: ScreenRequest, screen: Screen?) {
         fetch(screenRequest, screen?.toComponent())
     }
