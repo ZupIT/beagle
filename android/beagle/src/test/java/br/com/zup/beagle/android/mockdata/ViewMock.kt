@@ -36,5 +36,7 @@ fun createViewForContext(parentView: ViewGroup? = null): ViewGroup {
                 null
             }
         }
+        every { setTag(R.id.beagle_context_view_parent, any()) } just Runs
+        every { getTag(R.id.beagle_context_view_parent) } answers { null }
     }
 }
