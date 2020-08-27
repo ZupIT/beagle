@@ -25,7 +25,7 @@ extension AddChildren: Action {
         let views = renderer.render(value)
         
         switch mode {
-        case .append, .none:
+        case .append:
             views.forEach { view.addSubview($0) }
         case .prepend:
             for (index, subView) in views.enumerated() {

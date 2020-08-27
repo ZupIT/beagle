@@ -20,7 +20,7 @@ public struct AddChildren: RawAction, AutoInitiableAndDecodable {
     
     public let componentId: String
     public let value: [RawComponent]
-    public var mode: Mode? = .append
+    public var mode: Mode = .append
     
     public enum Mode: String, Decodable {
         case append
@@ -32,7 +32,7 @@ public struct AddChildren: RawAction, AutoInitiableAndDecodable {
     public init(
         componentId: String,
         value: [RawComponent],
-        mode: Mode? = .append
+        mode: Mode = .append
     ) {
         self.componentId = componentId
         self.value = value
