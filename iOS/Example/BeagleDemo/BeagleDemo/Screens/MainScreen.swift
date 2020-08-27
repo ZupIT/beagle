@@ -87,6 +87,10 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.init(route: .simpleFormEndpoint))]
                 ),
                 Button(
+                    text: "Add Children",
+                    onPress: [Navigate.pushView(.declarative(addChildrenScreen))]
+                ),
+                Button(
                     text: "Sample BFF",
                     onPress: [Navigate.pushView(.remote(.init(url: .componentsEndpoint)))]
                 )

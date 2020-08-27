@@ -17,6 +17,24 @@
 * limitations under the License.
 */
 
+// MARK: AddChildren Decodable
+extension AddChildren {
+
+    enum CodingKeys: String, CodingKey {
+        case componentId
+        case value
+        case mode
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        componentId = try container.decode(String.self, forKey: .componentId)
+        value = try container.decode(forKey: .value)
+        mode = try container.decodeIfPresent(Mode.self, forKey: .mode) ?? .append
+    }
+}
+
 // MARK: Alert Decodable
 extension Alert {
 
@@ -135,7 +153,7 @@ extension Form {
         child = try container.decode(forKey: .child)
         group = try container.decodeIfPresent(String.self, forKey: .group)
         additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)
-        shouldStoreFields = try container.decode(Bool.self, forKey: .shouldStoreFields)
+        shouldStoreFields = try container.decodeIfPresent(Bool.self, forKey: .shouldStoreFields) ?? false
     }
 }
 
@@ -222,7 +240,7 @@ extension ListView {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         children = try container.decode(forKey: .children)
-        direction = try container.decode(Direction.self, forKey: .direction)
+        direction = try container.decodeIfPresent(Direction.self, forKey: .direction) ?? .vertical
     }
 }
 

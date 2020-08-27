@@ -1,4 +1,7 @@
-▿ 17 key/value pairs
+▿ 18 key/value pairs
+  ▿ (2 elements)
+    - key: "beagle:addchildren"
+    - value: AddChildren
   ▿ (2 elements)
     - key: "beagle:alert"
     - value: Alert
