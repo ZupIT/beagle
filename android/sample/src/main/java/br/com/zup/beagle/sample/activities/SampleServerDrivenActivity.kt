@@ -29,7 +29,7 @@ import br.com.zup.beagle.android.view.FragmentTransitionAnimation
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.sample.R
 
-@RegisterController
+
 class SampleServerDrivenActivity : BeagleActivity() {
 
     private val progressBar: ProgressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }

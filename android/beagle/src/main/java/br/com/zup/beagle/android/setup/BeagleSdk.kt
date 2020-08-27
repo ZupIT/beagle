@@ -17,21 +17,26 @@
 package br.com.zup.beagle.android.setup
 
 import android.app.Application
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
+import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.navigation.BeagleControllerReference
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.store.StoreHandler
+import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.widget.WidgetView
 import com.facebook.soloader.SoLoader
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 interface BeagleSdk {
     val config: BeagleConfig
@@ -56,6 +61,13 @@ interface BeagleSdk {
         BeagleEnvironment.beagleSdk = this
         BeagleEnvironment.application = application
         SoLoader.init(application, false)
+        val start = System.currentTimeMillis()
+        runBlocking(CoroutineDispatchers.IO) {
+            val startMoshi = System.currentTimeMillis()
+            BeagleMoshi.moshi
+            Log.d("moshi initialization", (System.currentTimeMillis() - startMoshi).toString())
+        }
+        Log.d("BeagleInit", (System.currentTimeMillis() - start).toString())
     }
 
     companion object {
