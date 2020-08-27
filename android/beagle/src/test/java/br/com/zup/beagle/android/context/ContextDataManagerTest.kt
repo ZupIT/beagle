@@ -180,7 +180,7 @@ class ContextDataManagerTest : BaseTest() {
 
         // When
         contextDataManager.addBinding(viewWithBind, bind, observer)
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
 
         // Then
         val contextBinding = contexts[viewContext.id]?.bindings?.first()
@@ -198,7 +198,7 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.addBinding(viewWithBind, bind, observer)
 
         // When
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
 
         // Then
         val contextBinding = contexts[Int.MAX_VALUE]?.bindings?.first()
@@ -329,10 +329,9 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
         verify(exactly = once()) { observer(value) }
@@ -347,10 +346,9 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
         verify(exactly = once()) { observer(null) }
@@ -366,10 +364,7 @@ class ContextDataManagerTest : BaseTest() {
             // Then
             assertNull(it)
         }
-        contextDataManager.linkBindingToContext()
-
-        // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
     }
 
     @Test

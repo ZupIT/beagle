@@ -24,4 +24,5 @@ interface RootView {
     fun getContext(): Context
     fun getLifecycleOwner(): LifecycleOwner
     fun getViewModelStoreOwner(): ViewModelStoreOwner
+    fun getParentId(): Int
 }

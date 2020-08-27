@@ -29,29 +29,19 @@ sealed class Navigate : Action {
         }
     }
 
-    class OpenNativeRoute(val route: String,
-                          val shouldResetApplication: Boolean = false,
-                          val data: Map<String, String>? = null) : Navigate() {
+    class OpenNativeRoute(
+        val route: String,
+        val shouldResetApplication: Boolean = false,
+        val data: Map<String, String>? = null
+    ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.openNativeRoute(rootView.getContext(), route, data, shouldResetApplication)
-        }
-    }
-
-    data class PushStack(val route: Route) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.pushStack(rootView.getContext(), route)
+            BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication)
         }
     }
 
     class PopStack : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popStack(rootView.getContext())
-        }
-    }
-
-    data class PushView(val route: Route) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.pushView(rootView.getContext(), route)
         }
     }
 
@@ -67,15 +57,36 @@ sealed class Navigate : Action {
         }
     }
 
-    data class ResetApplication(val route: Route) : Navigate() {
+    data class PushView(val route: Route) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.resetApplication(rootView.getContext(), route)
+            BeagleNavigator.pushView(rootView.getContext(), route)
         }
     }
 
-    data class ResetStack(val route: Route) : Navigate() {
+    data class PushStack(
+        val route: Route,
+        val controllerId: String? = null
+    ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.resetStack(rootView.getContext(), route)
+            BeagleNavigator.pushStack(rootView.getContext(), route, controllerId)
+        }
+    }
+
+    data class ResetApplication(
+        val route: Route,
+        val controllerId: String? = null
+    ) : Navigate() {
+        override fun execute(rootView: RootView, origin: View) {
+            BeagleNavigator.resetApplication(rootView.getContext(), route, controllerId)
+        }
+    }
+
+    data class ResetStack(
+        val route: Route,
+        val controllerId: String? = null
+    ) : Navigate() {
+        override fun execute(rootView: RootView, origin: View) {
+            BeagleNavigator.resetStack(rootView.getContext(), route, controllerId)
         }
     }
 }

@@ -17,26 +17,28 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_TAB_VIEW
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_TAB_VIEW
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.SingleChildComponent
+
 @RegisterWidget
 @Deprecated(DEPRECATED_TAB_VIEW)
 data class TabItem(
     val title: String? = null,
-    val child: ServerDrivenComponent,
+    override val child: ServerDrivenComponent,
     val icon: ImagePath.Local? = null
-) : WidgetView() {
+) : WidgetView(), SingleChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        return viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-            it.addServerDrivenComponent(child, rootView)
+        return viewFactory.makeBeagleFlexView(rootView).also {
+            it.addServerDrivenComponent(child)
         }
     }
 }

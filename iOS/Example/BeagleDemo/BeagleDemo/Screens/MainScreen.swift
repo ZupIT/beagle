@@ -19,8 +19,12 @@ import Beagle
 import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
-    init() {}
-    init(path: String, data: [String: String]?) {}
+    init() {
+        // Intentionally unimplemented...
+    }
+    init(path: String, data: [String: String]?) {
+        // Intentionally unimplemented...
+    }
     
     func screenController() -> UIViewController {
         let screen = Screen(
@@ -73,6 +77,10 @@ struct MainScreen: DeeplinkScreen {
                 Button(
                     text: "Component Interaction",
                     onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
+                ),
+                Button(
+                    text: "Context Operations",
+                    onPress: [Navigate.pushView(.declarative(operationsMenuScreen))]
                 ),
                 Button(
                     text: "Simple Form",

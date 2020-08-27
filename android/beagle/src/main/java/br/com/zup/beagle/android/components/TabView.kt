@@ -30,14 +30,14 @@ import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_TAB_VIEW
-import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_TAB_VIEW
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
 
@@ -46,10 +46,10 @@ private val TAB_BAR_HEIGHT = 48.dp()
 @RegisterWidget
 @Deprecated(DEPRECATED_TAB_VIEW)
 data class TabView(
-    val children: List<TabItem>,
+    override val children: List<TabItem>,
     val styleId: String? = null,
     override val context: ContextData? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -57,7 +57,7 @@ data class TabView(
     override fun buildView(rootView: RootView): View {
         val containerFlex = Style(flex = Flex(grow = 1.0))
 
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), containerFlex)
+        val container = viewFactory.makeBeagleFlexView(rootView, containerFlex)
 
         val tabLayout = makeTabLayout(rootView)
 
@@ -69,10 +69,9 @@ data class TabView(
             )
         }
 
-        val containerViewPager =
-            viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
-                addView(viewPager)
-            }
+        val containerViewPager = viewFactory.makeBeagleFlexView(rootView).apply {
+            addView(viewPager)
+        }
 
         tabLayout.addOnTabSelectedListener(getTabSelectedListener(viewPager))
         viewPager.addOnPageChangeListener(getViewPagerChangePageListener(tabLayout))
@@ -170,8 +169,8 @@ internal class ContentAdapter(
     override fun getCount(): Int = children.size
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = viewFactory.makeBeagleFlexView(container.context).also {
-            it.addServerDrivenComponent(children[position].child, rootView)
+        val view = viewFactory.makeBeagleFlexView(rootView).also {
+            it.addServerDrivenComponent(children[position].child)
         }
         container.addView(view)
         return view

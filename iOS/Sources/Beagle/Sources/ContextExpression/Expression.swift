@@ -75,35 +75,3 @@ extension Expression: ExpressibleByFloatLiteral where T == Float {
         self = .value(value)
     }
 }
-
-// MARK: - Evaluate
-
-extension SingleExpression {
-
-    func evaluate(model: DynamicObject) -> DynamicObject {
-        var nodes = self.path.nodes[...]
-        return SingleExpression.evaluate(&nodes, model)
-    }
-    
-    private static func evaluate(_ expression: inout ArraySlice<Path.Node>, _ model: DynamicObject) -> DynamicObject {
-        guard let first = expression.first else {
-            return model
-        }
-        switch first {
-        case let .key(key):
-            guard case let .dictionary(dictionary) = model, let value = dictionary[key] else {
-                return nil
-            }
-            expression.removeFirst()
-            return evaluate(&expression, value)
-
-        case let .index(index):
-            guard case let .array(array) = model, let value = array[safe: index] else {
-                return nil
-            }
-            expression.removeFirst()
-            return evaluate(&expression, value)
-        }
-    }
-    
-}

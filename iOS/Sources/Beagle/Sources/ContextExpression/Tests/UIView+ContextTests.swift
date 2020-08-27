@@ -23,84 +23,91 @@ import SnapshotTesting
 final class UIViewContextTests: XCTestCase {
 
     func test_setContext() {
+        // Given
         let view = UIView()
-        let context1 = Context(id: "contexta", value: ["a": "b"])
-        
-        let context2 = Context(id: "contextb", value: [1])
-        let context3 = Context(id: "contextb", value: [nil])
-
         XCTAssertTrue(view.contextMap.isEmpty)
-        view.setContext(context1)
-        assertSnapshot(matching: view.contextMap, as: .dump)
+
+        var results = [[Context]]()
+
+        // When/Then
+        view.setContext(Context(id: "contextA", value: ["A": "A"]))
+        results.append(toContext(view.contextMap))
         
-        view.setContext(context2)
-        assertSnapshot(matching: view.contextMap, as: .dump)
+        view.setContext(Context(id: "contextB", value: 1))
+        results.append(toContext(view.contextMap))
         
-        view.setContext(context3)
-        assertSnapshot(matching: view.contextMap, as: .dump)
+        view.setContext(Context(id: "contextB", value: [nil]))
+        results.append(toContext(view.contextMap))
+
+        assertSnapshot(matching: results, as: .json)
+    }
+
+    private func toContext(_ contextMap: [String: Observable<Context>]) -> [Context] {
+        contextMap.map { $0.value.value }
+        .sorted { a, b -> Bool in
+            a.id < b.id
+        }
     }
     
     func test_getContext() {
-        let root = UIView()
-        let view = UIView()
-        let leaf = UIView()
-        view.addSubview(leaf)
-        root.addSubview(view)
+        let (root, rootId) = (UIView(), "rootId")
+        let (middle, middleId) = (UIView(), "middleId")
+        let (leaf, leafId) = (UIView(), rootId)
+        root.addSubview(middle)
+        middle.addSubview(leaf)
+        XCTAssertEqual(leafId, rootId)
 
-        let contextObservableRoot = Observable(value: Context(id: "contextb", value: [1]))
-        let contextObservable = Observable(value: Context(id: "contexta", value: ["a": "b"]))
-        let contextObservableLeaf = Observable(value: Context(id: "contextb", value: [nil]))
+        let rootContext = Context(id: rootId, value: [1])
+        let middleContext = Context(id: middleId, value: ["a": "b"])
+        let leafContext = Context(id: leafId, value: [nil])
 
-        root.contextMap = ["contextb": contextObservableRoot]
-        view.contextMap = ["contexta": contextObservable]
-        leaf.contextMap = ["contextb": contextObservableLeaf]
+        // order is important here due to same id between root and leaf
+        leaf.setContext(leafContext)
+        middle.setContext(middleContext)
+        root.setContext(rootContext)
 
-        XCTAssertTrue(root.getContext(with: "contextb") === contextObservableRoot)
-        XCTAssertTrue(view.getContext(with: "contextb") === contextObservableRoot)
-        XCTAssertTrue(leaf.getContext(with: "contextb") === contextObservableLeaf)
-        XCTAssertTrue(leaf.getContext(with: "contexta") === contextObservable)
+        XCTAssertEqual(root.getContext(with: rootId)?.value, rootContext)
+        XCTAssertEqual(middle.getContext(with: rootId)?.value, rootContext)
+        XCTAssertEqual(leaf.getContext(with: leafId)?.value, leafContext)
+        XCTAssertEqual(leaf.getContext(with: middleId)?.value, middleContext)
         XCTAssertNil(leaf.getContext(with: "unknown"))
-        
-        XCTAssertTrue(view.contextMap["contextb"] === contextObservableRoot)
-        XCTAssertTrue(leaf.contextMap["contexta"] === contextObservable)
+
+        XCTAssertEqual(middle.contextMap[rootId]?.value, rootContext)
+        XCTAssertEqual(leaf.contextMap[middleId]?.value, middleContext)
     }
     
-    func test_evaluate() {
-        let root = UIView()
-        let leaf = UIView()
+    func testEvaluate() {
+        let (root, rootId) = (UIView(), "root")
+        let (leaf, leafId) = (UIView(), "leaf")
         root.addSubview(leaf)
 
-        let contextObservableRoot = Observable(value: Context(id: "context", value: ["a": "1", "b": "2"]))
-        let contextObservableLeaf = Observable(value: Context(id: "leaf", value: ["test"]))
+        root.setContext(Context(id: rootId, value: ["a": "1", "b": "2"]))
+        leaf.setContext(Context(id: leafId, value: ["test"]))
 
-        root.contextMap = ["context": contextObservableRoot]
-        leaf.contextMap = ["leaf": contextObservableLeaf]
+        let expRoot = "@{\(rootId).a}"
+        let expLeaf = "@{\(leafId)[0]}"
 
-        let singleExpressionA = SingleExpression(context: "context", path: .init(nodes: [.key("a")]))
-        let singleExpressionB = SingleExpression(context: "leaf", path: .init(nodes: [.index(0)]))
+        // using `==` here just because it's more readable than using `,`
+        XCTAssert(leaf.evaluate(expression: "\(expRoot)") == "1")
+        XCTAssert(leaf.evaluate(expression: "\(expLeaf)") == "test")
+        XCTAssert(leaf.evaluate(expression: "A: \(expRoot), B: \(expLeaf)") == "A: 1, B: test")
+        XCTAssert(leaf.evaluate(expression: "@{\(rootId)}") == ["a": "1", "b": "2"])
+        XCTAssert(leaf.evaluate(expression: "@{\(leafId).unknown}") == "")
 
-        let expA = ContextExpression.single(singleExpressionA)
-        let expB = ContextExpression.single(singleExpressionB)
-        let multipleExpression = ContextExpression.multiple(.init(nodes: [.string("expA: "), .expression(singleExpressionA), .string(", expB: "), .expression(singleExpressionB)]))
-        let complexObjectExpression = ContextExpression.single(.init(context: "context", path: .init(nodes: [])))
-        let nilObjectExpression = ContextExpression.single(.init(context: "leaf", path: .init(nodes: [.key("unknown")])))
-
-        let result1: String? = leaf.evaluate(for: expA)
-        let result2: String? = leaf.evaluate(for: expB)
-        let result3: String? = leaf.evaluate(for: multipleExpression)
-        let result4: [String: String]? = leaf.evaluate(for: complexObjectExpression)
-        let result5: String? = leaf.evaluate(for: nilObjectExpression)
-
-        XCTAssertEqual(result1, "1")
-        XCTAssertEqual(result2, "test")
-        XCTAssertEqual(result3, "expA: 1, expB: test")
-        XCTAssertEqual(result4, ["a": "1", "b": "2"])
-        XCTAssertNil(result5)
-        
-        assertSnapshot(matching: leaf.expressionLastValueMap, as: .dump)
+        _assertInlineSnapshot(matching: leaf.expressionLastValueMap, as: .json, with: """
+        {
+          "leaf.unknown" : null,
+          "leaf[0]" : "test",
+          "root" : {
+            "a" : "1",
+            "b" : "2"
+          },
+          "root.a" : "1"
+        }
+        """)
     }
     
-    func test_configBinding() {
+    func testConfigBinding() {
         let root = UIView()
         let leaf = UITextField()
         root.addSubview(leaf)
@@ -111,7 +118,7 @@ final class UIViewContextTests: XCTestCase {
         root.contextMap = ["context": contextObservableRoot]
         leaf.contextMap = ["leaf": contextObservableLeaf]
 
-        let singleExpression = SingleExpression(context: "context", path: .init(nodes: [.key("a")]))
+        let singleExpression = SingleExpression.value(.binding(.init(context: "context", path: .init(nodes: [.key("a")]))))
         let exp = ContextExpression.single(singleExpression)
         let multipleExpression = ContextExpression.multiple(.init(nodes: [.string("exp: "), .expression(singleExpression)]))
 
@@ -127,8 +134,33 @@ final class UIViewContextTests: XCTestCase {
         XCTAssertEqual(leaf.placeholder, "exp: updated")
         
         contextObservableRoot.value = Context(id: "context", value: ["a": 2])
-        XCTAssertEqual(leaf.text, "")
-        XCTAssertEqual(leaf.placeholder, "exp: ")
-   }
+        XCTAssertEqual(leaf.text, "2")
+        XCTAssertEqual(leaf.placeholder, "exp: 2")
+    }
+    
+    func testConfigBindingShouldNotRetainTheView() {
+        // Given
+        var view: UILabel? = UILabel()
+        weak var weakReference = view
+        
+        let contextId = "context"
+        view?.setContext(Context(id: contextId, value: .empty))
+        
+        let binding = Binding(context: contextId, path: .init(nodes: []))
+        let singleExpression = SingleExpression.value(.binding(binding))
+        let multipleExpression = MultipleExpression(nodes: [.expression(singleExpression)])
+        let updateFunction: (String?) -> Void = { _ in
+            // ...
+        }
 
+        view?.configBinding(for: .single(singleExpression), completion: updateFunction)
+        view?.configBinding(for: .multiple(multipleExpression), completion: updateFunction)
+        
+        // When
+        view = nil
+        
+        // Then
+        XCTAssertNil(view)
+        XCTAssertNil(weakReference)
+    }
 }

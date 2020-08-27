@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.data.formatUrl
@@ -32,7 +32,7 @@ import br.com.zup.beagle.widget.core.Size
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
 import io.mockk.*
 import org.junit.Assert
 import org.junit.Test
@@ -46,9 +46,7 @@ class ImageViewRendererTest : BaseComponentTest() {
     private val imageView: RoundedImageView = mockk(relaxed = true, relaxUnitFun = true)
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
     private val requestManager: RequestManager = mockk()
-    private val requestBuilder: RequestBuilder<Bitmap> = mockk()
-    private val requestOptions = mockk<RequestOptions>()
-    private val placeholderSlot = slot<Int>()
+    private val requestBuilder: RequestBuilder<Drawable> = mockk()
     private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
     private lateinit var imageLocal: Image
@@ -61,12 +59,9 @@ class ImageViewRendererTest : BaseComponentTest() {
         mockkStatic(Glide::class)
 
         every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), any()) } returns imageView
-        mockkConstructor(RequestOptions::class)
-        every { anyConstructed<RequestOptions>().placeholder(capture(placeholderSlot)) } returns requestOptions
         every { Glide.with(imageView) } returns requestManager
-        every { requestManager.asBitmap() } returns requestBuilder
-        every { requestBuilder.load(any<String>()) } returns requestBuilder
-        every { requestBuilder.into(any()) } returns mockk()
+        every { requestManager.load(any<String>()) } returns requestBuilder
+        every { requestBuilder.into(any<CustomTarget<Drawable>>()) } returns mockk()
 
         every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         every { beagleSdk.designSystem } returns mockk()
@@ -150,7 +145,7 @@ class ImageViewRendererTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { Glide.with(imageView) }
-        verify(exactly = once()) { requestBuilder.load(urlFormatted) }
+        verify(exactly = once()) { requestManager.load(urlFormatted) }
     }
 
     @Test
@@ -161,9 +156,9 @@ class ImageViewRendererTest : BaseComponentTest() {
         imageRemote.buildView(rootView)
 
         // Then
-       assertTrue {
-           placeholderSlot.isCaptured
-       }
+        verify(exactly = once()) {
+            imageView.setImageResource(any())
+        }
 
     }
 

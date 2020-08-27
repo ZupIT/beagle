@@ -1,0 +1,62 @@
+▿ 9 elements
+  ▿ SingleExpression
+    ▿ value: Value
+      ▿ binding: Binding
+        - context: "client"
+        ▿ path: Path
+          - nodes: 0 elements
+  ▿ SingleExpression
+    ▿ value: Value
+      ▿ binding: Binding
+        - context: "client2"
+        ▿ path: Path
+          ▿ nodes: 1 element
+            ▿ Node
+              - key: "name"
+  ▿ SingleExpression
+    ▿ value: Value
+      ▿ binding: Binding
+        - context: "client_"
+        ▿ path: Path
+          ▿ nodes: 4 elements
+            ▿ Node
+              - index: 2
+            ▿ Node
+              - key: "matrix"
+            ▿ Node
+              - index: 1
+            ▿ Node
+              - index: 1
+  ▿ SingleExpression
+    ▿ value: Value
+      ▿ literal: Literal
+        - int: 42
+  ▿ SingleExpression
+    ▿ value: Value
+      ▿ literal: Literal
+        - double: 3.5
+  ▿ SingleExpression
+    ▿ value: Value
+      ▿ literal: Literal
+        - bool: true
+  ▿ SingleExpression
+    ▿ value: Value
+      ▿ literal: Literal
+        - string: "name"
+  ▿ SingleExpression
+    ▿ value: Value
+      - literal: Literal.null
+  ▿ SingleExpression
+    ▿ operation: Operation
+      - name: Name.sum
+      ▿ parameters: 2 elements
+        ▿ Parameter
+          ▿ value: Value
+            ▿ literal: Literal
+              - int: 1
+        ▿ Parameter
+          ▿ value: Value
+            ▿ binding: Binding
+              - context: "counter"
+              ▿ path: Path
+                - nodes: 0 elements

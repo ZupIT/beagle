@@ -16,21 +16,30 @@
 
 package br.com.zup.beagle.android.view.custom
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.interfaces.OnStateUpdatable
+import br.com.zup.beagle.android.utils.BeagleRetry
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_ON_STATE_CHANGED
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.implementsGenericTypeOf
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.ServerDrivenComponent
 
+@Deprecated(DEPRECATED_ON_STATE_CHANGED, replaceWith = ReplaceWith("OnServerStateChanged",
+    "br.com.zup.beagle.android.view.custom.OnServerStateChanged"))
 typealias OnStateChanged = (state: BeagleViewState) -> Unit
 
+typealias OnServerStateChanged = (serverState: ServerDrivenState) -> Unit
+
 typealias OnLoadCompleted = () -> Unit
+
 
 sealed class BeagleViewState {
     data class Error(val throwable: Throwable) : BeagleViewState()
@@ -38,28 +47,28 @@ sealed class BeagleViewState {
     object LoadFinished : BeagleViewState()
 }
 
+@SuppressLint("ViewConstructor")
 internal class BeagleView(
-    context: Context
-) : BeagleFlexView(context) {
+    private val rootView: RootView,
+    private val viewModel: BeagleViewModel = rootView.generateViewModelInstance()
+) : BeagleFlexView(rootView) {
 
+    @Deprecated(DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER)
     var stateChangedListener: OnStateChanged? = null
+
+    var serverStateChangedListener: OnServerStateChanged? = null
 
     var loadCompletedListener: OnLoadCompleted? = null
 
-    private lateinit var rootView: RootView
-
-    private val viewModel by lazy { rootView.generateViewModelInstance<BeagleViewModel>() }
-
-    fun loadView(rootView: RootView, screenRequest: ScreenRequest) {
-        loadView(rootView, screenRequest, null)
+    fun loadView(screenRequest: ScreenRequest) {
+        loadView(screenRequest, null)
     }
 
-    fun updateView(rootView: RootView, url: String, view: View) {
-        loadView(rootView, ScreenRequest(url), view)
+    fun updateView(url: String, view: View) {
+        loadView(ScreenRequest(url), view)
     }
 
-    private fun loadView(rootView: RootView, screenRequest: ScreenRequest, view: View?) {
-        this.rootView = rootView
+    private fun loadView(screenRequest: ScreenRequest, view: View?) {
         viewModel.fetchComponent(screenRequest).observe(rootView.getLifecycleOwner(), Observer { state ->
             handleResponse(state, view)
         })
@@ -69,7 +78,7 @@ internal class BeagleView(
         state: ViewState?, view: View?) {
         when (state) {
             is ViewState.Loading -> handleLoading(state.value)
-            is ViewState.Error -> handleError(state.throwable)
+            is ViewState.Error -> handleError(state.throwable, state.retry)
             is ViewState.DoRender -> renderComponent(state.component, view)
         }
     }
@@ -80,24 +89,33 @@ internal class BeagleView(
         } else {
             BeagleViewState.LoadFinished
         }
+
+        val serverState = if (isLoading) {
+            ServerDrivenState.Started
+        } else {
+            ServerDrivenState.Finished
+        }
+        serverStateChangedListener?.invoke(serverState)
         stateChangedListener?.invoke(state)
     }
 
-    private fun handleError(throwable: Throwable) {
+    private fun handleError(throwable: Throwable, retry: BeagleRetry) {
         stateChangedListener?.invoke(BeagleViewState.Error(throwable))
+        serverStateChangedListener?.invoke(ServerDrivenState.Error(throwable, retry))
     }
 
     private fun renderComponent(component: ServerDrivenComponent, view: View? = null) {
+        serverStateChangedListener?.invoke(ServerDrivenState.Success)
         if (view != null) {
             if (component.implementsGenericTypeOf(OnStateUpdatable::class.java, component::class.java)) {
                 (component as? OnStateUpdatable<ServerDrivenComponent>)?.onUpdateState(component)
             } else {
                 removeView(view)
-                addServerDrivenComponent(component, rootView)
+                addServerDrivenComponent(component)
             }
         } else {
             removeAllViewsInLayout()
-            addServerDrivenComponent(component, rootView)
+            addServerDrivenComponent(component)
             loadCompletedListener?.invoke()
         }
     }

@@ -66,7 +66,7 @@ sealed class Navigate : Action {
      * Present a new screen with the link declared in the route attribute.
      * This attribute basically has the same functionality as PushView but starting a new flow instead.
      */
-    data class PushStack(val route: Route) : Navigate()
+    data class PushStack(val route: Route, val controllerId: String? = null) : Navigate()
 
     /**
      * This action closes the current view stack.
@@ -94,12 +94,12 @@ sealed class Navigate : Action {
      * This attribute, when selected, opens a screen with the route informed
      * from a new flow and clears clears the view stack for the entire application.
      */
-    data class ResetApplication(val route: Route) : Navigate()
+    data class ResetApplication(val route: Route, val controllerId: String? = null) : Navigate()
 
     /**
      * This attribute, when selected, opens a screen with the route informed
      * from a new flow and clears the stack of previously loaded screens.
      */
-    data class ResetStack(val route: Route) : Navigate()
+    data class ResetStack(val route: Route, val controllerId: String? = null) : Navigate()
 
 }

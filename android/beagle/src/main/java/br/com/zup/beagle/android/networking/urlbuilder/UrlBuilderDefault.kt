@@ -33,7 +33,7 @@ internal class UrlBuilderDefault : UrlBuilder {
     }
 
     private fun encodeUrlBeforeCalls(baseUrl: String): String {
-        return URLEncoder.encode(baseUrl, StandardCharsets.UTF_8.toString())
+        return URLEncoder.encode(baseUrl, StandardCharsets.UTF_8.name())
             .replace("+", "%20")
             .replace("%2F", "/")
             .replace("%25", "%")

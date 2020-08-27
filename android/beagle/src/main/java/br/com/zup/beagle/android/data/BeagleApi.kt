@@ -47,7 +47,10 @@ internal class BeagleApi(
                 BeagleMessageLogs.logHttpResponseData(response)
                 cont.resume(response)
             }, onError = { response ->
-            val exception = BeagleApiException(response, genericErrorMessage(transformedRequest.uri.toString()))
+            val exception = BeagleApiException(
+                response,
+                request,
+                genericErrorMessage(transformedRequest.uri.toString()))
 
             BeagleMessageLogs.logUnknownHttpError(exception)
             cont.resumeWithException(
