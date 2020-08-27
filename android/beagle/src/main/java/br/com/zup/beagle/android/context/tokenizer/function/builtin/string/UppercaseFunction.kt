@@ -17,12 +17,13 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import java.util.*
 
 internal class UppercaseFunction : Function {
     override fun functionName(): String = "uppercase"
 
     override fun execute(vararg params: Any?): String {
-        return params[0].toString().toUpperCase()
+        return params[0].toString().toUpperCase(Locale.getDefault())
     }
 
 }

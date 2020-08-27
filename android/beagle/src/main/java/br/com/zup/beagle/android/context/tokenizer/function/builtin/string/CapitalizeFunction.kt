@@ -17,12 +17,14 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import java.util.Locale
 
 internal class CapitalizeFunction : Function {
     override fun functionName(): String = "capitalize"
 
+    @ExperimentalStdlibApi
     override fun execute(vararg params: Any?): String {
-        return params[0].toString().capitalize()
+        return params[0].toString().capitalize(Locale.getDefault())
     }
 
 }

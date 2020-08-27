@@ -17,12 +17,13 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.string
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
+import java.util.*
 
 class LowercaseFunction : Function {
     override fun functionName(): String = "lowercase"
 
     override fun execute(vararg params: Any?): String {
-        return params[0].toString().toLowerCase()
+        return params[0].toString().toLowerCase(Locale.getDefault())
     }
 
 }
