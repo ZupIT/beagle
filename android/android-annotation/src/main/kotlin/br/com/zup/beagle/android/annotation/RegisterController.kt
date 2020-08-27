@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.exception
+package br.com.zup.beagle.android.annotation
 
-import br.com.zup.beagle.android.networking.RequestData
-import br.com.zup.beagle.android.networking.ResponseData
-
-data class BeagleApiException(
-    val responseData: ResponseData,
-    val requestData: RequestData,
-    override val message: String = responseData.toString()
-) : BeagleException(message)
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RegisterController(
+    val id: String = ""
+)
