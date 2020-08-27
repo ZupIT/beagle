@@ -159,8 +159,10 @@ internal class ContextDataManager(
             setContextInternal.path,
             setContextInternal.value
         )
+
         if (result is ContextSetResult.Succeed) {
             contextBinding.context = result.newContext
+            contextBinding.cache.evictAll()
             notifyBindingChanges(contextBinding)
         }
     }

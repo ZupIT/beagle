@@ -45,10 +45,6 @@ internal class ScreenContextViewModel(
         contextDataManager.addBinding(view, bind, observer)
     }
 
-    fun clearContext(view: View) {
-        contextDataManager.clearContext(view)
-    }
-
     fun linkBindingToContextAndEvaluateThem(view: View) {
         contextDataManager.linkBindingToContextAndEvaluateThem(view)
     }

@@ -31,12 +31,8 @@ internal class ContextComponentHandler {
     }
 
     fun addListenerToHandleContext(viewModel: ScreenContextViewModel, view: View) {
-        view.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener{
-            override fun onViewDetachedFromWindow(v: View?) {
-                v?.let {
-                    viewModel.clearContext(it)
-                }
-            }
+        view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewDetachedFromWindow(v: View?) {}
 
             override fun onViewAttachedToWindow(v: View?) {
                 v?.let {
