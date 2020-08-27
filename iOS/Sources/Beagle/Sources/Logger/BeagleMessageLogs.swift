@@ -90,6 +90,14 @@ public enum Log {
             """
             return string
         }
+        
+        public init(
+            data: Data? = nil,
+            response: URLResponse? = nil
+        ) {
+            self.data = data
+            self.response = response
+        }
     }
 
     public struct NetworkRequest {
@@ -105,6 +113,15 @@ public enum Log {
             """
             return string
         }
+        
+        public init(
+            data: Data? = nil,
+            response: URLResponse? = nil
+        ) {
+            self.data = data
+            self.response = response
+        }
+        
     }
 
     public enum Expression {
