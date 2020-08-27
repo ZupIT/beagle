@@ -93,16 +93,24 @@ internal class ContextDataManager(
             val contextStack = view.getAllParentContextWithGlobal()
             viewBinding[view]?.forEach { binding ->
                 val bindingTokens = binding.bind.filterBindingTokens()
-                if (bindingTokens.isNotEmpty()) {
-                    bindingTokens.forEach { expression ->
-                        linkBindingsToNotifyListeners(expression, contextStack, binding)
-                    }
-                } else {
-                    val value = contextDataEvaluation.evaluateBindExpression(listOf(), binding.bind)
-                    binding.notifyChanges(value)
-                }
+                notifyBindingTokens(bindingTokens, contextStack, binding)
             }
             viewBinding.remove(view)
+        }
+    }
+
+    private fun notifyBindingTokens(
+        bindingTokens: List<String>,
+        contextStack: MutableList<ContextBinding>,
+        binding: Binding<*>
+    ) {
+        if (bindingTokens.isNotEmpty()) {
+            bindingTokens.forEach { expression ->
+                linkBindingsToNotifyListeners(expression, contextStack, binding)
+            }
+        } else {
+            val value = contextDataEvaluation.evaluateBindExpression(listOf(), binding.bind)
+            binding.notifyChanges(value)
         }
     }
 
