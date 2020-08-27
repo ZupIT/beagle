@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
