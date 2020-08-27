@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.context
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
+import br.com.zup.beagle.android.context.tokenizer.function.FunctionResolver
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
@@ -350,6 +351,87 @@ internal class ContextDataEvaluationTest : BaseTest() {
 
         // Then
         assertEquals("sum result: 2", value)
+    }
+
+    @Test
+    fun evaluateContextBindings_with_operation_should_evaluate_contains_operation() {
+        // Given
+        val bind = expressionOf<Boolean>("result: @{contains(insert(${CONTEXT_ID}, 4), 4)}")
+        val contextData = ContextData(
+            id = CONTEXT_ID,
+            value = listOf(1,2,3)
+        )
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
+
+        // Then
+        assertTrue { value as Boolean }
+    }
+
+    @Test
+    fun evaluateContextBindings_with_operation_should_throw_error_insert_operation_index_out_of_bound() {
+        // Given
+        val bind = expressionOf<List<ComponentModel>>("result: @{insert(${CONTEXT_ID}, 4, 4)}")
+        val contextData = ContextData(
+            id = CONTEXT_ID,
+            value = listOf(1,2,3)
+        )
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
+
+        // Then
+        assertNull(value)
+        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+    }
+
+    @Test
+    fun evaluateContextBindings_with_operation_should_evaluate_insert_operation() {
+        // Given
+        val bind = expressionOf<String>("result: @{insert(context, 4, 2)}")
+        val contextData = ContextData(
+            id = "context",
+            value = listOf(1, 2, 3)
+        )
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
+
+        // Then
+        assertEquals("result: [1, 2, 4, 3]", value)
+    }
+
+    @Test
+    fun evaluateContextBindings_with_operation_should_evaluate_remove_operation() {
+        // Given
+        val bind = expressionOf<String>("result: @{remove(context, 2)}")
+        val contextData = ContextData(
+            id = "context",
+            value = listOf(1, 2, 3)
+        )
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
+
+        // Then
+        assertEquals("result: [1, 3]", value)
+    }
+
+    @Test
+    fun evaluateContextBindings_with_operation_should_evaluate_remove_index_operation() {
+        // Given
+        val bind = expressionOf<String>("result: @{removeIndex(context, 0)}")
+        val contextData = ContextData(
+            id = "context",
+            value = listOf(1, 2, 3)
+        )
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
+
+        // Then
+        assertEquals("result: [2, 3]", value)
     }
 
     @Test

@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-@file:Suppress("TooManyFunctions")
-
 package br.com.zup.beagle.android.context.tokenizer
 
-internal fun tokenOfFunctionStart(value: String) = GenericToken(value, TokenType.FUNCTION_START)
-internal fun tokenOfFunction(value: String, params: List<Token>) = TokenFunction(value, params)
-internal fun tokenOfBinding(value: String) = TokenBinding(value)
-internal fun tokenOfNull() = TokenNull()
-internal fun invalidToken() = InvalidToken()
+internal fun tokenOpenBracket() = GenericToken("(", TokenType.OPEN_BRACKET)
+internal fun tokenOfCloseBracket() = GenericToken(")", TokenType.CLOSE_BRACKET)
+internal fun tokenOfComma() = GenericToken(",", TokenType.COMMA)
