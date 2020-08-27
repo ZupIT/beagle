@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
+import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.BeagleRetry
@@ -70,7 +71,6 @@ internal class BeagleViewModel(
                 fetchComponents()
             }
         }
-
         private fun fetchComponents() {
             coroutineScope.launch(ioDispatcher) {
                 if (screenRequest.url.isNotEmpty()) {

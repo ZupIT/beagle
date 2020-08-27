@@ -51,6 +51,7 @@
             android:name=".activities.SampleServerDrivenActivity"
             android:theme="@style/AppTheme.NoToolbar"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:exported="true"
             android:name="br.com.zup.beagle.android.preview.PreviewActivity"

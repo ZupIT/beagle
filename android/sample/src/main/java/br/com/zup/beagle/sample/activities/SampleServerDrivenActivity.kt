@@ -21,15 +21,15 @@ import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.FragmentTransitionAnimation
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.sample.R
 
-@BeagleComponent
+@RegisterController
 class SampleServerDrivenActivity : BeagleActivity() {
 
     private val progressBar: ProgressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }

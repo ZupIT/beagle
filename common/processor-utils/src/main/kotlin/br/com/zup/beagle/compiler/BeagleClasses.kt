@@ -68,57 +68,16 @@ val ANALYTICS = BeagleClass(
     "br.com.zup.beagle.analytics",
     "Analytics"
 )
+val CONTROLLER_REFERENCE = BeagleClass(
+    "br.com.zup.beagle.android.navigation",
+    "BeagleControllerReference"
+)
 val BEAGLE_LOGGER = BeagleClass(
     "br.com.zup.beagle.android.logger",
     "BeagleLogger"
 )
 
-val BINDING_ADAPTER = BeagleClass(
-    "br.com.zup.beagle.android.setup",
-    "BindingAdapter"
-)
-
-val BIND_ANDROID = BeagleClass(
-    packageName = "br.com.zup.beagle.android.widget.core",
-    className = "Bind"
-)
-
-val BIND_BACKEND = BeagleClass(
-    packageName = "br.com.zup.beagle.core",
-    className = "Bind"
-)
-
 val ANDROID_ACTION = BeagleClass(
     packageName = "br.com.zup.beagle.android.action",
     className = "Action"
-)
-
-val GET_VALUE_NULL = BeagleClass(
-    packageName = "br.com.zup.beagle.android.utils",
-    className = "getValueNull"
-)
-
-val GET_VALUE_NOT_NULL = BeagleClass(
-    packageName = "br.com.zup.beagle.android.utils",
-    className = "getValueNotNull"
-)
-
-val WIDGET = BeagleClass(
-    packageName = "br.com.zup.beagle.widget",
-    className = "Widget"
-)
-
-val INPUT_WIDGET = BeagleClass(
-    packageName = "br.com.zup.beagle.widget.form",
-    className = "InputWidget"
-)
-
-val ANDROID_VIEW = BeagleClass(
-    packageName = "android.view",
-    className = "View"
-)
-
-val ROOT_VIEW = BeagleClass(
-    packageName = "br.com.zup.beagle.android.widget",
-    className = "RootView"
 )

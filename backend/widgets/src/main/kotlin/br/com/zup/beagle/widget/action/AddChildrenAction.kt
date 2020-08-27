@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.exception
+package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.android.networking.RequestData
-import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.core.ServerDrivenComponent
 
-data class BeagleApiException(
-    val responseData: ResponseData,
-    val requestData: RequestData,
-    override val message: String = responseData.toString()
-) : BeagleException(message)
+enum class Mode {
+    APPEND, PREPEND, REPLACE
+}
+
+data class AddChildrenAction(
+    var componentId: String,
+    var value: List<ServerDrivenComponent>,
+    var mode: Mode? = Mode.APPEND
+) : Action
