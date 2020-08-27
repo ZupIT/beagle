@@ -20,9 +20,9 @@ import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.interfaces.OnStateUpdatable
-import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER
-import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_ON_STATE_CHANGED
 import br.com.zup.beagle.android.utils.BeagleRetry
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_ON_STATE_CHANGED
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.implementsGenericTypeOf
 import br.com.zup.beagle.android.view.ScreenRequest
