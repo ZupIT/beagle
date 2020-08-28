@@ -89,11 +89,11 @@ class BeagleNavigator: BeagleNavigation {
     
     // MARK: - Register
 
-    public func registerDefaultNavigationController(builder: @escaping NavigationBuilder) {
+    func registerDefaultNavigationController(builder: @escaping NavigationBuilder) {
         defaultBuilder = builder
     }
 
-    public func registerNavigationController(builder: @escaping NavigationBuilder, forId controllerId: String) {
+    func registerNavigationController(builder: @escaping NavigationBuilder, forId controllerId: String) {
         builders[controllerId] = builder
     }
 

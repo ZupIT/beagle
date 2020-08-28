@@ -300,9 +300,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let controllerId = "customId"
         
         // When
-        Beagle.dependencies.navigation.registerNavigationController(
-            builder: { BeagleNavigationStub() }, forId: controllerId
-        )
+        dependencies.navigation.registerNavigationController(builder: BeagleNavigationStub.init, forId: controllerId)
         
         // Then
         XCTAssertTrue(dependencies.navigation.navigationController(forId: controllerId) is BeagleNavigationStub)
