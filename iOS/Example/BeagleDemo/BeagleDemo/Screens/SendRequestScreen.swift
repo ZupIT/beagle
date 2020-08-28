@@ -23,12 +23,13 @@ import UIKit
 let sendRequestDeclarativeScreen: Screen = {
     return Screen(
         navigationBar: NavigationBar(title: "Send Request", showBackButton: true),
-        child: Container(
-            children:
-            [
-                Button(
-                    text: "do request",
-                    onPress: [SendRequest(
+        context: Context(id: "myContext", value: "initial value")
+    ) {
+        Container {
+            Button(
+                text: "do request",
+                onPress: [
+                    SendRequest(
                         url: "https://httpbin.org/post",
                         method: .post,
                         data: "@{myContext}",
@@ -58,12 +59,11 @@ let sendRequestDeclarativeScreen: Screen = {
                         onFinish: [
                             CustomConsoleLogAction()
                         ]
-                    )]
-                )
-            ],
-            context: Context(id: "myContext", value: "initial value")
-        )
-    )
+                    )
+                ]
+            )
+        }
+    }
 }()
 
 struct CustomConsoleLogAction: Action {

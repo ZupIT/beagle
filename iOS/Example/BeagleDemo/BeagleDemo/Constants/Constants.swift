@@ -68,13 +68,9 @@ extension String {
 }
 
 extension UIColor {
-    class var demoGreen: UIColor {
-        return UIColor(red: 0.34, green: 0.62, blue: 0.16, alpha: 1)
-    }
-    class var demoGray: UIColor {
-        return UIColor(white: 0.5, alpha: 1)
-    }
-    class var demoDarkGray: UIColor {
-        return UIColor(white: 0.2, alpha: 1)
-    }
+    static var demoGreen = #colorLiteral(red: 0.34, green: 0.62, blue: 0.16, alpha: 1)
+    
+    static var demoGray = #colorLiteral(red: 0.5723067522, green: 0.5723067522, blue: 0.5723067522, alpha: 1)
+    
+    static var demoDarkGray = #colorLiteral(red: 0.2605186105, green: 0.2605186105, blue: 0.2605186105, alpha: 1)
 }
