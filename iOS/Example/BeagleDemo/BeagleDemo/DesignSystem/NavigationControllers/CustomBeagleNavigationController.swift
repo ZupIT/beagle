@@ -57,5 +57,14 @@ class CustomBeagleNavigationController: BeagleNavigationController {
             errorView.addRetry(retry)
         }
     }
-    
+}
+
+// MARK: PushStack
+
+class CustomPushStackNavigationController: BeagleNavigationController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationBar.barTintColor = .systemRed
+    }
 }
