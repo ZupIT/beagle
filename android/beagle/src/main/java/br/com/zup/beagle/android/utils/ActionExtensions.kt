@@ -21,10 +21,8 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.context.ContextDataValueResolver
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.isExpression
-import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
@@ -32,10 +30,8 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.widget.RootView
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.NumberFormatException
 
 internal var contextActionExecutor = ContextActionExecutor()
-internal var contextDataValueResolver = ContextDataValueResolver()
 
 /**
  * Execute a list of actions and create the implicit context with eventName and eventValue (optional).
@@ -145,36 +141,5 @@ internal fun Action.evaluateExpression(rootView: RootView, view: View, data: Any
 
 private fun String.generateBindAndEvaluateForAction(rootView: RootView, view: View, caller: Action): Any? {
     return expressionOf<String>(this)
-        .evaluateForAction(rootView, view, caller)
-        .tryToDeserialize()
-}
-
-private fun String?.tryToDeserialize(): Any? {
-    return try {
-        val number = this?.tryToConvertToNumber()
-        if (number != null) {
-            number
-        } else {
-            val newValue = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(this)
-            contextDataValueResolver.parse(newValue)
-        }
-    } catch (ex: Exception) {
-        if (this?.isNotEmpty() == true) {
-            this
-        } else {
-            null
-        }
-    }
-}
-
-private fun String.tryToConvertToNumber(): Number? {
-    return try {
-        this.toInt()
-    } catch (ex: NumberFormatException) {
-        try {
-            this.toDouble()
-        } catch (ex: NumberFormatException) {
-            null
-        }
-    }
+        .evaluateForAction(rootView, view, caller)?.tryToDeserialize()
 }
