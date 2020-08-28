@@ -26,9 +26,15 @@ public protocol BeagleNavigation {
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool)
     
-    func register<T: BeagleNavigationController>(controller type: T.Type)
-    func register<T: BeagleNavigationController>(controller type: T.Type, named: String)
-    func controllerType(forType type: String) -> BeagleNavigationController.Type?
+    /// Register a new custom `BeagleNavigationController` to serve as a new Navigation.
+    /// - Parameters:
+    ///   - type: the `BeagleNavigationController` custom type.
+    ///   - id: the cross platform id that identifies the controller in the BFF.
+    func register<T: BeagleNavigationController>(controller type: T.Type, id: String)
+    
+    /// Get a custom `BeagleNavigationController` if that was registered with the given id.
+    /// - Parameter id: the cross platform id that identifies the controller in the BFF.
+    func controllerType(forId id: String) -> BeagleNavigationController.Type?
 }
 
 public protocol DependencyNavigation {
@@ -37,13 +43,16 @@ public protocol DependencyNavigation {
 
 class BeagleNavigator: BeagleNavigation {
     
+    // MARK: - Protocol Attributes
     var defaultAnimation: BeagleNavigatorAnimation?
     
+    // MARK: - Private Attributes And Types
     private typealias Transition = (BeagleController, UIViewController, Bool) -> Void
     
-    private(set) var controllerTypes: [String: BeagleNavigationController.Type] = [:]
+    private var controllerTypes: [String: BeagleNavigationController.Type] = [:]
     
-    // MARK: - Navigate
+    // MARK: - Public Methods
+    // MARK: Navigate
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool = false) {
         controller.dependencies.logger.log(Log.navigation(.didReceiveAction(action)))
@@ -73,7 +82,18 @@ class BeagleNavigator: BeagleNavigation {
         }
     }
     
-    // MARK: - Navigate Handle
+    // MARK: - Register
+    
+    public func register<T: BeagleNavigationController>(controller type: T.Type, id: String) {
+        controllerTypes[id.lowercased()] = type
+    }
+    
+    public func controllerType(forId id: String) -> BeagleNavigationController.Type? {
+        controllerTypes[id.lowercased()]
+    }
+    
+    // MARK: - Private Methods
+    // MARK: Navigate Handle
     
     private func navigate(route: Route, origin: BeagleController, animated: Bool, transition: @escaping Transition) {
         viewController(
@@ -176,7 +196,7 @@ class BeagleNavigator: BeagleNavigation {
     
     private func getBeagleNavigationController(controllerId: String?) -> BeagleNavigationController {
         if let controllerId = controllerId,
-            let controllerType = dependencies.navigation.controllerType(forType: controllerId) {
+            let controllerType = controllerType(forId: controllerId) {
             return controllerType.init()
         } else {
             return dependencies.navigationControllerType.init()
@@ -251,24 +271,5 @@ class BeagleNavigator: BeagleNavigation {
                 origin.serverDrivenState = .error(.remoteScreen(error), retry)
             }
         }
-    }
-    
-    // MARK: - Register
-    
-    public func register<T: BeagleNavigationController>(controller type: T.Type) {
-        let componentTypeName = String(describing: T.self)
-        registerController(type, key: componentTypeName)
-    }
-    
-    public func register<T: BeagleNavigationController>(controller type: T.Type, named: String) {
-        registerController(type, key: named)
-    }
-    
-    public func controllerType(forType type: String) -> BeagleNavigationController.Type? {
-        return controllerTypes[type.lowercased()]
-    }
-    
-    private func registerController<T: BeagleNavigationController>(_ type: T.Type, key: String) {
-        controllerTypes[key.lowercased()] = type
     }
 }

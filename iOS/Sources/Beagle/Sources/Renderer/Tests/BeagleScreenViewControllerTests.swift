@@ -73,24 +73,19 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         
         // When
         let sut1 = initWith(controllerId: controllerId, gives: BeagleNavigationStub.self) { controllerType, controllerId in
-            dependencies.navigation.register(controller: controllerType, named: controllerId)
+            dependencies.navigation.register(controller: controllerType, id: controllerId)
         }
         
         let sut2 = initWith(gives: dependencies.navigationControllerType)
         
         let sut3 = initWith(controllerId: controllerId, gives: dependencies.navigationControllerType) { controllerType, _ in
-            dependencies.navigation.register(controller: controllerType)
-        }
-        
-        let sut4 = initWith(controllerId: controllerId, gives: dependencies.navigationControllerType) { controllerType, _ in
-            dependencies.navigation.register(controller: controllerType, named: "OtherId")
+            dependencies.navigation.register(controller: controllerType, id: "OtherId")
         }
         
         // Then
         XCTAssertTrue(sut1)
         XCTAssertTrue(sut2)
         XCTAssertTrue(sut3)
-        XCTAssertTrue(sut4)
     }
     
     func test_onViewDidLoad_backGroundColorShouldBeSetToWhite() {

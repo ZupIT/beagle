@@ -18,11 +18,6 @@ import Beagle
 
 class CustomBeagleNavigationController: BeagleNavigationController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationBar.barTintColor = .systemGreen
-    }
-    
     private var errorView = ErrorView(message: nil) { }
     
     override func serverDrivenStateDidChange(

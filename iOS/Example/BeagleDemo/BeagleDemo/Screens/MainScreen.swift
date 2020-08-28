@@ -33,7 +33,7 @@ struct MainScreen: DeeplinkScreen {
         )
 
         return BeagleScreenViewController(.declarative(screen),
-                                          controllerId: "CustomBeagleNavigationController")
+                                          controllerId: "CustomBeagleNavigation")
     }
     
     private func buildChild() -> ScrollView {

@@ -205,15 +205,11 @@ class BeagleNavigationDummy: BeagleNavigation {
         // Intentionally unimplemented...
     }
     
-    func register<T: BeagleNavigationController>(controller type: T.Type) {
+    func register<T: BeagleNavigationController>(controller type: T.Type, id: String) {
         // Intentionally unimplemented...
     }
     
-    func register<T: BeagleNavigationController>(controller type: T.Type, named: String) {
-        // Intentionally unimplemented...
-    }
-    
-    func controllerType(forType type: String) -> BeagleNavigationController.Type? { return nil }
+    func controllerType(forId id: String) -> BeagleNavigationController.Type? { return nil }
 }
 
 class GlobalContextDummy: GlobalContext {

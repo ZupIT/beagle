@@ -180,7 +180,7 @@ public class BeagleScreenViewController: BeagleController {
     
     private func getBeagleNavigationController() -> BeagleNavigationController {
         if let controllerId = navigationControllerId,
-            let controllerType = dependencies.navigation.controllerType(forType: controllerId) {
+            let controllerType = dependencies.navigation.controllerType(forId: controllerId) {
             return controllerType.init()
         } else {
             return dependencies.navigationControllerType.init()

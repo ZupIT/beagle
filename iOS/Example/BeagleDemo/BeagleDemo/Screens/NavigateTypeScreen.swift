@@ -54,7 +54,7 @@ struct NavigateStep2Screen: DeeplinkScreen {
                 createButton(text: "PushView (Step 3)", action: Navigate.pushView(.declarative(step3Screen)), backgroundColor: .salmonButton)
                 createButton(text: "PushStack", action: Navigate.pushStack(.declarative(presentView)), backgroundColor: .lightOrangeButton)
                 createButton(text: "Custom PushStack",
-                             action: Navigate.pushStack(.declarative(presentView), controllerId: "PushStackNavigationController"),
+                             action: Navigate.pushStack(.declarative(presentView), controllerId: "PushStackNavigation"),
                              backgroundColor: .lightOrangeButton)
             }
         }
