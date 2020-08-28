@@ -128,6 +128,19 @@ class TokenParserTest {
     }
 
     @Test
+    fun parse_should_return_binding_with_path_list() {
+        // Given
+        val expression = "bindingId.bindingValue[0]"
+
+        // When
+        val result = tokenParser.parse(expression)
+
+        // Then
+        assertTrue { result.token is TokenBinding }
+        assertEquals(expression, result.token.value)
+    }
+
+    @Test
     fun parse_should_return_binding_with_number() {
         // Given
         val expression = "1bind2ingId3.4bind5ingValue6"

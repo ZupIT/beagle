@@ -30,17 +30,17 @@ internal class TokenInterpreter(value: String) {
     }
 
     private fun readToken(): Token? {
-        return when {
-            lastChar == '\'' -> readString()
-            lastChar == '(' -> {
+        return when (lastChar) {
+            '\'' -> readString()
+            '(' -> {
                 resetLastChar()
                 tokenOpenBracket()
             }
-            lastChar == ')' -> {
+            ')' -> {
                 resetLastChar()
                 tokenOfCloseBracket()
             }
-            lastChar == ',' -> {
+            ',' -> {
                 resetLastChar()
                 tokenOfComma()
             }
@@ -79,7 +79,7 @@ internal class TokenInterpreter(value: String) {
 
     private fun readVariableOrFunction(): Token? {
         val sb = StringBuilder()
-        while (lastChar.isJavaIdentifierPart() || lastChar == '.') {
+        while (lastChar.isJavaIdentifierPart() || lastChar == '.' || lastChar == '[' || lastChar == ']') {
             sb.append(lastChar)
             lastChar = reader.read().toChar()
         }
