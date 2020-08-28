@@ -295,15 +295,42 @@ final class BeagleNavigatorTests: XCTestCase {
         XCTAssertEqual(path, deepLinkSpy.calledPath)
     }
     
-    func testControllerType() {
+    func testRegisterNavigationController() {
         // Given
         let controllerId = "customId"
         
         // When
-        dependencies.navigation.register(controller: BeagleNavigationStub.self, id: controllerId)
+        Beagle.dependencies.navigation.registerNavigationController(
+            builder: { BeagleNavigationStub() }, forId: controllerId
+        )
         
         // Then
-        XCTAssertTrue(dependencies.navigation.controllerType(forId: controllerId) is BeagleNavigationStub.Type)
+        XCTAssertTrue(dependencies.navigation.navigationController(forId: controllerId) is BeagleNavigationStub)
+    }
+
+    func testDefaultNavigationWithCustom() {
+        // Given
+        let defaultNavigation = BeagleNavigationStub()
+        dependencies.navigation.registerDefaultNavigationController(builder: { defaultNavigation })
+
+        // When
+        let result = dependencies.navigation.navigationController(forId: nil)
+
+        // Then
+        XCTAssertTrue(result === defaultNavigation)
+    }
+
+    func testDefaultNavigationWithDeprecated() {
+        // Given
+        let dependencies = BeagleDependencies()
+        dependencies.navigationControllerType = BeagleNavigationStub.self
+        Beagle.dependencies = dependencies
+
+        // When
+        let result = dependencies.navigation.navigationController(forId: nil)
+
+        // Then
+        XCTAssertTrue(result is BeagleNavigationStub)
     }
 }
 

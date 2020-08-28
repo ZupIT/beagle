@@ -53,7 +53,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var localFormHandler: LocalFormHandler?
     public var repository: Repository
     public var analytics: Analytics?
-    public var navigationControllerType: BeagleNavigationController.Type
     public var navigation: BeagleNavigation
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?
@@ -88,6 +87,9 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         return ViewConfigurator(view: $0)
     }
 
+    @available(*, deprecated, message: "use functionality from BeagleNavigation to customize BeagleNavigationController type")
+    public var navigationControllerType: BeagleNavigationController.Type = BeagleNavigationController.self
+
     private let resolver: InnerDependenciesResolver
 
     public init() {
@@ -99,7 +101,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.localFormHandler = nil
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
-        self.navigationControllerType = BeagleNavigationController.self
         self.isLoggingEnabled = true
         self.logger = BeagleLoggerProxy(logger: BeagleLoggerDefault(), dependencies: resolver)
 
@@ -125,7 +126,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 /// The problem happened because we needed to pass `self` as dependency before `init` has concluded.
 /// - Example: see where `resolver` is being used in the `BeagleDependencies` `init`.
 private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
-    DependencyNavigationController,
     DependencyDeepLinkScreenManaging,
     DependencyRepository,
     DependencyWindowManager,
@@ -141,7 +141,6 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var schemaLogger: SchemaLogger? { return container().logger }
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
     var networkClient: NetworkClient { return container().networkClient }
-    var navigationControllerType: BeagleNavigationController.Type { return container().navigationControllerType }
     var navigation: BeagleNavigation { return container().navigation }
     var deepLinkHandler: DeepLinkScreenManaging? { return container().deepLinkHandler }
     var localFormHandler: LocalFormHandler? { return container().localFormHandler }

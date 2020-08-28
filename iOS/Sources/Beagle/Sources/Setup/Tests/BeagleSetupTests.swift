@@ -204,12 +204,18 @@ class BeagleNavigationDummy: BeagleNavigation {
     func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
         // Intentionally unimplemented...
     }
-    
-    func register<T: BeagleNavigationController>(controller type: T.Type, id: String) {
+
+    func registerDefaultNavigationController(builder: @escaping NavigationBuilder) {
         // Intentionally unimplemented...
     }
-    
-    func controllerType(forId id: String) -> BeagleNavigationController.Type? { return nil }
+
+    func registerNavigationController(builder: @escaping NavigationBuilder, forId controllerId: String) {
+        // Intentionally unimplemented...
+    }
+
+    func navigationController(forId controllerId: String?) -> BeagleNavigationController {
+        return .init()
+    }
 }
 
 class GlobalContextDummy: GlobalContext {

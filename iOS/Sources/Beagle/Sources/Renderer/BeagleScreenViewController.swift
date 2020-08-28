@@ -173,18 +173,9 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func createNavigationContent() {
-        let navigationController = getBeagleNavigationController()
-        navigationController.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
-        content = .navigation(navigationController)
-    }
-    
-    private func getBeagleNavigationController() -> BeagleNavigationController {
-        if let controllerId = navigationControllerId,
-            let controllerType = dependencies.navigation.controllerType(forId: controllerId) {
-            return controllerType.init()
-        } else {
-            return dependencies.navigationControllerType.init()
-        }
+        let navigation = dependencies.navigation.navigationController(forId: navigationControllerId)
+        navigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
+        content = .navigation(navigation)
     }
     
     private func updateNavigationBar(animated: Bool) {

@@ -69,7 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func registerCustomControllers(in dependencies: BeagleDependencies) {
-        dependencies.navigation.register(controller: CustomBeagleNavigationController.self, id: "CustomBeagleNavigation")
-        dependencies.navigation.register(controller: CustomPushStackNavigationController.self, id: "PushStackNavigation")
+        dependencies.navigation.registerNavigationController(
+            builder: { CustomBeagleNavigationController() },
+            forId: "CustomBeagleNavigation"
+        )
+        
+        dependencies.navigation.registerNavigationController(
+            builder: { CustomPushStackNavigationController() },
+            forId: "PushStackNavigation"
+        )
     }
 }
