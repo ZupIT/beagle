@@ -50,6 +50,8 @@ public class BeagleScreenViewController: BeagleController {
     
     private var bindings: [() -> Void] = []
     
+    private var navigationControllerId: String?
+    
     // MARK: - Initialization
     
     @discardableResult
@@ -65,16 +67,19 @@ public class BeagleScreenViewController: BeagleController {
         }
     }
     
-    public convenience init(_ component: RawComponent) {
-        self.init(.declarative(component.toScreen()))
+    public convenience init(_ component: RawComponent, controllerId: String? = nil) {
+        self.init(.declarative(component.toScreen()), controllerId: controllerId)
+        self.navigationControllerId = controllerId
     }
     
-    public convenience init(_ screenType: ScreenType) {
-        self.init(viewModel: .init(screenType: screenType))
+    public convenience init(_ screenType: ScreenType, controllerId: String? = nil) {
+        self.init(viewModel: .init(screenType: screenType), controllerId: controllerId)
+        self.navigationControllerId = controllerId
     }
     
-    required init(viewModel: BeagleScreenViewModel) {
+    required init(viewModel: BeagleScreenViewModel, controllerId: String? = nil) {
         self.viewModel = viewModel
+        self.navigationControllerId = controllerId
         super.init(nibName: nil, bundle: nil)
         extendedLayoutIncludesOpaqueBars = true
     }
@@ -168,9 +173,9 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func createNavigationContent() {
-        let beagleNavigation = dependencies.navigationControllerType.init()
-        beagleNavigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
-        content = .navigation(beagleNavigation)
+        let navigation = dependencies.navigation.navigationController(forId: navigationControllerId)
+        navigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
+        content = .navigation(navigation)
     }
     
     private func updateNavigationBar(animated: Bool) {

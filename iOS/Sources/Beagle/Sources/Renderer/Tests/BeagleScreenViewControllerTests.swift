@@ -22,6 +22,72 @@ import BeagleSchema
 
 final class BeagleScreenViewControllerTests: XCTestCase {
     
+    private typealias RegisterAction = (BeagleNavigationController.Type, String) -> Void
+    
+    private func initWith<T: BeagleNavigationController>(
+        controllerId: String? = nil,
+        gives controllerType: T.Type,
+        registerAction: RegisterAction? = nil
+    ) -> Bool {
+        
+        // Given
+        dependencies = BeagleDependencies()
+        
+        var givesType = false
+        let screenType = ScreenType.declarative(SimpleComponent().content.toScreen())
+        let component = ComponentStub()
+        let viewModel = BeagleScreenViewModel(screenType: screenType)
+        
+        // When
+        
+        if let controllerId = controllerId {
+            registerAction?(controllerType, controllerId)
+        }
+        
+        let beagleSCScreenType = BeagleScreenViewController(screenType, controllerId: controllerId)
+        beagleSCScreenType.viewDidLoad()
+        
+        let beagleSCComponent = BeagleScreenViewController(component, controllerId: controllerId)
+        beagleSCComponent.viewDidLoad()
+        
+        let beagleSCViewModel = BeagleScreenViewController(viewModel: viewModel, controllerId: controllerId)
+        beagleSCViewModel.viewDidLoad()
+        
+        // Then
+        if case let .navigation(screenTypeNavigation) = beagleSCScreenType.content,
+            case let .navigation(componentNavigation) = beagleSCComponent.content,
+            case let .navigation(viewModelNavigation) = beagleSCViewModel.content {
+            givesType = type(of: screenTypeNavigation) == controllerType &&
+                type(of: componentNavigation) == controllerType &&
+                type(of: viewModelNavigation) == controllerType
+        } else {
+            givesType = false
+        }
+        
+        return givesType
+    }
+    
+    func testInit() {
+        // Given
+        let controllerId = "Stub"
+        
+        // When
+        let sut1 = initWith(controllerId: controllerId, gives: BeagleNavigationStub.self) { controllerType, controllerId in
+            Beagle.dependencies.navigation.registerNavigationController(builder: { controllerType.init() }, forId: controllerId)
+        }
+        
+        let sut2 = initWith(gives: dependencies.navigationControllerType)
+        
+        let sut3 = initWith(controllerId: controllerId, gives: dependencies.navigationControllerType) { controllerType, _ in
+            Beagle.dependencies.navigation.registerNavigationController(builder: { controllerType.init() }, forId: "OtherId")
+        }
+        
+        // Then
+        XCTAssertTrue(sut1)
+        XCTAssertTrue(sut2)
+        XCTAssertTrue(sut3)
+    }
+    
     func test_onViewDidLoad_backGroundColorShouldBeSetToWhite() {
         // Given
         let component = SimpleComponent()
@@ -367,6 +433,16 @@ struct SimpleComponent {
     var content = Container(children:
         [Text("Mock")]
     )
+}
+
+struct ComponentStub: RawComponent {
+    // Intentionally unimplemented...
+}
+
+class BeagleNavigationStub: BeagleNavigationController {
+    override func serverDrivenStateDidChange(to state: ServerDrivenState, at screenController: BeagleController) {
+        super.serverDrivenStateDidChange(to: state, at: screenController)
+    }
 }
 
 class BeagleControllerStub: BeagleController {

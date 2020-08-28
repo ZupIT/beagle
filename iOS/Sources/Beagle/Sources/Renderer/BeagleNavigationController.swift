@@ -37,7 +37,7 @@ extension ServerDrivenState {
 }
 
 open class BeagleNavigationController: UINavigationController {
-    
+
     /// This method is the entry point to handle screen state changes.
     /// The default implemetation shows an `ActivityIndicator` when screen is
     /// loading and does nothing when error happens; override this method to handle

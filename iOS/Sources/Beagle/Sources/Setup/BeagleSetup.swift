@@ -41,6 +41,6 @@ public func registerCustomAction<A: Action>(
     dependencies.decoder.register(action: actionType, named: name)
 }
 
-public func screen(_ type: ScreenType) -> BeagleScreenViewController {
-    return BeagleScreenViewController(type)
+public func screen(_ type: ScreenType, controllerId: String? = nil) -> BeagleScreenViewController {
+    return BeagleScreenViewController(type, controllerId: controllerId)
 }

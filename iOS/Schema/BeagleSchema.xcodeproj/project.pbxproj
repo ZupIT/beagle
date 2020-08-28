@@ -141,6 +141,7 @@
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		257FC9FA24DDB74300F2157C /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		25CDD46A24E7315E00CC49CB /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		3D775A4624F933D400BBECCE /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		3DE08EC324F03C1A00CFDC36 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		570434EC24A6753000DAD0D3 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		6E71540124B3953C0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
@@ -900,6 +901,7 @@
 		C8BB30A22486FCE9002DD3C1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3D775A4624F933D400BBECCE /* __Snapshots__ */,
 				C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */,
 				C8BB30AF2486FDB1002DD3C1 /* Json */,
 			);
