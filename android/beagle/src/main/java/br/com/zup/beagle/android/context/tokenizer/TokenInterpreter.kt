@@ -79,7 +79,7 @@ internal class TokenInterpreter(value: String) {
 
     private fun readVariableOrFunction(): Token? {
         val sb = StringBuilder()
-        while (lastChar.isJavaIdentifierPart() || lastChar == '.' || lastChar == '[' || lastChar == ']') {
+        while (lastChar.isJavaIdentifierPart() || isExpressionCharacter()) {
             sb.append(lastChar)
             lastChar = reader.read().toChar()
         }
@@ -100,6 +100,8 @@ internal class TokenInterpreter(value: String) {
             value.getTokenNumber() ?: tokenOfBinding(value)
         }
     }
+
+    private fun isExpressionCharacter() = lastChar == '.' || lastChar == '[' || lastChar == ']'
 
     private fun resetLastChar() {
         lastChar = Char.MIN_VALUE
