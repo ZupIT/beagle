@@ -18,13 +18,15 @@ package br.com.zup.beagle.android.context
 
 import android.view.View
 import br.com.zup.beagle.android.action.SetContextInternal
+import br.com.zup.beagle.android.context.tokenizer.Token
+import br.com.zup.beagle.android.context.tokenizer.TokenBinding
+import br.com.zup.beagle.android.context.tokenizer.TokenFunction
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.findParentContextWithId
 import br.com.zup.beagle.android.utils.getAllParentContexts
 import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextId
-import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.android.utils.setContextBinding
 import br.com.zup.beagle.android.utils.setContextData
 
@@ -51,6 +53,11 @@ internal class ContextDataManager(
         contexts.clear()
         viewBinding.clear()
         GlobalContext.clearObserverGlobalContext(globalContextObserver)
+    }
+
+    fun clearContext(view: View) {
+        contexts.remove(view.id)
+        viewBinding.remove(view)
     }
 
     fun addContext(view: View, context: ContextData) {
@@ -81,24 +88,53 @@ internal class ContextDataManager(
         viewBinding[view] = bindings
     }
 
-    fun linkBindingToContext() {
-        viewBinding.forEach { entry ->
-            val parentContexts = entry.key.getAllParentContextWithGlobal()
-            entry.value.forEach { binding ->
-                binding.bind.value.getExpressions().forEach { expression ->
-                    val contextId = expression.getContextId()
-                    parentContexts[contextId]?.bindings?.add(binding)
-                }
+    fun linkBindingToContextAndEvaluateThem(view: View) {
+        if (viewBinding.contains(view)) {
+            val contextStack = view.getAllParentContextWithGlobal()
+            viewBinding[view]?.forEach { binding ->
+                val bindingTokens = binding.bind.filterBindingTokens()
+                notifyBindingTokens(bindingTokens, contextStack, binding)
+            }
+            viewBinding.remove(view)
+        }
+    }
+
+    private fun notifyBindingTokens(
+        bindingTokens: List<String>,
+        contextStack: MutableList<ContextBinding>,
+        binding: Binding<*>
+    ) {
+        if (bindingTokens.isNotEmpty()) {
+            bindingTokens.forEach { expression ->
+                linkBindingsToNotifyListeners(expression, contextStack, binding)
+            }
+        } else {
+            val value = contextDataEvaluation.evaluateBindExpression(listOf(), binding.bind)
+            binding.notifyChanges(value)
+        }
+    }
+
+    private fun linkBindingsToNotifyListeners(
+        expression: String,
+        contextStack: MutableList<ContextBinding>,
+        binding: Binding<*>
+    ) {
+        val contextId = expression.getContextId()
+        for (contextBinding in contextStack) {
+            if (contextBinding.context.id == contextId) {
+                contextBinding.bindings.add(binding)
+                notifyBindingChanges(contextBinding)
+                break
             }
         }
-
-        viewBinding.clear()
     }
 
     fun getContextsFromBind(originView: View, binding: Bind.Expression<*>): List<ContextData> {
         val parentContexts = originView.getAllParentContextWithGlobal()
-        val contextIds = binding.value.getExpressions().map { it.getContextId() }
-        return parentContexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
+        val contextIds = binding.filterBindingTokens().map { it.getContextId() }
+        return parentContexts
+            .filter { contextBinding -> contextIds.contains(contextBinding.context.id) }
+            .map { it.context }
     }
 
     fun updateContext(view: View, setContextInternal: SetContextInternal) {
@@ -108,14 +144,13 @@ internal class ContextDataManager(
             view.findParentContextWithId(setContextInternal.contextId)?.let { parentView ->
                 val currentContextBinding = parentView.getContextBinding()
                 currentContextBinding?.let {
-                    setContextValue(parentView, currentContextBinding, setContextInternal)
+                    setContextValue(currentContextBinding, setContextInternal)
                 }
             }
         }
     }
 
     private fun setContextValue(
-        contextView: View,
         contextBinding: ContextBinding,
         setContextInternal: SetContextInternal
     ) {
@@ -124,22 +159,15 @@ internal class ContextDataManager(
             setContextInternal.path,
             setContextInternal.value
         )
+
         if (result is ContextSetResult.Succeed) {
-            val newContextBinding = contextBinding.copy(context = result.newContext)
-            newContextBinding.cache.evictAll()
-            contextView.setContextBinding(newContextBinding)
-            contexts[contextView.id] = newContextBinding
-            notifyBindingChanges(newContextBinding)
+            contextBinding.context = result.newContext
+            contextBinding.cache.evictAll()
+            notifyBindingChanges(contextBinding)
         }
     }
 
-    fun evaluateContexts() {
-        contexts.forEach { entry ->
-            notifyBindingChanges(entry.value)
-        }
-    }
-
-    fun notifyBindingChanges(contextBinding: ContextBinding) {
+    internal fun notifyBindingChanges(contextBinding: ContextBinding) {
         val contextData = contextBinding.context
         val bindings = contextBinding.bindings
 
@@ -154,10 +182,11 @@ internal class ContextDataManager(
         }
     }
 
-    private fun View.getAllParentContextWithGlobal(): MutableMap<String, ContextBinding> {
-        return this.getAllParentContexts().apply {
-            put(globalContext.context.id, globalContext)
-        }
+    private fun View.getAllParentContextWithGlobal(): MutableList<ContextBinding> {
+        val contexts = mutableListOf<ContextBinding>()
+        contexts.addAll(getAllParentContexts())
+        contexts.add(globalContext)
+        return contexts
     }
 
     private fun updateGlobalContext(contextData: ContextData) {
@@ -165,5 +194,25 @@ internal class ContextDataManager(
         globalContext.cache.evictAll()
         contexts[GLOBAL_CONTEXT_ID] = globalContext
         notifyBindingChanges(globalContext)
+    }
+
+    private fun <T> Bind.Expression<T>.filterBindingTokens(): List<String> {
+        val bindings = mutableListOf<String>()
+
+        fun addBindings(token: Token) {
+            if (token is TokenFunction) {
+                token.value.forEach { paramToken ->
+                    addBindings(paramToken)
+                }
+            } else if (token is TokenBinding) {
+                bindings.add(token.value)
+            }
+        }
+
+        expressions.forEach { expressionToken ->
+            addBindings(expressionToken.token)
+        }
+
+        return bindings
     }
 }

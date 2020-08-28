@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_TAB_VIEW
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_TAB_VIEW
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView

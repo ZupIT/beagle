@@ -21,7 +21,7 @@ extension UIColor {
     
     /// Create a color from hex String.
     /// Format:  #RRGGBB[AA] or #RGB[A]
-    convenience init?(hex: String) {
+    public convenience init?(hex: String) {
         guard hex.range(of: "^#[0-9A-F]{3,8}$", options: [.regularExpression, .caseInsensitive]) != nil else {
             return nil
         }

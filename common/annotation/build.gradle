@@ -1,5 +1,3 @@
-import br.com.zup.beagle.Dependencies
-
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,6 +13,8 @@ import br.com.zup.beagle.Dependencies
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import br.com.zup.beagle.Dependencies
 
 apply plugin: 'kotlin'
 

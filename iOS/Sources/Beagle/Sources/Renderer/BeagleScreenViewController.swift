@@ -90,7 +90,7 @@ public class BeagleScreenViewController: BeagleController {
         return viewModel.dependencies
     }
 
-    public var serverDrivenState: ServerDrivenState = .loading(false) {
+    public var serverDrivenState: ServerDrivenState = .finished {
         didSet { notifyBeagleNavigation(state: serverDrivenState) }
     }
         
@@ -121,7 +121,7 @@ public class BeagleScreenViewController: BeagleController {
     public func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         guard let actions = actions else { return }
         let context = Context(id: contextId, value: contextValue)
-        view.setContext(context)
+        origin.setContext(context)
         execute(actions: actions, origin: origin)
     }
             
@@ -201,12 +201,14 @@ public class BeagleScreenViewController: BeagleController {
         case .initialized:
             break
         case .loading:
-            serverDrivenState = .loading(true)
+            serverDrivenState = .started
         case .success:
-            serverDrivenState = .loading(false)
+            serverDrivenState = .finished
+            serverDrivenState = .success
             renderScreenIfNeeded()
         case .failure(let error):
             renderScreenIfNeeded()
+            serverDrivenState = .finished
             serverDrivenState = .error(error, viewModel.loadScreen)
         }
     }
@@ -222,6 +224,10 @@ public class BeagleScreenViewController: BeagleController {
         content = nil
         viewModel.screenType = screenType
         createContent()
+    }
+    
+    public func hasServerDrivenScreen() -> Bool {
+        return screen != nil
     }
     
     // MARK: - View Setup

@@ -59,4 +59,9 @@ internal open class BeagleFlexView(
         view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
         super.addView(view, flexMapper.makeYogaNode(style))
     }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        viewModel.linkBindingToContextAndEvaluateThem(this)
+    }
 }

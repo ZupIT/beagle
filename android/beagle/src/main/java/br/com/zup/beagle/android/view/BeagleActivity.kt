@@ -34,6 +34,8 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_STATE_LOADING
+import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
@@ -41,10 +43,36 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
-    open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
+
     class FormError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
     class WebViewError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
+
+    @Deprecated(DEPRECATED_STATE_LOADING)
     data class Loading(val loading: Boolean) : ServerDrivenState()
+
+    /**
+     * indicates that a server-driven component fetch has begun
+     */
+    object Started : ServerDrivenState()
+
+    /**
+     * indicates that a server-driven component fetch has finished
+     */
+    object Finished : ServerDrivenState()
+
+    /**
+     * indicates a success state while fetching a server-driven component
+     */
+    object Success : ServerDrivenState()
+
+    /**
+     * indicates an error state while fetching a server-driven component
+     *
+     * @param throwable error occurred. See {@link br.com.zup.beagle.android.exception.BeagleApiException},
+     * See {@link br.com.zup.beagle.android.exception.BeagleException}
+     * @param retry action to be performed when an error occurs
+     */
+    open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
 }
 
 @Parcelize
@@ -75,21 +103,42 @@ abstract class BeagleActivity : AppCompatActivity() {
     private val screen by lazy { intent.extras?.getString(FIRST_SCREEN_KEY) }
 
     companion object {
+        @Deprecated(
+            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            replaceWith = ReplaceWith(
+                "context.newServerDrivenIntent<YourBeagleActivity>(screenJson)",
+                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+            )
+        )
         fun newIntent(context: Context, screenJson: String): Intent {
             return newIntent(context).apply {
                 putExtra(FIRST_SCREEN_KEY, screenJson)
             }
         }
 
+        @Deprecated(
+            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            replaceWith = ReplaceWith(
+                "context.newServerDrivenIntent<YourBeagleActivity>(screen)",
+                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+            )
+        )
         fun newIntent(context: Context, screen: Screen): Intent {
             return newIntent(context, null, screen)
         }
 
+        @Deprecated(
+            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            replaceWith = ReplaceWith(
+                "context.newServerDrivenIntent<YourBeagleActivity>(screenRequest)",
+                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+            )
+        )
         fun newIntent(context: Context, screenRequest: ScreenRequest): Intent {
             return newIntent(context, screenRequest, null)
         }
 
-        fun newIntent(
+        internal fun newIntent(
             context: Context,
             screenRequest: ScreenRequest? = null,
             screen: Screen? = null
@@ -107,6 +156,31 @@ abstract class BeagleActivity : AppCompatActivity() {
         private fun newIntent(context: Context): Intent {
             val activityClass = BeagleEnvironment.beagleSdk.serverDrivenActivity
             return Intent(context, activityClass)
+        }
+
+        fun bundleOf(screenRequest: ScreenRequest): Bundle {
+            return Bundle(1).apply {
+                putParcelable(FIRST_SCREEN_REQUEST_KEY, screenRequest)
+            }
+        }
+
+        fun bundleOf(screenRequest: ScreenRequest, fallbackScreen: Screen): Bundle {
+            return Bundle(2).apply {
+                putParcelable(FIRST_SCREEN_REQUEST_KEY, screenRequest)
+                putAll(bundleOf(fallbackScreen))
+            }
+        }
+
+        fun bundleOf(screen: Screen): Bundle {
+            return Bundle(1).apply {
+                putString(FIRST_SCREEN_KEY, beagleSerializer.serializeComponent(screen.toComponent()))
+            }
+        }
+
+        fun bundleOf(screenJson: String): Bundle {
+            return Bundle(1).apply {
+                putString(FIRST_SCREEN_KEY, screenJson)
+            }
         }
     }
 
@@ -158,6 +232,8 @@ abstract class BeagleActivity : AppCompatActivity() {
         }
     }
 
+    fun hasServerDrivenScreen(): Boolean = supportFragmentManager.backStackEntryCount > 0
+
     fun navigateTo(screenRequest: ScreenRequest, screen: Screen?) {
         fetch(screenRequest, screen?.toComponent())
     }
@@ -170,9 +246,22 @@ abstract class BeagleActivity : AppCompatActivity() {
     private fun handleLiveData(state: LiveData<ViewState>) {
         state.observe(this, Observer {
             when (it) {
-              is ViewState.Error -> onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable,it.retry))
-              is ViewState.Loading -> onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
-              is ViewState.DoRender -> showScreen(it.screenId, it.component)
+                is ViewState.Error -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable, it.retry))
+                }
+                is ViewState.Loading -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
+
+                    if (it.value) {
+                        onServerDrivenContainerStateChanged(ServerDrivenState.Started)
+                    } else {
+                        onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
+                    }
+                }
+                is ViewState.DoRender -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Success)
+                    showScreen(it.screenId, it.component)
+                }
             }
         })
     }

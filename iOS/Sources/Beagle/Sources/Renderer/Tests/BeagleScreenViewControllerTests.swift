@@ -56,9 +56,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     func test_whenLoadScreenFails_itShouldCall_serverDrivenStateDidChange_onNavigation() {
         // Given
         let url = "www.something.com"
-        let repositoryStub = RepositoryStub(
-            componentResult: .failure(.networkError(NSError(domain: "", code: 0, description: "")))
-        )
+        let repositoryStub = RepositoryStub(componentResult: .failure(.urlBuilderError))
 
         class CustomNavigation: BeagleNavigationController {
             var remoteScreenError: Request.Error?
@@ -229,12 +227,12 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     }
     
     func test_whenLoadScreenFails_itShouldRenderFallbackScreen() {
-        let error = Request.Error.networkError(NSError(domain: "test", code: 1, description: "Network Error"))
-        let repository = RepositoryStub(componentResult: .failure(error))
+        let repository = RepositoryStub(componentResult: .failure(.urlBuilderError))
         let fallback = Text(
-            "Fallback screen.\n\(error.localizedDescription)",
+            "Fallback screen.\n",
             widgetProperties: .init(style: .init(backgroundColor: "#FF0000"))
         ).toScreen()
+        
         let dependencies = BeagleDependencies()
         dependencies.repository = repository
         
@@ -242,7 +240,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             screenType: .remote(.init(url: "url", fallback: fallback)),
             dependencies: dependencies
         ))
-        assertSnapshotImage(screen, size: .custom(CGSize(width: 300, height: 100)))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 150, height: 80)))
     }
 
     func test_whenLoadScreenWithDeclarativeText_isShouldRenderCorrectly() throws {
@@ -346,6 +344,21 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         XCTAssert(label.text == previousText)
         XCTAssert(label.isEnabled == previousIsEnabled)
     }
+    
+    func testExecuteActions() {
+        // Given
+        let action = ActionSpy()
+        let context = Context(id: "implicitContext", value: ["key": "value"])
+        let origin = UIView()
+        
+        // When
+        controller.execute(actions: [action], with: context.id, and: context.value, origin: origin)
+        
+        // Then
+        XCTAssertEqual(action.executionCount, 1)
+        XCTAssertEqual(action.lastOrigin, origin)
+        XCTAssertEqual(origin.contextMap[context.id]?.value, context)
+    }
 }
 
 // MARK: - Testing Helpers
@@ -359,7 +372,7 @@ struct SimpleComponent {
 class BeagleControllerStub: BeagleController {
     
     var dependencies: BeagleDependenciesProtocol
-    var serverDrivenState: ServerDrivenState = .loading(false)
+    var serverDrivenState: ServerDrivenState = .finished
     var screenType: ScreenType
     var screen: Screen?
 

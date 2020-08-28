@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-struct Parser<A> {
-    let run: (inout Substring) -> A?
+public struct Parser<Type> {
+    let run: (inout Substring) -> Type?
 }
 
 extension Parser {
-    func run(_ str: String) -> (match: A?, rest: Substring) {
+    func run(_ str: String) -> (match: Type?, rest: Substring) {
         var str = str[...]
         let match = self.run(&str)
         return (match, str)
@@ -29,16 +29,34 @@ extension Parser {
 // MARK: Basic Parsers
 
 let int = Parser<Int> { str in
-    let prefix = str.prefix { $0.isNumber }
-    let match = Int(prefix)
-    str.removeFirst(prefix.count)
-    return match
+    let intString = prefix(with: #"^(-\d+|\d+)\b(?!\.\d)"#).run(&str)
+    return Int(intString ?? "")
 }
 
-func literal(_ p: String) -> Parser<Void> {
+let double = Parser<Double> { str in
+    let doubleString = prefix(with: #"^(-\d+|\d+)\.\d+"#).run(&str)
+    return Double(doubleString ?? "")
+}
+
+let bool = Parser<Bool> { str in
+    let boolString = prefix(with: #"^(true|false)"#).run(&str)
+    return Bool(boolString ?? "")
+}
+
+let literalString = prefix(with: #"^'([^'\\]|(\\.))*'"#).map { str -> String in
+    let result = str.replacingOccurrences(of: "\\'", with: "'")
+    return String(result.dropFirst().dropLast())
+}
+
+let literalNull = Parser<Void> { str in
+    let nullString = prefix(with: #"^null"#).run(&str)
+    return nullString == "null" ? () : nil
+}
+
+func literal(string: String) -> Parser<Void> {
     return Parser<Void> { str in
-        guard str.hasPrefix(p) else { return nil }
-        str.removeFirst(p.count)
+        guard str.hasPrefix(string) else { return nil }
+        str.removeFirst(string.count)
         return ()
     }
 }
@@ -55,34 +73,34 @@ func prefix(with regex: String) -> Parser<String> {
 // MARK: Path
 
 let pathIndexNode: Parser<Path.Node> = zip(
-    literal("["),
+    literal(string: "["),
     int,
-    literal("]")
+    literal(string: "]")
 ).map { _, int, _ in
     .index(int)
 }
 
-let pathKeyNode: Parser<Path.Node> = prefix(with: "[a-zA-Z0-9_]+").map { .key($0) }
+let pathKeyNode: Parser<Path.Node> = prefix(with: #"^(?!true|false|null|\d)\w+\b(?!\()"#).map { .key($0) }
 
 let pathHeadNodes: Parser<[Path.Node]> = zip(
     zeroOrOne(pathKeyNode),
-    zeroOrMore(pathIndexNode, separatedBy: literal(""))
+    zeroOrMore(pathIndexNode, separatedBy: literal(string: ""))
 ).flatMap { first, tail in
     if first.isEmpty && tail.isEmpty { return .never }
     return always(first + tail)
 }
 
 let pathTailNodes: Parser<[Path.Node]> = zip(
-    literal("."),
+    literal(string: "."),
     pathKeyNode,
-    zeroOrMore(pathIndexNode, separatedBy: literal(""))
+    zeroOrMore(pathIndexNode, separatedBy: literal(string: ""))
 ).map { _, first, tail in
     return [first] + tail
 }
 
 let path: Parser<Path> = zip(
     pathHeadNodes,
-    zeroOrMore(pathTailNodes, separatedBy: literal(""))
+    zeroOrMore(pathTailNodes, separatedBy: literal(string: ""))
 ).map { first, arrays in
     var array: [Path.Node] = first
     arrays.forEach {
@@ -91,33 +109,86 @@ let path: Parser<Path> = zip(
     return Path(nodes: array)
 }
 
-// MARK: Single Expression
+// MARK: Binding
 
-let singleExpression: Parser<SingleExpression> = zip(
-    literal("@{"),
-    path,
-    literal("}")
-).flatMap { _, path, _ in
+let binding: Parser<Binding> = path.flatMap { path in
     var nodes = path.nodes
     let first = nodes.removeFirst()
     guard case let .key(context) = first else {
         return .never
     }
-    return always(SingleExpression(context: context, path: Path(nodes: nodes)))
+    return always(Binding(context: context, path: Path(nodes: nodes)))
+}
+
+// MARK: Literal
+
+let literal: Parser<Literal> = oneOf(
+    int.map { .int($0) } ,
+    double.map { .double($0) },
+    bool.map { .bool($0) },
+    literalString.map { .string($0) },
+    literalNull.map { .null }
+)
+
+// MARK: Value
+
+let value: Parser<Value> = oneOf(
+    binding.map { .binding($0) },
+    literal.map { .literal($0) }
+)
+
+// MARK: Operation
+
+let operationName: Parser<Operation.Name> = prefix(with: #"^\w+"#).flatMap {
+    guard let name = Operation.Name(rawValue: $0) else { return .never }
+    return always(name)
+}
+
+let parameter: Parser<Operation.Parameter> = oneOf(
+    value.map { .value($0) },
+    lazy(operation.map { .operation($0) })
+)
+
+let parameters: Parser<[Operation.Parameter]> = zip(
+    literal(string: "("),
+    zeroOrMore(parameter, separatedBy: prefix(with: #"\s*,\s*"#)),
+    literal(string: ")")
+).map { _, parameters, _ in
+    parameters
+}
+
+let operation: Parser<Operation> = zip(
+    operationName,
+    parameters
+).map { name, parameters in
+    Operation(name: name, parameters: parameters)
+}
+
+// MARK: Single Expression
+
+let singleExpression: Parser<SingleExpression> = zip(
+    literal(string: "@{"),
+    oneOf(
+        value.map { SingleExpression.value($0) },
+        operation.map { SingleExpression.operation($0) }
+    ),
+    literal(string: "}")
+).map { _, singleExpression, _ in
+    singleExpression
 }
 
 // MARK: Multiple Expression
 
-let stringNode: Parser<MultipleExpression.Node> = prefix(with: "(\\\\\\\\|\\\\@|[^\\@]|\\@(?!\\{))+").map { .string($0) }
+let stringNode: Parser<MultipleExpression.Node> = prefix(with: #"(\\\\|\\@|[^\@]|\@(?!\{))+"#).map { .string($0) }
 let expressionNode: Parser<MultipleExpression.Node> = singleExpression.map { .expression($0) }
 
 let multipleExpression: Parser<MultipleExpression> = zeroOrMore(
-    oneOf([stringNode, expressionNode]), separatedBy: literal("")
+    oneOf(stringNode, expressionNode), separatedBy: literal(string: "")
 ).flatMap { array in
     var result: [MultipleExpression.Node] = []
     var hasExpression = false
     for node in array {
-        if case var .string(string) = node {
+        if case let .string(string) = node {
             result.append(.string(string.escapeExpressions()))
         } else {
             hasExpression = true
@@ -141,72 +212,71 @@ extension Parser {
 }
 
 extension Parser {
-    func map<B>(_ f: @escaping (A) -> B) -> Parser<B> {
-        return Parser<B> { str -> B? in
-            self.run(&str).map(f)
+    func map<U>(_ transform: @escaping (Type) -> U) -> Parser<U> {
+        return Parser<U> { str -> U? in
+            self.run(&str).map(transform)
         }
     }
     
-    func flatMap<B>(_ f: @escaping (A) -> Parser<B>) -> Parser<B> {
-        return Parser<B> { str -> B? in
+    func flatMap<U>(_ transform: @escaping (Type) -> Parser<U>) -> Parser<U> {
+        return Parser<U> { str -> U? in
             let original = str
-            let matchA = self.run(&str)
-            let parserB = matchA.map(f)
-            guard let matchB = parserB?.run(&str) else {
+            let matchType = self.run(&str)
+            let parserU = matchType.map(transform)
+            guard let matchU = parserU?.run(&str) else {
                 str = original
                 return nil
             }
-            return matchB
+            return matchU
         }
     }
 }
 
-func zip<A, B>(_ a: Parser<A>, _ b: Parser<B>) -> Parser<(A, B)> {
-    return Parser<(A, B)> { str -> (A, B)? in
+func zip<Type1, Type2>(_ parser1: Parser<Type1>, _ parser2: Parser<Type2>) -> Parser<(Type1, Type2)> {
+    return Parser<(Type1, Type2)> { str -> (Type1, Type2)? in
         let original = str
-        guard let matchA = a.run(&str) else { return nil }
-        guard let matchB = b.run(&str) else {
+        guard let matchType1 = parser1.run(&str) else { return nil }
+        guard let matchType2 = parser2.run(&str) else {
             str = original
             return nil
         }
-        return (matchA, matchB)
+        return (matchType1, matchType2)
     }
 }
 
 // swiftlint:disable large_tuple
-func zip<A, B, C>(
-    _ a: Parser<A>,
-    _ b: Parser<B>,
-    _ c: Parser<C>
-) -> Parser<(A, B, C)> {
-    return zip(a, zip(b, c))
-        .map { a, bc in (a, bc.0, bc.1) }
+func zip<Type1, Type2, Type3>(
+    _ parser1: Parser<Type1>,
+    _ parser2: Parser<Type2>,
+    _ parser3: Parser<Type3>
+) -> Parser<(Type1, Type2, Type3)> {
+    zip(parser1, zip(parser2, parser3)).map { ($0, $1.0, $1.1) }
 }
 // swiftlint:enable large_tuple
 
-func zeroOrOne<A>(
-    _ p: Parser<A>
-) -> Parser<[A]> {
-    return Parser<[A]> { str in
-        var matches: [A] = []
-        if let match = p.run(&str) {
+func zeroOrOne<Type>(
+    _ parser: Parser<Type>
+) -> Parser<[Type]> {
+    return Parser<[Type]> { str in
+        var matches: [Type] = []
+        if let match = parser.run(&str) {
             matches.append(match)
         }
         return matches
     }
 }
 
-func zeroOrMore<A>(
-    _ p: Parser<A>,
-    separatedBy s: Parser<Void>
-) -> Parser<[A]> {
-    return Parser<[A]> { str in
+func zeroOrMore<Type, S>(
+    _ parser: Parser<Type>,
+    separatedBy separator: Parser<S>
+) -> Parser<[Type]> {
+    return Parser<[Type]> { str in
         var rest = str
-        var matches: [A] = []
-        while let match = p.run(&str) {
+        var matches: [Type] = []
+        while let match = parser.run(&str) {
             rest = str
             matches.append(match)
-            if s.run(&str) == nil {
+            if separator.run(&str) == nil {
                 return matches
             }
         }
@@ -215,15 +285,23 @@ func zeroOrMore<A>(
     }
 }
 
-func oneOf<A>(
-    _ ps: [Parser<A>]
-) -> Parser<A> {
-    return Parser<A> { str -> A? in
-        for p in ps {
-            if let match = p.run(&str) {
+func oneOf<Type>(
+    _ parsers: Parser<Type>...
+) -> Parser<Type> {
+    return Parser<Type> { str -> Type? in
+        for parser in parsers {
+            if let match = parser.run(&str) {
                 return match
             }
         }
         return nil
+    }
+}
+
+/// Delays the creation of parser. Use it to break dependency cycles when
+/// creating recursive parsers.
+func lazy<Type>(_ closure: @autoclosure @escaping () -> Parser<Type>) -> Parser<Type> {
+    Parser { str in
+        closure().run(&str)
     }
 }

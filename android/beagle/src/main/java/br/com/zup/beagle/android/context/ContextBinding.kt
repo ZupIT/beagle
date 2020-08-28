@@ -37,7 +37,7 @@ internal data class Binding<T>(
 }
 
 internal data class ContextBinding(
-    val context: ContextData,
+    var context: ContextData,
     val bindings: MutableSet<Binding<*>> = mutableSetOf(),
     val cache: LruCache<String, Any> = LruCache(
         BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity

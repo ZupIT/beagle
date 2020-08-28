@@ -16,9 +16,10 @@
 
 package br.com.zup.beagle.android.components
 
-import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
@@ -33,7 +34,8 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 
 @RegisterWidget
 data class Image(
@@ -88,27 +90,29 @@ data class Image(
 
     private fun loadRemoteImage(imageView: ImageView, pathType: ImagePath.Remote) {
         val placeholder = pathType.placeholder?.mobileId
-        val requestOptions = getGlideRequestOptions(placeholder)
-        imageView.loadImage(pathType, requestOptions)
+        setPlaceHolder(placeholder, imageView)
+        imageView.loadImage(pathType)
     }
 
-    @SuppressLint("CheckResult")
-    private fun getGlideRequestOptions(placeholder: String?): RequestOptions {
-        val requestOptions = RequestOptions()
+    private fun setPlaceHolder(placeholder: String?, imageView: ImageView) {
         getImage(placeholder)?.let {
-            requestOptions.placeholder(it)
+            imageView.setImageResource(it)
         }
-        return requestOptions
     }
 
     private fun ImageView.loadImage(
-        path: ImagePath.Remote,
-        requestOptions: RequestOptions) {
+        path: ImagePath.Remote) {
         Glide.with(this)
-            .setDefaultRequestOptions(requestOptions)
-            .asBitmap()
             .load(path.url.formatUrl())
-            .into(this@loadImage)
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    this@loadImage.setImageDrawable(resource)
+                    this@loadImage.requestLayout()
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
+
     }
 
     private fun getImage(imagePath: String?): Int? =
