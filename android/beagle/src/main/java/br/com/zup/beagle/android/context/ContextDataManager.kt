@@ -97,6 +97,10 @@ internal class ContextDataManager(
             }
             viewBinding.remove(view)
         }
+
+        view.getContextBinding()?.let {
+            notifyBindingChanges(it)
+        }
     }
 
     private fun notifyBindingTokens(
