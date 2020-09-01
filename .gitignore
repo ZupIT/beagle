@@ -13,6 +13,7 @@ out/
 !**/src/test/**
 common/gradle*
 schema/gradle*
+*.orig
 
 ### STS ###
 .apt_generated

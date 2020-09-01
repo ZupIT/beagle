@@ -47,8 +47,8 @@ class ButtonScreenSteps {
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText(BUTTON_SCREEN_HEADER)
+            .checkViewContainsText(MAIN_HEADER, true)
+            .checkViewContainsText(BUTTON_SCREEN_HEADER, true)
             .sleep(2)
     }
 
@@ -77,7 +77,7 @@ class ButtonScreenSteps {
     @Then("component should render the action attribute correctly$")
     fun renderActionAttributeCorrectly() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER)
+            .checkViewContainsText(MAIN_HEADER, false)
             .checkViewContainsText(ACTION_CLICK_HEADER)
             .checkViewContainsText(ACTION_CLICK_TEXT)
             .sleep(2)

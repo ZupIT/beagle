@@ -16,6 +16,8 @@
 
 package com.example.automated_tests.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -24,6 +26,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
 import com.example.automated_tests.R
 
@@ -61,6 +64,14 @@ class AppBeagleActivitiy : BeagleActivity() {
             mButton.visibility = View.GONE
             mFrame.visibility = View.VISIBLE
 
+        }
+    }
+
+    companion object {
+        fun newIntent(context: Context, screenRequest: ScreenRequest): Intent {
+            return newIntent(context).apply {
+                putExtra("FIRST_SCREEN_REQUEST_KEY", screenRequest)
+            }
         }
     }
 

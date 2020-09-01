@@ -19,13 +19,16 @@ package com.example.automated_tests.cucumber.robots
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import br.com.zup.beagle.android.components.layout.Screen
 import com.example.automated_tests.R
 import com.example.automated_tests.cucumber.elements.ZIP_FIELD
+import com.example.automated_tests.utils.WaitHelper
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -34,44 +37,52 @@ import org.hamcrest.TypeSafeMatcher
 
 class ScreenRobot {
 
-    fun checkViewContainsText(text: String?): ScreenRobot {
-        Espresso.onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
+
+    fun checkViewContainsText(text: String?, waitForText: Boolean = false): ScreenRobot {
+        if (waitForText){
+            WaitHelper.waitForWithElement(onView(withText(text)))
+        }
+
+        onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
+
         return this
+
     }
 
+
     fun clickOnText(text: String?): ScreenRobot {
-        Espresso.onView(Matchers.allOf(withText(text), isDisplayed())).perform(ViewActions.click())
+        onView(Matchers.allOf(withText(text), isDisplayed())).perform(ViewActions.click())
         return this
     }
 
     fun typeIntoTextField(position1: Int, position2: Int, text: String?): ScreenRobot {
-        Espresso.onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
+        onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
         Espresso.closeSoftKeyboard()
         return this
     }
 
     fun scrollViewDown(): ScreenRobot {
-        Espresso.onView(withId(R.id.root_layout)).perform(ViewActions.swipeUp())
+        onView(withId(R.id.root_layout)).perform(ViewActions.swipeUp())
         return this
     }
 
     fun swipeLeftOnView(): ScreenRobot {
-        Espresso.onView(Matchers.allOf(withId(R.id.root_layout))).perform(ViewActions.swipeLeft())
+        onView(Matchers.allOf(withId(R.id.root_layout))).perform(ViewActions.swipeLeft())
         return this
     }
 
     fun swipeRightOnView(): ScreenRobot {
-        Espresso.onView(withId(R.id.root_layout)).perform(ViewActions.swipeRight())
+        onView(withId(R.id.root_layout)).perform(ViewActions.swipeRight())
         return this
     }
 
     fun scrollTo(text: String?): ScreenRobot {
-        Espresso.onView(withText(text)).perform(scrollTo()).check(matches(isDisplayed()))
+        onView(withText(text)).perform(scrollTo()).check(matches(isDisplayed()))
         return this
     }
 
     fun clickOnTouchableImage(): ScreenRobot {
-        Espresso.onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), 1), 1)).perform(ViewActions.click())
+        onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), 1), 1)).perform(ViewActions.click())
         return this
     }
 

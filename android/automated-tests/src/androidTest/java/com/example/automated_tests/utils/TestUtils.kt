@@ -19,14 +19,25 @@ package com.example.automated_tests.utils
 import android.app.Activity
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.BeagleActivity.Companion.newIntent
+import br.com.zup.beagle.android.view.ScreenRequest
+import com.example.automated_tests.activity.AppBeagleActivitiy
 import com.example.automated_tests.activity.MainActivity
 
 class TestUtils {
 
     companion object {
         fun <T: Activity> startActivity(activityTestRule: ActivityTestRule<T>, url: String) {
+
             val intent = Intent()
             intent.putExtra(MainActivity.BFF_URL_KEY, url)
+            activityTestRule.launchActivity(intent)
+        }
+
+        fun startBeagleActivity(activityTestRule: ActivityTestRule<AppBeagleActivitiy>, url: String) {
+
+            val intent = AppBeagleActivitiy.newIntent(activityTestRule.activity, ScreenRequest(url))
             activityTestRule.launchActivity(intent)
         }
     }

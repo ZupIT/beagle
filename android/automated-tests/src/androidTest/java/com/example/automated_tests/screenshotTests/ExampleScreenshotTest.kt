@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests
+package com.example.automated_tests.screenshotTests
 
 import androidx.test.rule.ActivityTestRule
-import com.example.automated_tests.activity.MainActivity
+import com.example.automated_tests.activity.AppBeagleActivitiy
 import com.example.automated_tests.utils.TestUtils
+import com.karumi.shot.ScreenshotTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.lang.Thread.sleep
 
 
 /**
@@ -29,27 +30,20 @@ import java.lang.Thread.sleep
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleInstrumentedTest {
+class ExampleScreenshotTest: ScreenshotTest {
 
     @get:Rule
-    var activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(
-        MainActivity::class.java)
+    var activityTestRule: ActivityTestRule<AppBeagleActivitiy> = ActivityTestRule(
+        AppBeagleActivitiy::class.java)
+
+    @Before
+    fun setup() {
+        TestUtils.startBeagleActivity(activityTestRule,"http://10.0.2.2:8080/button" )
+    }
 
     @Test
     fun testButtonUrlLoading() {
-        TestUtils.startActivity(activityTestRule,"http://10.0.2.2:8080/button" )
-
-        sleep(10000)
+        compareScreenshot(activityTestRule.activity)
     }
-
-
-    @Test
-    fun testImageUrlLoading() {
-        TestUtils.startActivity(activityTestRule,"http://10.0.2.2:8080/image" )
-
-        sleep(10000)
-    }
-
-
 
 }

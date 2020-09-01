@@ -29,8 +29,8 @@ class SimpleFormScreenSteps {
     @Given("^that I'm on the simple form screen$")
     fun checkTabViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText(SIMPLE_FORM_SCREEN_HEADER)
+            .checkViewContainsText(MAIN_HEADER, true)
+            .checkViewContainsText(SIMPLE_FORM_SCREEN_HEADER, true)
             .sleep(2)
     }
 
