@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
