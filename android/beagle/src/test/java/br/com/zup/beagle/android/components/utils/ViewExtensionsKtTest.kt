@@ -122,8 +122,10 @@ class ViewExtensionsKtTest : BaseTest() {
             generateIdViewModel.createIfNotExisting(0)
             viewFactory.makeBeagleView(any<FragmentRootView>())
             beagleView.stateChangedListener = any()
+            beagleView.serverStateChangedListener = any()
             beagleView.loadView(screenRequest)
             beagleView.loadCompletedListener = any()
+            beagleView.listenerOnViewDetachedFromWindow = any()
         }
     }
 
