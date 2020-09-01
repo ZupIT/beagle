@@ -64,4 +64,18 @@ internal open class BeagleFlexView(
         super.onAttachedToWindow()
         viewModel.linkBindingToContextAndEvaluateThem(this)
     }
+
+    fun onViewDetachedFromWindow(callback: () -> Unit): BeagleFlexView {
+        this.addOnAttachStateChangeListener(
+            object : OnAttachStateChangeListener {
+                override fun onViewDetachedFromWindow(v: View?) {
+                    callback()
+                }
+
+                override fun onViewAttachedToWindow(v: View?) {}
+            })
+        return this
+    }
+
+
 }

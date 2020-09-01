@@ -124,6 +124,7 @@ class ViewExtensionsKtTest : BaseTest() {
             beagleView.stateChangedListener = any()
             beagleView.loadView(screenRequest)
             beagleView.loadCompletedListener = any()
+            beagleView.onViewDetachedFromWindow(any())
         }
     }
 

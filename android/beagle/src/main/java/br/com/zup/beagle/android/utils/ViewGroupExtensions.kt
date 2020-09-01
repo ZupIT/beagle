@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -101,6 +102,9 @@ private fun loadView(
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
+
+    }
+    view.onViewDetachedFromWindow {
         viewModel.setViewCreated(rootView.getParentId())
     }
 }
@@ -120,6 +124,9 @@ private fun loadView(
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
+    }
+
+    view.onViewDetachedFromWindow {
         viewModel.setViewCreated(rootView.getParentId())
     }
 }

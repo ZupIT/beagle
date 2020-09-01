@@ -157,6 +157,7 @@ internal fun ServerDrivenComponent.toView(rootView: RootView): View {
     return viewFactory.makeBeagleFlexView(rootView).apply {
         id = rootView.getParentId()
         addServerDrivenComponent(this@toView)
+    }.onViewDetachedFromWindow {
         viewModel.setViewCreated(rootView.getParentId())
     }
 }
