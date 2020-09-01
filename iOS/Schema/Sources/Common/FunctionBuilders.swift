@@ -18,28 +18,28 @@
 import Foundation
 
 @_functionBuilder
-public final class ChildBuilder {
+public struct ChildBuilder {
     public static func buildBlock(_ child: RawComponent) -> RawComponent {
         return child
     }
 }
 
 @_functionBuilder
-public final class ChildrenBuilder {
+public struct ChildrenBuilder {
     public static func buildBlock(_ children: RawComponent...) -> [RawComponent] {
         return children
     }
 }
 
 @_functionBuilder
-public final class TabItemBuilder {
+public struct TabItemBuilder {
     public static func buildBlock(_ tabItem: TabItem) -> TabItem {
         return tabItem
     }
 }
 
 @_functionBuilder
-public final class TabItemsBuilder {
+public struct TabItemsBuilder {
     public static func buildBlock(_ tabItems: TabItem...) -> [TabItem] {
         return tabItems
     }

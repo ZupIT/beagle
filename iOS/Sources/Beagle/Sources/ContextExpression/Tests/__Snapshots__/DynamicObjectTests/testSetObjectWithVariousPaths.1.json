@@ -1,0 +1,56 @@
+[
+  {
+    "input" : "a",
+    "output" : {
+      "a" : "UPDATED",
+      "c" : [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "input" : "b",
+    "output" : {
+      "a" : "default",
+      "b" : "UPDATED",
+      "c" : [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "input" : "c[0]",
+    "output" : {
+      "a" : "default",
+      "c" : [
+        "UPDATED",
+        2
+      ]
+    }
+  },
+  {
+    "input" : "c[4]",
+    "output" : {
+      "a" : "default",
+      "c" : [
+        1,
+        2,
+        null,
+        null,
+        "UPDATED"
+      ]
+    }
+  },
+  {
+    "input" : "[4]",
+    "output" : [
+      null,
+      null,
+      null,
+      null,
+      "UPDATED"
+    ]
+  }
+]

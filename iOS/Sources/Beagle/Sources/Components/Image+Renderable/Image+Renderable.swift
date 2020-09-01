@@ -46,11 +46,12 @@ extension Image: Widget {
         var imagePlaceholder: UIImage?
         if let placeholder = placeholder {
             imagePlaceholder = UIImage(named: placeholder, in: renderer.controller.dependencies.appBundle, compatibleWith: nil)
+            imageView.image = imagePlaceholder
         }
-        return lazyLoadImage(path: url, placeholderImage: imagePlaceholder, imageView: imageView, style: widgetProperties.style, renderer: renderer)
+        return lazyLoadImage(path: url, placeholderImage: imagePlaceholder, imageView: imageView, renderer: renderer)
     }
     
-    private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, style: Style?, renderer: BeagleRenderer) -> RequestToken? {
+    private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, renderer: BeagleRenderer) -> RequestToken? {
         renderer.controller.dependencies.repository.fetchImage(url: path, additionalData: nil) {
             [weak imageView] result in
             guard let imageView = imageView else { return }

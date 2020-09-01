@@ -32,20 +32,20 @@ interface RouteBuilderHelper {
 
     fun route(route: Route) = this.apply { this.route = route }
 
-    fun route(block: () -> Route){
+    fun route(block: () -> Route) {
         route(block.invoke())
     }
 
-    fun routeLocal(block: RouteLocalBuilder.() -> Unit){
+    fun routeLocal(block: RouteLocalBuilder.() -> Unit) {
         route(RouteLocalBuilder().apply(block).build())
     }
 
-    fun routeRemote(block: RouteRemoteBuilder.() -> Unit){
+    fun routeRemote(block: RouteRemoteBuilder.() -> Unit) {
         route(RouteRemoteBuilder().apply(block).build())
     }
 }
 
-class RouteRemoteBuilder: BeagleBuilder<Route.Remote> {
+class RouteRemoteBuilder : BeagleBuilder<Route.Remote> {
 
     var url: String by Delegates.notNull()
     var shouldPrefetch: Boolean = false
@@ -75,7 +75,7 @@ class RouteRemoteBuilder: BeagleBuilder<Route.Remote> {
 }
 
 
-class RouteLocalBuilder: BeagleBuilder<Route.Local> {
+class RouteLocalBuilder : BeagleBuilder<Route.Local> {
     var screen: Screen by Delegates.notNull()
 
     fun screen(screen: Screen) = this.apply { this.screen = screen }
@@ -88,40 +88,38 @@ class RouteLocalBuilder: BeagleBuilder<Route.Local> {
 
 }
 
-fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit)
-    = NavigateOpenExternalURLBuilder().apply(block).build()
+fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit) =
+    NavigateOpenExternalURLBuilder().apply(block).build()
 
-fun navigateOpenNativeRoute(block: NavigateOpenNativeRouteBuilder.() -> Unit)
-    = NavigateOpenNativeRouteBuilder().apply(block).build()
+fun navigateOpenNativeRoute(block: NavigateOpenNativeRouteBuilder.() -> Unit) =
+    NavigateOpenNativeRouteBuilder().apply(block).build()
 
-fun navigatePushStack(block: NavigatePushStackBuilder.() -> Unit)
-    = NavigatePushStackBuilder().apply(block).build()
+fun navigatePushStack(block: NavigatePushStackBuilder.() -> Unit) = NavigatePushStackBuilder().apply(block).build()
 
 fun navigatePopStack(block: NavigatePopStackBuilder.() -> Unit) = NavigatePopStackBuilder().apply(block).build()
 
 fun navigatePushView(block: NavigatePushViewBuilder.() -> Unit) = NavigatePushViewBuilder().apply(block).build()
 
-fun navigatePopView(block: NavigatePopViewBuilder.() -> Unit)  = NavigatePopViewBuilder().apply(block).build()
+fun navigatePopView(block: NavigatePopViewBuilder.() -> Unit) = NavigatePopViewBuilder().apply(block).build()
 
-fun navigatePopToView(block: NavigatePopToViewBuilder.() -> Unit)
-    = NavigatePopToViewBuilder().apply(block).build()
+fun navigatePopToView(block: NavigatePopToViewBuilder.() -> Unit) = NavigatePopToViewBuilder().apply(block).build()
 
-fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit)
-    = NavigateResetApplicationBuilder().apply(block).build()
+fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit) =
+    NavigateResetApplicationBuilder().apply(block).build()
 
-fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit)
-    = NavigateResetStackBuilder().apply(block).build()
+fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit) =
+    NavigateResetStackBuilder().apply(block).build()
 
 interface NavigateBuilderHelper {
     var navigate: Navigate
 
     fun navigate(navigate: Navigate) = this.apply { this.navigate = navigate }
 
-    fun navigate(block: () -> Navigate){
+    fun navigate(block: () -> Navigate) {
         navigate(block.invoke())
     }
 
-    fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit){
+    fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit) {
         navigate(NavigateOpenExternalURLBuilder().apply(block).build())
     }
 
@@ -129,7 +127,7 @@ interface NavigateBuilderHelper {
         navigate(NavigateOpenNativeRouteBuilder().apply(block).build())
     }
 
-    fun navigatePushStack(block: NavigatePushStackBuilder.() -> Unit){
+    fun navigatePushStack(block: NavigatePushStackBuilder.() -> Unit) {
         navigate(NavigatePushStackBuilder().apply(block).build())
     }
 
@@ -141,7 +139,7 @@ interface NavigateBuilderHelper {
         navigate(NavigatePushViewBuilder().apply(block).build())
     }
 
-    fun navigatePopView(block: NavigatePopViewBuilder.() -> Unit)  {
+    fun navigatePopView(block: NavigatePopViewBuilder.() -> Unit) {
         navigate(NavigatePopViewBuilder().apply(block).build())
     }
 
@@ -149,11 +147,11 @@ interface NavigateBuilderHelper {
         navigate(NavigatePopToViewBuilder().apply(block).build())
     }
 
-    fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit){
+    fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit) {
         navigate(NavigateResetApplicationBuilder().apply(block).build())
     }
 
-    fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit){
+    fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit) {
         navigate(NavigateResetStackBuilder().apply(block).build())
     }
 }
@@ -171,14 +169,15 @@ class NavigateOpenExternalURLBuilder : BeagleBuilder<Navigate.OpenExternalURL> {
 
 }
 
-class NavigateOpenNativeRouteBuilder: BeagleBuilder<Navigate.OpenNativeRoute> {
+class NavigateOpenNativeRouteBuilder : BeagleBuilder<Navigate.OpenNativeRoute> {
     var route: String by Delegates.notNull()
     var shouldResetApplication: Boolean = false
     var data: MutableMap<String, String>? = null
 
     fun route(route: String) = this.apply { this.route = route }
-    fun shouldResetApplication(shouldResetApplication: Boolean)
-        = this.apply { this.shouldResetApplication = shouldResetApplication }
+    fun shouldResetApplication(shouldResetApplication: Boolean) =
+        this.apply { this.shouldResetApplication = shouldResetApplication }
+
     fun data(data: MutableMap<String, String>?) = this.apply { this.data = data }
 
     fun route(block: () -> String) {
@@ -201,31 +200,34 @@ class NavigateOpenNativeRouteBuilder: BeagleBuilder<Navigate.OpenNativeRoute> {
 
 }
 
-class NavigatePushStackBuilder: BeagleBuilder<Navigate.PushStack>, RouteBuilderHelper {
+class NavigatePushStackBuilder : BeagleBuilder<Navigate.PushStack>, RouteBuilderHelper {
     override var route: Route by Delegates.notNull()
+    var controllerId: String? = null
 
-    override fun build() = Navigate.PushStack(route)
+    fun controllerId(controllerId: String?) = this.apply { this.controllerId = controllerId }
+
+    override fun build() = Navigate.PushStack(route, controllerId)
 
 }
 
-class NavigatePopStackBuilder: BeagleBuilder<Navigate.PopStack> {
+class NavigatePopStackBuilder : BeagleBuilder<Navigate.PopStack> {
     override fun build() = Navigate.PopStack()
 }
 
 
-class NavigatePushViewBuilder: BeagleBuilder<Navigate.PushView>, RouteBuilderHelper {
+class NavigatePushViewBuilder : BeagleBuilder<Navigate.PushView>, RouteBuilderHelper {
     override var route: Route by Delegates.notNull()
 
     override fun build() = Navigate.PushView(route)
 
 }
 
-class NavigatePopViewBuilder: BeagleBuilder<Navigate.PopView> {
+class NavigatePopViewBuilder : BeagleBuilder<Navigate.PopView> {
     override fun build() = Navigate.PopView()
 }
 
 
-class NavigatePopToViewBuilder: BeagleBuilder<Navigate.PopToView> {
+class NavigatePopToViewBuilder : BeagleBuilder<Navigate.PopToView> {
     var route: String by Delegates.notNull()
 
     fun route(route: String) = this.apply { this.route = route }
@@ -238,16 +240,22 @@ class NavigatePopToViewBuilder: BeagleBuilder<Navigate.PopToView> {
 }
 
 
-class NavigateResetApplicationBuilder: BeagleBuilder<Navigate.ResetApplication>, RouteBuilderHelper {
+class NavigateResetApplicationBuilder : BeagleBuilder<Navigate.ResetApplication>, RouteBuilderHelper {
     override var route: Route by Delegates.notNull()
+    var controllerId: String? = null
 
-    override fun build() = Navigate.ResetApplication(route)
+    fun controllerId(controllerId: String?) = this.apply { this.controllerId = controllerId }
+
+    override fun build() = Navigate.ResetApplication(route, controllerId)
 
 }
 
 class NavigateResetStackBuilder : BeagleBuilder<Navigate.ResetStack>, RouteBuilderHelper {
     override var route: Route by Delegates.notNull()
+    var controllerId: String? = null
 
-    override fun build() = Navigate.ResetStack(route)
+    fun controllerId(controllerId: String?) = this.apply { this.controllerId = controllerId }
+
+    override fun build() = Navigate.ResetStack(route, controllerId)
 
 }

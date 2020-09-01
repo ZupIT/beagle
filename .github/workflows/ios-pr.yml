@@ -4,9 +4,13 @@ on:
     push:
         branches:
             - master
+        paths:
+            - 'iOS/**'
     pull_request:
         # TODO: remove this path selector when we have more integrated tests
-        paths: 'iOS/**'
+        paths:
+            - 'iOS/**'
+            - 'Gemfile'
 jobs:
     pr_verification:
         name: PR Check
@@ -23,15 +27,17 @@ jobs:
                 with:
                     path: ${{ env.fastlane-path }}
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
-         
+                    restore-keys: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}
+
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
             -   name: Cache SPM dependencies
                 uses: actions/cache@v2
                 with:
-                    path: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
-                    key: ~/**/DerivedData
+                    path: ~/**/DerivedData
+                    key: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
+                    restore-keys: ${{ runner.os }}-spm
 
             -   name: install swiftLint
                 run: brew install swiftlint

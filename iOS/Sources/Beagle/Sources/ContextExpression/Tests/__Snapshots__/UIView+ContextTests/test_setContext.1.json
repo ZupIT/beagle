@@ -1,0 +1,36 @@
+[
+  [
+    {
+      "id" : "contextA",
+      "value" : {
+        "A" : "A"
+      }
+    }
+  ],
+  [
+    {
+      "id" : "contextA",
+      "value" : {
+        "A" : "A"
+      }
+    },
+    {
+      "id" : "contextB",
+      "value" : 1
+    }
+  ],
+  [
+    {
+      "id" : "contextA",
+      "value" : {
+        "A" : "A"
+      }
+    },
+    {
+      "id" : "contextB",
+      "value" : [
+        null
+      ]
+    }
+  ]
+]

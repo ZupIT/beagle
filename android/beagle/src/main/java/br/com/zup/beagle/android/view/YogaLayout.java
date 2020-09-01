@@ -71,7 +71,7 @@ public class YogaLayout extends ViewGroup {
         return mYogaNode;
     }
 
-    public void addView(View child, @Nullable YogaNode node) {
+    public void addView(View child, @Nullable YogaNode node, int index) {
         // Internal nodes (which this is now) cannot have measure functions
         mYogaNode.setMeasureFunction(null);
 
@@ -102,18 +102,27 @@ public class YogaLayout extends ViewGroup {
         }
 
         mYogaNodes.put(child, childNode);
-        mYogaNode.addChildAt(childNode, mYogaNode.getChildCount());
+        if (index == -1)
+            index = mYogaNode.getChildCount();
+
+        mYogaNode.addChildAt(childNode, index);
+
+    }
+
+    public void addView(View child, @Nullable YogaNode node){
+        addView(child, node, -1);
     }
 
     @Override
     public void addView(View child) {
         YogaNode node = null;
-        addView(child, node);
+        addView(child, node, -1);
     }
 
     @Override
     public void addView(View child, int index) {
-        throw new RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE);
+        YogaNode node = null;
+        addView(child, node,index);
     }
 
     @Override
@@ -233,12 +242,12 @@ public class YogaLayout extends ViewGroup {
             int left = Math.round(xOffset + node.getLayoutX());
             int top = Math.round(yOffset + node.getLayoutY());
             view.measure(
-                    MeasureSpec.makeMeasureSpec(
-                            Math.round(node.getLayoutWidth()),
-                            MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(
-                            Math.round(node.getLayoutHeight()),
-                            MeasureSpec.EXACTLY));
+                MeasureSpec.makeMeasureSpec(
+                    Math.round(node.getLayoutWidth()),
+                    MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(
+                    Math.round(node.getLayoutHeight()),
+                    MeasureSpec.EXACTLY));
             view.layout(left, top, left + view.getMeasuredWidth(), top + view.getMeasuredHeight());
         }
 
@@ -250,9 +259,9 @@ public class YogaLayout extends ViewGroup {
                 continue;
             } else {
                 applyLayoutRecursive(
-                        node.getChildAt(i),
-                        xOffset + node.getLayoutX(),
-                        yOffset + node.getLayoutY());
+                    node.getChildAt(i),
+                    xOffset + node.getLayoutX(),
+                    yOffset + node.getLayoutY());
             }
         }
     }
@@ -263,8 +272,8 @@ public class YogaLayout extends ViewGroup {
         // case our r-l and b-t are the size of our node.
         if (!(getParent() instanceof YogaLayout)) {
             createLayout(
-                    MeasureSpec.makeMeasureSpec(r - l, MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(b - t, MeasureSpec.EXACTLY));
+                MeasureSpec.makeMeasureSpec(r - l, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(b - t, MeasureSpec.EXACTLY));
         }
 
         applyLayoutRecursive(mYogaNode, 0, 0);
@@ -274,7 +283,7 @@ public class YogaLayout extends ViewGroup {
      * This function is mostly unneeded, because Yoga is doing the measuring.  Hence we only need to
      * return accurate results if we are the root.
      *
-     * @param widthMeasureSpec the suggested specification for the width
+     * @param widthMeasureSpec  the suggested specification for the width
      * @param heightMeasureSpec the suggested specification for the height
      */
     @Override
@@ -284,8 +293,8 @@ public class YogaLayout extends ViewGroup {
         }
 
         setMeasuredDimension(
-                Math.round(mYogaNode.getLayoutWidth()),
-                Math.round(mYogaNode.getLayoutHeight()));
+            Math.round(mYogaNode.getLayoutWidth()),
+            Math.round(mYogaNode.getLayoutHeight()));
     }
 
     private void createLayout(int widthMeasureSpec, int heightMeasureSpec) {
@@ -312,7 +321,7 @@ public class YogaLayout extends ViewGroup {
     @Override
     protected LayoutParams generateDefaultLayoutParams() {
         return new LayoutParams(LayoutParams.MATCH_PARENT,
-                LayoutParams.MATCH_PARENT);
+            LayoutParams.MATCH_PARENT);
     }
 
     /**
@@ -325,30 +334,30 @@ public class YogaLayout extends ViewGroup {
          * elements want to be.  This function passes that question directly through to the relevant
          * {@code View}'s measure function.
          *
-         * @param node The yoga node to measure
-         * @param width The suggested width from the owner
-         * @param widthMode The type of suggestion for the width
-         * @param height The suggested height from the owner
+         * @param node       The yoga node to measure
+         * @param width      The suggested width from the owner
+         * @param widthMode  The type of suggestion for the width
+         * @param height     The suggested height from the owner
          * @param heightMode The type of suggestion for the height
          * @return A measurement output ({@code YogaMeasureOutput}) for the node
          */
         public long measure(
-                YogaNode node,
-                float width,
-                YogaMeasureMode widthMode,
-                float height,
-                YogaMeasureMode heightMode) {
+            YogaNode node,
+            float width,
+            YogaMeasureMode widthMode,
+            float height,
+            YogaMeasureMode heightMode) {
             final View view = (View) node.getData();
             if (view == null || view instanceof YogaLayout) {
                 return YogaMeasureOutput.make(0, 0);
             }
 
             final int widthMeasureSpec = MeasureSpec.makeMeasureSpec(
-                    (int) width,
-                    viewMeasureSpecFromYogaMeasureMode(widthMode));
+                (int) width,
+                viewMeasureSpecFromYogaMeasureMode(widthMode));
             final int heightMeasureSpec = MeasureSpec.makeMeasureSpec(
-                    (int) height,
-                    viewMeasureSpecFromYogaMeasureMode(heightMode));
+                (int) height,
+                viewMeasureSpecFromYogaMeasureMode(heightMode));
 
             view.measure(widthMeasureSpec, heightMeasureSpec);
 

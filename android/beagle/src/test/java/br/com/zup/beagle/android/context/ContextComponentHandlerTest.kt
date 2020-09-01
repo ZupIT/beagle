@@ -17,18 +17,17 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import io.mockk.mockkObject
+import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
@@ -39,7 +38,7 @@ class ContextComponentHandlerTest {
 
     private val rootView = mockk<ActivityRootView>()
     private val view = mockk<View>()
-    private val viewModel = mockk<ScreenContextViewModel>()
+    private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
 
     private lateinit var contextComponentHandler: ContextComponentHandler
 
@@ -51,7 +50,6 @@ class ContextComponentHandlerTest {
         every { rootView.getViewModelStoreOwner() } returns rootView.activity
         mockkConstructor(ViewModelProvider::class)
         every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
-
     }
 
     @After
@@ -60,17 +58,30 @@ class ContextComponentHandlerTest {
     }
 
     @Test
-    fun handleContext_should_call_addContext_when_component_is_ContextComponent() {
+    fun addContext_should_call_addContext_when_component_is_ContextComponent() {
         // Given
         val component = mockk<Container>()
         val context = mockk<ContextData>()
         every { component.context } returns context
-        every { viewModel.addContext(any(), any()) } just Runs
 
         // When
-        contextComponentHandler.handleContext(rootView, view, component)
+        contextComponentHandler.addContext(viewModel, view, component)
 
         // Then
         verify(exactly = 1) { viewModel.addContext(view, context) }
+    }
+
+    @Test
+    fun onViewAttachedToWindow_should_call_linkBindingToContextAndEvaluateThem() {
+        // Given
+        val listenerSlot = slot<View.OnAttachStateChangeListener>()
+        every { view.addOnAttachStateChangeListener(capture(listenerSlot)) } just Runs
+
+        // When
+        contextComponentHandler.addListenerToHandleContext(viewModel, view)
+        listenerSlot.captured.onViewAttachedToWindow(view)
+
+        // Then
+        verify(exactly = once()) { viewModel.linkBindingToContextAndEvaluateThem(view) }
     }
 }

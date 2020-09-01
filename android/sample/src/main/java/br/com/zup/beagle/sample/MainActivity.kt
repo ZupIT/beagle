@@ -21,10 +21,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.android.utils.dp
-import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.utils.newServerDrivenIntent
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
+import br.com.zup.beagle.sample.activities.SampleServerDrivenActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
 import br.com.zup.beagle.sample.fragment.DisabledFormSubmitFragment
@@ -38,18 +38,13 @@ import br.com.zup.beagle.sample.fragment.ScrollViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
+import br.com.zup.beagle.sample.fragment.ContextOperationsFragment
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        supportActionBar?.apply {
-            title = "Beagle Sample"
-            elevation = 4.0f.dp()
-        }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -65,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     @Suppress("ComplexMethod")
     private fun menuSelected(itemSelected: Int) {
         when (itemSelected) {
+            R.id.contextOperations -> goToFragment(ContextOperationsFragment.newInstance())
             R.id.textInput -> goToFragment(TextInputFragment.newInstance())
             R.id.scroll -> goToFragment(ScrollViewFragment.newInstance())
             R.id.lazycomponent -> goToFragment(LazyComponentFragment.newInstance())
@@ -73,26 +69,15 @@ class MainActivity : AppCompatActivity() {
             // Navigation Bar requires an activity without toolbar
             R.id.navigationBar -> startActivity(NavigationBarActivity.newIntent(this))
             R.id.navigationFragment -> goToFragment(NavigationFragment.newInstance())
-            R.id.navigation -> startActivity(
-                BeagleActivity.newIntent(
-                    this,
-                    ScreenRequest("https://t001-2751a.firebaseapp.com/flow/step1.json")
-                )
-            )
             R.id.form -> goToFragment(FormFragment.newInstance())
             R.id.tabBar -> goToFragment(TabViewFragment.newInstance())
             R.id.disabledFormSubmit -> goToFragment(DisabledFormSubmitFragment.newInstance())
-            R.id.accessibility -> startActivity(BeagleActivity.newIntent(
-                this,
-                ScreenRequest("http://www.mocky.io/v2/5e4d46952d0000339ec0dce1")
-            ))
             R.id.listView -> goToFragment(ListViewFragment.newInstance())
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
-            R.id.sampleBff -> startActivity(BeagleActivity.newIntent(
-                this,
-                ScreenRequest(SAMPLE_ENDPOINT)
-            ))
+            R.id.sampleBff -> startActivity(
+                newServerDrivenIntent<SampleServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)
+                ))
         }
     }
 

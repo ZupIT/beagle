@@ -50,6 +50,8 @@ public class BeagleScreenViewController: BeagleController {
     
     private var bindings: [() -> Void] = []
     
+    private var navigationControllerId: String?
+    
     // MARK: - Initialization
     
     @discardableResult
@@ -65,16 +67,19 @@ public class BeagleScreenViewController: BeagleController {
         }
     }
     
-    public convenience init(_ component: RawComponent) {
-        self.init(.declarative(component.toScreen()))
+    public convenience init(_ component: RawComponent, controllerId: String? = nil) {
+        self.init(.declarative(component.toScreen()), controllerId: controllerId)
+        self.navigationControllerId = controllerId
     }
     
-    public convenience init(_ screenType: ScreenType) {
-        self.init(viewModel: .init(screenType: screenType))
+    public convenience init(_ screenType: ScreenType, controllerId: String? = nil) {
+        self.init(viewModel: .init(screenType: screenType), controllerId: controllerId)
+        self.navigationControllerId = controllerId
     }
     
-    required init(viewModel: BeagleScreenViewModel) {
+    required init(viewModel: BeagleScreenViewModel, controllerId: String? = nil) {
         self.viewModel = viewModel
+        self.navigationControllerId = controllerId
         super.init(nibName: nil, bundle: nil)
         extendedLayoutIncludesOpaqueBars = true
     }
@@ -90,7 +95,7 @@ public class BeagleScreenViewController: BeagleController {
         return viewModel.dependencies
     }
 
-    public var serverDrivenState: ServerDrivenState = .loading(false) {
+    public var serverDrivenState: ServerDrivenState = .finished {
         didSet { notifyBeagleNavigation(state: serverDrivenState) }
     }
         
@@ -121,7 +126,7 @@ public class BeagleScreenViewController: BeagleController {
     public func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         guard let actions = actions else { return }
         let context = Context(id: contextId, value: contextValue)
-        view.setContext(context)
+        origin.setContext(context)
         execute(actions: actions, origin: origin)
     }
             
@@ -168,9 +173,9 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func createNavigationContent() {
-        let beagleNavigation = dependencies.navigationControllerType.init()
-        beagleNavigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
-        content = .navigation(beagleNavigation)
+        let navigation = dependencies.navigation.navigationController(forId: navigationControllerId)
+        navigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
+        content = .navigation(navigation)
     }
     
     private func updateNavigationBar(animated: Bool) {
@@ -201,12 +206,14 @@ public class BeagleScreenViewController: BeagleController {
         case .initialized:
             break
         case .loading:
-            serverDrivenState = .loading(true)
+            serverDrivenState = .started
         case .success:
-            serverDrivenState = .loading(false)
+            serverDrivenState = .finished
+            serverDrivenState = .success
             renderScreenIfNeeded()
         case .failure(let error):
             renderScreenIfNeeded()
+            serverDrivenState = .finished
             serverDrivenState = .error(error, viewModel.loadScreen)
         }
     }
@@ -222,6 +229,10 @@ public class BeagleScreenViewController: BeagleController {
         content = nil
         viewModel.screenType = screenType
         createContent()
+    }
+    
+    public func hasServerDrivenScreen() -> Bool {
+        return screen != nil
     }
     
     // MARK: - View Setup

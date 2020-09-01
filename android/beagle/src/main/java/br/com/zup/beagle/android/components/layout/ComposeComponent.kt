@@ -28,8 +28,8 @@ abstract class ComposeComponent : WidgetView() {
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
-            addServerDrivenComponent(build(), rootView)
+        return viewFactory.makeBeagleFlexView(rootView).apply {
+            addServerDrivenComponent(build())
         }
     }
 

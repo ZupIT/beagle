@@ -30,7 +30,8 @@ public enum Navigate: RawAction {
     case resetStack(Route)
     
     /// Presents a new screen that comes from a specified route starting a new flow.
-    case pushStack(Route)
+    /// You can specify a controllerId, describing the id of navigation controller used for the new flow.
+    case pushStack(Route, controllerId: String? = nil)
     
     /// Unstacks the current view stack.
     case popStack
@@ -113,6 +114,7 @@ extension Navigate: Decodable {
         case _beagleAction_
         case route
         case url
+        case controllerId
     }
     
     public init(from decoder: Decoder) throws {
@@ -128,7 +130,8 @@ extension Navigate: Decodable {
         case "beagle:resetstack":
             self = .resetStack(try container.decode(Route.self, forKey: .route))
         case "beagle:pushstack":
-            self = .pushStack(try container.decode(Route.self, forKey: .route))
+            self = .pushStack(try container.decode(Route.self, forKey: .route),
+                              controllerId: try container.decodeIfPresent(String.self, forKey: .controllerId))
         case "beagle:popstack":
             self = .popStack
         case "beagle:pushview":

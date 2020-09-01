@@ -17,6 +17,7 @@
 import UIKit
 import BeagleSchema
 
+@available(*, deprecated, message: "use functionality from BeagleNavigation to customize BeagleNavigationController type")
 public protocol DependencyNavigationController {
     var navigationControllerType: BeagleNavigationController.Type { get }
 }
@@ -25,6 +26,22 @@ public protocol BeagleNavigation {
     var defaultAnimation: BeagleNavigatorAnimation? { get set }
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool)
+
+    typealias NavigationBuilder = () -> BeagleNavigationController
+
+    /// Register the default `BeagleNavigationController` to be used when creating a new navigation flow.
+    /// - Parameter builder: will be called when a `BeagleNavigationController` custom type needs to be used.
+    func registerDefaultNavigationController(builder: @escaping NavigationBuilder)
+
+    /// Register a `BeagleNavigationController` to be used when creating a new navigation flow with the associated `controllerId`.
+    /// - Parameters:
+    ///   - builder: will be called when a `BeagleNavigationController` custom type needs to be used.
+    ///   - controllerId: the cross platform id that identifies the controller in the BFF.
+    func registerNavigationController(builder: @escaping NavigationBuilder, forId controllerId: String)
+
+    /// You can use this to the right `BeagleNavigationController` instance depending on the `controllerId` used
+    /// - Parameter controllerId: if nil, will return the default navigation controller type
+    func navigationController(forId controllerId: String?) -> BeagleNavigationController
 }
 
 public protocol DependencyNavigation {
@@ -32,12 +49,15 @@ public protocol DependencyNavigation {
 }
 
 class BeagleNavigator: BeagleNavigation {
-    
+
     var defaultAnimation: BeagleNavigatorAnimation?
     
-    private typealias Transition = (BeagleController, UIViewController, Bool) -> Void
+    private var builders: [String: NavigationBuilder] = [:]
+    private var defaultBuilder: NavigationBuilder?
     
-    // MARK: - Navigate
+    // MARK: - Public Methods
+
+    // MARK: Navigate
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool = false) {
         controller.dependencies.logger.log(Log.navigation(.didReceiveAction(action)))
@@ -56,14 +76,44 @@ class BeagleNavigator: BeagleNavigation {
             popView(controller: controller, animated: animated)
         case let .popToView(route):
             popToView(identifier: route, controller: controller, animated: animated)
-        case let .pushStack(route):
-            navigate(route: route, origin: controller, animated: animated, transition: pushStack(origin:destination:animated:))
+        case let .pushStack(route, controllerId):
+            navigate(route: route,
+                     origin: controller,
+                     animated: animated) { [weak self] origin, destination, animated in
+                self?.pushStack(origin: origin, destination: destination, controllerId: controllerId, animated: animated)
+            }
         case .popStack:
             popStack(controller: controller, animated: animated)
         }
     }
     
-    // MARK: - Navigate Handle
+    // MARK: - Register
+
+    func registerDefaultNavigationController(builder: @escaping NavigationBuilder) {
+        defaultBuilder = builder
+    }
+
+    func registerNavigationController(builder: @escaping NavigationBuilder, forId controllerId: String) {
+        builders[controllerId] = builder
+    }
+
+    func navigationController(forId controllerId: String? = nil) -> BeagleNavigationController {
+        if let id = controllerId, let builder = builders[id] {
+            return builder()
+        } else {
+            if let providedBuilder = defaultBuilder {
+                return providedBuilder()
+            } else {
+                return dependencies.navigationControllerType.init()
+            }
+        }
+    }
+    
+    // MARK: - Private Methods
+
+    // MARK: Navigate Handle
+
+    private typealias Transition = (BeagleController, UIViewController, Bool) -> Void
     
     private func navigate(route: Route, origin: BeagleController, animated: Bool, transition: @escaping Transition) {
         viewController(
@@ -147,8 +197,8 @@ class BeagleNavigator: BeagleNavigation {
         controller.navigationController?.popToViewController(target, animated: animated)
     }
     
-    private func pushStack(origin: BeagleController, destination: UIViewController, animated: Bool) {
-        let navigationToPresent = origin.dependencies.navigationControllerType.init()
+    private func pushStack(origin: BeagleController, destination: UIViewController, controllerId: String? = nil, animated: Bool) {
+        let navigationToPresent = navigationController(forId: controllerId)
         navigationToPresent.viewControllers = [destination]
         
         if #available(iOS 13.0, *) {
@@ -218,14 +268,15 @@ class BeagleNavigator: BeagleNavigation {
         success: @escaping (BeagleScreenViewController) -> Void
     ) -> RequestToken? {
         
-        origin.serverDrivenState = .loading(true)
+        origin.serverDrivenState = .started
         let remote = ScreenType.Remote(url: path.url, fallback: path.fallback, additionalData: nil)
         
         return BeagleScreenViewController.remote(remote, dependencies: origin.dependencies) {
             [weak origin] result in guard let origin = origin else { return }
+            origin.serverDrivenState = .finished
             switch result {
             case .success(let viewController):
-                origin.serverDrivenState = .loading(false)
+                origin.serverDrivenState = .success
                 success(viewController)
             case .failure(let error):
                 origin.serverDrivenState = .error(.remoteScreen(error), retry)

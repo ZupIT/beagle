@@ -87,6 +87,7 @@ extension Button: Widget {
             self.clickAnalyticsEvent = clickAnalyticsEvent
             self.controller = controller
             self.addTarget(self, action: #selector(triggerTouchUpInsideActions), for: .touchUpInside)
+            setDefaultStyle()
         }
         
         @available(*, unavailable)
@@ -105,6 +106,11 @@ extension Button: Widget {
         private func applyStyle() {
             guard let styleId = styleId else { return }
             controller?.dependencies.theme.applyStyle(for: self as UIButton, withId: styleId)
+        }
+        
+        private func setDefaultStyle() {
+            setTitleColor(UIColor.systemBlue, for: .normal)
+            titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
         }
     }
 }

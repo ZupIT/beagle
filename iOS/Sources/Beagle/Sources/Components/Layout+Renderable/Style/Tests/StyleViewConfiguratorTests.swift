@@ -216,7 +216,20 @@ final class StyleViewConfiguratorTests: XCTestCase {
         // Then
         XCTAssert(sut.isFlexEnabled == false)
     }
-    
+
+    func testMarkDirty() {
+        // Given
+        let view = ViewDummy()
+        assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 50, height: 50)))
+
+        // When
+        view.addRedSubview()
+        view.style.markDirty()
+        assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 50, height: 50)))
+        
+        // Then
+        XCTAssertTrue(view.didCallLayoutSubviews)
+    }
 }
 
 final class StyleViewConfiguratorDummy: StyleViewConfiguratorProtocol {
@@ -226,4 +239,28 @@ final class StyleViewConfiguratorDummy: StyleViewConfiguratorProtocol {
     func setup(_ style: Style?) {}
     func applyLayout() {}
     func markDirty() {}
+}
+
+final class ViewDummy: UIView {
+    private(set) var didCallLayoutSubviews = false
+ 
+    override init(frame: CGRect) {
+        super.init(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        backgroundColor = .green
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        didCallLayoutSubviews = true
+    }
+    
+    func addRedSubview() {
+        let view = UIView(frame: .init(x: 1, y: 1, width: 20, height: 20))
+        view.backgroundColor = .red
+        addSubview(view)
+    }
 }

@@ -19,23 +19,11 @@ import Foundation
 import UIKit
 
 extension DynamicObject {
-    @available(*, deprecated, message: "use evaluate(with view: UIView) instead")
-    public func get(with view: UIView) -> DynamicObject {
-        return evaluate(with: view)
-    }
-    
     public func evaluate(with view: UIView) -> DynamicObject {
         switch self {
-        case .empty:
-            return .empty
-        case let .bool(bool):
-            return .bool(bool)
-        case let .int(int):
-            return .int(int)
-        case let .double(double):
-            return .double(double)
-        case let .string(string):
-            return .string(string)
+        case .empty, .bool, .int, .double, .string:
+            return self
+            
         case let .array(array):
             return .array(array.map { $0.evaluate(with: view) })
         case let .dictionary(dictionary):
@@ -45,12 +33,17 @@ extension DynamicObject {
             return dynamicObject ?? .empty
         }
     }
+    
+    @available(*, deprecated, message: "use evaluate(with view: UIView) instead")
+    public func get(with view: UIView) -> DynamicObject {
+        return evaluate(with: view)
+    }
 }
 
 // MARK: ExpressibleByLiteral
 
 extension DynamicObject: ExpressibleByNilLiteral {
-    public init(nilLiteral: ()) {
+    public init(nilLiteral: Void) {
         self = .empty
     }
 }
@@ -106,125 +99,75 @@ extension DynamicObject: ExpressibleByDictionaryLiteral {
 extension DynamicObject {
 
     mutating func set(_ value: DynamicObject, forPath path: Path) {
-        let object = _compilePath(value, path)
-        self = self.merge(object)
-    }
-    
-    func merge(_ other: DynamicObject) -> DynamicObject {
-        return _mergeDynamicObjects(self, other)
+        let object = compilePath(path, in: value)
+        self = mergeDynamicObjects(self, object)
     }
 }
 
-private func _compilePath(_ value: DynamicObject, _ path: Path) -> DynamicObject {
-    
-    guard let pathElement = path.nodes.first else {
+private func compilePath(_ path: Path, in value: DynamicObject) -> DynamicObject {
+    guard let current = path.nodes.first else {
         return value
     }
     
     let remainingPath = Path(nodes: Array(path.nodes[1..<path.nodes.count]))
     
-    if remainingPath.nodes.isEmpty {
-        
-        if case .key(let name) = pathElement {
-            return .dictionary([name: value])
-        }
-        
-        if case .index(let idx) = pathElement {
-            
-            let size = idx + 1
-            var array: [DynamicObject] = Array(
-                repeating: .empty,
-                count: size
-            )
-            
-            array[idx] = value
-            
-            return .array(array)
-        }
-    }
+    switch current {
+    case .key(let name):
+        return .dictionary([name: compilePath(remainingPath, in: value)])
     
-    var object: DynamicObject = .empty
-    
-    if case .key(let name) = pathElement {
-        object = .dictionary([name: _compilePath(value, remainingPath)])
-    }
-    
-    if case .index(let idx) = pathElement {
-        
-        let size = idx + 1
-        var array: [DynamicObject] = Array(
+    case .index(let index):
+        var array = [DynamicObject].init(
             repeating: .empty,
-            count: size
+            count: index + 1
         )
         
-        array[idx] = _compilePath(value, remainingPath)
-        
-        object = .array(array)
-    }
-    
-    return object
-}
-
-private func _mergeDynamicObjects(_ d1: DynamicObject, _ d2: DynamicObject) -> DynamicObject {
-    
-    if case .array(let array1) = d1, case .array(let array2) = d2 {
-        
-        func _select(_ e1: DynamicObject?, _ e2: DynamicObject?) -> DynamicObject? {
-            if e2 == nil { return e1 }
-            if case .empty = e2 { return e1 }
-            return e2
-        }
-        
-        let size = max(array1.count, array2.count)
-        var array = [DynamicObject](repeating: .empty, count: size)
-        for i in 0..<size {
-            if let element = _select(array1[safe: i], array2[safe: i]) {
-                array[i] = element
-            }
-        }
+        array[index] = compilePath(remainingPath, in: value)
         
         return .array(array)
     }
-    
-    guard case .dictionary(let dict1) = d1, case .dictionary(let dict2) = d2 else {
-        return d2
-    }
-    
-    var dObject: [String: DynamicObject] = [:]
-    
-    let d1Keys = dict1.keys
-    let d2Keys = dict2.keys
-    
-    for k in d1Keys where !d2Keys.contains(k) {
-        dObject[k] = dict1[k]
-    }
+}
 
-    for k in d2Keys where !d1Keys.contains(k) {
-        dObject[k] = dict2[k]
-    }
-
-    let commonKeys = d1Keys.filter {
-        d2Keys.contains($0)
-    }
-
-    for k in commonKeys {
-
-        guard let d1Obj = dict1[k], let d2Obj = dict2[k] else {
-            continue
-        }
+private func mergeDynamicObjects(_ object1: DynamicObject, _ object2: DynamicObject) -> DynamicObject {
+    switch(object1, object2) {
         
-        if case .dictionary = d1Obj, case .dictionary = d2Obj {
-            dObject[k] = _mergeDynamicObjects(d1Obj, d2Obj)
-            continue
-        }
+    case let (.array(array1), .array(array2)):
+        return mergeArrays(array1, array2)
+    
+    case let (.dictionary(dict1), .dictionary(dict2)):
+        return mergeDictionaries(dict1, dict2)
         
-        if case .array = d1Obj, case .array = d2Obj {
-            dObject[k] = _mergeDynamicObjects(d1Obj, d2Obj)
-            continue
-        }
+    default:
+        return object2
+    }
+}
 
-        dObject[k] = d2Obj
+private func mergeArrays(_ arrray1: [DynamicObject], _ array2: [DynamicObject]) -> DynamicObject {
+    func _select(_ e1: DynamicObject?, _ e2: DynamicObject?) -> DynamicObject? {
+        switch e2 {
+        case nil, .empty: return e1
+        default: return e2
+        }
     }
     
-    return .dictionary(dObject)
+    let size = max(arrray1.count, array2.count)
+    var array = [DynamicObject](repeating: .empty, count: size)
+    for i in 0..<size {
+        if let element = _select(arrray1[safe: i], array2[safe: i]) {
+            array[i] = element
+        }
+    }
+    
+    return .array(array)
+}
+
+private func mergeDictionaries(
+    _ dict1: [String: DynamicObject],
+    _ dict2: [String: DynamicObject]
+) -> DynamicObject {
+    var dict = dict1
+    dict.merge(dict2, uniquingKeysWith: { obj1, obj2 in
+        mergeDynamicObjects(obj1, obj2)
+    })
+    
+    return .dictionary(dict)
 }

@@ -21,37 +21,17 @@ import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.ContextBinding
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.ContextDataEvaluation
 import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.context.ImplicitContextManager
 import br.com.zup.beagle.android.utils.Observer
-import java.util.Stack
 
-@Suppress("TooManyFunctions")
 internal class ScreenContextViewModel(
     private val contextDataManager: ContextDataManager = ContextDataManager(),
     private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation(),
     private val implicitContextManager: ImplicitContextManager = ImplicitContextManager()
 ) : ViewModel() {
-
-    private val viewIds = Stack<Int>()
-
-    fun resetIds() {
-        viewIds.clear()
-    }
-
-    fun generateNewViewId(): Int {
-        val newId = if (viewIds.empty()) {
-            0
-        } else {
-            viewIds.peek() + 1
-        }
-
-        return viewIds.push(newId)
-    }
-
 
     fun addContext(view: View, contextData: ContextData) {
         contextDataManager.addContext(view, contextData)
@@ -65,17 +45,8 @@ internal class ScreenContextViewModel(
         contextDataManager.addBinding(view, bind, observer)
     }
 
-    fun linkBindingToContext() {
-        contextDataManager.linkBindingToContext()
-    }
-
-    fun linkBindingToContextAndEvaluateThem() {
-        contextDataManager.linkBindingToContext()
-        contextDataManager.evaluateContexts()
-    }
-
-    fun notifyBindingChanges(contextBinding: ContextBinding) {
-        contextDataManager.notifyBindingChanges(contextBinding)
+    fun linkBindingToContextAndEvaluateThem(view: View) {
+        contextDataManager.linkBindingToContextAndEvaluateThem(view)
     }
 
     fun addImplicitContext(contextData: ContextData, sender: Any, actions: List<Action>) {
@@ -90,7 +61,6 @@ internal class ScreenContextViewModel(
     }
 
     fun clearContexts() {
-        resetIds()
         contextDataManager.clearContexts()
     }
 

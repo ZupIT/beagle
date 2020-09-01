@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.utils.evaluateExpression
 
 @SuppressWarnings("UNUSED_PARAMETER")
@@ -97,7 +98,7 @@ data class SendRequest(
         url = evaluateExpression(rootView, origin, this.url) ?: "",
         method = evaluateExpression(rootView, origin, this.method) ?: RequestActionMethod.GET,
         headers = this.headers?.let { evaluateExpression(rootView, origin, it) },
-        data = this.data?.let { evaluateExpression(rootView, origin, it) },
+        data = this.data?.normalizeContextValue()?.let { evaluateExpression(rootView, origin, it) },
         onSuccess = this.onSuccess,
         onError = this.onError,
         onFinish = this.onFinish

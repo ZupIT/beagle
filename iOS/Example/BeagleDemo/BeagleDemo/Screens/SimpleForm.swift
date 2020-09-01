@@ -21,7 +21,7 @@ import BeagleSchema
 
 struct SimpleFormScreen: DeeplinkScreen {
     
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
     
     func screenController() -> UIViewController {
@@ -32,7 +32,7 @@ struct SimpleFormScreen: DeeplinkScreen {
         return Screen(navigationBar: NavigationBar(title: "Simple Form", showBackButton: true)) {
             Container {
                 SimpleForm(
-                    context: Context(id: "form", value: ["address":"You address","message":"You message"]),
+                    context: Context(id: "form", value: ["address": "You address", "message": "You message"]),
                     onSubmit: [
                         Alert(
                             title: "Seu Contexto",
@@ -44,7 +44,7 @@ struct SimpleFormScreen: DeeplinkScreen {
                     Button(text: "SimpleForm", onPress: [SubmitForm()])
                 }
                 SimpleForm(
-                    context: Context(id: "form", value: ["address":"beagle@beagle.com.br","message":"Hello Beagle"]),
+                    context: Context(id: "form", value: ["address": "beagle@beagle.com.br", "message": "Hello Beagle"]),
                     onSubmit: [
                         Alert(
                             title: "Contexto Beagle",

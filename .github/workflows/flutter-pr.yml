@@ -1,0 +1,48 @@
+name: Beagle Flutter Pull Request
+
+on:
+    push:
+        branches:
+            - master
+        paths:
+            - 'flutter/**'
+    pull_request:
+        paths:
+            - 'flutter/**'
+            - 'Gemfile'
+jobs:
+    pr-verification:
+        name: PR Check
+        runs-on: macos-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -   uses: subosito/flutter-action@v1
+                with:
+                  channel: 'stable' # or: 'dev' or 'beta'
+            -   name: Cache fastlane dependences
+                uses: actions/cache@v2
+                env:
+                    fastlane-cache-key: fastlane-cache
+                    fastlane-path: ~/.gem
+                with:
+                    path: ${{ env.fastlane-path }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}
+            -   name: Install Fastlane
+                run: bundle config set path '~/.gem' && bundle install
+
+            -   name: Cache pub dependences
+                uses: actions/cache@v2
+                env:
+                    pub-cache-key: pub-cache
+                    pub-path: ~/.pub-cache
+                with:
+                    path: ${{ env.pub-path }}
+                    key: ${{ runner.os }}-build-${{ env.pub-cache-key }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.pub-cache-key }}
+            -   name: Run pr check
+                env:
+                    GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+                    GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+                    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+                run: bundle exec fastlane flutter pull_request_verification

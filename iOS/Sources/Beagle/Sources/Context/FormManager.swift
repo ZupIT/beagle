@@ -156,15 +156,16 @@ private struct SubmitRemoteFormAction: Action {
     let group: String?
     
     func execute(controller: BeagleController, origin: UIView) {
-        controller.serverDrivenState = .loading(true)
+        controller.serverDrivenState = .started
         let data = Request.FormData(
             method: remote.method,
             values: inputs
         )
         controller.dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
-            controller.serverDrivenState = .loading(false)
+            controller.serverDrivenState = .finished
             switch $0 {
             case .success(let action):
+                controller.serverDrivenState = .success
                 controller.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: self.group)
                 controller.execute(actions: [action], origin: origin)
             case .failure(let error):

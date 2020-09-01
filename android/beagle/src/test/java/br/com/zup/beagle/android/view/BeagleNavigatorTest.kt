@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.view
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -32,12 +33,15 @@ import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
+import br.com.zup.beagle.android.widget.RootView
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkClass
+import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
@@ -59,8 +63,11 @@ class BeagleNavigatorTest {
     @MockK
     private lateinit var fragmentTransaction: FragmentTransaction
 
-    @MockK(relaxed = true)
+    @MockK(relaxed = true, relaxUnitFun = true)
     private lateinit var intent: Intent
+
+    @MockK(relaxed = true)
+    private lateinit var rootView: RootView
 
     @MockK
     private lateinit var deepLinkHandler: DeepLinkHandler
@@ -74,12 +81,17 @@ class BeagleNavigatorTest {
         every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
         every { BeagleEnvironment.beagleSdk.logger } returns null
         every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
+        every { BeagleEnvironment.beagleSdk.controllerReference } returns mockk(relaxed = true)
 
         mockkObject(BeagleFragment.Companion)
         mockkObject(BeagleActivity.Companion)
         mockkObject(BeagleLoggerProxy)
+        mockkConstructor(Intent::class)
 
-        every { BeagleActivity.newIntent(any(), any(), any()) } returns intent
+        every { anyConstructed<Intent>().putExtras(any<Bundle>()) } returns intent
+        every { anyConstructed<Intent>().addFlags(any()) } returns intent
+        every { BeagleActivity.bundleOf(any<ScreenRequest>()) } returns mockk()
+        every { BeagleActivity.bundleOf(any<Screen>()) } returns mockk()
 
         val supportFragmentManager = mockk<FragmentManager>()
         every { context.supportFragmentManager } returns supportFragmentManager
@@ -134,16 +146,16 @@ class BeagleNavigatorTest {
     fun handle_should_call_OpenNativeRoute_to_startActivity() {
         // Given
         val map = mapOf("keyStub" to "valueStub")
-        val intent = mockk<Intent>()
+        val intent = mockk<Intent>(relaxUnitFun = true, relaxed = true)
         every { context.startActivity(any()) } just Runs
         every { BeagleEnvironment.beagleSdk.deepLinkHandler } returns deepLinkHandler
-        every { deepLinkHandler.getDeepLinkIntent(any(), any(), any()) } returns intent
+        every { deepLinkHandler.getDeepLinkIntent(any(), any(), any(), any()) } returns intent
 
         // When
-        BeagleNavigator.openNativeRoute(context, url, map, false)
+        BeagleNavigator.openNativeRoute(rootView, url, map, false)
 
         // Then
-        verify(exactly = once()) { context.startActivity(intent) }
+        verify(exactly = once()) { rootView.getContext().startActivity(intent) }
     }
 
     @Test
@@ -194,7 +206,7 @@ class BeagleNavigatorTest {
         BeagleNavigator.pushView(context, route)
 
         // Then
-        verify(exactly = once()) { context.startActivity(intent) }
+        verify(exactly = once()) { context.startActivity(any()) }
     }
 
     @Test
@@ -202,13 +214,13 @@ class BeagleNavigatorTest {
         // Given
         every { context.startActivity(any()) } just Runs
         val flagSlot = slot<Int>()
-        every { intent.addFlags(capture(flagSlot)) } returns intent
+        every { anyConstructed<Intent>().addFlags(capture(flagSlot)) } returns intent
 
         // When
-        BeagleNavigator.resetApplication(context, route)
+        BeagleNavigator.resetApplication(context, route, null)
 
         // Then
-        verify(exactly = once()) { context.startActivity(intent) }
+        verify(exactly = once()) { context.startActivity(any()) }
         assertEquals(
             flagSlot.captured,
             (Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -222,11 +234,11 @@ class BeagleNavigatorTest {
         every { context.startActivity(any()) } just Runs
 
         // When
-        BeagleNavigator.resetStack(context, route)
+        BeagleNavigator.resetStack(context, route, null)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.popStack(context) }
-        verify(exactly = once()) { context.startActivity(intent) }
+        verify(exactly = once()) { context.startActivity(any()) }
     }
 
     @Test
@@ -248,10 +260,10 @@ class BeagleNavigatorTest {
         every { context.startActivity(any()) } just Runs
 
         // When
-        BeagleNavigator.pushStack(context, route)
+        BeagleNavigator.pushStack(context, route, null)
 
         // Then
-        verify(exactly = once()) { context.startActivity(intent) }
+        verify(exactly = once()) { context.startActivity(any()) }
     }
 
     @Test
