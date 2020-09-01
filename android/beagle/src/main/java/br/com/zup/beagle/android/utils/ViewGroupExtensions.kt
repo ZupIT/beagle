@@ -44,9 +44,15 @@ fun ViewGroup.loadView(
     activity: AppCompatActivity,
     screenRequest: ScreenRequest
 ) {
-    loadView(this, ActivityRootView(activity, this.id), screenRequest, object : OnServerStateChanged {
-        override fun invoke(serverState: ServerDrivenState) {}
-    })
+    loadView(
+        viewGroup = this,
+        rootView = ActivityRootView(activity, this.id),
+        screenRequest = screenRequest,
+        listener = null,
+        newListener = object : OnServerStateChanged {
+            override fun invoke(serverState: ServerDrivenState) {}
+        }
+    )
 }
 
 /**
@@ -58,9 +64,15 @@ fun ViewGroup.loadView(
     fragment: Fragment,
     screenRequest: ScreenRequest
 ) {
-    loadView(this, FragmentRootView(fragment, this.id), screenRequest, object : OnServerStateChanged {
-        override fun invoke(serverState: ServerDrivenState) {}
-    })
+    loadView(
+        viewGroup = this,
+        rootView = FragmentRootView(fragment, this.id),
+        screenRequest = screenRequest,
+        listener = null,
+        newListener = object : OnServerStateChanged {
+            override fun invoke(serverState: ServerDrivenState) {}
+        }
+    )
 }
 
 /**
