@@ -77,14 +77,12 @@ internal fun View.getParentContextData(): View? {
 
 internal fun View.setContextData(context: ContextData) {
     val normalizedContext = context.normalize()
-    val contextBinding = this.getContextBinding()
+    val contextBinding = getContextBinding()
     if (contextBinding != null) {
         contextBinding.context = normalizedContext
         contextBinding.cache.evictAll()
     } else {
-        this.setContextBinding(ContextBinding(
-            normalizedContext
-        ))
+        setContextBinding(ContextBinding(normalizedContext))
     }
 }
 
