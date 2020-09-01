@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_LOADING_VIEW
 import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
@@ -34,6 +35,34 @@ import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
 internal var beagleSerializerFactory = BeagleSerializer()
+
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property activity that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ */
+fun ViewGroup.loadView(
+    activity: AppCompatActivity,
+    screenRequest: ScreenRequest
+) {
+    loadView(this, ActivityRootView(activity, this.id), screenRequest, object : OnServerStateChanged {
+        override fun invoke(serverState: ServerDrivenState) {}
+    })
+}
+
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property fragment that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ */
+fun ViewGroup.loadView(
+    fragment: Fragment,
+    screenRequest: ScreenRequest
+) {
+    loadView(this, FragmentRootView(fragment, this.id), screenRequest, object : OnServerStateChanged {
+        override fun invoke(serverState: ServerDrivenState) {}
+    })
+}
 
 /**
  * Load a ServerDrivenComponent into this ViewGroup
@@ -72,7 +101,11 @@ fun ViewGroup.loadView(
  * @property listener is called when the loading is started and finished
  */
 @Deprecated(DEPRECATED_LOADING_VIEW)
-fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
+fun ViewGroup.loadView(
+    activity: AppCompatActivity,
+    screenRequest: ScreenRequest,
+    listener: OnStateChanged? = null
+) {
     loadView(this, ActivityRootView(activity, this.id), screenRequest, listener)
 }
 
@@ -83,7 +116,11 @@ fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest
  * @property listener is called when the loading is started and finished
  */
 @Deprecated(DEPRECATED_LOADING_VIEW)
-fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
+fun ViewGroup.loadView(
+    fragment: Fragment,
+    screenRequest: ScreenRequest,
+    listener: OnStateChanged? = null
+) {
     loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
 }
 
