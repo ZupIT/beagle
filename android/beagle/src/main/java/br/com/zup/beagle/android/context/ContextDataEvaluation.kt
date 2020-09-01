@@ -114,7 +114,7 @@ internal class ContextDataEvaluation(
         return bind.value.split(regex).joinToString("") {
             val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
             if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
-                val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
+                val key = "\\{([^\\@]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
                 val value = escapeReplacement(evaluatedExpressions[key].toString())
                 it.replace("@{$key}", value)
             } else {

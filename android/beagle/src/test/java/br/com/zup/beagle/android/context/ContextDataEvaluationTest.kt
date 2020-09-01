@@ -456,6 +456,18 @@ internal class ContextDataEvaluationTest : BaseTest() {
         }
     }
 
+    @Test
+    fun evaluateAllContext_with_literal_string() {
+        // Given
+        val bind = expressionOf<String>("@{'hello world, this is { beagle }!}'}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals("hello world, this is { beagle }}!", value)
+    }
+
     private fun createEscapeBindingMockCases(): List<EscapingTestCases> = listOf(
         EscapingTestCases("@{context}", "value"),
         EscapingTestCases("@{context} test", "value test"),
