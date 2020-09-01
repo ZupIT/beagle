@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -56,7 +57,7 @@ internal data class PageViewTwo(
         }
 
         configPageChangeListener(viewPager, rootView)
-        observerCurrentPage(viewPager, rootView)
+        observerCurrentPage(viewPager, container, rootView)
 
         return container
     }
@@ -84,10 +85,10 @@ internal data class PageViewTwo(
         }
     }
 
-    private fun observerCurrentPage(viewPager: BeaglePageView, rootView: RootView){
+    private fun observerCurrentPage(viewPager: BeaglePageView, container: BeagleFlexView, rootView: RootView) {
         currentPage?.let {
-            observeBindChanges(rootView = rootView, view = viewPager,  bind = it){position ->
-                position?.let{
+            observeBindChanges(rootView = rootView, view = container, bind = it) { position ->
+                position?.let {
                     viewPager.swapToPage(position)
                 }
             }
