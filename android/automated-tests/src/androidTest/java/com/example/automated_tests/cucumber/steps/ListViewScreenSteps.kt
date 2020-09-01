@@ -46,8 +46,8 @@ class ListViewScreenSteps {
     @Given("^that I'm on the listview screen$")
     fun checkListViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText(LISTVIEW_SCREEN_HEADER)
+            .checkViewContainsText(MAIN_HEADER, true)
+            .checkViewContainsText(LISTVIEW_SCREEN_HEADER, true)
             .sleep(2)
     }
 
@@ -88,6 +88,5 @@ class ListViewScreenSteps {
 //            .scrollTo("Dynamic HORIZONTAL ListView")
 //            .sleep(2)
 //    }
-
 
 }

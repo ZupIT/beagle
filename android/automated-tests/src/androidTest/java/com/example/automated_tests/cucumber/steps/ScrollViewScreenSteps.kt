@@ -46,8 +46,8 @@ class ScrollViewScreenSteps {
     @Given("^that I'm on the scrollview screen$")
     fun checkScrollViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText(SCROLLVIEW_SCREEN_HEADER)
+            .checkViewContainsText(MAIN_HEADER, true)
+            .checkViewContainsText(SCROLLVIEW_SCREEN_HEADER, true)
             .sleep(2)
     }
 
