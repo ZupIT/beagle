@@ -68,10 +68,8 @@ class AppBeagleActivitiy : BeagleActivity() {
     }
 
     companion object {
-        fun newIntent(context: Context, screenRequest: ScreenRequest): Intent {
-            return newIntent(context).apply {
-                putExtra("FIRST_SCREEN_REQUEST_KEY", screenRequest)
-            }
+        fun newAppIntent(context: Context, screenRequest: ScreenRequest): Intent {
+            return newIntent(context, screenRequest)
         }
     }
 

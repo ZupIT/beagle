@@ -37,7 +37,7 @@ class TestUtils {
 
         fun startBeagleActivity(activityTestRule: ActivityTestRule<AppBeagleActivitiy>, url: String) {
 
-            val intent = AppBeagleActivitiy.newIntent(activityTestRule.activity, ScreenRequest(url))
+            val intent = AppBeagleActivitiy.newAppIntent(activityTestRule.activity, ScreenRequest(url))
             activityTestRule.launchActivity(intent)
         }
     }
