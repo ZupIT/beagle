@@ -47,7 +47,7 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null
 ) {
-    loadView(this, ActivityRootView(activity, this.id), screenRequest, listener)
+    loadView(this, ActivityRootView(activity, this.id), screenRequest, null, listener)
 }
 
 /**
@@ -62,7 +62,7 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null
 ) {
-    loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
+    loadView(this, FragmentRootView(fragment, this.id), screenRequest, null, listener)
 }
 
 /**
@@ -87,46 +87,25 @@ fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listene
     loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
 }
 
-@Deprecated(DEPRECATED_LOADING_VIEW)
 private fun loadView(
     viewGroup: ViewGroup,
     rootView: RootView,
     screenRequest: ScreenRequest,
-    listener: OnStateChanged?
+    listener: OnStateChanged? = null,
+    newListener: OnServerStateChanged? = null
 ) {
     val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
     viewModel.createIfNotExisting(rootView.getParentId())
     val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
         stateChangedListener = listener
+        serverStateChangedListener = newListener
         loadView(screenRequest)
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
 
     }
-    view.onViewDetachedFromWindow {
-        viewModel.setViewCreated(rootView.getParentId())
-    }
-}
-
-@JvmName("loadView2")
-private fun loadView(
-    viewGroup: ViewGroup,
-    rootView: RootView,
-    screenRequest: ScreenRequest,
-    listener: OnServerStateChanged?
-) {
-    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
-    viewModel.createIfNotExisting(rootView.getParentId())
-    val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
-        serverStateChangedListener = listener
-        loadView(screenRequest)
-    }
-    view.loadCompletedListener = {
-        viewGroup.addView(view)
-    }
-
-    view.onViewDetachedFromWindow {
+    view.listenerOnViewDetachedFromWindow = {
         viewModel.setViewCreated(rootView.getParentId())
     }
 }

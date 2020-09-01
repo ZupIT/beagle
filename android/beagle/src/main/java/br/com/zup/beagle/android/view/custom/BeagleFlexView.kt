@@ -44,6 +44,8 @@ internal open class BeagleFlexView(
         flexMapper: FlexMapper = FlexMapper()
     ) : this(rootView, Style(), flexMapper)
 
+    var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
+
     fun addView(child: View, style: Style) {
         super.addView(child, flexMapper.makeYogaNode(style))
     }
@@ -65,17 +67,9 @@ internal open class BeagleFlexView(
         viewModel.linkBindingToContextAndEvaluateThem(this)
     }
 
-    fun onViewDetachedFromWindow(callback: () -> Unit): BeagleFlexView {
-        this.addOnAttachStateChangeListener(
-            object : OnAttachStateChangeListener {
-                override fun onViewDetachedFromWindow(v: View?) {
-                    callback()
-                }
-
-                override fun onViewAttachedToWindow(v: View?) {}
-            })
-        return this
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        listenerOnViewDetachedFromWindow?.invoke()
     }
-
 
 }

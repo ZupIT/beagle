@@ -78,7 +78,6 @@ class WidgetExtensionsKtTest : BaseTest() {
         val beagleFlexView = mockk<BeagleFlexView>(relaxed = true, relaxUnitFun = true)
 
         every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
-        every { beagleFlexView.onViewDetachedFromWindow(any()) } returns beagleFlexView
         every { rootView.getContext() } returns mockk()
 
         // When
@@ -89,7 +88,7 @@ class WidgetExtensionsKtTest : BaseTest() {
             generateIdViewModel.createIfNotExisting(0)
             beagleFlexView.id = 0
             beagleFlexView.addServerDrivenComponent(component)
-            beagleFlexView.onViewDetachedFromWindow(any())
+            beagleFlexView.listenerOnViewDetachedFromWindow = any()
         }
 
         assertEquals(beagleFlexView, actual)
