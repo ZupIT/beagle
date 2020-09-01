@@ -46,6 +46,7 @@ final class RepositoryTests: XCTestCase {
         }
     }
 
+    // swiftlint:disable force_unwrapping
     func test_requestWithInvalidURL_itShouldFail() {
         let sut = RepositoryDefault(dependencies: BeagleDependencies())
         let invalidURL = "🥶"
@@ -53,6 +54,9 @@ final class RepositoryTests: XCTestCase {
         // When
         let fetchComponentExpectation = expectation(description: "fetchComponent")
         var fetchError: Request.Error?
+        let expectedError = Request.Error.networkError(.init(error:
+            NSError(domain: "kCFErrorDomainCFNetwork", code: 1002, description: ""), request: .init(url: URL(string: "url")!)
+        ))
 
         sut.fetchComponent(url: invalidURL, additionalData: nil) {
             if case let .failure(error) = $0 {
@@ -74,15 +78,10 @@ final class RepositoryTests: XCTestCase {
             submitFormExpectation.fulfill()
         }
         wait(for: [fetchComponentExpectation, submitFormExpectation], timeout: 1.0)
-
+                
         // Then
-        guard
-            case .urlBuilderError = fetchError,
-            case .urlBuilderError = formError
-        else {
-            XCTFail("Expected an error")
-            return
-        }
+        XCTAssertEqual(expectedError.localizedDescription, fetchError?.localizedDescription)
+        XCTAssertEqual(expectedError.localizedDescription, formError?.localizedDescription)
     }
     
     func test_whenRequestSucceeds_withValidData_itShouldReturnSomeComponent() {

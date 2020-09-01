@@ -112,7 +112,7 @@ class BeagleApiTest {
         // Given
         val responseData: ResponseData = mockk()
         val message = "fetchData error for url ${REQUEST_DATA.uri}"
-        val expectedException = BeagleApiException(responseData, message)
+        val expectedException = BeagleApiException(responseData, REQUEST_DATA, message)
         mockListenersAndExecuteHttpClient { onErrorSlot.captured(responseData) }
 
         // When

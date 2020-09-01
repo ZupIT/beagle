@@ -27,6 +27,13 @@ import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.ImageContentMode
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 
 class ImageViewFragment : Fragment() {
     override fun onCreateView(
@@ -37,7 +44,10 @@ class ImageViewFragment : Fragment() {
             child = Container(
                 children = listOf(
                     Image(
-                        path = ImagePath.Remote("https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png")
+                        path = ImagePath.Remote(
+                            "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png",
+                            placeholder = ImagePath.Local("imageBeagle")
+                        )
                     ),
                     Text(text = "Opa!!!")
                 )

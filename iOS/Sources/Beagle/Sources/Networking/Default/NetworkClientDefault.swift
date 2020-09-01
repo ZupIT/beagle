@@ -57,7 +57,7 @@ public class NetworkClientDefault: NetworkClient {
         let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
             self.dependencies.logger.log(Log.network(.httpResponse(response: .init(data: data, response: response))))
-            completion(self.handleResponse(data: data, response: response, error: error))
+            completion(self.handleResponse(data: data, request: urlRequest, response: response, error: error))
         }
         
         dependencies.logger.log(Log.network(.httpRequest(request: .init(url: urlRequest))))
@@ -67,11 +67,12 @@ public class NetworkClientDefault: NetworkClient {
 
     private func handleResponse(
         data: Data?,
+        request: URLRequest,
         response: URLResponse?,
         error: Swift.Error?
     ) -> NetworkClient.NetworkResult {
         if let error = error {
-            return .failure(.init(error: error))
+            return .failure(NetworkError(error: error, request: request))
         }
 
         guard
@@ -82,6 +83,7 @@ public class NetworkClientDefault: NetworkClient {
             return .failure(NetworkError(
                 error: ClientError.invalidHttpResponse,
                 data: data,
+                request: request,
                 response: response
             ))
         }

@@ -74,6 +74,24 @@ class ContextDataManipulatorTest {
     }
 
     @Test
+    fun `set should ignore contextId and replace context value when path is empty`() {
+        // Given
+        val context = ContextData(
+            id = CONTEXT_ID,
+            value = JSONObject()
+        )
+        val value = false
+        val path = "$CONTEXT_ID.a"
+
+        // When
+        val result = contextDataManipulator.set(context = context, value = value, path = path)
+
+        // Then
+        val newValue = (result as ContextSetResult.Succeed).newContext.value.toString()
+        assertEquals("{\"a\":false}", newValue)
+    }
+
+    @Test
     fun `set should create extra keys before set value`() {
         // Given
         val context = ContextData(
@@ -194,6 +212,26 @@ class ContextDataManipulatorTest {
     }
 
     @Test
+    fun `clear should ignore contextId on path`() {
+        // Given
+        val context = ContextData(
+            id = CONTEXT_ID,
+            value = createMockJSONObject()
+        )
+        val path = "$CONTEXT_ID.a"
+
+        // When
+        val result = contextDataManipulator.clear(context, path)
+
+        // Then
+        assertTrue { result is ContextSetResult.Succeed }
+        val succeed = result as ContextSetResult.Succeed
+        assertFails {
+            (succeed.newContext.value as JSONObject).getJSONObject("a")
+        }
+    }
+
+    @Test
     fun `clear should delete specific JSONArray node when path is given`() {
         // Given
         val context = ContextData(
@@ -245,6 +283,65 @@ class ContextDataManipulatorTest {
 
         // Then
         assertEquals(true, value)
+    }
+
+    @Test
+    fun `get should return value from array path`() {
+        // Given
+        val path = "[0]"
+        val contextData = ContextData(
+            id = CONTEXT_ID,
+            value = JSONArray().apply {
+                put("0")
+                put("1")
+            }
+        )
+
+        // When
+        val value = contextDataManipulator.get(contextData, path)
+
+        // Then
+        assertEquals("0", value)
+    }
+
+    @Test
+    fun `get should return value from array`() {
+        // Given
+        val path = "$CONTEXT_ID[0]"
+        val contextData = ContextData(
+            id = CONTEXT_ID,
+            value = JSONArray().apply {
+                put("0")
+                put("1")
+            }
+        )
+
+        // When
+        val value = contextDataManipulator.get(contextData, path)
+
+        // Then
+        assertEquals("0", value)
+    }
+
+    @Test
+    fun `get should return value from array inside object`() {
+        // Given
+        val path = "$CONTEXT_ID.a[0]"
+        val contextData = ContextData(
+            id = CONTEXT_ID,
+            value = JSONObject().apply {
+                put("a", JSONArray().apply {
+                    put("0")
+                    put("1")
+                })
+            }
+        )
+
+        // When
+        val value = contextDataManipulator.get(contextData, path)
+
+        // Then
+        assertEquals("0", value)
     }
 
     @Test

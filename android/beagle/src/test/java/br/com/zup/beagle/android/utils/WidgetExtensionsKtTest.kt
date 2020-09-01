@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.support.v7.app.AppCompatActivity
+import android.arch.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
@@ -26,12 +26,13 @@ import br.com.zup.beagle.android.mockdata.createViewForContext
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
+import io.mockk.verifySequence
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -40,23 +41,15 @@ class WidgetExtensionsKtTest : BaseTest() {
     private val component = mockk<ServerDrivenComponent>()
     private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
     private val view = createViewForContext()
-
-    private lateinit var viewModel: ScreenContextViewModel
+    private val generateIdViewModel: GenerateIdViewModel = mockk(relaxed = true)
+    private val contextViewModel: ScreenContextViewModel = mockk(relaxed = true)
 
     override fun setUp() {
         super.setUp()
-
-        mockkObject(ViewModelProviderFactory)
-
-        viewModel = ScreenContextViewModel()
-
-        every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
-        } returns viewModel
-
         viewFactory = viewFactoryMock
 
-        prepareViewModelMock(viewModel)
+        prepareViewModelMock(generateIdViewModel)
+        every { anyConstructed<ViewModelProvider>().get(contextViewModel::class.java) } returns contextViewModel
     }
 
     @Test
@@ -64,7 +57,7 @@ class WidgetExtensionsKtTest : BaseTest() {
         // Given
         val value = RandomData.string()
         val bind = expressionOf<String>("Hello @{context}")
-        viewModel.addContext(view, ContextData(
+        contextViewModel.addContext(view, ContextData(
             id = "context",
             value = value
         ))
@@ -76,13 +69,14 @@ class WidgetExtensionsKtTest : BaseTest() {
             assertEquals(expected, evaluated)
         }
 
-        viewModel.linkBindingToContextAndEvaluateThem()
+        contextViewModel.linkBindingToContextAndEvaluateThem(view)
     }
 
     @Test
     fun toView() {
         // Given
-        val beagleFlexView = mockk<BeagleFlexView>(relaxed = true)
+        val beagleFlexView = mockk<BeagleFlexView>(relaxed = true, relaxUnitFun = true)
+
         every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
         every { rootView.getContext() } returns mockk()
 
@@ -90,6 +84,13 @@ class WidgetExtensionsKtTest : BaseTest() {
         val actual = component.toView(rootView)
 
         // Then
+        verifySequence {
+            generateIdViewModel.createIfNotExisting(0)
+            beagleFlexView.id = 0
+            beagleFlexView.addServerDrivenComponent(component)
+            generateIdViewModel.setViewCreated(0)
+        }
+
         assertEquals(beagleFlexView, actual)
     }
 

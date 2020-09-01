@@ -57,8 +57,9 @@ final class SendRequestTests: XCTestCase {
     
     func test_whenSendRequestWithError_shouldDoRequestAndTriggerActions() {
         // Given
+        let url = "http://mock"
         let sendRequest = SendRequest(
-            url: "http://mock",
+            url: "\(url)",
             method: .get
         )
         let view = UIView()
@@ -69,8 +70,13 @@ final class SendRequestTests: XCTestCase {
             "error": "errorString"
         }
         """.data(using: .utf8)!
+        let networkError = NetworkError(
+            error: NSError(),
+            data: jsonData,
+            request: URLRequest(url: URL(string: url)!),
+            response: URLResponse()
+        )
         // swiftlint:enable force_unwrapping
-        let networkError = NetworkError(error: NSError(), data: jsonData, response: URLResponse())
         let networkClient = NetworkClientStub(result: .failure(networkError))
         controller.dependencies = BeagleScreenDependencies(networkClient: networkClient)
         let expec = expectation(description: "executeActions")

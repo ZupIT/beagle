@@ -19,8 +19,12 @@ import Beagle
 import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
-    init() {}
-    init(path: String, data: [String: String]?) {}
+    init() {
+        // Intentionally unimplemented...
+    }
+    init(path: String, data: [String: String]?) {
+        // Intentionally unimplemented...
+    }
     
     func screenController() -> UIViewController {
         let screen = Screen(
@@ -28,7 +32,8 @@ struct MainScreen: DeeplinkScreen {
             child: buildChild()
         )
 
-        return BeagleScreenViewController(.declarative(screen))
+        return BeagleScreenViewController(.declarative(screen),
+                                          controllerId: "CustomBeagleNavigation")
     }
     
     private func buildChild() -> ScrollView {
@@ -36,35 +41,35 @@ struct MainScreen: DeeplinkScreen {
             children: [
                 Button(
                     text: "Navigator",
-                    onPress: [Navigate.pushView(.remote(.init(url: .NAVIGATE_ENDPOINT, shouldPrefetch: true)))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .navigateStep1Endpoint))]
                 ),
                 Button(
                     text: "Form & Lazy Component",
-                    onPress: [Navigate.openNativeRoute(.init(route: .LAZY_COMPONENTS_ENDPOINT))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .lazyComponentEndpoint))]
                 ),
                 Button(
                     text: "Page View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .PAGE_VIEW_ENDPOINT))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .pageViewEndpoint))]
                 ),
                 Button(
                     text: "Tab View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .TAB_VIEW_ENDPOINT))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .tabViewEndpoint))]
                 ),
                 Button(
                     text: "List View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .LIST_VIEW_ENDPOINT))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .listViewEndpoint))]
                 ),
                 Button(
                     text: "Form",
-                    onPress: [Navigate.openNativeRoute(.init(route: .FORM_ENDPOINT))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .formEndpoint))]
                 ),
                 Button(
                     text: "Custom Component",
-                    onPress: [Navigate.openNativeRoute(.init(route: .CUSTOM_COMPONENT_ENDPOINT))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .customComponentEndpoint))]
                 ),
                 Button(
                     text: "Web View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .WEB_VIEW_ENDPOINT))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .webViewEndpoint))]
                 ),
                 Button(
                     text: "Send Request",
@@ -75,12 +80,20 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
                 ),
                 Button(
+                    text: "Context Operations",
+                    onPress: [Navigate.pushView(.declarative(operationsMenuScreen))]
+                ),
+                Button(
                     text: "Simple Form",
-                    onPress: [Navigate.openNativeRoute(.init(route: .SIMPLE_FORM_ENDPOINT))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .simpleFormEndpoint))]
+                ),
+                Button(
+                    text: "Add Children",
+                    onPress: [Navigate.pushView(.declarative(addChildrenScreen))]
                 ),
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.init(url: .COMPONENTS_ENDPOINT)))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .componentsEndpoint)))]
                 )
             ]
         )

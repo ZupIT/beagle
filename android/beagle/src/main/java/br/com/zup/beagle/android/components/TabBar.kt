@@ -54,14 +54,14 @@ data class TabBar(
     override fun buildView(rootView: RootView): View {
         val containerFlex = Style(flex = Flex(grow = 1.0))
         val tabBar = makeTabLayout(rootView.getContext())
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), containerFlex)
+        val container = viewFactory.makeBeagleFlexView(rootView, containerFlex)
         configTabSelectedListener(tabBar, rootView)
         configCurrentTabObserver(tabBar, rootView)
         container.addView(tabBar)
         return container
     }
 
-    private fun makeTabLayout(context: Context) : TabLayout = viewFactory.makeTabLayout(
+    private fun makeTabLayout(context: Context): TabLayout = viewFactory.makeTabLayout(
         context,
         styleManagerFactory.getTabViewStyle(styleId)
     ).apply {
@@ -119,7 +119,6 @@ data class TabBar(
             override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
-
         })
     }
 
@@ -131,9 +130,7 @@ data class TabBar(
                 }
             }
         }
-
     }
-
 }
 
 data class TabBarItem(

@@ -17,7 +17,11 @@
 package br.com.zup.beagle.android.navigation
 
 import android.content.Intent
+import br.com.zup.beagle.android.widget.RootView
 
 interface DeepLinkHandler {
-    fun getDeepLinkIntent(path: String, data: Map<String, String>?, shouldResetApplication: Boolean): Intent
+    fun getDeepLinkIntent(rootView: RootView,
+                          path: String,
+                          data: Map<String, String>?,
+                          shouldResetApplication: Boolean): Intent
 }

@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.android.components
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
@@ -35,7 +33,6 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
@@ -63,20 +60,10 @@ data class Image(
         observeBindChanges(rootView, imageView, path) { pathType ->
             when (pathType) {
                 is ImagePath.Local -> {
-                    imageView.apply {
-                        BeagleEnvironment.beagleSdk.designSystem?.image(pathType.mobileId)?.let {
-                            try {
-                                setImageResource(it)
-                            } catch (ex: Exception) {
-                                BeagleMessageLogs.errorWhileTryingToSetInvalidImage(pathType.mobileId, ex)
-                            }
-                        }
-                    }
+                    loadLocalImage(imageView, pathType)
                 }
                 is ImagePath.Remote -> {
-                    val placeholder = pathType.placeholder?.mobileId
-                    val requestOptions = getGlideRequestOptions(placeholder)
-                    imageView.loadImage(pathType, requestOptions)
+                    loadRemoteImage(imageView, pathType)
                 }
             }
         }
@@ -88,33 +75,47 @@ data class Image(
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
     }
 
+    private fun loadLocalImage(imageView: ImageView, pathType: ImagePath.Local) {
+        imageView.apply {
+            getImage(pathType.mobileId)?.let {
+                try {
+                    setImageResource(it)
+                } catch (ex: Exception) {
+                    BeagleMessageLogs.errorWhileTryingToSetInvalidImage(pathType.mobileId, ex)
+                }
+            }
+        }
+    }
+
+    private fun loadRemoteImage(imageView: ImageView, pathType: ImagePath.Remote) {
+        val placeholder = pathType.placeholder?.mobileId
+        setPlaceHolder(placeholder, imageView)
+        imageView.loadImage(pathType)
+    }
+
+    private fun setPlaceHolder(placeholder: String?, imageView: ImageView) {
+        getImage(placeholder)?.let {
+            imageView.setImageResource(it)
+        }
+    }
+
     private fun ImageView.loadImage(
-        path: ImagePath.Remote,
-        requestOptions: RequestOptions) {
+        path: ImagePath.Remote) {
         Glide.with(this)
-            .setDefaultRequestOptions(requestOptions)
-            .asBitmap()
             .load(path.url.formatUrl())
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    this@loadImage.setImageBitmap(resource)
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    this@loadImage.setImageDrawable(resource)
+                    this@loadImage.requestLayout()
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {}
             })
+
     }
 
-    @SuppressLint("CheckResult")
-    private fun getGlideRequestOptions(placeholder: String?): RequestOptions {
-        val requestOptions = RequestOptions()
-        getPlaceholder(placeholder)?.let {
-            requestOptions.placeholder(it)
-        }
-        return requestOptions
-    }
-
-    private fun getPlaceholder(placeholder: String?): Int? =
-        placeholder?.let {
+    private fun getImage(imagePath: String?): Int? =
+        imagePath?.let {
             BeagleEnvironment.beagleSdk.designSystem?.image(it)
         }
 

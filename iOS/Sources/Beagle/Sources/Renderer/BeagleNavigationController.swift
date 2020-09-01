@@ -19,7 +19,9 @@ import UIKit
 public typealias BeagleRetry = () -> Void
 
 public enum ServerDrivenState {
-    case loading(Bool)
+    case started
+    case finished
+    case success
     case error(ServerDrivenState.Error, BeagleRetry)
 }
 
@@ -29,12 +31,13 @@ extension ServerDrivenState {
         case action(Swift.Error)
         case lazyLoad(Request.Error)
         case submitForm(Request.Error)
+        case webView(Swift.Error)
         case declarativeText
     }
 }
 
 open class BeagleNavigationController: UINavigationController {
-    
+
     /// This method is the entry point to handle screen state changes.
     /// The default implemetation shows an `ActivityIndicator` when screen is
     /// loading and does nothing when error happens; override this method to handle
@@ -50,10 +53,12 @@ open class BeagleNavigationController: UINavigationController {
         at screenController: BeagleController
     ) {
         switch state {
-        case .loading(let loading):
-            loading ? view.showLoading(.whiteLarge) : view.hideLoading()
-        case .error:
+        case .started:
+            view.showLoading(.whiteLarge)
+        case .finished:
             view.hideLoading()
+        case .success, .error:
+            break
         }
     }
     

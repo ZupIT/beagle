@@ -18,54 +18,59 @@ import UIKit
 
 extension String {
     // MARK: - BeagleConfig
-    static let BASE_URL = "http://localhost:8080/"
+    static let baseURL = "http://localhost:8080/"
     
     // MARK: - Image
-    static let NETWORK_IMAGE_BEAGLE = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+    static let networkImageBeagle = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
     
     // MARK: - Endpoint
-    static let LAZY_COMPONENTS_ENDPOINT = "lazycomponent"
-    static let PAGE_VIEW_ENDPOINT = "pageview"
-    static let TAB_VIEW_ENDPOINT = "tabview"
-    static let LIST_VIEW_ENDPOINT = "listview"
-    static let FORM_ENDPOINT = "form"
-    static let CUSTOM_COMPONENT_ENDPOINT = "customComponent"
-    static let COMPONENTS_ENDPOINT = "/components"
-    static let DEEPLINK_ENDPOINT = "screen-deep-link"
-    static let NAVIGATE_ENDPOINT = "https://t001-2751a.firebaseapp.com/flow/step1.json"
-    static let TEXT_FORM_ENDPOINT = "https://t001-2751a.firebaseapp.com/action/shownativedialog.json"
-    static let TEXT_LAZY_COMPONENTS_ENDPOINT = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2"
-    static let WEB_VIEW_ENDPOINT = "webViewComponent"
-    static let COMPONENT_INTERACTION_ENDPOINT = "componentInteractionText"
-    static let SIMPLE_FORM_ENDPOINT = "simpleFormComponent"
+    static let lazyComponentEndpoint = "lazycomponent"
+    static let pageViewEndpoint = "pageview"
+    static let tabViewEndpoint = "tabview"
+    static let listViewEndpoint = "listview"
+    static let formEndpoint = "form"
+    static let customComponentEndpoint = "customComponent"
+    static let componentsEndpoint = "/components"
+    static let screenDeeplinkEndpoint = "screen-deep-link"
+    static let navigateStep1Endpoint = "navigateScreenStep1"
+    static let navigateStep2Endpoint = "navigateScreenStep2"
+    static let textFormEndpoint = "https://t001-2751a.firebaseapp.com/action/shownativedialog.json"
+    static let textLazyComponentEndpoint = "https://run.mocky.io/v3/bd78fba6-da3d-4cb3-8807-85923366fe13"
+    static let webViewEndpoint = "webViewComponent"
+    static let componentInterationEndpoint = "componentInteractionText"
+    static let simpleFormEndpoint = "simpleFormComponent"
 
     // MARK: - URL
-    static let WEB_VIEW_URL = "https://maps.google.com/"
+    static let webViewURL = "https://maps.google.com/"
     
     // MARK: - Style
-    static let TAB_VIEW_STYLE = "DesignSystem.TabView.Style"
-    static let FORM_SUBMIT_STYLE = "DesignSystem.Form.Submit"
-    static let BUTTON_BLACK_TEXT_STYLE = "DesignSystem.Button.Style"
-    static let NAVIGATION_BAR_DEFAULT_STYLE = "DesignSystem.Navigationbar.Style.Default"
-    static let NAVIGATION_BAR_GREEN_STYLE = "DesignSystem.Navigationbar.Style.Green"
-    static let BUTTON_WITH_APPEARANCE_STYLE = "DesignSystem.Stylish.ButtonAndAppearance"
-    static let TEXT_STYLISH_STYLE = "DesignSystem.Stylish.Button"
-    static let TEXT_ACTION_CLICK_STYLE = "DesignSystem.Text.Action.Click"
-    static let TEXT_IMAGE_STYLE = "DesignSystem.Text.Image"
-    static let TEXT_HELLO_WORD_STYLE = "DesignSystem.Text.helloWord"
-    static let TEXT_INPUT_STYLE = "DesignSystem.TextInput.Style"
-    static let TEXT_INPUT_STYLE_BFF = "DesignSystem.TextInput.Style.Bff"
-    static let BUTTON_STYLE_CONTEXT_BFF = "DesignSystem.Button.Context"
+    static let tabViewStyle = "DesignSystem.TabView.Style"
+    static let formSubmitStyle = "DesignSystem.Form.Submit"
+    static let blackButtonStyle = "DesignSystem.Button.Style"
+    static let navigationBarDefaultStyle = "DesignSystem.Navigationbar.Style.Default"
+    static let navigationBarGreenStyle = "DesignSystem.Navigationbar.Style.Green"
+    static let buttonWithAppearanceStyle = "DesignSystem.Stylish.ButtonAndAppearance"
+    static let buttonStyle = "DesignSystem.Stylish.Button"
+    static let textActionClickStyle = "DesignSystem.Text.Action.Click"
+    static let textImageSyle = "DesignSystem.Text.Image"
+    static let textHelloWorldStyle = "DesignSystem.Text.helloWord"
+    static let textInputStyle = "DesignSystem.TextInput.Style"
+    static let textInputBFFStyle = "DesignSystem.TextInput.Style.Bff"
+    static let buttonContextStyle = "DesignSystem.Button.Context"
+    
+    // MARK: - Hex Colors
+    static let blueButton = "#0f4c81"
+    static let salmonButton = "#ed6663"
+    static let lightOrangeButton = "#ffa372"
+    static let brownButton = "#b7472a"
+    static let greenWaterButton = "#2a7886"
+    static let redButton = "#c81912"
 }
 
 extension UIColor {
-    class var demoGreen: UIColor {
-        return UIColor(red: 0.34, green: 0.62, blue: 0.16, alpha: 1)
-    }
-    class var demoGray: UIColor {
-        return UIColor(white: 0.5, alpha: 1)
-    }
-    class var demoDarkGray: UIColor {
-        return UIColor(white: 0.2, alpha: 1)
-    }
+    static var demoGreen = #colorLiteral(red: 0.34, green: 0.62, blue: 0.16, alpha: 1)
+    
+    static var demoGray = #colorLiteral(red: 0.5723067522, green: 0.5723067522, blue: 0.5723067522, alpha: 1)
+    
+    static var demoDarkGray = #colorLiteral(red: 0.2605186105, green: 0.2605186105, blue: 0.2605186105, alpha: 1)
 }

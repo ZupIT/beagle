@@ -20,7 +20,7 @@ import BeagleSchema
 
 final class LocalFormHandlerTests: XCTestCase {
     
-    func test_whenHandleFormLocalAction_shouldCallHandler() {
+    func testFormLocalActionHandler() {
         // Given
         let actionName = "action-name"
         let action = FormLocalAction(name: actionName, data: [:])

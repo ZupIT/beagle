@@ -1,0 +1,10 @@
+▿ 5 elements
+  ▿ DynamicObject
+    - int: 3
+  ▿ DynamicObject
+    - double: 5.0
+  ▿ DynamicObject
+    - bool: true
+  ▿ DynamicObject
+    - string: "name"
+  - DynamicObject.empty

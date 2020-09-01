@@ -25,6 +25,11 @@ coverage:
         threshold: 7%
         flags:
           - backend
+      flutter:
+        target: 70%
+        threshold: 7%
+        flags:
+          - flutter
     patch: no
     changes: no
 
@@ -57,6 +62,10 @@ flags:
       - backend/
       - common/
       - schema/kotlin/
+    carryforward: true
+  flutter:
+    paths:
+      - flutter/
     carryforward: true
 ignore:
  - "iOS/Sources/BeagleUI/**/Tests/"

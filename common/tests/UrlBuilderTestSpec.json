@@ -92,11 +92,47 @@
     {
         "base": null,
         "path": "/",
-        "result": null
+        "result": "/"
     },
     {
         "base": null,
         "path": "",
         "result": null
+    },
+    {
+        "base": "http://base.url",
+        "path": "/user/Name Of User",
+        "result": "http://base.url/user/Name%20Of%20User"
+    },
+    {
+        "base": "http://base.url",
+        "path": "/myService%2520",
+        "result": "http://base.url/myService%2520"
+    },
+    {
+        "base": "http://base.url",
+        "path": "/name+user",
+        "result": "http://base.url/name+user"
+    },
+    {
+        "base": "http://base.url",
+        "path": "/name #user",
+        "result": "http://base.url/name%20#user"
+    },
+    {
+        "base": "https://www.guiaviagensbrasil.com",
+        "path": "/imagens/Imagem do mar calma e belo da Praia da Engenhoca-Itacaré-Bahia-BA.jpg",
+        "result": "https://www.guiaviagensbrasil.com/imagens/Imagem%20do%20mar%20calma%20e%20belo%20da%20Praia%20da%20Engenhoca-Itacar%C3%A9-Bahia-BA.jpg"
+    },
+    {
+        "base": "guiaviagensbrasil.com",
+        "path": "/imagens/Imagem%20do%20mar%20calma%20e%20belo%20da%20Praia%20da%20Engenhoca-Itacar%C3%A9-Bahia-BA.jpg",
+        "result": "guiaviagensbrasil.com/imagens/Imagem%20do%20mar%20calma%20e%20belo%20da%20Praia%20da%20Engenhoca-Itacar%C3%A9-Bahia-BA.jpg"
+    },
+    {
+        "base": null,
+        "path": "https://www.google.com/search?&q=query+parameters&oq=query+parameters&ved_lcp=0ahUK2wjC0JrKy6frAhVRvlkKHZZ2D0_4Q4dUDCAw",
+        "result": "https://www.google.com/search?&q=query+parameters&oq=query+parameters&ved_lcp=0ahUK2wjC0JrKy6frAhVRvlkKHZZ2D0_4Q4dUDCAw"
     }
+
 ]

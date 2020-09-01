@@ -292,9 +292,23 @@ fun makeBindComponent() = """
     {
         "_beagleComponent_": "custom:componentbinding",
         "value1": null,
+        "value2": "Hello",
+        "value3": true,
+        "value4": ${makeInternalObject()},
+        "value5": {"test1":"a","test2":"b"},
+        "value6": ["test1", "test2"]
+    }
+"""
+
+fun makeBindComponentExpression() = """
+    {
+        "_beagleComponent_": "custom:componentbinding",
+        "value1": "@{intExpression}",
         "value2": "Hello @{context.name}",
-        "value3": "@{hello}",
-        "value4": ${makeInternalObject()}
+        "value3": "@{booleanExpression}",
+        "value4": "@{objectExpression}",
+        "value5": "@{mapExpression}",
+        "value6": "@{listExpression}"
     }
 """
 

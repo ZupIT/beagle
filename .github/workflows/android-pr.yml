@@ -4,12 +4,17 @@ on:
     push:
         branches:
             - master
+        paths:
+            - 'android/**'
+            - 'common/**'
+            - 'schema/kotlin/**'
     pull_request:
         paths:
             - 'android/**'
             - 'common/**'
             - 'schema/kotlin/**'
             - 'Gemfile'
+
 jobs:
     pr-verification:
         name: PR Check
@@ -25,17 +30,19 @@ jobs:
                 with:
                     path: ${{ env.fastlane-path }}
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
             -   name: Cache gradle dependences
                 uses: actions/cache@v2
                 env:
-                    gradle-cache-key: gradle-cache
+                    gradle-cache-key: gradle-cache-android
                     gradle-path: ~/.gradle
                 with:
                     path: ${{ env.gradle-path }}
                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('android/buildSrc/**') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             -   name: Run pr check
                 env:
                     GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}

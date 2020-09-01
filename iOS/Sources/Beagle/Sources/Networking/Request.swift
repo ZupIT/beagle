@@ -69,7 +69,7 @@ public struct Request {
     }
 
     public enum Error: Swift.Error {
-        case networkError(Swift.Error)
+        case networkError(NetworkError)
         case decoding(Swift.Error)
         case loadFromTextError
         case urlBuilderError

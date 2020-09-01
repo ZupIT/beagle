@@ -1,0 +1,10 @@
+{
+    "license-header-manager.additionalCommentStyles": [
+      {
+        "extension": ".dart",
+        "commentStart": " /*",
+        "commentMiddle": " * ",
+        "commentEnd": " */"
+      }
+    ]
+  }

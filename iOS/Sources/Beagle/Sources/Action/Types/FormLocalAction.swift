@@ -23,14 +23,16 @@ extension FormLocalAction: Action {
             [weak controller] result in guard let controller = controller else { return }
             switch result {
             case .start:
-                controller.serverDrivenState = .loading(true)
+                controller.serverDrivenState = .started
             case .error(let error):
+                controller.serverDrivenState = .finished
                 controller.serverDrivenState = .error(
                     .action(error),
                     self.closureToRetrySameAction(controller: controller, origin: origin)
                 )
             case .success(let action):
-                controller.serverDrivenState = .loading(false)
+                controller.serverDrivenState = .finished
+                controller.serverDrivenState = .success
                 action.execute(controller: controller, origin: origin)
             }
         }

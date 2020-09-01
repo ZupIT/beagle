@@ -31,7 +31,6 @@ class ComposeComponentTest : BaseComponentTest() {
     private val child: WidgetView = mockk()
     private lateinit var composeComponent: ComposeComponent
 
-
     override fun setUp() {
         super.setUp()
         composeComponent = object : ComposeComponent() {
@@ -54,7 +53,7 @@ class ComposeComponentTest : BaseComponentTest() {
         composeComponent.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext()) }
+        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView) }
     }
 
     @Test
@@ -63,6 +62,6 @@ class ComposeComponentTest : BaseComponentTest() {
         composeComponent.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(child, rootView) }
+        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(child) }
     }
 }

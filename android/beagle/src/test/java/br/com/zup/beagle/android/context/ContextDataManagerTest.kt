@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.support.v4.util.LruCache
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.SetContextInternal
@@ -24,15 +25,19 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.createViewForContext
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
+import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.getContextData
 import br.com.zup.beagle.android.utils.setContextBinding
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.verify
+import io.mockk.mockk
+import io.mockk.verifyOrder
+import io.mockk.spyk
+import io.mockk.slot
+import io.mockk.mockkObject
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -73,10 +78,10 @@ class ContextDataManagerTest : BaseTest() {
     fun init_should_add_observer_to_GlobalContext() {
         // Given
         every { GlobalContext.observeGlobalContextChange(any()) } just Runs
-        
+
         // When
         val contextDataManager = ContextDataManager()
-        
+
         // Then
         val contexts = contextDataManager.getPrivateField<Map<Int, ContextBinding>>("contexts")
         assertNotNull(contexts[Int.MAX_VALUE])
@@ -150,7 +155,7 @@ class ContextDataManagerTest : BaseTest() {
     fun addBinding_should_add_bind_to_context_to_viewBinding() {
         // Given
         val viewWithBind = mockk<View>()
-        val bind = Bind.Expression("@{$CONTEXT_ID[0]}", type = Boolean::class.java)
+        val bind = Bind.Expression(listOf(), "@{$CONTEXT_ID[0]}", type = Boolean::class.java)
         val contextData = ContextData(CONTEXT_ID, listOf(true))
         val observer = mockk<Observer<Boolean?>>()
         contextDataManager.addContext(viewContext, contextData)
@@ -168,14 +173,14 @@ class ContextDataManagerTest : BaseTest() {
     fun addBinding_should_add_binding_to_context_on_top_of_stack() {
         // Given
         val viewWithBind = createViewForContext(viewContext)
-        val bind = Bind.Expression("@{$CONTEXT_ID}", type = Boolean::class.java)
+        val bind = expressionOf<Boolean>("@{$CONTEXT_ID}")
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         val contextData = ContextData(CONTEXT_ID, true)
         contextDataManager.addContext(viewContext, contextData)
 
         // When
         contextDataManager.addBinding(viewWithBind, bind, observer)
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
 
         // Then
         val contextBinding = contexts[viewContext.id]?.bindings?.first()
@@ -188,12 +193,12 @@ class ContextDataManagerTest : BaseTest() {
     fun addBinding_should_add_binding_to_global_context() {
         // Given
         val viewWithBind = createViewForContext()
-        val bind = Bind.Expression("@{global}", type = Boolean::class.java)
+        val bind = expressionOf<Boolean>("@{global}")
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addBinding(viewWithBind, bind, observer)
 
         // When
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
 
         // Then
         val contextBinding = contexts[Int.MAX_VALUE]?.bindings?.first()
@@ -324,10 +329,26 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
+
+        // Then
+        verify(exactly = once()) { observer(value) }
+    }
+
+    @Test
+    fun evaluateContexts_should_get_value_from_operation() {
+        // Given
+        val value = 2
+        val contextData = ContextData(CONTEXT_ID, value)
+        val bind = expressionOf<Int>("@{sum(1, 1)}")
+        val observer = mockk<Observer<Int?>>(relaxed = true)
+        contextDataManager.addContext(viewContext, contextData)
+        contextDataManager.addBinding(viewContext, bind, observer)
+
+        // When
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
         verify(exactly = once()) { observer(value) }
@@ -342,10 +363,9 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
         verify(exactly = once()) { observer(null) }
@@ -361,9 +381,33 @@ class ContextDataManagerTest : BaseTest() {
             // Then
             assertNull(it)
         }
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
+    }
+
+    @Test
+    fun init_must_add_observer_to_GlobalContext_and_validate_the_updateGlobalContext_method() {
+        // Given
+        val globalContextObserver = slot<GlobalContextObserver>()
+        val contextData = ContextData("global", "")
+        val globalContextMock = mockk<ContextBinding>(relaxed = true) {
+            every { copy(any(), any(), any()) } returns this
+        }
+        val cache = mockk<LruCache<String, Any>>(relaxed = true)
+        every { globalContextMock.cache } returns cache
+        every { GlobalContext.observeGlobalContextChange(capture(globalContextObserver)) } just Runs
 
         // When
-        contextDataManager.evaluateContexts()
+        val contextDataManager = spyk<ContextDataManager>(recordPrivateCalls = true)
+        val contexts = contextDataManager.getPrivateField<MutableMap<Int, ContextBinding>>("contexts")
+        contextDataManager.setPrivateField("globalContext", globalContextMock)
+        globalContextObserver.captured.invoke(contextData)
+
+        // Then
+        verifyOrder {
+            globalContextMock.copy(context = contextData, cache = any(), bindings = any())
+            cache.evictAll()
+            contextDataManager.notifyBindingChanges(globalContextMock)
+        }
+        assertEquals(contexts[Int.MAX_VALUE], globalContextMock)
     }
 }

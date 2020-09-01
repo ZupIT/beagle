@@ -114,7 +114,7 @@ class ErrorView: UIVisualEffectView {
     
     @objc private func retryAction() {
         dismiss()
-        retry.forEach({ $0?() })
+        retry.forEach { $0?() }
         retry.removeAll()
     }
     
@@ -123,10 +123,14 @@ class ErrorView: UIVisualEffectView {
     }
     
     private func dismiss() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.alpha = 0
-        }) { _ in
-            self.removeFromSuperview()
-        }
+        UIView.animate(
+            withDuration: 0.2,
+            animations: {
+                self.alpha = 0
+            },
+            completion: { _ in
+                self.removeFromSuperview()
+            }
+        )
     }
 }

@@ -52,6 +52,52 @@ extension DynamicObject {
             }
         }
     }
+    
+    public func toString() -> String {
+        switch self {
+        case .empty:
+            return ""
+        case let .bool(bool):
+            return "\(bool)"
+        case let .int(int):
+            return "\(int)"
+        case let .double(double):
+            return "\(double)"
+        case let .string(string):
+            return string
+        case let .array(array):
+            return "\(array)"
+        case let .dictionary(dictionary):
+            return "\(dictionary)"
+        case let .expression(.multiple(multipleExpression)):
+            return multipleExpression.rawValue
+        case let .expression(.single(singleExpression)):
+            return singleExpression.rawValue
+        }
+    }
+    
+    public func isEqualIgnoringAssociatedValues(_ anotherObject: DynamicObject) -> Bool {
+        switch (self, anotherObject) {
+        case (.empty, .empty):
+            return true
+        case (.bool, .bool):
+            return true
+        case (.int, .int):
+            return true
+        case (.double, .double):
+            return true
+        case (.string, .string):
+            return true
+        case (.array, .array):
+            return true
+        case (.dictionary, .dictionary):
+            return true
+        case (.expression, .expression):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 // MARK: Codable

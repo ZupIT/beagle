@@ -32,7 +32,7 @@ class NavigateTests: XCTestCase {
         ]
         
         // then
-        XCTAssert(arrayWithNullNewPaths.filter { $0.newPath == nil }.count == arrayWithNullNewPaths.count)
+        XCTAssertEqual(arrayWithNullNewPaths.filter { $0.newPath == nil }.count, arrayWithNullNewPaths.count)
     }
     
     func testNotNullNewPathsInNavigation() {
@@ -43,12 +43,13 @@ class NavigateTests: XCTestCase {
             .resetApplication(routeMockRemote),
             .resetStack(routeMockRemote),
             .pushStack(routeMockRemote),
+            .pushStack(routeMockRemote, controllerId: "customid"),
             .pushView(routeMockRemote),
             .resetStack(routeMockDeclarative)
         ]
         
         // then
-        XCTAssert(array.filter { $0.newPath != nil }.count == array.count - 1)
+        XCTAssertEqual(array.filter { $0.newPath != nil }.count, array.count - 1)
     }
 
 }
