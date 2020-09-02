@@ -20,7 +20,6 @@ import androidx.collection.LruCache
 import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import br.com.zup.beagle.android.jsonpath.JsonPathUtils
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
@@ -110,10 +109,12 @@ internal class ContextDataEvaluation(
         bind: Bind.Expression<*>,
         evaluatedExpressions: MutableMap<String, Any>
     ): Any? {
-        val regex = "(?<=\\})".toRegex()
-        return bind.value.split(regex).joinToString("") {
-            val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
-            if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
+        val regexSymbolSeparator = getRegexSeparatorUsingSymbol(symbol = '}')
+        return bind.value.split(regexSymbolSeparator).joinToString("") {
+            val quantityOfSlashes = getSlashQuantityFromString(textToVerify = it) ?: 0
+            val haveDoubleSlashOccurrence = haveAtLeastOneDoubleSlashBeforeAtSignInString(textToVerify = it)
+            val isQuantityOfSlashesEven = isQuantityEven(quantity = quantityOfSlashes)
+            if (!haveDoubleSlashOccurrence || isQuantityOfSlashesEven) {
                 val key = "\\{([^\\@]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
                 val value = escapeReplacement(evaluatedExpressions[key].toString())
                 it.replace("@{$key}", value)
@@ -121,6 +122,22 @@ internal class ContextDataEvaluation(
                 it
             }
         }.replace("\\\\", "\\").replace("\\@", "@")
+    }
+
+    private fun isQuantityEven(quantity: Int): Boolean {
+        return quantity %2 == 0
+    }
+
+    private fun haveAtLeastOneDoubleSlashBeforeAtSignInString(textToVerify: String): Boolean {
+        return textToVerify.matches(".*\\\\@.*".toRegex())
+    }
+
+    private fun getSlashQuantityFromString(textToVerify: String): Int? {
+        return "(\\\\*)@".toRegex().find(textToVerify)?.groups?.get(1)?.value?.length
+    }
+
+    private fun getRegexSeparatorUsingSymbol(symbol: Char) : Regex {
+        return "(?<=\\$symbol)".toRegex()
     }
 
     private fun evaluateExpression(
