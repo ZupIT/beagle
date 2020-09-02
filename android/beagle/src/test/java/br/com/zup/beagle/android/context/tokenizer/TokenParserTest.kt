@@ -41,6 +41,20 @@ class TokenParserTest {
     }
 
     @Test
+    fun parse_should_return_string_escaped() {
+        // Given
+        val expression = "'hello \\'world\\'!'"
+
+        // When
+        val result = tokenParser.parse(expression)
+
+        // Then
+        assertEquals(expression, result.value)
+        assertTrue { result.token is TokenString }
+        assertEquals("hello 'word'", (result.token as TokenString).value)
+    }
+
+    @Test
     fun parse_should_return_string_throw_exception_with_invalid_string() {
         // Given
         val expression = "'hello"
