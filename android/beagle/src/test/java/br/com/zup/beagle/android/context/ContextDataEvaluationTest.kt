@@ -465,7 +465,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
 
         // Then
-        assertEquals("hello world, this is { beagle }}!", value)
+        assertEquals("hello world, this is { beagle }!}", value)
     }
 
     private fun createEscapeBindingMockCases(): List<EscapingTestCases> = listOf(
