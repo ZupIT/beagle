@@ -37,10 +37,7 @@ import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -187,7 +184,8 @@ object NavigationBarScreenBuilder {
     ).applyFlex(
         Flex(
             grow = 1.0,
-            alignItems = AlignItems.CENTER
+            alignItems = AlignItems.CENTER,
+            justifyContent = JustifyContent.CENTER
         )
     )
 }
