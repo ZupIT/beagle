@@ -20,6 +20,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -30,7 +31,7 @@ import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
 
 object TextInputScreenBuilder {
-    val styleTextInput = Style(margin = EdgeValue(top = 10.unitReal(),left = 25.unitReal(),right = 25.unitReal()))
+    val styleTextInput = Style(margin = EdgeValue(top = 10.unitReal(), left = 25.unitReal(), right = 25.unitReal()))
 
     fun build() = Screen(
         navigationBar = NavigationBar(
@@ -51,19 +52,24 @@ object TextInputScreenBuilder {
         ),
         child = Container(
             listOf(
-                createTextInput("Text Input without style!"),
-                createTextInput("Text Input with style!", "DesignSystem.TextInput.Style.Bff")
+                createTextInput(value = "Text Input without style!"),
+                createTextInput(value = "Text Input with style!", styleId =  "DesignSystem.TextInput.Style.Bff")
             )
         )
     )
 
-    private fun createTextInput(text: String, styleId: String? = null) = Container(
-        listOf(
-            Text(text).applyStyle(styleTextInput),
-            TextInput(
-                placeholder = "Your text",
-                styleId = styleId
-            ).applyStyle(styleTextInput)
+    private fun createTextInput(styleId: String? = null, value: String) =
+        Container(
+            children = listOf(
+                Text(text = "@{textInput}").applyStyle(styleTextInput),
+                TextInput(
+                    placeholder = "Your text",
+                    styleId = styleId
+                ).applyStyle(styleTextInput)
+            ),
+            context = ContextData(
+                id = "textInput",
+                value = value
+            )
         )
-    )
 }

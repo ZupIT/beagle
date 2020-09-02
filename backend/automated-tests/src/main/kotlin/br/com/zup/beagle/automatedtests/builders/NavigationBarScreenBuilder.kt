@@ -38,6 +38,7 @@ import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.AlignItems
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -53,7 +54,8 @@ data class ExampleGlobalContext(
     val navigationBar: String,
     val navigationBarStyle: String,
     val navigationBarWithText: String,
-    val navigationBarWithImage: String
+    val navigationBarWithImage: String,
+    val textColor: String
 )
 
 object NavigationBarScreenBuilder {
@@ -80,7 +82,7 @@ object NavigationBarScreenBuilder {
         ),
         child = Container(
             children = listOf(
-                createMenu("NavigationBar", REPRESENTATION_NAVIGATION_BAR_ENDPOINT),
+                createMenu("Default NavigationBar", REPRESENTATION_NAVIGATION_BAR_ENDPOINT),
                 createMenu("NavigationBar with Style", REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT),
                 createMenu("NavigationBar with Item(Text)", REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT),
                 createMenu("NavigationBar with Item(Image)", REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT)
@@ -129,10 +131,11 @@ object NavigationBarScreenBuilder {
             SetContext(
                 contextId = "global",
                 value = ExampleGlobalContext(
-                    navigationBar = "NavigationBar",
+                    navigationBar = "Default NavigationBar",
                     navigationBarStyle = "NavigationBar with Style",
                     navigationBarWithText = "NavigationBar with Item(Text)",
-                    navigationBarWithImage = "NavigationBar with Item(Image)"
+                    navigationBarWithImage = "NavigationBar with Item(Image)",
+                    textColor = "#000000"
                 )
             )
         ),
@@ -163,27 +166,28 @@ object NavigationBarScreenBuilder {
 
     private fun createBeagleText(text: Bind<String>) = Container(
         children = listOf(
-            Text(text = text, styleId = TEXT_FONT_MAX)
-                .applyFlex(
-                    flex = Flex(
-                        alignItems = AlignItems.CENTER
-                    )
-                ),
+            Text(text = text, styleId = TEXT_FONT_MAX, textColor =expressionOf("@{global.textColor}")),
             Button(
-                text = "Navigation",
+                text = "Update Global Context",
                 onPress = listOf(
-                    Alert(title = null, message = "test"),
+                    Alert(title = null, message = "Look, your text has changed! Global context is working!"),
                     SetContext(
                         contextId = "global",
                         value = ExampleGlobalContext(
-                            navigationBar = "Beagle NavigationBar",
+                            navigationBar = "Beagle Default NavigationBar",
                             navigationBarStyle = "Beagle NavigationBar with Style",
                             navigationBarWithText = "Beagle NavigationBar with Item(Text)",
-                            navigationBarWithImage = "Beagle NavigationBar with Item(Image)"
+                            navigationBarWithImage = "Beagle NavigationBar with Item(Image)",
+                            textColor = "#cc0000"
                         )
                     )
                 )
             )
+        )
+    ).applyFlex(
+        Flex(
+            grow = 1.0,
+            alignItems = AlignItems.CENTER
         )
     )
 }
