@@ -35,13 +35,14 @@ abstract class BaseTest {
 
     protected val rootView = mockk<ActivityRootView>(relaxed = true, relaxUnitFun = true)
     protected val beagleSdk = mockk<BeagleSdk>(relaxed = true)
-    private val baseTestActivity = mockk<AppCompatActivity>(relaxed = true, relaxUnitFun = true)
+
     @Before
     open fun setUp() {
         MockKAnnotations.init(this)
 
         mockkObject(BeagleEnvironment)
-        every { rootView.activity} returns baseTestActivity
+
+        every { rootView.activity} returns mockk(relaxed = true)
         every { BeagleEnvironment.beagleSdk } returns beagleSdk
         every { beagleSdk.config.cache.memoryMaximumCapacity } returns 15
         every { beagleSdk.registeredWidgets() } returns listOf()
