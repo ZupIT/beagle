@@ -20,52 +20,107 @@ import SnapshotTesting
 
 final class ExpressionTests: XCTestCase {
     
-    let singleExpressions = [
-        "@{client}",
-        "@{client2.name}",
-        "@{2client.phones[0]}",
-        "@{client_[2].matrix[1][1]}",
-        "@{}",
-        "@{[2]}",
-        "@{client.[2]}",
-        "@{[2][2]}",
-        "@{client[2].[2]}",
-        "@{client[a]}"
-    ]
+    private let simple = "@{42}"
     
-    let multipleExpressions = [
-        "name: @{client.name}",
-        "name: @{client.name.first}, phone: @{client.phones[0]}",
-        "@{client.phones[0]}@{client.phones[1]}",
-        "@{@{client.phones[1]}}",
-        "name",
-        "name@name\\@name@@{client}",
-        "@{client}",
-        "\\@{client}",
-        "\\\\@{client}",
-        "\\\\\\@{client}"
-    ]
-    
-    func test_singleExpressionRawRepresentable() {
+    func testValidSingleExpression() {
         // Given
-        let sut = singleExpressions
+        let data = [
+            "@{client}",
+            "@{client2.name}",
+            "@{client_[2].matrix[1][1]}",
+            simple,
+            "@{3.5}",
+            "@{true}",
+            "@{'name'}",
+            "@{null}",
+            "@{sum(1, counter)}"
+        ]
+        
         // When
-        let result1 = sut.map { SingleExpression(rawValue: $0) }
-        let result2 = result1.map { $0?.rawValue }
+        let result = data.compactMap {
+            SingleExpression(rawValue: $0)
+        }
+        let rawValues = result.map(\.rawValue)
+            
         // Then
-        assertSnapshot(matching: result1, as: .dump)
-        assertSnapshot(matching: result2, as: .dump)
+        assertSnapshot(matching: result, as: .dump)
+        XCTAssertEqual(rawValues, data)
     }
     
-    func test_multipleExpressionRawRepresentable() {
+    func testInvalidSingleExpression() {
         // Given
-        let sut = multipleExpressions
+        [
+            "2",
+            "@{2client.phones[0]}",
+            "@{}",
+            "@{[2]}",
+            "@{client.[2]}",
+            "@{[2][2]}",
+            "@{client[2].[2]}",
+            "@{client[a]}",
+            "sum(1, 2)}",
+            "@{sum(1,2)",
+            "@{test()}",
+            "@{@{2}}"
+        ]
+        
         // When
-        let result1 = sut.map { MultipleExpression(rawValue: $0) }
-        let result2 = result1.map { $0?.rawValue }
+        .map {
+            SingleExpression(rawValue: $0)
+        }
+            
         // Then
-        assertSnapshot(matching: result1, as: .dump)
-        assertSnapshot(matching: result2, as: .dump)
+        .forEach {
+            XCTAssertNil($0)
+        }
     }
     
+    // MARK: Multiple Expressions
+    
+    func testValidMultipleExpressions() {
+        // Given
+        let data = [
+            "name: \(simple), phone: \(simple)",
+            "name@name\\@name@\(simple)",
+            "\\\\@\(simple)"
+        ]
+        
+        // When
+        let result = data.compactMap {
+            MultipleExpression(rawValue: $0)
+        }
+        let rawValues = result.map(\.rawValue)
+        
+        // Then
+        assertSnapshot(matching: result, as: .dump)
+        _assertInlineSnapshot(matching: rawValues, as: .json, with: #"""
+        [
+          "name: @{42}, phone: @{42}",
+          "name@name\\@name@@{42}",
+          "\\@@{42}"
+        ]
+        """#)
+    }
+    
+    func testInvalidMultipleExpressions() {
+        // Given
+        [
+            "\\@{client}",
+            "\\\\\\@{client}",
+            "@{@{client.phones[1]}}",
+            "name",
+            "Operation: @{sum(1, counter and @{condition(lt(1, counter), sum(counter, 2), subtract(counter, 2))}}",
+            "Operation: @{sum(1, counter) and @{sum(2, counter)"
+        ]
+        
+        // When
+        .map {
+            MultipleExpression(rawValue: $0)
+        }
+            
+        // Then
+        .forEach {
+            XCTAssertNil($0)
+        }
+    }
 }

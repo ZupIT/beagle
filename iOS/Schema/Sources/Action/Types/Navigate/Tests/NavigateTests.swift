@@ -106,6 +106,30 @@ final class NavigateTests: XCTestCase {
         assertSnapshot(matching: action, as: .dump)
     }
     
+    func testDecodingPushStackWithControllerId() throws {
+        let action: Navigate = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:pushStack",
+            "route": {
+                "url": "schema://path"
+            },
+            "controllerId": "customid"
+        }
+        """)
+
+        _assertInlineSnapshot(matching: action, as: .dump, with: """
+        ▿ Navigate
+          ▿ pushStack: (2 elements)
+            ▿ .0: Route
+              ▿ remote: NewPath
+                - fallback: Optional<Screen>.none
+                - shouldPrefetch: false
+                - url: "schema://path"
+            ▿ controllerId: Optional<String>
+              - some: "customid"
+        """)
+    }
+    
     func test_decoding_popStack() throws {
         let action: Navigate = try actionFromString("""
         {

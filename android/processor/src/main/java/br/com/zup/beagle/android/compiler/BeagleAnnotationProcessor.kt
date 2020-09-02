@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.annotation.RegisterValidator
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.implementsInterface
@@ -48,7 +49,8 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             RegisterWidget::class.java.canonicalName,
             BeagleComponent::class.java.canonicalName,
             RegisterValidator::class.java.canonicalName,
-            RegisterAction::class.java.canonicalName
+            RegisterAction::class.java.canonicalName,
+            RegisterController::class.java.canonicalName
         ))
     }
 
@@ -72,20 +74,24 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             typeElement.implementsInterface(BEAGLE_CONFIG.toString())
         }
 
-        if (beagleConfigElements.size > 1) {
-            processingEnv.messager.error("BeagleConfig already defined, " +
-                "remove one implementation from the application.")
-        } else if (beagleConfigElements.isEmpty()) {
-            processingEnv.messager.error("Did you miss to annotate your " +
-                "BeagleConfig class with @BeagleComponent?")
-        } else {
-            val fullClassName = beagleConfigElements[0].asType().toString()
-            val beagleConfigClassName = fullClassName.substring(
-                fullClassName.lastIndexOf(".") + 1
-            )
-            val basePackageName = fullClassName.replace(".$beagleConfigClassName", "")
-            validatorHandlerProcessor.process(basePackageName, roundEnvironment)
-            beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
+        when {
+            beagleConfigElements.size > 1 -> {
+                processingEnv.messager.error("BeagleConfig already defined, " +
+                    "remove one implementation from the application.")
+            }
+            beagleConfigElements.isEmpty() -> {
+                processingEnv.messager.error("Did you miss to annotate your " +
+                    "BeagleConfig class with @BeagleComponent?")
+            }
+            else -> {
+                val fullClassName = beagleConfigElements[0].asType().toString()
+                val beagleConfigClassName = fullClassName.substring(
+                    fullClassName.lastIndexOf(".") + 1
+                )
+                val basePackageName = fullClassName.replace(".$beagleConfigClassName", "")
+                validatorHandlerProcessor.process(basePackageName, roundEnvironment)
+                beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
+            }
         }
 
         return false

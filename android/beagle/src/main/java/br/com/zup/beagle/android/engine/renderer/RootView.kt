@@ -24,21 +24,29 @@ import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.widget.RootView
 
 class FragmentRootView(
-    val fragment: Fragment
+    val fragment: Fragment,
+    private val parentId: Int
 ) : RootView {
+
     override fun getContext(): Context = fragment.requireContext()
 
     override fun getLifecycleOwner(): LifecycleOwner = fragment.viewLifecycleOwner
 
     override fun getViewModelStoreOwner(): ViewModelStoreOwner = fragment
+
+    override fun getParentId(): Int = parentId
 }
 
 class ActivityRootView(
-    val activity: AppCompatActivity
+    val activity: AppCompatActivity,
+    private val parentId: Int
 ) : RootView {
+
     override fun getContext(): Context = activity
 
     override fun getLifecycleOwner(): LifecycleOwner = activity
 
     override fun getViewModelStoreOwner(): ViewModelStoreOwner = activity
+
+    override fun getParentId(): Int = parentId
 }

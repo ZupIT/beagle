@@ -24,9 +24,8 @@ import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.viewmodel.Response
-import org.json.JSONArray
-import org.json.JSONObject
 import java.lang.Exception
+import java.lang.NumberFormatException
 import java.net.URI
 
 internal fun SendRequestInternal.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
@@ -63,11 +62,14 @@ internal object SendRequestActionMapper {
         )
     }
 
-    private fun getDataFormatted(data: ByteArray): Any? {
+    private fun getDataFormatted(byteData: ByteArray): Any? {
+        val data = String(byteData)
         return try {
-            BeagleMoshi.moshi.adapter(Any::class.java).fromJson(String(data))
+            data.toInt()
+        } catch (e: NumberFormatException) {
+            BeagleMoshi.moshi.adapter(Any::class.java).fromJson(data)
         } catch (e: Exception) {
-            String(data)
+            data
         }
     }
 }

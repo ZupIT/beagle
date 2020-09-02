@@ -175,10 +175,15 @@ func makeDecoding(_ variable: Variable) -> String {
     }
 
     var line = "container.decode"
-        + (variable.isOptional ? "IfPresent" : "")
+    if variable.isOptional || variable.defaultValue != nil {
+        line += "IfPresent"
+    }
 
     let type = !needsCustomBeagleDecoding(variable) ? "\(variable.unwrappedTypeName).self, " : ""
     line += "(\(type)forKey: .\(variable.name))"
+    if let defaultValue = variable.defaultValue {
+        line += " ?? " + defaultValue
+    }
 
     if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
         line += handleCustomProtocolWrappedCases(variable)

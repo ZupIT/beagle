@@ -36,17 +36,25 @@ internal fun View.findParentContextWithId(contextId: String): View? {
     return null
 }
 
-internal fun View.getAllParentContexts(): MutableMap<String, ContextBinding> {
-    val contexts = mutableMapOf<String, ContextBinding>()
+internal fun View.getAllParentContexts(): MutableList<ContextBinding> {
+    val contexts = mutableListOf<ContextBinding>()
 
-    var parentView: View? = this.getParentContextData()
-    do {
-        val contextBinding = parentView?.getContextBinding()
-        if (contextBinding != null) {
-            contexts[contextBinding.context.id] = contextBinding
-        }
-        parentView = (parentView?.parent as? ViewGroup)?.getParentContextData()
-    } while (parentView != null)
+    getParentContextBinding()?.let {
+        contexts.addAll(it)
+    }
+
+    if (contexts.isEmpty()) {
+        var parentView: View? = getParentContextData()
+        do {
+            val contextBinding = parentView?.getContextBinding()
+            if (contextBinding != null) {
+                contexts.add(contextBinding)
+            }
+            parentView = (parentView?.parent as? ViewGroup)?.getParentContextData()
+        } while (parentView != null)
+
+        setParentContextBinding(contexts)
+    }
 
     return contexts
 }
@@ -85,4 +93,12 @@ internal fun View.setContextBinding(contextBinding: ContextBinding) {
 
 internal fun View.getContextBinding(): ContextBinding? {
     return getTag(R.id.beagle_context_view) as? ContextBinding
+}
+
+internal fun View.setParentContextBinding(contextBinding: List<ContextBinding>) {
+    setTag(R.id.beagle_context_view_parent, contextBinding)
+}
+
+internal fun View.getParentContextBinding(): List<ContextBinding>? {
+    return getTag(R.id.beagle_context_view_parent) as? List<ContextBinding>
 }

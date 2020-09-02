@@ -1,0 +1,35 @@
+▿ 3 elements
+  ▿ MultipleExpression
+    ▿ nodes: 4 elements
+      ▿ Node
+        - string: "name: "
+      ▿ Node
+        ▿ expression: SingleExpression
+          ▿ value: Value
+            ▿ literal: Literal
+              - int: 42
+      ▿ Node
+        - string: ", phone: "
+      ▿ Node
+        ▿ expression: SingleExpression
+          ▿ value: Value
+            ▿ literal: Literal
+              - int: 42
+  ▿ MultipleExpression
+    ▿ nodes: 2 elements
+      ▿ Node
+        - string: "name@name\\@name@"
+      ▿ Node
+        ▿ expression: SingleExpression
+          ▿ value: Value
+            ▿ literal: Literal
+              - int: 42
+  ▿ MultipleExpression
+    ▿ nodes: 2 elements
+      ▿ Node
+        - string: "\\@"
+      ▿ Node
+        ▿ expression: SingleExpression
+          ▿ value: Value
+            ▿ literal: Literal
+              - int: 42

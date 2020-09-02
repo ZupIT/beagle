@@ -10,6 +10,8 @@ backend:
 
 iOS: iOS/**
 
+flutter: flutter/**
+
 schema: schema/**
 
 CI/CD:

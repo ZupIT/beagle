@@ -11,7 +11,7 @@ platform :workflow do
       next
     end
     branchName = tagName.split("/").last
-    sh("git checkout -b release/" + branchName + "-hotfix")
+    sh("git checkout -b hotfix/" + branchName)
     push_to_git_remote(
       tags: false,
       set_upstream: true
@@ -26,6 +26,21 @@ platform :workflow do
 end
 
 ###
+###  Flutter
+###
+
+platform :flutter do
+
+  desc "Pull Request verification"
+  lane :pull_request_verification do
+    sh "cd .. && fastlane/flutter/tests.sh"
+    run_codecov(platform: 'flutter')
+    sh "cd .. && flutter analyze > flutter_analyze_report.txt || true"
+  end
+
+end
+
+###
 ###  Android
 ###
 
@@ -33,7 +48,7 @@ platform :android do
 
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(project_dir: "android", task: "detekt lintDebug jacocoTestReport")
+    gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReport")
     gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
     run_codecov(platform: 'android')
   end
@@ -81,7 +96,7 @@ platform :ios do
   end
 
   desc "CocoaPods Integration test"
-  private_lane :iOSCocoaPodsIntegration do 
+  private_lane :iOSCocoaPodsIntegration do
     xcversion(version: "~> 11.5.0")
     installCocoaPods
     scan(
@@ -113,16 +128,22 @@ end
 desc "Publish new release based on last two tags"
 lane :deploy do
   sh "git fetch"
-  pattern = "*[0-9]"
-  tagName = "master"
-  if ENV["TAG_NAME"].index("-") # Hotfix
-    tagName = "release/" + ENV["TAG_NAME"].split("/").last
-    platformHotfix = tagName.split("-").last
-    pattern = "*-#{platformHotfix}"
-  end
-  sh "git checkout #{tagName}"
 
-  ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
+  tagName = ENV["TAG_NAME"].split("/").last
+  isHotFix = tagName.index("-")
+
+  if isHotFix
+    branchName = "release/" + tagName
+    (versionNumber, platformHotfix) = tagName.split("-")
+  else
+    versionNumber = last_git_tag(pattern: "*[0-9]")
+    branchName = "master"
+  end
+
+  ENV["VERSION_DEPLOY"] = versionNumber
+
+  sh "git checkout #{branchName}"
+
   if platformHotfix == "iOS"
     puts "iOS Hotfix release"
     sh "fastlane ios release"
@@ -139,15 +160,15 @@ lane :deploy do
     sh "fastlane ios release"
   end
 
-  releaseNotes = release_notes
-  sh "bash ./delete_release.sh"
+  releaseNotes = release_notes(versionDeploy: tagName)
+  sh "bash ./delete_release.sh " + tagName
   set_github_release(
     repository_name: ENV["REPO"],
     api_token: ENV["REPO_TOKEN"],
-    name: ENV["VERSION_DEPLOY"],
-    tag_name: ENV["VERSION_DEPLOY"],
+    name: tagName,
+    tag_name: tagName,
     description: releaseNotes,
-    commitish: tagName
+    commitish: branchName
   )
 end
 
@@ -171,12 +192,7 @@ platform :backend do
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(project_dir: "backend", task: "detekt")
-    gradle(project_dir: "backend", tasks:
-        [
-          "assemble",
-          "jacocoTestReport",
-        ]
-    )
+    gradle(project_dir: "backend", tasks:["clean", "assemble", "jacocoTestReport"])
     run_codecov(platform: 'backend')
   end
 
@@ -210,17 +226,29 @@ platform :backend do
 end
 
 desc "Generate release notes"
-private_lane :release_notes do
-  get_previous_tag = lastExpectedVersion(newVersion:ENV["VERSION_DEPLOY"])
+private_lane :release_notes do |params|
+  get_previous_tag = lastExpectedVersion(newVersion:params[:versionDeploy])
   tagHashes = sh "git show-ref -s #{get_previous_tag}"
 
   lane_context[SharedValues::RELEASE_ANALYZED] = true
   lane_context[SharedValues::RELEASE_LAST_TAG_HASH] = tagHashes.split("\n").last
-  lane_context[SharedValues::RELEASE_NEXT_VERSION] = ENV["TAG_NAME"]
-  lane_context[SharedValues::CONVENTIONAL_CHANGELOG_ACTION_FORMAT_PATTERN] = "(feat|fix|refactor|perf|chore|test|docs|no_type)(:)()(.*)"
-  changelog = conventional_changelog(display_title: false, display_links: false)
+  lane_context[SharedValues::RELEASE_NEXT_VERSION] = params[:versionDeploy]
+  lane_context[SharedValues::CONVENTIONAL_CHANGELOG_ACTION_FORMAT_PATTERN] = "(feat|fix|refactor|perf|chore|test|docs|no_type|ci)(:)()(.*)"
+  sections = {
+    feat: "Features",
+    fix: "Bug fixes",
+    refactor: "Code refactoring",
+    perf: "Performance improvements",
+    chore: "Building system",
+    test: "Testing",
+    docs: "Documentation",
+    ci: "CI/CD",
+    no_type: "Other work"
+  }
+  order = ["feat", "fix", "refactor", "perf", "chore", "test", "docs", "ci", "no_type"]
+  changelog = conventional_changelog(sections: sections, order: order, display_title: false, display_links: false)
   changelog = changelog.gsub("**::**  ", "")
-  "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
+  "\nRelease notes #{ params[:versionDeploy] }
    \nChanges:
    \n#{changelog}"
 end
@@ -270,8 +298,9 @@ lane :lastExpectedVersion do |params|
   lastVersion[0] = ""
 
   version = ""
-  if platform.length > 1
-    version = "#{lastVersion}-#{platform[1]}"
+  if platform.length > 1 &&
+    lastVersion.split(".").last != "0"
+      version = "#{lastVersion}-#{platform[1]}"
   else
     version = lastVersion
   end

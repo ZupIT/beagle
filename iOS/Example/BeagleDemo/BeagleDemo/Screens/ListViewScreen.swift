@@ -35,7 +35,7 @@ struct ListViewScreen: DeeplinkScreen {
     }
     
     var listView = ListView(direction: .horizontal) {
-        Touchable(onPress: [Navigate.pushView(.remote(.init(url: .TEXT_LAZY_COMPONENTS_ENDPOINT)))]) {
+        Touchable(onPress: [Navigate.pushView(.remote(.init(url: .textLazyComponentEndpoint)))]) {
             Text("0000")
         }
         Text("0001", widgetProperties: .init(style: Style(size: Size().width(100).height(100))))
@@ -43,7 +43,7 @@ struct ListViewScreen: DeeplinkScreen {
         Text("0003")
         Text("0004")
         LazyComponent(
-            path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
+            path: .textLazyComponentEndpoint,
             initialState: Text("Loading LazyComponent...")
         )
         Text("0005")
@@ -59,7 +59,7 @@ struct ListViewScreen: DeeplinkScreen {
         Text("0014")
         Text("0015")
         Text("0016")
-        Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE))))
+        Image(.value(.remote(.init(url: .networkImageBeagle))))
         Text("0017")
         Text("0018")
         Text("0019")

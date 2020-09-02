@@ -202,6 +202,19 @@ class BeagleNavigationDummy: BeagleNavigation {
     var defaultAnimation: BeagleNavigatorAnimation?
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
+        // Intentionally unimplemented...
+    }
+
+    func registerDefaultNavigationController(builder: @escaping NavigationBuilder) {
+        // Intentionally unimplemented...
+    }
+
+    func registerNavigationController(builder: @escaping NavigationBuilder, forId controllerId: String) {
+        // Intentionally unimplemented...
+    }
+
+    func navigationController(forId controllerId: String?) -> BeagleNavigationController {
+        return .init()
     }
 }
 

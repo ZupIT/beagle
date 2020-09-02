@@ -17,22 +17,28 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal class ContextComponentHandler {
 
-    fun handleContext(
-        rootView: RootView,
-        view: View,
-        component: ServerDrivenComponent
-    ) {
+    fun addContext(viewModel: ScreenContextViewModel, view: View, component: ServerDrivenComponent) {
         if (component is ContextComponent) {
             component.context?.let { context ->
-                rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(view, context)
+                viewModel.addContext(view, context)
             }
         }
+    }
+
+    fun addListenerToHandleContext(viewModel: ScreenContextViewModel, view: View) {
+        view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewDetachedFromWindow(v: View?) {}
+
+            override fun onViewAttachedToWindow(v: View?) {
+                v?.let {
+                    viewModel.linkBindingToContextAndEvaluateThem(it)
+                }
+            }
+        })
     }
 }

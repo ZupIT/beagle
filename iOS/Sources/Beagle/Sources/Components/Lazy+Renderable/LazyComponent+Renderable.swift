@@ -27,8 +27,8 @@ extension LazyComponent: ServerDrivenComponent {
     
     private func lazyLoad(initialState view: UIView, renderer: BeagleRenderer) {
         renderer.controller.dependencies.repository.fetchComponent(url: path, additionalData: nil, useCache: false) {
-            [weak view, weak renderer] result in
-            guard let view = view, let renderer = renderer else { return }
+            [weak view] result in
+            guard let view = view else { return }
             switch result {
             case .success(let component):
                 view.update(lazyLoaded: component, renderer: renderer)
@@ -42,8 +42,8 @@ extension LazyComponent: ServerDrivenComponent {
     }
     
     private func retryClosure(initialState view: UIView, renderer: BeagleRenderer) -> BeagleRetry {
-        return { [weak view, weak renderer] in
-            guard let view = view, let renderer = renderer else { return }
+        return { [weak view] in
+            guard let view = view else { return }
             self.lazyLoad(initialState: view, renderer: renderer)
         }
     }

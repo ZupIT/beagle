@@ -43,7 +43,7 @@ internal class ContextDataManipulator(
             ContextSetResult.Succeed(context.copy(value = value))
         } else {
             try {
-                val keys = JsonPathUtils.splitKeys(path)
+                val keys = createKeysFromPath(context.id, path)
                 val newContext = updateContextDataWithTree(context, keys)
                 jsonCreateTree.walkingTreeAndFindKey(newContext.value, keys, value)
                 ContextSetResult.Succeed(newContext)
@@ -60,7 +60,7 @@ internal class ContextDataManipulator(
         }
 
         return try {
-            val keys = JsonPathUtils.splitKeys(path)
+            val keys = createKeysFromPath(context.id, path)
             val lastKey = keys.pollLast()
             val lastValue = jsonPathFinder.find(keys, context.value)
             if (removePathAtKey(lastKey, lastValue)) {
@@ -91,12 +91,24 @@ internal class ContextDataManipulator(
 
      fun get(contextData: ContextData, path: String): Any? {
          return try {
-             val keys = JsonPathUtils.splitKeys(path)
+             val keys = createKeysFromPath(contextData.id, path)
              jsonPathFinder.find(keys, contextData.value)
          } catch (ex: Exception) {
              BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
              null
          }
+    }
+
+    private fun createKeysFromPath(contextId: String, path: String): LinkedList<String> {
+        val keys = JsonPathUtils.splitKeys(path)
+        val firstKey = keys.pop()
+
+        // If contextId is present on path, we should remove it
+        if (firstKey != contextId) {
+            keys.push(firstKey)
+        }
+
+        return keys
     }
 
     private fun updateContextDataWithTree(

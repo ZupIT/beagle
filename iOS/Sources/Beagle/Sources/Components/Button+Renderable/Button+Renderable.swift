@@ -21,7 +21,7 @@ import BeagleSchema
 extension Button: Widget {
     
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let button = BeagleUIButton.button(
+        let button = BeagleUIButton(
             onPress: onPress,
             clickAnalyticsEvent: clickAnalyticsEvent,
             controller: renderer.controller
@@ -77,17 +77,22 @@ extension Button: Widget {
         private var clickAnalyticsEvent: AnalyticsClick?
         private weak var controller: BeagleController?
         
-        static func button(
+        required init(
             onPress: [RawAction]?,
             clickAnalyticsEvent: AnalyticsClick? = nil,
             controller: BeagleController
-        ) -> BeagleUIButton {
-            let button = BeagleUIButton(type: .system)
-            button.onPress = onPress
-            button.clickAnalyticsEvent = clickAnalyticsEvent
-            button.controller = controller
-            button.addTarget(button, action: #selector(triggerTouchUpInsideActions), for: .touchUpInside)
-            return button
+        ) {
+            super.init(frame: .zero)
+            self.onPress = onPress
+            self.clickAnalyticsEvent = clickAnalyticsEvent
+            self.controller = controller
+            self.addTarget(self, action: #selector(triggerTouchUpInsideActions), for: .touchUpInside)
+            setDefaultStyle()
+        }
+        
+        @available(*, unavailable)
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
         }
         
         @objc func triggerTouchUpInsideActions() {
@@ -101,6 +106,11 @@ extension Button: Widget {
         private func applyStyle() {
             guard let styleId = styleId else { return }
             controller?.dependencies.theme.applyStyle(for: self as UIButton, withId: styleId)
+        }
+        
+        private func setDefaultStyle() {
+            setTitleColor(UIColor.systemBlue, for: .normal)
+            titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
         }
     }
 }

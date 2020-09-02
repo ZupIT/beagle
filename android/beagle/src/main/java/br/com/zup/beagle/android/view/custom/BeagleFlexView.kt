@@ -21,32 +21,34 @@ import android.content.Context
 import android.view.View
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.YogaLayout
+import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
 
-
 @SuppressLint("ViewConstructor")
 internal open class BeagleFlexView(
-    context: Context,
+    private val rootView: RootView,
     style: Style,
     private val flexMapper: FlexMapper = FlexMapper(),
-    private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
-) : YogaLayout(context, flexMapper.makeYogaNode(style)) {
+    private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory(),
+    private val viewModel: ScreenContextViewModel = rootView.generateViewModelInstance()
+) : YogaLayout(rootView.getContext(), flexMapper.makeYogaNode(style)) {
 
     constructor(
-        context: Context,
+        rootView: RootView,
         flexMapper: FlexMapper = FlexMapper()
-    ) : this(context, Style(), flexMapper)
+    ) : this(rootView, Style(), flexMapper)
 
     fun addView(child: View, style: Style) {
         super.addView(child, flexMapper.makeYogaNode(style))
     }
 
-    fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent, rootView: RootView) {
+    fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent) {
         val component = if (serverDrivenComponent is GhostComponent) {
             serverDrivenComponent.child
         } else {
@@ -56,5 +58,10 @@ internal open class BeagleFlexView(
         val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
         view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
         super.addView(view, flexMapper.makeYogaNode(style))
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        viewModel.linkBindingToContextAndEvaluateThem(this)
     }
 }

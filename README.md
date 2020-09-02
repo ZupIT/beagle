@@ -49,7 +49,7 @@ Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use W
 
 ## 🎉 Building your first app using Beagle
 
-Follow the [Getting Started guide](https://docs.usebeagle.io/primeiros-passos/instalando-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
+Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
 
 - [Creating a New Application][new-app]
 - [Adding Beagle to an Existing Application][existing]
