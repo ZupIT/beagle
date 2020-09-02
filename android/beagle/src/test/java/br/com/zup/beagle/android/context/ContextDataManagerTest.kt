@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextData
 import br.com.zup.beagle.android.utils.setContextBinding
 import io.mockk.Runs
@@ -204,6 +205,20 @@ class ContextDataManagerTest : BaseTest() {
         val contextBinding = contexts[Int.MAX_VALUE]?.bindings?.first()
         assertEquals(bind, contextBinding?.bind)
         assertEquals(observer, contextBinding?.observer)
+    }
+
+    @Test
+    fun linkBindingToContextAndEvaluateThem_should_call_notifyBindingChanges_if_view_is_not_in_viewBinding() {
+        // Given
+        val viewWithBind = createViewForContext()
+        val contextBinding = mockk<ContextBinding>(relaxed = true)
+        viewWithBind.setContextBinding(contextBinding)
+
+        // When
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
+
+        // Then
+        verify(exactly = once()) { contextDataManager.notifyBindingChanges(contextBinding) }
     }
 
     @Test
