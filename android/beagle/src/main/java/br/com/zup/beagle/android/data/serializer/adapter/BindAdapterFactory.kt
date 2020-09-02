@@ -53,7 +53,12 @@ private class BindAdapter(
         val expression = reader.peekJson().readJsonValue()
         if (expression != null && expression is String && expression.isExpression()) {
             reader.skipValue()
-            return Bind.Expression(expression, type as Class<Any>)
+            val valueType = if (type is ParameterizedType) {
+                type.rawType
+            } else {
+                type
+            }
+            return Bind.Expression(expression, valueType)
         }
 
         val value = adapter.fromJson(reader)
