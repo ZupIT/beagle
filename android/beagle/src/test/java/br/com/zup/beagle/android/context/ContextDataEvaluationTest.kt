@@ -169,6 +169,23 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
+    fun evaluateAllContext_should_evaluate_text_string_with_special_characters() {
+        // Given
+        val contextValue = "!@#$%¨&*()_+/;,.,:]}~^~[{[´``´=-|\\"
+        val context = ContextData(
+            id = CONTEXT_ID,
+            value = contextValue
+        )
+        val bind = expressionOf<String>("@{$CONTEXT_ID}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(context), bind)
+
+        // Then
+        assertEquals(contextValue, value)
+    }
+
+    @Test
     fun evaluateAllContext_should_not_evaluate_multiple_expressions_that_is_not_text() {
         // Given
         val bind = expressionOf<Int>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
@@ -327,6 +344,31 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
+    fun evaluateAllContext_with_literal_string() {
+        // Given
+        val bind = expressionOf<String>("@{'hello'}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals("hello", value)
+    }
+
+    @Test
+    fun evaluateAllContext_with_literal_string_with_special_character() {
+        // Given
+        val stringValue = "!@#$%¨&*()_+/;,.,:]}\\~^~[{[´``´=-|"
+        val bind = expressionOf<String>("@{'$stringValue'}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals(stringValue, value)
+    }
+
+    @Test
     fun evaluateAllContext_with_operation_sum_with_hardcoded_values_and_string() {
         // Given
         val bind = expressionOf<String>("sum result: @{sum(1, 1)}")
@@ -468,7 +510,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
-    fun evaluateAllContext_with_literal_string() {
+    fun evaluateAllContext_with_literal_string_with_close_key() {
         // Given
         val bind = expressionOf<String>("@{'hello world, this is { beagle }!}'}")
 

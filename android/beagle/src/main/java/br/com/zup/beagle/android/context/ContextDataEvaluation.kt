@@ -21,18 +21,15 @@ import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.utils.BeagleRegex.FULL_MATCH_EXPRESSION_REGEX
-import br.com.zup.beagle.android.utils.BeagleRegex.FULL_MATCH_EXPRESSION_SEPARATOR_REGEX
-import br.com.zup.beagle.android.utils.BeagleRegex.QUANTITY_OF_SLASHES_REGEX
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
-import kotlin.text.Regex.Companion.escapeReplacement
 
 internal class ContextDataEvaluation(
     private val contextDataManipulator: ContextDataManipulator = ContextDataManipulator(),
     private val expressionTokenExecutor: ExpressionTokenExecutor = ExpressionTokenExecutor(),
+    private val contextExpressionReplacer: ContextExpressionReplacer = ContextExpressionReplacer(),
     private val moshi: Moshi = BeagleMoshi.moshi
 ) {
 
@@ -74,7 +71,7 @@ internal class ContextDataEvaluation(
                     )
                 }
 
-                evaluateMultipleExpressions(bind, evaluatedExpressions)
+                contextExpressionReplacer.replace(bind, evaluatedExpressions)
             }
             expressions.size == 1 -> evaluateExpression(
                 contextsData,
@@ -108,93 +105,6 @@ internal class ContextDataEvaluation(
         ) ?: ""
     }
 
-
-    private fun evaluateMultipleExpressions(
-        bind: Bind.Expression<*>,
-        evaluatedExpressions: MutableMap<String, Any>
-    ): Any? {
-        val stringToEvaluate = bind.value
-        val regexToMatchAllExpressions = FULL_MATCH_EXPRESSION_REGEX
-
-        val listInReverseOrderOfStringsToEvaluate = stringToEvaluate
-            .split(FULL_MATCH_EXPRESSION_SEPARATOR_REGEX)
-            .reversed()
-            .toMutableList()
-
-        val evaluatedItemsInReverseOrder = mutableListOf<String>()
-        listInReverseOrderOfStringsToEvaluate.forEachIndexed { index, actualStringToEvaluate ->
-
-            val matchesOccurrenceInThisItem = regexToMatchAllExpressions.findAll(actualStringToEvaluate)
-            if (matchesOccurrenceInThisItem.count() > 0) {
-                matchesOccurrenceInThisItem.iterator().forEach {
-
-                    val actualMatch = it.value
-                    val quantityOfSlashesInThisMatch = getQuantityOfSlashesForThisMatch(actualMatch)
-                    if(isQuantityEven(quantityOfSlashesInThisMatch)) {
-                        val stringWithExpressionEvaluated = getActualStringWithExpressionEvaluated(
-                            matchResult = it,
-                            evaluatedExpressions = evaluatedExpressions,
-                            actualStringToEvaluate = actualStringToEvaluate
-                        )
-                        evaluatedItemsInReverseOrder.add(stringWithExpressionEvaluated)
-                    }
-                    else {
-                        evaluatedItemsInReverseOrder.add(actualStringToEvaluate)
-                    }
-                }
-            } else {
-                joinActualMatchWithNextOne(index, listInReverseOrderOfStringsToEvaluate, actualStringToEvaluate)
-            }
-        }
-
-        val revertedEvaluatedString = evaluatedItemsInReverseOrder
-            .toList()
-            .reversed()
-
-        return joinStringsEvaluatedAndNormalizeSlashesOccurrence(revertedEvaluatedString)
-
-    }
-
-    private fun joinStringsEvaluatedAndNormalizeSlashesOccurrence(revertedEvaluatedString: List<String>): String {
-        return revertedEvaluatedString
-            .joinToString("")
-            .replace("\\\\", "\\")
-            .replace("\\@", "@")
-    }
-
-    private fun joinActualMatchWithNextOne(
-        index: Int,
-        listInReverseOrderOfStringsToEvaluate: MutableList<String>,
-        actualStringToEvaluate: String
-    ) {
-        if (isNotTheLastMatch(index, listInReverseOrderOfStringsToEvaluate)) {
-            val nextStringItem = listInReverseOrderOfStringsToEvaluate[index + 1]
-            listInReverseOrderOfStringsToEvaluate[index + 1] = nextStringItem.plus(actualStringToEvaluate)
-        }
-    }
-
-    private fun isNotTheLastMatch(
-        index: Int,
-        listInReverseOrderOfStringsToEvaluate: MutableList<String>
-    ) = index != listInReverseOrderOfStringsToEvaluate.size
-
-    private fun getQuantityOfSlashesForThisMatch(actualMatch: String) =
-        QUANTITY_OF_SLASHES_REGEX.find(actualMatch)?.groups?.get(1)?.value?.length ?: 0
-
-    private fun getActualStringWithExpressionEvaluated( matchResult: MatchResult,
-                                                        evaluatedExpressions: MutableMap<String, Any>,
-                                                        actualStringToEvaluate: String): String {
-
-        val valueToChangeInEvaluation = matchResult.groupValues[2]
-        val evaluatedValueToBeReplaced = escapeReplacement(evaluatedExpressions[valueToChangeInEvaluation].toString())
-        return actualStringToEvaluate
-            .replace("@{$valueToChangeInEvaluation}", evaluatedValueToBeReplaced)
-    }
-
-    private fun isQuantityEven(quantity: Int): Boolean {
-        return quantity %2 == 0
-    }
-
     private fun evaluateExpression(
         contextsData: List<ContextData>,
         contextCache: LruCache<String, Any>?,
@@ -202,20 +112,7 @@ internal class ContextDataEvaluation(
         expressionToken: ExpressionToken,
         evaluatedBindings: MutableMap<String, Any>
     ): Any? {
-        val value = try {
-             expressionTokenExecutor.execute(contextsData, expressionToken) { binding, contextData ->
-                 return@execute if (contextData != null) {
-                     getValue(contextData, contextCache, binding, bind.type)?.also {
-                         evaluatedBindings[binding] = it
-                     }
-                 } else {
-                     evaluatedBindings[binding]
-                 }
-            }
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingExecuteExpressionFunction(ex)
-            null
-        }
+        val value = getValueFromExpression(contextsData, expressionToken, contextCache, bind, evaluatedBindings)
 
         return try {
             if (bind.type == String::class.java) {
@@ -227,6 +124,29 @@ internal class ContextDataEvaluation(
             }
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
+            null
+        }
+    }
+
+    private fun getValueFromExpression(
+        contextsData: List<ContextData>,
+        expressionToken: ExpressionToken,
+        contextCache: LruCache<String, Any>?,
+        bind: Bind.Expression<*>,
+        evaluatedBindings: MutableMap<String, Any>
+    ): Any? {
+        return try {
+            expressionTokenExecutor.execute(contextsData, expressionToken) { binding, contextData ->
+                return@execute if (contextData != null) {
+                    getValue(contextData, contextCache, binding, bind.type)?.also {
+                        evaluatedBindings[binding] = it
+                    }
+                } else {
+                    evaluatedBindings[binding]
+                }
+            }
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingExecuteExpressionFunction(ex)
             null
         }
     }
