@@ -796,6 +796,102 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
+    fun moshi_should_serialize_contextData_with_integer() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = 2
+        )
+
+        // When
+        val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
+
+        // Then
+        val jsonObject = JSONObject(toJson)
+        assertNotNull(jsonObject)
+        assertEquals(jsonObject.get("id"), contextData.id)
+        assertEquals(jsonObject.get("value"), contextData.value)
+    }
+
+    @Test
+    fun moshi_should_convert_and_revert_contextData_with_integer() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = 5
+        )
+
+        // When
+        val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
+        val fromJson = moshi.adapter(ContextData::class.java).fromJson(toJson)
+
+        // Then
+        assertEquals(contextData, fromJson)
+    }
+
+    @Test
+    fun moshi_should_serialize_contextData_with_double() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = 2.5
+        )
+
+        // When
+        val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
+
+        // Then
+        val jsonObject = JSONObject(toJson)
+        assertNotNull(jsonObject)
+        assertEquals(jsonObject.get("id"), contextData.id)
+        assertEquals(jsonObject.get("value"), contextData.value)
+    }
+
+    @Test
+    fun moshi_should_convert_and_revert_contextData_with_double() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = 4.7
+        )
+
+        // When
+        val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
+        val fromJson = moshi.adapter(ContextData::class.java).fromJson(toJson)
+
+        // Then
+        assertEquals(contextData, fromJson)
+    }
+
+    @Test
+    fun make_should_create_contextData_with_integer() {
+        // Given
+        val testInt = 2
+        val contextDataJson = makeContextWithNumber(testInt)
+
+        // When
+        val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+
+        // Then
+        assertEquals("contextId", contextData?.id)
+        assertEquals(testInt, contextData?.value)
+    }
+
+    @Test
+    fun make_should_create_contextData_with_double() {
+        // Given
+        val testDouble = 2.5
+        val contextDataJson = makeContextWithNumber(testDouble)
+
+        // When
+        val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+
+        // Then
+        assertEquals("contextId", contextData?.id)
+        assertEquals(testDouble, contextData?.value)
+    }
+
+    @Test
     fun make_should_deserialize_contextData_with_jsonArray() {
         // Given
         val contextData = ContextData(

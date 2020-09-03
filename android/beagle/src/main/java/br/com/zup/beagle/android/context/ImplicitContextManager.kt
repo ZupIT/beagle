@@ -53,7 +53,7 @@ class ImplicitContextManager {
     ) {
         implicitContextData.forEach { implicitContext ->
             implicitContext.caller.forEach {
-                if (toCompare == it) {
+                if (toCompare === it) {
                     contexts += implicitContext.context
                     findMoreContexts(implicitContext.sender, contexts)
                 }
