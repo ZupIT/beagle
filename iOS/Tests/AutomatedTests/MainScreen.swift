@@ -25,8 +25,7 @@ struct MainScreen {
             navigationBar: buildNavigationBar(),
             child: Text("teste123", textColor: "#342")
         )
-
-        return BeagleScreenViewController(.declarative(screen))
+        return BeagleScreenViewController(.declarative(screen), controllerId: "CustomBeagleNavigation")
     }
     
     private func buildNavigationBar() -> NavigationBar {

@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BeagleConfig.config()
         let environment = ProcessInfo.processInfo.environment
         let url = environment[AppDelegate.InitialUrlEnvironmentKey] ?? "/expressionescaping"
-        let beagleScreen = Beagle.screen(.remote(.init(url: url)))
+        let beagleScreen = Beagle.screen(.remote(.init(url: url)), controllerId: "CustomBeagleNavigation")
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = beagleScreen
         window?.makeKeyAndVisible()

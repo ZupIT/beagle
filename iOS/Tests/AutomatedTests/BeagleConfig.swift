@@ -10,12 +10,13 @@ import Beagle
 import Foundation
 
 class BeagleConfig {
+    
     static func config() {
-        
         let dependencies = BeagleDependencies()
         dependencies.urlBuilder = UrlBuilder(
             baseUrl: URL(string: "http://localhost:8080/")
         )
+        dependencies.navigation.registerNavigationController(builder: CustomBeagleNavigationController.init, forId: "CustomBeagleNavigation")
         Beagle.dependencies = dependencies
     }
 }
