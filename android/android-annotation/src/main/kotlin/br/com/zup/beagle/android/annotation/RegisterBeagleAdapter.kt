@@ -18,4 +18,4 @@ package br.com.zup.beagle.android.annotation
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class RegisterBeagleTypeConverter
+annotation class RegisterBeagleAdapter

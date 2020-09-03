@@ -16,16 +16,23 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter.generic
 
-import br.com.zup.beagle.android.annotation.RegisterBeagleTypeConverter
+import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 
-@RegisterBeagleTypeConverter
-internal  class ConcreteAdapterTest : BeagleTypeAdapter<ArrayList<String>> {
+@RegisterBeagleAdapter
+//TODO: Will be deleted when finishes annotation
+internal  class ArrayListAdapterTest : BeagleTypeAdapter<ArrayList<String>> {
 
     @FromJson
     override fun fromJson(json: String): ArrayList<String> {
-        return ArrayList()
+        val array = arrayListOf<String>()
+        val list = listOf("1")
+        list.forEach {
+            array.add(it)
+        }
+
+        return array
     }
 
     @ToJson

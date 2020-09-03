@@ -19,5 +19,5 @@ package br.com.zup.beagle.android.data.serializer.adapter.generic
 import java.lang.reflect.Type
 
 interface TypeAdapterResolver {
-    fun getAdapter(type: Type): BeagleTypeAdapter<*>
+    fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>?
 }

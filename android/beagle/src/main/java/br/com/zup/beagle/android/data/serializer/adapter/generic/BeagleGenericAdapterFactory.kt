@@ -26,19 +26,28 @@ import java.lang.reflect.Type
 class BeagleGenericAdapterFactory : JsonAdapter.Factory {
 
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi): JsonAdapter<*>? {
-        val genericAdapter = TypeAdapterResolverImpl().getAdapter(type)
-        val adapter = moshi.adapter(genericAdapter::class.java)
-        return TypeAdapter<Type>(adapter, TypeAdapterResolverImpl().getAdapter(type))
+        val genericAdapter = TypeAdapterResolverImpl().getAdapter<Type>(type)
+
+        if (genericAdapter != null) {
+            return TypeAdapter(genericAdapter)
+        }
+
+        return null
     }
 
     private  class TypeAdapter<T>(
-        private val adapter: JsonAdapter<out BeagleTypeAdapter<*>>,
-        private val beagleTypeAdapter: BeagleTypeAdapter<*>
+        private val beagleTypeAdapter: BeagleTypeAdapter<T>
     ) : JsonAdapter<T>() {
 
-        override fun fromJson(reader: JsonReader) = beagleTypeAdapter.fromJson(reader.peekJson().readJsonValue().toString()) as T
+        override fun fromJson(reader: JsonReader): T {
+            return beagleTypeAdapter.fromJson(reader.readJsonValue().toString())
+        }
+
         override fun toJson(writer: JsonWriter, value: T?) {
-            writer.value(beagleTypeAdapter.toJson(value))
+            if (value != null) {
+                writer.value(beagleTypeAdapter.toJson(value))
+            }
+            writer.nullValue()
         }
     }
 }

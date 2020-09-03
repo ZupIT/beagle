@@ -817,12 +817,16 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun moshi_should_deserialize_array_list() {
         // Given
-        val jsonComponent = JSONArray(listOf(1, 2, 3)).toString()
+        val firstElement = "1"
+        val jsonComponent = listOf(firstElement).toString()
 
         // When
         val result = moshi.adapter(ArrayList::class.java).fromJson(jsonComponent)
 
         // Then
         assertTrue { result is ArrayList }
+        assertNotNull(result)
+        assertEquals(firstElement, result[0])
+
     }
 }

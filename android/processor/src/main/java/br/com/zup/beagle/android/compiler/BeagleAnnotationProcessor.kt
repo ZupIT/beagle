@@ -22,7 +22,7 @@ import br.com.zup.beagle.android.annotation.RegisterValidator
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.implementsInterface
 import br.com.zup.beagle.annotation.RegisterAction
-import br.com.zup.beagle.android.annotation.RegisterBeagleTypeConverter
+import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.error
 import com.google.auto.service.AutoService
@@ -52,7 +52,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             RegisterValidator::class.java.canonicalName,
             RegisterAction::class.java.canonicalName,
             RegisterController::class.java.canonicalName,
-            RegisterBeagleTypeConverter::class.java.canonicalName
+            RegisterBeagleAdapter::class.java.canonicalName
         ))
     }
 

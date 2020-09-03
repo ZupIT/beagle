@@ -18,10 +18,11 @@ package br.com.zup.beagle.android.data.serializer.adapter.generic
 
 import java.lang.reflect.Type
 
+@Suppress("UNCHECKED_CAST")
 internal class TypeAdapterResolverImpl: TypeAdapterResolver {
 
-    override fun getAdapter(type: Type): BeagleTypeAdapter<*> = when (type) {
-        ArrayList::class.java -> ConcreteAdapterTest()
-        else -> throw IllegalStateException()
+    override fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>? = when (type) {
+        ArrayList::class.java -> ArrayListAdapterTest() as BeagleTypeAdapter<T>
+        else -> null
     }
 }
