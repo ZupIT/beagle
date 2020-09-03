@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context
+package br.com.zup.beagle.sample.actions
 
-import org.json.JSONArray
-import org.json.JSONObject
+import android.view.View
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.RegisterAction
 
-internal class ContextDataValueResolver {
+@RegisterAction
+data class CustomAndroidAction(
+    val value: String,
+    val intValue: Int
+) : Action {
+    override fun execute(rootView: RootView, origin: View) {
 
-    fun parse(value: Any?): Any? {
-        return when (value) {
-            is Collection<*> -> JSONArray(value)
-            is Map<*, *> -> JSONObject(value)
-            else -> value
-        }
     }
 }
