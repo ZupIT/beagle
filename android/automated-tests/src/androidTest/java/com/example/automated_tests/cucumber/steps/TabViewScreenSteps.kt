@@ -45,9 +45,7 @@ class TabViewScreenSteps {
     @Given("^that I'm on the tabview screen$")
     fun checkTabViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER, true)
             .checkViewContainsText(TABVIEW_SCREEN_HEADER, true)
-            .sleep(2)
     }
 
     @Then("^my tabview components should render their respective tabs attributes correctly$")

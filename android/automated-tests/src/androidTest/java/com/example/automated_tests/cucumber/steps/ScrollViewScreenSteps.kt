@@ -46,9 +46,7 @@ class ScrollViewScreenSteps {
     @Given("^that I'm on the scrollview screen$")
     fun checkScrollViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER, true)
             .checkViewContainsText(SCROLLVIEW_SCREEN_HEADER, true)
-            .sleep(2)
     }
 
     @When("^I have a vertical scroll configured$")

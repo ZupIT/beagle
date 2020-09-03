@@ -29,9 +29,7 @@ class SimpleFormScreenSteps {
     @Given("^that I'm on the simple form screen$")
     fun checkTabViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER, true)
             .checkViewContainsText(SIMPLE_FORM_SCREEN_HEADER, true)
-            .sleep(2)
     }
 
     @Then("^all my simple form components should render their respective text attributes correctly$")
