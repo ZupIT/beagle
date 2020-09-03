@@ -312,18 +312,6 @@ fun makeBindComponentExpression() = """
     }
 """
 
-fun makeArrayList() = """
-    {
-        "_beagleComponent_": "custom:componentbinding",
-        "value1": "@{intExpression}",
-        "value2": "Hello @{context.name}",
-        "value3": "@{booleanExpression}",
-        "value4": "@{objectExpression}",
-        "value5": "@{mapExpression}",
-        "value6": "@{listExpression}"
-    }
-"""
-
 fun makeContextWithJsonObject() = """
     {
         "id": "contextId",

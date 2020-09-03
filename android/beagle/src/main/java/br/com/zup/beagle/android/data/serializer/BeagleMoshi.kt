@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.data.serializer.adapter.ComponentJsonAdapterFac
 import br.com.zup.beagle.android.data.serializer.adapter.ContextDataAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ImagePathTypeJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleGenericAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.generic.TypeAdapterResolverImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
@@ -44,6 +45,6 @@ internal object BeagleMoshi {
         .add(KotlinJsonAdapterFactory())
         .add(ContextDataAdapterFactory())
         .add(SimpleJsonAdapter())
-        .add(BeagleGenericAdapterFactory())
+        .add(BeagleGenericAdapterFactory(TypeAdapterResolverImpl()))
         .build()
 }

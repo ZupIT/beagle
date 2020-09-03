@@ -23,10 +23,10 @@ import com.squareup.moshi.Moshi
 import java.lang.reflect.Type
 
 @Suppress("UNREACHABLE_CODE")
-class BeagleGenericAdapterFactory : JsonAdapter.Factory {
+class BeagleGenericAdapterFactory(private val typeAdapterResolverImpl: TypeAdapterResolverImpl) : JsonAdapter.Factory {
 
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi): JsonAdapter<*>? {
-        val genericAdapter = TypeAdapterResolverImpl().getAdapter<Type>(type)
+        val genericAdapter = typeAdapterResolverImpl.getAdapter<Type>(type)
 
         if (genericAdapter != null) {
             return TypeAdapter(genericAdapter)
