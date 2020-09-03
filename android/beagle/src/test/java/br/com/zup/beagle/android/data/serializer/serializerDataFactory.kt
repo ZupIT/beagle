@@ -334,6 +334,21 @@ fun makeContextWithJsonArray() = """
     }
 """
 
+fun makeContextWithJsonArrayAndJsonObject() = """
+    {
+        "id": "contextId",
+        "value": [
+            {
+                "name" : "John",
+                "age" : 20
+            }, {
+                "name" : "Mary",
+                "age" : 30
+          }
+        ]
+    }
+"""
+
 fun makeContextWithPrimitive() = """
     {
         "id": "contextId",

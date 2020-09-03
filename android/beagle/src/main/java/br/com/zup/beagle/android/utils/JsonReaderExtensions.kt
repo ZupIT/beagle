@@ -63,7 +63,7 @@ internal fun JsonReader.readArray(): JSONArray {
 
     beginArray()
     while (peek() != JsonReader.Token.END_ARRAY) {
-        jsonArray.put(readJsonValue())
+        jsonArray.put(readValue())
     }
     endArray()
 
