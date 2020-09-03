@@ -21,22 +21,17 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 
 @RegisterBeagleAdapter
-//TODO: Will be deleted when finishes annotation
 internal  class ArrayListAdapterTest : BeagleTypeAdapter<ArrayList<String>> {
+
+    private val array = arrayListOf("1")
 
     @FromJson
     override fun fromJson(json: String): ArrayList<String> {
-        val array = arrayListOf<String>()
-        val list = listOf("1")
-        list.forEach {
-            array.add(it)
-        }
-
         return array
     }
 
     @ToJson
     override fun toJson(type: ArrayList<String>) : String {
-        return ""
+        return array.toString()
     }
 }

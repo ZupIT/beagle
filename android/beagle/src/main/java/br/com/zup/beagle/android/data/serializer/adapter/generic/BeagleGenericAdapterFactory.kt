@@ -46,8 +46,9 @@ class BeagleGenericAdapterFactory : JsonAdapter.Factory {
         override fun toJson(writer: JsonWriter, value: T?) {
             if (value != null) {
                 writer.value(beagleTypeAdapter.toJson(value))
+            } else {
+                writer.nullValue()
             }
-            writer.nullValue()
         }
     }
 }

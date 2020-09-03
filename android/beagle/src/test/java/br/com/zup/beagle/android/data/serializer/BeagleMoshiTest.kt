@@ -925,4 +925,18 @@ class BeagleMoshiTest : BaseTest() {
         assertEquals(firstElement, result[0])
 
     }
+
+    @Test
+    fun moshi_should_serialize_array_list() {
+        // Given
+        val firstElement = "1"
+        val array = arrayListOf(firstElement)
+
+        // When
+        val result = moshi.adapter(ArrayList::class.java).toJson(array)
+
+        // Then
+        assertTrue { result is String }
+        assertNotNull(result)
+    }
 }
