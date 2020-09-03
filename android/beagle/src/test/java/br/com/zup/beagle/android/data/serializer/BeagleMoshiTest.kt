@@ -86,6 +86,7 @@ class BeagleMoshiTest : BaseTest() {
         every { beagleSdk.formLocalActionHandler } returns mockk(relaxed = true)
         every { beagleSdk.registeredWidgets() } returns WIDGETS
         every { beagleSdk.registeredActions() } returns ACTIONS
+        every { beagleSdk.typeAdapterResolver } returns mockk(relaxed = true)
 
         moshi = BeagleMoshi.createMoshi()
     }
@@ -811,5 +812,17 @@ class BeagleMoshiTest : BaseTest() {
 
         // Then
         assertNotNull(JSONObject(json))
+    }
+
+    @Test
+    fun moshi_should_deserialize_array_list() {
+        // Given
+        val jsonComponent = JSONArray(listOf(1, 2, 3)).toString()
+
+        // When
+        val result = moshi.adapter(ArrayList::class.java).fromJson(jsonComponent)
+
+        // Then
+        assertTrue { result is ArrayList }
     }
 }
