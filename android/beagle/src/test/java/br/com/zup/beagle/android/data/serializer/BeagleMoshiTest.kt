@@ -783,6 +783,20 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
+    fun make_should_create_contextData_with_jsonArray_and_jsonObject() {
+        // Given
+        val contextDataJson = makeContextWithJsonArrayAndJsonObject()
+
+        // When
+        val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+        val childContextData = (contextData?.value as? JSONArray)?.get(0)
+
+        // Then
+        assertTrue(contextData?.value is JSONArray)
+        assertTrue(childContextData is JSONObject)
+    }
+
+    @Test
     fun make_should_create_contextData_with_primitive() {
         // Given
         val contextDataJson = makeContextWithPrimitive()
