@@ -46,9 +46,7 @@ class ListViewScreenSteps {
     @Given("^that I'm on the listview screen$")
     fun checkListViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER, true)
             .checkViewContainsText(LISTVIEW_SCREEN_HEADER, true)
-            .sleep(2)
     }
 
     @When("^I have a vertical list configured$")

@@ -46,9 +46,7 @@ class TouchableScreenSteps {
     @Given("^that I'm on the touchable screen$")
     fun checkImageScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER, true)
             .checkViewContainsText(TOUCHABLE_SCREEN_HEADER, true)
-            .sleep(2)
     }
 
     @And("^I have a text with touchable configured$")

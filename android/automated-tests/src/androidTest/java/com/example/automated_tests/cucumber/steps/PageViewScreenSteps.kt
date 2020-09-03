@@ -45,9 +45,7 @@ class PageViewScreenSteps {
     @Given("^that I'm on the pageview screen$")
     fun checkTabViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER, true)
             .checkViewContainsText(PAGEVIEW_SCREEN_HEADER, true)
-            .sleep(2)
     }
 
     @Then("^my pageview components should render their respective pages attributes correctly$")
