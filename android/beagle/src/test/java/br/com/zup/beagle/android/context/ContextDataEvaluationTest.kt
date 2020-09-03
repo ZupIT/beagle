@@ -456,6 +456,85 @@ internal class ContextDataEvaluationTest : BaseTest() {
         }
     }
 
+    fun evaluate(string: String): String {
+        val expressionContentRegex = "(\\\\*)@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}"
+        val revertedSplitedList = string.split("(?<=\\})".toRegex()).reversed().toMutableList()
+        val revertedListWithStringEvaluated = mutableListOf<String>()
+
+        revertedSplitedList.forEachIndexed { index, itemFromList ->
+
+            //Execute a match of regex in actual item
+            val sequenceOfItemsFound = expressionContentRegex.toRegex().findAll(itemFromList)
+
+            //verify if a match has been encountered
+            if (sequenceOfItemsFound.count() != 0) {
+
+                //No need to be a forEach cause, only one match per time is available
+                sequenceOfItemsFound.iterator().forEach {
+
+                    //Get the actual match
+                    val fullMatch = it.value
+
+                    //Check the quantity of slashes before @
+                    val slashQuantity = "(\\\\*)@".toRegex().find(fullMatch)?.groups?.get(1)?.value?.length ?: 0
+
+                    //If the quantity is even should evaluate value
+                    if(slashQuantity % 2 == 0 ) {
+
+                        //Get the key as a match style
+                        val key = "@{${it.groupValues[2]}}"
+
+                        //Mocked value to be replaced
+                        val value = "VALOR"
+
+                        //New String with replaced value
+                        val fullMatchWithNormalizedSlashes = itemFromList
+                            .replace(key, value)
+
+
+                        //Add a new string to new reverted list
+                        revertedListWithStringEvaluated.add(fullMatchWithNormalizedSlashes)
+                    }
+                    else {
+                        //Only add same string to new reverted list
+                        revertedListWithStringEvaluated.add(itemFromList)
+                    }
+                }
+            } else {
+                //in last item we do nothing
+                if(index!= revertedSplitedList.size) {
+
+                    val nextStringItem = revertedSplitedList[index+1]
+                    //Concatenate not matched item with the next one from the list
+                    revertedSplitedList[index+1] = nextStringItem.plus(itemFromList)
+                }
+            }
+
+        }
+
+        val revertedEvaluatedString = revertedListWithStringEvaluated
+            .toList()
+            .reversed()
+
+        return revertedEvaluatedString
+            .joinToString("")
+            .replace("\\\\", "\\")
+            .replace("\\@", "@")
+    }
+
+    @Test
+    fun evaluateMultipleStringsExpressions() {
+        var stringExpression = "lorem ipsum \\@{'hello world, this is { beagle }!}'} lotem ipsum @{nome} , \\\\\\\\@{context.id}" +
+            "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum gabriel , \\\\\\\\@{context.id}"
+
+        val result = evaluate(stringExpression)
+
+        val expected = "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum VALOR , \\\\VALOR" +
+            "lorem ipsum VALOR lotem ipsum gabriel , \\\\VALOR"
+
+        assertEquals(expected = expected, actual = result)
+    }
+
     @Test
     fun evaluateAllContext_with_literal_string() {
         // Given

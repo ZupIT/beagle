@@ -105,23 +105,101 @@ internal class ContextDataEvaluation(
         ) ?: ""
     }
 
+//    private fun evaluateMultipleExpressions(
+//        bind: Bind.Expression<*>,
+//        evaluatedExpressions: MutableMap<String, Any>
+//    ): Any? {
+//        val regexSymbolSeparator = getRegexSeparatorUsingSymbol(symbol = '}')
+//
+//        return bind.value.split(regexSymbolSeparator).joinToString("") {
+//
+//            val quantityOfSlashes = getSlashQuantityFromString(textToVerify = it) ?: 0
+//
+//            val haveDoubleSlashOccurrence = haveAtLeastOneDoubleSlashBeforeAtSignInString(textToVerify = it)
+//
+//            val isQuantityOfSlashesEven = isQuantityEven(quantity = quantityOfSlashes)
+//
+//            if (!haveDoubleSlashOccurrence || isQuantityOfSlashesEven) {
+//                val key = "\\{([^\\@]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
+//                val value = escapeReplacement(evaluatedExpressions[key].toString())
+//                it.replace("@{$key}", value)
+//            } else {
+//                it
+//            }
+//        }.replace("\\\\", "\\").replace("\\@", "@")
+//
+//    }
+
     private fun evaluateMultipleExpressions(
         bind: Bind.Expression<*>,
         evaluatedExpressions: MutableMap<String, Any>
     ): Any? {
-        val regexSymbolSeparator = getRegexSeparatorUsingSymbol(symbol = '}')
-        return bind.value.split(regexSymbolSeparator).joinToString("") {
-            val quantityOfSlashes = getSlashQuantityFromString(textToVerify = it) ?: 0
-            val haveDoubleSlashOccurrence = haveAtLeastOneDoubleSlashBeforeAtSignInString(textToVerify = it)
-            val isQuantityOfSlashesEven = isQuantityEven(quantity = quantityOfSlashes)
-            if (!haveDoubleSlashOccurrence || isQuantityOfSlashesEven) {
-                val key = "\\{([^\\@]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
-                val value = escapeReplacement(evaluatedExpressions[key].toString())
-                it.replace("@{$key}", value)
+        val stringToEvaluate = bind.value
+        val expressionContentRegex = "(\\\\*)@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}"
+        val revertedSplitedList = stringToEvaluate.split("(?<=\\})".toRegex()).reversed().toMutableList()
+        val revertedListWithStringEvaluated = mutableListOf<String>()
+
+        revertedSplitedList.forEachIndexed { index, itemFromList ->
+
+            //Execute a match of regex in actual item
+            val sequenceOfItemsFound = expressionContentRegex.toRegex().findAll(itemFromList)
+
+            //verify if a match has been encountered
+            if (sequenceOfItemsFound.count() != 0) {
+
+                //No need to be a forEach cause, only one match per time is available
+                sequenceOfItemsFound.iterator().forEach {
+
+                    //Get the actual match
+                    val fullMatch = it.value
+
+                    //Check the quantity of slashes before @
+                    val slashQuantity = "(\\\\*)@".toRegex().find(fullMatch)?.groups?.get(1)?.value?.length ?: 0
+
+                    //If the quantity is even should evaluate value
+                    if(slashQuantity % 2 == 0 ) {
+
+                        //Get the key as a match style
+                        val key = "@{${it.groupValues[2]}}"
+
+                        //Mocked value to be replaced
+//                        val value = "VALOR"
+                        val value = escapeReplacement(evaluatedExpressions[key].toString())
+
+                        //New String with replaced value
+                        val fullMatchWithNormalizedSlashes = itemFromList
+                            .replace(key, value)
+
+
+                        //Add a new string to new reverted list
+                        revertedListWithStringEvaluated.add(fullMatchWithNormalizedSlashes)
+                    }
+                    else {
+                        //Only add same string to new reverted list
+                        revertedListWithStringEvaluated.add(itemFromList)
+                    }
+                }
             } else {
-                it
+                //in last item we do nothing
+                if(index!= revertedSplitedList.size) {
+
+                    val nextStringItem = revertedSplitedList[index+1]
+                    //Concatenate not matched item with the next one from the list
+                    revertedSplitedList[index+1] = nextStringItem.plus(itemFromList)
+                }
             }
-        }.replace("\\\\", "\\").replace("\\@", "@")
+
+        }
+
+        val revertedEvaluatedString = revertedListWithStringEvaluated
+            .toList()
+            .reversed()
+
+        return revertedEvaluatedString
+            .joinToString("")
+            .replace("\\\\", "\\")
+            .replace("\\@", "@")
+
     }
 
     private fun isQuantityEven(quantity: Int): Boolean {
