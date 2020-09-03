@@ -128,8 +128,9 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="DesignSystem.Stylish.ButtonAndAppearance" parent="DesignSystem.Text.Default">
-        <item name="android:textColor">@color/colorWhite</item>
+    <style name="DesignSystem.Stylish.ButtonAndAppearance" parent="Widget.AppCompat.Button">
+        <item name="background">@color/colorGreen</item>
+        <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textStyle">bold</item>
     </style>
 
