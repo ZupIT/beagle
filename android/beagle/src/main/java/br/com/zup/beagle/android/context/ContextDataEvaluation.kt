@@ -21,6 +21,9 @@ import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.BeagleRegex.FULL_MATCH_EXPRESSION_REGEX
+import br.com.zup.beagle.android.utils.BeagleRegex.FULL_MATCH_EXPRESSION_SEPARATOR_REGEX
+import br.com.zup.beagle.android.utils.BeagleRegex.QUANTITY_OF_SLASHES_REGEX
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
@@ -105,117 +108,91 @@ internal class ContextDataEvaluation(
         ) ?: ""
     }
 
-//    private fun evaluateMultipleExpressions(
-//        bind: Bind.Expression<*>,
-//        evaluatedExpressions: MutableMap<String, Any>
-//    ): Any? {
-//        val regexSymbolSeparator = getRegexSeparatorUsingSymbol(symbol = '}')
-//
-//        return bind.value.split(regexSymbolSeparator).joinToString("") {
-//
-//            val quantityOfSlashes = getSlashQuantityFromString(textToVerify = it) ?: 0
-//
-//            val haveDoubleSlashOccurrence = haveAtLeastOneDoubleSlashBeforeAtSignInString(textToVerify = it)
-//
-//            val isQuantityOfSlashesEven = isQuantityEven(quantity = quantityOfSlashes)
-//
-//            if (!haveDoubleSlashOccurrence || isQuantityOfSlashesEven) {
-//                val key = "\\{([^\\@]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
-//                val value = escapeReplacement(evaluatedExpressions[key].toString())
-//                it.replace("@{$key}", value)
-//            } else {
-//                it
-//            }
-//        }.replace("\\\\", "\\").replace("\\@", "@")
-//
-//    }
 
     private fun evaluateMultipleExpressions(
         bind: Bind.Expression<*>,
         evaluatedExpressions: MutableMap<String, Any>
     ): Any? {
         val stringToEvaluate = bind.value
-        val expressionContentRegex = "(\\\\*)@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}"
-        val revertedSplitedList = stringToEvaluate.split("(?<=\\})".toRegex()).reversed().toMutableList()
-        val revertedListWithStringEvaluated = mutableListOf<String>()
+        val regexToMatchAllExpressions = FULL_MATCH_EXPRESSION_REGEX
 
-        revertedSplitedList.forEachIndexed { index, itemFromList ->
+        val listInReverseOrderOfStringsToEvaluate = stringToEvaluate
+            .split(FULL_MATCH_EXPRESSION_SEPARATOR_REGEX)
+            .reversed()
+            .toMutableList()
 
-            //Execute a match of regex in actual item
-            val sequenceOfItemsFound = expressionContentRegex.toRegex().findAll(itemFromList)
+        val evaluatedItemsInReverseOrder = mutableListOf<String>()
+        listInReverseOrderOfStringsToEvaluate.forEachIndexed { index, actualStringToEvaluate ->
 
-            //verify if a match has been encountered
-            if (sequenceOfItemsFound.count() != 0) {
+            val matchesOccurrenceInThisItem = regexToMatchAllExpressions.findAll(actualStringToEvaluate)
+            if (matchesOccurrenceInThisItem.count() > 0) {
+                matchesOccurrenceInThisItem.iterator().forEach {
 
-                //No need to be a forEach cause, only one match per time is available
-                sequenceOfItemsFound.iterator().forEach {
-
-                    //Get the actual match
-                    val fullMatch = it.value
-
-                    //Check the quantity of slashes before @
-                    val slashQuantity = "(\\\\*)@".toRegex().find(fullMatch)?.groups?.get(1)?.value?.length ?: 0
-
-                    //If the quantity is even should evaluate value
-                    if(slashQuantity % 2 == 0 ) {
-
-                        //Get the key as a match style
-                        val key = "@{${it.groupValues[2]}}"
-
-                        //Mocked value to be replaced
-//                        val value = "VALOR"
-                        val value = escapeReplacement(evaluatedExpressions[key].toString())
-
-                        //New String with replaced value
-                        val fullMatchWithNormalizedSlashes = itemFromList
-                            .replace(key, value)
-
-
-                        //Add a new string to new reverted list
-                        revertedListWithStringEvaluated.add(fullMatchWithNormalizedSlashes)
+                    val actualMatch = it.value
+                    val quantityOfSlashesInThisMatch = getQuantityOfSlashesForThisMatch(actualMatch)
+                    if(isQuantityEven(quantityOfSlashesInThisMatch)) {
+                        val stringWithExpressionEvaluated = getActualStringWithExpressionEvaluated(
+                            matchResult = it,
+                            evaluatedExpressions = evaluatedExpressions,
+                            actualStringToEvaluate = actualStringToEvaluate
+                        )
+                        evaluatedItemsInReverseOrder.add(stringWithExpressionEvaluated)
                     }
                     else {
-                        //Only add same string to new reverted list
-                        revertedListWithStringEvaluated.add(itemFromList)
+                        evaluatedItemsInReverseOrder.add(actualStringToEvaluate)
                     }
                 }
             } else {
-                //in last item we do nothing
-                if(index!= revertedSplitedList.size) {
-
-                    val nextStringItem = revertedSplitedList[index+1]
-                    //Concatenate not matched item with the next one from the list
-                    revertedSplitedList[index+1] = nextStringItem.plus(itemFromList)
-                }
+                joinActualMatchWithNextOne(index, listInReverseOrderOfStringsToEvaluate, actualStringToEvaluate)
             }
-
         }
 
-        val revertedEvaluatedString = revertedListWithStringEvaluated
+        val revertedEvaluatedString = evaluatedItemsInReverseOrder
             .toList()
             .reversed()
 
+        return joinStringsEvaluatedAndNormalizeSlashesOccurrence(revertedEvaluatedString)
+
+    }
+
+    private fun joinStringsEvaluatedAndNormalizeSlashesOccurrence(revertedEvaluatedString: List<String>): String {
         return revertedEvaluatedString
             .joinToString("")
             .replace("\\\\", "\\")
             .replace("\\@", "@")
+    }
 
+    private fun joinActualMatchWithNextOne(
+        index: Int,
+        listInReverseOrderOfStringsToEvaluate: MutableList<String>,
+        actualStringToEvaluate: String
+    ) {
+        if (isNotTheLastMatch(index, listInReverseOrderOfStringsToEvaluate)) {
+            val nextStringItem = listInReverseOrderOfStringsToEvaluate[index + 1]
+            listInReverseOrderOfStringsToEvaluate[index + 1] = nextStringItem.plus(actualStringToEvaluate)
+        }
+    }
+
+    private fun isNotTheLastMatch(
+        index: Int,
+        listInReverseOrderOfStringsToEvaluate: MutableList<String>
+    ) = index != listInReverseOrderOfStringsToEvaluate.size
+
+    private fun getQuantityOfSlashesForThisMatch(actualMatch: String) =
+        QUANTITY_OF_SLASHES_REGEX.find(actualMatch)?.groups?.get(1)?.value?.length ?: 0
+
+    private fun getActualStringWithExpressionEvaluated( matchResult: MatchResult,
+                                                        evaluatedExpressions: MutableMap<String, Any>,
+                                                        actualStringToEvaluate: String): String {
+
+        val valueToChangeInEvaluation = matchResult.groupValues[2]
+        val evaluatedValueToBeReplaced = escapeReplacement(evaluatedExpressions[valueToChangeInEvaluation].toString())
+        return actualStringToEvaluate
+            .replace("@{$valueToChangeInEvaluation}", evaluatedValueToBeReplaced)
     }
 
     private fun isQuantityEven(quantity: Int): Boolean {
         return quantity %2 == 0
-    }
-
-    private fun haveAtLeastOneDoubleSlashBeforeAtSignInString(textToVerify: String): Boolean {
-        return textToVerify.matches(".*\\\\@.*".toRegex())
-    }
-
-    private fun getSlashQuantityFromString(textToVerify: String): Int? {
-        return "(\\\\*)@".toRegex().find(textToVerify)?.groups?.get(1)?.value?.length
-    }
-
-    private fun getRegexSeparatorUsingSymbol(symbol: Char) : Regex {
-        return "(?<=\\$symbol)".toRegex()
     }
 
     private fun evaluateExpression(
