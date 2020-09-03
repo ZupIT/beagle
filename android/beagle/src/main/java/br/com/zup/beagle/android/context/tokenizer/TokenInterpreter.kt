@@ -77,15 +77,6 @@ internal class TokenInterpreter(value: String) {
 
             specialCharacterFound = lastChar == '\\'
         }
-
-        // Now read the rest of the variable
-
-        // Now read the rest of the variable
-        while (lastChar.isJavaIdentifierPart()) {
-            sb.append(lastChar)
-            lastChar = reader.read().toChar()
-        }
-
         return sb.toString()
     }
 
