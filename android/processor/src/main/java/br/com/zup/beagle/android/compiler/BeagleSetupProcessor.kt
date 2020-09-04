@@ -45,7 +45,9 @@ class BeagleSetupProcessor(
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
         BeagleSetupPropertyGenerator(processingEnv),
     private val registerAnnotationProcessor: RegisterControllerProcessor =
-        RegisterControllerProcessor(processingEnv)
+        RegisterControllerProcessor(processingEnv),
+    private val registerBeagleAdapterProcessor: RegisterBeagleAdapterProcessor =
+        RegisterBeagleAdapterProcessor(processingEnv)
 ) {
 
     fun process(
@@ -86,6 +88,7 @@ class BeagleSetupProcessor(
         var property = properties[propertyIndex]
 
         registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
+        registerBeagleAdapterProcessor.process(basePackageName, roundEnvironment)
 
         val defaultActivity = registerAnnotationProcessor.defaultActivityRegistered
         property = beagleSetupPropertyGenerator.implementServerDrivenActivityProperty(

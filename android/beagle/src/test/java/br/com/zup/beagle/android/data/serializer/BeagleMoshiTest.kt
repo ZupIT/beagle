@@ -86,7 +86,6 @@ class BeagleMoshiTest : BaseTest() {
         every { beagleSdk.formLocalActionHandler } returns mockk(relaxed = true)
         every { beagleSdk.registeredWidgets() } returns WIDGETS
         every { beagleSdk.registeredActions() } returns ACTIONS
-        every { beagleSdk.typeAdapterResolver } returns mockk(relaxed = true)
 
         moshi = BeagleMoshi.createMoshi()
     }

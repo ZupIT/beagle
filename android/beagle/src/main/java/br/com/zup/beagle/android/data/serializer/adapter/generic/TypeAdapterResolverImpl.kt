@@ -22,7 +22,7 @@ import java.lang.reflect.Type
 class TypeAdapterResolverImpl: TypeAdapterResolver {
 
     override fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>? = when (type) {
-        ArrayList::class.java -> ArrayListAdapterTest() as BeagleTypeAdapter<T>
+        type as java.util.ArrayList<Int>  -> ArrayListAdapterTest() as BeagleTypeAdapter<T>
         else -> null
     }
 }

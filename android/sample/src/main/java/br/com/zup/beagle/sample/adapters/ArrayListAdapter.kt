@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.data.serializer.adapter.generic
+package br.com.zup.beagle.sample.adapters
 
 import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
 
 @RegisterBeagleAdapter
-internal  class ArrayListAdapterTest : BeagleTypeAdapter<ArrayList<String>> {
+class ArrayListAdapter : BeagleTypeAdapter<ArrayList<String>> {
 
     private val array = arrayListOf("1")
 
-    @FromJson
     override fun fromJson(json: String): ArrayList<String> {
         return array
     }
 
-    @ToJson
     override fun toJson(type: ArrayList<String>) : String {
         return array.toString()
     }
