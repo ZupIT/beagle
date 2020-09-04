@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.compiler.REGISTERED_ACTIONS
-import br.com.zup.beagle.compiler.REGISTERED_WIDGETS
 import br.com.zup.beagle.compiler.RegisteredActionGenerator
 import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.widget.Widget
