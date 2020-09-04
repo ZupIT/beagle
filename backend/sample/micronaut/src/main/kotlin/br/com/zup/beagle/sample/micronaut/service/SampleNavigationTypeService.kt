@@ -35,6 +35,8 @@ import br.com.zup.beagle.sample.constants.RED_ORANGE
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_PRESENT_ENDPOINT
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -61,6 +63,7 @@ class SampleNavigationTypeService {
     )
 
     fun createNavigationTypeView() = Screen(
+        context = ContextData(id = "context", value = REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT),
         navigationBar = NavigationBar(
             title = "Step 1",
             showBackButton = true,
@@ -82,6 +85,11 @@ class SampleNavigationTypeService {
                 createButton(
                     text = "PushView (Step 2)",
                     navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)),
+                    backgroundColor = LIGHT_RED
+                ),
+                createButton(
+                    text = "PushView (Step 2) with context",
+                    navigate = Navigate.PushView(Route.Remote(expressionOf("@{context}"))),
                     backgroundColor = LIGHT_RED
                 )
             )
