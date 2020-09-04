@@ -16,13 +16,15 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter.generic
 
+import com.squareup.moshi.Types.newParameterizedType
 import java.lang.reflect.Type
+import java.sql.Types
 
 @Suppress("UNCHECKED_CAST")
 class TypeAdapterResolverImpl: TypeAdapterResolver {
 
     override fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>? = when (type) {
-        type as java.util.ArrayList<Int>  -> ArrayListAdapterTest() as BeagleTypeAdapter<T>
+        ArrayList::class.java -> ArrayListAdapterTest() as BeagleTypeAdapter<T>
         else -> null
     }
 }

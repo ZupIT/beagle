@@ -19,16 +19,17 @@ package br.com.zup.beagle.sample.adapters
 import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
 
+
 @RegisterBeagleAdapter
-class ArrayListAdapter : BeagleTypeAdapter<ArrayList<String>> {
+class ArrayListAdapter : BeagleTypeAdapter<String> {
 
     private val array = arrayListOf("1")
 
-    override fun fromJson(json: String): ArrayList<String> {
-        return array
+    override fun fromJson(json: String): String {
+        return ""
     }
 
-    override fun toJson(type: ArrayList<String>) : String {
+    override fun toJson(type: String) : String {
         return array.toString()
     }
 }

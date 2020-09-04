@@ -18,13 +18,19 @@ package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
+import br.com.zup.beagle.compiler.elementType
 import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.getNameWith
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import sun.rmi.runtime.Log
 import java.io.IOException
 import java.lang.reflect.Type
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
+import javax.lang.model.element.Element
+import javax.lang.model.element.TypeElement
+import javax.lang.model.type.DeclaredType
 
 const val BEAGLE_ADAPTER_REFERENCE_GENERATED = "TypeAdapterResolverImpl"
 
@@ -88,7 +94,12 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
         )
 
         registerAdapterAnnotatedClasses.forEachIndexed { index, element ->
-            adapters.append("$element::class.java -> $element() as BeagleTypeAdapter<T>")
+            val typeElement = element as TypeElement
+            val declaredType = typeElement.interfaces[0] as DeclaredType
+
+
+
+            adapters.append("${declaredType.elementType}::class.java -> $element() as BeagleTypeAdapter<T>")
         }
 
         return adapters.toString()
