@@ -20,14 +20,15 @@ import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
 
 
-//@RegisterBeagleAdapter
-class ArrayListAdapter : BeagleTypeAdapter<ArrayList<String>> {
+///@RegisterBeagleAdapter
+class PairAdapter : BeagleTypeAdapter<Pair<String, String>> {
 
-    override fun fromJson(json: String): ArrayList<String> {
+    override fun fromJson(json: String): Pair<String, String> {
         TODO("Not yet implemented")
     }
 
-    override fun toJson(type: ArrayList<String>): String {
+    override fun toJson(type: Pair<String, String>): String {
         TODO("Not yet implemented")
     }
 }
+

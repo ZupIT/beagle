@@ -20,19 +20,22 @@ import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
 import br.com.zup.beagle.compiler.elementType
 import br.com.zup.beagle.compiler.error
-import br.com.zup.beagle.compiler.getNameWith
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import sun.rmi.runtime.Log
 import java.io.IOException
 import java.lang.reflect.Type
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
-import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
+import javax.lang.model.type.TypeMirror
 
 const val BEAGLE_ADAPTER_REFERENCE_GENERATED = "TypeAdapterResolverImpl"
+const val JAVA_CLASS = "::class.java"
+const val BEAGLE_TYPE_ADAPTER_INTERFACE = "BeagleTypeAdapter<T>"
+const val TYPES_INSTANCE = "Types.newParameterizedType(\n       "
+const val T_GENERIC = "T"
+const val BREAK_LINE = ",\n       "
 
 class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvironment) {
 
@@ -53,6 +56,7 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
 
         try {
             FileSpec.builder(packageName, BEAGLE_ADAPTER_REFERENCE_GENERATED)
+                .addImport("com.squareup.moshi", "Types")
                 .addImport(BEAGLE_CUSTOM_ADAPTER.packageName, BEAGLE_CUSTOM_ADAPTER.className)
                 .addType(typeSpec)
                 .build()
@@ -64,16 +68,14 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
     }
 
     private fun createClassForMethod(roundEnvironment: RoundEnvironment): FunSpec {
-        val validatorLines = createValidatorLines(roundEnvironment)
+        val validatorLines = createValidatorLines(roundEnvironment, StringBuilder())
         val returnType = ClassName(BEAGLE_CUSTOM_ADAPTER.packageName, "BeagleTypeAdapter").parameterizedBy(
-            TypeVariableName("T")
+            TypeVariableName(T_GENERIC)
         ).copy(true) as ParameterizedTypeName
-
-        //ClassName(BEAGLE_CUSTOM_ADAPTER.packageName, "BeagleTypeAdapter")
 
         val spec = FunSpec.builder("getAdapter")
             .addModifiers(KModifier.OVERRIDE)
-            .addTypeVariable(TypeVariableName("T"))
+            .addTypeVariable(TypeVariableName(T_GENERIC))
             .addParameter("type", Type::class.asTypeName().copy(false))
 
         spec.addStatement("""
@@ -87,21 +89,60 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
             .build()
     }
 
-    private fun createValidatorLines(roundEnvironment: RoundEnvironment): String {
-        val adapters = StringBuilder()
+    private fun createValidatorLines(roundEnvironment: RoundEnvironment, adapters: StringBuilder): String {
         val registerAdapterAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(
             RegisterBeagleAdapter::class.java
         )
 
-        registerAdapterAnnotatedClasses.forEachIndexed { index, element ->
+        registerAdapterAnnotatedClasses.forEach { element ->
             val typeElement = element as TypeElement
             val declaredType = typeElement.interfaces[0] as DeclaredType
+            val elementParameterizedTypeName = ((typeElement.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement()
 
-
-
-            adapters.append("${declaredType.elementType}::class.java -> $element() as BeagleTypeAdapter<T>")
+            if (typeElement.interfaces.size == 1) {
+                if (declaredType.toTypeArguments().isEmpty()) {
+                    adapters.append("$elementParameterizedTypeName$JAVA_CLASS -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE\n")
+                } else {
+                    adapters.append("$TYPES_INSTANCE$elementParameterizedTypeName$JAVA_CLASS")
+                    callRecursive(adapters, declaredType, element)
+                }
+            } else if (typeElement.interfaces.size > 1) {
+                processingEnv.messager.error("Error: $element must implement just the $BEAGLE_TYPE_ADAPTER_INTERFACE")
+            } else {
+                processingEnv.messager.error("Error: $element must implement the $BEAGLE_TYPE_ADAPTER_INTERFACE")
+            }
         }
 
         return adapters.toString()
     }
+
+    private fun callRecursive(adapters: StringBuilder, declaredType: DeclaredType, element: TypeElement) {
+        declaredType.toTypeArguments().forEach { item ->
+
+            if (item is DeclaredType) {
+                val typeArgumentsItem = item.toTypeArguments()
+
+                if (typeArgumentsItem.isEmpty()) {
+                    adapters.append("$BREAK_LINE${item.toString().removeExtends()}$JAVA_CLASS")
+                } else {
+                    adapters.append("$TYPES_INSTANCE${item.toString().removeExtends()}$JAVA_CLASS$BREAK_LINE")
+                    callRecursive(adapters, item, element)
+                }
+            } else {
+                adapters.append("$BREAK_LINE${item.toString().removeExtends()}$JAVA_CLASS")
+            }
+        }
+
+        adapters.append("\n   ) -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE\n")
+    }
 }
+
+private fun DeclaredType.toTypeArguments() : List<TypeMirror> {
+    return try {
+        (this.elementType as DeclaredType).typeArguments
+    } catch (e: Exception) {
+        ArrayList()
+    }
+}
+
+private fun String.removeExtends() = this.replace("? extends ", "")
