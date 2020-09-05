@@ -29,15 +29,18 @@ import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeMirror
+import javax.lang.model.type.WildcardType
 
 const val BEAGLE_ADAPTER_REFERENCE_GENERATED = "TypeAdapterResolverImpl"
 const val JAVA_CLASS = "::class.java"
 const val BEAGLE_TYPE_ADAPTER_INTERFACE = "BeagleTypeAdapter<T>"
 const val TYPES_INSTANCE = "Types.newParameterizedType(\n       "
 const val T_GENERIC = "T"
-const val BREAK_LINE = ",\n       "
+const val BREAK_LINE = "\n       "
 
 class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvironment) {
+
+    private var hasTypes = false
 
     fun process(packageName: String, roundEnvironment: RoundEnvironment) {
         val typeSpec = TypeSpec.classBuilder(BEAGLE_ADAPTER_REFERENCE_GENERATED)
@@ -55,12 +58,15 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
             .build()
 
         try {
-            FileSpec.builder(packageName, BEAGLE_ADAPTER_REFERENCE_GENERATED)
-                .addImport("com.squareup.moshi", "Types")
-                .addImport(BEAGLE_CUSTOM_ADAPTER.packageName, BEAGLE_CUSTOM_ADAPTER.className)
+            val builder = FileSpec.builder(packageName, BEAGLE_ADAPTER_REFERENCE_GENERATED)
                 .addType(typeSpec)
-                .build()
-                .writeTo(processingEnv.filer)
+                .addImport(BEAGLE_CUSTOM_ADAPTER.packageName, BEAGLE_CUSTOM_ADAPTER.className)
+
+                if (hasTypes) {
+                    builder.addImport("com.squareup.moshi", "Types")
+                }
+
+            builder.build().writeTo(processingEnv.filer)
         } catch (e: IOException) {
             val errorMessage = "Error when trying to generate code.\n${e.message!!}"
             processingEnv.messager.error(errorMessage)
@@ -100,11 +106,12 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
             val elementParameterizedTypeName = ((typeElement.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement()
 
             if (typeElement.interfaces.size == 1) {
-                if (declaredType.toTypeArguments().isEmpty()) {
+                if ((declaredType.elementType as DeclaredType).toTypeArguments().isEmpty()) {
                     adapters.append("$elementParameterizedTypeName$JAVA_CLASS -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE\n")
                 } else {
-                    adapters.append("$TYPES_INSTANCE$elementParameterizedTypeName$JAVA_CLASS")
-                    callRecursive(adapters, declaredType, element)
+                    hasTypes = true
+                    createParameterizedType(adapters, (declaredType.elementType as DeclaredType), element)
+                    adapters.append(" -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE\n")
                 }
             } else if (typeElement.interfaces.size > 1) {
                 processingEnv.messager.error("Error: $element must implement just the $BEAGLE_TYPE_ADAPTER_INTERFACE")
@@ -116,30 +123,64 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
         return adapters.toString()
     }
 
-    private fun callRecursive(adapters: StringBuilder, declaredType: DeclaredType, element: TypeElement) {
-        declaredType.toTypeArguments().forEach { item ->
-
-            if (item is DeclaredType) {
-                val typeArgumentsItem = item.toTypeArguments()
-
-                if (typeArgumentsItem.isEmpty()) {
-                    adapters.append("$BREAK_LINE${item.toString().removeExtends()}$JAVA_CLASS")
-                } else {
-                    adapters.append("$TYPES_INSTANCE${item.toString().removeExtends()}$JAVA_CLASS$BREAK_LINE")
-                    callRecursive(adapters, item, element)
-                }
-            } else {
-                adapters.append("$BREAK_LINE${item.toString().removeExtends()}$JAVA_CLASS")
-            }
+    private fun createParameterizedType(adapters: StringBuilder, item: DeclaredType, element: TypeElement? = null): StringBuilder {
+        val parameterName = if (element != null) {
+            ((element.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement().toString()
+        } else {
+            item.asElement().toString()
         }
 
-        adapters.append("\n   ) -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE\n")
+        adapters.append("$TYPES_INSTANCE${parameterName.removeExtends()}$JAVA_CLASS")
+
+        val parametrizedItems = item.toTypeArguments()
+        var checkedTimes = 0
+
+        if (parametrizedItems.isNotEmpty()){
+            adapters.append(",\n")
+        }
+
+        while (checkedTimes < parametrizedItems.size) {
+            createType(adapters, parametrizedItems[checkedTimes])
+
+            if (checkedTimes != parametrizedItems.lastIndex) {
+                adapters.append(",\n")
+            }
+            checkedTimes++
+        }
+
+        adapters.append(")")
+
+        return adapters
+    }
+
+    private fun createType(adapters: StringBuilder, typeMirror: TypeMirror) : StringBuilder {
+        return when {
+            typeMirror is DeclaredType -> {
+                checkDeclaredType(adapters, typeMirror)
+            }
+            ((typeMirror as WildcardType).extendsBound) is DeclaredType -> {
+                checkDeclaredType(adapters, (typeMirror.extendsBound) as DeclaredType)
+            }
+            else -> {
+                adapters.append("$BREAK_LINE${typeMirror.toString().removeExtends()}$JAVA_CLASS")
+            }
+        }
+    }
+
+    private fun checkDeclaredType(adapters: StringBuilder, declaredType: DeclaredType): StringBuilder {
+        val typeArgumentsItem = declaredType.toTypeArguments()
+
+        if (typeArgumentsItem.isEmpty()) {
+            return adapters.append("${declaredType.toString().removeExtends()}$JAVA_CLASS")
+        }
+
+        return createParameterizedType(adapters, declaredType)
     }
 }
 
 private fun DeclaredType.toTypeArguments() : List<TypeMirror> {
     return try {
-        (this.elementType as DeclaredType).typeArguments
+        this.typeArguments
     } catch (e: Exception) {
         ArrayList()
     }

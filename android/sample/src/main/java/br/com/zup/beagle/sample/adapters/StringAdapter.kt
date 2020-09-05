@@ -20,7 +20,7 @@ import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
 
 
-//@RegisterBeagleAdapter
+@RegisterBeagleAdapter
 class StringAdapter : BeagleTypeAdapter<String> {
 
     override fun fromJson(json: String): String {
