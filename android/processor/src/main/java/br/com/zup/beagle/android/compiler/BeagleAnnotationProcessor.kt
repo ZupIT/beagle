@@ -51,8 +51,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             BeagleComponent::class.java.canonicalName,
             RegisterValidator::class.java.canonicalName,
             RegisterAction::class.java.canonicalName,
-            RegisterController::class.java.canonicalName,
-            RegisterBeagleAdapter::class.java.canonicalName
+            RegisterController::class.java.canonicalName
         ))
     }
 

@@ -34,9 +34,9 @@ import javax.lang.model.type.WildcardType
 const val BEAGLE_ADAPTER_REFERENCE_GENERATED = "TypeAdapterResolverImpl"
 const val JAVA_CLASS = "::class.java"
 const val BEAGLE_TYPE_ADAPTER_INTERFACE = "BeagleTypeAdapter<T>"
-const val TYPES_INSTANCE = "Types.newParameterizedType(\n       "
+const val TYPES_INSTANCE = "Types.newParameterizedType(\n"
 const val T_GENERIC = "T"
-const val BREAK_LINE = "\n       "
+const val BREAK_LINE = "\n"
 
 class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvironment) {
 
