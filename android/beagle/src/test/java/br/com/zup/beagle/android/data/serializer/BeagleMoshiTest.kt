@@ -767,7 +767,9 @@ class BeagleMoshiTest : BaseTest() {
         val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
 
         // Then
-        assertTrue(contextData?.value is JSONObject)
+        val value = contextData?.value as? JSONObject
+        assertEquals(true, value?.getBoolean("a"))
+        assertEquals("a", value?.getString("b"))
     }
 
     @Test
@@ -779,7 +781,9 @@ class BeagleMoshiTest : BaseTest() {
         val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
 
         // Then
-        assertTrue(contextData?.value is JSONArray)
+        val value = (contextData?.value as? JSONArray)?.getJSONObject(0)
+        assertEquals(true, value?.getBoolean("a"))
+        assertEquals("a", value?.getString("b"))
     }
 
     @Test

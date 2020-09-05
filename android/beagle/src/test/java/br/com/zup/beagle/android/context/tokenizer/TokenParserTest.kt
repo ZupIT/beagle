@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.context.tokenizer
 
 import org.junit.Test
+import kotlin.math.exp
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNotNull
@@ -28,16 +29,11 @@ class TokenParserTest {
 
     @Test
     fun parse_should_return_string() {
-        // Given
-        val expression = "'hello'"
-
-        // When
-        val result = tokenParser.parse(expression)
-
-        // Then
-        assertEquals(expression, result.value)
-        assertTrue { result.token is TokenString }
-        assertEquals("hello", (result.token as TokenString).value)
+        shouldReturnStringFormatted( "'hello'", "hello")
+        shouldReturnStringFormatted( "'\\'hello\\''", "'hello'")
+        shouldReturnStringFormatted( "'hello \\'world\\'!'", "hello 'world'!")
+        shouldReturnStringFormatted( "'hello \\'world!'", "hello 'world!")
+        shouldReturnStringFormatted( "'hello \\ \\' \\' \\'world!'", "hello \\ ' ' 'world!")
     }
 
     @Test
@@ -223,5 +219,16 @@ class TokenParserTest {
         assertEquals(3, innerFunction.value[1].value)
         assertTrue { function.value[1] is TokenNumber }
         assertEquals(2, function.value[1].value)
+    }
+
+
+    private fun shouldReturnStringFormatted(expression: String, expected: String) {
+        // When
+        val result = tokenParser.parse(expression)
+
+        // Then
+        assertEquals(expression, result.value)
+        assertTrue { result.token is TokenString }
+        assertEquals(expected, (result.token as TokenString).value)
     }
 }
