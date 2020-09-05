@@ -24,7 +24,6 @@ import java.sql.Types
 class TypeAdapterResolverImpl: TypeAdapterResolver {
 
     override fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>? = when (type) {
-        ArrayList::class.java -> ArrayListAdapterTest() as BeagleTypeAdapter<T>
         else -> null
     }
 }

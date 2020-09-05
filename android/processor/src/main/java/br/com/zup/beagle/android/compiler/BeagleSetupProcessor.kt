@@ -92,7 +92,9 @@ class BeagleSetupProcessor(
         registerActionProcessorProcessor.process(basePackageName, roundEnvironment)
         registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
 
-        registerBeagleAdapterProcessor.process("br.com.zup.beagle.android.data.serializer.adapter.generic", roundEnvironment)
+        registerBeagleAdapterProcessor.process(
+            "br.com.zup.beagle.android.data.serializer.adapter.generic",
+            roundEnvironment)
 
         val defaultActivity = registerAnnotationProcessor.defaultActivityRegistered
         property = beagleSetupPropertyGenerator.implementServerDrivenActivityProperty(

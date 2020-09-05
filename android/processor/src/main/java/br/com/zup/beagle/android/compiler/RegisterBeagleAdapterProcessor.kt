@@ -20,8 +20,16 @@ import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
 import br.com.zup.beagle.compiler.elementType
 import br.com.zup.beagle.compiler.error
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.TypeSpec
 import java.io.IOException
 import java.lang.reflect.Type
 import javax.annotation.processing.ProcessingEnvironment
@@ -68,7 +76,7 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
 
             builder.build().writeTo(processingEnv.filer)
         } catch (e: IOException) {
-            val errorMessage = "Error when trying to generate code.\n${e.message!!}"
+            val errorMessage = "Error when trying to generate code.$BREAK_LINE${e.message!!}"
             processingEnv.messager.error(errorMessage)
         }
     }
@@ -103,15 +111,19 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
         registerAdapterAnnotatedClasses.forEach { element ->
             val typeElement = element as TypeElement
             val declaredType = typeElement.interfaces[0] as DeclaredType
-            val elementParameterizedTypeName = ((typeElement.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement()
+            val elementParameterizedTypeName =
+                ((typeElement.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement()
 
             if (typeElement.interfaces.size == 1) {
                 if ((declaredType.elementType as DeclaredType).toTypeArguments().isEmpty()) {
-                    adapters.append("$elementParameterizedTypeName$JAVA_CLASS -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE\n")
+                    adapters.append(
+                        "$elementParameterizedTypeName$JAVA_CLASS -> " +
+                            "$element() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE"
+                    )
                 } else {
                     hasTypes = true
                     createParameterizedType(adapters, (declaredType.elementType as DeclaredType), element)
-                    adapters.append(" -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE\n")
+                    adapters.append(" -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE")
                 }
             } else if (typeElement.interfaces.size > 1) {
                 processingEnv.messager.error("Error: $element must implement just the $BEAGLE_TYPE_ADAPTER_INTERFACE")
@@ -123,7 +135,11 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
         return adapters.toString()
     }
 
-    private fun createParameterizedType(adapters: StringBuilder, item: DeclaredType, element: TypeElement? = null): StringBuilder {
+    private fun createParameterizedType(
+        adapters: StringBuilder,
+        item: DeclaredType,
+        element: TypeElement? = null
+    ): StringBuilder {
         val parameterName = if (element != null) {
             ((element.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement().toString()
         } else {
@@ -136,14 +152,14 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
         var checkedTimes = 0
 
         if (parametrizedItems.isNotEmpty()){
-            adapters.append(",\n")
+            adapters.append(",$BREAK_LINE")
         }
 
         while (checkedTimes < parametrizedItems.size) {
             createType(adapters, parametrizedItems[checkedTimes])
 
             if (checkedTimes != parametrizedItems.lastIndex) {
-                adapters.append(",\n")
+                adapters.append(",$BREAK_LINE")
             }
             checkedTimes++
         }
