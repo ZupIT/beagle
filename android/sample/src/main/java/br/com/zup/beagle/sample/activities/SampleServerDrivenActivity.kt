@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.view.FragmentTransitionAnimation
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.sample.R
 
+/*
 @RegisterController
 class SampleServerDrivenActivity : BeagleActivity() {
 
@@ -72,4 +73,4 @@ class SampleServerDrivenActivity : BeagleActivity() {
             mFrame.visibility = View.VISIBLE
         }
     }
-}
+}*/
