@@ -5,14 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:src="@drawable/beagle_error_ic"
-        android:visibility="visible" />
-
     <TextView
         style="?android:attr/textAppearanceLarge"
         android:layout_width="wrap_content"
