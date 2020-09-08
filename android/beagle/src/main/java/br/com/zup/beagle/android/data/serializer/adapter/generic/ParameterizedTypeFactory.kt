@@ -16,14 +16,14 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter.generic
 
-import com.squareup.moshi.Types.newParameterizedType
+import com.squareup.moshi.internal.Util
+import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
-import java.sql.Types
 
-@Suppress("UNCHECKED_CAST")
-class TypeAdapterResolverImpl: TypeAdapterResolver {
+object ParameterizedTypeFactory {
 
-    override fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>? = when (type) {
-        else -> null
+    fun new(rawType: Type, vararg typeArguments: Type?): ParameterizedType? {
+        require(typeArguments.isNotEmpty()) { "Missing type arguments for $rawType" }
+        return Util.ParameterizedTypeImpl(null, rawType, *typeArguments)
     }
 }

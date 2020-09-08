@@ -42,13 +42,11 @@ import javax.lang.model.type.WildcardType
 const val BEAGLE_ADAPTER_REFERENCE_GENERATED = "TypeAdapterResolverImpl"
 const val JAVA_CLASS = "::class.java"
 const val BEAGLE_TYPE_ADAPTER_INTERFACE = "BeagleTypeAdapter<T>"
-const val TYPES_INSTANCE = "Types.newParameterizedType(\n"
+const val TYPES_INSTANCE = "ParameterizedTypeFactory.new(\n"
 const val T_GENERIC = "T"
 const val BREAK_LINE = "\n"
 
 class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvironment) {
-
-    private var hasTypes = false
 
     fun process(packageName: String, roundEnvironment: RoundEnvironment) {
         val typeSpec = TypeSpec.classBuilder(BEAGLE_ADAPTER_REFERENCE_GENERATED)
@@ -69,11 +67,6 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
             val builder = FileSpec.builder(packageName, BEAGLE_ADAPTER_REFERENCE_GENERATED)
                 .addType(typeSpec)
                 .addImport(BEAGLE_CUSTOM_ADAPTER.packageName, BEAGLE_CUSTOM_ADAPTER.className)
-
-                if (hasTypes) {
-                    builder.addImport("com.squareup.moshi", "Types")
-                }
-
             builder.build().writeTo(processingEnv.filer)
         } catch (e: IOException) {
             val errorMessage = "Error when trying to generate code.$BREAK_LINE${e.message!!}"
@@ -121,7 +114,6 @@ class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvir
                             "$element() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE"
                     )
                 } else {
-                    hasTypes = true
                     createParameterizedType(adapters, (declaredType.elementType as DeclaredType), element)
                     adapters.append(" -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE")
                 }

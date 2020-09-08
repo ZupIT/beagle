@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.compiler.ANDROID_ACTION
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
+import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
+import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER_IMPL
 import br.com.zup.beagle.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.compiler.BEAGLE_SDK
 import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
@@ -79,6 +81,7 @@ class BeagleSetupProcessor(
             .addImport(HTTP_CLIENT_HANDLER.packageName, HTTP_CLIENT_HANDLER.className)
             .addImport(BEAGLE_LOGGER.packageName, BEAGLE_LOGGER.className)
             .addImport(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
+            .addImport(BEAGLE_CUSTOM_ADAPTER_IMPL.packageName, BEAGLE_CUSTOM_ADAPTER_IMPL.className)
             .addImport(basePackageName, beagleConfigClassName)
             .addImport(Widget::class, "")
             .addImport(ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className), "")
@@ -109,7 +112,15 @@ class BeagleSetupProcessor(
 
         val newTypeSpec = typeSpec.addProperties(newProperties)
             .addProperty(createBeagleConfigAttribute(beagleConfigClassName))
+            .addProperty(PropertySpec.builder(
+                "typeAdapterResolver",
+                ClassName(BEAGLE_CUSTOM_ADAPTER.packageName, BEAGLE_CUSTOM_ADAPTER.className),
+                KModifier.OVERRIDE
+            ).initializer("${BEAGLE_CUSTOM_ADAPTER_IMPL.className}()")
+                .build())
             .build()
+
+
 
         try {
             beagleSetupFile
