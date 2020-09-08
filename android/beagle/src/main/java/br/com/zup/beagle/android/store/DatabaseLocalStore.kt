@@ -66,6 +66,38 @@ internal class DatabaseLocalStore(
         }
     }
 
+    override fun delete(key: String) {
+        database.delete(ScreenEntry.TABLE_NAME, "${ScreenEntry.KEY_COLUMN_NAME}=?", arrayOf(key))
+    }
+
+    override fun getAll(): Map<String, String> {
+        val columnsToReturn = arrayOf(ScreenEntry.KEY_COLUMN_NAME, ScreenEntry.VALUE_COLUMN_NAME)
+        val columnsForWhereClause = ""
+        val valuesForWhereClause = arrayOf<String>()
+        val cursor = database.query(
+            ScreenEntry.TABLE_NAME,
+            columnsToReturn,
+            columnsForWhereClause,
+            valuesForWhereClause,
+            null,
+            null,
+            null
+        )
+
+        val returnMap = mutableMapOf<String, String>()
+        if(cursor.count > 0){
+            cursor.moveToFirst()
+            while(!cursor.isAfterLast){
+                returnMap[cursor.getString(cursor.getColumnIndexOrThrow(ScreenEntry.KEY_COLUMN_NAME))] =
+                    cursor.getString(cursor.getColumnIndexOrThrow(ScreenEntry.VALUE_COLUMN_NAME))
+
+                cursor.moveToNext()
+            }
+        }
+
+        return returnMap
+    }
+
     private fun executeRestoreQueryForKey(key: String): Cursor {
         val columnsToReturn = arrayOf(ScreenEntry.VALUE_COLUMN_NAME)
         val columnsForWhereClause = "${ScreenEntry.KEY_COLUMN_NAME}=?"
@@ -89,7 +121,7 @@ internal class ContentValuesFactory {
 internal object BeagleDatabaseManager {
 
     private const val DATABASE_NAME = "BeagleDefaultStore.db"
-    private const val DATABASE_VERSION = 1
+    private const val DATABASE_VERSION = 2
 
     private lateinit var database: SQLiteDatabase
 

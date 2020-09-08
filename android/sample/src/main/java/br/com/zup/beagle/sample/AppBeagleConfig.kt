@@ -28,8 +28,8 @@ class AppBeagleConfig : BeagleConfig {
     override val baseUrl: String get() = BASE_URL
     override val isLoggingEnabled: Boolean = true
     override val cache: Cache = Cache(
-        enabled = false,
-        maxAge = 300,
+        enabled = true,
+        maxAge = 3000,
         memoryMaximumCapacity = 15
     )
 }
