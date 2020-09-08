@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -56,7 +57,7 @@ data class TabBar(
         val tabBar = makeTabLayout(rootView.getContext())
         val container = viewFactory.makeBeagleFlexView(rootView, containerFlex)
         configTabSelectedListener(tabBar, rootView)
-        configCurrentTabObserver(tabBar, rootView)
+        configCurrentTabObserver(tabBar, container, rootView)
         container.addView(tabBar)
         return container
     }
@@ -122,9 +123,9 @@ data class TabBar(
         })
     }
 
-    private fun configCurrentTabObserver(tabBar: TabLayout, rootView: RootView) {
+    private fun configCurrentTabObserver(tabBar: TabLayout, container: BeagleFlexView, rootView: RootView) {
         currentTab?.let {
-            observeBindChanges(rootView, tabBar, it) { position ->
+            observeBindChanges(rootView, container, it) { position ->
                 position?.let { newPosition ->
                     tabBar.getTabAt(newPosition)?.select()
                 }
