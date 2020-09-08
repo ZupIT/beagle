@@ -16,30 +16,19 @@
 
 package br.com.zup.beagle.android.cache
 
-import br.com.zup.beagle.android.cache.BeagleCache
-import br.com.zup.beagle.android.cache.CacheManager
-import br.com.zup.beagle.android.cache.LruCacheStore
-import br.com.zup.beagle.android.cache.TimerCache
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.store.StoreHandler
 import br.com.zup.beagle.android.store.StoreType
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.nanoTimeInSeconds
 import br.com.zup.beagle.android.view.ScreenRequest
-import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.slot
-import io.mockk.unmockkAll
-import io.mockk.verify
-import io.mockk.verifySequence
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -47,12 +36,14 @@ import kotlin.test.assertTrue
 private val URL = RandomData.string()
 private val BEAGLE_HASH_KEY = "$URL#hash"
 private val BEAGLE_JSON_KEY = "$URL#json"
+private val BEAGLE_TIME_KEY = "$URL#time"
 private val BEAGLE_HASH_VALUE = RandomData.string()
 private val BEAGLE_JSON_VALUE = RandomData.string()
 private val SCREEN_REQUEST = ScreenRequest(URL)
 private val RESPONSE_BODY = RandomData.string()
 private const val BEAGLE_HASH = "beagle-hash"
 private const val INVALIDATION_TIME: Long = 0
+private const val MAXIMUM_CAPACITY: Int = 2
 
 class CacheManagerTest {
 
@@ -62,12 +53,16 @@ class CacheManagerTest {
 
     @MockK
     private lateinit var storeHandler: StoreHandler
+
     @MockK
     private lateinit var timerCacheStore: LruCacheStore
+
     @MockK
     private lateinit var beagleEnvironment: BeagleEnvironment
+
     @MockK
     private lateinit var responseData: ResponseData
+
     @MockK
     private lateinit var timerCache: TimerCache
 
@@ -91,17 +86,22 @@ class CacheManagerTest {
         every { timerCache.hash } returns BEAGLE_HASH_VALUE
         every { beagleEnvironment.beagleSdk.config.cache.enabled } returns true
         every { beagleEnvironment.beagleSdk.config.cache.maxAge } returns INVALIDATION_TIME
+        every { beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity } returns MAXIMUM_CAPACITY
         every { timerCacheStore.restore(any()) } returns null
-        every { storeHandler.restore(StoreType.DATABASE, any(), any()) } returns mapOf()
+        every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf()
+        every { storeHandler.getAll(StoreType.DATABASE) } returns mapOf()
+        every { storeHandler.delete(StoreType.DATABASE, any()) } just Runs
         every { responseData.statusCode } returns 200
         every { responseData.data } returns byteArrayOf()
         every { responseData.headers } returns mapOf()
         every { storeHandler.save(any(), capture(storeHandlerDataSlot)) } just Runs
         every { responseData.data } returns RESPONSE_BODY.toByteArray()
-        every { timerCacheStore.save(
-            cacheKey = capture(cacheKeySlot),
-            timerCache = capture(timerCacheSlot)
-        ) } just Runs
+        every {
+            timerCacheStore.save(
+                cacheKey = capture(cacheKeySlot),
+                timerCache = capture(timerCacheSlot)
+            )
+        } just Runs
     }
 
     @After
@@ -169,20 +169,54 @@ class CacheManagerTest {
     }
 
     @Test
-    fun restoreBeagleCacheForUrl_should_return_beagleCache_from_disk_when_timer_is_null_and_data_exists() {
+    fun restoreBeagleCacheForUrl_should_return_beagleCache_from_disk_when_timer_is_null_and_data_exists_and_cache_is_valid() {
         // Given
-        every { storeHandler.restore(StoreType.DATABASE, any(), any()) } returns mapOf(
+        every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf(
             BEAGLE_HASH_KEY to BEAGLE_HASH_VALUE,
-            BEAGLE_JSON_KEY to BEAGLE_JSON_VALUE
+            BEAGLE_JSON_KEY to BEAGLE_JSON_VALUE,
+            BEAGLE_TIME_KEY to Long.MAX_VALUE.toString()
         )
+
+        mockkStatic("br.com.zup.beagle.android.utils.SystemUtilsKt")
+        every { nanoTimeInSeconds() } returns 0
+
+        //fazer o cache ser válido
+        //criar outro método para testar quando o cache é inválido
 
         // When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
-        verify(exactly = 1) { storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY) }
+        verify(exactly = 1) {
+            storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY,
+                BEAGLE_TIME_KEY)
+        }
         assertEquals(BEAGLE_JSON_VALUE, actual?.json)
         assertEquals(BEAGLE_HASH_VALUE, actual?.hash)
+    }
+
+    @Test
+    fun restoreBeagleCacheForUrl_should_return_null_from_disk_when_timer_is_null_and_data_exists_and_cache_is_invalid() {
+        // Given
+        every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf(
+            BEAGLE_HASH_KEY to BEAGLE_HASH_VALUE,
+            BEAGLE_JSON_KEY to BEAGLE_JSON_VALUE,
+            BEAGLE_TIME_KEY to "0"
+        )
+
+        mockkStatic("br.com.zup.beagle.android.utils.SystemUtilsKt")
+        every { nanoTimeInSeconds() } returns Long.MAX_VALUE
+
+        // When
+        val actual = cacheManager.restoreBeagleCacheForUrl(URL)
+
+        // Then
+        verify(exactly = 1) {
+            storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY,
+                BEAGLE_TIME_KEY)
+        }
+        assertNull(actual?.json)
+        assertNull(actual?.hash)
     }
 
     @Test
@@ -191,7 +225,7 @@ class CacheManagerTest {
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
-        verify(exactly = 1) { storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY) }
+        verify(exactly = 1) { storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY, BEAGLE_TIME_KEY) }
         assertNull(actual)
     }
 
@@ -315,6 +349,7 @@ class CacheManagerTest {
         // Then
         verifySequence {
             storeHandler.save(StoreType.DATABASE, any())
+            storeHandler.getAll(StoreType.DATABASE)
             timerCacheStore.save(BEAGLE_HASH_KEY, any())
         }
         val diskData = storeHandlerDataSlot.captured

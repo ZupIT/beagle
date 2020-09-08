@@ -27,6 +27,10 @@ import br.com.zup.beagle.android.view.ScreenRequest
 
 private const val BEAGLE_HASH = "beagle-hash"
 private const val CACHE_CONTROL_HEADER = "cache-control"
+private const val CACHE_KEY_DELIMITER = "#"
+private const val CACHE_TIME_KEY = "time"
+private const val CACHE_HASH_KEY = "hash"
+private const val CACHE_JSON_KEY = "json"
 
 internal data class BeagleCache(
     val isHot: Boolean,
@@ -65,11 +69,16 @@ internal class CacheManager(
 
     private fun restoreCacheFromDisk(url: String, beagleHashKey: String): BeagleCache? {
         val beagleJsonKey = url.toBeagleJsonKey()
-        val cachedData = storeHandler.restore(StoreType.DATABASE, beagleHashKey, beagleJsonKey)
+        val beagleTimeKey = url.toBeagleTimeKey()
+        val cachedData = storeHandler.restore(StoreType.DATABASE, beagleHashKey, beagleJsonKey, beagleTimeKey)
         val beagleHashValue = cachedData[beagleHashKey]
         val beagleJson = cachedData[beagleJsonKey]
+        val beagleCachedTime = cachedData[beagleTimeKey]
 
-        return if (beagleHashValue != null && beagleJson != null) {
+        return if (!isCacheValid(beagleCachedTime)) {
+            deleteDiskCacheForUrl(url)
+            null
+        } else if (beagleHashValue != null && beagleJson != null) {
             BeagleCache(
                 isHot = false,
                 hash = beagleHashValue,
@@ -78,6 +87,14 @@ internal class CacheManager(
         } else {
             null
         }
+    }
+
+    private fun isCacheValid(cacheTime: String?): Boolean {
+        val cacheTimeInNano = cacheTime?.toLong() ?: 0
+        val maxTime = getMaxAgeFromCacheControl(null)
+        val stepTime = nanoTimeInSeconds() - cacheTimeInNano
+
+        return stepTime < maxTime
     }
 
     fun screenRequestWithCache(
@@ -117,11 +134,41 @@ internal class CacheManager(
 
     private fun persistCacheDataOnDisk(url: String, responseBody: String, beagleHash: String) {
         val cacheKey = url.toBeagleHashKey()
+        val jsonKey = url.toBeagleJsonKey()
+        val timeKey = url.toBeagleTimeKey()
         val data = mapOf(
             cacheKey to beagleHash,
-            url.toBeagleJsonKey() to responseBody
+            jsonKey to responseBody,
+            timeKey to nanoTimeInSeconds().toString()
         )
         storeHandler.save(StoreType.DATABASE, data)
+
+        clearOldCacheDataOnDisk()
+    }
+
+    private fun clearOldCacheDataOnDisk() {
+        val cacheMaxRegisters = beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity
+        val cachedKeys = storeHandler.getAll(StoreType.DATABASE)
+        val timeKeys = cachedKeys.filter { mapEntry ->
+            mapEntry.key.contains(CACHE_TIME_KEY)
+        }
+
+        if (timeKeys.size > cacheMaxRegisters) {
+            val orderedTimeKeysList = timeKeys.toList().sortedByDescending { (_, value) -> value }
+            for (index in cacheMaxRegisters..orderedTimeKeysList.size) {
+                val url = orderedTimeKeysList[index].first.split(CACHE_KEY_DELIMITER)[0]
+                deleteDiskCacheForUrl(url)
+            }
+        }
+    }
+
+    private fun deleteDiskCacheForUrl(url: String){
+        val cacheKey = url.toBeagleHashKey()
+        val jsonKey = url.toBeagleJsonKey()
+        val timeKey = url.toBeagleTimeKey()
+        storeHandler.delete(StoreType.DATABASE, cacheKey)
+        storeHandler.delete(StoreType.DATABASE, jsonKey)
+        storeHandler.delete(StoreType.DATABASE, timeKey)
     }
 
     private fun persistCacheOnMemory(
@@ -152,6 +199,7 @@ internal class CacheManager(
 
     private fun isEnabled(): Boolean = beagleEnvironment.beagleSdk.config.cache.enabled
 
-    private fun String.toBeagleHashKey(): String = "$this#hash"
-    private fun String.toBeagleJsonKey(): String = "$this#json"
+    private fun String.toBeagleHashKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_HASH_KEY"
+    private fun String.toBeagleJsonKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_JSON_KEY"
+    private fun String.toBeagleTimeKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_TIME_KEY"
 }
