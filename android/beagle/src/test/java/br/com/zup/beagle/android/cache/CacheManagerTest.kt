@@ -180,9 +180,6 @@ class CacheManagerTest {
         mockkStatic("br.com.zup.beagle.android.utils.SystemUtilsKt")
         every { nanoTimeInSeconds() } returns 0
 
-        //fazer o cache ser válido
-        //criar outro método para testar quando o cache é inválido
-
         // When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
