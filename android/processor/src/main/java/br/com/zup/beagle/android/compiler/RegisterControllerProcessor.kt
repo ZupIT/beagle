@@ -79,29 +79,36 @@ class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironme
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("id", String::class.asTypeName().copy(true))
 
-        defaultActivityRegistered = validatorLines.second
+
+        val defaultBeagleClass = ClassName(DEFAULT_BEAGLE_ACTIVITY.packageName,
+            DEFAULT_BEAGLE_ACTIVITY.className).canonicalName
+        defaultActivityRegistered = if (validatorLines.second.isEmpty())
+            "$defaultBeagleClass::class.java as Class<BeagleActivity>" else validatorLines.second
+
+        var code = ""
 
         when {
-            defaultActivity.startsWith("null::class") && validatorLines.second.isEmpty() -> {
-                val defaultBeagleClass = ClassName(DEFAULT_BEAGLE_ACTIVITY.packageName,
-                    DEFAULT_BEAGLE_ACTIVITY.className).canonicalName
-                defaultActivityRegistered = "$defaultBeagleClass::class.java as Class<BeagleActivity>"
-                spec.addStatement("return $defaultActivityRegistered")
-            }
-            validatorLines.second.isEmpty() -> {
+            validatorLines.second.isEmpty() && !defaultActivity.startsWith("null::class") -> {
                 defaultActivityRegistered = defaultActivity
-                spec.addStatement("return $defaultActivityRegistered")
             }
-            else -> {
-                spec.addStatement("""
+            validatorLines.first.isNotEmpty() -> {
+
+                code = """
                     |return when(id) {
                     |   ${validatorLines.first}
-                    |   else -> ${validatorLines.second}
+                    |   else -> $defaultActivityRegistered
                     |}
-                |""".trimMargin())
+                |""".trimMargin()
             }
         }
-        return spec.returns(returnType)
+
+        if (code.isEmpty()) {
+            code = "return $defaultActivityRegistered"
+        }
+
+        return spec
+            .addStatement(code)
+            .returns(returnType)
             .build()
     }
 
