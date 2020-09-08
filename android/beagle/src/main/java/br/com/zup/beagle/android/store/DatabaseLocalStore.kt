@@ -94,6 +94,7 @@ internal class DatabaseLocalStore(
                 cursor.moveToNext()
             }
         }
+        cursor.close()
 
         return returnMap
     }
