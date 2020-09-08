@@ -45,7 +45,7 @@
 
         <include
             android:id="@+id/include_layout_error"
-            layout="@layout/beagle_include_default_error_server_driven"
+            layout="@layout/beagle_include_error_server_driven"
             android:visibility="gone" />
 
     </FrameLayout>

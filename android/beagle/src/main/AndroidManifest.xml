@@ -21,7 +21,7 @@
 
     <application>
 
-        <activity android:name=".android.view.BeagleDefaultServerDrivenActivity" />
+        <activity android:name=".android.view.ServerDrivenActivity" />
 
     </application>
 

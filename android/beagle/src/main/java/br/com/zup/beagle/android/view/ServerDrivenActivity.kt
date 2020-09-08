@@ -21,15 +21,15 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.R
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_beagle_default_server_driven.*
-import kotlinx.android.synthetic.main.beagle_include_default_error_server_driven.*
+import kotlinx.android.synthetic.main.beagle_activity_server_driven.*
+import kotlinx.android.synthetic.main.beagle_include_error_server_driven.*
 
-class BeagleDefaultServerDrivenActivity : BeagleActivity() {
+class ServerDrivenActivity : BeagleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_beagle_default_server_driven)
+        setContentView(R.layout.beagle_activity_server_driven)
     }
 
     override fun getServerDrivenContainerId(): Int = R.id.server_driven_container
@@ -44,8 +44,8 @@ class BeagleDefaultServerDrivenActivity : BeagleActivity() {
     private fun handleError(state: ServerDrivenState) {
         if (state is ServerDrivenState.Error) {
             if (hasServerDrivenScreen()) {
-                Snackbar.make(server_driven_container, R.string.label_generic_error, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.label_try_again) { state.retry() }
+                Snackbar.make(server_driven_container, R.string.beagle_label_generic_error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.beagle_label_try_again) { state.retry() }
                     .show()
                 return
             }
