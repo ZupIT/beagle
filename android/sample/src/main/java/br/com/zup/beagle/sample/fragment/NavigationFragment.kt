@@ -34,7 +34,14 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.core.*
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexDirection
+import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 
 class NavigationFragment : Fragment() {
     override fun onCreateView(

@@ -23,7 +23,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
-import br.com.zup.beagle.android.components.*
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Image
+import br.com.zup.beagle.android.components.ImagePath
+import br.com.zup.beagle.android.components.TabItem
+import br.com.zup.beagle.android.components.TabView
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
@@ -32,7 +37,13 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.core.*
+import br.com.zup.beagle.widget.core.AlignItems
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 
 class TabViewFragment : Fragment() {
     override fun onCreateView(
