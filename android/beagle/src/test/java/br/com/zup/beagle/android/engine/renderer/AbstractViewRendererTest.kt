@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.engine.renderer
 
+import android.arch.lifecycle.ViewModelProvider
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler

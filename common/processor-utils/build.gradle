@@ -28,4 +28,4 @@ dependencies {
     implementation project(Dependencies.Modules.schemaKotlinCore)
 }
 
- apply from: rootProject.file('../maven-publish.gradle')
+apply from: rootProject.file('../maven-publish.gradle')

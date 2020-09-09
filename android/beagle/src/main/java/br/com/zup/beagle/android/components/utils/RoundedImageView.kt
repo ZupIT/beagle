@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.components.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import androidx.appcompat.widget.AppCompatImageView
+import android.support.v7.widget.AppCompatImageView
 
 @SuppressLint("ViewConstructor")
 internal class RoundedImageView(

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.data
+package br.com.zup.beagle.android.datathis
 
+import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
