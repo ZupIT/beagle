@@ -17,27 +17,25 @@
 package br.com.zup.beagle.sample.fragment
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.Button
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 
 class ContextOperationsFragment : Fragment() {
 
