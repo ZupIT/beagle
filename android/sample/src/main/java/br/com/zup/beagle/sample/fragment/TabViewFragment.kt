@@ -21,25 +21,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.components.*
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.components.Button
-import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.ImagePath
-import br.com.zup.beagle.android.components.TabItem
-import br.com.zup.beagle.android.components.TabView
-import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.widget.core.*
 
 class TabViewFragment : Fragment() {
     override fun onCreateView(
@@ -52,25 +45,33 @@ class TabViewFragment : Fragment() {
             children = listOf(
                 buildTabView(
                     title = "Title 1",
-                    child = Container(children = listOf(
-                        Text("Content").applyStyle(
-                            Style(
-                                margin = EdgeValue(
-                                    top = UnitValue(
-                                        10.0,
-                                        UnitType.REAL
+                    child = Container(
+                        children = listOf(
+                            Text("Content").applyStyle(
+                                Style(
+                                    margin = EdgeValue(
+                                        top = UnitValue(
+                                            10.0,
+                                            UnitType.REAL
+                                        )
                                     )
                                 )
-                            )
-                        ),
-                        Image(ImagePath.Local("imageBeagle"))
-                    ))),
+                            ),
+                            Image(ImagePath.Local("imageBeagle"))
+                        ))),
                 buildTabView(title = "Title 2", child = Button("button")),
                 buildTabView(
                     title = "Title 3",
                     child = Container(
+                        context = ContextData(
+                            id = "teste",
+                            value = "/teste"
+                        ),
                         children = listOf(
-                            Text("text tab 3", alignment = TextAlignment.CENTER)
+                            Text("text tab 3", alignment = TextAlignment.CENTER),
+                            Button("button",
+                                onPress = listOf(Navigate.PushView(Route.Remote(expressionOf("@{teste}"),
+                                    shouldPrefetch = false))))
                         )
                     )
                 ),

@@ -55,7 +55,7 @@ class PreFetchHelperTest : BaseTest() {
     fun should_call_fetch_for_cache_test() {
         cachedTypes.forEach {
             helper.handlePreFetch(rootView, it)
-            verify { beagleViewModel.fetchForCache(route.url) }
+            verify { beagleViewModel.fetchForCache(route.url.value as String) }
         }
     }
 

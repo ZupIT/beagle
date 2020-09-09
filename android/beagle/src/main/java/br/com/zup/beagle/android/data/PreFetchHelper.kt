@@ -20,7 +20,6 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.isExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.widget.RootView

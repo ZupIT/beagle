@@ -96,8 +96,8 @@ sealed class Navigate : Action {
 
     internal fun Route.getSafe(rootView: RootView, origin: View): Route {
         if (this is Route.Remote) {
-            val url = evaluateExpression(rootView, origin, this.url)
-            return this.copy(url = Bind.Value(url ?: ""))
+            val newValue = evaluateExpression(rootView, origin, url)
+            return this.copy(url = Bind.Value(newValue ?: ""))
         }
 
         return this

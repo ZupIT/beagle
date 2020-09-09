@@ -30,7 +30,7 @@ sealed class Bind<T> : BindAttribute<T> {
         val expressions: List<ExpressionToken>,
         override val value: String,
         override val type: Type
-    ): Bind<T>() {
+    ) : Bind<T>() {
         constructor(
             expressions: List<ExpressionToken>,
             value: String,
@@ -38,7 +38,7 @@ sealed class Bind<T> : BindAttribute<T> {
         ) : this(expressions, value, type as Type)
     }
 
-    data class Value<T: Any>(override val value: T) : Bind<T>() {
+    data class Value<T : Any>(override val value: T) : Bind<T>() {
         override val type: Class<T> = value.javaClass
     }
 }
@@ -50,6 +50,7 @@ inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> 
     }
     return Bind.Expression(expressionTokens, expressionText, T::class.java)
 }
+
 inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
 inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
 
