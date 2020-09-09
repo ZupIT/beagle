@@ -18,32 +18,60 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.OnInitFinishedListener
+import br.com.zup.beagle.android.action.OnInitableComponent
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextComponent
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
 @RegisterWidget
-data class ListView(
-    override val children: List<ServerDrivenComponent>,
-    val direction: ListDirection = ListDirection.VERTICAL
-) : WidgetView(), MultiChildComponent {
+data class ListViewOriginal(
+    val children: List<ServerDrivenComponent>? = null,
+    override val context: ContextData? = null,
+    override val onInit: List<Action>? = null,
+    val dataSource: Bind<List<Any>>? = null,
+    val direction: ListDirection,
+    val template: ServerDrivenComponent? = null,
+    val onScrollEnd: List<Action>? = null,
+    val scrollThreshold: Int? = null,
+    val useParentScroll: Boolean = false
+) : WidgetView(), ContextComponent, OnInitableComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
+
+        if (children.isNullOrEmpty()) {
+            template?.let {
+                dataSource?.let {
+                    return ListView(
+                        context,
+                        onInit,
+                        dataSource,
+                        direction,
+                        template,
+                        onScrollEnd,
+                        scrollThreshold
+                    ).buildView(rootView)
+                }
+            }
+        }
+
         val recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
-        recyclerView.apply {
+        /*recyclerView.apply {
             val orientation = toRecyclerViewOrientation()
             layoutManager = LinearLayoutManager(context, orientation, false)
             adapter = ListViewRecyclerAdapter(children, viewFactory, orientation, rootView)
-        }
+        }*/
 
         return recyclerView
     }
@@ -53,6 +81,15 @@ data class ListView(
     } else {
         RecyclerView.HORIZONTAL
     }
+
+    override fun executeOnInit(rootView: RootView, listener: OnInitFinishedListener?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addOnInitFinishedListener(listener: OnInitFinishedListener) {
+        TODO("Not yet implemented")
+    }
+
 }
 
 internal class ListViewRecyclerAdapter(

@@ -19,15 +19,15 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.annotation.ContextDataValue
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.handleEvent
-import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
+import br.com.zup.beagle.android.widget.RootView
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
@@ -68,18 +68,19 @@ data class SendRequest(
         onFinish
     )
 
-    override fun execute(rootView: RootView, origin: View) {
+    override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
         val setContext = toSendRequestInternal(rootView, origin)
         viewModel.fetch(setContext).observe(rootView.getLifecycleOwner(), Observer { state ->
-            executeActions(rootView, state, origin)
+            executeActions(rootView, state, origin, listener)
         })
     }
 
     private fun executeActions(
         rootView: RootView,
         state: FetchViewState,
-        origin: View
+        origin: View,
+        listener: OnActionFinished?
     ) {
         onFinish?.let {
             handleEvent(rootView, origin, it)
@@ -93,6 +94,8 @@ data class SendRequest(
                 handleEvent(rootView, origin, it, ContextData("onSuccess", state.response))
             }
         }
+
+        listener?.onActionFinished(this)
     }
 
     private fun toSendRequestInternal(rootView: RootView, origin: View) = SendRequestInternal(

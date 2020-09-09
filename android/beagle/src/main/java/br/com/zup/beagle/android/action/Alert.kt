@@ -46,7 +46,7 @@ data class Alert(
     @Transient
     internal var viewFactory: ViewFactory = ViewFactory()
 
-    override fun execute(rootView: RootView, origin: View) {
+    override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
         viewFactory.makeAlertDialogBuilder(rootView.getContext())
             .setTitle(title?.let { evaluateExpression(rootView, origin, it) } ?: "")
             .setMessage(evaluateExpression(rootView, origin, message))
@@ -57,5 +57,7 @@ data class Alert(
                 }
             }
             .show()
+
+        listener?.onActionFinished(this)
     }
 }

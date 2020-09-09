@@ -18,18 +18,19 @@ package br.com.zup.beagle.android.components.layout
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.OnActionFinished
+import br.com.zup.beagle.android.action.OnInitFinishedListener
 import br.com.zup.beagle.android.action.OnInitableComponent
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 
 @RegisterWidget
 data class Container(
@@ -41,11 +42,36 @@ data class Container(
     @Transient
     private val viewFactory = ViewFactory()
 
+    @Transient
+    private var onInitDone = false
+
+    @Transient
+    private var onInitFinishedListener: OnInitFinishedListener? = null
+
+    @Transient
+    private lateinit var view: BeagleFlexView
+
+
     override fun buildView(rootView: RootView): View {
-        val view = viewFactory.makeBeagleFlexView(rootView, style ?: Style())
-        onInit?.let {
-            this@Container.handleEvent(rootView, view, it)
-        }
+        view = viewFactory.makeBeagleFlexView(rootView, style ?: Style())
+
+        var onInitCalled = false
+        view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View?) {
+                if (v == view) {
+                    if (!onInitCalled) {
+                        executeOnInit(rootView, onInitFinishedListener)
+                        onInitCalled = true
+                    }
+                }
+            }
+
+            override fun onViewDetachedFromWindow(v: View?) {
+            }
+
+        })
+
+
         return view.apply {
             addChildren(this)
         }
@@ -54,6 +80,33 @@ data class Container(
     private fun addChildren(beagleFlexView: BeagleFlexView) {
         children.forEach { child ->
             beagleFlexView.addServerDrivenComponent(child)
+        }
+    }
+
+
+    override fun executeOnInit(rootView: RootView, listener: OnInitFinishedListener?) {
+        onInitFinishedListener = listener
+        val onInitActions = onInit?.toMutableList()
+        onInit?.forEach { action ->
+            action.execute(rootView, view, object : OnActionFinished {
+                override fun onActionFinished(action: Action) {
+                    onInitActions?.remove(action)
+                    if (onInitActions?.isEmpty() == true) {
+                        onInitDone = true
+                        onInitFinishedListener?.onInitFinished(this@Container)
+                    }
+                }
+
+            })
+        }
+
+    }
+
+    override fun addOnInitFinishedListener(listener: OnInitFinishedListener) {
+        onInitFinishedListener = listener
+
+        if (onInitDone) {
+            onInitFinishedListener?.onInitFinished(this)
         }
     }
 }

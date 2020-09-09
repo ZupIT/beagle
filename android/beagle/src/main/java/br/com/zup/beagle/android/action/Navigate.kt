@@ -24,8 +24,9 @@ import br.com.zup.beagle.android.widget.RootView
 sealed class Navigate : Action {
 
     data class OpenExternalURL(val url: String) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.openExternalURL(rootView.getContext(), url)
+            listener?.onActionFinished(this)
         }
     }
 
@@ -34,32 +35,37 @@ sealed class Navigate : Action {
         val shouldResetApplication: Boolean = false,
         val data: Map<String, String>? = null
     ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication)
+            listener?.onActionFinished(this)
         }
     }
 
     class PopStack : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.popStack(rootView.getContext())
+            listener?.onActionFinished(this)
         }
     }
 
     class PopView : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.popView(rootView.getContext())
+            listener?.onActionFinished(this)
         }
     }
 
     data class PopToView(val route: String) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.popToView(rootView.getContext(), route)
+            listener?.onActionFinished(this)
         }
     }
 
     data class PushView(val route: Route) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.pushView(rootView.getContext(), route)
+            listener?.onActionFinished(this)
         }
     }
 
@@ -67,8 +73,9 @@ sealed class Navigate : Action {
         val route: Route,
         val controllerId: String? = null
     ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.pushStack(rootView.getContext(), route, controllerId)
+            listener?.onActionFinished(this)
         }
     }
 
@@ -76,8 +83,9 @@ sealed class Navigate : Action {
         val route: Route,
         val controllerId: String? = null
     ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.resetApplication(rootView.getContext(), route, controllerId)
+            listener?.onActionFinished(this)
         }
     }
 
@@ -85,8 +93,9 @@ sealed class Navigate : Action {
         val route: Route,
         val controllerId: String? = null
     ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View) {
+        override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
             BeagleNavigator.resetStack(rootView.getContext(), route, controllerId)
+            listener?.onActionFinished(this)
         }
     }
 }

@@ -34,17 +34,19 @@ data class FormLocalAction(
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler
 
-    override fun execute(rootView: RootView, origin: View) {
+    override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
         formLocalActionHandler?.handle(rootView.getContext(), this, object : ActionListener {
 
             override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
                 handleEvent(rootView, origin, action)
+                listener?.onActionFinished(this@FormLocalAction)
             }
 
             override fun onError(e: Throwable) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
                 changeActivityState(rootView, ServerDrivenState.FormError(e) { execute(rootView, origin) })
+                listener?.onActionFinished(this@FormLocalAction)
             }
 
             override fun onStart() {

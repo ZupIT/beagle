@@ -22,13 +22,7 @@ import br.com.zup.beagle.android.context.tokenizer.Token
 import br.com.zup.beagle.android.context.tokenizer.TokenBinding
 import br.com.zup.beagle.android.context.tokenizer.TokenFunction
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.utils.Observer
-import br.com.zup.beagle.android.utils.findParentContextWithId
-import br.com.zup.beagle.android.utils.getAllParentContexts
-import br.com.zup.beagle.android.utils.getContextBinding
-import br.com.zup.beagle.android.utils.getContextId
-import br.com.zup.beagle.android.utils.setContextBinding
-import br.com.zup.beagle.android.utils.setContextData
+import br.com.zup.beagle.android.utils.*
 
 private const val GLOBAL_CONTEXT_ID = Int.MAX_VALUE
 
@@ -66,17 +60,18 @@ internal class ContextDataManager(
             return
         }
 
+        // TODO - verificar problema de ids duplicados
         val existingContext = contexts[view.id]
 
-        if (existingContext != null) {
+        /*if (existingContext != null) {
             view.setContextBinding(existingContext)
             existingContext.bindings.clear()
-        } else {
-            view.setContextData(context)
-            view.getContextBinding()?.let {
-                contexts[view.id] = it
-            }
+        } else {*/
+        view.setContextData(context)
+        view.getContextBinding()?.let {
+            contexts[view.id] = it
         }
+        //}
     }
 
     fun <T> addBinding(view: View, bind: Bind.Expression<T>, observer: Observer<T?>) {

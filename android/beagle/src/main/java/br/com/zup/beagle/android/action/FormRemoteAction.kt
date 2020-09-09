@@ -48,9 +48,10 @@ data class FormRemoteAction(
     @Transient
     private val formSubmitter: FormSubmitter = FormSubmitter()
 
-    override fun execute(rootView: RootView, origin: View) {
+    override fun execute(rootView: RootView, origin: View, listener: OnActionFinished?) {
         formSubmitter.submitForm(this, formsValue) {
             resultListener(it)
+            listener?.onActionFinished(this)
         }
     }
 

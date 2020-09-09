@@ -22,6 +22,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
+import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.activities.SampleServerDrivenActivity
@@ -44,7 +45,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        startActivity(
+            BeagleActivity.newIntent(
+                this,
+                ScreenRequest("https://storage.googleapis.com/lucasaraujo/dev/listview.json")
+            )
+        )
+
+        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

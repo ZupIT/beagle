@@ -28,6 +28,14 @@ interface Action {
      * Method executed when the function is triggered
      * @property rootView component that holds context, lifeCycleOwner and ViewModelStoreOwner
      * @property origin view that triggered the action
+     * @property listener notifies the caller of an action that the action has finished its job
      */
-    fun execute(rootView: RootView, origin: View)
+    fun execute(rootView: RootView, origin: View, listener: OnActionFinished? = null)
+}
+
+/**
+ * Notifies the caller of an action that the action has finished its job
+ */
+interface OnActionFinished {
+    fun onActionFinished(action: Action)
 }
