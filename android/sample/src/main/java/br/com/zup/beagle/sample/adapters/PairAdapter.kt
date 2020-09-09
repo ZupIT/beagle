@@ -18,17 +18,24 @@ package br.com.zup.beagle.sample.adapters
 
 import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
+import org.json.JSONObject
 
+private const val KEY = "first"
+private const val VALUE = "second"
 
 @RegisterBeagleAdapter
 class PairAdapter : BeagleTypeAdapter<Pair<String, String>> {
 
     override fun fromJson(json: String): Pair<String, String> {
-        TODO("Not yet implemented")
+        val rootObject = JSONObject(json)
+        return Pair(rootObject.getString(KEY), rootObject.getString(VALUE))
     }
 
     override fun toJson(type: Pair<String, String>): String {
-        TODO("Not yet implemented")
+        val rootObject = JSONObject()
+        rootObject.put(KEY, type.first)
+        rootObject.put(VALUE, type.second)
+        return rootObject.toString()
     }
 }
 
