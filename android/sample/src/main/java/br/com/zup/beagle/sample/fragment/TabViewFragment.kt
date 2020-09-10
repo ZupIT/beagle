@@ -21,6 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.action.Alert
+import br.com.zup.beagle.android.action.Condition
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.core.Style
@@ -38,6 +40,8 @@ import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.TextAlignment
 
@@ -69,8 +73,30 @@ class TabViewFragment : Fragment() {
                 buildTabView(
                     title = "Title 3",
                     child = Container(
+                        context = ContextData(
+                            id = "user",
+                            value = 18
+                        ),
                         children = listOf(
-                            Text("text tab 3", alignment = TextAlignment.CENTER)
+                            Text("text tab 3", alignment = TextAlignment.CENTER),
+                            Button(
+                                text = "hello",
+                                onPress = listOf(
+                                    Condition(
+                                        condition = expressionOf("@{sum(user, 21)}"),
+                                        onTrue = listOf(
+                                            Alert(
+                                                message = "onTrue"
+                                            )
+                                        ),
+                                        onFalse = listOf(
+                                            Alert(
+                                                message = "onFalse"
+                                            )
+                                        )
+                                    )
+                                )
+                            )
                         )
                     )
                 ),
