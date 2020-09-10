@@ -26,8 +26,6 @@ import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
 import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
-import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
-import br.com.zup.beagle.compiler.RegisteredActionGenerator
 import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.widget.Widget
 import com.squareup.kotlinpoet.ClassName
@@ -79,9 +77,7 @@ class BeagleSetupProcessor(
 
         registerWidgetProcessorProcessor.process(basePackageName, roundEnvironment)
         registerActionProcessorProcessor.process(basePackageName, roundEnvironment)
-        registerAnnotationProcessor.process(basePackageName,
-            roundEnvironment, property.initializer.toString())
-
+        registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
         registerBeagleAdapterProcessor.process(
             BEAGLE_CUSTOM_ADAPTER.packageName,
             roundEnvironment)
@@ -106,8 +102,6 @@ class BeagleSetupProcessor(
             ).initializer("${BEAGLE_CUSTOM_ADAPTER_IMPL.className}()")
                 .build())
             .build()
-
-
 
         try {
             beagleSetupFile
