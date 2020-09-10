@@ -29,7 +29,8 @@ internal object DeprecationMessages {
     const val DEPRECATED_STATE_LOADING =
         "State loading will be removed in a future version, use Started and Finished."
     const val DEPRECATED_LOADING_VIEW =
-     "This method will be removed in a future version, use the method with listener attribute of type ServerDrivenState"
+        "This method will be removed in a future version, use the method with listener attribute of type" +
+            " ServerDrivenState"
     const val DEPRECATED_ON_STATE_CHANGED =
         "OnStateChanged will be removed in a future version, use OnServerStateChanged instead."
     const val DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER =
@@ -51,4 +52,9 @@ internal object HandleEventDeprecatedConstants {
         "Use handleEvent without eventName and eventValue or with ContextData for create a implicit context"
     const val HANDLE_EVENT_POINTER: String = "handleEvent(rootView, origin, action)"
     const val HANDLE_EVENT_ACTIONS_POINTER: String = "handleEvent(rootView, origin, actions)"
+}
+
+internal object CacheDeprecatedConstants {
+    const val MEMORY_MAXIMUM_CAPACITY =
+        "memoryMaximumCapacity will be removed in a future version, use size instead."
 }

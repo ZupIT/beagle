@@ -24,4 +24,6 @@ enum class StoreType {
 interface StoreHandler {
     fun save(storeType: StoreType, data: Map<String, String>)
     fun restore(storeType: StoreType, vararg keys: String): Map<String, String?>
+    fun delete(storeType: StoreType, key: String)
+    fun getAll(storeType: StoreType): Map<String, String>
 }

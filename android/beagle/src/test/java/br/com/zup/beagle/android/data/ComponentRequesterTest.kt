@@ -57,7 +57,7 @@ class ComponentRequesterTest : BaseTest() {
     private lateinit var cacheManager: CacheManager
 
     private val beagleCache = mockk<BeagleCache> {
-        every { isHot } returns true
+        every { isExpired() } returns false
         every { json } returns RESPONSE_BODY
     }
 
@@ -80,7 +80,7 @@ class ComponentRequesterTest : BaseTest() {
     }
 
     @Test
-    fun fetchComponent_should_restore_json_from_hot_cache() = runBlockingTest {
+    fun `fetchComponent should restore json from hot cache`() = runBlockingTest {
         // Given
         val component = mockk<ServerDrivenComponent>()
 
@@ -96,12 +96,12 @@ class ComponentRequesterTest : BaseTest() {
     }
 
     @Test
-    fun fetchComponent_should_call_api() = runBlockingTest {
+    fun `fetchComponent should call api`() = runBlockingTest {
         // Given
         val component = mockk<ServerDrivenComponent>()
         val responseData = mockk<ResponseData>()
         val requestData: RequestData = mockk()
-        every { beagleCache.isHot } returns false
+        every { beagleCache.isExpired() } returns true
 
         every { cacheManager.restoreBeagleCacheForUrl(any()) } returns beagleCache
         every { cacheManager.screenRequestWithCache(any(), any()) } returns SCREEN_REQUEST

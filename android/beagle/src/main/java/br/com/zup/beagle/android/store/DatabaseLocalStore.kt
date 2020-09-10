@@ -44,14 +44,11 @@ internal class DatabaseLocalStore(
             put(ScreenEntry.VALUE_COLUMN_NAME, value)
         }
 
-        val restoredValue = restore(key)
-        if (restoredValue == null) {
-            val newRowId = database.insert(ScreenEntry.TABLE_NAME, null, values)
-            if (newRowId == -1L) {
-                BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
-            }
-        } else if (value != restoredValue) {
-            database.update(ScreenEntry.TABLE_NAME, values, "${ScreenEntry.KEY_COLUMN_NAME}=?", arrayOf(key))
+
+        val newRowId = database.insertWithOnConflict(ScreenEntry.TABLE_NAME, null, values,
+            SQLiteDatabase.CONFLICT_REPLACE)
+        if (newRowId == -1L) {
+            BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
         }
     }
 
@@ -64,6 +61,39 @@ internal class DatabaseLocalStore(
                 null
             }
         }
+    }
+
+    override fun delete(key: String) {
+        database.delete(ScreenEntry.TABLE_NAME, "${ScreenEntry.KEY_COLUMN_NAME}=?", arrayOf(key))
+    }
+
+    override fun getAll(): Map<String, String> {
+        val columnsToReturn = arrayOf(ScreenEntry.KEY_COLUMN_NAME, ScreenEntry.VALUE_COLUMN_NAME)
+        val columnsForWhereClause = ""
+        val valuesForWhereClause = arrayOf<String>()
+        val cursor = database.query(
+            ScreenEntry.TABLE_NAME,
+            columnsToReturn,
+            columnsForWhereClause,
+            valuesForWhereClause,
+            null,
+            null,
+            null
+        )
+
+        val returnMap = mutableMapOf<String, String>()
+        if (cursor.count > 0) {
+            cursor.moveToFirst()
+            while (!cursor.isAfterLast) {
+                returnMap[cursor.getString(cursor.getColumnIndexOrThrow(ScreenEntry.KEY_COLUMN_NAME))] =
+                    cursor.getString(cursor.getColumnIndexOrThrow(ScreenEntry.VALUE_COLUMN_NAME))
+
+                cursor.moveToNext()
+            }
+        }
+        cursor.close()
+
+        return returnMap
     }
 
     private fun executeRestoreQueryForKey(key: String): Cursor {
@@ -89,7 +119,7 @@ internal class ContentValuesFactory {
 internal object BeagleDatabaseManager {
 
     private const val DATABASE_NAME = "BeagleDefaultStore.db"
-    private const val DATABASE_VERSION = 1
+    private const val DATABASE_VERSION = 2
 
     private lateinit var database: SQLiteDatabase
 
@@ -120,9 +150,10 @@ internal open class BeagleSQLiteDatabase(
             "${BaseColumns._ID} INTEGER PRIMARY KEY," +
             "${ScreenEntry.KEY_COLUMN_NAME} TEXT NOT NULL UNIQUE," +
             "${ScreenEntry.VALUE_COLUMN_NAME} TEXT NOT NULL" +
-        ")"
+            ")"
         db?.execSQL(createTableQuery)
     }
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         val deleteTableQuery = "DROP TABLE IF EXISTS ${ScreenEntry.TABLE_NAME}"
         db?.execSQL(deleteTableQuery)
