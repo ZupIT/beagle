@@ -16,22 +16,18 @@
 
 package br.com.zup.beagle.android.mockdata
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import io.mockk.mockk
+import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
+import br.com.zup.beagle.android.data.serializer.adapter.generic.TypeAdapterResolver
+import java.lang.reflect.Type
 
-interface PersonInterface
 
-data class Person(val names: ArrayList<String>): PersonInterface
+@Suppress("UNCHECKED_CAST")
+final class TypeAdapterResolverImpl : TypeAdapterResolver {
+    override fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>? = when(type) {
+        PersonInterface::class.java ->
+            PersonAdapter() as BeagleTypeAdapter<T>
 
-class CustomWidget(
-    val arrayList: ArrayList<Person>?,
-    val pair: Pair<Person, String>?,
-    val charSequence: CharSequence?,
-    val personInterface: PersonInterface
-) : WidgetView() {
-    override fun buildView(rootView: RootView): View {
-        return mockk()
+        else -> null
     }
+
 }
