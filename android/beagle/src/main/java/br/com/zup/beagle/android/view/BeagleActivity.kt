@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.android.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -206,6 +208,7 @@ abstract class BeagleActivity : AppCompatActivity() {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         }
 
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
