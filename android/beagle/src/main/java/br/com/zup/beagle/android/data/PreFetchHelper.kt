@@ -44,8 +44,10 @@ internal class PreFetchHelper {
 
     private fun preFetch(rootView: RootView, route: Route) {
         if (route is Route.Remote && route.shouldPrefetch) {
-            if (route.url is Bind.Expression)
+            if (route.url is Bind.Expression) {
                 BeagleMessageLogs.expressionNotSupportInPreFetch()
+                return
+            }
             val viewModel = rootView.generateViewModelInstance<BeagleViewModel>()
             viewModel.fetchForCache(route.url.value as String)
         }
