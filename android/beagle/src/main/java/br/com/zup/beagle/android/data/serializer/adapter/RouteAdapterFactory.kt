@@ -23,7 +23,12 @@ import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.FALLBACK
 import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.SCREEN
 import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.SHOULD_PREFETCH
 import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.URL
-import com.squareup.moshi.*
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.JsonDataException
+import com.squareup.moshi.JsonReader
+import com.squareup.moshi.JsonWriter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import java.lang.reflect.Type
 
 class RouteAdapterFactory : JsonAdapter.Factory {
