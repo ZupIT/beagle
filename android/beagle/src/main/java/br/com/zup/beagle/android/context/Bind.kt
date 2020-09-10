@@ -53,4 +53,4 @@ inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> 
 inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
 inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
 
-internal fun Any.isExpression() = this is String && this.contains(BeagleRegex.EXPRESSION_REGEX)
+internal fun Any.hasExpression() = this.toString().contains(BeagleRegex.EXPRESSION_REGEX)
