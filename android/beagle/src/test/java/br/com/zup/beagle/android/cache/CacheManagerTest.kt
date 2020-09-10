@@ -23,12 +23,21 @@ import br.com.zup.beagle.android.store.StoreType
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.nanoTimeInSeconds
 import br.com.zup.beagle.android.view.ScreenRequest
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.unmockkAll
+import io.mockk.verify
+import io.mockk.verifySequence
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -49,13 +58,13 @@ class CacheManagerTest {
 
     private val storeHandlerDataSlot = slot<Map<String, String>>()
     private val cacheKeySlot = slot<String>()
-    private val timerCacheSlot = slot<TimerCache>()
+    private val beagleCacheSlot = slot<BeagleCache>()
 
     @MockK
     private lateinit var storeHandler: StoreHandler
 
     @MockK
-    private lateinit var timerCacheStore: LruCacheStore
+    private lateinit var memoryCacheStore: LruCacheStore
 
     @MockK
     private lateinit var beagleEnvironment: BeagleEnvironment
@@ -64,7 +73,7 @@ class CacheManagerTest {
     private lateinit var responseData: ResponseData
 
     @MockK
-    private lateinit var timerCache: TimerCache
+    private lateinit var memoryCache: BeagleCache
 
     private lateinit var cacheManager: CacheManager
 
@@ -73,21 +82,23 @@ class CacheManagerTest {
         mockkObject(BeagleEnvironment)
 
         every { BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity } returns 15
+        every { BeagleEnvironment.beagleSdk.config.cache.size } returns 15
 
         MockKAnnotations.init(this)
 
         cacheManager = CacheManager(
             storeHandler,
             beagleEnvironment,
-            timerCacheStore
+            memoryCacheStore
         )
 
-        every { timerCache.json } returns BEAGLE_JSON_VALUE
-        every { timerCache.hash } returns BEAGLE_HASH_VALUE
+        every { memoryCache.json } returns BEAGLE_JSON_VALUE
+        every { memoryCache.hash } returns BEAGLE_HASH_VALUE
         every { beagleEnvironment.beagleSdk.config.cache.enabled } returns true
         every { beagleEnvironment.beagleSdk.config.cache.maxAge } returns INVALIDATION_TIME
         every { beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity } returns MAXIMUM_CAPACITY
-        every { timerCacheStore.restore(any()) } returns null
+        every { beagleEnvironment.beagleSdk.config.cache.size } returns MAXIMUM_CAPACITY
+        every { memoryCacheStore.restore(any()) } returns null
         every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf()
         every { storeHandler.getAll(StoreType.DATABASE) } returns mapOf()
         every { storeHandler.delete(StoreType.DATABASE, any()) } just Runs
@@ -97,9 +108,9 @@ class CacheManagerTest {
         every { storeHandler.save(any(), capture(storeHandlerDataSlot)) } just Runs
         every { responseData.data } returns RESPONSE_BODY.toByteArray()
         every {
-            timerCacheStore.save(
+            memoryCacheStore.save(
                 cacheKey = capture(cacheKeySlot),
-                timerCache = capture(timerCacheSlot)
+                beagleCache = capture(beagleCacheSlot)
             )
         } just Runs
     }
@@ -114,6 +125,7 @@ class CacheManagerTest {
         // Given
         every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
         every { beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity } returns 0
+        every { beagleEnvironment.beagleSdk.config.cache.size } returns 0
 
         // When
         CacheManager(
@@ -134,22 +146,22 @@ class CacheManagerTest {
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
-        verify(exactly = 0) { timerCacheStore.restore(any()) }
+        verify(exactly = 0) { memoryCacheStore.restore(any()) }
         assertNull(actual)
     }
 
     @Test
     fun restoreBeagleCacheForUrl_should_return_beagleCache_when_timer_is_valid() {
         // Given
-        every { timerCacheStore.restore(any()) } returns timerCache
-        every { timerCache.isValid() } returns true
+        every { memoryCacheStore.restore(any()) } returns memoryCache
+        every { memoryCache.isHot() } returns true
 
         // When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
-        verify(exactly = 1) { timerCacheStore.restore(BEAGLE_HASH_KEY) }
-        assertTrue { actual?.isHot == true }
+        verify(exactly = 1) { memoryCacheStore.restore(BEAGLE_HASH_KEY) }
+        assertTrue { actual?.isHot() == true }
         assertEquals(BEAGLE_JSON_VALUE, actual?.json)
         assertEquals(BEAGLE_HASH_VALUE, actual?.hash)
     }
@@ -157,15 +169,15 @@ class CacheManagerTest {
     @Test
     fun restoreBeagleCacheForUrl_should_return_isHot_false_when_timer_is_not_valid() {
         // Given
-        every { timerCacheStore.restore(any()) } returns timerCache
-        every { timerCache.isValid() } returns false
+        every { memoryCacheStore.restore(any()) } returns memoryCache
+        every { memoryCache.isHot() } returns false
 
         // When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
-        verify(exactly = 1) { timerCacheStore.restore(BEAGLE_HASH_KEY) }
-        assertTrue { actual?.isHot == false }
+        verify(exactly = 1) { memoryCacheStore.restore(BEAGLE_HASH_KEY) }
+        assertTrue { actual?.isHot() == false }
     }
 
     @Test
@@ -307,7 +319,7 @@ class CacheManagerTest {
 
         // Then
         verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
-        verify(exactly = 0) { timerCacheStore.save(any(), any()) }
+        verify(exactly = 0) { memoryCacheStore.save(any(), any()) }
     }
 
     @Test
@@ -321,7 +333,7 @@ class CacheManagerTest {
 
         // Then
         verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
-        verify(exactly = 0) { timerCacheStore.save(any(), any()) }
+        verify(exactly = 0) { memoryCacheStore.save(any(), any()) }
     }
 
     @Test
@@ -347,12 +359,12 @@ class CacheManagerTest {
         verifySequence {
             storeHandler.save(StoreType.DATABASE, any())
             storeHandler.getAll(StoreType.DATABASE)
-            timerCacheStore.save(BEAGLE_HASH_KEY, any())
+            memoryCacheStore.save(BEAGLE_HASH_KEY, any())
         }
         val diskData = storeHandlerDataSlot.captured
         assertEquals(BEAGLE_HASH_VALUE, diskData[BEAGLE_HASH_KEY])
         assertEquals(RESPONSE_BODY, diskData[BEAGLE_JSON_KEY])
-        val timerCache = timerCacheSlot.captured
+        val timerCache = beagleCacheSlot.captured
         assertEquals(BEAGLE_HASH_KEY, cacheKeySlot.captured)
         assertEquals(INVALIDATION_TIME, timerCache.maxTime)
         assertEquals(BEAGLE_HASH_VALUE, timerCache.hash)
@@ -373,7 +385,7 @@ class CacheManagerTest {
         cacheManager.handleResponseData(URL, null, responseData)
 
         // Then
-        assertEquals(maxAge, timerCacheSlot.captured.maxTime)
+        assertEquals(maxAge, beagleCacheSlot.captured.maxTime)
     }
 
     @Test
@@ -389,6 +401,6 @@ class CacheManagerTest {
         cacheManager.handleResponseData(URL, null, responseData)
 
         // Then
-        assertEquals(maxAge, timerCacheSlot.captured.maxTime)
+        assertEquals(maxAge, beagleCacheSlot.captured.maxTime)
     }
 }

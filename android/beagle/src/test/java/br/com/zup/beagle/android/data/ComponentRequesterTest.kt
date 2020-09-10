@@ -57,7 +57,7 @@ class ComponentRequesterTest : BaseTest() {
     private lateinit var cacheManager: CacheManager
 
     private val beagleCache = mockk<BeagleCache> {
-        every { isHot } returns true
+        every { isHot() } returns true
         every { json } returns RESPONSE_BODY
     }
 
@@ -101,7 +101,7 @@ class ComponentRequesterTest : BaseTest() {
         val component = mockk<ServerDrivenComponent>()
         val responseData = mockk<ResponseData>()
         val requestData: RequestData = mockk()
-        every { beagleCache.isHot } returns false
+        every { beagleCache.isHot() } returns false
 
         every { cacheManager.restoreBeagleCacheForUrl(any()) } returns beagleCache
         every { cacheManager.screenRequestWithCache(any(), any()) } returns SCREEN_REQUEST

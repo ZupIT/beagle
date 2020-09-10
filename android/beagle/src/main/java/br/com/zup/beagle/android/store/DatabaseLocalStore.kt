@@ -44,14 +44,11 @@ internal class DatabaseLocalStore(
             put(ScreenEntry.VALUE_COLUMN_NAME, value)
         }
 
-        val restoredValue = restore(key)
-        if (restoredValue == null) {
-            val newRowId = database.insert(ScreenEntry.TABLE_NAME, null, values)
-            if (newRowId == -1L) {
-                BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
-            }
-        } else if (value != restoredValue) {
-            database.update(ScreenEntry.TABLE_NAME, values, "${ScreenEntry.KEY_COLUMN_NAME}=?", arrayOf(key))
+
+        val newRowId = database.insertWithOnConflict(ScreenEntry.TABLE_NAME, null, values,
+            SQLiteDatabase.CONFLICT_REPLACE)
+        if (newRowId == -1L) {
+            BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
         }
     }
 
@@ -85,9 +82,9 @@ internal class DatabaseLocalStore(
         )
 
         val returnMap = mutableMapOf<String, String>()
-        if(cursor.count > 0){
+        if (cursor.count > 0) {
             cursor.moveToFirst()
-            while(!cursor.isAfterLast){
+            while (!cursor.isAfterLast) {
                 returnMap[cursor.getString(cursor.getColumnIndexOrThrow(ScreenEntry.KEY_COLUMN_NAME))] =
                     cursor.getString(cursor.getColumnIndexOrThrow(ScreenEntry.VALUE_COLUMN_NAME))
 
@@ -153,9 +150,10 @@ internal open class BeagleSQLiteDatabase(
             "${BaseColumns._ID} INTEGER PRIMARY KEY," +
             "${ScreenEntry.KEY_COLUMN_NAME} TEXT NOT NULL UNIQUE," +
             "${ScreenEntry.VALUE_COLUMN_NAME} TEXT NOT NULL" +
-        ")"
+            ")"
         db?.execSQL(createTableQuery)
     }
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         val deleteTableQuery = "DROP TABLE IF EXISTS ${ScreenEntry.TABLE_NAME}"
         db?.execSQL(deleteTableQuery)

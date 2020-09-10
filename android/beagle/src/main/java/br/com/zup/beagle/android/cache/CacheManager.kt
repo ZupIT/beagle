@@ -33,68 +33,73 @@ private const val CACHE_HASH_KEY = "hash"
 private const val CACHE_JSON_KEY = "json"
 
 internal data class BeagleCache(
-    val isHot: Boolean,
     val hash: String,
-    val json: String
-)
+    val json: String,
+    val maxTime: Long,
+    val cachedTime: Long
+) {
+    fun isHot(): Boolean {
+        val stepTime = nanoTimeInSeconds() - cachedTime
+        return stepTime < maxTime
+    }
+}
 
 internal class CacheManager(
     private val storeHandler: StoreHandler = StoreHandlerFactory().make(),
     private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment,
-    private val timerCacheStore: LruCacheStore? =
+    private val memoryCacheStore: LruCacheStore? =
         if (beagleEnvironment.beagleSdk.config.cache.enabled) LruCacheStore.instance else null
 ) {
 
     fun restoreBeagleCacheForUrl(url: String): BeagleCache? {
-        if (!isEnabled()) {
+        if (!isCacheEnabled()) {
             return null
         }
 
         val beagleHashKey = url.toBeagleHashKey()
-        val timerCache = timerCacheStore?.restore(beagleHashKey)
-        return if (timerCache != null) {
-            checkMemoryCacheAndReturn(timerCache)
-        } else {
-            restoreCacheFromDisk(url, beagleHashKey)
-        }
+        return getBeagleCacheFromMemory(beagleHashKey) ?: restoreCacheFromDisk(url, beagleHashKey)
     }
 
-    private fun checkMemoryCacheAndReturn(timerCache: TimerCache): BeagleCache {
-        return BeagleCache(
-            isHot = timerCache.isValid(),
-            hash = timerCache.hash,
-            json = timerCache.json
-        )
+    private fun getBeagleCacheFromMemory(beagleHashKey: String): BeagleCache? {
+        return memoryCacheStore?.restore(beagleHashKey)
     }
 
     private fun restoreCacheFromDisk(url: String, beagleHashKey: String): BeagleCache? {
-        val beagleJsonKey = url.toBeagleJsonKey()
-        val beagleTimeKey = url.toBeagleTimeKey()
-        val cachedData = storeHandler.restore(StoreType.DATABASE, beagleHashKey, beagleJsonKey, beagleTimeKey)
-        val beagleHashValue = cachedData[beagleHashKey]
-        val beagleJson = cachedData[beagleJsonKey]
-        val beagleCachedTime = cachedData[beagleTimeKey]
 
-        return if (!isCacheValid(beagleCachedTime)) {
+        val beagleCache = getBeagleCacheFromDisk(url, beagleHashKey)
+
+        return if (beagleCache == null) {
+            null
+        } else if (!beagleCache.isHot()) {
             deleteDiskCacheForUrl(url)
             null
-        } else if (beagleHashValue != null && beagleJson != null) {
+        } else {
+            beagleCache
+        }
+    }
+
+    private fun getBeagleCacheFromDisk(url: String, beagleHashKey: String): BeagleCache? {
+        val beagleJsonKey = url.toBeagleJsonKey()
+        val beagleTimeKey = url.toBeagleTimeKey()
+
+        val cachedData = storeHandler.restore(StoreType.DATABASE, beagleHashKey, beagleJsonKey, beagleTimeKey)
+
+        val beagleHash = cachedData[beagleHashKey]
+        val beagleJson = cachedData[beagleJsonKey]
+        val beagleCachedTime = cachedData[beagleTimeKey]?.toLong() ?: 0
+
+        val maxTime = getMaxAgeFromCacheControl(null)
+
+        return if (beagleHash != null && beagleJson != null) {
             BeagleCache(
-                isHot = false,
-                hash = beagleHashValue,
-                json = beagleJson
+                hash = beagleHash,
+                json = beagleJson,
+                maxTime = maxTime,
+                cachedTime = beagleCachedTime
             )
         } else {
             null
         }
-    }
-
-    private fun isCacheValid(cacheTime: String?): Boolean {
-        val cacheTimeInNano = cacheTime?.toLong() ?: 0
-        val maxTime = getMaxAgeFromCacheControl(null)
-        val stepTime = nanoTimeInSeconds() - cacheTimeInNano
-
-        return stepTime < maxTime
     }
 
     fun screenRequestWithCache(
@@ -118,12 +123,13 @@ internal class CacheManager(
     ): String {
         return if (responseData.statusCode == 304 && beagleCache != null) {
             persistCacheOnMemory(url, beagleCache.json, beagleCache.hash, null)
+            persistCacheDataOnDisk(url, beagleCache.json, beagleCache.hash)
             beagleCache.json
         } else {
             val headers = responseData.headers.toLowerKeys()
             return String(responseData.data).apply {
                 val beagleHash = headers[BEAGLE_HASH]
-                if (isEnabled() && beagleHash != null) {
+                if (isCacheEnabled() && beagleHash != null) {
                     persistCacheDataOnDisk(url, this, beagleHash)
                     val cacheControl = headers[CACHE_CONTROL_HEADER]
                     persistCacheOnMemory(url, this, beagleHash, cacheControl)
@@ -147,22 +153,24 @@ internal class CacheManager(
     }
 
     private fun clearOldCacheDataOnDisk() {
-        val cacheMaxRegisters = beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity
+        val cacheMaxRegisters = beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity.takeIf { it > 0 }
+            ?: beagleEnvironment.beagleSdk.config.cache.size
+
         val cachedKeys = storeHandler.getAll(StoreType.DATABASE)
-        val timeKeys = cachedKeys.filter { mapEntry ->
+        val cachedTimeKeys = cachedKeys.filter { mapEntry ->
             mapEntry.key.contains(CACHE_TIME_KEY)
         }
 
-        if (timeKeys.size > cacheMaxRegisters) {
-            val orderedTimeKeysList = timeKeys.toList().sortedByDescending { (_, value) -> value }
-            for (index in cacheMaxRegisters..orderedTimeKeysList.size) {
-                val url = orderedTimeKeysList[index].first.split(CACHE_KEY_DELIMITER)[0]
+        if (cachedTimeKeys.size > cacheMaxRegisters) {
+            val orderedCachedTimeKeysList = cachedTimeKeys.toList().sortedByDescending { (_, value) -> value }
+            for (index in cacheMaxRegisters until orderedCachedTimeKeysList.size) {
+                val url = orderedCachedTimeKeysList[index].first.split(CACHE_KEY_DELIMITER)[0]
                 deleteDiskCacheForUrl(url)
             }
         }
     }
 
-    private fun deleteDiskCacheForUrl(url: String){
+    private fun deleteDiskCacheForUrl(url: String) {
         val cacheKey = url.toBeagleHashKey()
         val jsonKey = url.toBeagleJsonKey()
         val timeKey = url.toBeagleTimeKey()
@@ -179,7 +187,7 @@ internal class CacheManager(
     ) {
         val cacheKey = url.toBeagleHashKey()
         val maxTime = getMaxAgeFromCacheControl(cacheControl)
-        timerCacheStore?.save(cacheKey, TimerCache(
+        memoryCacheStore?.save(cacheKey, BeagleCache(
             maxTime = maxTime,
             cachedTime = nanoTimeInSeconds(),
             hash = beagleHash,
@@ -197,7 +205,7 @@ internal class CacheManager(
         }
     }
 
-    private fun isEnabled(): Boolean = beagleEnvironment.beagleSdk.config.cache.enabled
+    private fun isCacheEnabled(): Boolean = beagleEnvironment.beagleSdk.config.cache.enabled
 
     private fun String.toBeagleHashKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_HASH_KEY"
     private fun String.toBeagleJsonKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_JSON_KEY"

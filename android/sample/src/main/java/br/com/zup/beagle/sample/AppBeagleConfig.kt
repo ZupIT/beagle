@@ -17,10 +17,10 @@
 package br.com.zup.beagle.sample
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.sample.constants.BASE_URL
 import br.com.zup.beagle.android.setup.BeagleConfig
 import br.com.zup.beagle.android.setup.Cache
 import br.com.zup.beagle.android.setup.Environment
+import br.com.zup.beagle.sample.constants.BASE_URL
 
 @BeagleComponent
 class AppBeagleConfig : BeagleConfig {
@@ -28,8 +28,8 @@ class AppBeagleConfig : BeagleConfig {
     override val baseUrl: String get() = BASE_URL
     override val isLoggingEnabled: Boolean = true
     override val cache: Cache = Cache(
-        enabled = true,
-        maxAge = 3000,
-        memoryMaximumCapacity = 15
+        enabled = false,
+        maxAge = 300,
+        size = 15
     )
 }

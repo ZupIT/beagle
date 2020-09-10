@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.setup
 
+import br.com.zup.beagle.android.utils.CacheDeprecatedConstants
+
 enum class Environment {
     DEBUG,
     PRODUCTION
@@ -24,8 +26,15 @@ enum class Environment {
 data class Cache(
     val enabled: Boolean,
     val maxAge: Long,
-    val memoryMaximumCapacity: Int
-)
+    @Deprecated(CacheDeprecatedConstants.MEMORY_MAXIMUM_CAPACITY, replaceWith = ReplaceWith("size"))
+    val memoryMaximumCapacity: Int = 0,
+    val size: Int = 0
+) {
+    @Deprecated(CacheDeprecatedConstants.MEMORY_MAXIMUM_CAPACITY,
+        replaceWith = ReplaceWith("Cache(enabled, maxAge, size=your_cache_size)"))
+    constructor(enabled: Boolean, maxAge: Long, memoryMaximumCapacity: Int) :
+        this(enabled, maxAge, memoryMaximumCapacity, 0)
+}
 
 interface BeagleConfig {
     val environment: Environment
