@@ -72,14 +72,14 @@ class DatabaseLocalStoreTest {
         val key = RandomData.string()
         val value = RandomData.string()
         val tableNameSlot = slot<String>()
-        every { database.insert(capture(tableNameSlot), any(), any()) } returns 1
+        every { database.insertWithOnConflict(capture(tableNameSlot), any(), any(), any()) } returns 1
 
         // When
         databaseLocalStore.save(key, value)
 
         // Then
         val actualTableName = tableNameSlot.captured
-        verify(exactly = once()) { database.insert(actualTableName, null, contentValues) }
+        verify(exactly = once()) { database.insertWithOnConflict(actualTableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE) }
         verify(exactly = 0) { BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value) }
         assertEquals(ScreenEntry.TABLE_NAME, actualTableName)
     }
@@ -89,7 +89,7 @@ class DatabaseLocalStoreTest {
         // Given
         val key = RandomData.string()
         val value = RandomData.string()
-        every { database.insert(any(), any(), any()) } returns -1
+        every { database.insertWithOnConflict(any(), any(), any(), any()) } returns -1
 
         // When
         databaseLocalStore.save(key, value)
