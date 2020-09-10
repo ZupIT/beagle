@@ -54,77 +54,85 @@ class TabViewFragment : Fragment() {
         val declarative = TabView(
             styleId = "DesignSystem.TabView.Custom",
             children = listOf(
-                buildTabView(
-                    title = "Title 1",
-                    child = Container(children = listOf(
-                        Text("Content").applyStyle(
-                            Style(
-                                margin = EdgeValue(
-                                    top = UnitValue(
-                                        10.0,
-                                        UnitType.REAL
-                                    )
-                                )
-                            )
-                        ),
-                        Image(ImagePath.Local("imageBeagle"))
-                    ))),
+                tabViewOne(),
                 buildTabView(title = "Title 2", child = Button("button")),
-                buildTabView(
-                    title = "Title 3",
-                    child = Container(
-                        context = ContextData(
-                            id = "user",
-                            value = 18
-                        ),
-                        children = listOf(
-                            Text("text tab 3", alignment = TextAlignment.CENTER),
-                            Button(
-                                text = "hello",
-                                onPress = listOf(
-                                    Condition(
-                                        condition = expressionOf("@{sum(user, 21)}"),
-                                        onTrue = listOf(
-                                            Alert(
-                                                message = "onTrue"
-                                            )
-                                        ),
-                                        onFalse = listOf(
-                                            Alert(
-                                                message = "onFalse"
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                ),
-                buildTabView(
-                    title = "Title 4",
-                    child =
-                    Text("text").applyFlex(
-                        Flex(
-                            justifyContent = JustifyContent.CENTER,
-                            alignItems = AlignItems.CENTER
-                        )
-                    )
-                ),
-                buildTabView(
-                    title = "Title 5",
-                    child =
-                    Text("text").applyFlex(
-                        Flex(
-                            justifyContent = JustifyContent.FLEX_START,
-                            alignItems = AlignItems.FLEX_END
-                        )
-                    )
-                )
+                tabViewThree(),
+                tabViewFour(),
+                tabViewFive()
             )
         )
 
         return context?.let { declarative.toView(this) }
     }
+
+    private fun tabViewOne() = buildTabView(
+        title = "Title 1",
+        child = Container(children = listOf(
+            Text("Content").applyStyle(
+                Style(
+                    margin = EdgeValue(
+                        top = UnitValue(
+                            10.0,
+                            UnitType.REAL
+                        )
+                    )
+                )
+            ),
+            Image(ImagePath.Local("imageBeagle"))
+        )))
+
+    private fun tabViewThree() = buildTabView(
+        title = "Title 3",
+        child = Container(
+            context = ContextData(
+                id = "user",
+                value = 18
+            ),
+            children = listOf(
+                Text("text tab 3", alignment = TextAlignment.CENTER),
+                Button(
+                    text = "hello",
+                    onPress = listOf(
+                        Condition(
+                            condition = expressionOf("@{sum(user, 21)}"),
+                            onTrue = listOf(
+                                Alert(
+                                    message = "onTrue"
+                                )
+                            ),
+                            onFalse = listOf(
+                                Alert(
+                                    message = "onFalse"
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+
+    private fun tabViewFour() =  buildTabView(
+        title = "Title 4",
+        child =
+        Text("text").applyFlex(
+            Flex(
+                justifyContent = JustifyContent.CENTER,
+                alignItems = AlignItems.CENTER
+            )
+        )
+    )
+
+    private fun tabViewFive() =  buildTabView(
+        title = "Title 5",
+        child =
+        Text("text").applyFlex(
+            Flex(
+                justifyContent = JustifyContent.FLEX_START,
+                alignItems = AlignItems.FLEX_END
+            )
+        )
+    )
 
     private fun buildTabView(title: String, child: ServerDrivenComponent): TabItem {
         return TabItem(
