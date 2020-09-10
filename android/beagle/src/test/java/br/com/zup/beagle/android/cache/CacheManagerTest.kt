@@ -121,7 +121,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun cache_should_not_initialize_cache_store_when_cache_is_disabled_and_memoryMaximumCapacity_is_zero() {
+    fun `cache should not initialize cache store when cache is disabled and memoryMaximumCapacity is zero`() {
         // Given
         every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
         every { beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity } returns 0
@@ -138,7 +138,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun restoreBeagleCacheForUrl_should_return_null_when_cache_is_disabled() {
+    fun `restoreBeagleCacheForUrl should return null when cache is disabled`() {
         // Given
         every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
 
@@ -151,37 +151,37 @@ class CacheManagerTest {
     }
 
     @Test
-    fun restoreBeagleCacheForUrl_should_return_beagleCache_when_timer_is_valid() {
+    fun `restoreBeagleCacheForUrl should return beagleCache when timer is valid`() {
         // Given
         every { memoryCacheStore.restore(any()) } returns memoryCache
-        every { memoryCache.isHot() } returns true
+        every { memoryCache.isExpired() } returns false
 
         // When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
         verify(exactly = 1) { memoryCacheStore.restore(BEAGLE_HASH_KEY) }
-        assertTrue { actual?.isHot() == true }
+        assertTrue { actual?.isExpired() == false }
         assertEquals(BEAGLE_JSON_VALUE, actual?.json)
         assertEquals(BEAGLE_HASH_VALUE, actual?.hash)
     }
 
     @Test
-    fun restoreBeagleCacheForUrl_should_return_isHot_false_when_timer_is_not_valid() {
+    fun `restoreBeagleCacheForUrl should return isExpired true when timer is not valid`() {
         // Given
         every { memoryCacheStore.restore(any()) } returns memoryCache
-        every { memoryCache.isHot() } returns false
+        every { memoryCache.isExpired() } returns true
 
         // When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
         verify(exactly = 1) { memoryCacheStore.restore(BEAGLE_HASH_KEY) }
-        assertTrue { actual?.isHot() == false }
+        assertTrue { actual?.isExpired() == true }
     }
 
     @Test
-    fun restoreBeagleCacheForUrl_should_return_beagleCache_from_disk_when_timer_is_null_and_data_exists_and_cache_is_valid() {
+    fun `restoreBeagleCacheForUrl should return beagleCache from disk when timer is null and data exists and cache is valid`() {
         // Given
         every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf(
             BEAGLE_HASH_KEY to BEAGLE_HASH_VALUE,
@@ -205,7 +205,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun restoreBeagleCacheForUrl_should_return_null_from_disk_when_timer_is_null_and_data_exists_and_cache_is_invalid() {
+    fun `restoreBeagleCacheForUrl should return null from disk when timer is null and data exists and cache is invalid`() {
         // Given
         every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf(
             BEAGLE_HASH_KEY to BEAGLE_HASH_VALUE,
@@ -229,7 +229,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun restoreBeagleCacheForUrl_should_return_null_from_disk_when_timer_is_null_and_data_does_not_exists() {
+    fun `restoreBeagleCacheForUrl should return null from disk when timer is null and data does not exists`() {
         // Given When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
@@ -239,7 +239,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun screenRequestWithHash_should_add_beagle_hash_header_when_beagleCache_is_not_null() {
+    fun `screenRequestWithHash should add beagle hash header when beagleCache is not null`() {
         // Given
         val beagleCache = mockk<BeagleCache> {
             every { hash } returns BEAGLE_HASH_VALUE
@@ -253,7 +253,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun screenRequestWithHash_should_not_add_beagle_hash_header_when_beagleCache_is_null() {
+    fun `screenRequestWithHash should not add beagle hash header when beagleCache is null`() {
         // Given
         val beagleCache: BeagleCache? = null
 
@@ -265,7 +265,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_return_cached_json_when_statusCode_is_304_and_cache_is_not_null() {
+    fun `handleResponseData should return cached json when statusCode is 304 and cache is not null`() {
         // Given
         val beagleCache = mockk<BeagleCache> {
             every { json } returns BEAGLE_JSON_VALUE
@@ -282,7 +282,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_return_responseBody_from_http_when_statusCode_is_not_304() {
+    fun `handleResponseData should return responseBody from http when statusCode is not 304`() {
         // Given
         val beagleCache: BeagleCache? = null
         every { responseData.statusCode } returns 200
@@ -296,7 +296,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_return_responseBody_from_http_when_statusCode_is_304_but_beagleCache_is_null() {
+    fun `handleResponseData should return responseBody from http when statusCode is 304 but beagleCache is null`() {
         // Given
         val beagleCache: BeagleCache? = null
         every { responseData.statusCode } returns 304
@@ -310,7 +310,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_not_call_store_cache_if_is_disabled() {
+    fun `handleResponseData should not call store cache if is disabled`() {
         // Given
         every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
 
@@ -323,7 +323,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_not_call_store_cache_if_beagleCache_header_is_not_present() {
+    fun `handleResponseData should not call store cache if beagleCache header is not present`() {
         // Given
         val headers = mapOf<String, String>()
         every { responseData.headers } returns headers
@@ -337,7 +337,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_not_call_store_cache_if_responseData_does_not_have_beagleHash_in_headers() {
+    fun `handleResponseData should not call store cache if responseData does not have beagleHash in headers`() {
         // Given When
         cacheManager.handleResponseData(URL, null, responseData)
 
@@ -346,7 +346,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_call_store_cache_if_responseData_have_beagleHash_in_headers() {
+    fun `handleResponseData should call store cache if responseData have beagleHash in headers`() {
         // Given
         every { responseData.headers } returns mapOf(
             BEAGLE_HASH to BEAGLE_HASH_VALUE
@@ -373,7 +373,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_catch_CacheControl_header_if_responseData_have_beagleHash_in_headers() {
+    fun `handleResponseData should catch CacheControl header if responseData have beagleHash in headers`() {
         // Given
         val maxAge = RandomData.int().toLong()
         every { responseData.headers } returns mapOf(
@@ -389,7 +389,7 @@ class CacheManagerTest {
     }
 
     @Test
-    fun handleResponseData_should_catch_CacheControl_header_maxAge_value_only_if_responseData_have_beagleHash_in_headers() {
+    fun `handleResponseData should catch CacheControl header maxAge value only if responseData have beagleHash in headers`() {
         // Given
         val maxAge = RandomData.int().toLong()
         every { responseData.headers } returns mapOf(

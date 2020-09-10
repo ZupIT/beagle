@@ -38,9 +38,9 @@ internal data class BeagleCache(
     val maxTime: Long,
     val cachedTime: Long
 ) {
-    fun isHot(): Boolean {
+    fun isExpired(): Boolean {
         val stepTime = nanoTimeInSeconds() - cachedTime
-        return stepTime < maxTime
+        return stepTime > maxTime
     }
 }
 
@@ -70,7 +70,7 @@ internal class CacheManager(
 
         return if (beagleCache == null) {
             null
-        } else if (!beagleCache.isHot()) {
+        } else if (beagleCache.isExpired()) {
             deleteDiskCacheForUrl(url)
             null
         } else {
