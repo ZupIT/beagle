@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.adapters
+package br.com.zup.beagle.android.mockdata
 
-import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
 import org.json.JSONObject
 
-private const val KEY = "first"
-private const val VALUE = "second"
+private const val KEY = "names"
 
-@RegisterBeagleAdapter
-class PairAdapter : BeagleTypeAdapter<Pair<String, String>> {
+class PersonAdapter : BeagleTypeAdapter<PersonInterface> {
 
-    override fun fromJson(json: String): Pair<String, String> {
+    override fun fromJson(json: String): PersonInterface {
         val rootObject = JSONObject(json)
-        return Pair(rootObject.getString(KEY), rootObject.getString(VALUE))
+        val name = rootObject.getJSONArray(KEY).getString(0)
+        return Person(arrayListOf(name))
     }
 
-    override fun toJson(type: Pair<String, String>): String {
+    override fun toJson(type: PersonInterface): String {
+        type as Person
         val rootObject = JSONObject()
-        rootObject.put(KEY, type.first)
-        rootObject.put(VALUE, type.second)
+        rootObject.put(KEY, type.names)
         return rootObject.toString()
     }
 }

@@ -44,12 +44,14 @@ import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleGenericAdapterFactory
 import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.CustomAndroidAction
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.mockdata.InternalObject
 import br.com.zup.beagle.android.mockdata.Person
+import br.com.zup.beagle.android.mockdata.TypeAdapterResolverImpl
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
@@ -87,6 +89,7 @@ class BeagleMoshiTest : BaseTest() {
         every { beagleSdk.formLocalActionHandler } returns mockk(relaxed = true)
         every { beagleSdk.registeredWidgets() } returns WIDGETS
         every { beagleSdk.registeredActions() } returns ACTIONS
+        every { beagleSdk.typeAdapterResolver } returns TypeAdapterResolverImpl()
 
         moshi = BeagleMoshi.createMoshi()
     }
@@ -308,7 +311,8 @@ class BeagleMoshiTest : BaseTest() {
     fun make_should_return_moshi_to_serialize_a_CustomWidget() {
         // Given
         val component = CustomWidget(arrayListOf(Person(names = arrayListOf("text"))),
-            Pair(Person(names = arrayListOf("text")), "second"), "charSequence")
+            Pair(Person(names = arrayListOf("text")), "second"), "charSequence",
+            Person(names = arrayListOf("text")))
 
         // When
         val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)

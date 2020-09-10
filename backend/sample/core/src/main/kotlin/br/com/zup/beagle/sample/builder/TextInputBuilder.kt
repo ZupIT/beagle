@@ -19,10 +19,7 @@ package br.com.zup.beagle.sample.builder
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.widget.Input
-import br.com.zup.beagle.sample.widget.Person
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar

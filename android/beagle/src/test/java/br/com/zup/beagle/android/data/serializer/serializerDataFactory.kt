@@ -133,6 +133,12 @@ fun makeCustomJson() = """
                 "second": "second"
           },
           "charSequence": "text",
+          "charArray": "text",
+          "personInterface": {
+                  "names": [
+                    "text"
+                  ]
+          },
           "_beagleComponent_": "custom:customWidget"
     }
 """
