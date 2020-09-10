@@ -24,7 +24,8 @@ import com.squareup.moshi.Types
 import java.io.IOException
 import java.lang.reflect.Type
 
-abstract class MoshiArrayListJsonAdapter<C : MutableCollection<T>?, T> private constructor(
+abstract class MoshiArrayListJsonAdapter<C : MutableCollection<T>?, T>
+private constructor(
     private val elementAdapter: JsonAdapter<T>
 ) :
     JsonAdapter<C>() {

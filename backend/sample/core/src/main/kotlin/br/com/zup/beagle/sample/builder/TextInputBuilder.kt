@@ -20,6 +20,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.widget.Input
+import br.com.zup.beagle.sample.widget.Person
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.EdgeValue
@@ -54,7 +55,6 @@ object TextInputBuilder : ScreenBuilder {
         ),
         child = Container(
             listOf(
-                Input(valueOf("SADS"), charSequence = "dddd"),
                 createTextInput("Text Input without style!"),
                 createTextInput("Text Input with style!", "DesignSystem.TextInput.Style.Bff")
             )

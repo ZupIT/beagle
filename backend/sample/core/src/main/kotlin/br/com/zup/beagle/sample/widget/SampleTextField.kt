@@ -16,20 +16,8 @@
 
 package br.com.zup.beagle.sample.widget
 
-
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.form.InputWidget
 
 @RegisterWidget
 class SampleTextField(val placeholder: String) : InputWidget()
-
-
-@RegisterWidget
-data class Input(
-    val hint: Bind<String>,
-    val onTextChange: List<Action>? = null,
-    val charSequence: CharSequence
-) : Widget()

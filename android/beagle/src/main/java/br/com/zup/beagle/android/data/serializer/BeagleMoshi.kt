@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.data.serializer.adapter.ContextDataAdapterFacto
 import br.com.zup.beagle.android.data.serializer.adapter.ImagePathTypeJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.defaults.CharSequenceAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.defaults.MoshiArrayListJsonAdapter
+import br.com.zup.beagle.android.data.serializer.adapter.defaults.PairAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleGenericAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
@@ -49,6 +50,7 @@ internal object BeagleMoshi {
         .add(ContextDataAdapterFactory())
         .add(MoshiArrayListJsonAdapter.FACTORY)
         .add(CharSequenceAdapter())
+        .add(PairAdapterFactory)
         .add(SimpleJsonAdapter())
         .apply {
             BeagleEnvironment.beagleSdk.typeAdapterResolver?.let {
