@@ -21,7 +21,13 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import io.mockk.mockk
 
-class CustomWidget : WidgetView() {
+
+data class Person(val names: ArrayList<String>)
+class CustomWidget(
+    val arrayList: ArrayList<Person>?,
+    val pair: Pair<Person, String>?,
+    val charSequence: CharSequence?
+) : WidgetView() {
     override fun buildView(rootView: RootView): View {
         return mockk()
     }

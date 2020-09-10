@@ -49,6 +49,7 @@ import br.com.zup.beagle.android.mockdata.CustomAndroidAction
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.mockdata.InternalObject
+import br.com.zup.beagle.android.mockdata.Person
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
@@ -306,7 +307,8 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun make_should_return_moshi_to_serialize_a_CustomWidget() {
         // Given
-        val component = CustomWidget()
+        val component = CustomWidget(arrayListOf(Person(names = arrayListOf("text"))),
+            Pair(Person(names = arrayListOf("text")), "second"), "charSequence")
 
         // When
         val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)

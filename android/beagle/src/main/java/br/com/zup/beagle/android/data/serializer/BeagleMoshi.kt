@@ -46,16 +46,16 @@ internal object BeagleMoshi {
         .add(ComponentJsonAdapterFactory.make())
         .add(RouteAdapterFactory())
         .add(AndroidActionJsonAdapterFactory.make())
-        .add(KotlinJsonAdapterFactory())
         .add(ContextDataAdapterFactory())
         .add(MoshiArrayListJsonAdapter.FACTORY)
         .add(CharSequenceAdapter())
         .add(PairAdapterFactory)
-        .add(SimpleJsonAdapter())
         .apply {
             BeagleEnvironment.beagleSdk.typeAdapterResolver?.let {
                 add(BeagleGenericAdapterFactory(it))
             }
         }
+        .add(SimpleJsonAdapter())
+        .add(KotlinJsonAdapterFactory())
         .build()
 }

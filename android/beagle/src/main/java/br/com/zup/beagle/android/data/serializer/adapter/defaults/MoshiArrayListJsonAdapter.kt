@@ -24,7 +24,7 @@ import com.squareup.moshi.Types
 import java.io.IOException
 import java.lang.reflect.Type
 
-abstract class MoshiArrayListJsonAdapter<C : MutableCollection<T>?, T>
+internal abstract class MoshiArrayListJsonAdapter<C : MutableCollection<T>?, T>
 private constructor(
     private val elementAdapter: JsonAdapter<T>
 ) :
@@ -56,9 +56,8 @@ private constructor(
     }
 
     companion object {
-        val FACTORY = Factory { type, annotations, moshi ->
+        val FACTORY = Factory { type, _, moshi ->
             val rawType = Types.getRawType(type)
-            if (annotations.isNotEmpty()) return@Factory null
             if (rawType == ArrayList::class.java) {
                 return@Factory newArrayListAdapter<Any>(
                     type,

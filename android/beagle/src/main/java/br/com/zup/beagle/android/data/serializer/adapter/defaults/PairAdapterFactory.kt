@@ -21,10 +21,12 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
+import org.json.JSONArray
+import org.json.JSONObject
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-object PairAdapterFactory : JsonAdapter.Factory {
+internal object PairAdapterFactory : JsonAdapter.Factory {
 
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi): JsonAdapter<*>? {
         if (type !is ParameterizedType || Pair::class.java != type.rawType) return null
@@ -52,9 +54,14 @@ object PairAdapterFactory : JsonAdapter.Factory {
         override fun fromJson(reader: JsonReader): Pair<Any, Any>? {
             val jsonObject = reader.readObject()
 
-            val first = firstAdapter.fromJson(jsonObject.get("first").toString())!!
-            val second = secondAdapter.fromJson(jsonObject.get("second").toString())!!
-            return first to second
+            val first = jsonObject.get("first")
+            val second = jsonObject.get("second")
+            return getObject(first, firstAdapter) to getObject(second, secondAdapter)
+        }
+
+        private fun getObject(jsonObject: Any, adapter: JsonAdapter<Any>): Any {
+            return if (jsonObject is JSONArray || jsonObject is JSONObject)
+                adapter.fromJson(jsonObject.toString())!! else adapter.fromJsonValue(jsonObject)!!
         }
     }
 }
