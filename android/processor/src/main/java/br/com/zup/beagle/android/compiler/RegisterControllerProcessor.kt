@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
 import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
+import br.com.zup.beagle.compiler.DEFAULT_BEAGLE_ACTIVITY
 import br.com.zup.beagle.compiler.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
@@ -78,20 +79,36 @@ class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironme
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("id", String::class.asTypeName().copy(true))
 
-        defaultActivityRegistered = validatorLines.second
 
-        if (validatorLines.second.isEmpty()) {
-            defaultActivityRegistered = defaultActivity
-            spec.addStatement("return $defaultActivityRegistered")
-        } else {
-            spec.addStatement("""
-                |return when(id) {
-                |   ${validatorLines.first}
-                |   else -> ${validatorLines.second}
-                |}
-            |""".trimMargin())
+        val defaultBeagleClass = ClassName(DEFAULT_BEAGLE_ACTIVITY.packageName,
+            DEFAULT_BEAGLE_ACTIVITY.className).canonicalName
+        defaultActivityRegistered = if (validatorLines.second.isEmpty())
+            "$defaultBeagleClass::class.java as Class<BeagleActivity>" else validatorLines.second
+
+        var code = ""
+
+        when {
+            validatorLines.second.isEmpty() && !defaultActivity.startsWith("null::class") -> {
+                defaultActivityRegistered = defaultActivity
+            }
+            validatorLines.first.isNotEmpty() -> {
+
+                code = """
+                    |return when(id) {
+                    |   ${validatorLines.first}
+                    |   else -> $defaultActivityRegistered
+                    |}
+                |""".trimMargin()
+            }
         }
-        return spec.returns(returnType)
+
+        if (code.isEmpty()) {
+            code = "return $defaultActivityRegistered"
+        }
+
+        return spec
+            .addStatement(code)
+            .returns(returnType)
             .build()
     }
 
@@ -122,12 +139,6 @@ class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironme
             }
         }
 
-
-        if (defaultControllerClass.isEmpty() && registerValidatorAnnotatedClasses.isNotEmpty()) {
-            processingEnv.messager.error(" Default Beagle Activity were not defined. " +
-                "Did you miss to create your own Activity that extends" +
-                " from Beagle Activity and annotate it with @RegisterController and without id?")
-        }
         return validators.toString() to defaultControllerClass
     }
 }

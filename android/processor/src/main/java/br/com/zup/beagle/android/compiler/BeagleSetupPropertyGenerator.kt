@@ -56,16 +56,6 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
             checkIfOtherAttributesExists(typeElement, propertySpecifications)
         }
 
-        val registerValidatorAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(
-            RegisterController::class.java
-        )
-
-        if (propertySpecifications?.defaultBeagleActivity == null && registerValidatorAnnotatedClasses.isEmpty()) {
-            processingEnv.messager.error("Default Beagle Activity were not defined. " +
-                "Did you miss to create your own Activity that extends" +
-                " from Beagle Activity and annotate it with @RegisterController and without id?")
-        }
-
         return createListOfPropertySpec(
             basePackageName,
             propertySpecifications
