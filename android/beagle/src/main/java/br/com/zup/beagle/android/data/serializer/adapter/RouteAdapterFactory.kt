@@ -59,13 +59,13 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
                 writer.name("url")
                 getBindAdapter().toJson(writer, value.url)
                 writer.name("shouldPrefetch")
-                BeagleMoshi.moshi.adapter(Boolean::class.java).toJson(writer, value.shouldPrefetch)
+                moshi.adapter(Boolean::class.java).toJson(writer, value.shouldPrefetch)
                 writer.name("fallback")
-                BeagleMoshi.moshi.adapter(Screen::class.java).toJson(writer, value.fallback)
+                moshi.adapter(Screen::class.java).toJson(writer, value.fallback)
             }
             is Route.Local -> {
                 writer.name("screen")
-                BeagleMoshi.moshi.adapter(Screen::class.java).toJson(writer, value.screen)
+                moshi.adapter(Screen::class.java).toJson(writer, value.screen)
             }
         }
         writer.endObject()

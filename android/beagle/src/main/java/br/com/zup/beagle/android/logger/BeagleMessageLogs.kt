@@ -153,4 +153,8 @@ internal object BeagleMessageLogs {
         val errorMessage = "The view with id:$id cannot receive children"
         BeagleLoggerProxy.error(errorMessage)
     }
+
+    fun expressionNotSupportInPreFetch() {
+        BeagleLoggerProxy.warning("Expression is not support in prefetch")
+    }
 }

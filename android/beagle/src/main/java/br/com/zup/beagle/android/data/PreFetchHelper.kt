@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -43,7 +44,8 @@ internal class PreFetchHelper {
 
     private fun preFetch(rootView: RootView, route: Route) {
         if (route is Route.Remote && route.shouldPrefetch) {
-            if (route.url is Bind.Expression) return
+            if (route.url is Bind.Expression)
+                BeagleMessageLogs.expressionNotSupportInPreFetch()
             val viewModel = rootView.generateViewModelInstance<BeagleViewModel>()
             viewModel.fetchForCache(route.url.value as String)
         }
