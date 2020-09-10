@@ -22,7 +22,7 @@ public class BeagleView: UIView {
     
     // MARK: - Private Attributes
     
-    fileprivate var beagleController: BeagleController
+    private var beagleController: BeagleController
     
     // MARK: - Initialization
     
@@ -38,7 +38,6 @@ public class BeagleView: UIView {
         let controller = BeagleScreenViewController(viewModel: viewModel)
         self.beagleController = controller
         super.init(frame: .zero)
-        setupView()
     }
     
     @available(*, unavailable)
@@ -48,22 +47,11 @@ public class BeagleView: UIView {
     
     // MARK: - Lifecycle
     
-    public override func didMoveToSuperview() {
-        guard let parentViewController = superview?.parentViewController else { return }
-        relateToController(parentViewController)
-    }
-    
-    // MARK: - Public Functions
-    
-    /// Creates a hierarchical relationship between the `BeagleView` and the given `UIViewController`.
-    ///
-    /// This method should be used alongside `addSubview`.
-    /// `BeagleView` needs a `UIViewController` reference in order to execute some layout operations and any occasional `Action` properly.
-    ///
-    /// - Parameter controller: The controller in which the BeagleView will be added to its hierarchy.
-    public func relateToController(_ controller: UIViewController) {
-        controller.addChild(beagleController)
-        beagleController.didMove(toParent: controller)
+    public override func didMoveToWindow() {
+        guard let parentViewController = parentViewController else { return }
+        parentViewController.addChild(beagleController)
+        setupView()
+        beagleController.didMove(toParent: parentViewController)
     }
     
     // MARK: - Private Functions
@@ -77,15 +65,8 @@ public class BeagleView: UIView {
     }
 }
 
-private extension UIView {
+private extension UIResponder {
     var parentViewController: UIViewController? {
-        var parentResponder: UIResponder? = self
-        while parentResponder != nil {
-            parentResponder = parentResponder?.next
-            if let viewController = parentResponder as? UIViewController {
-                return viewController
-            }
-        }
-        return nil
+        return next as? UIViewController ?? next?.parentViewController
     }
 }

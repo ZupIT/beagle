@@ -18,10 +18,11 @@
 import XCTest
 @testable import Beagle
 import BeagleSchema
+import SnapshotTesting
 
 class BeagleViewTests: XCTestCase {
 
-    func testRelateToController() {
+    func testControllerChildren() {
         // Given
         let text = Text("I'm a text")
         let beagleView = BeagleView(text)
@@ -31,7 +32,8 @@ class BeagleViewTests: XCTestCase {
         XCTAssertTrue(viewController.children.isEmpty)
         
         // When
-        beagleView.relateToController(viewController)
+        viewController.view.addSubview(beagleView)
+        beagleView.didMoveToWindow()
         
         // Then
         XCTAssertFalse(viewController.children.isEmpty)

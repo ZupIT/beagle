@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2576F469250ACF6C000CDB2A /* NativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2576F468250ACF6C000CDB2A /* NativeViewController.swift */; };
 		6E2C784D2419853A00448728 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C784C2419853A00448728 /* Constants.swift */; };
 		6E4EE6C1240E970000624DFB /* ScreenDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */; };
 		6E4EE6C7240E9C0B00624DFB /* ViewLayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */; };
@@ -89,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2576F468250ACF6C000CDB2A /* NativeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeViewController.swift; sourceTree = "<group>"; };
 		6E2C784C2419853A00448728 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDeepLink.swift; sourceTree = "<group>"; };
 		6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLayoutHelper.swift; sourceTree = "<group>"; };
@@ -204,18 +206,19 @@
 		932925B02327E0E400A61F01 /* BeagleDemo */ = {
 			isa = PBXGroup;
 			children = (
+				932925BF2327E0E500A61F01 /* Info.plist */,
+				C0479F58243282F00040E30C /* AnalyticsMock.swift */,
+				932925B12327E0E400A61F01 /* AppDelegate.swift */,
+				6ED5B09D240464520070CB9D /* BeagleStyle.swift */,
+				A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */,
+				2576F468250ACF6C000CDB2A /* NativeViewController.swift */,
+				932925BA2327E0E500A61F01 /* Assets.xcassets */,
 				C0D0F47E245B48BB00FB57C1 /* CodeGeneration */,
 				6E2C784B241984F800448728 /* Constants */,
 				E75619862408363E0025E0A9 /* DesignSystem */,
-				A0642DC9239689E60028AFF3 /* Screens */,
-				932925B12327E0E400A61F01 /* AppDelegate.swift */,
-				A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */,
-				C0479F58243282F00040E30C /* AnalyticsMock.swift */,
-				932925B72327E0E400A61F01 /* Main.storyboard */,
 				932925BC2327E0E500A61F01 /* LaunchScreen.storyboard */,
-				932925BA2327E0E500A61F01 /* Assets.xcassets */,
-				932925BF2327E0E500A61F01 /* Info.plist */,
-				6ED5B09D240464520070CB9D /* BeagleStyle.swift */,
+				932925B72327E0E400A61F01 /* Main.storyboard */,
+				A0642DC9239689E60028AFF3 /* Screens */,
 			);
 			path = BeagleDemo;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				A0642DCB23968A020028AFF3 /* MainScreen.swift in Sources */,
 				C80AF1342493F0950097D200 /* OtherComponent.swift in Sources */,
 				C09F4100249AAB0F002605EE /* TextContainerWithAction.swift in Sources */,
+				2576F469250ACF6C000CDB2A /* NativeViewController.swift in Sources */,
 				C8A2F6F42464C1F9002198B1 /* AutoDecodable.generated.swift in Sources */,
 				93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */,
 				932925B22327E0E400A61F01 /* AppDelegate.swift in Sources */,
