@@ -19,13 +19,11 @@ package br.com.zup.beagle.android.data.serializer.adapter
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonDataException
-import com.squareup.moshi.JsonReader
-import com.squareup.moshi.JsonWriter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
+import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.FALLBACK
+import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.SCREEN
+import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.SHOULD_PREFETCH
+import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.URL
+import com.squareup.moshi.*
 import java.lang.reflect.Type
 
 class RouteAdapterFactory : JsonAdapter.Factory {
@@ -43,12 +41,12 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
         val jsonValue = reader.readJsonValue()
 
         val value = jsonValue as Map<String, Any>
-        return if (value.containsKey("url")) {
-            val url = getBindAdapter().fromJsonValue(value["url"] as String)!!
-            Route.Remote(url, value["shouldPrefetch"] as Boolean, convertScreen(value["fallback"]))
+        return if (value.containsKey(URL)) {
+            val url = getBindAdapter().fromJsonValue(value[URL] as String)!!
+            Route.Remote(url, value[SHOULD_PREFETCH] as Boolean, convertScreen(value[FALLBACK]))
         } else {
             val message = "Expected a Screen for the screen key in $value."
-            Route.Local(convertScreen(value["screen"]) ?: throw JsonDataException(message))
+            Route.Local(convertScreen(value[SCREEN]) ?: throw JsonDataException(message))
         }
     }
 
@@ -56,15 +54,15 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
         writer.beginObject()
         when (value) {
             is Route.Remote -> {
-                writer.name("url")
+                writer.name(URL)
                 getBindAdapter().toJson(writer, value.url)
-                writer.name("shouldPrefetch")
+                writer.name(SHOULD_PREFETCH)
                 moshi.adapter(Boolean::class.java).toJson(writer, value.shouldPrefetch)
-                writer.name("fallback")
+                writer.name(FALLBACK)
                 moshi.adapter(Screen::class.java).toJson(writer, value.fallback)
             }
             is Route.Local -> {
-                writer.name("screen")
+                writer.name(SCREEN)
                 moshi.adapter(Screen::class.java).toJson(writer, value.screen)
             }
         }
