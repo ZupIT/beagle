@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.view.mapper
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.networking.ResponseData
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -91,6 +92,52 @@ class SendRequestActionMapperTest : BaseTest(){
         val responseData = ResponseData(
             statusCode = 200,
             data = "{\"result\":\"test\"".toByteArray()
+        )
+
+        //When
+        val response = SendRequestActionMapper.toResponse(responseData)
+
+        //Then
+        assert(response.data is String)
+    }
+
+    @Test
+    fun `GIVEN response data is an valid json array WHEN toResponse is called THEN it should return an object of type JSONArray`() {
+        //Given
+        val responseData = ResponseData(
+            statusCode = 200,
+            data = "[{\"result\":\"test\"}]".toByteArray()
+        )
+
+        //When
+        val response = SendRequestActionMapper.toResponse(responseData)
+
+        //Then
+        assert(response.data is JSONArray)
+    }
+
+    @Test
+    fun `GIVEN response data is an valid json array WHEN toResponse is called THEN it should return an JSONArray with correct values`() {
+        //Given
+        val responseData = ResponseData(
+            statusCode = 200,
+            data = "[{\"result\":\"test\"},{\"result\":\"test2\"}]".toByteArray()
+        )
+
+        //When
+        val response = SendRequestActionMapper.toResponse(responseData)
+        val jsonArray = response.data as JSONArray
+
+        //Then
+        assertEquals("test2", jsonArray.getJSONObject(1).getString("result"))
+    }
+
+    @Test
+    fun `GIVEN response data is an invalid json array WHEN toResponse is called THEN it should return an object of type String`() {
+        //Given
+        val responseData = ResponseData(
+            statusCode = 200,
+            data = "[{\"result\":\"test\"}".toByteArray()
         )
 
         //When
