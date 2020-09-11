@@ -52,11 +52,6 @@ class BeagleSetupTest {
     }
 
     @Test
-    fun designSystem_should_have_a_valid_instance() {
-        assertNotNull(beagleSetup.designSystem)
-    }
-
-    @Test
     fun validatorHandler_should_have_a_valid_instance() {
         assertNotNull(beagleSetup.validatorHandler)
     }
@@ -64,5 +59,15 @@ class BeagleSetupTest {
     @Test
     fun config_should_have_a_valid_instance() {
         assertNotNull(beagleSetup.config)
+    }
+
+    @Test
+    fun designSystem_should_have_a_valid_instance() {
+        assertNotNull(beagleSetup.designSystem)
+    }
+
+    @Test
+    fun `should has valid instance when get type adapter`() {
+        assertNotNull(beagleSetup.typeAdapterResolver)
     }
 }
