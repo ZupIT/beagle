@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.data
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
+import br.com.zup.beagle.android.datathis.BeagleServiceWrapper
+import br.com.zup.beagle.android.datathis.FetchListener
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData

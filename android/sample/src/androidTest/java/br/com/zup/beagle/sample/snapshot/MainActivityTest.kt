@@ -17,8 +17,8 @@
 package br.com.zup.beagle.sample.snapshot
 
 import android.content.Intent
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
+import android.support.test.rule.ActivityTestRule
+import android.support.test.runner.AndroidJUnit4
 import br.com.zup.beagle.sample.MainActivity
 import com.facebook.testing.screenshot.Screenshot
 import org.junit.Rule
