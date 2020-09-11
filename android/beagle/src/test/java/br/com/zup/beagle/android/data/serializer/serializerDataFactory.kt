@@ -116,8 +116,30 @@ fun makeTabItemJson() = """
     """
 
 fun makeCustomJson() = """
-    {
-        "_beagleComponent_": "custom:customWidget"
+     {
+          "arrayList": [
+                {
+                  "names": [
+                    "text"
+                  ]
+                }
+          ],
+          "pair": {
+                "first": {
+                  "names": [
+                    "text"
+                  ]
+                },
+                "second": "second"
+          },
+          "charSequence": "text",
+          "charArray": "text",
+          "personInterface": {
+                  "names": [
+                    "text"
+                  ]
+          },
+          "_beagleComponent_": "custom:customWidget"
     }
 """
 

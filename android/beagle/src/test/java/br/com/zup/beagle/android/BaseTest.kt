@@ -40,9 +40,9 @@ abstract class BaseTest {
         MockKAnnotations.init(this)
 
         mockkObject(BeagleEnvironment)
-
         every { rootView.activity } returns mockk()
         every { BeagleEnvironment.beagleSdk } returns beagleSdk
+        every { beagleSdk.typeAdapterResolver } returns null
         every { beagleSdk.config.cache.memoryMaximumCapacity } returns 15
         every { beagleSdk.config.cache.size } returns 15
         every { beagleSdk.registeredWidgets() } returns listOf()

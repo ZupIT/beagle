@@ -16,22 +16,23 @@
 
 package br.com.zup.beagle.android.mockdata
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import io.mockk.mockk
+import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
+import org.json.JSONObject
 
-interface PersonInterface
+private const val KEY = "names"
 
-data class Person(val names: ArrayList<String>): PersonInterface
+class PersonAdapter : BeagleTypeAdapter<PersonInterface> {
 
-class CustomWidget(
-    val arrayList: ArrayList<Person>?,
-    val pair: Pair<Person, String>?,
-    val charSequence: CharSequence?,
-    val personInterface: PersonInterface
-) : WidgetView() {
-    override fun buildView(rootView: RootView): View {
-        return mockk()
+    override fun fromJson(json: String): PersonInterface {
+        val rootObject = JSONObject(json)
+        val name = rootObject.getJSONArray(KEY).getString(0)
+        return Person(arrayListOf(name))
+    }
+
+    override fun toJson(type: PersonInterface): String {
+        type as Person
+        val rootObject = JSONObject()
+        rootObject.put(KEY, type.names)
+        return rootObject.toString()
     }
 }
