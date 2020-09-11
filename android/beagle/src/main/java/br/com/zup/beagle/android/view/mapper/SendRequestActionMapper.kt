@@ -25,10 +25,7 @@ import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.viewmodel.Response
-import com.squareup.moshi.Types
 import java.net.URI
-import kotlin.reflect.full.createType
-import kotlin.reflect.typeOf
 
 internal fun SendRequestInternal.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
 
