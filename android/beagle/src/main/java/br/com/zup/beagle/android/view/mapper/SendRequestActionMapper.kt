@@ -67,6 +67,14 @@ internal object SendRequestActionMapper {
         return try {
             data.toInt()
         } catch (e: NumberFormatException) {
+            deserializeObjectOrGetRawString(data)
+        } catch (e: Exception) {
+            data
+        }
+    }
+
+    private fun deserializeObjectOrGetRawString(data: String): Any? {
+        return try {
             BeagleMoshi.moshi.adapter(Any::class.java).fromJson(data)
         } catch (e: Exception) {
             data
