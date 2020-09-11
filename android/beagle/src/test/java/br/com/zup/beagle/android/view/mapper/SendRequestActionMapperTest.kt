@@ -18,12 +18,14 @@ package br.com.zup.beagle.android.view.mapper
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.networking.ResponseData
+import org.json.JSONObject
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SendRequestActionMapperTest : BaseTest(){
 
     @Test
-    fun `GIVEN response data is an integer WHEN toResponse is called THEN it should return an Int object`() {
+    fun `GIVEN response data is an integer WHEN toResponse is called THEN it should return an object of type Int`() {
         //Given
         val responseData = ResponseData(
             statusCode = 200,
@@ -35,11 +37,25 @@ class SendRequestActionMapperTest : BaseTest(){
 
         //Then
         assert(response.data is Int)
+    }
+
+    @Test
+    fun `GIVEN response data is a string with value '10' WHEN toResponse is called THEN it should return 10 as Int`() {
+        //Given
+        val responseData = ResponseData(
+            statusCode = 200,
+            data = "10".toByteArray()
+        )
+
+        //When
+        val response = SendRequestActionMapper.toResponse(responseData)
+
+        //Then
         assert(response.data == 10)
     }
 
     @Test
-    fun `GIVEN response data is an valid json WHEN toResponse is called THEN it should return an Any object`() {
+    fun `GIVEN response data is an valid json WHEN toResponse is called THEN it should return an object of type JSONObject`() {
         //Given
         val responseData = ResponseData(
             statusCode = 200,
@@ -50,11 +66,27 @@ class SendRequestActionMapperTest : BaseTest(){
         val response = SendRequestActionMapper.toResponse(responseData)
 
         //Then
-        assert(response.data is Any)
+        assert(response.data is JSONObject)
     }
 
     @Test
-    fun `GIVEN response data is an invalid json WHEN toResponse is called THEN it should return an String object`() {
+    fun `GIVEN response data is an valid json WHEN toResponse is called THEN it should return an JSONObject with correct values`() {
+        //Given
+        val responseData = ResponseData(
+            statusCode = 200,
+            data = "{\"result\":\"test\"}".toByteArray()
+        )
+
+        //When
+        val response = SendRequestActionMapper.toResponse(responseData)
+        val jsonObject = response.data as JSONObject
+
+        //Then
+        assertEquals("test", jsonObject.getString("result"))
+    }
+
+    @Test
+    fun `GIVEN response data is an invalid json WHEN toResponse is called THEN it should return an object of type String`() {
         //Given
         val responseData = ResponseData(
             statusCode = 200,
@@ -66,11 +98,25 @@ class SendRequestActionMapperTest : BaseTest(){
 
         //Then
         assert(response.data is String)
+    }
+
+    @Test
+    fun `GIVEN response data is an invalid json WHEN toResponse is called THEN it should return a String containing this invalid json`() {
+        //Given
+        val responseData = ResponseData(
+            statusCode = 200,
+            data = "{\"result\":\"test\"".toByteArray()
+        )
+
+        //When
+        val response = SendRequestActionMapper.toResponse(responseData)
+
+        //Then
         assert(response.data == "{\"result\":\"test\"")
     }
 
     @Test
-    fun `GIVEN response data is an empty string WHEN toResponse is called THEN it should return an empty String object`() {
+    fun `GIVEN response data is an empty string WHEN toResponse is called THEN it should return an object of type String`() {
         //Given
         val responseData = ResponseData(
             statusCode = 200,
@@ -82,6 +128,20 @@ class SendRequestActionMapperTest : BaseTest(){
 
         //Then
         assert(response.data is String)
+    }
+
+    @Test
+    fun `GIVEN response data is an empty string WHEN toResponse is called THEN it should return an empty String`() {
+        //Given
+        val responseData = ResponseData(
+            statusCode = 200,
+            data = "".toByteArray()
+        )
+
+        //When
+        val response = SendRequestActionMapper.toResponse(responseData)
+
+        //Then
         assert(response.data == "")
     }
 }
