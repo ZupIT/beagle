@@ -54,8 +54,12 @@ class NativeViewController: UIViewController {
         descriptionText.anchor(top: view.topAnchor, topConstant: 150)
         
         view.addSubview(beagleView)
-        beagleView.anchorCenterXToSuperview()
-        beagleView.anchor(top: descriptionText.bottomAnchor, topConstant: 50, widthConstant: 300, heightConstant: 50)
+        beagleView.anchor(top: descriptionText.bottomAnchor,
+                          left: view.leftAnchor,
+                          right: view.rightAnchor,
+                          topConstant: 50,
+                          leftConstant: 20,
+                          rightConstant: 20)
     }
     
 }

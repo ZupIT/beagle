@@ -63,6 +63,10 @@ public class BeagleView: UIView {
         addSubview(beagleView)
         beagleView.anchorTo(superview: self)
     }
+    
+    public override var intrinsicContentSize: CGSize {
+        return beagleController.view.frame.size
+    }
 }
 
 private extension UIResponder {

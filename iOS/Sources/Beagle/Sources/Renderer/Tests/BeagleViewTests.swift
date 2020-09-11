@@ -38,4 +38,20 @@ class BeagleViewTests: XCTestCase {
         // Then
         XCTAssertFalse(viewController.children.isEmpty)
     }
+    
+    func testViewLayout() {
+        // Given
+        let text = Text("I'm a text")
+        let beagleView = BeagleView(text)
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .white
+        
+        // When
+        viewController.view.addSubview(beagleView)
+        beagleView.didMoveToWindow()
+        beagleView.anchorTo(superview: viewController.view)
+        
+        // Then
+        assertSnapshotImage(viewController, size: .custom(CGSize(width: 150, height: 125)))
+    }
 }
