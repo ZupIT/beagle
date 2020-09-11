@@ -24,29 +24,35 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.RoundEnvironment
 
+const val REGISTERED_ACTIONS = "registeredActions"
+
 class RegisteredActionGenerator {
 
     fun generate(roundEnvironment: RoundEnvironment): FunSpec {
         val registerAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterAction::class.java)
+
+        val classValues = registerAnnotatedClasses.joinToString(",\n") { element ->
+            "\t${element}::class.java as Class<Action>"
+        }
+
+        return createFuncSpec()
+            .addCode("""
+                        |val $REGISTERED_ACTIONS = listOf<Class<Action>>(
+                        |   $classValues
+                        |)
+                    |""".trimMargin())
+            .addStatement("return $REGISTERED_ACTIONS")
+            .build()
+    }
+
+    fun createFuncSpec(): FunSpec.Builder {
         val listReturnType = List::class.asClassName().parameterizedBy(
             Class::class.asClassName().parameterizedBy(
                 ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className)
             )
         )
 
-        val classValues = registerAnnotatedClasses.joinToString(",\n") { element ->
-            "\t${element}::class.java as Class<BeagleActivity>"
-        }
-
-        return FunSpec.builder("registeredActions")
-            .addModifiers(KModifier.OVERRIDE)
+        return FunSpec.builder(REGISTERED_ACTIONS)
             .returns(listReturnType)
-            .addCode("""
-                        |val registeredActions = listOf<Class<Action>>(
-                        |   $classValues
-                        |)
-                    |""".trimMargin())
-            .addStatement("return registeredActions")
-            .build()
     }
 }

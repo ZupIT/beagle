@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.utils
 
 internal object BeagleRegex {
     val EXPRESSION_REGEX = "(\\\\*)@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}".toRegex()
+    val FULL_MATCH_EXPRESSION_SEPARATOR_REGEX = "(?<=\\})".toRegex()
+    val QUANTITY_OF_SLASHES_REGEX = "(\\\\*)@".toRegex()
 }
 
 internal object DeprecationMessages {

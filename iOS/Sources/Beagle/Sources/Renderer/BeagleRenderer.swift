@@ -32,7 +32,7 @@ public struct BeagleRenderer {
     }
 
     /// main function of this class. Call it to transform a Component into a UIView
-    func render(_ component: BeagleSchema.RawComponent) -> UIView {
+    public func render(_ component: BeagleSchema.RawComponent) -> UIView {
         let view = makeView(component: component)
 
         setupView(view, of: component)
@@ -40,7 +40,7 @@ public struct BeagleRenderer {
         return view
     }
 
-    func render(_ children: [BeagleSchema.RawComponent]) -> [UIView] {
+    public func render(_ children: [BeagleSchema.RawComponent]) -> [UIView] {
         return children.map { render($0) }
     }
 

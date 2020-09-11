@@ -39,9 +39,10 @@ import javax.annotation.processing.RoundEnvironment
 
 class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
-    private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
-        BeagleSetupRegisteredWidgetGenerator(),
-    private val registeredActionGenerator: RegisteredActionGenerator = RegisteredActionGenerator(),
+    private val registerWidgetProcessorProcessor: RegisterWidgetProcessorProcessor =
+        RegisterWidgetProcessorProcessor(processingEnv),
+    private val registerActionProcessorProcessor: RegisterActionProcessorProcessor =
+        RegisterActionProcessorProcessor(processingEnv),
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
         BeagleSetupPropertyGenerator(processingEnv),
     private val registerAnnotationProcessor: RegisterControllerProcessor =
@@ -62,8 +63,8 @@ class BeagleSetupProcessor(
         val typeSpec = TypeSpec.classBuilder(beagleSetupClassName)
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
-            .addFunction(beagleSetupRegisteredWidgetGenerator.generate(roundEnvironment))
-            .addFunction(registeredActionGenerator.generate(roundEnvironment))
+            .addFunction(registerWidgetProcessorProcessor.createRegisteredWidgetsFunction())
+            .addFunction(registerActionProcessorProcessor.createRegisteredActionsFunction())
 
 
         val beagleSetupFile = FileSpec.builder(
@@ -85,6 +86,8 @@ class BeagleSetupProcessor(
 
         var property = properties[propertyIndex]
 
+        registerWidgetProcessorProcessor.process(basePackageName, roundEnvironment)
+        registerActionProcessorProcessor.process(basePackageName, roundEnvironment)
         registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
 
         val defaultActivity = registerAnnotationProcessor.defaultActivityRegistered
