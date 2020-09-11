@@ -34,6 +34,8 @@ import org.junit.Test
 class ConditionTest : BaseTest() {
 
     private val view: View = mockk()
+    private val onFalse: Action = mockk(relaxed = true)
+    private val onTrue: Action = mockk(relaxed = true)
 
     override fun setUp() {
         super.setUp()
@@ -44,8 +46,6 @@ class ConditionTest : BaseTest() {
     @Test
     fun `execute should call onTrue attribute`() {
         // Given
-        val onFalse: Action = mockk(relaxed = true)
-        val onTrue: Action = mockk(relaxed = true)
         val condition = Condition(
             condition = expressionOf(""),
             onFalse = listOf(onFalse),
@@ -64,8 +64,6 @@ class ConditionTest : BaseTest() {
     @Test
     fun `execute should call onFalse attribute`() {
         // Given
-        val onFalse: Action = mockk(relaxed = true)
-        val onTrue: Action = mockk(relaxed = true)
         val condition = Condition(
             condition = expressionOf(""),
             onFalse = listOf(onFalse),
@@ -84,8 +82,6 @@ class ConditionTest : BaseTest() {
     @Test
     fun `execute should receive exception value and to call  onFalse attribute`() {
         // Given
-        val onFalse: Action = mockk(relaxed = true)
-        val onTrue: Action = mockk(relaxed = true)
         val result = mockk<Exception>()
         val condition = Condition(
             condition = expressionOf(""),
@@ -107,8 +103,6 @@ class ConditionTest : BaseTest() {
     @Test
     fun `execute should receive null value and to call  onFalse attribute`() {
         // Given
-        val onFalse: Action = mockk(relaxed = true)
-        val onTrue: Action = mockk(relaxed = true)
         val condition = Condition(
             condition = expressionOf(""),
             onFalse = listOf(onFalse),
