@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-public struct TabBar: RawComponent, AutoInitiableAndDecodable {
+public struct TabBar: RawComponent, ThemeComponent, AutoInitiableAndDecodable {
     public let items: [TabBarItem]
-    public let styleId: String?
+    public var styleId: String?
     public let currentTab: Expression<Int>?
     public let onTabSelection: [RawAction]?
 

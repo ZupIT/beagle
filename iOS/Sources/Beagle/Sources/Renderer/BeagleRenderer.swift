@@ -56,19 +56,8 @@ public struct BeagleRenderer {
     }
 
     private func setupView(_ view: UIView, of component: BeagleSchema.RawComponent) {
-        view.style.isFlexEnabled = true
-
-        // this switch could actually be inside the ViewConfigurator
-        if let c = component as? AccessibilityComponent {
-            view.beagle.setup(accessibility: c.accessibility)
-        }
-        if let c = component as? IdentifiableComponent {
-            view.beagle.setup(id: c.id)
-        }
-        if let c = component as? StyleComponent {
-            view.beagle.setup(style: c.style)
-            view.style.setup(c.style)
-        }
+        view.beagle.setupView(of: component, with: controller)
+        
         if let context = (component as? HasContext)?.context {
             view.setContext(context)
         }

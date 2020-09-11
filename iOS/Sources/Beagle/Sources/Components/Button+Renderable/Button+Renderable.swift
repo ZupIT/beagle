@@ -23,6 +23,7 @@ extension Button: Widget {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let button = BeagleUIButton(
             onPress: onPress,
+            styleId: styleId,
             clickAnalyticsEvent: clickAnalyticsEvent,
             controller: renderer.controller
         )
@@ -36,55 +37,26 @@ extension Button: Widget {
             .compactMap { ($0 as? Navigate)?.newPath }
             .forEach { preFetchHelper.prefetchComponent(newPath: $0) }
         
-        if let styleId = styleId {
-            button.styleId = styleId
-        }
-        
         return button
     }
     
     final class BeagleUIButton: UIButton {
         
-        var styleId: String? {
-            didSet { applyStyle() }
-        }
-
-        override var isEnabled: Bool {
-            get { return super.isEnabled }
-            set {
-                super.isEnabled = newValue
-                applyStyle()
-            }
-        }
-        
-        override var isSelected: Bool {
-            get { return super.isSelected }
-            set {
-                super.isSelected = newValue
-                applyStyle()
-            }
-        }
-        
-        override var isHighlighted: Bool {
-            get { return super.isHighlighted }
-            set {
-                super.isHighlighted = newValue
-                applyStyle()
-            }
-        }
-        
+        private var styleId: String?
         private var onPress: [RawAction]?
         private var clickAnalyticsEvent: AnalyticsClick?
         private weak var controller: BeagleController?
         
         required init(
             onPress: [RawAction]?,
+            styleId: String? = nil,
             clickAnalyticsEvent: AnalyticsClick? = nil,
             controller: BeagleController
         ) {
             super.init(frame: .zero)
             self.onPress = onPress
             self.clickAnalyticsEvent = clickAnalyticsEvent
+            self.styleId = styleId
             self.controller = controller
             self.addTarget(self, action: #selector(triggerTouchUpInsideActions), for: .touchUpInside)
             setDefaultStyle()
@@ -93,6 +65,11 @@ extension Button: Widget {
         @available(*, unavailable)
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            applyStyle()
         }
         
         @objc func triggerTouchUpInsideActions() {
@@ -105,7 +82,7 @@ extension Button: Widget {
         
         private func applyStyle() {
             guard let styleId = styleId else { return }
-            controller?.dependencies.theme.applyStyle(for: self as UIButton, withId: styleId)
+            beagle.setup(styleId: styleId, with: controller)
         }
         
         private func setDefaultStyle() {

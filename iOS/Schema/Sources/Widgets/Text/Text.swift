@@ -16,11 +16,11 @@
 
 import UIKit
 
-public struct Text: RawWidget, AutoDecodable {
+public struct Text: RawWidget, ThemeComponent, AutoDecodable {
     
     // MARK: - Public Properties
     public let text: Expression<String>
-    public let styleId: String?
+    public var styleId: String?
     public let alignment: Expression<Alignment>?
     public let textColor: Expression<String>?
     public var widgetProperties: WidgetProperties

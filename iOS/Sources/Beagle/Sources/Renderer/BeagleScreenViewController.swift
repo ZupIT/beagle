@@ -195,7 +195,7 @@ public class BeagleScreenViewController: BeagleController {
         
         if let style = screen.navigationBar?.styleId,
         let navigationBar = navigationController?.navigationBar {
-            self.dependencies.theme.applyStyle(for: navigationBar, withId: style)
+            navigationBar.beagle.setup(styleId: style, with: self)
         }
     }
     
