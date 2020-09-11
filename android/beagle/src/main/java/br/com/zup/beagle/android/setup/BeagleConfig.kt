@@ -26,12 +26,13 @@ enum class Environment {
 data class Cache(
     val enabled: Boolean,
     val maxAge: Long,
-    @Deprecated(CacheDeprecatedConstants.MEMORY_MAXIMUM_CAPACITY, replaceWith = ReplaceWith("size"))
+    @Deprecated(CacheDeprecatedConstants.MEMORY_MAXIMUM_CAPACITY,
+        replaceWith = ReplaceWith(CacheDeprecatedConstants.MEMORY_MAXIMUM_CAPACITY_REPLACE))
     val memoryMaximumCapacity: Int = 0,
     val size: Int = 0
 ) {
-    @Deprecated(CacheDeprecatedConstants.MEMORY_MAXIMUM_CAPACITY,
-        replaceWith = ReplaceWith("Cache(enabled, maxAge, size=your_cache_size)"))
+    @Deprecated(CacheDeprecatedConstants.CONSTRUCTOR,
+        replaceWith = ReplaceWith(CacheDeprecatedConstants.CONSTRUCTOR_REPLACE))
     constructor(enabled: Boolean, maxAge: Long, memoryMaximumCapacity: Int) :
         this(enabled, maxAge, memoryMaximumCapacity, 0)
 }

@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_PAGE_VIEW
+import br.com.zup.beagle.android.utils.PageViewDeprecatedConstants
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
@@ -39,14 +39,15 @@ import br.com.zup.beagle.widget.core.Flex
 @RegisterWidget
 data class PageView(
     override val children: List<ServerDrivenComponent>,
-    @Deprecated(message = DEPRECATED_PAGE_VIEW)
+    @Deprecated(message = PageViewDeprecatedConstants.PAGE_INDICATOR_PROPERTY)
     val pageIndicator: PageIndicatorComponent? = null,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
     val currentPage: Bind<Int>? = null
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
-    @Deprecated(message = DEPRECATED_PAGE_VIEW)
+    @Deprecated(message = PageViewDeprecatedConstants.CONSTRUCTOR_WITH_PAGE_INDICATOR,
+        replaceWith = ReplaceWith(PageViewDeprecatedConstants.CONSTRUCTOR_WITH_PAGE_INDICATOR_REPLACE))
     constructor(
         children: List<ServerDrivenComponent>,
         pageIndicator: PageIndicatorComponent? = null,
