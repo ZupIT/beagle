@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -20,17 +19,23 @@ import Beagle
 import BeagleSchema
 
 class NativeViewController: UIViewController {
+
+    private lazy var firstLabel = makeLabel(text: "I'm a native UILabel")
     
-    private lazy var beagleView = BeagleView(container)
-    
-    private lazy var descriptionText: UILabel = {
-        let label = UILabel()
-        label.text = "I'm a native component"
-        label.font = .systemFont(ofSize: 25, weight: .semibold)
-        return label
-    }()
-    
-    private lazy var container = Container {
+    private lazy var beagleView = BeagleView(Container(
+        widgetProperties: .init(style: Style()
+            .backgroundColor(grayColor)
+            .margin(.init(all: 20))
+            .padding(.init(all: 10))
+        )
+    ) {
+        Text(
+            "These buttons are rendered by Beagle",
+            widgetProperties: .init(style: .init(
+                margin: .init(bottom: 10),
+                flex: Flex().alignSelf(.center)
+            ))
+        )
         Button(
             text: "I'm a server-driven button",
             onPress: [Alert(title: "Server-driven button", message: "I'm a server-driven button")]
@@ -39,6 +44,17 @@ class NativeViewController: UIViewController {
             text: "Navigate to Navigator",
             onPress: [Navigate.openNativeRoute(.init(route: .navigateStep1Endpoint))]
         )
+    })
+
+    private lazy var secondLabel = makeLabel(text: "Another native UILabel after Beagle")
+
+    private func makeLabel(text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 25, weight: .semibold)
+        label.backgroundColor = UIColor(hex: grayColor)
+        return label
     }
     
     override func viewDidLoad() {
@@ -46,20 +62,31 @@ class NativeViewController: UIViewController {
         setupView()
     }
     
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = .white
         
-        view.addSubview(descriptionText)
-        descriptionText.anchorCenterXToSuperview()
-        descriptionText.anchor(top: view.topAnchor, topConstant: 150)
+        view.addSubview(firstLabel)
+        firstLabel.anchorCenterXToSuperview()
+        firstLabel.anchor(
+            top: topLayoutGuide.bottomAnchor,
+            topConstant: 50
+        )
         
         view.addSubview(beagleView)
-        beagleView.anchor(top: descriptionText.bottomAnchor,
-                          left: view.leftAnchor,
-                          right: view.rightAnchor,
-                          topConstant: 50,
-                          leftConstant: 20,
-                          rightConstant: 20)
+        beagleView.anchor(
+            top: firstLabel.bottomAnchor,
+            left: view.leftAnchor,
+            right: view.rightAnchor,
+            topConstant: 30,
+            leftConstant: 20,
+            rightConstant: 20
+        )
+
+        // TODO: make this second label work to allow using BeagleView inside AutoLayout
+        view.addSubview(secondLabel)
+        secondLabel.anchorCenterXToSuperview()
+        secondLabel.anchor(top: beagleView.bottomAnchor, topConstant: 30)
     }
-    
+
+    private let grayColor = "#EEEEEE"
 }

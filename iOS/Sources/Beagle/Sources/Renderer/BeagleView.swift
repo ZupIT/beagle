@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -18,6 +17,7 @@
 import UIKit
 import BeagleSchema
 
+/// Use this View when you need to add a Beagle component inside a native screen that have other UIViews and uses AutoLayout
 public class BeagleView: UIView {
     
     // MARK: - Private Attributes
@@ -55,6 +55,7 @@ public class BeagleView: UIView {
     }
     
     // MARK: - Private Functions
+
     private func setupView() {
         guard let beagleView = beagleController.view else {
             return
