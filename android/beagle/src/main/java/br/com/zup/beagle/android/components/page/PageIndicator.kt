@@ -48,8 +48,8 @@ class PageIndicator(
             setCount(it)
         }
         currentPage?.let {
-            observeBindChanges(rootView, this, it) {position ->
-                position?.let{
+            observeBindChanges(rootView, this, it) { position ->
+                position?.let {
                     onItemUpdated(position)
                 }
             }
