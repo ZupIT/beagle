@@ -43,6 +43,7 @@ class NavigateTests: XCTestCase {
             .resetApplication(routeMockRemote),
             .resetStack(routeMockRemote),
             .pushStack(routeMockRemote),
+            .pushStack(routeMockRemote, controllerId: "customid"),
             .pushView(routeMockRemote),
             .resetStack(routeMockDeclarative)
         ]

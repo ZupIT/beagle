@@ -22,25 +22,37 @@ import SnapshotTesting
 
 final class DynamicObjectTests: XCTestCase {
 
-    func test_setObjectWithPath() {
-        var object: DynamicObject = [
-            "a": "value a",
-            "c": ["1", "2"]
+    func testSetObjectWithVariousPaths() {
+        // Given
+        let object: DynamicObject = [
+            "a": "default",
+            "c": [1, 2]
         ]
-        let paths: [Path] = [
-            Path(nodes: [.key("a")]),
-            Path(nodes: [.key("b")]),
-            Path(nodes: [.key("c"), .index(0)]),
-            Path(nodes: [.key("c"), .index(4)]),
-            Path(nodes: []),
-            Path(nodes: [.index(4)])
+
+        let result: [Result] = [
+            "a",
+            "b",
+            "c[0]",
+            "c[4]",
+            "",
+            "[4]"
         ]
-        let value: DynamicObject = "update"
-        
-        paths.forEach {
-            object.set(value, forPath: $0)
-            assertSnapshot(matching: object, as: .dump)
+        .compactMap { Path(rawValue: $0) }
+
+        // When
+        .map {
+            var obj = object
+            obj.set("UPDATED", forPath: $0)
+            
+            return Result(input: $0.rawValue, output: obj)
         }
+
+        // Then
+        assertSnapshot(matching: result, as: .json)
     }
-    
+
+    fileprivate struct Result: Encodable {
+        let input: String
+        let output: DynamicObject
+    }
 }

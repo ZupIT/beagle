@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.ContextData
@@ -23,11 +24,13 @@ import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.mockdata.createViewForContext
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ActionExtensionsKtTest : BaseTest() {
@@ -71,6 +74,32 @@ class ActionExtensionsKtTest : BaseTest() {
         // Then
         val expected = "Hello $contextValue and $contextValue"
         assertEquals(expected, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_bind_of_type_String_with_multiple_expressions2() {
+        // Given
+        val bind = expressionOf<String>("Hello @{sum(context1, context2)}")
+        val contextValue = 1
+        val context1 = ContextData(
+            id = "context1",
+            value = contextValue
+        )
+        val context2 = ContextData(
+            id = "context2",
+            value = contextValue
+        )
+        val contextView1 = createViewForContext()
+        val contextView2 = createViewForContext(contextView1)
+        val bindView = createViewForContext(contextView2)
+        viewModel.addContext(contextView1, context1)
+        viewModel.addContext(contextView2, context2)
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, bindView, bind) as String
+
+        // Then
+        assertEquals("Hello 2", actualValue)
     }
 
     @Test
@@ -433,5 +462,23 @@ class ActionExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(implicitContextValue, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_return_cached_result_if_there_is() {
+        // Given
+        val contextValue = "hello"
+        viewModel.addContext(contextView, ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+        every { bindView.getTag(R.id.beagle_context_view_parent) } answers { contextValue }
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue)
     }
 }

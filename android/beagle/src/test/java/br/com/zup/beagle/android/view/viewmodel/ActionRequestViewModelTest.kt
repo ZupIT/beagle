@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
@@ -54,11 +53,10 @@ class ActionRequestViewModelTest {
 
     private val actionRequester: ActionRequester = mockk()
 
-    private val observer: Observer<ActionRequestViewModel.FetchViewState> = mockk()
+    private val observer: Observer<FetchViewState> = mockk()
 
     private val action: SendRequestInternal = mockk()
 
-    @InjectMockKs
     private lateinit var viewModel: ActionRequestViewModel
 
     @Before
@@ -66,6 +64,8 @@ class ActionRequestViewModelTest {
         MockKAnnotations.init(this)
 
         mockkStatic("br.com.zup.beagle.android.view.mapper.SendRequestActionMapperKt")
+
+        viewModel = ActionRequestViewModel(actionRequester = actionRequester)
 
         every { observer.onChanged(any()) } just Runs
     }
@@ -89,7 +89,7 @@ class ActionRequestViewModelTest {
 
         // Then
         verify(exactly = once()) {
-            observer.onChanged(ActionRequestViewModel.FetchViewState.Success(responseMapped))
+            observer.onChanged(FetchViewState.Success(responseMapped))
         }
     }
 
@@ -109,7 +109,7 @@ class ActionRequestViewModelTest {
 
         // Then
         verify(exactly = once()) {
-            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(responseMapped))
+            observer.onChanged(FetchViewState.Error(responseMapped))
         }
     }
 }

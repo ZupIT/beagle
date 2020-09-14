@@ -17,6 +17,8 @@
 		932925B92327E0E400A61F01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 932925B72327E0E400A61F01 /* Main.storyboard */; };
 		932925BB2327E0E500A61F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 932925BA2327E0E500A61F01 /* Assets.xcassets */; };
 		932925BE2327E0E500A61F01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 932925BC2327E0E500A61F01 /* LaunchScreen.storyboard */; };
+		93A2EE1624E57E120085B3CF /* OperationsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1524E57E120085B3CF /* OperationsScreen.swift */; };
+		93A2EE1A24EC49E90085B3CF /* AddChildrenScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1924EC49E90085B3CF /* AddChildrenScreen.swift */; };
 		93D8DC0D248965D10070CB41 /* ComponentInteractionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D8DC0C248965D10070CB41 /* ComponentInteractionScreen.swift */; };
 		93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */; };
 		98A7F36C23A926C600E88C70 /* TabViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7F36B23A926C600E88C70 /* TabViewScreen.swift */; };
@@ -99,6 +101,8 @@
 		932925BA2327E0E500A61F01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		932925BD2327E0E500A61F01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		932925BF2327E0E500A61F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93A2EE1524E57E120085B3CF /* OperationsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsScreen.swift; sourceTree = "<group>"; };
+		93A2EE1924EC49E90085B3CF /* AddChildrenScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildrenScreen.swift; sourceTree = "<group>"; };
 		93D8DC0C248965D10070CB41 /* ComponentInteractionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentInteractionScreen.swift; sourceTree = "<group>"; };
 		93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewScreen.swift; sourceTree = "<group>"; };
 		98A7F36B23A926C600E88C70 /* TabViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewScreen.swift; sourceTree = "<group>"; };
@@ -162,6 +166,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25B7472E24F6D84E00AFE60A /* NavigationControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A057D59924CA1DE7001F6835 /* CustomBeagleNavigationController.swift */,
+			);
+			path = NavigationControllers;
+			sourceTree = "<group>";
+		};
 		6E2C784B241984F800448728 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,7 +216,6 @@
 				932925BA2327E0E500A61F01 /* Assets.xcassets */,
 				932925BF2327E0E500A61F01 /* Info.plist */,
 				6ED5B09D240464520070CB9D /* BeagleStyle.swift */,
-				A057D59924CA1DE7001F6835 /* CustomBeagleNavigationController.swift */,
 			);
 			path = BeagleDemo;
 			sourceTree = "<group>";
@@ -234,8 +245,10 @@
 				93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */,
 				98E08D2224228DD200FBD21B /* WebViewScreen.swift */,
 				93D8DC0C248965D10070CB41 /* ComponentInteractionScreen.swift */,
+				93A2EE1524E57E120085B3CF /* OperationsScreen.swift */,
 				6E8E1CC0249C57300053AD58 /* SimpleForm.swift */,
 				98F3D41024ED770F006DAB05 /* NavigateTypeScreen.swift */,
+				93A2EE1924EC49E90085B3CF /* AddChildrenScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -314,6 +327,7 @@
 		E75619862408363E0025E0A9 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				25B7472E24F6D84E00AFE60A /* NavigationControllers */,
 				C09F40FC249AAAC2002605EE /* GenerationTests */,
 				E75619872408364A0025E0A9 /* DSCollection */,
 				C80AF1332493F0950097D200 /* OtherComponent.swift */,
@@ -344,6 +358,7 @@
 				932925AB2327E0E400A61F01 /* Frameworks */,
 				932925AC2327E0E400A61F01 /* Resources */,
 				E5EB34BB2331074900AC246B /* Embed Frameworks */,
+				254E156824F9526500218AAE /* SwiftLint Run Script */,
 			);
 			buildRules = (
 			);
@@ -438,6 +453,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		254E156824F9526500218AAE /* SwiftLint Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		C0D0F482245B524100FB57C1 /* Sourcery Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -474,6 +507,7 @@
 				98E08D2324228DD200FBD21B /* WebViewScreen.swift in Sources */,
 				A0642DC82395A1840028AFF3 /* DeeplinkScreenManager.swift in Sources */,
 				E756198D240865150025E0A9 /* DSCollectionViewCell.swift in Sources */,
+				93A2EE1624E57E120085B3CF /* OperationsScreen.swift in Sources */,
 				6E8E1CC1249C57300053AD58 /* SimpleForm.swift in Sources */,
 				A0642DCD23968B500028AFF3 /* LazyComponentScreen.swift in Sources */,
 				6E2C784D2419853A00448728 /* Constants.swift in Sources */,
@@ -496,6 +530,7 @@
 				E756198F2408691A0025E0A9 /* CustomComponentScreen.swift in Sources */,
 				C09F4104249AACAB002605EE /* SingleTextContainer.swift in Sources */,
 				6ED5B09E240464520070CB9D /* BeagleStyle.swift in Sources */,
+				93A2EE1A24EC49E90085B3CF /* AddChildrenScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

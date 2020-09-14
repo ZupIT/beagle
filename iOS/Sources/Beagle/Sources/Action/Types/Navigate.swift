@@ -29,7 +29,7 @@ extension Navigate {
         switch self {
         case let .resetApplication(route),
              let .resetStack(route),
-             let .pushStack(route),
+             let .pushStack(route, _),
              let .pushView(route):
             return route.path
         default:

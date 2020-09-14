@@ -49,9 +49,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.validatorProvider = validator
         dependencies.analytics = AnalyticsMock()
         dependencies.isLoggingEnabled = true
-        dependencies.navigationControllerType = CustomBeagleNavigationController.self
         
         registerCustomComponents(in: dependencies)
+        registerCustomControllers(in: dependencies)
         
         Beagle.dependencies = dependencies
         
@@ -66,5 +66,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.decoder.register(component: MyComponent.self)
         dependencies.decoder.register(action: CustomConsoleLogAction.self)
         dependencies.decoder.register(component: DemoTextField.self, named: "SampleTextField")
+    }
+    
+    private func registerCustomControllers(in dependencies: BeagleDependencies) {
+        dependencies.navigation.registerNavigationController(builder: CustomBeagleNavigationController.init, forId: "CustomBeagleNavigation")
+        dependencies.navigation.registerNavigationController(builder: CustomPushStackNavigationController.init, forId: "PushStackNavigation")
     }
 }

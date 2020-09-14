@@ -340,3 +340,10 @@ fun makeContextWithPrimitive() = """
         "value": true
     }
 """
+
+fun makeContextWithNumber(number: Number) = """
+    {
+        "id": "contextId",
+        "value": $number
+    }
+"""

@@ -17,6 +17,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <item
+        android:id="@+id/contextOperations"
+        android:icon="@mipmap/ic_launcher"
+        android:title="ContextOperations"
+        tools:ignore="HardcodedText" />
+
+    <item
         android:id="@+id/textInput"
         android:icon="@mipmap/ic_launcher"
         android:title="TextInput"

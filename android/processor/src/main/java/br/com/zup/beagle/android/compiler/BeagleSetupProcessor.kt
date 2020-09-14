@@ -20,10 +20,11 @@ import br.com.zup.beagle.compiler.ANDROID_ACTION
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.compiler.BEAGLE_SDK
-import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
+import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
 import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
 import br.com.zup.beagle.compiler.RegisteredActionGenerator
 import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.widget.Widget
@@ -38,11 +39,14 @@ import javax.annotation.processing.RoundEnvironment
 
 class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
-    private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
-        BeagleSetupRegisteredWidgetGenerator(),
-    private val registeredActionGenerator: RegisteredActionGenerator = RegisteredActionGenerator(),
+    private val registerWidgetProcessorProcessor: RegisterWidgetProcessorProcessor =
+        RegisterWidgetProcessorProcessor(processingEnv),
+    private val registerActionProcessorProcessor: RegisterActionProcessorProcessor =
+        RegisterActionProcessorProcessor(processingEnv),
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
-        BeagleSetupPropertyGenerator(processingEnv)
+        BeagleSetupPropertyGenerator(processingEnv),
+    private val registerAnnotationProcessor: RegisterControllerProcessor =
+        RegisterControllerProcessor(processingEnv)
 ) {
 
     fun process(
@@ -52,17 +56,16 @@ class BeagleSetupProcessor(
     ) {
         val beagleSetupClassName = "BeagleSetup"
 
+        val properties = beagleSetupPropertyGenerator.generate(
+            basePackageName,
+            roundEnvironment
+        )
         val typeSpec = TypeSpec.classBuilder(beagleSetupClassName)
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
-            .addFunction(beagleSetupRegisteredWidgetGenerator.generate(roundEnvironment))
-            .addFunction(registeredActionGenerator.generate(roundEnvironment))
-            .addProperties(beagleSetupPropertyGenerator.generate(
-                basePackageName,
-                roundEnvironment
-            ))
-            .addProperty(createBeagleConfigAttribute(beagleConfigClassName))
-            .build()
+            .addFunction(registerWidgetProcessorProcessor.createRegisteredWidgetsFunction())
+            .addFunction(registerActionProcessorProcessor.createRegisteredActionsFunction())
+
 
         val beagleSetupFile = FileSpec.builder(
             basePackageName,
@@ -73,14 +76,40 @@ class BeagleSetupProcessor(
             .addImport(DEEP_LINK_HANDLER.packageName, DEEP_LINK_HANDLER.className)
             .addImport(HTTP_CLIENT_HANDLER.packageName, HTTP_CLIENT_HANDLER.className)
             .addImport(BEAGLE_LOGGER.packageName, BEAGLE_LOGGER.className)
+            .addImport(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
             .addImport(basePackageName, beagleConfigClassName)
             .addImport(Widget::class, "")
             .addImport(ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className), "")
-            .addType(typeSpec)
+
+
+        val propertyIndex = properties.indexOfFirst { it.name == "serverDrivenActivity" }
+
+        var property = properties[propertyIndex]
+
+        registerWidgetProcessorProcessor.process(basePackageName, roundEnvironment)
+        registerActionProcessorProcessor.process(basePackageName, roundEnvironment)
+        registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
+
+        val defaultActivity = registerAnnotationProcessor.defaultActivityRegistered
+        property = beagleSetupPropertyGenerator.implementServerDrivenActivityProperty(
+            defaultActivity,
+            isFormatted = true
+        )
+
+        val newProperties = properties.toMutableList().apply {
+            this[propertyIndex] = property
+        }
+
+
+        val newTypeSpec = typeSpec.addProperties(newProperties)
+            .addProperty(createBeagleConfigAttribute(beagleConfigClassName))
             .build()
 
         try {
-            beagleSetupFile.writeTo(processingEnv.filer)
+            beagleSetupFile
+                .addType(newTypeSpec)
+                .build()
+                .writeTo(processingEnv.filer)
         } catch (e: IOException) {
             val errorMessage = "Error when trying to generate code.\n${e.message!!}"
             processingEnv.messager.error(errorMessage)
