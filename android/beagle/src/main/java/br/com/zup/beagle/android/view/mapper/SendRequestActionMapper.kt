@@ -18,14 +18,13 @@ package br.com.zup.beagle.android.view.mapper
 
 import br.com.zup.beagle.android.action.RequestActionMethod
 import br.com.zup.beagle.android.action.SendRequestInternal
+import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.viewmodel.Response
-import java.lang.Exception
-import java.lang.NumberFormatException
 import java.net.URI
 
 internal fun SendRequestInternal.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
@@ -67,7 +66,15 @@ internal object SendRequestActionMapper {
         return try {
             data.toInt()
         } catch (e: NumberFormatException) {
-            BeagleMoshi.moshi.adapter(Any::class.java).fromJson(data)
+            deserializeObjectOrGetRawString(data)
+        } catch (e: Exception) {
+            data
+        }
+    }
+
+    private fun deserializeObjectOrGetRawString(data: String): Any? {
+        return try {
+            BeagleMoshi.moshi.adapter<Any>(Any::class.java, ContextDataValue::class.java).fromJson(data)
         } catch (e: Exception) {
             data
         }
