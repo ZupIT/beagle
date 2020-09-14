@@ -16,13 +16,8 @@
   ~ limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.zup.beagle">
+<resources>
 
-    <application>
-
-        <activity android:name=".android.view.ServerDrivenActivity" />
-
-    </application>
-
-</manifest>
+    <string name="beagle_label_generic_error">Oops! Something went wrong!.</string>
+    <string name="beagle_label_try_again">Try again</string>
+</resources>

@@ -25,7 +25,6 @@ internal class TokenInterpreter(value: String) {
         if (lastChar == Char.MIN_VALUE || lastChar.isWhitespace()) {
             lastChar = reader.ignoreWhitespace()
         }
-
         return readToken()
     }
 
@@ -49,30 +48,34 @@ internal class TokenInterpreter(value: String) {
     }
 
     private fun readString(): Token? {
-        val str = readUnescapedString(reader)
+        val str = readUnescapedString()
         lastChar = Char.MIN_VALUE
         return tokenOfString(str)
     }
 
-    private fun readUnescapedString(r: TokenReader): String {
+    private fun readUnescapedString(): String {
         val sb = StringBuilder()
-        var c = 0.toChar()
-        while (c != '\'') {
-            c = r.read().toChar()
-            when (c) {
-                '\'' -> {
-                    val v = r.peek()
-                    if (v == '\''.toInt()) {
-                        r.read()
-                        sb.append('\'')
-                        c = 0.toChar()
-                    }
-                }
+        var specialCharacterFound = false
+        loop@ while (lastChar.toInt() != -1) {
+            lastChar = reader.read().toChar()
+            when (lastChar) {
                 '\uFFFF' -> {
                     throw IllegalArgumentException("Invalid string value: $sb")
                 }
-                else -> sb.append(c)
+                '\'' -> {
+                    if (specialCharacterFound) {
+                        sb.deleteCharAt(sb.length - 1)
+                        sb.append(lastChar)
+                    } else {
+                        break@loop
+                    }
+                }
+                else -> {
+                    sb.append(lastChar)
+                }
             }
+
+            specialCharacterFound = lastChar == '\\'
         }
         return sb.toString()
     }

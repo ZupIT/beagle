@@ -22,9 +22,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
+import br.com.zup.beagle.android.view.ServerDrivenActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
-import br.com.zup.beagle.sample.activities.SampleServerDrivenActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
 import br.com.zup.beagle.sample.fragment.DisabledFormSubmitFragment
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
             R.id.sampleBff -> startActivity(
-                newServerDrivenIntent<SampleServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)
+                newServerDrivenIntent<ServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)
                 ))
         }
     }

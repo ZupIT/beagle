@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
   ~
@@ -44,18 +45,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.NavigationBarActivity"
             android:theme="@style/AppTheme.NoToolbar" />
-        <activity
-            android:name=".activities.SampleServerDrivenActivity"
-            android:theme="@style/AppTheme.NoToolbar"
-            android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:exported="true"
             android:name="br.com.zup.beagle.android.preview.PreviewActivity"
-            android:theme="@style/AppTheme.NoToolbar"/>
+            android:exported="true"
+            android:theme="@style/AppTheme.NoToolbar" />
     </application>
 
 </manifest>
