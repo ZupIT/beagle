@@ -93,7 +93,6 @@ sealed class Navigate : Action {
         }
     }
 
-
     internal fun Route.getSafe(rootView: RootView, origin: View): Route {
         if (this is Route.Remote) {
             val newValue = evaluateExpression(rootView, origin, url)

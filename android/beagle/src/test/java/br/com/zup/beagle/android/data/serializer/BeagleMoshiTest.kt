@@ -56,13 +56,13 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
-import org.json.JSONArray
-import org.json.JSONObject
-import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.json.JSONArray
+import org.json.JSONObject
+import org.junit.Test
 
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
@@ -422,6 +422,19 @@ class BeagleMoshiTest : BaseTest() {
 
         // When
         val actual = moshi.adapter(Action::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is Navigate)
+    }
+
+    @Test
+    fun moshi_should_deserialize_a_PushView_action_with_expression() {
+        // Given
+        val jsonComponent = makeNavigationActionJsonWithExpression()
+
+        // When
+        val actual = moshi.adapter(Action::class.java).fromJson(jsonComponent)
 
         // Then
         assertNotNull(actual)

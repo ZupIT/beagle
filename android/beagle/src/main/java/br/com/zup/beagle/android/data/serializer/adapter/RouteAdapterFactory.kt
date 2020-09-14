@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.data.serializer.adapter
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.data.serializer.BeagleMoshi.moshi
 import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.FALLBACK
 import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.SCREEN
 import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.SHOULD_PREFETCH
@@ -33,21 +34,27 @@ import java.lang.reflect.Type
 
 class RouteAdapterFactory : JsonAdapter.Factory {
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi): JsonAdapter<Route>? {
+        val adapter: JsonAdapter<Bind<String>> = getBindAdapter()
         return if (Types.getRawType(type) == Route::class.java) {
-            RouteAdapter(moshi)
+            RouteAdapter(adapter)
         } else {
             null
         }
     }
 }
 
-internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
+private fun getBindAdapter(): JsonAdapter<Bind<String>> {
+    val type: Type = Types.newParameterizedType(Bind::class.java, String::class.java)
+    return moshi.adapter(type)
+}
+
+internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : JsonAdapter<Route>() {
     override fun fromJson(reader: JsonReader): Route? {
         val jsonValue = reader.readJsonValue()
 
         val value = jsonValue as Map<String, Any>
         return if (value.containsKey(URL)) {
-            val url = getBindAdapter().fromJsonValue(value[URL] as String)!!
+            val url = adapter.fromJsonValue(value[URL] as String)!!
             Route.Remote(url, value[SHOULD_PREFETCH] as Boolean, convertScreen(value[FALLBACK]))
         } else {
             val message = "Expected a Screen for the screen key in $value."
@@ -76,9 +83,4 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
 
     private fun convertScreen(value: Any?) =
         moshi.adapter(Screen::class.java).fromJsonValue(value)
-
-    private fun getBindAdapter(): JsonAdapter<Bind<String>> {
-        val type: Type = Types.newParameterizedType(Bind::class.java, String::class.java)
-        return moshi.adapter(type)
-    }
 }
