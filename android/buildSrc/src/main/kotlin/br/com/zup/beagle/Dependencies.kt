@@ -94,6 +94,9 @@ class Dependencies : Plugin<Project> {
         const val archCoreTesting = "1.1.0"
         const val espressoCore = "3.0.1"
         const val multidex = "1.0.3"
+        const val cucumberAndroidVersion = "1.2.5@jar"
+        const val cucumberPicocontainer = "1.2.4"
+
     }
 
     object GeneralNames {
@@ -158,6 +161,9 @@ class Dependencies : Plugin<Project> {
         const val googleCompileTesting = "com.google.testing.compile:compile-testing:${Versions.googleCompileTesting}"
 
         const val testRunner = "com.android.support.test:runner:${AndroidSupportVersions.supportTest}"
+        const val cucumberAndroid = "info.cukes:cucumber-android:${AndroidSupportVersions.cucumberAndroidVersion}"
+        const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${AndroidSupportVersions.cucumberPicocontainer}"
+        const val supportAnnotation = "com.android.support:support-annotations:${AndroidSupportVersions.support}"
         const val testExt = "1.1.1"
         const val archCoreTesting = "android.arch.core:core-testing:${AndroidSupportVersions.archCoreTesting}"
         const val espressoCore = "com.android.support.test.espresso:espresso-core:${AndroidSupportVersions.espressoCore}"

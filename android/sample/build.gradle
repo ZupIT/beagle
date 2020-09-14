@@ -34,9 +34,9 @@ android {
         versionCode Dependencies.Releases.versionCode
         versionName Dependencies.Releases.versionName
 
-        testInstrumentationRunner Dependencies.GeneralNames.sampleTestInstrumentationRunner
-        testApplicationId "com.example.sample.cucumber.steps"
-        testInstrumentationRunner "com.example.sample.cucumber.steps.Instrumentation"
+//        testInstrumentationRunner Dependencies.GeneralNames.sampleTestInstrumentationRunner
+        testApplicationId "br.com.zup.beagle.sample.cucumber.steps"
+        testInstrumentationRunner "br.com.zup.beagle.sample.cucumber.steps.Instrumentation"
         buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
 
     }
@@ -64,9 +64,7 @@ android {
 
 dependencies {
 
-    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
-    androidTestImplementation 'info.cukes:cucumber-android:1.2.5@jar'
-    androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.4'
+
 
     implementation Dependencies.AndroidSupport.design
     implementation Dependencies.GeneralLibraries.kotlin
@@ -84,6 +82,9 @@ dependencies {
     // Integration Testing
     androidTestImplementation Dependencies.TestLibraries.testRunner
     androidTestImplementation Dependencies.TestLibraries.espressoCore
+    androidTestImplementation Dependencies.TestLibraries.supportAnnotation
+    androidTestImplementation Dependencies.TestLibraries.cucumberAndroid
+    androidTestImplementation Dependencies.TestLibraries.cucumberPicocontainer
 }
 
 def getTestTags() {

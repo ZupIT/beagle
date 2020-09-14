@@ -68,7 +68,7 @@ class ButtonScreenSteps {
             .clickOnText(string1)
     }
 
-    @Then("all my button components should render their respective text attributes correctly$")
+    @Then("^all my button components should render their respective text attributes correctly$")
     fun renderTextAttributeCorrectly() {
         ScreenRobot()
             .checkViewContainsText(BUTTON_DEFAULT_TEXT)

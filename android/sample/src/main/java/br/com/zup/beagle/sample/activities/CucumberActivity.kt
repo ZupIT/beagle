@@ -34,7 +34,7 @@ class CucumberActivity : AppCompatActivity() {
 
         val url = bffUrl()
         if(url != null) {
-            val intent = this.newServerDrivenIntent<BeagleActivity>(ScreenRequest(url))
+            val intent = this.newServerDrivenIntent<SampleServerDrivenActivity>(ScreenRequest(url))
             startActivity(intent)
             finish()
         }

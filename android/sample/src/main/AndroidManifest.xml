@@ -48,6 +48,9 @@
             android:name=".activities.NavigationBarActivity"
             android:theme="@style/AppTheme.NoToolbar" />
         <activity
+            android:name=".activities.CucumberActivity"
+            android:theme="@style/AppTheme.NoToolbar" />
+        <activity
             android:name=".activities.SampleServerDrivenActivity"
             android:theme="@style/AppTheme.NoToolbar"
             android:windowSoftInputMode="adjustResize" />
