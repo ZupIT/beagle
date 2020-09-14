@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextData
 import br.com.zup.beagle.android.utils.setContextBinding
 import io.mockk.Runs
@@ -155,7 +156,7 @@ class ContextDataManagerTest : BaseTest() {
     fun addBinding_should_add_bind_to_context_to_viewBinding() {
         // Given
         val viewWithBind = mockk<View>()
-        val bind = Bind.Expression("@{$CONTEXT_ID[0]}", type = Boolean::class.java)
+        val bind = Bind.Expression(listOf(), "@{$CONTEXT_ID[0]}", type = Boolean::class.java)
         val contextData = ContextData(CONTEXT_ID, listOf(true))
         val observer = mockk<Observer<Boolean?>>()
         contextDataManager.addContext(viewContext, contextData)
@@ -173,14 +174,14 @@ class ContextDataManagerTest : BaseTest() {
     fun addBinding_should_add_binding_to_context_on_top_of_stack() {
         // Given
         val viewWithBind = createViewForContext(viewContext)
-        val bind = Bind.Expression("@{$CONTEXT_ID}", type = Boolean::class.java)
+        val bind = expressionOf<Boolean>("@{$CONTEXT_ID}")
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         val contextData = ContextData(CONTEXT_ID, true)
         contextDataManager.addContext(viewContext, contextData)
 
         // When
         contextDataManager.addBinding(viewWithBind, bind, observer)
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
 
         // Then
         val contextBinding = contexts[viewContext.id]?.bindings?.first()
@@ -193,17 +194,31 @@ class ContextDataManagerTest : BaseTest() {
     fun addBinding_should_add_binding_to_global_context() {
         // Given
         val viewWithBind = createViewForContext()
-        val bind = Bind.Expression("@{global}", type = Boolean::class.java)
+        val bind = expressionOf<Boolean>("@{global}")
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addBinding(viewWithBind, bind, observer)
 
         // When
-        contextDataManager.linkBindingToContext()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
 
         // Then
         val contextBinding = contexts[Int.MAX_VALUE]?.bindings?.first()
         assertEquals(bind, contextBinding?.bind)
         assertEquals(observer, contextBinding?.observer)
+    }
+
+    @Test
+    fun linkBindingToContextAndEvaluateThem_should_call_notifyBindingChanges_if_view_is_not_in_viewBinding() {
+        // Given
+        val viewWithBind = createViewForContext()
+        val contextBinding = mockk<ContextBinding>(relaxed = true)
+        viewWithBind.setContextBinding(contextBinding)
+
+        // When
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewWithBind)
+
+        // Then
+        verify(exactly = once()) { contextDataManager.notifyBindingChanges(contextBinding) }
     }
 
     @Test
@@ -329,10 +344,26 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
+
+        // Then
+        verify(exactly = once()) { observer(value) }
+    }
+
+    @Test
+    fun evaluateContexts_should_get_value_from_operation() {
+        // Given
+        val value = 2
+        val contextData = ContextData(CONTEXT_ID, value)
+        val bind = expressionOf<Int>("@{sum(1, 1)}")
+        val observer = mockk<Observer<Int?>>(relaxed = true)
+        contextDataManager.addContext(viewContext, contextData)
+        contextDataManager.addBinding(viewContext, bind, observer)
+
+        // When
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
         verify(exactly = once()) { observer(value) }
@@ -347,10 +378,9 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.linkBindingToContext()
 
         // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
 
         // Then
         verify(exactly = once()) { observer(null) }
@@ -366,10 +396,7 @@ class ContextDataManagerTest : BaseTest() {
             // Then
             assertNull(it)
         }
-        contextDataManager.linkBindingToContext()
-
-        // When
-        contextDataManager.evaluateContexts()
+        contextDataManager.linkBindingToContextAndEvaluateThem(viewContext)
     }
 
     @Test

@@ -109,16 +109,16 @@ final class FormManagerTests: XCTestCase {
 
         // When
         FormManager(sender: gesture)?.submitForm()
-        if case .loading(let loading) = controller.serverDrivenState {
-            isLoading = loading
+        if case .started = controller.serverDrivenState {
+            isLoading = true
         }
         // Then
         XCTAssertTrue(isLoading)
         
         // When
         repositoryStub.formCompletion?(.success(action))
-        if case .loading(let loading) = controller.serverDrivenState {
-            isLoading = loading
+        if case .success = controller.serverDrivenState {
+            isLoading = false
         }
         // Then
         XCTAssertEqual(action.executionCount, 1)

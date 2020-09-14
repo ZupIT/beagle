@@ -22,7 +22,7 @@ class DSCollectionViewCell: UICollectionViewCell {
     
     private lazy var avatarImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "imageBeagle")
+        image.image = #imageLiteral(resourceName: "imageBeagle")
         image.layer.masksToBounds = false
         image.translatesAutoresizingMaskIntoConstraints = false
         return image

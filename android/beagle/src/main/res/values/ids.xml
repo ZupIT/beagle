@@ -20,4 +20,5 @@
     <item name="beagle_component_tag" type="id" />
     <item name="beagle_context_view" type="id" />
     <item name="beagle_default_id" type="id" />
+    <item name="beagle_context_view_parent" type="id" />
 </resources>

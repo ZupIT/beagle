@@ -35,9 +35,9 @@ struct DSCollection: Widget, AutoInitiableAndDecodable, AutoEquatable {
 // sourcery:end
 }
 
-struct DSCollectionDataSource : Decodable, AutoEquatable {
+struct DSCollectionDataSource: Decodable, AutoEquatable {
     
-    struct Card : Decodable, Equatable {
+    struct Card: Decodable, Equatable {
         let name: String
         let age: Int
     }

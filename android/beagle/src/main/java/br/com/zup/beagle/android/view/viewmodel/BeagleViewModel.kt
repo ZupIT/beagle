@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
+import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.BeagleRetry
@@ -63,6 +64,7 @@ internal class BeagleViewModel(
         private val componentRequester: ComponentRequester,
         private val coroutineScope: CoroutineScope,
         private val ioDispatcher: CoroutineDispatcher) : LiveData<ViewState>() {
+
         private val isRenderedReference = AtomicReference(false)
 
         override fun onActive() {
@@ -92,11 +94,9 @@ internal class BeagleViewModel(
         }
 
         private suspend fun postLiveDataResponse(viewState: ViewState) {
-            withContext(coroutineScope.coroutineContext) {
-                postValue(viewState)
-                setLoading(false)
-                isRenderedReference.set(true)
-            }
+            postValue(viewState)
+            setLoading(false)
+            isRenderedReference.set(true)
         }
 
         private suspend fun setLoading(loading: Boolean) {
@@ -106,6 +106,3 @@ internal class BeagleViewModel(
         }
     }
 }
-
-
-

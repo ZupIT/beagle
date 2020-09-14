@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
@@ -77,7 +78,7 @@ data class SendRequest(
 
     private fun executeActions(
         rootView: RootView,
-        state: ActionRequestViewModel.FetchViewState,
+        state: FetchViewState,
         origin: View
     ) {
         onFinish?.let {
@@ -85,10 +86,10 @@ data class SendRequest(
         }
 
         when (state) {
-            is ActionRequestViewModel.FetchViewState.Error -> onError?.let {
+            is FetchViewState.Error -> onError?.let {
                 handleEvent(rootView, origin, it, ContextData("onError", state.response))
             }
-            is ActionRequestViewModel.FetchViewState.Success -> onSuccess?.let {
+            is FetchViewState.Success -> onSuccess?.let {
                 handleEvent(rootView, origin, it, ContextData("onSuccess", state.response))
             }
         }

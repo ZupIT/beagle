@@ -1,0 +1,87 @@
+disabled_rules:
+  - line_length
+  - identifier_name
+  - shorthand_operator
+  - trailing_whitespace
+  - missing_docs
+  - file_length
+  - private_outlet
+  - private_action
+  - cyclomatic_complexity
+  - type_name
+  - function_parameter_count
+  - force_try
+  - type_body_length
+  - function_body_length
+  - static_operator
+  - implicit_return
+  - closure_parameter_position
+  - empty_parentheses_with_trailing_closure
+
+opt_in_rules:
+  - force_unwrapping
+  - anyobject_protocol
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - contains_over_first_not_nil
+  - empty_string
+  - empty_xctest_method
+  - explicit_failure_calls
+  - explicit_init
+  - fallthrough
+  - fatal_error_message
+  - first_where
+  - identical_operands
+  - implicit_return
+  - implicitly_unwrapped_optional
+  - joined_default_parameter
+  - let_var_whitespace
+  - literal_expression_end_indentation
+  - multiline_arguments
+  - multiline_literal_brackets
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - nimble_operator
+  - object_literal
+  - operator_usage_whitespace
+  - overridden_super_call
+  - override_in_extension
+  - pattern_matching_keywords
+  - prohibited_super_call
+  - quick_discouraged_focused_test
+  - quickspec_class_name
+  - redundant_nil_coalescing
+  - return_arrow_whitespace
+  - single_test_class
+  - sorted_first_last
+  - trailing_closure
+  - unneeded_parentheses_in_closure_argument
+  - untyped_error_in_catch
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+
+excluded:
+  - BeagleFrameworkTests
+  - Carthage
+
+file_length:
+  warning: 500
+  error: 1200
+
+nesting:
+  type_level:
+    warning: 3
+  statement_level:
+    warning: 5
+
+trailing_closure:
+  only_single_muted_parameter: true
+
+force_cast: warning
+force_try:
+  severity: warning
+line_length: 300
+type_body_length:
+  - 300
+  - 400

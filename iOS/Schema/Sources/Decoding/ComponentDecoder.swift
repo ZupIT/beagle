@@ -148,6 +148,7 @@ final public class ComponentDecoder: ComponentDecoding {
         registerAction(Alert.self, key: key(name: "Alert", namespace: .beagle))
         registerAction(Confirm.self, key: key(name: "Confirm", namespace: .beagle))
         registerAction(SubmitForm.self, key: key(name: "SubmitForm", namespace: .beagle))
+        registerAction(AddChildren.self, key: key(name: "AddChildren", namespace: .beagle))
     }
     
     private func registerCoreTypes() {

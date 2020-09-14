@@ -115,22 +115,24 @@ class ViewExtensionsKtTest : BaseTest() {
     @Test
     fun loadView_should_create_BeagleView_and_call_loadView_with_fragment() {
         // Given When
-        viewGroup.loadView(fragment, screenRequest)
+        viewGroup.loadView(fragment, screenRequest, onStateChanged)
 
         // Then
         verifySequence {
             generateIdViewModel.createIfNotExisting(0)
             viewFactory.makeBeagleView(any<FragmentRootView>())
             beagleView.stateChangedListener = any()
+            beagleView.serverStateChangedListener = any()
             beagleView.loadView(screenRequest)
             beagleView.loadCompletedListener = any()
+            beagleView.listenerOnViewDetachedFromWindow = any()
         }
     }
 
     @Test
     fun loadView_should_create_BeagleView_and_call_loadView_with_activity() {
         // When
-        viewGroup.loadView(activity, screenRequest)
+        viewGroup.loadView(activity, screenRequest, onStateChanged)
 
         // Then
         verify { viewFactory.makeBeagleView(any<ActivityRootView>()) }
@@ -139,6 +141,22 @@ class ViewExtensionsKtTest : BaseTest() {
 
     @Test
     fun `loadView should addView when load complete`() {
+        // Given
+        val slot = slot<OnLoadCompleted>()
+        every { beagleView.loadCompletedListener = capture(slot) } just Runs
+
+        // When
+        viewGroup.loadView(fragment, screenRequest, onStateChanged)
+        slot.captured.invoke()
+
+        // Then
+        assertEquals(beagleView, viewSlot.captured)
+        verify(exactly = once()) { viewGroup.addView(beagleView) }
+    }
+
+
+    @Test
+    fun `loadView without state should addView when load complete`() {
         // Given
         val slot = slot<OnLoadCompleted>()
         every { beagleView.loadCompletedListener = capture(slot) } just Runs

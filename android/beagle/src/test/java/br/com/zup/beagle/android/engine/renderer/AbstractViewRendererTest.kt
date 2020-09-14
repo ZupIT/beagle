@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -30,6 +31,7 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
@@ -47,7 +49,7 @@ private open class AbstractViewRenderer(
 
 class AbstractViewRendererTest : BaseTest() {
 
-    private val contextViewModel = mockk<ScreenContextViewModel>()
+    private val contextViewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val generateIdViewModel = mockk<GenerateIdViewModel>()
     private val component = mockk<Widget>(relaxed = true)
     private val componentStylization = mockk<ComponentStylization<Widget>>(relaxed = true)
@@ -57,7 +59,6 @@ class AbstractViewRendererTest : BaseTest() {
 
     override fun setUp() {
         super.setUp()
-
 
         prepareViewModelMock(generateIdViewModel)
         every { anyConstructed<ViewModelProvider>().get(contextViewModel::class.java) } returns contextViewModel
@@ -91,7 +92,8 @@ class AbstractViewRendererTest : BaseTest() {
             rootView.getParentId()
             generateIdViewModel.getViewId(0)
             view.id = viewId
-            contextViewRenderer.handleContext(contextViewModel, view, component)
+            contextViewRenderer.addContext(contextViewModel, view, component)
+            contextViewRenderer.addListenerToHandleContext(contextViewModel, view)
         }
     }
 
@@ -101,6 +103,7 @@ class AbstractViewRendererTest : BaseTest() {
         val view = mockk<View>()
         every { viewRenderer.buildView(any()) } returns view
         every { view.id } returns RandomData.int()
+        every { view.addOnAttachStateChangeListener(any()) } just Runs
 
         // When
         viewRenderer.build(rootView)

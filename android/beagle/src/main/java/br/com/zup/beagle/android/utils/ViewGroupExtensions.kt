@@ -23,8 +23,11 @@ import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
+import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_LOADING_VIEW
 import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.view.ServerDrivenState
+import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -36,9 +39,84 @@ internal var beagleSerializerFactory = BeagleSerializer()
  * Load a ServerDrivenComponent into this ViewGroup
  * @property activity that is parent of this view
  * @property screenRequest to create your request data to fetch the component
+ */
+fun ViewGroup.loadView(
+    activity: AppCompatActivity,
+    screenRequest: ScreenRequest
+) {
+    loadView(
+        viewGroup = this,
+        rootView = ActivityRootView(activity, this.id),
+        screenRequest = screenRequest,
+        listener = null,
+        newListener = object : OnServerStateChanged {
+            override fun invoke(serverState: ServerDrivenState) {}
+        }
+    )
+}
+
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property fragment that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ */
+fun ViewGroup.loadView(
+    fragment: Fragment,
+    screenRequest: ScreenRequest
+) {
+    loadView(
+        viewGroup = this,
+        rootView = FragmentRootView(fragment, this.id),
+        screenRequest = screenRequest,
+        listener = null,
+        newListener = object : OnServerStateChanged {
+            override fun invoke(serverState: ServerDrivenState) {}
+        }
+    )
+}
+
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property activity that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ * @property listener is called when the loading is Started, Finished and Success
+ */
+@JvmName("loadView2")
+fun ViewGroup.loadView(
+    activity: AppCompatActivity,
+    screenRequest: ScreenRequest,
+    listener: OnServerStateChanged? = null
+) {
+    loadView(this, ActivityRootView(activity, this.id), screenRequest, null, listener)
+}
+
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property fragment that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ * @property listener is called when the loading is Started, Finished and Success
+ */
+@JvmName("loadView2")
+fun ViewGroup.loadView(
+    fragment: Fragment,
+    screenRequest: ScreenRequest,
+    listener: OnServerStateChanged? = null
+) {
+    loadView(this, FragmentRootView(fragment, this.id), screenRequest, null, listener)
+}
+
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property activity that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
-fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
+@Deprecated(DEPRECATED_LOADING_VIEW)
+fun ViewGroup.loadView(
+    activity: AppCompatActivity,
+    screenRequest: ScreenRequest,
+    listener: OnStateChanged? = null
+) {
     loadView(this, ActivityRootView(activity, this.id), screenRequest, listener)
 }
 
@@ -48,7 +126,12 @@ fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
-fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
+@Deprecated(DEPRECATED_LOADING_VIEW)
+fun ViewGroup.loadView(
+    fragment: Fragment,
+    screenRequest: ScreenRequest,
+    listener: OnStateChanged? = null
+) {
     loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
 }
 
@@ -56,20 +139,22 @@ private fun loadView(
     viewGroup: ViewGroup,
     rootView: RootView,
     screenRequest: ScreenRequest,
-    listener: OnStateChanged?
+    listener: OnStateChanged? = null,
+    newListener: OnServerStateChanged? = null
 ) {
     val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
-    val contextViewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-
     viewModel.createIfNotExisting(rootView.getParentId())
     val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
         stateChangedListener = listener
+        serverStateChangedListener = newListener
         loadView(screenRequest)
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
+
+    }
+    view.listenerOnViewDetachedFromWindow = {
         viewModel.setViewCreated(rootView.getParentId())
-        contextViewModel.linkBindingToContextAndEvaluateThem()
     }
 }
 

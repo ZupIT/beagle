@@ -69,7 +69,7 @@ platform :android do
 end
 
 ###
-###  iOS
+###  iOS - Begin
 ###
 
 platform :ios do
@@ -77,28 +77,27 @@ platform :ios do
   desc "Pull Request verification"
   lane :pull_request_verification do
     xcversion(version: "~> 11.5.0")
-    iOSSwiftLint
+    # TODO: see if it's ok to remove this SwiftLint, since we already have it inside xcode and danger
+    swiftlint(
+      mode: :lint, # :lint (default) or :autocorrect
+      ignore_exit_status: true # Allow fastlane to continue even if SwiftLint returns a non-zero exit status
+    )
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
       scheme: "All",
       device: "iPhone 11"
     )
     run_codecov(platform: 'ios')
-    iOSCocoaPodsIntegration
+    check_if_beagle_works_via_cocoapods_integration
   end
 
-  desc "Run iOS SwiftLint"
-  private_lane :iOSSwiftLint do
-    swiftlint(
-    mode: :lint,      # SwiftLint mode: :lint (default) or :autocorrect
-    ignore_exit_status: true    # Allow fastlane to continue even if SwiftLint returns a non-zero exit status
-  )
-  end
-
-  desc "CocoaPods Integration test"
-  private_lane :iOSCocoaPodsIntegration do
+  desc "Check wether Beagle is working via CocoaPods in an Example Project"
+  private_lane :check_if_beagle_works_via_cocoapods_integration do
     xcversion(version: "~> 11.5.0")
-    installCocoaPods
+    cocoapods(
+      clean_install: true,
+      podfile: "iOS/Example/CocoaPodsTest/Podfile"
+    )
     scan(
       workspace: "iOS/Example/CocoaPodsTest/CocoaPodsTest.xcworkspace",
       scheme: "CocoaPodsTest",
@@ -106,24 +105,45 @@ platform :ios do
     )
   end
 
+  desc "Release Pods"
+  lane :release_pods do |options|
+    version = options[:version] # 1.0.0
+    tag = options[:tag] # 1.0.0[-iOS]
 
-  desc "Install CocoaPods"
-  private_lane :installCocoaPods do
-    cocoapods(
-      clean_install: true,
-      podfile: "iOS/Example/CocoaPodsTest/Podfile"
-    )
+    [
+      { path: "BeagleSchema.podspec" }, 
+      { path: "Beagle.podspec", depends_on_other_beagle_pod: true }
+    ]
+    .each do |pod|
+      update_podspec(path: pod[:path], version: version, tag: tag)
+
+      pod_push(path: pod[:path], allow_warnings: true, synchronous: pod[:depends_on_other_beagle_pod])
+    end
   end
-
-  desc "Updates versions on Podspec"
-  lane :release do
-    version_bump_podspec(path: "Beagle.podspec", version_number: last_git_tag)
-    version_bump_podspec(path: "BeagleSchema.podspec", version_number: last_git_tag)
-    pod_push(path: "BeagleSchema.podspec", allow_warnings: true)
-    pod_push(path: "Beagle.podspec", allow_warnings: true, synchronous: true)
-  end
-
 end
+
+def update_podspec(path:, version:, tag:)
+  rootPath = "../" + path
+  file = File.read(rootPath)
+
+  version_regex = /\.version = (.*)\n/
+  tag_regex = /tag = (.*)\n/
+  
+  has_version_and_tag = version_regex.match(file) && tag_regex.match(file) 
+  if not has_version_and_tag 
+    UI.user_error!("podspec at #{path} should have version and tag")
+  end
+
+  new_content = file
+    .gsub(version_regex, ".version = '#{version}'\n")
+    .gsub(tag_regex, "tag = '#{tag}'\n")
+
+  File.write(rootPath, new_content)
+end
+
+###
+### iOS - END 
+###
 
 desc "Publish new release based on last two tags"
 lane :deploy do
@@ -146,7 +166,7 @@ lane :deploy do
 
   if platformHotfix == "iOS"
     puts "iOS Hotfix release"
-    sh "fastlane ios release"
+    sh "fastlane ios release_pods version:#{versionNumber} tag:#{tagName}"
   elsif platformHotfix == "android"
     puts "Android Hotfix release"
     sh "fastlane android deploy_to_production"
@@ -157,7 +177,7 @@ lane :deploy do
     puts "Normal Release"
     sh "fastlane android deploy_to_production"
     sh "fastlane backend deploy_to_production"
-    sh "fastlane ios release"
+    sh "fastlane ios release_pods version:#{versionNumber} tag:#{tagName}"
   end
 
   releaseNotes = release_notes(versionDeploy: tagName)
