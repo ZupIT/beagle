@@ -152,8 +152,8 @@ private fun loadView(
         loadView(screenRequest)
     }
     view.loadCompletedListener = {
+        viewGroup.removeAllViews()
         viewGroup.addView(view)
-
     }
     view.listenerOnViewDetachedFromWindow = {
         viewModel.setViewCreated(rootView.getParentId())
