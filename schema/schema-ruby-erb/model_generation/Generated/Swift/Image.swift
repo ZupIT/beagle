@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-public struct Image: Widget, AutoDecodable {
+public struct Image: RawWidget, AutoDecodable {
 
-    public let path: Expression<ImagePath>
-    public let mode: ImageContentMode?
-    public let widgetProperties: WidgetProperties
+    public var path: Expression<ImagePath>
+    public var mode: ImageContentMode?
+    public var widgetProperties: WidgetProperties
 
     public init(
         path: Expression<ImagePath>,

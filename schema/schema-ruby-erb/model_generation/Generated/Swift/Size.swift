@@ -17,12 +17,12 @@
 
 public struct Size {
 
-    public let height: UnitValue?
-    public let maxWidth: UnitValue?
-    public let maxHeight: UnitValue?
-    public let minWidth: UnitValue?
-    public let minHeight: UnitValue?
-    public let aspectRatio: enum?
+    public var height: UnitValue?
+    public var maxWidth: UnitValue?
+    public var maxHeight: UnitValue?
+    public var minWidth: UnitValue?
+    public var minHeight: UnitValue?
+    public var aspectRatio: enum?
 
     public init(
         height: UnitValue? = nil,

@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-public struct TextInput: Widget, AutoDecodable {
+public struct TextInput: RawWidget, AutoDecodable {
 
-    public let value: Expression<String>?
-    public let placeholder: Expression<String>?
-    public let disabled: Expression<Bool>?
-    public let readOnly: Expression<Bool>?
-    public let type: Expression<TextInputType>?
-    public let hidden: Expression<Bool>?
-    public let styleId: String?
-    public let onChange: [Action]?
-    public let onBlur: [Action]?
-    public let onFocus: [Action]?
-    public let widgetProperties: WidgetProperties
+    public var value: Expression<String>?
+    public var placeholder: Expression<String>?
+    public var disabled: Expression<Bool>?
+    public var readOnly: Expression<Bool>?
+    public var type: Expression<TextInputType>?
+    public var hidden: Expression<Bool>?
+    public var styleId: String?
+    public var onChange: [RawAction]?
+    public var onBlur: [RawAction]?
+    public var onFocus: [RawAction]?
+    public var widgetProperties: WidgetProperties
 
     public init(
         value: Expression<String>? = nil,
@@ -37,9 +37,9 @@ public struct TextInput: Widget, AutoDecodable {
         type: Expression<TextInputType>? = nil,
         hidden: Expression<Bool>? = nil,
         styleId: String? = nil,
-        onChange: [Action]? = nil,
-        onBlur: [Action]? = nil,
-        onFocus: [Action]? = nil,
+        onChange: [RawAction]? = nil,
+        onBlur: [RawAction]? = nil,
+        onFocus: [RawAction]? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.value = value

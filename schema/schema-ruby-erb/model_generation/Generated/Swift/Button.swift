@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-public struct Button: Widget, ClickedOnComponent, AutoDecodable {
+public struct Button: RawWidget, ClickedOnComponent, AutoDecodable {
 
-    public let text: Expression<String>
-    public let styleId: String?
-    public let onPress: [Action]?
-    public let clickAnalyticsEvent: AnalyticsClick?
-    public let widgetProperties: WidgetProperties
+    public var text: Expression<String>
+    public var styleId: String?
+    public var onPress: [RawAction]?
+    public var clickAnalyticsEvent: AnalyticsClick?
+    public var widgetProperties: WidgetProperties
 
     public init(
         text: Expression<String>,
         styleId: String? = nil,
-        onPress: [Action]? = nil,
+        onPress: [RawAction]? = nil,
         clickAnalyticsEvent: AnalyticsClick? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {

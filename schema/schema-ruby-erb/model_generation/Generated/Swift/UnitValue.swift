@@ -17,8 +17,8 @@
 
 public struct UnitValue {
 
-    public let value: enum
-    public let type: UnitType
+    public var value: enum
+    public var type: UnitType
 
     public init(
         value: enum,

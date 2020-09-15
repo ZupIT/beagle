@@ -17,7 +17,7 @@
 
 public struct AnalyticsScreen: AnalyticsEvent {
 
-    public let screenName: String
+    public var screenName: String
 
     public init(
         screenName: String

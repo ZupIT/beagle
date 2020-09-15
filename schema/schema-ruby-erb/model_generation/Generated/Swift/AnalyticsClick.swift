@@ -17,8 +17,8 @@
 
 public struct AnalyticsClick: AnalyticsEvent {
 
-    public let accessibilityLabel: String?
-    public let accessible: Bool
+    public var accessibilityLabel: String?
+    public var accessible: Bool
 
     public init(
         accessibilityLabel: String? = nil,

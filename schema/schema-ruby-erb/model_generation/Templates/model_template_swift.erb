@@ -19,6 +19,7 @@
   require_relative 'Synthax/Types/basic_type'
   require_relative 'Synthax/Attributes/list'
   require_relative 'Templates/template_helper.rb'
+  require_relative 'Models/Action/action.rb'
   @tab = "    "
   @doubleTab = @tab + @tab
   @templateHelper = TemplateHelper.new
@@ -27,6 +28,7 @@
 
   def handleTypeName(variable)
       typeName = @templateHelper.fetch_type(variable.typeName)
+      typeName = adaptTypeNameToSwiftSpecific(typeName)
       output = variable.isBindable ? "Expression<#{typeName}>" : typeName
       output = variable.class == List ? "[#{output}]" : output
       output = variable.isOptional ? output + "?" : output
@@ -35,6 +37,7 @@
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
     typeName = @templateHelper.fetch_type(variable.typeName)
+    typeName = adaptTypeNameToSwiftSpecific(typeName)
     output = variable.isBindable ? "Expression<#{typeName}>" : typeName
     output = variable.class == List ? "[#{output}]" : output
     output = variable.isOptional ? output + "?" : output
@@ -53,7 +56,8 @@
     output = synthax_type.inheritFrom.size == 0 ? "" : ": "
     counter = 0
     for type in synthax_type.inheritFrom
-      output += type
+      adaptedType = adaptTypeNameToSwiftSpecific(type)
+      output += adaptedType
       output = synthax_type.inheritFrom.size - 1 != counter ? output + ", " : output
       counter += 1
     end
@@ -78,7 +82,7 @@
   def declarePropertiesForCommonObject(objectType)
     output = ""
     for variable in objectType.synthax_type.variables
-      output += "#{@tab}#{variable.accessor} let #{variable.name}: #{handleTypeName(variable)}\n"
+      output += "#{@tab}#{variable.accessor} var #{variable.name}: #{handleTypeName(variable)}\n"
     end
 
     output
@@ -136,12 +140,23 @@
     output
   end
 
+  ## CAUTION: the following methods will be deleted
   def preRun(objectType)
     if @templateHelper.is_widget(objectType)
       objectType.synthax_type.variables.append(
         Variable.new(:name => "widgetProperties", :typeName => "WidgetProperties", :defaultValue => "WidgetProperties()")
       )
       objectType.synthax_type.inheritFrom.append("AutoDecodable")
+    end
+  end
+
+  def adaptTypeNameToSwiftSpecific(typeName)
+    if typeName.eql?(Widget.new.name)
+      "RawWidget"
+    elsif typeName.eql?(Action.new.name)
+      "RawAction"
+    else
+      typeName
     end
   end
 

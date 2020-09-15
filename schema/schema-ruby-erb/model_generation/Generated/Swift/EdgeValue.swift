@@ -17,13 +17,13 @@
 
 public struct EdgeValue {
 
-    public let left: UnitValue?
-    public let top: UnitValue?
-    public let right: UnitValue?
-    public let bottom: UnitValue?
-    public let horizontal: UnitValue?
-    public let vertical: UnitValue?
-    public let all: UnitValue?
+    public var left: UnitValue?
+    public var top: UnitValue?
+    public var right: UnitValue?
+    public var bottom: UnitValue?
+    public var horizontal: UnitValue?
+    public var vertical: UnitValue?
+    public var all: UnitValue?
 
     public init(
         left: UnitValue? = nil,

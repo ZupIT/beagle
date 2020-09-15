@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-public struct Text: Widget, AutoDecodable {
+public struct Text: RawWidget, AutoDecodable {
 
-    public let text: Expression<String>
-    public let styleId: String?
-    public let widgetProperties: WidgetProperties
+    public var text: Expression<String>
+    public var styleId: String?
+    public var widgetProperties: WidgetProperties
 
     public init(
         text: Expression<String>,

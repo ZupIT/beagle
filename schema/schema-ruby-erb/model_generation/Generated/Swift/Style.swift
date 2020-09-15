@@ -17,15 +17,15 @@
 
 public struct Style {
 
-    public let backgroundColor: String?
-    public let cornerRadius: String?
-    public let size: Size?
-    public let margin: EdgeValue?
-    public let padding: EdgeValue?
-    public let position: EdgeValue?
-    public let flex: Flex?
-    public let positionType: PositionType?
-    public let display: Display?
+    public var backgroundColor: String?
+    public var cornerRadius: String?
+    public var size: Size?
+    public var margin: EdgeValue?
+    public var padding: EdgeValue?
+    public var position: EdgeValue?
+    public var flex: Flex?
+    public var positionType: PositionType?
+    public var display: Display?
 
     public init(
         backgroundColor: String? = nil,

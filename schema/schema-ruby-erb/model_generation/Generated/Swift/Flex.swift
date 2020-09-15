@@ -17,16 +17,16 @@
 
 public struct Flex {
 
-    public let flexDirection: FlexDirection?
-    public let flexWrap: FlexWrap?
-    public let justifyContent: JustifyContent?
-    public let alignItems: AlignItems?
-    public let alignSelf: AlignSelf?
-    public let alignContent: AlignContent?
-    public let basis: UnitValue?
-    public let flex: enum?
-    public let flexDirection: enum?
-    public let shrink: enum?
+    public var flexDirection: FlexDirection?
+    public var flexWrap: FlexWrap?
+    public var justifyContent: JustifyContent?
+    public var alignItems: AlignItems?
+    public var alignSelf: AlignSelf?
+    public var alignContent: AlignContent?
+    public var basis: UnitValue?
+    public var flex: enum?
+    public var flexDirection: enum?
+    public var shrink: enum?
 
     public init(
         flexDirection: FlexDirection? = nil,

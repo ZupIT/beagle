@@ -17,7 +17,7 @@
 
 public struct CornerRadius {
 
-    public let radius: enum
+    public var radius: enum
 
     public init(
         radius: enum

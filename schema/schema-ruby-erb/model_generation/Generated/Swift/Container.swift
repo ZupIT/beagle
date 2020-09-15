@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-public struct Container: Widget, AutoDecodable {
+public struct Container: RawWidget, AutoDecodable {
 
-    public let children: [Widget]
-    public let onInit: [Action]?
-    public let context: Context?
-    public let widgetProperties: WidgetProperties
+    public var children: [RawWidget]
+    public var onInit: [RawAction]?
+    public var context: Context?
+    public var widgetProperties: WidgetProperties
 
     public init(
-        children: [Widget],
-        onInit: [Action]? = nil,
+        children: [RawWidget],
+        onInit: [RawAction]? = nil,
         context: Context? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
