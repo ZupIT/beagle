@@ -17,14 +17,14 @@
 
 import Foundation
 
-public struct TextInput: RawWidget, ThemeComponent, AutoInitiableAndDecodable {
+public struct TextInput: RawWidget, AutoInitiableAndDecodable {
     public let value: Expression<String>?
     public let placeholder: Expression<String>?
     public let disabled: Expression<Bool>?
     public let readOnly: Expression<Bool>?
     public let type: Expression<TextInputType>?
     public let hidden: Expression<Bool>?
-    public var styleId: String?
+    public let styleId: String?
     public let onChange: [RawAction]?
     public let onBlur: [RawAction]?
     public let onFocus: [RawAction]?

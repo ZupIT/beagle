@@ -87,12 +87,9 @@ struct AppTheme {
         }
     }
 
-    static func formButton() -> (UIView?) -> Void {
+    static func formButton() -> (UIButton?) -> Void {
         return {
-            guard let button = $0 as? UIButton else {
-                return
-            }
-            button.setTitleColor(.white, for: .normal)
+            $0?.setTitleColor(.white, for: .normal)
             
             let layer: CAGradientLayer = CAGradientLayer()
             layer.frame.size = $0?.frame.size ?? CGSize(width: 0, height: 0)
@@ -109,9 +106,9 @@ struct AppTheme {
             layer.endPoint = CGPoint(x: 0.5, y: 0.5)
             layer.colors = [color2, color0, color1]
 
-            button.layer.insertSublayer(layer, at: 0)
+            $0?.layer.insertSublayer(layer, at: 0)
 
-            button.alpha = button.isHighlighted ? 0.7 : 1
+            $0?.alpha = $0?.isHighlighted ?? false ? 0.7 : 1
         }
     }
     

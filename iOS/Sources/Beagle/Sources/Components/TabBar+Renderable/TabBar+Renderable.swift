@@ -34,6 +34,10 @@ extension TabBar: ServerDrivenComponent {
             renderer.controller.execute(actions: self.onTabSelection, with: "onTabSelection", and: .int(tab), origin: view)
         }
         
+        if let styleId = styleId {
+            view.beagle.applyStyle(for: view as UIView, styleId: styleId, with: renderer.controller)
+        }
+
         return view
     }
 }

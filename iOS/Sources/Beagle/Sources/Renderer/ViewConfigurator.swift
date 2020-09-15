@@ -24,8 +24,8 @@ public protocol ViewConfiguratorProtocol: AnyObject {
     func setup(style: Style?)
     func setup(id: String?)
     func setup(accessibility: Accessibility?)
-    func setup(styleId: String, with controller: BeagleController?)
-    func setupView(of component: BeagleSchema.RawComponent, with controller: BeagleController)
+    func applyStyle<T: UIView>(for view: T, styleId: String, with controller: BeagleController?)
+    func setupView(of component: BeagleSchema.RawComponent)
 }
 
 public protocol DependencyViewConfigurator {
@@ -48,17 +48,13 @@ class ViewConfigurator: ViewConfiguratorProtocol {
         self.view = view
     }
     
-    func setupView(of component: BeagleSchema.RawComponent, with controller: BeagleController) {
+    func setupView(of component: BeagleSchema.RawComponent) {
         view?.style.isFlexEnabled = true
         if let c = component as? AccessibilityComponent {
             setup(accessibility: c.accessibility)
         }
         if let c = component as? IdentifiableComponent {
             setup(id: c.id)
-        }
-        if let c = component as? ThemeComponent, let styleId = c.styleId {
-            self.controller = controller
-            applyStyle(of: view ?? UIView(), styleId: styleId)
         }
         if let c = component as? StyleComponent {
             setup(style: c.style)
@@ -82,25 +78,8 @@ class ViewConfigurator: ViewConfiguratorProtocol {
         }
     }
 
-    func setup(styleId: String, with controller: BeagleController?) {
-        self.controller = controller
-        applyStyle(of: view ?? UIView(), styleId: styleId)
-    }
-    
-    private func applyStyle<T: UIView>(of view: T, styleId: String) {
-        if let textView = view as? UITextView {
-            controller?.dependencies.theme.applyStyle(for: textView, withId: styleId)
-        } else if let button = view as? UIButton {
-            controller?.dependencies.theme.applyStyle(for: button, withId: styleId)
-        } else if let textField = view as? UITextField {
-            controller?.dependencies.theme.applyStyle(for: textField, withId: styleId)
-        } else if let label = view as? UILabel {
-            controller?.dependencies.theme.applyStyle(for: label, withId: styleId)
-        } else if let navigationBar = view as? UINavigationBar {
-            controller?.dependencies.theme.applyStyle(for: navigationBar, withId: styleId)
-        } else {
-            controller?.dependencies.theme.applyStyle(for: view, withId: styleId)
-        }
+    func applyStyle<T: UIView>(for view: T, styleId: String, with controller: BeagleController?) {
+        controller?.dependencies.theme.applyStyle(for: view, withId: styleId)
     }
     
     func setup(accessibility: Accessibility?) {

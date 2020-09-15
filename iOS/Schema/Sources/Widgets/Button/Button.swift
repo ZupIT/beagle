@@ -16,11 +16,11 @@
 
 import UIKit
 
-public struct Button: RawWidget, ThemeComponent, ClickedOnComponent, AutoInitiableAndDecodable {
+public struct Button: RawWidget, ClickedOnComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let text: Expression<String>
-    public var styleId: String?
+    public let styleId: String?
     public let onPress: [RawAction]?
     public var clickAnalyticsEvent: AnalyticsClick?
     public var widgetProperties: WidgetProperties

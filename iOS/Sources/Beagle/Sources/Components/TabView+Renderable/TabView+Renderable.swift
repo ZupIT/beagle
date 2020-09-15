@@ -23,6 +23,11 @@ extension TabView: ServerDrivenComponent {
         let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: children)
         let tabView = TabViewUIComponent(model: model, controller: renderer.controller)
         tabView.style.setup(Style(size: Size().width(100%), flex: Flex().grow(1)))
+        
+        if let styleId = styleId {
+            tabView.beagle.applyStyle(for: tabView as UIView, styleId: styleId, with: renderer.controller)
+        }
+
         return tabView
     }
 }

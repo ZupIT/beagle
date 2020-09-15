@@ -26,6 +26,11 @@ extension TextInput: ServerDrivenComponent {
                                           controller: renderer.controller)
         
         setupExpressions(toView: textInputView, renderer: renderer)
+        
+        if let styleId = styleId {
+            textInputView.beagle.applyStyle(for: textInputView as UITextField, styleId: styleId, with: renderer.controller)
+        }
+        
         return textInputView
     }
     

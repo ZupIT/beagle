@@ -54,10 +54,6 @@ public protocol AccessibilityComponent {
     var accessibility: Accessibility? { get }
 }
 
-public protocol ThemeComponent {
-    var styleId: String? { get set }
-}
-
 public protocol IdentifiableComponent {
     /// string that uniquely identifies a component
     var id: String? { get }
