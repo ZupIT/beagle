@@ -42,7 +42,6 @@ public extension UIView {
 class ViewConfigurator: ViewConfiguratorProtocol {
 
     weak var view: UIView?
-    var controller: BeagleController?
 
     init(view: UIView) {
         self.view = view
