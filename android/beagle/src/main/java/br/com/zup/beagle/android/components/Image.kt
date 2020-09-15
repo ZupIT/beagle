@@ -21,6 +21,7 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
@@ -41,7 +42,9 @@ import com.bumptech.glide.request.transition.Transition
 
 @RegisterWidget
 data class Image
-@Deprecated(DEPRECATED_CONSTRUCTOR_IMAGE_VIEW, replaceWith = ReplaceWith("Image(path, null)"))
+@Deprecated("It was deprecated in version 1.2.2 and will" +
+    " be removed in a future version. Use constructor without bind",
+    replaceWith = ReplaceWith("Image(path, null)"))
 constructor(
     val path: Bind<ImagePath>,
     val mode: ImageContentMode? = null
@@ -127,10 +130,10 @@ constructor(
 
 sealed class ImagePath {
     data class Local(val mobileId: Bind<String>) : ImagePath() {
-        constructor(mobileId: String) : this(valueOf(mobileId))
+        constructor(mobileId: String) : this(expressionOf(mobileId))
     }
 
     data class Remote(val url: Bind<String>, val placeholder: Local? = null) : ImagePath() {
-        constructor(url: String, placeholder: Local? = null) : this(valueOf(url), placeholder)
+        constructor(url: String, placeholder: Local? = null) : this(expressionOf(url), placeholder)
     }
 }
