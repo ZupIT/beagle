@@ -20,17 +20,16 @@ import androidx.collection.LruCache
 import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import br.com.zup.beagle.android.jsonpath.JsonPathUtils
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
-import kotlin.text.Regex.Companion.escapeReplacement
 
 internal class ContextDataEvaluation(
     private val contextDataManipulator: ContextDataManipulator = ContextDataManipulator(),
     private val expressionTokenExecutor: ExpressionTokenExecutor = ExpressionTokenExecutor(),
+    private val contextExpressionReplacer: ContextExpressionReplacer = ContextExpressionReplacer(),
     private val moshi: Moshi = BeagleMoshi.moshi
 ) {
 
@@ -72,7 +71,7 @@ internal class ContextDataEvaluation(
                     )
                 }
 
-                evaluateMultipleExpressions(bind, evaluatedExpressions)
+                contextExpressionReplacer.replace(bind, evaluatedExpressions)
             }
             expressions.size == 1 -> evaluateExpression(
                 contextsData,
@@ -106,23 +105,6 @@ internal class ContextDataEvaluation(
         ) ?: ""
     }
 
-    private fun evaluateMultipleExpressions(
-        bind: Bind.Expression<*>,
-        evaluatedExpressions: MutableMap<String, Any>
-    ): Any? {
-        val regex = "(?<=\\})".toRegex()
-        return bind.value.split(regex).joinToString("") {
-            val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
-            if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
-                val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
-                val value = escapeReplacement(evaluatedExpressions[key].toString())
-                it.replace("@{$key}", value)
-            } else {
-                it
-            }
-        }.replace("\\\\", "\\").replace("\\@", "@")
-    }
-
     private fun evaluateExpression(
         contextsData: List<ContextData>,
         contextCache: LruCache<String, Any>?,
@@ -130,20 +112,7 @@ internal class ContextDataEvaluation(
         expressionToken: ExpressionToken,
         evaluatedBindings: MutableMap<String, Any>
     ): Any? {
-        val value = try {
-             expressionTokenExecutor.execute(contextsData, expressionToken) { binding, contextData ->
-                 return@execute if (contextData != null) {
-                     getValue(contextData, contextCache, binding, bind.type)?.also {
-                         evaluatedBindings[binding] = it
-                     }
-                 } else {
-                     evaluatedBindings[binding]
-                 }
-            }
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingExecuteExpressionFunction(ex)
-            null
-        }
+        val value = getValueFromExpression(contextsData, expressionToken, contextCache, bind, evaluatedBindings)
 
         return try {
             if (bind.type == String::class.java) {
@@ -155,6 +124,29 @@ internal class ContextDataEvaluation(
             }
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
+            null
+        }
+    }
+
+    private fun getValueFromExpression(
+        contextsData: List<ContextData>,
+        expressionToken: ExpressionToken,
+        contextCache: LruCache<String, Any>?,
+        bind: Bind.Expression<*>,
+        evaluatedBindings: MutableMap<String, Any>
+    ): Any? {
+        return try {
+            expressionTokenExecutor.execute(contextsData, expressionToken) { binding, contextData ->
+                return@execute if (contextData != null) {
+                    getValue(contextData, contextCache, binding, bind.type)?.also {
+                        evaluatedBindings[binding] = it
+                    }
+                } else {
+                    evaluatedBindings[binding]
+                }
+            }
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingExecuteExpressionFunction(ex)
             null
         }
     }

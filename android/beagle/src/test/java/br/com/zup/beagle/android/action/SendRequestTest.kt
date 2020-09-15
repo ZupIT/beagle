@@ -27,8 +27,16 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
+import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 import br.com.zup.beagle.android.view.viewmodel.Response
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
+import io.mockk.verifyOrder
 import org.json.JSONObject
 import org.junit.Rule
 import org.junit.Test
@@ -43,8 +51,8 @@ class SendRequestTest : BaseTest() {
     var executorRule = InstantTaskExecutorRule()
 
     private val viewModel: ActionRequestViewModel = mockk()
-    private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
-    private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
+    private val liveData: MutableLiveData<FetchViewState> = mockk()
+    private val observerSlot = slot<Observer<FetchViewState>>()
     private val responseData: Response = mockk()
     private val view: View = mockk()
     private val contextDataSlot = slot<ContextData>()
@@ -70,7 +78,7 @@ class SendRequestTest : BaseTest() {
 
         // When
         requestAction.execute(rootView, view)
-        val result = ActionRequestViewModel.FetchViewState.Success(responseData)
+        val result = FetchViewState.Success(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then
@@ -93,7 +101,7 @@ class SendRequestTest : BaseTest() {
 
         // When
         requestAction.execute(rootView, view)
-        val result = ActionRequestViewModel.FetchViewState.Error(responseData)
+        val result = FetchViewState.Error(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then
@@ -115,7 +123,7 @@ class SendRequestTest : BaseTest() {
 
         // When
         requestAction.execute(rootView, view)
-        val result = ActionRequestViewModel.FetchViewState.Success(mockk())
+        val result = FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
@@ -132,7 +140,7 @@ class SendRequestTest : BaseTest() {
 
         // When
         requestAction.execute(rootView, view)
-        val result = ActionRequestViewModel.FetchViewState.Success(mockk())
+        val result = FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
@@ -150,7 +158,7 @@ class SendRequestTest : BaseTest() {
 
         // When
         requestAction.execute(rootView, view)
-        val result = ActionRequestViewModel.FetchViewState.Success(mockk())
+        val result = FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
@@ -168,7 +176,7 @@ class SendRequestTest : BaseTest() {
 
         // When
         requestAction.execute(rootView, view)
-        val result = ActionRequestViewModel.FetchViewState.Error(mockk())
+        val result = FetchViewState.Error(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then

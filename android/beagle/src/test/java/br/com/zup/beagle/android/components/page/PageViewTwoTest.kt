@@ -97,12 +97,14 @@ class PageViewTwoTest : BaseComponentTest() {
             context,
             currentPage = currentPage
         )
-        every { pageView.observeBindChanges(
-            rootView = rootView,
-            view = beaglePageView,
-            bind = currentPage,
-            observes = capture(currentPageSlot)
-        ) } just Runs
+        every {
+            pageView.observeBindChanges(
+                rootView = rootView,
+                view = beaglePageView,
+                bind = currentPage,
+                observes = capture(currentPageSlot)
+            )
+        } just Runs
 
         // WHEN
         pageView.buildView(rootView)
@@ -192,19 +194,23 @@ class PageViewTwoTest : BaseComponentTest() {
         }
     }
 
-    private fun commonMock(){
+    private fun commonMock() {
         pageView = PageViewTwo(
             children,
             context,
             onPageChange,
             currentPage
         )
-        every { pageView.observeBindChanges(
-            rootView = rootView,
-            view = beaglePageView,
-            bind = currentPage,
-            observes = capture(currentPageSlot)
-        ) } just Runs
+
+        every {
+            pageView.observeBindChanges(
+                rootView = rootView,
+                view = beagleFlexView,
+                bind = currentPage,
+                observes = capture(currentPageSlot)
+            )
+        } just Runs
+
         every {
             pageView.handleEvent(
                 rootView,
