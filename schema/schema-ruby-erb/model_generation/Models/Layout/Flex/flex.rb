@@ -33,16 +33,66 @@ class Flex < BaseComponent
         align_content = AlignContent.new
         
         variables = [
-            Variable.new(:name => "flexDirection", :typeName => flex_direction.name, :isOptional => true),
-            Variable.new(:name => "flexWrap", :typeName => flex_wrap.name, :isOptional => true),
-            Variable.new(:name => "justifyContent", :typeName => justify_content.name, :isOptional => true),
-            Variable.new(:name => "alignItems", :typeName => align_items.name, :isOptional => true),
-            Variable.new(:name => "alignSelf", :typeName => align_self.name, :isOptional => true),
-            Variable.new(:name => "alignContent", :typeName => align_content.name, :isOptional => true),
-            Variable.new(:name => "basis", :typeName => UnitValue.new.name, :isOptional => true),
-            Variable.new(:name => "flex", :typeName => BasicTypeKeys.double, :isOptional => true),
-            Variable.new(:name => "flexDirection", :typeName => BasicTypeKeys.double, :isOptional => true),
-            Variable.new(:name => "shrink", :typeName => BasicTypeKeys.double, :isOptional => true),
+            Variable.new(
+                :name => "flexDirection",
+                :typeName => flex_direction.name,
+                :isOptional => true,
+                :comment => "Controls the direction in which the children of a node are laid out.This is also referred to as the main axis.",
+            ),
+            Variable.new(
+                :name => "flexWrap",
+                :typeName => flex_wrap.name,
+                :isOptional => true,
+                :comment => "Set on containers and controls what happens when children overflow the size of the container along the main axis.",
+            ),
+            Variable.new(
+                :name => "justifyContent",
+                :typeName => justify_content.name,
+                :isOptional => true,
+                :comment => "Align children within the main axis of their container.",
+            ),
+            Variable.new(
+                :name => "alignItems",
+                :typeName => align_items.name,
+                :isOptional => true,
+                :comment => "Align items describes how to align children along the cross axis of their container.",
+            ),
+            Variable.new(
+                :name => "alignSelf",
+                :typeName => align_self.name,
+                :isOptional => true,
+                :comment => "This property allows to override the behavior of an item defined by the align-items property.",
+            ),
+            Variable.new(
+                :name => "alignContent",
+                :typeName => align_content.name,
+                :isOptional => true,
+                :comment => "Align content defines the distribution of lines along the cross-axis.",
+            ),
+            Variable.new(
+                :name => "basis",
+                :typeName => UnitValue.new.name,
+                :isOptional => true,
+                :comment => "Is an axis-independent way of providing the default size of an item along the main axis.",
+            ),
+            Variable.new(
+                :name => "flex",
+                :typeName => BasicTypeKeys.double,
+                :isOptional => true,
+                :comment => "Describes how any space within a container should be distributed among its children along the main axis.",
+            ),
+            Variable.new(
+                :name => "grow",
+                :typeName => BasicTypeKeys.double,
+                :isOptional => true,
+                :comment => "Define the proportion with which an item should grow if necessary.",
+            ),
+            Variable.new(
+                :name => "shrink",
+                :typeName => BasicTypeKeys.double,
+                :isOptional => true,
+                :comment => "Describes how to shrink children along the main axis in the case that the total size of the children overflow the size of the container on the main axis.",
+            ),
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

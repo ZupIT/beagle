@@ -82,6 +82,9 @@
   def declarePropertiesForCommonObject(objectType)
     output = ""
     for variable in objectType.synthax_type.variables
+      if variable.comment != nil 
+        output +=  "#{@tab}/// #{variable.comment}\n"
+      end
       output += "#{@tab}#{variable.accessor} var #{variable.name}: #{handleTypeName(variable)}\n"
     end
 

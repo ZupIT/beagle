@@ -17,15 +17,25 @@
 
 public struct Flex {
 
+    /// Controls the direction in which the children of a node are laid out.This is also referred to as the main axis.
     public var flexDirection: FlexDirection?
+    /// Set on containers and controls what happens when children overflow the size of the container along the main axis.
     public var flexWrap: FlexWrap?
+    /// Align children within the main axis of their container.
     public var justifyContent: JustifyContent?
+    /// Align items describes how to align children along the cross axis of their container.
     public var alignItems: AlignItems?
+    /// This property allows to override the behavior of an item defined by the align-items property.
     public var alignSelf: AlignSelf?
+    /// Align content defines the distribution of lines along the cross-axis.
     public var alignContent: AlignContent?
+    /// Is an axis-independent way of providing the default size of an item along the main axis.
     public var basis: UnitValue?
+    /// Describes how any space within a container should be distributed among its children along the main axis.
     public var flex: enum?
-    public var flexDirection: enum?
+    /// Define the proportion with which an item should grow if necessary.
+    public var grow: enum?
+    /// Describes how to shrink children along the main axis in the case that the total size of the children overflow the size of the container on the main axis.
     public var shrink: enum?
 
     public init(
@@ -37,7 +47,7 @@ public struct Flex {
         alignContent: AlignContent? = nil,
         basis: UnitValue? = nil,
         flex: enum? = nil,
-        flexDirection: enum? = nil,
+        grow: enum? = nil,
         shrink: enum? = nil
     ) {
         self.flexDirection = flexDirection
@@ -48,7 +58,7 @@ public struct Flex {
         self.alignContent = alignContent
         self.basis = basis
         self.flex = flex
-        self.flexDirection = flexDirection
+        self.grow = grow
         self.shrink = shrink
     }
     

@@ -14,13 +14,14 @@
 
 class BaseAttributes
 
-    attr_accessor :name, :typeName, :accessor, :defaultValue
+    attr_accessor :name, :typeName, :accessor, :defaultValue, :comment
     
     def initialize(params = {})
         @name = params.fetch(:name, '')
         @typeName = params.fetch(:typeName, '')
         @accessor = params.fetch(:accessor, 'public')
         @defaultValue = params.fetch(:defaultValue, '')
+        @comment = params.fetch(:comment, nil)
     end
 
 end
