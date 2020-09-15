@@ -22,16 +22,14 @@ import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.isExpression
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_CONSTRUCTOR_IMAGE_VIEW
-import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -130,10 +128,12 @@ constructor(
 
 sealed class ImagePath {
     data class Local(val mobileId: Bind<String>) : ImagePath() {
-        constructor(mobileId: String) : this(expressionOf(mobileId))
+        constructor(mobileId: String) : this(if (mobileId.isExpression()) expressionOf(mobileId) else valueOf(mobileId))
     }
 
     data class Remote(val url: Bind<String>, val placeholder: Local? = null) : ImagePath() {
-        constructor(url: String, placeholder: Local? = null) : this(expressionOf(url), placeholder)
+        constructor(url: String, placeholder: Local? = null) : this(
+            if (url.isExpression()) expressionOf(url) else valueOf(url),
+            placeholder)
     }
 }
