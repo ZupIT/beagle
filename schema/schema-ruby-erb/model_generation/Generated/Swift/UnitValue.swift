@@ -17,11 +17,11 @@
 
 public struct UnitValue {
 
-    public var value: enum
+    public var value: Double
     public var type: UnitType
 
     public init(
-        value: enum,
+        value: Double,
         type: UnitType
     ) {
         self.value = value

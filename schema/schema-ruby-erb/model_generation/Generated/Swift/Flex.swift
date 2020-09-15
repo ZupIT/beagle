@@ -32,11 +32,11 @@ public struct Flex {
     /// Is an axis-independent way of providing the default size of an item along the main axis.
     public var basis: UnitValue?
     /// Describes how any space within a container should be distributed among its children along the main axis.
-    public var flex: enum?
+    public var flex: Double?
     /// Define the proportion with which an item should grow if necessary.
-    public var grow: enum?
+    public var grow: Double?
     /// Describes how to shrink children along the main axis in the case that the total size of the children overflow the size of the container on the main axis.
-    public var shrink: enum?
+    public var shrink: Double?
 
     public init(
         flexDirection: FlexDirection? = nil,
@@ -46,9 +46,9 @@ public struct Flex {
         alignSelf: AlignSelf? = nil,
         alignContent: AlignContent? = nil,
         basis: UnitValue? = nil,
-        flex: enum? = nil,
-        grow: enum? = nil,
-        shrink: enum? = nil
+        flex: Double? = nil,
+        grow: Double? = nil,
+        shrink: Double? = nil
     ) {
         self.flexDirection = flexDirection
         self.flexWrap = flexWrap

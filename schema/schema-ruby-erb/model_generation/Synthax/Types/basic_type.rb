@@ -24,9 +24,9 @@ module BasicTypeKeys
         @@bool
     end
 
-    @@enum = "Double"
+    @@double = "Double"
     def self.double
-        @@enum
+        @@double
     end
 
     @@interface = "interface"

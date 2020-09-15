@@ -22,7 +22,7 @@ public struct Size {
     public var maxHeight: UnitValue?
     public var minWidth: UnitValue?
     public var minHeight: UnitValue?
-    public var aspectRatio: enum?
+    public var aspectRatio: Double?
 
     public init(
         height: UnitValue? = nil,
@@ -30,7 +30,7 @@ public struct Size {
         maxHeight: UnitValue? = nil,
         minWidth: UnitValue? = nil,
         minHeight: UnitValue? = nil,
-        aspectRatio: enum? = nil
+        aspectRatio: Double? = nil
     ) {
         self.height = height
         self.maxWidth = maxWidth

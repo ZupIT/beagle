@@ -17,10 +17,10 @@
 
 public struct CornerRadius {
 
-    public var radius: enum
+    public var radius: Double
 
     public init(
-        radius: enum
+        radius: Double
     ) {
         self.radius = radius
     }
