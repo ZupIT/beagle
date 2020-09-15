@@ -15,17 +15,20 @@
  * limitations under the License.
  */
 
-public struct Text: Widget {
+public struct Text: Widget, AutoDecodable {
 
     public let text: Expression<String>
     public let styleId: String?
+    public let widgetProperties: WidgetProperties
 
     public init(
         text: Expression<String>,
-        styleId: String? = nil
+        styleId: String? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.styleId = styleId
+        self.widgetProperties = widgetProperties
     }
 
 }

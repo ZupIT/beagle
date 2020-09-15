@@ -50,7 +50,7 @@ class TemplateHelper
     attr_accessor :languageIdentifier, :defaultDeclarationType
 
     def initialize
-        @defaultDeclarationType= ''
+        @defaultDeclarationType = ''
         @languageIdentifier = ''
         @types = BasicType.new
     end
@@ -78,6 +78,10 @@ class TemplateHelper
 
     def is_enum(object_type)
         object_type.synthax_type.class == EnumType
+    end
+
+    def is_widget(object_type)
+        object_type.synthax_type.inheritFrom.include? Widget.new.name
     end
 
 end

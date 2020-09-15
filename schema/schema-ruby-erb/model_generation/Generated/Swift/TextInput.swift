@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct TextInput: Widget {
+public struct TextInput: Widget, AutoDecodable {
 
     public let value: Expression<String>?
     public let placeholder: Expression<String>?
@@ -27,6 +27,7 @@ public struct TextInput: Widget {
     public let onChange: [Action]?
     public let onBlur: [Action]?
     public let onFocus: [Action]?
+    public let widgetProperties: WidgetProperties
 
     public init(
         value: Expression<String>? = nil,
@@ -38,7 +39,8 @@ public struct TextInput: Widget {
         styleId: String? = nil,
         onChange: [Action]? = nil,
         onBlur: [Action]? = nil,
-        onFocus: [Action]? = nil
+        onFocus: [Action]? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.value = value
         self.placeholder = placeholder
@@ -50,6 +52,7 @@ public struct TextInput: Widget {
         self.onChange = onChange
         self.onBlur = onBlur
         self.onFocus = onFocus
+        self.widgetProperties = widgetProperties
     }
 
 }

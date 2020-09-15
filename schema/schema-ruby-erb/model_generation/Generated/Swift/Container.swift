@@ -15,20 +15,23 @@
  * limitations under the License.
  */
 
-public struct Container: Widget {
+public struct Container: Widget, AutoDecodable {
 
     public let children: [Widget]
     public let onInit: [Action]?
     public let context: Context?
+    public let widgetProperties: WidgetProperties
 
     public init(
         children: [Widget],
         onInit: [Action]? = nil,
-        context: Context? = nil
+        context: Context? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.children = children
         self.onInit = onInit
         self.context = context
+        self.widgetProperties = widgetProperties
     }
 
 }

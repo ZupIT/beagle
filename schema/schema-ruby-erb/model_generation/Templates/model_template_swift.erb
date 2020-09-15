@@ -80,6 +80,7 @@
     for variable in objectType.synthax_type.variables
       output += "#{@tab}#{variable.accessor} let #{variable.name}: #{handleTypeName(variable)}\n"
     end
+
     output
   end
 
@@ -103,7 +104,6 @@
   end
 
   def fullDeclaration(objectType)
-    #objectType.synthax_type.inheritFrom.append("Decodable")
     isEnumDeclaration = @templateHelper.is_enum(objectType)
     typeKind = @templateHelper.fetch_built_in_type_declaration(objectType.synthax_type.type)
     output = "#{objectType.synthax_type.accessor} #{typeKind} #{objectType.synthax_type.name}#{handleInheritance(objectType.synthax_type)} {\n\n"
@@ -136,6 +136,18 @@
     output
   end
 
+  def preRun(objectType)
+    if @templateHelper.is_widget(objectType)
+      objectType.synthax_type.variables.append(
+        Variable.new(:name => "widgetProperties", :typeName => "WidgetProperties", :defaultValue => "WidgetProperties()")
+      )
+      objectType.synthax_type.inheritFrom.append("AutoDecodable")
+    end
+  end
+
 -%>
 
-<%= fullDeclaration(objectType) %>
+<%=
+preRun(objectType)
+fullDeclaration(objectType) 
+%>
