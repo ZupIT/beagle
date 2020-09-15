@@ -20,5 +20,5 @@ package br.com.zup.beagle.widget.core
 
 
 interface CornerRadiusSchema {
-  public val radius: Enum 
+  public val radius: Double 
 }

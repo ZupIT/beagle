@@ -21,6 +21,6 @@ import br.com.zup.beagle.widget.core.UnitTypeSchema
 
 
 interface UnitValueSchema {
-  public val value: Enum
+  public val value: Double
   public val type: UnitTypeSchema 
 }

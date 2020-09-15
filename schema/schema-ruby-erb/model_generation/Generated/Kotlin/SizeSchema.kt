@@ -26,5 +26,5 @@ interface SizeSchema {
   public val maxHeight: UnitValueSchema?
   public val minWidth: UnitValueSchema?
   public val minHeight: UnitValueSchema?
-  public val aspectRatio: Enum? 
+  public val aspectRatio: Double? 
 }
