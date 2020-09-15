@@ -143,16 +143,23 @@
     output
   end
 
-  ## CAUTION: the following methods will be deleted
   def preRun(objectType)
     if @templateHelper.is_widget(objectType)
       objectType.synthax_type.variables.append(
         Variable.new(:name => "widgetProperties", :typeName => "WidgetProperties", :defaultValue => "WidgetProperties()")
       )
       objectType.synthax_type.inheritFrom.append("AutoDecodable")
+    else
+      objectType.synthax_type.inheritFrom.append("Decodable")
     end
+
+    if objectType.synthax_type.name == Flex.new.name
+      objectType.synthax_type.inheritFrom.append("AutoEquatable")
+    end
+
   end
 
+  ## CAUTION: the following methods will be deleted
   def adaptTypeNameToSwiftSpecific(typeName)
     if typeName.eql?(Widget.new.name)
       "RawWidget"

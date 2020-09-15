@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct AnalyticsScreen: AnalyticsEvent {
+public struct AnalyticsScreen: AnalyticsEvent, Decodable {
 
     public var screenName: String
 

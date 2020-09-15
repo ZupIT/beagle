@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public enum UnitType: String {
+public enum UnitType: String, Decodable {
 
     case auto = "AUTO"
     case real = "REAL"

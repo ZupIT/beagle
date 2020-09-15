@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public enum ImageContentMode: String {
+public enum ImageContentMode: String, Decodable {
 
     case fitXY = "FIT_XY"
     case fitCenter = "FIT_CENTER"

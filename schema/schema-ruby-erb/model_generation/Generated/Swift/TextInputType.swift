@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public enum TextInputType: String {
+public enum TextInputType: String, Decodable {
 
     case date = "DATE"
     case email = "EMAIL"

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public protocol AnalyticsEvent {
+public protocol AnalyticsEvent: Decodable {
 
 
     public init(

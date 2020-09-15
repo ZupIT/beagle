@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Style {
+public struct Style: Decodable {
 
     public var backgroundColor: String?
     public var cornerRadius: String?

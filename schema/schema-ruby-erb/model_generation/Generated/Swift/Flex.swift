@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Flex {
+public struct Flex: Decodable, AutoEquatable {
 
     /// Controls the direction in which the children of a node are laid out.This is also referred to as the main axis.
     public var flexDirection: FlexDirection?
