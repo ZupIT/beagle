@@ -55,8 +55,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Beagle.dependencies = dependencies
         
-        let rootViewController = MainScreen().screenController()
-        window?.rootViewController = rootViewController
+        let mainScreenViewController = MainScreen().screenController()
+        mainScreenViewController.title = "Beagle"
+        
+        let nativeViewController = NativeViewController()
+        nativeViewController.title = "Native"
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [mainScreenViewController, UINavigationController(rootViewController: nativeViewController)]
+        
+        window?.rootViewController = tabBarController
         
         return true
     }
