@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
@@ -57,6 +58,7 @@ import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -434,11 +436,13 @@ class BeagleMoshiTest : BaseTest() {
         val jsonComponent = makeNavigationActionJsonWithExpression()
 
         // When
-        val actual = moshi.adapter(Action::class.java).fromJson(jsonComponent)
+        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)
 
         // Then
         assertNotNull(actual)
         assertTrue(actual is Navigate)
+        assertEquals("@{test}", (actual.route as Route.Remote).url.value)
+        assertFalse((actual.route as Route.Remote).shouldPrefetch)
     }
 
     @Test
