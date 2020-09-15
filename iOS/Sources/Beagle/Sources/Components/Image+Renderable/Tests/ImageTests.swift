@@ -58,17 +58,17 @@ class ImageTests: XCTestCase {
     
     func testCancelRequest() {
         //Given
-        let image = Image("@{img.path}")
+        let image = Image(.remote(.init(url: "@{url}")))
         let dependency = BeagleDependencies()
         let repository = RepositoryStub(imageResult: .success(Data()))
         dependency.repository = repository
         let container = Container(children: [image])
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
-        let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
+        let action = SetContext(contextId: "url", value: "www.com.br")
         let view = image.toView(renderer: controller.renderer)
         
         //When
-        view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
+        view.setContext(Context(id: "url", value: "www.beagle.com.br"))
         controller.configBindings()
         action.execute(controller: controller, origin: view)
         
@@ -78,7 +78,7 @@ class ImageTests: XCTestCase {
     
     func testInvalidURL() {
         // Given
-        let component = Image(.value(.remote(.init(url: "www.com"))))
+        let component = Image(.remote(.init(url: "www.com")))
         // When
         let imageView = renderer.render(component) as? UIImageView
         
@@ -89,7 +89,7 @@ class ImageTests: XCTestCase {
     
     func testPlaceholder() {
         // Given
-        let component = Image(.value(.remote(.init(url: "www.com", placeholder: "test_image_square-x"))))
+        let component = Image(.remote(.init(url: "www.com", placeholder: "test_image_square-x")))
  
         // When
         let placeholderView = renderer.render(component) as? UIImageView
@@ -101,7 +101,7 @@ class ImageTests: XCTestCase {
     
     func testImageLeak() {
         // Given
-        let component = Image("@{img.path}")
+        let component = Image(.remote(.init(url: "@{img.path}")))
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(component.toScreen()), dependencies: BeagleDependencies()))
         
         var view = component.toView(renderer: controller.renderer)

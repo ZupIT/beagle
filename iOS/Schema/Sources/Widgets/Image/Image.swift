@@ -19,12 +19,12 @@ import Foundation
 public struct Image: RawWidget, AutoDecodable {
 
     // MARK: - Public Properties
-    public let path: Expression<ImagePath>
+    public let path: ImagePath
     public let mode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
     public init(
-        _ path: Expression<ImagePath>,
+        _ path: ImagePath,
         mode: ImageContentMode? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
@@ -35,7 +35,7 @@ public struct Image: RawWidget, AutoDecodable {
     
     indirect public enum ImagePath: Decodable {
         case remote(Remote)
-        case local(String)
+        case local(Expression<String>)
 
         enum CodingKeys: String, CodingKey {
             case type = "_beagleImagePath_"
@@ -48,7 +48,7 @@ public struct Image: RawWidget, AutoDecodable {
             let type = try container.decode(String.self, forKey: .type)
             switch type {
             case "local":
-                let mobileId = try container.decode(String.self, forKey: .mobileId)
+                let mobileId = try container.decode(Expression<String>.self, forKey: .mobileId)
                 self = .local(mobileId)
             case "remote":
                 self = .remote(try Remote(from: decoder))
@@ -61,10 +61,10 @@ public struct Image: RawWidget, AutoDecodable {
 
 public extension Image {
     struct Remote: Decodable {
-        public let url: String
+        public let url: Expression<String>
         public let placeholder: String?
 
-        public init(url: String, placeholder: String? = nil) {
+        public init(url: Expression<String>, placeholder: String? = nil) {
             self.url = url
             self.placeholder = placeholder
         }
@@ -81,7 +81,7 @@ public extension Image {
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let nestedContainer = try? container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .placeholder)
-            url = try container.decode(String.self, forKey: .url)
+            url = try container.decode(Expression<String>.self, forKey: .url)
             placeholder = try nestedContainer?.decodeIfPresent(String.self, forKey: .mobileId)
         }
     }

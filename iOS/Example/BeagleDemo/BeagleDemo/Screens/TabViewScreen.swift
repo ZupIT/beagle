@@ -44,7 +44,7 @@ struct TabViewScreen: DeeplinkScreen {
             ) {
                 Container(widgetProperties: .init(Flex().alignContent(.center))) {
                     Text("Text1 Tab 0")
-                    Image(.value(.remote(.init(url: .networkImageBeagle, placeholder: "imageBeagle"))))
+                    Image(.remote(.init(url: .value(String.networkImageBeagle), placeholder: "imageBeagle")))
                     Text("Text2 Tab 0")
                 }
                 Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
