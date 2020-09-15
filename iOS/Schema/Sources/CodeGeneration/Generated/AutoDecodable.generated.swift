@@ -76,6 +76,24 @@ extension Button {
     }
 }
 
+// MARK: Condition Decodable
+extension Condition {
+
+    enum CodingKeys: String, CodingKey {
+        case condition
+        case onTrue
+        case onFalse
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        condition = try container.decode(Expression<Bool>.self, forKey: .condition)
+        onTrue = try container.decodeIfPresent(forKey: .onTrue)
+        onFalse = try container.decodeIfPresent(forKey: .onFalse)
+    }
+}
+
 // MARK: Confirm Decodable
 extension Confirm {
 
