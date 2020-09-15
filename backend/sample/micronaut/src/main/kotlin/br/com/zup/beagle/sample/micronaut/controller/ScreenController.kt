@@ -141,7 +141,7 @@ class ScreenController(
     fun getSampleTabViewView() = this.sampleTabViewService.createTabView()
 
     @Get(SCREEN_TAB_BAR_ENDPOINT)
-    fun getSampleTabBarView() = this.sampleTabBarService.createTabBar()
+    fun getSampleTabBar() = this.sampleTabBarService.createTabBar()
 
     @Get(SCREEN_LIST_VIEW_ENDPOINT)
     fun getSampleListView() = sampleListViewService.createListView()
