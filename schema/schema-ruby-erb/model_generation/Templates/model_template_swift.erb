@@ -34,7 +34,7 @@
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-  typeName = @templateHelper.fetch_type(variable.typeName)
+    typeName = @templateHelper.fetch_type(variable.typeName)
     output = variable.isBindable ? "Expression<#{typeName}>" : typeName
     output = variable.class == List ? "[#{output}]" : output
     output = variable.isOptional ? output + "?" : output

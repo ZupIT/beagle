@@ -139,7 +139,9 @@ if __FILE__ == $0
   generator = ModelGenerator.new(components)
   message = "models generated!"
   
-  case ARGV[0]
+  Dir.chdir(ARGV[0])
+  
+  case ARGV[1]
   when "swift"
     generator.generateSwift
     puts "Swift #{message}"
