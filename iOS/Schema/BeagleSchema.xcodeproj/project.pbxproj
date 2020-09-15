@@ -1249,7 +1249,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../schema/schema-ruby-erb/Model\\ Generation/schema.sh -s\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../schema/schema-ruby-erb/model_generation/schema.sh -s\n";
 		};
 		C02918A3247EF8AC00C3AA13 /* SwiftLint Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
