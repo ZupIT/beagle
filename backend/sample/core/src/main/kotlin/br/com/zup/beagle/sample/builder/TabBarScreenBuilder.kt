@@ -17,21 +17,19 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.core.AlignContent
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.*
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
-import br.com.zup.beagle.widget.ui.ImagePath.Remote
+import br.com.zup.beagle.widget.ui.TabBar
+import br.com.zup.beagle.widget.ui.TabBarItem
+import br.com.zup.beagle.widget.ui.Text
 
 data class TabBarSimpleObject(val page: Int, val image: String)
 
@@ -79,7 +77,8 @@ object TabBarScreenBuilder : ScreenBuilder {
                 TabBar(
                     items = listOf(tab1, tab2, tab3, tab4),
                     currentTab = expressionOf("@{context.page}"),
-                    onTabSelection = listOf(SetContext(contextId = "context", path = "page", value = "@{onTabSelection}"))
+                    onTabSelection = listOf(SetContext(contextId = "context",
+                        path = "page", value = "@{onTabSelection}"))
                 ),
                 Text(expressionOf("page @{context.page}")),
                 Button("change", onPress = listOf(SetContext(contextId = "context",
