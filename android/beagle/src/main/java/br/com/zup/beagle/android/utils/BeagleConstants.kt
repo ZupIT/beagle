@@ -34,8 +34,6 @@ internal object DeprecationMessages {
         "OnStateChanged will be removed in a future version, use OnServerStateChanged instead."
     const val DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER =
         "stateChangedListener will be removed in a future version, use serverStateChangedListener instead."
-    const val DEPRECATED_CONSTRUCTOR_IMAGE_VIEW = "It was deprecated in version 1.2.2" +
-        " and will be removed in a future version. Use constructor without bind"
 }
 
 internal object NewIntentDeprecatedConstants {
