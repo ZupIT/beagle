@@ -34,10 +34,6 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
 public class BeagleScreenViewController: BeagleController {
     
     private let viewModel: BeagleScreenViewModel
-            
-    private var beagleNavigation: BeagleNavigationController? {
-        return navigationController as? BeagleNavigationController
-    }
     
     var content: Content? {
         willSet { content?.remove() }
@@ -164,7 +160,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func createContent() {
-        if beagleNavigation == nil {
+        if navigationController == nil {
             createNavigationContent()
             return
         }
@@ -179,7 +175,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func updateNavigationBar(animated: Bool) {
-        guard parent is BeagleNavigationController, let screen = screen else { return }
+        guard let screen = screen else { return }
         let screenNavigationBar = screen.navigationBar
         let hideNavBar = screenNavigationBar == nil
         navigationController?.setNavigationBarHidden(hideNavBar, animated: animated)
@@ -247,7 +243,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func notifyBeagleNavigation(state: ServerDrivenState) {
-        beagleNavigation?.serverDrivenStateDidChange(to: state, at: self)
+        (navigationController as? BeagleNavigationController)?.serverDrivenStateDidChange(to: state, at: self)
     }
 }
 
