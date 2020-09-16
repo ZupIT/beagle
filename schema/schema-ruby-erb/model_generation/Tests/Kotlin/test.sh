@@ -9,5 +9,5 @@ function copyGeneratedSchema() {
     done
 }
 
-copyGeneratedSchema 'schema/schema-ruby-erb/Model Generation/Generated/Kotlin' 'schema/kotlin-core/src/main/kotlin'
-copyGeneratedSchema 'schema/schema-ruby-erb/Model Generation/Generated/KotlinBackend' 'backend/widgets/src/main/kotlin'
+copyGeneratedSchema 'schema/schema-ruby-erb/model_generation/Generated/Kotlin' 'schema/kotlin-core/src/main/kotlin'
+copyGeneratedSchema 'schema/schema-ruby-erb/model_generation/Generated/KotlinBackend' 'backend/widgets/src/main/kotlin'
