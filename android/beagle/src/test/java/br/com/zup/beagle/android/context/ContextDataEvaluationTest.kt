@@ -497,6 +497,31 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
+    fun evaluateMultipleStringsExpressions() {
+        val bind = expressionOf<String>("lorem ipsum \\@{'hello world, this is { beagle }!}'} lotem ipsum @{nome} , \\\\\\\\@{context.id}" +
+            "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum gabriel , \\\\\\\\@{context.id}")
+
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        val expected = "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum  , \\\\" +
+            "lorem ipsum hello world, this is { beagle }!} lotem ipsum gabriel , \\\\"
+
+        assertEquals(expected = expected, actual = value)
+    }
+
+    @Test
+    fun evaluateAllContext_with_literal_string_with_close_key() {
+        // Given
+        val bind = expressionOf<String>("@{'hello world, this is { beagle }!}'}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals("hello world, this is { beagle }!}", value)
+    }
+
+    @Test
     fun evaluateAllContext_in_multiple_expressions() {
         val bind = expressionOf<String>("lorem } ipsum \\@{'hello world, this is { beagle }!}'} lotem ipsum @{nome} , \\\\\\\\@{context.id}" +
             "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum gabriel , \\\\\\\\@{context.id}")

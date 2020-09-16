@@ -60,6 +60,13 @@ val BEAGLE_ACTIVITY = BeagleClass(
     "br.com.zup.beagle.android.view",
     "BeagleActivity"
 )
+
+
+val DEFAULT_BEAGLE_ACTIVITY = BeagleClass(
+    "br.com.zup.beagle.android.view",
+    "ServerDrivenActivity"
+)
+
 val URL_BUILDER_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.networking.urlbuilder",
     "UrlBuilder"
