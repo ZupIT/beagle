@@ -65,8 +65,6 @@ class Dependencies : Plugin<Project> {
 
         const val soLoader = "0.8.2"
 
-        const val glide = "4.11.0"
-
         const val junit = "4.13"
         const val junit5 = "5.6.1"
 
@@ -100,11 +98,6 @@ class Dependencies : Plugin<Project> {
         const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         const val sampleTestInstrumentationRunner = "br.com.zup.beagle.sample.SampleTestRunner"
         const val consumerProguard = "consumer-rules.pro"
-    }
-
-    object GlideLibraries {
-        const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-        const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
     }
 
     object ProcessorLibraries {
