@@ -143,15 +143,15 @@ if __FILE__ == $0
   
   case ARGV[1]
   when "swift"
-    generator.generateSwift
+    generator.generate_swift
     puts "Swift #{message}"
   when "ts"
-    generator.generateTs
+    generator.generate_ts
     puts "Type Script #{message}"
   when "kotlin"
-    generator.generateKotlin
+    generator.generate_kotlin
     puts "Kotlin #{message}"
-    generator.generateKotlinBackend
+    generator.generate_kotlin_backend
     puts "Kotlin Backend #{message}"
   when "all"
     generator.generate
