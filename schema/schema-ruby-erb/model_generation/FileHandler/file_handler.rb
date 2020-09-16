@@ -16,15 +16,16 @@ require 'fileutils'
 
 class FileHandler
     
-    def write(path, fileName, dataToBeWritten) 
-        handleDirectoryCreationIfNeeded(path)
+    def write(path, file_name, data_to_be_written) 
+        handle_directory_creation_if_needed(path)
         File.open(path + fileName, "w+") do |f|     
             f.write(dataToBeWritten)
             f.close
         end
     end
 
-    def handleDirectoryCreationIfNeeded(path)
+    private
+    def handle_directory_creation_if_needed(path)
         FileUtils.mkdir_p path unless File.exists?(path)
     end
 

@@ -67,13 +67,13 @@ class ModelGenerator
   end
 
   def generate
-    generateSwift
-    generateKotlin
-    generateKotlinBackend
-    generateTs
+    generate_swift
+    generate_kotlin
+    generate_kotlin_backend
+    generate_ts
   end
 
-  def generateKotlin
+  def generate_kotlin
     @erb = ERB.new(File.read("#{@c.templates}model_template_kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
@@ -81,7 +81,7 @@ class ModelGenerator
     end
   end
 
-  def generateKotlinBackend
+  def generate_kotlin_backend
     @erb = ERB.new(File.read("#{@c.templates}model_template_kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
@@ -91,7 +91,7 @@ class ModelGenerator
     end
   end
   
-  def generateSwift
+  def generate_swift
     @erb = ERB.new(File.read("#{@c.templates}model_template_swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
@@ -99,7 +99,7 @@ class ModelGenerator
     end
   end
 
-  def generateTs
+  def generate_ts
     @erb = ERB.new(File.read("#{@c.templates}model_template_ts.erb"), nil, '-')
     for component in @components
       @objectType = component.new
