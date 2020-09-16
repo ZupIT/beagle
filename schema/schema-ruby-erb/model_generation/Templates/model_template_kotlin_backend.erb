@@ -1,0 +1,85 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+<%
+  require_relative 'Templates/template_helper.rb'
+
+  @templateHelper = TemplateHelper.new
+  @templateHelper.languageIdentifier = SupportedLanguages.new.kotlinBackend
+  @templateHelper.defaultDeclarationType = "data class"
+
+  def handleTypeNameAndDefault(variable, shouldAddComma = false)
+      output = variable.isBindable ? "Bind<#{variable.typeName}>" : variable.typeName
+      output = variable.class == List ? "List<#{output}>" : output
+      output = variable.isOptional ? output + "?" : output
+      output = !variable.defaultValue.empty? ? "#{output} = #{variable.defaultValue}" : output
+      output = shouldAddComma ? output + "," : output
+      output
+  end
+
+  def handleTypeNameForInitMethod(variable, shouldAddComma = false)
+    output = variable.class == List ? "List<#{variable.typeName}>" : variable.typeName
+    output = variable.isOptional ? output + "? = null" : output
+    output = shouldAddComma ?  output + "," : output
+    output
+  end
+
+  def handleVariableAssignementInsideConstructor(variable, shouldAddComma = false)
+    output = variable.isBindable ? "valueOf(#{variable.name})" : variable.name
+    output = shouldAddComma ? output + "," : output
+    output
+  end
+
+  def getImports(variables, importManager)
+    variables.map { | variable| importManager[variable.typeName] }.uniq.filter { |import| !import.empty? }
+  end
+-%>
+
+package <%= objectType.synthax_type.package -%>
+<% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
+<% end -%>
+<% end %><% -%>
+
+<% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
+import <%= qualifiedName -%>
+
+<% end -%>
+
+data class <%= objectType.synthax_type.name -%> (<% -%>
+<% counter = 0 -%>
+<% for variable in objectType.synthax_type.variables %>
+  <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeNameAndDefault(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
+  <% counter += 1 -%>
+<% end -%> 
+) : <%= objectType.synthax_type.name -%>Schema {
+  constructor (<% -%>
+  <% counter = 0 -%>
+  <% for variable in objectType.synthax_type.variables %>
+    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
+    <% counter += 1 -%>
+  <% end %>
+  ) : this (<% -%>
+  <% counter = 0 -%>
+  <% for variable in objectType.synthax_type.variables %>
+      <%= handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
+    <% counter += 1 -%>
+  <% end %>
+  )
+}<% -%>
+<% end %>
