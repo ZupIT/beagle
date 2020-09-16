@@ -18,8 +18,8 @@ class FileHandler
     
     def write(path, file_name, data_to_be_written) 
         handle_directory_creation_if_needed(path)
-        File.open(path + fileName, "w+") do |f|     
-            f.write(dataToBeWritten)
+        File.open(path + file_name, "w+") do |f|     
+            f.write(data_to_be_written)
             f.close
         end
     end
