@@ -58,14 +58,14 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
-import org.json.JSONArray
-import org.json.JSONObject
-import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.json.JSONArray
+import org.json.JSONObject
+import org.junit.Test
 
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
@@ -432,7 +432,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_deserialize_a_PushView_action_with_expression() {
+    fun `moshi should deserialize a PushView action with expression`() {
         // Given
         val jsonComponent = makeNavigationActionJsonWithExpression()
 
@@ -443,6 +443,23 @@ class BeagleMoshiTest : BaseTest() {
         assertNotNull(actual)
         assertTrue(actual is Navigate)
         assertEquals("@{test}", (actual.route as Route.Remote).url.value)
+        assertTrue((actual.route as Route.Remote).url is Bind.Expression<String>)
+        assertFalse((actual.route as Route.Remote).shouldPrefetch)
+    }
+
+    @Test
+    fun `moshi should deserialize a PushView action with hardcoded url`() {
+        // Given
+        val jsonComponent = makeNavigationActionJsonWithUrlHardcoded()
+
+        // When
+        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is Navigate)
+        assertEquals("http://localhost:8080/test/example", (actual.route as Route.Remote).url.value)
+        assertTrue((actual.route as Route.Remote).url is Bind.Value<String>)
         assertFalse((actual.route as Route.Remote).shouldPrefetch)
     }
 
@@ -460,7 +477,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun `make should return moshi to deserialize a ConditionAction`(){
+    fun `make should return moshi to deserialize a ConditionAction`() {
         // Given
         val json = makeConditionalActionJson()
 
