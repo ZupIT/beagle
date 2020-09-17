@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
+package br.com.zup.beagle.sample.spring.service
 
-extension TabView: ServerDrivenComponent {
+import br.com.zup.beagle.sample.builder.TabBarScreenBuilder
+import org.springframework.stereotype.Service
 
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: children)
-        let tabView = TabViewUIComponent(model: model, controller: renderer.controller)
-        tabView.style.setup(Style(size: Size().width(100%), flex: Flex().grow(1)))
-        
-        if let styleId = styleId {
-            tabView.beagle.applyStyle(for: tabView as UIView, styleId: styleId, with: renderer.controller)
-        }
-
-        return tabView
-    }
+@Service
+class SampleTabBarService {
+    fun createTabBar() = TabBarScreenBuilder
 }

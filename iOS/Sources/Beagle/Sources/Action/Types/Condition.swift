@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,17 +18,14 @@
 import UIKit
 import BeagleSchema
 
-extension TabView: ServerDrivenComponent {
-
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: children)
-        let tabView = TabViewUIComponent(model: model, controller: renderer.controller)
-        tabView.style.setup(Style(size: Size().width(100%), flex: Flex().grow(1)))
+extension Condition: Action {
+    public func execute(controller: BeagleController, origin: UIView) {
+        guard let evaluetedCondition = condition.evaluate(with: origin) else { return }
         
-        if let styleId = styleId {
-            tabView.beagle.applyStyle(for: tabView as UIView, styleId: styleId, with: renderer.controller)
+        if evaluetedCondition, let onTrue = self.onTrue {
+            controller.execute(actions: onTrue, origin: origin)
+        } else if !evaluetedCondition, let onFalse = self.onFalse {
+            controller.execute(actions: onFalse, origin: origin)
         }
-
-        return tabView
     }
 }

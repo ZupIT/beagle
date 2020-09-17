@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,20 +15,25 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
+import Foundation
 
-extension TabView: ServerDrivenComponent {
+/// Action to represent a condition
+public struct Condition: RawAction, AutoInitiableAndDecodable {
+    
+    public let condition: Expression<Bool>
+    public let onTrue: [RawAction]?
+    public let onFalse: [RawAction]?
 
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: children)
-        let tabView = TabViewUIComponent(model: model, controller: renderer.controller)
-        tabView.style.setup(Style(size: Size().width(100%), flex: Flex().grow(1)))
-        
-        if let styleId = styleId {
-            tabView.beagle.applyStyle(for: tabView as UIView, styleId: styleId, with: renderer.controller)
-        }
-
-        return tabView
+// sourcery:inline:auto:Condition.Init
+    public init(
+        condition: Expression<Bool>,
+        onTrue: [RawAction]? = nil,
+        onFalse: [RawAction]? = nil
+    ) {
+        self.condition = condition
+        self.onTrue = onTrue
+        self.onFalse = onFalse
     }
+// sourcery:end
+
 }

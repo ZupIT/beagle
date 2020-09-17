@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
@@ -121,7 +122,7 @@ sealed class Route {
             shouldPrefetch: Boolean = false,
             fallback: Screen? = null
         ) : this(
-            valueOf(url),
+            expressionOrValueOf(url),
             shouldPrefetch,
             fallback
         )

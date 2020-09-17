@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("UNCHECKED_CAST")
+
 package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
@@ -43,6 +45,12 @@ sealed class Bind<T> : BindAttribute<T> {
     }
 }
 
+internal inline fun <reified T : Any> expressionOrValueOf(text: String): Bind<T> =
+    if (text.isExpression()) expressionOf(text) else valueOf(text) as Bind<T>
+
+internal fun expressionOrValueOfNullable(text: String?): Bind<String>? =
+    if (text?.isExpression() == true) expressionOf(text) else valueOfNullable(text)
+
 inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> {
     val tokenParser = TokenParser()
     val expressionTokens = expressionText.getExpressions().map { expression ->
@@ -52,6 +60,6 @@ inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> 
 }
 
 inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
-inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
+inline fun <reified T : Any> valueOfNullable(value: T?): Bind<T>? = value?.let { valueOf(it) }
 
 internal fun Any.isExpression() = this is String && this.contains(BeagleRegex.EXPRESSION_REGEX)

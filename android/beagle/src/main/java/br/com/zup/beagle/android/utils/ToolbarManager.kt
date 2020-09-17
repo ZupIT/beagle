@@ -35,6 +35,8 @@ import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.view.BeagleActivity
@@ -211,7 +213,12 @@ internal class ToolbarManager {
         design?.let { designSystem ->
             items[i].image?.let { image ->
                 setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                icon = designSystem.image(image.mobileId)?.let {
+                if (image.mobileId is Bind.Expression) {
+                    BeagleMessageLogs.toolbarNotSupportExpressionInIcon(image.mobileId.value)
+                    return
+                }
+
+                icon = designSystem.image(image.mobileId.value as String)?.let {
                     ResourcesCompat.getDrawable(
                         context.resources,
                         it,
@@ -228,7 +235,7 @@ internal class ToolbarManager {
     }
 
     private fun setupNavigationIcon(context: Context, toolbar: Toolbar) {
-        if(toolbar.navigationIcon == null) {
+        if (toolbar.navigationIcon == null) {
             toolbar.navigationIcon = getDrawableFromAttribute(context, androidx.appcompat.R.attr.homeAsUpIndicator)
         }
     }
