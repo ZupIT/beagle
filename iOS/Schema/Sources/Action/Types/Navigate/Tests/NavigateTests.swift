@@ -65,7 +65,8 @@ final class NavigateTests: XCTestCase {
             ▿ remote: NewPath
               - fallback: Optional<Screen>.none
               - shouldPrefetch: false
-              - url: "schema://path"
+              ▿ url: Expression<String>
+                - value: "schema://path"
         """)
     }
     
@@ -85,7 +86,8 @@ final class NavigateTests: XCTestCase {
             ▿ remote: NewPath
               - fallback: Optional<Screen>.none
               - shouldPrefetch: false
-              - url: "schema://path"
+              ▿ url: Expression<String>
+                - value: "schema://path"
         """)
     }
     
@@ -124,7 +126,8 @@ final class NavigateTests: XCTestCase {
               ▿ remote: NewPath
                 - fallback: Optional<Screen>.none
                 - shouldPrefetch: false
-                - url: "schema://path"
+                ▿ url: Expression<String>
+                  - value: "schema://path"
             ▿ controllerId: Optional<String>
               - some: "customid"
         """)

@@ -84,7 +84,7 @@ extension Route {
     public struct NewPath {
         
         /// Contains the navigation endpoint.
-        public let url: String
+        public let url: Expression<String>
         
         /// Changes _when_ this screen is requested.
         ///
@@ -96,7 +96,7 @@ extension Route {
         /// A screen that should be rendered in case of request fail.
         public let fallback: Screen?
 
-        public init(url: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
+        public init(url: Expression<String>, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
             self.url = url
             self.shouldPrefetch = shouldPrefetch
             self.fallback = fallback
@@ -179,7 +179,7 @@ extension Route.NewPath: Decodable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.url = try container.decode(String.self, forKey: .url)
+        self.url = try container.decode(Expression<String>.self, forKey: .url)
         self.shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch) ?? false
         self.fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .fallback)?.toScreen()
     }

@@ -92,7 +92,7 @@ struct MainScreen: DeeplinkScreen {
                 )
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.init(url: .componentsEndpoint)))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .value(.componentsEndpoint))))]
                 )
         }
     }
@@ -102,5 +102,4 @@ struct MainScreen: DeeplinkScreen {
             title: "Beagle Demo"
         )
     }
-
 }
