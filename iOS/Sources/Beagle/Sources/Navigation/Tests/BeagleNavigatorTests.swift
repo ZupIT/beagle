@@ -336,28 +336,26 @@ final class BeagleNavigatorTests: XCTestCase {
     func testNavigateWithContext() {
         // Given
         let sut = BeagleNavigator()
-        
+        let dependencies = BeagleScreenDependencies(repository: RepositoryStub(componentResult: .success(ComponentDummy())))
+
+        let url: DynamicObject = .string("https://example.com/screen.json")
         let pushViewRemote = Navigate.pushView(.remote(.init(url: "@{url}", shouldPrefetch: false)))
         let button = Button(text: "@{url}", onPress: [pushViewRemote])
+        let setContext = SetContext(contextId: "url", path: nil, value: url)
         
-        let dependency = BeagleDependencies()
-        let repository = RepositoryStub(componentResult: .success(ComponentDummy()))
-        dependency.repository = repository
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(button.toScreen()), dependencies: dependency))
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(button.toScreen()), dependencies: dependencies))
         let view = button.toView(renderer: controller.renderer)
-        let setContext = SetContext(contextId: "url", path: nil, value: "https://example.com/screen.json")
         let navigation = BeagleNavigationController(rootViewController: controller)
 
         // When
         view.setContext(Context(id: "url", value: "initial"))
         controller.configBindings()
         setContext.execute(controller: controller, origin: view)
-        
         sut.navigate(action: pushViewRemote, controller: controller, animated: false, origin: view)
         
         // Then
         XCTAssertEqual(2, navigation.viewControllers.count)
-        XCTAssertEqual(pushViewRemote.newPath?.url.evaluate(with: view), "https://example.com/screen.json")
+        XCTAssertEqual(pushViewRemote.newPath?.url.evaluate(with: view), url.toString())
     }
 }
 

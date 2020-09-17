@@ -42,6 +42,7 @@ public class BeaglePreFetchHelper: BeaglePrefetchHelping {
         }
         
         dependencies.repository.fetchComponent(url: path, additionalData: nil, useCache: true) { _ in
+            // Intentionally unimplemented...
         }
     }
 }
