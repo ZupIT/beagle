@@ -89,25 +89,9 @@ struct AppTheme {
 
     static func formButton() -> (UIButton?) -> Void {
         return {
+            $0?.layer.cornerRadius = 4
             $0?.setTitleColor(.white, for: .normal)
-            
-            let layer: CAGradientLayer = CAGradientLayer()
-            layer.frame.size = $0?.frame.size ?? CGSize(width: 0, height: 0)
-            layer.frame.origin = CGPoint(x: 0, y: 0)
-
-            layer.cornerRadius = CGFloat(10)
-            // swiftlint:disable object_literal
-
-            let color0 = UIColor(red: 255 / 255, green: 122 / 255, blue: 0 / 255, alpha: 1.0).cgColor
-            let color1 = UIColor(red: 255 / 255, green: 176 / 255, blue: 0 / 255, alpha: 1.0).cgColor
-            let color2 = UIColor(red: 250 / 255, green: 98 / 255, blue: 44 / 255, alpha: 1.0).cgColor
-            layer.locations = [0.5, 1.0]
-            layer.startPoint = CGPoint(x: 0.0, y: 0.5)
-            layer.endPoint = CGPoint(x: 0.5, y: 0.5)
-            layer.colors = [color2, color0, color1]
-
-            $0?.layer.insertSublayer(layer, at: 0)
-
+            $0?.backgroundColor = ($0?.isEnabled ?? false) ? .demoGreen : .demoGray
             $0?.alpha = $0?.isHighlighted ?? false ? 0.7 : 1
         }
     }

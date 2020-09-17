@@ -49,12 +49,11 @@ class ViewConfigurator: ViewConfiguratorProtocol {
     
     func setupView(of component: BeagleSchema.RawComponent) {
         view?.style.isFlexEnabled = true
+        
         if let c = component as? AccessibilityComponent {
             setup(accessibility: c.accessibility)
         }
-        if let c = component as? IdentifiableComponent {
-            setup(id: c.id)
-        }
+        
         if let c = component as? StyleComponent {
             setup(style: c.style)
             view?.style.setup(c.style)
