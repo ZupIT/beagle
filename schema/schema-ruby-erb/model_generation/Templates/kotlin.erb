@@ -51,7 +51,7 @@ import <%= qualifiedName -%>Schema
 <% end -%>
 
 <% if @templateHelper.is_enum(objectType) %>
-enum class <%= objectType.synthax_type.name -%>Schema {
+enum class <%= objectType.synthax_type.name -%> {
   <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
 }
 <% else %><% -%>

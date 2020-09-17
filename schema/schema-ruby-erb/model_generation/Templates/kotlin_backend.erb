@@ -58,7 +58,7 @@ import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 <% end -%>
 <% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
-import <%= qualifiedName -%>
+import <%= qualifiedName %>
 <% end %>
 
 data class <%= objectType.synthax_type.name -%> (<% -%>
