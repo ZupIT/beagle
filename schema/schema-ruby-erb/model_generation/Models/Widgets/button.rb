@@ -18,6 +18,7 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
 require_relative '../Analytics/analytics_events.rb'
 require_relative '../Analytics/analytics_models.rb'
+require_relative '../Action/action.rb'
 require_relative 'widget.rb'
 
 class Button < BaseComponent
@@ -26,7 +27,7 @@ class Button < BaseComponent
         variables = [
             Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
             Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true),
-            List.new(:name => "onPress", :typeName => "Action", :isOptional => true), #todo create action
+            List.new(:name => "onPress", :typeName => Action.new.name, :isOptional => true), #todo create action
             Variable.new(:name => "clickAnalyticsEvent", :typeName => AnalyticsClick.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
