@@ -333,7 +333,7 @@ final class BeagleNavigatorTests: XCTestCase {
         XCTAssertTrue(result is BeagleNavigationStub)
     }
     
-    func testPushViewNavigateWithSetContext() {
+    func testIfNavigationIsPushedWithSetContext() {
         // Given
         let sut = BeagleNavigator()
         let dependencies = BeagleScreenDependencies(repository: RepositoryStub(componentResult: .success(ComponentDummy())))
