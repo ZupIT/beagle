@@ -99,7 +99,18 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This is the main class of Beagle Schema</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -109,7 +120,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#importManager-instance_method" title="#importManager (instance method)">#<strong>importManager</strong>  &#x21d2; Object </a>
+      <a href="#importManager-instance_method" title="#importManager (instance method)">#<strong>importManager</strong>  &#x21d2; Hash </a>
     
 
     
@@ -126,9 +137,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute importManager.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -136,7 +145,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#objectType-instance_method" title="#objectType (instance method)">#<strong>objectType</strong>  &#x21d2; Object </a>
+      <a href="#objectType-instance_method" title="#objectType (instance method)">#<strong>objectType</strong>  &#x21d2; Array&lt;BaseComponent&gt; </a>
     
 
     
@@ -154,7 +163,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute objectType.</p>
+<p>Array of BaseComponents.</p>
 </div></span>
   
 </li>
@@ -190,7 +199,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generates models for all the supported languages.</p>
+</div></span>
   
 </li>
 
@@ -212,7 +223,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generates models for kotlin.</p>
+</div></span>
   
 </li>
 
@@ -234,7 +247,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generates models for kotlin backend.</p>
+</div></span>
   
 </li>
 
@@ -256,7 +271,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generates models for swift.</p>
+</div></span>
   
 </li>
 
@@ -278,7 +295,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Generates models for type script.</p>
+</div></span>
   
 </li>
 
@@ -303,7 +322,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A new instance of ModelGenerator.</p>
+<p>Initializer for ModelGenerator.</p>
 </div></span>
   
 </li>
@@ -312,7 +331,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; Object </a>
+      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; String </a>
     
 
     
@@ -326,7 +345,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>This method is used to trigger the logic for code generation inside the templates.</p>
+</div></span>
   
 </li>
 
@@ -349,13 +370,33 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of ModelGenerator.</p>
+<p>Initializer for ModelGenerator</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>components</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="BaseComponent.html" title="BaseComponent (class)">BaseComponent</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>array of base components that will be translated to other languages</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -363,10 +404,6 @@
       <pre class="lines">
 
 
-49
-50
-51
-52
 53
 54
 55
@@ -375,10 +412,14 @@
 58
 59
 60
-61</pre>
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_components'>components</span><span class='rparen'>)</span>
   <span class='ivar'>@objectType</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -386,7 +427,7 @@
   <span class='ivar'>@writer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="FileHandler.html" title="FileHandler (class)">FileHandler</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='ivar'>@components</span> <span class='op'>=</span> <span class='id identifier rubyid_components'>components</span>
   <span class='ivar'>@importManager</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='ivar'>@c</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Constants.html" title="Constants (class)">Constants</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Constants.html#initialize-instance_method" title="Constants#initialize (method)">new</a></span></span>
+  <span class='ivar'>@c</span> <span class='op'>=</span> <span class='const'>Constants</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
 
   <span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_component'>component</span><span class='op'>|</span>
     <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_component'>component</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid_synthax_type'>synthax_type</span>
@@ -408,7 +449,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="importManager-instance_method">
   
-    #<strong>importManager</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>importManager</strong>  &#x21d2; <tt>Hash</tt> 
   
 
   
@@ -417,13 +458,24 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute importManager.</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -431,12 +483,12 @@
       <pre class="lines">
 
 
-63
-64
-65</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_importManager'>importManager</span>
   <span class='ivar'>@importManager</span>
@@ -451,7 +503,7 @@
       <div class="method_details ">
   <h3 class="signature " id="objectType-instance_method">
   
-    #<strong>objectType</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>objectType</strong>  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="BaseComponent.html" title="BaseComponent (class)">BaseComponent</a></span>&gt;</tt> 
   
 
   
@@ -460,13 +512,26 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute objectType.</p>
+<p>Array of BaseComponents</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="BaseComponent.html" title="BaseComponent (class)">BaseComponent</a></span>&gt;</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -474,12 +539,12 @@
       <pre class="lines">
 
 
-63
-64
-65</pre>
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_objectType'>objectType</span>
   <span class='ivar'>@objectType</span>
@@ -505,21 +570,32 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates models for all the supported languages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-69
-70
-71
-72
-73
-74</pre>
+81
+82
+83
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate'>generate</span>
   <span class='id identifier rubyid_generate_swift'>generate_swift</span>
@@ -541,22 +617,33 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates models for kotlin</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-76
-77
-78
-79
-80
-81
-82</pre>
+89
+90
+91
+92
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_kotlin'>generate_kotlin</span>
   <span class='ivar'>@erb</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@c</span><span class='period'>.</span><span class='id identifier rubyid_templates'>templates</span><span class='embexpr_end'>}</span><span class='tstring_content'>kotlin.erb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -579,24 +666,35 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates models for kotlin backend</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_kotlin_backend'>generate_kotlin_backend</span>
   <span class='ivar'>@erb</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@c</span><span class='period'>.</span><span class='id identifier rubyid_templates'>templates</span><span class='embexpr_end'>}</span><span class='tstring_content'>kotlin_backend.erb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -621,22 +719,33 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates models for swift</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-94
-95
-96
-97
-98
-99
-100</pre>
+109
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_swift'>generate_swift</span>
   <span class='ivar'>@erb</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@c</span><span class='period'>.</span><span class='id identifier rubyid_templates'>templates</span><span class='embexpr_end'>}</span><span class='tstring_content'>swift.erb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -659,22 +768,33 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates models for type script</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108</pre>
+118
+119
+120
+121
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_ts'>generate_ts</span>
   <span class='ivar'>@erb</span> <span class='op'>=</span> <span class='const'>ERB</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@c</span><span class='period'>.</span><span class='id identifier rubyid_templates'>templates</span><span class='embexpr_end'>}</span><span class='tstring_content'>ts.erb</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -691,24 +811,53 @@
       <div class="method_details ">
   <h3 class="signature " id="to_s-instance_method">
   
-    #<strong>to_s</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>to_s</strong>  &#x21d2; <tt>String</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This method is used to trigger the logic for code generation inside the templates</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the result of this method return a string that will be saved in a file</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-65
-66
-67</pre>
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'model_generation/main.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='ivar'>@erb</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='lparen'>(</span><span class='id identifier rubyid_binding'>binding</span><span class='rparen'>)</span>
@@ -723,7 +872,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 17 17:21:37 2020 by
+  Generated on Thu Sep 17 17:56:42 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.6.3).
 </div>

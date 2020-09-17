@@ -7,3 +7,4 @@
 --exclude Models/ServerDriven
 --exclude Models/Widgets
 --exclude Models/Accessibility
+--exclude Common/constants.rb
