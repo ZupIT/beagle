@@ -18,6 +18,7 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
 require_relative '../Analytics/analytics_events.rb'
 require_relative '../Analytics/analytics_models.rb'
+require_relative '../Action/action.rb'
 require_relative 'widget.rb'
 
 class Button < BaseComponent
