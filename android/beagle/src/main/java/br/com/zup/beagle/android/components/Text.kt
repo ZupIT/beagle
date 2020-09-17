@@ -21,6 +21,8 @@ import android.view.View
 import android.widget.TextView
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.expressionOrValueOfNullable
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -38,15 +40,16 @@ data class Text(
     val textColor: Bind<String>? = null,
     val alignment: Bind<TextAlignment>? = null
 ) : WidgetView() {
+
     constructor(
         text: String,
         styleId: String? = null,
         textColor: String? = null,
         alignment: TextAlignment? = null
     ) : this(
-        valueOf(text),
+        expressionOrValueOf(text),
         styleId,
-        valueOfNullable(textColor),
+        expressionOrValueOfNullable(textColor),
         valueOfNullable(alignment)
     )
 
@@ -67,13 +70,13 @@ data class Text(
 
         text.textColor?.let {
             observeBindChanges(rootView, this, it) { value ->
-                value?.let { color ->this.setTextColor(color) }
+                value?.let { color -> this.setTextColor(color) }
             }
         }
 
         text.alignment?.let {
             observeBindChanges(rootView, this, it) { value ->
-                value?.let { alignment ->this.setAlignment(alignment) }
+                value?.let { alignment -> this.setAlignment(alignment) }
             }
         }
     }

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("UNCHECKED_CAST")
+
 package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
@@ -30,7 +32,7 @@ sealed class Bind<T> : BindAttribute<T> {
         val expressions: List<ExpressionToken>,
         override val value: String,
         override val type: Type
-    ): Bind<T>() {
+    ) : Bind<T>() {
         constructor(
             expressions: List<ExpressionToken>,
             value: String,
@@ -38,10 +40,16 @@ sealed class Bind<T> : BindAttribute<T> {
         ) : this(expressions, value, type as Type)
     }
 
-    data class Value<T: Any>(override val value: T) : Bind<T>() {
+    data class Value<T : Any>(override val value: T) : Bind<T>() {
         override val type: Class<T> = value.javaClass
     }
 }
+
+internal inline fun <reified T : Any> expressionOrValueOf(text: String): Bind<T> =
+    if (text.isExpression()) expressionOf(text) else valueOf(text) as Bind<T>
+
+internal fun expressionOrValueOfNullable(text: String?): Bind<String>? =
+    if (text?.isExpression() == true) expressionOf(text) else valueOfNullable(text)
 
 inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> {
     val tokenParser = TokenParser()
@@ -50,7 +58,8 @@ inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> 
     }
     return Bind.Expression(expressionTokens, expressionText, T::class.java)
 }
+
 inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
-inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
+inline fun <reified T : Any> valueOfNullable(value: T?): Bind<T>? = value?.let { valueOf(it) }
 
 internal fun Any.isExpression() = this is String && this.contains(BeagleRegex.EXPRESSION_REGEX)
