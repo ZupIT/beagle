@@ -18,11 +18,13 @@
   # TODO: Secondary constructor in Analytics Screen is the same as the primary. It should only be generated if at least one field is bindable.
   require_relative 'Templates/template_helper.rb'
   @templateHelper = TemplateHelper.new
-  #@templateHelper.defaultDeclarationType = todo add default declaration type
+  @templateHelper.languageIdentifier = SupportedLanguages.new.kotlin
+  @templateHelper.defaultDeclarationType = BasicTypeKeys.interface
   
   def handleTypeName(variable, importManager)
     #todo variables now have default values!
-    output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
+    output = @templateHelper.fetch_type(variable.typeName)
+    output = importManager.has_key?(output) ? output + "Schema" : output
     output = variable.isBindable ? "BindAttribute<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
@@ -52,7 +54,7 @@ enum class <%= objectType.synthax_type.name -%>Schema {
   <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
 }
 <% else %><% -%>
-interface <%= objectType.synthax_type.name -%>Schema {<% -%>
+<%=@templateHelper.fetch_built_in_type_declaration(objectType.synthax_type.type)-%> <%= objectType.synthax_type.name -%>Schema {<% -%>
 <% for variable in objectType.synthax_type.variables %>
   <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>
 <% end -%> 
