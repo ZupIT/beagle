@@ -19,7 +19,7 @@ package br.com.zup.beagle.widget.core
 
 
 
-enum class ImageContentMode {
+enum class ImageContentModeSchema {
   FIT_XY,
   FIT_CENTER,
   CENTER_CROP,

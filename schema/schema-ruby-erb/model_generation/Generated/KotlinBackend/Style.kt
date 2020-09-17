@@ -17,11 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Display
-
+import br.com.zup.beagle.widget.core.Sizeimport br.com.zup.beagle.widget.core.EdgeValueimport br.com.zup.beagle.widget.core.Flex
 
 data class Style (
   public override val backgroundColor: String?,  

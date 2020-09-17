@@ -22,7 +22,6 @@ import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.ImageContentMode
 
-
 data class Image (
   public override val path: Bind<ImagePath>,  
   public override val mode: ImageContentMode?   

@@ -19,7 +19,10 @@ package br.com.zup.beagle.widget.core
 
 
 
-enum class Display {
-  FLEX,
-  NONE
+enum class TextInputTypeSchema {
+  DATE,
+  EMAIL,
+  PASSWORD,
+  NUMBER,
+  TEXT
 }

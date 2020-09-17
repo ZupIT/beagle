@@ -79,8 +79,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("#{@c.templates}kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      suffix = @template_helper.is_enum(@objectType) ? ".kt" : "Schema.kt"
-      @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
+      @writer.write(@c.kotlin_path, @objectType.name + "Schema.kt", to_s)
     end
   end
 
@@ -128,7 +127,6 @@ if __FILE__ == $0
     Style,
     UnitValue,
     UnitType,
-    Display,
     # Accessibility
     Accessibility,
     # Far from being usable

@@ -17,10 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
-
-
-enum class UnitType {
-  AUTO,
-  REAL,
-  PERCENT
+enum class DisplaySchema {
+  FLEX,
+  NONE
 }

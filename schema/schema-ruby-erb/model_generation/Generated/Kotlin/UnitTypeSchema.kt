@@ -19,10 +19,8 @@ package br.com.zup.beagle.widget.core
 
 
 
-enum class TextInputType {
-  DATE,
-  EMAIL,
-  PASSWORD,
-  NUMBER,
-  TEXT
+enum class UnitTypeSchema {
+  AUTO,
+  REAL,
+  PERCENT
 }
