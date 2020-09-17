@@ -74,7 +74,7 @@ class ModelGenerator
   end
 
   def generate_kotlin
-    @erb = ERB.new(File.read("#{@c.templates}model_template_kotlin.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
       @writer.write(@c.kotlin_path, @objectType.name + "Schema.kt", to_s)
@@ -82,7 +82,7 @@ class ModelGenerator
   end
 
   def generate_kotlin_backend
-    @erb = ERB.new(File.read("#{@c.templates}model_template_kotlin_backend.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
       if @objectType.synthax_type.class == BaseType
@@ -92,7 +92,7 @@ class ModelGenerator
   end
   
   def generate_swift
-    @erb = ERB.new(File.read("#{@c.templates}model_template_swift.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
       @writer.write(@c.swift_path, @objectType.name + ".swift", to_s)
@@ -100,7 +100,7 @@ class ModelGenerator
   end
 
   def generate_ts
-    @erb = ERB.new(File.read("#{@c.templates}model_template_ts.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}ts.erb"), nil, '-')
     for component in @components
       @objectType = component.new
       @writer.write(@c.ts_path, @objectType.name + ".ts", to_s)
