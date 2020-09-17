@@ -54,16 +54,17 @@ data class TabBar(
 
     override fun buildView(rootView: RootView): View {
         val containerFlex = Style(flex = Flex(grow = 1.0))
-        val tabBar = makeTabLayout(rootView.getContext())
+
         val container = viewFactory.makeBeagleFlexView(rootView, containerFlex)
+        val tabBar = makeTabLayout(rootView, container)
         configTabSelectedListener(tabBar, rootView)
         configCurrentTabObserver(tabBar, container, rootView)
         container.addView(tabBar)
         return container
     }
 
-    private fun makeTabLayout(context: Context): TabLayout = viewFactory.makeTabLayout(
-        context,
+    private fun makeTabLayout(rootView: RootView, container: BeagleFlexView): TabLayout = viewFactory.makeTabLayout(
+        rootView.getContext(),
         styleManagerFactory.getTabViewStyle(styleId)
     ).apply {
         layoutParams =
@@ -74,7 +75,7 @@ data class TabBar(
         tabMode = TabLayout.MODE_SCROLLABLE
         tabGravity = TabLayout.GRAVITY_FILL
         configTabBarStyle()
-        addTabs(context)
+        addTabs(rootView, container)
     }
 
     private fun TabLayout.configTabBarStyle() {
@@ -90,12 +91,17 @@ data class TabBar(
         }
     }
 
-    private fun TabLayout.addTabs(context: Context) {
+    private fun TabLayout.addTabs(rootView: RootView, container: BeagleFlexView) {
         for (i in items.indices) {
             addTab(newTab().apply {
                 text = items[i].title
-                items[i].icon?.let {
-                    icon = getIconFromResources(context, it.mobileId)
+                items[i].icon?.let { imagePath ->
+
+                    observeBindChanges(rootView, container, imagePath.mobileId) { iconPath ->
+                        iconPath?.let {
+                            icon = getIconFromResources(rootView.getContext(), iconPath)
+                        }
+                    }
                 }
             })
         }
