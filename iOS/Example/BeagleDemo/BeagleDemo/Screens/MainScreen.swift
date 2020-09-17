@@ -83,6 +83,10 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.pushView(.declarative(operationsMenuScreen))]
                 )
                 Button(
+                    text: "Conditional Action",
+                    onPress: [Navigate.pushView(.declarative(conditionActionScreen))]
+                )
+                Button(
                     text: "Simple Form",
                     onPress: [Navigate.openNativeRoute(.init(route: .simpleFormEndpoint))]
                 )

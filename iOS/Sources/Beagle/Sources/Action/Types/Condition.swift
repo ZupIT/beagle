@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,12 +15,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+import UIKit
+import BeagleSchema
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
-
-internal class UndefinedAction : Action {
-
-    override fun execute(rootView: RootView, origin: View) {}
+extension Condition: Action {
+    public func execute(controller: BeagleController, origin: UIView) {
+        guard let evaluetedCondition = condition.evaluate(with: origin) else { return }
+        
+        if evaluetedCondition, let onTrue = self.onTrue {
+            controller.execute(actions: onTrue, origin: origin)
+        } else if !evaluetedCondition, let onFalse = self.onFalse {
+            controller.execute(actions: onFalse, origin: origin)
+        }
+    }
 }

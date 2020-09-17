@@ -38,6 +38,7 @@ extension String {
     static let textLazyComponentEndpoint = "https://run.mocky.io/v3/bd78fba6-da3d-4cb3-8807-85923366fe13"
     static let webViewEndpoint = "webViewComponent"
     static let componentInterationEndpoint = "componentInteractionText"
+    static let conditionActionEndpoint = "conditionActionText"
     static let simpleFormEndpoint = "simpleFormComponent"
 
     // MARK: - URL

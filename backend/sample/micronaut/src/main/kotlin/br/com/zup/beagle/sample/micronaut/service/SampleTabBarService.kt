@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+package br.com.zup.beagle.sample.micronaut.service
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.sample.builder.TabBarScreenBuilder
+import javax.inject.Singleton
 
-internal class UndefinedAction : Action {
-
-    override fun execute(rootView: RootView, origin: View) {}
+@Singleton
+class SampleTabBarService {
+    fun createTabBar() = TabBarScreenBuilder
 }

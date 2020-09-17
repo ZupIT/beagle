@@ -26,13 +26,13 @@ import kotlin.properties.Delegates
 fun image(block: ImageBuilder.() -> Unit) = ImageBuilder().apply(block).build()
 
 class ImageBuilder : BeagleBuilder<Image> {
-    var path: Bind<ImagePath> by Delegates.notNull()
+    var path: ImagePath by Delegates.notNull()
     var mode: ImageContentMode? = null
 
-    fun path(path: Bind<ImagePath>) = this.apply { this.path = path }
+    fun path(path: ImagePath) = this.apply { this.path = path }
     fun mode(mode: ImageContentMode?) = this.apply { this.mode = mode }
 
-    fun path(block: () -> Bind<ImagePath>) {
+    fun path(block: () -> ImagePath) {
         path(block.invoke())
     }
 
@@ -51,7 +51,7 @@ interface ImagePathBuilderHelper {
 
     fun imagePath(imagePath: ImagePath) = this.apply { this.imagePath = imagePath }
 
-    fun imagePath(block: () -> ImagePath){
+    fun imagePath(block: () -> ImagePath) {
         imagePath(block.invoke())
     }
 
@@ -59,7 +59,7 @@ interface ImagePathBuilderHelper {
         imagePath(ImagePathLocalBuilder().apply(block).build())
     }
 
-    fun imagePathRemote(block: ImagePathRemoteBuilder.() -> Unit){
+    fun imagePathRemote(block: ImagePathRemoteBuilder.() -> Unit) {
         imagePath(ImagePathRemoteBuilder().apply(block).build())
     }
 

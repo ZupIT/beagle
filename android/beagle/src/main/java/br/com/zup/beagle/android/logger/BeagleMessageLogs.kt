@@ -153,4 +153,9 @@ internal object BeagleMessageLogs {
         val errorMessage = "The view with id:$id cannot receive children"
         BeagleLoggerProxy.error(errorMessage)
     }
+
+    fun toolbarNotSupportExpressionInIcon(expression: String){
+        val errorMessage = "Expression: $expression not supported in toolbar"
+        BeagleLoggerProxy.error(errorMessage)
+    }
 }

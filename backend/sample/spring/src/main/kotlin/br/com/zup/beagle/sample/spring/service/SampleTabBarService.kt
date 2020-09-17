@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+package br.com.zup.beagle.sample.spring.service
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.sample.builder.TabBarScreenBuilder
+import org.springframework.stereotype.Service
 
-internal class UndefinedAction : Action {
-
-    override fun execute(rootView: RootView, origin: View) {}
+@Service
+class SampleTabBarService {
+    fun createTabBar() = TabBarScreenBuilder
 }

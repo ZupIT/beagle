@@ -34,6 +34,7 @@ data class AddChildrenAction(
     var value: List<ServerDrivenComponent>,
     var mode: Mode? = Mode.APPEND
 ) : Action {
+
     override fun execute(rootView: RootView, origin: View) {
         try {
             val view = (rootView.getContext() as AppCompatActivity).findViewById<ViewGroup>(componentId.toAndroidId())
@@ -83,6 +84,5 @@ data class AddChildrenAction(
             viewGroup.addView(it)
         }
     }
-
 
 }

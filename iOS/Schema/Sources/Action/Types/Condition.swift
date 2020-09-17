@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,12 +15,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+import Foundation
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
+/// Action to represent a condition
+public struct Condition: RawAction, AutoInitiableAndDecodable {
+    
+    public let condition: Expression<Bool>
+    public let onTrue: [RawAction]?
+    public let onFalse: [RawAction]?
 
-internal class UndefinedAction : Action {
+// sourcery:inline:auto:Condition.Init
+    public init(
+        condition: Expression<Bool>,
+        onTrue: [RawAction]? = nil,
+        onFalse: [RawAction]? = nil
+    ) {
+        self.condition = condition
+        self.onTrue = onTrue
+        self.onFalse = onFalse
+    }
+// sourcery:end
 
-    override fun execute(rootView: RootView, origin: View) {}
 }
