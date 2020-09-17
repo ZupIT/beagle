@@ -23,7 +23,7 @@
   def handleTypeName(variable, importManager)
     #todo variables now have default values!
     output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
-    output = variable.isBindable ? "Bind<#{output}>" : output
+    output = variable.isBindable ? "BindAttribute<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
     output
@@ -39,7 +39,7 @@ package <%= objectType.synthax_type.package -%>
 
 <% if !@templateHelper.is_enum(objectType) -%>
 <% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
-import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.core.BindAttribute
 <% end -%>
 <% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
 import <%= qualifiedName -%>Schema
