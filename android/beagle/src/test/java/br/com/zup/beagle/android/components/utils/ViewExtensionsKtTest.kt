@@ -167,22 +167,6 @@ class ViewExtensionsKtTest : BaseTest() {
         verify(exactly = once()) { viewGroup.addView(beagleView) }
     }
 
-
-    @Test
-    fun `loadView without state should addView when load complete`() {
-        // Given
-        val slot = slot<OnLoadCompleted>()
-        every { beagleView.loadCompletedListener = capture(slot) } just Runs
-
-        // When
-        viewGroup.loadView(fragment, screenRequest)
-        slot.captured.invoke()
-
-        // Then
-        assertEquals(beagleView, viewSlot.captured)
-        verify(exactly = once()) { viewGroup.addView(beagleView) }
-    }
-
     @Test
     fun `loadView should set stateChangedListener to beagleView`() {
         // Given

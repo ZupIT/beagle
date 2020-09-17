@@ -386,7 +386,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<Boolean>("result: @{contains(insert(${CONTEXT_ID}, 4), 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1,2,3)
+            value = listOf(1, 2, 3)
         )
 
         // When
@@ -402,7 +402,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<List<ComponentModel>>("result: @{insert(${CONTEXT_ID}, 4, 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1,2,3)
+            value = listOf(1, 2, 3)
         )
 
         // When
@@ -544,18 +544,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
 
         // Then
         assertEquals("{\"id\":\"test\",\"value\":{\"expression\":\"a\"}}", value)
-    }
-
-    @Test
-    fun evaluateAllContext_with_literal_string_with_close_key() {
-        // Given
-        val bind = expressionOf<String>("@{'hello world, this is { beagle }!}'}")
-
-        // When
-        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
-
-        // Then
-        assertEquals("hello world, this is { beagle }!}", value)
     }
 
     private fun createEscapeBindingMockCases(): List<EscapingTestCases> = listOf(
