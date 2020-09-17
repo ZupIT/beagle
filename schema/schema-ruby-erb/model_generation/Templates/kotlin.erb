@@ -17,6 +17,7 @@
 <%
   # TODO: Secondary constructor in Analytics Screen is the same as the primary. It should only be generated if at least one field is bindable.
   require_relative 'Templates/template_helper.rb'
+
   @templateHelper = TemplateHelper.new
   @templateHelper.languageIdentifier = SupportedLanguages.new.kotlin
   @templateHelper.defaultDeclarationType = BasicTypeKeys.interface

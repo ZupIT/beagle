@@ -18,13 +18,14 @@
 package br.com.zup.beagle.widget.core
 
 
+
 data class AnalyticsClick (
   public override val accessibilityLabel: String?,  
-  public override val accessible: Bool   
+  public override val accessible: Boolean = true   
 ) : AnalyticsClickSchema {
   constructor (    
     accessibilityLabel: String? = null,      
-    accessible: Bool      
+    accessible: Boolean      
   ) : this (    
       accessibilityLabel,      
       accessible      

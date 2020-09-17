@@ -16,19 +16,19 @@
  */
 
 package br.com.zup.beagle.widget.ui
+
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
-
 import br.com.zup.beagle.widget.core.TextInputType
 
 data class TextInput (
   public override val value: Bind<String>?,  
   public override val placeholder: Bind<String>?,  
-  public override val disabled: Bind<Bool>?,  
-  public override val readOnly: Bind<Bool>?,  
+  public override val disabled: Bind<Boolean>?,  
+  public override val readOnly: Bind<Boolean>?,  
   public override val type: Bind<TextInputType>?,  
-  public override val hidden: Bind<Bool>?,  
+  public override val hidden: Bind<Boolean>?,  
   public override val styleId: String?,  
   public override val onChange: List<Action>?,  
   public override val onBlur: List<Action>?,  
@@ -37,10 +37,10 @@ data class TextInput (
   constructor (    
     value: String? = null,      
     placeholder: String? = null,      
-    disabled: Bool? = null,      
-    readOnly: Bool? = null,      
+    disabled: Boolean? = null,      
+    readOnly: Boolean? = null,      
     type: TextInputType? = null,      
-    hidden: Bool? = null,      
+    hidden: Boolean? = null,      
     styleId: String? = null,      
     onChange: List<Action>? = null,      
     onBlur: List<Action>? = null,      

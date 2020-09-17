@@ -25,7 +25,7 @@ data class Size (
   public override val maxHeight: UnitValue?,  
   public override val minWidth: UnitValue?,  
   public override val minHeight: UnitValue?,  
-  public override val aspectRatio: Enum?   
+  public override val aspectRatio: Double?   
 ) : SizeSchema {
   constructor (    
     height: UnitValue? = null,      
@@ -33,7 +33,7 @@ data class Size (
     maxHeight: UnitValue? = null,      
     minWidth: UnitValue? = null,      
     minHeight: UnitValue? = null,      
-    aspectRatio: Enum? = null      
+    aspectRatio: Double? = null      
   ) : this (    
       height,      
       maxWidth,      

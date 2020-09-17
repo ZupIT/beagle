@@ -27,9 +27,9 @@ data class Flex (
   public override val alignSelf: AlignSelf?,  
   public override val alignContent: AlignContent?,  
   public override val basis: UnitValue?,  
-  public override val flex: Enum?,  
-  public override val flexDirection: Enum?,  
-  public override val shrink: Enum?   
+  public override val flex: Double?,  
+  public override val grow: Double?,  
+  public override val shrink: Double?   
 ) : FlexSchema {
   constructor (    
     flexDirection: FlexDirection? = null,      
@@ -39,9 +39,9 @@ data class Flex (
     alignSelf: AlignSelf? = null,      
     alignContent: AlignContent? = null,      
     basis: UnitValue? = null,      
-    flex: Enum? = null,      
-    flexDirection: Enum? = null,      
-    shrink: Enum? = null      
+    flex: Double? = null,      
+    grow: Double? = null,      
+    shrink: Double? = null      
   ) : this (    
       flexDirection,      
       flexWrap,      
@@ -51,7 +51,7 @@ data class Flex (
       alignContent,      
       basis,      
       flex,      
-      flexDirection,      
+      grow,      
       shrink      
   )
 }

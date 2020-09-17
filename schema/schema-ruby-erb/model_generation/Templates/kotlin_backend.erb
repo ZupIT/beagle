@@ -18,20 +18,22 @@
   require_relative 'Templates/template_helper.rb'
 
   @templateHelper = TemplateHelper.new
-  @templateHelper.languageIdentifier = SupportedLanguages.new.kotlinBackend
+  @templateHelper.languageIdentifier = SupportedLanguages.new.kotlin
   @templateHelper.defaultDeclarationType = "data class"
 
   def handleTypeNameAndDefault(variable, shouldAddComma = false)
-      output = variable.isBindable ? "Bind<#{variable.typeName}>" : variable.typeName
-      output = variable.class == List ? "List<#{output}>" : output
-      output = variable.isOptional ? output + "?" : output
-      output = !variable.defaultValue.empty? ? "#{output} = #{variable.defaultValue}" : output
-      output = shouldAddComma ? output + "," : output
-      output
+    output = @templateHelper.fetch_type(variable.typeName)
+    output = variable.isBindable ? "Bind<#{output}>" : output
+    output = variable.class == List ? "List<#{output}>" : output
+    output = variable.isOptional ? output + "?" : output
+    output = !variable.defaultValue.empty? ? "#{output} = #{variable.defaultValue}" : output
+    output = shouldAddComma ? output + "," : output
+    output
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = variable.class == List ? "List<#{variable.typeName}>" : variable.typeName
+    output = @templateHelper.fetch_type(variable.typeName)
+    output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "? = null" : output
     output = shouldAddComma ?  output + "," : output
     output
@@ -48,18 +50,16 @@
   end
 -%>
 
-package <%= objectType.synthax_type.package -%>
+package <%= objectType.synthax_type.package %>
+
 <% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 <% end -%>
-<% end %><% -%>
-
 <% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
 import <%= qualifiedName -%>
-
-<% end -%>
+<% end %>
 
 data class <%= objectType.synthax_type.name -%> (<% -%>
 <% counter = 0 -%>
@@ -82,4 +82,3 @@ data class <%= objectType.synthax_type.name -%> (<% -%>
   <% end %>
   )
 }<% -%>
-<% end %>
