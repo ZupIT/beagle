@@ -26,8 +26,9 @@ extension TextInput: ServerDrivenComponent {
                                           controller: renderer.controller)
         
         setupExpressions(toView: textInputView, renderer: renderer)
+        
         if let styleId = styleId {
-            textInputView.applyStyle(styleId)
+            textInputView.beagle.applyStyle(for: textInputView as UITextField, styleId: styleId, with: renderer.controller)
         }
         
         return textInputView
@@ -121,10 +122,6 @@ extension TextInput: ServerDrivenComponent {
 }
 
 private extension TextInput.TextInputView {
-    
-    func applyStyle(_ styleId: String) {
-        controller?.dependencies.theme.applyStyle(for: self as UITextField, withId: styleId)
-    }
     
     func textChanged() {
         observable.value.value = text
