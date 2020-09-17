@@ -99,7 +99,18 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This is a helper class to create/update the generated files</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -131,7 +142,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Create or update a file.</p>
+</div></span>
   
 </li>
 
@@ -154,22 +167,85 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create or update a file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>path</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>path in which the file will be created</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>file_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>name of the file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data_to_be_written</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>generated code</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-19
-20
-21
-22
-23
-24
-25</pre>
+25
+26
+27
+28
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/FileHandler/file_handler.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'model_generation/FileHandler/file_handler.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_file_name'>file_name</span><span class='comma'>,</span> <span class='id identifier rubyid_data_to_be_written'>data_to_be_written</span><span class='rparen'>)</span> 
     <span class='id identifier rubyid_handle_directory_creation_if_needed'>handle_directory_creation_if_needed</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
@@ -188,7 +264,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 17 17:56:43 2020 by
+  Generated on Thu Sep 17 18:13:23 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.6.3).
 </div>

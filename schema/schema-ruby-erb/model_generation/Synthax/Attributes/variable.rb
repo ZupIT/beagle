@@ -14,6 +14,7 @@
 
 require_relative 'base_attributes.rb'
 
+# Use this class when you attempt to generate a list
 class Variable < BaseAttributes
     
     # Same as {List#isBindable List}
