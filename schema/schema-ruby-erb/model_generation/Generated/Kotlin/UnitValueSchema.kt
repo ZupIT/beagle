@@ -19,7 +19,6 @@ package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.UnitTypeSchema
 
-
 interface UnitValueSchema {
   public val value: Double
   public val type: UnitTypeSchema 

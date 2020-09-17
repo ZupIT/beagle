@@ -18,7 +18,6 @@
 package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.UnitValue
-
 data class Flex (
   public override val flexDirection: FlexDirection?,  
   public override val flexWrap: FlexWrap?,  
@@ -30,28 +29,4 @@ data class Flex (
   public override val flex: Double?,  
   public override val grow: Double?,  
   public override val shrink: Double?   
-) : FlexSchema {
-  constructor (    
-    flexDirection: FlexDirection? = null,      
-    flexWrap: FlexWrap? = null,      
-    justifyContent: JustifyContent? = null,      
-    alignItems: AlignItems? = null,      
-    alignSelf: AlignSelf? = null,      
-    alignContent: AlignContent? = null,      
-    basis: UnitValue? = null,      
-    flex: Double? = null,      
-    grow: Double? = null,      
-    shrink: Double? = null      
-  ) : this (    
-      flexDirection,      
-      flexWrap,      
-      justifyContent,      
-      alignItems,      
-      alignSelf,      
-      alignContent,      
-      basis,      
-      flex,      
-      grow,      
-      shrink      
-  )
-}
+) : FlexSchema 

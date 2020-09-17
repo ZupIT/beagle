@@ -18,10 +18,5 @@
 package br.com.zup.beagle.widget.core
 
 
-
 data class AnalyticsEvent ( 
-) : AnalyticsEventSchema {
-  constructor (    
-  ) : this (    
-  )
-}
+) : AnalyticsEventSchema 

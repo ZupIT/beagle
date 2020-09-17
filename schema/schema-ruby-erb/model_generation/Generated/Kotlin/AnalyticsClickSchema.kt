@@ -18,7 +18,6 @@
 package br.com.zup.beagle.widget.core
 
 
-
 interface AnalyticsClickSchema {
   public val accessibilityLabel: String?
   public val accessible: Boolean 

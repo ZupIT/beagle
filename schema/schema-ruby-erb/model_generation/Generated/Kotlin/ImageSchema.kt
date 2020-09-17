@@ -20,7 +20,6 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.widget.core.ImageContentModeSchema
 
-
 interface ImageSchema {
   public val path: BindAttribute<ImagePath>
   public val mode: ImageContentModeSchema? 

@@ -20,7 +20,6 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.widget.core.AnalyticsClickSchema
 
-
 interface ButtonSchema {
   public val text: BindAttribute<String>
   public val styleId: String?

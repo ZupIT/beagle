@@ -21,7 +21,6 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.AnalyticsClick
-
 data class Button (
   public override val text: Bind<String>,  
   public override val styleId: String?,  

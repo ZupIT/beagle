@@ -18,7 +18,6 @@
 package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.UnitValue
-
 data class Size (
   public override val height: UnitValue?,  
   public override val maxWidth: UnitValue?,  
@@ -26,20 +25,4 @@ data class Size (
   public override val minWidth: UnitValue?,  
   public override val minHeight: UnitValue?,  
   public override val aspectRatio: Double?   
-) : SizeSchema {
-  constructor (    
-    height: UnitValue? = null,      
-    maxWidth: UnitValue? = null,      
-    maxHeight: UnitValue? = null,      
-    minWidth: UnitValue? = null,      
-    minHeight: UnitValue? = null,      
-    aspectRatio: Double? = null      
-  ) : this (    
-      height,      
-      maxWidth,      
-      maxHeight,      
-      minWidth,      
-      minHeight,      
-      aspectRatio      
-  )
-}
+) : SizeSchema 

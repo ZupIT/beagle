@@ -17,8 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.Sizeimport br.com.zup.beagle.widget.core.EdgeValueimport br.com.zup.beagle.widget.core.Flex
-
+import br.com.zup.beagle.widget.core.Sizeimport br.com.zup.beagle.widget.core.EdgeValueimport br.com.zup.beagle.widget.core.Fleximport br.com.zup.beagle.widget.core.Display
 data class Style (
   public override val backgroundColor: String?,  
   public override val cornerRadius: String?,  
@@ -29,26 +28,4 @@ data class Style (
   public override val flex: Flex?,  
   public override val positionType: PositionType?,  
   public override val display: Display?   
-) : StyleSchema {
-  constructor (    
-    backgroundColor: String? = null,      
-    cornerRadius: String? = null,      
-    size: Size? = null,      
-    margin: EdgeValue? = null,      
-    padding: EdgeValue? = null,      
-    position: EdgeValue? = null,      
-    flex: Flex? = null,      
-    positionType: PositionType? = null,      
-    display: Display? = null      
-  ) : this (    
-      backgroundColor,      
-      cornerRadius,      
-      size,      
-      margin,      
-      padding,      
-      position,      
-      flex,      
-      positionType,      
-      display      
-  )
-}
+) : StyleSchema 

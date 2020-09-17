@@ -20,7 +20,6 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.widget.core.TextInputTypeSchema
 
-
 interface TextInputSchema {
   public val value: BindAttribute<String>?
   public val placeholder: BindAttribute<String>?

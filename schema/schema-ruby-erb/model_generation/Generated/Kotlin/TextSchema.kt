@@ -19,7 +19,6 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.BindAttribute
 
-
 interface TextSchema {
   public val text: BindAttribute<String>
   public val styleId: String? 

@@ -18,16 +18,7 @@
 package br.com.zup.beagle.widget.core
 
 
-
 data class Accessibility (
   public override val accessibilityLabel: String?,  
   public override val accessible: Boolean = true   
-) : AccessibilitySchema {
-  constructor (    
-    accessibilityLabel: String? = null,      
-    accessible: Boolean      
-  ) : this (    
-      accessibilityLabel,      
-      accessible      
-  )
-}
+) : AccessibilitySchema 

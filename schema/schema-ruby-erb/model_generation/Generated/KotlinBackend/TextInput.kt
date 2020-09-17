@@ -21,7 +21,6 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.TextInputType
-
 data class TextInput (
   public override val value: Bind<String>?,  
   public override val placeholder: Bind<String>?,  

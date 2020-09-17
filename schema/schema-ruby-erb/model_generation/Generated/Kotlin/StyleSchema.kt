@@ -20,7 +20,7 @@ package br.com.zup.beagle.widget.core
 import br.com.zup.beagle.widget.core.SizeSchema
 import br.com.zup.beagle.widget.core.EdgeValueSchema
 import br.com.zup.beagle.widget.core.FlexSchema
-
+import br.com.zup.beagle.widget.core.DisplaySchema
 
 interface StyleSchema {
   public val backgroundColor: String?
@@ -31,5 +31,5 @@ interface StyleSchema {
   public val position: EdgeValueSchema?
   public val flex: FlexSchema?
   public val positionType: PositionType?
-  public val display: Display? 
+  public val display: DisplaySchema? 
 }
