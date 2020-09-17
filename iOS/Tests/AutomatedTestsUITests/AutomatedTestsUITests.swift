@@ -33,7 +33,8 @@ class CucumberishInitializer: NSObject {
         
         let bundle = Bundle(for: CucumberishInitializer.self)
 
-        Cucumberish.executeFeatures(inDirectory: "Features", from: bundle, includeTags: nil, excludeTags: nil)
+        let tags = getTags()
+        Cucumberish.executeFeatures(inDirectory: "Features", from: bundle, includeTags: tags, excludeTags: nil)
     }
     
     class func waitForElementToAppear(_ element: XCUIElement) {
