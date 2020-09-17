@@ -104,7 +104,18 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This is one of the core classes of beagle schema. This is the object that will be processed in the ERB templates. You should NOT use this class directly. Instead, create a class that inherits from this one.</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -114,7 +125,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#synthax_type-instance_method" title="#synthax_type (instance method)">#<strong>synthax_type</strong>  &#x21d2; Object </a>
+      <a href="#synthax_type-instance_method" title="#synthax_type (instance method)">#<strong>synthax_type</strong>  &#x21d2; BaseType </a>
     
 
     
@@ -132,7 +143,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute synthax_type.</p>
+<p>An attribute that represents the type of the component that will be generated.</p>
 </div></span>
   
 </li>
@@ -171,7 +182,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A new instance of BaseComponent.</p>
+<p>Initializer for Base Component.</p>
 </div></span>
   
 </li>
@@ -194,7 +205,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Converted string name of a BaseComponent.</p>
+</div></span>
   
 </li>
 
@@ -228,13 +241,33 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of BaseComponent.</p>
+<p>Initializer for Base Component</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="BaseType.html" title="BaseType (module)">BaseType</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p><span class='object_link'><a href="#synthax_type-instance_method" title="BaseComponent#synthax_type (method)">Same as synthax_type</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -242,12 +275,12 @@
       <pre class="lines">
 
 
-21
-22
-23</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/Models/base_component.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'model_generation/Models/base_component.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
     <span class='ivar'>@synthax_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span>
@@ -267,7 +300,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="synthax_type-instance_method">
   
-    #<strong>synthax_type</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>synthax_type</strong>  &#x21d2; <tt><span class='object_link'><a href="BaseType.html" title="BaseType (module)">BaseType</a></span></tt> 
   
 
   
@@ -276,13 +309,33 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute synthax_type.</p>
+<p>An attribute that represents the type of the component that will be generated</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="BaseType.html" title="BaseType (module)">BaseType</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="BaseType.html" title="BaseType (module)">BaseType</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -290,12 +343,12 @@
       <pre class="lines">
 
 
-18
-19
-20</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/Models/base_component.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'model_generation/Models/base_component.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_synthax_type'>synthax_type</span>
   <span class='ivar'>@synthax_type</span>
@@ -321,18 +374,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converted string name of a BaseComponent. If used by a child class, the output is the name of the child class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-25
-26
-27</pre>
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/Models/base_component.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'model_generation/Models/base_component.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -347,7 +411,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 17 17:11:56 2020 by
+  Generated on Thu Sep 17 17:21:37 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.6.3).
 </div>
