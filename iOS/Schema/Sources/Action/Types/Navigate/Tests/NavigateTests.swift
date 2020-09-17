@@ -20,7 +20,7 @@ import SnapshotTesting
 
 final class NavigateTests: XCTestCase {
 
-    func test_decoding_openExternalUrl() throws {
+    func testDecodingOpenExternalUrl() throws {
         let action: Navigate = try actionFromString("""
         {
             "_beagleAction_": "beagle:openexternalurl",
@@ -34,7 +34,7 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func test_decoding_openNativeRoute() throws {
+    func testDecodingOpenNativeRoute() throws {
         let action: Navigate = try actionFromJsonFile(fileName: "opennativeroute")
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
@@ -49,7 +49,7 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func test_decoding_resetApplication() throws {
+    func testDecodingResetApplication() throws {
         let action: Navigate = try actionFromString("""
         {
             "_beagleAction_": "beagle:resetapplication",
@@ -70,7 +70,7 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func test_decoding_resetStack() throws {
+    func testDecodingResetStack() throws {
         let action: Navigate = try actionFromString("""
         {
             "_beagleAction_": "beagle:resetstack",
@@ -91,7 +91,7 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func test_decoding_pushStack() throws {
+    func testDecodingPushStack() throws {
         let action: Navigate = try actionFromString("""
         {
             "_beagleAction_": "beagle:pushStack",
@@ -133,7 +133,7 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func test_decoding_popStack() throws {
+    func testDecodingPopStack() throws {
         let action: Navigate = try actionFromString("""
         {
             "_beagleAction_": "beagle:popstack"
@@ -145,12 +145,25 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func test_decoding_pushView() throws {
+    func testDecodingPushView() throws {
         let action: Navigate = try actionFromJsonFile(fileName: "pushview")
         assertSnapshot(matching: action, as: .dump)
     }
     
-    func test_decoding_popView() throws {
+    func testDecodingPushViewWithContext() throws {
+        let action: Navigate = try actionFromString("""
+        {
+          "_beagleAction_": "beagle:pushView",
+          "route": {
+            "url": "@{test}",
+            "shouldPrefetch": false
+          }
+        }
+        """)
+        assertSnapshot(matching: action, as: .dump)
+    }
+    
+    func testDecodingPopView() throws {
         let action: Navigate = try actionFromString("""
         {
             "_beagleAction_": "beagle:popView"
@@ -162,7 +175,7 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func test_decoding_popToView() throws {
+    func testDecodingPopToView() throws {
         let action: Navigate = try actionFromString("""
         {
             "_beagleAction_": "beagle:popToView",
