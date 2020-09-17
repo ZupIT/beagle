@@ -91,13 +91,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Unless required by applicable law or agreed to in writing, software</p>
-
-<pre class="code ruby"><code class="ruby">distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-</code></pre>
+<p>This module exists to create ids for basicTypes. This is important because some reserved words are written in a different way among languages but they mean the same</p>
 
 
   </div>
@@ -115,27 +109,147 @@ limitations under the License.
     <dl class="constants">
       
         <dt id="string-classvariable" class="">@@string =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>String id for String</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>String</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="bool-classvariable" class="">@@bool =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Boolean id for Bool</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Bool</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="double-classvariable" class="">@@double =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Double id for Double</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Double</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="interface-classvariable" class="">@@interface =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Interface id for Interface</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>interface</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="enum-classvariable" class="">@@enum =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Enum id for Enum</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Enum</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
@@ -290,12 +404,12 @@ limitations under the License.
       <pre class="lines">
 
 
-23
-24
-25</pre>
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_bool'>bool</span>
     <span class='cvar'>@@bool</span>
@@ -320,12 +434,12 @@ limitations under the License.
       <pre class="lines">
 
 
-28
-29
-30</pre>
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_double'>double</span>
     <span class='cvar'>@@double</span>
@@ -350,12 +464,12 @@ limitations under the License.
       <pre class="lines">
 
 
-38
-39
-40</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_enum'>enum</span>
     <span class='cvar'>@@enum</span>
@@ -380,12 +494,12 @@ limitations under the License.
       <pre class="lines">
 
 
-33
-34
-35</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_interface'>interface</span>
     <span class='cvar'>@@interface</span>
@@ -410,12 +524,12 @@ limitations under the License.
       <pre class="lines">
 
 
-18
-19
-20</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'model_generation/Synthax/Types/basic_type.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span>
     <span class='cvar'>@@string</span>
@@ -430,7 +544,7 @@ limitations under the License.
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 17 16:39:17 2020 by
+  Generated on Thu Sep 17 17:11:56 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.6.3).
 </div>

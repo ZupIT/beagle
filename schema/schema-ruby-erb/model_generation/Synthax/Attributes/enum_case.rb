@@ -14,6 +14,7 @@
 
 require_relative 'base_attributes.rb'
 
+# Use this class when you attempt to generate a enun case
 class EnumCase < BaseAttributes
     
     def initialize(params = {})
