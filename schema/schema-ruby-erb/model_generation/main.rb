@@ -127,6 +127,7 @@ if __FILE__ == $0
     Style,
     UnitValue,
     UnitType,
+    Display,
     # Accessibility
     Accessibility,
     # Far from being usable
