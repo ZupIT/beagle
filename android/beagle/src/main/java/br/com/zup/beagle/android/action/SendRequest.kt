@@ -25,7 +25,9 @@ import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.normalizeContextValue
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 
@@ -59,9 +61,9 @@ data class SendRequest(
         onError: List<Action>? = null,
         onFinish: List<Action>? = null
     ) : this(
-        Bind.Value(url),
-        Bind.Value(method),
-        headers?.let { Bind.Value(it) },
+        expressionOrValueOf(url),
+        valueOf(method),
+        headers?.let { valueOf(it) },
         data,
         onSuccess,
         onError,

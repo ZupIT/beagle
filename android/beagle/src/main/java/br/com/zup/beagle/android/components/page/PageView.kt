@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.android.view.ViewFactory
@@ -45,6 +46,13 @@ data class PageView(
     val onPageChange: List<Action>? = null,
     val currentPage: Bind<Int>? = null
 ) : WidgetView(), ContextComponent, MultiChildComponent {
+
+    constructor(
+        children: List<ServerDrivenComponent>,
+        context: ContextData? = null,
+        onPageChange: List<Action>? = null,
+        currentPage: Int
+    ) : this(children, null, context, onPageChange, valueOfNullable(currentPage))
 
     @Deprecated(message = DEPRECATED_PAGE_VIEW)
     constructor(

@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.handleEvent
@@ -48,6 +49,13 @@ data class TabBar(
     val currentTab: Bind<Int>? = null,
     val onTabSelection: List<Action>? = null
 ) : WidgetView() {
+
+    constructor(
+        items: List<TabBarItem>,
+        styleId: String? = null,
+        currentTab: Int = 0,
+        onTabSelection: List<Action>? = null
+    ) : this(items, styleId, valueOf(currentTab), onTabSelection)
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

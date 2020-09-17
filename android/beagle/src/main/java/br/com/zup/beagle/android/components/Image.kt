@@ -22,6 +22,7 @@ import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.isExpression
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
@@ -128,12 +129,10 @@ constructor(
 
 sealed class ImagePath {
     data class Local(val mobileId: Bind<String>) : ImagePath() {
-        constructor(mobileId: String) : this(if (mobileId.isExpression()) expressionOf(mobileId) else valueOf(mobileId))
+        constructor(mobileId: String) : this(expressionOrValueOf(mobileId))
     }
 
     data class Remote(val url: Bind<String>, val placeholder: Local? = null) : ImagePath() {
-        constructor(url: String, placeholder: Local? = null) : this(
-            if (url.isExpression()) expressionOf(url) else valueOf(url),
-            placeholder)
+        constructor(url: String, placeholder: Local? = null) : this(expressionOrValueOf(url), placeholder)
     }
 }

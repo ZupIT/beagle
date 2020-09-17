@@ -29,6 +29,7 @@ data class Condition(
     val onTrue: List<Action>? = null,
     val onFalse: List<Action>? = null
 ) : Action {
+
     constructor(
         condition: Boolean,
         onTrue: List<Action>? = null,
