@@ -24,10 +24,10 @@ import br.com.zup.beagle.widget.core.TextInputTypeSchema
 interface TextInputSchema {
   public val value: BindAttribute<String>?
   public val placeholder: BindAttribute<String>?
-  public val disabled: BindAttribute<Bool>?
-  public val readOnly: BindAttribute<Bool>?
+  public val disabled: BindAttribute<Boolean>?
+  public val readOnly: BindAttribute<Boolean>?
   public val type: BindAttribute<TextInputTypeSchema>?
-  public val hidden: BindAttribute<Bool>?
+  public val hidden: BindAttribute<Boolean>?
   public val styleId: String?
   public val onChange: List<Action>?
   public val onBlur: List<Action>?

@@ -36,7 +36,7 @@ class BasicType < SupportedLanguages
         super
         @grammar = {
             BasicTypeKeys.string => {@swift => "String", @kotlin => "String"},
-            BasicTypeKeys.bool => {@swift => "Bool", @kotlin => "Bool"},
+            BasicTypeKeys.bool => {@swift => "Bool", @kotlin => "Boolean"},
             BasicTypeKeys.interface => {@swift => "protocol", @kotlin => "interface"},
             BasicTypeKeys.enum => {@swift => "enum", @kotlin => "enum class"}
         }
