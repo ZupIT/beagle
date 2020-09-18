@@ -46,10 +46,10 @@ sealed class Bind<T> : BindAttribute<T> {
 }
 
 internal inline fun <reified T : Any> expressionOrValueOf(text: String): Bind<T> =
-    if (text.isExpression()) expressionOf(text) else valueOf(text) as Bind<T>
+    if (text.hasExpression()) expressionOf(text) else valueOf(text) as Bind<T>
 
 internal fun expressionOrValueOfNullable(text: String?): Bind<String>? =
-    if (text?.isExpression() == true) expressionOf(text) else valueOfNullable(text)
+    if (text?.hasExpression() == true) expressionOf(text) else valueOfNullable(text)
 
 inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> {
     val tokenParser = TokenParser()
