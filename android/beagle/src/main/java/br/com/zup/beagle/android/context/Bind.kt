@@ -28,7 +28,7 @@ import java.lang.reflect.Type
 sealed class Bind<T> : BindAttribute<T> {
     abstract val type: Type
 
-    class Expression<T>(
+    data class Expression<T>(
         val expressions: List<ExpressionToken>,
         override val value: String,
         override val type: Type

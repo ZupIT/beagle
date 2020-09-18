@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
@@ -60,13 +61,14 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
-import org.json.JSONArray
-import org.json.JSONObject
-import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.json.JSONArray
+import org.json.JSONObject
+import org.junit.Test
 
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
@@ -436,6 +438,38 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
+    fun `moshi should deserialize a PushView action with expression`() {
+        // Given
+        val jsonComponent = makeNavigationActionJsonWithExpression()
+
+        // When
+        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is Navigate)
+        assertEquals("@{test}", (actual.route as Route.Remote).url.value)
+        assertTrue((actual.route as Route.Remote).url is Bind.Expression<String>)
+        assertFalse((actual.route as Route.Remote).shouldPrefetch)
+    }
+
+    @Test
+    fun `moshi should deserialize a PushView action with hardcoded url`() {
+        // Given
+        val jsonComponent = makeNavigationActionJsonWithUrlHardcoded()
+
+        // When
+        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is Navigate)
+        assertEquals("http://localhost:8080/test/example", (actual.route as Route.Remote).url.value)
+        assertTrue((actual.route as Route.Remote).url is Bind.Value<String>)
+        assertFalse((actual.route as Route.Remote).shouldPrefetch)
+    }
+
+    @Test
     fun `make should return moshi to deserialize a AlertAction`() {
         // Given
         val json = makeAlertActionJson()
@@ -449,7 +483,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun `make should return moshi to deserialize a ConditionAction`(){
+    fun `make should return moshi to deserialize a ConditionAction`() {
         // Given
         val json = makeConditionalActionJson()
 

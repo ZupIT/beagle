@@ -25,7 +25,7 @@ public protocol DependencyNavigationController {
 public protocol BeagleNavigation {
     var defaultAnimation: BeagleNavigatorAnimation? { get set }
     
-    func navigate(action: Navigate, controller: BeagleController, animated: Bool)
+    func navigate(action: Navigate, controller: BeagleController, animated: Bool, origin: UIView?)
 
     typealias NavigationBuilder = () -> BeagleNavigationController
 
@@ -59,7 +59,7 @@ class BeagleNavigator: BeagleNavigation {
 
     // MARK: Navigate
     
-    func navigate(action: Navigate, controller: BeagleController, animated: Bool = false) {
+    func navigate(action: Navigate, controller: BeagleController, animated: Bool = false, origin: UIView?) {
         controller.dependencies.logger.log(Log.navigation(.didReceiveAction(action)))
         switch action {
         case let .openExternalURL(url):
@@ -67,19 +67,20 @@ class BeagleNavigator: BeagleNavigation {
         case let .openNativeRoute(nativeRoute):
             openNativeRoute(controller: controller, animated: animated, nativeRoute: nativeRoute)
         case let .resetApplication(route):
-            navigate(route: route, origin: controller, animated: animated, transition: resetApplication(origin:destination:animated:))
+            navigate(route: route, controller: controller, animated: animated, origin: origin, transition: resetApplication(origin:destination:animated:))
         case let .resetStack(route):
-            navigate(route: route, origin: controller, animated: animated, transition: resetStack(origin:destination:animated:))
+            navigate(route: route, controller: controller, animated: animated, origin: origin, transition: resetStack(origin:destination:animated:))
         case let .pushView(route):
-            navigate(route: route, origin: controller, animated: animated, transition: pushView(origin:destination:animated:))
+            navigate(route: route, controller: controller, animated: animated, origin: origin, transition: pushView(origin:destination:animated:))
         case .popView:
             popView(controller: controller, animated: animated)
         case let .popToView(route):
             popToView(identifier: route, controller: controller, animated: animated)
         case let .pushStack(route, controllerId):
             navigate(route: route,
-                     origin: controller,
-                     animated: animated) { [weak self] origin, destination, animated in
+                     controller: controller,
+                     animated: animated,
+                     origin: origin) { [weak self] origin, destination, animated in
                 self?.pushStack(origin: origin, destination: destination, controllerId: controllerId, animated: animated)
             }
         case .popStack:
@@ -115,16 +116,17 @@ class BeagleNavigator: BeagleNavigation {
 
     private typealias Transition = (BeagleController, UIViewController, Bool) -> Void
     
-    private func navigate(route: Route, origin: BeagleController, animated: Bool, transition: @escaping Transition) {
+    private func navigate(route: Route, controller: BeagleController, animated: Bool, origin: UIView?, transition: @escaping Transition) {
         viewController(
             route: route,
+            controller: controller,
             origin: origin,
-            retry: { [weak origin] in
-                guard let origin = origin else { return }
-                self.navigate(route: route, origin: origin, animated: animated, transition: transition)
+            retry: { [weak controller] in
+                guard let controller = controller else { return }
+                self.navigate(route: route, controller: controller, animated: animated, origin: origin, transition: transition)
             },
             success: {
-                transition(origin, $0, animated)
+                transition(controller, $0, animated)
             }
         )
     }
@@ -246,13 +248,14 @@ class BeagleNavigator: BeagleNavigation {
     
     private func viewController(
         route: Route,
-        origin: BeagleController,
+        controller: BeagleController,
+        origin: UIView?,
         retry: @escaping BeagleRetry,
         success: @escaping (BeagleScreenViewController) -> Void
     ) {
         switch route {
         case .remote(let newPath):
-            remote(path: newPath, origin: origin, retry: retry, success: success)
+            remote(path: newPath, controller: controller, origin: origin, retry: retry, success: success)
         case .declarative(let screen):
             success(BeagleScreenViewController(viewModel: .init(
                 screenType: .declarative(screen)
@@ -263,23 +266,25 @@ class BeagleNavigator: BeagleNavigation {
     @discardableResult
     private func remote(
         path: Route.NewPath,
-        origin: BeagleController,
+        controller: BeagleController,
+        origin: UIView?,
         retry: @escaping BeagleRetry,
         success: @escaping (BeagleScreenViewController) -> Void
     ) -> RequestToken? {
+        controller.serverDrivenState = .started
+
+        let newPath = path.url.evaluate(with: origin)
+        let remote = ScreenType.Remote(url: newPath ?? "", fallback: path.fallback, additionalData: nil)
         
-        origin.serverDrivenState = .started
-        let remote = ScreenType.Remote(url: path.url, fallback: path.fallback, additionalData: nil)
-        
-        return BeagleScreenViewController.remote(remote, dependencies: origin.dependencies) {
-            [weak origin] result in guard let origin = origin else { return }
-            origin.serverDrivenState = .finished
+        return BeagleScreenViewController.remote(remote, dependencies: controller.dependencies) {
+            [weak controller] result in guard let controller = controller else { return }
+            controller.serverDrivenState = .finished
             switch result {
             case .success(let viewController):
-                origin.serverDrivenState = .success
+                controller.serverDrivenState = .success
                 success(viewController)
             case .failure(let error):
-                origin.serverDrivenState = .error(.remoteScreen(error), retry)
+                controller.serverDrivenState = .error(.remoteScreen(error), retry)
             }
         }
     }

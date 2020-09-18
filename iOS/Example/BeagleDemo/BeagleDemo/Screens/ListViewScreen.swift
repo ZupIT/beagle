@@ -35,7 +35,7 @@ struct ListViewScreen: DeeplinkScreen {
     }
     
     var listView = ListView(direction: .horizontal) {
-        Touchable(onPress: [Navigate.pushView(.remote(.init(url: .textLazyComponentEndpoint)))]) {
+        Touchable(onPress: [Navigate.pushView(.remote(.init(url: .value(.textLazyComponentEndpoint))))]) {
             Text("0000")
         }
         Text("0001", widgetProperties: .init(style: Style(size: Size().width(100).height(100))))

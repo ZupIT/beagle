@@ -60,6 +60,7 @@ public enum Log {
 
     public enum Navigator {
         case didReceiveAction(Navigate)
+        case unableToPrefetchWhenUrlIsExpression
         case errorTryingToPopScreenOnNavigatorWithJustOneScreen
         case didNotFindDeepLinkScreen(path: String)
         case cantPopToAlreadyCurrentScreen(identifier: String)
@@ -206,7 +207,7 @@ extension Log: LogType {
 
         case .navigation(let nav):
             switch nav {
-            case .errorTryingToPopScreenOnNavigatorWithJustOneScreen, .didNotFindDeepLinkScreen, .cantPopToAlreadyCurrentScreen, .invalidExternalUrl, .unableToOpenExternalUrl:
+            case .errorTryingToPopScreenOnNavigatorWithJustOneScreen, .didNotFindDeepLinkScreen, .cantPopToAlreadyCurrentScreen, .invalidExternalUrl, .unableToOpenExternalUrl, .unableToPrefetchWhenUrlIsExpression:
                 return .error
             case .didReceiveAction, .didNavigateToExternalUrl:
                 return .info

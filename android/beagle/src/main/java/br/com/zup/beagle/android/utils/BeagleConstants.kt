@@ -98,3 +98,10 @@ internal object ActionJsonAdapterFactoryDeprecatedConstants {
 
     const val REPLACE = "AndroidActionJsonAdapterFactory"
 }
+
+internal object EventsRelatedToNavigationAction {
+    const val URL: String = "url"
+    const val SHOULD_PREFETCH = "shouldPrefetch"
+    const val FALLBACK: String = "fallback"
+    const val SCREEN: String = "screen"
+}
