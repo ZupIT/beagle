@@ -14,9 +14,16 @@
 
 require_relative 'base_attributes.rb'
 
+# Use this class when you attempt to generate a list
 class List < BaseAttributes
 
-    attr_accessor :isBindable, :isOptional
+    # Boolean indicating if the variable is bindable. Default is false
+    # @return [Bool] 
+    attr_accessor :isBindable
+    
+    # Boolean indicating if the variable is optional. Default is false
+    # @return [Bool] 
+    attr_accessor :isOptional
 
     def initialize(params = {})
         super

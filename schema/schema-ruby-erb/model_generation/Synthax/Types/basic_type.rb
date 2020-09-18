@@ -12,28 +12,41 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# This module exists to create ids for basicTypes.
+# This is important because some reserved words are written in a different way among languages
+# but they mean the same
 module BasicTypeKeys
     
+    # String id for String
+    # @return [String]
     @@string = "String"
     def self.string
         @@string
     end
 
+    # Boolean id for Bool
+    # @return [String]
     @@bool = "Bool"
     def self.bool
         @@bool
     end
 
+    # Double id for Double
+    # @return [String]
     @@double = "Double"
     def self.double
         @@double
     end
 
+    # Interface id for Interface
+    # @return [String]
     @@interface = "interface"
     def self.interface
         @@interface
     end
 
+    # Enum id for Enum
+    # @return [String]
     @@enum = "Enum"
     def self.enum
         @@enum

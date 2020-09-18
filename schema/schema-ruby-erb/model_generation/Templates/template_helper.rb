@@ -14,6 +14,7 @@
 
 require_relative '../Synthax/Types/basic_type'
 
+# This class lists the available supported languages of beagle schema.
 class SupportedLanguages
 
     attr_accessor :swift, :kotlin, :kotlinBackend, :typeScript
@@ -29,9 +30,12 @@ class SupportedLanguages
 
 end
 
+# This class is needed because of the way we treat declarations in diferent languages. 
+# If you want to handle diferent basic types in your language, this is the place to add them
+#   E.g.: we use interface for kotlin but that word does not exist for swift so we are using protocol instead  
 class BasicType < SupportedLanguages
     attr_accessor :grammar
- 
+
     def initialize
         super
         @grammar = {
@@ -45,16 +49,32 @@ class BasicType < SupportedLanguages
     
 end
 
+# This class is a helper with common methods that might be useful on the creation of different 
+# language templates. You don't necessarily have to use this, but it will be of a great help if you do.
 class TemplateHelper
+    
+    # The identifier of of the language you want to generate. They are define in SupportedLanguages
+    # @return [String]
+    attr_accessor :languageIdentifier
 
-    attr_accessor :languageIdentifier, :defaultDeclarationType
+    # The default declaration type for your models.
+    #   E.g.: swift uses struct
+    # @return [String]
+    attr_accessor :defaultDeclarationType
 
+    # Initialize method for TemplateHelper. You should definitely assign new values to defaultDeclarativeType and
+    # languageIdentifier
+    # @return [Bool] indicating wether the object is widget or not
     def initialize
         @defaultDeclarationType = ''
         @languageIdentifier = ''
         @types = BasicType.new
     end
 
+    # Fetches a custom basic type if specified inside grammar in BasicType and if the languageIdentifer exists
+    #
+    # @param key [String] type identifier
+    # @return [String] converted string to specified language or the key itself
     def fetch_type(key)
         if @types.grammar.key?(key) && @types.grammar[key].key?(@languageIdentifier)
             @types.grammar[key][@languageIdentifier]
@@ -63,10 +83,20 @@ class TemplateHelper
         end
     end
 
+    # Given object_type, this functions returns if such an object is enum or not
+    #
+    # @param key [String] type identifier
+    # @return [String] converted string to specified language or the key itself
     def fetch_built_in_type_declaration(key)
         key == nil ? @defaultDeclarationType : fetch_type(key)
     end
 
+    # Adds padding in each line of a given multiline string
+    #
+    # @param padding [String] string with empty spaces. Preferably a padding that is considered the default padding in your language
+    # @param multiplier [Integer] multiplier to be applied to the padding parameter. Use 1 if you don't want a multiplier
+    # @param text [String] text in which the padding will be applied
+    # @return [String] the input text with padding
     def add_padding(padding, multiplier, text)
         output = ""
         text.each_line do |line|
@@ -76,10 +106,18 @@ class TemplateHelper
         output
     end
 
+    # Given object_type, this functions returns if such an object is enum or not
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is enum or not
     def is_enum(object_type)
         object_type.synthax_type.class == EnumType
     end
 
+    # Given object_type, this functions returns if such an object is widget or not
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is widget or not
     def is_widget(object_type)
         object_type.synthax_type.inheritFrom.include? Widget.new.name
     end

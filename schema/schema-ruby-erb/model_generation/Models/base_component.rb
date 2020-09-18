@@ -14,14 +14,26 @@
 
 require_relative '../Synthax/Types/basic_type.rb'
 
-class BaseComponent  
+# This is one of the core classes of beagle schema. This is the object that will be processed in the ERB templates.
+# You should NOT use this class directly. Instead, create a class that inherits from this one.
+class BaseComponent
+
+    # An attribute that represents the type of the component that will be generated
+    # @see BaseType
+    # @return [BaseType]
     attr_accessor :synthax_type
+    
     include BasicTypeKeys
 
+    # Initializer for Base Component
+    #
+    # @param type [BaseType] {synthax_type Same as synthax_type}
     def initialize(type)
         @synthax_type = type
     end
 
+    # Converted string name of a BaseComponent. If used by a child class, the output is
+    # the name of the child class
     def name
         self.class.to_s
     end
