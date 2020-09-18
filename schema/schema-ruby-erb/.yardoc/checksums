@@ -1,5 +1,5 @@
 model_generation/main.rb 582e5da7a0ecaa391f08811d5b148d4444e121be
-model_generation/Synthax/Types/type.rb 26d87436c8f4326041391027cbeaa96d3bfee2aa
+model_generation/Synthax/Types/type.rb 358fab20838774be2e10b54f6a63b8fd58ab376b
 model_generation/Models/base_component.rb 8d924a86e3114d2ebc642138a69317f59b014a0e
 model_generation/Synthax/Attributes/list.rb 78c262e6828d635cfa6ea2083d71cd47768359a2
 model_generation/Synthax/Types/enum_type.rb c13cd0f557626180a2de3cf690590eecd92433bd

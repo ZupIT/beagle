@@ -19,7 +19,10 @@
   require_relative 'Synthax/Types/basic_type'
   require_relative 'Synthax/Attributes/list'
   require_relative 'Templates/template_helper.rb'
+  
+  require_relative 'Models/Layout/Flex/flex_wrap.rb'
   require_relative 'Models/Action/action.rb'
+
   @tab = "    "
   @doubleTab = @tab + @tab
   @template_helper = TemplateHelper.new
@@ -55,8 +58,8 @@
   def handleInheritance(synthax_type)
     output = synthax_type.inheritFrom.size == 0 ? "" : ": "
     counter = 0
-    for type in synthax_type.inheritFrom
-      adaptedType = adaptTypeNameToSwiftSpecific(type)
+    for typeName in synthax_type.inheritFrom
+      adaptedType = adaptTypeNameToSwiftSpecific(typeName)
       output += adaptedType
       output = synthax_type.inheritFrom.size - 1 != counter ? output + ", " : output
       counter += 1
@@ -142,6 +145,8 @@
     output
   end
 
+  # Everything that is inside this method indicates something that need to be done only for swift
+  # Adding anything here implies in a difference between swift and other platforms, therefore, needs refactor.
   def preRun(objectType)
     if @template_helper.is_widget(objectType)
       objectType.synthax_type.variables.append(
@@ -153,9 +158,9 @@
     end
 
     if objectType.synthax_type.name == Flex.new.name
+      objectType.synthax_type.type = "class"
       objectType.synthax_type.inheritFrom.append("AutoEquatable")
     end
-
   end
 
   ## CAUTION: the following methods will be deleted
@@ -164,6 +169,8 @@
       "RawWidget"
     elsif typeName.eql?(Action.new.name)
       "RawAction"
+    elsif typeName.eql?(FlexWrap.new.name)
+      "Wrap"
     else
       typeName
     end

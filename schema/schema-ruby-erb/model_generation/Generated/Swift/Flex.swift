@@ -16,12 +16,12 @@
  */
 
 /// Apply positioning using the flex box concept, with a yoga layout structure.
-public struct Flex: Decodable, AutoEquatable {
+public class Flex: Decodable, AutoEquatable {
 
     /// Controls the direction in which the children of a node are laid out.This is also referred to as the main axis.
     public var flexDirection: FlexDirection?
     /// Set on containers and controls what happens when children overflow the size of the container along the main axis.
-    public var flexWrap: FlexWrap?
+    public var flexWrap: Wrap?
     /// Align children within the main axis of their container.
     public var justifyContent: JustifyContent?
     /// Align items describes how to align children along the cross axis of their container.
@@ -41,7 +41,7 @@ public struct Flex: Decodable, AutoEquatable {
 
     public init(
         flexDirection: FlexDirection? = nil,
-        flexWrap: FlexWrap? = nil,
+        flexWrap: Wrap? = nil,
         justifyContent: JustifyContent? = nil,
         alignItems: AlignItems? = nil,
         alignSelf: AlignSelf? = nil,
