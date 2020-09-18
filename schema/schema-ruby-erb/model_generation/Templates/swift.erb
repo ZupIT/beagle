@@ -115,7 +115,8 @@
     isEnumDeclaration = @template_helper.is_enum(objectType)
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
     output = objectType.synthax_type.comment != nil ? "/// #{objectType.synthax_type.comment}\n" : ""
-    output += "#{objectType.synthax_type.accessor} #{typeKind} #{objectType.synthax_type.name}#{handleInheritance(objectType.synthax_type)} {\n\n"
+    typeName = adaptTypeNameToSwiftSpecific(objectType.synthax_type.name)
+    output += "#{objectType.synthax_type.accessor} #{typeKind} #{typeName}#{handleInheritance(objectType.synthax_type)} {\n\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)
     else

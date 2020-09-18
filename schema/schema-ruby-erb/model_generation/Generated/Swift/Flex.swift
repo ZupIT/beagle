@@ -72,7 +72,7 @@ public class Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum FlexWrap: String, Decodable {
+    public enum Wrap: String, Decodable {
     
         case noWrap = "NO_WRAP"
         case wrap = "WRAP"
