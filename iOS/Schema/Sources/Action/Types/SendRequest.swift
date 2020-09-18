@@ -55,7 +55,7 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
     }
 // sourcery:end
     
-    @available(*, deprecated, message: "Since version 1.3, we allow expressions in the parameters method and headers, please consider using the new init instead.")
+    @available(*, deprecated, message: "Since version 1.3, we allow expressions in the parameters method and headers, please consider using the new method for initialization instead.")
     public init(
         url: Expression<String>,
         method: SendRequest.HTTPMethod? = nil,
