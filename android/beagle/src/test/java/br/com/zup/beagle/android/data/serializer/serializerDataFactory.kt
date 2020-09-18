@@ -218,6 +218,27 @@ fun makeConfirmActionJson() = """
     }
 """
 
+fun makeConditionalActionJson() = """
+   {
+      "_beagleAction_":"beagle:condition",
+      "condition":"@{sum(user, 21)}",
+      "onTrue":[
+         {
+            "_beagleAction_":"beagle:alert",
+            "title":"",
+            "message":"onTrue"
+         }
+      ],
+      "onFalse":[
+         {
+            "_beagleAction_":"beagle:alert",
+            "title":"",
+            "message":"onFalse"
+         }
+      ]
+   }
+"""
+
 fun makeFormLocalActionJson() = """
     {
         "_beagleAction_": "beagle:formLocalAction",

@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +31,7 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_TAB_VIEW
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
@@ -93,7 +93,7 @@ data class TabView(
             tabMode = TabLayout.MODE_SCROLLABLE
             tabGravity = TabLayout.GRAVITY_FILL
             setData()
-            addTabs(context)
+            addTabs(rootView)
         }
     }
 
@@ -110,12 +110,16 @@ data class TabView(
         }
     }
 
-    private fun TabLayout.addTabs(context: Context) {
+    private fun TabLayout.addTabs(rootView: RootView) {
         for (i in children.indices) {
             addTab(newTab().apply {
                 text = children[i].title
-                children[i].icon?.let {
-                    icon = getIconFromResources(context, it.mobileId)
+                children[i].icon?.let { localPath ->
+                    observeBindChanges(rootView, this@addTabs, localPath.mobileId) { iconPath ->
+                        iconPath?.let {
+                            icon = getIconFromResources(rootView.getContext(), iconPath)
+                        }
+                    }
                 }
             })
         }

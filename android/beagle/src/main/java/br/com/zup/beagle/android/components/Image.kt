@@ -19,9 +19,11 @@ package br.com.zup.beagle.android.components
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.isExpression
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
@@ -38,17 +40,16 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 @RegisterWidget
-data class Image(
+data class Image
+@Deprecated("It was deprecated in version 1.2.2 and will" +
+    " be removed in a future version. Use constructor without bind",
+    replaceWith = ReplaceWith("Image(path, null)"))
+constructor(
     val path: Bind<ImagePath>,
     val mode: ImageContentMode? = null
 ) : WidgetView() {
-    constructor(
-        path: ImagePath,
-        mode: ImageContentMode? = null
-    ) : this(
-        valueOf(path),
-        mode
-    )
+
+    constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
 
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()
@@ -58,16 +59,19 @@ data class Image(
 
     override fun buildView(rootView: RootView): View {
         val imageView: RoundedImageView = getImageView(rootView)
+
         observeBindChanges(rootView, imageView, path) { pathType ->
+
             when (pathType) {
                 is ImagePath.Local -> {
-                    loadLocalImage(imageView, pathType)
+                    loadLocalImage(rootView, imageView, pathType)
                 }
                 is ImagePath.Remote -> {
-                    loadRemoteImage(imageView, pathType)
+                    loadRemoteImage(rootView, imageView, pathType)
                 }
             }
         }
+
         return imageView
     }
 
@@ -76,34 +80,35 @@ data class Image(
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
     }
 
-    private fun loadLocalImage(imageView: ImageView, pathType: ImagePath.Local) {
+    private fun loadLocalImage(rootView: RootView, imageView: ImageView, pathType: ImagePath.Local) {
         imageView.apply {
-            getImage(pathType.mobileId)?.let {
-                try {
-                    setImageResource(it)
-                } catch (ex: Exception) {
-                    BeagleMessageLogs.errorWhileTryingToSetInvalidImage(pathType.mobileId, ex)
+            observeBindChanges(rootView, imageView, pathType.mobileId) { mobileId ->
+                getImage(mobileId)?.let {
+                    try {
+                        setImageResource(it)
+                    } catch (ex: Exception) {
+                        BeagleMessageLogs.errorWhileTryingToSetInvalidImage(mobileId ?: "", ex)
+                    }
                 }
             }
+
         }
     }
 
-    private fun loadRemoteImage(imageView: ImageView, pathType: ImagePath.Remote) {
-        val placeholder = pathType.placeholder?.mobileId
-        setPlaceHolder(placeholder, imageView)
-        imageView.loadImage(pathType)
-    }
-
-    private fun setPlaceHolder(placeholder: String?, imageView: ImageView) {
-        getImage(placeholder)?.let {
-            imageView.setImageResource(it)
+    private fun loadRemoteImage(rootView: RootView, imageView: ImageView, pathType: ImagePath.Remote) {
+        pathType.placeholder?.let { local ->
+            loadLocalImage(rootView, imageView, local)
         }
+
+        observeBindChanges(rootView, imageView, pathType.url) { url ->
+            imageView.loadImage(url ?: "")
+        }
+
     }
 
-    private fun ImageView.loadImage(
-        path: ImagePath.Remote) {
+    private fun ImageView.loadImage(url: String) {
         Glide.with(this)
-            .load(path.url.formatUrl())
+            .load(url.formatUrl())
             .into(object : CustomTarget<Drawable>() {
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                     this@loadImage.setImageDrawable(resource)
@@ -123,6 +128,11 @@ data class Image(
 }
 
 sealed class ImagePath {
-    data class Local(val mobileId: String) : ImagePath()
-    data class Remote(val url: String, val placeholder: Local? = null) : ImagePath()
+    data class Local(val mobileId: Bind<String>) : ImagePath() {
+        constructor(mobileId: String) : this(expressionOrValueOf(mobileId))
+    }
+
+    data class Remote(val url: Bind<String>, val placeholder: Local? = null) : ImagePath() {
+        constructor(url: String, placeholder: Local? = null) : this(expressionOrValueOf(url), placeholder)
+    }
 }
