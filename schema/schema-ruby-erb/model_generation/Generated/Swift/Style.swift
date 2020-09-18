@@ -49,14 +49,14 @@ public struct Style: Decodable {
         self.display = display
     }
     
-    public enum PositionType: String {
+    public enum PositionType: String, Decodable {
     
         case relative = "RELATIVE"
         case absolute = "ABSOLUTE"
     
     }
     
-    public enum Display: String {
+    public enum Display: String, Decodable {
     
         case flex = "FLEX"
         case none = "NONE"

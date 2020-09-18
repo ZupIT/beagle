@@ -62,7 +62,7 @@ public struct Flex: Decodable, AutoEquatable {
         self.shrink = shrink
     }
     
-    public enum FlexDirection: String {
+    public enum FlexDirection: String, Decodable {
     
         case row = "ROW"
         case rowReverse = "ROW_REVERSE"
@@ -71,7 +71,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum FlexWrap: String {
+    public enum FlexWrap: String, Decodable {
     
         case noWrap = "NO_WRAP"
         case wrap = "WRAP"
@@ -79,7 +79,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum JustifyContent: String {
+    public enum JustifyContent: String, Decodable {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -90,7 +90,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum AlignItems: String {
+    public enum AlignItems: String, Decodable {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -100,7 +100,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum AlignSelf: String {
+    public enum AlignSelf: String, Decodable {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -111,7 +111,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum AlignContent: String {
+    public enum AlignContent: String, Decodable {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"

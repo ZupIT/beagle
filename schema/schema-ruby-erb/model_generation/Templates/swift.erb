@@ -22,12 +22,12 @@
   require_relative 'Models/Action/action.rb'
   @tab = "    "
   @doubleTab = @tab + @tab
-  @templateHelper = TemplateHelper.new
-  @templateHelper.languageIdentifier = SupportedLanguages.new.swift
-  @templateHelper.defaultDeclarationType = "struct"
+  @template_helper = TemplateHelper.new
+  @template_helper.languageIdentifier = SupportedLanguages.new.swift
+  @template_helper.defaultDeclarationType = "struct"
 
   def handleTypeName(variable)
-      typeName = @templateHelper.fetch_type(variable.typeName)
+      typeName = @template_helper.fetch_type(variable.typeName)
       typeName = adaptTypeNameToSwiftSpecific(typeName)
       output = variable.isBindable ? "Expression<#{typeName}>" : typeName
       output = variable.class == List ? "[#{output}]" : output
@@ -36,7 +36,7 @@
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    typeName = @templateHelper.fetch_type(variable.typeName)
+    typeName = @template_helper.fetch_type(variable.typeName)
     typeName = adaptTypeNameToSwiftSpecific(typeName)
     output = variable.isBindable ? "Expression<#{typeName}>" : typeName
     output = variable.class == List ? "[#{output}]" : output
@@ -111,8 +111,8 @@
   end
 
   def fullDeclaration(objectType)
-    isEnumDeclaration = @templateHelper.is_enum(objectType)
-    typeKind = @templateHelper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
     output = "#{objectType.synthax_type.accessor} #{typeKind} #{objectType.synthax_type.name}#{handleInheritance(objectType.synthax_type)} {\n\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)
@@ -132,8 +132,9 @@
   def handleInnerTypes(objectTypes, input, paddingMultiplier = 1)
     output = input
     for objectType in objectTypes
+      preRun(objectType)
       aux = "\n#{fullDeclaration(objectType)}"
-      output += @templateHelper.add_padding(@tab, paddingMultiplier, aux)
+      output += @template_helper.add_padding(@tab, paddingMultiplier, aux)
 
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
@@ -144,7 +145,7 @@
   end
 
   def preRun(objectType)
-    if @templateHelper.is_widget(objectType)
+    if @template_helper.is_widget(objectType)
       objectType.synthax_type.variables.append(
         Variable.new(:name => "widgetProperties", :typeName => "WidgetProperties", :defaultValue => "WidgetProperties()")
       )
