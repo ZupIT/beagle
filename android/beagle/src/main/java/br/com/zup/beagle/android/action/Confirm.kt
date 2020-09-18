@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.expressionOrValueOfNullable
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.utils.evaluateExpression
@@ -40,9 +42,10 @@ data class Confirm(
         onPressOk: Action? = null,
         onPressCancel: Action? = null,
         labelOk: String? = null,
-        labelCancel: String? = null) : this(
-        title = valueOfNullable(title),
-        message = valueOf(message),
+        labelCancel: String? = null
+    ) : this(
+        title = expressionOrValueOfNullable(title),
+        message = expressionOrValueOf(message),
         onPressOk = onPressOk,
         onPressCancel = onPressCancel,
         labelOk = labelOk,

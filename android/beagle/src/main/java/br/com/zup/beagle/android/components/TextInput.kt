@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOrValueOfNullable
 import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -66,8 +67,8 @@ data class TextInput(
         onFocus: List<Action>? = null,
         onBlur: List<Action>? = null
     ) : this(
-        valueOfNullable(value),
-        valueOfNullable(placeholder),
+        expressionOrValueOfNullable(value),
+        expressionOrValueOfNullable(placeholder),
         valueOfNullable(disabled),
         valueOfNullable(readOnly),
         valueOfNullable(type),

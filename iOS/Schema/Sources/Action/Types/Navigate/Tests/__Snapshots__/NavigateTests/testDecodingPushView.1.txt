@@ -21,4 +21,5 @@
           - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
           - style: Optional<Style>.none
       - shouldPrefetch: true
-      - url: "schema://path"
+      ▿ url: Expression<String>
+        - value: "schema://path"

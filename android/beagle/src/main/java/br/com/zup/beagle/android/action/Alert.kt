@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.expressionOrValueOfNullable
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.utils.evaluateExpression
@@ -31,14 +33,15 @@ data class Alert(
     val onPressOk: Action? = null,
     val labelOk: String? = null
 ) : Action {
+
     constructor(
         title: String? = null,
         message: String,
         onPressOk: Action? = null,
         labelOk: String? = null
     ) : this(
-        title = valueOfNullable(title),
-        message = valueOf(message),
+        title = expressionOrValueOfNullable(title),
+        message = expressionOrValueOf(message),
         onPressOk = onPressOk,
         labelOk = labelOk
     )

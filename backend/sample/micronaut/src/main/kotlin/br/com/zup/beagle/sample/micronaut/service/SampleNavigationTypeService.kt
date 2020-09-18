@@ -16,12 +16,8 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
-import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
@@ -35,8 +31,12 @@ import br.com.zup.beagle.sample.constants.RED_ORANGE
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_PRESENT_ENDPOINT
+import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -61,6 +61,7 @@ class SampleNavigationTypeService {
     )
 
     fun createNavigationTypeView() = Screen(
+        context = ContextData(id = "context", value = REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT),
         navigationBar = NavigationBar(
             title = "Step 1",
             showBackButton = true,
@@ -82,6 +83,11 @@ class SampleNavigationTypeService {
                 createButton(
                     text = "PushView (Step 2)",
                     navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)),
+                    backgroundColor = LIGHT_RED
+                ),
+                createButton(
+                    text = "PushView (Step 2) with context",
+                    navigate = Navigate.PushView(Route.Remote(expressionOf("@{context}"))),
                     backgroundColor = LIGHT_RED
                 )
             )

@@ -19,12 +19,14 @@ package br.com.zup.beagle.android.data.serializer
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Alert
+import br.com.zup.beagle.android.action.Condition
 import br.com.zup.beagle.android.action.Confirm
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
@@ -56,13 +58,14 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
-import org.json.JSONArray
-import org.json.JSONObject
-import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.json.JSONArray
+import org.json.JSONObject
+import org.junit.Test
 
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
@@ -91,7 +94,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_ScreenWidget() {
+    fun `make should return moshi to deserialize a ScreenWidget`() {
         // Given
         val json = makeScreenJson()
 
@@ -104,7 +107,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_ScreenWidget() {
+    fun `make should return moshi to serialize a ScreenWidget`() {
         // Given
         val component = ScreenComponent(child = UndefinedWidget())
 
@@ -116,7 +119,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_Container() {
+    fun `make should return moshi to deserialize a Container`() {
         // Given
         val json = makeContainerJson()
 
@@ -129,7 +132,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_Container() {
+    fun `make should return moshi to serialize a Container`() {
         // Given
         val component = Container(listOf())
 
@@ -141,7 +144,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_Text() {
+    fun `make should return moshi to deserialize a Text`() {
         // Given
         val json = makeTextJson()
 
@@ -154,7 +157,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_Text() {
+    fun `make should return moshi to serialize a Text`() {
         // Given
         val component = Text(RandomData.string())
 
@@ -166,7 +169,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_Image_Local() {
+    fun `make should return moshi to deserialize a Image Local`() {
         // Given
         val json = makeImageJson()
 
@@ -179,7 +182,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_Image_Local() {
+    fun `make should return moshi to serialize a Image Local`() {
         // Given
         val component = Image(ImagePath.Local(RandomData.string()))
 
@@ -191,7 +194,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_NetworkImage() {
+    fun `make should return moshi to deserialize a NetworkImage`() {
         // Given
         val json = makeNetworkImageJson()
 
@@ -204,7 +207,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_NetworkImage() {
+    fun `make should return moshi to serialize a NetworkImage`() {
         // Given
         val component = Image(ImagePath.Remote(RandomData.string()))
 
@@ -216,7 +219,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_Button() {
+    fun `make should return moshi to deserialize a Button`() {
         // Given
         val json = makeButtonJson()
 
@@ -229,7 +232,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_Button() {
+    fun `make should return moshi to serialize a Button`() {
         // Given
         val component = Button("")
 
@@ -241,7 +244,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_ListView() {
+    fun `make should return moshi to deserialize a ListView`() {
         // Given
         val json = makeListViewJson()
 
@@ -254,7 +257,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_ListView() {
+    fun `make should return moshi to serialize a ListView`() {
         // Given
         val component = ListView(listOf())
 
@@ -266,7 +269,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_TabView() {
+    fun `make should return moshi to deserialize a TabView`() {
         // Given
         val json = makeTabViewJson()
 
@@ -279,7 +282,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_TabView() {
+    fun `make should return moshi to serialize a TabView`() {
         // Given
         val component = TabView(listOf(), "")
 
@@ -291,7 +294,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_CustomWidget() {
+    fun `make should return moshi to deserialize a CustomWidget`() {
         // Given
         val json = makeCustomJson()
 
@@ -304,7 +307,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_CustomWidget() {
+    fun `make should return_moshi to serialize a CustomWidget`() {
         // Given
         val component = CustomWidget()
 
@@ -316,7 +319,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_LazyComponent() {
+    fun `make should return moshi to deserialize a LazyComponent`() {
         // Given
         val json = makeLazyComponentJson()
 
@@ -329,7 +332,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_LazyComponent() {
+    fun `make should return moshi to serialize a LazyComponent`() {
         // Given
         val component = LazyComponent("", UndefinedWidget())
 
@@ -341,7 +344,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_ScrollView() {
+    fun `make should return moshi to deserialize a ScrollView`() {
         // Given
         val json = makeScrollViewJson()
 
@@ -354,7 +357,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_ScrollView() {
+    fun `make should return moshi to serialize a ScrollView`() {
         // Given
         val component = ScrollView(listOf())
 
@@ -366,7 +369,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_PageView() {
+    fun `make should return moshi to deserialize a PageView`() {
         // Given
         val json = makePageViewJson()
 
@@ -379,7 +382,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_PageView() {
+    fun `make should return moshi to serialize a PageView`() {
         // Given
         val component = PageView(listOf())
 
@@ -391,7 +394,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_PageIndicator() {
+    fun `make should return moshi to deserialize a PageIndicator`() {
         // Given
         val json = makePageIndicatorJson()
 
@@ -404,7 +407,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_PageIndicator() {
+    fun `make should return moshi to serialize a PageIndicator`() {
         // Given
         val component = PageIndicator(RandomData.string(), RandomData.string())
 
@@ -416,7 +419,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_PushView_action() {
+    fun `make should return moshi to deserialize a PushView action`() {
         // Given
         val json = makeNavigationActionJson()
 
@@ -429,7 +432,39 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_AlertAction() {
+    fun `moshi should deserialize a PushView action with expression`() {
+        // Given
+        val jsonComponent = makeNavigationActionJsonWithExpression()
+
+        // When
+        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is Navigate)
+        assertEquals("@{test}", (actual.route as Route.Remote).url.value)
+        assertTrue((actual.route as Route.Remote).url is Bind.Expression<String>)
+        assertFalse((actual.route as Route.Remote).shouldPrefetch)
+    }
+
+    @Test
+    fun `moshi should deserialize a PushView action with hardcoded url`() {
+        // Given
+        val jsonComponent = makeNavigationActionJsonWithUrlHardcoded()
+
+        // When
+        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is Navigate)
+        assertEquals("http://localhost:8080/test/example", (actual.route as Route.Remote).url.value)
+        assertTrue((actual.route as Route.Remote).url is Bind.Value<String>)
+        assertFalse((actual.route as Route.Remote).shouldPrefetch)
+    }
+
+    @Test
+    fun `make should return moshi to deserialize a AlertAction`() {
         // Given
         val json = makeAlertActionJson()
 
@@ -442,7 +477,20 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_ConfirmAction() {
+    fun `make should return moshi to deserialize a ConditionAction`() {
+        // Given
+        val json = makeConditionalActionJson()
+
+        // When
+        val actual = moshi.adapter(Condition::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is Condition)
+    }
+
+    @Test
+    fun `make should return moshi to deserialize a ConfirmAction`() {
         // Given
         val json = makeConfirmActionJson()
 
@@ -455,7 +503,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_FormLocalAction() {
+    fun `make should return moshi to deserialize a FormLocalAction`() {
         // Given
         val json = makeFormLocalActionJson()
 
@@ -470,7 +518,7 @@ class BeagleMoshiTest : BaseTest() {
 
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_CustomAndroidAction() {
+    fun `make should return moshi to deserialize a CustomAndroidAction`() {
         // Given
         val json = makeFormLocalActionJson()
 
@@ -483,7 +531,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_FormValidation() {
+    fun `make should return moshi to deserialize a FormValidation`() {
         // Given
         val json = makeFormValidationJson()
 
@@ -496,7 +544,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_UndefinedAction() {
+    fun `make should return moshi to deserialize a UndefinedAction`() {
         // Given
         val json = makeUndefinedActionJson()
 
@@ -509,7 +557,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_UndefinedAction() {
+    fun `make should return moshi to serialize a UndefinedAction`() {
         // Given
         val component = Button(
             text = "",
@@ -527,7 +575,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_FormInput() {
+    fun `make should return moshi to deserialize a FormInput`() {
         // Given
         val json = makeFormInputJson()
 
@@ -540,7 +588,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_FormInput() {
+    fun `make should return moshi to serialize a FormInput`() {
         // Given
         val component = FormInput(
             name = RandomData.string(),
@@ -555,7 +603,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_FormSubmit() {
+    fun `make should return moshi to deserialize a FormSubmit`() {
         // Given
         val json = makeFormSubmitJson()
 
@@ -568,7 +616,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_FormSubmit() {
+    fun `make should return moshi to serialize a FormSubmit`() {
         // Given
         val json = FormSubmit(UndefinedWidget())
 
@@ -580,7 +628,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_Form() {
+    fun `make should return moshi to deserialize a Form`() {
         // Given
         val json = makeFormJson()
 
@@ -593,7 +641,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_Form() {
+    fun `make should return moshi to serialize a Form`() {
         // Given
         val component = Form(
             onSubmit = listOf(
@@ -614,7 +662,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_UndefinedComponent() {
+    fun `make should return moshi to deserialize a UndefinedComponent`() {
         // Given
         val json = makeUndefinedComponentJson()
 
@@ -628,7 +676,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_UndefinedComponent() {
+    fun `make should return moshi to serialize a UndefinedComponent`() {
         // Given
         val component = UndefinedWidget()
 
@@ -641,7 +689,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_UndefinedComponent_of_type_InputWidget() {
+    fun `make should return moshi to serialize a UndefinedComponent of type InputWidget`() {
         // Given
         val component = FormInput(
             name = RandomData.string(),
@@ -657,7 +705,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_UndefinedComponent_of_type_PageIndicatorComponent() {
+    fun `make should return moshi to serialize a UndefinedComponent of type PageIndicatorComponent`() {
         // Given
         val component = PageView(
             children = listOf(),
@@ -673,7 +721,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_deserialize_bindComponent() {
+    fun `moshi should deserialize bindComponent`() {
         // Given
         val jsonComponent = makeBindComponent()
 
@@ -696,7 +744,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_deserialize_bindComponent_with_expressions() {
+    fun `moshi should deserialize bindComponent with expressions`() {
         // Given
         val jsonComponent = makeBindComponentExpression()
 
@@ -720,7 +768,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_deserialize_internalObject_using_component_type_attribute() {
+    fun `moshi should deserialize internalObject using component type attribute`() {
         // Given
         val jsonComponent = makeBindComponent()
         val internalObjectJson = makeInternalObject()
@@ -735,7 +783,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_serialize_bindComponent() {
+    fun `moshi should serialize bindComponent`() {
         // Given
         val component = ComponentBinding(
             value1 = null,
@@ -759,7 +807,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_create_contextData_with_jsonObject() {
+    fun `make should create contextData with jsonObject`() {
         // Given
         val contextDataJson = makeContextWithJsonObject()
 
@@ -773,7 +821,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_create_contextData_with_jsonArray() {
+    fun `make should create contextData with jsonArray`() {
         // Given
         val contextDataJson = makeContextWithJsonArray()
 
@@ -787,7 +835,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_create_contextData_with_primitive() {
+    fun `make should create contextData with primitive`() {
         // Given
         val contextDataJson = makeContextWithPrimitive()
 
@@ -800,7 +848,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_serialize_contextData_with_integer() {
+    fun `moshi should serialize contextData with integer`() {
         // Given
         val contextData = ContextData(
             id = RandomData.string(),
@@ -818,7 +866,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_convert_and_revert_contextData_with_integer() {
+    fun `moshi should convert and revert contextData with integer`() {
         // Given
         val contextData = ContextData(
             id = RandomData.string(),
@@ -834,7 +882,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_serialize_contextData_with_double() {
+    fun `moshi should serialize contextData with double`() {
         // Given
         val contextData = ContextData(
             id = RandomData.string(),
@@ -852,7 +900,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun moshi_should_convert_and_revert_contextData_with_double() {
+    fun `moshi should convert and revert contextData with double`() {
         // Given
         val contextData = ContextData(
             id = RandomData.string(),
@@ -868,7 +916,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_create_contextData_with_integer() {
+    fun `make should create contextData with integer`() {
         // Given
         val testInt = 2
         val contextDataJson = makeContextWithNumber(testInt)
@@ -882,7 +930,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_create_contextData_with_double() {
+    fun `make should create contextData with double`() {
         // Given
         val testDouble = 2.5
         val contextDataJson = makeContextWithNumber(testDouble)
@@ -896,7 +944,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_deserialize_contextData_with_jsonArray() {
+    fun `make should deserialize contextData with jsonArray`() {
         // Given
         val contextData = ContextData(
             id = RandomData.string(),

@@ -75,3 +75,9 @@ extension Expression: ExpressibleByFloatLiteral where T == Float {
         self = .value(value)
     }
 }
+
+extension Expression: ExpressibleByBooleanLiteral where T == Bool {
+    public init(booleanLiteral value: BooleanLiteralType) {
+        self = .value(value)
+    }
+}
