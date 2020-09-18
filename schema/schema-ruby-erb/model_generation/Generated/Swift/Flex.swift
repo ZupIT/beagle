@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+/// Apply positioning using the flex box concept, with a yoga layout structure.
 public struct Flex: Decodable, AutoEquatable {
 
     /// Controls the direction in which the children of a node are laid out.This is also referred to as the main axis.

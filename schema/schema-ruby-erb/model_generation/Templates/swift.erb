@@ -82,9 +82,7 @@
   def declarePropertiesForCommonObject(objectType)
     output = ""
     for variable in objectType.synthax_type.variables
-      if variable.comment != nil 
-        output +=  "#{@tab}/// #{variable.comment}\n"
-      end
+      output += variable.comment != nil ? "#{@tab}/// #{variable.comment}\n" : ""
       output += "#{@tab}#{variable.accessor} var #{variable.name}: #{handleTypeName(variable)}\n"
     end
 
@@ -113,7 +111,8 @@
   def fullDeclaration(objectType)
     isEnumDeclaration = @template_helper.is_enum(objectType)
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
-    output = "#{objectType.synthax_type.accessor} #{typeKind} #{objectType.synthax_type.name}#{handleInheritance(objectType.synthax_type)} {\n\n"
+    output = objectType.synthax_type.comment != nil ? "/// #{objectType.synthax_type.comment}\n" : ""
+    output += "#{objectType.synthax_type.accessor} #{typeKind} #{objectType.synthax_type.name}#{handleInheritance(objectType.synthax_type)} {\n\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)
     else
@@ -135,7 +134,6 @@
       preRun(objectType)
       aux = "\n#{fullDeclaration(objectType)}"
       output += @template_helper.add_padding(@tab, paddingMultiplier, aux)
-
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
         handleInnerTypes(objectType.synthax_type.sameFileTypes, output, paddingMultiplier + 1)

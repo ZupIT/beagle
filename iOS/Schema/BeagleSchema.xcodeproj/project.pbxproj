@@ -218,7 +218,6 @@
 		C864D26F247C240200E7A1F9 /* ContainerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerTests.swift; sourceTree = "<group>"; };
 		C864D273247C240200E7A1F9 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		C864D275247C240200E7A1F9 /* ButtonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonTests.swift; path = ../ButtonTests.swift; sourceTree = "<group>"; };
-		C864D278247C240200E7A1F9 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		C864D283247C240200E7A1F9 /* Navigate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigate.swift; sourceTree = "<group>"; };
 		C864D287247C240200E7A1F9 /* FormRemoteAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRemoteAction.swift; sourceTree = "<group>"; };
 		C864D289247C240200E7A1F9 /* FormValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidation.swift; sourceTree = "<group>"; };
@@ -784,7 +783,6 @@
 		C864D274247C240200E7A1F9 /* Button */ = {
 			isa = PBXGroup;
 			children = (
-				C864D278247C240200E7A1F9 /* Button.swift */,
 				C8EAC4FE247C28BF003089BE /* Tests */,
 			);
 			path = Button;
