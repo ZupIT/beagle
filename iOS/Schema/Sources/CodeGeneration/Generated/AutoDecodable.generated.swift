@@ -224,7 +224,7 @@ extension Image {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        path = try container.decode(ImagePath.self, forKey: .path)
+        path = try container.decode(Expression<ImagePath>.self, forKey: .path)
         mode = try container.decodeIfPresent(ImageContentMode.self, forKey: .mode)
         widgetProperties = try WidgetProperties(from: decoder)
     }

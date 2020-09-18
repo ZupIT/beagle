@@ -40,6 +40,7 @@ extension String {
     static let componentInterationEndpoint = "componentInteractionText"
     static let conditionActionEndpoint = "conditionActionText"
     static let simpleFormEndpoint = "simpleFormComponent"
+    static let imageEndpoint = "image"
 
     // MARK: - URL
     static let webViewURL = "https://maps.google.com/"

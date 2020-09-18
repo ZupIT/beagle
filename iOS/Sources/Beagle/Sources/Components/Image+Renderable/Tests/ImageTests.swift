@@ -114,4 +114,25 @@ class ImageTests: XCTestCase {
         // Then
         XCTAssertNil(weakView)
     }
+    
+    func testImageDeprecatedCancelRequest() {
+           //Given
+           let image = Image("@{img.path}")
+           let dependency = BeagleDependencies()
+           let repository = RepositoryStub(imageResult: .success(Data()))
+           dependency.repository = repository
+           let container = Container(children: [image])
+           let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
+           let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
+           let view = image.toView(renderer: controller.renderer)
+           
+           //When
+           view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
+           controller.configBindings()
+           action.execute(controller: controller, origin: view)
+           
+           // Then
+           XCTAssertTrue(repository.token.didCallCancel)
+       }
+  
 }

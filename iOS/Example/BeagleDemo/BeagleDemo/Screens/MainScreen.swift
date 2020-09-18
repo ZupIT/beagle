@@ -59,6 +59,10 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.init(route: .listViewEndpoint))]
                 )
                 Button(
+                    text: "Image",
+                    onPress: [Navigate.openNativeRoute(.init(route: .imageEndpoint))]
+                )
+                Button(
                     text: "Form",
                     onPress: [Navigate.openNativeRoute(.init(route: .formEndpoint))]
                 )
@@ -96,7 +100,7 @@ struct MainScreen: DeeplinkScreen {
                 )
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.init(url: .componentsEndpoint)))]
+                    onPress: [Navigate.pushView(.remote(.init(url: "https://run.mocky.io/v3/2da472e5-edc6-4046-8409-4c2eccc97acd")))]
                 )
         }
     }

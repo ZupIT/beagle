@@ -19,16 +19,27 @@ import Foundation
 public struct Image: RawWidget, AutoDecodable {
 
     // MARK: - Public Properties
-    public let path: ImagePath
+    public let path: Expression<ImagePath>
     public let mode: ImageContentMode?
     public var widgetProperties: WidgetProperties
+    
+    @available(*, deprecated, message: "It was deprecated in version 1.2.2 and will be removed in a future version. Use constructor without bind")
+    public init(
+        _ path: Expression<ImagePath>,
+        mode: ImageContentMode? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
+    ) {
+        self.path = path
+        self.mode = mode
+        self.widgetProperties = widgetProperties
+    }
     
     public init(
         _ path: ImagePath,
         mode: ImageContentMode? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
-        self.path = path
+        self.path = .value(path)
         self.mode = mode
         self.widgetProperties = widgetProperties
     }
