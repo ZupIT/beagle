@@ -44,10 +44,6 @@
     output = shouldAddComma ? output + "," : output
     output
   end
-
-  def getImports(variables, importManager)
-    variables.map { | variable| importManager[variable.typeName] }.uniq.filter { |import| !import.empty? }
-  end
 -%>
 
 package <%= objectType.synthax_type.package %>
@@ -57,7 +53,7 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 <% end -%>
-<% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
+<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, importManager) -%>
 import <%= qualifiedName -%>
 <% end -%>
 

@@ -84,4 +84,7 @@ class TemplateHelper
         object_type.synthax_type.inheritFrom.include? Widget.new.name
     end
 
+    def getImports(variables, importManager)
+        variables.map { |variable| importManager[variable.typeName] }.uniq.filter { |import| !import.empty? }
+    end
 end

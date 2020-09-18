@@ -54,7 +54,6 @@ class ModelGenerator
     @components = components
     @importManager = Hash.new("")
     @c = Constants.new
-    @template_helper = TemplateHelper.new
 
     components.each do |component|
       type = component.new.synthax_type
@@ -87,7 +86,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("#{@c.templates}kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      if !@template_helper.is_enum(@objectType)
+      if !TemplateHelper.new.is_enum(@objectType)
         @writer.write(@c.kotlin_backend_path, @objectType.name + ".kt", to_s)
       end
     end
