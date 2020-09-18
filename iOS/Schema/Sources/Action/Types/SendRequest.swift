@@ -28,9 +28,9 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
     }
     
     public let url: Expression<String>
-    public let method: SendRequest.HTTPMethod?
+    public let method: Expression<SendRequest.HTTPMethod>?
     public let data: DynamicObject?
-    public let headers: [String: String]?
+    public let headers: Expression<[String: String]>?
     public let onSuccess: [RawAction]?
     public let onError: [RawAction]?
     public let onFinish: [RawAction]?
@@ -38,9 +38,9 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
 // sourcery:inline:auto:SendRequest.Init
     public init(
         url: Expression<String>,
-        method: SendRequest.HTTPMethod? = nil,
+        method: Expression<SendRequest.HTTPMethod>? = nil,
         data: DynamicObject? = nil,
-        headers: [String: String]? = nil,
+        headers: Expression<[String: String]>? = nil,
         onSuccess: [RawAction]? = nil,
         onError: [RawAction]? = nil,
         onFinish: [RawAction]? = nil
@@ -54,4 +54,23 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
         self.onFinish = onFinish
     }
 // sourcery:end
+    
+    @available(*, deprecated, message: "Since version 1.3, we allow expressions in the parameters method and headers, please consider using the new method for initialization instead.")
+    public init(
+        url: Expression<String>,
+        method: SendRequest.HTTPMethod? = nil,
+        data: DynamicObject? = nil,
+        headers: [String: String]? = nil,
+        onSuccess: [RawAction]? = nil,
+        onError: [RawAction]? = nil,
+        onFinish: [RawAction]? = nil
+    ) {
+        self.url = url
+        self.method = .value(method ?? .get)
+        self.data = data
+        self.headers = .value(headers ?? ["": ""])
+        self.onSuccess = onSuccess
+        self.onError = onError
+        self.onFinish = onFinish
+    }
 }
