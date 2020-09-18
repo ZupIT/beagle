@@ -31,13 +31,15 @@ Found a key duplication when merging form data:
 
 cantPopToAlreadyCurrentScreen(identifier: "identifier")
 
-didReceiveAction(BeagleSchema.Navigate.pushView(BeagleSchema.Route.remote(BeagleSchema.Route.NewPath(url: "path", shouldPrefetch: false, fallback: nil))))
+didReceiveAction(BeagleSchema.Navigate.pushView(BeagleSchema.Route.remote(BeagleSchema.Route.NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil))))
 
 didReceiveAction(BeagleSchema.Navigate.openNativeRoute(BeagleSchema.Navigate.OpenNativeRoute(route: "path", data: nil, shouldResetApplication: false)))
 
 didReceiveAction(BeagleSchema.Navigate.openNativeRoute(BeagleSchema.Navigate.OpenNativeRoute(route: "path", data: Optional(["key": "value"]), shouldResetApplication: false)))
 
 errorTryingToPopScreenOnNavigatorWithJustOneScreen
+
+unableToPrefetchWhenUrlIsExpression
 
 Beagle Navigator couldn't find a deep link screen with path: path. Check your deep link handler, or the path in the navigate action
 

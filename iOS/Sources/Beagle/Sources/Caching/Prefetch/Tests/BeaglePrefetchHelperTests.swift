@@ -21,7 +21,8 @@ import BeagleSchema
 
 final class BeaglePrefetchHelperTests: XCTestCase {
 
-    struct Dependencies: DependencyRepository, DependencyCacheManager {
+    struct Dependencies: BeaglePreFetchHelper.Dependencies {
+        var logger: BeagleLoggerType
         var cacheManager: CacheManagerProtocol?
         let repository: Repository
     }
@@ -44,13 +45,13 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             return
         }
         let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
-        let dependencies = Dependencies(cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
+        let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         
         //When
-        sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(url: .value(url), shouldPrefetch: true))
         cacheManager.addToCache(reference)
         let result = dependencies.cacheManager?.getReference(identifiedBy: url)
 
@@ -65,16 +66,16 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             return
         }
         let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
-        let dependencies = Dependencies(cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
+        let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         
         //When
         cacheManager.addToCache(reference)
-        sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(url: .value(url), shouldPrefetch: true))
         let result1 = dependencies.cacheManager?.getReference(identifiedBy: url)
-        sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(url: .value(url), shouldPrefetch: true))
         let result2 = dependencies.cacheManager?.getReference(identifiedBy: url)
         
         //Then
@@ -94,24 +95,24 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             Navigate.openNativeRoute(.init(route: path, data: data)),
 
             Navigate.resetApplication(.declarative(Screen(child: container))),
-            Navigate.resetApplication(.remote(.init(url: path, shouldPrefetch: true))),
-            Navigate.resetApplication(.remote(.init(url: path, shouldPrefetch: false))),
+            Navigate.resetApplication(.remote(.init(url: .value(path), shouldPrefetch: true))),
+            Navigate.resetApplication(.remote(.init(url: .value(path), shouldPrefetch: false))),
 
             Navigate.resetStack(.declarative(Screen(child: container))),
-            Navigate.resetStack(.remote(.init(url: path, shouldPrefetch: true))),
-            Navigate.resetStack(.remote(.init(url: path, shouldPrefetch: false))),
+            Navigate.resetStack(.remote(.init(url: .value(path), shouldPrefetch: true))),
+            Navigate.resetStack(.remote(.init(url: .value(path), shouldPrefetch: false))),
 
             Navigate.pushStack(.declarative(Screen(child: container))),
-            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: true))),
-            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: false))),
+            Navigate.pushStack(.remote(.init(url: .value(path), shouldPrefetch: true))),
+            Navigate.pushStack(.remote(.init(url: .value(path), shouldPrefetch: false))),
             
             Navigate.pushStack(.declarative(Screen(child: container)), controllerId: "customId"),
-            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: true)), controllerId: "customId"),
-            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: false)), controllerId: "customId"),
+            Navigate.pushStack(.remote(.init(url: .value(path), shouldPrefetch: true)), controllerId: "customId"),
+            Navigate.pushStack(.remote(.init(url: .value(path), shouldPrefetch: false)), controllerId: "customId"),
 
             Navigate.pushView(.declarative(Screen(child: container))),
-            Navigate.pushView(.remote(.init(url: path, shouldPrefetch: true))),
-            Navigate.pushView(.remote(.init(url: path, shouldPrefetch: false))),
+            Navigate.pushView(.remote(.init(url: .value(path), shouldPrefetch: true))),
+            Navigate.pushView(.remote(.init(url: .value(path), shouldPrefetch: false))),
 
             Navigate.popStack,
             Navigate.popView,
@@ -126,6 +127,19 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         assertSnapshot(matching: result, as: .description)
     }
     
+    func testNavigateWithContextShouldNotPrefetch() {
+        // Given
+        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(ComponentDummy())))
+        let sut = BeaglePreFetchHelper(dependencies: dependencies)
+
+        // When
+        sut.prefetchComponent(newPath: .init(url: "@{url}", shouldPrefetch: true))
+        
+        // Then
+        XCTAssertNil(cacheManager.getReference(identifiedBy: "@{url}"))
+    }
+
     private func decodeComponent(from data: Data) -> ServerDrivenComponent? {
         do {
             let component = try decoder.decodeComponent(from: data)
