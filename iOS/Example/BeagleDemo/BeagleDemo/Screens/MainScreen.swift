@@ -100,7 +100,7 @@ struct MainScreen: DeeplinkScreen {
                 )
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.init(url: "https://run.mocky.io/v3/2da472e5-edc6-4046-8409-4c2eccc97acd")))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .value(.componentsEndpoint))))]
                 )
         }
     }
