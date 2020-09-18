@@ -40,8 +40,8 @@ internal object BeagleMoshi {
         .add(ComponentJsonAdapterFactory.make())
         .add(RouteAdapterFactory())
         .add(AndroidActionJsonAdapterFactory.make())
-        .add(KotlinJsonAdapterFactory())
         .add(ContextDataAdapterFactory())
         .add(SimpleJsonAdapter())
+        .add(KotlinJsonAdapterFactory())
         .build()
 }

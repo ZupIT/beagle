@@ -181,6 +181,26 @@ fun makeNavigationActionJson() = """
     }
 """
 
+fun makeNavigationActionJsonWithExpression() = """
+    {
+      "_beagleAction_": "beagle:pushView",
+      "route": {
+        "url": "@{test}",
+        "shouldPrefetch": false
+      }
+    }
+"""
+
+fun makeNavigationActionJsonWithUrlHardcoded() = """
+    {
+      "_beagleAction_": "beagle:pushView",
+      "route": {
+        "url": "http://localhost:8080/test/example",
+        "shouldPrefetch": false
+      }
+    }
+"""
+
 fun makeAlertActionJson() = """
     {
         "_beagleAction_": "beagle:alert",

@@ -19,12 +19,19 @@ package br.com.zup.beagle.android.data
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
+import io.mockk.Runs
 import io.mockk.called
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Test
 
@@ -49,13 +56,17 @@ class PreFetchHelperTest : BaseTest() {
         prepareViewModelMock(beagleViewModel)
 
         coEvery { beagleViewModel.fetchForCache(any()) } returns mockk()
+
+        mockkObject(BeagleMessageLogs)
+        every { BeagleMessageLogs.expressionNotSupportInPreFetch() } just Runs
+
     }
 
     @Test
     fun should_call_fetch_for_cache_test() {
         cachedTypes.forEach {
             helper.handlePreFetch(rootView, it)
-            verify { beagleViewModel.fetchForCache(route.url) }
+            verify { beagleViewModel.fetchForCache(route.url.value as String) }
         }
     }
 
@@ -67,4 +78,29 @@ class PreFetchHelperTest : BaseTest() {
             verify { beagleViewModel.fetchForCache(url) wasNot called }
         }
     }
+
+    @Test
+    fun prefetch_log_should_be_displayed() {
+        //GIVEN
+        val route = Route.Remote(expressionOf("http://@{test}"), shouldPrefetch = true)
+        val navigation = Navigate.PushView(route)
+
+        //WHEN
+        helper.handlePreFetch(rootView, navigation)
+
+        //THEN
+        verify { BeagleMessageLogs.expressionNotSupportInPreFetch() }
+    }
+
+    @Test
+    fun should_not_call_fetch_for_cache_when_url_has_an_expression() {
+        cachedTypes.forEach {
+            route.url is Bind.Expression<String>
+            val url = RandomData.string()
+            helper.handlePreFetch(rootView, it)
+            verify { beagleViewModel.fetchForCache(url) wasNot called }
+        }
+    }
+
+
 }

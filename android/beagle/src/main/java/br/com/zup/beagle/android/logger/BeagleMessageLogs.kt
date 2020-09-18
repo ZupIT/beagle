@@ -158,4 +158,8 @@ internal object BeagleMessageLogs {
         val errorMessage = "Expression: $expression not supported in toolbar"
         BeagleLoggerProxy.error(errorMessage)
     }
+
+    fun expressionNotSupportInPreFetch() {
+        BeagleLoggerProxy.warning("Expression is not support in prefetch")
+    }
 }

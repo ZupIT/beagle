@@ -52,3 +52,10 @@ internal object HandleEventDeprecatedConstants {
     const val HANDLE_EVENT_POINTER: String = "handleEvent(rootView, origin, action)"
     const val HANDLE_EVENT_ACTIONS_POINTER: String = "handleEvent(rootView, origin, actions)"
 }
+
+internal object EventsRelatedToNavigationAction {
+    const val URL: String = "url"
+    const val SHOULD_PREFETCH = "shouldPrefetch"
+    const val FALLBACK: String = "fallback"
+    const val SCREEN: String = "screen"
+}

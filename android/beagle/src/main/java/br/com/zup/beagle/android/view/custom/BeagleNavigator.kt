@@ -64,7 +64,7 @@ internal object BeagleNavigator {
     fun pushView(context: Context, route: Route) {
         if (context is BeagleActivity) {
             when (route) {
-                is Route.Remote -> context.navigateTo(ScreenRequest(route.url), route.fallback)
+                is Route.Remote -> context.navigateTo(ScreenRequest(route.url.value as String), route.fallback)
                 is Route.Local -> context.navigateTo(ScreenRequest(""), route.screen)
             }
         } else {
@@ -109,9 +109,9 @@ internal object BeagleNavigator {
         val bundle = when (route) {
             is Route.Remote -> {
                 if (route.fallback != null) {
-                    BeagleActivity.bundleOf(ScreenRequest(route.url), route.fallback)
+                    BeagleActivity.bundleOf(ScreenRequest(route.url.value as String), route.fallback)
                 } else {
-                    BeagleActivity.bundleOf(ScreenRequest(route.url))
+                    BeagleActivity.bundleOf(ScreenRequest(route.url.value as String))
                 }
             }
             is Route.Local -> BeagleActivity.bundleOf(route.screen)

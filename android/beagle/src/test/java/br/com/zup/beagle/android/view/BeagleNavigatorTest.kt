@@ -34,19 +34,8 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
-import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkClass
-import io.mockk.mockkConstructor
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.unmockkAll
-import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -185,7 +174,7 @@ class BeagleNavigatorTest {
     @Test
     fun pushView_should_call_BeagleActivity_navigateTo() {
         // Given
-        val screenRequest = ScreenRequest(route.url)
+        val screenRequest = ScreenRequest(route.url.value as String)
         every { context.navigateTo(screenRequest, null) } just Runs
 
         // When
