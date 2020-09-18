@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1D3A4B3B2515461A0080BFAB /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3A4B3125153C050080BFAB /* Button.swift */; };
 		1D3A4B3D2515474B0080BFAB /* Flex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3A4B3C2515474B0080BFAB /* Flex.swift */; };
+		1D3A4B41251549B30080BFAB /* EdgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3A4B40251549B30080BFAB /* EdgeValue.swift */; };
 		252D727524D84AEF0069541F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727424D84AEF0069541F /* Binding.swift */; };
 		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		257FC9F924DCA75300F2157C /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9F824DCA75300F2157C /* Value.swift */; };
@@ -77,7 +78,6 @@
 		C864D2DB247C240200E7A1F9 /* RawAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28C247C240200E7A1F9 /* RawAction.swift */; };
 		C864D2DC247C240200E7A1F9 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28E247C240200E7A1F9 /* Accessibility.swift */; };
 		C864D2DD247C240200E7A1F9 /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D290247C240200E7A1F9 /* UnitValue.swift */; };
-		C864D2DE247C240200E7A1F9 /* EdgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D291247C240200E7A1F9 /* EdgeValue.swift */; };
 		C864D2DF247C240200E7A1F9 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D292247C240200E7A1F9 /* Size.swift */; };
 		C864D2E1247C240200E7A1F9 /* AnalyticsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D295247C240200E7A1F9 /* AnalyticsModels.swift */; };
 		C864D2E2247C240200E7A1F9 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D296247C240200E7A1F9 /* Events.swift */; };
@@ -138,6 +138,7 @@
 /* Begin PBXFileReference section */
 		1D3A4B3125153C050080BFAB /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Button.swift; path = "../../../../../schema/schema-ruby-erb/model_generation/Generated/Swift/Button.swift"; sourceTree = "<group>"; };
 		1D3A4B3C2515474B0080BFAB /* Flex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Flex.swift; path = "../../../../../schema/schema-ruby-erb/model_generation/Generated/Swift/Flex.swift"; sourceTree = "<group>"; };
+		1D3A4B40251549B30080BFAB /* EdgeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EdgeValue.swift; path = "../../../../../schema/schema-ruby-erb/model_generation/Generated/Swift/EdgeValue.swift"; sourceTree = "<group>"; };
 		252D727424D84AEF0069541F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
@@ -226,7 +227,6 @@
 		C864D28C247C240200E7A1F9 /* RawAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawAction.swift; sourceTree = "<group>"; };
 		C864D28E247C240200E7A1F9 /* Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		C864D290247C240200E7A1F9 /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
-		C864D291247C240200E7A1F9 /* EdgeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeValue.swift; sourceTree = "<group>"; };
 		C864D292247C240200E7A1F9 /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
 		C864D295247C240200E7A1F9 /* AnalyticsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsModels.swift; sourceTree = "<group>"; };
 		C864D296247C240200E7A1F9 /* Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
@@ -293,6 +293,7 @@
 		1D3A4B2825114ED80080BFAB /* RubySchema */ = {
 			isa = PBXGroup;
 			children = (
+				1D3A4B40251549B30080BFAB /* EdgeValue.swift */,
 				1D3A4B3C2515474B0080BFAB /* Flex.swift */,
 				1D3A4B3125153C050080BFAB /* Button.swift */,
 			);
@@ -838,7 +839,6 @@
 			isa = PBXGroup;
 			children = (
 				C864D290247C240200E7A1F9 /* UnitValue.swift */,
-				C864D291247C240200E7A1F9 /* EdgeValue.swift */,
 				C864D292247C240200E7A1F9 /* Size.swift */,
 			);
 			path = Flex;
@@ -1316,7 +1316,6 @@
 				C8EBCC31247C3002002030CC /* LazyComponent.swift in Sources */,
 				C864D2BC247C240200E7A1F9 /* SourceryProtocols.swift in Sources */,
 				938B13B72497E33100AA8E3B /* SetContext.swift in Sources */,
-				C864D2DE247C240200E7A1F9 /* EdgeValue.swift in Sources */,
 				C864D2CF247C240200E7A1F9 /* Container.swift in Sources */,
 				C864D2D9247C240200E7A1F9 /* FormValidation.swift in Sources */,
 				C864D2CB247C240200E7A1F9 /* ImageContentMode.swift in Sources */,
@@ -1331,6 +1330,7 @@
 				C864D2B9247C240200E7A1F9 /* RawComponent.swift in Sources */,
 				C864D2E6247C240200E7A1F9 /* Text.swift in Sources */,
 				C08D4EC12488259D00AAAC0A /* Schema.swift in Sources */,
+				1D3A4B41251549B30080BFAB /* EdgeValue.swift in Sources */,
 				C8E530BF24B4EE570045C048 /* Deprecated.swift in Sources */,
 				938B13C02497E6A700AA8E3B /* Path.swift in Sources */,
 				C864D2B0247C240200E7A1F9 /* Touchable.swift in Sources */,

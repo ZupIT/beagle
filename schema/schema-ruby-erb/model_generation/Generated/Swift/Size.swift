@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Size: Decodable {
+public class Size: Decodable, AutoEquatable {
 
     public var height: UnitValue?
     public var maxWidth: UnitValue?

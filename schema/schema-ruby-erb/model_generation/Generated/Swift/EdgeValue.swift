@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 
-public struct EdgeValue: Decodable {
+/// Specifies the offset value of the edges that an item should have from it’s closest sibling (item) or parent (container).
+public class EdgeValue: Decodable, AutoEquatable {
 
     public var left: UnitValue?
     public var top: UnitValue?
     public var right: UnitValue?
     public var bottom: UnitValue?
+    /// Specify the offset the horizontal edge of the item should have from it’s closest sibling (item) or parent (container).
     public var horizontal: UnitValue?
+    /// Specify the offset the vertical edge of the item should have from it’s closest sibling (item) or parent (container).
     public var vertical: UnitValue?
+    /// Specify the offset the all edge of the item should have from it’s closest sibling (item) or parent (container).
     public var all: UnitValue?
 
     public init(

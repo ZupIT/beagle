@@ -158,7 +158,7 @@
       objectType.synthax_type.inheritFrom.append("Decodable")
     end
 
-    if objectType.synthax_type.name == Flex.new.name
+    if [Flex.new.name, EdgeValue.new.name, Size.new.name].include? objectType.synthax_type.name
       objectType.synthax_type.type = "class"
       objectType.synthax_type.inheritFrom.append("AutoEquatable")
     end
