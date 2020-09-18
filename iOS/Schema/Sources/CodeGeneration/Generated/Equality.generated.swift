@@ -38,6 +38,23 @@ extension EdgeValue: Equatable {
         return true
     }
 }
+// MARK: Flex Equatable
+
+extension Flex: Equatable {
+     public static func == (lhs: Flex, rhs: Flex) -> Bool {
+        guard lhs.flexDirection == rhs.flexDirection else { return false }
+        guard lhs.flexWrap == rhs.flexWrap else { return false }
+        guard lhs.justifyContent == rhs.justifyContent else { return false }
+        guard lhs.alignItems == rhs.alignItems else { return false }
+        guard lhs.alignSelf == rhs.alignSelf else { return false }
+        guard lhs.alignContent == rhs.alignContent else { return false }
+        guard lhs.basis == rhs.basis else { return false }
+        guard lhs.flex == rhs.flex else { return false }
+        guard lhs.grow == rhs.grow else { return false }
+        guard lhs.shrink == rhs.shrink else { return false }
+        return true
+    }
+}
 // MARK: Size Equatable
 
 extension Size: Equatable {
