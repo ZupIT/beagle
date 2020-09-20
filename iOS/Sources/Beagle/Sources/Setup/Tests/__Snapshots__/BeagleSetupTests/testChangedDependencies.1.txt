@@ -12,7 +12,7 @@
       - observers: 0 elements
       ▿ value: Context
         - id: ""
-        - value: DynamicObject.empty
+        - value: 
     - globalId: ""
   - isLoggingEnabled: true
   ▿ localFormHandler: Optional<LocalFormHandler>

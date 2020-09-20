@@ -25,7 +25,7 @@ extension DynamicObject: AnySnapshotStringConvertible {
     }
     
     private func customDescription(_ dynamicObject: DynamicObject) -> String {
-        var description = self.description
+        var description = dynamicObject.description
         
         if case DynamicObject.array(let array) = dynamicObject {
             description = arrayDescription(array)
@@ -53,7 +53,20 @@ extension DynamicObject: AnySnapshotStringConvertible {
             array.append((key, value))
         }
         array.sort() { $0.0 < $1.0 }
-        return array.description
+        
+        func arrayDescription(_ array: [(String, DynamicObject)]) -> String {
+            var description = ""
+            for item in array {
+                description += "(\(item.0), \(customDescription(item.1))), "
+            }
+            // Remove last occurrence of the separator(', ')
+            description.removeLast(2)
+            
+            return "[\(description)]"
+        }
+        
+        
+        return arrayDescription(array)
     }
 }
 
