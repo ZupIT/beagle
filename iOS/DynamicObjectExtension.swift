@@ -65,8 +65,6 @@ extension DynamicObject: AnySnapshotStringConvertible {
             return "[\(description)]"
         }
         
-        
         return arrayDescription(array)
     }
 }
-
