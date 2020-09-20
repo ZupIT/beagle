@@ -15,7 +15,7 @@
   ▿ context: Optional<Context>
     ▿ some: Context
       - id: "cadastro"
-      - value: [("email", beagle@zup.com.br), ("message", Hello Beagle!)]
+      - value: [(email, beagle@zup.com.br), (message, Hello Beagle!)]
   ▿ onSubmit: Optional<Array<RawAction>>
     ▿ some: 1 element
       ▿ Confirm
