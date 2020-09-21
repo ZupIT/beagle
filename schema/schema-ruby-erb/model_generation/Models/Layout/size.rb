@@ -21,17 +21,48 @@ class Size < BaseComponent
     def initialize
         unit_value = UnitValue.new.name
         variables = [
-            Variable.new(:name => "height", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "maxWidth", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "maxHeight", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "minWidth", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "minHeight", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "aspectRatio", :typeName => BasicTypeKeys.double, :isOptional => true)
+            Variable.new(
+                :name => "width",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "height",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "maxWidth",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "maxHeight",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "minWidth",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "minHeight",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "aspectRatio",
+                :typeName => BasicTypeKeys.double,
+                :isOptional => true,
+                :comment => "Set a height and width ratio."
+            )
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :comment => "Handles the size of the item"
         )
 
         super(synthax_type)

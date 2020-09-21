@@ -98,7 +98,8 @@ class Flex < BaseComponent
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
-            :sameFileTypes => [flex_direction, flex_wrap, justify_content, align_items, align_self, align_content]
+            :sameFileTypes => [flex_direction, flex_wrap, justify_content, align_items, align_self, align_content],
+            :comment => "Apply positioning using the flex box concept, with a yoga layout structure."
         )
 
         super(synthax_type)

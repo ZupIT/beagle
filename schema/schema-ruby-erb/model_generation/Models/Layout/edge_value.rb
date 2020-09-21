@@ -22,18 +22,49 @@ class EdgeValue < BaseComponent
     def initialize
         unit_value = UnitValue.new.name
         variables = [
-            Variable.new(:name => "left", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "top", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "right", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "bottom", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "horizontal", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "vertical", :typeName => unit_value, :isOptional => true),
-            Variable.new(:name => "all", :typeName => unit_value, :isOptional => true)
+            Variable.new(:name => "left",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "top",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "right",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "bottom",
+                :typeName => unit_value,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "horizontal",
+                :typeName => unit_value,
+                :isOptional => true,
+                :comment => "Specify the offset the horizontal edge of the item should have from it’s closest sibling (item) or parent (container)."
+            ),
+            Variable.new(
+                :name => "vertical",
+                :typeName => unit_value,
+                :isOptional => true,
+                :comment => "Specify the offset the vertical edge of the item should have from it’s closest sibling (item) or parent (container)."
+            ),
+            Variable.new(
+                :name => "all",
+                :typeName => unit_value,
+                :isOptional => true,
+                :comment => "Specify the offset the all edge of the item should have from it’s closest sibling (item) or parent (container)."
+            )
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :comment => "Specifies the offset value of the edges that an item should have from it’s closest sibling (item) or parent (container)."
         )
 
         super(synthax_type)

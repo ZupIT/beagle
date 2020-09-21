@@ -27,7 +27,8 @@ class UnitValue < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :comment => "Receive the amount to be applied and the type."
         )
 
         super(synthax_type)

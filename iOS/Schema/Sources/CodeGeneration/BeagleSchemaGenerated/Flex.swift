@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-public struct Flex: Decodable, AutoEquatable {
+/// Apply positioning using the flex box concept, with a yoga layout structure.
+public class Flex: Decodable, AutoEquatable {
 
     /// Controls the direction in which the children of a node are laid out.This is also referred to as the main axis.
     public var flexDirection: FlexDirection?
     /// Set on containers and controls what happens when children overflow the size of the container along the main axis.
-    public var flexWrap: FlexWrap?
+    public var flexWrap: Wrap?
     /// Align children within the main axis of their container.
     public var justifyContent: JustifyContent?
     /// Align items describes how to align children along the cross axis of their container.
@@ -40,7 +41,7 @@ public struct Flex: Decodable, AutoEquatable {
 
     public init(
         flexDirection: FlexDirection? = nil,
-        flexWrap: FlexWrap? = nil,
+        flexWrap: Wrap? = nil,
         justifyContent: JustifyContent? = nil,
         alignItems: AlignItems? = nil,
         alignSelf: AlignSelf? = nil,
@@ -62,7 +63,7 @@ public struct Flex: Decodable, AutoEquatable {
         self.shrink = shrink
     }
     
-    public enum FlexDirection: String {
+    public enum FlexDirection: String, Decodable {
     
         case row = "ROW"
         case rowReverse = "ROW_REVERSE"
@@ -71,7 +72,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum FlexWrap: String {
+    public enum Wrap: String, Decodable {
     
         case noWrap = "NO_WRAP"
         case wrap = "WRAP"
@@ -79,7 +80,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum JustifyContent: String {
+    public enum JustifyContent: String, Decodable {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -90,7 +91,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum AlignItems: String {
+    public enum AlignItems: String, Decodable {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -100,7 +101,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum AlignSelf: String {
+    public enum AlignSelf: String, Decodable {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -111,7 +112,7 @@ public struct Flex: Decodable, AutoEquatable {
     
     }
     
-    public enum AlignContent: String {
+    public enum AlignContent: String, Decodable {
     
         case flexStart = "FLEX_START"
         case center = "CENTER"

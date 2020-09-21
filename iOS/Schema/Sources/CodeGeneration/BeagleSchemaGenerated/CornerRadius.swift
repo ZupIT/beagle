@@ -15,29 +15,14 @@
  * limitations under the License.
  */
 
-public struct Size: Decodable {
+public struct CornerRadius: Decodable, AutoEquatable {
 
-    public var height: UnitValue?
-    public var maxWidth: UnitValue?
-    public var maxHeight: UnitValue?
-    public var minWidth: UnitValue?
-    public var minHeight: UnitValue?
-    public var aspectRatio: Double?
+    public var radius: Double
 
     public init(
-        height: UnitValue? = nil,
-        maxWidth: UnitValue? = nil,
-        maxHeight: UnitValue? = nil,
-        minWidth: UnitValue? = nil,
-        minHeight: UnitValue? = nil,
-        aspectRatio: Double? = nil
+        radius: Double
     ) {
-        self.height = height
-        self.maxWidth = maxWidth
-        self.maxHeight = maxHeight
-        self.minWidth = minWidth
-        self.minHeight = minHeight
-        self.aspectRatio = aspectRatio
+        self.radius = radius
     }
 
 }

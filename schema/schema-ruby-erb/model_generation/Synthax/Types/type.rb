@@ -41,10 +41,15 @@ module BaseType
     # @return [Array<BaseComponent>]
     attr_accessor :sameFileTypes
 
-    # Interface id for Interface
+    # Type
     # setting this to something else will overwrite {TemplateHelper#defaultDeclarationType defaultDeclarationType} in the templates
     # @return [String]
     attr_accessor :type
+
+    # Comment for built-in types. Default is nil
+    # the intention of this comment is to be generated before the object declaration
+    # @return [String]
+    attr_accessor :comment
 
     def initialize(params = {})
         @type = nil 
@@ -54,6 +59,7 @@ module BaseType
         @inheritFrom = params.fetch(:inheritFrom, [])
         @package = params.fetch(:package, "")
         @sameFileTypes = params.fetch(:sameFileTypes, [])
+        @comment = params.fetch(:comment, nil)
     end
     
 end

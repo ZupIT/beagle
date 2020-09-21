@@ -107,10 +107,26 @@ class ModelGenerator
   
   # Generates models for swift
   def generate_swift
+    ready_to_prod = [
+      Button.new.name,
+      EdgeValue.new.name,
+      Flex.new.name,
+      Size.new.name,
+      UnitType.new.name,
+      UnitValue.new.name,
+      Style.new.name,
+      CornerRadius.new.name
+    ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(@c.swift_path, @objectType.name + ".swift", to_s)
+      path = @c.swift_path
+
+      if ready_to_prod.include? @objectType.name 
+        path += "../../../../../iOS/Schema/Sources/CodeGeneration/BeagleSchemaGenerated/"
+      end
+
+      @writer.write(path, @objectType.name + ".swift", to_s)
     end
   end
 
