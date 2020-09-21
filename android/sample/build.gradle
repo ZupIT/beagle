@@ -34,9 +34,17 @@ android {
         versionCode Dependencies.Releases.versionCode
         versionName Dependencies.Releases.versionName
 
-        testInstrumentationRunner Dependencies.GeneralNames.sampleTestInstrumentationRunner
-        testApplicationId "br.com.zup.beagle.sample.cucumber.steps"
-        testInstrumentationRunner "br.com.zup.beagle.sample.cucumber.steps.Instrumentation"
+//        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
+
+//        if (project.ext.has("snapshot")) {
+            testApplicationId "br.com.zup.beagle.sample.test"
+            testInstrumentationRunner "br.com.zup.beagle.sample.SampleTestRunner"
+//        } else {
+//            testApplicationId "br.com.zup.beagle.sample.cucumber.steps"
+//            testInstrumentationRunner "br.com.zup.beagle.sample.cucumber.steps.Instrumentation"
+//        }
+
+
         buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
 
     }
