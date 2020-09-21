@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,8 +16,7 @@
  */
 
 /// Handles the size of the item
-public class Size: Decodable, AutoEquatable, AutoInitiable {
-    // MARK: - Public Properties
+public class Size: Decodable, AutoEquatable {
 
     public var width: UnitValue?
     public var height: UnitValue?
@@ -24,11 +24,9 @@ public class Size: Decodable, AutoEquatable, AutoInitiable {
     public var maxHeight: UnitValue?
     public var minWidth: UnitValue?
     public var minHeight: UnitValue?
-    
     /// Set a height and width ratio.
     public var aspectRatio: Double?
 
-// sourcery:inline:auto:Size.Init
     public init(
         width: UnitValue? = nil,
         height: UnitValue? = nil,
@@ -46,5 +44,5 @@ public class Size: Decodable, AutoEquatable, AutoInitiable {
         self.minHeight = minHeight
         self.aspectRatio = aspectRatio
     }
-// sourcery:end
+
 }

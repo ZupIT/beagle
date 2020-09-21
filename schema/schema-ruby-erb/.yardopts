@@ -1,0 +1,10 @@
+--no-private
+--title "Beagle Schema"
+--exclude Models/Layout
+--exclude Models/Action
+--exclude Models/Analytics
+--exclude Models/Layout
+--exclude Models/ServerDriven
+--exclude Models/Widgets
+--exclude Models/Accessibility
+--exclude Common/Constants

@@ -14,8 +14,14 @@
 
 require 'fileutils'
 
+# This is a helper class to create/update the generated files
 class FileHandler
     
+    # Create or update a file
+    #
+    # @param path [String] path in which the file will be created
+    # @param file_name [String] name of the file
+    # @param data_to_be_written [String] generated code
     def write(path, file_name, data_to_be_written) 
         handle_directory_creation_if_needed(path)
         File.open(path + file_name, "w+") do |f|     

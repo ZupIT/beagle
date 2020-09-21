@@ -15,28 +15,37 @@
  * limitations under the License.
  */
 
-public struct Style: Decodable {
+public class Style: Decodable, AutoEquatable {
 
+    /// Set the view background color. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`.
     public var backgroundColor: String?
-    public var cornerRadius: String?
+    /// Sets the corner of your view to make it round.
+    public var cornerRadius: CornerRadius?
+    /// Allows  you to specify the size of the element.
     public var size: Size?
+    /// Allows you to apply a space to the child element.
     public var margin: EdgeValue?
+    /// Allows you to apply a space to the parent element. So when a child is created it starts with padding-defined spacing.
     public var padding: EdgeValue?
+    /// Sets the placement of the component in its parent.
     public var position: EdgeValue?
-    public var flex: Flex?
+    /// The position type of an element defines how it is positioned within its parent.
     public var positionType: PositionType?
+    /// Set the display type of the component, allowing o be flexible or locked.
     public var display: Display?
+    /// Apply positioning using the flex box concept.
+    public var flex: Flex?
 
     public init(
         backgroundColor: String? = nil,
-        cornerRadius: String? = nil,
+        cornerRadius: CornerRadius? = nil,
         size: Size? = nil,
         margin: EdgeValue? = nil,
         padding: EdgeValue? = nil,
         position: EdgeValue? = nil,
-        flex: Flex? = nil,
         positionType: PositionType? = nil,
-        display: Display? = nil
+        display: Display? = nil,
+        flex: Flex? = nil
     ) {
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
@@ -44,19 +53,19 @@ public struct Style: Decodable {
         self.margin = margin
         self.padding = padding
         self.position = position
-        self.flex = flex
         self.positionType = positionType
         self.display = display
+        self.flex = flex
     }
     
-    public enum PositionType: String {
+    public enum PositionType: String, Decodable {
     
         case relative = "RELATIVE"
         case absolute = "ABSOLUTE"
     
     }
     
-    public enum Display: String {
+    public enum Display: String, Decodable {
     
         case flex = "FLEX"
         case none = "NONE"

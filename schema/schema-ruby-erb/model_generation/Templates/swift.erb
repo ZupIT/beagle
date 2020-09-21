@@ -19,15 +19,18 @@
   require_relative 'Synthax/Types/basic_type'
   require_relative 'Synthax/Attributes/list'
   require_relative 'Templates/template_helper.rb'
+  
+  require_relative 'Models/Layout/Flex/flex_wrap.rb'
   require_relative 'Models/Action/action.rb'
+
   @tab = "    "
   @doubleTab = @tab + @tab
-  @templateHelper = TemplateHelper.new
-  @templateHelper.languageIdentifier = SupportedLanguages.new.swift
-  @templateHelper.defaultDeclarationType = "struct"
+  @template_helper = TemplateHelper.new
+  @template_helper.languageIdentifier = SupportedLanguages.new.swift
+  @template_helper.defaultDeclarationType = "struct"
 
   def handleTypeName(variable)
-      typeName = @templateHelper.fetch_type(variable.typeName)
+      typeName = @template_helper.fetch_type(variable.typeName)
       typeName = adaptTypeNameToSwiftSpecific(typeName)
       output = variable.isBindable ? "Expression<#{typeName}>" : typeName
       output = variable.class == List ? "[#{output}]" : output
@@ -36,7 +39,7 @@
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    typeName = @templateHelper.fetch_type(variable.typeName)
+    typeName = @template_helper.fetch_type(variable.typeName)
     typeName = adaptTypeNameToSwiftSpecific(typeName)
     output = variable.isBindable ? "Expression<#{typeName}>" : typeName
     output = variable.class == List ? "[#{output}]" : output
@@ -55,8 +58,8 @@
   def handleInheritance(synthax_type)
     output = synthax_type.inheritFrom.size == 0 ? "" : ": "
     counter = 0
-    for type in synthax_type.inheritFrom
-      adaptedType = adaptTypeNameToSwiftSpecific(type)
+    for typeName in synthax_type.inheritFrom
+      adaptedType = adaptTypeNameToSwiftSpecific(typeName)
       output += adaptedType
       output = synthax_type.inheritFrom.size - 1 != counter ? output + ", " : output
       counter += 1
@@ -82,9 +85,7 @@
   def declarePropertiesForCommonObject(objectType)
     output = ""
     for variable in objectType.synthax_type.variables
-      if variable.comment != nil 
-        output +=  "#{@tab}/// #{variable.comment}\n"
-      end
+      output += variable.comment != nil ? "#{@tab}/// #{variable.comment}\n" : ""
       output += "#{@tab}#{variable.accessor} var #{variable.name}: #{handleTypeName(variable)}\n"
     end
 
@@ -111,9 +112,11 @@
   end
 
   def fullDeclaration(objectType)
-    isEnumDeclaration = @templateHelper.is_enum(objectType)
-    typeKind = @templateHelper.fetch_built_in_type_declaration(objectType.synthax_type.type)
-    output = "#{objectType.synthax_type.accessor} #{typeKind} #{objectType.synthax_type.name}#{handleInheritance(objectType.synthax_type)} {\n\n"
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    output = objectType.synthax_type.comment != nil ? "/// #{objectType.synthax_type.comment}\n" : ""
+    typeName = adaptTypeNameToSwiftSpecific(objectType.synthax_type.name)
+    output += "#{objectType.synthax_type.accessor} #{typeKind} #{typeName}#{handleInheritance(objectType.synthax_type)} {\n\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)
     else
@@ -132,9 +135,9 @@
   def handleInnerTypes(objectTypes, input, paddingMultiplier = 1)
     output = input
     for objectType in objectTypes
+      preRun(objectType)
       aux = "\n#{fullDeclaration(objectType)}"
-      output += @templateHelper.add_padding(@tab, paddingMultiplier, aux)
-
+      output += @template_helper.add_padding(@tab, paddingMultiplier, aux)
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
         handleInnerTypes(objectType.synthax_type.sameFileTypes, output, paddingMultiplier + 1)
@@ -143,8 +146,10 @@
     output
   end
 
+  # Everything that is inside this method indicates something that need to be done only for swift
+  # Adding anything here implies in a difference between swift and other platforms, therefore, needs refactor.
   def preRun(objectType)
-    if @templateHelper.is_widget(objectType)
+    if @template_helper.is_widget(objectType)
       objectType.synthax_type.variables.append(
         Variable.new(:name => "widgetProperties", :typeName => "WidgetProperties", :defaultValue => "WidgetProperties()")
       )
@@ -153,7 +158,16 @@
       objectType.synthax_type.inheritFrom.append("Decodable")
     end
 
-    if objectType.synthax_type.name == Flex.new.name
+    if [UnitValue.new.name].include? objectType.synthax_type.name
+      objectType.synthax_type.inheritFrom.append("Equatable")
+    end
+
+    if [Flex.new.name, EdgeValue.new.name, Size.new.name, Style.new.name].include? objectType.synthax_type.name
+      objectType.synthax_type.type = "class"
+      objectType.synthax_type.inheritFrom.append("AutoEquatable")
+    end
+
+    if [CornerRadius.new.name].include? objectType.synthax_type.name
       objectType.synthax_type.inheritFrom.append("AutoEquatable")
     end
 
@@ -165,6 +179,8 @@
       "RawWidget"
     elsif typeName.eql?(Action.new.name)
       "RawAction"
+    elsif typeName.eql?(FlexWrap.new.name)
+      "Wrap"
     else
       typeName
     end

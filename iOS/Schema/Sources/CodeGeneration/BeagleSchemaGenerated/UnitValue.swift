@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 
-public struct CornerRadius: Decodable {
+/// Receive the amount to be applied and the type.
+public struct UnitValue: Decodable, Equatable {
 
-    public var radius: Double
+    public var value: Double
+    public var type: UnitType
 
     public init(
-        radius: Double
+        value: Double,
+        type: UnitType
     ) {
-        self.radius = radius
+        self.value = value
+        self.type = type
     }
 
 }

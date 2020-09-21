@@ -14,6 +14,7 @@
 
 require_relative 'type.rb'
 
+# This class represents the declaration of an enum
 class EnumType
     include BaseType
 

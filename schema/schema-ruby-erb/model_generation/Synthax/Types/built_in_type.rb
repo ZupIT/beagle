@@ -14,6 +14,8 @@
 
 require_relative 'type.rb'
 
+# This class will be used to represent most of our components.
+#   e.g.: Button, Flex, Text ...
 class BuiltInType
     include BaseType
 

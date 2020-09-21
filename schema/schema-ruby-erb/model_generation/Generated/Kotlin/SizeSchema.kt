@@ -20,6 +20,7 @@ package br.com.zup.beagle.widget.core
 import br.com.zup.beagle.widget.core.UnitValueSchema
 
 interface SizeSchema {
+  public val width: UnitValueSchema?
   public val height: UnitValueSchema?
   public val maxWidth: UnitValueSchema?
   public val maxHeight: UnitValueSchema?

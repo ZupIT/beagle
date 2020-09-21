@@ -45,8 +45,12 @@ require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
 require_relative 'Templates/template_helper.rb'
 
+# This is the main class of Beagle Schema
 class ModelGenerator
   
+  # Initializer for ModelGenerator
+  #
+  # @param components [BaseComponent] array of base components that will be translated to other languages
   def initialize(components)
     @objectType = nil
     @erb = nil
@@ -61,12 +65,20 @@ class ModelGenerator
     end
   end
   
-  attr_accessor :objectType, :importManager
+  # Array of BaseComponents
+  # @return [Array<BaseComponent>]
+  attr_accessor :objectType
 
+  # @return [Hash]
+  attr_accessor :importManager
+
+  # This method is used to trigger the logic for code generation inside the templates
+  # @return [String] the result of this method return a string that will be saved in a file
   def to_s
     @erb.result(binding)
   end
 
+  # Generates models for all the supported languages
   def generate
     generate_swift
     generate_kotlin
@@ -74,6 +86,7 @@ class ModelGenerator
     generate_ts
   end
 
+  # Generates models for kotlin
   def generate_kotlin
     @erb = ERB.new(File.read("#{@c.templates}kotlin.erb"), nil, '-')
     for component in @components
@@ -82,6 +95,7 @@ class ModelGenerator
     end
   end
 
+  # Generates models for kotlin backend
   def generate_kotlin_backend
     @erb = ERB.new(File.read("#{@c.templates}kotlin_backend.erb"), nil, '-')
     for component in @components
@@ -92,14 +106,32 @@ class ModelGenerator
     end
   end
   
+  # Generates models for swift
   def generate_swift
+    ready_to_prod = [
+      Button.new.name,
+      EdgeValue.new.name,
+      Flex.new.name,
+      Size.new.name,
+      UnitType.new.name,
+      UnitValue.new.name,
+      Style.new.name,
+      CornerRadius.new.name
+    ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(@c.swift_path, @objectType.name + ".swift", to_s)
+      path = @c.swift_path
+
+      if ready_to_prod.include? @objectType.name 
+        path += "../../../../../iOS/Schema/Sources/CodeGeneration/BeagleSchemaGenerated/"
+      end
+
+      @writer.write(path, @objectType.name + ".swift", to_s)
     end
   end
 
+  # Generates models for type script
   def generate_ts
     @erb = ERB.new(File.read("#{@c.templates}ts.erb"), nil, '-')
     for component in @components
