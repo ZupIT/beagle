@@ -20,7 +20,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: "../screenshots.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -67,10 +66,5 @@ dependencies {
     testImplementation Dependencies.TestLibraries.junit
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.mockk
-
-    // Integration Testing
-    androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
-    androidTestImplementation Dependencies.TestLibraries.espressoCore
-    androidTestImplementation Dependencies.TestLibraries.testRules
+    
 }

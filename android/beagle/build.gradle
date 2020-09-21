@@ -86,11 +86,6 @@ dependencies {
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.archCoreTesting
     testImplementation Dependencies.GeneralLibraries.jsonObject
-
-    // Integration Testing
-    androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
-    androidTestImplementation Dependencies.TestLibraries.espressoCore
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
