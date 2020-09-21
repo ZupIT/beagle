@@ -15,16 +15,20 @@
  * limitations under the License.
  */
 
+/// Handles the size of the item
 public class Size: Decodable, AutoEquatable {
 
+    public var width: UnitValue?
     public var height: UnitValue?
     public var maxWidth: UnitValue?
     public var maxHeight: UnitValue?
     public var minWidth: UnitValue?
     public var minHeight: UnitValue?
+    /// Set a height and width ratio.
     public var aspectRatio: Double?
 
     public init(
+        width: UnitValue? = nil,
         height: UnitValue? = nil,
         maxWidth: UnitValue? = nil,
         maxHeight: UnitValue? = nil,
@@ -32,6 +36,7 @@ public class Size: Decodable, AutoEquatable {
         minHeight: UnitValue? = nil,
         aspectRatio: Double? = nil
     ) {
+        self.width = width
         self.height = height
         self.maxWidth = maxWidth
         self.maxHeight = maxHeight
