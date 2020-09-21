@@ -99,19 +99,22 @@ class ModelGenerator
 
   # Generates models for kotlin
   def generate_kotlin
+    helper = TemplateHelper.new
     @erb = ERB.new(File.read("#{@c.templates}kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(@c.kotlin_path, @objectType.name + "Schema.kt", to_s)
+      suffix = helper.is_enum(@objectType) ? ".kt" : "Schema.kt"
+      @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
     end
   end
 
   # Generates models for kotlin backend
   def generate_kotlin_backend
+    helper = TemplateHelper.new
     @erb = ERB.new(File.read("#{@c.templates}kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      if !TemplateHelper.new.is_enum(@objectType)
+      if !helper.is_enum(@objectType)
         @writer.write(@c.kotlin_backend_path, @objectType.name + ".kt", to_s)
       end
     end

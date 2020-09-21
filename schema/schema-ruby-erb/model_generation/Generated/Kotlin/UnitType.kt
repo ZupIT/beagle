@@ -19,7 +19,7 @@ package br.com.zup.beagle.widget.core
 
 
 
-enum class UnitTypeSchema {
+enum class UnitType {
   AUTO,
   REAL,
   PERCENT

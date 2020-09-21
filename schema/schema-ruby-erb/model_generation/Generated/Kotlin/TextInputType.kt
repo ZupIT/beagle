@@ -19,7 +19,7 @@ package br.com.zup.beagle.widget.core
 
 
 
-enum class TextInputTypeSchema {
+enum class TextInputType {
   DATE,
   EMAIL,
   PASSWORD,

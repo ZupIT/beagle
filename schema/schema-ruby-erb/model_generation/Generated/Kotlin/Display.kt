@@ -19,7 +19,7 @@ package br.com.zup.beagle.widget.core
 
 
 
-enum class DisplaySchema {
+enum class Display {
   FLEX,
   NONE
 }
