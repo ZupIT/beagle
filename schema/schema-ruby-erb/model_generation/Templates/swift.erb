@@ -158,10 +158,15 @@
       objectType.synthax_type.inheritFrom.append("Decodable")
     end
 
+    if [UnitValue.new.name].include? objectType.synthax_type.name
+      objectType.synthax_type.inheritFrom.append("Equatable")
+    end
+
     if [Flex.new.name, EdgeValue.new.name, Size.new.name].include? objectType.synthax_type.name
       objectType.synthax_type.type = "class"
       objectType.synthax_type.inheritFrom.append("AutoEquatable")
     end
+
   end
 
   ## CAUTION: the following methods will be deleted

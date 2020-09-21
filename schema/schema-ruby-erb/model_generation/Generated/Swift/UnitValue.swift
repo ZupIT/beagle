@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-public struct UnitValue: Decodable {
+/// Receive the amount to be applied and the type.
+public struct UnitValue: Decodable, Equatable {
 
     public var value: Double
     public var type: UnitType
