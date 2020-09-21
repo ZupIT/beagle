@@ -16,8 +16,9 @@
 
 package br.com.zup.beagle.sample.widgets
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.EditText
-import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -38,6 +39,17 @@ data class SampleTextField(val placeholder: String = "") : InputWidget() {
         textFieldView = this
 
         textFieldView.isSingleLine = true
-        doOnTextChanged { _, _, _, _ -> notifyChanges() }
+        addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(newText: Editable?) {
+            }
+
+            override fun beforeTextChanged(oldText: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun onTextChanged(newText: CharSequence?, start: Int, before: Int, count: Int) {
+                notifyChanges()
+            }
+
+        })
     }
 }

@@ -17,24 +17,24 @@
 package br.com.zup.beagle.sample.fragment
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.CornerRadius
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScrollView
+import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.CornerRadius
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.widget.core.Flex
 
 class LazyComponentFragment : Fragment() {
 

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import androidx.annotation.VisibleForTesting
+import android.support.annotation.VisibleForTesting
 import br.com.zup.beagle.android.data.serializer.adapter.RouteAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.SimpleJsonAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.AndroidActionJsonAdapterFactory
