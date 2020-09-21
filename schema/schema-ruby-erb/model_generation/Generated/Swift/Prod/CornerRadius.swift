@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct CornerRadius: Decodable {
+public struct CornerRadius: Decodable, AutoEquatable {
 
     public var radius: Double
 
