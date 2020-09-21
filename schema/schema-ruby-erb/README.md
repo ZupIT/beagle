@@ -8,10 +8,10 @@
 3. check the doc folder
 
 ## How to add a new generated file to xcode?
-1. open model_generation with an editor of your choice
-2. on the main.rb file, look for the swift generation method
+1. open ```model_generation``` with an editor of your choice
+2. on the ```main.rb``` file, look for the swift generation method
 3. add the declaration name on the ```ready_to_prod``` array
-4. go to the directory of the same file and drag the file **as a reference** to Xcode at the path ``` Schema/Sources/CodeGeneration/RubySchema```
+4. go to the directory of the generated file and drag the file **as a group** to Xcode at the path ``` Schema/Sources/CodeGeneration/RubySchema``` and **uncheck** copy items if needed
 5. Do not forget to remove old files, if there are any. 😊
 
 P.S.: If you are a swift developer, you will have to install sourcery. (This is temporary)
