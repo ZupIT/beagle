@@ -1,7 +1,6 @@
 sources:
   - Sources
   - ../Sources/Beagle/CodeGeneration/SourceryProtocols.swift
-  - ../../schema/schema-ruby-erb/model_generation/Generated/Swift/FromRubySchema
 templates:
   - ../Sources/Beagle/CodeGeneration/Templates
 output:

@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D5CF9B22519389800395A09 /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9AA2519389800395A09 /* UnitValue.swift */; };
-		1D5CF9B32519389800395A09 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9AB2519389800395A09 /* UnitType.swift */; };
-		1D5CF9B42519389800395A09 /* EdgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9AC2519389800395A09 /* EdgeValue.swift */; };
-		1D5CF9B52519389800395A09 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9AD2519389800395A09 /* Size.swift */; };
-		1D5CF9B62519389800395A09 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9AE2519389800395A09 /* Style.swift */; };
-		1D5CF9B72519389800395A09 /* Flex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9AF2519389800395A09 /* Flex.swift */; };
-		1D5CF9B82519389800395A09 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9B02519389800395A09 /* Button.swift */; };
-		1D5CF9B92519389800395A09 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9B12519389800395A09 /* CornerRadius.swift */; };
+		1D5CF9C525193DCA00395A09 /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9BD25193DCA00395A09 /* UnitValue.swift */; };
+		1D5CF9C625193DCA00395A09 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9BE25193DCA00395A09 /* UnitType.swift */; };
+		1D5CF9C725193DCA00395A09 /* EdgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9BF25193DCA00395A09 /* EdgeValue.swift */; };
+		1D5CF9C825193DCA00395A09 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9C025193DCA00395A09 /* Size.swift */; };
+		1D5CF9C925193DCA00395A09 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9C125193DCA00395A09 /* Style.swift */; };
+		1D5CF9CA25193DCA00395A09 /* Flex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9C225193DCA00395A09 /* Flex.swift */; };
+		1D5CF9CB25193DCA00395A09 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9C325193DCA00395A09 /* Button.swift */; };
+		1D5CF9CC25193DCA00395A09 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9C425193DCA00395A09 /* CornerRadius.swift */; };
 		252D727524D84AEF0069541F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727424D84AEF0069541F /* Binding.swift */; };
 		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		257FC9F924DCA75300F2157C /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9F824DCA75300F2157C /* Value.swift */; };
@@ -139,14 +139,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1D5CF9AA2519389800395A09 /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
-		1D5CF9AB2519389800395A09 /* UnitType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
-		1D5CF9AC2519389800395A09 /* EdgeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeValue.swift; sourceTree = "<group>"; };
-		1D5CF9AD2519389800395A09 /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
-		1D5CF9AE2519389800395A09 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		1D5CF9AF2519389800395A09 /* Flex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flex.swift; sourceTree = "<group>"; };
-		1D5CF9B02519389800395A09 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
-		1D5CF9B12519389800395A09 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
+		1D5CF9BD25193DCA00395A09 /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
+		1D5CF9BE25193DCA00395A09 /* UnitType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
+		1D5CF9BF25193DCA00395A09 /* EdgeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeValue.swift; sourceTree = "<group>"; };
+		1D5CF9C025193DCA00395A09 /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		1D5CF9C125193DCA00395A09 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		1D5CF9C225193DCA00395A09 /* Flex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flex.swift; sourceTree = "<group>"; };
+		1D5CF9C325193DCA00395A09 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		1D5CF9C425193DCA00395A09 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		252D727424D84AEF0069541F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
@@ -296,20 +296,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1D5CF9A92519389800395A09 /* FromRubySchema */ = {
+		1D5CF9BC25193DCA00395A09 /* BeagleSchemaGenerated */ = {
 			isa = PBXGroup;
 			children = (
-				1D5CF9AA2519389800395A09 /* UnitValue.swift */,
-				1D5CF9AB2519389800395A09 /* UnitType.swift */,
-				1D5CF9AC2519389800395A09 /* EdgeValue.swift */,
-				1D5CF9AD2519389800395A09 /* Size.swift */,
-				1D5CF9AE2519389800395A09 /* Style.swift */,
-				1D5CF9AF2519389800395A09 /* Flex.swift */,
-				1D5CF9B02519389800395A09 /* Button.swift */,
-				1D5CF9B12519389800395A09 /* CornerRadius.swift */,
+				1D5CF9BD25193DCA00395A09 /* UnitValue.swift */,
+				1D5CF9BE25193DCA00395A09 /* UnitType.swift */,
+				1D5CF9BF25193DCA00395A09 /* EdgeValue.swift */,
+				1D5CF9C025193DCA00395A09 /* Size.swift */,
+				1D5CF9C125193DCA00395A09 /* Style.swift */,
+				1D5CF9C225193DCA00395A09 /* Flex.swift */,
+				1D5CF9C325193DCA00395A09 /* Button.swift */,
+				1D5CF9C425193DCA00395A09 /* CornerRadius.swift */,
 			);
-			name = FromRubySchema;
-			path = "../../../../schema/schema-ruby-erb/model_generation/Generated/Swift/FromRubySchema";
+			path = BeagleSchemaGenerated;
 			sourceTree = "<group>";
 		};
 		6E71540024B394E80025B850 /* Tests */ = {
@@ -688,8 +687,8 @@
 		C864D24A247C240200E7A1F9 /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
-				1D5CF9A92519389800395A09 /* FromRubySchema */,
 				C864D24E247C240200E7A1F9 /* SourceryProtocols.swift */,
+				1D5CF9BC25193DCA00395A09 /* BeagleSchemaGenerated */,
 				C864D24B247C240200E7A1F9 /* Generated */,
 			);
 			path = CodeGeneration;
@@ -1314,21 +1313,21 @@
 				C864D2E1247C240200E7A1F9 /* AnalyticsModels.swift in Sources */,
 				C864D2B5247C240200E7A1F9 /* NavigationBar.swift in Sources */,
 				93BFE32A249E2E34009838CE /* Parser.swift in Sources */,
-				1D5CF9B92519389800395A09 /* CornerRadius.swift in Sources */,
+				1D5CF9CC25193DCA00395A09 /* CornerRadius.swift in Sources */,
 				C8EBCC31247C3002002030CC /* LazyComponent.swift in Sources */,
 				C864D2BC247C240200E7A1F9 /* SourceryProtocols.swift in Sources */,
-				1D5CF9B32519389800395A09 /* UnitType.swift in Sources */,
+				1D5CF9C625193DCA00395A09 /* UnitType.swift in Sources */,
 				938B13B72497E33100AA8E3B /* SetContext.swift in Sources */,
 				C864D2CF247C240200E7A1F9 /* Container.swift in Sources */,
 				C864D2D9247C240200E7A1F9 /* FormValidation.swift in Sources */,
 				C864D2CB247C240200E7A1F9 /* ImageContentMode.swift in Sources */,
-				1D5CF9B72519389800395A09 /* Flex.swift in Sources */,
+				1D5CF9CA25193DCA00395A09 /* Flex.swift in Sources */,
 				938B13BB2497E59B00AA8E3B /* Context.swift in Sources */,
 				252D727524D84AEF0069541F /* Binding.swift in Sources */,
 				257FC9F924DCA75300F2157C /* Value.swift in Sources */,
 				C864D2B6247C240200E7A1F9 /* Screen.swift in Sources */,
 				C864D2E7247C240200E7A1F9 /* RawWidget.swift in Sources */,
-				1D5CF9B52519389800395A09 /* Size.swift in Sources */,
+				1D5CF9C825193DCA00395A09 /* Size.swift in Sources */,
 				938B13C42497EB5E00AA8E3B /* String+RegularExpression.swift in Sources */,
 				C864D2D6247C240200E7A1F9 /* Navigate.swift in Sources */,
 				7CC2D9B124C614530059D5F9 /* TabBar.swift in Sources */,
@@ -1348,11 +1347,11 @@
 				C864D2DD247C240200E7A1F9 /* UnitValue+Extension.swift in Sources */,
 				C8EBCC73247C3033002030CC /* ScrollView.swift in Sources */,
 				C864D2B8247C240200E7A1F9 /* ScreenComponent.swift in Sources */,
-				1D5CF9B82519389800395A09 /* Button.swift in Sources */,
+				1D5CF9CB25193DCA00395A09 /* Button.swift in Sources */,
 				C864D2E2247C240200E7A1F9 /* Events.swift in Sources */,
 				938B13C62497EC6200AA8E3B /* Collection+Safe.swift in Sources */,
 				98E18D14249BE255009D6A54 /* Confirm.swift in Sources */,
-				1D5CF9B22519389800395A09 /* UnitValue.swift in Sources */,
+				1D5CF9C525193DCA00395A09 /* UnitValue.swift in Sources */,
 				C864D2BA247C240200E7A1F9 /* Equality.generated.swift in Sources */,
 				C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */,
 				6EB3368224A52AB5000A9D17 /* SubmitForm.swift in Sources */,
@@ -1360,9 +1359,9 @@
 				257FC9FB24DDB74300F2157C /* Operation.swift in Sources */,
 				C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */,
 				C864D2B4247C240200E7A1F9 /* SafeArea.swift in Sources */,
-				1D5CF9B42519389800395A09 /* EdgeValue.swift in Sources */,
+				1D5CF9C725193DCA00395A09 /* EdgeValue.swift in Sources */,
 				C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */,
-				1D5CF9B62519389800395A09 /* Style.swift in Sources */,
+				1D5CF9C925193DCA00395A09 /* Style.swift in Sources */,
 				C8EBCC66247C3027002030CC /* PageView.swift in Sources */,
 				C864D2C4247C240200E7A1F9 /* ComponentDecoder.swift in Sources */,
 				9885564724C612A200D9818F /* FunctionBuilders.swift in Sources */,
