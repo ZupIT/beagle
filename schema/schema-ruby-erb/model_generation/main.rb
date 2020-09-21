@@ -107,10 +107,24 @@ class ModelGenerator
   
   # Generates models for swift
   def generate_swift
+    readyToProd = [
+      Button.new.name,
+      EdgeValue.new.name,
+      Flex.new.name,
+      Size.new.name,
+      UnitType.new.name,
+      UnitValue.new.name
+    ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(@c.swift_path, @objectType.name + ".swift", to_s)
+      path = @c.swift_path
+
+      if readyToProd.include? @objectType.name 
+        path += "Prod/"
+      end
+      
+      @writer.write(path, @objectType.name + ".swift", to_s)
     end
   end
 
