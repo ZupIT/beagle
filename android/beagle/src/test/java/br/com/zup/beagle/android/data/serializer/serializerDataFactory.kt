@@ -116,8 +116,30 @@ fun makeTabItemJson() = """
     """
 
 fun makeCustomJson() = """
-    {
-        "_beagleComponent_": "custom:customWidget"
+     {
+          "arrayList": [
+                {
+                  "names": [
+                    "text"
+                  ]
+                }
+          ],
+          "pair": {
+                "first": {
+                  "names": [
+                    "text"
+                  ]
+                },
+                "second": "second"
+          },
+          "charSequence": "text",
+          "charArray": "text",
+          "personInterface": {
+                  "names": [
+                    "text"
+                  ]
+          },
+          "_beagleComponent_": "custom:customWidget"
     }
 """
 
@@ -178,6 +200,26 @@ fun makeNavigationActionJson() = """
             "url": "${RandomData.httpUrl()}",
             "shouldPrefetch": true
         }
+    }
+"""
+
+fun makeNavigationActionJsonWithExpression() = """
+    {
+      "_beagleAction_": "beagle:pushView",
+      "route": {
+        "url": "@{test}",
+        "shouldPrefetch": false
+      }
+    }
+"""
+
+fun makeNavigationActionJsonWithUrlHardcoded() = """
+    {
+      "_beagleAction_": "beagle:pushView",
+      "route": {
+        "url": "http://localhost:8080/test/example",
+        "shouldPrefetch": false
+      }
     }
 """
 

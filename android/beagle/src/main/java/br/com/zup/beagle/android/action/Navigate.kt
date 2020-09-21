@@ -18,6 +18,10 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 
@@ -59,7 +63,7 @@ sealed class Navigate : Action {
 
     data class PushView(val route: Route) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.pushView(rootView.getContext(), route)
+            BeagleNavigator.pushView(rootView.getContext(), route.getSafe(rootView, origin))
         }
     }
 
@@ -68,7 +72,7 @@ sealed class Navigate : Action {
         val controllerId: String? = null
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.pushStack(rootView.getContext(), route, controllerId)
+            BeagleNavigator.pushStack(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }
     }
 
@@ -77,7 +81,7 @@ sealed class Navigate : Action {
         val controllerId: String? = null
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.resetApplication(rootView.getContext(), route, controllerId)
+            BeagleNavigator.resetApplication(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }
     }
 
@@ -86,8 +90,17 @@ sealed class Navigate : Action {
         val controllerId: String? = null
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
-            BeagleNavigator.resetStack(rootView.getContext(), route, controllerId)
+            BeagleNavigator.resetStack(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }
+    }
+
+    internal fun Route.getSafe(rootView: RootView, origin: View): Route {
+        if (this is Route.Remote) {
+            val newValue = evaluateExpression(rootView, origin, url)
+            return this.copy(url = Bind.Value(newValue ?: ""))
+        }
+
+        return this
     }
 }
 
@@ -98,7 +111,22 @@ sealed class Route {
      * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
      * @param fallback screen that is rendered in case the request fails.
      */
-    data class Remote(val url: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route()
+    data class Remote constructor(
+        val url: Bind<String>,
+        val shouldPrefetch: Boolean = false,
+        val fallback: Screen? = null
+    ) : Route() {
+
+        constructor(
+            url: String,
+            shouldPrefetch: Boolean = false,
+            fallback: Screen? = null
+        ) : this(
+            expressionOrValueOf(url),
+            shouldPrefetch,
+            fallback
+        )
+    }
 
     /**
      * Class indicating navigation to a local screen.

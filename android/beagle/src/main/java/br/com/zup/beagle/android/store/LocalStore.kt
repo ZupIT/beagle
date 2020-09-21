@@ -19,4 +19,6 @@ package br.com.zup.beagle.android.store
 interface LocalStore {
     fun save(key: String, value: String)
     fun restore(key: String): String?
+    fun delete(key: String)
+    fun getAll(): Map<String, String>
 }

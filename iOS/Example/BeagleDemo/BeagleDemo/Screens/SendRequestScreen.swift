@@ -21,23 +21,34 @@ import BeagleSchema
 import UIKit
 
 let sendRequestDeclarativeScreen: Screen = {
+    let containerStyle = Style().size(Size().width(100%).height(50%)).flex(Flex().alignItems(.center).justifyContent(.spaceEvenly))
+ 
     return Screen(
         navigationBar: NavigationBar(title: "Send Request", showBackButton: true),
         context: Context(id: "myContext", value: "initial value")
     ) {
-        Container {
+        Container(widgetProperties: .init(style: containerStyle)) {
+            Button(
+                text: "SendRequest Context on header",
+                styleId: "DesignSystem.Stylish.ButtonAndAppearance",
+                onPress: [
+                    Navigate.pushView(.remote(.init(url: "https://run.mocky.io/v3/5f028242-dfb7-43af-8b55-bac79d7332c6")))
+                ],
+                widgetProperties: .init(style: Style().backgroundColor(.salmonButton).size(Size().width(80%)).cornerRadius(.init(radius: 10)))
+            )
             Button(
                 text: "do request",
+                styleId: "DesignSystem.Stylish.ButtonAndAppearance",
                 onPress: [
                     SendRequest(
                         url: "https://httpbin.org/post",
-                        method: .post,
+                        method: .value(.post),
                         data: "@{myContext}",
-                        headers: [
+                        headers: .value([
                             "Content-Type": "application/json",
                             "sample-header-1": "HeaderContent1",
                             "Sample-Header-2": "HeaderContent2"
-                        ],
+                        ]),
                         onSuccess: [
                             Alert(
                                 title: "Success!",
@@ -60,7 +71,8 @@ let sendRequestDeclarativeScreen: Screen = {
                             CustomConsoleLogAction()
                         ]
                     )
-                ]
+                ],
+                widgetProperties: .init(style: Style().backgroundColor(.blueButton).size(Size().width(60%)).cornerRadius(.init(radius: 10)))
             )
         }
     }

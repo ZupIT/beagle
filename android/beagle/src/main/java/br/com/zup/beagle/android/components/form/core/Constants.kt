@@ -23,5 +23,7 @@ object Constants {
     @JvmStatic
     var shared = FormDataStoreHandler()
 
-    const val FORM_DEPRECATED_MESSAGE = "use SimpleForm and SubmitForm instead"
+    const val FORM_DEPRECATED_MESSAGE =
+        "It was deprecated in version 1.1.0 and will be removed in a future version. Use SimpleForm and SubmitForm" +
+            " instead."
 }

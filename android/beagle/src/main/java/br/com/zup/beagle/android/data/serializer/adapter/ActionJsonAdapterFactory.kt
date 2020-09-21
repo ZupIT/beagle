@@ -30,11 +30,13 @@ import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
+import br.com.zup.beagle.android.utils.ActionJsonAdapterFactoryDeprecatedConstants
 import java.util.Locale
 
 private const val BEAGLE_NAMESPACE = "beagle"
 
-@Deprecated(message = "This class will be no longer needed. @see new AndroidActionJsonAdapterFactory")
+@Deprecated(message = ActionJsonAdapterFactoryDeprecatedConstants.MESSAGE,
+    replaceWith = ReplaceWith(ActionJsonAdapterFactoryDeprecatedConstants.REPLACE))
 internal object ActionJsonAdapterFactory {
 
     fun make(factory: PolymorphicJsonAdapterFactory<Action>): PolymorphicJsonAdapterFactory<Action> {
