@@ -93,6 +93,8 @@ data class TextInput(
         styleManagerFactory.getInputTextStyle(styleId)
     ).apply {
         textInputView = this
+        isFocusable = true
+        isFocusableInTouchMode = true
         setData(this@TextInput, rootView)
         setUpOnTextChange(rootView)
         if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView)
