@@ -77,11 +77,12 @@ final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
         get { return view?.yoga.isEnabled ?? false }
         set { view?.yoga.isEnabled = newValue }
     }
-    
+        
     func markDirty() {
         view?.yoga.markDirty()
         var view: UIView? = self.view
         while let currentView = view {
+//            if !(currentView.superview?.yoga.isEnabled ?? false) {
             if !currentView.yoga.isEnabled {
                 currentView.superview?.invalidateIntrinsicContentSize()
                 currentView.setNeedsLayout()
