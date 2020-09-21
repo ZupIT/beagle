@@ -30,11 +30,29 @@ struct NavigateStep1Screen: DeeplinkScreen {
         return Beagle.screen(.declarative(step1Screen))
     }
     
+    static var screen = Screen(
+        navigationBar: NavigationBar(title: "Navigate with Context"),
+        context: Context(id: "url", value: "initial value")) {
+                 Container {
+                    Button(text: "SetContext",
+                           onPress: [
+                                 SetContext(contextId: "url", path: nil, value: "https://run.mocky.io/v3/490e7dbc-8222-4a64-87bf-c5794d5e0439")
+                           ]
+                    )
+                    Button(text: "Go to @{url}",
+                           onPress: [
+                                 Navigate.pushView(.remote(.init(url: "@{url}", shouldPrefetch: true)))
+                           ]
+                    )
+                 }
+    }
+    
     var step1Screen: Screen =
         Screen(navigationBar: NavigationBar(title: "Step 1")) {
             Container {
                 createButton(text: "PopView", action: Navigate.popView, backgroundColor: .blueButton)
                 createButton(text: "PushView (Step 2)", action: Navigate.openNativeRoute(.init(route: .navigateStep2Endpoint)), backgroundColor: .salmonButton)
+                createButton(text: "Navigate With Context", action: Navigate.pushView(.declarative(screen)), backgroundColor: .brownButton)
             }
         }
 }
