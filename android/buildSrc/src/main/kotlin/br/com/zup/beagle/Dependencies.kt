@@ -67,9 +67,9 @@ class Dependencies : Plugin<Project> {
         const val glide = "4.11.0"
 
         const val junit = "4.13"
-        const val junit5 = "5.6.1"
+        const val junit5 = "5.7.0"
 
-        const val yoga = "1.2.0"
+        const val yoga = "1.16.0"
 
         const val jni = "0.0.4"
 
@@ -90,6 +90,8 @@ class Dependencies : Plugin<Project> {
         const val archCoreTesting = "2.1.0"
 
         const val incap = "0.3"
+
+        const val multidex = "2.0.1"
     }
 
     object GeneralNames {
@@ -126,6 +128,8 @@ class Dependencies : Plugin<Project> {
         const val simpleLogger = "org.slf4j:slf4j-simple:${Versions.simpleLogger}"
 
         const val jsonObject = "org.json:json:${Versions.jsonObject}"
+
+        const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
     }
 
     object GoogleLibraries {
