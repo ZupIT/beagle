@@ -101,6 +101,13 @@ extension Route {
             self.shouldPrefetch = shouldPrefetch
             self.fallback = fallback
         }
+        
+        @available(*, deprecated, message: "It was deprecated in version 1.2.2 and will be removed in a future version. Please use constructor with bind")
+        public init(url: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
+            self.url = "\(url)"
+            self.shouldPrefetch = shouldPrefetch
+            self.fallback = fallback
+        }
     }
 }
 
