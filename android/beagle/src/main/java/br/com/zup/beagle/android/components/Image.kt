@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.components
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf

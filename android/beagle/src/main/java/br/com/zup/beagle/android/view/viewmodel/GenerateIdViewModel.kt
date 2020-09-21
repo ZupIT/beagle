@@ -16,11 +16,10 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
+import android.arch.lifecycle.ViewModel
 import android.view.View
-import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.android.exception.BeagleException
-import java.lang.Exception
-import java.util.LinkedList
+import java.util.*
 
 internal const val PARENT_ID_NOT_FOUND = "The parent id not found, check if you call function createIfNotExisting"
 

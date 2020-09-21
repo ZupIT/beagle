@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.context
 
+import android.support.v4.util.LruCache
 import android.view.View
-import androidx.collection.LruCache
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.extensions.once
@@ -27,18 +27,17 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.Observer
-import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextData
 import br.com.zup.beagle.android.utils.setContextBinding
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
-import io.mockk.verify
 import io.mockk.mockk
-import io.mockk.verifyOrder
-import io.mockk.spyk
-import io.mockk.slot
 import io.mockk.mockkObject
+import io.mockk.slot
+import io.mockk.spyk
+import io.mockk.verify
+import io.mockk.verifyOrder
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

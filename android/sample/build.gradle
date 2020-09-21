@@ -53,10 +53,8 @@ android {
 }
 
 dependencies {
-    implementation Dependencies.AndroidxLibraries.appcompat
-
+    implementation Dependencies.AndroidSupport.design
     implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.AndroidxLibraries.coreKtx
 
     debugImplementation project(Dependencies.Modules.preview)
 
@@ -70,7 +68,5 @@ dependencies {
 
     // Integration Testing
     androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
     androidTestImplementation Dependencies.TestLibraries.espressoCore
-    androidTestImplementation Dependencies.TestLibraries.testRules
 }
