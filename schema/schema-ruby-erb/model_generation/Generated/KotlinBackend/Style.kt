@@ -17,15 +17,20 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.Sizeimport br.com.zup.beagle.widget.core.EdgeValueimport br.com.zup.beagle.widget.core.Fleximport br.com.zup.beagle.widget.core.Display
+import br.com.zup.beagle.widget.core.CornerRadius
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Display
+
 data class Style (
   public override val backgroundColor: String?,  
-  public override val cornerRadius: String?,  
+  public override val cornerRadius: CornerRadius?,  
   public override val size: Size?,  
   public override val margin: EdgeValue?,  
   public override val padding: EdgeValue?,  
   public override val position: EdgeValue?,  
-  public override val flex: Flex?,  
   public override val positionType: PositionType?,  
-  public override val display: Display?   
+  public override val display: Display?,  
+  public override val flex: Flex?   
 ) : StyleSchema 

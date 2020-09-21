@@ -18,7 +18,9 @@
 package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.UnitValue
+
 data class Size (
+  public override val width: UnitValue?,  
   public override val height: UnitValue?,  
   public override val maxWidth: UnitValue?,  
   public override val maxHeight: UnitValue?,  

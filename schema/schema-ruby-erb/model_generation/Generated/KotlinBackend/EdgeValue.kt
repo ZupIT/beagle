@@ -18,6 +18,7 @@
 package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.UnitValue
+
 data class EdgeValue (
   public override val left: UnitValue?,  
   public override val top: UnitValue?,  

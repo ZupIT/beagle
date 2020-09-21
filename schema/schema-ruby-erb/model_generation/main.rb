@@ -56,12 +56,20 @@ class ModelGenerator
     @erb = nil
     @writer = FileHandler.new
     @components = components
-    @importManager = Hash.new("")
+    @import_manager = Hash.new("")
+    @enum_import_manager = Hash.new("")
     @c = Constants.new
 
-    components.each do |component|
-      type = component.new.synthax_type
-      @importManager[type.name] = "#{type.package}.#{type.name}"
+    helper = TemplateHelper.new
+
+    components.each do |clazz|
+      component = clazz.new
+      type = component.synthax_type
+      if helper.is_enum(component)
+        @enum_import_manager[type.name] = "#{type.package}.#{type.name}"
+      else
+        @import_manager[type.name] = "#{type.package}.#{type.name}"
+      end
     end
   end
   
@@ -70,7 +78,10 @@ class ModelGenerator
   attr_accessor :objectType
 
   # @return [Hash]
-  attr_accessor :importManager
+  attr_accessor :import_manager
+
+  # @return [Hash]
+  attr_accessor :enum_import_manager
 
   # This method is used to trigger the logic for code generation inside the templates
   # @return [String] the result of this method return a string that will be saved in a file

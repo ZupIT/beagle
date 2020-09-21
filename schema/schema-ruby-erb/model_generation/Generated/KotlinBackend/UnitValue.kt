@@ -18,6 +18,7 @@
 package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.UnitType
+
 data class UnitValue (
   public override val value: Double,  
   public override val type: UnitType   

@@ -21,10 +21,10 @@
   @templateHelper.languageIdentifier = SupportedLanguages.new.kotlin
   @templateHelper.defaultDeclarationType = BasicTypeKeys.interface
   
-  def handleTypeName(variable, importManager)
+  def handleTypeName(variable, import_manager)
     #todo variables now have default values!
     output = @templateHelper.fetch_type(variable.typeName)
-    output = importManager.has_key?(output) ? output + "Schema" : output
+    output = import_manager.has_key?(output) ? output + "Schema" : output
     output = variable.isBindable ? "BindAttribute<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
@@ -38,8 +38,11 @@ package <%= objectType.synthax_type.package %>
 <% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.core.BindAttribute
 <% end -%>
-<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, importManager) -%>
+<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, import_manager) -%>
 import <%= qualifiedName -%>Schema
+<% end -%>
+<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
+import <%= qualifiedName -%>
 <% end -%>
 <% end -%>
 
@@ -50,7 +53,7 @@ enum class <%= objectType.synthax_type.name -%>Schema {
 <% else %><% -%>
 <%=@templateHelper.fetch_built_in_type_declaration(objectType.synthax_type.type)-%> <%= objectType.synthax_type.name -%>Schema {<% -%>
 <% for variable in objectType.synthax_type.variables %>
-  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>
+  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, import_manager) -%>
 <% end -%> 
 }
 <% end %><% -%>

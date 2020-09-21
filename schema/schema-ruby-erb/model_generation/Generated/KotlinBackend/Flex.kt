@@ -18,6 +18,7 @@
 package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.UnitValue
+
 data class Flex (
   public override val flexDirection: FlexDirection?,  
   public override val flexWrap: FlexWrap?,  

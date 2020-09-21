@@ -53,8 +53,11 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 <% end -%>
-<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, importManager) -%>
-import <%= qualifiedName -%>
+<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, import_manager) -%>
+import <%= qualifiedName %>
+<% end -%>
+<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
+import <%= qualifiedName %>
 <% end -%>
 
 data class <%= objectType.synthax_type.name -%> (<% -%>
