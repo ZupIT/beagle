@@ -40,7 +40,8 @@
   end
 
   def handleVariableAssignementInsideConstructor(variable, shouldAddComma = false)
-    output = variable.isBindable ? "valueOf(#{variable.name})" : variable.name
+    bind_helper = variable.isOptional ? "valueOfNullable" : "valueOf"
+    output = variable.isBindable ? "#{bind_helper}(#{variable.name})" : variable.name
     output = shouldAddComma ? output + "," : output
     output
   end
