@@ -43,4 +43,20 @@ internal class StoreHandlerDefault(
         }
         return values
     }
+
+    override fun delete(storeType: StoreType, key: String) {
+        if (storeType == StoreType.DATABASE) {
+            databaseLocalStore.delete(key)
+        } else {
+            memoryLocalStore.delete(key)
+        }
+    }
+
+    override fun getAll(storeType: StoreType): Map<String, String> {
+        return if (storeType == StoreType.DATABASE) {
+            databaseLocalStore.getAll()
+        } else {
+            memoryLocalStore.getAll()
+        }
+    }
 }

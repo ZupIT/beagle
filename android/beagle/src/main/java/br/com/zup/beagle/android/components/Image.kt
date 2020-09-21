@@ -21,9 +21,7 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.expressionOrValueOf
-import br.com.zup.beagle.android.context.isExpression
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper

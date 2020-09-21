@@ -77,7 +77,31 @@ class ActionExtensionsKtTest : BaseTest() {
     }
 
     @Test
-    fun evaluateExpression_should_evaluate_bind_of_type_String_with_multiple_expressions2() {
+    fun evaluateExpression_should_evaluate_raw_JSONObject() {
+        // Given
+        val value = JSONObject("""{"type":"LOADING"}""")
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(value.toString(), actualValue.toString())
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_raw_JSONArray() {
+        // Given
+        val value = JSONArray("""["hello1", "hello2"]""")
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(value.toString(), actualValue.toString())
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_bind_with_string_and_operation() {
         // Given
         val bind = expressionOf<String>("Hello @{sum(context1, context2)}")
         val contextValue = 1

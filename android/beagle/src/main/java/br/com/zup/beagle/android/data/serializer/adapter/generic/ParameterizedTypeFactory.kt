@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.form.core
+package br.com.zup.beagle.android.data.serializer.adapter.generic
 
-import br.com.zup.beagle.android.components.form.core.Constants.FORM_DEPRECATED_MESSAGE
+import com.squareup.moshi.internal.Util
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 
-@Deprecated(FORM_DEPRECATED_MESSAGE)
-object Constants {
-    @JvmStatic
-    var shared = FormDataStoreHandler()
+object ParameterizedTypeFactory {
 
-    const val FORM_DEPRECATED_MESSAGE =
-        "It was deprecated in version 1.1.0 and will be removed in a future version. Use SimpleForm and SubmitForm" +
-            " instead."
+    fun new(rawType: Type, vararg typeArguments: Type?): ParameterizedType? {
+        require(typeArguments.isNotEmpty()) { "Missing type arguments for $rawType" }
+        return Util.ParameterizedTypeImpl(null, rawType, *typeArguments)
+    }
 }

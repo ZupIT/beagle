@@ -29,22 +29,23 @@ import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_TAB_VIEW
+import br.com.zup.beagle.android.utils.TabViewDeprecatedConstants
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
 
 @RegisterWidget
-@Deprecated(DEPRECATED_TAB_VIEW)
+@Deprecated(message = TabViewDeprecatedConstants.TAB_VIEW,
+    replaceWith = ReplaceWith(TabViewDeprecatedConstants.TAB_VIEW_REPLACE))
 data class TabView(
     override val children: List<TabItem>,
     val styleId: String? = null,

@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.android.mockdata
 
-internal object MemoryLocalStore : LocalStore {
+import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
+import org.json.JSONObject
 
-    private val cache = mutableMapOf<String, String>()
+private const val KEY = "names"
 
-    override fun save(key: String, value: String) {
-        cache[key] = value
+class PersonAdapter : BeagleTypeAdapter<PersonInterface> {
+
+    override fun fromJson(json: String): PersonInterface {
+        val rootObject = JSONObject(json)
+        val name = rootObject.getJSONArray(KEY).getString(0)
+        return Person(arrayListOf(name))
     }
 
-    override fun restore(key: String): String? {
-        return cache[key]
-    }
-
-    override fun delete(key: String) {
-        cache.remove(key)
-    }
-
-    override fun getAll(): Map<String, String> {
-        return cache.toMap()
+    override fun toJson(type: PersonInterface): String {
+        type as Person
+        val rootObject = JSONObject()
+        rootObject.put(KEY, type.names)
+        return rootObject.toString()
     }
 }

@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.form.core
+package br.com.zup.beagle.android.data.serializer.adapter.generic
 
-import br.com.zup.beagle.android.components.form.core.Constants.FORM_DEPRECATED_MESSAGE
+import java.lang.reflect.Type
 
-@Deprecated(FORM_DEPRECATED_MESSAGE)
-object Constants {
-    @JvmStatic
-    var shared = FormDataStoreHandler()
-
-    const val FORM_DEPRECATED_MESSAGE =
-        "It was deprecated in version 1.1.0 and will be removed in a future version. Use SimpleForm and SubmitForm" +
-            " instead."
+interface TypeAdapterResolver {
+    fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>?
 }
