@@ -18,6 +18,7 @@
 		1D5CF9CE251A39FE00395A09 /* ScrollAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9CD251A39FE00395A09 /* ScrollAxis.swift */; };
 		1D5CF9D0251A422500395A09 /* TextInputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9CF251A422500395A09 /* TextInputType.swift */; };
 		1D5CF9D2251A72E800395A09 /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9D1251A72E800395A09 /* ScrollView.swift */; };
+		1D5CF9D4251A76B100395A09 /* ImageContentMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9D3251A76B100395A09 /* ImageContentMode.swift */; };
 		252D727524D84AEF0069541F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727424D84AEF0069541F /* Binding.swift */; };
 		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		257FC9F924DCA75300F2157C /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9F824DCA75300F2157C /* Value.swift */; };
@@ -77,7 +78,6 @@
 		C864D2C4247C240200E7A1F9 /* ComponentDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D25C247C240200E7A1F9 /* ComponentDecoder.swift */; };
 		C864D2C5247C240200E7A1F9 /* AnyDecodableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D25D247C240200E7A1F9 /* AnyDecodableContainer.swift */; };
 		C864D2CA247C240200E7A1F9 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D269247C240200E7A1F9 /* Image.swift */; };
-		C864D2CB247C240200E7A1F9 /* ImageContentMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D26A247C240200E7A1F9 /* ImageContentMode.swift */; };
 		C864D2CF247C240200E7A1F9 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D273247C240200E7A1F9 /* Container.swift */; };
 		C864D2D6247C240200E7A1F9 /* Navigate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D283247C240200E7A1F9 /* Navigate.swift */; };
 		C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D287247C240200E7A1F9 /* FormRemoteAction.swift */; };
@@ -153,6 +153,7 @@
 		1D5CF9CD251A39FE00395A09 /* ScrollAxis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollAxis.swift; sourceTree = "<group>"; };
 		1D5CF9CF251A422500395A09 /* TextInputType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputType.swift; sourceTree = "<group>"; };
 		1D5CF9D1251A72E800395A09 /* ScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
+		1D5CF9D3251A76B100395A09 /* ImageContentMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageContentMode.swift; sourceTree = "<group>"; };
 		252D727424D84AEF0069541F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
@@ -229,7 +230,6 @@
 		C864D263247C240200E7A1F9 /* ImageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTests.swift; sourceTree = "<group>"; };
 		C864D265247C240200E7A1F9 /* ImageComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageComponent.json; sourceTree = "<group>"; };
 		C864D269247C240200E7A1F9 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		C864D26A247C240200E7A1F9 /* ImageContentMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageContentMode.swift; sourceTree = "<group>"; };
 		C864D26E247C240200E7A1F9 /* Container.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Container.json; sourceTree = "<group>"; };
 		C864D26F247C240200E7A1F9 /* ContainerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerTests.swift; sourceTree = "<group>"; };
 		C864D273247C240200E7A1F9 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
@@ -305,6 +305,7 @@
 		1D5CF9BC25193DCA00395A09 /* BeagleSchemaGenerated */ = {
 			isa = PBXGroup;
 			children = (
+				1D5CF9D3251A76B100395A09 /* ImageContentMode.swift */,
 				1D5CF9D1251A72E800395A09 /* ScrollView.swift */,
 				1D5CF9CF251A422500395A09 /* TextInputType.swift */,
 				1D5CF9CD251A39FE00395A09 /* ScrollAxis.swift */,
@@ -751,7 +752,6 @@
 			isa = PBXGroup;
 			children = (
 				C864D269247C240200E7A1F9 /* Image.swift */,
-				C864D26A247C240200E7A1F9 /* ImageContentMode.swift */,
 				C864D262247C240200E7A1F9 /* Tests */,
 			);
 			path = Image;
@@ -1329,7 +1329,6 @@
 				938B13B72497E33100AA8E3B /* SetContext.swift in Sources */,
 				C864D2CF247C240200E7A1F9 /* Container.swift in Sources */,
 				C864D2D9247C240200E7A1F9 /* FormValidation.swift in Sources */,
-				C864D2CB247C240200E7A1F9 /* ImageContentMode.swift in Sources */,
 				1D5CF9CA25193DCA00395A09 /* Flex.swift in Sources */,
 				938B13BB2497E59B00AA8E3B /* Context.swift in Sources */,
 				252D727524D84AEF0069541F /* Binding.swift in Sources */,
@@ -1373,6 +1372,7 @@
 				C864D2B4247C240200E7A1F9 /* SafeArea.swift in Sources */,
 				1D5CF9C725193DCA00395A09 /* EdgeValue.swift in Sources */,
 				C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */,
+				1D5CF9D4251A76B100395A09 /* ImageContentMode.swift in Sources */,
 				1D5CF9C925193DCA00395A09 /* Style.swift in Sources */,
 				C8EBCC66247C3027002030CC /* PageView.swift in Sources */,
 				C864D2C4247C240200E7A1F9 /* ComponentDecoder.swift in Sources */,
