@@ -19,6 +19,7 @@
 		1D5CF9D0251A422500395A09 /* TextInputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9CF251A422500395A09 /* TextInputType.swift */; };
 		1D5CF9D2251A72E800395A09 /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9D1251A72E800395A09 /* ScrollView.swift */; };
 		1D5CF9D4251A76B100395A09 /* ImageContentMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9D3251A76B100395A09 /* ImageContentMode.swift */; };
+		1D5CF9D6251A781900395A09 /* TextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9D5251A781900395A09 /* TextInput.swift */; };
 		252D727524D84AEF0069541F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727424D84AEF0069541F /* Binding.swift */; };
 		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		257FC9F924DCA75300F2157C /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9F824DCA75300F2157C /* Value.swift */; };
@@ -48,7 +49,6 @@
 		9885564724C612A200D9818F /* FunctionBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9885564624C612A100D9818F /* FunctionBuilders.swift */; };
 		98E18D12249BE249009D6A54 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D11249BE249009D6A54 /* Alert.swift */; };
 		98E18D14249BE255009D6A54 /* Confirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D13249BE255009D6A54 /* Confirm.swift */; };
-		98E49743249CFE180053DB87 /* TextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E49742249CFE180053DB87 /* TextInput.swift */; };
 		98E4974E249ED5670053DB87 /* TextInputComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 98E4974D249ED5670053DB87 /* TextInputComponent.json */; };
 		98E49751249ED5A00053DB87 /* TextInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E49750249ED5A00053DB87 /* TextInputTests.swift */; };
 		98FDE08E24AA6AD900C411F8 /* BeagleSchemaTestsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FDE08D24AA6AD900C411F8 /* BeagleSchemaTestsComponent.swift */; };
@@ -154,6 +154,7 @@
 		1D5CF9CF251A422500395A09 /* TextInputType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputType.swift; sourceTree = "<group>"; };
 		1D5CF9D1251A72E800395A09 /* ScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		1D5CF9D3251A76B100395A09 /* ImageContentMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageContentMode.swift; sourceTree = "<group>"; };
+		1D5CF9D5251A781900395A09 /* TextInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInput.swift; sourceTree = "<group>"; };
 		252D727424D84AEF0069541F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
@@ -186,7 +187,6 @@
 		9885564624C612A100D9818F /* FunctionBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionBuilders.swift; sourceTree = "<group>"; };
 		98E18D11249BE249009D6A54 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		98E18D13249BE255009D6A54 /* Confirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confirm.swift; sourceTree = "<group>"; };
-		98E49742249CFE180053DB87 /* TextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInput.swift; sourceTree = "<group>"; };
 		98E4974D249ED5670053DB87 /* TextInputComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TextInputComponent.json; sourceTree = "<group>"; };
 		98E49750249ED5A00053DB87 /* TextInputTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputTests.swift; sourceTree = "<group>"; };
 		98FDE08D24AA6AD900C411F8 /* BeagleSchemaTestsComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleSchemaTestsComponent.swift; sourceTree = "<group>"; };
@@ -305,6 +305,7 @@
 		1D5CF9BC25193DCA00395A09 /* BeagleSchemaGenerated */ = {
 			isa = PBXGroup;
 			children = (
+				1D5CF9D5251A781900395A09 /* TextInput.swift */,
 				1D5CF9D3251A76B100395A09 /* ImageContentMode.swift */,
 				1D5CF9D1251A72E800395A09 /* ScrollView.swift */,
 				1D5CF9CF251A422500395A09 /* TextInputType.swift */,
@@ -424,7 +425,6 @@
 			isa = PBXGroup;
 			children = (
 				98E4974F249ED5760053DB87 /* Tests */,
-				98E49742249CFE180053DB87 /* TextInput.swift */,
 			);
 			path = TextInput;
 			sourceTree = "<group>";
@@ -735,8 +735,8 @@
 		C864D25E247C240200E7A1F9 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				6EB3368324A52AF2000A9D17 /* SimpleForm */,
 				C864D2A0247C240200E7A1F9 /* RawWidget.swift */,
+				6EB3368324A52AF2000A9D17 /* SimpleForm */,
 				C864D274247C240200E7A1F9 /* Button */,
 				C864D26B247C240200E7A1F9 /* Container */,
 				C864D261247C240200E7A1F9 /* Image */,
@@ -1314,6 +1314,7 @@
 			files = (
 				252D727924D8AE850069541F /* Literal.swift in Sources */,
 				C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */,
+				1D5CF9D6251A781900395A09 /* TextInput.swift in Sources */,
 				C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */,
 				7685B041249A852A007EDED0 /* SendRequest.swift in Sources */,
 				C864D2CA247C240200E7A1F9 /* Image.swift in Sources */,
@@ -1381,7 +1382,6 @@
 				C864D2AF247C240200E7A1F9 /* WebView.swift in Sources */,
 				C8EBCC80247C3041002030CC /* TabView.swift in Sources */,
 				935278EA249954F500AB9D1F /* DynamicObject.swift in Sources */,
-				98E49743249CFE180053DB87 /* TextInput.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
