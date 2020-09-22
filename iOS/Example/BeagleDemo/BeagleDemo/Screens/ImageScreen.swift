@@ -40,8 +40,6 @@ struct ImageScreen: DeeplinkScreen {
             flex: Flex().alignSelf(.center)
             )
     )
-    
-    let image = "imageBeagle"
  
     private func container() -> Container {
         return Container(context: Context(
@@ -86,10 +84,6 @@ struct ImageScreen: DeeplinkScreen {
                 widgetProperties: sizeImage
             )
 
-            Image(
-                .local(image),
-                widgetProperties: sizeImage
-            )
             Button(
                 text: "Chage Context",
                 onPress: [

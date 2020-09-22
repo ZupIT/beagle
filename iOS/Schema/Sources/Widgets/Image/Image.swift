@@ -23,7 +23,6 @@ public struct Image: RawWidget, AutoDecodable {
     public let mode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
-    @available(*, deprecated, message: "It was deprecated in version 1.2.2 and will be removed in a future version. Use constructor without bind")
     public init(
         _ path: Expression<ImagePath>,
         mode: ImageContentMode? = nil,
