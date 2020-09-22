@@ -61,12 +61,14 @@ class ImageTests: XCTestCase {
             Container(context: Context(id: "currentPage", value: 2), widgetProperties: .init(Flex().grow(1))) {
                 PageIndicator(numberOfPages: 4, currentPage: "@{currentPage}")
                 PageView(
-                    children: [Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween).grow(1))) {
-                        Text("Text with alignment attribute set to center", alignment: Expression.value(.center))
-                        Text("Text with alignment attribute set to right", alignment: Expression.value(.right))
-                        Text("Text with alignment attribute set to left", alignment: Expression.value(.left))
-                        Image(.value(.remote(.init(url: "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"))))
-                }],
+                    children: [
+                        Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween).grow(1))) {
+                            Text("Text with alignment attribute set to center", alignment: Expression.value(.center))
+                            Text("Text with alignment attribute set to right", alignment: Expression.value(.right))
+                            Text("Text with alignment attribute set to left", alignment: Expression.value(.left))
+                            Image(.value(.remote(.init(url: "https://www.petlove.com.br/images/"))))
+                        }
+                    ],
                     pageIndicator: PageIndicator(),
                     onPageChange: [SetContext(contextId: "currentPage", value: "@{onPageChange}")],
                     currentPage: "@{currentPage}"
@@ -74,20 +76,17 @@ class ImageTests: XCTestCase {
             }
         }
 
-        let imageExpectation = expectation(description: "imageExpectation")
-
         let dependencies = BeagleDependencies()
-        let repository = RepositoryMock(expectation: imageExpectation)
-        dependencies.repository = repository
-        Beagle.dependencies = dependencies
-        
-        let controller = BeagleScreenViewController(.declarative(screen))
-        
-        assertSnapshotImage(controller, size: .custom(CGSize(width: 400, height: 400)))
-        
-        waitForExpectations(timeout: 2)
+        dependencies.repository = RepositoryMock(expectation: expectation(description: "repository"))
 
-        assertSnapshotImage(controller, size: .custom(CGSize(width: 400, height: 400)))
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(screen), dependencies: dependencies))
+
+        let size = ImageSize.custom(.init(width: 400, height: 400))
+        assertSnapshotImage(controller, size: size)
+
+        self.waitForExpectations(timeout: 3)
+
+        assertSnapshotImage(controller, size: size)
     }
     
     func testCancelRequest() {
@@ -163,8 +162,11 @@ private struct RepositoryMock: Repository {
     
     func fetchImage(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<Data, Request.Error>) -> Void) -> RequestToken? {
         let image = UIImage(named: "shuttle", in: Bundle(for: ImageTests.self), compatibleWith: nil)
-        completion(.success(image?.pngData() ?? Data()))
-        expectation?.fulfill()
+
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+            completion(.success(image?.pngData() ?? Data()))
+            self.expectation?.fulfill()
+        }
         return nil
     }
 }
