@@ -17,7 +17,4 @@
 
 public protocol AnalyticsEvent: Decodable {
 
-
-
-
 }

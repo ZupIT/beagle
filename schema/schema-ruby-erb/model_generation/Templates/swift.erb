@@ -70,7 +70,7 @@
   end
 
   def casesForEnum(objectType)
-    output = ""
+    output = "\n"
     for variable in objectType.synthax_type.variables
       output += "#{@tab}case #{variable.name}"
       if variable.defaultValue != ''
@@ -84,11 +84,16 @@
   end
 
   def declarePropertiesForCommonObject(objectType)
-    output = ""
+    if objectType.synthax_type.variables.length == 0 
+      return ""
+    end
+    output = "\n"
     for variable in objectType.synthax_type.variables
       output += variable.comment != nil ? "#{@tab}/// #{variable.comment}\n" : ""
       output += "#{@tab}#{variable.accessor} var #{variable.name}: #{handleTypeName(variable)}\n"
     end
+
+    output += "\n"
 
     output
   end
@@ -110,7 +115,7 @@
       output += "#{@doubleTab}self.#{variable.name} = #{variable.name}\n"
     end
 
-    output += "#{@tab}}"
+    output += "#{@tab}}\n"
 
     output
   end
@@ -120,13 +125,12 @@
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
     output = objectType.synthax_type.comment != nil ? "/// #{objectType.synthax_type.comment}\n" : ""
     typeName = adaptTypeNameToSwiftSpecific(objectType.synthax_type.name)
-    output += "#{objectType.synthax_type.accessor} #{typeKind} #{typeName}#{handleInheritance(objectType.synthax_type)} {\n\n"
+    output += "#{objectType.synthax_type.accessor} #{typeKind} #{typeName}#{handleInheritance(objectType.synthax_type)} {\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)
     else
       output += declarePropertiesForCommonObject(objectType)
-      output += "\n"
-      output += "#{initForCommonObject(objectType)}\n"
+      output += initForCommonObject(objectType)
     end
 
     output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
