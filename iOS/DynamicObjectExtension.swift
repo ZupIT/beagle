@@ -43,19 +43,10 @@ extension DynamicObject: AnySnapshotStringConvertible {
     }
     
     private func dictionaryDescription(_ dictionary: [String: DynamicObject]) -> String {
-        var array: [(String, DynamicObject)] = []
-        for (key, value) in dictionary {
-            array.append((key, value))
-        }
-        array.sort() { $0.0 < $1.0 }
+        let array = dictionary.map { ($0, $1) }.sorted { $0.0 < $1.0 }
         
         func arrayDescription(_ array: [(String, DynamicObject)]) -> String {
-            var description = ""
-            for item in array {
-                description += "(\(item.0), \(customDescription(item.1))), "
-            }
-            // Remove last occurrence of the separator(', ')
-            description.removeLast(2)
+            let description = array.map { "\($0.0): \($0.1.customDescription)" }.joined(separator: ", ")
             
             return "[\(description)]"
         }
