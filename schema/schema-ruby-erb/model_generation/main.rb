@@ -41,6 +41,9 @@ require_relative 'Models/Widgets/container.rb'
 require_relative 'Models/Widgets/image.rb'
 require_relative 'Models/Widgets/image_content.rb'
 
+require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
+require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
+
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
 
@@ -165,7 +168,9 @@ if __FILE__ == $0
     TextInput,
     AnalyticsEvent,
     AnalyticsClick,
-    AnalyticsScreen
+    AnalyticsScreen,
+    # ServerDriven
+    ScrollAxis
   ]
   
   generator = ModelGenerator.new(components)
