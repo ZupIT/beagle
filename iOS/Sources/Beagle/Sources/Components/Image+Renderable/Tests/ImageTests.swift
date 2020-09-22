@@ -116,23 +116,39 @@ class ImageTests: XCTestCase {
     }
     
     func testImageDeprecatedCancelRequest() {
-           //Given
-           let image = Image("@{img.path}")
-           let dependency = BeagleDependencies()
-           let repository = RepositoryStub(imageResult: .success(Data()))
-           dependency.repository = repository
-           let container = Container(children: [image])
-           let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
-           let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
-           let view = image.toView(renderer: controller.renderer)
-           
-           //When
-           view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
-           controller.configBindings()
-           action.execute(controller: controller, origin: view)
-           
-           // Then
-           XCTAssertTrue(repository.token.didCallCancel)
-       }
-  
+        //Given
+        let image = Image("@{img.path}")
+        let dependency = BeagleDependencies()
+        let repository = RepositoryStub(imageResult: .success(Data()))
+        dependency.repository = repository
+        let container = Container(children: [image])
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
+        let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
+        let view = image.toView(renderer: controller.renderer)
+        
+        //When
+        view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
+        controller.configBindings()
+        action.execute(controller: controller, origin: view)
+        
+        // Then
+        XCTAssertTrue(repository.token.didCallCancel)
+    }
+    
+    func testLocalImageWithContext() {
+        //Given
+        let image = Image(.local("@{mobileId}"))
+        let container = Container(children: [image])
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependencies))
+        let action = SetContext(contextId: "mobileId", value: "shuttle")
+        let view = image.toView(renderer: controller.renderer)
+        
+        //When
+        view.setContext(Context(id: "mobileId", value: "test_image_square-x"))
+        controller.configBindings()
+        action.execute(controller: controller, origin: view)
+        
+        // Then
+        assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 50, height: 50)))
+    }
 }
