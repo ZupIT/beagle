@@ -66,7 +66,7 @@ public struct RepositoryDefault: Repository {
     
     // MARK: Initialization
     
-    public init(dependencies: Dependencies ) {
+    public init(dependencies: Dependencies) {
         self.dependencies = dependencies
         self.networkCache = NetworkCache(dependencies: dependencies)
     }
