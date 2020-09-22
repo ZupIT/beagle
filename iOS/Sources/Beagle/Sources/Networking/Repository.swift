@@ -88,7 +88,8 @@ public struct RepositoryDefault: Repository {
             return nil
         }
 
-        return dispatchRequest(path: url, type: .fetchComponent, additionalData: cache.additional) {  result in
+        let additional = cache.additional ?? additionalData
+        return dispatchRequest(path: url, type: .fetchComponent, additionalData: additional) {  result in
             let mapped = result
                 .flatMap { self.handleFetchComponent($0, cachedComponent: cache.data, url: url) }
 
