@@ -31,7 +31,7 @@ extension AddChildren {
 
         componentId = try container.decode(String.self, forKey: .componentId)
         value = try container.decode(forKey: .value)
-        mode = try container.decodeIfPresent(Mode.self, forKey: .mode) ?? Mode.append
+        mode = try container.decodeIfPresent(Mode.self, forKey: .mode) ?? .append
     }
 }
 
