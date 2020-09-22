@@ -37,12 +37,7 @@ extension DynamicObject: AnySnapshotStringConvertible {
     }
     
     private func arrayDescription(_ array: [DynamicObject]) -> String {
-        var description = ""
-        for item in array {
-            description += "\(customDescription(item)), "
-        }
-        // Remove last occurrence of the separator(', ')
-        description.removeLast(2)
+        let description = array.map { $0.customDescription }.joined(separator: ", ")
         
         return "[\(description)]"
     }
