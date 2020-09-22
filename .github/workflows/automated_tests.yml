@@ -40,6 +40,7 @@ jobs:
                 with:
                     path: ${{ env.gradle-path }}
                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('android/buildSrc/**') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             -   name: Cache android platform
                 uses: actions/cache@v2
                 env:
