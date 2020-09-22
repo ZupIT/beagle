@@ -15,23 +15,3 @@
  * limitations under the License.
  */
 
-public struct Container: RawWidget, HasContext, AutoDecodable {
-
-    public var children: [RawWidget]
-    public var onInit: [RawAction]?
-    public var context: Context?
-    public var widgetProperties: WidgetProperties
-
-    public init(
-        children: [RawWidget],
-        onInit: [RawAction]? = nil,
-        context: Context? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.children = children
-        self.onInit = onInit
-        self.context = context
-        self.widgetProperties = widgetProperties
-    }
-
-}

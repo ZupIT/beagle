@@ -15,18 +15,35 @@
 require_relative '../../../Synthax/Attributes/variable.rb'
 require_relative '../../base_component.rb'
 require_relative '../../../Synthax/Types/built_in_type.rb'
+require_relative '../server_driven_component.rb'
+require_relative '../../Context/context_component.rb'
 
 class ScrollView < BaseComponent
 
     def initialize
         variables = [
-            List.new(:name => "children", :typeName => Widget.new.name),
-
+            List.new(:name => "children", :typeName => ServerDrivenComponent.new.name),
+            Variable.new(
+                :name => "scrollDirection",
+                :typeName => ScrollAxis.new.name,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "scrollBarEnabled",
+                :typeName => BasicTypeKeys.bool,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "context",
+                :typeName => "Context",
+                :isOptional => true
+            )
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :inheritsFrom => [ContextComponent.new.name]
         )
 
         super(synthax_type)

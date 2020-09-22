@@ -37,7 +37,10 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
     }
 // sourcery:end
     
-    public init(
+}
+
+public extension ScrollView {
+    init(
         scrollBarEnabled: Bool? = nil,
         scrollDirection: ScrollAxis? = nil,
         context: Context? = nil,
@@ -47,7 +50,7 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
         self.init(children: [children()], scrollDirection: scrollDirection, scrollBarEnabled: scrollBarEnabled, context: context)
     }
     
-    public init(
+    init(
         scrollBarEnabled: Bool? = nil,
         scrollDirection: ScrollAxis? = nil,
         context: Context? = nil,
@@ -56,7 +59,6 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
     ) {
         self.init(children: children(), scrollDirection: scrollDirection, scrollBarEnabled: scrollBarEnabled, context: context)
     }
-
 }
 
 public extension ScrollAxis {

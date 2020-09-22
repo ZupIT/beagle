@@ -15,23 +15,23 @@
  * limitations under the License.
  */
 
-public struct Container: RawWidget, HasContext, AutoDecodable {
+public struct ScrollView: Decodable {
 
-    public var children: [RawWidget]
-    public var onInit: [RawAction]?
+    public var children: [RawComponent]
+    public var scrollDirection: ScrollAxis?
+    public var scrollBarEnabled: Bool?
     public var context: Context?
-    public var widgetProperties: WidgetProperties
 
     public init(
-        children: [RawWidget],
-        onInit: [RawAction]? = nil,
-        context: Context? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
+        children: [RawComponent],
+        scrollDirection: ScrollAxis? = nil,
+        scrollBarEnabled: Bool? = nil,
+        context: Context? = nil
     ) {
         self.children = children
-        self.onInit = onInit
+        self.scrollDirection = scrollDirection
+        self.scrollBarEnabled = scrollBarEnabled
         self.context = context
-        self.widgetProperties = widgetProperties
     }
 
 }

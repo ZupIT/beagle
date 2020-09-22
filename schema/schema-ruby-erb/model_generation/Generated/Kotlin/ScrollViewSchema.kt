@@ -15,23 +15,14 @@
  * limitations under the License.
  */
 
-public struct Container: RawWidget, HasContext, AutoDecodable {
+package br.com.zup.beagle.widget.core
 
-    public var children: [RawWidget]
-    public var onInit: [RawAction]?
-    public var context: Context?
-    public var widgetProperties: WidgetProperties
+import br.com.zup.beagle.widget.core.ScrollAxisSchema
 
-    public init(
-        children: [RawWidget],
-        onInit: [RawAction]? = nil,
-        context: Context? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.children = children
-        self.onInit = onInit
-        self.context = context
-        self.widgetProperties = widgetProperties
-    }
 
+interface ScrollViewSchema {
+  public val children: List<ServerDrivenComponent>
+  public val scrollDirection: ScrollAxisSchema?
+  public val scrollBarEnabled: Bool?
+  public val context: Context? 
 }
