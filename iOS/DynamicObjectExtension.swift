@@ -24,16 +24,15 @@ extension DynamicObject: AnySnapshotStringConvertible {
         return customDescription(self)
     }
     
-    private func customDescription(_ dynamicObject: DynamicObject) -> String {
-        var description = dynamicObject.description
-        
-        if case DynamicObject.array(let array) = dynamicObject {
-            description = arrayDescription(array)
-        } else if case DynamicObject.dictionary(let dict) = dynamicObject {
-            description = dictionaryDescription(dict)
+        private var customDescription: String {
+        switch self {
+        case .array(let array):
+            return arrayDescription(array)
+        case .dictionary(let dict):
+            return dictionaryDescription(dict)
+        default:
+            return description
         }
-        
-        return description
     }
     
     private func arrayDescription(_ array: [DynamicObject]) -> String {
