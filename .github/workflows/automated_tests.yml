@@ -28,6 +28,7 @@ jobs:
                 with:
                     path: ${{ env.gradle-path }}
                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             -   name: Start backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
 
