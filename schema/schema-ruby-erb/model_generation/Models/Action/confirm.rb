@@ -16,7 +16,7 @@ require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
-class Alert < BaseComponent
+class Confirm < BaseComponent
 
     def initialize
         action = Action.new
@@ -38,7 +38,17 @@ class Alert < BaseComponent
                 :isOptional => true
             ),
             Variable.new(
+                :name => "onPressCancel",
+                :typeName => Action.new.name,
+                :isOptional => true
+            ),
+            Variable.new(
                 :name => "labelOk",
+                :typeName => BasicTypeKeys.string,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "labelCancel",
                 :typeName => BasicTypeKeys.string,
                 :isOptional => true
             ),
@@ -48,7 +58,7 @@ class Alert < BaseComponent
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [action.name],
-            :comment => "Action to represents an alert",
+            :comment => "Action that represents confirm",
             :sameFileTypes => [Mode.new]
         )
 

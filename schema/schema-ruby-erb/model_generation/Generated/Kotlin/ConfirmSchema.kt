@@ -15,32 +15,17 @@
  * limitations under the License.
  */
 
-/// Action to represents an alert
-public struct Alert: RawAction, AutoDecodable {
+package br.com.zup.beagle.widget.core
 
-    public var title: Expression<String>?
-    public var message: Expression<String>
-    public var onPressOk: RawAction?
-    public var labelOk: String?
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.action.ui.ActionSchema
 
-    public init(
-        title: Expression<String>? = nil,
-        message: Expression<String>,
-        onPressOk: RawAction? = nil,
-        labelOk: String? = nil
-    ) {
-        self.title = title
-        self.message = message
-        self.onPressOk = onPressOk
-        self.labelOk = labelOk
-    }
-    
-    public enum Mode: String, Decodable {
-    
-        case append
-        case prepend
-        case replace
-    
-    }
 
+interface ConfirmSchema {
+  public val title: Bind<String>?
+  public val message: Bind<String>
+  public val onPressOk: ActionSchema?
+  public val onPressCancel: ActionSchema?
+  public val labelOk: String?
+  public val labelCancel: String? 
 }
