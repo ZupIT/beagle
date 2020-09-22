@@ -118,7 +118,8 @@ class ModelGenerator
       UnitType.new.name,
       UnitValue.new.name,
       Style.new.name,
-      CornerRadius.new.name
+      CornerRadius.new.name,
+      ScrollAxis.new.name
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components

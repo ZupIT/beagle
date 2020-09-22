@@ -15,6 +15,7 @@
 		1D5CF9CA25193DCA00395A09 /* Flex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9C225193DCA00395A09 /* Flex.swift */; };
 		1D5CF9CB25193DCA00395A09 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9C325193DCA00395A09 /* Button.swift */; };
 		1D5CF9CC25193DCA00395A09 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9C425193DCA00395A09 /* CornerRadius.swift */; };
+		1D5CF9CE251A39FE00395A09 /* ScrollAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9CD251A39FE00395A09 /* ScrollAxis.swift */; };
 		252D727524D84AEF0069541F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727424D84AEF0069541F /* Binding.swift */; };
 		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		257FC9F924DCA75300F2157C /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9F824DCA75300F2157C /* Value.swift */; };
@@ -147,6 +148,7 @@
 		1D5CF9C225193DCA00395A09 /* Flex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flex.swift; sourceTree = "<group>"; };
 		1D5CF9C325193DCA00395A09 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		1D5CF9C425193DCA00395A09 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
+		1D5CF9CD251A39FE00395A09 /* ScrollAxis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollAxis.swift; sourceTree = "<group>"; };
 		252D727424D84AEF0069541F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 		1D5CF9BC25193DCA00395A09 /* BeagleSchemaGenerated */ = {
 			isa = PBXGroup;
 			children = (
+				1D5CF9CD251A39FE00395A09 /* ScrollAxis.swift */,
 				1D5CF9BD25193DCA00395A09 /* UnitValue.swift */,
 				1D5CF9BE25193DCA00395A09 /* UnitType.swift */,
 				1D5CF9BF25193DCA00395A09 /* EdgeValue.swift */,
@@ -1358,6 +1361,7 @@
 				C8EBCC60247C3027002030CC /* PageIndicator.swift in Sources */,
 				257FC9FB24DDB74300F2157C /* Operation.swift in Sources */,
 				C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */,
+				1D5CF9CE251A39FE00395A09 /* ScrollAxis.swift in Sources */,
 				C864D2B4247C240200E7A1F9 /* SafeArea.swift in Sources */,
 				1D5CF9C725193DCA00395A09 /* EdgeValue.swift in Sources */,
 				C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */,

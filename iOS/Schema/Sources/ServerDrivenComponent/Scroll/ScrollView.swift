@@ -59,11 +59,6 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
 
 }
 
-public enum ScrollAxis: String, Decodable {
-    case vertical = "VERTICAL"
-    case horizontal = "HORIZONTAL"
-}
-
 public extension ScrollAxis {
     
     var flexDirection: Flex.FlexDirection {
