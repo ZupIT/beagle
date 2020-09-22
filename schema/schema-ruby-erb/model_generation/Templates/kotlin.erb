@@ -39,10 +39,10 @@ package <%= objectType.synthax_type.package %>
 import br.com.zup.beagle.core.BindAttribute
 <% end -%>
 <% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, import_manager) -%>
-import <%= qualifiedName -%>Schema
+import <%= qualifiedName %>Schema
 <% end -%>
 <% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
-import <%= qualifiedName -%>
+import <%= qualifiedName %>
 <% end -%>
 <% end -%>
 
