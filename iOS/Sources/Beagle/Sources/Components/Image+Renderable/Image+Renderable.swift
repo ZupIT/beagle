@@ -52,19 +52,20 @@ extension Image: Widget {
     }
     
     private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, renderer: BeagleRenderer) -> RequestToken? {
-        renderer.controller.dependencies.repository.fetchImage(url: path, additionalData: nil) {
-            [weak imageView] result in
+        let controller = renderer.controller
+        return controller.dependencies.repository.fetchImage(url: path, additionalData: nil) {
+            [weak imageView, weak controller] result in
             guard let imageView = imageView else { return }
             switch result {
             case .success(let data):
                 let image = UIImage(data: data)
                 DispatchQueue.main.async {
                     imageView.image = image
-                    imageView.style.markDirty()
+                    controller?.setNeedsLayout(component: imageView)
                 }
             case .failure:
                 imageView.image = placeholderImage
-                imageView.style.markDirty()
+                controller?.setNeedsLayout(component: imageView)
             }
         }
     }

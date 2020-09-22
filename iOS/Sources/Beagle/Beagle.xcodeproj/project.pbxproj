@@ -85,6 +85,8 @@
 		93BFE32F24A13F34009838CE /* DynamicObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BFE32E24A13F34009838CE /* DynamicObjectTests.swift */; };
 		93C69F2B24A4D84D00818305 /* UIView+ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C69F2A24A4D84D00818305 /* UIView+ContextTests.swift */; };
 		93D1C6BC24D06D6500351347 /* SendRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C6BB24D06D6500351347 /* SendRequestTests.swift */; };
+		93D24A512513DF47005A5CBD /* AutoLayoutWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */; };
+		93D24A57251402B8005A5CBD /* AutoLayoutWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D24A56251402B8005A5CBD /* AutoLayoutWrapperTests.swift */; };
 		9800ACFF2455D09B0030109F /* UrlBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9800ACFE2455D09B0030109F /* UrlBuilderTests.swift */; };
 		980654B32480114600761FD4 /* BeagleNavigatorAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980654B22480114600761FD4 /* BeagleNavigatorAnimation.swift */; };
 		981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */; };
@@ -349,6 +351,8 @@
 		93C69F2A24A4D84D00818305 /* UIView+ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ContextTests.swift"; sourceTree = "<group>"; };
 		93D1C6BB24D06D6500351347 /* SendRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestTests.swift; sourceTree = "<group>"; };
 		93D1C6BD24D0A3FB00351347 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutWrapper.swift; sourceTree = "<group>"; };
+		93D24A56251402B8005A5CBD /* AutoLayoutWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutWrapperTests.swift; sourceTree = "<group>"; };
 		9800ACFE2455D09B0030109F /* UrlBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilderTests.swift; sourceTree = "<group>"; };
 		980654B22480114600761FD4 /* BeagleNavigatorAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleNavigatorAnimation.swift; sourceTree = "<group>"; };
 		981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitValueExtension.swift; sourceTree = "<group>"; };
@@ -1299,6 +1303,7 @@
 		C829CEA723B15C59001B7225 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */,
 				A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */,
 				C852A0F2247F246B009535D9 /* BeagleRenderer.swift */,
 				E5CB5D64234E7CF6009783A7 /* BeagleScreenViewController.swift */,
@@ -1386,6 +1391,7 @@
 				E516E60F23705BED006620B1 /* BeagleViewBuilderTests.swift */,
 				E5CB5D802354C08E009783A7 /* UnknownComponentViewRendererTests.swift */,
 				2532D5DB25099ABB001D1469 /* BeagleViewTests.swift */,
+				93D24A56251402B8005A5CBD /* AutoLayoutWrapperTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1926,6 +1932,7 @@
 				7CFE3A752412E3B50087F664 /* StyleBuildersExtension.swift in Sources */,
 				C08D4E9B248594ED00AAAC0A /* ImageContentMode+Renderable.swift in Sources */,
 				E7716B9D2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift in Sources */,
+				93D24A512513DF47005A5CBD /* AutoLayoutWrapper.swift in Sources */,
 				98B7D95623DB2722002622AC /* Observable.swift in Sources */,
 				A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */,
 				C8ECF2CD24BD1D9800525CF5 /* NetworkCache.swift in Sources */,
@@ -2020,6 +2027,7 @@
 				C08D4E2824857BB400AAAC0A /* StyleViewConfiguratorTests.swift in Sources */,
 				983E8C912396DF430018C6CA /* TabViewTests.swift in Sources */,
 				6E71540D24B3B4F20025B850 /* SimpleFormTests.swift in Sources */,
+				93D24A57251402B8005A5CBD /* AutoLayoutWrapperTests.swift in Sources */,
 				C08D4E9D248594FB00AAAC0A /* ImageTests.swift in Sources */,
 				C08D4E862485944300AAAC0A /* TextTests.swift in Sources */,
 				25CDD47224ED5B4800CC49CB /* OperationComparisonEvaluationTests.swift in Sources */,
