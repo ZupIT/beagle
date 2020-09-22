@@ -171,6 +171,13 @@
       objectType.synthax_type.inheritFrom.append("AutoEquatable")
     end
 
+    if [Container.new.name].include? objectType.synthax_type.name
+      objectType.synthax_type.inheritFrom.append("HasContext")
+      objectType.synthax_type.variables.append(
+        Variable.new(:name => "context", :typeName => "Context", :isOptional => true)
+      )
+    end
+
   end
 
   ## CAUTION: the following methods will be deleted

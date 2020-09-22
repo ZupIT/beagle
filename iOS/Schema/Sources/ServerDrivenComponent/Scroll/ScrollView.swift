@@ -62,8 +62,11 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
 public enum ScrollAxis: String, Decodable {
     case vertical = "VERTICAL"
     case horizontal = "HORIZONTAL"
+}
+
+public extension ScrollAxis {
     
-    public var flexDirection: Flex.FlexDirection {
+    var flexDirection: Flex.FlexDirection {
         switch self {
         case .vertical:
             return .column
