@@ -20,10 +20,9 @@ class Action < BaseComponent
 
     #todo finish implementation, and add to be generated on main
     def initialize
-        variables = []
         synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => variables,
+            :variables => [],
             :package => "br.com.zup.beagle.action.ui"
         )
 
