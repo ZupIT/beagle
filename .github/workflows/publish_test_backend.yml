@@ -12,11 +12,12 @@ jobs:
             -   name: Cache gradle backend dependencies
                 uses: actions/cache@v2
                 env:
-                    gradle-cache-key: gradle-cache-tests
+                    gradle-cache-key: backend-tests-gradle-cache
                     gradle-path: ~/.gradle
                 with:
                     path: ${{ env.gradle-path }}
                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             -   name: Create backend image and publish it
                 run: bash fastlane/automatedTests/publish_test_backend.sh
                 env:
