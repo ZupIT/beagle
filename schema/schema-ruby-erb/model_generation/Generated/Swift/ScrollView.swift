@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct ScrollView: Decodable {
+public struct ScrollView: HasContext, RawComponent, AutoDecodable {
 
     public var children: [RawComponent]
     public var scrollDirection: ScrollAxis?
