@@ -7,7 +7,7 @@ Feature: Image Component Validation
 
 
     Scenario: Image 01 - Image component renders text attribute correctly
-        Given the app will load http://localhost:8080/image
+        Given the app did load image screen
         Then image screen should render all text attributes correctly
 
 

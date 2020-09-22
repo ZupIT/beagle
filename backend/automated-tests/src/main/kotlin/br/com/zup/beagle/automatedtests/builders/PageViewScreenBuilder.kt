@@ -60,13 +60,13 @@ object PageViewScreenBuilder : ScreenBuilder {
             children = listOf(
                 Container(
                     children = listOf(
-                        Text(text = "@{pageView}",textColor = "#000000")
+                        Text(text = "Page 1",textColor = "#000000")
                     )
                 ).applyFlex(Flex(grow = 1.0,alignItems = AlignItems.CENTER)),
 
                 Container(
                     children = listOf(
-                        Text("@{pageView}",textColor = "#000000")
+                        Text("Page 2",textColor = "#000000")
                     )
                 ).applyFlex(Flex(grow = 1.0,alignItems = AlignItems.CENTER)),
 

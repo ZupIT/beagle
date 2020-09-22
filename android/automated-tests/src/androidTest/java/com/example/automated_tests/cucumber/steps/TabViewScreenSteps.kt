@@ -75,12 +75,6 @@ class TabViewScreenSteps {
             .swipeRightOnView()
     }
 
-    @When("^I click on text (.*)$")
-    fun clickOnText(string1: String?) {
-        ScreenRobot()
-            .clickOnText(string1)
-    }
-
     @Then("^my tab should render the text (.*) and (.*) correctly$")
     fun renderTextCorrectly(string1: String?, string2: String?) {
         ScreenRobot()

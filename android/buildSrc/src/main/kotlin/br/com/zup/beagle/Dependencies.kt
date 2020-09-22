@@ -59,7 +59,7 @@ class Dependencies : Plugin<Project> {
 
         const val appcompat = "1.1.0"
         const val viewModel = "2.2.0"
-        const val recyclerView = "1.1.0"
+        const val recyclerView = "1.0.0"
 
         const val moshi = "1.9.3"
 

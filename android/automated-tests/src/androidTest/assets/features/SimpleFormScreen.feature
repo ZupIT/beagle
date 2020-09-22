@@ -13,9 +13,10 @@ Feature: SimpleForm Component Validation
         Then all my simple form components should render their respective text attributes correctly
 
     Scenario Outline: SimpleForm 02 - SimpleForm component renders action attribute correctly
-        When I click on text <textFieldText>
+        When I click on input with hint <textFieldText>
         And insert text <textValue>
-        And I click on text Street
+        And I click on input with hint Street
+        And hide keyboard
         And I click on button Enviar
         Then confirm popup should appear correctly
 

@@ -7,5 +7,5 @@ Feature: PageView Component Validation
 
 
     Scenario: PageView 01 - PageView component renders text attribute correctly
-        Given the app will load http://localhost:8080/pageview
+        Given the app did load pageview screen
         Then pageview should render correctly

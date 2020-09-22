@@ -40,7 +40,10 @@ public class ScreenRobot {
         XCTAssertTrue(XCUIApplication().staticTexts[selectedText1].exists)
         XCTAssertTrue(XCUIApplication().staticTexts[selectedText2].exists)
     }
-
+    
+    func isPresenting(text: String) {
+        XCTAssertTrue(XCUIApplication().staticTexts[text].exists)
+    }
     
     func clickOnButton(button: ScreenElements) {
         button.element.tap()

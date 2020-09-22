@@ -36,8 +36,8 @@ class SimpleFormScreenSteps {
     fun checkTabViewRendersTabs() {
         ScreenRobot()
             .checkViewContainsText(SIMPLE_FORM_TITLE)
-            .checkViewContainsText(ZIP_FIELD)
-            .checkViewContainsText(STREET_FIELD)
+            .checkViewContainsHint(STREET_FIELD)
+            .checkViewContainsHint(ZIP_FIELD)
     }
 
     @And("^insert text (.*)$")

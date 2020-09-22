@@ -9,23 +9,26 @@
 import Foundation
 import XCTest
 
-class TabViewScreenSteps: NSObject {
+class TabViewScreenSteps: CucumberStepsDefinition {
     
-    func TabViewScreenSteps() {
+    var application : XCUIApplication!
+    
+    func loadSteps() {
     
         let screen = ScreenRobot()
-                
-        MatchAll("^App is running$") { (args, userInfo) -> Void in
-            screen.checkViewContainsHeader()
+        
+        before { (scenarioDefinition) in
+            if scenarioDefinition?.tags.contains("tabview") ?? false {
+                let url = "http://localhost:8080/tabview"
+                self.application = TestUtils.launchBeagleApplication(url: url)
+            }
         }
         
-        Given("^Given the app will load http://localhost:8080/tabview$") { (args, userInfo) -> Void in
-            screen.checkViewContainsHeader()
+        Given("^the app did load tabview screen$") { (args, userInfo) -> Void in
             XCTAssertTrue(ScreenElements.TABVIEW_SCREEN_HEADER.element.exists)
         }
-        
 
-        Then("^my tabview components should render their respective tabs attributes correctly$")  { (args, userInfo) -> Void in
+        Then("^my tabview components should render their respective tabs attributes correctly$") { (args, _) -> Void in
             XCTAssertTrue(ScreenElements.TAB_1.element.exists)
             XCTAssertTrue(ScreenElements.TAB_1_TEXT.element.exists)
             XCTAssertTrue(ScreenElements.TAB_1_TEXT_2.element.exists)
@@ -51,18 +54,22 @@ class TabViewScreenSteps: NSObject {
            
         }
 
-        When("^I click on \"([^\\\"]*)\"$")  { (args, userInfo) -> Void in
-           let text:ScreenElements = ScreenElements(rawValue: (args?[0])!)!
+        When("^I click on \"([^\\\"]*)\"$") { (args, _) -> Void in
+            guard let param = args?[0],
+                  let text:ScreenElements = ScreenElements(rawValue: param) else {
+                return
+            }
             screen.clickOnText(textOption: text)
-           }
+        }
 
-        Then("^my tab should render the text \"([^\\\"]*)\" and \"([^\\\"]*)\" correctly$")  { (args, userInfo) -> Void in
-            let text1: String = (args?[0])!
-            let text2: String = (args?[1])!
+        Then("^my tab should render the text \"([^\\\"]*)\" and \"([^\\\"]*)\" correctly$") { (args, _) -> Void in
+            guard let text1: String = (args?[0]),
+                  let text2: String = (args?[1]) else {
+                return
+            }
 
             screen.selectedTextIsPresented(selectedText1: text1, selectedText2: text2)
         }
         
     }
 }
-

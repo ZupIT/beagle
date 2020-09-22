@@ -9,18 +9,22 @@
 import Foundation
 import XCTest
 
-class ButtonScreenSteps: NSObject {
+class ButtonScreenSteps: CucumberStepsDefinition {
     
-    func ButtonScreenSteps() {
+    var application : XCUIApplication!
+    
+    func loadSteps() {
     
         let screen = ScreenRobot()
-                
-        MatchAll("^App is running$") { (args, userInfo) -> Void in
-            screen.checkViewContainsHeader()
-        }
         
-        Given("^Given the app will load http://localhost:8080/button$") { (args, userInfo) -> Void in
-            screen.checkViewContainsHeader()
+        before { (scenarioDefinition) in
+            if scenarioDefinition?.tags.contains("button") ?? false {
+                let url = "http://localhost:8080/button"
+                self.application = TestUtils.launchBeagleApplication(url: url)
+            }
+        }
+                
+        Given("^the app did load buttons screen$") { (args, userInfo) -> Void in
             XCTAssertTrue(ScreenElements.BUTTON_SCREEN_HEADER.element.exists)
         }
 

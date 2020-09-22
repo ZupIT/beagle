@@ -10,26 +10,20 @@ import Foundation
 class CucumberishInitializer: NSObject {
     @objc class func CucumberishSwiftInit()
     {
-        var application : XCUIApplication!
         //A closure that will be executed only before executing any of your features
         beforeStart { () -> Void in
-            ButtonScreenSteps().ButtonScreenSteps()
-            TabViewScreenSteps().TabViewScreenSteps()
-            ImageScreenSteps().ImageScreenSteps()
-            PageViewScreenSteps().PageViewScreenSteps()
-            SimpleFormScreenSteps().SimpleFormScreenSteps()
+            let stepsDefinitions: [CucumberStepsDefinition] =
+                [
+                    ButtonScreenSteps(),
+                    TabViewScreenSteps(),
+                    ImageScreenSteps(),
+                    PageViewScreenSteps(),
+                    SimpleFormScreenSteps()
+                ]
+            for stepsDefinition in stepsDefinitions {
+                stepsDefinition.loadSteps()
+            }
         }
-        
-        //A Given step definitiona
-        Given("the app will load (.*)$") { (args, userInfo) -> Void in
-            let url = args?[0] ?? ""
-            
-            application = XCUIApplication()
-            application.launchEnvironment["InitialUrl"] = url
-            application.launch()
-    
-        }
-
         
         let bundle = Bundle(for: CucumberishInitializer.self)
 

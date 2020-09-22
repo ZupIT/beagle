@@ -82,6 +82,6 @@ const val STREET_FIELD = "Street"
 const val SEND_BUTTON = "Enviar"
 
 //Confirm Popup
-const val OK_BUTTON = "Ok"
+const val OK_BUTTON = "OK"
 const val CANCEL_BUTTON = "Cancel"
 

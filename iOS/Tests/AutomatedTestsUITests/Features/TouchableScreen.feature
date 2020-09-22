@@ -7,17 +7,17 @@
 #
 #
 #    Scenario: Touchable 01 - Touchable component renders text attribute correctly
-#        Given the app will load http://localhost:8080/touchable
+#        Given the app did load touchable screen
 #        Then touchable screen should render all text attributes correctly
 #
 #    Scenario: Touchable 02 - Touchable component performs action click on text correctly
-#        Given the app will load http://localhost:8080/touchable
+#        Given the app did load touchable screen
 #        And I have a text with touchable configured
 #        When I click on touchable text Click here!
 #        Then component should render the action attribute correctly
 #
 #    Scenario: Touchable 03 - Touchable component performs action click on image correctly
-#        Given the app will load http://localhost:8080/touchable
+#        Given the app did load touchable screen
 #        And I have an image with touchable configured
 #        When I click on touchable image
 #        Then component should render the action attribute correctly

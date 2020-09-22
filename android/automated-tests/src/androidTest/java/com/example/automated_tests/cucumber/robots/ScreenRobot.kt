@@ -49,9 +49,24 @@ class ScreenRobot {
 
     }
 
+    fun checkViewContainsHint(hint: String?, waitForText: Boolean = false): ScreenRobot {
+        if (waitForText){
+            WaitHelper.waitForWithElement(onView(withHint(hint)))
+        }
+
+        onView(Matchers.allOf(withHint(hint))).check(matches(isDisplayed()))
+
+        return this
+
+    }
 
     fun clickOnText(text: String?): ScreenRobot {
         onView(Matchers.allOf(withText(text), isDisplayed())).perform(ViewActions.click())
+        return this
+    }
+
+    fun clickOnInputWithHint(hint: String?): ScreenRobot {
+        onView(Matchers.allOf(withHint(hint), isDisplayed())).perform(ViewActions.click())
         return this
     }
 
@@ -93,8 +108,12 @@ class ScreenRobot {
             return this
         }
 
+    fun hideKeyboard() {
+        Espresso.closeSoftKeyboard()
+    }
 
-        companion object {
+
+    companion object {
             private fun childAtPosition(
                 parentMatcher: Matcher<View>, position: Int): Matcher<View> {
                 return object : TypeSafeMatcher<View>() {

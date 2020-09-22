@@ -9,23 +9,24 @@
 import Foundation
 import XCTest
 
-class ImageScreenSteps: NSObject {
+class ImageScreenSteps: CucumberStepsDefinition {
     
-    func ImageScreenSteps() {
+    var application : XCUIApplication!
     
-        let screen = ScreenRobot()
-                
-        MatchAll("^App is running$") { (args, userInfo) -> Void in
-            XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)
+    func loadSteps() {
+  
+        before { (scenarioDefinition) in
+            if scenarioDefinition?.tags.contains("image") ?? false {
+                let url = "http://localhost:8080/image"
+                self.application = TestUtils.launchBeagleApplication(url: url)
+            }
         }
         
-        Given("^Given the app will load http://localhost:8080/image$") { (args, userInfo) -> Void in
-            screen.checkViewContainsHeader()
+        Given("^the app did load image screen$") { (args, userInfo) -> Void in
             XCTAssertTrue(ScreenElements.IMAGE_SCREEN_HEADER.element.exists)
-
         }
 
-        Then("^image screen should render all text attributes correctly$") { (args, userInfo) -> Void in
+        Then("^image screen should render all text attributes correctly$") { (_, _) -> Void in
             XCTAssertTrue(ScreenElements.IMAGE_TEXT_1.element.exists)
             XCTAssertTrue(ScreenElements.IMAGE_TEXT_2.element.exists)
             XCTAssertTrue(ScreenElements.IMAGE_TEXT_3.element.exists)

@@ -86,6 +86,8 @@
 		6B9ADC5724D88FD300097605 /* SimpleFormScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9ADC5624D88FD300097605 /* SimpleFormScreenSteps.swift */; };
 		9897E52725013D4D00C74A0D /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9897E52625013D4D00C74A0D /* ErrorView.swift */; };
 		9897E52925013DCE00C74A0D /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9897E52825013DCE00C74A0D /* CustomNavigationController.swift */; };
+		F3BF51B225191A9300B5A35B /* CucumberStepsDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */; };
+		F3BF51B925191EAD00B5A35B /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BF51B825191EAD00B5A35B /* TestUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,6 +274,8 @@
 		6B9ADC5624D88FD300097605 /* SimpleFormScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormScreenSteps.swift; sourceTree = "<group>"; };
 		9897E52625013D4D00C74A0D /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		9897E52825013DCE00C74A0D /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
+		F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CucumberStepsDefinition.swift; sourceTree = "<group>"; };
+		F3BF51B825191EAD00B5A35B /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -350,6 +354,7 @@
 		639CA17624B4EF1D009FAC90 /* AutomatedTestsUITests */ = {
 			isa = PBXGroup;
 			children = (
+				F3BF51B725191E9B00B5A35B /* Utils */,
 				639CA22E24B4F0D3009FAC90 /* Features */,
 				6B4F7E7624C656E6003F461A /* Elements */,
 				6B4F7E7524C656D9003F461A /* Robots */,
@@ -574,8 +579,17 @@
 				6B4F7E8824C9C621003F461A /* ScrollViewScreenSteps.swift */,
 				6B4F7E8A24C9C637003F461A /* TouchableScreenSteps.swift */,
 				6B9ADC5624D88FD300097605 /* SimpleFormScreenSteps.swift */,
+				F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */,
 			);
 			path = Steps;
+			sourceTree = "<group>";
+		};
+		F3BF51B725191E9B00B5A35B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F3BF51B825191EAD00B5A35B /* TestUtils.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -749,6 +763,7 @@
 				6B4F7E7B24C65A76003F461A /* ScreenRobot.swift in Sources */,
 				6B4F7E8124C728F8003F461A /* ImageScreenSteps.swift in Sources */,
 				639CA17824B4EF1D009FAC90 /* AutomatedTestsUITests.swift in Sources */,
+				F3BF51B225191A9300B5A35B /* CucumberStepsDefinition.swift in Sources */,
 				639CA22524B4F0B0009FAC90 /* GHScenarioDefinition.m in Sources */,
 				639CA21F24B4F0B0009FAC90 /* GHExamples.m in Sources */,
 				639CA20524B4F0B0009FAC90 /* CCIStep.m in Sources */,
@@ -758,6 +773,7 @@
 				639CA22924B4F0B0009FAC90 /* NSString+Formatter.m in Sources */,
 				639CA22824B4F0B0009FAC90 /* GHAstBuilder.m in Sources */,
 				639CA23124B4F128009FAC90 /* CucumberishInit.m in Sources */,
+				F3BF51B925191EAD00B5A35B /* TestUtils.swift in Sources */,
 				639CA21E24B4F0B0009FAC90 /* GHGherkinDialectProvider.m in Sources */,
 				639CA1FB24B4F0B0009FAC90 /* CCIStepsManager.m in Sources */,
 				639CA21C24B4F0B0009FAC90 /* GHParserException.m in Sources */,

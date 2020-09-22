@@ -7,11 +7,11 @@ Feature: TabView Component Validation
 
 
     Scenario: TabView 01 - TabView component renders text attribute correctly
-        Given the app will load http://localhost:8080/tabview
+        Given the app did load tabview screen
         Then my tabview components should render their respective tabs attributes correctly
 
     Scenario Outline: TabView 02 - Tabs render all text attribute correctly
-        Given the app will load http://localhost:8080/tabview
+        Given the app did load tabview screen
         When I click on "<text1>"
         Then my tab should render the text "<text2>" and "<text3>" correctly
 

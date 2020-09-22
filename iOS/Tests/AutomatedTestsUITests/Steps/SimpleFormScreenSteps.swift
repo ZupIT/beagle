@@ -9,40 +9,47 @@
 import Foundation
 import XCTest
 
-class SimpleFormScreenSteps: NSObject {
+class SimpleFormScreenSteps: CucumberStepsDefinition {
     
-    func SimpleFormScreenSteps() {
+    var application : XCUIApplication!
     
+    func loadSteps() {
+        
         let screen = ScreenRobot()
-                
-        MatchAll("^App is running$") { (args, userInfo) -> Void in
-            screen.checkViewContainsHeader()
+        
+        before { (scenarioDefinition) in
+            if scenarioDefinition?.tags.contains("simpleform") ?? false {
+                let url = "http://localhost:8080/simpleform"
+                self.application = TestUtils.launchBeagleApplication(url: url)
+            }
         }
         
-        Given("^Given the app will load http://localhost:8080/simpleform$") { (args, userInfo) -> Void in
-            screen.checkViewContainsHeader()
+        Given("^the app did load simpleform screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.SIMPLE_FORM_SCREEN_HEADER.element.exists)
         }
 
-        When("^I click on text field \"([^\\\"]*)\"$") { (args, userInfo) -> Void in
-            let text:ScreenElements = ScreenElements(rawValue: (args?[0])!)!
+        When("^I click on text field \"([^\\\"]*)\"$") { args, _ -> Void in
+            guard let param = args?[0],
+                  let text:ScreenElements = ScreenElements(rawValue: param) else {
+                return
+            }
             screen.clickOnText(textOption: text)
         }
 
-        And("^insert text \"([^\\\"]*)\"$") { (args, userInfo) -> Void in
-            let text: String = (args?[0])!
+        When("^insert text \"([^\\\"]*)\"$") { args, _ -> Void in
+            guard let text: String = (args?[0]) else { return }
             screen.typeTextIntoField(insertText: text)
         }
         
         
-        Then("^all my simple form components should render their respective text attributes correctly$") { (args, userInfo) -> Void in
+        Then("^all my simple form components should render their respective text attributes correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.SIMPLE_FORM_TITLE.element.exists)
             XCTAssertTrue(ScreenElements.ZIP_FIELD.element.exists)
             XCTAssertTrue(ScreenElements.STREET_FIELD.element.exists)
 
         }
         
-        Then("confirm popup should appear correctly$") { (args, userInfo) -> Void in
+        Then("confirm popup should appear correctly$") { _, _ -> Void in
             screen.confirmPopupCorrectly()
          }
         

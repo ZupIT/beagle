@@ -7,11 +7,11 @@
 #
 #
 #    Scenario: ListView 01 - listView component renders text attribute correctly
-#        Given the app will load http://localhost:8080/listview
+#        Given the app did load listview screen
 #        Then listview screen should render all text attributes correctly
 #
 #    Scenario: ListView 02 - listView component performs vertical scroll correctly
-#        Given the app will load http://localhost:8080/listview
+#        Given the app did load listview screen
 #        When I have a vertical list configured
 #        Then listview screen should perform the scroll action vertically
 #

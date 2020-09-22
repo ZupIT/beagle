@@ -7,11 +7,11 @@ Feature: SimpleForm Component Validation
 
 
     Scenario: SimpleForm 01 - SimpleForm component renders text attribute correctly
-    Given the app will load http://localhost:8080/simpleform
+    Given the app did load simpleform screen
     Then all my simple form components should render their respective text attributes correctly
     
     Scenario Outline: SimpleForm 02 - SimpleForm component renders action attribute correctly
-    Given the app will load http://localhost:8080/simpleform
+    Given the app did load simpleform screen
     When I click on text field "<textFieldText>"
     And insert text "<textValue>"
     And I click on text field "Complement"
