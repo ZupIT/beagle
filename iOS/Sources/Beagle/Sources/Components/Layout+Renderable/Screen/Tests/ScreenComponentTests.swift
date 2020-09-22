@@ -92,6 +92,32 @@ final class ScreenComponentTests: XCTestCase {
         assertSnapshotImage(viewController, size: .custom(CGSize(width: 300, height: 200)))
     }
     
+    func testNavigationBarItemWithContextOnImage() {
+        //Given
+        let dependencies = BeagleDependencies()
+        dependencies.appBundle = Bundle(for: ScreenComponentTests.self)
+        
+        let barItem = NavigationBarItem(image: "@{image}", text: "", action: ActionDummy())
+        let component = Screen(
+            safeArea: SafeArea.all,
+            navigationBar: .init(title: "title", showBackButton: true, navigationBarItems: [barItem]),
+            child: Text("test")
+        )
+
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(component), dependencies: dependencies))
+        let action = SetContext(contextId: "image", value: "shuttle")
+        let view = component.toView(renderer: controller.renderer)
+        controller.content = .view(view)
+        
+        //When
+        controller.view.setContext(Context(id: "image", value: "test_image_square-x"))
+        controller.configBindings()
+        action.execute(controller: controller, origin: controller.view)
+        
+        // Then
+        assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 300, height: 200)))
+    }
+
     func test_action_shouldBeTriggered() {
         // Given
         let action = ActionSpy()
