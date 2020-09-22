@@ -15,13 +15,3 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
-
-import br.com.zup.beagle.action.ui.ActionSchema
-
-
-interface ContainerSchema {
-  public val children: List<Widget>
-  public val onInit: List<ActionSchema>?
-  public val context: Context? 
-}

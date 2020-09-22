@@ -94,6 +94,9 @@
   end
 
   def initForCommonObject(objectType)
+    if objectType.synthax_type.variables.length == 0 
+      return ""
+    end
     output = "#{@tab}#{objectType.synthax_type.accessor} init(\n"
     counter = 0
     for variable in objectType.synthax_type.variables

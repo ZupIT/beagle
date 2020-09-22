@@ -15,13 +15,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+/// Markup to define an action to be triggered in response to some event
+public protocol RawAction: Decodable {
 
-import br.com.zup.beagle.action.ui.ActionSchema
 
 
-interface ContainerSchema {
-  public val children: List<Widget>
-  public val onInit: List<ActionSchema>?
-  public val context: Context? 
+
 }

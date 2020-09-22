@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.TextInputTypeSchema
+import br.com.zup.beagle.action.ui.ActionSchema
 
 
 interface TextInputSchema {
@@ -29,7 +30,7 @@ interface TextInputSchema {
   public val type: Bind<TextInputTypeSchema>?
   public val hidden: Bind<Bool>?
   public val styleId: String?
-  public val onChange: List<Action>?
-  public val onBlur: List<Action>?
-  public val onFocus: List<Action>? 
+  public val onChange: List<ActionSchema>?
+  public val onBlur: List<ActionSchema>?
+  public val onFocus: List<ActionSchema>? 
 }

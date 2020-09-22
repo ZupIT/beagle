@@ -168,7 +168,8 @@ if __FILE__ == $0
     AnalyticsScreen,
     # ServerDriven
     ScrollAxis,
-    ScrollView
+    ScrollView,
+    Action
   ]
   
   generator = ModelGenerator.new(components)

@@ -23,8 +23,11 @@ class Action < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => [],
-            :package => "br.com.zup.beagle.action.ui"
+            :package => "br.com.zup.beagle.action.ui",
+            :comment => "Markup to define an action to be triggered in response to some event"
         )
+
+        synthax_type.type = BasicTypeKeys.interface
 
         super(synthax_type)
 
