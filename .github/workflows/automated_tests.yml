@@ -23,7 +23,7 @@ jobs:
             -   name: Cache backend gradle dependencies
                 uses: actions/cache@v2
                 env:
-                    gradle-cache-key: gradle-cache-tests
+                    gradle-cache-key: backend-tests-gradle-cache
                     gradle-path: ~/.gradle
                 with:
                     path: ${{ env.gradle-path }}
