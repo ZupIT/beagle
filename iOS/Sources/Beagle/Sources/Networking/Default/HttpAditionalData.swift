@@ -47,9 +47,8 @@ public struct HttpAdditionalData: RemoteScreenAdditionalData {
 }
 
 extension HttpAdditionalData: Equatable {
-    public static func == (lhs: HttpAdditionalData, rhs: HttpAdditionalData) -> Bool {
-        return lhs.httpData?.method == rhs.httpData?.method &&
-        lhs.httpData?.body == rhs.httpData?.body &&
-        lhs.headers == rhs.headers
-    }
+}
+
+extension HttpAdditionalData.HttpData: Equatable {
+
 }

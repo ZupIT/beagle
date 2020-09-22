@@ -151,35 +151,34 @@ final class RepositoryTests: XCTestCase {
         }
     }
     
-    func test_whenRequestSucceeds_withValidData_itShouldReturnSomeComponent2() {
+    func test_shouldAddAdditionalDataToRequest() {
         // Given
-        guard let jsonData = "{}".data(using: .utf8) else {
-            XCTFail("Could not create test data.")
-            return
-        }
-        let result = Result<NetworkResponse, NetworkError>.success(.init(data: jsonData, response: URLResponse()))
-        let clientStub = NetworkClientStub(result: result)
+        let body = "{}".data(using: .utf8)!
+
+        let clientStub = NetworkClientStub(result: .success(.init(data: body, response: URLResponse())))
         let sut = RepositoryDefault(dependencies: Dependencies(
             networkClient: clientStub,
             decoder: ComponentDecoder()
         ))
         let url = "www.something.com"
-        let headers = ["headerKey": "headerValue"]
-        let method = HttpAdditionalData.Method.POST
+
+        let additionalData = HttpAdditionalData(
+            httpData: .init(method: .POST, body: body),
+            headers: ["headerKey": "headerValue"]
+        )
+
+        let expec = expectation(description: "fetch")
 
         // When
-        let additionalData = HttpAdditionalData(httpData: .init(method: method, body: jsonData), headers: headers)
-        let expec = expectation(description: "fetchComponentExpectation")
         sut.fetchComponent(url: url, additionalData: additionalData) { _ in
             expec.fulfill()
         }
         wait(for: [expec], timeout: 1.0)
 
         // Then
-        let executedRequestAdditionalData = clientStub.executedRequest?.additionalData as? HttpAdditionalData
-        
-        XCTAssertNotNil(clientStub.executedRequest)
-        XCTAssertEqual(executedRequestAdditionalData, additionalData)
+        let expectedData = clientStub.executedRequest?.additionalData as? HttpAdditionalData
+
+        XCTAssertEqual(expectedData, additionalData)
         XCTAssertEqual(clientStub.executedRequest?.url.absoluteString, url)
     }
 }
