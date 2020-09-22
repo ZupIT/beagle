@@ -21,10 +21,10 @@ extension DynamicObject: AnySnapshotStringConvertible {
     public static var renderChildren = false
 
     public var snapshotDescription: String {
-        return customDescription(self)
+        return customDescription
     }
     
-        private var customDescription: String {
+    private var customDescription: String {
         switch self {
         case .array(let array):
             return arrayDescription(array)
