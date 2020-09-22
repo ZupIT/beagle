@@ -111,15 +111,10 @@ class ModelGenerator
   # Generates models for swift
   def generate_swift
     ready_to_prod = [
-      Button.new.name,
-      EdgeValue.new.name,
-      Flex.new.name,
-      Size.new.name,
-      UnitType.new.name,
-      UnitValue.new.name,
-      Style.new.name,
-      CornerRadius.new.name,
-      ScrollAxis.new.name
+      Button.new.name, EdgeValue.new.name, Flex.new.name,
+      Size.new.name, UnitType.new.name, UnitValue.new.name,
+      Style.new.name, CornerRadius.new.name, ScrollAxis.new.name,
+      TextInputType.new.name
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components

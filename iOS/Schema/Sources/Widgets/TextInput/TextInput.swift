@@ -58,11 +58,3 @@ public struct TextInput: RawWidget, AutoInitiableAndDecodable {
     }
 // sourcery:end
 }
-
-public enum TextInputType: String, Decodable {
-    case date = "DATE"
-    case email = "EMAIL"
-    case password = "PASSWORD"
-    case number = "NUMBER"
-    case text = "TEXT"
-}
