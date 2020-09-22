@@ -43,7 +43,10 @@ class ScrollView < BaseComponent
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
-            :inheritsFrom => [ContextComponent.new.name]
+            :inheritsFrom => [
+                ContextComponent.new.name,
+                ServerDrivenComponent.new.name
+            ]
         )
 
         super(synthax_type)

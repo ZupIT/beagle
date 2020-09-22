@@ -155,10 +155,12 @@
         Variable.new(:name => "widgetProperties", :typeName => "WidgetProperties", :defaultValue => "WidgetProperties()")
       )
       objectType.synthax_type.inheritFrom.append("AutoDecodable")
+    elsif @template_helper.is_server_driven_component(objectType)
+      objectType.synthax_type.inheritFrom.append("AutoDecodable")
     else
       objectType.synthax_type.inheritFrom.append("Decodable")
     end
-
+  
     if [UnitValue.new.name].include? objectType.synthax_type.name
       objectType.synthax_type.inheritFrom.append("Equatable")
     end
