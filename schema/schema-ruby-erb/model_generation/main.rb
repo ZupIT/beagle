@@ -46,6 +46,8 @@ require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
 
 require_relative 'Models/Action/action.rb'
 require_relative 'Models/Action/unknown_action.rb'
+require_relative 'Models/Action/add_children.rb'
+require_relative 'Models/Action/alert.rb'
 
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
@@ -172,8 +174,11 @@ if __FILE__ == $0
     # ServerDriven
     ScrollAxis,
     ScrollView,
+    # Action
     Action,
-    UnknownAction
+    UnknownAction,
+    AddChildren,
+    Alert
   ]
   
   generator = ModelGenerator.new(components)
