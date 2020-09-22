@@ -122,7 +122,7 @@ class ModelGenerator
       Style.new.name, CornerRadius.new.name, ScrollAxis.new.name,
       TextInputType.new.name, ScrollView.new.name, ImageContentMode.new.name,
       TextInput.new.name, Action.new.name, UnknownAction.new.name,
-      Alert.new.name
+      Alert.new.name, Confirm.new.name
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
