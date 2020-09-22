@@ -49,6 +49,7 @@ require_relative 'Models/Action/unknown_action.rb'
 require_relative 'Models/Action/add_children.rb'
 require_relative 'Models/Action/alert.rb'
 require_relative 'Models/Action/confirm.rb'
+require_relative 'Models/Action/send_request.rb'
 
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
@@ -156,6 +157,7 @@ if __FILE__ == $0
     Text,
     TextInputType,
     ImageContentMode,
+    TextInput,
     # Layout
     CornerRadius,
     EdgeValue,
@@ -169,10 +171,10 @@ if __FILE__ == $0
     # Far from being usable
     Container,
     Image,
-    TextInput,
     AnalyticsEvent,
     AnalyticsClick,
     AnalyticsScreen,
+    SendRequest,
     # ServerDriven
     ScrollAxis,
     ScrollView,
@@ -181,7 +183,7 @@ if __FILE__ == $0
     UnknownAction,
     AddChildren,
     Alert,
-    Confirm
+    Confirm,
   ]
   
   generator = ModelGenerator.new(components)

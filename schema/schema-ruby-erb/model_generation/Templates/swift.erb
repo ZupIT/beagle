@@ -164,7 +164,7 @@
       object_type.synthax_type.inheritFrom.append("AutoDecodable")
     elsif @template_helper.is_server_driven_component(object_type)
       object_type.synthax_type.inheritFrom.append("AutoDecodable")
-    elsif [Alert.new.name, AddChildren.new.name, Confirm.new.name].include? object_type.synthax_type.name
+    elsif [Alert.new.name, AddChildren.new.name, Confirm.new.name, SendRequest.new.name].include? object_type.synthax_type.name
       object_type.synthax_type.inheritFrom.append("AutoDecodable")
     else
       object_type.synthax_type.inheritFrom.append("Decodable")
