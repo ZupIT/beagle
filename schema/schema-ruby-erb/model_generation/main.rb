@@ -44,6 +44,9 @@ require_relative 'Models/Widgets/image_content.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
 
+require_relative 'Models/Action/action.rb'
+require_relative 'Models/Action/unknown_action.rb'
+
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
 
@@ -115,14 +118,14 @@ class ModelGenerator
       Size.new.name, UnitType.new.name, UnitValue.new.name,
       Style.new.name, CornerRadius.new.name, ScrollAxis.new.name,
       TextInputType.new.name, ScrollView.new.name, ImageContentMode.new.name,
-      TextInput.new.name
+      TextInput.new.name, Action.new.name, UnknownAction.new.name
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
       path = @c.swift_path
 
-      if ready_to_prod.include? @objectType.name 
+      if ready_to_prod.include? @objectType.name
         path += "../../../../../iOS/Schema/Sources/CodeGeneration/BeagleSchemaGenerated/"
       end
 
@@ -169,7 +172,8 @@ if __FILE__ == $0
     # ServerDriven
     ScrollAxis,
     ScrollView,
-    Action
+    Action,
+    UnknownAction
   ]
   
   generator = ModelGenerator.new(components)

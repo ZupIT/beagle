@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,16 +15,3 @@
  * limitations under the License.
  */
 
-import Foundation
-
-/// Markup to define an action to be triggered in response to some event
-public protocol RawAction: Decodable {}
-
-/// Defines a representation of an unknown Action
-public struct UnknownAction: RawAction {
-    public let type: String
-    
-    public init(type: String) {
-        self.type = type
-    }
-}
