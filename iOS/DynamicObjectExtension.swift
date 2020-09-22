@@ -21,7 +21,7 @@ extension DynamicObject: AnySnapshotStringConvertible {
     public static var renderChildren = false
 
     public var snapshotDescription: String {
-        return customDescription(self)
+        return customDescription
     }
     
         private var customDescription: String {
