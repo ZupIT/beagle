@@ -29,6 +29,7 @@ final class TabBarUIComponent: UIView {
         var unselectedTextColor: UIColor?
         var selectedIconColor: UIColor?
         var unselectedIconColor: UIColor?
+        var renderer: BeagleRenderer
     }
 
     // MARK: - Properties
@@ -192,7 +193,8 @@ extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegat
             selectedTextColor: model.selectedTextColor,
             unselectedTextColor: model.unselectedTextColor,
             selectedIconColor: model.selectedIconColor,
-            unselectedIconColor: model.unselectedIconColor
+            unselectedIconColor: model.unselectedIconColor,
+            renderer: model.renderer
         )
         tabBarCell.setupTab(with: item)
         

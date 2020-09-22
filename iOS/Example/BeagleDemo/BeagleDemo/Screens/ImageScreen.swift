@@ -40,6 +40,8 @@ struct ImageScreen: DeeplinkScreen {
             flex: Flex().alignSelf(.center)
             )
     )
+    
+    let image = "imageBeagle"
  
     private func container() -> Container {
         return Container(context: Context(
@@ -62,31 +64,32 @@ struct ImageScreen: DeeplinkScreen {
                 .local("@{img.local}"),
                 widgetProperties: sizeImage
             )
-
             createText(text: "Image with type remote path with context!")
             Image(
                 "@{img.pathRemote}",
                 widgetProperties: sizeImage
             )
-
             createText(text: "Image with type local path with context!")
             Image(
                 "@{img.pathLocal}",
                 widgetProperties: sizeImage
             )
-
             createText(text: "Image url without context!")
             Image(
-                .remote(.init(url: .value(.networkImageBeagle))),
+                .remote(.init(url: .networkImageBeagle)),
                 widgetProperties: sizeImage
             )
 
             createText(text: "Image mobileId without context!")
             Image(
-                .local("imageBeagle"),
+                .local("beagle"),
                 widgetProperties: sizeImage
             )
 
+            Image(
+                .local(image),
+                widgetProperties: sizeImage
+            )
             Button(
                 text: "Chage Context",
                 onPress: [

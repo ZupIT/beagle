@@ -21,12 +21,16 @@ import BeagleSchema
 
 class TabBarUIComponentTests: XCTestCase {
     
+    private lazy var controller = BeagleControllerStub()
+    private lazy var renderer = BeagleRenderer(controller: controller)
+    
     private lazy var model = TabBarUIComponent.Model(
         tabIndex: 0,
         tabBarItems: [
             TabBarItem(icon: "beagle", title: "Tab 1"),
             TabBarItem(icon: "beagle", title: "Tab 2")
-        ]
+        ],
+        renderer: renderer
     )
     
     private lazy var sut = TabBarUIComponent(model: model)

@@ -21,6 +21,9 @@ import BeagleSchema
 final class TabViewUIComponentTests: XCTestCase {
     
     // MARK: - Variables
+    private lazy var controller = BeagleControllerStub()
+    private lazy var renderer = BeagleRenderer(controller: controller)
+    
     private lazy var component = TabView(children: [
         TabItem(icon: "beagle", title: "Tab 1", child:
             Container(children: [
@@ -38,7 +41,7 @@ final class TabViewUIComponentTests: XCTestCase {
         )
     ])
     
-    private lazy var model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: component.children)
+    private lazy var model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: component.children, renderer: renderer)
 
     private lazy var sut = TabViewUIComponent(model: model, controller: BeagleControllerStub())
 

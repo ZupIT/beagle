@@ -37,17 +37,17 @@ public struct TabBar: RawComponent, AutoInitiableAndDecodable {
 }
 
 public struct TabBarItem: Decodable, AutoInitiable {
-    public let icon: String?
+    public let icon: ExpressibleString?
     public let title: String?
 
-// sourcery:inline:auto:TabBarItem.Init
-    public init(
-        icon: String? = nil,
-        title: String? = nil
-    ) {
-        self.icon = icon
-        self.title = title
-    }
+    // sourcery:inline:auto:TabBarItem.Init
+        public init(
+            icon: ExpressibleString? = nil,
+            title: String? = nil
+        ) {
+            self.icon = icon
+            self.title = title
+        }
 // sourcery:end
     
     enum CodingKeys: String, CodingKey {

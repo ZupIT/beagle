@@ -40,11 +40,7 @@ extension NavigationBarItem {
             self.controller = controller
             super.init()
             if let localImage = barItem.image {
-                image = UIImage(
-                    named: localImage,
-                    in: controller.dependencies.appBundle,
-                    compatibleWith: nil
-                )?.withRenderingMode(.alwaysOriginal)
+                handleContextOnNavigationBarImage(icon: localImage)
                 accessibilityHint = barItem.text
             } else {
                 title = barItem.text
@@ -53,6 +49,24 @@ extension NavigationBarItem {
             target = self
             action = #selector(triggerAction)
             ViewConfigurator.applyAccessibility(barItem.accessibility, to: self)
+        }
+        
+        private func handleContextOnNavigationBarImage(icon: String) {
+            let expression: Expression<String> = "\(icon)"
+            
+            let renderer = controller?.renderer
+            
+            if case .view(let view) = controller?.content {
+                renderer?.observe(expression, andUpdateManyIn: view) { icon in
+                    if let icon = icon {
+                        self.image = UIImage(
+                            named: icon,
+                            in: self.controller?.dependencies.appBundle,
+                            compatibleWith: nil
+                        )?.withRenderingMode(.alwaysOriginal)
+                    }
+                }
+            }
         }
         
         required init?(coder aDecoder: NSCoder) {

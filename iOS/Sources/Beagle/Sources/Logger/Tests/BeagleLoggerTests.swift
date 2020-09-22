@@ -42,7 +42,7 @@ class BeagleLoggerTests: XCTestCase {
             Log.form(.keyDuplication(data: ["key": "value"])),
 
             Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: "identifier")),
-            Log.navigation(.didReceiveAction(Navigate.pushView(.remote(.init(url: .value(path)))))),
+            Log.navigation(.didReceiveAction(Navigate.pushView(.remote(.init(url: path))))),
             Log.navigation(.didReceiveAction(Navigate.openNativeRoute(.init(route: path)))),
             Log.navigation(.didReceiveAction(Navigate.openNativeRoute(.init(route: path, data: ["key": "value"])))),
             Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen),

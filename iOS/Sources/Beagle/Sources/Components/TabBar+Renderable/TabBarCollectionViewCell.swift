@@ -23,6 +23,7 @@ extension TabBarCollectionViewCell {
         var unselectedTextColor: UIColor?
         var selectedIconColor: UIColor?
         var unselectedIconColor: UIColor?
+        var renderer: BeagleRenderer
     }
 }
 
@@ -83,14 +84,18 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
         case let .both(iconName, text):
             icon.heightAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
             title.text = text
-            icon.image = model?.selectedIconColor == nil ? UIImage(named: iconName): UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+            
+            handleContextOnImage(icon: iconName)
+            
             title.font = UIFont.systemFont(ofSize: 13)
             icon.isHidden = false
             title.isHidden = false
 
         case .icon(let iconName):
             icon.widthAnchor.constraint(lessThanOrEqualToConstant: 35).isActive = true
-            icon.image = model?.selectedIconColor == nil ? UIImage(named: iconName): UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+            
+            handleContextOnImage(icon: iconName)
+        
             icon.isHidden = false
             title.isHidden = true
 
@@ -137,6 +142,16 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
             return .text(selectedTextColor, unselectedTextColor)
         default:
             return .none
+        }
+    }
+    
+    private func handleContextOnImage(icon: String) {
+        let expression: Expression<String> = "\(icon)"
+                   
+        model?.renderer.observe(expression, andUpdateManyIn: self) { icon in
+            if let icon = icon {
+                self.icon.image = UIImage(named: icon)
+            }
         }
     }
     

@@ -29,12 +29,14 @@ extension Image: Widget {
             token?.cancel()
             switch path {
             case .local(let mobileId):
-                renderer.observe(mobileId, andUpdateManyIn: image) { mobileId in
+                let expression: Expression<String> = "\(mobileId)"
+                renderer.observe(expression, andUpdateManyIn: image) { mobileId in
                     guard let mobileId = mobileId else { return }
                     self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
                 }
             case .remote(let remote):
-                renderer.observe(remote.url, andUpdateManyIn: image) { url in
+                let expression: Expression<String> = "\(remote.url)"
+                renderer.observe(expression, andUpdateManyIn: image) { url in
                     guard let url = url else { return }
                     token?.cancel()
                     token = self.setRemoteImage(from: url, placeholder: remote.placeholder, imageView: image, renderer: renderer)

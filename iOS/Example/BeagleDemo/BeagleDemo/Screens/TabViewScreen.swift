@@ -27,29 +27,34 @@ struct TabViewScreen: DeeplinkScreen {
     }
     
     var screen = Screen(navigationBar: NavigationBar(title: "TabView")) {
-        Container(context: Context(id: "currentTab", value: 0), widgetProperties: .init(Flex().grow(1))) {
+        Container(context:
+            Context(id: "tab",
+                    value: ["currentTab": 0, "icon": "beagle"]
+        ), widgetProperties: .init(Flex().grow(1))) {
             TabBar(
                 items: [
-                    TabBarItem(icon: "beagle"),
+                    TabBarItem(icon: "@{tab.icon}"),
                     TabBarItem(title: "Tab 1"),
                     TabBarItem(title: "Tab 2"),
-                    TabBarItem(icon: "beagle", title: "Tab 3")
+                    TabBarItem(icon: "@{tab.icon}", title: "Tab 3")
                 ],
-                currentTab: "@{currentTab}",
-                onTabSelection: [SetContext(contextId: "currentTab", value: "@{onTabSelection}")]
+                currentTab: "@{tab.currentTab}",
+                onTabSelection: [SetContext(contextId: "tab", path: "currentTab", value: "@{onTabSelection}")]
             )
             PageView(
-                onPageChange: [SetContext(contextId: "currentTab", value: "@{onPageChange}")],
-                currentPage: "@{currentTab}"
+                onPageChange: [SetContext(contextId: "tab", path: "currentTab", value: "@{onPageChange}")],
+                currentPage: "@{tab.currentTab}"
             ) {
                 Container(widgetProperties: .init(Flex().alignContent(.center))) {
                     Text("Text1 Tab 0")
-                    Image(.remote(.init(url: .value(String.networkImageBeagle), placeholder: "imageBeagle")))
+                    Image(.remote(.init(url: .networkImageBeagle, placeholder: "imageBeagle")))
                     Text("Text2 Tab 0")
+                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: "imageBeagle")])
                 }
                 Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
                     Text("Text1 Tab 1")
                     Text("Text2 Tab 1")
+                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: "informationImage")])
                 }
                 Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
                     Text("Text1 Tab 2")
@@ -58,6 +63,7 @@ struct TabViewScreen: DeeplinkScreen {
                 Container(widgetProperties: .init(Flex().alignItems(.center))) {
                     Text("Text1 Tab 3")
                     Text("Text2 Tab 3")
+                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: "beagle")])
                 }
             }
         }

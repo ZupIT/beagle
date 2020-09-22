@@ -100,7 +100,7 @@ struct MainScreen: DeeplinkScreen {
                 )
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.init(url: .value(.componentsEndpoint))))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .componentsEndpoint)))]
                 )
         }
     }
