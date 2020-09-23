@@ -147,6 +147,7 @@ final public class ComponentDecoder: ComponentDecoding {
         registerAction(SendRequest.self, key: key(name: "SendRequest", namespace: .beagle))
         registerAction(Alert.self, key: key(name: "Alert", namespace: .beagle))
         registerAction(Confirm.self, key: key(name: "Confirm", namespace: .beagle))
+        registerAction(Condition.self, key: key(name: "Condition", namespace: .beagle))
         registerAction(SubmitForm.self, key: key(name: "SubmitForm", namespace: .beagle))
         registerAction(AddChildren.self, key: key(name: "AddChildren", namespace: .beagle))
     }

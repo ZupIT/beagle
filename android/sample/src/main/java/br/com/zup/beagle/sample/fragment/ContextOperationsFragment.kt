@@ -24,11 +24,9 @@ import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.android.components.layout.Container

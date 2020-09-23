@@ -76,6 +76,24 @@ extension Button {
     }
 }
 
+// MARK: Condition Decodable
+extension Condition {
+
+    enum CodingKeys: String, CodingKey {
+        case condition
+        case onTrue
+        case onFalse
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        condition = try container.decode(Expression<Bool>.self, forKey: .condition)
+        onTrue = try container.decodeIfPresent(forKey: .onTrue)
+        onFalse = try container.decodeIfPresent(forKey: .onFalse)
+    }
+}
+
 // MARK: Confirm Decodable
 extension Confirm {
 
@@ -330,9 +348,9 @@ extension SendRequest {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         url = try container.decode(Expression<String>.self, forKey: .url)
-        method = try container.decodeIfPresent(HTTPMethod.self, forKey: .method)
+        method = try container.decodeIfPresent(Expression<SendRequest.HTTPMethod>.self, forKey: .method)
         data = try container.decodeIfPresent(DynamicObject.self, forKey: .data)
-        headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
+        headers = try container.decodeIfPresent(Expression<[String: String]>.self, forKey: .headers)
         onSuccess = try container.decodeIfPresent(forKey: .onSuccess)
         onError = try container.decodeIfPresent(forKey: .onError)
         onFinish = try container.decodeIfPresent(forKey: .onFinish)

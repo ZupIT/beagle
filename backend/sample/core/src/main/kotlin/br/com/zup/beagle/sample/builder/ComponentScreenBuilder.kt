@@ -41,6 +41,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SIMPLE_FORM_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_TAB_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_INPUT_ENDPOINT
@@ -71,6 +72,7 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Remote Image", SCREEN_NETWORK_IMAGE_ENDPOINT),
                 createMenu("Bff Remote Image", SCREEN_BFF_NETWORK_IMAGE_ENDPOINT),
                 createMenu("TabView", SCREEN_TAB_VIEW_ENDPOINT),
+                createMenu("TabBar", SCREEN_TAB_BAR_ENDPOINT),
                 createMenu("ListView", SCREEN_LIST_VIEW_ENDPOINT),
                 createMenu("ScrollView", SCREEN_SCROLL_VIEW_ENDPOINT),
                 createMenu("PageView", SCREEN_PAGE_VIEW_ENDPOINT),

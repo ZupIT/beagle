@@ -71,11 +71,11 @@ object TextScreenBuilder : ScreenBuilder {
         Text(text = text, styleId = styleId)
             .applyStyle(Style(
                 backgroundColor = appearanceColor,
-                    margin = EdgeValue(
-                        top = 16.unitReal(),
-                        left = 16.unitReal(),
-                        right = 16.unitReal()
-                    )
+                margin = EdgeValue(
+                    top = 16.unitReal(),
+                    left = 16.unitReal(),
+                    right = 16.unitReal()
                 )
+            )
             )
 }

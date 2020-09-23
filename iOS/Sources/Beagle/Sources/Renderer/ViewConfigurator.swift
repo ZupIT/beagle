@@ -24,6 +24,8 @@ public protocol ViewConfiguratorProtocol: AnyObject {
     func setup(style: Style?)
     func setup(id: String?)
     func setup(accessibility: Accessibility?)
+    func applyStyle<T: UIView>(for view: T, styleId: String, with controller: BeagleController?)
+    func setupView(of component: BeagleSchema.RawComponent)
 }
 
 public protocol DependencyViewConfigurator {
@@ -44,6 +46,19 @@ class ViewConfigurator: ViewConfiguratorProtocol {
     init(view: UIView) {
         self.view = view
     }
+    
+    func setupView(of component: BeagleSchema.RawComponent) {
+        view?.style.isFlexEnabled = true
+        
+        if let c = component as? AccessibilityComponent {
+            setup(accessibility: c.accessibility)
+        }
+        
+        if let c = component as? StyleComponent {
+            setup(style: c.style)
+            view?.style.setup(c.style)
+        }
+    }
 
     func setup(style: Style?) {
         if let hex = style?.backgroundColor {
@@ -61,6 +76,10 @@ class ViewConfigurator: ViewConfiguratorProtocol {
         }
     }
 
+    func applyStyle<T: UIView>(for view: T, styleId: String, with controller: BeagleController?) {
+        controller?.dependencies.theme.applyStyle(for: view, withId: styleId)
+    }
+    
     func setup(accessibility: Accessibility?) {
         ViewConfigurator.applyAccessibility(accessibility, to: view)
     }

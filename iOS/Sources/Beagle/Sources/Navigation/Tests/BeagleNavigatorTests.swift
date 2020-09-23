@@ -30,7 +30,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let sut = BeagleNavigator()
 
         // When
-        sut.navigate(action: action, controller: controller)
+        sut.navigate(action: action, controller: controller, origin: nil)
 
         // Then
         XCTAssert(opener.hasInvokedTryToOpen == true)
@@ -44,7 +44,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let navigation = BeagleNavigationController(rootViewController: controller)
         
         // When
-        sut.navigate(action: action, controller: controller)
+        sut.navigate(action: action, controller: controller, origin: nil)
         
         //Then
         XCTAssert(navigation.viewControllers.count == 1)
@@ -64,7 +64,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let resetRemote = Navigate.resetApplication(.remote(.init(url:"https://example.com/screen.json")))
 
         // When
-        sut.navigate(action: resetRemote, controller: controller)
+        sut.navigate(action: resetRemote, controller: controller, origin: nil)
 
         // Then
         XCTAssert(windowMock.hasInvokedReplaceRootViewController == true)
@@ -82,7 +82,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let resetDeclarative = Navigate.resetApplication(.declarative(Screen(child: Text("Declarative"))))
 
         // When
-        sut.navigate(action: resetDeclarative, controller: controller)
+        sut.navigate(action: resetDeclarative, controller: controller, origin: nil)
 
         // Then
         XCTAssert(windowMock.hasInvokedReplaceRootViewController == true)
@@ -106,7 +106,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let navigation = BeagleNavigationController()
         navigation.viewControllers = [firstViewController, secondViewController]
         
-        sut.navigate(action: navigate, controller: secondViewController)
+        sut.navigate(action: navigate, controller: secondViewController, origin: nil)
         
         XCTAssertEqual(1, navigation.viewControllers.count)
         XCTAssert(navigation.viewControllers.last is BeagleController)
@@ -127,7 +127,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let firstViewController = BeagleControllerStub(dependencies: dependencies)
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         
-        sut.navigate(action: navigate, controller: firstViewController)
+        sut.navigate(action: navigate, controller: firstViewController, origin: nil)
         
         XCTAssertEqual(2, navigation.viewControllers.count)
         XCTAssert(navigation.viewControllers.last is BeagleController)
@@ -140,7 +140,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let navigationSpy = BeagleControllerNavigationSpy()
 
         // When
-        sut.navigate(action: action, controller: navigationSpy)
+        sut.navigate(action: action, controller: navigationSpy, origin: nil)
 
         // Then
         XCTAssert(navigationSpy.dismissViewControllerCalled)
@@ -157,7 +157,7 @@ final class BeagleNavigatorTests: XCTestCase {
         navigation.viewControllers = [firstViewController, secondViewController, thirdViewController]
 
         // When
-        sut.navigate(action: action, controller: thirdViewController)
+        sut.navigate(action: action, controller: thirdViewController, origin: nil)
 
         // Then
         XCTAssert(navigation.viewControllers.count == 2)
@@ -177,7 +177,7 @@ final class BeagleNavigatorTests: XCTestCase {
         navigation.viewControllers = [vc1, vc2, vc3, vc4]
 
         // When
-        sut.navigate(action: action, controller: vc2)
+        sut.navigate(action: action, controller: vc2, origin: nil)
 
         // Then
         XCTAssertEqual(navigation.viewControllers.count, 4)
@@ -200,7 +200,7 @@ final class BeagleNavigatorTests: XCTestCase {
         navigation.viewControllers = [vc1, vc2, vc3, vc4]
 
         // When
-        sut.navigate(action: action, controller: vc3)
+        sut.navigate(action: action, controller: vc3, origin: nil)
 
         // Then
         XCTAssertEqual(navigation.viewControllers.count, 2)
@@ -223,14 +223,16 @@ final class BeagleNavigatorTests: XCTestCase {
         
         sut.navigate(
             action: Navigate.popToView("https://server.com/path/screen"),
-            controller: current
+            controller: current,
+            origin: nil
         )
         XCTAssertEqual(navigation.viewControllers.last, target)
         
         navigation.viewControllers = stack
         sut.navigate(
             action: Navigate.popToView("/screen"),
-            controller: current
+            controller: current,
+            origin: nil
         )
         XCTAssertEqual(navigation.viewControllers.last, target)
     }
@@ -248,7 +250,7 @@ final class BeagleNavigatorTests: XCTestCase {
         navigation.viewControllers = [vc1, vc2, vc3, vc4]
         
         // When
-        sut.navigate(action: action, controller: vc4)
+        sut.navigate(action: action, controller: vc4, origin: nil)
         
         // Then
         XCTAssert(navigation.viewControllers.count == 2)
@@ -269,7 +271,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let dependencies = BeagleScreenDependencies(repository: repository)
         let navigationSpy = BeagleControllerNavigationSpy(dependencies: dependencies)
         
-        sut.navigate(action: navigate, controller: navigationSpy)
+        sut.navigate(action: navigate, controller: navigationSpy, origin: nil)
         
         XCTAssertNotNil(navigationSpy.viewControllerToPresent)
     }
@@ -287,7 +289,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         
         // When
-        sut.navigate(action: action, controller: firstViewController)
+        sut.navigate(action: action, controller: firstViewController, origin: nil)
         
         //Then
         XCTAssertEqual(2, navigation.viewControllers.count)
@@ -329,6 +331,31 @@ final class BeagleNavigatorTests: XCTestCase {
 
         // Then
         XCTAssertTrue(result is BeagleNavigationStub)
+    }
+    
+    func testIfNavigationIsPushedWithSetContext() {
+        // Given
+        let sut = BeagleNavigator()
+        let dependencies = BeagleScreenDependencies(repository: RepositoryStub(componentResult: .success(ComponentDummy())))
+
+        let url: DynamicObject = .string("https://example.com/screen.json")
+        let pushViewRemote = Navigate.pushView(.remote(.init(url: "@{url}", shouldPrefetch: false)))
+        let button = Button(text: "@{url}", onPress: [pushViewRemote])
+        let setContext = SetContext(contextId: "url", path: nil, value: url)
+        
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(button.toScreen()), dependencies: dependencies))
+        let view = button.toView(renderer: controller.renderer)
+        let navigation = BeagleNavigationController(rootViewController: controller)
+
+        // When
+        view.setContext(Context(id: "url", value: "initial"))
+        controller.configBindings()
+        setContext.execute(controller: controller, origin: view)
+        sut.navigate(action: pushViewRemote, controller: controller, animated: false, origin: view)
+        
+        // Then
+        XCTAssertEqual(2, navigation.viewControllers.count)
+        XCTAssertEqual(pushViewRemote.newPath?.url.evaluate(with: view), url.toString())
     }
 }
 

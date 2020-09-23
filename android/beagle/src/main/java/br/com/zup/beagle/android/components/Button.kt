@@ -21,6 +21,7 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.schema.ButtonSchema
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -46,7 +47,7 @@ data class Button(
         onPress: List<Action>? = null,
         clickAnalyticsEvent: ClickEvent? = null
     ) : this(
-        valueOf(text),
+        expressionOrValueOf(text),
         styleId,
         onPress,
         clickAnalyticsEvent
