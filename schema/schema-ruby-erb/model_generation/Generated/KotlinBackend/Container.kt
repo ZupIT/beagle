@@ -20,6 +20,6 @@ package br.com.zup.beagle.widget.layout
 
 data class Container (
   public override val children: List<Widget>,  
-  public override val onInit: List<Action>?,  
-  public override val context: Context?   
+  public override val onInit: List<Action>? = null,  
+  public override val context: Context? = null   
 ) : ContainerSchema 

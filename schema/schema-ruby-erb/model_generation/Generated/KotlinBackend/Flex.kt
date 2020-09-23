@@ -20,14 +20,14 @@ package br.com.zup.beagle.widget.core
 import br.com.zup.beagle.widget.core.UnitValue
 
 data class Flex (
-  public override val flexDirection: FlexDirection?,  
-  public override val flexWrap: FlexWrap?,  
-  public override val justifyContent: JustifyContent?,  
-  public override val alignItems: AlignItems?,  
-  public override val alignSelf: AlignSelf?,  
-  public override val alignContent: AlignContent?,  
-  public override val basis: UnitValue?,  
-  public override val flex: Double?,  
-  public override val grow: Double?,  
-  public override val shrink: Double?   
+  public override val flexDirection: FlexDirection? = null,  
+  public override val flexWrap: FlexWrap? = null,  
+  public override val justifyContent: JustifyContent? = null,  
+  public override val alignItems: AlignItems? = null,  
+  public override val alignSelf: AlignSelf? = null,  
+  public override val alignContent: AlignContent? = null,  
+  public override val basis: UnitValue? = null,  
+  public override val flex: Double? = null,  
+  public override val grow: Double? = null,  
+  public override val shrink: Double? = null   
 ) : FlexSchema 

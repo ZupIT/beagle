@@ -22,19 +22,22 @@
   @templateHelper.defaultDeclarationType = "data class"
 
   def handleTypeNameAndDefault(variable, shouldAddComma = false)
+    default = getVariableDefault(variable)
     output = @templateHelper.fetch_type(variable.typeName)
     output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
-    output = !variable.defaultValue.empty? ? "#{output} = #{variable.defaultValue}" : output
+    output = !default.empty? ? "#{output} = #{default}" : output
     output = shouldAddComma ? output + "," : output
     output
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
+    default = getVariableDefault(variable)
     output = @templateHelper.fetch_type(variable.typeName)
     output = variable.class == List ? "List<#{output}>" : output
-    output = variable.isOptional ? output + "? = null" : output
+    output = variable.isOptional ? output + "?" : output
+    output = !default.empty? ? "#{output} = #{default}" : output
     output = shouldAddComma ?  output + "," : output
     output
   end
@@ -44,6 +47,10 @@
     output = variable.isBindable ? "#{bind_helper}(#{variable.name})" : variable.name
     output = shouldAddComma ? output + "," : output
     output
+  end
+
+  def getVariableDefault(variable)
+    variable.defaultValue.empty? && variable.isOptional ? "null" : variable.defaultValue
   end
 -%>
 

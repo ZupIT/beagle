@@ -24,9 +24,9 @@ import br.com.zup.beagle.widget.core.AnalyticsClick
 
 data class Button (
   public override val text: Bind<String>,  
-  public override val styleId: String?,  
-  public override val onPress: List<Action>?,  
-  public override val clickAnalyticsEvent: AnalyticsClick?   
+  public override val styleId: String? = null,  
+  public override val onPress: List<Action>? = null,  
+  public override val clickAnalyticsEvent: AnalyticsClick? = null   
 ) : ButtonSchema {
   constructor (    
     text: String,      

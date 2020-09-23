@@ -19,6 +19,6 @@ package br.com.zup.beagle.widget.core
 
 
 data class AnalyticsClick (
-  public override val accessibilityLabel: String?,  
+  public override val accessibilityLabel: String? = null,  
   public override val accessible: Boolean = true   
 ) : AnalyticsClickSchema 

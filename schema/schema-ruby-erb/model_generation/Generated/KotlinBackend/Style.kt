@@ -24,13 +24,13 @@ import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Display
 
 data class Style (
-  public override val backgroundColor: String?,  
-  public override val cornerRadius: CornerRadius?,  
-  public override val size: Size?,  
-  public override val margin: EdgeValue?,  
-  public override val padding: EdgeValue?,  
-  public override val position: EdgeValue?,  
-  public override val positionType: PositionType?,  
-  public override val display: Display?,  
-  public override val flex: Flex?   
+  public override val backgroundColor: String? = null,  
+  public override val cornerRadius: CornerRadius? = null,  
+  public override val size: Size? = null,  
+  public override val margin: EdgeValue? = null,  
+  public override val padding: EdgeValue? = null,  
+  public override val position: EdgeValue? = null,  
+  public override val positionType: PositionType? = null,  
+  public override val display: Display? = null,  
+  public override val flex: Flex? = null   
 ) : StyleSchema 

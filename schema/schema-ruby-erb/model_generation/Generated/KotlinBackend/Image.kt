@@ -24,7 +24,7 @@ import br.com.zup.beagle.widget.core.ImageContentMode
 
 data class Image (
   public override val path: Bind<ImagePath>,  
-  public override val mode: ImageContentMode?   
+  public override val mode: ImageContentMode? = null   
 ) : ImageSchema {
   constructor (    
     path: ImagePath,      
