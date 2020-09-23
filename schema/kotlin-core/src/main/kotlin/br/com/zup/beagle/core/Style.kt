@@ -16,10 +16,6 @@
 
 package br.com.zup.beagle.core
 
-import br.com.zup.beagle.core.Display.FLEX
-import br.com.zup.beagle.core.Display.NONE
-import br.com.zup.beagle.core.PositionType.ABSOLUTE
-import br.com.zup.beagle.core.PositionType.RELATIVE
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -61,54 +57,3 @@ data class Style (
     val positionType: PositionType? = null,
     val display: Display? = null
 )
-
-/**
- * The corner radius change the appearance of view
- *
- * @param radius define size of radius
- */
-data class CornerRadius(
-    val radius: Double = 0.0
-)
-
-/**
- * This defines a flex container;
- * inline or block depending on the given value. It enables a flex context for all its direct children.
- *
- * @property FLEX
- * @property NONE
- */
-enum class Display {
-    /**
-     * Apply the flex properties.
-     */
-    FLEX,
-
-    /**
-     * No flex properties will be applied to the element.
-     */
-    NONE
-}
-
-/**
- * The position type of an element defines how it is positioned within its parent.
- *
- * @property ABSOLUTE
- * @property RELATIVE
- */
-enum class PositionType {
-
-    /**
-     * This means an element is positioned according to the normal flow of the layout,
-     * and then offset relative to that position based on the values of top, right, bottom, and left.
-     * The offset does not affect the position of any sibling or parent elements.
-     */
-    ABSOLUTE,
-
-    /**
-     * When positioned absolutely an element doesn't take part in the normal layout flow.
-     * It is instead laid out independent of its siblings.
-     * The position is determined based on the top, right, bottom, and left values.
-     */
-    RELATIVE
-}
