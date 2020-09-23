@@ -25,7 +25,7 @@ class CornerRadius < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.core"
         )
 
         super(synthax_type)

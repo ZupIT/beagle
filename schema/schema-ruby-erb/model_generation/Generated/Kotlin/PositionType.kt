@@ -19,7 +19,7 @@ package br.com.zup.beagle.core
 
 
 
-enum class Display {
-  FLEX,
-  NONE
+enum class PositionType {
+  RELATIVE,
+  ABSOLUTE
 }

@@ -173,6 +173,7 @@ if __FILE__ == $0
     UnitValue,
     UnitType,
     Display,
+    PositionType,
     # Accessibility
     Accessibility,
     # Far from being usable

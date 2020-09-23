@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.core
 
-import br.com.zup.beagle.widget.core.CornerRadius
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Display
+import br.com.zup.beagle.core.PositionType
+import br.com.zup.beagle.core.Display
 
 data class Style (
   public override val backgroundColor: String? = null,  
