@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+package br.com.zup.beagle.widget.layout
 
 
 data class Container (
