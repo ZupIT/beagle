@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
   ~
@@ -14,11 +15,11 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <string name="app_name">beagle-android</string>
-    <string name="tv_screen_deeplink">Screen DeepLink</string>
-    <string name="btn_title_come_back">come back</string>
-    <string name="title_btn_retry">Try again</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-</resources>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/testFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.TestFragment">
+
+</FrameLayout>

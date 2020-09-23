@@ -39,82 +39,95 @@ import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 object ButtonScreenBuilder : ScreenBuilder {
+
     override fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle Button",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "Button",
-                        message = "This is a widget that will define a button natively using the server " +
-                            "driven information received through Beagle.",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
         child = Container(
             children = listOf(
-                createButton(
-                    text = "Button",
-                    style = Style(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        )
+                Button(
+                    text = "Click me",
+                    onPress = listOf(
+                        CustomAndroidAction()
                     )
-                ),
-
-                createButton(
-                    text = "Button with style",
-                    styleId = BUTTON_STYLE,
-                    style = Style(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        )
-                    )
-                ),
-
-                buttonWithAppearanceAndStyle(text = "Button with Appearance"),
-                buttonWithAppearanceAndStyle(
-                    text = "Button with Appearance and style",
-                    styleId = BUTTON_STYLE_APPEARANCE
                 )
             )
         )
     )
+//    override fun build() = Screen(
+//        navigationBar = NavigationBar(
+//            title = "Beagle Button",
+//            showBackButton = true,
+//            navigationBarItems = listOf(
+//                NavigationBarItem(
+//                    text = "",
+//                    image = Local.justMobile("informationImage"),
+//                    action = Alert(
+//                        title = "Button",
+//                        message = "This is a widget that will define a button natively using the server " +
+//                            "driven information received through Beagle.",
+//                        labelOk = "OK"
+//                    )
+//                )
+//            )
+//        ),
+//        child = Container(
+//            children = listOf(
+//                createButton(
+//                    text = "Button",
+//                    style = Style(
+//                        margin = EdgeValue(
+//                            top = 15.unitReal()
+//                        )
+//                    )
+//                ),
+//
+//                createButton(
+//                    text = "Button with style",
+//                    styleId = BUTTON_STYLE,
+//                    style = Style(
+//                        margin = EdgeValue(
+//                            top = 15.unitReal()
+//                        )
+//                    )
+//                ),
+//
+//                buttonWithAppearanceAndStyle(text = "Button with Appearance"),
+//                buttonWithAppearanceAndStyle(
+//                    text = "Button with Appearance and style",
+//                    styleId = BUTTON_STYLE_APPEARANCE
+//                )
+//            )
+//        )
+//    )
 
-    private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
-        text = text,
-        styleId = styleId,
-        style = Style(
-            backgroundColor = CYAN_BLUE,
-            cornerRadius = CornerRadius(radius = 16.0),
-            margin = EdgeValue(
-                left = 25.unitReal(),
-                right = 25.unitReal(),
-                top = 15.unitReal()
-            )
-        )
-    )
+//    private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
+//        text = text,
+//        styleId = styleId,
+//        style = Style(
+//            backgroundColor = CYAN_BLUE,
+//            cornerRadius = CornerRadius(radius = 16.0),
+//            margin = EdgeValue(
+//                left = 25.unitReal(),
+//                right = 25.unitReal(),
+//                top = 15.unitReal()
+//            )
+//        )
+//    )
 
-    private fun createButton(
-        text: String,
-        styleId: String? = null,
-        style: Style? = null
-    ): Widget {
-        val button = Button(
-            text = text,
-            styleId = styleId,
-            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
-        )
-
-        if (style != null) {
-            button.applyStyle(style)
-        }
-
-        return button
-    }
+//    private fun createButton(
+//        text: String,
+//        styleId: String? = null,
+//        style: Style? = null
+//    ): Widget {
+//        val button = Button(
+//            text = text,
+//            styleId = styleId,
+//            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
+//        )
+//
+//        if (style != null) {
+//            button.applyStyle(style)
+//        }
+//
+//        return button
+//    }
 }

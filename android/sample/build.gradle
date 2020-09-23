@@ -57,6 +57,10 @@ dependencies {
 
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
+//    implementation Dependencies.AndroidxLibraries.viewModel
+//    implementation Dependencies.AndroidxLibraries.viewModelExtensions
+    implementation "androidx.fragment:fragment-ktx:1.1.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     debugImplementation project(Dependencies.Modules.preview)
 

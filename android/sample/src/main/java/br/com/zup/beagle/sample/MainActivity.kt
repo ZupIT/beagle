@@ -26,25 +26,14 @@ import br.com.zup.beagle.android.view.ServerDrivenActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
-import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
-import br.com.zup.beagle.sample.fragment.DisabledFormSubmitFragment
-import br.com.zup.beagle.sample.fragment.FormFragment
-import br.com.zup.beagle.sample.fragment.ImageViewFragment
-import br.com.zup.beagle.sample.fragment.LazyComponentFragment
-import br.com.zup.beagle.sample.fragment.ListViewFragment
-import br.com.zup.beagle.sample.fragment.NavigationFragment
-import br.com.zup.beagle.sample.fragment.PageViewFragment
-import br.com.zup.beagle.sample.fragment.ScrollViewFragment
-import br.com.zup.beagle.sample.fragment.TabViewFragment
-import br.com.zup.beagle.sample.fragment.TextInputFragment
-import br.com.zup.beagle.sample.fragment.WebViewFragment
-import br.com.zup.beagle.sample.fragment.ContextOperationsFragment
+import br.com.zup.beagle.sample.fragment.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        goToFragment(TestFragment.newInstance())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
