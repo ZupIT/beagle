@@ -20,7 +20,7 @@ class CornerRadius < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "radius", :typeName => BasicTypeKeys.double)
+            Variable.new(:name => "radius", :typeName => TypesToString.double)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

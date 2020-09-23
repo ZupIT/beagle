@@ -30,7 +30,7 @@ class ScrollView < BaseComponent
             ),
             Variable.new(
                 :name => "scrollBarEnabled",
-                :typeName => BasicTypeKeys.bool,
+                :typeName => TypesToString.bool,
                 :isOptional => true
             ),
             Variable.new(

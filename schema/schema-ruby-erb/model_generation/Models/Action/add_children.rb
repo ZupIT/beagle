@@ -21,7 +21,7 @@ class AddChildren < BaseComponent
     def initialize
         action = Action.new
         variables = [
-            Variable.new(:name => "componentId", :typeName => BasicTypeKeys.string),
+            Variable.new(:name => "componentId", :typeName => TypesToString.string),
             List.new(:name => "value", :typeName => ServerDrivenComponent.new.name),
             Variable.new(:name => "mode", :typeName => Mode.new.name),
         ]
@@ -51,7 +51,7 @@ class Mode < BaseComponent
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :inheritFrom => [BasicTypeKeys.string],
+            :inheritFrom => [TypesToString.string],
             :package => "br.com.zup.beagle.widget.core"
         )
 

@@ -53,7 +53,7 @@ class Size < BaseComponent
             ),
             Variable.new(
                 :name => "aspectRatio",
-                :typeName => BasicTypeKeys.double,
+                :typeName => TypesToString.double,
                 :isOptional => true,
                 :comment => "Set a height and width ratio."
             )

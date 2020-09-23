@@ -23,13 +23,13 @@ class Confirm < BaseComponent
         variables = [
             Variable.new(
                 :name => "title",
-                :typeName => BasicTypeKeys.string,
+                :typeName => TypesToString.string,
                 :isBindable => true,
                 :isOptional => true
             ),
             Variable.new(
                 :name => "message",
-                :typeName => BasicTypeKeys.string,
+                :typeName => TypesToString.string,
                 :isBindable => true
             ),
             Variable.new(
@@ -44,12 +44,12 @@ class Confirm < BaseComponent
             ),
             Variable.new(
                 :name => "labelOk",
-                :typeName => BasicTypeKeys.string,
+                :typeName => TypesToString.string,
                 :isOptional => true
             ),
             Variable.new(
                 :name => "labelCancel",
-                :typeName => BasicTypeKeys.string,
+                :typeName => TypesToString.string,
                 :isOptional => true
             ),
         ]

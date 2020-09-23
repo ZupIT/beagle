@@ -24,7 +24,7 @@ import br.com.zup.beagle.action.ui.ActionSchema
 interface SendRequestSchema {
   public val url: Bind<String>
   public val method: HTTPMethod?
-  public val data: DynamicObject?
+  public val data: ContextData?
   public val headers: Dict<String, String>?
   public val onSuccess: List<ActionSchema>?
   public val onError: List<ActionSchema>?

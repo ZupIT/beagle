@@ -77,19 +77,19 @@ class Flex < BaseComponent
             ),
             Variable.new(
                 :name => "flex",
-                :typeName => BasicTypeKeys.double,
+                :typeName => TypesToString.double,
                 :isOptional => true,
                 :comment => "Describes how any space within a container should be distributed among its children along the main axis.",
             ),
             Variable.new(
                 :name => "grow",
-                :typeName => BasicTypeKeys.double,
+                :typeName => TypesToString.double,
                 :isOptional => true,
                 :comment => "Define the proportion with which an item should grow if necessary.",
             ),
             Variable.new(
                 :name => "shrink",
-                :typeName => BasicTypeKeys.double,
+                :typeName => TypesToString.double,
                 :isOptional => true,
                 :comment => "Describes how to shrink children along the main axis in the case that the total size of the children overflow the size of the container on the main axis.",
             ),

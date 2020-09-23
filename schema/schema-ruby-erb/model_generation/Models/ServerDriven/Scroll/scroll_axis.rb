@@ -26,7 +26,7 @@ class ScrollAxis < BaseComponent
             :name => self.name,
             :variables => cases,
             :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => [BasicTypeKeys.string]
+            :inheritFrom => [TypesToString.string]
         )
 
         super(synthax_type)

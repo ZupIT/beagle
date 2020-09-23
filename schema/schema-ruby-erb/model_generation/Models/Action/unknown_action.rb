@@ -20,7 +20,7 @@ class UnknownAction < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "type", :typeName => BasicTypeKeys.string)
+            Variable.new(:name => "type", :typeName => TypesToString.string)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

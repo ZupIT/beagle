@@ -27,7 +27,7 @@ class Action < BaseComponent
             :comment => "Markup to define an action to be triggered in response to some event"
         )
 
-        synthax_type.type = BasicTypeKeys.interface
+        synthax_type.type = TypesToString.interface
 
         super(synthax_type)
 

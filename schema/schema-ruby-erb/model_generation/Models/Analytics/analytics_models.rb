@@ -20,8 +20,8 @@ class AnalyticsClick < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "accessibilityLabel", :typeName => BasicTypeKeys.string, :isOptional => true),
-            Variable.new(:name => "accessible", :typeName => BasicTypeKeys.bool, :defaultValue => "true")
+            Variable.new(:name => "accessibilityLabel", :typeName => TypesToString.string, :isOptional => true),
+            Variable.new(:name => "accessible", :typeName => TypesToString.bool, :defaultValue => "true")
 
         ]
         synthax_type = BuiltInType.new(
@@ -41,7 +41,7 @@ class AnalyticsScreen < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "screenName", :typeName => BasicTypeKeys.string)
+            Variable.new(:name => "screenName", :typeName => TypesToString.string)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

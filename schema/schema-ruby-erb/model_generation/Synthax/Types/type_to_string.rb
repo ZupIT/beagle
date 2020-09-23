@@ -12,10 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# This module exists to create ids for basicTypes.
+# This module exists to create ids for types.
 # This is important because some reserved words are written in a different way among languages
-# but they mean the same
-module BasicTypeKeys
+# despite meaning the same thing
+module TypesToString
     
     # String id for String
     # @return [String]
