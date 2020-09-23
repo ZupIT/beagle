@@ -30,7 +30,6 @@ enum ScreenElements: String {
         case IMAGE_TEXT_4 = "Image with contentMode = CENTER_CROP"
         case IMAGE_TEXT_5 = "Image with contentMode = CENTER"
 
-
         //TabView Screen
         case TABVIEW_SCREEN_HEADER = "Beagle Tab View"
         case TAB_1 = "Tab 1"
@@ -45,7 +44,6 @@ enum ScreenElements: String {
         case TAB_4 = "Tab 4"
         case TAB_4_TEXT = "Welcome to Tab 4"
         case TAB_4_TEXT_2 = "This is Tab4's second text"
-
 
         //PageView Screen
        case PAGEVIEW_SCREEN_HEADER = "Beagle PageView"
@@ -84,11 +82,9 @@ enum ScreenElements: String {
        case COMPLEMENT_FIELD = "Complement"
        case SEND_BUTTON = "Enviar"
     
-    
        //Confirm Popup
        case OK_BUTTON = "Ok"
        case CANCEL_BUTTON = "Cancel"
-    
     
     var element: XCUIElement {
         switch self {

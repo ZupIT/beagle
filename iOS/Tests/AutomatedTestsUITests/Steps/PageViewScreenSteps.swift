@@ -22,11 +22,11 @@ class PageViewScreenSteps: CucumberStepsDefinition {
             }
         }
         
-        Given("^the app did load pageview screen$") { (args, userInfo) -> Void in
+        Given("^the app did load pageview screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.PAGEVIEW_SCREEN_HEADER.element.exists)
         }
 
-        Then("^pageview should render correctly$") { (args, userInfo) -> Void in
+        Then("^pageview should render correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.PAGE_1_TEXT.element.exists)
             XCUIApplication().swipeLeft()
             XCTAssertTrue(ScreenElements.PAGE_2_TEXT.element.exists)

@@ -10,7 +10,6 @@ import Foundation
 
 public class ScreenRobot {
     
-    
     func checkViewContainsHeader() {
         CucumberishInitializer.waitForElementToAppear(ScreenElements.MAIN_HEADER.element)
         XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)

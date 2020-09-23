@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class GeneralController() {
+class GeneralController {
 
     @GetMapping(SCREEN_ACTION_CLICK_ENDPOINT)
     fun getActionClick() = ClickActionScreenBuilder.build()

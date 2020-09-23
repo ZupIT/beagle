@@ -30,7 +30,7 @@ class SimpleFormScreenSteps: CucumberStepsDefinition {
 
         When("^I click on text field \"([^\\\"]*)\"$") { args, _ -> Void in
             guard let param = args?[0],
-                  let text:ScreenElements = ScreenElements(rawValue: param) else {
+                  let text: ScreenElements = ScreenElements(rawValue: param) else {
                 return
             }
             screen.clickOnText(textOption: text)
@@ -41,7 +41,6 @@ class SimpleFormScreenSteps: CucumberStepsDefinition {
             screen.typeTextIntoField(insertText: text)
         }
         
-        
         Then("^all my simple form components should render their respective text attributes correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.SIMPLE_FORM_TITLE.element.exists)
             XCTAssertTrue(ScreenElements.ZIP_FIELD.element.exists)
@@ -51,10 +50,8 @@ class SimpleFormScreenSteps: CucumberStepsDefinition {
         
         Then("confirm popup should appear correctly$") { _, _ -> Void in
             screen.confirmPopupCorrectly()
-         }
+        }
         
     }
 
 }
-
-

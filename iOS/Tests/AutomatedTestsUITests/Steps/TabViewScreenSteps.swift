@@ -24,11 +24,11 @@ class TabViewScreenSteps: CucumberStepsDefinition {
             }
         }
         
-        Given("^the app did load tabview screen$") { (args, userInfo) -> Void in
+        Given("^the app did load tabview screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TABVIEW_SCREEN_HEADER.element.exists)
         }
 
-        Then("^my tabview components should render their respective tabs attributes correctly$") { (args, _) -> Void in
+        Then("^my tabview components should render their respective tabs attributes correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TAB_1.element.exists)
             XCTAssertTrue(ScreenElements.TAB_1_TEXT.element.exists)
             XCTAssertTrue(ScreenElements.TAB_1_TEXT_2.element.exists)
@@ -54,15 +54,15 @@ class TabViewScreenSteps: CucumberStepsDefinition {
            
         }
 
-        When("^I click on \"([^\\\"]*)\"$") { (args, _) -> Void in
+        When("^I click on \"([^\\\"]*)\"$") { args, _ -> Void in
             guard let param = args?[0],
-                  let text:ScreenElements = ScreenElements(rawValue: param) else {
+                  let text: ScreenElements = ScreenElements(rawValue: param) else {
                 return
             }
             screen.clickOnText(textOption: text)
         }
 
-        Then("^my tab should render the text \"([^\\\"]*)\" and \"([^\\\"]*)\" correctly$") { (args, _) -> Void in
+        Then("^my tab should render the text \"([^\\\"]*)\" and \"([^\\\"]*)\" correctly$") { args, _ -> Void in
             guard let text1: String = (args?[0]),
                   let text2: String = (args?[1]) else {
                 return

@@ -23,7 +23,12 @@ import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.PageView
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text

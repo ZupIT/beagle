@@ -24,24 +24,23 @@ class ButtonScreenSteps: CucumberStepsDefinition {
             }
         }
                 
-        Given("^the app did load buttons screen$") { (args, userInfo) -> Void in
+        Given("^the app did load buttons screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.BUTTON_SCREEN_HEADER.element.exists)
         }
 
-        When("I click on button \"([^\\\"]*)\"$") { (args, userInfo) -> Void in
-            let button: String = (args?[0])!
+        When("I click on button \"([^\\\"]*)\"$") { args, _ -> Void in
+            guard let button: String = args?[0] else { return }
             screen.clickOnButton(button: ScreenElements(rawValue: button)!)
         }
 
-         Then("all my button components should render their respective text attributes correctly$") { (args, userInfo) -> Void in
+         Then("all my button components should render their respective text attributes correctly$") { _, _ -> Void in
             screen.renderTextAttributeCorrectly()
          }
 
-         Then("component should render the action attribute correctly$") { (args, userInfo) -> Void in
+         Then("component should render the action attribute correctly$") { _, _ -> Void in
             screen.renderActionAttributeCorrectly()
          }
         
     }
 
 }
-

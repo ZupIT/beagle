@@ -17,6 +17,7 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.core.CornerRadius
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -24,9 +25,17 @@ import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.*
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.core.*
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.TextInputType
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.form.SimpleForm
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
@@ -52,6 +61,64 @@ object SimpleFormScreenBuilder: ScreenBuilder {
         )
     )
 
+    private fun createOnSubmit(): List<Action> {
+        return listOf(
+            Confirm(
+                title = "Address form!",
+                message = "The data is correct?\n" +
+                    "Street: @{address.data.street}\n" +
+                    "Number: @{address.data.number}\n" +
+                    "Neighborhood: @{address.data.neighborhood}\n" +
+                    "City: @{address.data.city}\n" +
+                    "State: @{address.data.state}\n" +
+                    "Complement: @{address.data.complement}",
+                onPressOk = Alert(
+                    title = "Address form",
+                    message = "The form was successfully!",
+                    onPressOk = SetContext(
+                        contextId = "address",
+                        path = "data",
+                        value =
+                        Data(
+                            zip = "",
+                            street = "",
+                            number = "",
+                            neighborhood = "",
+                            city = "",
+                            state = "",
+                            complement = ""
+                        )
+                    )
+                )
+            )
+        )
+    }
+
+    fun createSimpleForm(): List<ServerDrivenComponent> {
+        return listOf(
+            SimpleForm(
+                children = listOf(
+                    Text(
+                        text = "Fill the form",
+                        styleId = "DesignSystem.Text.helloWord"
+                    ).applyStyle(
+                        Style(
+                            margin = EdgeValue(top = 20.unitReal(), bottom = 20.unitReal()),
+                            flex = Flex(
+                                alignSelf = AlignSelf.CENTER
+                            )
+                        )
+                    ),
+                    createZip(),
+                    createTextInput(),
+                    createButton()
+                ),
+                onSubmit = createOnSubmit()
+            )
+
+        )
+    }
+
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Context",
@@ -60,58 +127,7 @@ object SimpleFormScreenBuilder: ScreenBuilder {
         child = Container(
             children = listOf(
                 ScrollView(
-                    children = listOf(
-                        SimpleForm(
-                            children = listOf(
-                                Text(
-                                    text = "Fill the form",
-                                    styleId = "DesignSystem.Text.helloWord"
-                                ).applyStyle(
-                                    Style(
-                                        margin = EdgeValue(top = 20.unitReal(), bottom = 20.unitReal()),
-                                        flex = Flex(
-                                            alignSelf = AlignSelf.CENTER
-                                        )
-                                    )
-                                ),
-                                createZip(),
-                                createTextInput(),
-                                createButton()
-                            ),
-                            onSubmit = listOf(
-                                Confirm(
-                                    title = "Address form!",
-                                    message = "The data is correct?\n" +
-                                        "Street: @{address.data.street}\n" +
-                                        "Number: @{address.data.number}\n" +
-                                        "Neighborhood: @{address.data.neighborhood}\n" +
-                                        "City: @{address.data.city}\n" +
-                                        "State: @{address.data.state}\n" +
-                                        "Complement: @{address.data.complement}",
-                                    onPressOk = Alert(
-                                        title = "Address form",
-                                        message = "The form was successfully!",
-                                        onPressOk = SetContext(
-                                            contextId = "address",
-                                            path = "data",
-                                            value =
-                                            Data(
-                                                zip = "",
-                                                street = "",
-                                                number = "",
-                                                neighborhood = "",
-                                                city = "",
-                                                state = "",
-                                                complement = ""
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-
-                        )
-
-                    ),
+                    children = createSimpleForm(),
                     context = ContextData(
                         id = "address",
                         value = Address(

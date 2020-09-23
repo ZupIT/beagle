@@ -45,12 +45,34 @@ import TEXT_ENDPOINT
 import TEXT_INPUT_ENDPOINT
 import TOUCHABLE_ENDPOINT
 import WEB_VIEW_ENDPOINT
-import br.com.zup.beagle.automatedtests.builders.*
+import br.com.zup.beagle.automatedtests.builders.ImageScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ButtonScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.TabViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.PageViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ListViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ScrollViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.TouchableScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.SimpleFormScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.TextInputScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.TabBarScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.WebViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.TextScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.LazyComponentScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ImageRemoteScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ActionScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.AccessibilityScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.PageViewTwoScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.NavigationBarScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.BuilderKotlinDslScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ExpressionEscapingScreenBuilder
+
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class LayoutComponentsController() {
+class LayoutComponentsController {
 
     @GetMapping(SCREEN_IMAGE_ENDPOINT)
     fun getImageScreen() = ImageScreenBuilder.build()

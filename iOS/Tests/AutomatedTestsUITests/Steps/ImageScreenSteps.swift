@@ -22,11 +22,11 @@ class ImageScreenSteps: CucumberStepsDefinition {
             }
         }
         
-        Given("^the app did load image screen$") { (args, userInfo) -> Void in
+        Given("^the app did load image screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.IMAGE_SCREEN_HEADER.element.exists)
         }
 
-        Then("^image screen should render all text attributes correctly$") { (_, _) -> Void in
+        Then("^image screen should render all text attributes correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.IMAGE_TEXT_1.element.exists)
             XCTAssertTrue(ScreenElements.IMAGE_TEXT_2.element.exists)
             XCTAssertTrue(ScreenElements.IMAGE_TEXT_3.element.exists)

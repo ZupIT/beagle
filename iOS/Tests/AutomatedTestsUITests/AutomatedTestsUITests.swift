@@ -7,9 +7,9 @@
 //
 
 import Foundation
+
 class CucumberishInitializer: NSObject {
-    @objc class func CucumberishSwiftInit()
-    {
+    @objc class func CucumberishSwiftInit() {
         //A closure that will be executed only before executing any of your features
         beforeStart { () -> Void in
             let stepsDefinitions: [CucumberStepsDefinition] =

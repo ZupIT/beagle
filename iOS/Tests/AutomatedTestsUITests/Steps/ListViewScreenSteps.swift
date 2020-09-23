@@ -22,26 +22,24 @@ class ListViewScreenSteps: CucumberStepsDefinition {
             }
         }
         
-        Given("^the app did load listview screen$") { (_, _) -> Void in
+        Given("^the app did load listview screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.LISTVIEW_SCREEN_HEADER.element.exists)
         }
         
-        When("^I have a vertical list configured$") { (_, _) -> Void in
+        When("^I have a vertical list configured$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.STATIC_LISTVIEW_TEXT_1.element.exists)
         }
         
-        Then("^listview screen should render all text attributes correctly$") { (_, _) -> Void in
+        Then("^listview screen should render all text attributes correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.STATIC_LISTVIEW_TEXT_1.element.exists)
             XCTAssertTrue(ScreenElements.STATIC_LISTVIEW_TEXT_2.element.exists)
             XCTAssertTrue(ScreenElements.DYNAMIC_LISTVIEW_TEXT_1.element.exists)
         }
     
-        Then("^listview screen should perform the scroll action vertically$") { (_, _) -> Void in
+        Then("^listview screen should perform the scroll action vertically$") { _, _ -> Void in
             XCUIApplication().scrollToElement(element: ScreenElements.DYNAMIC_LISTVIEW_TEXT_2.element)
         }
         
     }
 
 }
-
-

@@ -31,7 +31,10 @@ import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath
 
