@@ -24,9 +24,13 @@ extension SendRequest: Action {
         guard let url = controller.dependencies.urlBuilder.build(path: url.evaluate(with: origin) ?? "") else {
             return
         }
+        
+        let methodValue = method?.evaluate(with: origin)
+        let headersValue = headers?.evaluate(with: origin)
+
         let requestData = Request.RequestData(
-            method: method?.rawValue,
-            headers: headers,
+            method: methodValue?.rawValue,
+            headers: headersValue,
             body: data?.evaluate(with: origin).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)

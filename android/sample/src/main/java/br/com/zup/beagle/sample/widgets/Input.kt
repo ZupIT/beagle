@@ -27,11 +27,13 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.sample.adapters.Person
 
 @RegisterWidget
 data class Input(
     val hint: Bind<String>,
-    val onTextChange: List<Action>? = null
+    val onTextChange: List<Action>? = null,
+    val personImpl: Person
 ) : WidgetView() {
 
     override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {

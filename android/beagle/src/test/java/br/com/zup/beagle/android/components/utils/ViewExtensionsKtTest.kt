@@ -39,15 +39,9 @@ import br.com.zup.beagle.android.view.custom.OnLoadCompleted
 import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.verify
-import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -140,7 +134,7 @@ class ViewExtensionsKtTest : BaseTest() {
     }
 
     @Test
-    fun `loadView should addView when load complete`() {
+    fun `loadView should removeAllViews and addView when load complete`() {
         // Given
         val slot = slot<OnLoadCompleted>()
         every { beagleView.loadCompletedListener = capture(slot) } just Runs
@@ -151,7 +145,10 @@ class ViewExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(beagleView, viewSlot.captured)
-        verify(exactly = once()) { viewGroup.addView(beagleView) }
+        verifyOrder {
+            viewGroup.removeAllViews()
+            viewGroup.addView(beagleView)
+        }
     }
 
 

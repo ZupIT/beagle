@@ -17,10 +17,17 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 import io.mockk.*
@@ -30,27 +37,17 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class NavigateTest {
-
-    @RelaxedMockK
-    private lateinit var rootView: RootView
+class NavigateTest : BaseTest() {
 
     @MockK
     private lateinit var deepLinkHandler: DeepLinkHandler
 
     private val view: View = mockk()
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-
-        mockkObject(BeagleEnvironment)
+    override fun setUp() {
+        super.setUp()
         mockkObject(BeagleNavigator)
-    }
-
-    @After
-    fun tearDown() {
-        unmockkAll()
+        mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
     }
 
     @Test
@@ -136,6 +133,24 @@ class NavigateTest {
 
         // Then
         verify(exactly = once()) { BeagleNavigator.pushView(rootView.getContext(), route) }
+    }
+
+    @Test
+    fun handle_should_call_pushView_with_expression() {
+        // Given
+        val route = Route.Remote(expressionOf("@{test}"))
+        val navigate = Navigate.PushView(route).apply {
+            every {
+                evaluateExpression(rootView, view, any<Bind<Any>>())
+            } returns "test"
+        }
+        every { BeagleNavigator.pushView(any(), any()) } just Runs
+
+        // When
+        navigate.execute(rootView, view)
+
+        // Then
+        verify(exactly = once()) { BeagleNavigator.pushView(rootView.getContext(), route.copy(url = Bind.Value("test"))) }
     }
 
     @Test

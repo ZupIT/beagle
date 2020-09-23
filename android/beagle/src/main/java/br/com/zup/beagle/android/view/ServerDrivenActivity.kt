@@ -52,8 +52,10 @@ class ServerDrivenActivity : BeagleActivity() {
             buttonRetry.setOnClickListener {
                 state.retry()
             }
+            server_driven_container.visibility = View.GONE
             include_layout_error.visibility = View.VISIBLE
-        } else {
+        } else if (state == ServerDrivenState.Success || state is ServerDrivenState.Started) {
+            server_driven_container.visibility = View.VISIBLE
             include_layout_error.visibility = View.GONE
         }
     }

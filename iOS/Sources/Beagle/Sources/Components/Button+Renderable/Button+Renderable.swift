@@ -48,30 +48,6 @@ extension Button: Widget {
         var styleId: String? {
             didSet { applyStyle() }
         }
-
-        override var isEnabled: Bool {
-            get { return super.isEnabled }
-            set {
-                super.isEnabled = newValue
-                applyStyle()
-            }
-        }
-        
-        override var isSelected: Bool {
-            get { return super.isSelected }
-            set {
-                super.isSelected = newValue
-                applyStyle()
-            }
-        }
-        
-        override var isHighlighted: Bool {
-            get { return super.isHighlighted }
-            set {
-                super.isHighlighted = newValue
-                applyStyle()
-            }
-        }
         
         private var onPress: [RawAction]?
         private var clickAnalyticsEvent: AnalyticsClick?
@@ -95,6 +71,11 @@ extension Button: Widget {
             fatalError("init(coder:) has not been implemented")
         }
         
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            applyStyle()
+        }
+        
         @objc func triggerTouchUpInsideActions() {
             controller?.execute(actions: onPress, origin: self)
             
@@ -105,7 +86,7 @@ extension Button: Widget {
         
         private func applyStyle() {
             guard let styleId = styleId else { return }
-            controller?.dependencies.theme.applyStyle(for: self as UIButton, withId: styleId)
+            beagle.applyStyle(for: self as UIButton, styleId: styleId, with: controller)
         }
         
         private func setDefaultStyle() {
