@@ -30,17 +30,19 @@ class SendRequest < BaseComponent
             Variable.new(
                 :name => "method",
                 :typeName => method.name,
-                :isOptional => true
+                :isOptional => true,
+                :isBindable => true
             ),
             Variable.new(
                 :name => "data",
-                :typeName => "ContextData", #todo
+                :typeName => "ContextData",
                 :isOptional => true
             ),
             Variable.new(
                 :name => "headers",
                 :typeName => "Dict<String, String>", #todo 
                 :isOptional => true,
+                :isBindable => true
             ),
             List.new(
                 :name => "onSuccess",

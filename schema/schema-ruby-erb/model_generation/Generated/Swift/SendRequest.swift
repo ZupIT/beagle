@@ -18,18 +18,18 @@
 public struct SendRequest: RawAction, AutoDecodable {
 
     public var url: Expression<String>
-    public var method: HTTPMethod?
-    public var data: ContextData?
-    public var headers: Dict<String, String>?
+    public var method: Expression<HTTPMethod>?
+    public var data: DynamicObject?
+    public var headers: Expression<Dict<String, String>>?
     public var onSuccess: [RawAction]?
     public var onError: [RawAction]?
     public var onFinish: [RawAction]?
 
     public init(
         url: Expression<String>,
-        method: HTTPMethod? = nil,
-        data: ContextData? = nil,
-        headers: Dict<String, String>? = nil,
+        method: Expression<HTTPMethod>? = nil,
+        data: DynamicObject? = nil,
+        headers: Expression<Dict<String, String>>? = nil,
         onSuccess: [RawAction]? = nil,
         onError: [RawAction]? = nil,
         onFinish: [RawAction]? = nil

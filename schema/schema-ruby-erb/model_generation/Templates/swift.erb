@@ -197,6 +197,8 @@
       "RawComponent"
     elsif typeName.eql?(ContextComponent.new.name)
       "HasContext"
+    elsif typeName.eql?("ContextData")
+      "DynamicObject"
     else
       typeName
     end
