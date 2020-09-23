@@ -34,7 +34,7 @@ class SendRequest < BaseComponent
             ),
             Variable.new(
                 :name => "data",
-                :typeName => "DynamicObject", #todo
+                :typeName => "ContextData", #todo
                 :isOptional => true
             ),
             Variable.new(

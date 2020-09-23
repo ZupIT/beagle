@@ -28,7 +28,7 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
     }
     
     public let url: Expression<String>
-    public let method: SendRequest.HTTPMethod?
+    public let method: HTTPMethod?
     public let data: DynamicObject?
     public let headers: [String: String]?
     public let onSuccess: [RawAction]?
@@ -38,7 +38,7 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
 // sourcery:inline:auto:SendRequest.Init
     public init(
         url: Expression<String>,
-        method: SendRequest.HTTPMethod? = nil,
+        method: HTTPMethod? = nil,
         data: DynamicObject? = nil,
         headers: [String: String]? = nil,
         onSuccess: [RawAction]? = nil,
