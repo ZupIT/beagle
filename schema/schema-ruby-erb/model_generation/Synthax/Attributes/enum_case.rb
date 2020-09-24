@@ -13,13 +13,12 @@
 #  limitations under the License.
 
 require_relative 'base_attributes.rb'
+require_relative 'Mixins/single_type_name.rb'
 
 # Use this class when you attempt to generate a enun case
 class EnumCase < BaseAttributes
     
-    # The type to be displayed on the generated code.
-    # @return [String]
-    attr_accessor :typeName
+    include SingleTypeName
 
     def initialize(params = {})
         @typeName = params.fetch(:typeName, '')

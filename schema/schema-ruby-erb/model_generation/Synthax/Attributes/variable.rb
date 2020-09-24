@@ -13,18 +13,13 @@
 #  limitations under the License.
 
 require_relative 'base_attributes.rb'
+require_relative 'Mixins/bindable.rb'
+require_relative 'Mixins/optional.rb'
+require_relative 'Mixins/single_type_name.rb'
 
 # Use this class when you attempt to generate a list
 class Variable < BaseAttributes
-    
-    # Same as {List#isBindable List}
-    attr_accessor :typeName
-
-    # Same as {List#isBindable List}
-    attr_accessor :isBindable
-
-    # Same as {List#isBindable List}
-    attr_accessor :isOptional
+    include Bindable, Optional, SingleTypeName
 
     def initialize(params = {})
         super

@@ -13,8 +13,12 @@
 #  limitations under the License.
 
 require_relative 'base_attributes.rb'
+require_relative 'Mixins/bindable.rb'
+require_relative 'Mixins/optional.rb'
 
 class Dictionary < BaseAttributes
+
+    include Bindable, Optional
 
     def initialize(params = {})
         @type_of_key = params.fetch(:type_of_key, 'must define key')
