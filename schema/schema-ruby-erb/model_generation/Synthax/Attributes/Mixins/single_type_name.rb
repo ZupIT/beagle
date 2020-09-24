@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# Include this module to a class if you want to get typeName var
 module SingleTypeName
     
     # The type to be displayed on the generated code.

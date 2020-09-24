@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# Include this module to a class if you want to get isOptional var
 module Optional
     
     # Boolean indicating if the variable is optional. Default is false

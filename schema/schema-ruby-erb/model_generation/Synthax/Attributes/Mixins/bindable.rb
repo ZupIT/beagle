@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# Include this module to a class if you want to get isBindable var
 module Bindable
     
     # Boolean indicating if the variable is bindable. Default is false
