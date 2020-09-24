@@ -55,7 +55,7 @@ extension NavigationBarItem {
             let expression: Expression<String> = "\(icon)"
             let renderer = controller?.renderer
             
-            /// Since `BeagleScreenViewController` creates a different view hierarchy, to get the correct hierarchy we need to use the `view` from our `controller`.
+            // Since `BeagleScreenViewController` creates a different view hierarchy, to get the correct hierarchy we need to use the `view` from our `controller`.
             guard case .view(let view) = controller?.content else { return }
             
             renderer?.observe(expression, andUpdateManyIn: view) { icon in
