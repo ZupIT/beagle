@@ -19,10 +19,6 @@ class BaseAttributes
     # The name of the attribute.
     # @return [String]
     attr_accessor :name
-
-    # The type to be displayed on the generated code.
-    # @return [String]
-    attr_accessor :typeName
     
     # The acessor of the attribute. Default is public
     # @return [String] 
@@ -34,12 +30,11 @@ class BaseAttributes
     
     # Comment to be generated to this attributed. It can be left in blank.
     # @return [String]
-    attr_accessor :comment
+    attr_accessor :comment 
     
     # Initialize for BaseAttributes
     def initialize(params = {})
         @name = params.fetch(:name, '')
-        @typeName = params.fetch(:typeName, '')
         @accessor = params.fetch(:accessor, 'public')
         @defaultValue = params.fetch(:defaultValue, '')
         @comment = params.fetch(:comment, nil)

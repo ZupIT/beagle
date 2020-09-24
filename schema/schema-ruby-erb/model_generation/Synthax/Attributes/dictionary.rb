@@ -14,16 +14,13 @@
 
 require_relative 'base_attributes.rb'
 
-# Use this class when you attempt to generate a enun case
-class EnumCase < BaseAttributes
-    
-    # The type to be displayed on the generated code.
-    # @return [String]
-    attr_accessor :typeName
+class Dictionary < BaseAttributes
 
     def initialize(params = {})
-        @typeName = params.fetch(:typeName, '')
-        super
+        @type_of_key = params.fetch(:type_of_key, 'must define key')
+        @type_of_value = params.fetch(:type_of_value, 'must define value')
+        @isBindable = params.fetch(:isBindable, false)
+        @isOptional = params.fetch(:isOptional, false)
     end
 
 end

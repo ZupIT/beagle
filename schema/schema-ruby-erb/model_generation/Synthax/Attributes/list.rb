@@ -17,6 +17,10 @@ require_relative 'base_attributes.rb'
 # Use this class when you attempt to generate a list
 class List < BaseAttributes
 
+    # The type to be displayed on the generated code.
+    # @return [String]
+    attr_accessor :typeName
+
     # Boolean indicating if the variable is bindable. Default is false
     # @return [Bool] 
     attr_accessor :isBindable
@@ -27,6 +31,7 @@ class List < BaseAttributes
 
     def initialize(params = {})
         super
+        @typeName = params.fetch(:typeName, '')
         @isBindable = params.fetch(:isBindable, false)
         @isOptional = params.fetch(:isOptional, false)
     end

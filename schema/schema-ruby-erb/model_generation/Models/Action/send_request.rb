@@ -13,6 +13,7 @@
 #  limitations under the License.
 
 require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/dictionary.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 

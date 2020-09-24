@@ -18,6 +18,9 @@ require_relative 'base_attributes.rb'
 class Variable < BaseAttributes
     
     # Same as {List#isBindable List}
+    attr_accessor :typeName
+
+    # Same as {List#isBindable List}
     attr_accessor :isBindable
 
     # Same as {List#isBindable List}
@@ -25,6 +28,7 @@ class Variable < BaseAttributes
 
     def initialize(params = {})
         super
+        @typeName = params.fetch(:typeName, '')
         @isBindable = params.fetch(:isBindable, false)
         @isOptional = params.fetch(:isOptional, false)
     end

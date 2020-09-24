@@ -14,7 +14,7 @@
 
 # This module exists to create ids for types.
 # This is important because some reserved words are written in a different way among languages
-# despite meaning the same thing
+# despite meaning the same thing. If you add a type here, you will also have to add in the grammar located in TemplateHelper.
 module TypesToString
     
     # String id for String
