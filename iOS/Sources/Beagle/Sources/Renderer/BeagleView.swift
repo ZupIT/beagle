@@ -22,7 +22,9 @@ public class BeagleView: UIView {
     
     // MARK: - Private Attributes
     
-    private var beagleController: BeagleController
+    private var beagleController: BeagleScreenViewController
+    
+    private var alreadyCalculateIntrinsicSize = true
     
     // MARK: - Initialization
     
@@ -36,6 +38,7 @@ public class BeagleView: UIView {
     
     required init(viewModel: BeagleScreenViewModel) {
         let controller = BeagleScreenViewController(viewModel: viewModel)
+        controller.skipNavigationCreation = true
         self.beagleController = controller
         super.init(frame: .zero)
     }
@@ -60,14 +63,46 @@ public class BeagleView: UIView {
         guard let beagleView = beagleController.view else {
             return
         }
-        
+        clipsToBounds = true
         addSubview(beagleView)
         beagleView.anchorTo(superview: self)
+        invalidateIntrinsicContentSize()
     }
     
     public override var intrinsicContentSize: CGSize {
-        return beagleController.view.frame.size
+        guard case .view(let content) = beagleController.content,
+              let screenView = content as? ScreenView else {
+            return super.intrinsicContentSize
+        }
+        
+        var size = CGSize(width: Double.nan, height: Double.nan)
+        if !alreadyCalculateIntrinsicSize {
+            alreadyCalculateIntrinsicSize = true
+            
+            let unboundedIntrinsic = screenView.yoga.calculateLayout(with: size)
+            if unboundedIntrinsic.width > frame.width {
+                size.width = frame.width
+            }
+            if unboundedIntrinsic.height > frame.height {
+                size.height = frame.height
+            }
+        }
+        return screenView.yoga.calculateLayout(with: size)
     }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard case .view(let content) = beagleController.content,
+              let screenView = content as? ScreenView else { return }
+                
+        screenView.frame = bounds
+        screenView.yoga.applyLayout(preservingOrigin: true)
+        
+        invalidateIntrinsicContentSize() // we need to calculate intrinsecSize a second time
+        alreadyCalculateIntrinsicSize = false
+    }
+    
 }
 
 private extension UIResponder {

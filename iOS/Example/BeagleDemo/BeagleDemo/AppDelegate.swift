@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         deepLinkHandler[.simpleFormEndpoint] = SimpleFormScreen.self
         deepLinkHandler[.navigateStep1Endpoint] = NavigateStep1Screen.self
         deepLinkHandler[.navigateStep2Endpoint] = NavigateStep2Screen.self
+        deepLinkHandler[.beagleView] = BeagleViewScreen.self
 
         let validator = ValidatorProviding()
         validator[FormScreen.textValidatorName] = FormScreen.textValidator
