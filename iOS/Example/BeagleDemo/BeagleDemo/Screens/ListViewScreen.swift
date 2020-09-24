@@ -33,9 +33,10 @@ struct ListViewScreen: DeeplinkScreen {
                 title: "ListView",
                 navigationBarItems: [
                     NavigationBarItem(
-                    image: "@{img}",
-                    text: "",
-                    action: SetContext(contextId: "img", value: "imageBeagle"))
+                        image: "@{img}",
+                        text: "",
+                        action: SetContext(contextId: "img", value: "imageBeagle")
+                    )
                 ]
             ),
             child: listView,

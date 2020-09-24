@@ -137,18 +137,17 @@ class ImageTests: XCTestCase {
     
     func testLocalImageWithContext() {
         //Given
-        let image = Image(.local("@{mobileId}"))
-        let container = Container(children: [image])
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependencies))
-        let action = SetContext(contextId: "mobileId", value: "shuttle")
-        let view = image.toView(renderer: controller.renderer)
+        let container = Container(
+            children: [
+                Image(.local("@{mobileId}"))
+            ],
+            context: Context(id: "mobileId", value: "shuttle")
+        )
         
         //When
-        view.setContext(Context(id: "mobileId", value: "test_image_square-x"))
-        controller.configBindings()
-        action.execute(controller: controller, origin: view)
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependencies))
         
         // Then
-        assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 50, height: 50)))
+        assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 50, height: 50)))
     }
 }

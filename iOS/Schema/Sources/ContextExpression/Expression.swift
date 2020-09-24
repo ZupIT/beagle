@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-/// This typealias was created to simplify and explain that a variable of type String can also be an Expression
-public typealias ExpressibleString = String
+/// It's a `String` that will be treated internally as an `Expression<String>` if passed a value like "@{someExression}". Otherwise, it will be just a normal `String`.
+public typealias StringOrExpression = String
 
 public enum Expression<T: Decodable> {
     case value(T)

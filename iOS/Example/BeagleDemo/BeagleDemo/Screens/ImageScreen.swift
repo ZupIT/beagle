@@ -21,6 +21,7 @@ import BeagleSchema
 struct ImageScreen: DeeplinkScreen {
     
     init(path: String, data: [String: String]?) {
+        // Intentionally unimplemented...
     }
     
     func screenController() -> UIViewController {

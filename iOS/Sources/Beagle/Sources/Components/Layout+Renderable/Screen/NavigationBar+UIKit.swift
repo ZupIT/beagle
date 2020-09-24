@@ -53,19 +53,18 @@ extension NavigationBarItem {
         
         private func handleContextOnNavigationBarImage(icon: String) {
             let expression: Expression<String> = "\(icon)"
-            
             let renderer = controller?.renderer
             
-            if case .view(let view) = controller?.content {
-                renderer?.observe(expression, andUpdateManyIn: view) { icon in
-                    if let icon = icon {
-                        self.image = UIImage(
-                            named: icon,
-                            in: self.controller?.dependencies.appBundle,
-                            compatibleWith: nil
-                        )?.withRenderingMode(.alwaysOriginal)
-                    }
-                }
+            /// Since `BeagleScreenViewController` creates a different view hierarchy, to get the correct hierarchy we need to use the `view` from our `controller`.
+            guard case .view(let view) = controller?.content else { return }
+            
+            renderer?.observe(expression, andUpdateManyIn: view) { icon in
+                guard let icon = icon else { return }
+                self.image = UIImage(
+                    named: icon,
+                    in: self.controller?.dependencies.appBundle,
+                    compatibleWith: nil
+                )?.withRenderingMode(.alwaysOriginal)
             }
         }
         
