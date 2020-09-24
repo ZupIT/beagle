@@ -296,6 +296,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57D7648F251D06ED004CD08E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				57D76489251D0575004CD08E /* DynamicObjectExtension.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		57F32CDA251414BD00045020 /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -397,7 +405,7 @@
 		938B13BC2497E5F500AA8E3B /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				57D76489251D0575004CD08E /* DynamicObjectExtension.swift */,
+				57D7648F251D06ED004CD08E /* Tests */,
 				938B13C52497EC6200AA8E3B /* Collection+Safe.swift */,
 				938B13C32497EB5E00AA8E3B /* String+RegularExpression.swift */,
 				9885564624C612A100D9818F /* FunctionBuilders.swift */,
