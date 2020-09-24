@@ -15,7 +15,7 @@
 # Include this module to a class if you want to get typeName var
 module SingleTypeName
     
-    # The type to be displayed on the generated code.
+    # The type to be displayed on the generated code. Default is empty string
     # @return [String]
     attr_accessor :typeName
 
