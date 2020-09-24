@@ -18,27 +18,27 @@ package br.com.zup.beagle.sample.snapshot
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
-import br.com.zup.beagle.sample.MainActivity
+import br.com.zup.beagle.sample.activities.CucumberActivity
+import br.com.zup.beagle.sample.cucumber.elements.BUTTON_SCREEN_HEADER
+import br.com.zup.beagle.sample.cucumber.robots.ScreenRobot
+import br.com.zup.beagle.sample.utils.TestUtils
 import com.facebook.testing.screenshot.Screenshot
 import org.junit.Rule
 import org.junit.Test
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class MainActivityTest {
+class CucumberActivityTest {
 
     @Rule
-    @JvmField
-    val rule = ActivityTestRule(MainActivity::class.java, false, false)
+    var activityTestRule = ActivityTestRule(CucumberActivity::class.java)
 
     @Test
     fun testSnapshot() {
-        rule.launchActivity(null)
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-        Screenshot.snapActivity(rule.activity)
+        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
+        ScreenRobot()
+            .checkViewContainsText(BUTTON_SCREEN_HEADER, true)
+        activityTestRule.launchActivity(null)
+
+        Screenshot.snapActivity(activityTestRule.activity)
             .record()
 
     }

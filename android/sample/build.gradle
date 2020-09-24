@@ -20,6 +20,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.facebook.testing.screenshot'
 apply from: "../screenshots.gradle"
 
 android {
@@ -34,15 +35,15 @@ android {
         versionCode Dependencies.Releases.versionCode
         versionName Dependencies.Releases.versionName
 
-//        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
+        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
 
-//        if (project.ext.has("snapshot")) {
+        if (project.ext.has("snapshot")) {
             testApplicationId "br.com.zup.beagle.sample.test"
             testInstrumentationRunner "br.com.zup.beagle.sample.SampleTestRunner"
-//        } else {
-//            testApplicationId "br.com.zup.beagle.sample.cucumber.steps"
-//            testInstrumentationRunner "br.com.zup.beagle.sample.cucumber.steps.Instrumentation"
-//        }
+        } else {
+            testApplicationId "br.com.zup.beagle.sample.cucumber.steps"
+            testInstrumentationRunner "br.com.zup.beagle.sample.cucumber.steps.Instrumentation"
+        }
 
 
         buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
@@ -97,3 +98,13 @@ def getTestTags() {
     return project.hasProperty("tags") ? project.getProperties().get("tags") : ""
 }
 
+
+screenshots {
+    multipleDevices true
+}
+
+task verifyScreenshot (type:Exec) {
+    def recordedPath = "$rootProject.projectDir/sample/screenshots/API_21_GP_XXHDPI_1080x1920_x86_"
+    def runPath = "$rootProject.projectDir/sample/build/screenshotsDebugAndroidTest"
+    commandLine 'python3', 'segment.py', recordedPath, runPath
+}
