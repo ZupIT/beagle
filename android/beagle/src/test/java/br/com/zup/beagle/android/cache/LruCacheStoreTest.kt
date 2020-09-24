@@ -17,30 +17,32 @@
 package br.com.zup.beagle.android.cache
 
 import android.util.LruCache
-import br.com.zup.beagle.android.cache.LruCacheStore
-import br.com.zup.beagle.android.cache.TimerCache
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockkObject
+import io.mockk.slot
+import io.mockk.unmockkAll
+import io.mockk.verify
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-
-import org.junit.Assert.*
 
 private val CACHE_KEY = RandomData.string()
 
 class LruCacheStoreTest {
 
     @MockK
-    private lateinit var cachedData: LruCache<String, TimerCache>
+    private lateinit var cachedData: LruCache<String, BeagleCache>
 
     private lateinit var cacheStore: LruCacheStore
 
     @MockK
-    private lateinit var timerCache: TimerCache
+    private lateinit var beagleCache: BeagleCache
 
     @Before
     fun setUp() {
@@ -59,26 +61,26 @@ class LruCacheStoreTest {
     @Test
     fun save_should_add_new_beagleHashKey_to_cache() {
         // Given
-        val timerCacheSlot = slot<TimerCache>()
+        val timerCacheSlot = slot<BeagleCache>()
         every { cachedData.put(any(), capture(timerCacheSlot)) } returns null
 
         // When
-        cacheStore.save(CACHE_KEY, timerCache)
+        cacheStore.save(CACHE_KEY, beagleCache)
 
         // Then
         verify(exactly = once()) { cachedData.put(CACHE_KEY, timerCacheSlot.captured) }
-        assertEquals(timerCacheSlot.captured, timerCache)
+        assertEquals(timerCacheSlot.captured, beagleCache)
     }
 
     @Test
     fun restore_should_return_cached_timerCache() {
         // Given
-        every { cachedData[CACHE_KEY] } returns timerCache
+        every { cachedData[CACHE_KEY] } returns beagleCache
 
         // When
         val actualTimerCache = cacheStore.restore(CACHE_KEY)
 
         // Then
-        assertEquals(timerCache, actualTimerCache)
+        assertEquals(beagleCache, actualTimerCache)
     }
 }

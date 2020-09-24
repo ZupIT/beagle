@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,20 +15,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample
+import Foundation
 
-import com.facebook.testing.screenshot.ScreenshotRunner
-import android.os.Bundle
-import androidx.test.runner.AndroidJUnitRunner
+/// Action to represent a condition
+public struct Condition: RawAction, AutoInitiableAndDecodable {
+    
+    public let condition: Expression<Bool>
+    public let onTrue: [RawAction]?
+    public let onFalse: [RawAction]?
 
-class SampleTestRunner : AndroidJUnitRunner() {
-    override fun onCreate(args: Bundle) {
-        ScreenshotRunner.onCreate(this, args)
-        super.onCreate(args)
+// sourcery:inline:auto:Condition.Init
+    public init(
+        condition: Expression<Bool>,
+        onTrue: [RawAction]? = nil,
+        onFalse: [RawAction]? = nil
+    ) {
+        self.condition = condition
+        self.onTrue = onTrue
+        self.onFalse = onFalse
     }
+// sourcery:end
 
-    override fun finish(resultCode: Int, results: Bundle) {
-        ScreenshotRunner.onDestroy()
-        super.finish(resultCode, results)
-    }
 }

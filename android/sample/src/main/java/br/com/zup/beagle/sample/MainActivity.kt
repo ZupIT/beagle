@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
+import br.com.zup.beagle.sample.fragment.ContextOperationsFragment
 import br.com.zup.beagle.sample.fragment.DisabledFormSubmitFragment
 import br.com.zup.beagle.sample.fragment.FormFragment
 import br.com.zup.beagle.sample.fragment.ImageViewFragment
@@ -38,7 +39,6 @@ import br.com.zup.beagle.sample.fragment.ScrollViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
-import br.com.zup.beagle.sample.fragment.ContextOperationsFragment
 
 class MainActivity : AppCompatActivity() {
 

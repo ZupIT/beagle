@@ -26,8 +26,8 @@ final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
     var maximumScreensCapacity = 30
     
     func prefetchComponent(newPath: Route.NewPath) {
-        
-        prefetched.append(newPath.url)
+        guard case .value(let path) = newPath.url else { return }
+        prefetched.append(path)
     }
     
     func dequeueComponent(path: String) -> ServerDrivenComponent? {
