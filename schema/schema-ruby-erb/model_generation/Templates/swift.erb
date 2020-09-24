@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 <%
-  require_relative 'Synthax/Types/enum_type'
-  require_relative 'Synthax/Types/type_to_string'
-  require_relative 'Synthax/Attributes/list'
+  require_relative 'Synthax/Types/enum_type.rb'
+  require_relative 'Synthax/Types/type_to_string.rb'
+  require_relative 'Synthax/Attributes/list.rb'
+  require_relative 'Synthax/Attributes/dictionary.rb'
   require_relative 'Templates/template_helper.rb'
   
   require_relative 'Models/Layout/Flex/flex_wrap.rb'
@@ -30,9 +31,28 @@
   @template_helper.languageIdentifier = SupportedLanguages.new.swift
   @template_helper.defaultDeclarationType = "struct"
 
+  def dictionary_variable_declaration(variable) 
+    type_of_key = adaptTypeNameToSwiftSpecific(variable.type_of_key)
+    type_of_value = adaptTypeNameToSwiftSpecific(variable.type_of_value)
+    type_name = "[#{type_of_key} : #{type_of_value}]"
+    type_name
+  end
+
+  def single_variable_declaration(variable)
+    type_name = @template_helper.fetch_type(variable.typeName)
+    type_name = adaptTypeNameToSwiftSpecific(type_name)
+    type_name
+  end
+
+
   def handleTypeName(variable)
-      typeName = @template_helper.fetch_type(variable.typeName)
-      typeName = adaptTypeNameToSwiftSpecific(typeName)
+      typeName = ""
+      if variable.instance_of? Dictionary
+        typeName = dictionary_variable_declaration(variable)
+      else
+        typeName = single_variable_declaration(variable)
+      end
+      
       output = variable.isBindable ? "Expression<#{typeName}>" : typeName
       output = variable.class == List ? "[#{output}]" : output
       output = variable.isOptional ? output + "?" : output
@@ -40,8 +60,11 @@
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    typeName = @template_helper.fetch_type(variable.typeName)
-    typeName = adaptTypeNameToSwiftSpecific(typeName)
+    if variable.instance_of? Dictionary
+      typeName = dictionary_variable_declaration(variable)
+    else
+      typeName = single_variable_declaration(variable)
+    end
     output = variable.isBindable ? "Expression<#{typeName}>" : typeName
     output = variable.class == List ? "[#{output}]" : output
     output = variable.isOptional ? output + "?" : output

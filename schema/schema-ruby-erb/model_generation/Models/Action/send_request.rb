@@ -39,9 +39,10 @@ class SendRequest < BaseComponent
                 :typeName => "ContextData",
                 :isOptional => true
             ),
-            Variable.new(
+            Dictionary.new(
                 :name => "headers",
-                :typeName => "Dict<String, String>", #todo 
+                :type_of_key => TypesToString.string,
+                :type_of_value => TypesToString.string,
                 :isOptional => true,
                 :isBindable => true
             ),
