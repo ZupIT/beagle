@@ -15,9 +15,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.widget.ui
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.action.ActionSchema
+import br.com.zup.beagle.widget.core.TextInputType
+
+interface TextInputSchema {
+    val value: BindAttribute<String>?
+    val placeholder: BindAttribute<String>?
+    val disabled: BindAttribute<Boolean>?
+    val readOnly: BindAttribute<Boolean>?
+    val type: BindAttribute<TextInputType>?
+    val hidden: BindAttribute<Boolean>?
+    val styleId: String?
+    val onChange: List<ActionSchema>?
+    val onBlur: List<ActionSchema>?
+    val onFocus: List<ActionSchema>?
+}

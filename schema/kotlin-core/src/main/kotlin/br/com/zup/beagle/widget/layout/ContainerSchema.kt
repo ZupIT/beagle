@@ -15,9 +15,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.widget.layout
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.action.ActionSchema
+import br.com.zup.beagle.widget.context.ContextSchema
+
+interface ContainerSchema {
+    val children: List<ServerDrivenComponent>
+    val onInit: List<ActionSchema>?
+    val context: ContextSchema?
+}

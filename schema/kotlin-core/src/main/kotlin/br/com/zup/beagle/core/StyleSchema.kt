@@ -15,9 +15,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.core
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+import br.com.zup.beagle.widget.core.EdgeValueSchema
+import br.com.zup.beagle.widget.core.FlexSchema
+import br.com.zup.beagle.widget.core.SizeSchema
+
+interface StyleSchema {
+    val backgroundColor: String?
+    val cornerRadius: CornerRadiusSchema?
+    val size: SizeSchema?
+    val margin: EdgeValueSchema?
+    val padding: EdgeValueSchema?
+    val position: EdgeValueSchema?
+    val positionType: PositionType?
+    val display: Display?
+    val flex: FlexSchema?
+}

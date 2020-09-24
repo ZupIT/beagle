@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.widget.ui
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.action.ActionSchema
+
+interface ButtonSchema {
+    val text: BindAttribute<String>
+    val styleId: String?
+    val onPress: List<ActionSchema>?
+}

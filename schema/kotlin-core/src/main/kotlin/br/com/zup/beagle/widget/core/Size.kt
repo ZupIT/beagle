@@ -17,7 +17,14 @@
 
 package br.com.zup.beagle.widget.core
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+import br.com.zup.beagle.widget.core.UnitValue
+
+data class Size (
+  public override val width: UnitValue? = null,  
+  public override val height: UnitValue? = null,  
+  public override val maxWidth: UnitValue? = null,  
+  public override val maxHeight: UnitValue? = null,  
+  public override val minWidth: UnitValue? = null,  
+  public override val minHeight: UnitValue? = null,  
+  public override val aspectRatio: Double? = null   
+) : SizeSchema 

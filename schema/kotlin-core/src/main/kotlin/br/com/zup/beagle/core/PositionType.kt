@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,25 +17,7 @@
 
 package br.com.zup.beagle.core
 
-/**
- * The position type of an element defines how it is positioned within its parent.
- *
- * @property ABSOLUTE
- * @property RELATIVE
- */
 enum class PositionType {
-
-    /**
-     * This means an element is positioned according to the normal flow of the layout,
-     * and then offset relative to that position based on the values of top, right, bottom, and left.
-     * The offset does not affect the position of any sibling or parent elements.
-     */
-    ABSOLUTE,
-
-    /**
-     * When positioned absolutely an element doesn't take part in the normal layout flow.
-     * It is instead laid out independent of its siblings.
-     * The position is determined based on the top, right, bottom, and left values.
-     */
-    RELATIVE
+    RELATIVE,
+    ABSOLUTE
 }

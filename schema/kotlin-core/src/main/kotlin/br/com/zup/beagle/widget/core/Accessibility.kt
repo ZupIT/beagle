@@ -17,7 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+data class Accessibility(
+    override val accessibilityLabel: String? = null,
+    override val accessible: Boolean = true
+) : AccessibilitySchema

@@ -17,7 +17,17 @@
 
 package br.com.zup.beagle.widget.core
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+import br.com.zup.beagle.widget.core.UnitValueSchema
+
+interface FlexSchema {
+  public val flexDirection: FlexDirection?
+  public val flexWrap: FlexWrap?
+  public val justifyContent: JustifyContent?
+  public val alignItems: AlignItems?
+  public val alignSelf: AlignSelf?
+  public val alignContent: AlignContent?
+  public val basis: UnitValueSchema?
+  public val flex: Double?
+  public val grow: Double?
+  public val shrink: Double? 
+}

@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -23,22 +24,13 @@ import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 
-/**
- * Define a button natively using the server driven information received through Beagle
- *
- * @param text define the button text content.
- * @param styleId reference a native style in your local styles file to be applied on this button.
- * @param onPress attribute to define action when onPress
- * @param clickAnalyticsEvent attribute to define click event name
- *
- */
 data class Button(
     override val text: Bind<String>,
     override val styleId: String? = null,
     override val onPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : Widget(), TouchableAnalytics, ButtonSchema {
-    constructor(
+    constructor (
         text: String,
         styleId: String? = null,
         onPress: List<Action>? = null,

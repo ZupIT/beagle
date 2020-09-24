@@ -17,7 +17,12 @@
 
 package br.com.zup.beagle.widget.core
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+data class EdgeValue(
+    override val left: UnitValue? = null,
+    override val top: UnitValue? = null,
+    override val right: UnitValue? = null,
+    override val bottom: UnitValue? = null,
+    override val horizontal: UnitValue? = null,
+    override val vertical: UnitValue? = null,
+    override val all: UnitValue? = null
+) : EdgeValueSchema

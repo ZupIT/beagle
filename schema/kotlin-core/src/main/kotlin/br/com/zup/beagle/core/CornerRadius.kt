@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,11 +17,6 @@
 
 package br.com.zup.beagle.core
 
-/**
- * The corner radius change the appearance of view
- *
- * @param radius define size of radius
- */
 data class CornerRadius(
-    val radius: Double = 0.0
-)
+  override val radius: Double
+) : CornerRadiusSchema

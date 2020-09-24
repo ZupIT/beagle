@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,21 +17,7 @@
 
 package br.com.zup.beagle.core
 
-/**
- * This defines a flex container;
- * inline or block depending on the given value. It enables a flex context for all its direct children.
- *
- * @property FLEX
- * @property NONE
- */
 enum class Display {
-    /**
-     * Apply the flex properties.
-     */
     FLEX,
-
-    /**
-     * No flex properties will be applied to the element.
-     */
     NONE
 }

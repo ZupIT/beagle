@@ -17,7 +17,10 @@
 
 package br.com.zup.beagle.widget.core
 
-data class UnitValue(
-    override val value: Double,
-    override val type: UnitType
-) : UnitValueSchema
+
+
+enum class UnitType {
+  AUTO,
+  REAL,
+  PERCENT
+}
