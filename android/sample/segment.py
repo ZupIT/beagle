@@ -45,6 +45,8 @@ def check_images_segmented_similar_to_images_on_pathRun(images):
         if not is_similar(image, teste):
             fail = True
             print(name+" is not similar")
+        else:
+            print(name+" is similar")
     if fail:
         raise Exception("Some screenshots are diferent")
 

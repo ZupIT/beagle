@@ -16,30 +16,40 @@
 
 package br.com.zup.beagle.sample.snapshot
 
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.sample.activities.CucumberActivity
 import br.com.zup.beagle.sample.cucumber.elements.BUTTON_SCREEN_HEADER
 import br.com.zup.beagle.sample.cucumber.robots.ScreenRobot
+import br.com.zup.beagle.sample.utils.ActivityFinisher
 import br.com.zup.beagle.sample.utils.TestUtils
 import com.facebook.testing.screenshot.Screenshot
+import cucumber.api.java.After
+import cucumber.api.java.Before
 import org.junit.Rule
 import org.junit.Test
+
 
 class CucumberActivityTest {
 
     @Rule
-    var activityTestRule = ActivityTestRule(CucumberActivity::class.java)
+    @JvmField
+    val rule = ActivityTestRule(CucumberActivity::class.java, false, false)
+
+    @After("@button")
+    fun tearDown() {
+        ActivityFinisher.finishOpenActivities()
+    }
 
     @Test
     fun testSnapshot() {
-        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
-        ScreenRobot()
-            .checkViewContainsText(BUTTON_SCREEN_HEADER, true)
-        activityTestRule.launchActivity(null)
-
-        Screenshot.snapActivity(activityTestRule.activity)
+        TestUtils.startActivity(rule, "http://10.0.2.2:8080/button")
+        ScreenRobot().checkViewContainsText(BUTTON_SCREEN_HEADER,true)
+        Screenshot.snapActivity(rule.activity)
             .record()
-
     }
+
 }

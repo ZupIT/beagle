@@ -21,7 +21,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.facebook.testing.screenshot'
-apply from: "../screenshots.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -39,7 +38,7 @@ android {
 
         if (project.ext.has("snapshot")) {
             testApplicationId "br.com.zup.beagle.sample.test"
-            testInstrumentationRunner "br.com.zup.beagle.sample.SampleTestRunner"
+           testInstrumentationRunner "br.com.zup.beagle.sample.SampleTestRunner"
         } else {
             testApplicationId "br.com.zup.beagle.sample.cucumber.steps"
             testInstrumentationRunner "br.com.zup.beagle.sample.cucumber.steps.Instrumentation"
@@ -100,11 +99,11 @@ def getTestTags() {
 
 
 screenshots {
-    multipleDevices true
+    multipleDevices false
 }
 
 task verifyScreenshot (type:Exec) {
-    def recordedPath = "$rootProject.projectDir/sample/screenshots/API_21_GP_XXHDPI_1080x1920_x86_"
+    def recordedPath = "$rootProject.projectDir/sample/screenshots"
     def runPath = "$rootProject.projectDir/sample/build/screenshotsDebugAndroidTest"
     commandLine 'python3', 'segment.py', recordedPath, runPath
 }

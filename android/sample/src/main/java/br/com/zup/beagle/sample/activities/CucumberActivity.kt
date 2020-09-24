@@ -17,11 +17,14 @@
 package br.com.zup.beagle.sample.activities
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
+import br.com.zup.beagle.android.utils.loadView
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
-import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.R
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class CucumberActivity : AppCompatActivity() {
     companion object {
@@ -33,12 +36,15 @@ class CucumberActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val url = bffUrl()
-        if(url != null) {
+        Handler().postDelayed({
             val intent = this.newServerDrivenIntent<SampleServerDrivenActivity>(ScreenRequest(url))
             startActivity(intent)
             finish()
-        }
+        }, 1500)
+        fragment_content.loadView(this, ScreenRequest(url))
+
     }
+
 
     fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/button"
 }
