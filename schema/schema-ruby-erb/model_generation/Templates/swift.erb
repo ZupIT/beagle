@@ -44,31 +44,20 @@
     type_name
   end
 
-
-  def handleTypeName(variable)
-      typeName = ""
-      if variable.instance_of? Dictionary
-        typeName = dictionary_variable_declaration(variable)
-      else
-        typeName = single_variable_declaration(variable)
-      end
-      
-      output = variable.isBindable ? "Expression<#{typeName}>" : typeName
-      output = variable.class == List ? "[#{output}]" : output
-      output = variable.isOptional ? output + "?" : output
-      output
+  def variable_type_declaration(variable)
+    if variable.instance_of? Dictionary
+      type_name = dictionary_variable_declaration(variable)
+    else
+      type_name = single_variable_declaration(variable)
+    end
+    type_name = variable.isBindable ? "Expression<#{type_name}>" : type_name
+    type_name = variable.class == List ? "[#{type_name}]" : type_name
+    type_name = variable.isOptional ? type_name + "?" : type_name
+    type_name
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    if variable.instance_of? Dictionary
-      typeName = dictionary_variable_declaration(variable)
-    else
-      typeName = single_variable_declaration(variable)
-    end
-    output = variable.isBindable ? "Expression<#{typeName}>" : typeName
-    output = variable.class == List ? "[#{output}]" : output
-    output = variable.isOptional ? output + "?" : output
-
+    output = variable_type_declaration(variable)
     if variable.isOptional && variable.defaultValue == ''
       output += " = nil"
     elsif variable.defaultValue != ''
@@ -113,7 +102,7 @@
     output = "\n"
     for variable in objectType.synthax_type.variables
       output += variable.comment != nil ? "#{@tab}/// #{variable.comment}\n" : ""
-      output += "#{@tab}#{variable.accessor} var #{variable.name}: #{handleTypeName(variable)}\n"
+      output += "#{@tab}#{variable.accessor} var #{variable.name}: #{variable_type_declaration(variable)}\n"
     end
 
     output += "\n"
