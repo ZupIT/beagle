@@ -1,4 +1,4 @@
 ▿ Optional<Context>
   ▿ some: Context
     - id: "onSuccess"
-    - value: [(data, [[(a, value a), (b, value b)]]), (status, 0), (statusText, success)]
+    - value: [data: [[a: value a, b: value b]], status: 0, statusText: success]
