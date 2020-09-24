@@ -22,14 +22,12 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
-import br.com.zup.beagle.android.context.isExpression
+import br.com.zup.beagle.android.context.hasExpression
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.widget.RootView
-import org.json.JSONArray
-import org.json.JSONObject
 
 internal var contextActionExecutor = ContextActionExecutor()
 
@@ -125,13 +123,19 @@ fun <T> Action.evaluateExpression(
 
 internal fun Action.evaluateExpression(rootView: RootView, view: View, data: Any): Any? {
     return try {
-        when {
-            data is Bind.Value<*> -> data.value
-            data is Bind.Expression<*> ->
-                data.value.generateBindAndEvaluateForAction(rootView, view, this)
-            data is JSONObject || data is JSONArray || data.isExpression() ->
-                data.toString().generateBindAndEvaluateForAction(rootView, view, this)
-            else -> data
+        if (data is Bind.Value<*>) {
+            data.value
+        } else {
+            val expression: String? = when {
+                data is Bind.Expression<*> -> data.value
+                data.hasExpression() -> data.toString()
+                else -> null
+            }
+            if (expression != null) {
+                expression.generateBindAndEvaluateForAction(rootView, view, this)
+            } else {
+                data
+            }
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)

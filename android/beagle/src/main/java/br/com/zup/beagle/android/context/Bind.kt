@@ -46,10 +46,10 @@ sealed class Bind<T> : BindAttribute<T> {
 }
 
 internal inline fun <reified T : Any> expressionOrValueOf(text: String): Bind<T> =
-    if (text.isExpression()) expressionOf(text) else valueOf(text) as Bind<T>
+    if (text.hasExpression()) expressionOf(text) else valueOf(text) as Bind<T>
 
 internal fun expressionOrValueOfNullable(text: String?): Bind<String>? =
-    if (text?.isExpression() == true) expressionOf(text) else valueOfNullable(text)
+    if (text?.hasExpression() == true) expressionOf(text) else valueOfNullable(text)
 
 inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> {
     val tokenParser = TokenParser()
@@ -62,4 +62,4 @@ inline fun <reified T> expressionOf(expressionText: String): Bind.Expression<T> 
 inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
 inline fun <reified T : Any> valueOfNullable(value: T?): Bind<T>? = value?.let { valueOf(it) }
 
-internal fun Any.isExpression() = this is String && this.contains(BeagleRegex.EXPRESSION_REGEX)
+internal fun Any.hasExpression() = this.toString().contains(BeagleRegex.EXPRESSION_REGEX)

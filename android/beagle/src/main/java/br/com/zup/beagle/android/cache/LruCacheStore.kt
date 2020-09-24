@@ -18,30 +18,19 @@ package br.com.zup.beagle.android.cache
 
 import android.util.LruCache
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.nanoTimeInSeconds
-
-data class TimerCache(
-    val maxTime: Long,
-    val cachedTime: Long,
-    val hash: String,
-    val json: String
-) {
-    fun isValid(): Boolean {
-        val stepTime = nanoTimeInSeconds() - cachedTime
-        return stepTime < maxTime
-    }
-}
 
 internal class LruCacheStore(
-    private val cache: LruCache<String, TimerCache> = LruCache<String, TimerCache>(
-        BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity)
+    private val cache: LruCache<String, BeagleCache> = LruCache(
+        BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity.takeIf { it > 0 }
+            ?: BeagleEnvironment.beagleSdk.config.cache.size
+    )
 ) {
 
-    fun save(cacheKey: String, timerCache: TimerCache) {
-        cache.put(cacheKey, timerCache)
+    fun save(cacheKey: String, beagleCache: BeagleCache) {
+        cache.put(cacheKey, beagleCache)
     }
 
-    fun restore(cacheKey: String): TimerCache? {
+    fun restore(cacheKey: String): BeagleCache? {
         return cache[cacheKey]
     }
 
