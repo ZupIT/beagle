@@ -33,7 +33,7 @@ data class TextInput (
   public override val onChange: List<Action>? = null,  
   public override val onBlur: List<Action>? = null,  
   public override val onFocus: List<Action>? = null   
-) : TextInputSchema {
+) : Widget(), TextInputSchema {
   constructor (    
     value: String? = null,      
     placeholder: String? = null,      

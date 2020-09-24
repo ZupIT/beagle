@@ -22,4 +22,4 @@ data class Container (
   public override val children: List<Widget>,  
   public override val onInit: List<Action>? = null,  
   public override val context: Context? = null   
-) : ContainerSchema 
+) : Widget(), ContainerSchema 

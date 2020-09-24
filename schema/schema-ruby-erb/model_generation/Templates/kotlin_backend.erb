@@ -52,6 +52,11 @@
   def getVariableDefault(variable)
     variable.defaultValue.empty? && variable.isOptional ? "null" : variable.defaultValue
   end
+
+  def getSuperClasses(type)
+    # TODO handle this in general Kotlin when all supertypes are defined with schema
+    (type.inheritFrom << "#{type.name}Schema").map { |parent| parent == Widget.new.name ? "#{parent}()" : parent }.join(", ")
+  end
 -%>
 
 package <%= objectType.synthax_type.package %>
@@ -74,7 +79,7 @@ data class <%= objectType.synthax_type.name -%> (<% -%>
   <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeNameAndDefault(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
   <% counter += 1 -%>
 <% end -%> 
-) : <%= objectType.synthax_type.name -%>Schema <% if objectType.synthax_type.variables.any? { |variable| variable.isBindable } -%>{
+) : <%= getSuperClasses(objectType.synthax_type) -%> <% if objectType.synthax_type.variables.any?(&:isBindable) -%>{
   constructor (<% -%>
   <% counter = 0 -%>
   <% for variable in objectType.synthax_type.variables %>

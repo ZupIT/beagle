@@ -24,7 +24,7 @@ import br.com.zup.beagle.widget.context.valueOfNullable
 data class Text (
   public override val text: Bind<String>,  
   public override val styleId: String? = null   
-) : TextSchema {
+) : Widget(), TextSchema {
   constructor (    
     text: String,      
     styleId: String? = null      

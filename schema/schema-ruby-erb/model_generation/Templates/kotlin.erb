@@ -22,7 +22,6 @@
   @templateHelper.defaultDeclarationType = BasicTypeKeys.interface
   
   def handleTypeName(variable, import_manager)
-    #todo variables now have default values!
     output = @templateHelper.fetch_type(variable.typeName)
     output = import_manager.has_key?(output) ? output + "Schema" : output
     output = variable.isBindable ? "BindAttribute<#{output}>" : output

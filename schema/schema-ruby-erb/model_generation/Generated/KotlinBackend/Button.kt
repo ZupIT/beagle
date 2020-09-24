@@ -27,7 +27,7 @@ data class Button (
   public override val styleId: String? = null,  
   public override val onPress: List<Action>? = null,  
   public override val clickAnalyticsEvent: AnalyticsClick? = null   
-) : ButtonSchema {
+) : Widget(), ClickedOnComponent, ButtonSchema {
   constructor (    
     text: String,      
     styleId: String? = null,      
