@@ -25,9 +25,9 @@ class Button < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true),
-            List.new(:name => "onPress", :typeName => Action.new.name, :isOptional => true), #todo create action
+            Variable.new(:name => "text", :typeName => TypesToString.string, :isBindable => true),
+            Variable.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
+            List.new(:name => "onPress", :typeName => Action.new.name, :isOptional => true),
             Variable.new(:name => "clickAnalyticsEvent", :typeName => AnalyticsClick.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(

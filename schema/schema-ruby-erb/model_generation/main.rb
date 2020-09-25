@@ -41,6 +41,16 @@ require_relative 'Models/Widgets/container.rb'
 require_relative 'Models/Widgets/image.rb'
 require_relative 'Models/Widgets/image_content.rb'
 
+require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
+require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
+
+require_relative 'Models/Action/action.rb'
+require_relative 'Models/Action/unknown_action.rb'
+require_relative 'Models/Action/add_children.rb'
+require_relative 'Models/Action/alert.rb'
+require_relative 'Models/Action/confirm.rb'
+require_relative 'Models/Action/send_request.rb'
+
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
 require_relative 'Templates/template_helper.rb'
@@ -123,21 +133,19 @@ class ModelGenerator
   # Generates models for swift
   def generate_swift
     ready_to_prod = [
-      Button.new.name,
-      EdgeValue.new.name,
-      Flex.new.name,
-      Size.new.name,
-      UnitType.new.name,
-      UnitValue.new.name,
-      Style.new.name,
-      CornerRadius.new.name
+      Button.new.name, EdgeValue.new.name, Flex.new.name,
+      Size.new.name, UnitType.new.name, UnitValue.new.name,
+      Style.new.name, CornerRadius.new.name, ScrollAxis.new.name,
+      TextInputType.new.name, ScrollView.new.name, ImageContentMode.new.name,
+      TextInput.new.name, Action.new.name, UnknownAction.new.name,
+      Alert.new.name, Confirm.new.name, SendRequest.new.name
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
       path = @c.swift_path
 
-      if ready_to_prod.include? @objectType.name 
+      if ready_to_prod.include? @objectType.name
         path += "../../../../../iOS/Schema/Sources/CodeGeneration/BeagleSchemaGenerated/"
       end
 
@@ -164,6 +172,7 @@ if __FILE__ == $0
     Text,
     TextInputType,
     ImageContentMode,
+    TextInput,
     # Layout
     CornerRadius,
     EdgeValue,
@@ -172,17 +181,24 @@ if __FILE__ == $0
     Style,
     UnitValue,
     UnitType,
-    Display,
-    PositionType,
     # Accessibility
     Accessibility,
     # Far from being usable
     Container,
     Image,
-    TextInput,
     AnalyticsEvent,
     AnalyticsClick,
-    AnalyticsScreen
+    AnalyticsScreen,
+    SendRequest,
+    # ServerDriven
+    ScrollAxis,
+    ScrollView,
+    # Action
+    Action,
+    UnknownAction,
+    AddChildren,
+    Alert,
+    Confirm,
   ]
   
   generator = ModelGenerator.new(components)

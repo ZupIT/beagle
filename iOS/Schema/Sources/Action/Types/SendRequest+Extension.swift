@@ -17,46 +17,9 @@
 
 import UIKit
 
-public struct SendRequest: RawAction, AutoInitiableAndDecodable {
-    
-    public enum HTTPMethod: String, Decodable {
-        case get = "GET"
-        case post = "POST"
-        case put = "PUT"
-        case patch = "PATCH"
-        case delete = "DELETE"
-    }
-    
-    public let url: Expression<String>
-    public let method: Expression<SendRequest.HTTPMethod>?
-    public let data: DynamicObject?
-    public let headers: Expression<[String: String]>?
-    public let onSuccess: [RawAction]?
-    public let onError: [RawAction]?
-    public let onFinish: [RawAction]?
-    
-// sourcery:inline:auto:SendRequest.Init
-    public init(
-        url: Expression<String>,
-        method: Expression<SendRequest.HTTPMethod>? = nil,
-        data: DynamicObject? = nil,
-        headers: Expression<[String: String]>? = nil,
-        onSuccess: [RawAction]? = nil,
-        onError: [RawAction]? = nil,
-        onFinish: [RawAction]? = nil
-    ) {
-        self.url = url
-        self.method = method
-        self.data = data
-        self.headers = headers
-        self.onSuccess = onSuccess
-        self.onError = onError
-        self.onFinish = onFinish
-    }
-// sourcery:end
-    
+public extension SendRequest {
     @available(*, deprecated, message: "Since version 1.3, we allow expressions in the parameters method and headers, please consider using the new method for initialization instead.")
-    public init(
+    init(
         url: Expression<String>,
         method: SendRequest.HTTPMethod? = nil,
         data: DynamicObject? = nil,

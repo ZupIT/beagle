@@ -17,9 +17,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.action.ui.Action
 
 data class Container (
   public override val children: List<Widget>,  
-  public override val onInit: List<Action>? = null,  
+  public override val onInit: List<ActionSchema>? = null,  
   public override val context: Context? = null   
-) : Widget(), ContainerSchema 
+) : Widget(), ContextComponent, ContainerSchema 

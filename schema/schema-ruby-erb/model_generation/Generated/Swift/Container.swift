@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Container: RawWidget, AutoDecodable {
+public struct Container: RawWidget, HasContext, AutoDecodable {
 
     public var children: [RawWidget]
     public var onInit: [RawAction]?

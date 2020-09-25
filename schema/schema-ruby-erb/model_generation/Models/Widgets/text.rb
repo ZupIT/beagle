@@ -21,8 +21,28 @@ class Text < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true)
+            Variable.new(
+                :name => "text",
+                :typeName => TypesToString.string,
+                :isBindable => true
+            ),
+            Variable.new(
+                :name => "styleId",
+                :typeName => TypesToString.string,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "alignment",
+                :typeName => Alignment.new.name,
+                :isOptional => true,
+                :isBindable => true
+            ),
+            Variable.new(
+                :name => "textColor",
+                :typeName => TypesToString.string,
+                :isOptional => true,
+                :isBindable => true
+            )
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
@@ -30,7 +50,28 @@ class Text < BaseComponent
             :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
                Widget.new.name
-            ]
+            ],
+            :sameFileTypes => [Alignment.new]
+        )
+
+        super(synthax_type)
+
+    end
+
+end
+
+class Alignment < BaseComponent
+
+    def initialize
+        enum_cases = [
+            EnumCase.new(:name => "left", :defaultValue => "LEFT"),
+            EnumCase.new(:name => "right", :defaultValue => "RIGHT"),
+            EnumCase.new(:name => "center", :defaultValue => "CENTER"),
+        ]
+        synthax_type = EnumType.new(
+            :name => self.name,
+            :variables => enum_cases,
+            :inheritFrom => [TypesToString.string],
         )
 
         super(synthax_type)

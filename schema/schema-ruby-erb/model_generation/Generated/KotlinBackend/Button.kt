@@ -20,19 +20,20 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
+import br.com.zup.beagle.action.ui.Action
 import br.com.zup.beagle.widget.core.AnalyticsClick
 
 data class Button (
   public override val text: Bind<String>,  
   public override val styleId: String? = null,  
-  public override val onPress: List<Action>? = null,  
-  public override val clickAnalyticsEvent: AnalyticsClick? = null   
+  public override val onPress: List<ActionSchema>? = null,  
+  public override val clickAnalyticsEvent: AnalyticsClickSchema? = null   
 ) : Widget(), ClickedOnComponent, ButtonSchema {
   constructor (    
     text: String,      
     styleId: String? = null,      
-    onPress: List<Action>? = null,      
-    clickAnalyticsEvent: AnalyticsClick? = null      
+    onPress: List<ActionSchema>? = null,      
+    clickAnalyticsEvent: AnalyticsClickSchema? = null      
   ) : this (    
       valueOf(text),      
       styleId,      

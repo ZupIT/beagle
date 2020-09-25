@@ -26,7 +26,7 @@ data class Flex (
   public override val alignItems: AlignItems? = null,  
   public override val alignSelf: AlignSelf? = null,  
   public override val alignContent: AlignContent? = null,  
-  public override val basis: UnitValue? = null,  
+  public override val basis: UnitValueSchema? = null,  
   public override val flex: Double? = null,  
   public override val grow: Double? = null,  
   public override val shrink: Double? = null   

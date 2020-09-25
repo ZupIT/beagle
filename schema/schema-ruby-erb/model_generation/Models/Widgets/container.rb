@@ -18,6 +18,7 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
 require_relative '../Analytics/analytics_events.rb'
 require_relative '../Analytics/analytics_models.rb'
+require_relative '../Context/context_component.rb'
 require_relative 'widget.rb'
 
 class Container < BaseComponent
@@ -27,7 +28,11 @@ class Container < BaseComponent
         variables = [
             List.new(:name => "children", :typeName => Widget.name),
             List.new(:name => "onInit", :typeName => "Action", :isOptional => true),
-            Variable.new(:name => "context", :typeName => "Context", :isOptional => true)
+            Variable.new(
+                :name => "context",
+                :typeName => "Context",
+                :isOptional => true
+            )
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
@@ -35,8 +40,8 @@ class Container < BaseComponent
             :package => "br.com.zup.beagle.widget.layout",
             :inheritFrom => [
                Widget.new.name,
-            ],
-            :comment => "The container component is a general container that can hold other components inside."
+               ContextComponent.new.name
+            ]
         )
 
         super(synthax_type)

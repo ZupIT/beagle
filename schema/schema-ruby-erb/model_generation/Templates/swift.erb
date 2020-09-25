@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 <%
-  require_relative 'Synthax/Types/enum_type'
-  require_relative 'Synthax/Types/basic_type'
-  require_relative 'Synthax/Attributes/list'
+  require_relative 'Synthax/Types/enum_type.rb'
+  require_relative 'Synthax/Types/type_to_string.rb'
+  require_relative 'Synthax/Attributes/list.rb'
+  require_relative 'Synthax/Attributes/dictionary.rb'
   require_relative 'Templates/template_helper.rb'
   
   require_relative 'Models/Layout/Flex/flex_wrap.rb'
   require_relative 'Models/Action/action.rb'
+  require_relative 'Models/ServerDriven/server_driven_component.rb'
 
   @tab = "    "
   @doubleTab = @tab + @tab
@@ -29,22 +31,33 @@
   @template_helper.languageIdentifier = SupportedLanguages.new.swift
   @template_helper.defaultDeclarationType = "struct"
 
-  def handleTypeName(variable)
-      typeName = @template_helper.fetch_type(variable.typeName)
-      typeName = adaptTypeNameToSwiftSpecific(typeName)
-      output = variable.isBindable ? "Expression<#{typeName}>" : typeName
-      output = variable.class == List ? "[#{output}]" : output
-      output = variable.isOptional ? output + "?" : output
-      output
+  def dictionary_variable_declaration(variable) 
+    type_of_key = adaptTypeNameToSwiftSpecific(variable.type_of_key)
+    type_of_value = adaptTypeNameToSwiftSpecific(variable.type_of_value)
+    type_name = "[#{type_of_key}: #{type_of_value}]"
+    type_name
   end
 
-  def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    typeName = @template_helper.fetch_type(variable.typeName)
-    typeName = adaptTypeNameToSwiftSpecific(typeName)
-    output = variable.isBindable ? "Expression<#{typeName}>" : typeName
-    output = variable.class == List ? "[#{output}]" : output
-    output = variable.isOptional ? output + "?" : output
+  def single_variable_declaration(variable)
+    type_name = @template_helper.fetch_type(variable.typeName)
+    type_name = adaptTypeNameToSwiftSpecific(type_name)
+    type_name
+  end
 
+  def variable_type_declaration(variable)
+    if variable.instance_of? Dictionary
+      type_name = dictionary_variable_declaration(variable)
+    else
+      type_name = single_variable_declaration(variable)
+    end
+    type_name = variable.isBindable ? "Expression<#{type_name}>" : type_name
+    type_name = variable.class == List ? "[#{type_name}]" : type_name
+    type_name = variable.isOptional ? type_name + "?" : type_name
+    type_name
+  end
+  
+  def handleTypeNameForInitMethod(variable, shouldAddComma = false)
+    output = variable_type_declaration(variable)
     if variable.isOptional && variable.defaultValue == ''
       output += " = nil"
     elsif variable.defaultValue != ''
@@ -69,7 +82,7 @@
   end
 
   def casesForEnum(objectType)
-    output = ""
+    output = "\n"
     for variable in objectType.synthax_type.variables
       output += "#{@tab}case #{variable.name}"
       if variable.defaultValue != ''
@@ -83,16 +96,24 @@
   end
 
   def declarePropertiesForCommonObject(objectType)
-    output = ""
+    if objectType.synthax_type.variables.length == 0 
+      return ""
+    end
+    output = "\n"
     for variable in objectType.synthax_type.variables
       output += variable.comment != nil ? "#{@tab}/// #{variable.comment}\n" : ""
-      output += "#{@tab}#{variable.accessor} var #{variable.name}: #{handleTypeName(variable)}\n"
+      output += "#{@tab}#{variable.accessor} var #{variable.name}: #{variable_type_declaration(variable)}\n"
     end
+
+    output += "\n"
 
     output
   end
 
   def initForCommonObject(objectType)
+    if objectType.synthax_type.variables.length == 0 
+      return ""
+    end
     output = "#{@tab}#{objectType.synthax_type.accessor} init(\n"
     counter = 0
     for variable in objectType.synthax_type.variables
@@ -106,7 +127,7 @@
       output += "#{@doubleTab}self.#{variable.name} = #{variable.name}\n"
     end
 
-    output += "#{@tab}}"
+    output += "#{@tab}}\n"
 
     output
   end
@@ -116,13 +137,12 @@
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
     output = objectType.synthax_type.comment != nil ? "/// #{objectType.synthax_type.comment}\n" : ""
     typeName = adaptTypeNameToSwiftSpecific(objectType.synthax_type.name)
-    output += "#{objectType.synthax_type.accessor} #{typeKind} #{typeName}#{handleInheritance(objectType.synthax_type)} {\n\n"
+    output += "#{objectType.synthax_type.accessor} #{typeKind} #{typeName}#{handleInheritance(objectType.synthax_type)} {\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)
     else
       output += declarePropertiesForCommonObject(objectType)
-      output += "\n"
-      output += "#{initForCommonObject(objectType)}\n"
+      output += initForCommonObject(objectType)
     end
 
     output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
@@ -147,28 +167,35 @@
   end
 
   # Everything that is inside this method indicates something that need to be done only for swift
-  # Adding anything here implies in a difference between swift and other platforms, therefore, needs refactor.
-  def preRun(objectType)
-    if @template_helper.is_widget(objectType)
-      objectType.synthax_type.variables.append(
+  def preRun(object_type)
+    if @template_helper.is_widget(object_type)
+      object_type.synthax_type.variables.append(
         Variable.new(:name => "widgetProperties", :typeName => "WidgetProperties", :defaultValue => "WidgetProperties()")
       )
-      objectType.synthax_type.inheritFrom.append("AutoDecodable")
+      object_type.synthax_type.inheritFrom.append("AutoDecodable")
+    elsif @template_helper.is_server_driven_component(object_type)
+      object_type.synthax_type.inheritFrom.append("AutoDecodable")
+    elsif [Alert.new.name, AddChildren.new.name, Confirm.new.name, SendRequest.new.name].include? object_type.synthax_type.name
+      object_type.synthax_type.inheritFrom.append("AutoDecodable")
     else
-      objectType.synthax_type.inheritFrom.append("Decodable")
+      object_type.synthax_type.inheritFrom.append("Decodable")
+    end
+  
+    if [UnitValue.new.name].include? object_type.synthax_type.name
+      object_type.synthax_type.inheritFrom.append("Equatable")
     end
 
-    if [UnitValue.new.name].include? objectType.synthax_type.name
-      objectType.synthax_type.inheritFrom.append("Equatable")
+    if [Flex.new.name, EdgeValue.new.name, Size.new.name, Style.new.name].include? object_type.synthax_type.name
+      object_type.synthax_type.type = "class"
+      object_type.synthax_type.inheritFrom.append("AutoEquatable")
     end
 
-    if [Flex.new.name, EdgeValue.new.name, Size.new.name, Style.new.name].include? objectType.synthax_type.name
-      objectType.synthax_type.type = "class"
-      objectType.synthax_type.inheritFrom.append("AutoEquatable")
+    if [CornerRadius.new.name].include? object_type.synthax_type.name
+      object_type.synthax_type.inheritFrom.append("AutoEquatable")
     end
 
-    if [CornerRadius.new.name].include? objectType.synthax_type.name
-      objectType.synthax_type.inheritFrom.append("AutoEquatable")
+    if [Alignment.new.name].include? object_type.synthax_type.name
+      object_type.synthax_type.inheritFrom.append("CaseIterable")
     end
 
   end
@@ -181,6 +208,12 @@
       "RawAction"
     elsif typeName.eql?(FlexWrap.new.name)
       "Wrap"
+    elsif typeName.eql?(ServerDrivenComponent.new.name)
+      "RawComponent"
+    elsif typeName.eql?(ContextComponent.new.name)
+      "HasContext"
+    elsif typeName.eql?("ContextData")
+      "DynamicObject"
     else
       typeName
     end

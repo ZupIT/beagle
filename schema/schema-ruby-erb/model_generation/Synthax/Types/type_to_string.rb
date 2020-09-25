@@ -12,10 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# This module exists to create ids for basicTypes.
+# This module exists to create ids for types.
 # This is important because some reserved words are written in a different way among languages
-# but they mean the same
-module BasicTypeKeys
+# despite meaning the same thing. If you add a type here, you will also have to add in the grammar located in TemplateHelper.
+module TypesToString
     
     # String id for String
     # @return [String]

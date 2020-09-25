@@ -19,7 +19,8 @@
   require_relative 'Templates/template_helper.rb'
 
   @templateHelper = TemplateHelper.new
-  #@templateHelper.defaultDeclarationType = todo add default declaration type
+  @template_helper.defaultDeclarationType = "interface"
+  @template_helper.languageIdentifier = SupportedLanguages.new.typeScript
   
   def handleTypeNameWithName(variable)
       #todo variables now have default values!

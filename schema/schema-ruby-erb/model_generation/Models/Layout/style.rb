@@ -23,7 +23,7 @@ class Style < BaseComponent
         variables = [
             Variable.new(
                 :name => "backgroundColor",
-                :typeName => BasicTypeKeys.string,
+                :typeName => TypesToString.string,
                 :isOptional => true,
                 :comment => "Set the view background color. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`."
             ),

@@ -21,7 +21,7 @@ class UnitValue < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "value", :typeName => BasicTypeKeys.double),
+            Variable.new(:name => "value", :typeName => TypesToString.double),
             Variable.new(:name => "type", :typeName => UnitType.new.name)
         ]
         synthax_type = BuiltInType.new(

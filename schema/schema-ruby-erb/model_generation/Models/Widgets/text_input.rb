@@ -23,13 +23,13 @@ class TextInput < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "value", :typeName => BasicTypeKeys.string, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "placeholder", :typeName => BasicTypeKeys.string, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "disabled", :typeName => BasicTypeKeys.bool, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "readOnly", :typeName => BasicTypeKeys.bool, :isBindable => true, :isOptional => true),
+            Variable.new(:name => "value", :typeName => TypesToString.string, :isBindable => true, :isOptional => true),
+            Variable.new(:name => "placeholder", :typeName => TypesToString.string, :isBindable => true, :isOptional => true),
+            Variable.new(:name => "disabled", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
+            Variable.new(:name => "readOnly", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
             Variable.new(:name => "type", :typeName => TextInputType.new.name, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "hidden", :typeName => BasicTypeKeys.bool, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true),
+            Variable.new(:name => "hidden", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
+            Variable.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
             List.new(:name => "onChange", :typeName => "Action", :isOptional => true),
             List.new(:name => "onBlur", :typeName => "Action", :isOptional => true),
             List.new(:name => "onFocus", :typeName => "Action", :isOptional => true)

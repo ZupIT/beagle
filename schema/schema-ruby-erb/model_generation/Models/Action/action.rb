@@ -20,12 +20,14 @@ class Action < BaseComponent
 
     #todo finish implementation, and add to be generated on main
     def initialize
-        variables = []
         synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => variables,
-            :package => "br.com.zup.beagle.action.ui"
+            :variables => [],
+            :package => "br.com.zup.beagle.action.ui",
+            :comment => "Markup to define an action to be triggered in response to some event"
         )
+
+        synthax_type.type = TypesToString.interface
 
         super(synthax_type)
 

@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../Synthax/Types/basic_type'
+require_relative '../Synthax/Types/type_to_string'
 
 # This class lists the available supported languages of beagle schema.
 class SupportedLanguages
@@ -39,10 +39,10 @@ class BasicType < SupportedLanguages
     def initialize
         super
         @grammar = {
-            BasicTypeKeys.string => {@swift => "String", @kotlin => "String"},
-            BasicTypeKeys.bool => {@swift => "Bool", @kotlin => "Boolean"},
-            BasicTypeKeys.interface => {@swift => "protocol", @kotlin => "interface"},
-            BasicTypeKeys.enum => {@swift => "enum", @kotlin => "enum class"}
+            TypesToString.string => {@swift => "String", @kotlin => "String"},
+            TypesToString.bool => {@swift => "Bool", @kotlin => "Boolean"},
+            TypesToString.interface => {@swift => "protocol", @kotlin => "interface"},
+            TypesToString.enum => {@swift => "enum", @kotlin => "enum class"}
         }
 
     end
@@ -83,7 +83,7 @@ class TemplateHelper
         end
     end
 
-    # Given object_type, this functions returns if such an object is enum or not
+    # Fetches a built in type if specified inside grammar in BasicType and if the languageIdentifer exists
     #
     # @param key [String] type identifier
     # @return [String] converted string to specified language or the key itself
@@ -123,6 +123,18 @@ class TemplateHelper
     end
 
     def getImports(variables, import_manager)
-        variables.map { |variable| import_manager[variable.typeName] }.uniq.filter { |import| !import.empty? }
+        variables
+            .select {|variable| !variable.instance_of? Dictionary }
+            .map { |variable| import_manager[variable.typeName] }
+            .uniq.filter { |import| !import.empty? }
     end
+
+    # Given object_type, this functions returns if such an object is a server driven component or not
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is a server driven component or not
+    def is_server_driven_component(object_type)
+        object_type.synthax_type.inheritFrom.include? ServerDrivenComponent.new.name
+    end
+
 end

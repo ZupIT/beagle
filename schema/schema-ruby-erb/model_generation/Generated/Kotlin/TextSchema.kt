@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.ui
+
+
 
 import br.com.zup.beagle.core.BindAttribute
 
 interface TextSchema {
   public val text: BindAttribute<String>
-  public val styleId: String? 
+  public val styleId: String?
+  public val alignment: BindAttribute<Alignment>?
+  public val textColor: BindAttribute<String>? 
 }

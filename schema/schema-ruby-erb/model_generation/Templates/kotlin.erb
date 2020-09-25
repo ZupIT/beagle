@@ -17,42 +17,81 @@
 <%
   require_relative 'Templates/template_helper.rb'
 
-  @templateHelper = TemplateHelper.new
-  @templateHelper.languageIdentifier = SupportedLanguages.new.kotlin
-  @templateHelper.defaultDeclarationType = BasicTypeKeys.interface
+  @template_helper = TemplateHelper.new
+  @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
+  @template_helper.defaultDeclarationType = TypesToString.interface
   
-  def handleTypeName(variable, import_manager)
-    output = @templateHelper.fetch_type(variable.typeName)
-    output = import_manager.has_key?(output) ? output + "Schema" : output
+  def dictionary_variable_declaration(variable) 
+    type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
+    type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
+    type_name = "Map<#{type_of_key}, #{type_of_value}>"
+    type_name
+  end
+
+  def single_variable_declaration(variable, import_manager)
+    type_name = @template_helper.fetch_type(variable.typeName)
+    type_name = import_manager.has_key?(type_name) ? type_name + "Schema" : type_name
+    type_name = adapt_type_name_to_kotlin_specific(type_name)
+    type_name
+  end
+
+  def variable_type_declaration(variable, import_manager)
+    #todo variables now have default values!
+    output = ""
+    if variable.instance_of? Dictionary
+      output = dictionary_variable_declaration(variable)
+    else
+      output = single_variable_declaration(variable, import_manager)
+    end
+    
     output = variable.isBindable ? "BindAttribute<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
     output
   end
--%>
 
+  def getImports(variables, import_manager)
+    
+    variables
+      .select{|variable| !variable.instance_of? Dictionary}
+      .map { | variable| import_manager[variable.typeName] }
+      .uniq.filter { |import| !import.empty? }
+    
+  end
+
+  def adapt_type_name_to_kotlin_specific(typeName)
+    if typeName.eql?("ContextData")
+      "Any"
+    else
+      typeName
+    end
+  end
+-%>
 package <%= objectType.synthax_type.package %>
 
-<% if !@templateHelper.is_enum(objectType) -%>
+
+
+<% default_declaration_type = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type) -%><% -%>
+<% if !@template_helper.is_enum(objectType) -%>
 <% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.core.BindAttribute
 <% end -%>
-<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, import_manager) -%>
+<% for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager) -%>
 import <%= qualifiedName %>Schema
 <% end -%>
-<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
+<% for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
 import <%= qualifiedName %>
 <% end -%>
 <% end -%>
 
-<% if @templateHelper.is_enum(objectType) %>
-enum class <%= objectType.synthax_type.name -%> {
+<% if @template_helper.is_enum(objectType) %>
+<%=default_declaration_type-%> <%= objectType.synthax_type.name -%> {
   <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
 }
 <% else %><% -%>
-<%=@templateHelper.fetch_built_in_type_declaration(objectType.synthax_type.type)-%> <%= objectType.synthax_type.name -%>Schema {<% -%>
+<%=default_declaration_type-%> <%= objectType.synthax_type.name -%>Schema {<% -%>
 <% for variable in objectType.synthax_type.variables %>
-  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, import_manager) -%>
+  <%= variable.accessor %> val <%= variable.name %>: <%= variable_type_declaration(variable, import_manager) -%>
 <% end -%> 
 }
 <% end %><% -%>

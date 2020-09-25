@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -13,17 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package br.com.zup.beagle.widget.core
 
-import Foundation
 
-/// Markup to define an action to be triggered in response to some event
-public protocol RawAction: Decodable {}
 
-/// Defines a representation of an unknown Action
-public struct UnknownAction: RawAction {
-    public let type: String
-    
-    public init(type: String) {
-        self.type = type
-    }
+
+
+enum class ScrollAxis {
+  VERTICAL,
+  HORIZONTAL
 }

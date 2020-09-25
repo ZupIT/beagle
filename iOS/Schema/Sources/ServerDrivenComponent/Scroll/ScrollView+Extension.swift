@@ -14,30 +14,8 @@
  * limitations under the License.
  */
 
-public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
-    
-    // MARK: - Public Properties
-    
-    public let children: [RawComponent]
-    public let scrollDirection: ScrollAxis?
-    public let scrollBarEnabled: Bool?
-    public let context: Context?
-
-// sourcery:inline:auto:ScrollView.Init
-    public init(
-        children: [RawComponent],
-        scrollDirection: ScrollAxis? = nil,
-        scrollBarEnabled: Bool? = nil,
-        context: Context? = nil
-    ) {
-        self.children = children
-        self.scrollDirection = scrollDirection
-        self.scrollBarEnabled = scrollBarEnabled
-        self.context = context
-    }
-// sourcery:end
-    
-    public init(
+public extension ScrollView {
+    init(
         scrollBarEnabled: Bool? = nil,
         scrollDirection: ScrollAxis? = nil,
         context: Context? = nil,
@@ -47,7 +25,7 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
         self.init(children: [children()], scrollDirection: scrollDirection, scrollBarEnabled: scrollBarEnabled, context: context)
     }
     
-    public init(
+    init(
         scrollBarEnabled: Bool? = nil,
         scrollDirection: ScrollAxis? = nil,
         context: Context? = nil,
@@ -56,14 +34,11 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
     ) {
         self.init(children: children(), scrollDirection: scrollDirection, scrollBarEnabled: scrollBarEnabled, context: context)
     }
-
 }
 
-public enum ScrollAxis: String, Decodable {
-    case vertical = "VERTICAL"
-    case horizontal = "HORIZONTAL"
+public extension ScrollAxis {
     
-    public var flexDirection: Flex.FlexDirection {
+    var flexDirection: Flex.FlexDirection {
         switch self {
         case .vertical:
             return .column

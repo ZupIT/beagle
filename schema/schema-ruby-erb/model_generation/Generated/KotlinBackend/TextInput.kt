@@ -20,6 +20,7 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
+import br.com.zup.beagle.action.ui.Action
 import br.com.zup.beagle.widget.core.TextInputType
 
 data class TextInput (
@@ -30,9 +31,9 @@ data class TextInput (
   public override val type: Bind<TextInputType>? = null,  
   public override val hidden: Bind<Boolean>? = null,  
   public override val styleId: String? = null,  
-  public override val onChange: List<Action>? = null,  
-  public override val onBlur: List<Action>? = null,  
-  public override val onFocus: List<Action>? = null   
+  public override val onChange: List<ActionSchema>? = null,  
+  public override val onBlur: List<ActionSchema>? = null,  
+  public override val onFocus: List<ActionSchema>? = null   
 ) : Widget(), TextInputSchema {
   constructor (    
     value: String? = null,      
@@ -42,9 +43,9 @@ data class TextInput (
     type: TextInputType? = null,      
     hidden: Boolean? = null,      
     styleId: String? = null,      
-    onChange: List<Action>? = null,      
-    onBlur: List<Action>? = null,      
-    onFocus: List<Action>? = null      
+    onChange: List<ActionSchema>? = null,      
+    onBlur: List<ActionSchema>? = null,      
+    onFocus: List<ActionSchema>? = null      
   ) : this (    
       valueOfNullable(value),      
       valueOfNullable(placeholder),      

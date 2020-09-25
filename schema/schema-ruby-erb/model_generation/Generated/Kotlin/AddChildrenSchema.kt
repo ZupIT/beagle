@@ -1,4 +1,4 @@
-//
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,28 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package br.com.zup.beagle.widget.core
 
-import Foundation
 
-/// Action to represent a alert
-public struct Alert: RawAction, AutoInitiableAndDecodable {
-    
-    public let title: Expression<String>?
-    public let message: Expression<String>
-    public let onPressOk: RawAction?
-    public let labelOk: String?
 
-// sourcery:inline:auto:Alert.Init
-    public init(
-        title: Expression<String>? = nil,
-        message: Expression<String>,
-        onPressOk: RawAction? = nil,
-        labelOk: String? = nil
-    ) {
-        self.title = title
-        self.message = message
-        self.onPressOk = onPressOk
-        self.labelOk = labelOk
-    }
-// sourcery:end
+
+interface AddChildrenSchema {
+  public val componentId: String
+  public val value: List<ServerDrivenComponent>
+  public val mode: Mode 
 }

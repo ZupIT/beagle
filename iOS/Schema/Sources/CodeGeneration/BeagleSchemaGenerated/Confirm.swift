@@ -1,4 +1,4 @@
-//
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,19 +15,16 @@
  * limitations under the License.
  */
 
-import Foundation
-
 /// Action that represents confirm
-public struct Confirm: RawAction, AutoInitiableAndDecodable {
-    
-    public let title: Expression<String>?
-    public let message: Expression<String>
-    public let onPressOk: RawAction?
-    public let onPressCancel: RawAction?
-    public let labelOk: String?
-    public let labelCancel: String?
+public struct Confirm: RawAction, AutoDecodable {
 
-// sourcery:inline:auto:Confirm.Init
+    public var title: Expression<String>?
+    public var message: Expression<String>
+    public var onPressOk: RawAction?
+    public var onPressCancel: RawAction?
+    public var labelOk: String?
+    public var labelCancel: String?
+
     public init(
         title: Expression<String>? = nil,
         message: Expression<String>,
@@ -43,5 +40,13 @@ public struct Confirm: RawAction, AutoInitiableAndDecodable {
         self.labelOk = labelOk
         self.labelCancel = labelCancel
     }
-// sourcery:end
+    
+    public enum Mode: String, Decodable {
+    
+        case append
+        case prepend
+        case replace
+    
+    }
+
 }

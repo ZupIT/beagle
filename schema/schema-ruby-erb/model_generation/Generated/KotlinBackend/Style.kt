@@ -21,17 +21,15 @@ import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.core.PositionType
-import br.com.zup.beagle.core.Display
 
 data class Style (
   public override val backgroundColor: String? = null,  
-  public override val cornerRadius: CornerRadius? = null,  
-  public override val size: Size? = null,  
-  public override val margin: EdgeValue? = null,  
-  public override val padding: EdgeValue? = null,  
-  public override val position: EdgeValue? = null,  
+  public override val cornerRadius: CornerRadiusSchema? = null,  
+  public override val size: SizeSchema? = null,  
+  public override val margin: EdgeValueSchema? = null,  
+  public override val padding: EdgeValueSchema? = null,  
+  public override val position: EdgeValueSchema? = null,  
   public override val positionType: PositionType? = null,  
   public override val display: Display? = null,  
-  public override val flex: Flex? = null   
+  public override val flex: FlexSchema? = null   
 ) : StyleSchema 

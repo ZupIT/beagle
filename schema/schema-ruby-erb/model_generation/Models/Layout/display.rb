@@ -26,8 +26,8 @@ class Display < BaseComponent
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.core",
-            :inheritFrom => [BasicTypeKeys.string]
+            :package => "br.com.zup.beagle.widget.core",
+            :inheritFrom => [TypesToString.string]
         )
 
         super(synthax_type)

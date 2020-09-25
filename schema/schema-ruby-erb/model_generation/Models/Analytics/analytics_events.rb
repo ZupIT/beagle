@@ -20,7 +20,7 @@ class AnalyticsEvent < BaseComponent
 
     def initialize
         synthax_type = BuiltInType.new(
-            :type => BasicTypeKeys.interface,
+            :type => TypesToString.interface,
             :name => self.name,
             :package => "br.com.zup.beagle.widget.core"
         )

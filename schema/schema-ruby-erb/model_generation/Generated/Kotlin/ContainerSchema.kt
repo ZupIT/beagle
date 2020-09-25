@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.layout
 
 
+
+import br.com.zup.beagle.action.ui.ActionSchema
+
 interface ContainerSchema {
   public val children: List<Widget>
-  public val onInit: List<Action>?
+  public val onInit: List<ActionSchema>?
   public val context: Context? 
 }

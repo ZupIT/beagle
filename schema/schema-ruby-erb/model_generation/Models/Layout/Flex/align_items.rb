@@ -29,7 +29,7 @@ class AlignItems < BaseComponent
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :inheritFrom => [BasicTypeKeys.string],
+            :inheritFrom => [TypesToString.string],
             :package => "br.com.zup.beagle.widget.core"
         )
 
