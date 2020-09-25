@@ -40,14 +40,14 @@ public struct TabBarItem: Decodable, AutoInitiable {
     public let icon: StringOrExpression?
     public let title: String?
 
-    // sourcery:inline:auto:TabBarItem.Init
-        public init(
-            icon: StringOrExpression? = nil,
-            title: String? = nil
-        ) {
-            self.icon = icon
-            self.title = title
-        }
+// sourcery:inline:auto:TabBarItem.Init
+    public init(
+        icon: StringOrExpression? = nil,
+        title: String? = nil
+    ) {
+        self.icon = icon
+        self.title = title
+    }
 // sourcery:end
     
     enum CodingKeys: String, CodingKey {
