@@ -18,8 +18,7 @@
 package br.com.zup.beagle.widget.core
 
 
-
 interface AccessibilitySchema {
   public val accessibilityLabel: String?
-  public val accessible: Bool 
+  public val accessible: Boolean 
 }

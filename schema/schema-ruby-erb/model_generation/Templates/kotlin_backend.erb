@@ -18,47 +18,59 @@
   require_relative 'Templates/template_helper.rb'
 
   @templateHelper = TemplateHelper.new
-  @templateHelper.languageIdentifier = SupportedLanguages.new.kotlinBackend
+  @templateHelper.languageIdentifier = SupportedLanguages.new.kotlin
   @templateHelper.defaultDeclarationType = "data class"
 
   def handleTypeNameAndDefault(variable, shouldAddComma = false)
-      output = variable.isBindable ? "Bind<#{variable.typeName}>" : variable.typeName
-      output = variable.class == List ? "List<#{output}>" : output
-      output = variable.isOptional ? output + "?" : output
-      output = !variable.defaultValue.empty? ? "#{output} = #{variable.defaultValue}" : output
-      output = shouldAddComma ? output + "," : output
-      output
+    default = getVariableDefault(variable)
+    output = @templateHelper.fetch_type(variable.typeName)
+    output = variable.isBindable ? "Bind<#{output}>" : output
+    output = variable.class == List ? "List<#{output}>" : output
+    output = variable.isOptional ? output + "?" : output
+    output = !default.empty? ? "#{output} = #{default}" : output
+    output = shouldAddComma ? output + "," : output
+    output
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = variable.class == List ? "List<#{variable.typeName}>" : variable.typeName
-    output = variable.isOptional ? output + "? = null" : output
+    default = getVariableDefault(variable)
+    output = @templateHelper.fetch_type(variable.typeName)
+    output = variable.class == List ? "List<#{output}>" : output
+    output = variable.isOptional ? output + "?" : output
+    output = !default.empty? ? "#{output} = #{default}" : output
     output = shouldAddComma ?  output + "," : output
     output
   end
 
   def handleVariableAssignementInsideConstructor(variable, shouldAddComma = false)
-    output = variable.isBindable ? "valueOf(#{variable.name})" : variable.name
+    bind_helper = variable.isOptional ? "valueOfNullable" : "valueOf"
+    output = variable.isBindable ? "#{bind_helper}(#{variable.name})" : variable.name
     output = shouldAddComma ? output + "," : output
     output
   end
 
-  def getImports(variables, importManager)
-    variables.map { | variable| importManager[variable.typeName] }.uniq.filter { |import| !import.empty? }
+  def getVariableDefault(variable)
+    variable.defaultValue.empty? && variable.isOptional ? "null" : variable.defaultValue
+  end
+
+  def getSuperClasses(type)
+    # TODO handle this in general Kotlin when all supertypes are defined with schema
+    (type.inheritFrom << "#{type.name}Schema").map { |parent| parent == Widget.new.name ? "#{parent}()" : parent }.join(", ")
   end
 -%>
 
-package <%= objectType.synthax_type.package -%>
-<% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
+package <%= objectType.synthax_type.package %>
+
+<% if objectType.synthax_type.variables.any? { |variable| variable.isBindable } -%>
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 <% end -%>
-<% end %><% -%>
-
-<% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
-import <%= qualifiedName -%>
-
+<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, import_manager) -%>
+import <%= qualifiedName %>
+<% end -%>
+<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
+import <%= qualifiedName %>
 <% end -%>
 
 data class <%= objectType.synthax_type.name -%> (<% -%>
@@ -67,7 +79,7 @@ data class <%= objectType.synthax_type.name -%> (<% -%>
   <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeNameAndDefault(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
   <% counter += 1 -%>
 <% end -%> 
-) : <%= objectType.synthax_type.name -%>Schema {
+) : <%= getSuperClasses(objectType.synthax_type) -%> <% if objectType.synthax_type.variables.any?(&:isBindable) -%>{
   constructor (<% -%>
   <% counter = 0 -%>
   <% for variable in objectType.synthax_type.variables %>
@@ -81,5 +93,4 @@ data class <%= objectType.synthax_type.name -%> (<% -%>
     <% counter += 1 -%>
   <% end %>
   )
-}<% -%>
-<% end %>
+}<% end -%>

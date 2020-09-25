@@ -16,16 +16,16 @@
  */
 
 package br.com.zup.beagle.widget.ui
+
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
-
 import br.com.zup.beagle.widget.core.ImageContentMode
 
 data class Image (
   public override val path: Bind<ImagePath>,  
-  public override val mode: ImageContentMode?   
-) : ImageSchema {
+  public override val mode: ImageContentMode? = null   
+) : Widget(), ImageSchema {
   constructor (    
     path: ImagePath,      
     mode: ImageContentMode? = null      

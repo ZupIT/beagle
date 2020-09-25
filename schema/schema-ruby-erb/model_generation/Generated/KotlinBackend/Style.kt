@@ -15,42 +15,23 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.core
 
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.core.PositionType
+import br.com.zup.beagle.core.Display
 
 data class Style (
-  public override val backgroundColor: String?,  
-  public override val cornerRadius: String?,  
-  public override val size: Size?,  
-  public override val margin: EdgeValue?,  
-  public override val padding: EdgeValue?,  
-  public override val position: EdgeValue?,  
-  public override val flex: Flex?,  
-  public override val positionType: PositionType?,  
-  public override val display: Display?   
-) : StyleSchema {
-  constructor (    
-    backgroundColor: String? = null,      
-    cornerRadius: String? = null,      
-    size: Size? = null,      
-    margin: EdgeValue? = null,      
-    padding: EdgeValue? = null,      
-    position: EdgeValue? = null,      
-    flex: Flex? = null,      
-    positionType: PositionType? = null,      
-    display: Display? = null      
-  ) : this (    
-      backgroundColor,      
-      cornerRadius,      
-      size,      
-      margin,      
-      padding,      
-      position,      
-      flex,      
-      positionType,      
-      display      
-  )
-}
+  public override val backgroundColor: String? = null,  
+  public override val cornerRadius: CornerRadius? = null,  
+  public override val size: Size? = null,  
+  public override val margin: EdgeValue? = null,  
+  public override val padding: EdgeValue? = null,  
+  public override val position: EdgeValue? = null,  
+  public override val positionType: PositionType? = null,  
+  public override val display: Display? = null,  
+  public override val flex: Flex? = null   
+) : StyleSchema 

@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.core
 
-import br.com.zup.beagle.widget.core.CornerRadiusSchema
+import br.com.zup.beagle.core.CornerRadiusSchema
 import br.com.zup.beagle.widget.core.SizeSchema
 import br.com.zup.beagle.widget.core.EdgeValueSchema
 import br.com.zup.beagle.widget.core.FlexSchema
-
+import br.com.zup.beagle.core.PositionType
+import br.com.zup.beagle.core.Display
 
 interface StyleSchema {
   public val backgroundColor: String?

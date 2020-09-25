@@ -20,10 +20,4 @@ package br.com.zup.beagle.widget.core
 
 data class AnalyticsScreen (
   public override val screenName: String   
-) : AnalyticsScreenSchema {
-  constructor (    
-    screenName: String      
-  ) : this (    
-      screenName      
-  )
-}
+) : AnalyticsEvent, AnalyticsScreenSchema 

@@ -16,42 +16,42 @@
  */
 
 package br.com.zup.beagle.widget.ui
+
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
-
 import br.com.zup.beagle.widget.core.TextInputType
 
 data class TextInput (
-  public override val value: Bind<String>?,  
-  public override val placeholder: Bind<String>?,  
-  public override val disabled: Bind<Bool>?,  
-  public override val readOnly: Bind<Bool>?,  
-  public override val type: Bind<TextInputType>?,  
-  public override val hidden: Bind<Bool>?,  
-  public override val styleId: String?,  
-  public override val onChange: List<Action>?,  
-  public override val onBlur: List<Action>?,  
-  public override val onFocus: List<Action>?   
-) : TextInputSchema {
+  public override val value: Bind<String>? = null,  
+  public override val placeholder: Bind<String>? = null,  
+  public override val disabled: Bind<Boolean>? = null,  
+  public override val readOnly: Bind<Boolean>? = null,  
+  public override val type: Bind<TextInputType>? = null,  
+  public override val hidden: Bind<Boolean>? = null,  
+  public override val styleId: String? = null,  
+  public override val onChange: List<Action>? = null,  
+  public override val onBlur: List<Action>? = null,  
+  public override val onFocus: List<Action>? = null   
+) : Widget(), TextInputSchema {
   constructor (    
     value: String? = null,      
     placeholder: String? = null,      
-    disabled: Bool? = null,      
-    readOnly: Bool? = null,      
+    disabled: Boolean? = null,      
+    readOnly: Boolean? = null,      
     type: TextInputType? = null,      
-    hidden: Bool? = null,      
+    hidden: Boolean? = null,      
     styleId: String? = null,      
     onChange: List<Action>? = null,      
     onBlur: List<Action>? = null,      
     onFocus: List<Action>? = null      
   ) : this (    
-      valueOf(value),      
-      valueOf(placeholder),      
-      valueOf(disabled),      
-      valueOf(readOnly),      
-      valueOf(type),      
-      valueOf(hidden),      
+      valueOfNullable(value),      
+      valueOfNullable(placeholder),      
+      valueOfNullable(disabled),      
+      valueOfNullable(readOnly),      
+      valueOfNullable(type),      
+      valueOfNullable(hidden),      
       styleId,      
       onChange,      
       onBlur,      

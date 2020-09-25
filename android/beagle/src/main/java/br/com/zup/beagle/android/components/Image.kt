@@ -33,6 +33,8 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.ImageContentMode
+import br.com.zup.beagle.widget.ui.ImagePathSchema
+import br.com.zup.beagle.widget.ui.ImageSchema
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -43,9 +45,9 @@ data class Image
     " be removed in a future version. Use constructor without bind",
     replaceWith = ReplaceWith("Image(path, null)"))
 constructor(
-    val path: Bind<ImagePath>,
-    val mode: ImageContentMode? = null
-) : WidgetView() {
+    override val path: Bind<ImagePath>,
+    override val mode: ImageContentMode? = null
+) : WidgetView(), ImageSchema {
 
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
 
@@ -125,7 +127,7 @@ constructor(
 
 }
 
-sealed class ImagePath {
+sealed class ImagePath : ImagePathSchema {
     data class Local(val mobileId: Bind<String>) : ImagePath() {
         constructor(mobileId: String) : this(expressionOrValueOf(mobileId))
     }

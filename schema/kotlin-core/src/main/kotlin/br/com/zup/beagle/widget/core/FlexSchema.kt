@@ -15,11 +15,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.core.UnitValueSchema
 
-interface TextSchema {
-    val text: Bind<String>
-    val styleId: String?
+interface FlexSchema {
+  public val flexDirection: FlexDirection?
+  public val flexWrap: FlexWrap?
+  public val justifyContent: JustifyContent?
+  public val alignItems: AlignItems?
+  public val alignSelf: AlignSelf?
+  public val alignContent: AlignContent?
+  public val basis: UnitValueSchema?
+  public val flex: Double?
+  public val grow: Double?
+  public val shrink: Double? 
 }

@@ -30,13 +30,14 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.layout.ContainerSchema
 
 @RegisterWidget
 data class Container(
     override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     override val onInit: List<Action>? = null
-) : WidgetView(), ContextComponent, MultiChildComponent, OnInitableComponent {
+) : WidgetView(), ContextComponent, MultiChildComponent, OnInitableComponent, ContainerSchema {
 
     @Transient
     private val viewFactory = ViewFactory()

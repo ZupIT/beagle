@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
-// todo implement enum logic
+package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.action.ActionSchema
 
-data class TextInputType (
-// todo implement enum logic
+interface ButtonSchema {
+    val text: BindAttribute<String>
+    val styleId: String?
+    val onPress: List<ActionSchema>?
+}

@@ -38,22 +38,23 @@ import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
 import br.com.zup.beagle.widget.core.TextInputType.NUMBER
 import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
+import br.com.zup.beagle.widget.ui.TextInputSchema
 
 private const val VALUE_KEY = "value"
 
 @RegisterWidget
 data class TextInput(
-    val value: Bind<String>? = null,
-    val placeholder: Bind<String>? = null,
-    val disabled: Bind<Boolean>? = null,
-    val readOnly: Bind<Boolean>? = null,
-    val type: Bind<TextInputType>? = null,
-    val hidden: Bind<Boolean>? = null,
-    val styleId: String? = null,
-    val onChange: List<Action>? = null,
-    val onFocus: List<Action>? = null,
-    val onBlur: List<Action>? = null
-) : InputWidget() {
+    override val value: Bind<String>? = null,
+    override val placeholder: Bind<String>? = null,
+    override val disabled: Bind<Boolean>? = null,
+    override val readOnly: Bind<Boolean>? = null,
+    override val type: Bind<TextInputType>? = null,
+    override val hidden: Bind<Boolean>? = null,
+    override val styleId: String? = null,
+    override val onChange: List<Action>? = null,
+    override val onFocus: List<Action>? = null,
+    override val onBlur: List<Action>? = null
+) : InputWidget(), TextInputSchema {
 
     constructor(
         value: String? = null,

@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.schema
+package br.com.zup.beagle.core
 
-import br.com.zup.beagle.android.context.Bind
 
-interface TextSchema {
-    val text: Bind<String>
-    val styleId: String?
+
+enum class Display {
+  FLEX,
+  NONE
 }

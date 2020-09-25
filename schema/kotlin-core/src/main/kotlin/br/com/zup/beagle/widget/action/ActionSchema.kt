@@ -1,4 +1,3 @@
-// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,15 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.context.Bind
-
-interface ButtonSchema {
-    val text: Bind<String>
-    val styleId: String?
-    val onPress: List<Action>?
-    val clickAnalyticsEvent: ClickEvent?
-}
+interface ActionSchema

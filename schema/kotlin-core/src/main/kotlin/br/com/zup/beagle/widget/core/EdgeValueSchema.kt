@@ -16,8 +16,13 @@
  */
 
 package br.com.zup.beagle.widget.core
-// todo implement enum logic
 
-
-data class UnitType (
-// todo implement enum logic
+interface EdgeValueSchema {
+    val left: UnitValueSchema?
+    val top: UnitValueSchema?
+    val right: UnitValueSchema?
+    val bottom: UnitValueSchema?
+    val horizontal: UnitValueSchema?
+    val vertical: UnitValueSchema?
+    val all: UnitValueSchema?
+}

@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,40 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.UnitType.AUTO
-import br.com.zup.beagle.widget.core.UnitType.PERCENT
-import br.com.zup.beagle.widget.core.UnitType.REAL
-
-/**
- * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
- * @property value the numeric measurement value.
- * @property type the unit of measurement.
- */
 data class UnitValue(
-    val value: Double,
-    val type: UnitType
-)
-
-/**
- * This defines of a unit type;
- *
- * @property REAL
- * @property PERCENT
- * @property AUTO
- */
-enum class UnitType {
-    /**
-     * Apply the value based in platform, like android this represent dp.
-     */
-    REAL,
-
-    /**
-     * Apply the value based in percentage.
-     */
-    PERCENT,
-
-    /**
-     * TODO.
-     */
-    AUTO
-}
+    override val value: Double,
+    override val type: UnitType
+) : UnitValueSchema

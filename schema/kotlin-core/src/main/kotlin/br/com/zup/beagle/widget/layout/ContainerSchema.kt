@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.action.ActionSchema
+import br.com.zup.beagle.widget.context.ContextSchema
 
-
-enum class ImageContentModeSchema {
-  FIT_XY,
-  FIT_CENTER,
-  CENTER_CROP,
-  CENTER
+interface ContainerSchema {
+    val children: List<ServerDrivenComponent>
+    val onInit: List<ActionSchema>?
+    val context: ContextSchema?
 }

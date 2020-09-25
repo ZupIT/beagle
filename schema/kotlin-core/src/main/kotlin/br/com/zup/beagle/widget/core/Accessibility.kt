@@ -17,10 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
-
-
-enum class UnitTypeSchema {
-  AUTO,
-  REAL,
-  PERCENT
-}
+data class Accessibility(
+    override val accessibilityLabel: String? = null,
+    override val accessible: Boolean = true
+) : AccessibilitySchema

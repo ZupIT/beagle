@@ -79,7 +79,7 @@ class Style < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => "br.com.zup.beagle.core",
             :sameFileTypes => [PositionType.new, Display.new]
         )
 
