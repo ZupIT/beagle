@@ -18,9 +18,21 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.ImageContentMode
 
-data class Image(
-    override val path: ImagePath,
+data class Image
+@Deprecated(message = "Use constructor without bind", replaceWith = ReplaceWith("Image(path, null)"))
+constructor(
+    override val path: Bind<ImagePath>,
     override val mode: ImageContentMode? = null
-) : Widget(), ImageSchema
+) : Widget(), ImageSchema {
+    constructor(
+        path: ImagePath,
+        mode: ImageContentMode? = null
+    ) : this(
+        valueOf(path),
+        mode
+    )
+}

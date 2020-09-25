@@ -18,11 +18,12 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.widget.action.ActionSchema
 
 /**
  * Interface that represents actions in Beagle
  */
-interface Action {
+interface Action : ActionSchema {
 
     /**
      * Method executed when the function is triggered
