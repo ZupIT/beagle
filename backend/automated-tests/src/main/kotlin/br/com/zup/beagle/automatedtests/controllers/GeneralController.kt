@@ -16,8 +16,20 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
+import ACCESSIBILITY_ENDPOINT
+import ANALYTICS_ENDPOINT
+import EXPRESSION_ESCAPING_ENDPOINT
+import KOTLIN_DSL_ENDPOINT
+import SAFE_AREA_ENDPOINT
 import SCREEN_ACTION_CLICK_ENDPOINT
+import SCREEN_SAFE_AREA_FALSE_ENDPOINT
+import SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.BuilderKotlinDslScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ExpressionEscapingScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.AccessibilityScreenBuilder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -27,6 +39,26 @@ class GeneralController {
     @GetMapping(SCREEN_ACTION_CLICK_ENDPOINT)
     fun getActionClick() = ClickActionScreenBuilder.build()
 
+    @GetMapping(ANALYTICS_ENDPOINT)
+    fun getAnalyticsScreen() = AnalyticsScreenBuilder.build()
+
+    @GetMapping(SAFE_AREA_ENDPOINT)
+    fun getSampleSafeArea() = SafeAreaScreenBuilder.build()
+
+    @GetMapping(SCREEN_SAFE_AREA_TRUE_ENDPOINT)
+    fun getSampleSafeAreaTrue() = SafeAreaScreenBuilder.createScreen(true)
+
+    @GetMapping(SCREEN_SAFE_AREA_FALSE_ENDPOINT)
+    fun getSampleSafeAreaFalse() = SafeAreaScreenBuilder.createScreen(false)
+
+    @GetMapping(KOTLIN_DSL_ENDPOINT)
+    fun getKotlinDsl() = BuilderKotlinDslScreenBuilder.build()
+
+    @GetMapping(EXPRESSION_ESCAPING_ENDPOINT)
+    fun getExpressionEscaping() = ExpressionEscapingScreenBuilder.build()
+
+    @GetMapping(ACCESSIBILITY_ENDPOINT)
+    fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
 }
 
 
