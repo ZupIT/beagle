@@ -141,13 +141,13 @@ class ImageTests: XCTestCase {
             children: [
                 Image(.local("@{mobileId}"))
             ],
-            context: Context(id: "mobileId", value: "shuttle")
+            context: Context(id: "mobileId", value: "test_image_square-x")
         )
         
         //When
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependencies))
         
         // Then
-        assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 50, height: 50)))
+        assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 100, height: 100)))
     }
 }
