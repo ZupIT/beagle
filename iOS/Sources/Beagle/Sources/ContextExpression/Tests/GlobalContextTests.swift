@@ -36,13 +36,10 @@ final class GlobalContextTests: XCTestCase {
         let globalContext = dependencies.globalContext
         
         view1.setContext(globalContextWithDictionary)
-        var globalContextValue = globalContext.get(path: globalId)
-        
         XCTAssertEqual(view1.getContext(with: globalId)?.value.value, globalContextWithDictionary.value)
         
         view2.setContext(globalContext2)
-        globalContextValue = globalContext.get(path: nil)
-        
+        let globalContextValue = globalContext.get(path: nil)
         XCTAssertEqual(view1.getContext(with: globalId)?.value.value, globalContextValue)
     }
     
@@ -76,7 +73,5 @@ final class GlobalContextTests: XCTestCase {
         
         globalContext.clear(path: nil)
         XCTAssertEqual(view1.getContext(with: globalId)?.value.value, DynamicObject.empty)
-
     }
-    
 }
