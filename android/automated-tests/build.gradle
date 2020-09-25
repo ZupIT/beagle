@@ -23,23 +23,32 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'shot'
 
 android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.example.automated_tests"
+        applicationId "com.example.automatedTests"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         if (project.ext.has("screenshotTests")) {
-            testApplicationId "com.example.automated_tests.test"
+            testApplicationId "com.example.automatedTests.test"
             testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
         } else {
-            testApplicationId "com.example.automated_tests.cucumber.steps"
-            testInstrumentationRunner "com.example.automated_tests.cucumber.steps.Instrumentation"
+            testApplicationId "com.example.automatedTests.cucumber.steps"
+            testInstrumentationRunner "com.example.automatedTests.cucumber.steps.Instrumentation"
         }
         buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
     }

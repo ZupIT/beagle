@@ -72,7 +72,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-Tags:button"
+            argument = "-Tags:tabview"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

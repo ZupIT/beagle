@@ -87,6 +87,8 @@ class Dependencies : Plugin<Project> {
         const val mockk = "1.10.0"
 
         const val testRunner = "1.2.0"
+        const val testExt = "1.1.1"
+        const val espressoCore = "3.2.0"
         const val archCoreTesting = "2.1.0"
 
         const val incap = "0.3"
@@ -159,6 +161,10 @@ class Dependencies : Plugin<Project> {
         const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
         const val googleCompileTesting = "com.google.testing.compile:compile-testing:${Versions.googleCompileTesting}"
         const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
+        const val testRunner = "androidx.test:runner:${Versions.testRunner}"
+        const val testExt = "androidx.test.ext:junit:${Versions.testExt}"
+        const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
+        const val testRules = "androidx.test:rules:${Versions.testExt}"
     }
 
 }

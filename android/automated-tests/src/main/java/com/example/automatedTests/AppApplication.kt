@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.data.serializer.adapter.generic
+package com.example.automatedTests
 
-import com.squareup.moshi.internal.Util
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
+import android.app.Application
 
-object ParameterizedTypeFactory {
+class AppApplication: Application() {
 
-    fun new(rawType: Type, vararg typeArguments: Type?): ParameterizedType? {
-        require(typeArguments.isNotEmpty()) { "Missing type arguments for $rawType" }
-        return Util.ParameterizedTypeImpl(null, rawType, *typeArguments)
+    override fun onCreate() {
+        super.onCreate()
+        BeagleSetup().init(this)
     }
 
 }

@@ -25,7 +25,7 @@ class TabViewScreenSteps: CucumberStepsDefinition {
         }
         
         Given("^the app did load tabview screen$") { _, _ -> Void in
-            XCTAssertTrue(ScreenElements.TABVIEW_SCREEN_HEADER.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_1.element.exists)
         }
 
         Then("^my tabview components should render their respective tabs attributes correctly$") { _, _ -> Void in
