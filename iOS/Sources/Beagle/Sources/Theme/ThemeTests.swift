@@ -107,17 +107,16 @@ final class ThemeTests: XCTestCase {
         // Given
         let backgroundColor: UIColor = .clear
         let indicatorColor: UIColor = .blue
-        let tabItem = TabItem(title: "Tab 1", child: Text("Tab content"))
-        let view = TabViewUIComponent(
-            model: TabViewUIComponent.Model(tabIndex: 0, tabViewItems: [tabItem, tabItem]),
-            controller: BeagleControllerStub()
+        let tabItem = TabBarItem(title: "Tab")
+        let tabBar = TabBarUIComponent(
+            model: TabBarUIComponent.Model(tabIndex: 0, tabBarItems: [tabItem, tabItem])
         )
         
         // When
-        view |> BeagleStyle.tabView(backgroundColor: backgroundColor, indicatorColor: indicatorColor)
+        tabBar |> BeagleStyle.tabBar(backgroundColor: backgroundColor, indicatorColor: indicatorColor)
         
         //Then
-        XCTAssertEqual(backgroundColor, view.tabBar.backgroundColor)
-        XCTAssertEqual(indicatorColor, view.tabBar.containerIndicator.indicatorView.backgroundColor)
+        XCTAssertEqual(backgroundColor, tabBar.backgroundColor)
+        XCTAssertEqual(indicatorColor, tabBar.containerIndicator.indicatorView.backgroundColor)
     }
 }

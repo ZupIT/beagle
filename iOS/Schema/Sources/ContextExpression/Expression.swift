@@ -140,3 +140,22 @@ extension String {
         return result.replacingOccurrences(of: "\\@{", with: "@{")
     }
 }
+
+// MARK: ExpressibleByLiteral
+extension Expression: ExpressibleByStringLiteral {
+    public init(stringLiteral value: String) {
+        let escaped = value.escapeExpressions()
+        if let expression = SingleExpression(rawValue: value) {
+            self = .expression(.single(expression))
+        } else if let multiple = MultipleExpression(rawValue: value) {
+            self = .expression(.multiple(multiple))
+        } else if let value = escaped as? T {
+            self = .value(value)
+        } else {
+            assertionFailure("Error: invalid Expression syntax \(value)")
+            self = .expression(.multiple(MultipleExpression(nodes: [])))
+        }
+    }
+}
+
+extension Expression: ExpressibleByStringInterpolation {}

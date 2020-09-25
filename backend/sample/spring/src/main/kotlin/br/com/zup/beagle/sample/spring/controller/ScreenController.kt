@@ -50,6 +50,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SIMPLE_FORM_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_TAB_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_INPUT_ENDPOINT
@@ -75,6 +76,7 @@ import br.com.zup.beagle.sample.spring.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleScreenBuilderService
 import br.com.zup.beagle.sample.spring.service.SampleScrollViewService
 import br.com.zup.beagle.sample.spring.service.SampleSimpleFormService
+import br.com.zup.beagle.sample.spring.service.SampleTabBarService
 import br.com.zup.beagle.sample.spring.service.SampleTabViewService
 import br.com.zup.beagle.sample.spring.service.SampleTextService
 import br.com.zup.beagle.sample.spring.service.SampleTouchableService
@@ -94,6 +96,7 @@ class ScreenController(
     private val sampleTextService: SampleTextService,
     private val sampleImageService: SampleImageLocalService,
     private val sampleTabViewService: SampleTabViewService,
+    private val sampleTabBarService: SampleTabBarService,
     private val sampleListViewService: SampleListViewService,
     private val sampleScrollViewService: SampleScrollViewService,
     private val samplePageViewService: SamplePageViewService,
@@ -136,6 +139,9 @@ class ScreenController(
 
     @GetMapping(SCREEN_TAB_VIEW_ENDPOINT)
     fun getSampleTabViewView() = this.sampleTabViewService.createTabView()
+
+    @GetMapping(SCREEN_TAB_BAR_ENDPOINT)
+    fun getSampleTabBar() = this.sampleTabBarService.createTabBar()
 
     @GetMapping(SCREEN_LIST_VIEW_ENDPOINT)
     fun getSampleListView() = sampleListViewService.createListView()

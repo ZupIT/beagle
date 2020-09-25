@@ -116,8 +116,30 @@ fun makeTabItemJson() = """
     """
 
 fun makeCustomJson() = """
-    {
-        "_beagleComponent_": "custom:customWidget"
+     {
+          "arrayList": [
+                {
+                  "names": [
+                    "text"
+                  ]
+                }
+          ],
+          "pair": {
+                "first": {
+                  "names": [
+                    "text"
+                  ]
+                },
+                "second": "second"
+          },
+          "charSequence": "text",
+          "charArray": "text",
+          "personInterface": {
+                  "names": [
+                    "text"
+                  ]
+          },
+          "_beagleComponent_": "custom:customWidget"
     }
 """
 
@@ -181,6 +203,26 @@ fun makeNavigationActionJson() = """
     }
 """
 
+fun makeNavigationActionJsonWithExpression() = """
+    {
+      "_beagleAction_": "beagle:pushView",
+      "route": {
+        "url": "@{test}",
+        "shouldPrefetch": false
+      }
+    }
+"""
+
+fun makeNavigationActionJsonWithUrlHardcoded() = """
+    {
+      "_beagleAction_": "beagle:pushView",
+      "route": {
+        "url": "http://localhost:8080/test/example",
+        "shouldPrefetch": false
+      }
+    }
+"""
+
 fun makeAlertActionJson() = """
     {
         "_beagleAction_": "beagle:alert",
@@ -216,6 +258,27 @@ fun makeConfirmActionJson() = """
              "labelOk": "Ok"
         }
     }
+"""
+
+fun makeConditionalActionJson() = """
+   {
+      "_beagleAction_":"beagle:condition",
+      "condition":"@{sum(user, 21)}",
+      "onTrue":[
+         {
+            "_beagleAction_":"beagle:alert",
+            "title":"",
+            "message":"onTrue"
+         }
+      ],
+      "onFalse":[
+         {
+            "_beagleAction_":"beagle:alert",
+            "title":"",
+            "message":"onFalse"
+         }
+      ]
+   }
 """
 
 fun makeFormLocalActionJson() = """

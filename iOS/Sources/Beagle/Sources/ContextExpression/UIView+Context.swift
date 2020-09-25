@@ -229,7 +229,7 @@ extension UIView {
             if contextId == nil || contextId == binding.context {
                 return evaluate(for: expression)
             } else {
-                return transform(expressionLastValueMap[expression.rawValue] ?? .empty)
+                return transform(expressionLastValueMap[binding.rawValue] ?? .empty)
             }
         case let .value(.literal(literal)):
             return transform(literal.evaluate())

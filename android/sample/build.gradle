@@ -32,6 +32,7 @@ android {
 
         versionCode Dependencies.Releases.versionCode
         versionName Dependencies.Releases.versionName
+        multiDexEnabled true
 
         testInstrumentationRunner Dependencies.GeneralNames.sampleTestInstrumentationRunner
     }
@@ -49,6 +50,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -56,6 +61,7 @@ dependencies {
 
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
+    implementation Dependencies.GeneralLibraries.multidex
 
     debugImplementation project(Dependencies.Modules.preview)
 

@@ -49,8 +49,8 @@ data class SetContext(
 
     private fun toInternalSetContext(rootView: RootView, origin: View) = SetContextInternal(
         contextId = this.contextId,
-        value = evaluateExpression(rootView, origin, this.value) ?:
-            throw IllegalStateException("SetContext with id=${this.contextId} evaluated to null"),
+        value = evaluateExpression(rootView, origin, this.value)
+            ?: throw IllegalStateException("SetContext with id=${this.contextId} evaluated to null"),
         path = this.path
     )
 }

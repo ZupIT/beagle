@@ -56,7 +56,7 @@ extension UIView {
     ) {
         if let updatable = self as? OnStateUpdatable,
             updatable.onUpdateState(component: lazyLoaded) {
-            renderer.controller.dependencies.style(self).markDirty()
+            renderer.controller.setNeedsLayout(component: self)
         } else {
             DispatchQueue.main.async {
                 self.replace(with: lazyLoaded, renderer: renderer)
@@ -78,6 +78,6 @@ extension UIView {
         if renderer.controller.dependencies.style(self).isFlexEnabled {
             renderer.controller.dependencies.style(newView).isFlexEnabled = true
         }
-        renderer.controller.view.setNeedsLayout()
+        renderer.controller.setNeedsLayout(component: newView)
     }
 }
