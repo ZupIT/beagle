@@ -17,7 +17,7 @@
 public struct Context: AutoInitiableAndDecodable, Equatable, Encodable {
     
     public let id: String
-    public var value: DynamicObject
+    public let value: DynamicObject
     
 // sourcery:inline:auto:Context.Init
     public init(

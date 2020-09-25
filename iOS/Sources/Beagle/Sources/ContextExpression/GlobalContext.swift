@@ -43,40 +43,23 @@ public class DefaultGlobalContext: GlobalContext {
         globalId == id
     }
     
-    private func setValue(_ value: DynamicObject) {
-        context.value = Context(id: globalId, value: value)
-    }
-    
     public func set(value: DynamicObject, path: String? = nil) {
-        var contextValue = context.value.value
-        guard let path = path else {
+        guard let pathObject = Path(rawValue: path ?? "") else {
             context.value = Context(id: globalId, value: value)
             return
         }
-        contextValue.set(value, forPath: Path(nodes: [.key(path)]))
-        setValue(contextValue)
-        
+        var contextValue = context.value.value
+        contextValue.set(value, forPath: pathObject)
+        context.value = Context(id: globalId, value: contextValue)
     }
     
     public func get(path: String? = nil) -> DynamicObject {
-        
-        guard let path = path else {
-            return context.value.value
-        }
-        
-        return compilePath(Path(nodes: [.key(path)]), in: context.value.value)
+        let pathObject = Path(rawValue: path ?? "")
+//        return pathObject.evaluate
+        return nil
     }
     
     public func clear(path: String?) {
-        guard let path = path else {
-            setValue(nil)
-            context.value = Context(id: globalId, value: nil)
-            return
-        }
-        
-        let referencePath = Path(nodes: [.key(path)])
-        var nodes = referencePath.nodes[...]
-        setValue(context.value.value.clear(nodes: &nodes))
-        
+        set(value: nil, path: path)
     }
 }

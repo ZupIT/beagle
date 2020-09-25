@@ -30,13 +30,15 @@ final class GlobalContextTests: XCTestCase {
     private lazy var globalContext1 = Context(id: globalId, value: "First value")
     private lazy var globalContext2 = Context(id: globalId, value: "Second value")
     
-    private lazy var globalContextWithDictionary = Context(id: globalId, value: .dictionary([globalId: "Dictionary value"]))
+    private lazy var globalContextWithDictionary = Context(id: globalId, value: .dictionary([globalId: "First value"]))
     
     func testGetContext() {
         let globalContext = dependencies.globalContext
         
-        view1.setContext(globalContextWithDictionary)
-        XCTAssertEqual(view1.getContext(with: globalId)?.value.value, globalContextWithDictionary.value)
+        let globalContextValue1 = Context(id: globalId, value: globalContext.get(path: globalId))
+        
+        view1.setContext(globalContextValue1)
+        XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContextValue1)
         
         view2.setContext(globalContext2)
         let globalContextValue = globalContext.get(path: nil)
