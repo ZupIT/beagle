@@ -167,7 +167,6 @@
   end
 
   # Everything that is inside this method indicates something that need to be done only for swift
-  # Adding anything here implies in a difference between swift and other platforms, therefore, needs refactor.
   def preRun(object_type)
     if @template_helper.is_widget(object_type)
       object_type.synthax_type.variables.append(
@@ -193,6 +192,10 @@
 
     if [CornerRadius.new.name].include? object_type.synthax_type.name
       object_type.synthax_type.inheritFrom.append("AutoEquatable")
+    end
+
+    if [Alignment.new.name].include? object_type.synthax_type.name
+      object_type.synthax_type.inheritFrom.append("CaseIterable")
     end
 
   end

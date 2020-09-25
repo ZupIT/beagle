@@ -19,16 +19,30 @@ public struct Text: RawWidget, AutoDecodable {
 
     public var text: Expression<String>
     public var styleId: String?
+    public var alignment: Expression<Alignment>?
+    public var textColor: Expression<String>?
     public var widgetProperties: WidgetProperties
 
     public init(
         text: Expression<String>,
         styleId: String? = nil,
+        alignment: Expression<Alignment>? = nil,
+        textColor: Expression<String>? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.styleId = styleId
+        self.alignment = alignment
+        self.textColor = textColor
         self.widgetProperties = widgetProperties
+    }
+    
+    public enum Alignment: String, Decodable, CaseIterable {
+    
+        case left = "LEFT"
+        case right = "RIGHT"
+        case center = "CENTER"
+    
     }
 
 }

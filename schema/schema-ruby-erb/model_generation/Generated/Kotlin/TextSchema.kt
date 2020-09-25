@@ -22,5 +22,7 @@ import br.com.zup.beagle.widget.context.Bind
 
 interface TextSchema {
   public val text: Bind<String>
-  public val styleId: String? 
+  public val styleId: String?
+  public val alignment: Bind<Alignment>?
+  public val textColor: Bind<String>? 
 }
