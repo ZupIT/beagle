@@ -22,7 +22,16 @@ class NativeScreenTest: XCTestCase {
 
     func testNativeScreen() {
         let nativeScreen = NativeViewController()
-        assertSnapshot(matching: nativeScreen, as: .image(size: .init(width: 300, height: 400)))
+        
+        assertSnapshot(matching: nativeScreen, as: .image(size: .init(width: 414, height: 400)))
     }
-
+    
+    func testNativeScreenWithNavigation() {
+        let nativeScreen = NativeViewController()
+        nativeScreen.navigationItem.title = "Native"
+        let navigation = UINavigationController(rootViewController: nativeScreen)
+        
+        assertSnapshot(matching: navigation, as: .image(size: .init(width: 414, height: 420)))
+    }
+    
 }

@@ -37,10 +37,12 @@ extension ScreenComponent: ServerDrivenComponent {
 
     private func buildChildView(renderer: BeagleRenderer) -> UIView {
         let view = renderer.render(child)
-        let holder = UIView()
+        let holder = ScreenView()
         holder.addSubview(view)
         holder.style.setup(Style(flex: Flex(grow: 1)))
 
         return holder
     }
 }
+
+class ScreenView: UIView {}

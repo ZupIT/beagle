@@ -66,7 +66,7 @@ public struct RepositoryDefault: Repository {
     
     // MARK: Initialization
     
-    public init(dependencies: Dependencies ) {
+    public init(dependencies: Dependencies) {
         self.dependencies = dependencies
         self.networkCache = NetworkCache(dependencies: dependencies)
     }
@@ -88,7 +88,8 @@ public struct RepositoryDefault: Repository {
             return nil
         }
 
-        return dispatchRequest(path: url, type: .fetchComponent, additionalData: cache.additional) {  result in
+        let additional = cache.additional ?? additionalData
+        return dispatchRequest(path: url, type: .fetchComponent, additionalData: additional) {  result in
             let mapped = result
                 .flatMap { self.handleFetchComponent($0, cachedComponent: cache.data, url: url) }
 

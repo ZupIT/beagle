@@ -20,6 +20,9 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.TITLE_SCREEN
+import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
@@ -29,19 +32,21 @@ import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object ImageLocalScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
+        context = ContextData(id = "context", value = "informationImage"),
         navigationBar = NavigationBar(
             title = "Beagle Image",
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = Local.justMobile("informationImage"),
+                    image = Local.justMobile(expressionOf("@{context}")),
                     action = Alert(
                         title = "Image",
                         message = "This widget will define a image view natively using the server driven " +
@@ -56,7 +61,13 @@ object ImageLocalScreenBuilder : ScreenBuilder {
             children = listOf(
                 createText("Image").applyFlex(Flex(alignSelf = AlignSelf.CENTER)),
                 Image(Local.justMobile(LOGO_BEAGLE))) +
-                ImageContentMode.values().flatMap(this::createImageWithModeAndText)
+                ImageContentMode.values().flatMap(this::createImageWithModeAndText) +
+                Button(text = "Change icon menu", onPress = listOf(
+                    SetContext(
+                        contextId = "context",
+                        value = "beagle"
+                    )
+                ))
         )
     )
 
