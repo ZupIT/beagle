@@ -1,4 +1,4 @@
-//
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,25 +15,3 @@
  * limitations under the License.
  */
 
-import Foundation
-
-/// Action to represent a condition
-public struct Condition: RawAction, AutoInitiableAndDecodable {
-    
-    public let condition: Expression<Bool>
-    public let onTrue: [RawAction]?
-    public let onFalse: [RawAction]?
-
-// sourcery:inline:auto:Condition.Init
-    public init(
-        condition: Expression<Bool>,
-        onTrue: [RawAction]? = nil,
-        onFalse: [RawAction]? = nil
-    ) {
-        self.condition = condition
-        self.onTrue = onTrue
-        self.onFalse = onFalse
-    }
-// sourcery:end
-
-}
