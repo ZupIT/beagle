@@ -14,23 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.zup.beagle.core
 
-
-
-import br.com.zup.beagle.core.CornerRadiusSchema
-import br.com.zup.beagle.widget.core.SizeSchema
-import br.com.zup.beagle.widget.core.EdgeValueSchema
-import br.com.zup.beagle.widget.core.FlexSchema
-
-interface StyleSchema {
-  public val backgroundColor: String?
-  public val cornerRadius: CornerRadiusSchema?
-  public val size: SizeSchema?
-  public val margin: EdgeValueSchema?
-  public val padding: EdgeValueSchema?
-  public val position: EdgeValueSchema?
-  public val positionType: PositionType?
-  public val display: Display?
-  public val flex: FlexSchema? 
-}
+export type PositionType = 'RELATIVE' | 'ABSOLUTE'
