@@ -18,20 +18,54 @@
   # TODO: Secondary constructor in Analytics Screen is the same as the primary. It should only be generated if at least one field is bindable.
   require_relative 'Templates/template_helper.rb'
   @templateHelper = TemplateHelper.new
-  #@templateHelper.defaultDeclarationType = todo add default declaration type
+  @templateHelper.defaultDeclarationType = "interface"
   
-  def handleTypeName(variable, importManager)
+  def dictionary_variable_declaration(variable) 
+    type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
+    type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
+    type_name = "Map<#{type_of_key}, #{type_of_value}>"
+    type_name
+  end
+
+  def single_variable_declaration(variable, import_manager)
+    #type_name = @template_helper.fetch_type(variable.typeName)
+    type_name = import_manager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
+    type_name = adapt_type_name_to_kotlin_specific(type_name)
+    type_name
+  end
+
+  def variable_type_declaration(variable, import_manager)
     #todo variables now have default values!
-    output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
+    output = ""
+    if variable.instance_of? Dictionary
+      output = dictionary_variable_declaration(variable)
+    else
+      output = single_variable_declaration(variable, import_manager)
+    end
+    
     output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
     output
   end
 
-  def getImports(variables, importManager)
-    variables.map { | variable| importManager[variable.typeName] }.uniq.filter { |import| !import.empty? }
+  def getImports(variables, import_manager)
+    
+    variables
+      .select{|variable| !variable.instance_of? Dictionary}
+      .map { | variable| import_manager[variable.typeName] }
+      .uniq.filter { |import| !import.empty? }
+    
   end
+
+  def adapt_type_name_to_kotlin_specific(typeName)
+    if typeName.eql?("ContextData")
+      "Any"
+    else
+      typeName
+    end
+  end
+
 -%>
 
 package <%= objectType.synthax_type.package -%>
@@ -54,7 +88,7 @@ enum class <%= objectType.synthax_type.name -%>Schema {
 <% else %><% -%>
 interface <%= objectType.synthax_type.name -%>Schema {<% -%>
 <% for variable in objectType.synthax_type.variables %>
-  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, importManager) -%>
+  <%= variable.accessor %> val <%= variable.name %>: <%= variable_type_declaration(variable, importManager) -%>
 <% end -%> 
 }
 <% end %><% -%>

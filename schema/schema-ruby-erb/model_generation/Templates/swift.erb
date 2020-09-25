@@ -55,7 +55,7 @@
     type_name = variable.isOptional ? type_name + "?" : type_name
     type_name
   end
-
+  
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
     output = variable_type_declaration(variable)
     if variable.isOptional && variable.defaultValue == ''
