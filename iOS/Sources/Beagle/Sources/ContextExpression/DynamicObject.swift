@@ -102,9 +102,35 @@ extension DynamicObject {
         let object = compilePath(path, in: value)
         self = mergeDynamicObjects(self, object)
     }
+    
+    mutating func clear(nodes: inout ArraySlice<Path.Node>) -> DynamicObject {
+        
+        guard let current = nodes.first else {
+            set(nil, forPath: Path(nodes: [.key("")]))
+            return self
+        }
+        
+        switch current {
+        case .key(let key):
+            guard case let .dictionary(dictionary) = self, dictionary[key] != nil else {
+                return self
+            }
+            nodes.removeFirst()
+            set(nil, forPath: Path(nodes: [.key(key)]))
+            return clear(nodes: &nodes)
+
+        case .index(let index):
+            guard case let .array(array) = self, array[safe: index] != nil else {
+                return self
+            }
+            nodes.removeFirst()
+            set(nil, forPath: Path(nodes: [.index(index)]))
+            return clear(nodes: &nodes)
+        }
+    }
 }
 
-private func compilePath(_ path: Path, in value: DynamicObject) -> DynamicObject {
+public func compilePath(_ path: Path, in value: DynamicObject) -> DynamicObject {
     guard let current = path.nodes.first else {
         return value
     }

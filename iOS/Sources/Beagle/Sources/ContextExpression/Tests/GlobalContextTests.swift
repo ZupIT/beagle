@@ -27,23 +27,23 @@ final class GlobalContextTests: XCTestCase {
     private var view1 = UIView()
     private var view2 = UIView()
     
-    private lazy var globalContext1 = Context(id: globalId, value: "Fist value")
+    private lazy var globalContext1 = Context(id: globalId, value: "First value")
     private lazy var globalContext2 = Context(id: globalId, value: "Second value")
+    
+    private lazy var globalContextWithDictionary = Context(id: globalId, value: .dictionary([globalId : "Dictionary value"]))
     
     func testGetContext() {
         let globalContext = dependencies.globalContext
         
-        view1.setContext(globalContext1)
-        var globalContextValue = globalContext.context.value
+        view1.setContext(globalContextWithDictionary)
+        var globalContextValue = globalContext.get(path: globalId)
         
-        XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContextValue)
-        XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContextValue)
+        XCTAssertEqual(view1.getContext(with: globalId)?.value.value, globalContextWithDictionary.value)
         
         view2.setContext(globalContext2)
-        globalContextValue = globalContext.context.value
+        globalContextValue = globalContext.get(path: nil)
         
-        XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContextValue)
-        XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContextValue)
+        XCTAssertEqual(view1.getContext(with: globalId)?.value.value, globalContextValue)
     }
     
     func testSetContextInViewWithGlobalId() {
@@ -60,15 +60,23 @@ final class GlobalContextTests: XCTestCase {
     func testSetContext() {
         let globalContext = dependencies.globalContext
         
-        globalContext.setValue(globalContext1.value)
-        
+        globalContext.set(value: globalContext1.value, path: globalId)
+        view1.setContext(globalContext1)
         XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContext1)
-        XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContext1)
-        
-        globalContext.setValue(globalContext2.value)
-        
+    
+        globalContext.set(value: globalContext2.value, path: nil)
         XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContext2)
-        XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContext2)
+    }
+    
+    func testClearContext() {
+        let globalContext = dependencies.globalContext
+        
+        globalContext.set(value: globalContext1.value, path: nil)
+        XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContext1)
+        
+        globalContext.clear(path: nil)
+        XCTAssertEqual(view1.getContext(with: globalId)?.value.value, DynamicObject.empty)
+
     }
     
 }

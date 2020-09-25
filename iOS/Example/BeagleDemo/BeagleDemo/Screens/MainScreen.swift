@@ -38,65 +38,70 @@ struct MainScreen: DeeplinkScreen {
     
     private func buildChild() -> ScrollView {
         return ScrollView {
+                Text("@{global.button}")
+                Button(
+                    text: "LIMPAR CONTEXTO",
+                    onPress: [ClearGlobalContextAction()]
+                )
                 Button(
                     text: "Navigator",
-                    onPress: [Navigate.openNativeRoute(.init(route: .navigateStep1Endpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .navigateStep1Endpoint)), SetContext(contextId: "global", path: "button", value: "Navigator")]
                 )
                 Button(
                     text: "Form & Lazy Component",
-                    onPress: [Navigate.openNativeRoute(.init(route: .lazyComponentEndpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .lazyComponentEndpoint)), SetContext(contextId: "global", path: "button", value: "Form & Lazy Component")]
                 )
                 Button(
                     text: "Page View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .pageViewEndpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .pageViewEndpoint)), SetContext(contextId: "global", path: "button", value: "Page View")]
                 )
                 Button(
                     text: "Tab View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .tabViewEndpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .tabViewEndpoint)), SetContext(contextId: "global", path: "button", value: "Tab View")]
                 )
                 Button(
                     text: "List View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .listViewEndpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .listViewEndpoint)), SetContext(contextId: "global", path: "button", value: "List View")]
                 )
                 Button(
                     text: "Form",
-                    onPress: [Navigate.openNativeRoute(.init(route: .formEndpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .formEndpoint)), SetContext(contextId: "global", path: "button", value: "Form")]
                 )
                 Button(
                     text: "Custom Component",
-                    onPress: [Navigate.openNativeRoute(.init(route: .customComponentEndpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .customComponentEndpoint)), SetContext(contextId: "global", path: "button", value: "Custom Component")]
                 )
                 Button(
                     text: "Web View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .webViewEndpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .webViewEndpoint)), SetContext(contextId: "global", path: "button", value: "Web View")]
                 )
                 Button(
                     text: "Send Request",
-                    onPress: [Navigate.pushView(.declarative(sendRequestDeclarativeScreen))]
+                    onPress: [Navigate.pushView(.declarative(sendRequestDeclarativeScreen)), SetContext(contextId: "global", path: "button", value: "Send Request")]
                 )
                 Button(
                     text: "Component Interaction",
-                    onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
+                    onPress: [Navigate.pushView(.declarative(componentInteractionScreen)), SetContext(contextId: "global", path: "button", value: "Component Interaction")]
                 )
                 Button(
                     text: "Context Operations",
-                    onPress: [Navigate.pushView(.declarative(operationsMenuScreen))]
+                    onPress: [Navigate.pushView(.declarative(operationsMenuScreen)), SetContext(contextId: "global", path: "button", value: "Context Operations")]
                 )
                 Button(
                     text: "Conditional Action",
-                    onPress: [Navigate.pushView(.declarative(conditionActionScreen))]
+                    onPress: [Navigate.pushView(.declarative(conditionActionScreen)), SetContext(contextId: "global", path: "button", value: "Conditional Action")]
                 )
                 Button(
                     text: "Simple Form",
-                    onPress: [Navigate.openNativeRoute(.init(route: .simpleFormEndpoint))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .simpleFormEndpoint)), SetContext(contextId: "global", path: "button", value: "Simple Form")]
                 )
                 Button(
                     text: "Add Children",
-                    onPress: [Navigate.pushView(.declarative(addChildrenScreen))]
+                    onPress: [Navigate.pushView(.declarative(addChildrenScreen)), SetContext(contextId: "global", path: "button", value: "Add Children")]
                 )
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.init(url: .value(.componentsEndpoint))))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .value(.componentsEndpoint)))), SetContext(contextId: "global", path: "button", value: "Sample BFF")]
                 )
         }
     }
@@ -105,5 +110,12 @@ struct MainScreen: DeeplinkScreen {
         return NavigationBar(
             title: "Beagle Demo"
         )
+    }
+}
+
+struct ClearGlobalContextAction: Action {
+    func execute(controller: BeagleController, origin: UIView) {
+        dependencies.globalContext.clear(path: "button")
+        controller.view.setNeedsLayout()
     }
 }

@@ -21,7 +21,10 @@ public protocol GlobalContext {
     var context: Observable<Context> { get }
     
     func isGlobal(id: String?) -> Bool
-    func setValue(_ value: DynamicObject)
+//    func setValue(_ value: DynamicObject)
+    func set(value: DynamicObject, path: String?)
+    func get(path: String?) -> DynamicObject
+    func clear(path: String?)
 }
 
 public protocol DependencyGlobalContext {
@@ -41,7 +44,40 @@ public class DefaultGlobalContext: GlobalContext {
         globalId == id
     }
     
-    public func setValue(_ value: DynamicObject) {
+    private func setValue(_ value: DynamicObject) {
         context.value = Context(id: globalId, value: value)
+    }
+    
+    public func set(value: DynamicObject, path: String? = nil) {
+        var contextValue = context.value.value
+        guard let path = path else {
+            context.value = Context(id: globalId, value: value)
+//            contextValue.set(value, forPath: Path(nodes: [.key("global")]))
+            return
+        }
+        contextValue.set(value, forPath: Path(nodes: [.key(path)]))
+        context.value = Context(id: globalId, value: contextValue)
+        
+    }
+    
+    public func get(path: String? = nil) -> DynamicObject {
+        
+        guard let path = path else {
+            return context.value.value
+        }
+        
+        return compilePath(Path(nodes: [.key(path)]), in: context.value.value)
+    }
+    
+    public func clear(path: String?) {
+        guard let path = path else {
+            context.value = Context(id: globalId, value: nil)
+            return
+        }
+        
+        let referencePath = Path(nodes: [.key(path)])
+        var nodes = referencePath.nodes[...]
+        context.value = Context(id: globalId, value: context.value.value.clear(nodes: &nodes))
+        
     }
 }
