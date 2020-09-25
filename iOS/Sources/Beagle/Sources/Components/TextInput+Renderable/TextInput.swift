@@ -115,12 +115,13 @@ extension TextInput: ServerDrivenComponent {
                updatedText = text.replacingCharacters(in: textRange, with: string)
             }
             
+            textField.text = updatedText
             textChanged(updatedText)
             
             let value: DynamicObject = .dictionary(["value": .string(updatedText ?? "")])
             controller?.execute(actions: onChange, with: "onChange", and: value, origin: self)
             
-            return true
+            return false
         }
     }
 }
