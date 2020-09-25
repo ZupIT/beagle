@@ -21,7 +21,6 @@ public protocol GlobalContext {
     var context: Observable<Context> { get }
     
     func isGlobal(id: String?) -> Bool
-//    func setValue(_ value: DynamicObject)
     func set(value: DynamicObject, path: String?)
     func get(path: String?) -> DynamicObject
     func clear(path: String?)
@@ -52,7 +51,6 @@ public class DefaultGlobalContext: GlobalContext {
         var contextValue = context.value.value
         guard let path = path else {
             context.value = Context(id: globalId, value: value)
-//            contextValue.set(value, forPath: Path(nodes: [.key("global")]))
             return
         }
         contextValue.set(value, forPath: Path(nodes: [.key(path)]))
