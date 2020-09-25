@@ -11,11 +11,11 @@ import XCTest
 
 class ImageScreenSteps: CucumberStepsDefinition {
     
-    var application : XCUIApplication!
+    var application: XCUIApplication!
     
     func loadSteps() {
   
-        before { (scenarioDefinition) in
+        before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("image") ?? false {
                 let url = "http://localhost:8080/image"
                 self.application = TestUtils.launchBeagleApplication(url: url)

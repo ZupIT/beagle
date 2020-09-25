@@ -11,13 +11,13 @@ import XCTest
 
 class ButtonScreenSteps: CucumberStepsDefinition {
     
-    var application : XCUIApplication!
+    var application: XCUIApplication!
     
     func loadSteps() {
     
         let screen = ScreenRobot()
         
-        before { (scenarioDefinition) in
+        before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("button") ?? false {
                 let url = "http://localhost:8080/button"
                 self.application = TestUtils.launchBeagleApplication(url: url)
@@ -29,8 +29,10 @@ class ButtonScreenSteps: CucumberStepsDefinition {
         }
 
         When("I click on button \"([^\\\"]*)\"$") { args, _ -> Void in
-            guard let button: String = args?[0] else { return }
-            screen.clickOnButton(button: ScreenElements(rawValue: button)!)
+            guard let button: String = args?[0],
+                  let element = ScreenElements(rawValue: button)
+                  else { return }
+            screen.clickOnButton(button: element)
         }
 
          Then("all my button components should render their respective text attributes correctly$") { _, _ -> Void in

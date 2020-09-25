@@ -11,11 +11,11 @@ import XCTest
 
 class PageViewScreenSteps: CucumberStepsDefinition {
     
-    var application : XCUIApplication!
+    var application: XCUIApplication!
     
     func loadSteps() {
     
-        before { (scenarioDefinition) in
+        before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("pageview") ?? false {
                 let url = "http://localhost:8080/pageview"
                 self.application = TestUtils.launchBeagleApplication(url: url)

@@ -11,13 +11,13 @@ import XCTest
 
 class TabViewScreenSteps: CucumberStepsDefinition {
     
-    var application : XCUIApplication!
+    var application: XCUIApplication!
     
     func loadSteps() {
     
         let screen = ScreenRobot()
         
-        before { (scenarioDefinition) in
+        before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("tabview") ?? false {
                 let url = "http://localhost:8080/tabview"
                 self.application = TestUtils.launchBeagleApplication(url: url)

@@ -23,7 +23,13 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.action.*
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.action.Confirm
+import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.action.SendRequest
+import br.com.zup.beagle.widget.action.RequestActionMethod
+import br.com.zup.beagle.widget.action.SubmitForm
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex

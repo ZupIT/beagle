@@ -11,11 +11,11 @@ import XCTest
 
 class ListViewScreenSteps: CucumberStepsDefinition {
     
-    var application : XCUIApplication!
+    var application: XCUIApplication!
     
     func loadSteps() {
         
-        before { (scenarioDefinition) in
+        before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("listview") ?? false {
                 let url = "http://localhost:8080/listview"
                 self.application = TestUtils.launchBeagleApplication(url: url)

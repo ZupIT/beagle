@@ -11,13 +11,13 @@ import XCTest
 
 class SimpleFormScreenSteps: CucumberStepsDefinition {
     
-    var application : XCUIApplication!
+    var application: XCUIApplication!
     
     func loadSteps() {
         
         let screen = ScreenRobot()
         
-        before { (scenarioDefinition) in
+        before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("simpleform") ?? false {
                 let url = "http://localhost:8080/simpleform"
                 self.application = TestUtils.launchBeagleApplication(url: url)
