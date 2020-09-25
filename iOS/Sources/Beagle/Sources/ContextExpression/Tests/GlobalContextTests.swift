@@ -30,7 +30,7 @@ final class GlobalContextTests: XCTestCase {
     private lazy var globalContext1 = Context(id: globalId, value: "First value")
     private lazy var globalContext2 = Context(id: globalId, value: "Second value")
     
-    private lazy var globalContextWithDictionary = Context(id: globalId, value: .dictionary([globalId : "Dictionary value"]))
+    private lazy var globalContextWithDictionary = Context(id: globalId, value: .dictionary([globalId: "Dictionary value"]))
     
     func testGetContext() {
         let globalContext = dependencies.globalContext

@@ -54,7 +54,7 @@ public class DefaultGlobalContext: GlobalContext {
             return
         }
         contextValue.set(value, forPath: Path(nodes: [.key(path)]))
-        context.value = Context(id: globalId, value: contextValue)
+        setValue(contextValue)
         
     }
     
@@ -69,13 +69,14 @@ public class DefaultGlobalContext: GlobalContext {
     
     public func clear(path: String?) {
         guard let path = path else {
+            setValue(nil)
             context.value = Context(id: globalId, value: nil)
             return
         }
         
         let referencePath = Path(nodes: [.key(path)])
         var nodes = referencePath.nodes[...]
-        context.value = Context(id: globalId, value: context.value.value.clear(nodes: &nodes))
+        setValue(context.value.value.clear(nodes: &nodes))
         
     }
 }
