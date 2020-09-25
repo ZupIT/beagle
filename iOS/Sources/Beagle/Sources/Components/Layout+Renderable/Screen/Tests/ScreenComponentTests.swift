@@ -93,7 +93,7 @@ final class ScreenComponentTests: XCTestCase {
     }
     
     func testNavigationBarItemWithContextOnImage() {
-        //Given
+        // Given
         let dependencies = BeagleDependencies()
         dependencies.appBundle = Bundle(for: ScreenComponentTests.self)
         
@@ -113,7 +113,7 @@ final class ScreenComponentTests: XCTestCase {
         ))
         
         // Then
-        assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 300, height: 200)))
+        assertSnapshotImage(controller.view, size: .custom(CGSize(width: 150, height: 80)))
     }
 
     func test_action_shouldBeTriggered() {
