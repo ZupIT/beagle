@@ -51,6 +51,8 @@ require_relative 'Models/Action/alert.rb'
 require_relative 'Models/Action/confirm.rb'
 require_relative 'Models/Action/send_request.rb'
 
+require_relative 'Models/ServerDriven/Lazy/lazy_component.rb'
+
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
 require_relative 'Templates/template_helper.rb'
@@ -138,7 +140,8 @@ class ModelGenerator
       Style.new.name, CornerRadius.new.name, ScrollAxis.new.name,
       TextInputType.new.name, ScrollView.new.name, ImageContentMode.new.name,
       TextInput.new.name, Action.new.name, UnknownAction.new.name,
-      Alert.new.name, Confirm.new.name, SendRequest.new.name
+      Alert.new.name, Confirm.new.name, SendRequest.new.name,
+      LazyComponent.new.name
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
@@ -199,6 +202,8 @@ if __FILE__ == $0
     AddChildren,
     Alert,
     Confirm,
+    # Lazy
+    LazyComponent,
   ]
   
   generator = ModelGenerator.new(components)
