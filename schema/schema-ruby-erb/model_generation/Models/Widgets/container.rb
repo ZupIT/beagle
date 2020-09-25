@@ -37,7 +37,7 @@ class Container < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.ui",
+            :package => "br.com.zup.beagle.widget.layout",
             :inheritFrom => [
                Widget.new.name,
                ContextComponent.new.name

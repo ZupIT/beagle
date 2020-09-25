@@ -14,16 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package br.com.zup.beagle.widget.core
 
-package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.context.Bind
 
-interface ButtonSchema {
-    val text: Bind<String>
-    val styleId: String?
-    val onPress: List<Action>?
-    val clickAnalyticsEvent: ClickEvent?
+
+
+enum class ImageContentMode {
+  FIT_XY,
+  FIT_CENTER,
+  CENTER_CROP,
+  CENTER
 }

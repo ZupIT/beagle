@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,25 +17,25 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.TextInputType
-import br.com.zup.beagle.widget.form.InputWidget
 
 data class TextInput(
-    val value: Bind<String>? = null,
-    val placeholder: Bind<String>? = null,
-    val disabled: Bind<Boolean>? = null,
-    val readOnly: Bind<Boolean>? = null,
-    val type: Bind<TextInputType>? = null,
-    val hidden: Bind<Boolean>? = null,
-    val styleId: String? = null,
-    val onChange: List<Action>? = null,
-    val onFocus: List<Action>? = null,
-    val onBlur: List<Action>? = null
-) : InputWidget() {
-    constructor(
+    override val value: Bind<String>? = null,
+    override val placeholder: Bind<String>? = null,
+    override val disabled: Bind<Boolean>? = null,
+    override val readOnly: Bind<Boolean>? = null,
+    override val type: Bind<TextInputType>? = null,
+    override val hidden: Bind<Boolean>? = null,
+    override val styleId: String? = null,
+    override val onChange: List<Action>? = null,
+    override val onBlur: List<Action>? = null,
+    override val onFocus: List<Action>? = null
+) : Widget(), TextInputSchema {
+    constructor (
         value: String? = null,
         placeholder: String? = null,
         disabled: Boolean? = null,
@@ -43,18 +44,18 @@ data class TextInput(
         hidden: Boolean? = null,
         styleId: String? = null,
         onChange: List<Action>? = null,
-        onFocus: List<Action>? = null,
-        onBlur: List<Action>? = null
+        onBlur: List<Action>? = null,
+        onFocus: List<Action>? = null
     ) : this(
-        value = valueOfNullable(value),
-        placeholder = valueOfNullable(placeholder),
-        disabled = valueOfNullable(disabled),
-        readOnly = valueOfNullable(readOnly),
-        type = valueOfNullable(type),
-        hidden = valueOfNullable(hidden),
-        styleId = styleId,
-        onChange = onChange,
-        onFocus = onFocus,
-        onBlur = onBlur
+        valueOfNullable(value),
+        valueOfNullable(placeholder),
+        valueOfNullable(disabled),
+        valueOfNullable(readOnly),
+        valueOfNullable(type),
+        valueOfNullable(hidden),
+        styleId,
+        onChange,
+        onBlur,
+        onFocus
     )
 }

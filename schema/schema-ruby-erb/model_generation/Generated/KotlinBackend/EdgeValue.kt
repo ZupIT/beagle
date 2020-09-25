@@ -20,29 +20,11 @@ package br.com.zup.beagle.widget.core
 import br.com.zup.beagle.widget.core.UnitValue
 
 data class EdgeValue (
-  public override val left: UnitValue?,  
-  public override val top: UnitValue?,  
-  public override val right: UnitValue?,  
-  public override val bottom: UnitValue?,  
-  public override val horizontal: UnitValue?,  
-  public override val vertical: UnitValue?,  
-  public override val all: UnitValue?   
-) : EdgeValueSchema {
-  constructor (    
-    left: UnitValue? = null,      
-    top: UnitValue? = null,      
-    right: UnitValue? = null,      
-    bottom: UnitValue? = null,      
-    horizontal: UnitValue? = null,      
-    vertical: UnitValue? = null,      
-    all: UnitValue? = null      
-  ) : this (    
-      left,      
-      top,      
-      right,      
-      bottom,      
-      horizontal,      
-      vertical,      
-      all      
-  )
-}
+  public override val left: UnitValueSchema? = null,  
+  public override val top: UnitValueSchema? = null,  
+  public override val right: UnitValueSchema? = null,  
+  public override val bottom: UnitValueSchema? = null,  
+  public override val horizontal: UnitValueSchema? = null,  
+  public override val vertical: UnitValueSchema? = null,  
+  public override val all: UnitValueSchema? = null   
+) : EdgeValueSchema 

@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.core
+
 
 
 
 interface AccessibilitySchema {
   public val accessibilityLabel: String?
-  public val accessible: Bool 
+  public val accessible: Boolean 
 }

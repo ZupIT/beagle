@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+package br.com.zup.beagle.widget.layout
 
-import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.action.ActionSchema
+import br.com.zup.beagle.widget.context.ContextSchema
 
-interface TextSchema {
-    val text: Bind<String>
-    val styleId: String?
+interface ContainerSchema {
+    val children: List<ServerDrivenComponent>
+    val onInit: List<ActionSchema>?
+    val context: ContextSchema?
 }

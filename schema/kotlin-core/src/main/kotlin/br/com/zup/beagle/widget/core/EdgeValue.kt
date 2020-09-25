@@ -17,10 +17,12 @@
 
 package br.com.zup.beagle.widget.core
 
-
-
-enum class UnitTypeSchema {
-  AUTO,
-  REAL,
-  PERCENT
-}
+data class EdgeValue(
+    override val left: UnitValue? = null,
+    override val top: UnitValue? = null,
+    override val right: UnitValue? = null,
+    override val bottom: UnitValue? = null,
+    override val horizontal: UnitValue? = null,
+    override val vertical: UnitValue? = null,
+    override val all: UnitValue? = null
+) : EdgeValueSchema

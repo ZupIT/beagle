@@ -17,9 +17,10 @@
 package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.widget.context.ContextSchema
 
 data class ContextData(
     val id: String,
     @property:ContextDataValue
     val value: Any // Should be a Number, String, Boolean, JSONObject or JSONArray
-)
+) : ContextSchema

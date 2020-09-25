@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,9 +18,9 @@
 package br.com.zup.beagle.widget.core
 
 enum class TextInputType {
-    DATE, // This attribute on iOS will have the same effect as NUMBER
+    DATE,
     EMAIL,
-    PASSWORD, // TEXT_PASSWORD
+    PASSWORD,
     NUMBER,
     TEXT
 }

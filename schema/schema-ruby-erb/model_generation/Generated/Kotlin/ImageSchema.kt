@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.widget.context.Bind
-import br.com.zup.beagle.widget.core.ImageContentModeSchema
 
+
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.core.ImageContentMode
 
 interface ImageSchema {
-  public val path: Bind<ImagePath>
-  public val mode: ImageContentModeSchema? 
+  public val path: BindAttribute<ImagePath>
+  public val mode: ImageContentMode? 
 }

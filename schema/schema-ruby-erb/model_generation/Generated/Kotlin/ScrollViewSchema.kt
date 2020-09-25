@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.ScrollAxisSchema
 
+
+import br.com.zup.beagle.widget.core.ScrollAxis
 
 interface ScrollViewSchema {
   public val children: List<ServerDrivenComponent>
-  public val scrollDirection: ScrollAxisSchema?
-  public val scrollBarEnabled: Bool?
+  public val scrollDirection: ScrollAxis?
+  public val scrollBarEnabled: Boolean?
   public val context: Context? 
 }

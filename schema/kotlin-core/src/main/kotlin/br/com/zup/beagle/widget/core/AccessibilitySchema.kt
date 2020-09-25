@@ -15,15 +15,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.schema
+package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.context.Bind
-
-interface ButtonSchema {
-    val text: Bind<String>
-    val styleId: String?
-    val onPress: List<Action>?
-    val clickAnalyticsEvent: ClickEvent?
+interface AccessibilitySchema {
+    val accessibilityLabel: String?
+    val accessible: Boolean
 }

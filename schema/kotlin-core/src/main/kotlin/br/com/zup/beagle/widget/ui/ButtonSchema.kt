@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.action.ActionSchema
 
-
-enum class ImageContentModeSchema {
-  FIT_XY,
-  FIT_CENTER,
-  CENTER_CROP,
-  CENTER
+interface ButtonSchema {
+    val text: BindAttribute<String>
+    val styleId: String?
+    val onPress: List<ActionSchema>?
 }

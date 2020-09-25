@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.UnitTypeSchema
 
+
+import br.com.zup.beagle.widget.core.UnitType
 
 interface UnitValueSchema {
   public val value: Double
-  public val type: UnitTypeSchema 
+  public val type: UnitType 
 }

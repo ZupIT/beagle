@@ -53,6 +53,7 @@ require_relative 'Models/Action/send_request.rb'
 
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
+require_relative 'Templates/template_helper.rb'
 
 # This is the main class of Beagle Schema
 class ModelGenerator
@@ -65,12 +66,20 @@ class ModelGenerator
     @erb = nil
     @writer = FileHandler.new
     @components = components
-    @importManager = Hash.new("")
+    @import_manager = Hash.new("")
+    @enum_import_manager = Hash.new("")
     @c = Constants.new
 
-    components.each do |component|
-      type = component.new.synthax_type
-      @importManager[type.name] = "#{type.package}.#{type.name}"
+    helper = TemplateHelper.new
+
+    components.each do |clazz|
+      component = clazz.new
+      type = component.synthax_type
+      if helper.is_enum(component)
+        @enum_import_manager[type.name] = "#{type.package}.#{type.name}"
+      else
+        @import_manager[type.name] = "#{type.package}.#{type.name}"
+      end
     end
   end
   
@@ -79,7 +88,10 @@ class ModelGenerator
   attr_accessor :objectType
 
   # @return [Hash]
-  attr_accessor :importManager
+  attr_accessor :import_manager
+
+  # @return [Hash]
+  attr_accessor :enum_import_manager
 
   # This method is used to trigger the logic for code generation inside the templates
   # @return [String] the result of this method return a string that will be saved in a file
@@ -97,19 +109,22 @@ class ModelGenerator
 
   # Generates models for kotlin
   def generate_kotlin
+    helper = TemplateHelper.new
     @erb = ERB.new(File.read("#{@c.templates}kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(@c.kotlin_path, @objectType.name + "Schema.kt", to_s)
+      suffix = helper.is_enum(@objectType) ? ".kt" : "Schema.kt"
+      @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
     end
   end
 
   # Generates models for kotlin backend
   def generate_kotlin_backend
+    helper = TemplateHelper.new
     @erb = ERB.new(File.read("#{@c.templates}kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      if @objectType.synthax_type.class == BaseType
+      if !helper.is_enum(@objectType)
         @writer.write(@c.kotlin_backend_path, @objectType.name + ".kt", to_s)
       end
     end
@@ -166,6 +181,8 @@ if __FILE__ == $0
     Style,
     UnitValue,
     UnitType,
+    Display,
+    PositionType,
     # Accessibility
     Accessibility,
     # Far from being usable

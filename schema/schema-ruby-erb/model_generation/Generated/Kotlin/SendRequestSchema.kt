@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.context.Bind
+
+
+import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.action.ui.ActionSchema
 
-
 interface SendRequestSchema {
-  public val url: Bind<String>
-  public val method: Bind<HTTPMethod>?
+  public val url: BindAttribute<String>
+  public val method: BindAttribute<HTTPMethod>?
   public val data: Any?
-  public val headers: Bind<Map<String, String>>?
+  public val headers: BindAttribute<Map<String, String>>?
   public val onSuccess: List<ActionSchema>?
   public val onError: List<ActionSchema>?
   public val onFinish: List<ActionSchema>? 

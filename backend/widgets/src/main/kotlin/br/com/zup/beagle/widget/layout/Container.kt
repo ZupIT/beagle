@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -19,17 +20,10 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 
-/**
- *  The container component is a general container that can hold other components inside.
- *
- * @param children define a list of components that are part of the container.
- *
- */
 data class Container(
-    val children: List<ServerDrivenComponent>,
-    override val context: ContextData? = null,
-    val onInit: List<Action>? = null
-) : Widget(), ContextComponent
+    override val children: List<ServerDrivenComponent>,
+    override val onInit: List<Action>? = null,
+    override val context: ContextData? = null
+) : Widget(), ContainerSchema

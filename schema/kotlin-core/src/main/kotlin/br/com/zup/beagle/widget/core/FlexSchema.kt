@@ -17,7 +17,17 @@
 
 package br.com.zup.beagle.widget.core
 
-enum class DisplaySchema {
-  FLEX,
-  NONE
+import br.com.zup.beagle.widget.core.UnitValueSchema
+
+interface FlexSchema {
+  public val flexDirection: FlexDirection?
+  public val flexWrap: FlexWrap?
+  public val justifyContent: JustifyContent?
+  public val alignItems: AlignItems?
+  public val alignSelf: AlignSelf?
+  public val alignContent: AlignContent?
+  public val basis: UnitValueSchema?
+  public val flex: Double?
+  public val grow: Double?
+  public val shrink: Double? 
 }

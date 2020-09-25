@@ -16,20 +16,26 @@
  */
 
 package br.com.zup.beagle.widget.ui
+
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 
-
 data class Text (
   public override val text: Bind<String>,  
-  public override val styleId: String?   
-) : TextSchema {
+  public override val styleId: String? = null,  
+  public override val alignment: Bind<Alignment>? = null,  
+  public override val textColor: Bind<String>? = null   
+) : Widget(), TextSchema {
   constructor (    
     text: String,      
-    styleId: String? = null      
+    styleId: String? = null,      
+    alignment: Alignment? = null,      
+    textColor: String? = null      
   ) : this (    
       valueOf(text),      
-      styleId      
+      styleId,      
+      valueOfNullable(alignment),      
+      valueOfNullable(textColor)      
   )
 }

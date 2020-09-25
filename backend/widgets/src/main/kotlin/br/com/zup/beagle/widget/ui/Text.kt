@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -22,32 +23,21 @@ import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.TextAlignment
 
-/**
- * A text widget will define a text view natively using the server driven information received through Beagle.
- *
- * @param text defines the text view content. This attribute must be declared and it cannot be null.
- * @param styleId
- *              will reference a style in your local styles file to be applied on this text view.
- *              This attribute can be set as null.
- * @param textColor defines the text color natively.
- * @param alignment defines the text content alignment inside the text view.
- *
- */
 data class Text(
     override val text: Bind<String>,
     override val styleId: String? = null,
     val textColor: Bind<String>? = null,
     val alignment: Bind<TextAlignment>? = null
 ) : Widget(), TextSchema {
-    constructor(
+    constructor (
         text: String,
         styleId: String? = null,
         textColor: String? = null,
         alignment: TextAlignment? = null
     ) : this(
-        text = valueOf(text),
-        styleId = styleId,
-        textColor = valueOfNullable(textColor),
-        alignment = valueOfNullable(alignment)
+        valueOf(text),
+        styleId,
+        valueOfNullable(textColor),
+        valueOfNullable(alignment)
     )
 }

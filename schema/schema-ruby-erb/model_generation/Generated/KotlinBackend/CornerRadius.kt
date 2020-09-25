@@ -15,15 +15,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.core
 
 
 data class CornerRadius (
-  public override val radius: Enum   
-) : CornerRadiusSchema {
-  constructor (    
-    radius: Enum      
-  ) : this (    
-      radius      
-  )
-}
+  public override val radius: Double   
+) : CornerRadiusSchema 

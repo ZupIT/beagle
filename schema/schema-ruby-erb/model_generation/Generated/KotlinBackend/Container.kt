@@ -15,21 +15,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.action.ui.Action
 
 data class Container (
   public override val children: List<Widget>,  
-  public override val onInit: List<Action>?,  
-  public override val context: Context?   
-) : ContainerSchema {
-  constructor (    
-    children: List<Widget>,      
-    onInit: List<Action>? = null,      
-    context: Context? = null      
-  ) : this (    
-      children,      
-      onInit,      
-      context      
-  )
-}
+  public override val onInit: List<ActionSchema>? = null,  
+  public override val context: Context? = null   
+) : Widget(), ContextComponent, ContainerSchema 

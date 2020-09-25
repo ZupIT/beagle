@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.widget.context.Bind
-import br.com.zup.beagle.widget.core.TextInputTypeSchema
-import br.com.zup.beagle.action.ui.ActionSchema
 
+
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.action.ui.ActionSchema
+import br.com.zup.beagle.widget.core.TextInputType
 
 interface TextInputSchema {
-  public val value: Bind<String>?
-  public val placeholder: Bind<String>?
-  public val disabled: Bind<Bool>?
-  public val readOnly: Bind<Bool>?
-  public val type: Bind<TextInputTypeSchema>?
-  public val hidden: Bind<Bool>?
+  public val value: BindAttribute<String>?
+  public val placeholder: BindAttribute<String>?
+  public val disabled: BindAttribute<Boolean>?
+  public val readOnly: BindAttribute<Boolean>?
+  public val type: BindAttribute<TextInputType>?
+  public val hidden: BindAttribute<Boolean>?
   public val styleId: String?
   public val onChange: List<ActionSchema>?
   public val onBlur: List<ActionSchema>?

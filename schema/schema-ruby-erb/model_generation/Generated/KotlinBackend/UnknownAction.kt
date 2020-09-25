@@ -16,8 +16,8 @@
  */
 
 package br.com.zup.beagle.widget.core
-// todo implement enum logic
 
 
-data class UnitType (
-// todo implement enum logic
+data class UnknownAction (
+  public override val type: String   
+) : Action, UnknownActionSchema 

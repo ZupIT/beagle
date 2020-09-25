@@ -19,4 +19,4 @@ package br.com.zup.beagle.widget.context
 data class ContextData(
     val id: String,
     val value: Any
-)
+) : ContextSchema

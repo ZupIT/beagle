@@ -1,4 +1,3 @@
-// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,9 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
-// todo implement enum logic
+package br.com.zup.beagle.widget.action
 
-
-data class ImageContentMode (
-// todo implement enum logic
+interface ActionSchema

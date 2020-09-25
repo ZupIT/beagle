@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.UnitValueSchema
 
+
+import br.com.zup.beagle.widget.core.UnitValueSchema
 
 interface FlexSchema {
   public val flexDirection: FlexDirection?

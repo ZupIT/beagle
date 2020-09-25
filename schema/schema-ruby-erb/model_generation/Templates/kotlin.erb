@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 <%
-  # TODO: Secondary constructor in Analytics Screen is the same as the primary. It should only be generated if at least one field is bindable.
   require_relative 'Templates/template_helper.rb'
+
   @template_helper = TemplateHelper.new
-  @template_helper.defaultDeclarationType = "interface"
   @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
+  @template_helper.defaultDeclarationType = TypesToString.interface
   
   def dictionary_variable_declaration(variable) 
     type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
@@ -30,7 +30,7 @@
 
   def single_variable_declaration(variable, import_manager)
     type_name = @template_helper.fetch_type(variable.typeName)
-    type_name = import_manager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
+    type_name = import_manager.has_key?(type_name) ? type_name + "Schema" : type_name
     type_name = adapt_type_name_to_kotlin_specific(type_name)
     type_name
   end
@@ -44,7 +44,7 @@
       output = single_variable_declaration(variable, import_manager)
     end
     
-    output = variable.isBindable ? "Bind<#{output}>" : output
+    output = variable.isBindable ? "BindAttribute<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
     output
@@ -66,31 +66,32 @@
       typeName
     end
   end
-
 -%>
+package <%= objectType.synthax_type.package %>
 
-package <%= objectType.synthax_type.package -%>
 
 
 <% default_declaration_type = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type) -%><% -%>
 <% if !@template_helper.is_enum(objectType) -%>
 <% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
-import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.core.BindAttribute
 <% end -%>
-<% for qualifiedName in getImports(objectType.synthax_type.variables, importManager) -%>
-import <%= qualifiedName -%>Schema
+<% for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager) -%>
+import <%= qualifiedName %>Schema
 <% end -%>
-
+<% for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
+import <%= qualifiedName %>
+<% end -%>
 <% end -%>
 
 <% if @template_helper.is_enum(objectType) %>
-<%=default_declaration_type-%> <%= objectType.synthax_type.name -%>Schema {
+<%=default_declaration_type-%> <%= objectType.synthax_type.name -%> {
   <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
 }
 <% else %><% -%>
 <%=default_declaration_type-%> <%= objectType.synthax_type.name -%>Schema {<% -%>
 <% for variable in objectType.synthax_type.variables %>
-  <%= variable.accessor %> val <%= variable.name %>: <%= variable_type_declaration(variable, importManager) -%>
+  <%= variable.accessor %> val <%= variable.name %>: <%= variable_type_declaration(variable, import_manager) -%>
 <% end -%> 
 }
 <% end %><% -%>

@@ -40,7 +40,7 @@ class BasicType < SupportedLanguages
         super
         @grammar = {
             TypesToString.string => {@swift => "String", @kotlin => "String"},
-            TypesToString.bool => {@swift => "Bool", @kotlin => "Bool"},
+            TypesToString.bool => {@swift => "Bool", @kotlin => "Boolean"},
             TypesToString.interface => {@swift => "protocol", @kotlin => "interface"},
             TypesToString.enum => {@swift => "enum", @kotlin => "enum class"}
         }
@@ -120,6 +120,13 @@ class TemplateHelper
     # @return [Bool] indicating wether the object is widget or not
     def is_widget(object_type)
         object_type.synthax_type.inheritFrom.include? Widget.new.name
+    end
+
+    def getImports(variables, import_manager)
+        variables
+            .select {|variable| !variable.instance_of? Dictionary }
+            .map { |variable| import_manager[variable.typeName] }
+            .uniq.filter { |import| !import.empty? }
     end
 
     # Given object_type, this functions returns if such an object is a server driven component or not

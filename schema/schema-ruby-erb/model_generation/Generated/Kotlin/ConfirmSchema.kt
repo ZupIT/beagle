@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.context.Bind
+
+
+import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.action.ui.ActionSchema
 
-
 interface ConfirmSchema {
-  public val title: Bind<String>?
-  public val message: Bind<String>
+  public val title: BindAttribute<String>?
+  public val message: BindAttribute<String>
   public val onPressOk: ActionSchema?
   public val onPressCancel: ActionSchema?
   public val labelOk: String?

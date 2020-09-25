@@ -17,12 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
-
-
-enum class TextInputTypeSchema {
-  DATE,
-  EMAIL,
-  PASSWORD,
-  NUMBER,
-  TEXT
-}
+data class Accessibility(
+    override val accessibilityLabel: String? = null,
+    override val accessible: Boolean = true
+) : AccessibilitySchema

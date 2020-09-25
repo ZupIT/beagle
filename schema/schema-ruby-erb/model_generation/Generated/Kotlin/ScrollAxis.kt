@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package br.com.zup.beagle.widget.core
 
-package br.com.zup.beagle.android.components.schema
 
-import br.com.zup.beagle.android.context.Bind
 
-interface TextSchema {
-    val text: Bind<String>
-    val styleId: String?
+
+
+enum class ScrollAxis {
+  VERTICAL,
+  HORIZONTAL
 }
