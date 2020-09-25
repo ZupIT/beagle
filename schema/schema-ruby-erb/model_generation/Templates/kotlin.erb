@@ -17,8 +17,9 @@
 <%
   # TODO: Secondary constructor in Analytics Screen is the same as the primary. It should only be generated if at least one field is bindable.
   require_relative 'Templates/template_helper.rb'
-  @templateHelper = TemplateHelper.new
-  @templateHelper.defaultDeclarationType = "interface"
+  @template_helper = TemplateHelper.new
+  @template_helper.defaultDeclarationType = "interface"
+  @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
   
   def dictionary_variable_declaration(variable) 
     type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
@@ -71,7 +72,8 @@
 package <%= objectType.synthax_type.package -%>
 
 
-<% if !@templateHelper.is_enum(objectType) -%>
+<% default_declaration_type = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type) -%><% -%>
+<% if !@template_helper.is_enum(objectType) -%>
 <% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 <% end -%>
@@ -81,12 +83,12 @@ import <%= qualifiedName -%>Schema
 
 <% end -%>
 
-<% if @templateHelper.is_enum(objectType) %>
-enum class <%= objectType.synthax_type.name -%>Schema {
+<% if @template_helper.is_enum(objectType) %>
+<%=default_declaration_type-%> <%= objectType.synthax_type.name -%>Schema {
   <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
 }
 <% else %><% -%>
-interface <%= objectType.synthax_type.name -%>Schema {<% -%>
+<%=default_declaration_type-%> <%= objectType.synthax_type.name -%>Schema {<% -%>
 <% for variable in objectType.synthax_type.variables %>
   <%= variable.accessor %> val <%= variable.name %>: <%= variable_type_declaration(variable, importManager) -%>
 <% end -%> 

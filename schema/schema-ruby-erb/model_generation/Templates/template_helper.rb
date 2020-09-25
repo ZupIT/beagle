@@ -83,7 +83,7 @@ class TemplateHelper
         end
     end
 
-    # Given object_type, this functions returns if such an object is enum or not
+    # Fetches a built in type if specified inside grammar in BasicType and if the languageIdentifer exists
     #
     # @param key [String] type identifier
     # @return [String] converted string to specified language or the key itself
