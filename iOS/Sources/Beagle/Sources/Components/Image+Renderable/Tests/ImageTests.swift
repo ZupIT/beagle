@@ -134,7 +134,7 @@ class ImageTests: XCTestCase {
     
     func testImageLeak() {
         // Given
-        let component = Image(.remote(.init(url: "@{img.path}")))
+        let component = Image(.remote(.init(url: "@{img.path}")), mode: .fitXY)
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(component.toScreen()), dependencies: BeagleDependencies()))
         
         var view = component.toView(renderer: controller.renderer)

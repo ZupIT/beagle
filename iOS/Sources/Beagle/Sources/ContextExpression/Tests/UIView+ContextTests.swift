@@ -141,12 +141,12 @@ final class UIViewContextTests: XCTestCase {
     
     func testConfigBindingShouldNotRetainTheView() {
         // Given
-        var view: UILabel? = UILabel()
+        var view: UIView? = UIView()
         weak var weakReference = view
-        
+
         let contextId = "context"
         view?.setContext(Context(id: contextId, value: .empty))
-        
+
         let binding = Binding(context: contextId, path: .init(nodes: []))
         let singleExpression = SingleExpression.value(.binding(binding))
         let multipleExpression = MultipleExpression(nodes: [.expression(singleExpression)])
