@@ -255,6 +255,9 @@ public class BeagleScreenViewController: BeagleController {
 extension BeagleControllerProtocol where Self: UIViewController {
     public func setNeedsLayout(component: UIView) {
         dependencies.style(component).markDirty()
+        if let beagleView = view.superview as? BeagleView {
+            beagleView.invalidateIntrinsicContentSize()
+        }
         viewIfLoaded?.setNeedsLayout()
     }
 }
