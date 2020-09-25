@@ -20,7 +20,7 @@ public struct SendRequest: RawAction, AutoDecodable {
     public var url: Expression<String>
     public var method: Expression<HTTPMethod>?
     public var data: DynamicObject?
-    public var headers: Expression<[String : String]>?
+    public var headers: Expression<[String: String]>?
     public var onSuccess: [RawAction]?
     public var onError: [RawAction]?
     public var onFinish: [RawAction]?
@@ -29,7 +29,7 @@ public struct SendRequest: RawAction, AutoDecodable {
         url: Expression<String>,
         method: Expression<HTTPMethod>? = nil,
         data: DynamicObject? = nil,
-        headers: Expression<[String : String]>? = nil,
+        headers: Expression<[String: String]>? = nil,
         onSuccess: [RawAction]? = nil,
         onError: [RawAction]? = nil,
         onFinish: [RawAction]? = nil

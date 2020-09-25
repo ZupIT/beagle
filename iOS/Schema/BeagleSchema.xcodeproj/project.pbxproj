@@ -24,6 +24,7 @@
 		1D5CF9DA251A8C5500395A09 /* UnknownAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9D8251A8C5500395A09 /* UnknownAction.swift */; };
 		1D5CF9DC251A955300395A09 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9DB251A955300395A09 /* Alert.swift */; };
 		1D5CF9DE251A976400395A09 /* Confirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9DD251A976400395A09 /* Confirm.swift */; };
+		1D5CF9E1251E35A600395A09 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5CF9E0251E35A600395A09 /* SendRequest.swift */; };
 		252D727524D84AEF0069541F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727424D84AEF0069541F /* Binding.swift */; };
 		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		257FC9F924DCA75300F2157C /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9F824DCA75300F2157C /* Value.swift */; };
@@ -35,7 +36,7 @@
 		6E71540924B3A7860025B850 /* simpleFormComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E71540824B3A7860025B850 /* simpleFormComponent.json */; };
 		6EB3368224A52AB5000A9D17 /* SubmitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368124A52AB5000A9D17 /* SubmitForm.swift */; };
 		6EB3368724A52BB4000A9D17 /* SimpleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368624A52BB4000A9D17 /* SimpleForm.swift */; };
-		7685B041249A852A007EDED0 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B040249A852A007EDED0 /* SendRequest.swift */; };
+		7685B041249A852A007EDED0 /* SendRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B040249A852A007EDED0 /* SendRequest+Extension.swift */; };
 		7C7B249524C7950E005A4D3D /* TabBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B249424C7950E005A4D3D /* TabBarTests.swift */; };
 		7C7B249924C79858005A4D3D /* TabBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C7B249724C7952C005A4D3D /* TabBar.json */; };
 		7CC2D9B124C614530059D5F9 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC2D9B024C614530059D5F9 /* TabBar.swift */; };
@@ -161,6 +162,7 @@
 		1D5CF9D8251A8C5500395A09 /* UnknownAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnknownAction.swift; sourceTree = "<group>"; };
 		1D5CF9DB251A955300395A09 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		1D5CF9DD251A976400395A09 /* Confirm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Confirm.swift; sourceTree = "<group>"; };
+		1D5CF9E0251E35A600395A09 /* SendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
 		252D727424D84AEF0069541F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
@@ -174,7 +176,7 @@
 		6E71540824B3A7860025B850 /* simpleFormComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleFormComponent.json; sourceTree = "<group>"; };
 		6EB3368124A52AB5000A9D17 /* SubmitForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitForm.swift; sourceTree = "<group>"; };
 		6EB3368624A52BB4000A9D17 /* SimpleForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleForm.swift; sourceTree = "<group>"; };
-		7685B040249A852A007EDED0 /* SendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
+		7685B040249A852A007EDED0 /* SendRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SendRequest+Extension.swift"; sourceTree = "<group>"; };
 		7C7B249424C7950E005A4D3D /* TabBarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTests.swift; sourceTree = "<group>"; };
 		7C7B249724C7952C005A4D3D /* TabBar.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TabBar.json; sourceTree = "<group>"; };
 		7C7B249A24C79871005A4D3D /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 		1D5CF9BC25193DCA00395A09 /* BeagleSchemaGenerated */ = {
 			isa = PBXGroup;
 			children = (
+				1D5CF9E0251E35A600395A09 /* SendRequest.swift */,
 				1D5CF9DD251A976400395A09 /* Confirm.swift */,
 				1D5CF9DB251A955300395A09 /* Alert.swift */,
 				1D5CF9D7251A8C5500395A09 /* Action.swift */,
@@ -946,13 +949,11 @@
 			isa = PBXGroup;
 			children = (
 				93A2EE1724EC47C90085B3CF /* AddChildren.swift */,
-				98E18D11249BE249009D6A54 /* Alert.swift */,
 				25C762A72511007100AB4D33 /* Condition.swift */,
-				98E18D13249BE255009D6A54 /* Confirm.swift */,
 				C864D28B247C240200E7A1F9 /* FormLocalAction.swift */,
 				C864D287247C240200E7A1F9 /* FormRemoteAction.swift */,
 				C864D289247C240200E7A1F9 /* FormValidation.swift */,
-				7685B040249A852A007EDED0 /* SendRequest.swift */,
+				7685B040249A852A007EDED0 /* SendRequest+Extension.swift */,
 				938B13B62497E33100AA8E3B /* SetContext.swift */,
 				6EB3368124A52AB5000A9D17 /* SubmitForm.swift */,
 				C864D281247C240200E7A1F9 /* Navigate */,
@@ -1324,7 +1325,7 @@
 				C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */,
 				1D5CF9D6251A781900395A09 /* TextInput.swift in Sources */,
 				C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */,
-				7685B041249A852A007EDED0 /* SendRequest.swift in Sources */,
+				7685B041249A852A007EDED0 /* SendRequest+Extension.swift in Sources */,
 				C864D2CA247C240200E7A1F9 /* Image.swift in Sources */,
 				C864D2BB247C240200E7A1F9 /* AutoDecodable.generated.swift in Sources */,
 				C864D2C5247C240200E7A1F9 /* AnyDecodableContainer.swift in Sources */,
@@ -1345,6 +1346,7 @@
 				252D727524D84AEF0069541F /* Binding.swift in Sources */,
 				257FC9F924DCA75300F2157C /* Value.swift in Sources */,
 				C864D2B6247C240200E7A1F9 /* Screen.swift in Sources */,
+				1D5CF9E1251E35A600395A09 /* SendRequest.swift in Sources */,
 				C864D2E7247C240200E7A1F9 /* RawWidget.swift in Sources */,
 				1D5CF9C825193DCA00395A09 /* Size.swift in Sources */,
 				938B13C42497EB5E00AA8E3B /* String+RegularExpression.swift in Sources */,

@@ -34,7 +34,7 @@
   def dictionary_variable_declaration(variable) 
     type_of_key = adaptTypeNameToSwiftSpecific(variable.type_of_key)
     type_of_value = adaptTypeNameToSwiftSpecific(variable.type_of_value)
-    type_name = "[#{type_of_key} : #{type_of_value}]"
+    type_name = "[#{type_of_key}: #{type_of_value}]"
     type_name
   end
 
