@@ -15,6 +15,7 @@ trap cleanup EXIT
 
 echo "Step /tools/bin/sdkmanager"
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager "$AVD_IMAGE"
+"$ANDROID_SDK_ROOT"/tools/bin/sdkmanager --update
 
 if "$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep -q "$AVD_NAME"; then
     echo "Using avd from cache"
@@ -24,12 +25,8 @@ else
     echo | "$ANDROID_SDK_ROOT"/tools/bin/avdmanager create avd -n $AVD_NAME -k "$AVD_IMAGE"
 fi
 
-echo "Step start AVD1";
-echo "Step start AVD2";
-
-
+echo "Step start AVD"
 nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-window -skin 450x800 2>&1 &
-
 
 echo "Step Wait for device"
 "$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell <<ENDSCRIPT
