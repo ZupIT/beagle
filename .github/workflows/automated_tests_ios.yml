@@ -32,6 +32,9 @@ jobs:
             -   name: Start backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
 
+            -   name: Wait server starts
+                run: sleep 30
+
             -   name: Test iOS
                 run: bundle exec fastlane automated_tests run_ios_automation
 
