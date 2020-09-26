@@ -32,6 +32,10 @@ jobs:
             -   name: Start backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
 
+            #TODO wait for backend server finish starting to proceed
+            -   name: Wait server starts
+                run: sleep 30
+
             -   name: Cache android gradle dependencies
                 uses: actions/cache@v2
                 env:

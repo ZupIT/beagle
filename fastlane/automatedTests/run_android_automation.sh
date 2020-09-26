@@ -40,5 +40,7 @@ ENDSCRIPT
 
 echo "Waiting 30 secs for us to be really booted"
 sleep 30
-
-$ANDROID_DIR/gradlew -p $ANDROID_DIR/automated-tests connectedAndroidTest
+echo "Starting android automated tests"
+echo "ANDROID_DIR = $ANDROID_DIR"
+$ANDROID_DIR/gradlew -p $ANDROID_DIR/automated-tests connectedAndroidTest --debug
+echo "Finished android automated tests"
