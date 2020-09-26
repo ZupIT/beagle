@@ -31,7 +31,10 @@ class ButtonScreenSteps: CucumberStepsDefinition {
         When("I click on button \"([^\\\"]*)\"$") { args, _ -> Void in
             guard let button: String = args?[0],
                   let element = ScreenElements(rawValue: button)
-                  else { return }
+                  else {
+                XCTFail()
+                return
+            }
             screen.clickOnButton(button: element)
         }
 
