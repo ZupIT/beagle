@@ -24,7 +24,10 @@ else
     echo | "$ANDROID_SDK_ROOT"/tools/bin/avdmanager create avd -n $AVD_NAME -k "$AVD_IMAGE"
 fi
 
-echo "Step start AVD"
+echo "Step start AVD1";
+echo "Step start AVD2";
+
+
 nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-window -skin 450x800 2>&1 &
 
 
