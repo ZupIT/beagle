@@ -17,13 +17,13 @@
 
 public struct Container: RawWidget, HasContext, AutoDecodable {
 
-    public var children: [RawWidget]
+    public var children: [RawComponent]
     public var onInit: [RawAction]?
     public var context: Context?
     public var widgetProperties: WidgetProperties
 
     public init(
-        children: [RawWidget],
+        children: [RawComponent],
         onInit: [RawAction]? = nil,
         context: Context? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()

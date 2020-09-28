@@ -26,7 +26,7 @@ class Container < BaseComponent
     # todo build context, action, and finish widget
     def initialize
         variables = [
-            List.new(:name => "children", :typeName => Widget.name),
+            List.new(:name => "children", :typeName => ServerDrivenComponent.new.name),
             List.new(:name => "onInit", :typeName => "Action", :isOptional => true),
             Variable.new(
                 :name => "context",
