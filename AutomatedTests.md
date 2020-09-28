@@ -39,7 +39,8 @@ Here we provide two options for running the android project, by using the Androi
 <img src="https://i.ibb.co/17dn6Nw/Captura-de-Tela-2020-09-28-a-s-14-12-42.png" height="256" />
 
 
-#iOS
+## iOS
+
 Select the AutomatedTests scheme and run the Test action (command + U)
 
 **Selecting tests to run:**
