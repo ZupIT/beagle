@@ -177,7 +177,7 @@
       object_type.synthax_type.inheritFrom.append("AutoDecodable")
     elsif [Alert.new.name, AddChildren.new.name, Confirm.new.name, SendRequest.new.name, Condition.new.name].include? object_type.synthax_type.name
       object_type.synthax_type.inheritFrom.append("AutoDecodable")
-    else
+    elsif ![Screen.new.name].include? object_type.synthax_type.name
       object_type.synthax_type.inheritFrom.append("Decodable")
     end
   

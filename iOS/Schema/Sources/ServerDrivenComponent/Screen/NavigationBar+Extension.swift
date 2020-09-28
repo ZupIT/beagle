@@ -17,31 +17,6 @@
 import Foundation
 import UIKit
 
-public struct NavigationBar: Decodable, AutoInitiable {
-
-    public let title: String
-    public let styleId: String?
-    public let showBackButton: Bool?
-    public let backButtonAccessibility: Accessibility?
-    public let navigationBarItems: [NavigationBarItem]?
-
-// sourcery:inline:auto:NavigationBar.Init
-    public init(
-        title: String,
-        styleId: String? = nil,
-        showBackButton: Bool? = nil,
-        backButtonAccessibility: Accessibility? = nil,
-        navigationBarItems: [NavigationBarItem]? = nil
-    ) {
-        self.title = title
-        self.styleId = styleId
-        self.showBackButton = showBackButton
-        self.backButtonAccessibility = backButtonAccessibility
-        self.navigationBarItems = navigationBarItems
-    }
-// sourcery:end
-}
-
 public struct NavigationBarItem: Decodable, AccessibilityComponent, IdentifiableComponent {
     
     public let id: String?

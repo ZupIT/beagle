@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-public struct SafeArea: Equatable, Decodable, AutoInitiable {
+import Foundation
 
-    // MARK: - Public Properties
-
-    public let top: Bool?
-    public let leading: Bool?
-    public let bottom: Bool?
-    public let trailing: Bool?
-    
-// sourcery:inline:auto:SafeArea.Init
-    public init(
-        top: Bool? = nil,
-        leading: Bool? = nil,
-        bottom: Bool? = nil,
-        trailing: Bool? = nil
+public extension Screen {
+    init(
+        id: String? = nil,
+        style: Style? = nil,
+        safeArea: SafeArea? = nil,
+        navigationBar: NavigationBar? = nil,
+        screenAnalyticsEvent: AnalyticsScreen? = nil,
+        context: Context? = nil,
+        @ChildBuilder
+        _ child: () -> RawComponent
     ) {
-        self.top = top
-        self.leading = leading
-        self.bottom = bottom
-        self.trailing = trailing
+        self.init(id: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: screenAnalyticsEvent, child: child(), context: context)
     }
-// sourcery:end
 }

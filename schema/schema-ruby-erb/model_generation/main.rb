@@ -147,7 +147,8 @@ class ModelGenerator
       TextInputType.new.name, ScrollView.new.name, ImageContentMode.new.name,
       TextInput.new.name, Action.new.name, UnknownAction.new.name,
       Alert.new.name, Confirm.new.name, SendRequest.new.name,
-      LazyComponent.new.name, Condition.new.name
+      LazyComponent.new.name, Condition.new.name, NavigationBar.new.name,
+      SafeArea.new.name, Screen.new.name
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
