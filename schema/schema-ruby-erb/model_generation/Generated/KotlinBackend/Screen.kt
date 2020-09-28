@@ -17,11 +17,16 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.widget.core.SafeArea
+import br.com.zup.beagle.widget.core.AnalyticsScreen
 
 data class Screen (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val scrollDirection: ScrollAxis? = null,  
-  public override val scrollBarEnabled: Boolean? = null,  
+  public override val id: String? = null,  
+  public override val style: StyleSchema? = null,  
+  public override val safeArea: SafeAreaSchema? = null,  
+  public override val navigationBar: NavigationBar? = null,  
+  public override val screenAnalyticsEvent: AnalyticsScreenSchema? = null,  
+  public override val child: ServerDrivenComponent? = null,  
   public override val context: Context? = null   
 ) : ContextComponent, ServerDrivenComponent, ScreenSchema 

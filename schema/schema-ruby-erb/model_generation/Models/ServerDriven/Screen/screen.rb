@@ -22,15 +22,34 @@ class Screen < BaseComponent
 
     def initialize
         variables = [
-            List.new(:name => "children", :typeName => ServerDrivenComponent.new.name),
             Variable.new(
-                :name => "scrollDirection",
-                :typeName => ScrollAxis.new.name,
+                :name => "id",
+                :typeName => TypesToString.string,
                 :isOptional => true
             ),
             Variable.new(
-                :name => "scrollBarEnabled",
-                :typeName => TypesToString.bool,
+                :name => "style",
+                :typeName => Style.new.name,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "safeArea",
+                :typeName => SafeArea.new.name,
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "navigationBar",
+                :typeName => "NavigationBar", # todo
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "screenAnalyticsEvent",
+                :typeName => "AnalyticsScreen", #todo unify analytics names between platforms
+                :isOptional => true
+            ),
+            Variable.new(
+                :name => "child",
+                :typeName => ServerDrivenComponent.new.name,
                 :isOptional => true
             ),
             Variable.new(

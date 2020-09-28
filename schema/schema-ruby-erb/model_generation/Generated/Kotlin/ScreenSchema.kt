@@ -18,11 +18,16 @@ package br.com.zup.beagle.widget.core
 
 
 
-import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.core.StyleSchema
+import br.com.zup.beagle.widget.core.SafeAreaSchema
+import br.com.zup.beagle.widget.core.AnalyticsScreenSchema
 
 interface ScreenSchema {
-  public val children: List<ServerDrivenComponent>
-  public val scrollDirection: ScrollAxis?
-  public val scrollBarEnabled: Boolean?
+  public val id: String?
+  public val style: StyleSchema?
+  public val safeArea: SafeAreaSchema?
+  public val navigationBar: NavigationBar?
+  public val screenAnalyticsEvent: AnalyticsScreenSchema?
+  public val child: ServerDrivenComponent?
   public val context: Context? 
 }

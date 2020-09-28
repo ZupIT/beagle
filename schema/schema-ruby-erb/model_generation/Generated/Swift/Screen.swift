@@ -17,20 +17,29 @@
 
 public struct Screen: HasContext, RawComponent, AutoDecodable {
 
-    public var children: [RawComponent]
-    public var scrollDirection: ScrollAxis?
-    public var scrollBarEnabled: Bool?
+    public var id: String?
+    public var style: Style?
+    public var safeArea: SafeArea?
+    public var navigationBar: NavigationBar?
+    public var screenAnalyticsEvent: AnalyticsScreen?
+    public var child: RawComponent?
     public var context: Context?
 
     public init(
-        children: [RawComponent],
-        scrollDirection: ScrollAxis? = nil,
-        scrollBarEnabled: Bool? = nil,
+        id: String? = nil,
+        style: Style? = nil,
+        safeArea: SafeArea? = nil,
+        navigationBar: NavigationBar? = nil,
+        screenAnalyticsEvent: AnalyticsScreen? = nil,
+        child: RawComponent? = nil,
         context: Context? = nil
     ) {
-        self.children = children
-        self.scrollDirection = scrollDirection
-        self.scrollBarEnabled = scrollBarEnabled
+        self.id = id
+        self.style = style
+        self.safeArea = safeArea
+        self.navigationBar = navigationBar
+        self.screenAnalyticsEvent = screenAnalyticsEvent
+        self.child = child
         self.context = context
     }
 
