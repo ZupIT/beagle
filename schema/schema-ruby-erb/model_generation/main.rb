@@ -41,6 +41,7 @@ require_relative 'Models/Widgets/container.rb'
 require_relative 'Models/Widgets/image.rb'
 require_relative 'Models/Widgets/image_content.rb'
 
+require_relative 'Models/ServerDriven/server_driven_component.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
 require_relative 'Models/ServerDriven/Lazy/lazy_component.rb'
@@ -56,8 +57,6 @@ require_relative 'Models/Action/alert.rb'
 require_relative 'Models/Action/confirm.rb'
 require_relative 'Models/Action/send_request.rb'
 require_relative 'Models/Action/condition.rb'
-
-
 
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'

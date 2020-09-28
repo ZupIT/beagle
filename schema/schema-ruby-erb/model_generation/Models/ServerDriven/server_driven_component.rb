@@ -22,7 +22,8 @@ class ServerDrivenComponent < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => [],
-            :package => ""
+            :package => "",
+            :type => TypesToString.interface
         )
 
         super(synthax_type)
