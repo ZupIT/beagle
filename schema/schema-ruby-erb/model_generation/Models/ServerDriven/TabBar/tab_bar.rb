@@ -22,31 +22,39 @@ class TabBar < BaseComponent
 
     def initialize
         variables = [
-            List.new(:name => "children", :typeName => ServerDrivenComponent.new.name),
-            Variable.new(
-                :name => "scrollDirection",
-                :typeName => ScrollAxis.new.name,
-                :isOptional => true
+            List.new(
+                :name => "items",
+                :typeName => TabBarItem.new.name,
+                :comment => "define your tabs title and icon"
             ),
             Variable.new(
-                :name => "scrollBarEnabled",
-                :typeName => TypesToString.bool,
-                :isOptional => true
+                :name => "styleId",
+                :typeName => TypesToString.string,
+                :isOptional => true,
+                :comment => "reference a native style in your local styles file to be applied on this view."
             ),
             Variable.new(
-                :name => "context",
-                :typeName => "Context",
-                :isOptional => true
-            )
+                :name => "currentTab",
+                :typeName => TypesToString.integer,
+                :isOptional => true,
+                :isBindable => true,
+                :comment => "define the expression that is observer to change the current tab selected"
+            ),
+            List.new(
+                :name => "onTabSelection",
+                :typeName => Action.new.name,
+                :isOptional => true,
+                :comment => "define a list of action that will be executed when a tab is selected"
+            ),
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [
-                ContextComponent.new.name,
                 ServerDrivenComponent.new.name
-            ]
+            ],
+            :comment => " TabBar is a component responsible to display a tab layout. It works by displaying tabs that can change a context when clicked."
         )
 
         super(synthax_type)

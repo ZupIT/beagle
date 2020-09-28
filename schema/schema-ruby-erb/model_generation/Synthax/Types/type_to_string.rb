@@ -24,6 +24,13 @@ module TypesToString
         @@string
     end
 
+    # Integer id for Int
+    # @return [String]
+    @@integer = "Int"
+    def self.integer
+        @@integer
+    end
+
     # Boolean id for Bool
     # @return [String]
     @@bool = "Bool"

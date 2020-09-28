@@ -42,7 +42,8 @@ class BasicType < SupportedLanguages
             TypesToString.string => {@swift => "String", @kotlin => "String"},
             TypesToString.bool => {@swift => "Bool", @kotlin => "Boolean"},
             TypesToString.interface => {@swift => "protocol", @kotlin => "interface"},
-            TypesToString.enum => {@swift => "enum", @kotlin => "enum class"}
+            TypesToString.enum => {@swift => "enum", @kotlin => "enum class"},
+            TypesToString.integer => {@swift => "Int", @kotlin => "Int"}
         }
 
     end

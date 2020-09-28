@@ -17,11 +17,27 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
+import br.com.zup.beagle.widget.core.TabBarItem
+import br.com.zup.beagle.action.ui.Action
 
 data class TabBar (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val scrollDirection: ScrollAxis? = null,  
-  public override val scrollBarEnabled: Boolean? = null,  
-  public override val context: Context? = null   
-) : ContextComponent, ServerDrivenComponent, TabBarSchema 
+  public override val items: List<TabBarItemSchema>,  
+  public override val styleId: String? = null,  
+  public override val currentTab: Bind<Int>? = null,  
+  public override val onTabSelection: List<ActionSchema>? = null   
+) : ServerDrivenComponent, TabBarSchema {
+  constructor (    
+    items: List<TabBarItemSchema>,      
+    styleId: String? = null,      
+    currentTab: Int? = null,      
+    onTabSelection: List<ActionSchema>? = null      
+  ) : this (    
+      items,      
+      styleId,      
+      valueOfNullable(currentTab),      
+      onTabSelection      
+  )
+}

@@ -18,11 +18,13 @@ package br.com.zup.beagle.widget.core
 
 
 
-import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.core.TabBarItemSchema
+import br.com.zup.beagle.action.ui.ActionSchema
 
 interface TabBarSchema {
-  public val children: List<ServerDrivenComponent>
-  public val scrollDirection: ScrollAxis?
-  public val scrollBarEnabled: Boolean?
-  public val context: Context? 
+  public val items: List<TabBarItemSchema>
+  public val styleId: String?
+  public val currentTab: BindAttribute<Int>?
+  public val onTabSelection: List<ActionSchema>? 
 }

@@ -15,41 +15,8 @@
  * limitations under the License.
  */
 
-public struct TabBar: RawComponent, AutoInitiableAndDecodable {
-    public let items: [TabBarItem]
-    public let styleId: String?
-    public let currentTab: Expression<Int>?
-    public let onTabSelection: [RawAction]?
+extension TabBarItem {
 
-// sourcery:inline:auto:TabBar.Init
-    public init(
-        items: [TabBarItem],
-        styleId: String? = nil,
-        currentTab: Expression<Int>? = nil,
-        onTabSelection: [RawAction]? = nil
-    ) {
-        self.items = items
-        self.styleId = styleId
-        self.currentTab = currentTab
-        self.onTabSelection = onTabSelection
-    }
-// sourcery:end
-}
-
-public struct TabBarItem: Decodable, AutoInitiable {
-    public let icon: String?
-    public let title: String?
-
-// sourcery:inline:auto:TabBarItem.Init
-    public init(
-        icon: String? = nil,
-        title: String? = nil
-    ) {
-        self.icon = icon
-        self.title = title
-    }
-// sourcery:end
-    
     enum CodingKeys: String, CodingKey {
         case icon
         case title
