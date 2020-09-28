@@ -281,6 +281,20 @@ fun makeConditionalActionJson() = """
    }
 """
 
+fun makeAddChildrenJson() = """
+    {
+        "_beagleAction_":"beagle:addChildren",
+        "componentId":"",
+        "value":[
+           {
+              "_beagleComponent_":"beagle:text",
+              "text":"Ola"
+           }
+        ],
+        "mode":"APPEND"
+    }
+    """
+
 fun makeFormLocalActionJson() = """
     {
         "_beagleAction_": "beagle:formLocalAction",

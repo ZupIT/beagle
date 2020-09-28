@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.data.serializer
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.AddChildren
 import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.action.Condition
 import br.com.zup.beagle.android.action.Confirm
@@ -493,6 +494,19 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         assertNotNull(actual)
         assertTrue(actual is Condition)
+    }
+
+    @Test
+    fun `make should return moshi to deserialize a AddChildren` (){
+        // Given
+        val json = makeAddChildrenJson()
+
+        // When
+        val actual = moshi.adapter(AddChildren::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is AddChildren)
     }
 
     @Test
