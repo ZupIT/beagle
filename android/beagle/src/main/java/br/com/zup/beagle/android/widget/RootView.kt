@@ -20,9 +20,29 @@ import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 
+/**
+ *
+ */
 interface RootView {
+
+    /**
+     * Returns the application context.
+     */
     fun getContext(): Context
+
+    /**
+     * Returns the Lifecycle of the provider.
+     */
     fun getLifecycleOwner(): LifecycleOwner
+
+    /**
+     * The method getViewModelStoreOwner () return this access interface ViewModelStoreOwner becomes the owner of
+     * ViewModelStore.
+     */
     fun getViewModelStoreOwner(): ViewModelStoreOwner
+
+    /**
+     * Returns parent view id.
+     */
     fun getParentId(): Int
 }

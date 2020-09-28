@@ -19,7 +19,17 @@ package br.com.zup.beagle.android.navigation
 import android.content.Intent
 import br.com.zup.beagle.android.widget.RootView
 
+/**
+ * The DeepLinkHandler is an interface that sets how to configure the navigation between Server-Driven
+ * activities and native activities.
+ */
 interface DeepLinkHandler {
+    /**
+     * @param rootView
+     * @param path
+     * @param data
+     * @param shouldResetApplication
+     */
     fun getDeepLinkIntent(rootView: RootView,
                           path: String,
                           data: Map<String, String>?,
