@@ -1,6 +1,7 @@
 # Running automated tests on each platform
 
-#backend
+## Backend
+
 Here we provide two options for running the backend project, by using the IntelliJ IDE or running using the gradle wrapper
 	
 **IntelliJ:**
@@ -13,7 +14,7 @@ Here we provide two options for running the backend project, by using the Intell
 	Run the command: ./gradlew automated-tests:bootRun
 
 
-#android
+## Android
 	
 Here we provide two options for running the android project, by using the Android Studio IDE or running using the gradle wrapper
 	
@@ -39,7 +40,8 @@ Here we provide two options for running the android project, by using the Androi
 <img src="https://i.ibb.co/17dn6Nw/Captura-de-Tela-2020-09-28-a-s-14-12-42.png" height="256" />
 
 
-#iOS
+## iOS
+
 Select the AutomatedTests scheme and run the Test action (command + U)
 
 **Selecting tests to run:**
@@ -48,8 +50,7 @@ Select the AutomatedTests scheme and run the Test action (command + U)
 	
 <img src="https://i.ibb.co/M2GhFCF/Captura-de-Tela-2020-09-28-a-s-14-04-37.png" height="256" />
 
-#Next steps
+## Next steps
 
 * Document default emulators to run the tests
 * Share .feature files across platforms
-
