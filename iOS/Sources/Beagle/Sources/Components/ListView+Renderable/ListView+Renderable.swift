@@ -17,40 +17,82 @@
 import UIKit
 import BeagleSchema
 
-extension ListView.Direction {
+extension ListView: ServerDrivenComponent {
+
+    private var path: Path? {
+        if let key = key {
+            return Path(rawValue: key)
+        }
+        return nil
+    }
     
-    func toUIKit() -> UICollectionView.ScrollDirection {
-        switch self {
-        case .horizontal:
-            return .horizontal
-        case .vertical:
-            return .vertical
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let view = ListViewUIComponent(
+            model: ListViewUIComponent.Model(
+                key: path,
+                direction: direction ?? .vertical,
+                template: template,
+                iteratorName: iteratorName ?? "item",
+                onScrollEnd: onScrollEnd,
+                scrollThreshold: CGFloat(scrollThreshold ?? 100),
+                useParentScroll: useParentScroll ?? false
+            ),
+            renderer: renderer
+        )
+        
+        setupSizeDefaultListView()
+     
+        renderer.observe(dataSource, andUpdate: \.items, in: view)
+        return view
+    }
+    
+    private func setupSizeDefaultListView() {
+        if widgetProperties.style?.flex?.grow == nil,
+            widgetProperties.style?.size == nil {
+            setupGrow()
         }
     }
     
+    private func setupGrow() {
+        if widgetProperties.style?.flex != nil {
+            widgetProperties.style?.flex?.grow = 1.0
+        } else {
+            widgetProperties.style?.flex = Flex().grow(1)
+        }
+    }
 }
 
-extension ListView: ServerDrivenComponent {
-
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let componentViews: [(view: UIView, size: CGSize)] = children.compactMap {
-            let container = Container(children: [$0], widgetProperties: .init(style: .init(positionType: .absolute)))
-            let containerView = renderer.render(container)
-            let view = UIView()
-            view.addSubview(containerView)
-            view.style.applyLayout()
-            if let view = containerView.subviews.first {
-                view.removeFromSuperview()
-                return (view: view, size: view.bounds.size)
-            }
-            return nil
+extension ListView.Direction {
+    var scrollDirection: UICollectionView.ScrollDirection {
+        switch self {
+        case .vertical:
+            return .vertical
+        case .horizontal:
+            return .horizontal
         }
-        
-        let model = ListViewUIComponent.Model(
-            component: self,
-            componentViews: componentViews
-        )
-        
-        return ListViewUIComponent(model: model)
+    }
+    var flexDirection: Flex.FlexDirection {
+        switch self {
+        case .vertical:
+            return .column
+        case .horizontal:
+            return .row
+        }
+    }
+    var sizeKeyPath: WritableKeyPath<CGSize, CGFloat> {
+        switch self {
+        case .vertical:
+            return \.height
+        case .horizontal:
+            return \.width
+        }
+    }
+    var pointKeyPath: WritableKeyPath<CGPoint, CGFloat> {
+        switch self {
+        case .vertical:
+            return \.y
+        case .horizontal:
+            return \.x
+        }
     }
 }

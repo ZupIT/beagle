@@ -18,7 +18,7 @@
 import BeagleSchema
 import UIKit
 
-extension SendRequest: Action {
+extension SendRequest: AsyncAction {
     public func execute(controller: BeagleController, origin: UIView) {
 
         guard let url = controller.dependencies.urlBuilder.build(path: url.evaluate(with: origin) ?? "") else {

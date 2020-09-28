@@ -38,10 +38,28 @@ class ComponentHostController: BeagleController {
         return renderer.controller.screen
     }
 
-    func addBinding(_ update: @escaping () -> Void) {
-        bindings.append(update)
+    func addOnInit(_ onInit: [RawAction], in view: UIView) {
+        renderer.controller.addOnInit(onInit, in: view)
     }
 
+    func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        bindings.append { [weak self, weak view] in
+            guard let self = self else { return }
+            view?.configBinding(
+                for: expression,
+                completion: self.bindBlock(view: view, update: update)
+            )
+        }
+    }
+    
+    private func bindBlock<T: Decodable>(view: UIView?, update: @escaping (T?) -> Void) -> (T?) -> Void {
+        return { [weak self, weak view] value in
+            update(value)
+            view?.yoga.markDirty()
+            self?.viewIfLoaded?.setNeedsLayout()
+        }
+    }
+    
     func execute(actions: [RawAction]?, origin: UIView) {
         renderer.controller.execute(actions: actions, origin: origin)
     }

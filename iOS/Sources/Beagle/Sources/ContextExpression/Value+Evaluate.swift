@@ -21,35 +21,9 @@ import UIKit
 extension Binding {
     func evaluate(in view: UIView) -> DynamicObject {
         guard let context = view.getContext(with: context) else { return nil }
-        let dynamicObject = evaluate(model: context.value.value)
+        let dynamicObject = context.value.value[path]
         view.expressionLastValueMap[rawValue] = dynamicObject
         return dynamicObject
-    }
-    
-    func evaluate(model: DynamicObject) -> DynamicObject {
-        var nodes = path.nodes[...]
-        return Self.evaluate(&nodes, model)
-    }
-    
-    private static func evaluate(_ expression: inout ArraySlice<Path.Node>, _ model: DynamicObject) -> DynamicObject {
-        guard let first = expression.first else {
-            return model
-        }
-        switch first {
-        case let .key(key):
-            guard case let .dictionary(dictionary) = model, let value = dictionary[key] else {
-                return nil
-            }
-            expression.removeFirst()
-            return evaluate(&expression, value)
-
-        case let .index(index):
-            guard case let .array(array) = model, let value = array[safe: index] else {
-                return nil
-            }
-            expression.removeFirst()
-            return evaluate(&expression, value)
-        }
     }
 }
 

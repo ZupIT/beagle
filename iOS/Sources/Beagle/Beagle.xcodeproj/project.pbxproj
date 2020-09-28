@@ -109,6 +109,7 @@
 		98E4974B249E9B830053DB87 /* TextInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E4974A249E9B830053DB87 /* TextInputTests.swift */; };
 		98E717AA248EAF7500968F2A /* BeagleNavigatorAnimationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E717A9248EAF7500968F2A /* BeagleNavigatorAnimationTests.swift */; };
 		98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC964B23EA518600A8CEC8 /* ObservableTests.swift */; };
+		A020A4D124FFDDC200B3DF55 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A020A4D024FFDDC100B3DF55 /* ListViewController.swift */; };
 		A024CF0F24991E42009BB92D /* UIView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = A024CF0E24991E41009BB92D /* UIView+Style.swift */; };
 		A024CF1124991E4F009BB92D /* UIView+StyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A024CF1024991E4F009BB92D /* UIView+StyleTests.swift */; };
 		A040DBBC2497E259000F3213 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A040DBBB2497E259000F3213 /* Action.swift */; };
@@ -219,7 +220,7 @@
 		C8F953162395960200615CF0 /* PageViewUIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F95314239595C500615CF0 /* PageViewUIComponentTests.swift */; };
 		E50B284523639299005E2E6D /* BeagleScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50B284423639299005E2E6D /* BeagleScreenViewControllerTests.swift */; };
 		E516E61023705BED006620B1 /* BeagleViewBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E516E60F23705BED006620B1 /* BeagleViewBuilderTests.swift */; };
-		E52236C223745A7F00E555BB /* ListItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52236C123745A7F00E555BB /* ListItemCollectionViewCell.swift */; };
+		E52236C223745A7F00E555BB /* ListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52236C123745A7F00E555BB /* ListViewCell.swift */; };
 		E52236C423745CBB00E555BB /* NSObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52236C323745CBB00E555BB /* NSObjectExtension.swift */; };
 		E52236C623745CDC00E555BB /* NSObjectExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52236C523745CDC00E555BB /* NSObjectExtensionTests.swift */; };
 		E52236CB23745DED00E555BB /* HTTPRequestCanceling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52236CA23745DED00E555BB /* HTTPRequestCanceling.swift */; };
@@ -379,6 +380,7 @@
 		98E4974A249E9B830053DB87 /* TextInputTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputTests.swift; sourceTree = "<group>"; };
 		98E717A9248EAF7500968F2A /* BeagleNavigatorAnimationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleNavigatorAnimationTests.swift; sourceTree = "<group>"; };
 		98FC964B23EA518600A8CEC8 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
+		A020A4D024FFDDC100B3DF55 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A024CF0E24991E41009BB92D /* UIView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Style.swift"; sourceTree = "<group>"; };
 		A024CF1024991E4F009BB92D /* UIView+StyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+StyleTests.swift"; sourceTree = "<group>"; };
 		A040DBBB2497E259000F3213 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
@@ -499,7 +501,7 @@
 		E50B2840236350B9005E2E6D /* RepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTests.swift; sourceTree = "<group>"; };
 		E50B284423639299005E2E6D /* BeagleScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleScreenViewControllerTests.swift; sourceTree = "<group>"; };
 		E516E60F23705BED006620B1 /* BeagleViewBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleViewBuilderTests.swift; sourceTree = "<group>"; };
-		E52236C123745A7F00E555BB /* ListItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		E52236C123745A7F00E555BB /* ListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewCell.swift; sourceTree = "<group>"; };
 		E52236C323745CBB00E555BB /* NSObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectExtension.swift; sourceTree = "<group>"; };
 		E52236C523745CDC00E555BB /* NSObjectExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectExtensionTests.swift; sourceTree = "<group>"; };
 		E52236CA23745DED00E555BB /* HTTPRequestCanceling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestCanceling.swift; sourceTree = "<group>"; };
@@ -1282,9 +1284,10 @@
 		C829CE9C23B12EDB001B7225 /* ListView+Renderable */ = {
 			isa = PBXGroup;
 			children = (
-				C08D4DE02485598400AAAC0A /* ListView+Renderable.swift */,
-				E52236C123745A7F00E555BB /* ListItemCollectionViewCell.swift */,
 				E52236CC23745E8E00E555BB /* ListViewUIComponent.swift */,
+				A020A4D024FFDDC100B3DF55 /* ListViewController.swift */,
+				C08D4DE02485598400AAAC0A /* ListView+Renderable.swift */,
+				E52236C123745A7F00E555BB /* ListViewCell.swift */,
 				C829CEC423B167C0001B7225 /* Tests */,
 			);
 			path = "ListView+Renderable";
@@ -1904,6 +1907,7 @@
 				C85E1CD123EB49C000C1E323 /* HttpRequestBuilder.swift in Sources */,
 				E5A6F4CB2358F621008906F8 /* Repository.swift in Sources */,
 				E52236C423745CBB00E555BB /* NSObjectExtension.swift in Sources */,
+				A020A4D124FFDDC200B3DF55 /* ListViewController.swift in Sources */,
 				C048EBDB242BD78500A24075 /* Analytics.swift in Sources */,
 				935278F42499720800AB9D1F /* Expression.swift in Sources */,
 				A068234C238430C500CEE57A /* ValidatorProvider.swift in Sources */,
@@ -1949,7 +1953,7 @@
 				A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */,
 				C8ECF2CD24BD1D9800525CF5 /* NetworkCache.swift in Sources */,
 				C08D4E8C2485946300AAAC0A /* WebViewUIComponent.swift in Sources */,
-				E52236C223745A7F00E555BB /* ListItemCollectionViewCell.swift in Sources */,
+				E52236C223745A7F00E555BB /* ListViewCell.swift in Sources */,
 				E5A6F4A92358A547008906F8 /* FatalErrorUtil.swift in Sources */,
 				C89FFA922412DC2300C1B53B /* ViewConfigurator.swift in Sources */,
 				A0F45498237B87E900B146A1 /* BeagleNavigator.swift in Sources */,

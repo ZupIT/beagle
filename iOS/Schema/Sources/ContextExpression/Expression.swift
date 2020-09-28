@@ -19,17 +19,17 @@ public enum Expression<T: Decodable> {
     case expression(ContextExpression)
 }
 
-public enum ContextExpression: Equatable {
+public enum ContextExpression: Equatable, Hashable {
     case single(SingleExpression)
     case multiple(MultipleExpression)
 }
 
-public enum SingleExpression {
+public enum SingleExpression: Hashable {
     case value(Value)
     case operation(Operation)
 }
 
-public struct MultipleExpression {
+public struct MultipleExpression: Hashable {
     public let nodes: [Node]
 
     public enum Node: Equatable {

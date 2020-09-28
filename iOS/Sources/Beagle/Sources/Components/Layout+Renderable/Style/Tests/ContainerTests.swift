@@ -97,11 +97,11 @@ final class ContainerTests: XCTestCase {
         controllerSpy.expectation = expectation
         
         let renderer = BeagleRenderer(controller: controllerSpy)
-        let sut = Container(children: [Text("Lorem ipsum")], onInit: [ActionDummy()])
+        let sut = Container(children: [], onInit: [])
         
         //When
 
-        _ = sut.toView(renderer: renderer)
+        _ = renderer.render(sut)
         
         //Then
         
@@ -119,11 +119,16 @@ class BeagleControllerSpy: BeagleController {
     
     var expectation: XCTestExpectation?
     
-    func addBinding(_ update: @escaping () -> Void) { }
-    func execute(action: RawAction, sender: Any) { }
-    
     private(set) var didCalledExecute = false
     private(set) var lastImplicitContext: Context?
+    
+    func addOnInit(_ onInit: [RawAction], in view: UIView) {
+        execute(actions: onInit, origin: view)
+    }
+    
+    func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        // Intentionally unimplemented...
+    }
     
     func execute(actions: [RawAction]?, origin: UIView) {
         didCalledExecute = true
