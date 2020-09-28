@@ -48,8 +48,7 @@ Select the AutomatedTests scheme and run the Test action (command + U)
 	
 <img src="https://i.ibb.co/M2GhFCF/Captura-de-Tela-2020-09-28-a-s-14-04-37.png" height="256" />
 
-#Next steps
+## Next steps
 
 * Document default emulators to run the tests
 * Share .feature files across platforms
-
