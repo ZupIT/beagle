@@ -11,7 +11,7 @@ import XCTest
 
 class TabViewScreenSteps: CucumberStepsDefinition {
     
-    var application: XCUIApplication!
+    var application: XCUIApplication?
     
     func loadSteps() {
     
@@ -32,25 +32,25 @@ class TabViewScreenSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.TAB_1.element.exists)
             XCTAssertTrue(ScreenElements.TAB_1_TEXT.element.exists)
             XCTAssertTrue(ScreenElements.TAB_1_TEXT_2.element.exists)
-            XCUIApplication().swipeLeft()
+            self.application?.swipeLeft()
 
             XCTAssertTrue(ScreenElements.TAB_2.element.exists)
             XCTAssertTrue(ScreenElements.TAB_2_TEXT.element.exists)
             XCTAssertTrue(ScreenElements.TAB_2_TEXT_2.element.exists)
-            XCUIApplication().swipeLeft()
+            self.application?.swipeLeft()
 
             XCTAssertTrue(ScreenElements.TAB_3.element.exists)
             XCTAssertTrue(ScreenElements.TAB_3_TEXT.element.exists)
             XCTAssertTrue(ScreenElements.TAB_3_TEXT_2.element.exists)
-            XCUIApplication().swipeLeft()
+            self.application?.swipeLeft()
                 
             XCTAssertTrue(ScreenElements.TAB_4.element.exists)
             XCTAssertTrue(ScreenElements.TAB_4_TEXT.element.exists)
             XCTAssertTrue(ScreenElements.TAB_4_TEXT_2.element.exists)
             
-            XCUIApplication().swipeRight()
-            XCUIApplication().swipeRight()
-            XCUIApplication().swipeRight()
+            self.application?.swipeRight()
+            self.application?.swipeRight()
+            self.application?.swipeRight()
            
         }
 

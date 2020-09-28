@@ -47,7 +47,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-Tags:tabview"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

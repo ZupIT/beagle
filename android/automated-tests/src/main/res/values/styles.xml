@@ -23,14 +23,6 @@
         <item name="android:windowBackground">@color/colorWhite</item>
     </style>
 
-    <style name="AppTheme.NoToolbar" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorWhite</item>
-        <item name="colorControlNormal">@color/colorWhite</item>
-    </style>
-
     <style name="DesignSystem.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="titleTextAppearance">@style/DesignSystem.Toolbar.TextAppearance</item>
         <item name="backgroundColor">@color/colorPrimary</item>
@@ -112,11 +104,6 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="DesignSystem.Text.NetworkImage" parent="DesignSystem.Text.Default">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="DesignSystem.Button.Style" parent="DesignSystem.Text.Default">

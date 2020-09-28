@@ -11,7 +11,7 @@ import XCTest
 
 class PageViewScreenSteps: CucumberStepsDefinition {
     
-    var application: XCUIApplication!
+    var application: XCUIApplication?
     
     func loadSteps() {
     
@@ -28,13 +28,13 @@ class PageViewScreenSteps: CucumberStepsDefinition {
 
         Then("^pageview should render correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.PAGE_1_TEXT.element.exists)
-            XCUIApplication().swipeLeft()
+            self.application?.swipeLeft()
             XCTAssertTrue(ScreenElements.PAGE_2_TEXT.element.exists)
-            XCUIApplication().swipeLeft()
+            self.application?.swipeLeft()
             XCTAssertTrue(ScreenElements.PAGE_3_TEXT.element.exists)
             
-            XCUIApplication().swipeRight()
-            XCUIApplication().swipeRight()
+            self.application?.swipeRight()
+            self.application?.swipeRight()
 
         }
     }

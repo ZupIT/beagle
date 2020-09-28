@@ -11,7 +11,7 @@ import XCTest
 
 class ButtonScreenSteps: CucumberStepsDefinition {
     
-    var application: XCUIApplication!
+    var application: XCUIApplication?
     
     func loadSteps() {
     
@@ -32,7 +32,7 @@ class ButtonScreenSteps: CucumberStepsDefinition {
             guard let button: String = args?[0],
                   let element = ScreenElements(rawValue: button)
                   else {
-                XCTFail()
+                XCTFail("button element not found")
                 return
             }
             screen.clickOnButton(button: element)

@@ -11,7 +11,7 @@ import XCTest
 
 class SimpleFormScreenSteps: CucumberStepsDefinition {
     
-    var application: XCUIApplication!
+    var application: XCUIApplication?
     
     func loadSteps() {
         
