@@ -1,6 +1,7 @@
 # Running automated tests on each platform
 
-#backend
+## Backend
+
 Here we provide two options for running the backend project, by using the IntelliJ IDE or running using the gradle wrapper
 	
 **IntelliJ:**
