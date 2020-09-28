@@ -44,6 +44,7 @@ require_relative 'Models/Widgets/image_content.rb'
 require_relative 'Models/ServerDriven/server_driven_component.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
+require_relative 'Models/ServerDriven/List/list_view.rb'
 require_relative 'Models/ServerDriven/Lazy/lazy_component.rb'
 require_relative 'Models/ServerDriven/Screen/safe_area.rb'
 require_relative 'Models/ServerDriven/Screen/screen.rb'
@@ -182,6 +183,8 @@ if __FILE__ == $0
     TextInputType,
     ImageContentMode,
     TextInput,
+    Container,
+    Image,
     # Layout
     CornerRadius,
     EdgeValue,
@@ -193,8 +196,7 @@ if __FILE__ == $0
     # Accessibility
     Accessibility,
     # Far from being usable
-    Container,
-    Image,
+    ListView,
     AnalyticsEvent,
     AnalyticsClick,
     AnalyticsScreen,
