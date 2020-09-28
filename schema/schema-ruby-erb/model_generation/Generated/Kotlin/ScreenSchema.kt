@@ -29,6 +29,6 @@ interface ScreenSchema {
   public val safeArea: SafeAreaSchema?
   public val navigationBar: NavigationBarSchema?
   public val screenAnalyticsEvent: AnalyticsScreenSchema?
-  public val child: ServerDrivenComponent?
+  public val child: ServerDrivenComponent
   public val context: Context? 
 }

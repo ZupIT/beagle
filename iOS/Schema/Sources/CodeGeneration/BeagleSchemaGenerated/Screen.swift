@@ -29,7 +29,7 @@ public struct Screen: HasContext {
     /// send event when screen appear/disappear
     public var screenAnalyticsEvent: AnalyticsScreen?
     /// define the child elements on this screen. It could be any visual component that extends ServerDrivenComponent
-    public var child: RawComponent?
+    public var child: RawComponent
     public var context: Context?
 
     public init(
@@ -38,7 +38,7 @@ public struct Screen: HasContext {
         safeArea: SafeArea? = nil,
         navigationBar: NavigationBar? = nil,
         screenAnalyticsEvent: AnalyticsScreen? = nil,
-        child: RawComponent? = nil,
+        child: RawComponent,
         context: Context? = nil
     ) {
         self.id = id

@@ -28,6 +28,6 @@ data class Screen (
   public override val safeArea: SafeAreaSchema? = null,  
   public override val navigationBar: NavigationBarSchema? = null,  
   public override val screenAnalyticsEvent: AnalyticsScreenSchema? = null,  
-  public override val child: ServerDrivenComponent? = null,  
+  public override val child: ServerDrivenComponent,  
   public override val context: Context? = null   
 ) : ContextComponent, ScreenSchema 

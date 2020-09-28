@@ -55,7 +55,6 @@ class Screen < BaseComponent
             Variable.new(
                 :name => "child",
                 :typeName => ServerDrivenComponent.new.name,
-                :isOptional => true,
                 :comment => "define the child elements on this screen. It could be any visual component that extends ServerDrivenComponent"
             ),
             Variable.new(
