@@ -50,6 +50,8 @@ require_relative 'Models/ServerDriven/Screen/safe_area.rb'
 require_relative 'Models/ServerDriven/Screen/screen.rb'
 require_relative 'Models/ServerDriven/Screen/navigation_bar.rb'
 require_relative 'Models/ServerDriven/Screen/navigation_bar_item.rb'
+require_relative 'Models/ServerDriven/TabBar/tab_bar_item.rb'
+require_relative 'Models/ServerDriven/TabBar/tab_bar.rb'
 
 require_relative 'Models/Action/action.rb'
 require_relative 'Models/Action/unknown_action.rb'
@@ -148,7 +150,7 @@ class ModelGenerator
       TextInput.new.name, Action.new.name, UnknownAction.new.name,
       Alert.new.name, Confirm.new.name, SendRequest.new.name,
       LazyComponent.new.name, Condition.new.name, NavigationBar.new.name,
-      SafeArea.new.name, Screen.new.name
+      SafeArea.new.name, Screen.new.name, #TabBarItem.new.name,
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
@@ -217,7 +219,10 @@ if __FILE__ == $0
     SafeArea,
     Screen,
     NavigationBar,
-    NavigationBarItem
+    NavigationBarItem,
+    # TabBar
+    TabBar,
+    TabBarItem
   ]
   
   generator = ModelGenerator.new(components)
