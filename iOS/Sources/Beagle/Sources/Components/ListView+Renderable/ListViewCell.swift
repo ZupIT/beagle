@@ -30,15 +30,13 @@ final class ListViewCell: UICollectionViewCell {
     private var templateContainer: TemplateContainer?
     private weak var listView: ListViewUIComponent?
     
-    var templateIntrinsicSize: CGSize {
-        guard let template = templateContainer else { return .zero }
-        return template.yoga.calculateLayout(
-            with: CGSize(width: CGFloat.nan, height: CGFloat.nan)
-        )
-    }
-    
     var hasPendingActions: Bool {
         return !pendingActions.isEmpty
+    }
+    
+    func templateSizeThatFits(_ size: CGSize) -> CGSize {
+        guard let template = templateContainer else { return .zero }
+        return template.yoga.calculateLayout(with: size)
     }
     
     func configure(

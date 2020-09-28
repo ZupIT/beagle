@@ -133,13 +133,18 @@ final class ListViewUIComponent: UIView {
             (directionValue, otherValue) = (\.width, \.height)
         }
         
+        var cellSizeAvailable = CGSize(width: CGFloat.nan, height: CGFloat.nan)
+        if size[keyPath: otherValue] != CGFloat.greatestFiniteMagnitude {
+            cellSizeAvailable[keyPath: otherValue] = size[keyPath: otherValue]
+        }
+        
         var item = 0
         var listSize = CGSize.zero
         while item < numberOfItems && listSize[keyPath: directionValue] < size[keyPath: directionValue] {
             let indexPath = IndexPath(item: item, section: 0)
             let cell = collection.cellForItem(at: indexPath) ?? collectionView(collection, cellForItemAt: indexPath)
             if let listViewCell = cell as? ListViewCell {
-                let cellSize = listViewCell.templateIntrinsicSize
+                let cellSize = listViewCell.templateSizeThatFits(cellSizeAvailable)
                 listSize[keyPath: directionValue] += cellSize[keyPath: directionValue]
                 let otherMeasure = cellSize[keyPath: otherValue]
                 if listSize[keyPath: otherValue] < otherMeasure {
