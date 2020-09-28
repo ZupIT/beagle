@@ -206,7 +206,7 @@ extension UIView {
     
     private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
         if T.self is String.Type {
-            return dynamicObject.toString() as? T
+            return dynamicObject.description as? T
         } else {
             let encoder = JSONEncoder()
             let decoder = JSONDecoder()

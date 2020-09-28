@@ -123,4 +123,18 @@ final class ExpressionTests: XCTestCase {
             XCTAssertNil($0)
         }
     }
+    
+    func testDictionarySnapShot() throws {
+        guard let url = Bundle(for: ComponentDecoderTests.self).url(
+            forResource: "testDictionarySnapShot",
+            withExtension: ".json"
+        ) else {
+            throw ComponentFromJsonError.wrongUrlPath
+        }
+
+        let json = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let result = try? decoder.decode(DynamicObject.self, from: json)
+        assertSnapshot(matching: result, as: .dump)
+    }
 }

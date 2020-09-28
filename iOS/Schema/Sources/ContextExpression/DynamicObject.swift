@@ -25,7 +25,11 @@ public enum DynamicObject: Equatable {
     case expression(ContextExpression)
 }
     
-extension DynamicObject {
+extension DynamicObject: CustomStringConvertible {
+    
+    public var description: String {
+        return self.toString()
+    }
         
     public func asAny() -> Any? {
         switch self {
@@ -53,7 +57,7 @@ extension DynamicObject {
         }
     }
     
-    public func toString() -> String {
+    private func toString() -> String {
         switch self {
         case .empty:
             return ""
