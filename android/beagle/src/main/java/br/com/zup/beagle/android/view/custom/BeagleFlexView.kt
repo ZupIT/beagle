@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.view.custom
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.View
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -47,10 +46,12 @@ internal open class BeagleFlexView(
     var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
 
     fun addView(child: View, style: Style) {
+
         super.addView(child, flexMapper.makeYogaNode(style))
     }
 
-    fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent) {
+    fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent,
+                                 addLayoutChangeListener: Boolean = true) {
         val component = if (serverDrivenComponent is GhostComponent) {
             serverDrivenComponent.child
         } else {
@@ -58,7 +59,11 @@ internal open class BeagleFlexView(
         }
         val style = (component as? StyleComponent)?.style ?: Style()
         val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
-        view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
+        if (addLayoutChangeListener) {
+            view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                invalidate(view)
+            }
+        }
         super.addView(view, flexMapper.makeYogaNode(style))
     }
 
