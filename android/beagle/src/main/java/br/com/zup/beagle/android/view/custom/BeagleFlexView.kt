@@ -28,6 +28,7 @@ import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
+import com.facebook.yoga.YogaNodeJNIBase
 
 @SuppressLint("ViewConstructor")
 internal open class BeagleFlexView(
@@ -61,7 +62,7 @@ internal open class BeagleFlexView(
         val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
         if (addLayoutChangeListener) {
             view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-                invalidate(view)
+                (yogaNode as YogaNodeJNIBase).dirtyAllDescendants()
             }
         }
         super.addView(view, flexMapper.makeYogaNode(style))
