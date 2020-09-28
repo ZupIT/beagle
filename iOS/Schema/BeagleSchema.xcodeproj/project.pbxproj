@@ -75,7 +75,7 @@
 		C864D2AB247C240200E7A1F9 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D230247C240200E7A1F9 /* Form.swift */; };
 		C864D2AF247C240200E7A1F9 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D239247C240200E7A1F9 /* WebView.swift */; };
 		C864D2B0247C240200E7A1F9 /* Touchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D23B247C240200E7A1F9 /* Touchable.swift */; };
-		C864D2B5247C240200E7A1F9 /* NavigationBar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D245247C240200E7A1F9 /* NavigationBar+Extension.swift */; };
+		C864D2B5247C240200E7A1F9 /* NavigationBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D245247C240200E7A1F9 /* NavigationBarItem.swift */; };
 		C864D2B6247C240200E7A1F9 /* Screen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D246247C240200E7A1F9 /* Screen+Extension.swift */; };
 		C864D2B8247C240200E7A1F9 /* ScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D248247C240200E7A1F9 /* ScreenComponent.swift */; };
 		C864D2B9247C240200E7A1F9 /* RawComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D249247C240200E7A1F9 /* RawComponent.swift */; };
@@ -229,7 +229,7 @@
 		C864D23B247C240200E7A1F9 /* Touchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Touchable.swift; sourceTree = "<group>"; };
 		C864D23D247C240200E7A1F9 /* TouchableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchableTests.swift; sourceTree = "<group>"; };
 		C864D23F247C240200E7A1F9 /* TouchableDecoderTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TouchableDecoderTest.json; sourceTree = "<group>"; };
-		C864D245247C240200E7A1F9 /* NavigationBar+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NavigationBar+Extension.swift"; sourceTree = "<group>"; };
+		C864D245247C240200E7A1F9 /* NavigationBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarItem.swift; sourceTree = "<group>"; };
 		C864D246247C240200E7A1F9 /* Screen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Screen+Extension.swift"; sourceTree = "<group>"; };
 		C864D248247C240200E7A1F9 /* ScreenComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenComponent.swift; sourceTree = "<group>"; };
 		C864D249247C240200E7A1F9 /* RawComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawComponent.swift; sourceTree = "<group>"; };
@@ -706,7 +706,7 @@
 		C864D243247C240200E7A1F9 /* Screen */ = {
 			isa = PBXGroup;
 			children = (
-				C864D245247C240200E7A1F9 /* NavigationBar+Extension.swift */,
+				C864D245247C240200E7A1F9 /* NavigationBarItem.swift */,
 				C864D246247C240200E7A1F9 /* Screen+Extension.swift */,
 				C08D4DD52481A1A400AAAC0A /* ScreenComponent */,
 			);
@@ -1336,7 +1336,7 @@
 				C864D2BB247C240200E7A1F9 /* AutoDecodable.generated.swift in Sources */,
 				C864D2C5247C240200E7A1F9 /* AnyDecodableContainer.swift in Sources */,
 				C864D2E1247C240200E7A1F9 /* AnalyticsModels.swift in Sources */,
-				C864D2B5247C240200E7A1F9 /* NavigationBar+Extension.swift in Sources */,
+				C864D2B5247C240200E7A1F9 /* NavigationBarItem.swift in Sources */,
 				93BFE32A249E2E34009838CE /* Parser.swift in Sources */,
 				1D5CF9CC25193DCA00395A09 /* CornerRadius.swift in Sources */,
 				1D5CF9DA251A8C5500395A09 /* UnknownAction.swift in Sources */,
