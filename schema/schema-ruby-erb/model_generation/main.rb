@@ -44,6 +44,9 @@ require_relative 'Models/Widgets/image_content.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
 
+require_relative 'Models/ServerDriven/Screen/safe_area.rb'
+require_relative 'Models/ServerDriven/Screen/screen.rb'
+
 require_relative 'Models/Action/action.rb'
 require_relative 'Models/Action/unknown_action.rb'
 require_relative 'Models/Action/add_children.rb'
@@ -206,6 +209,9 @@ if __FILE__ == $0
     Condition,
     # Lazy
     LazyComponent,
+    # Screen
+    SafeArea,
+    Screen
   ]
   
   generator = ModelGenerator.new(components)

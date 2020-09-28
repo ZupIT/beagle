@@ -15,21 +15,3 @@
  * limitations under the License.
  */
 
-/// Action to represent a condition
-public struct Condition: RawAction, Decodable {
-
-    public var condition: Expression<Bool>
-    public var onTrue: [RawAction]?
-    public var onFalse: [RawAction]?
-
-    public init(
-        condition: Expression<Bool>,
-        onTrue: [RawAction]? = nil,
-        onFalse: [RawAction]? = nil
-    ) {
-        self.condition = condition
-        self.onTrue = onTrue
-        self.onFalse = onFalse
-    }
-
-}

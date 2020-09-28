@@ -562,8 +562,8 @@
 		C864D21C247C240200E7A1F9 /* ServerDrivenComponent */ = {
 			isa = PBXGroup;
 			children = (
-				7C5E3D3424C08F2B009E5A3C /* PageIndicator */,
 				C864D249247C240200E7A1F9 /* RawComponent.swift */,
+				7C5E3D3424C08F2B009E5A3C /* PageIndicator */,
 				C864D21D247C240200E7A1F9 /* Form */,
 				C8EBCC25247C3002002030CC /* Lazy */,
 				C8EBCC32247C300E002030CC /* ListView */,
