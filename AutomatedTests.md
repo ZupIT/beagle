@@ -13,7 +13,7 @@ Here we provide two options for running the backend project, by using the Intell
 	Run the command: ./gradlew automated-tests:bootRun
 
 
-#android
+## Android
 	
 Here we provide two options for running the android project, by using the Android Studio IDE or running using the gradle wrapper
 	
