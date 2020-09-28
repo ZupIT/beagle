@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.SafeArea
-import br.com.zup.beagle.widget.core.NavigationBar
-import br.com.zup.beagle.widget.core.AnalyticsScreen
 
-data class Screen (
-  public override val id: String? = null,  
-  public override val style: StyleSchema? = null,  
-  public override val safeArea: SafeAreaSchema? = null,  
-  public override val navigationBar: NavigationBarSchema? = null,  
-  public override val screenAnalyticsEvent: AnalyticsScreenSchema? = null,  
-  public override val child: ServerDrivenComponent? = null,  
-  public override val context: Context? = null   
-) : ContextComponent, ScreenSchema 
+
+import br.com.zup.beagle.widget.core.AccessibilitySchema
+import br.com.zup.beagle.widget.core.NavigationBarItemSchema
+
+interface NavigationBarSchema {
+  public val title: String
+  public val styleId: String?
+  public val showBackButton: Boolean?
+  public val backButtonAccessibility: AccessibilitySchema?
+  public val navigationBarItems: List<NavigationBarItemSchema>? 
+}

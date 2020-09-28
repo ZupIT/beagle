@@ -18,9 +18,13 @@
 /// The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface. Note: This class is only used to iOS SafeArea
 public struct SafeArea: Decodable, Equatable {
 
+    /// enable the safeArea constraint only on the TOP of the screen view.
     public var top: Bool?
+    /// enable the safeArea constraint only on the LEFT side of the screen view.
     public var leading: Bool?
+    /// enable the safeArea constraint only on the BOTTOM of the screen view.
     public var bottom: Bool?
+    /// enable the safeArea constraint only on the RIGHT of the screen view.
     public var trailing: Bool?
 
     public init(

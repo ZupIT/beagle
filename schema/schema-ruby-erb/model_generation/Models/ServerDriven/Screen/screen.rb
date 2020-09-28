@@ -25,32 +25,38 @@ class Screen < BaseComponent
             Variable.new(
                 :name => "id",
                 :typeName => TypesToString.string,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "identifies your screen globally inside your application so that it could have actions set on itself."
             ),
             Variable.new(
                 :name => "style",
                 :typeName => Style.new.name,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "enable a few visual options to be changed."
             ),
             Variable.new(
                 :name => "safeArea",
                 :typeName => SafeArea.new.name,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "enable Safe areas to help you place your views within the visible portion of the overall interface. By default it is not enabled and it wont constrain considering any safe area."
             ),
             Variable.new(
                 :name => "navigationBar",
-                :typeName => "NavigationBar", # todo
-                :isOptional => true
+                :typeName => NavigationBar.new.name,
+                :isOptional => true,
+                :comment => "enable a action bar/navigation bar into your view. By default it is set as null."
             ),
             Variable.new(
                 :name => "screenAnalyticsEvent",
                 :typeName => "AnalyticsScreen", #todo unify analytics names between platforms
-                :isOptional => true
+                :isOptional => true,
+                :comment => "send event when screen appear/disappear"
             ),
             Variable.new(
                 :name => "child",
                 :typeName => ServerDrivenComponent.new.name,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "define the child elements on this screen. It could be any visual component that extends ServerDrivenComponent"
             ),
             Variable.new(
                 :name => "context",
@@ -63,9 +69,9 @@ class Screen < BaseComponent
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => [
-                ContextComponent.new.name,
-                ServerDrivenComponent.new.name
-            ]
+                ContextComponent.new.name
+            ],
+            :comment => "The screen element will help you define the screen view structure. By using this component you can define configurations like whether or not you want to use safe areas or display a tool bar/navigation bar."
         )
 
         super(synthax_type)

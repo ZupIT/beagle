@@ -43,9 +43,11 @@ require_relative 'Models/Widgets/image_content.rb'
 
 require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
-
+require_relative 'Models/ServerDriven/Lazy/lazy_component.rb'
 require_relative 'Models/ServerDriven/Screen/safe_area.rb'
 require_relative 'Models/ServerDriven/Screen/screen.rb'
+require_relative 'Models/ServerDriven/Screen/navigation_bar.rb'
+require_relative 'Models/ServerDriven/Screen/navigation_bar_item.rb'
 
 require_relative 'Models/Action/action.rb'
 require_relative 'Models/Action/unknown_action.rb'
@@ -55,7 +57,7 @@ require_relative 'Models/Action/confirm.rb'
 require_relative 'Models/Action/send_request.rb'
 require_relative 'Models/Action/condition.rb'
 
-require_relative 'Models/ServerDriven/Lazy/lazy_component.rb'
+
 
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
@@ -211,7 +213,9 @@ if __FILE__ == $0
     LazyComponent,
     # Screen
     SafeArea,
-    Screen
+    Screen,
+    NavigationBar,
+    NavigationBarItem
   ]
   
   generator = ModelGenerator.new(components)

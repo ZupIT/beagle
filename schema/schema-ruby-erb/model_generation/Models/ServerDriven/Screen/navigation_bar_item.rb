@@ -18,40 +18,44 @@ require_relative '../../../Synthax/Types/built_in_type.rb'
 require_relative '../server_driven_component.rb'
 require_relative '../../Context/context_component.rb'
 
-class SafeArea < BaseComponent
+class NavigationBarItem < BaseComponent
 
     def initialize
         variables = [
             Variable.new(
-                :name => "top",
-                :typeName => TypesToString.bool,
+                :name => "id",
+                :typeName => TypesToString.string,
                 :isOptional => true,
-                :comment => "enable the safeArea constraint only on the TOP of the screen view."
+                :comment => "defines the Title on the navigation bar"
             ),
             Variable.new(
-                :name => "leading",
-                :typeName => TypesToString.bool,
+                :name => "image",
+                :typeName => TypesToString.string,
                 :isOptional => true,
-                :comment => "enable the safeArea constraint only on the LEFT side of the screen view."
+                :comment => "defines an image for your navigation bar"
             ),
             Variable.new(
-                :name => "bottom",
-                :typeName => TypesToString.bool,
-                :isOptional => true,
-                :comment => "enable the safeArea constraint only on the BOTTOM of the screen view."
+                :name => "text",
+                :typeName => TypesToString.string,
+                :comment => "defines an action to be called when the item is clicked on"
             ),
             Variable.new(
-                :name => "trailing",
-                :typeName => TypesToString.bool,
+                :name => "action",
+                :typeName => Action.new.name,
+                :comment => "define the Title on the navigation bar"
+            ),
+            Variable.new(
+                :name => "accessibility",
+                :typeName => Accessibility.new.name,
                 :isOptional => true,
-                :comment => "enable the safeArea constraint only on the RIGHT of the screen view."
+                :comment => "define Accessibility details for the item"
             ),
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
-            :comment => "The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface. Note: This class is only used to iOS SafeArea"
+            :comment => "Item that will be added to a navigation bar"
         )
 
         super(synthax_type)

@@ -17,17 +17,13 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.SafeArea
-import br.com.zup.beagle.widget.core.NavigationBar
-import br.com.zup.beagle.widget.core.AnalyticsScreen
+import br.com.zup.beagle.widget.core.Accessibility
+import br.com.zup.beagle.widget.core.NavigationBarItem
 
-data class Screen (
-  public override val id: String? = null,  
-  public override val style: StyleSchema? = null,  
-  public override val safeArea: SafeAreaSchema? = null,  
-  public override val navigationBar: NavigationBarSchema? = null,  
-  public override val screenAnalyticsEvent: AnalyticsScreenSchema? = null,  
-  public override val child: ServerDrivenComponent? = null,  
-  public override val context: Context? = null   
-) : ContextComponent, ScreenSchema 
+data class NavigationBar (
+  public override val title: String,  
+  public override val styleId: String? = null,  
+  public override val showBackButton: Boolean? = null,  
+  public override val backButtonAccessibility: AccessibilitySchema? = null,  
+  public override val navigationBarItems: List<NavigationBarItemSchema>? = null   
+) : NavigationBarSchema 
