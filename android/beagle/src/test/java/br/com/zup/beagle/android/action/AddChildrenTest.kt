@@ -28,7 +28,7 @@ import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Test
 
-class AddChildrenActionTest {
+class AddChildrenTest {
 
     private lateinit var value: List<ServerDrivenComponent>
 
@@ -66,7 +66,7 @@ class AddChildrenActionTest {
     @Test
     fun addChildren_with_no_mode_should_append() {
         //GIVEN
-        val action = AddChildrenAction(
+        val action = AddChildren(
             id,
             value
         )
@@ -81,7 +81,7 @@ class AddChildrenActionTest {
     @Test
     fun addChildren_with_append_mode_should_call_view_group_add_view() {
         //GIVEN
-        val action = AddChildrenAction(
+        val action = AddChildren(
             id,
             value,
             Mode.APPEND
@@ -97,7 +97,7 @@ class AddChildrenActionTest {
     @Test
     fun addChildren_with_replace_mode_should_call_view_group_remove_all_views_than_add_view() {
         //GIVEN
-        val action = AddChildrenAction(
+        val action = AddChildren(
             id,
             value,
             Mode.REPLACE
@@ -114,7 +114,7 @@ class AddChildrenActionTest {
     @Test
     fun addChildren_with_prepend_mode_should_call_view_group_add_view_index_zero() {
         //GIVEN
-        val action = AddChildrenAction(
+        val action = AddChildren(
             id,
             value,
             Mode.PREPEND
