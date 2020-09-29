@@ -67,29 +67,29 @@ class DatabaseLocalStoreTest {
     }
 
     @Test
-    fun save_should_add_new_data_on_database() {
+    fun `save should add new data on database`() {
         // Given
         val key = RandomData.string()
         val value = RandomData.string()
         val tableNameSlot = slot<String>()
-        every { database.insert(capture(tableNameSlot), any(), any()) } returns 1
+        every { database.insertWithOnConflict(capture(tableNameSlot), any(), any(), any()) } returns 1
 
         // When
         databaseLocalStore.save(key, value)
 
         // Then
         val actualTableName = tableNameSlot.captured
-        verify(exactly = once()) { database.insert(actualTableName, null, contentValues) }
+        verify(exactly = once()) { database.insertWithOnConflict(actualTableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE) }
         verify(exactly = 0) { BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value) }
         assertEquals(ScreenEntry.TABLE_NAME, actualTableName)
     }
 
     @Test
-    fun save_should_log_error_when_return_value_is_minus_1() {
+    fun `save should log error when return value is minus 1`() {
         // Given
         val key = RandomData.string()
         val value = RandomData.string()
-        every { database.insert(any(), any(), any()) } returns -1
+        every { database.insertWithOnConflict(any(), any(), any(), any()) } returns -1
 
         // When
         databaseLocalStore.save(key, value)
@@ -99,7 +99,7 @@ class DatabaseLocalStoreTest {
     }
 
     @Test
-    fun restore_should_return_value_when_query_find_key() {
+    fun `restore should return value when query find key`() {
         // Given
         val value = RandomData.string()
         every { cursor.count } returns 1
@@ -115,7 +115,7 @@ class DatabaseLocalStoreTest {
     }
 
     @Test
-    fun restore_should_return_null_value_when_query_doe_not_find_key() {
+    fun `restore should return null value when query doe not find key`() {
         // Given  When
         val value = databaseLocalStore.restore(DATA_KEY)
 
@@ -124,7 +124,7 @@ class DatabaseLocalStoreTest {
     }
 
     @Test
-    fun restore_should_query_database_by_key_column_name() {
+    fun `restore should query database by key column name`() {
         // Given
         val tableNameSlot = slot<String>()
         val columnsToReturnSlot = slot<Array<String>>()

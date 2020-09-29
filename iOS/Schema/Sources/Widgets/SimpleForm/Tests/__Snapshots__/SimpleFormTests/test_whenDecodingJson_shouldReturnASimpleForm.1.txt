@@ -15,16 +15,7 @@
   ▿ context: Optional<Context>
     ▿ some: Context
       - id: "cadastro"
-      ▿ value: DynamicObject
-        ▿ dictionary: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "email"
-            ▿ value: DynamicObject
-              - string: "beagle@zup.com.br"
-          ▿ (2 elements)
-            - key: "message"
-            ▿ value: DynamicObject
-              - string: "Hello Beagle!"
+      - value: [email: beagle@zup.com.br, message: Hello Beagle!]
   ▿ onSubmit: Optional<Array<RawAction>>
     ▿ some: 1 element
       ▿ Confirm

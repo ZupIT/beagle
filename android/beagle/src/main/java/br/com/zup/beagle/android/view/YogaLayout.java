@@ -34,6 +34,7 @@ import com.facebook.yoga.YogaMeasureFunction;
 import com.facebook.yoga.YogaMeasureMode;
 import com.facebook.yoga.YogaMeasureOutput;
 import com.facebook.yoga.YogaNode;
+import com.facebook.yoga.YogaNodeJNIBase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -106,10 +107,9 @@ public class YogaLayout extends ViewGroup {
             index = mYogaNode.getChildCount();
 
         mYogaNode.addChildAt(childNode, index);
-
     }
 
-    public void addView(View child, @Nullable YogaNode node){
+    public void addView(View child, @Nullable YogaNode node) {
         addView(child, node, -1);
     }
 
@@ -122,7 +122,7 @@ public class YogaLayout extends ViewGroup {
     @Override
     public void addView(View child, int index) {
         YogaNode node = null;
-        addView(child, node,index);
+        addView(child, node, index);
     }
 
     @Override
@@ -373,5 +373,15 @@ public class YogaLayout extends ViewGroup {
                 return MeasureSpec.UNSPECIFIED;
             }
         }
+    }
+
+    public void setHeightAutoAndDirtyAllViews() {
+        addOnLayoutChangeListener(new OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                mYogaNode.setHeightAuto();
+                ((YogaNodeJNIBase) mYogaNode).dirtyAllDescendants();
+            }
+        });
     }
 }

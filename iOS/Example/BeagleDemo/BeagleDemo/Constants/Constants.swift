@@ -34,6 +34,7 @@ extension String {
     static let screenDeeplinkEndpoint = "screen-deep-link"
     static let navigateStep1Endpoint = "navigateScreenStep1"
     static let navigateStep2Endpoint = "navigateScreenStep2"
+    static let beagleView = "beagleView"
     static let textFormEndpoint = "https://t001-2751a.firebaseapp.com/action/shownativedialog.json"
     static let textLazyComponentEndpoint = "https://run.mocky.io/v3/bd78fba6-da3d-4cb3-8807-85923366fe13"
     static let webViewEndpoint = "webViewComponent"

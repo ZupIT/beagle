@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.data.serializer
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.AddChildren
 import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.action.Condition
 import br.com.zup.beagle.android.action.Confirm
@@ -46,11 +47,14 @@ import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleGenericAdapterFactory
 import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.CustomAndroidAction
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.mockdata.InternalObject
+import br.com.zup.beagle.android.mockdata.Person
+import br.com.zup.beagle.android.mockdata.TypeAdapterResolverImpl
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
@@ -89,6 +93,7 @@ class BeagleMoshiTest : BaseTest() {
         every { beagleSdk.formLocalActionHandler } returns mockk(relaxed = true)
         every { beagleSdk.registeredWidgets() } returns WIDGETS
         every { beagleSdk.registeredActions() } returns ACTIONS
+        every { beagleSdk.typeAdapterResolver } returns TypeAdapterResolverImpl()
 
         moshi = BeagleMoshi.createMoshi()
     }
@@ -309,7 +314,9 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun `make should return_moshi to serialize a CustomWidget`() {
         // Given
-        val component = CustomWidget()
+        val component = CustomWidget(arrayListOf(Person(names = arrayListOf("text"))),
+            Pair(Person(names = arrayListOf("text")), "second"), "charSequence",
+            Person(names = arrayListOf("text")))
 
         // When
         val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
@@ -487,6 +494,31 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         assertNotNull(actual)
         assertTrue(actual is Condition)
+    }
+
+    @Test
+    fun `GIVEN json from AddChildren WHEN moshi deserialize the action THEN it should return action deserialized` (){
+        // Given
+        val json = makeAddChildrenJson()
+
+        // When
+        val actual = moshi.adapter(AddChildren::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is AddChildren)
+    }
+
+    @Test
+    fun `GIVEN AddChildren action WHEN moshi to serialize the action THEN it should return action serialized `(){
+        // Given
+        val component = AddChildren(componentId = "", value = listOf())
+
+        // When
+        val actual = moshi.adapter(Action::class.java).toJson(component)
+
+        // Then
+        assertNotNull(JSONObject(actual))
     }
 
     @Test
@@ -845,6 +877,102 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         assertEquals("contextId", contextData?.id)
         assertEquals(true, contextData?.value)
+    }
+
+    @Test
+    fun moshi_should_serialize_contextData_with_integer() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = 2
+        )
+
+        // When
+        val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
+
+        // Then
+        val jsonObject = JSONObject(toJson)
+        assertNotNull(jsonObject)
+        assertEquals(jsonObject.get("id"), contextData.id)
+        assertEquals(jsonObject.get("value"), contextData.value)
+    }
+
+    @Test
+    fun moshi_should_convert_and_revert_contextData_with_integer() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = 5
+        )
+
+        // When
+        val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
+        val fromJson = moshi.adapter(ContextData::class.java).fromJson(toJson)
+
+        // Then
+        assertEquals(contextData, fromJson)
+    }
+
+    @Test
+    fun moshi_should_serialize_contextData_with_double() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = 2.5
+        )
+
+        // When
+        val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
+
+        // Then
+        val jsonObject = JSONObject(toJson)
+        assertNotNull(jsonObject)
+        assertEquals(jsonObject.get("id"), contextData.id)
+        assertEquals(jsonObject.get("value"), contextData.value)
+    }
+
+    @Test
+    fun moshi_should_convert_and_revert_contextData_with_double() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = 4.7
+        )
+
+        // When
+        val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
+        val fromJson = moshi.adapter(ContextData::class.java).fromJson(toJson)
+
+        // Then
+        assertEquals(contextData, fromJson)
+    }
+
+    @Test
+    fun make_should_create_contextData_with_integer() {
+        // Given
+        val testInt = 2
+        val contextDataJson = makeContextWithNumber(testInt)
+
+        // When
+        val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+
+        // Then
+        assertEquals("contextId", contextData?.id)
+        assertEquals(testInt, contextData?.value)
+    }
+
+    @Test
+    fun make_should_create_contextData_with_double() {
+        // Given
+        val testDouble = 2.5
+        val contextDataJson = makeContextWithNumber(testDouble)
+
+        // When
+        val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+
+        // Then
+        assertEquals("contextId", contextData?.id)
+        assertEquals(testDouble, contextData?.value)
     }
 
     @Test

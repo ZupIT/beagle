@@ -35,11 +35,13 @@ import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
+import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 
@@ -65,13 +67,17 @@ internal class ToolbarManager {
         }
     }
 
-    fun configureToolbar(rootView: RootView, navigationBar: NavigationBar) {
+    fun configureToolbar(
+        rootView: RootView,
+        navigationBar: NavigationBar,
+        container: BeagleFlexView,
+        screenComponent: ScreenComponent) {
         (rootView.getContext() as BeagleActivity).getToolbar().apply {
             visibility = View.VISIBLE
             menu.clear()
             configToolbarStyle(rootView.getContext(), this, navigationBar)
             navigationBar.navigationBarItems?.let { items ->
-                configToolbarItems(rootView, this, items)
+                configToolbarItems(rootView, this, items, container, screenComponent)
             }
         }
     }
@@ -171,7 +177,9 @@ internal class ToolbarManager {
     private fun configToolbarItems(
         rootView: RootView,
         toolbar: Toolbar,
-        items: List<NavigationBarItem>
+        items: List<NavigationBarItem>,
+        container: BeagleFlexView,
+        screenComponent: ScreenComponent
     ) {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
         for (i in items.indices) {
@@ -187,7 +195,7 @@ internal class ToolbarManager {
                 if (items[i].image == null) {
                     setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
                 } else {
-                    configMenuItem(designSystem, items, i, rootView.getContext())
+                    configMenuItem(designSystem, items, i, rootView, container, screenComponent)
                 }
             }
         }
@@ -203,28 +211,33 @@ internal class ToolbarManager {
             }
         }
     }
-
+    
+    @Suppress("LongParameterList")
     private fun MenuItem.configMenuItem(
         design: DesignSystem?,
         items: List<NavigationBarItem>,
         i: Int,
-        context: Context
+        rootView: RootView,
+        container: BeagleFlexView,
+        screenComponent: ScreenComponent
     ) {
         design?.let { designSystem ->
             items[i].image?.let { image ->
                 setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                if (image.mobileId is Bind.Expression) {
-                    BeagleMessageLogs.toolbarNotSupportExpressionInIcon(image.mobileId.value)
-                    return
+
+                screenComponent.observeBindChanges(rootView, container, image.mobileId) { mobileId ->
+                    mobileId?.let {
+                        icon = designSystem.image(it)?.let { iconRes ->
+                            ResourcesCompat.getDrawable(
+                                rootView.getContext().resources,
+                                iconRes,
+                                null
+                            )
+                        }
+                    }
                 }
 
-                icon = designSystem.image(image.mobileId.value as String)?.let {
-                    ResourcesCompat.getDrawable(
-                        context.resources,
-                        it,
-                        null
-                    )
-                }
+
             }
         }
     }

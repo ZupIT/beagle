@@ -46,54 +46,52 @@ class Dependencies : Plugin<Project> {
     }
 
     object Versions {
-        const val compileSdk = 29
+        const val compileSdk = 30
         const val minSdk = 19
-        const val targetSdk = 29
-        const val buildTools = "29.0.2"
-        const val gradle = "3.6.3"
-        const val kotlin = "1.3.72"
+        const val targetSdk = 30
+        const val buildTools = "30.0.0"
+        const val kotlin = "1.4.10"
 
-        const val kotlinCoroutines = "1.3.1"
+        const val kotlinCoroutines = "1.3.9"
 
-        const val kotlinPoet = "1.5.0"
+        const val kotlinPoet = "1.6.0"
 
-        const val appcompat = "1.1.0"
+        const val appcompat = "1.2.0"
         const val viewModel = "2.2.0"
-        const val recyclerView = "1.0.0"
+        const val recyclerView = "1.1.0"
 
-        const val moshi = "1.9.3"
+        const val moshi = "1.10.0"
 
-        const val soLoader = "0.8.2"
+        const val soLoader = "0.9.0"
 
         const val glide = "4.11.0"
 
         const val junit = "4.13"
-        const val junit5 = "5.6.1"
+        const val junit5 = "5.7.0"
 
         const val yoga = "1.16.0"
 
-        const val jni = "0.0.2"
+        const val jni = "0.0.4"
 
         const val webSocket = "1.5.1"
-        const val simpleLogger = "1.7.25"
+        const val simpleLogger = "1.7.30"
 
-        const val kotlinTest = "1.3.50"
-        const val kotlinCoroutinesTest = "1.3.1"
-
-        const val materialDesign = "1.0.0"
+        const val kotlinTest = "1.4.10"
+        const val kotlinCoroutinesTest = "1.3.9"
+        const val materialDesign = "1.2.1"
         const val googleCompileTesting = "0.18"
-        const val googleAutoService = "1.0-rc6"
+        const val googleAutoService = "1.0-rc7"
 
-        const val jsonObject = "20190722"
+        const val jsonObject = "20200518"
 
-        const val mockk = "1.9.3"
+        const val mockk = "1.10.0"
 
         const val testRunner = "1.2.0"
-        const val testExt = "1.1.1"
         const val archCoreTesting = "2.1.0"
-        const val espressoCore = "3.2.0"
 
-        const val incap = "0.2"
+        const val incap = "0.3"
+
+        const val multidex = "2.0.1"
     }
 
     object GeneralNames {
@@ -130,6 +128,8 @@ class Dependencies : Plugin<Project> {
         const val simpleLogger = "org.slf4j:slf4j-simple:${Versions.simpleLogger}"
 
         const val jsonObject = "org.json:json:${Versions.jsonObject}"
+
+        const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
     }
 
     object GoogleLibraries {
@@ -158,11 +158,7 @@ class Dependencies : Plugin<Project> {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlinTest}"
         const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
         const val googleCompileTesting = "com.google.testing.compile:compile-testing:${Versions.googleCompileTesting}"
-        const val testRunner = "androidx.test:runner:${Versions.testRunner}"
-        const val testExt = "androidx.test.ext:junit:${Versions.testExt}"
         const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
-        const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
-        const val testRules = "androidx.test:rules:${Versions.testExt}"
     }
 
 }

@@ -27,6 +27,7 @@
 		25CDD47624EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47524EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift */; };
 		25CDD47824EDBB7600CC49CB /* OperationOtherEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */; };
 		5740E23723F70A75004A0BF0 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5740E23623F70A75004A0BF0 /* CacheManager.swift */; };
+		5744D121251E6868003638F4 /* DynamicObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744D120251E6868003638F4 /* DynamicObjectExtension.swift */; };
 		5754314923F207F000EF0E5A /* CacheLRU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314823F207F000EF0E5A /* CacheLRU.swift */; };
 		5754314B23F2080B00EF0E5A /* DoublyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */; };
 		5754315023F2108400EF0E5A /* LRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314F23F2108400EF0E5A /* LRUCacheTests.swift */; };
@@ -87,6 +88,8 @@
 		93BFE32F24A13F34009838CE /* DynamicObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BFE32E24A13F34009838CE /* DynamicObjectTests.swift */; };
 		93C69F2B24A4D84D00818305 /* UIView+ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C69F2A24A4D84D00818305 /* UIView+ContextTests.swift */; };
 		93D1C6BC24D06D6500351347 /* SendRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D1C6BB24D06D6500351347 /* SendRequestTests.swift */; };
+		93D24A512513DF47005A5CBD /* AutoLayoutWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */; };
+		93D24A57251402B8005A5CBD /* AutoLayoutWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D24A56251402B8005A5CBD /* AutoLayoutWrapperTests.swift */; };
 		9800ACFF2455D09B0030109F /* UrlBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9800ACFE2455D09B0030109F /* UrlBuilderTests.swift */; };
 		980654B32480114600761FD4 /* BeagleNavigatorAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980654B22480114600761FD4 /* BeagleNavigatorAnimation.swift */; };
 		981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */; };
@@ -280,6 +283,7 @@
 		570434E824A5680100DAD0D3 /* test_renderTextInputComponent.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_renderTextInputComponent.1.png; sourceTree = "<group>"; };
 		570434E924A5680100DAD0D3 /* test_textInputComponent_whenTextValueChanges.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_textInputComponent_whenTextValueChanges.1.png; sourceTree = "<group>"; };
 		5740E23623F70A75004A0BF0 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		5744D120251E6868003638F4 /* DynamicObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DynamicObjectExtension.swift; path = ../../../../../../Test/DynamicObjectExtension.swift; sourceTree = "<group>"; };
 		5754314823F207F000EF0E5A /* CacheLRU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheLRU.swift; sourceTree = "<group>"; };
 		5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublyLinkedList.swift; sourceTree = "<group>"; };
 		5754314F23F2108400EF0E5A /* LRUCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCacheTests.swift; sourceTree = "<group>"; };
@@ -353,6 +357,9 @@
 		93C69F2A24A4D84D00818305 /* UIView+ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ContextTests.swift"; sourceTree = "<group>"; };
 		93D1C6BB24D06D6500351347 /* SendRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestTests.swift; sourceTree = "<group>"; };
 		93D1C6BD24D0A3FB00351347 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutWrapper.swift; sourceTree = "<group>"; };
+		93D24A56251402B8005A5CBD /* AutoLayoutWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutWrapperTests.swift; sourceTree = "<group>"; };
+		93D24A9A2519334B005A5CBD /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		9800ACFE2455D09B0030109F /* UrlBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilderTests.swift; sourceTree = "<group>"; };
 		980654B22480114600761FD4 /* BeagleNavigatorAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleNavigatorAnimation.swift; sourceTree = "<group>"; };
 		981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitValueExtension.swift; sourceTree = "<group>"; };
@@ -1196,6 +1203,7 @@
 		C08D4E90248594D600AAAC0A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				93D24A9A2519334B005A5CBD /* __Snapshots__ */,
 				C08D4E92248594D600AAAC0A /* ImageTests.swift */,
 				C08D4E95248594D600AAAC0A /* ImageContentModeTests.swift */,
 				C08D4E91248594D600AAAC0A /* ImageTests.xcassets */,
@@ -1305,6 +1313,7 @@
 		C829CEA723B15C59001B7225 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */,
 				A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */,
 				C852A0F2247F246B009535D9 /* BeagleRenderer.swift */,
 				E5CB5D64234E7CF6009783A7 /* BeagleScreenViewController.swift */,
@@ -1329,6 +1338,7 @@
 		C829CEAF23B15FF0001B7225 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				5744D120251E6868003638F4 /* DynamicObjectExtension.swift */,
 				7CDF84862416DD8D00234F40 /* __Snapshots__ */,
 				E5CB5D852354C830009783A7 /* MirrorExtension.swift */,
 				93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */,
@@ -1392,6 +1402,7 @@
 				E516E60F23705BED006620B1 /* BeagleViewBuilderTests.swift */,
 				E5CB5D802354C08E009783A7 /* UnknownComponentViewRendererTests.swift */,
 				2532D5DB25099ABB001D1469 /* BeagleViewTests.swift */,
+				93D24A56251402B8005A5CBD /* AutoLayoutWrapperTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1933,6 +1944,7 @@
 				7CFE3A752412E3B50087F664 /* StyleBuildersExtension.swift in Sources */,
 				C08D4E9B248594ED00AAAC0A /* ImageContentMode+Renderable.swift in Sources */,
 				E7716B9D2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift in Sources */,
+				93D24A512513DF47005A5CBD /* AutoLayoutWrapper.swift in Sources */,
 				98B7D95623DB2722002622AC /* Observable.swift in Sources */,
 				A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */,
 				C8ECF2CD24BD1D9800525CF5 /* NetworkCache.swift in Sources */,
@@ -2028,6 +2040,7 @@
 				C08D4E2824857BB400AAAC0A /* StyleViewConfiguratorTests.swift in Sources */,
 				983E8C912396DF430018C6CA /* TabViewTests.swift in Sources */,
 				6E71540D24B3B4F20025B850 /* SimpleFormTests.swift in Sources */,
+				93D24A57251402B8005A5CBD /* AutoLayoutWrapperTests.swift in Sources */,
 				C08D4E9D248594FB00AAAC0A /* ImageTests.swift in Sources */,
 				C08D4E862485944300AAAC0A /* TextTests.swift in Sources */,
 				25CDD47224ED5B4800CC49CB /* OperationComparisonEvaluationTests.swift in Sources */,
@@ -2055,6 +2068,7 @@
 				98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */,
 				98E4974B249E9B830053DB87 /* TextInputTests.swift in Sources */,
 				17D62CEC24DAFAF9008A4E96 /* XCTestCase+Delay.swift in Sources */,
+				5744D121251E6868003638F4 /* DynamicObjectExtension.swift in Sources */,
 				C81C9C7423AA9B4800C557D2 /* ListViewTests.swift in Sources */,
 				C8ECF2D024BD2AB000525CF5 /* NetworkCacheTest.swift in Sources */,
 				C0E569172476F047003D413F /* ThemeSpy.swift in Sources */,

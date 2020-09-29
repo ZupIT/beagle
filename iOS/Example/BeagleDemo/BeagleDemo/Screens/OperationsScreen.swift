@@ -51,12 +51,22 @@ let operationsScreen: Screen = {
                 Text("@{sum(context1, 4)}")
                 Text("@{sum(context1, context2)}")
                 Text("@{sum(context1, context2)} teste: \\@{sum(context1, context2)}, 4: @{sum(2, 2)}")
+                Text("@{context1} + @{context2}")
                 Button(
-                    text: "update",
+                    text: "update 1",
                     onPress: [
                         SetContext(
                             contextId: "context1",
                             value: 3
+                        )
+                    ]
+                )
+                Button(
+                    text: "update 2",
+                    onPress: [
+                        SetContext(
+                            contextId: "context2",
+                            value: 4
                         )
                     ]
                 )

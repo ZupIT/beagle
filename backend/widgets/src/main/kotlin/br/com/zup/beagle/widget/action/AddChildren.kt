@@ -22,7 +22,7 @@ enum class Mode {
     APPEND, PREPEND, REPLACE
 }
 
-data class AddChildrenAction(
+data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
     var mode: Mode? = Mode.APPEND

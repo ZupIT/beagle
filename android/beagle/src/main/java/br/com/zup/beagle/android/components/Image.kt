@@ -21,9 +21,7 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.expressionOrValueOf
-import br.com.zup.beagle.android.context.isExpression
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
@@ -40,11 +38,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 @RegisterWidget
-data class Image
-@Deprecated("It was deprecated in version 1.2.2 and will" +
-    " be removed in a future version. Use constructor without bind",
-    replaceWith = ReplaceWith("Image(path, null)"))
-constructor(
+data class Image constructor(
     val path: Bind<ImagePath>,
     val mode: ImageContentMode? = null
 ) : WidgetView() {

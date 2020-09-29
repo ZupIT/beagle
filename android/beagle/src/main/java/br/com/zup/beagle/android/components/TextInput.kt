@@ -156,6 +156,8 @@ data class TextInput(
     }
 
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
+        isFocusable = true
+        isFocusableInTouchMode = true
         textInput.placeholder?.let { bind -> observeBindChanges(rootView, this, bind) { it?.let { hint = it } } }
         textInput.value?.let { bind ->
             observeBindChanges(rootView, this, bind) { it?.let { setValue(it, rootView) } }

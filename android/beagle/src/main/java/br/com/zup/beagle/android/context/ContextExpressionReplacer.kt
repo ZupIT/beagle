@@ -44,7 +44,8 @@ class ContextExpressionReplacer {
                     evaluatedItemsInReverseOrder
                 )
             } else {
-                joinActualMatchWithNextOne(index, listInReverseOrderOfStringsToEvaluate, actualStringToEvaluate)
+                joinActualMatchWithNextOneOrEndList(index, listInReverseOrderOfStringsToEvaluate,
+                    actualStringToEvaluate, evaluatedItemsInReverseOrder)
             }
         }
 
@@ -85,21 +86,24 @@ class ContextExpressionReplacer {
             .replace("\\@", "@")
     }
 
-    private fun joinActualMatchWithNextOne(
+    private fun joinActualMatchWithNextOneOrEndList(
         index: Int,
         listInReverseOrderOfStringsToEvaluate: MutableList<String>,
-        actualStringToEvaluate: String
+        actualStringToEvaluate: String,
+        evaluatedItemsInReverseOrder: MutableList<String>
     ) {
         if (isNotTheLastMatch(index, listInReverseOrderOfStringsToEvaluate)) {
             val nextStringItem = listInReverseOrderOfStringsToEvaluate[index + 1]
             listInReverseOrderOfStringsToEvaluate[index + 1] = nextStringItem.plus(actualStringToEvaluate)
+        }else{
+            evaluatedItemsInReverseOrder.add(actualStringToEvaluate)
         }
     }
 
     private fun isNotTheLastMatch(
         index: Int,
         listInReverseOrderOfStringsToEvaluate: MutableList<String>
-    ) = index != listInReverseOrderOfStringsToEvaluate.size
+    ) = index != listInReverseOrderOfStringsToEvaluate.size - 1
 
     private fun getQuantityOfSlashesForThisMatch(actualMatch: String) =
         BeagleRegex.QUANTITY_OF_SLASHES_REGEX.find(actualMatch)?.groups?.get(1)?.value?.length ?: 0

@@ -20,35 +20,14 @@ import BeagleSchema
 
 final class RepositoryTests: XCTestCase {
 
-    private struct Dependencies: RepositoryDefault.Dependencies {
-        var logger: BeagleLoggerType
-        var urlBuilder: UrlBuilderProtocol
-        
-        var cacheManager: CacheManagerProtocol?
-        var baseURL: URL?
-        var networkClient: NetworkClient
-        var decoder: ComponentDecoding
+    private var dependencies = BeagleDependencies()
 
-        init(
-            logger: BeagleLoggerType = BeagleLoggerDumb(),
-            urlBuilder: UrlBuilderProtocol = UrlBuilder(),
-            cacheManager: CacheManagerProtocol = CacheManagerDummy(),
-            baseURL: URL? = nil,
-            networkClient: NetworkClient = NetworkClientDummy(),
-            decoder: ComponentDecoding = ComponentDecodingDummy()
-        ) {
-            self.logger = logger
-            self.urlBuilder = urlBuilder
-            self.cacheManager = cacheManager
-            self.baseURL = baseURL
-            self.networkClient = networkClient
-            self.decoder = decoder
-        }
-    }
+    private lazy var sut = RepositoryDefault(dependencies: dependencies)
+
+    private let url = "www.something.com"
 
     // swiftlint:disable force_unwrapping
     func test_requestWithInvalidURL_itShouldFail() {
-        let sut = RepositoryDefault(dependencies: BeagleDependencies())
         let invalidURL = "🥶"
         
         // When
@@ -86,26 +65,21 @@ final class RepositoryTests: XCTestCase {
     
     func test_whenRequestSucceeds_withValidData_itShouldReturnSomeComponent() {
         // Given
-        guard let jsonData = """
+        let jsonData = """
         {
             "_beagleComponent_": "beagle:text",
             "text": "some text"
         }
-        """.data(using: .utf8) else {
-            XCTFail("Could not create test data.")
-            return
-        }
-        let result = Result<NetworkResponse, NetworkError>.success(.init(data: jsonData, response: URLResponse()))
-        let clientStub = NetworkClientStub(result: result)
-        let sut = RepositoryDefault(dependencies: Dependencies(
-            networkClient: clientStub,
-            decoder: ComponentDecoder()
-        ))
-        let url = "www.something.com"
+        """.data(using: .utf8)!
+
+        dependencies.networkClient = NetworkClientStub(result:
+            .success(.init(data: jsonData, response: URLResponse()))
+        )
+
+        let expec = expectation(description: "fetchComponentExpectation")
 
         // When
         var componentReturned: ServerDrivenComponent?
-        let expec = expectation(description: "fetchComponentExpectation")
         sut.fetchComponent(url: url, additionalData: nil) { result in
             if case .success(let component) = result {
                 componentReturned = component
@@ -121,20 +95,19 @@ final class RepositoryTests: XCTestCase {
     
     func test_whenRequestSucceeds_butTheDecodingFailsWithAnError_itShouldThrowDecodingError() {
         // Given
-        let result = Result<NetworkResponse, NetworkError>.success(.init(data: Data(), response: URLResponse()))
-        let clientStub = NetworkClientStub(result: result)
+        dependencies.networkClient = NetworkClientStub(result:
+            .success(.init(data: Data(), response: URLResponse()))
+        )
+
         let decoderStub = ComponentDecodingStub()
         decoderStub.errorToThrowOnDecode = NSError(domain: "Mock", code: 1, description: "Mock")
-        let sut = RepositoryDefault(dependencies: Dependencies(
-            networkClient: clientStub,
-            decoder: decoderStub
-        ))
+        dependencies.decoder = decoderStub
 
-        let url = "www.something.com"
+        let expec = expectation(description: "fetch")
 
         // When
         var errorThrown: Request.Error?
-        let expec = expectation(description: "fetchComponentExpectation")
+
         sut.fetchComponent(url: url, additionalData: nil) { result in
             if case let .failure(error) = result {
                 errorThrown = error
@@ -149,6 +122,33 @@ final class RepositoryTests: XCTestCase {
             XCTFail("Expected a `.decoding` error, but got \(String(describing: errorThrown)).")
             return
         }
+    }
+    
+    func test_shouldAddAdditionalDataToRequest() {
+        // Given
+        let body = "{}".data(using: .utf8)!
+
+        let clientStub = NetworkClientStub(result: .success(.init(data: body, response: URLResponse())))
+        dependencies.networkClient = clientStub
+
+        let additionalData = HttpAdditionalData(
+            httpData: .init(method: .POST, body: body),
+            headers: ["headerKey": "headerValue"]
+        )
+
+        let expec = expectation(description: "fetch")
+
+        // When
+        sut.fetchComponent(url: url, additionalData: additionalData) { _ in
+            expec.fulfill()
+        }
+        wait(for: [expec], timeout: 1.0)
+
+        // Then
+        let expectedData = clientStub.executedRequest?.additionalData as? HttpAdditionalData
+
+        XCTAssertEqual(expectedData, additionalData)
+        XCTAssertEqual(clientStub.executedRequest?.url.absoluteString, url)
     }
 }
 

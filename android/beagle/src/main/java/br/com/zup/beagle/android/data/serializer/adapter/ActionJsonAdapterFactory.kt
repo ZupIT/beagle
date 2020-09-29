@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.AddChildrenAction
+import br.com.zup.beagle.android.action.AddChildren
 import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.action.Condition
 import br.com.zup.beagle.android.action.Confirm
@@ -30,11 +30,13 @@ import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
+import br.com.zup.beagle.android.utils.ActionJsonAdapterFactoryDeprecatedConstants
 import java.util.Locale
 
 private const val BEAGLE_NAMESPACE = "beagle"
 
-@Deprecated(message = "This class will be no longer needed. @see new AndroidActionJsonAdapterFactory")
+@Deprecated(message = ActionJsonAdapterFactoryDeprecatedConstants.MESSAGE,
+    replaceWith = ReplaceWith(ActionJsonAdapterFactoryDeprecatedConstants.REPLACE))
 internal object ActionJsonAdapterFactory {
 
     fun make(factory: PolymorphicJsonAdapterFactory<Action>): PolymorphicJsonAdapterFactory<Action> {
@@ -58,7 +60,7 @@ internal object ActionJsonAdapterFactory {
             .withSubtype(SendRequest::class.java, createNamespaceFor<SendRequest>())
             .withSubtype(SetContext::class.java, createNamespaceFor<SetContext>())
             .withSubtype(SubmitForm::class.java, createNamespaceFor<SubmitForm>())
-            .withSubtype(AddChildrenAction::class.java, createNamespaceFor<AddChildrenAction>())
+            .withSubtype(AddChildren::class.java, createNamespaceFor<AddChildren>())
             .withSubtype(Condition::class.java, createNamespaceFor<Condition>())
 
     }

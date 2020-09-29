@@ -17,10 +17,10 @@
 package br.com.zup.beagle.sample
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.sample.constants.BASE_URL
 import br.com.zup.beagle.android.setup.BeagleConfig
 import br.com.zup.beagle.android.setup.Cache
 import br.com.zup.beagle.android.setup.Environment
+import br.com.zup.beagle.sample.constants.BASE_URL
 
 @BeagleComponent
 class AppBeagleConfig : BeagleConfig {
@@ -30,6 +30,6 @@ class AppBeagleConfig : BeagleConfig {
     override val cache: Cache = Cache(
         enabled = false,
         maxAge = 300,
-        memoryMaximumCapacity = 15
+        size = 15
     )
 }

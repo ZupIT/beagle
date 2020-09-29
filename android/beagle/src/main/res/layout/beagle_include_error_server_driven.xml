@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="@string/beagle_label_generic_error"
-        android:visibility="visible" />
+        android:text="@string/beagle_label_generic_error" />
 
     <Button
         android:id="@+id/buttonRetry"
