@@ -14,6 +14,8 @@
 		25C762A82511007100AB4D33 /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C762A72511007100AB4D33 /* Condition.swift */; };
 		25CDD46B24E7315E00CC49CB /* __Snapshots__ in Resources */ = {isa = PBXBuildFile; fileRef = 25CDD46A24E7315E00CC49CB /* __Snapshots__ */; };
 		570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 570434EC24A6753000DAD0D3 /* buttonComponent.json */; };
+		5744D126251E68FB003638F4 /* DynamicObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744D125251E68FB003638F4 /* DynamicObjectExtension.swift */; };
+		57F32CDF25141DB800045020 /* testDictionarySnapShot.json in Resources */ = {isa = PBXBuildFile; fileRef = 57F32CDD2514151600045020 /* testDictionarySnapShot.json */; };
 		6E71540324B39EFB0025B850 /* SimpleFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540124B3953C0025B850 /* SimpleFormTests.swift */; };
 		6E71540924B3A7860025B850 /* simpleFormComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E71540824B3A7860025B850 /* simpleFormComponent.json */; };
 		6EB3368224A52AB5000A9D17 /* SubmitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368124A52AB5000A9D17 /* SubmitForm.swift */; };
@@ -146,6 +148,8 @@
 		3D775A4624F933D400BBECCE /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		3DE08EC324F03C1A00CFDC36 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		570434EC24A6753000DAD0D3 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
+		5744D125251E68FB003638F4 /* DynamicObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicObjectExtension.swift; sourceTree = "<group>"; };
+		57F32CDD2514151600045020 /* testDictionarySnapShot.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testDictionarySnapShot.json; sourceTree = "<group>"; };
 		6E71540124B3953C0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
 		6E71540824B3A7860025B850 /* simpleFormComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleFormComponent.json; sourceTree = "<group>"; };
 		6EB3368124A52AB5000A9D17 /* SubmitForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitForm.swift; sourceTree = "<group>"; };
@@ -292,6 +296,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5744D124251E68FB003638F4 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				5744D125251E68FB003638F4 /* DynamicObjectExtension.swift */,
+			);
+			name = Test;
+			path = ../../../Test;
+			sourceTree = "<group>";
+		};
+		57F32CDA251414BD00045020 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				57F32CDD2514151600045020 /* testDictionarySnapShot.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
 		6E71540024B394E80025B850 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,6 +395,7 @@
 		935278EB249956C200AB9D1F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				57F32CDA251414BD00045020 /* Json */,
 				3DE08EC324F03C1A00CFDC36 /* __Snapshots__ */,
 				935278EC249956DC00AB9D1F /* ExpressionTests.swift */,
 				93BFE32B249E9FBD009838CE /* PathTests.swift */,
@@ -384,6 +406,7 @@
 		938B13BC2497E5F500AA8E3B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				5744D124251E68FB003638F4 /* Test */,
 				938B13C52497EC6200AA8E3B /* Collection+Safe.swift */,
 				938B13C32497EB5E00AA8E3B /* String+RegularExpression.swift */,
 				9885564624C612A100D9818F /* FunctionBuilders.swift */,
@@ -1211,6 +1234,7 @@
 				C08D4EF4248A7C2E00AAAC0A /* widgetWithAllAttributes.json in Resources */,
 				570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */,
 				C8EAC503247C2A09003089BE /* formComponent.json in Resources */,
+				57F32CDF25141DB800045020 /* testDictionarySnapShot.json in Resources */,
 				C8EAC4F9247C284A003089BE /* Container.json in Resources */,
 				C8EBCC83247C308B002030CC /* lazyComponent.json in Resources */,
 				6E71540924B3A7860025B850 /* simpleFormComponent.json in Resources */,
@@ -1369,6 +1393,7 @@
 				C8EAC4FC247C288B003089BE /* ButtonTests.swift in Sources */,
 				C8EBCC87247C30C5002030CC /* PageViewTests.swift in Sources */,
 				C864D2FD247C25D300E7A1F9 /* TouchableTests.swift in Sources */,
+				5744D126251E68FB003638F4 /* DynamicObjectExtension.swift in Sources */,
 				6E71540324B39EFB0025B850 /* SimpleFormTests.swift in Sources */,
 				C864D2F6247C257500E7A1F9 /* WebViewTests.swift in Sources */,
 				C8EAC502247C29BC003089BE /* ComponentDecoderTests.swift in Sources */,

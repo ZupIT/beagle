@@ -26,7 +26,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
-import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState

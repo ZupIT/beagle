@@ -355,7 +355,7 @@ final class BeagleNavigatorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(2, navigation.viewControllers.count)
-        XCTAssertEqual(pushViewRemote.newPath?.url.evaluate(with: view), url.toString())
+        XCTAssertEqual(pushViewRemote.newPath?.url.evaluate(with: view), url.description)
     }
 }
 

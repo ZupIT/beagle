@@ -206,7 +206,7 @@ extension UIView {
     
     private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
         if T.self is String.Type {
-            return dynamicObject.toString() as? T
+            return dynamicObject.description as? T
         } else {
             let encoder = JSONEncoder()
             let decoder = JSONDecoder()
@@ -229,7 +229,7 @@ extension UIView {
             if contextId == nil || contextId == binding.context {
                 return evaluate(for: expression)
             } else {
-                return transform(expressionLastValueMap[expression.rawValue] ?? .empty)
+                return transform(expressionLastValueMap[binding.rawValue] ?? .empty)
             }
         case let .value(.literal(literal)):
             return transform(literal.evaluate())
