@@ -24,8 +24,8 @@ Feature: Image Component Validation
     Background:
         Given that I'm on the image screen
 
-    Scenario: Image 01 - Image component renders text attribute correctly
-        Then image screen should render all text attributes correctly
+    Scenario: Image 01 - Image component renders image attribute correctly
+        Then image screen should render all image attributes correctly
 
 
 # Snapshot Test
