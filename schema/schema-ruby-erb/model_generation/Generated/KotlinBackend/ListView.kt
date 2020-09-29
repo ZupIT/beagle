@@ -15,12 +15,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.action.ui.Action
 
-data class Container (
+data class ListView (
   public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
-  public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+  public override val direction: Direction   
+) : ServerDrivenComponent, ListViewSchema 

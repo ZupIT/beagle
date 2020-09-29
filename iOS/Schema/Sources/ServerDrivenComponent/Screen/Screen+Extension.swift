@@ -1,4 +1,3 @@
-// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,12 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+import Foundation
 
-import br.com.zup.beagle.action.ui.Action
-
-data class Container (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
-  public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+public extension Screen {
+    init(
+        id: String? = nil,
+        style: Style? = nil,
+        safeArea: SafeArea? = nil,
+        navigationBar: NavigationBar? = nil,
+        screenAnalyticsEvent: AnalyticsScreen? = nil,
+        context: Context? = nil,
+        @ChildBuilder
+        _ child: () -> RawComponent
+    ) {
+        self.init(id: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: screenAnalyticsEvent, child: child(), context: context)
+    }
+}

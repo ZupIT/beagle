@@ -12,22 +12,29 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative '../../Synthax/Attributes/variable.rb'
-require_relative '../base_component.rb'
+require_relative '../../../Synthax/Attributes/variable.rb'
+require_relative '../../base_component.rb'
+require_relative '../server_driven_component.rb'
 
-class ServerDrivenComponent < BaseComponent
+class LazyComponent < BaseComponent
 
     def initialize
+        server_driven = ServerDrivenComponent.new
+        variables = [
+            Variable.new(:name => "path", :typeName => TypesToString.string),
+            Variable.new(:name => "initialState", :typeName => server_driven.name)
+        ]
         synthax_type = BuiltInType.new(
             :name => self.name,
-            :variables => [],
-            :package => "",
-            :type => TypesToString.interface
+            :variables => variables,
+            :package => "br.com.zup.beagle.widget.ui",
+            :inheritFrom => [
+               server_driven.name
+            ]
         )
 
         super(synthax_type)
 
     end
-
+    
 end

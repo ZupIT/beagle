@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.action.ui.Action
 
-data class Container (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
-  public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+data class SafeArea (
+  public override val top: Boolean? = null,  
+  public override val leading: Boolean? = null,  
+  public override val bottom: Boolean? = null,  
+  public override val trailing: Boolean? = null   
+) : SafeAreaSchema 

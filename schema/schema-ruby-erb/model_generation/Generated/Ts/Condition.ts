@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,20 +15,3 @@
  * limitations under the License.
  */
 
- public struct LazyComponent: RawComponent, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-    
-    public let path: String
-    public let initialState: RawComponent
-
-// sourcery:inline:auto:LazyComponent.Init
-    public init(
-        path: String,
-        initialState: RawComponent
-    ) {
-        self.path = path
-        self.initialState = initialState
-    }
-// sourcery:end
-}

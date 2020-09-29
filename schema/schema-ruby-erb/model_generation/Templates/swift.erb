@@ -175,13 +175,13 @@
       object_type.synthax_type.inheritFrom.append("AutoDecodable")
     elsif @template_helper.is_server_driven_component(object_type)
       object_type.synthax_type.inheritFrom.append("AutoDecodable")
-    elsif [Alert.new.name, AddChildren.new.name, Confirm.new.name, SendRequest.new.name].include? object_type.synthax_type.name
+    elsif [Alert.new.name, AddChildren.new.name, Confirm.new.name, SendRequest.new.name, Condition.new.name].include? object_type.synthax_type.name
       object_type.synthax_type.inheritFrom.append("AutoDecodable")
-    else
+    elsif ![Screen.new.name].include? object_type.synthax_type.name
       object_type.synthax_type.inheritFrom.append("Decodable")
     end
   
-    if [UnitValue.new.name].include? object_type.synthax_type.name
+    if [UnitValue.new.name, SafeArea.new.name].include? object_type.synthax_type.name
       object_type.synthax_type.inheritFrom.append("Equatable")
     end
 

@@ -1,4 +1,4 @@
-//
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,26 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package br.com.zup.beagle.widget.core
 
-import Foundation
 
-/// Action to represent a condition
-public struct Condition: RawAction, AutoInitiableAndDecodable {
-    
-    public let condition: Expression<Bool>
-    public let onTrue: [RawAction]?
-    public let onFalse: [RawAction]?
 
-// sourcery:inline:auto:Condition.Init
-    public init(
-        condition: Expression<Bool>,
-        onTrue: [RawAction]? = nil,
-        onFalse: [RawAction]? = nil
-    ) {
-        self.condition = condition
-        self.onTrue = onTrue
-        self.onFalse = onFalse
-    }
-// sourcery:end
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.core.TabBarItemSchema
+import br.com.zup.beagle.action.ui.ActionSchema
 
+interface TabBarSchema {
+  public val items: List<TabBarItemSchema>
+  public val styleId: String?
+  public val currentTab: BindAttribute<Int>?
+  public val onTabSelection: List<ActionSchema>? 
 }

@@ -1,3 +1,6 @@
+
+
+
 #   Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
 
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,39 +16,28 @@
 #  limitations under the License.
 
 require_relative '../../Synthax/Attributes/variable.rb'
-require_relative '../../Synthax/Attributes/list.rb'
-require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
-require_relative '../Analytics/analytics_events.rb'
-require_relative '../Analytics/analytics_models.rb'
-require_relative '../Context/context_component.rb'
-require_relative 'widget.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 
-class Container < BaseComponent
+class Condition < BaseComponent
 
-    # todo build context, action, and finish widget
     def initialize
+        action = Action.new
         variables = [
-            List.new(:name => "children", :typeName => ServerDrivenComponent.new.name),
-            List.new(:name => "onInit", :typeName => "Action", :isOptional => true),
-            Variable.new(
-                :name => "context",
-                :typeName => "Context",
-                :isOptional => true
-            )
+            Variable.new(:name => "condition", :typeName => TypesToString.bool, :isBindable => true),
+            List.new(:name => "onTrue", :typeName => Action.new.name, :isOptional => true),
+            List.new(:name => "onFalse", :typeName => Action.new.name, :isOptional => true),
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.layout",
-            :inheritFrom => [
-               Widget.new.name,
-               ContextComponent.new.name
-            ]
+            :package => "br.com.zup.beagle.widget.core",
+            :inheritFrom => [action.name],
+            :comment => "Action to represent a condition",
         )
 
         super(synthax_type)
 
     end
-    
+
 end

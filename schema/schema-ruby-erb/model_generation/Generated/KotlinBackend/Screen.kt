@@ -15,12 +15,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.action.ui.Action
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.widget.core.SafeArea
+import br.com.zup.beagle.widget.core.NavigationBar
+import br.com.zup.beagle.widget.core.AnalyticsScreen
 
-data class Container (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
+data class Screen (
+  public override val id: String? = null,  
+  public override val style: StyleSchema? = null,  
+  public override val safeArea: SafeAreaSchema? = null,  
+  public override val navigationBar: NavigationBarSchema? = null,  
+  public override val screenAnalyticsEvent: AnalyticsScreenSchema? = null,  
+  public override val child: ServerDrivenComponent,  
   public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+) : ContextComponent, ScreenSchema 

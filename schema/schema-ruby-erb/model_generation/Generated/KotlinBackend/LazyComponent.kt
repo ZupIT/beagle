@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,26 +15,10 @@
  * limitations under the License.
  */
 
-public struct SafeArea: Equatable, Decodable, AutoInitiable {
+package br.com.zup.beagle.widget.ui
 
-    // MARK: - Public Properties
 
-    public let top: Bool?
-    public let leading: Bool?
-    public let bottom: Bool?
-    public let trailing: Bool?
-    
-// sourcery:inline:auto:SafeArea.Init
-    public init(
-        top: Bool? = nil,
-        leading: Bool? = nil,
-        bottom: Bool? = nil,
-        trailing: Bool? = nil
-    ) {
-        self.top = top
-        self.leading = leading
-        self.bottom = bottom
-        self.trailing = trailing
-    }
-// sourcery:end
-}
+data class LazyComponent (
+  public override val path: String,  
+  public override val initialState: ServerDrivenComponent   
+) : ServerDrivenComponent, LazyComponentSchema 

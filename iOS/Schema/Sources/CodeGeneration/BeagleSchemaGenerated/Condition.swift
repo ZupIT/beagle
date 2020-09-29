@@ -15,12 +15,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+/// Action to represent a condition
+public struct Condition: RawAction, AutoDecodable {
 
-import br.com.zup.beagle.action.ui.Action
+    public var condition: Expression<Bool>
+    public var onTrue: [RawAction]?
+    public var onFalse: [RawAction]?
 
-data class Container (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
-  public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+    public init(
+        condition: Expression<Bool>,
+        onTrue: [RawAction]? = nil,
+        onFalse: [RawAction]? = nil
+    ) {
+        self.condition = condition
+        self.onTrue = onTrue
+        self.onFalse = onFalse
+    }
+
+}

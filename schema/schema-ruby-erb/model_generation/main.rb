@@ -41,8 +41,17 @@ require_relative 'Models/Widgets/container.rb'
 require_relative 'Models/Widgets/image.rb'
 require_relative 'Models/Widgets/image_content.rb'
 
+require_relative 'Models/ServerDriven/server_driven_component.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
+require_relative 'Models/ServerDriven/List/list_view.rb'
+require_relative 'Models/ServerDriven/Lazy/lazy_component.rb'
+require_relative 'Models/ServerDriven/Screen/safe_area.rb'
+require_relative 'Models/ServerDriven/Screen/screen.rb'
+require_relative 'Models/ServerDriven/Screen/navigation_bar.rb'
+require_relative 'Models/ServerDriven/Screen/navigation_bar_item.rb'
+require_relative 'Models/ServerDriven/TabBar/tab_bar_item.rb'
+require_relative 'Models/ServerDriven/TabBar/tab_bar.rb'
 
 require_relative 'Models/Action/action.rb'
 require_relative 'Models/Action/unknown_action.rb'
@@ -50,6 +59,7 @@ require_relative 'Models/Action/add_children.rb'
 require_relative 'Models/Action/alert.rb'
 require_relative 'Models/Action/confirm.rb'
 require_relative 'Models/Action/send_request.rb'
+require_relative 'Models/Action/condition.rb'
 
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
@@ -138,7 +148,10 @@ class ModelGenerator
       Style.new.name, CornerRadius.new.name, ScrollAxis.new.name,
       TextInputType.new.name, ScrollView.new.name, ImageContentMode.new.name,
       TextInput.new.name, Action.new.name, UnknownAction.new.name,
-      Alert.new.name, Confirm.new.name, SendRequest.new.name
+      Alert.new.name, Confirm.new.name, SendRequest.new.name,
+      LazyComponent.new.name, Condition.new.name, NavigationBar.new.name,
+      SafeArea.new.name, Screen.new.name, TabBarItem.new.name,
+      TabBar.new.name
     ]
     @erb = ERB.new(File.read("#{@c.templates}swift.erb"), nil, '-')
     for component in @components
@@ -173,6 +186,8 @@ if __FILE__ == $0
     TextInputType,
     ImageContentMode,
     TextInput,
+    Container,
+    Image,
     # Layout
     CornerRadius,
     EdgeValue,
@@ -184,8 +199,7 @@ if __FILE__ == $0
     # Accessibility
     Accessibility,
     # Far from being usable
-    Container,
-    Image,
+    ListView,
     AnalyticsEvent,
     AnalyticsClick,
     AnalyticsScreen,
@@ -199,6 +213,17 @@ if __FILE__ == $0
     AddChildren,
     Alert,
     Confirm,
+    Condition,
+    # Lazy
+    LazyComponent,
+    # Screen
+    SafeArea,
+    Screen,
+    NavigationBar,
+    NavigationBarItem,
+    # TabBar
+    TabBar,
+    TabBarItem
   ]
   
   generator = ModelGenerator.new(components)

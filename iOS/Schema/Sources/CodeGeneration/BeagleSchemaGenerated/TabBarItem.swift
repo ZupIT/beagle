@@ -15,12 +15,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+/// Define the view has in the tab view
+public struct TabBarItem: Decodable {
 
-import br.com.zup.beagle.action.ui.Action
+    /// display an icon image on the TabView component. If it is left as null or not declared it won't display any icon.
+    public var icon: String?
+    /// displays the text on the TabView component. If it is null or not declared it won't display any text.
+    public var title: String?
 
-data class Container (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
-  public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+    public init(
+        icon: String? = nil,
+        title: String? = nil
+    ) {
+        self.icon = icon
+        self.title = title
+    }
+
+}

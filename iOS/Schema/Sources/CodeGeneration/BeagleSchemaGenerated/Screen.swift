@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,21 +15,23 @@
  * limitations under the License.
  */
 
-import Foundation
+/// The screen element will help you define the screen view structure. By using this component you can define configurations like whether or not you want to use safe areas or display a tool bar/navigation bar.
+public struct Screen: HasContext {
 
-public struct Screen: AutoInitiable, HasContext {
-    
-    // MARK: - Public Properties
-    
-    public let id: String?
-    public let style: Style?
-    public let safeArea: SafeArea?
-    public let navigationBar: NavigationBar?
-    public let screenAnalyticsEvent: AnalyticsScreen?
-    public let child: RawComponent
-    public let context: Context?
+    /// identifies your screen globally inside your application so that it could have actions set on itself.
+    public var id: String?
+    /// enable a few visual options to be changed.
+    public var style: Style?
+    /// enable Safe areas to help you place your views within the visible portion of the overall interface. By default it is not enabled and it wont constrain considering any safe area.
+    public var safeArea: SafeArea?
+    /// enable a action bar/navigation bar into your view. By default it is set as null.
+    public var navigationBar: NavigationBar?
+    /// send event when screen appear/disappear
+    public var screenAnalyticsEvent: AnalyticsScreen?
+    /// define the child elements on this screen. It could be any visual component that extends ServerDrivenComponent
+    public var child: RawComponent
+    public var context: Context?
 
-// sourcery:inline:auto:Screen.Init
     public init(
         id: String? = nil,
         style: Style? = nil,
@@ -45,20 +48,6 @@ public struct Screen: AutoInitiable, HasContext {
         self.screenAnalyticsEvent = screenAnalyticsEvent
         self.child = child
         self.context = context
-    }
-// sourcery:end
-    
-    public init(
-        id: String? = nil,
-        style: Style? = nil,
-        safeArea: SafeArea? = nil,
-        navigationBar: NavigationBar? = nil,
-        screenAnalyticsEvent: AnalyticsScreen? = nil,
-        context: Context? = nil,
-        @ChildBuilder
-        _ child: () -> RawComponent
-    ) {
-        self.init(id: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: screenAnalyticsEvent, child: child(), context: context)
     }
 
 }

@@ -21,7 +21,7 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.action.ui.ActionSchema
 
 interface ContainerSchema {
-  public val children: List<Widget>
+  public val children: List<ServerDrivenComponent>
   public val onInit: List<ActionSchema>?
   public val context: Context? 
 }

@@ -15,12 +15,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+/// ListView is a Layout component that will define a list of views natively. These views could be any Server Driven Component.
+public struct ListView: RawComponent, AutoDecodable {
 
-import br.com.zup.beagle.action.ui.Action
+    /// define the items on the list view.
+    public var children: [RawComponent]
+    /// define the list direction.
+    public var direction: Direction
 
-data class Container (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
-  public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+    public init(
+        children: [RawComponent],
+        direction: Direction
+    ) {
+        self.children = children
+        self.direction = direction
+    }
+    
+    public enum Direction: String, Decodable {
+    
+        case vertical = "VERTICAL"
+        case horizontal = "HORIZONTAL"
+    
+    }
+
+}

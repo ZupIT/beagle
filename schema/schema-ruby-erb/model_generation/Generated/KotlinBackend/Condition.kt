@@ -15,12 +15,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.action.ui.Action
 
-data class Container (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
-  public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+data class Condition (
+  public override val condition: Bind<Boolean>,  
+  public override val onTrue: List<ActionSchema>? = null,  
+  public override val onFalse: List<ActionSchema>? = null   
+) : Action, ConditionSchema {
+  constructor (    
+    condition: Boolean,      
+    onTrue: List<ActionSchema>? = null,      
+    onFalse: List<ActionSchema>? = null      
+  ) : this (    
+      valueOf(condition),      
+      onTrue,      
+      onFalse      
+  )
+}

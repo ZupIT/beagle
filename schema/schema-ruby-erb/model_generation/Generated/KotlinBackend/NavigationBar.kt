@@ -15,12 +15,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.action.ui.Action
+import br.com.zup.beagle.widget.core.Accessibility
+import br.com.zup.beagle.widget.core.NavigationBarItem
 
-data class Container (
-  public override val children: List<ServerDrivenComponent>,  
-  public override val onInit: List<ActionSchema>? = null,  
-  public override val context: Context? = null   
-) : Widget(), ContextComponent, ContainerSchema 
+data class NavigationBar (
+  public override val title: String,  
+  public override val styleId: String? = null,  
+  public override val showBackButton: Boolean? = null,  
+  public override val backButtonAccessibility: AccessibilitySchema? = null,  
+  public override val navigationBarItems: List<NavigationBarItemSchema>? = null   
+) : NavigationBarSchema 
