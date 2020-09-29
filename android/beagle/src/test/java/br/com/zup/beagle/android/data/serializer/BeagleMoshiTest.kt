@@ -497,7 +497,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun `make should return moshi to deserialize a AddChildren` (){
+    fun `GIVEN json from AddChildren WHEN moshi deserialize the action THEN it should return action deserialized` (){
         // Given
         val json = makeAddChildrenJson()
 
@@ -507,6 +507,18 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         assertNotNull(actual)
         assertTrue(actual is AddChildren)
+    }
+
+    @Test
+    fun `GIVEN AddChildren action WHEN moshi to serialize the action THEN it should return action serialized `(){
+        // Given
+        val component = AddChildren(componentId = "", value = listOf())
+
+        // When
+        val actual = moshi.adapter(Action::class.java).toJson(component)
+
+        // Then
+        assertNotNull(JSONObject(actual))
     }
 
     @Test
