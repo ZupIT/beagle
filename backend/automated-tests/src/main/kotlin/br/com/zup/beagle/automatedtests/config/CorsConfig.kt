@@ -21,20 +21,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
+import br.com.zup.beagle.constants.BEAGLE_EXPOSED_HEADERS
+
 @Configuration
-open class CorsConfig {
-
-    @Bean
-    open fun corsConfigurer(): WebMvcConfigurer? {
-        return object : WebMvcConfigurer {
-            override fun addCorsMappings(registry: CorsRegistry) {
-                registry
-                    .addMapping("/**")
-                    .allowedOrigins("*")
-                    .allowedMethods("*")
-                    .allowedHeaders("*")
-            }
-        }
+open class CorsConfig : WebMvcConfigurer {
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry.addMapping("/**").exposedHeaders(*BEAGLE_EXPOSED_HEADERS)
     }
-
 }
