@@ -348,7 +348,7 @@ public class YogaLayout extends ViewGroup {
             float height,
             YogaMeasureMode heightMode) {
             final View view = (View) node.getData();
-            if (view == null || view instanceof YogaLayout) {
+            if (view == null || view instanceof YogaLayout || view.getVisibility() == View.GONE) {
                 return YogaMeasureOutput.make(0, 0);
             }
 
