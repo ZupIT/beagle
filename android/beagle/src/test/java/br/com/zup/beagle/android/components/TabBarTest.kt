@@ -144,11 +144,12 @@ class TabBarTest : BaseComponentTest() {
         every {
             tabBar.observeBindChanges(
                 rootView = rootView,
-                view = tabLayout,
+                view = beagleFlexView,
                 bind = currentTab,
                 observes = capture(currentTabSlot)
             )
         } just Runs
+
         //WHEN
         tabBar.buildView(rootView)
 
@@ -179,14 +180,16 @@ class TabBarTest : BaseComponentTest() {
     fun observers_bind_change_should_be_called_when_current_page_change() {
         //GIVEN
         val currentTabSlot = slot<Observer<Int?>>()
+
         every {
             tabBar.observeBindChanges(
                 rootView = rootView,
-                view = tabLayout,
+                view = beagleFlexView,
                 bind = currentTab,
                 observes = capture(currentTabSlot)
             )
         } just Runs
+
         //WHEN
         tabBar.buildView(rootView)
         currentTabSlot.captured.invoke(1)

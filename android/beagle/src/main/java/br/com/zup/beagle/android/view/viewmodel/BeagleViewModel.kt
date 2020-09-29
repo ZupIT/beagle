@@ -64,6 +64,7 @@ internal class BeagleViewModel(
         private val componentRequester: ComponentRequester,
         private val coroutineScope: CoroutineScope,
         private val ioDispatcher: CoroutineDispatcher) : LiveData<ViewState>() {
+
         private val isRenderedReference = AtomicReference(false)
 
         override fun onActive() {
@@ -71,6 +72,7 @@ internal class BeagleViewModel(
                 fetchComponents()
             }
         }
+
         private fun fetchComponents() {
             coroutineScope.launch(ioDispatcher) {
                 if (screenRequest.url.isNotEmpty()) {
@@ -92,11 +94,9 @@ internal class BeagleViewModel(
         }
 
         private suspend fun postLiveDataResponse(viewState: ViewState) {
-            withContext(coroutineScope.coroutineContext) {
-                postValue(viewState)
-                setLoading(false)
-                isRenderedReference.set(true)
-            }
+            postValue(viewState)
+            setLoading(false)
+            isRenderedReference.set(true)
         }
 
         private suspend fun setLoading(loading: Boolean) {
@@ -106,6 +106,3 @@ internal class BeagleViewModel(
         }
     }
 }
-
-
-

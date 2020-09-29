@@ -77,7 +77,7 @@ final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
         get { return view?.yoga.isEnabled ?? false }
         set { view?.yoga.isEnabled = newValue }
     }
-    
+        
     func markDirty() {
         view?.yoga.markDirty()
         var view: UIView? = self.view

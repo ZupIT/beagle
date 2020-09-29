@@ -25,8 +25,11 @@ import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.Condition
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -72,10 +75,30 @@ object TouchableScreenBuilder : ScreenBuilder {
     )
 
     private fun touchableCustom(item: Widget, title: String) = Container(
+        context = ContextData(
+            id = "user",
+            value = 18
+        ),
         children = listOf(
             buildTitle(title),
             Touchable(
-                listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))),
+                listOf(
+                    Condition(
+                        condition = expressionOf("@{sum(user, 21)}"),
+                        onTrue = listOf(
+                            Alert(
+                                title = "",
+                                message = "onTrue"
+                            )
+                        ),
+                        onFalse = listOf(
+                            Alert(
+                                title = "",
+                                message = "onFalse"
+                            )
+                        )
+                    )
+                ),
                 child = item.applyStyle(Style(
                     flex = Flex(
                         alignSelf = AlignSelf.CENTER

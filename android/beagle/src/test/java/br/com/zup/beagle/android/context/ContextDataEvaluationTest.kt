@@ -169,6 +169,23 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
+    fun evaluateAllContext_should_evaluate_text_string_with_special_characters() {
+        // Given
+        val contextValue = "!@#$%¨&*()_+/;,.,:]}~^~[{[´``´=-|\\"
+        val context = ContextData(
+            id = CONTEXT_ID,
+            value = contextValue
+        )
+        val bind = expressionOf<String>("@{$CONTEXT_ID}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(context), bind)
+
+        // Then
+        assertEquals(contextValue, value)
+    }
+
+    @Test
     fun evaluateAllContext_should_not_evaluate_multiple_expressions_that_is_not_text() {
         // Given
         val bind = expressionOf<Int>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
@@ -186,7 +203,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
     fun evaluateAllContext_should_evaluate_empty_string_in_multiple_expressions_with_null_bind_value() {
         // Given
         val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}")
-//        every { contextDataManipulator.get(any(), any()) } returns null
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
@@ -200,7 +216,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
     fun evaluateAllContext_should_return_empty_in_expressions_with_null_bind_value_in_string_type() {
         // Given
         val bind = expressionOf<String>("@{$CONTEXT_ID.exp1}")
-//        every { contextDataManipulator.get(any(), any()) } returns null
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
@@ -329,6 +344,31 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
+    fun evaluateAllContext_with_literal_string() {
+        // Given
+        val bind = expressionOf<String>("@{'hello'}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals("hello", value)
+    }
+
+    @Test
+    fun evaluateAllContext_with_literal_string_with_special_character() {
+        // Given
+        val stringValue = "!@#$%¨&*()_+/;,.,:]}\\~^~[{[´``´=-|"
+        val bind = expressionOf<String>("@{'$stringValue'}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals(stringValue, value)
+    }
+
+    @Test
     fun evaluateAllContext_with_operation_sum_with_hardcoded_values_and_string() {
         // Given
         val bind = expressionOf<String>("sum result: @{sum(1, 1)}")
@@ -346,7 +386,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<Boolean>("result: @{contains(insert(${CONTEXT_ID}, 4), 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1,2,3)
+            value = listOf(1, 2, 3)
         )
 
         // When
@@ -362,7 +402,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<List<ComponentModel>>("result: @{insert(${CONTEXT_ID}, 4, 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1,2,3)
+            value = listOf(1, 2, 3)
         )
 
         // When
@@ -454,6 +494,56 @@ internal class ContextDataEvaluationTest : BaseTest() {
             // Then
             assertEquals(mockCase.expected, value)
         }
+    }
+
+    @Test
+    fun evaluateMultipleStringsExpressions() {
+        val bind = expressionOf<String>("lorem ipsum \\@{'hello world, this is { beagle }!}'} lotem ipsum @{nome} , \\\\\\\\@{context.id}" +
+            "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum gabriel , \\\\\\\\@{context.id}")
+
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        val expected = "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum  , \\\\" +
+            "lorem ipsum hello world, this is { beagle }!} lotem ipsum gabriel , \\\\"
+
+        assertEquals(expected = expected, actual = value)
+    }
+
+    @Test
+    fun evaluateAllContext_with_literal_string_with_close_key() {
+        // Given
+        val bind = expressionOf<String>("@{'hello world, this is { beagle }!}'}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals("hello world, this is { beagle }!}", value)
+    }
+
+    @Test
+    fun evaluateAllContext_in_multiple_expressions() {
+        val bind = expressionOf<String>("lorem } ipsum \\@{'hello world, this is { beagle }!}'} lotem ipsum @{nome} , \\\\\\\\@{context.id}" +
+            "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum gabriel , \\\\\\\\@{context.id}")
+
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        val expected = "lorem } ipsum @{'hello world, this is { beagle }!}'} lotem ipsum  , \\\\" +
+            "lorem ipsum hello world, this is { beagle }!} lotem ipsum gabriel , \\\\"
+
+        assertEquals(expected = expected, actual = value)
+    }
+
+    @Test
+    fun evaluateAllContext_in_object_with_expressions() {
+        // Given
+        val bind = expressionOf<String>("{\"id\":\"test\",\"value\":{\"expression\":\"@{$CONTEXT_ID.a}\"}}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals("{\"id\":\"test\",\"value\":{\"expression\":\"a\"}}", value)
     }
 
     private fun createEscapeBindingMockCases(): List<EscapingTestCases> = listOf(

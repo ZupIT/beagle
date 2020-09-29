@@ -206,7 +206,7 @@ extension UIView {
     
     private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
         if T.self is String.Type {
-            return dynamicObject.toString() as? T
+            return dynamicObject.description as? T
         } else {
             let encoder = JSONEncoder()
             let decoder = JSONDecoder()
@@ -225,11 +225,12 @@ extension UIView {
     // expression last value cache is used only for multiple expressions binding
     private func evaluateWithCache<T: Decodable>(for expression: SingleExpression, contextId: String? = nil) -> T? {
         switch expression {
-        // TODO: expression caching is not working with multiple expressions, so we won't use cache for now, until we
-        // we have a better solution to this problem
-        case .value(.binding):
-            return evaluate(for: expression)
-
+        case let .value(.binding(binding)):
+            if contextId == nil || contextId == binding.context {
+                return evaluate(for: expression)
+            } else {
+                return transform(expressionLastValueMap[binding.rawValue] ?? .empty)
+            }
         case let .value(.literal(literal)):
             return transform(literal.evaluate())
         case let .operation(operation):

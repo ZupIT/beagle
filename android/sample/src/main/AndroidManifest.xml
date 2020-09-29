@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
   ~
@@ -27,7 +28,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.NoToolbar"
         android:usesCleartextTraffic="true">
         <activity android:name=".activities.DeepLinkActivity">
             <intent-filter>
@@ -36,7 +37,8 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -44,18 +46,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.NavigationBarActivity"
             android:theme="@style/AppTheme.NoToolbar" />
-        <activity
-            android:name=".activities.SampleServerDrivenActivity"
-            android:theme="@style/AppTheme.NoToolbar"
-            android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:exported="true"
             android:name="br.com.zup.beagle.android.preview.PreviewActivity"
-            android:theme="@style/AppTheme.NoToolbar"/>
+            android:exported="true"
+            android:theme="@style/AppTheme.NoToolbar" />
     </application>
 
 </manifest>

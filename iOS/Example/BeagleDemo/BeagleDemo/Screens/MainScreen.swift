@@ -83,6 +83,10 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.pushView(.declarative(operationsMenuScreen))]
                 )
                 Button(
+                    text: "Conditional Action",
+                    onPress: [Navigate.pushView(.declarative(conditionActionScreen))]
+                )
+                Button(
                     text: "Simple Form",
                     onPress: [Navigate.openNativeRoute(.init(route: .simpleFormEndpoint))]
                 )
@@ -96,7 +100,7 @@ struct MainScreen: DeeplinkScreen {
                 )
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.init(url: .componentsEndpoint)))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .value(.componentsEndpoint))))]
                 )
         }
     }
@@ -106,5 +110,4 @@ struct MainScreen: DeeplinkScreen {
             title: "Beagle Demo"
         )
     }
-
 }

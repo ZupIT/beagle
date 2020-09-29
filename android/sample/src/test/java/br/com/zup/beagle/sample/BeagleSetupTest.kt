@@ -17,6 +17,9 @@
 package br.com.zup.beagle.sample
 
 import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.sample.adapters.Person
+import br.com.zup.beagle.sample.adapters.PersonAdapter
+import br.com.zup.beagle.sample.adapters.PersonImpl
 import org.junit.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -52,11 +55,6 @@ class BeagleSetupTest {
     }
 
     @Test
-    fun designSystem_should_have_a_valid_instance() {
-        assertNotNull(beagleSetup.designSystem)
-    }
-
-    @Test
     fun validatorHandler_should_have_a_valid_instance() {
         assertNotNull(beagleSetup.validatorHandler)
     }
@@ -64,5 +62,30 @@ class BeagleSetupTest {
     @Test
     fun config_should_have_a_valid_instance() {
         assertNotNull(beagleSetup.config)
+    }
+
+    @Test
+    fun designSystem_should_have_a_valid_instance() {
+        assertNotNull(beagleSetup.designSystem)
+    }
+
+    @Test
+    fun `should has valid instance when get type adapter`() {
+        //WHEN
+        val result = beagleSetup.typeAdapterResolver.getAdapter<Person>(Person::class.java)
+
+        //THEN
+        assertNotNull(beagleSetup.typeAdapterResolver)
+        assertTrue(result is PersonAdapter)
+    }
+
+    @Test
+    fun `should get null when get type adapter with not has type mapped`() {
+        //WHEN
+        val result = beagleSetup.typeAdapterResolver.getAdapter<PersonImpl>(PersonImpl::class.java)
+
+        //THEN
+        assertNotNull(beagleSetup.typeAdapterResolver)
+        assertNull(result)
     }
 }

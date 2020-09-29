@@ -18,7 +18,8 @@ import Foundation
 import SnapshotTesting
 import UIKit
 
-private let imageDiffPrecision: Float = 0.95
+private let imageDiffPrecision: Float = 0.98
+private let diffTool = "code"
 
 enum ImageSize {
     case standard
@@ -29,15 +30,16 @@ enum ImageSize {
 func assertSnapshotImage(
     _ value: UIView,
     size: ImageSize = .standard,
+    precision: Float = imageDiffPrecision,
     record: Bool = false,
     file: StaticString = #file,
     testName: String = #function,
     line: UInt = #line
 ) {
-    SnapshotTesting.diffTool = "ksdiff"
+    SnapshotTesting.diffTool = diffTool
 
     let strategy: Snapshotting<UIView, UIImage> = Snapshotting.image(
-        precision: imageDiffPrecision,
+        precision: precision,
         size: cgSize(size)
     )
 
@@ -54,15 +56,16 @@ func assertSnapshotImage(
 func assertSnapshotImage(
     _ value: UIViewController,
     size: ImageSize = .standard,
+    precision: Float = imageDiffPrecision,
     record: Bool = false,
     file: StaticString = #file,
     testName: String = #function,
     line: UInt = #line
 ) {
-    SnapshotTesting.diffTool = "ksdiff"
+    SnapshotTesting.diffTool = diffTool
 
     let strategy: Snapshotting<UIViewController, UIImage> = Snapshotting.image(
-        precision: imageDiffPrecision,
+        precision: precision,
         size: cgSize(size)
     )
 

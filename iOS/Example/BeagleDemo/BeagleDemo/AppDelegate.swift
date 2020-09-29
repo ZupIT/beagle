@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         deepLinkHandler[.listViewEndpoint] = ListViewScreen.self
         deepLinkHandler[.webViewEndpoint] = WebViewScreen.self
         deepLinkHandler[.componentInterationEndpoint] = ComponentInteractionText.self
+        deepLinkHandler[.conditionActionEndpoint] = ConditionActionText.self
         deepLinkHandler[.simpleFormEndpoint] = SimpleFormScreen.self
         deepLinkHandler[.navigateStep1Endpoint] = NavigateStep1Screen.self
         deepLinkHandler[.navigateStep2Endpoint] = NavigateStep2Screen.self
