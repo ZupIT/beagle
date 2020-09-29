@@ -1,23 +1,9 @@
 ▿ 8 elements
-  ▿ DynamicObject
-    ▿ dictionary: 2 key/value pairs
-      ▿ (2 elements)
-        - key: "first"
-        ▿ value: DynamicObject
-          - string: "John"
-      ▿ (2 elements)
-        - key: "last"
-        ▿ value: DynamicObject
-          - string: "Doe"
-  ▿ DynamicObject
-    - string: "John"
-  - DynamicObject.empty
-  ▿ DynamicObject
-    - string: "111-1111-1111"
-  ▿ DynamicObject
-    - int: 1
-  ▿ DynamicObject
-    - double: 5.5
-  ▿ DynamicObject
-    - bool: true
-  - DynamicObject.empty
+  - [first: John, last: Doe]
+  - John
+  - 
+  - 111-1111-1111
+  - 1
+  - 5.5
+  - true
+  - 
