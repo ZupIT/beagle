@@ -17,60 +17,51 @@
 import UIKit
 import BeagleSchema
 
-extension TabBarCollectionViewCell {
-    struct Model {
-        var selectedTextColor: UIColor?
-        var unselectedTextColor: UIColor?
-        var selectedIconColor: UIColor?
-        var unselectedIconColor: UIColor?
-        var renderer: BeagleRenderer
-    }
-}
-
-final class TabBarCollectionViewCell: UICollectionViewCell {
+final class TabBarItemUIComponent: UIView {
     
     // MARK: - UIComponents
     
-    lazy var stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.alignment = .center
-        stack.spacing = 5
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    lazy var icon: UIImageView = {
+    private lazy var icon: UIImageView = {
         let icon = UIImageView()
         icon.invalidateIntrinsicContentSize()
         icon.contentMode = .scaleAspectFit
-        icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
     
-    lazy var title: UILabel = {
+    private lazy var title: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.sizeToFit()
+        label.textAlignment = .center
         return label
     }()
     
-    var model: Model?
+    private var renderer: BeagleRenderer?
     
-    override var isSelected: Bool {
+    var index: Int?
+    var theme: TabBarTheme? {
         didSet {
             setupSelectionAppearance()
         }
     }
     
+    var isSelected: Bool? {
+        didSet {
+            setupSelectionAppearance()
+        }
+    }
+
     // MARK: - Initialization
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.addSubview(stackView)
-        stackView.anchorTo(superview: contentView)
-        stackView.addArrangedSubview(icon)
-        stackView.addArrangedSubview(title)
+    init(
+        index: Int,
+        renderer: BeagleRenderer
+    ) {
+        super.init(frame: .zero)
+        self.renderer = renderer
+        self.index = index
+        setupView()
+        addSubview(icon)
+        addSubview(title)
     }
     
     required init?(coder: NSCoder) {
@@ -79,49 +70,59 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
         
     // MARK: - Setup
     
+    private func setupView() {
+        icon.style.setup(Style()
+            .size(Size().width(30).height(30))
+        )
+    }
+    
     func setupTab(with tab: TabBarItem) {
         switch tab.itemContentType {
+            
         case let .both(iconName, text):
-            icon.heightAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
             title.text = text
+            title.font = .systemFont(ofSize: 14)
+
+            handleContextOnImage(iconName: iconName)
             
-            handleContextOnImage(icon: iconName)
-            
-            title.font = UIFont.systemFont(ofSize: 13)
-            icon.isHidden = false
-            title.isHidden = false
+            title.style.setup(Style().display(.flex))
+            icon.style.setup(Style().display(.flex).flex(Flex().alignSelf(.center)))
 
         case .icon(let iconName):
-            icon.widthAnchor.constraint(lessThanOrEqualToConstant: 35).isActive = true
             
-            handleContextOnImage(icon: iconName)
+            handleContextOnImage(iconName: iconName)
         
-            icon.isHidden = false
-            title.isHidden = true
+            title.style.setup(Style().display(.none))
+            icon.style.setup(Style()
+                .display(.flex)
+                .flex(Flex().alignSelf(.center))
+            )
 
         case .title(let text):
-            title.isHidden = false
-            icon.isHidden = true
-            title.sizeToFit()
             title.text = text
+            title.font = .systemFont(ofSize: 16)
+
+            title.style.setup(Style().display(.flex).flex(Flex().alignSelf(.center)))
+            icon.style.setup(Style().display(.none))
+            
         case .none:
-            title.isHidden = true
-            icon.isHidden = true
+            title.style.setup(Style().display(.none))
+            icon.style.setup(Style().display(.none))
         }
         setupSelectionAppearance()
     }
     
     private func setupSelectionAppearance() {
-        guard let model = model else { return }
-        switch styleVerification(model: model) {
+        guard let theme = theme, let isSelected = isSelected else { return }
+        switch styleVerification(theme: theme) {
         case .both:
-            title.textColor = isSelected ? model.selectedTextColor : model.unselectedTextColor
-            icon.tintColor = isSelected ? model.selectedIconColor : model.unselectedIconColor
+            title.textColor = isSelected ? theme.selectedTextColor : theme.unselectedTextColor
+            icon.tintColor = isSelected ? theme.selectedIconColor : theme.unselectedIconColor
         case .icon:
-            icon.tintColor = isSelected ? model.selectedIconColor : model.unselectedIconColor
+            icon.tintColor = isSelected ? theme.selectedIconColor : theme.unselectedIconColor
             title.textColor = isSelected ? .black : .gray
         case .text:
-            title.textColor = isSelected ? model.selectedTextColor : model.unselectedTextColor
+            title.textColor = isSelected ? theme.selectedTextColor : theme.unselectedTextColor
             icon.tintColor = isSelected ? .black : .gray
         default:
             title.textColor = isSelected ? .black : .gray
@@ -129,8 +130,8 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func styleVerification(model: Model) -> StyleEnabler {
-        switch (model.selectedIconColor, model.unselectedIconColor, model.selectedTextColor, model.unselectedTextColor) {
+    private func styleVerification(theme: TabBarTheme) -> StyleEnabler {
+        switch (theme.selectedIconColor, theme.unselectedIconColor, theme.selectedTextColor, theme.unselectedTextColor) {
         case let (selectedIconColor?, unselectedIconColor?, selectedTextColor?, unselectedTextColor?):
             return .both(iconSelectedColor: selectedIconColor,
                          iconUnselectedColor: unselectedIconColor,
@@ -145,12 +146,14 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func handleContextOnImage(icon: String) {
-        let expression: Expression<String> = "\(icon)"
+    private func handleContextOnImage(iconName: String) {
+        let expression: Expression<String> = "\(iconName)"
                    
-        model?.renderer.observe(expression, andUpdateManyIn: self) { icon in
+        renderer?.observe(expression, andUpdateManyIn: self) { icon in
             if let icon = icon {
-                self.icon.image = UIImage(named: icon)
+                self.icon.image = self.theme?.selectedIconColor == nil ?
+                    UIImage(named: icon, in: self.renderer?.controller.dependencies.appBundle, compatibleWith: nil) :
+                    UIImage(named: icon, in: self.renderer?.controller.dependencies.appBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             }
         }
     }
