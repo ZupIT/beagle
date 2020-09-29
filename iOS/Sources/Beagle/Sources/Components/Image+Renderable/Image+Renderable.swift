@@ -59,10 +59,8 @@ extension Image: Widget {
             switch result {
             case .success(let data):
                 let image = UIImage(data: data)
-                DispatchQueue.main.async {
-                    imageView.image = image
-                    controller?.setNeedsLayout(component: imageView)
-                }
+                imageView.image = image
+                controller?.setNeedsLayout(component: imageView)
             case .failure:
                 imageView.image = placeholderImage
                 controller?.setNeedsLayout(component: imageView)
