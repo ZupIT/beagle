@@ -25,10 +25,11 @@ import br.com.zup.beagle.android.widget.RootView
  */
 interface DeepLinkHandler {
     /**
-     * @param rootView
-     * @param path
-     * @param data
-     * @param shouldResetApplication
+     * @param rootView holder the reference of activity or fragment.
+     * @param path route-defined value.
+     * @param data Content that will be deliver with the navigation.
+     * @param shouldResetApplication Opens a screen with the route informed from a new flow and clears the view
+     * stack for the entire application.
      */
     fun getDeepLinkIntent(rootView: RootView,
                           path: String,

@@ -77,6 +77,14 @@ sealed class ServerDrivenState {
     open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
 }
 
+/**
+ * ScreenRequest is used to make screen requests of beagle .
+ *
+ * @param url Required. Server URL.
+ * @param method HTTP method.
+ * @param headers Header items for the request.
+ * @param body Content that will be deliver with the request.
+ */
 @Parcelize
 data class ScreenRequest(
     val url: String,
@@ -85,12 +93,38 @@ data class ScreenRequest(
     val body: String? = null
 ) : Parcelable
 
+/**
+ * Enum with ScreenMethod.
+ */
 enum class ScreenMethod {
+    /**
+     * Request we representation of an resource.
+     */
     GET,
+
+    /**
+     * The POST method is used when we want to create a resource.
+     */
     POST,
+
+    /**
+     * Require that a resource be "saved" in the given URI.
+     */
     PUT,
+
+    /**
+     * Deletes the specified resource.
+     */
     DELETE,
+
+    /**
+     * Returns only the headers of a response.
+     */
     HEAD,
+
+    /**
+     * Used to update parts of a resource
+     */
     PATCH
 }
 

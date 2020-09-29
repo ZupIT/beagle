@@ -21,7 +21,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 
 /**
- *
+ * Interface RootView holder the reference of activity or fragment.
  */
 interface RootView {
 
@@ -31,7 +31,7 @@ interface RootView {
     fun getContext(): Context
 
     /**
-     * Returns the Lifecycle of the provider.
+     * Returns the providers Lifecycle.
      */
     fun getLifecycleOwner(): LifecycleOwner
 
