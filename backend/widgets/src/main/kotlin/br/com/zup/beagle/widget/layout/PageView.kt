@@ -32,7 +32,8 @@ import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
  * @param context access in the context, having communication access between components.
  * @param onPageChange List of actions that are performed when you are on the selected page.
  * @param currentPage Integer number that identifies that selected.
- * @param showArrow
+ * @param showArrow This attribute is specific to the web platform, with which it allows you to place the arrows
+ * to change pages.
  */
 
 data class PageView(
