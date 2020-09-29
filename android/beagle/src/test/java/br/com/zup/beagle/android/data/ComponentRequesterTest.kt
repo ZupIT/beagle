@@ -76,7 +76,7 @@ class ComponentRequesterTest : BaseTest() {
     }
 
     @Test
-    fun `GIVEN a componentRequest with json in Cache WHEN cachedJson isHot is true SHOULD deserialize this cachedJson` () = runBlockingTest {
+    fun `GIVEN a componentRequest with json in Cache WHEN beagleCache is not expired SHOULD deserialize this cachedJson` () = runBlockingTest {
         // Given
         val component = mockk<ServerDrivenComponent>()
         val jsonMock = "jsonMock"
@@ -84,7 +84,7 @@ class ComponentRequesterTest : BaseTest() {
         every {
             cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url)
         } returns beagleCache
-        every { beagleCache.isHot } returns true
+        every { beagleCache.isExpired() } returns false
         every { beagleCache.json } returns jsonMock
         every { serializer.deserializeComponent(jsonMock) } returns component
 
@@ -97,7 +97,7 @@ class ComponentRequesterTest : BaseTest() {
     }
 
     @Test
-    fun `GIVEN a componentRequest with json in cache WHEN cachedJson isHot is false SHOULD fetch from api and deserialize this new json`() = runBlockingTest {
+    fun `GIVEN a componentRequest with json in cache WHEN beagleCache is expired SHOULD fetch from api and deserialize this new json`() = runBlockingTest {
         // Given
         val newScreenRequestMock = mockk<ScreenRequest>()
         val requestDataMock = mockk<RequestData>()
@@ -106,7 +106,7 @@ class ComponentRequesterTest : BaseTest() {
         val expected = mockk<ServerDrivenComponent>()
 
         every { cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url) } returns beagleCache
-        every { beagleCache.isHot } returns false
+        every { beagleCache.isExpired() } returns true
         every { cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache) } returns newScreenRequestMock
         every { newScreenRequestMock.toRequestData() } returns requestDataMock
         coEvery { beagleApi.fetchData(requestDataMock) } returns responseDataMock
