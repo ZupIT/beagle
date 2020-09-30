@@ -19,7 +19,7 @@ class ButtonScreen {
 
     @Before("@button")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
+        TestUtils.startActivity(activityTestRule, Constants.buttonScreenBffUrl)
     }
 
 

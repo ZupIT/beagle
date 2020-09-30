@@ -35,7 +35,7 @@ class ListViewScreenSteps {
 
     @Before("@listview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/listview")
+        TestUtils.startActivity(activityTestRule, Constants.listViewScreenBffUrl)
     }
 
     @After("@listview")

@@ -34,7 +34,7 @@ class TabViewScreenSteps {
 
     @Before("@tabview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/tabview")
+        TestUtils.startActivity(activityTestRule, Constants.tabViewScreenBffUrl)
     }
 
     @After("@tabview")

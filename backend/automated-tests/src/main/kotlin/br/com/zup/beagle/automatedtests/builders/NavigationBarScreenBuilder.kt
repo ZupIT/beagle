@@ -141,10 +141,10 @@ object NavigationBarScreenBuilder {
         ),
         styleId = BUTTON_STYLE_TITLE
     ).applyStyle(Style(
-        margin = EdgeValue(
-            top = 8.unitReal()
+            margin = EdgeValue(
+                top = 8.unitReal()
+            )
         )
-    )
     )
 
     private fun navigationBarScreenBuilder(

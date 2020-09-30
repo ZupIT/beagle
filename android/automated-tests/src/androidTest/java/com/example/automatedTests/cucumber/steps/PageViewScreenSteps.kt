@@ -34,7 +34,7 @@ class PageViewScreenSteps {
 
     @Before("@pageview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/pageview")
+        TestUtils.startActivity(activityTestRule, Constants.pageViewScreenBffUrl)
     }
 
     @After("@pageview")
