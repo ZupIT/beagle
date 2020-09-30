@@ -84,5 +84,4 @@ class ScrollViewScreenSteps {
             .sleep(2)
     }
 
-
 }
