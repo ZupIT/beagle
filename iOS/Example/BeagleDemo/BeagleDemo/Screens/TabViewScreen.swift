@@ -30,36 +30,25 @@ struct TabViewScreen: DeeplinkScreen {
         Container(context:
             Context(id: "tab",
                     value: [
-                        "currentTab": 2,
+                        "currentTab": 0,
                         "icon": [
                             "tab1": "beagle",
-                            "tab2": "imageBeagle",
-                            "tab3": "informationImage"
+                            "tab4": "imageBeagle",
+                            "tab5": "informationImage",
+                            "tab8": "blackHole"
                         ]
                     ]
         ), widgetProperties: .init(Flex().grow(1))) {
             TabBar(
                 items: [
                     TabBarItem(icon: "@{tab.icon.tab1}"),
-                    TabBarItem(title: "Tab 1"),
                     TabBarItem(title: "Tab 2"),
-                    TabBarItem(icon: "@{tab.icon.tab2}", title: "Tab 3"),
-                    TabBarItem(icon: "@{tab.icon.tab3}"),
-                    TabBarItem(title: "Tab 4"),
-                    TabBarItem(title: "Tab 5"),
-                    TabBarItem(icon: "@{tab.icon.tab1}", title: "Tab 6"),
-                    TabBarItem(icon: "@{tab.icon.tab2}"),
+                    TabBarItem(title: "Tab 3"),
+                    TabBarItem(icon: "@{tab.icon.tab4}", title: "Tab 4"),
+                    TabBarItem(icon: "@{tab.icon.tab5}"),
+                    TabBarItem(title: "Tab 6"),
                     TabBarItem(title: "Tab 7"),
-                    TabBarItem(title: "Tab 8"),
-                    TabBarItem(icon: "@{tab.icon.tab3}", title: "Tab 9"),
-                    TabBarItem(icon: "@{tab.icon.tab1}"),
-                    TabBarItem(title: "Tab 10"),
-                    TabBarItem(title: "Tab 12"),
-                    TabBarItem(icon: "@{tab.icon.tab2}", title: "Tab 12"),
-                    TabBarItem(icon: "@{tab.icon.tab3}"),
-                    TabBarItem(title: "Tab 14"),
-                    TabBarItem(title: "Tab 15"),
-                    TabBarItem(icon: "@{tab.icon.tab1}", title: "Tab 16")
+                    TabBarItem(icon: "@{tab.icon.tab8}", title: "Tab 8")
                 ],
                 styleId: .tabViewStyle,
                 currentTab: "@{tab.currentTab}",
@@ -70,106 +59,87 @@ struct TabViewScreen: DeeplinkScreen {
                 currentPage: "@{tab.currentTab}"
             ) {
                 Container(widgetProperties: .init(Flex().alignContent(.center))) {
-                    Text("Text1 Tab 0")
+                    Text("Text1 Tab 1")
                     Image(.remote(.init(url: .networkImageBeagle, placeholder: "imageBeagle")))
-                    Text("Text2 Tab 0")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "informationImage", "tab2": "beagle", "tab3": "imageBeagle"])])
+                    Text("Text2 Tab 1")
+                    Button(text: "change Context Tab 1", onPress: [
+                        SetContext(contextId: "tab", path: "icon", value: [
+                        "tab1": "beagle",
+                        "tab4": "imageBeagle",
+                        "tab5": "informationImage",
+                        "tab8": "blackHole"
+                        ])
+                    ])
                 }
                 Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
-                    Text("Text1 Tab 1")
-                    Text("Text2 Tab 1")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "beagle", "tab2": "imageBeagle", "tab3": "informationImage"])])
-                }
-                Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
                     Text("Text1 Tab 2")
                     Text("Text2 Tab 2")
+                    Button(text: "change Context Tab 2", onPress: [
+                        SetContext(contextId: "tab", path: "icon", value: [
+                        "tab1": "blackHole",
+                        "tab4": "informationImage",
+                        "tab5": "imageBeagle",
+                        "tab8": "beagle"
+                        ])
+                    ])
                 }
-                Container(widgetProperties: .init(Flex().alignItems(.center))) {
+                Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
                     Text("Text1 Tab 3")
                     Text("Text2 Tab 3")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "imageBeagle", "tab2": "informationImage", "tab3": "beagle"])])
+                }
+                Container(widgetProperties: .init(Flex().alignItems(.center))) {
+                    Text("Text1 Tab 4")
+                    Text("Text2 Tab 4")
+                    Button(text: "change Context Tab 4", onPress: [
+                        SetContext(contextId: "tab", path: "icon", value: [
+                        "tab1": "informationImage",
+                        "tab4": "blackHole",
+                        "tab5": "beagle",
+                        "tab8": "imageBeagle"
+                        ])
+                    ])
                 }
                 Container(widgetProperties: .init(Flex().alignContent(.center))) {
-                    Text("Text1 Tab 0")
+                    Text("Text1 Tab 5")
                     Image(.remote(.init(url: .networkImageBeagle, placeholder: "imageBeagle")))
-                    Text("Text2 Tab 0")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "informationImage", "tab2": "beagle", "tab3": "imageBeagle"])])
+                    Text("Text2 Tab 5")
+                    Button(text: "change Context Tab 5", onPress: [
+                        SetContext(contextId: "tab", path: "icon", value: [
+                        "tab1": "beagle",
+                        "tab4": "informationImage",
+                        "tab5": "beagle",
+                        "tab8": "blackHole"
+                        ])
+                    ])
                 }
                 Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
-                    Text("Text1 Tab 1")
-                    Text("Text2 Tab 1")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "beagle", "tab2": "imageBeagle", "tab3": "informationImage"])])
+                    Text("Text1 Tab 6")
+                    Text("Text2 Tab 6")
+                    Button(text: "change Context Tab 6", onPress: [
+                        SetContext(contextId: "tab", path: "icon", value: [
+                        "tab1": "beagle",
+                        "tab4": "informationImage",
+                        "tab5": "beagle",
+                        "tab8": "blackHole"
+                        ])
+                    ])
                 }
                 Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
-                    Text("Text1 Tab 2")
-                    Text("Text2 Tab 2")
+                    Text("Text1 Tab 7")
+                    Text("Text2 Tab 7")
                 }
                 Container(widgetProperties: .init(Flex().alignItems(.center))) {
-                    Text("Text1 Tab 3")
-                    Text("Text2 Tab 3")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "imageBeagle", "tab2": "informationImage", "tab3": "beagle"])])
+                    Text("Text1 Tab 8")
+                    Text("Text2 Tab 8")
+                    Button(text: "change Context tab 8", onPress: [
+                        SetContext(contextId: "tab", path: "icon", value: [
+                        "tab1": "imageBeagle",
+                        "tab4": "beagle",
+                        "tab5": "blackHole",
+                        "tab8": "informationImage"
+                        ])
+                    ])
                 }
-                Container(widgetProperties: .init(Flex().alignContent(.center))) {
-                    Text("Text1 Tab 0")
-                    Image(.remote(.init(url: .networkImageBeagle, placeholder: "imageBeagle")))
-                    Text("Text2 Tab 0")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "informationImage", "tab2": "beagle", "tab3": "imageBeagle"])])
-                }
-                Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
-                    Text("Text1 Tab 1")
-                    Text("Text2 Tab 1")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "beagle", "tab2": "imageBeagle", "tab3": "informationImage"])])
-                }
-                Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
-                    Text("Text1 Tab 2")
-                    Text("Text2 Tab 2")
-                }
-                Container(widgetProperties: .init(Flex().alignItems(.center))) {
-                    Text("Text1 Tab 3")
-                    Text("Text2 Tab 3")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "imageBeagle", "tab2": "informationImage", "tab3": "beagle"])])
-                }
-                Container(widgetProperties: .init(Flex().alignContent(.center))) {
-                    Text("Text1 Tab 0")
-                    Image(.remote(.init(url: .networkImageBeagle, placeholder: "imageBeagle")))
-                    Text("Text2 Tab 0")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "informationImage", "tab2": "beagle", "tab3": "imageBeagle"])])
-                }
-                Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
-                    Text("Text1 Tab 1")
-                    Text("Text2 Tab 1")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "beagle", "tab2": "imageBeagle", "tab3": "informationImage"])])
-                }
-                Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
-                    Text("Text1 Tab 2")
-                    Text("Text2 Tab 2")
-                }
-                Container(widgetProperties: .init(Flex().alignItems(.center))) {
-                    Text("Text1 Tab 3")
-                    Text("Text2 Tab 3")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "imageBeagle", "tab2": "informationImage", "tab3": "beagle"])])
-                }
-                Container(widgetProperties: .init(Flex().alignContent(.center))) {
-                    Text("Text1 Tab 0")
-                    Image(.remote(.init(url: .networkImageBeagle, placeholder: "imageBeagle")))
-                    Text("Text2 Tab 0")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "informationImage", "tab2": "beagle", "tab3": "imageBeagle"])])
-                }
-                Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
-                    Text("Text1 Tab 1")
-                    Text("Text2 Tab 1")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "beagle", "tab2": "imageBeagle", "tab3": "informationImage"])])
-                }
-                Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
-                    Text("Text1 Tab 2")
-                    Text("Text2 Tab 2")
-                }
-                Container(widgetProperties: .init(Flex().alignItems(.center))) {
-                    Text("Text1 Tab 3")
-                    Text("Text2 Tab 3")
-                    Button(text: "change Context", onPress: [SetContext(contextId: "tab", path: "icon", value: ["tab1": "imageBeagle", "tab2": "informationImage", "tab3": "beagle"])])
-                }
-
             }
         }
     }

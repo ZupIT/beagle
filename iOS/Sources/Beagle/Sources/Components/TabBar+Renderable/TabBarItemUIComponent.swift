@@ -59,7 +59,6 @@ final class TabBarItemUIComponent: UIView {
         super.init(frame: .zero)
         self.renderer = renderer
         self.index = index
-        setupView()
         addSubview(icon)
         addSubview(title)
     }
@@ -69,12 +68,6 @@ final class TabBarItemUIComponent: UIView {
     }
         
     // MARK: - Setup
-    
-    private func setupView() {
-        icon.style.setup(Style()
-            .size(Size().width(30).height(30))
-        )
-    }
     
     func setupTab(with tab: TabBarItem) {
         switch tab.itemContentType {
@@ -86,7 +79,10 @@ final class TabBarItemUIComponent: UIView {
             handleContextOnImage(iconName: iconName)
             
             title.style.setup(Style().display(.flex))
-            icon.style.setup(Style().display(.flex).flex(Flex().alignSelf(.center)))
+            icon.style.setup(Style()
+                .display(.flex)
+                .size(Size().width(30).height(30))
+               )
 
         case .icon(let iconName):
             
@@ -95,7 +91,7 @@ final class TabBarItemUIComponent: UIView {
             title.style.setup(Style().display(.none))
             icon.style.setup(Style()
                 .display(.flex)
-                .flex(Flex().alignSelf(.center))
+                .size(Size().width(35).height(35))
             )
 
         case .title(let text):
