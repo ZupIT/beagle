@@ -132,13 +132,6 @@ object ExpressionEscapingScreenBuilder {
                 value = "@{onChange.value}"
             )
         )
-//        onBlur = listOf(
-//            SetContext(
-//                contextId = "escaping",
-//                path = contextPath,
-//                value = "@{onBlur.value}"
-//            )
-//        )
     ).applyStyle(styleMargin)
 
     var styleMargin = Style(
