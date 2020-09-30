@@ -62,7 +62,6 @@ class ListViewScreenSteps {
             .checkViewContainsText(STATIC_LISTVIEW_TEXT_1)
             .checkViewContainsText(STATIC_LISTVIEW_TEXT_2)
             .checkViewContainsText(DYNAMIC_LISTVIEW_TEXT_1)
-
     }
 
     @Then("^listview screen should perform the scroll action vertically$")
