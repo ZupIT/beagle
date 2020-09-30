@@ -22,7 +22,6 @@ class ButtonScreen {
         TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
     }
 
-
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
         ScreenRobot()
