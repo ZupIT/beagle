@@ -22,7 +22,6 @@ class ButtonScreen {
         TestUtils.startActivity(activityTestRule, Constants.buttonScreenBffUrl)
     }
 
-
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
         ScreenRobot()

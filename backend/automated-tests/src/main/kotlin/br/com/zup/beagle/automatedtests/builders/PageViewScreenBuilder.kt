@@ -88,12 +88,3 @@ object PageViewScreenBuilder : ScreenBuilder {
         )
     )
 }
-
-//(1..3).map {
-//    Text("@{pageView.value} $it", alignment = TextAlignment.CENTER).applyFlex(
-//        Flex(
-//            alignSelf = AlignSelf.CENTER,
-//            grow = 1.0
-//        )
-//    )
-//}
