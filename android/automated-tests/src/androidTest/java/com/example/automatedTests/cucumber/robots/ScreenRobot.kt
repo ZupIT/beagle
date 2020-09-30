@@ -49,9 +49,7 @@ class ScreenRobot {
         }
 
         onView(Matchers.allOf(withHint(hint))).check(matches(isDisplayed()))
-
         return this
-
     }
 
     fun clickOnText(text: String?): ScreenRobot {
