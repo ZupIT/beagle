@@ -95,17 +95,15 @@ class ScreenRobot {
         return this
     }
 
-
-        @Throws(InterruptedException::class)
-        fun sleep(seconds: Int): ScreenRobot {
-            Thread.sleep(seconds * 1000L)
-            return this
-        }
+    @Throws(InterruptedException::class)
+    fun sleep(seconds: Int): ScreenRobot {
+        Thread.sleep(seconds * 1000L)
+        return this
+    }
 
     fun hideKeyboard() {
         Espresso.closeSoftKeyboard()
     }
-
 
     companion object {
             private fun childAtPosition(
