@@ -225,6 +225,10 @@ class GlobalContextDummy: GlobalContext {
     
     func isGlobal(id: String?) -> Bool { true }
     
+    func set(_ value: DynamicObject) {
+        // Intentionally unimplemented...
+    }
+    
     func set(value: DynamicObject, path: String?) {
         // Intentionally unimplemented...
     }

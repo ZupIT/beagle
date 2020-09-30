@@ -192,7 +192,7 @@ extension UIView {
     func setContext(_ context: Context) {
         let global = dependencies.globalContext
         guard !global.isGlobal(id: context.id) else {
-            global.set(value: context.value, path: nil)
+            global.set(context.value)
             return
         }
         if let contextObservable = contextMap[context.id] {
