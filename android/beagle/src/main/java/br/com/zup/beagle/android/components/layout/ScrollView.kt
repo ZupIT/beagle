@@ -63,10 +63,12 @@ data class ScrollView(
                     addChildrenViews(this, children, rootView, styleChild)
                 }
             } else {
+
                 viewFactory.makeScrollView(context).apply {
                     isVerticalScrollBarEnabled = scrollBarEnabled
                     addChildrenViews(this, children, rootView, styleChild)
                 }
+
             }, styleParent)
         }
     }
@@ -78,9 +80,12 @@ data class ScrollView(
         styleChild: Style
     ) {
         val viewGroup = viewFactory.makeBeagleFlexView(rootView, styleChild)
+
         children.forEach { component ->
-            viewGroup.addServerDrivenComponent(component)
+            viewGroup.addServerDrivenComponent(component, false)
         }
+
         scrollView.addView(viewGroup)
+        viewGroup.setHeightAutoAndDirtyAllViews()
     }
 }

@@ -56,6 +56,39 @@ class ImageTests: XCTestCase {
         assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 400, height: 400)))
     }
     
+    func testRenderRemoteImage() {
+        let screen = Screen(navigationBar: NavigationBar(title: "PageView")) {
+            Container(context: Context(id: "currentPage", value: 2), widgetProperties: .init(Flex().grow(1))) {
+                PageIndicator(numberOfPages: 4, currentPage: "@{currentPage}")
+                PageView(
+                    children: [
+                        Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween).grow(1))) {
+                            Text("Text with alignment attribute set to center", alignment: Expression.value(.center))
+                            Text("Text with alignment attribute set to right", alignment: Expression.value(.right))
+                            Text("Text with alignment attribute set to left", alignment: Expression.value(.left))
+                            Image(.value(.remote(.init(url: "https://www.petlove.com.br/images/"))))
+                        }
+                    ],
+                    pageIndicator: PageIndicator(),
+                    onPageChange: [SetContext(contextId: "currentPage", value: "@{onPageChange}")],
+                    currentPage: "@{currentPage}"
+                )
+            }
+        }
+
+        let dependencies = BeagleDependencies()
+        dependencies.repository = RepositoryMock(expectation: expectation(description: "repository"))
+
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(screen), dependencies: dependencies))
+
+        let size = ImageSize.custom(.init(width: 400, height: 400))
+        assertSnapshotImage(controller, size: size)
+
+        self.waitForExpectations(timeout: 3)
+
+        assertSnapshotImage(controller, size: size)
+    }
+    
     func testCancelRequest() {
         //Given
         let image = Image("@{img.path}")
@@ -113,5 +146,27 @@ class ImageTests: XCTestCase {
         
         // Then
         XCTAssertNil(weakView)
+    }
+}
+
+private struct RepositoryMock: Repository {
+    var expectation: XCTestExpectation?
+    
+    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, useCache: Bool, completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
+        return nil
+    }
+    
+    func submitForm(url: String, additionalData: RemoteScreenAdditionalData?, data: Request.FormData, completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
+        return nil
+    }
+    
+    func fetchImage(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<Data, Request.Error>) -> Void) -> RequestToken? {
+        let image = UIImage(named: "shuttle", in: Bundle(for: ImageTests.self), compatibleWith: nil)
+
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+            completion(.success(image?.pngData() ?? Data()))
+            self.expectation?.fulfill()
+        }
+        return nil
     }
 }

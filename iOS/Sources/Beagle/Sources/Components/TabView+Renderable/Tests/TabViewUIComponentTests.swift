@@ -40,7 +40,9 @@ final class TabViewUIComponentTests: XCTestCase {
     
     private lazy var model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: component.children)
 
-    private lazy var sut = TabViewUIComponent(model: model, controller: BeagleControllerStub())
+    private lazy var sut = TabViewUIComponent(model: model, renderer: .init(controller: controllerStub))
+
+    private lazy var controllerStub = BeagleControllerStub()
 
     private func makeScreen(_ component: ServerDrivenComponent) -> BeagleScreenViewController {
         return Beagle.screen(.declarative(component.toScreen()))
