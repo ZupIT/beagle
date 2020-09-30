@@ -34,16 +34,13 @@ import org.hamcrest.TypeSafeMatcher
 
 class ScreenRobot {
 
-
     fun checkViewContainsText(text: String?, waitForText: Boolean = false): ScreenRobot {
         if (waitForText){
             WaitHelper.waitForWithElement(onView(withText(text)))
         }
 
         onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
-
         return this
-
     }
 
     fun checkViewContainsHint(hint: String?, waitForText: Boolean = false): ScreenRobot {
