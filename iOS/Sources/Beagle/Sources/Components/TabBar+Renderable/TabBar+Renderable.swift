@@ -45,7 +45,7 @@ extension TabBar: ServerDrivenComponent {
         }
         
         tabBarScroll.yoga.overflow = .scroll
-        tabBarScroll.style.setup(Style(flex: Flex().flexDirection(.row)))
+        tabBarScroll.style.setup(Style(size: Size().height(65), flex: Flex().flexDirection(.row)))
         return tabBarScroll
     }
 }

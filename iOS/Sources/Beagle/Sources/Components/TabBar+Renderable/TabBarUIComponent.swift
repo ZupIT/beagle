@@ -36,7 +36,7 @@ final class TabBarUIComponent: UIScrollView {
     }
     
     // MARK: - Properties
-    private var shouldScrollToPage = false
+    private var shouldCreateTabItemsView = false
     private let tabItemMinimumHorizontalMargin: CGFloat = 40
     private let tabItemIconMinimunWidth: CGFloat = 75
     
@@ -64,7 +64,6 @@ final class TabBarUIComponent: UIScrollView {
     ) {
         self.model = model
         super.init(frame: .zero)
-        setupTabBarItems()
         setupContentView()
     }
     
@@ -77,8 +76,10 @@ final class TabBarUIComponent: UIScrollView {
         super.layoutSubviews()
         if let contentView = subviews.first {
             contentSize = contentView.frame.size
-            if shouldScrollToPage {
-                self.scrollTo(page: self.model.tabIndex ?? 0)
+            if shouldCreateTabItemsView {
+                setupTabBarItems()
+                style.applyLayout()
+                scrollTo(page: model.tabIndex ?? 0)
             }
         }
     }
@@ -93,9 +94,9 @@ final class TabBarUIComponent: UIScrollView {
         addSubview(contentView)
         style.applyLayout()
 
-        // Adds configuration to view after view it is already in superview hierarchy
+        // Adds configuration to view after it is already in superview hierarchy
         model.renderer.controller.addBinding {
-            self.shouldScrollToPage.toggle()
+            self.shouldCreateTabItemsView.toggle()
         }
     }
     
@@ -103,15 +104,25 @@ final class TabBarUIComponent: UIScrollView {
         var index = 0
         model.tabBarItems.forEach { item in
             let size = getContentSize(forItem: item.itemContentType)
-            let itemView = setupTabBarItemView(with: item, index: index)
-            setupTabBarItemStyle(itemView, with: size.width)
+            let itemView = createTabBarItemsView(with: item, index: index)
+            setupTabBarItemStyle(for: itemView, with: size.width)
             tabItemViews[index] = itemView
             index += 1
             contentView.addSubview(itemView)
         }
     }
     
-    private func setupTabBarItemStyle(_ item: TabBarItemUIComponent, with width: CGFloat) {
+    private func createTabBarItemsView(with item: TabBarItem, index: Int) -> TabBarItemUIComponent {
+        let itemView = TabBarItemUIComponent(index: index, renderer: model.renderer)
+        itemView.setupTab(with: item)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(selectTabItem(sender:)))
+        itemView.addGestureRecognizer(tap)
+        itemView.isUserInteractionEnabled = true
+        return itemView
+    }
+    
+    private func setupTabBarItemStyle(for item: TabBarItemUIComponent, with width: CGFloat) {
         item.style.setup(
             Style(
                 size: Size().height(62).width(.init(value: Double(width), type: .real)),
@@ -120,16 +131,6 @@ final class TabBarUIComponent: UIScrollView {
                     .alignItems(.center)
                     .justifyContent(.spaceEvenly))
         )
-    }
-    
-    private func setupTabBarItemView(with item: TabBarItem, index: Int) -> TabBarItemUIComponent {
-        let itemView = TabBarItemUIComponent(index: index, renderer: model.renderer)
-        itemView.setupTab(with: item)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(selectTabItem(sender:)))
-        itemView.addGestureRecognizer(tap)
-        itemView.isUserInteractionEnabled = true
-        return itemView
     }
     
     @objc func selectTabItem(sender: UITapGestureRecognizer) {
@@ -216,7 +217,7 @@ private extension TabBarUIComponent {
 extension TabBarUIComponent {
     func scrollTo(page: Int) {
         guard let view = tabItemViews[page] else { return }
-        shouldScrollToPage = false
+        shouldCreateTabItemsView = false
         model.tabIndex = page
 
         let newRect = view.convert(view.bounds, to: self)
