@@ -26,6 +26,10 @@ import br.com.zup.beagle.widget.action.Action
  * @param child  you should provide an hierarchy of visual components on which form will act upon.
  * It's important to have somewhere in your component hierarchy input components
  * FormInput and a submit component FormSubmit.
+ * @param group reference key to manipulate data that will be saved, deleted or recovered.
+ * @param additionalData can add data to redeem it on onSubmit.
+ * @param shouldStoreFields allows saving the additionalData.
+ *
  * @see FormInput
  * @see FormSubmit
  *

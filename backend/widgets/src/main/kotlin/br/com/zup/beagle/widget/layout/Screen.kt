@@ -111,6 +111,7 @@ data class NavigationBar(
  *                  It could be any visual component that extends the ServerDrivenComponent.1
  * @param style enable a few visual options to be changed.
  * @param screenAnalyticsEvent send event when screen appear/disappear
+ * @param context define the contextData that be set to screen.
  *
  */
 data class Screen(
