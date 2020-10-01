@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.android.components
 
-import android.graphics.drawable.Drawable
+import android.R.attr
+import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
@@ -25,6 +26,7 @@ import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
+import br.com.zup.beagle.android.imagemanager.ImageDownloader
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
@@ -35,11 +37,9 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.ImageContentMode
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.InputStream
-import java.net.URL
+
 
 @RegisterWidget
 data class Image constructor(
@@ -51,6 +51,9 @@ data class Image constructor(
 
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()
+
+    @Transient
+    private val imageDownloader: ImageDownloader = ImageDownloader()
 
     @Transient
     private val viewFactory = ViewFactory()
@@ -105,25 +108,22 @@ data class Image constructor(
     }
 
     private fun ImageView.loadImage(url: String) {
-        CoroutineScope(CoroutineDispatchers.IO).launch {
+        val view = this@loadImage
 
-            val drawable = try {
-                fetchDrawable(url.formatUrl())
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
+        view.post {
+            CoroutineScope(CoroutineDispatchers.IO).launch {
+
+                val bitmap = try {
+                    imageDownloader.getRemoteImage(url.formatUrl(), this@loadImage.width, this@loadImage.height)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+
+                withContext(CoroutineDispatchers.Main) {
+                    view.setImageBitmap(bitmap)
+                }
             }
-
-            withContext(CoroutineDispatchers.Main) {
-                this@loadImage.setImageDrawable(drawable)
-            }
-        }
-    }
-
-    private suspend fun fetchDrawable(url: String?): Drawable {
-        return withContext(CoroutineDispatchers.IO) {
-            val inputStream: InputStream = URL(url).openStream()
-            Drawable.createFromStream(inputStream, "src")
         }
     }
 
