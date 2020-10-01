@@ -37,20 +37,22 @@ class TabBarUIComponentTests: XCTestCase {
     
     func test_didSelectItemAt_shouldCallOnTabSelectionClosure() {
         // Given
-        let collectionView = sut.collectionView
         let index = 1
-        let indexPath = IndexPath(item: index, section: 0)
         var didCalledOnTabSelection = false
         var passedIndex: Int?
-        
+        let item = sut.tabItemViews[index]
         // When
         sut.onTabSelection = { index in
             didCalledOnTabSelection = true
             passedIndex = index
         }
         
-        sut.collectionView(collectionView, didSelectItemAt: indexPath)
-        
+        guard let gestureRecognizer = item?.gestureRecognizers?.first as? UITapGestureRecognizer else {
+            XCTFail("TabBarItem of index 1 has no gesture recognizer.")
+            return
+        }
+        sut.selectTabItem(sender: gestureRecognizer)
+
         // Then
         XCTAssert(didCalledOnTabSelection)
         XCTAssert(passedIndex == index)

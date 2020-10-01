@@ -30,6 +30,7 @@ extension TabBar: ServerDrivenComponent {
         if let currentTab = currentTab {
             renderer.observe(currentTab, andUpdateManyIn: tabBarScroll) {
                 if let tab = $0 {
+                    tabBarScroll.model.tabIndex = tab
                     tabBarScroll.scrollTo(page: tab)
                 }
             }
@@ -44,10 +45,7 @@ extension TabBar: ServerDrivenComponent {
         }
         
         tabBarScroll.yoga.overflow = .scroll
-        tabBarScroll.style.setup(
-            Style(size: Size().width(100%).height(65),
-                  flex: Flex().flexDirection(.row))
-        )
+        tabBarScroll.style.setup(Style(flex: Flex().flexDirection(.row)))
         return tabBarScroll
     }
 }

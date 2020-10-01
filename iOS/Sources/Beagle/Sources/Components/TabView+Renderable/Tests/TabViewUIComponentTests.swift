@@ -94,11 +94,19 @@ final class TabViewUIComponentTests: XCTestCase {
     }
     
     func test_whenChangedTabs_shouldChangeCurrentPage() {
-        let tabBar = sut.tabBar
-        tabBar.collectionView(tabBar.collectionView, didSelectItemAt: IndexPath(item: 1, section: 0))
+        // Given
+        let tabItem = sut.tabBar.tabItemViews[1]
+        
+        guard let gestureRecognizer = tabItem?.gestureRecognizers?.first as? UITapGestureRecognizer else {
+            XCTFail("TabItem of index 1 has no gesture recognizer.")
+            return
+        }
+        
+        // When
+        sut.tabBar.selectTabItem(sender: gestureRecognizer)
+        
+        // Then
         XCTAssert(sut.contentView.model.currentPage == 1)
-        tabBar.collectionView(tabBar.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
-        XCTAssert(sut.contentView.model.currentPage == 0)
     }
 }
 

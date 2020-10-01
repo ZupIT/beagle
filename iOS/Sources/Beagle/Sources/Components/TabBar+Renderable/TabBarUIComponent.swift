@@ -30,22 +30,20 @@ final class TabBarUIComponent: UIScrollView {
     // MARK: - Model
     
     struct Model {
+        var tabIndex: Int?
         var tabBarItems: [TabBarItem]
         var renderer: BeagleRenderer
     }
     
     // MARK: - Properties
-    
-    private var shouldScrollToCurrentTab = true
-    private var shouldAnimateOnCellDisplay = false
+    private var shouldScrollToPage = false
     private let tabItemMinimumHorizontalMargin: CGFloat = 40
     private let tabItemIconMinimunWidth: CGFloat = 75
     
     var model: Model
-    var contentViewSize = CGRect(x: 0, y: 0, width: 0, height: 0)
     var tabItemViews = [Int: TabBarItemUIComponent]()
     var onTabSelection: ((_ tab: Int) -> Void)?
-
+    
     // MARK: - UI
     
     private lazy var contentView: UIView = {
@@ -79,9 +77,12 @@ final class TabBarUIComponent: UIScrollView {
         super.layoutSubviews()
         if let contentView = subviews.first {
             contentSize = contentView.frame.size
+            if shouldScrollToPage {
+                self.scrollTo(page: self.model.tabIndex ?? 0)
+            }
         }
     }
-    
+
     // MARK: - Layout
 
     private func setupContentView() {
@@ -91,6 +92,11 @@ final class TabBarUIComponent: UIScrollView {
         contentView.addSubview(indicatorView)
         addSubview(contentView)
         style.applyLayout()
+
+        // Adds configuration to view after view it is already in superview hierarchy
+        model.renderer.controller.addBinding {
+            self.shouldScrollToPage.toggle()
+        }
     }
     
     private func setupTabBarItems() {
@@ -98,18 +104,22 @@ final class TabBarUIComponent: UIScrollView {
         model.tabBarItems.forEach { item in
             let size = getContentSize(forItem: item.itemContentType)
             let itemView = setupTabBarItemView(with: item, index: index)
-            itemView.style.setup(
-                Style(
-                    size: Size().height(62).width(.init(value: Double(size.width), type: .real)),
-                    position: EdgeValue().left(5),
-                    flex: Flex()
-                        .alignItems(.center)
-                        .justifyContent(.spaceEvenly))
-            )
+            setupTabBarItemStyle(itemView, with: size.width)
             tabItemViews[index] = itemView
             index += 1
             contentView.addSubview(itemView)
         }
+    }
+    
+    private func setupTabBarItemStyle(_ item: TabBarItemUIComponent, with width: CGFloat) {
+        item.style.setup(
+            Style(
+                size: Size().height(62).width(.init(value: Double(width), type: .real)),
+                position: EdgeValue().left(5),
+                flex: Flex()
+                    .alignItems(.center)
+                    .justifyContent(.spaceEvenly))
+        )
     }
     
     private func setupTabBarItemView(with item: TabBarItem, index: Int) -> TabBarItemUIComponent {
@@ -125,12 +135,11 @@ final class TabBarUIComponent: UIScrollView {
     @objc func selectTabItem(sender: UITapGestureRecognizer) {
         guard let tabItem = sender.view as? TabBarItemUIComponent, let index = tabItem.index else { return }
         
-        setupTabBarItemsStyle(with: index)
+        setupTabBarItemsTheme(for: index)
         onTabSelection?(index)
-        moveIndicatorView(to: tabItem)
     }
     
-    private func setupTabBarItemsStyle(with currentIndex: Int) {
+    private func setupTabBarItemsTheme(for currentIndex: Int) {
         tabItemViews.forEach { _, item in
             item.isSelected = currentIndex == item.index ? true : false
         }
@@ -174,7 +183,7 @@ private extension TabBarUIComponent {
     }
     
     func getContentSize(forWidth width: CGFloat) -> CGSize {
-        CGSize(width: width + getTabBarItensFreeHorizontalSpace(), height: 65)
+        CGSize(width: width + getTabBarItensFreeHorizontalSpace(), height: 62)
     }
 }
 
@@ -205,9 +214,12 @@ private extension TabBarUIComponent {
 extension TabBarUIComponent {
     func scrollTo(page: Int) {
         guard let view = tabItemViews[page] else { return }
+        shouldScrollToPage = false
+        model.tabIndex = page
+
         let newRect = view.convert(view.bounds, to: self)
         scrollRectToVisible(newRect, animated: true)
-        setupTabBarItemsStyle(with: page)
+        setupTabBarItemsTheme(for: page)
         moveIndicatorView(to: view)
     }
 }

@@ -121,6 +121,6 @@ final class ThemeTests: XCTestCase {
         
         //Then
         XCTAssertEqual(backgroundColor, tabBar.backgroundColor)
-        XCTAssertEqual(indicatorColor, tabBar.containerIndicator.indicatorView.backgroundColor)
+        XCTAssertEqual(indicatorColor, tabBar.indicatorView.backgroundColor)
     }
 }
