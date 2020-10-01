@@ -26,7 +26,7 @@ final class SendRequestTests: XCTestCase {
         // Given
         let sendRequest = SendRequest(
             url: "http://mock",
-            method: .post,
+            method: .value(.post),
             data: .string("data")
         )
         let view = UIView()
@@ -60,7 +60,7 @@ final class SendRequestTests: XCTestCase {
         let url = "http://mock"
         let sendRequest = SendRequest(
             url: "\(url)",
-            method: .get
+            method: .value(.get)
         )
         let view = UIView()
         let controller = BeagleControllerSpy()

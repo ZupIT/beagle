@@ -31,7 +31,7 @@ class CustomBeagleNavigationController: BeagleNavigationController {
         case .remoteScreen(let error), .lazyLoad(let error), .submitForm(let error):
             switch error {
             case .networkError(let messageError):
-                message = messageError.localizedDescription
+                message = messageError.error.localizedDescription
             case .decoding(let messageError):
                 message = messageError.localizedDescription
             case .loadFromTextError, .urlBuilderError:

@@ -15,6 +15,8 @@
  */
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.layout.Screen
 
 /**
@@ -29,8 +31,22 @@ sealed class Route {
      * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
      * @param fallback screen that is rendered in case the request fails.
      */
-    data class Remote(val url: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route()
+    data class Remote constructor(
+        val url: Bind<String>,
+        val shouldPrefetch: Boolean = false,
+        val fallback: Screen? = null
+    ) : Route() {
 
+        constructor(
+            url: String,
+            shouldPrefetch: Boolean = false,
+            fallback: Screen? = null
+        ) : this(
+            valueOf(url),
+            shouldPrefetch,
+            fallback
+        )
+    }
 
     /**
      * Class indicating navigation to a local screen.

@@ -41,9 +41,9 @@ extension Text: Widget {
         renderer.observe(alignment, andUpdate: \.textAlignment, in: textView) { alignment in
             alignment?.toUIKit() ?? .natural
         }
-
+        
         if let styleId = styleId {
-            renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
+            textView.beagle.applyStyle(for: textView as UITextView, styleId: styleId, with: renderer.controller)
         }
         
         return textView

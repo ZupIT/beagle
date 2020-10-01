@@ -21,6 +21,7 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
@@ -41,17 +42,12 @@ import java.io.InputStream
 import java.net.URL
 
 @RegisterWidget
-data class Image(
+data class Image constructor(
     val path: Bind<ImagePath>,
     val mode: ImageContentMode? = null
 ) : WidgetView() {
-    constructor(
-        path: ImagePath,
-        mode: ImageContentMode? = null
-    ) : this(
-        valueOf(path),
-        mode
-    )
+
+    constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
 
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()
@@ -61,16 +57,19 @@ data class Image(
 
     override fun buildView(rootView: RootView): View {
         val imageView: RoundedImageView = getImageView(rootView)
+
         observeBindChanges(rootView, imageView, path) { pathType ->
+
             when (pathType) {
                 is ImagePath.Local -> {
-                    loadLocalImage(imageView, pathType)
+                    loadLocalImage(rootView, imageView, pathType)
                 }
                 is ImagePath.Remote -> {
-                    loadRemoteImage(imageView, pathType)
+                    loadRemoteImage(rootView, imageView, pathType)
                 }
             }
         }
+
         return imageView
     }
 
@@ -79,35 +78,37 @@ data class Image(
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
     }
 
-    private fun loadLocalImage(imageView: ImageView, pathType: ImagePath.Local) {
+    private fun loadLocalImage(rootView: RootView, imageView: ImageView, pathType: ImagePath.Local) {
         imageView.apply {
-            getImage(pathType.mobileId)?.let {
-                try {
-                    setImageResource(it)
-                } catch (ex: Exception) {
-                    BeagleMessageLogs.errorWhileTryingToSetInvalidImage(pathType.mobileId, ex)
+            observeBindChanges(rootView, imageView, pathType.mobileId) { mobileId ->
+                getImage(mobileId)?.let {
+                    try {
+                        setImageResource(it)
+                    } catch (ex: Exception) {
+                        BeagleMessageLogs.errorWhileTryingToSetInvalidImage(mobileId ?: "", ex)
+                    }
                 }
             }
+
         }
     }
 
-    private fun loadRemoteImage(imageView: ImageView, pathType: ImagePath.Remote) {
-        val placeholder = pathType.placeholder?.mobileId
-        setPlaceHolder(placeholder, imageView)
-        imageView.loadImage(pathType)
-    }
-
-    private fun setPlaceHolder(placeholder: String?, imageView: ImageView) {
-        getImage(placeholder)?.let {
-            imageView.setImageResource(it)
+    private fun loadRemoteImage(rootView: RootView, imageView: ImageView, pathType: ImagePath.Remote) {
+        pathType.placeholder?.let { local ->
+            loadLocalImage(rootView, imageView, local)
         }
+
+        observeBindChanges(rootView, imageView, pathType.url) { url ->
+            imageView.loadImage(url ?: "")
+        }
+
     }
 
-    private fun ImageView.loadImage(path: ImagePath.Remote) {
+    private fun ImageView.loadImage(url: String) {
         CoroutineScope(CoroutineDispatchers.IO).launch {
 
             val drawable = try {
-                fetchDrawable(path.url.formatUrl())
+                fetchDrawable(url.formatUrl())
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
@@ -117,7 +118,6 @@ data class Image(
                 this@loadImage.setImageDrawable(drawable)
             }
         }
-
     }
 
     private suspend fun fetchDrawable(url: String?): Drawable {
@@ -135,6 +135,11 @@ data class Image(
 }
 
 sealed class ImagePath {
-    data class Local(val mobileId: String) : ImagePath()
-    data class Remote(val url: String, val placeholder: Local? = null) : ImagePath()
+    data class Local(val mobileId: Bind<String>) : ImagePath() {
+        constructor(mobileId: String) : this(expressionOrValueOf(mobileId))
+    }
+
+    data class Remote(val url: Bind<String>, val placeholder: Local? = null) : ImagePath() {
+        constructor(url: String, placeholder: Local? = null) : this(expressionOrValueOf(url), placeholder)
+    }
 }

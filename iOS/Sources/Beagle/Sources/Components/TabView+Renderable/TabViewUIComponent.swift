@@ -52,12 +52,12 @@ final class TabViewUIComponent: UIView {
     
     var tabBar: TabBarUIComponent
     
-    static func contentView(items: [TabItem], controller: BeagleController) -> PageViewUIComponent {
-        let pages = items.map { BeagleScreenViewController($0.child) }
+    static func contentView(items: [TabItem], renderer: BeagleRenderer) -> PageViewUIComponent {
+        let pages = items.map { ComponentHostController($0.child, renderer: renderer) }
         let view = PageViewUIComponent(
             model: .init(pages: pages),
             indicatorView: nil,
-            controller: controller
+            controller: renderer.controller
         )
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -69,7 +69,7 @@ final class TabViewUIComponent: UIView {
     
     init(
         model: Model,
-        controller: BeagleController
+        renderer: BeagleRenderer
     ) {
         self.tabBar = TabBarUIComponent(
             model: .init(
@@ -81,7 +81,7 @@ final class TabViewUIComponent: UIView {
                 unselectedIconColor: model.unselectedIconColor
             )
         )
-        self.contentView = Self.contentView(items: model.tabViewItems, controller: controller)
+        self.contentView = Self.contentView(items: model.tabViewItems, renderer: renderer)
         super.init(frame: .zero)
         setupViews()
         setupTabBarSelectionEvent()

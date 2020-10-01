@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -24,11 +23,11 @@ final class AddChildrenTests: XCTestCase {
     func testModeAppend() {
         runTest(mode: .append)
     }
-    
+
     func testModePrepend() {
         runTest(mode: .prepend)
     }
-    
+
     func testModeReplace() {
         runTest(mode: .replace)
     }
@@ -36,7 +35,7 @@ final class AddChildrenTests: XCTestCase {
     func testModeAppendWithContext() {
         runTest(mode: .append, text: Text("@{contextId}"))
     }
-    
+
     func testModeReplaceWithContext() {
         runTest(mode: .replace, text: Text("@{contextId}"))
     }

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_TAB_VIEW
+import br.com.zup.beagle.android.utils.TabViewDeprecatedConstants
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -26,7 +26,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 
 @RegisterWidget
-@Deprecated(DEPRECATED_TAB_VIEW)
+@Deprecated(message = TabViewDeprecatedConstants.TAB_ITEM,
+    replaceWith = ReplaceWith(TabViewDeprecatedConstants.TAB_ITEM_REPLACE))
 data class TabItem(
     val title: String? = null,
     override val child: ServerDrivenComponent,

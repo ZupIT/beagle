@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components.page
 import android.graphics.Color
 import android.util.Log
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
@@ -34,6 +35,13 @@ class PageIndicator(
     var currentPage: Bind<Int>? = null
 ) : WidgetView(), PageIndicatorComponent {
 
+    constructor(
+        selectedColor: String,
+        unselectedColor: String,
+        numberOfPages: Int? = null,
+        currentPage: Int
+    ) : this(selectedColor, unselectedColor, numberOfPages, valueOf(currentPage))
+
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
@@ -48,8 +56,8 @@ class PageIndicator(
             setCount(it)
         }
         currentPage?.let {
-            observeBindChanges(rootView, this, it) {position ->
-                position?.let{
+            observeBindChanges(rootView, this, it) { position ->
+                position?.let {
                     onItemUpdated(position)
                 }
             }

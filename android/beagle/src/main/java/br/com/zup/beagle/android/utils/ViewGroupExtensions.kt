@@ -111,7 +111,8 @@ fun ViewGroup.loadView(
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
-@Deprecated(DEPRECATED_LOADING_VIEW)
+@Deprecated(DEPRECATED_LOADING_VIEW,
+    replaceWith = ReplaceWith("loadView(activity=activity, screenRequest=screenRequest,listener=listener)"))
 fun ViewGroup.loadView(
     activity: AppCompatActivity,
     screenRequest: ScreenRequest,
@@ -126,7 +127,8 @@ fun ViewGroup.loadView(
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
-@Deprecated(DEPRECATED_LOADING_VIEW)
+@Deprecated(DEPRECATED_LOADING_VIEW,
+    replaceWith = ReplaceWith("loadView(fragment=fragment, screenRequest=screenRequest,listener=listener)"))
 fun ViewGroup.loadView(
     fragment: Fragment,
     screenRequest: ScreenRequest,
@@ -150,8 +152,8 @@ private fun loadView(
         loadView(screenRequest)
     }
     view.loadCompletedListener = {
+        viewGroup.removeAllViews()
         viewGroup.addView(view)
-
     }
     view.listenerOnViewDetachedFromWindow = {
         viewModel.setViewCreated(rootView.getParentId())

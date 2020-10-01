@@ -42,7 +42,6 @@ import kotlin.test.assertEquals
 
 private val URL = RandomData.string()
 private val SCREEN_REQUEST = ScreenRequest(URL)
-private val RESPONSE_BODY = RandomData.string()
 
 @ExperimentalCoroutinesApi
 class ComponentRequesterTest : BaseTest() {
@@ -56,10 +55,7 @@ class ComponentRequesterTest : BaseTest() {
     @MockK
     private lateinit var cacheManager: CacheManager
 
-    private val beagleCache = mockk<BeagleCache> {
-        every { isHot } returns true
-        every { json } returns RESPONSE_BODY
-    }
+    private val beagleCache = mockk<BeagleCache>()
 
     private lateinit var componentRequester: ComponentRequester
 
@@ -80,47 +76,56 @@ class ComponentRequesterTest : BaseTest() {
     }
 
     @Test
-    fun fetchComponent_should_restore_json_from_hot_cache() = runBlockingTest {
+    fun `GIVEN a componentRequest with json in Cache WHEN beagleCache is not expired SHOULD deserialize this cachedJson` () = runBlockingTest {
         // Given
         val component = mockk<ServerDrivenComponent>()
+        val jsonMock = "jsonMock"
 
-        every { cacheManager.restoreBeagleCacheForUrl(any()) } returns beagleCache
-        every { serializer.deserializeComponent(any()) } returns component
+        every {
+            cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url)
+        } returns beagleCache
+        every { beagleCache.isExpired() } returns false
+        every { beagleCache.json } returns jsonMock
+        every { serializer.deserializeComponent(jsonMock) } returns component
 
         // When
         val actualComponent = componentRequester.fetchComponent(SCREEN_REQUEST)
 
         // Then
-        verify { serializer.deserializeComponent(RESPONSE_BODY) }
+        verify { serializer.deserializeComponent(jsonMock) }
         assertEquals(component, actualComponent)
     }
 
     @Test
-    fun fetchComponent_should_call_api() = runBlockingTest {
+    fun `GIVEN a componentRequest with json in cache WHEN beagleCache is expired SHOULD fetch from api and deserialize this new json`() = runBlockingTest {
         // Given
-        val component = mockk<ServerDrivenComponent>()
-        val responseData = mockk<ResponseData>()
-        val requestData: RequestData = mockk()
-        every { beagleCache.isHot } returns false
+        val newScreenRequestMock = mockk<ScreenRequest>()
+        val requestDataMock = mockk<RequestData>()
+        val responseDataMock = mockk<ResponseData>()
+        val newJsonMock = "newJsonMock"
+        val expected = mockk<ServerDrivenComponent>()
 
-        every { cacheManager.restoreBeagleCacheForUrl(any()) } returns beagleCache
-        every { cacheManager.screenRequestWithCache(any(), any()) } returns SCREEN_REQUEST
-        every { any<ScreenRequest>().toRequestData(any(), any()) } returns requestData
-        coEvery { beagleApi.fetchData(requestData) } returns responseData
-        every { cacheManager.handleResponseData(any(), any(), any()) } returns RESPONSE_BODY
-        every { serializer.deserializeComponent(any()) } returns component
+        every { cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url) } returns beagleCache
+        every { beagleCache.isExpired() } returns true
+        every { cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache) } returns newScreenRequestMock
+        every { newScreenRequestMock.toRequestData() } returns requestDataMock
+        coEvery { beagleApi.fetchData(requestDataMock) } returns responseDataMock
+        every { cacheManager.handleResponseData(SCREEN_REQUEST.url, beagleCache, responseDataMock) } returns newJsonMock
+        every { serializer.deserializeComponent(newJsonMock) } returns expected
 
         // When
-        val actualComponent = componentRequester.fetchComponent(SCREEN_REQUEST)
+        val result = componentRequester.fetchComponent(SCREEN_REQUEST)
 
-        // Then
+        //Then
         coVerifySequence {
-            cacheManager.restoreBeagleCacheForUrl(URL)
+            cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url)
             cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache)
-            beagleApi.fetchData(requestData)
-            cacheManager.handleResponseData(URL, beagleCache, responseData)
-            serializer.deserializeComponent(RESPONSE_BODY)
+            newScreenRequestMock.toRequestData()
+            beagleApi.fetchData(requestDataMock)
+            cacheManager.handleResponseData(SCREEN_REQUEST.url, beagleCache, responseDataMock)
+            serializer.deserializeComponent(newJsonMock)
         }
-        assertEquals(component, actualComponent)
+
+        assertEquals(expected, result)
     }
 }

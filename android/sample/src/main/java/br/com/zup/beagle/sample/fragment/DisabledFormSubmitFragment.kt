@@ -33,7 +33,6 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.sample.widgets.MutableText
-import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.EdgeValue

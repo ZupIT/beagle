@@ -36,6 +36,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -60,6 +61,9 @@ class ToolbarManagerTest : BaseTest() {
 
     @RelaxedMockK
     private lateinit var context: BeagleActivity
+
+    @RelaxedMockK
+    private lateinit var beagleFlexView: BeagleFlexView
 
     @MockK(relaxed = true)
     private lateinit var actionBar: ActionBar
@@ -174,7 +178,7 @@ class ToolbarManagerTest : BaseTest() {
         every { navigationBar.showBackButton } returns true
 
         // When
-        toolbarManager.configureToolbar(rootView, navigationBar)
+        toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
 
         // Then
         verify(atLeast = once()) { toolbar.navigationIcon = navigationIcon }
@@ -197,7 +201,7 @@ class ToolbarManagerTest : BaseTest() {
         every { navigationBar.showBackButton } returns false
 
         // When
-        toolbarManager.configureToolbar(rootView, navigationBar)
+        toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
 
         // Then
         verify(atLeast = once()) { toolbar.navigationIcon = null }
@@ -218,7 +222,7 @@ class ToolbarManagerTest : BaseTest() {
         every { menu.add(any(), any(), any(), any<String>()) } returns menuItem
 
         // WHEN
-        toolbarManager.configureToolbar(rootView, navigationBar)
+        toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
 
         // THEN
         assertEquals(View.VISIBLE, toolbar.visibility)
@@ -244,7 +248,7 @@ class ToolbarManagerTest : BaseTest() {
         every { ResourcesCompat.getDrawable(any(), any(), any()) } returns icon
 
         // WHEN
-        toolbarManager.configureToolbar(rootView, navigationBar)
+        toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
 
         // THEN
         verify(exactly = once()) { menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS) }
