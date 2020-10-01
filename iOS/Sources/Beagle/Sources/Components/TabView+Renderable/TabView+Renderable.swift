@@ -21,7 +21,7 @@ extension TabView: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
         let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: children)
-        let tabView = TabViewUIComponent(model: model, controller: renderer.controller)
+        let tabView = TabViewUIComponent(model: model, renderer: renderer)
         tabView.style.setup(Style(size: Size().width(100%), flex: Flex().grow(1)))
         
         if let styleId = styleId {
