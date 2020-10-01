@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.imagemanager
+package br.com.zup.beagle.android.cache.imagecomponent
 
 import android.graphics.Bitmap
 import android.util.LruCache
 
-class LruImagesCache {
+class LruImageCache {
 
     val memoryCache: LruCache<String, Bitmap> =
-        LruCache<String, Bitmap>(((Runtime.getRuntime().maxMemory() / 1024).toInt()) / 8)
+        LruCache<String, Bitmap>((anEighthOfMemory()))
 
     private object HOLDER {
-        val INSTANCE = LruImagesCache()
+        val INSTANCE = LruImageCache()
     }
 
     companion object {
-        val instance: LruImagesCache by lazy { HOLDER.INSTANCE }
+        val INSTANCE: LruImageCache by lazy { HOLDER.INSTANCE }
     }
+
+    private fun anEighthOfMemory() : Int = ((Runtime.getRuntime().maxMemory() / 1024).toInt() / 8)
 }
 

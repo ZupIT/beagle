@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.android.components
 
-import android.R.attr
-import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
@@ -26,7 +24,7 @@ import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
-import br.com.zup.beagle.android.imagemanager.ImageDownloader
+import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.CoroutineDispatchers

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.imagemanager
+package br.com.zup.beagle.android.cache.imagecomponent
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -26,19 +26,27 @@ import java.net.URL
 
 internal class ImageDownloader {
     suspend fun getRemoteImage(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
-        val cache= LruImagesCache.instance.memoryCache
+        val cache= LruImageCache.INSTANCE.memoryCache
+        val cacheId = generateId(url, contentWidth, contentHeight)
 
         return withContext(CoroutineDispatchers.IO) {
-            if (hasCache(url)) {
-                cache.get(url)
+            if (hasCache(cacheId)) {
+                cache.get(cacheId)
             } else {
                 val inputStream: InputStream = URL(url).openStream()
-                val bitmapOptimized = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(inputStream), contentWidth, contentHeight, true)
-                cache.put(url, bitmapOptimized)
+                val bitmapOptimized = Bitmap.createScaledBitmap(
+                    BitmapFactory.decodeStream(inputStream),
+                    contentWidth,
+                    contentHeight,
+                    true
+                )
+                cache.put(cacheId, bitmapOptimized)
                 bitmapOptimized
             }
         }
     }
 
-    private fun hasCache(url: String?) = LruImagesCache.instance.memoryCache.get(url) != null
+    private fun hasCache(url: String?) = LruImageCache.INSTANCE.memoryCache.get(url) != null
+
+    private fun generateId(url: String?, contentWidth: Int, contentHeight: Int) = url + contentWidth + contentHeight
 }
