@@ -196,14 +196,16 @@ private extension TabBarUIComponent {
             delay: 0,
             options: .curveLinear,
             animations: {
-                self.indicatorView.frame.origin.x = tabItem.frame.origin.x
                 self.indicatorView.style.setup(
                     Style(
                         size: Size().height(3).width(.init(value: Double(tabItem.bounds.width), type: .real)),
-                        position: EdgeValue().bottom(0),
-                        positionType: .absolute)
+                        position: EdgeValue(left: UnitValue(value: Double(tabItem.frame.origin.x), type: .real)),
+                        positionType: .absolute,
+                        flex: Flex().alignSelf(.flexEnd)
+                    )
                 )
-                self.indicatorView.style.applyLayout()
+                self.model.renderer.controller.setNeedsLayout(component: self)
+                self.model.renderer.controller.view.layoutIfNeeded()
             }
         )
     }
