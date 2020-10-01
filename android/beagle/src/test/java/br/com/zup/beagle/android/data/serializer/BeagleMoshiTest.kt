@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.data.serializer
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.AddChildren
 import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.action.Condition
 import br.com.zup.beagle.android.action.Confirm
@@ -493,6 +494,31 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         assertNotNull(actual)
         assertTrue(actual is Condition)
+    }
+
+    @Test
+    fun `GIVEN json from AddChildren WHEN moshi deserialize the action THEN it should return action deserialized` (){
+        // Given
+        val json = makeAddChildrenJson()
+
+        // When
+        val actual = moshi.adapter(AddChildren::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is AddChildren)
+    }
+
+    @Test
+    fun `GIVEN AddChildren action WHEN moshi to serialize the action THEN it should return action serialized `(){
+        // Given
+        val component = AddChildren(componentId = "", value = listOf())
+
+        // When
+        val actual = moshi.adapter(Action::class.java).toJson(component)
+
+        // Then
+        assertNotNull(JSONObject(actual))
     }
 
     @Test
