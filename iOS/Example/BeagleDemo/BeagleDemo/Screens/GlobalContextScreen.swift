@@ -48,7 +48,7 @@ struct GlobalContexScreen: DeeplinkScreen {
 
 struct ClearGlobalContextAction: Action {
     func execute(controller: BeagleController, origin: UIView) {
-        dependencies.globalContext.clear(path: "button")
+        dependencies.globalContext.clear()
         controller.view.setNeedsLayout()
     }
 }

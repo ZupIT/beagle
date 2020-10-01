@@ -65,7 +65,7 @@ final class GlobalContextTests: XCTestCase {
     
     func testSetContext() {
         // Given
-        let global = DefaultGlobalContext()
+        let global: GlobalContext = DefaultGlobalContext()
         
         // When/Then
         global.set(["a": "value a"])
@@ -80,7 +80,7 @@ final class GlobalContextTests: XCTestCase {
     
     func testClearContext() {
         // Given
-        let global = DefaultGlobalContext()
+        let global: GlobalContext = DefaultGlobalContext()
         global.set(["a": "value a", "b": "value b"])
         
         // When/Then

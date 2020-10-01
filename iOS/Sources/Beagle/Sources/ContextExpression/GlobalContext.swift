@@ -21,10 +21,23 @@ public protocol GlobalContext {
     var context: Observable<Context> { get }
     
     func isGlobal(id: String?) -> Bool
-    func set(_ value: DynamicObject)
     func set(value: DynamicObject, path: String?)
     func get(path: String?) -> DynamicObject
     func clear(path: String?)
+}
+
+public extension GlobalContext {
+    func set(_ value: DynamicObject) {
+        set(value: value, path: nil)
+    }
+    
+    func get() -> DynamicObject {
+        get(path: nil)
+    }
+    
+    func clear() {
+        clear(path: nil)
+    }
 }
 
 public protocol DependencyGlobalContext {
@@ -42,10 +55,6 @@ public class DefaultGlobalContext: GlobalContext {
     
     public func isGlobal(id: String?) -> Bool {
         globalId == id
-    }
-    
-    public func set(_ value: DynamicObject) {
-        set(value: value, path: nil)
     }
     
     public func set(value: DynamicObject, path: String?) {
