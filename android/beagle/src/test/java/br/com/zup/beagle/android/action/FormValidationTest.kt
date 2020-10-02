@@ -17,35 +17,24 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
-import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.widget.RootView
-import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
-import org.junit.Before
 import org.junit.Test
 
-class FormValidationTest {
+class FormValidationTest : BaseTest(){
 
-    @MockK
-    private lateinit var rootView: RootView
     @RelaxedMockK
     private lateinit var view: View
     @RelaxedMockK
     private lateinit var formInput: FormInput
     @RelaxedMockK
     private lateinit var inputWidget: InputWidget
-
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-    }
 
     @Test
     fun `execute should iterate over errors and call onErrorMessage for errorFields`() {
@@ -57,7 +46,6 @@ class FormValidationTest {
                 FieldError(inputName, validationMessage)
             )
         )
-        every { view.beagleComponent } returns formInput
         every { formInput.name } returns inputName
         every { formInput.child } returns inputWidget
         formValidation.formInputs = listOf(formInput)

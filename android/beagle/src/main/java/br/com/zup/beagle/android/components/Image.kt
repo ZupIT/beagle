@@ -38,11 +38,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 @RegisterWidget
-data class Image
-@Deprecated("It was deprecated in version 1.2.2 and will" +
-    " be removed in a future version. Use constructor without bind",
-    replaceWith = ReplaceWith("Image(path, null)"))
-constructor(
+data class Image constructor(
     val path: Bind<ImagePath>,
     val mode: ImageContentMode? = null
 ) : WidgetView() {
