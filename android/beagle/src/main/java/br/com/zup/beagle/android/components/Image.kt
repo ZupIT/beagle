@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
+import br.com.zup.beagle.android.cache.imagecomponent.LruImageCache
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
@@ -51,7 +52,7 @@ data class Image constructor(
     private val viewMapper: ViewMapper = ViewMapper()
 
     @Transient
-    private val imageDownloader: ImageDownloader = ImageDownloader()
+    private val imageDownloader: ImageDownloader = ImageDownloader(LruImageCache.instance)
 
     @Transient
     private val viewFactory = ViewFactory()
@@ -110,7 +111,6 @@ data class Image constructor(
 
         view.post {
             CoroutineScope(CoroutineDispatchers.IO).launch {
-
                 val bitmap = try {
                     imageDownloader.getRemoteImage(url.formatUrl(), this@loadImage.width, this@loadImage.height)
                 } catch (e: Exception) {
@@ -129,7 +129,6 @@ data class Image constructor(
         imagePath?.let {
             BeagleEnvironment.beagleSdk.designSystem?.image(it)
         }
-
 }
 
 sealed class ImagePath {

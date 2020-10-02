@@ -17,24 +17,21 @@
 package br.com.zup.beagle.android.cache.imagecomponent
 
 import android.graphics.Bitmap
-import android.util.LruCache
 
-class LruImageCache(private val memoryCache: LruCache<String, Bitmap> =
-                            LruCache<String, Bitmap>(anEighthOfMemory())) {
+class BeagleBitmapFactory(private val bitmap: Bitmap,
+                          private val contentWidth: Int,
+                          private val contentHeight: Int) {
 
-    fun put(key: String, bitmap: Bitmap) {
-        memoryCache.put(key, bitmap)
-    }
+    fun getBitmap() : Bitmap {
+        if (bitmap.width > contentWidth && bitmap.height > contentHeight) {
+            return Bitmap.createScaledBitmap(
+                bitmap,
+                contentWidth,
+                contentHeight,
+                true
+            )
+        }
 
-    fun get(key: String?): Bitmap? = memoryCache.get(key)
-
-    private object HOLDER {
-        val INSTANCE = LruImageCache()
-    }
-
-    companion object {
-        val instance: LruImageCache by lazy { HOLDER.INSTANCE }
+        return bitmap
     }
 }
-
-private fun anEighthOfMemory() : Int = ((Runtime.getRuntime().maxMemory() / 1024).toInt() / 8)

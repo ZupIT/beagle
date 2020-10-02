@@ -23,30 +23,36 @@ import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.net.URL
 
-
-internal class ImageDownloader {
-    suspend fun getRemoteImage(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
-        val cache= LruImageCache.INSTANCE.memoryCache
+internal class ImageDownloader(val cache: LruImageCache) {
+    suspend fun getRemoteImage(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap? {
         val cacheId = generateId(url, contentWidth, contentHeight)
 
         return withContext(CoroutineDispatchers.IO) {
             if (hasCache(cacheId)) {
                 cache.get(cacheId)
             } else {
-                val inputStream: InputStream = URL(url).openStream()
-                val bitmapOptimized = Bitmap.createScaledBitmap(
-                    BitmapFactory.decodeStream(inputStream),
-                    contentWidth,
-                    contentHeight,
-                    true
-                )
-                cache.put(cacheId, bitmapOptimized)
-                bitmapOptimized
+                val bitmap = url?.downloadBitmap(contentWidth, contentHeight)
+                bitmap.saveOnCache(cacheId)
+                bitmap
             }
         }
     }
 
-    private fun hasCache(url: String?) = LruImageCache.INSTANCE.memoryCache.get(url) != null
+    private fun Bitmap?.saveOnCache(cacheId: String) {
+        if (this != null) {
+            cache.put(cacheId, this)
+        }
+    }
+
+    private fun hasCache(url: String?) : Boolean =
+        cache.get(url) != null
 
     private fun generateId(url: String?, contentWidth: Int, contentHeight: Int) = url + contentWidth + contentHeight
+}
+
+private fun String.downloadBitmap(contentWidth: Int, contentHeight: Int) : Bitmap {
+    val inputStream: InputStream = URL(this).openStream()
+    val bitmap = BitmapFactory.decodeStream(inputStream)
+
+    return BeagleBitmapFactory(bitmap, contentWidth, contentHeight).getBitmap()
 }
