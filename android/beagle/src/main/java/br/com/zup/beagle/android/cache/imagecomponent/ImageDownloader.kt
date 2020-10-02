@@ -32,9 +32,9 @@ internal class ImageDownloader(val cache: LruImageCache) {
             if (hasCache(cacheId)) {
                 cache.get(cacheId)
             } else {
-                val bitmap = url?.downloadBitmap(contentWidth, contentHeight)
-                bitmap.saveOnCache(cacheId)
-                bitmap
+                url?.downloadBitmap(contentWidth, contentHeight).apply {
+                    this.saveOnCache(cacheId)
+                }
             }
         }
     }

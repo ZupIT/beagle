@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.android.components
 
-import android.R.attr
+import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.ImageView
@@ -39,7 +40,6 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.ImageContentMode
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -105,12 +105,12 @@ data class Image constructor(
         }
 
         observeBindChanges(rootView, imageView, pathType.url) { url ->
-            imageView.loadImage(url ?: "", rootView)
+            imageView.downloadImage(url ?: "", rootView)
         }
     }
 
-    private fun ImageView.loadImage(url: String, rootView: RootView) {
-        val view = this@loadImage
+    private fun ImageView.downloadImage(url: String, rootView: RootView) {
+        val view = this@downloadImage
 
         view.post {
             if (allSizesGreaterThanZero()) {
@@ -122,11 +122,15 @@ data class Image constructor(
                         null
                     }
 
-                    withContext(CoroutineDispatchers.Main) {
-                        view.setImageDrawable(BitmapDrawable(resources, bitmap))
-                    }
+                    setImage(view, bitmap, resources)
                 }
             }
+        }
+    }
+
+    private suspend fun setImage(view: ImageView, bitmap: Bitmap?, resources: Resources) {
+        withContext(CoroutineDispatchers.Main) {
+            view.setImageDrawable(BitmapDrawable(resources, bitmap))
         }
     }
 
