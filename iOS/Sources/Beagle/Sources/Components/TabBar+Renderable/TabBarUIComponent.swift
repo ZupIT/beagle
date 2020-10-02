@@ -64,6 +64,7 @@ final class TabBarUIComponent: UIScrollView {
     ) {
         self.model = model
         super.init(frame: .zero)
+        setupScrollView()
         setupContentView()
     }
     
@@ -86,6 +87,15 @@ final class TabBarUIComponent: UIScrollView {
 
     // MARK: - Layout
 
+    private func setupScrollView() {
+        isScrollEnabled = true
+        showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = false
+        isUserInteractionEnabled = true
+        yoga.overflow = .scroll
+        style.setup(Style(size: Size().height(65), flex: Flex().flexDirection(.row)))
+    }
+    
     private func setupContentView() {
         contentView.style.setup(
             Style(flex: Flex(flexDirection: .row, grow: 0, shrink: 0))
@@ -95,6 +105,7 @@ final class TabBarUIComponent: UIScrollView {
         style.applyLayout()
 
         // Adds configuration to view after it is already in superview hierarchy
+        // TODO: We should change the name of the addBinding method.
         model.renderer.controller.addBinding {
             self.shouldCreateTabItemsView.toggle()
         }
@@ -205,6 +216,7 @@ private extension TabBarUIComponent {
                         flex: Flex().alignSelf(.flexEnd)
                     )
                 )
+                // TODO: setNeedLayout should call layoutIfNeeded
                 self.model.renderer.controller.setNeedsLayout(component: self)
                 self.model.renderer.controller.view.layoutIfNeeded()
             }

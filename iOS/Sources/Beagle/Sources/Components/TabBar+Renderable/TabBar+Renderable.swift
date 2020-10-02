@@ -21,12 +21,7 @@ import BeagleSchema
 extension TabBar: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let tabBarScroll = TabBarUIComponent(model: .init(tabBarItems: items, renderer: renderer))
-        
-        tabBarScroll.isScrollEnabled = true
-        tabBarScroll.showsHorizontalScrollIndicator = false
-        tabBarScroll.showsVerticalScrollIndicator = false
-        tabBarScroll.isUserInteractionEnabled = true
-        
+            
         if let currentTab = currentTab {
             renderer.observe(currentTab, andUpdateManyIn: tabBarScroll) {
                 if let tab = $0 {
@@ -43,9 +38,7 @@ extension TabBar: ServerDrivenComponent {
         if let styleId = styleId {
             tabBarScroll.beagle.applyStyle(for: tabBarScroll as UIView, styleId: styleId, with: renderer.controller)
         }
-        
-        tabBarScroll.yoga.overflow = .scroll
-        tabBarScroll.style.setup(Style(size: Size().height(65), flex: Flex().flexDirection(.row)))
+
         return tabBarScroll
     }
 }
