@@ -16,14 +16,15 @@
 
 package com.example.automatedTests
 
+import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
 import br.com.zup.beagle.android.setup.BeagleSdk
-import br.com.zup.beagle.sample.adapters.Person
-import br.com.zup.beagle.sample.adapters.PersonAdapter
-import br.com.zup.beagle.sample.adapters.PersonImpl
-import org.junit.Test
+import com.example.automatedTests.adapters.Person
+import com.example.automatedTests.adapters.PersonAdapter
+import com.example.automatedTests.adapters.PersonImpl
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.junit.Test
 
 class BeagleSetupTest {
 
@@ -72,11 +73,11 @@ class BeagleSetupTest {
     @Test
     fun `should has valid instance when get type adapter`() {
         //WHEN
-        val result = beagleSetup.typeAdapterResolver.getAdapter<Person>(Person::class.java)
+        val result = beagleSetup.typeAdapterResolver.getAdapter<PersonAdapter>(Person::class.java)
 
         //THEN
         assertNotNull(beagleSetup.typeAdapterResolver)
-        assertTrue(result is PersonAdapter)
+        assertTrue(result is BeagleTypeAdapter<PersonAdapter>)
     }
 
     @Test
