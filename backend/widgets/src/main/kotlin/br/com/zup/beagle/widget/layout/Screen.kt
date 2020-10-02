@@ -47,8 +47,8 @@ data class SafeArea(
 )
 
 /**
- *  The SafeArea will enable Safe areas to help you place your views
- *  within the visible portion of the overall interface.
+ *  Defines a List of navigation bar items.
+ *
  * @see Accessibility
  *
  * @param text define the Title on the navigation bar
