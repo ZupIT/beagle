@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.adapters
+package com.example.automatedTests.adapters
 
 import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
