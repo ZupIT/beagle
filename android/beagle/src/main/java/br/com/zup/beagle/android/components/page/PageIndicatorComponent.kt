@@ -20,6 +20,9 @@ import br.com.zup.beagle.android.utils.PageViewDeprecatedConstants
 import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * Base of page indicator component.
+ */
 @Deprecated(message = PageViewDeprecatedConstants.PAGE_INDICATOR_COMPONENT)
 interface PageIndicatorComponent : ServerDrivenComponent,
     ViewConvertable {
