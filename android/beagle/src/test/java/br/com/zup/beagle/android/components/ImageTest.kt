@@ -145,10 +145,8 @@ class ImageViewRendererTest : BaseComponentTest() {
         imageRemote.buildView(rootView)
 
         //THEN
-        verify(exactly = once()) { imageView.setImageDrawable(any()) }
-
+        verify(exactly = once()) { imageView.post(any()) }
     }
-
 
     @Test
     fun build_should_setPlaceholder_when_imagePath_is_remote_and_placeholder_is_declared() {
