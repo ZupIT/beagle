@@ -152,7 +152,7 @@ final class TabBarUIComponent: UIScrollView {
     
     private func setupTabBarItemsTheme(for currentIndex: Int) {
         tabItemViews.forEach { _, item in
-            item.isSelected = currentIndex == item.index ? true : false
+            item.isSelected = currentIndex == item.index
         }
     }
 }
