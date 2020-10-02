@@ -41,7 +41,7 @@ final class ExpressionTests: XCTestCase {
             SingleExpression(rawValue: $0)
         }
         let rawValues = result.map(\.rawValue)
-            
+        
         // Then
         assertSnapshot(matching: result, as: .dump)
         XCTAssertEqual(rawValues, data)
@@ -62,16 +62,16 @@ final class ExpressionTests: XCTestCase {
             "@{sum(1,2)",
             "@{test()}",
             "@{@{2}}"
-        ]
-        
-        // When
-        .map {
-            SingleExpression(rawValue: $0)
+            ]
+            
+            // When
+            .map {
+                SingleExpression(rawValue: $0)
         }
             
-        // Then
-        .forEach {
-            XCTAssertNil($0)
+            // Then
+            .forEach {
+                XCTAssertNil($0)
         }
     }
     
@@ -111,16 +111,30 @@ final class ExpressionTests: XCTestCase {
             "name",
             "Operation: @{sum(1, counter and @{condition(lt(1, counter), sum(counter, 2), subtract(counter, 2))}}",
             "Operation: @{sum(1, counter) and @{sum(2, counter)"
-        ]
-        
-        // When
-        .map {
-            MultipleExpression(rawValue: $0)
+            ]
+            
+            // When
+            .map {
+                MultipleExpression(rawValue: $0)
         }
             
-        // Then
-        .forEach {
-            XCTAssertNil($0)
+            // Then
+            .forEach {
+                XCTAssertNil($0)
         }
+    }
+    
+    func testDictionarySnapShot() throws {
+        guard let url = Bundle(for: ComponentDecoderTests.self).url(
+            forResource: "testDictionarySnapShot",
+            withExtension: ".json"
+            ) else {
+                throw ComponentFromJsonError.wrongUrlPath
+        }
+        
+        let json = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let result = try? decoder.decode(DynamicObject.self, from: json)
+        assertSnapshot(matching: result, as: .dump)
     }
 }
