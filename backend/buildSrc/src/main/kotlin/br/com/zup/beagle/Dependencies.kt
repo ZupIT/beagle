@@ -110,6 +110,7 @@ class Dependencies : Plugin<Project> {
         const val autoconfigureProcessor = "org.springframework.boot:spring-boot-autoconfigure-processor:${Versions.springBoot}"
         const val webStarter = "org.springframework.boot:spring-boot-starter-web:${Versions.springBoot}"
         const val testStarter = "org.springframework.boot:spring-boot-starter-test:${Versions.springBoot}"
+        const val actuatorStarter = "org.springframework.boot:spring-boot-starter-actuator:${Versions.springBoot}"
     }
 
     object MicronautLibraries {

@@ -45,7 +45,6 @@ end
 ###
 
 platform :android do
-
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReport")
@@ -65,7 +64,6 @@ platform :android do
     deploy_to_stage
     gradle(project_dir: "android", task: "closeAndReleaseRepository")
   end
-
 end
 
 ###
@@ -73,7 +71,6 @@ end
 ###
 
 platform :ios do
-
   desc "Pull Request verification"
   lane :pull_request_verification do
     xcversion(version: "~> 11.5.0")
@@ -85,7 +82,7 @@ platform :ios do
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
       scheme: "All",
-      device: "iPhone 11"
+      device: "iPhone 11",
     )
     run_codecov(platform: 'ios')
     check_if_beagle_works_via_cocoapods_integration
@@ -193,14 +190,14 @@ lane :deploy do
 end
 
 lane :run_danger do |options|
-   danger_id = options[:danger_id] || lane_context[SharedValues::PLATFORM_NAME].to_s
-   danger_file_path = options[:danger_file_path] || lane_context[SharedValues::PLATFORM_NAME].to_s
-   danger(
-     danger_id: danger_id,
-     dangerfile: "danger/#{danger_file_path}/Dangerfile",
-     github_api_token: ENV["GITHUB_TOKEN"],
-     verbose: true
-    )
+  danger_id = options[:danger_id] || lane_context[SharedValues::PLATFORM_NAME].to_s
+  danger_file_path = options[:danger_file_path] || lane_context[SharedValues::PLATFORM_NAME].to_s
+  danger(
+    danger_id: danger_id,
+    dangerfile: "danger/#{danger_file_path}/Dangerfile",
+    github_api_token: ENV["GITHUB_TOKEN"],
+    verbose: true,
+  )
 end
 
 ###
@@ -208,7 +205,6 @@ end
 ###
 
 platform :backend do
-
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(project_dir: "backend", task: "detekt")
@@ -242,7 +238,28 @@ platform :backend do
     deploy_to_stage
     gradle(project_dir: "backend", task: "closeAndReleaseRepository")
   end
+end
 
+###
+###  Automated tests
+###
+
+platform :automated_tests do
+  desc "Run iOS automated tests"
+  lane :run_ios_automation do
+    xcversion(version: "~> 12.0.0")
+    #TODO pass bff url to test
+    scan(
+      workspace: "iOS/Beagle.xcworkspace/",
+      scheme: "AutomatedTestsUITests",
+      device: "iPhone 11",
+    )
+  end
+
+  desc "Cleanup"
+  lane :cleanup do
+    sh("curl -XPOST localhost:8080/actuator/shutdown")
+  end
 end
 
 desc "Generate release notes"
@@ -268,7 +285,7 @@ private_lane :release_notes do |params|
   order = ["feat", "fix", "refactor", "perf", "chore", "test", "docs", "ci", "no_type"]
   changelog = conventional_changelog(sections: sections, order: order, display_title: false, display_links: false)
   changelog = changelog.gsub("**::**  ", "")
-  "\nRelease notes #{ params[:versionDeploy] }
+  "\nRelease notes #{params[:versionDeploy]}
    \nChanges:
    \n#{changelog}"
 end
@@ -276,8 +293,8 @@ end
 private_lane :run_codecov do |options|
   codecov = ENV["CODECOV_TOKEN"]
   if !(codecov.nil? || codecov.empty?)
-     commit_hash = last_git_commit[:commit_hash]
-     codecov_reporter(token: codecov, flags: "-F #{options[:platform]} -C #{commit_hash}")
+    commit_hash = last_git_commit[:commit_hash]
+    codecov_reporter(token: codecov, flags: "-F #{options[:platform]} -C #{commit_hash}")
   end
 end
 
@@ -287,18 +304,18 @@ private_lane :danger_token_available? do
 end
 
 after_all do |lane, options|
-   if lane == :pull_request_verification
-       if danger_token_available?
-         run_danger
-       end
+  if lane == :pull_request_verification
+    if danger_token_available?
+      run_danger
     end
+  end
 end
 
 error do |lane, exception, options|
   if lane == :pull_request_verification
-     if danger_token_available?
-       run_danger
-     end
+    if danger_token_available?
+      run_danger
+    end
   end
 end
 
