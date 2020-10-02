@@ -24,6 +24,7 @@ import java.io.InputStream
 import java.net.URL
 
 internal class ImageDownloader(val cache: LruImageCache) {
+
     suspend fun getRemoteImage(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap? {
         val cacheId = generateId(url, contentWidth, contentHeight)
 

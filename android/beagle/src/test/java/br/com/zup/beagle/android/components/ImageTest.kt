@@ -137,15 +137,15 @@ class ImageViewRendererTest : BaseComponentTest() {
         Assert.assertEquals(scaleType, scaleTypeSlot.captured)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
-    fun `GIVEN a remote image component WHEN buildView is called THEN it should create an ImageView and set a Drawable`() = runBlockingTest {
+    fun `should call post when view is read to provide your own size and set Drawable`() {
 
         //WHEN
         imageRemote.buildView(rootView)
 
         //THEN
         verify(exactly = once()) { imageView.post(any()) }
+        verify(exactly = once()) { imageView.setImageResource(any()) }
     }
 
     @Test

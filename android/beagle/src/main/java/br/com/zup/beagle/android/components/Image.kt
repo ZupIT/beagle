@@ -111,16 +111,18 @@ data class Image constructor(
         val view = this@loadImage
 
         view.post {
-            CoroutineScope(CoroutineDispatchers.IO).launch {
-                val bitmap = try {
-                    imageDownloader.getRemoteImage(url.formatUrl(), this@loadImage.width, this@loadImage.height)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    null
-                }
+            if (allSizesGreaterThanZero()) {
+                CoroutineScope(CoroutineDispatchers.IO).launch {
+                    val bitmap = try {
+                        imageDownloader.getRemoteImage(url.formatUrl(), view.width, view.height)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null
+                    }
 
-                withContext(CoroutineDispatchers.Main) {
-                    this@loadImage.setImageDrawable(BitmapDrawable(resources, bitmap) )
+                    withContext(CoroutineDispatchers.Main) {
+                        view.setImageDrawable(BitmapDrawable(resources, bitmap))
+                    }
                 }
             }
         }
@@ -131,6 +133,8 @@ data class Image constructor(
             BeagleEnvironment.beagleSdk.designSystem?.image(it)
         }
 }
+
+private fun View.allSizesGreaterThanZero() = width > 0 && height > 0
 
 sealed class ImagePath {
     data class Local(val mobileId: Bind<String>) : ImagePath() {

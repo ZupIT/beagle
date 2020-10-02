@@ -53,7 +53,7 @@ internal class ImageDownloaderTest {
     }
 
     @Test
-    fun `should execute with success download image and resize and save on cache when create a bitmap`() = runBlocking {
+    fun `should download image bitmap and resize and save on cache`() = runBlocking {
         // Given
         every { bitmap.width } returns 715
         every { bitmap.height } returns 715
@@ -71,7 +71,7 @@ internal class ImageDownloaderTest {
     }
 
     @Test
-    fun `should execute with success download image and keep size and save on cache when create a bitmap`() = runBlocking {
+    fun `should download image bitmap keep size and resize and save on cache`() = runBlocking {
         // Given
         every { bitmap.width } returns contentWidth
         every { bitmap.height } returns contentHeight
@@ -89,7 +89,7 @@ internal class ImageDownloaderTest {
     }
 
     @Test
-    fun `should execute with success download image from cache when create a bitmap`() = runBlocking {
+    fun `should load image bitmap from cache`() = runBlocking {
         // Given
         every { imageCache.get(any()) } returns bitmapImproved
 
