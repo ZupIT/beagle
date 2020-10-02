@@ -89,6 +89,7 @@ struct ComponentInteractionText: DeeplinkScreen {
                      "_beagleComponent_" : "beagle:textInput",
                      "value" : "@{address.data.zip}",
                      "placeholder" : "CEP",
+                     "type": "NUMBER",
                      "onChange" : [ {
                        "_beagleAction_" : "beagle:setContext",
                        "contextId" : "address",
