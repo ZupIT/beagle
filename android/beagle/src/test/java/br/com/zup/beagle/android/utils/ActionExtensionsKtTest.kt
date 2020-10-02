@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.mockdata.createViewForContext
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.view.viewmodel.Response
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import io.mockk.every
 import io.mockk.mockk
@@ -458,6 +459,30 @@ class ActionExtensionsKtTest : BaseTest() {
         val implicitValue = JSONObject().apply {
             put("value", implicitContextValue)
         }
+        viewModel.addContext(contextView, ContextData(
+            id = "context",
+            value = explicitContextValue
+        ))
+        action.handleEvent(rootView, contextView, secondAction, ContextData("onSuccess", implicitValue))
+
+        // When
+        val actualValue = secondAction.evaluateExpression(rootView, bindView, bind)
+
+        // Then
+        val expected = "Hello $explicitContextValue and $implicitContextValue"
+        assertEquals(expected, actualValue)
+    }
+
+    @Test
+    fun `GIVEN json array inside an object in context implicit WHEN call evaluate expression THEN show correct text`() {
+        // Given
+        val secondAction = mockk<Action>(relaxed = true)
+        val bind = expressionOf<String>("Hello @{context} and @{onSuccess.data[0].value}")
+        val explicitContextValue = RandomData.string()
+        val implicitContextValue = RandomData.string()
+        val implicitValue = Response(null, JSONArray().apply {
+            put(JSONObject().put("value", implicitContextValue))
+        })
         viewModel.addContext(contextView, ContextData(
             id = "context",
             value = explicitContextValue
