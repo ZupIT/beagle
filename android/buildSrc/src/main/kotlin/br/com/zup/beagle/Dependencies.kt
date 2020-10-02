@@ -94,6 +94,8 @@ class Dependencies : Plugin<Project> {
         const val incap = "0.3"
 
         const val multidex = "2.0.1"
+
+        const val cucumber = "1.2.5"
     }
 
     object GeneralNames {
@@ -165,6 +167,8 @@ class Dependencies : Plugin<Project> {
         const val testExt = "androidx.test.ext:junit:${Versions.testExt}"
         const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
         const val testRules = "androidx.test:rules:${Versions.testExt}"
+        const val cucumberAndroid = "info.cukes:cucumber-android:${Versions.cucumber}"
+        const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${Versions.cucumber}"
     }
 
 }
