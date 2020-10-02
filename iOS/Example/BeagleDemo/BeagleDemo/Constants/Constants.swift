@@ -26,7 +26,7 @@ extension String {
     // MARK: - Endpoint
     static let lazyComponentEndpoint = "lazycomponent"
     static let pageViewEndpoint = "pageview"
-    static let tabViewEndpoint = "tabview"
+    static let tabBarEndpoint = "tabbar"
     static let listViewEndpoint = "listview"
     static let formEndpoint = "form"
     static let customComponentEndpoint = "customComponent"

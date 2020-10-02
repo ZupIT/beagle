@@ -18,7 +18,7 @@ import UIKit
 import Beagle
 import BeagleSchema
 
-struct TabViewScreen: DeeplinkScreen {
+struct TabBarScreen: DeeplinkScreen {
     init(path: String, data: [String: String]?) {
     }
     
@@ -26,7 +26,7 @@ struct TabViewScreen: DeeplinkScreen {
         return Beagle.screen(.declarative(screen))
     }
     
-    var screen = Screen(navigationBar: NavigationBar(title: "TabView")) {
+    var screen = Screen(navigationBar: NavigationBar(title: "TabBar")) {
         Container(context:
             Context(id: "tab",
                     value: [

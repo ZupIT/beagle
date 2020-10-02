@@ -95,6 +95,7 @@ final class TabViewUIComponentTests: XCTestCase {
     
     func test_whenChangedTabs_shouldChangeCurrentPage() {
         // Given
+        sut.tabBar.setupTabBarItems()
         let tabItem = sut.tabBar.tabItemViews[1]
         
         guard let gestureRecognizer = tabItem?.gestureRecognizers?.first as? UITapGestureRecognizer else {
@@ -103,7 +104,7 @@ final class TabViewUIComponentTests: XCTestCase {
         }
         
         // When
-        sut.tabBar.selectTabItem(sender: gestureRecognizer)
+        sut.tabBar.didSelectTabItem(sender: gestureRecognizer)
         
         // Then
         XCTAssert(sut.contentView.model.currentPage == 1)

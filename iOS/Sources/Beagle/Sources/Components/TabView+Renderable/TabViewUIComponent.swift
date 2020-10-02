@@ -97,6 +97,7 @@ final class TabViewUIComponent: UIView {
         tabBar.onTabSelection = { [weak self] index in
             guard let self = self else { return }
             self.contentView.swipeToPage(at: index)
+            self.tabBar.scrollTo(page: index)
         }
     }
     

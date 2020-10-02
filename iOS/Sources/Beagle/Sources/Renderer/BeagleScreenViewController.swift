@@ -164,6 +164,11 @@ public class BeagleScreenViewController: BeagleController {
         super.viewDidLayoutSubviews()
     }
     
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        viewIfLoaded?.setNeedsLayout()
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+    
     private func createContent() {
         if navigationController == nil && !skipNavigationCreation {
             createNavigationContent()
@@ -200,7 +205,7 @@ public class BeagleScreenViewController: BeagleController {
         }
     }
     
-    // MARK: -
+    // MARK: - Update View
     
     fileprivate func updateView(state: ViewModel.State) {
         switch state {

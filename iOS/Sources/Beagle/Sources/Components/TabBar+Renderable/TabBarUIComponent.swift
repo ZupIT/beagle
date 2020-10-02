@@ -77,6 +77,7 @@ final class TabBarUIComponent: UIScrollView {
         super.layoutSubviews()
         if let contentView = subviews.first {
             contentSize = contentView.frame.size
+            resetTabItemsStyle()
             if shouldCreateTabItemsView {
                 setupTabBarItems()
                 style.applyLayout()
@@ -86,23 +87,31 @@ final class TabBarUIComponent: UIScrollView {
     }
 
     // MARK: - Layout
-
+    
+    private func resetTabItemsStyle() {
+        tabItemViews.forEach { key, item in
+            let size = getContentSize(forItem: model.tabBarItems[key].itemContentType)
+            setupTabBarItemStyle(for: item, with: size.width)
+        }
+        guard let selectedTabItem = tabItemViews[model.tabIndex ?? 0] else { return }
+        setupIndicatorViewStyle(for: selectedTabItem)
+        model.renderer.controller.setNeedsLayout(component: self)
+    }
+    
     private func setupScrollView() {
-        isScrollEnabled = true
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
-        isUserInteractionEnabled = true
-        yoga.overflow = .scroll
-        style.setup(Style(size: Size().height(65), flex: Flex().flexDirection(.row)))
+        style.setup(Style(
+            size: Size().height(65), flex: Flex().flexDirection(.row).shrink(0))
+        )
     }
     
     private func setupContentView() {
-        contentView.style.setup(
-            Style(flex: Flex(flexDirection: .row, grow: 0, shrink: 0))
+        contentView.style.setup(Style(
+            flex: Flex(flexDirection: .row, grow: 0, shrink: 0))
         )
         contentView.addSubview(indicatorView)
         addSubview(contentView)
-        style.applyLayout()
 
         // Adds configuration to view after it is already in superview hierarchy
         // TODO: We should change the name of the addBinding method.
@@ -111,8 +120,9 @@ final class TabBarUIComponent: UIScrollView {
         }
     }
     
-    private func setupTabBarItems() {
+    func setupTabBarItems() {
         var index = 0
+        shouldCreateTabItemsView = false
         model.tabBarItems.forEach { item in
             let size = getContentSize(forItem: item.itemContentType)
             let itemView = createTabBarItemsView(with: item, index: index)
@@ -127,13 +137,29 @@ final class TabBarUIComponent: UIScrollView {
         let itemView = TabBarItemUIComponent(index: index, renderer: model.renderer)
         itemView.setupTab(with: item)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(selectTabItem(sender:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didSelectTabItem(sender:)))
         itemView.addGestureRecognizer(tap)
         itemView.isUserInteractionEnabled = true
         return itemView
     }
     
-    private func setupTabBarItemStyle(for item: TabBarItemUIComponent, with width: CGFloat) {
+    @objc func didSelectTabItem(sender: UITapGestureRecognizer) {
+        guard let tabItem = sender.view as? TabBarItemUIComponent, let index = tabItem.index else { return }
+        model.tabIndex = index
+        setupTabBarItemsTheme(for: index)
+        onTabSelection?(index)
+    }
+    
+    private func setupTabBarItemsTheme(for currentIndex: Int) {
+        tabItemViews.forEach { _, item in
+            item.isSelected = currentIndex == item.index ? true : false
+        }
+    }
+}
+
+// MARK: - Style
+private extension TabBarUIComponent {
+    func setupTabBarItemStyle(for item: TabBarItemUIComponent, with width: CGFloat) {
         item.style.setup(
             Style(
                 size: Size().height(62).width(.init(value: Double(width), type: .real)),
@@ -144,18 +170,17 @@ final class TabBarUIComponent: UIScrollView {
         )
     }
     
-    @objc func selectTabItem(sender: UITapGestureRecognizer) {
-        guard let tabItem = sender.view as? TabBarItemUIComponent, let index = tabItem.index else { return }
-        
-        setupTabBarItemsTheme(for: index)
-        onTabSelection?(index)
+    func setupIndicatorViewStyle(for selectedItem: TabBarItemUIComponent) {
+        indicatorView.style.setup(
+            Style(
+                size: Size().height(3).width(.init(value: Double(selectedItem.bounds.width), type: .real)),
+                position: EdgeValue(left: UnitValue(value: Double(selectedItem.frame.origin.x), type: .real)),
+                positionType: .absolute,
+                flex: Flex().alignSelf(.flexEnd)
+            )
+        )
     }
-    
-    private func setupTabBarItemsTheme(for currentIndex: Int) {
-        tabItemViews.forEach { _, item in
-            item.isSelected = currentIndex == item.index ? true : false
-        }
-    }
+
 }
 
 // MARK: - TabBarItem Size
@@ -208,14 +233,8 @@ private extension TabBarUIComponent {
             delay: 0,
             options: .curveLinear,
             animations: {
-                self.indicatorView.style.setup(
-                    Style(
-                        size: Size().height(3).width(.init(value: Double(tabItem.bounds.width), type: .real)),
-                        position: EdgeValue(left: UnitValue(value: Double(tabItem.frame.origin.x), type: .real)),
-                        positionType: .absolute,
-                        flex: Flex().alignSelf(.flexEnd)
-                    )
-                )
+                self.setupIndicatorViewStyle(for: tabItem)
+                
                 // TODO: setNeedLayout should call layoutIfNeeded
                 self.model.renderer.controller.setNeedsLayout(component: self)
                 self.model.renderer.controller.view.layoutIfNeeded()
@@ -228,9 +247,8 @@ private extension TabBarUIComponent {
 
 extension TabBarUIComponent {
     func scrollTo(page: Int) {
-        guard let view = tabItemViews[page] else { return }
-        shouldCreateTabItemsView = false
         model.tabIndex = page
+        guard let view = tabItemViews[page] else { return }
 
         let newRect = view.convert(view.bounds, to: self)
         scrollRectToVisible(newRect, animated: true)

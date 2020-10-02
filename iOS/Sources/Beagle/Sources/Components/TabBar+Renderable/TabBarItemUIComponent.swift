@@ -35,8 +35,8 @@ final class TabBarItemUIComponent: UIView {
         return label
     }()
     
-    private var renderer: BeagleRenderer?
-    
+    // MARK: - Properties
+
     var index: Int?
     var theme: TabBarTheme? {
         didSet {
@@ -49,7 +49,9 @@ final class TabBarItemUIComponent: UIView {
             setupSelectionAppearance()
         }
     }
-
+    
+    private var renderer: BeagleRenderer?
+    
     // MARK: - Initialization
     
     init(

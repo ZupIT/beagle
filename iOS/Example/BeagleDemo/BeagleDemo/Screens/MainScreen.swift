@@ -51,8 +51,8 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.init(route: .pageViewEndpoint))]
                 )
                 Button(
-                    text: "Tab View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .tabViewEndpoint))]
+                    text: "Tab Bar",
+                    onPress: [Navigate.openNativeRoute(.init(route: .tabBarEndpoint))]
                 )
                 Button(
                     text: "List View",

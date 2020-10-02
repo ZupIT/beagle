@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let deepLinkHandler = DeeplinkScreenManager.shared
         deepLinkHandler[.lazyComponentEndpoint] = LazyComponentScreen.self
         deepLinkHandler[.pageViewEndpoint] = PageViewScreen.self
-        deepLinkHandler[.tabViewEndpoint] = TabViewScreen.self
+        deepLinkHandler[.tabBarEndpoint] = TabBarScreen.self
         deepLinkHandler[.formEndpoint] = FormScreen.self
         deepLinkHandler[.customComponentEndpoint] = CustomComponentScreen.self
         deepLinkHandler[.screenDeeplinkEndpoint] = ScreenDeepLink.self
