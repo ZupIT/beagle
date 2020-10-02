@@ -101,24 +101,30 @@ final class ListViewTests: XCTestCase {
     let simpleContext: DynamicObject = ["L", "I", "S", "T", "V", "I", "E", "W"]
     
     func testHorizontalDirection() {
+        // Given
         let component = createListView(
             direction: .horizontal,
             contextValue: simpleContext
         )
-
+        
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
     
     func testVerticalDirection() {
+        // Given
         let component = createListView(
             direction: .vertical,
             contextValue: simpleContext
         )
         
+        // When
         let view = renderListView(component)
         
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
     
@@ -127,30 +133,37 @@ final class ListViewTests: XCTestCase {
     let contextDifferentSizes: DynamicObject = ["LIST", "VIEW", "1", "LIST VIEW", "TEST 1", "TEST LIST VIEW", "12345"]
     
     func testHorizontalDirectionWithDifferentSizes() {
+        // Given
         let component = createListView(
             direction: .horizontal,
             contextValue: contextDifferentSizes
         )
         
+        // When
         let view = renderListView(component)
         
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
     
     func testVerticalDirectionWithDifferentSizes() {
+        // Given
         let component = createListView(
             direction: .vertical,
             contextValue: contextDifferentSizes
         )
         
+        // When
         let view = renderListView(component)
         
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
     
     // MARK: - Testing Execute Action onScrollEnd
     
     func testVerticalWithAction() {
+        // Given
         let expectation = XCTestExpectation(description: "Execute onScrollEnd")
         let action = ActionStub { _, _ in
             expectation.fulfill()
@@ -161,16 +174,18 @@ final class ListViewTests: XCTestCase {
             onScrollEnd: [action]
         )
         
+        // When
         let view = renderListView(component) as? ListViewUIComponent
         view?.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         view?.layoutIfNeeded()
         
+        // Then
         wait(for: [expectation], timeout: 1.0)
-        
         XCTAssertEqual(view?.onScrollEndExecuted, true)
     }
     
     func testHorizontalWithAction() {
+        // Given
         let expectation = XCTestExpectation(description: "Execute onScrollEnd")
         let action = ActionStub { _, _ in
             expectation.fulfill()
@@ -181,23 +196,27 @@ final class ListViewTests: XCTestCase {
             onScrollEnd: [action]
         )
         
+        // When
         let view = renderListView(component) as? ListViewUIComponent
         view?.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         view?.layoutIfNeeded()
         
+        // Then
         wait(for: [expectation], timeout: 1.0)
-        
         XCTAssertEqual(view?.onScrollEndExecuted, true)
     }
     
     func testSetupSizeDefaultListView() {
+        // Given
         let component = ListView(
             dataSource: .value([.empty]),
             template: ComponentDummy()
         )
         
+        // When
         _ = renderListView(component)
         
+        // Then
         XCTAssertEqual(component.widgetProperties.style?.flex?.grow, 1)
     }
     
@@ -205,7 +224,7 @@ final class ListViewTests: XCTestCase {
 
 // MARK: - Testing Helpers
 
-struct ActionStub: Action {
+private struct ActionStub: Action {
     
     let execute: ((BeagleController, UIView) -> Void)?
     
@@ -226,96 +245,120 @@ struct ActionStub: Action {
 extension ListViewTests {
     
     func testDirectionHorizontal() throws {
+        // Given
         let component = ListView(
             children: just3Rows,
             direction: .horizontal
         )
 
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
 
     func testDirectionVertical() throws {
+        // Given
         let component = ListView(
             children: just3Rows,
             direction: .vertical
         )
 
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
 
     // MARK: - Many Rows
 
     func testDirectionHorizontalWithManyRows() {
+        // Given
         let component = ListView(
             children: manyRows,
             direction: .horizontal
         )
 
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
 
     func testDirectionVerticalWithManyRows() {
+        // Given
         let component = ListView(
             children: manyRows,
             direction: .vertical
         )
 
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
 
     // MARK: - Many Large Rows
 
     func testDirectionHorizontalWithManyLargeRows() {
+        // Given
         let component = ListView(
             children: manyLargeRows,
             direction: .horizontal
         )
 
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
 
     func testDirectionVerticalWithManyLargeRows() {
+        // Given
         let component = ListView(
             children: manyLargeRows,
             direction: .vertical
         )
 
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
 
     // MARK: Rows with Different Sizes
 
     func testDirectionHorizontalWithRowsWithDifferentSizes() {
+        // Given
         let component = ListView(
             children: rowsWithDifferentSizes,
             direction: .horizontal
         )
 
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
 
     func testDirectionVerticalWithRowsWithDifferentSizes() {
+        // Given
         let component = ListView(
             children: rowsWithDifferentSizes,
             direction: .vertical
         )
 
+        // When
         let view = renderListView(component)
 
+        // Then
         assertSnapshotImage(view, size: imageSize)
     }
     

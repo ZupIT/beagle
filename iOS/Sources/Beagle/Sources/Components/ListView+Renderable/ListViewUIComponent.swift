@@ -285,10 +285,7 @@ extension ListViewUIComponent: UICollectionViewDataSource {
     }
     
     private func hashFor(item: DynamicObject, withKey key: String?) -> Int {
-        if let key = key {
-            return key.hashValue
-        }
-        return item.hashValue
+        return key?.hashValue ?? item.hashValue
     }
 }
 

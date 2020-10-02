@@ -35,8 +35,7 @@ final class ListViewCell: UICollectionViewCell {
     }
     
     func templateSizeThatFits(_ size: CGSize) -> CGSize {
-        guard let template = templateContainer else { return .zero }
-        return template.yoga.calculateLayout(with: size)
+        return templateContainer?.yoga.calculateLayout(with: size) ?? .zero
     }
     
     func configure(
