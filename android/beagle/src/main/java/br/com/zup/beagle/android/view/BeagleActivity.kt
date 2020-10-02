@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -32,13 +31,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_STATE_LOADING
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
+import br.com.zup.beagle.android.utils.tryToDeserialize
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -219,7 +218,7 @@ abstract class BeagleActivity : AppCompatActivity() {
             screen?.let { screen ->
                 fetch(
                     ScreenRequest(""),
-                    beagleSerializer.deserializeComponent(screen) as ScreenComponent
+                    beagleSerializer.deserializeComponent(screen)
                 )
             } ?: run {
                 screenRequest?.let { request -> fetch(request) }
@@ -241,7 +240,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         fetch(screenRequest, screen?.toComponent())
     }
 
-    private fun fetch(screenRequest: ScreenRequest, screenComponent: ScreenComponent? = null) {
+    private fun fetch(screenRequest: ScreenRequest, screenComponent: ServerDrivenComponent? = null) {
         val liveData = viewModel.fetchComponent(screenRequest, screenComponent)
         handleLiveData(liveData)
     }

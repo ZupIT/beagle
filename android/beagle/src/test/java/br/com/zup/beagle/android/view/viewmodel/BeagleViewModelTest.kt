@@ -22,9 +22,11 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -34,6 +36,8 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
@@ -78,7 +82,7 @@ class BeagleViewModelTest {
 
     @Test
     @Suppress("UNCHECKED_CAST")
-    fun fetch_should_return_render_ViewState() {
+    fun `fetch should return render ViewState`() {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
 
@@ -94,7 +98,7 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun fetch_should_return_a_error_ViewState() {
+    fun `fetch should return a error ViewState`() {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
         val exception = BeagleException("Error")
@@ -112,7 +116,7 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun fetch_should_return_a_error_ViewState_retry() {
+    fun `fetch should return a error ViewState retry`() {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
         val exception = BeagleException("Error")
@@ -133,5 +137,38 @@ class BeagleViewModelTest {
             observer.onChanged(ViewState.DoRender(screenRequest.url, component))
             observer.onChanged(ViewState.Loading(false))
         }
+    }
+
+    @Test
+    fun `GIVEN a ServerDrivenComponent WHEN fetchComponents called SHOULD post ViewState doRender `(){
+        //GIVEN
+        val screenRequest = ScreenRequest("")
+        val slotViewState = mutableListOf<ViewState>()
+        coEvery { observer.onChanged(capture(slotViewState)) } just Runs
+
+
+        //WHEN
+        beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
+
+        //THEN
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(null, component)) }
+    }
+
+    @Test
+    fun `GIVEN a IdentifierComponent WHEN fetchComponents called SHOULD post ViewState doRender `(){
+        //GIVEN
+        val screenRequest = ScreenRequest("")
+        val slotViewState = mutableListOf<ViewState>()
+        val component : IdentifierComponent = mockk()
+        val id = "id"
+        every {component.id} returns id
+        coEvery { observer.onChanged(capture(slotViewState)) } just Runs
+
+
+        //WHEN
+        beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
+
+        //THEN
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(id, component)) }
     }
 }
