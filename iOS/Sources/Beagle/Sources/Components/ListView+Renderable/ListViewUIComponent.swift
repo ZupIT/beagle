@@ -63,6 +63,7 @@ final class ListViewUIComponent: UIView {
     var items: [DynamicObject]? {
         didSet {
             listController.collectionView.reloadData()
+            listController.collectionView.collectionViewLayout.invalidateLayout()
             onScrollEndExecuted = false
             executeOnScrollEndIfNeededAfterLayout()
         }
@@ -305,9 +306,16 @@ extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
         let itemKey = keyFor(item)
         let itemHash = hashFor(item: item, withKey: itemKey)
         
+        let keyPath = model.direction.sizeKeyPath
         if let calculatedSize = itemsSize[itemHash] {
-            let keyPath = model.direction.sizeKeyPath
             size[keyPath: keyPath] = calculatedSize[keyPath: keyPath]
+        } else if #available(iOS 12.0, *) {
+            // Intentionally empty.
+            // Bellow iOS 12, if the size is 0, the size changes made at
+            // cell method `preferredLayoutAttributesFitting` won't apply.
+            // To fix it the size is set to 1.
+        } else if size[keyPath: keyPath] == 0 {
+            size[keyPath: keyPath] = 1
         }
         return size
     }

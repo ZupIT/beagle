@@ -120,7 +120,7 @@ struct ListViewScreen: DeeplinkScreen {
             ListView(
                 context: context,
                 onInit: onInit,
-                dataSource: .value(localDataSource),
+                dataSource: dataSource,
                 template: Container(
                     widgetProperties: .init(style: Style().margin(EdgeValue().all(10)))
                 ) {

@@ -19,6 +19,8 @@ import BeagleSchema
 
 protocol ListViewDelegate: NSObjectProtocol {
     
+    var listComponentView: ListViewUIComponent? { get }
+    
     func listIdentifierFor(_: String?) -> String?
     
     func setContext(_: Context, in: UIView)
@@ -56,7 +58,7 @@ final class ListViewController: UIViewController {
     
     let renderer: BeagleRenderer
     
-    private weak var beagleController: BeagleController?
+    private(set) weak var beagleController: BeagleController?
     
     init(renderer: BeagleRenderer) {
         self.renderer = renderer
@@ -130,8 +132,11 @@ extension ListViewController: BeagleControllerProtocol {
     }
     
     func setNeedsLayout(component: UIView) {
-        component.yoga.markDirty()
         collectionViewFlowLayout.invalidateLayout()
+        beagleController?.setNeedsLayout(component: component)
+        if let listComponentView = delegate?.listComponentView, listComponentView != component {
+            beagleController?.setNeedsLayout(component: listComponentView)
+        }
     }
 }
 

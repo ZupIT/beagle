@@ -106,13 +106,10 @@ final class ListViewCell: UICollectionViewCell {
             let listView = listView else {
                 return layoutAttributes
         }
-        
         addBindings()
-        applyLayout(constrainedBy: listView)
+        applyLayout(container: container, constrainedBy: listView)
         
         let size = container.bounds.size
-        frame.size = size
-        contentView.frame.size = size
         layoutAttributes.size = size
         listView.saveSize(size, forItem: itemHash)
         
@@ -125,13 +122,27 @@ final class ListViewCell: UICollectionViewCell {
         }
     }
     
-    private func applyLayout(constrainedBy listView: ListViewUIComponent) {
+    private func applyLayout(container: UIView, constrainedBy listView: ListViewUIComponent) {
+        // Ensure yoga won't use cached value
+        container.configureLayout { yoga in
+            let shrink = yoga.flexShrink
+            yoga.flexShrink = shrink + 1
+            yoga.flexShrink = shrink
+        }
         contentView.frame = listView.bounds
         listView.listController.dependencies.style(contentView).applyLayout()
+        
+        let size = container.bounds.size
+        frame.size = size
+        contentView.frame.size = size
     }
 }
 
 extension ListViewCell: ListViewDelegate {
+    
+    var listComponentView: ListViewUIComponent? {
+        return listView
+    }
     
     func listIdentifierFor(_ id: String?) -> String? {
         if let id = id, let itemKey = itemKey {
@@ -159,8 +170,12 @@ extension ListViewCell: ListViewDelegate {
         return { [weak self, weak view] value in
             update(value)
             view?.yoga.markDirty()
-            if let self = self {
-                self.listView?.invalidateSize(cell: self)
+            if let self = self, let listView = self.listView {
+                listView.invalidateSize(cell: self)
+                DispatchQueue.main.async {
+                    // Called async to avoid UICollectionViewFlowLayout throws `NSRangeException`
+                    listView.listController.beagleController?.setNeedsLayout(component: listView)
+                }
             }
         }
     }
