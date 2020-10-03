@@ -138,17 +138,6 @@ class ImageViewRendererTest : BaseComponentTest() {
     }
 
     @Test
-    fun `should call post when view is read to provide your own size and set Drawable`() {
-
-        //WHEN
-        imageRemote.buildView(rootView)
-
-        //THEN
-        verify(exactly = once()) { imageView.post(any()) }
-        verify(exactly = once()) { imageView.setImageResource(any()) }
-    }
-
-    @Test
     fun build_should_setPlaceholder_when_imagePath_is_remote_and_placeholder_is_declared() {
         imageRemote.style = null
 

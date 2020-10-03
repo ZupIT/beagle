@@ -16,8 +16,11 @@
 
 package br.com.zup.beagle.android.compiler
 
+import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.compiler.ANDROID_ACTION
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
+import br.com.zup.beagle.compiler.implementsInterface
+import br.com.zup.beagle.compiler.BEAGLE_IMAGE_DOWNLOADER
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER_IMPL
 import br.com.zup.beagle.compiler.BEAGLE_LOGGER
@@ -36,6 +39,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
+import javax.lang.model.element.TypeElement
 
 class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
@@ -93,7 +97,7 @@ class BeagleSetupProcessor(
         }
 
 
-        val newTypeSpec = typeSpec.addProperties(newProperties)
+        val newTypeSpecBuilder = typeSpec.addProperties(newProperties)
             .addProperty(createBeagleConfigAttribute(beagleConfigClassName))
             .addProperty(PropertySpec.builder(
                 "typeAdapterResolver",
@@ -101,17 +105,54 @@ class BeagleSetupProcessor(
                 KModifier.OVERRIDE
             ).initializer("${BEAGLE_CUSTOM_ADAPTER_IMPL.className}()")
                 .build())
-            .build()
+
+        getBeagleImageDownloaderProperty(newTypeSpecBuilder, roundEnvironment)
 
         try {
             beagleSetupFile
-                .addType(newTypeSpec)
+                .addType(newTypeSpecBuilder.build())
                 .build()
                 .writeTo(processingEnv.filer)
         } catch (e: IOException) {
             val errorMessage = "Error when trying to generate code.\n${e.message!!}"
             processingEnv.messager.error(errorMessage)
         }
+    }
+
+    private fun getBeagleImageDownloaderProperty(
+        newTypeSpecBuilder: TypeSpec.Builder,
+        roundEnvironment: RoundEnvironment) {
+        val customImageDownloaderElements = roundEnvironment.getElementsAnnotatedWith(
+            BeagleComponent::class.java
+        ).filter { element ->
+            val typeElement = element as TypeElement
+            typeElement.implementsInterface(BEAGLE_IMAGE_DOWNLOADER.toString())
+        }
+
+        when {
+            customImageDownloaderElements.size == 1 -> {
+                addImageDownloaderProperty(newTypeSpecBuilder, customImageDownloaderElements[0].toString())
+            }
+            customImageDownloaderElements.size > 1 -> {
+
+            }
+            else -> {
+                addImageDownloaderProperty(
+                    newTypeSpecBuilder,
+                    "br.com.zup.beagle.android.imagedownloader.DefaultImageDownloader"
+                )
+            }
+        }
+    }
+
+    private fun addImageDownloaderProperty(newTypeSpecBuilder: TypeSpec.Builder, className: String) {
+        newTypeSpecBuilder.addProperty(
+            PropertySpec.builder(
+                "beagleImageDownloader",
+                ClassName(BEAGLE_IMAGE_DOWNLOADER.packageName, BEAGLE_IMAGE_DOWNLOADER.className),
+                KModifier.OVERRIDE
+            ).initializer("${className}()").build()
+        )
     }
 
     private fun addDefaultImports(
@@ -128,6 +169,7 @@ class BeagleSetupProcessor(
             .addImport(DEEP_LINK_HANDLER.packageName, DEEP_LINK_HANDLER.className)
             .addImport(HTTP_CLIENT_HANDLER.packageName, HTTP_CLIENT_HANDLER.className)
             .addImport(BEAGLE_LOGGER.packageName, BEAGLE_LOGGER.className)
+            .addImport(BEAGLE_IMAGE_DOWNLOADER.packageName, BEAGLE_IMAGE_DOWNLOADER.className)
             .addImport(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
             .addImport(BEAGLE_CUSTOM_ADAPTER_IMPL.packageName, BEAGLE_CUSTOM_ADAPTER_IMPL.className)
             .addImport(basePackageName, beagleConfigClassName)

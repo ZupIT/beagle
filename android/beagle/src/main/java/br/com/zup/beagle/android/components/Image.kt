@@ -56,9 +56,6 @@ data class Image constructor(
     private val viewMapper: ViewMapper = ViewMapper()
 
     @Transient
-    private val imageDownloader: ImageDownloader = ImageDownloader(LruImageCache.instance)
-
-    @Transient
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
@@ -110,28 +107,7 @@ data class Image constructor(
     }
 
     private fun ImageView.downloadImage(url: String, rootView: RootView) {
-        val view = this@downloadImage
-
-        view.post {
-            if (allSizesGreaterThanZero()) {
-                rootView.getLifecycleOwner().lifecycleScope.launch(CoroutineDispatchers.IO) {
-                    val bitmap = try {
-                        imageDownloader.getRemoteImage(url.formatUrl(), view.width, view.height)
-                    } catch (e: Exception) {
-                        BeagleLoggerProxy.error(e.message ?: "Error when try to download Image")
-                        null
-                    }
-
-                    setImage(view, bitmap, resources)
-                }
-            }
-        }
-    }
-
-    private suspend fun setImage(view: ImageView, bitmap: Bitmap?, resources: Resources) {
-        withContext(CoroutineDispatchers.Main) {
-            view.setImageDrawable(BitmapDrawable(resources, bitmap))
-        }
+        BeagleEnvironment.beagleSdk.beagleImageDownloader.download(url, this, rootView)
     }
 
     private fun getImage(imagePath: String?): Int? =
@@ -139,8 +115,6 @@ data class Image constructor(
             BeagleEnvironment.beagleSdk.designSystem?.image(it)
         }
 }
-
-private fun View.allSizesGreaterThanZero() = width > 0 && height > 0
 
 sealed class ImagePath {
     data class Local(val mobileId: Bind<String>) : ImagePath() {

@@ -94,6 +94,11 @@ val BEAGLE_LOGGER = BeagleClass(
     "BeagleLogger"
 )
 
+val BEAGLE_IMAGE_DOWNLOADER = BeagleClass(
+    "br.com.zup.beagle.android.imagedownloader",
+    "BeagleImageDownloader"
+)
+
 val ANDROID_ACTION = BeagleClass(
     packageName = "br.com.zup.beagle.android.action",
     className = "Action"
