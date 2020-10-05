@@ -21,66 +21,173 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Button
-import br.com.zup.beagle.android.components.Touchable
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.core.AlignContent
-import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
+import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.sample.constants.CYAN_GREEN
+import br.com.zup.beagle.sample.constants.LIGHT_RED
+import br.com.zup.beagle.sample.constants.RED
+import br.com.zup.beagle.sample.constants.RED_ORANGE
+import br.com.zup.beagle.widget.core.EdgeValue
 
 class NavigationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val declarative = Screen(
-            child = Container(children = buildChildren()).applyFlex(
-                Flex(
-                    flexDirection = FlexDirection.COLUMN,
-                    justifyContent = JustifyContent.CENTER,
-                    alignItems = AlignItems.CENTER,
-                    alignContent = AlignContent.SPACE_BETWEEN,
-                    grow = 1.0
+        val declarative  = Screen(
+            child = Container(
+                listOf(
+                    createButton(
+                        text = "Click to navigate",
+                        navigate = Navigate.PushView(Route.Local(screen = buildStep1())),
+                        backgroundColor = LIGHT_RED
+                    )
                 )
-            ),
-            screenAnalyticsEvent = ScreenEvent(
-                screenName = "Tela De Navegacao"
             )
         )
-
-        return declarative.toView(this)
+        return context?.let { declarative.toView(this) }
     }
 
-    private fun buildChildren(): List<ServerDrivenComponent> {
-        return listOf(
-            Touchable(
-                child = Button(text = "Click to navigate").applyStyle(
-                    Style(size = Size(width = UnitValue(80.0, UnitType.PERCENT)))
+    private fun buildStep1(): Screen = Screen(
+        identifier = "/navigationbar/step1",
+        context = ContextData(id = "step2", value = "/navigationbar/step2"),
+        navigationBar = buildNavigationBar("Step 1"),
+        child = Container(
+            children = listOf(
+                buttonPopView,
+                createButton(
+                    text = "PushView (Step 2)",
+                    navigate = Navigate.PushView(Route.Local(screen = buildStep2())),
+                    backgroundColor = LIGHT_RED
                 ),
-                onPress = listOf(Navigate.PushView(Route.Remote("https://t001-2751a.firebaseapp.com/flow/step1.json"))),
-                clickAnalyticsEvent = ClickEvent(
-                    category = "Categoria",
-                    label = "Descrição",
-                    value = "Valor"
+                createButton(
+                    text = "PushView (Step 2) with context",
+                    navigate = Navigate.PushView(Route.Remote(url = expressionOf("@{step2}"))),
+                    backgroundColor = LIGHT_RED
                 )
             )
         )
+    )
+
+    private fun buildStep2(): Screen = Screen(
+        identifier = "/navigationbar/step2",
+        navigationBar = buildNavigationBar("Step 2"),
+        child = Container(
+            children = listOf(
+                buttonPopView,
+                createButton(
+                    text = "PushView (Step 3)",
+                    navigate = Navigate.PushView(Route.Local(screen = buildStep3())),
+                    backgroundColor = LIGHT_RED
+                ),
+                createButton(
+                    text = "PushStack",
+                    navigate = Navigate.PushStack(Route.Local(screen = buildNewStack())),
+                    backgroundColor = LIGHT_RED
+                )
+            )
+        )
+    )
+
+    private fun buildStep3(): Screen = Screen(
+        navigationBar = buildNavigationBar("Step 3"),
+        child = Container(
+            children = listOf(
+                buttonPopView,
+                createButton(
+                    text = "ResetApplication (Step 1)",
+                    navigate = Navigate.ResetApplication(Route.Local(screen = buildNewStack())),
+                    backgroundColor = RED_ORANGE
+                ),
+                createButton(
+                    text = "PopToView (Step 1)",
+                    navigate = Navigate.PopToView("/navigationbar/step1"),
+                    backgroundColor = RED
+                ),
+                createButton(
+                    text = "PushView (Step 1) - BFF",
+                    navigate = Navigate.PushView(Route.Remote(url = "/navigationbar/step1")),
+                    backgroundColor = LIGHT_RED
+                )
+            )
+        )
+    )
+
+    private fun buildNewStack(): Screen = Screen(
+        navigationBar = buildNavigationBar("New Stack"),
+        child = Container(
+            children = listOf(
+                buttonPopView,
+                createButton(
+                    text = "PushView (Step 1) - BFF",
+                    navigate = Navigate.PushView(Route.Remote("/navigationbar/step1")),
+                    backgroundColor = LIGHT_RED
+                ),
+                createButton(
+                    text = "PopStack",
+                    navigate = Navigate.PopStack(),
+                    backgroundColor = CYAN_GREEN
+                )
+            )
+        )
+    )
+
+    private fun createButton(text: String, navigate: Navigate, backgroundColor: String) =
+        Button(
+            text = text,
+            styleId = "DesignSystem.Stylish.ButtonAndAppearance",
+            onPress = listOf(navigate)
+        ).applyStyle(
+            Style(
+                backgroundColor = backgroundColor,
+                cornerRadius = CornerRadius(radius = 10.0),
+                margin = EdgeValue(
+                    left = 30.unitReal(),
+                    right = 30.unitReal(),
+                    top = 15.unitReal()
+                )
+            )
+        )
+
+    private val buttonPopView = createButton(
+        text = "PopView",
+        navigate = Navigate.PopView(),
+        backgroundColor = CYAN_GREEN
+    )
+
+    private fun buildNavigationBar(title: String): NavigationBar {
+        return NavigationBar(
+            title = title,
+            showBackButton = true,
+            navigationBarItems = navigationBarImage
+        )
     }
+
+    private val navigationBarImage = listOf(
+        NavigationBarItem(
+            text = "Text",
+            image = ImagePath.Local("imageBeagle"),
+            action = Alert(
+                title = "Navigation Type",
+                message = "Decide the type of navigation.",
+                labelOk = "OK"
+            )
+        )
+    )
 
     companion object {
         fun newInstance(): NavigationFragment {
