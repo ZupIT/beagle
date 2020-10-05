@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		174096E9252B8FB10009C749 /* NavigationActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174096E8252B8FB10009C749 /* NavigationActionSteps.swift */; };
 		639CA15624B4EF1A009FAC90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639CA15524B4EF1A009FAC90 /* AppDelegate.swift */; };
 		639CA15F24B4EF1D009FAC90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 639CA15E24B4EF1D009FAC90 /* Assets.xcassets */; };
 		639CA16224B4EF1D009FAC90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 639CA16024B4EF1D009FAC90 /* LaunchScreen.storyboard */; };
@@ -124,6 +125,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		174096E8252B8FB10009C749 /* NavigationActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationActionSteps.swift; sourceTree = "<group>"; };
 		639CA15224B4EF1A009FAC90 /* AutomatedTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutomatedTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		639CA15524B4EF1A009FAC90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		639CA15E24B4EF1D009FAC90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 				6B4F7E8A24C9C637003F461A /* TouchableScreenSteps.swift */,
 				6B9ADC5624D88FD300097605 /* SimpleFormScreenSteps.swift */,
 				F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */,
+				174096E8252B8FB10009C749 /* NavigationActionSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -770,6 +773,7 @@
 				6B4F7E7924C659AF003F461A /* ButtonScreenSteps.swift in Sources */,
 				639CA20F24B4F0B0009FAC90 /* GHScenarioOutline.m in Sources */,
 				639CA1FC24B4F0B0009FAC90 /* CCIFeaturesManager.m in Sources */,
+				174096E9252B8FB10009C749 /* NavigationActionSteps.swift in Sources */,
 				639CA22924B4F0B0009FAC90 /* NSString+Formatter.m in Sources */,
 				639CA22824B4F0B0009FAC90 /* GHAstBuilder.m in Sources */,
 				639CA23124B4F128009FAC90 /* CucumberishInit.m in Sources */,

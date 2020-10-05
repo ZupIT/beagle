@@ -26,7 +26,10 @@ import br.com.zup.beagle.widget.ui.Button
 
 object NavigateBaseTestBuilder {
 
-    const val pushStackRemoteId = "PushStackRemote"
+    const val pushStackRemote = "PushStackRemote"
+    const val pushStackRemoteFailure = "pushStackRemoteFailure"
+    const val pushViewRemote = "PushViewRemote"
+    const val pushViewRemoteFailure = "pushViewRemoteFailure"
 
     fun build() = Screen(
         child = Container(
@@ -39,14 +42,50 @@ object NavigateBaseTestBuilder {
             children =
             listOf(
                 Button(
-                    text = pushStackRemoteId,
+                    text = pushStackRemote,
                     onPress = listOf(
                         SetContext(
                             contextId = "global",
-                            value = pushStackRemoteId
+                            value = pushStackRemote + "Screen"
                         ),
                         Navigate.PushStack(
                             Route.Remote(NAVIGATE_HERE_ENDPOINT)
+                        )
+                    )
+                ),
+                Button(
+                    text = pushViewRemote,
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "global",
+                            value = pushViewRemote + "Screen"
+                        ),
+                        Navigate.PushView(
+                            Route.Remote(NAVIGATE_HERE_ENDPOINT)
+                        )
+                    )
+                ),
+                Button(
+                    text = pushViewRemoteFailure,
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "global",
+                            value = pushViewRemoteFailure + "Screen"
+                        ),
+                        Navigate.PushView(
+                            Route.Remote("<3")
+                        )
+                    )
+                ),
+                Button(
+                    text = pushStackRemoteFailure,
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "global",
+                            value = pushStackRemoteFailure + "Screen"
+                        ),
+                        Navigate.PushStack(
+                            Route.Remote("<3")
                         )
                     )
                 )

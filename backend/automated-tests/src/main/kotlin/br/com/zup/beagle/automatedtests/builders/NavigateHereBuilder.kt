@@ -32,7 +32,7 @@ object NavigateHereBuilder {
             children =
             listOf(
                 Text(
-                    text = "Botão clicado"
+                    text = "Sample Screen"
                 ),
                 Text(
                     text = expressionOf("@{global}")
