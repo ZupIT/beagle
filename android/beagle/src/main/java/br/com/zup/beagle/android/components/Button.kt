@@ -37,8 +37,8 @@ import br.com.zup.beagle.annotation.RegisterWidget
  *
  * @param text define the button text content.
  * @param styleId reference a native style in your local styles file to be applied on this button.
- * @param onPress attribute to define action when onPress
- * @property clickAnalyticsEvent attribute to define click event name
+ * @param onPress attribute to define actions when this component is pressed
+ * @param clickAnalyticsEvent attribute to define click event name
  *
  */
 @RegisterWidget
