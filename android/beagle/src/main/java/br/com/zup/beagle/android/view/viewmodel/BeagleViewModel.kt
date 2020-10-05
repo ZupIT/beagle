@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
-import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.BeagleRetry
@@ -76,7 +75,7 @@ internal class BeagleViewModel(
 
         private fun fetchComponents() {
             coroutineScope.launch(ioDispatcher) {
-                val identifier = getScreenIdentifier()
+                val identifier = getComponentIdentifier()
                 if (screenRequest.url.isNotEmpty()) {
                     try {
                         setLoading(true)
@@ -95,7 +94,9 @@ internal class BeagleViewModel(
             }
         }
 
-        private fun getScreenIdentifier() = (screen as? IdentifierComponent)?.id
+        private fun getComponentIdentifier() = (screen as? ScreenComponent)?.identifier ?: getIdentifierComponentId()
+
+        private fun getIdentifierComponentId() = (screen as? IdentifierComponent)?.id
 
         private suspend fun postLiveDataResponse(viewState: ViewState) {
             postValue(viewState)
