@@ -51,7 +51,7 @@ internal class FormValidation(
 }
 
 /**
- * class to define error.
+ * Class to define error.
  *
  * @param inputName component name to which this error refers.
  * @param message The error message displayed.

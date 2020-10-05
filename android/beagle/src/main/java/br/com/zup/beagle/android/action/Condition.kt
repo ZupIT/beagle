@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 
 /**
- * action to resolve condition and call onTrue if return true and onFalse if return is false.
+ * Action to resolve condition and call onTrue if return true and onFalse if return is false.
  *
  * @param condition condition should represents a boolean.
  * @param onTrue define action if the condition returns true.

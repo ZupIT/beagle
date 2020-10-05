@@ -28,7 +28,8 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 
 /**
- * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
+ * This action will show dialogues natively, such as an error alert indicating alternative flows, business system
+ * errors and others.
  *
  * @param title defines the title on the Dialog.
  * @param message defines the Dialog message.
