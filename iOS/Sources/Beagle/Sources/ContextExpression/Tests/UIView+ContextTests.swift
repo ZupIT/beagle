@@ -141,7 +141,7 @@ final class UIViewContextTests: XCTestCase {
     
     func testConfigBindingShouldNotRetainTheView() {
         // Given
-        var view: UILabel? = UILabel()
+        var view: UIView? = UIView()
         weak var weakReference = view
         
         let contextId = "context"

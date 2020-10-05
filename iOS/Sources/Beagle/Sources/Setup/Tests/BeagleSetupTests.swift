@@ -224,5 +224,16 @@ class GlobalContextDummy: GlobalContext {
     let context: Observable<Context> = Observable(value: .init(id: "", value: .empty))
     
     func isGlobal(id: String?) -> Bool { true }
-    func setValue(_ value: DynamicObject) {}
+    
+    func set(value: DynamicObject, path: String?) {
+        // Intentionally unimplemented...
+    }
+    
+    func get(path: String?) -> DynamicObject {
+        .init(stringLiteral: "Dummy")
+    }
+    
+    func clear(path: String?) {
+        // Intentionally unimplemented...
+    }
 }

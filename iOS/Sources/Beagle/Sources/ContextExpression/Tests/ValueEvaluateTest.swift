@@ -55,7 +55,7 @@ final class ValueEvaluateTest: XCTestCase {
         let context = bindingModel
 
         // When
-        let result = sut.map { $0.evaluate(model: context) }
+        let result = sut.map { context[$0.path] }
         // Then
         assertSnapshot(matching: result, as: .dump)
     }
