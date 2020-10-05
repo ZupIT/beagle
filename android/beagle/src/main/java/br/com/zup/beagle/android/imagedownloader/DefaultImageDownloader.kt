@@ -31,11 +31,11 @@ import br.com.zup.beagle.android.widget.RootView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DefaultImageDownloader : BeagleImageDownloader {
+internal class DefaultImageDownloader {
 
     private val imageDownloader: ImageDownloader = ImageDownloader(LruImageCache.instance)
 
-    override fun download(url: String, imageView: ImageView, rootView: RootView) {
+    fun download(url: String, imageView: ImageView, rootView: RootView) {
         imageView.post {
             if (imageView.allSizesGreaterThanZero()) {
                 rootView.getLifecycleOwner().lifecycleScope.launch(CoroutineDispatchers.IO) {

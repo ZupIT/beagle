@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
+import br.com.zup.beagle.android.imagedownloader.DefaultImageDownloader
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -96,7 +97,13 @@ data class Image constructor(
     }
 
     private fun ImageView.downloadImage(url: String, rootView: RootView) {
-        BeagleEnvironment.beagleSdk.beagleImageDownloader.download(url, this, rootView)
+        val downloader = BeagleEnvironment.beagleSdk.beagleImageDownloader
+
+        if (downloader != null) {
+            downloader.download(url, this)
+        } else {
+            DefaultImageDownloader().download(url, this, rootView)
+        }
     }
 
     private fun getImage(imagePath: String?): Int? =

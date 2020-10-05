@@ -28,12 +28,8 @@ class LruImageCache(private val memoryCache: LruCache<String, Bitmap> =
 
     fun get(key: String?): Bitmap? = memoryCache.get(key)
 
-    private object HOLDER {
-        val INSTANCE = LruImageCache()
-    }
-
     companion object {
-        val instance: LruImageCache by lazy { HOLDER.INSTANCE }
+        val instance: LruImageCache by lazy { LruImageCache() }
     }
 }
 

@@ -46,7 +46,7 @@ interface BeagleSdk {
     val validatorHandler: ValidatorHandler?
     val httpClient: HttpClient?
     val designSystem: DesignSystem?
-    val beagleImageDownloader: BeagleImageDownloader
+    val beagleImageDownloader: BeagleImageDownloader?
     val storeHandler: StoreHandler?
     val controllerReference: BeagleControllerReference?
     val typeAdapterResolver: TypeAdapterResolver?

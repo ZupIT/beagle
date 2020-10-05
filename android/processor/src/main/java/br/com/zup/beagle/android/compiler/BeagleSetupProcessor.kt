@@ -131,17 +131,14 @@ class BeagleSetupProcessor(
 
         when {
             customImageDownloaderElements.size == 1 -> {
-                addImageDownloaderProperty(newTypeSpecBuilder, customImageDownloaderElements[0].toString())
+                addImageDownloaderProperty(newTypeSpecBuilder, customImageDownloaderElements[0].toString() + "()")
             }
             customImageDownloaderElements.size > 1 -> {
                 processingEnv.messager.error("BeagleImageDownloader already defined, " +
                     "remove one implementation from the application.")
             }
             else -> {
-                addImageDownloaderProperty(
-                    newTypeSpecBuilder,
-                    "br.com.zup.beagle.android.imagedownloader.DefaultImageDownloader"
-                )
+                addImageDownloaderProperty(newTypeSpecBuilder, "null")
             }
         }
     }
@@ -150,9 +147,9 @@ class BeagleSetupProcessor(
         newTypeSpecBuilder.addProperty(
             PropertySpec.builder(
                 "beagleImageDownloader",
-                ClassName(BEAGLE_IMAGE_DOWNLOADER.packageName, BEAGLE_IMAGE_DOWNLOADER.className),
+                ClassName(BEAGLE_IMAGE_DOWNLOADER.packageName, BEAGLE_IMAGE_DOWNLOADER.className).copy(nullable = true),
                 KModifier.OVERRIDE
-            ).initializer("${className}()").build()
+            ).initializer(className).build()
         )
     }
 

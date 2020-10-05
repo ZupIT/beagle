@@ -36,7 +36,7 @@ internal class DefaultImageDownloaderTest {
     }
 
     @Test
-    fun `should call post image`()  {
+    fun `GIVEN url WHEN download image THEN call post image`()  {
         // Given
         val url = "https://vitafelice.com.br/wp-content/uploads/2019/01/beagle.jpg"
 
