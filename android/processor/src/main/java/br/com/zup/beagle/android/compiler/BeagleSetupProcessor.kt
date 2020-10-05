@@ -37,6 +37,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import java.io.IOException
+import java.util.Locale.ROOT
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.TypeElement
@@ -122,7 +123,7 @@ class BeagleSetupProcessor(
     private fun getBeagleImageDownloaderProperty(
         newTypeSpecBuilder: TypeSpec.Builder,
         roundEnvironment: RoundEnvironment) {
-        val customImageDownloaderElements = roundEnvironment.getElementsAnnotatedWith(
+        val beagleCustomImageDownloaderElements = roundEnvironment.getElementsAnnotatedWith(
             BeagleComponent::class.java
         ).filter { element ->
             val typeElement = element as TypeElement
@@ -130,11 +131,12 @@ class BeagleSetupProcessor(
         }
 
         when {
-            customImageDownloaderElements.size == 1 -> {
-                addImageDownloaderProperty(newTypeSpecBuilder, customImageDownloaderElements[0].toString())
+            beagleCustomImageDownloaderElements.size == 1 -> {
+                addImageDownloaderProperty(newTypeSpecBuilder, beagleCustomImageDownloaderElements[0].toString())
             }
-            customImageDownloaderElements.size > 1 -> {
-
+            beagleCustomImageDownloaderElements.size > 1 -> {
+                processingEnv.messager.error("BeagleImageDownloader already defined, " +
+                    "remove one implementation from the application.")
             }
             else -> {
                 addImageDownloaderProperty(
@@ -148,7 +150,7 @@ class BeagleSetupProcessor(
     private fun addImageDownloaderProperty(newTypeSpecBuilder: TypeSpec.Builder, className: String) {
         newTypeSpecBuilder.addProperty(
             PropertySpec.builder(
-                "beagleImageDownloader",
+                BEAGLE_IMAGE_DOWNLOADER.className.toLowerCase(ROOT),
                 ClassName(BEAGLE_IMAGE_DOWNLOADER.packageName, BEAGLE_IMAGE_DOWNLOADER.className),
                 KModifier.OVERRIDE
             ).initializer("${className}()").build()
