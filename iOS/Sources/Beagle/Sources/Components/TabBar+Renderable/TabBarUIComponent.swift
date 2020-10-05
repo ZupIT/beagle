@@ -36,7 +36,7 @@ final class TabBarUIComponent: UIScrollView {
     }
     
     // MARK: - Properties
-    private var shouldCreateTabItemsView = false
+    private var shouldCreateTabItemsView = true
     private let tabItemMinimumHorizontalMargin: CGFloat = 40
     private let tabItemIconMinimunWidth: CGFloat = 75
     
@@ -78,7 +78,9 @@ final class TabBarUIComponent: UIScrollView {
         if let contentView = subviews.first {
             contentSize = contentView.frame.size
             resetTabItemsStyle()
-            if shouldCreateTabItemsView {
+
+            // Creates tabItems only after view it's already in superview hierarchy
+            if superview != nil, shouldCreateTabItemsView {
                 setupTabBarItems()
                 style.applyLayout()
                 scrollTo(page: model.tabIndex ?? 0)
@@ -112,12 +114,6 @@ final class TabBarUIComponent: UIScrollView {
         )
         contentView.addSubview(indicatorView)
         addSubview(contentView)
-
-        // Adds configuration to view after it is already in superview hierarchy
-        // TODO: We should change the name of the addBinding method.
-        model.renderer.controller.addBinding {
-            self.shouldCreateTabItemsView.toggle()
-        }
     }
     
     func setupTabBarItems() {
