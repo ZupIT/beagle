@@ -26,7 +26,8 @@ final class DynamicObjectTests: XCTestCase {
         // Given
         let object: DynamicObject = [
             "a": "default",
-            "c": [1, 2]
+            "c": [1, 2],
+            "d": [["name": "John", "code": "123"], ["name": "Doe", "code": "321"]]
         ]
 
         let result: [Result] = [
@@ -35,16 +36,16 @@ final class DynamicObjectTests: XCTestCase {
             "c[0]",
             "c[4]",
             "",
-            "[4]"
+            "[4]",
+            "d[0].name",
+            "d[1].code",
+            "d[2].name"
         ]
         .compactMap { Path(rawValue: $0) }
 
         // When
         .map {
-            var obj = object
-            obj.set("UPDATED", forPath: $0)
-            
-            return Result(input: $0.rawValue, output: obj)
+            Result(input: $0.rawValue, output: object.set("UPDATED", with: $0))
         }
 
         // Then
