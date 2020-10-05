@@ -41,12 +41,6 @@
         tools:ignore="HardcodedText" />
 
     <item
-        android:id="@+id/navigation"
-        android:icon="@mipmap/ic_launcher"
-        android:title="Navigation"
-        tools:ignore="HardcodedText" />
-
-    <item
         android:id="@+id/scroll"
         android:icon="@mipmap/ic_launcher"
         android:title="ScrollView"

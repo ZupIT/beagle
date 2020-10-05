@@ -14,19 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.page
+package br.com.zup.beagle.sample.constants
 
-import br.com.zup.beagle.android.utils.PageViewDeprecatedConstants
-import br.com.zup.beagle.android.widget.ViewConvertable
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-/**
- * Base of page indicator component.
- */
-@Deprecated(message = PageViewDeprecatedConstants.PAGE_INDICATOR_COMPONENT)
-interface PageIndicatorComponent : ServerDrivenComponent,
-    ViewConvertable {
-    fun setCount(pages: Int)
-    fun onItemUpdated(newIndex: Int)
-    fun initPageView(pageIndicatorOutput: PageIndicatorOutput)
-}
+const val RED = "#c81912"
+const val RED_ORANGE = "#b7472a"
+const val CYAN_GREEN = "#2a7886"
+const val LIGHT_RED = "#ed6663"
