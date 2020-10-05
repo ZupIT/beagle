@@ -31,12 +31,12 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.example.automatedTests"
+        applicationId "br.com.zup.beagle.automatedTests"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -44,16 +44,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         if (project.ext.has("screenshotTests")) {
-            testApplicationId "com.example.automatedTests.test"
+            testApplicationId "br.com.zup.beagle.automatedTests"
             testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
         } else {
-            testApplicationId "com.example.automatedTests.cucumber.steps"
-            testInstrumentationRunner "com.example.automatedTests.cucumber.steps.Instrumentation"
+            testApplicationId "br.com.zup.beagle.automatedTests.cucumber.steps"
+            testInstrumentationRunner "br.com.zup.beagle.automatedTests.cucumber.steps.Instrumentation"
         }
         buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
     }
 
     sourceSets {
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+        debug.java.srcDirs += "src/debug/kotlin"
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+
         androidTest {
             assets.srcDirs = ['src/androidTest/assets']
         }
@@ -68,24 +73,19 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.AndroidxLibraries.appcompat
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
 
     implementation project(Dependencies.Modules.core)
-    implementation 'androidx.appcompat:appcompat:1.2.0'
     kapt project(Dependencies.Modules.processor)
 
     testImplementation Dependencies.TestLibraries.junit
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.mockk
 
-
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'info.cukes:cucumber-android:1.2.5'
-    androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.5'
+    androidTestImplementation Dependencies.TestLibraries.cucumberAndroid
+    androidTestImplementation Dependencies.TestLibraries.cucumberPicocontainer
     androidTestImplementation Dependencies.TestLibraries.espressoCore
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner

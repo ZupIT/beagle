@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.automatedTests.test"
-    android:sharedUserId="com.example.automated_tests.uid">
+    package="br.com.zup.beagle.automatedTests"
+    android:sharedUserId="br.com.zup.beagle.automated_tests.uid">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
