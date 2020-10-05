@@ -17,6 +17,8 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 object Constants {
+
+    //BFF URLS
     val touchableScreenBffUrl = "http://10.0.2.2:8080/touchable"
     val tabViewScreenBffUrl = "http://10.0.2.2:8080/tabview"
     val simpleFormScreenBffUrl = "http://10.0.2.2:8080/simpleform"
@@ -25,4 +27,6 @@ object Constants {
     val listViewScreenBffUrl = "http://10.0.2.2:8080/listview"
     val imageScreenBffUrl = "http://10.0.2.2:8080/image"
     val buttonScreenBffUrl = "http://10.0.2.2:8080/button"
+    const val navigateBaseBffUrl = "/navigate_base_test"
+    const val navigateHereBffUrl = "/navigate_here"
 }
