@@ -67,10 +67,4 @@ dependencies {
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
-
-    // Unit Testing
-    testImplementation Dependencies.TestLibraries.junit
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.mockk
-
 }
