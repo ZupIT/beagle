@@ -29,30 +29,30 @@ internal class ImageDownloader(val cache: LruImageCache) {
         val cacheId = generateId(url, contentWidth, contentHeight)
 
         return withContext(CoroutineDispatchers.IO) {
-            if (hasCache(cacheId)) {
+            if (hasBitmapOnCache(cacheId)) {
                 cache.get(cacheId)
             } else {
-                url?.downloadBitmap(contentWidth, contentHeight).apply {
-                    this.saveOnCache(cacheId)
+                downloadBitmap(url, contentWidth, contentHeight).apply {
+                    saveOnCache(cacheId, this)
                 }
             }
         }
     }
 
-    private fun Bitmap?.saveOnCache(cacheId: String) {
-        if (this != null) {
-            cache.put(cacheId, this)
+    private fun saveOnCache(cacheId: String, bitmap: Bitmap?) {
+        if (bitmap != null) {
+            cache.put(cacheId, bitmap)
         }
     }
 
-    private fun hasCache(url: String?) : Boolean =
+    private fun hasBitmapOnCache(url: String?) : Boolean =
         cache.get(url) != null
 
     private fun generateId(url: String?, contentWidth: Int, contentHeight: Int) = url + contentWidth + contentHeight
 }
 
-private fun String.downloadBitmap(contentWidth: Int, contentHeight: Int) : Bitmap {
-    val inputStream: InputStream = URL(this).openStream()
+private fun downloadBitmap(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
+    val inputStream: InputStream = URL(url).openStream()
     val bitmap = BitmapFactory.decodeStream(inputStream)
 
     return BeagleBitmapFactory(bitmap, contentWidth, contentHeight).getBitmap()

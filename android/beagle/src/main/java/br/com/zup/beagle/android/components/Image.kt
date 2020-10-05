@@ -16,32 +16,21 @@
 
 package br.com.zup.beagle.android.components
 
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.ImageView
-import androidx.lifecycle.lifecycleScope
-import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
-import br.com.zup.beagle.android.cache.imagecomponent.LruImageCache
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.valueOf
-import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
-import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.ImageContentMode
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 @RegisterWidget
