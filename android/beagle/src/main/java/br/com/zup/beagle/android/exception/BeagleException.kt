@@ -16,6 +16,12 @@
 
 package br.com.zup.beagle.android.exception
 
+/**
+ * An exception class, thrown when an error occurs during parsing.
+ *
+ * @param message shows message from exception thrown.
+ * @param cause Shows the cause of the exception
+ */
 open class BeagleException
 constructor(
     override val message: String,
