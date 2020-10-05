@@ -20,16 +20,13 @@ import ACCESSIBILITY_ENDPOINT
 import ANALYTICS_ENDPOINT
 import EXPRESSION_ESCAPING_ENDPOINT
 import KOTLIN_DSL_ENDPOINT
+import NAVIGATE_BASE_ENDPOINT
+import NAVIGATE_HERE_ENDPOINT
 import SAFE_AREA_ENDPOINT
 import SCREEN_ACTION_CLICK_ENDPOINT
 import SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import SCREEN_SAFE_AREA_TRUE_ENDPOINT
-import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.BuilderKotlinDslScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.ExpressionEscapingScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.AccessibilityScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -59,6 +56,13 @@ class GeneralController {
 
     @GetMapping(ACCESSIBILITY_ENDPOINT)
     fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
+
+    @GetMapping(NAVIGATE_BASE_ENDPOINT)
+    fun getNavigateBase() = NavigateBaseTestBuilder.build()
+
+    @GetMapping(NAVIGATE_HERE_ENDPOINT)
+    fun getNavigateHere() = NavigateHereBuilder.build()
+
 }
 
 

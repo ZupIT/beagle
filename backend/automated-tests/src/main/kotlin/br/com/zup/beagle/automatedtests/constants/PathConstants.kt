@@ -49,6 +49,9 @@ const val REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT = "/navigationbar/item/im
 const val PATH_LAZY_COMPONENT_ENDPOINT = "https://run.mocky.io/v3/0ff5b613-e30f-42a4-8150-72ca4d8354e0"
 const val PATH_SCREEN_DEEP_LINK_ENDPOINT = "screen-deep-link"
 
+const val NAVIGATE_BASE_ENDPOINT = "/navigate_base_test"
+const val NAVIGATE_HERE_ENDPOINT = "/navigate_here"
+
 
 
 
