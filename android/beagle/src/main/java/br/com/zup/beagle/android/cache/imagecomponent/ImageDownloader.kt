@@ -23,20 +23,32 @@ import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.net.URL
 
-internal class ImageDownloader(val cache: LruImageCache) {
+internal class ImageDownloader(
+    private val cache: LruImageCache,
+    private val beagleBitmapFactory: BeagleBitmapFactory = BeagleBitmapFactory()
+) {
 
     suspend fun getRemoteImage(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap? {
         val cacheId = generateId(url, contentWidth, contentHeight)
 
         return withContext(CoroutineDispatchers.IO) {
-            if (hasBitmapOnCache(cacheId)) {
+            if (hasBitmapOnCacheForId(cacheId)) {
                 cache.get(cacheId)
             } else {
-                downloadBitmap(url, contentWidth, contentHeight).apply {
-                    saveOnCache(cacheId, this)
+                url?.let {
+                    downloadBitmap(it, contentWidth, contentHeight).apply {
+                        saveOnCache(cacheId, this)
+                    }
                 }
             }
         }
+    }
+
+    private fun downloadBitmap(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
+        val inputStream: InputStream = URL(url).openStream()
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+
+        return beagleBitmapFactory.getBitmap(bitmap, contentWidth, contentHeight)
     }
 
     private fun saveOnCache(cacheId: String, bitmap: Bitmap?) {
@@ -45,15 +57,8 @@ internal class ImageDownloader(val cache: LruImageCache) {
         }
     }
 
-    private fun hasBitmapOnCache(url: String?) : Boolean =
+    private fun hasBitmapOnCacheForId(url: String?) : Boolean =
         cache.get(url) != null
 
     private fun generateId(url: String?, contentWidth: Int, contentHeight: Int) = url + contentWidth + contentHeight
-}
-
-private fun downloadBitmap(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
-    val inputStream: InputStream = URL(url).openStream()
-    val bitmap = BitmapFactory.decodeStream(inputStream)
-
-    return BeagleBitmapFactory(bitmap, contentWidth, contentHeight).getBitmap()
 }

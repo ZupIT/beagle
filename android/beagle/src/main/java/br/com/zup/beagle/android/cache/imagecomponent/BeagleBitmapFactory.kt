@@ -18,11 +18,9 @@ package br.com.zup.beagle.android.cache.imagecomponent
 
 import android.graphics.Bitmap
 
-class BeagleBitmapFactory(private val bitmap: Bitmap,
-                          private val contentWidth: Int,
-                          private val contentHeight: Int) {
+class BeagleBitmapFactory {
 
-    fun getBitmap() : Bitmap {
+    fun getBitmap(bitmap: Bitmap, contentWidth: Int, contentHeight: Int) : Bitmap {
         if (bitmap.width > contentWidth && bitmap.height > contentHeight) {
             return Bitmap.createScaledBitmap(
                 bitmap,

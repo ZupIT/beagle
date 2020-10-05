@@ -36,6 +36,7 @@ internal class ImageDownloaderTest {
     private val contentWidth = 300
     private val contentHeight = 200
     private val url = "https://vitafelice.com.br/wp-content/uploads/2019/01/beagle.jpg"
+    private val bitmapId = url + contentWidth + contentHeight
 
     @Before
     fun setUp() {
@@ -53,43 +54,42 @@ internal class ImageDownloaderTest {
     }
 
     @Test
-    fun `should download image bitmap and resize and save on cache`() = runBlocking {
+    fun `GIVEN url and ImageViewSize WHEN download image bitmap THEN resize and save on cache`() = runBlocking {
         // Given
-        every { bitmap.width } returns 715
-        every { bitmap.height } returns 715
-        every { imageCache.get(any()) } returns null
+        val widthAndHeight = 715
+        every { bitmap.width } returns widthAndHeight
+        every { bitmap.height } returns widthAndHeight
+        every { imageCache.get(bitmapId) } returns null
 
         // When
         val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
 
         // Then
-        verify(exactly = 1) { imageCache.put(any(), any()) }
-        verify(exactly = 1) { imageCache.get(any()) }
-        verify(exactly = 1) { Bitmap.createScaledBitmap(any(), any(), any(), any()) }
+        verify(exactly = 1) { imageCache.put(url + contentWidth + contentHeight, any()) }
+        verify(exactly = 1) { imageCache.get(bitmapId) }
         assertEquals(contentWidth, bitmap?.width)
         assertEquals(contentHeight, bitmap?.height)
     }
 
     @Test
-    fun `should download image bitmap keep size and resize and save on cache`() = runBlocking {
+    fun `GIVEN url and ImageViewSize WHEN download image bitmap THEN keep size and save on cache`() = runBlocking {
         // Given
         every { bitmap.width } returns contentWidth
         every { bitmap.height } returns contentHeight
-        every { imageCache.get(any()) } returns null
+        every { imageCache.get(bitmapId) } returns null
 
         // When
         val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
 
         // Then
-        verify(exactly = 1) { imageCache.put(any(), any()) }
-        verify(exactly = 1) { imageCache.get(any()) }
-        verify(exactly = 0) { Bitmap.createScaledBitmap(any(), any(), any(), any()) }
+        verify(exactly = 1) { imageCache.put(url + contentWidth + contentHeight, any()) }
+        verify(exactly = 1) { imageCache.get(bitmapId) }
         assertEquals(contentWidth, bitmap?.width)
         assertEquals(contentHeight, bitmap?.height)
     }
 
     @Test
-    fun `should load image bitmap from cache`() = runBlocking {
+    fun `GIVEN Bitmap resized WHEN download image THEN should load image bitmap from cache`() = runBlocking {
         // Given
         every { imageCache.get(any()) } returns bitmapImproved
 
@@ -97,7 +97,7 @@ internal class ImageDownloaderTest {
         val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
 
         // Then
-        verify(exactly = 2) { imageCache.get(any()) }
+        verify(exactly = 2) { imageCache.get(bitmapId) }
         assertEquals(contentWidth, bitmap?.width)
         assertEquals(contentHeight, bitmap?.height)
     }
