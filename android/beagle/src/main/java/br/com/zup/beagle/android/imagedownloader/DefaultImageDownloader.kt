@@ -33,7 +33,7 @@ import kotlinx.coroutines.withContext
 
 internal class DefaultImageDownloader {
 
-    private val imageDownloader: ImageDownloader = ImageDownloader(LruImageCache.instance)
+    private val imageDownloader: ImageDownloader = ImageDownloader()
 
     fun download(url: String, imageView: ImageView, rootView: RootView) {
         imageView.post {

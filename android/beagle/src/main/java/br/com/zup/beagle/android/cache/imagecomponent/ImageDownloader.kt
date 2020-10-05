@@ -24,7 +24,7 @@ import java.io.InputStream
 import java.net.URL
 
 internal class ImageDownloader(
-    private val cache: LruImageCache,
+    private val cache: LruImageCache = LruImageCache.instance,
     private val beagleBitmapFactory: BeagleBitmapFactory = BeagleBitmapFactory()
 ) {
 
