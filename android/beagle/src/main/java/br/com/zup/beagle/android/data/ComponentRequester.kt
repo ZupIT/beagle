@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.core.ServerDrivenComponent
+import kotlin.jvm.Throws
 
 internal class ComponentRequester(
     private val beagleApi: BeagleApi = BeagleApi(),

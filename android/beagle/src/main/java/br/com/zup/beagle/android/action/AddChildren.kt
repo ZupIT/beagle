@@ -25,10 +25,40 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * Defines the placement of where the children will be inserted in the list or if the contents
+ * of the list will be replaced.
+ *
+ * @property APPEND
+ * @property PREPEND
+ * @property REPLACE
+ */
 enum class Mode {
-    APPEND, PREPEND, REPLACE
+    /**
+     * Adds the view in the end of the children's list.
+     */
+    APPEND,
+
+    /**
+     * Adds the view on the beginning of the children's list.
+     */
+    PREPEND,
+
+    /**
+     * Replaces all children of the widget.
+     */
+    REPLACE
 }
 
+/**
+ * The AddChildrenAction class is responsible for adding - at the beginning or in the end - or changing
+ * all views that inherit from  Widget  and who accept children.
+ *
+ * @param componentId Required. Defines the widget's id, in which you want to add the views.
+ * @param value Required. Defines the list of children you want to add.
+ * @param mode Defines the placement of where the children will be inserted in the list or if the contents of
+ * the list will be replaced.
+ */
 data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
