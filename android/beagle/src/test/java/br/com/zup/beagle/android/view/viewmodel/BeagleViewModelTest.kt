@@ -87,7 +87,7 @@ class BeagleViewModelTest {
 
     @Test
     @Suppress("UNCHECKED_CAST")
-    fun `fetch should return render ViewState`() {
+    fun `GIVEN a screenRequest WHEN fetch SHOULD return render ViewState`() {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
 
@@ -103,7 +103,7 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `fetch should return a error ViewState`() {
+    fun `GIVEN a screenRequest throws exception WHEN fetch SHOULD return a error ViewState`() {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
         val exception = BeagleException("Error")
@@ -121,7 +121,7 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `fetch should return a error ViewState retry`() {
+    fun `GIVEN a screenRequest throws exception WHEN fetch SHOULD return a error ViewState retry`() {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
         val exception = BeagleException("Error")
