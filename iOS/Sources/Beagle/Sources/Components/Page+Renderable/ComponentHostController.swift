@@ -22,7 +22,7 @@ class ComponentHostController: BeagleController {
     let component: RawComponent
     let renderer: BeagleRenderer
 
-    private var bindings: [() -> Void] = []
+    var bindings: [() -> Void] = []
 
     var dependencies: BeagleDependenciesProtocol {
         return renderer.controller.dependencies
@@ -36,10 +36,6 @@ class ComponentHostController: BeagleController {
     }
     var screen: Screen? {
         return renderer.controller.screen
-    }
-
-    func addBinding(_ update: @escaping () -> Void) {
-        bindings.append(update)
     }
 
     func execute(actions: [RawAction]?, origin: UIView) {

@@ -119,7 +119,8 @@ class BeagleControllerSpy: BeagleController {
     
     var expectation: XCTestExpectation?
     
-    func addBinding(_ update: @escaping () -> Void) { }
+    var bindings: [() -> Void] = []
+    
     func execute(action: RawAction, sender: Any) { }
     
     private(set) var didCalledExecute = false
