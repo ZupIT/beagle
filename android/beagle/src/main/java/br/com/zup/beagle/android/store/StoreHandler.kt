@@ -16,14 +16,39 @@
 
 package br.com.zup.beagle.android.store
 
+/**
+ * Enum to define the dataBase or memory type.
+ */
 enum class StoreType {
+    /**
+     * All data stored on disk.
+     */
     DATABASE,
+
+    /**
+     * All data stored in main memory.
+     */
     MEMORY
 }
 
 interface StoreHandler {
+    /**
+     * Method responsible for saving data in DATABASE or MEMORY.
+     */
     fun save(storeType: StoreType, data: Map<String, String>)
+
+    /**
+     * Method responsible for restore data in DATABASE or MEMORY.
+     */
     fun restore(storeType: StoreType, vararg keys: String): Map<String, String?>
+
+    /**
+     * Method responsible for delete data in DATABASE or MEMORY.
+     */
     fun delete(storeType: StoreType, key: String)
+
+    /**
+     * Method responsible for getAll data in DATABASE or MEMORY.
+     */
     fun getAll(storeType: StoreType): Map<String, String>
 }

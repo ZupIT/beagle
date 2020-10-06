@@ -19,6 +19,9 @@ package br.com.zup.beagle.android.widget
 import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * Interface that contains buildView methods where you create the rule for your component.
+ */
 interface ViewConvertable : ServerDrivenComponent {
     fun buildView(rootView: RootView): View
 }
