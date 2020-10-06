@@ -21,12 +21,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
-import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -45,7 +45,7 @@ internal class BeagleViewModel(
     private val componentRequester: ComponentRequester = ComponentRequester()
 ) : ViewModel() {
 
-    fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
+    fun fetchComponent(screenRequest: ScreenRequest, screen: ServerDrivenComponent? = null): LiveData<ViewState> {
         return FetchComponentLiveData(screenRequest, screen, componentRequester,
             viewModelScope, ioDispatcher)
     }
@@ -60,7 +60,7 @@ internal class BeagleViewModel(
 
     private class FetchComponentLiveData(
         private val screenRequest: ScreenRequest,
-        private val screen: ScreenComponent?,
+        private val screen: ServerDrivenComponent?,
         private val componentRequester: ComponentRequester,
         private val coroutineScope: CoroutineScope,
         private val ioDispatcher: CoroutineDispatcher) : LiveData<ViewState>() {
@@ -75,6 +75,7 @@ internal class BeagleViewModel(
 
         private fun fetchComponents() {
             coroutineScope.launch(ioDispatcher) {
+                val identifier = getComponentIdentifier()
                 if (screenRequest.url.isNotEmpty()) {
                     try {
                         setLoading(true)
@@ -82,16 +83,20 @@ internal class BeagleViewModel(
                         postLiveDataResponse(ViewState.DoRender(screenRequest.url, component))
                     } catch (exception: BeagleException) {
                         if (screen != null) {
-                            postLiveDataResponse(ViewState.DoRender(screen.identifier, screen))
+                            postLiveDataResponse(ViewState.DoRender(identifier, screen))
                         } else {
                             postLiveDataResponse(ViewState.Error(exception) { fetchComponents() })
                         }
                     }
                 } else if (screen != null) {
-                    postLiveDataResponse(ViewState.DoRender(screen.identifier, screen))
+                    postLiveDataResponse(ViewState.DoRender(identifier, screen))
                 }
             }
         }
+
+        private fun getComponentIdentifier() = (screen as? ScreenComponent)?.identifier ?: getIdentifierComponentId()
+
+        private fun getIdentifierComponentId() = (screen as? IdentifierComponent)?.id
 
         private suspend fun postLiveDataResponse(viewState: ViewState) {
             postValue(viewState)
