@@ -23,7 +23,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
-import br.com.zup.beagle.android.cache.imagecomponent.LruImageCache
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
