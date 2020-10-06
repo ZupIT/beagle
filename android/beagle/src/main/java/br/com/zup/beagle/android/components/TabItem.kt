@@ -25,6 +25,18 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 
+/**
+ * Define the view has in the tab view
+ *
+ * @param title displays the text on the TabView component. If it is null or not declared it won't display any text.
+ * @param child
+ *                  inflate a view on the TabView according to the Tab item clicked.
+ *                  It could receive any view (Server Driven).
+ * @param icon
+ *                  display an icon image on the TabView component.
+ *                  If it is left as null or not declared it won't display any icon.
+ *
+ */
 @RegisterWidget
 @Deprecated(message = TabViewDeprecatedConstants.TAB_ITEM,
     replaceWith = ReplaceWith(TabViewDeprecatedConstants.TAB_ITEM_REPLACE))

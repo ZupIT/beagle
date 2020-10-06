@@ -16,6 +16,12 @@
 
 package br.com.zup.beagle.widget.context
 
+/**
+ *  Interface has context attribute, the components that inherit from that interface have access to create a context.
+ */
 interface ContextComponent {
+    /**
+     * Creates a context.
+     */
     val context: ContextData?
 }
