@@ -36,7 +36,7 @@ internal class DefaultImageDownloader: BeagleImageDownloader {
 
     override fun download(url: String, imageView: ImageView, rootView: RootView) {
         imageView.post {
-            if (imageView.allSizesGreaterThanZero()) {
+            if (allSizesGreaterThanZero(imageView)) {
                 rootView.getLifecycleOwner().lifecycleScope.launch(CoroutineDispatchers.IO) {
                     val bitmap = try {
                         imageDownloader.getRemoteImage(url.formatUrl() ?: url, imageView.width, imageView.height)
@@ -47,6 +47,8 @@ internal class DefaultImageDownloader: BeagleImageDownloader {
 
                     setImage(imageView, bitmap, rootView.getContext().resources)
                 }
+            } else {
+                BeagleLoggerProxy.error("Your view has width or height with size 0, the image will no be rendered")
             }
         }
     }
@@ -57,5 +59,5 @@ internal class DefaultImageDownloader: BeagleImageDownloader {
         }
     }
 
-    private fun View.allSizesGreaterThanZero() = width > 0 && height > 0
+    private fun allSizesGreaterThanZero(view: View) = view.width > 0 && view.height > 0
 }
