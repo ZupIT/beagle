@@ -27,9 +27,9 @@ import br.com.zup.beagle.widget.ui.Button
 object NavigateBaseTestBuilder {
 
     const val pushStackRemote = "PushStackRemote"
-    const val pushStackRemoteFailure = "pushStackRemoteFailure"
+    const val pushStackRemoteFailure = "PushStackRemoteFailure"
     const val pushViewRemote = "PushViewRemote"
-    const val pushViewRemoteFailure = "pushViewRemoteFailure"
+    const val pushViewRemoteFailure = "PushViewRemoteFailure"
 
     fun build() = Screen(
         child = Container(
