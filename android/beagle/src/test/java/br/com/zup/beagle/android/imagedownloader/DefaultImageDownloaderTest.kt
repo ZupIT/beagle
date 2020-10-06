@@ -18,8 +18,11 @@ package br.com.zup.beagle.android.imagedownloader
 
 import android.widget.ImageView
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.RootView
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
@@ -32,6 +35,8 @@ internal class DefaultImageDownloaderTest {
 
     @Before
     fun setUp() {
+        mockkObject(BeagleEnvironment)
+        every { BeagleEnvironment.beagleSdk } returns mockk(relaxed = true)
         defaultImageDownloader = DefaultImageDownloader()
     }
 

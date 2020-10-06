@@ -82,10 +82,10 @@ class ComponentRequesterTest : BaseTest() {
         val jsonMock = "jsonMock"
 
         every {
-            cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url)
+            cacheManager.restoreBeagleCache(SCREEN_REQUEST.url)
         } returns beagleCache
         every { beagleCache.isExpired() } returns false
-        every { beagleCache.json } returns jsonMock
+        every { beagleCache.data } returns jsonMock
         every { serializer.deserializeComponent(jsonMock) } returns component
 
         // When
@@ -105,7 +105,7 @@ class ComponentRequesterTest : BaseTest() {
         val newJsonMock = "newJsonMock"
         val expected = mockk<ServerDrivenComponent>()
 
-        every { cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url) } returns beagleCache
+        every { cacheManager.restoreBeagleCache(SCREEN_REQUEST.url) } returns beagleCache
         every { beagleCache.isExpired() } returns true
         every { cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache) } returns newScreenRequestMock
         every { newScreenRequestMock.toRequestData() } returns requestDataMock
@@ -118,7 +118,7 @@ class ComponentRequesterTest : BaseTest() {
 
         //Then
         coVerifySequence {
-            cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url)
+            cacheManager.restoreBeagleCache(SCREEN_REQUEST.url)
             cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache)
             newScreenRequestMock.toRequestData()
             beagleApi.fetchData(requestDataMock)

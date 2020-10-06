@@ -40,7 +40,7 @@ internal class DefaultImageDownloader {
             if (imageView.allSizesGreaterThanZero()) {
                 rootView.getLifecycleOwner().lifecycleScope.launch(CoroutineDispatchers.IO) {
                     val bitmap = try {
-                        imageDownloader.getRemoteImage(url.formatUrl(), imageView.width, imageView.height)
+                        imageDownloader.getRemoteImage(url.formatUrl() ?: url, imageView.width, imageView.height)
                     } catch (e: Exception) {
                         BeagleLoggerProxy.error(e.message ?: "Error when try to download Image")
                         null

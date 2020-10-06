@@ -17,20 +17,21 @@
 package br.com.zup.beagle.android.cache.imagecomponent
 
 import android.graphics.Bitmap
-import android.util.LruCache
+import android.graphics.BitmapFactory
+import android.util.Base64
+import java.io.ByteArrayOutputStream
 
-class LruImageCache(private val memoryCache: LruCache<String, Bitmap> =
-                            LruCache<String, Bitmap>(anEighthOfMemory())) {
+internal object BitmapUtils {
 
-    fun put(key: String, bitmap: Bitmap) {
-        memoryCache.put(key, bitmap)
+    fun decodeBitmap(encodedImage: String) : Bitmap {
+        val decodedString: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
     }
 
-    fun get(key: String?): Bitmap? = memoryCache.get(key)
-
-    companion object {
-        val instance: LruImageCache by lazy { LruImageCache() }
+    fun encodeImage(bitmap: Bitmap): String {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 }
-
-private fun anEighthOfMemory() : Int = ((Runtime.getRuntime().maxMemory() / 1024).toInt() / 8)

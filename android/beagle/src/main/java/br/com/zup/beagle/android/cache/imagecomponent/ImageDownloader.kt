@@ -18,31 +18,40 @@ package br.com.zup.beagle.android.cache.imagecomponent
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import br.com.zup.beagle.android.cache.BeagleCache
+import br.com.zup.beagle.android.cache.CacheManager
+import br.com.zup.beagle.android.cache.imagecomponent.BitmapUtils.decodeBitmap
+import br.com.zup.beagle.android.cache.imagecomponent.BitmapUtils.encodeImage
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.net.URL
 
 internal class ImageDownloader(
-    private val cache: LruImageCache = LruImageCache.instance,
+    private val cache: CacheManager = CacheManager(),
     private val beagleBitmapFactory: BeagleBitmapFactory = BeagleBitmapFactory()
 ) {
 
-    suspend fun getRemoteImage(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap? {
-        val cacheId = generateId(url, contentWidth, contentHeight)
+    suspend fun getRemoteImage(url: String, contentWidth: Int, contentHeight: Int) : Bitmap? {
+        val cacheId = generateBitmapId(url, contentWidth, contentHeight)
 
         return withContext(CoroutineDispatchers.IO) {
-            if (hasBitmapOnCacheForId(cacheId)) {
-                cache.get(cacheId)
-            } else {
-                url?.let {
+            val beagleCache = cache.restoreBeagleCache(cacheId)
+
+            if (isNotFoundCache(beagleCache)) {
+                url.let {
                     downloadBitmap(it, contentWidth, contentHeight).apply {
                         saveOnCache(cacheId, this)
                     }
                 }
+            } else {
+                beagleCache?.data?.let { decodeBitmap(it) }
             }
         }
     }
+
+    private fun isNotFoundCache(beagleCache: BeagleCache?) =
+        beagleCache == null || beagleCache.isExpired()
 
     private fun downloadBitmap(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
         val inputStream: InputStream = URL(url).openStream()
@@ -53,12 +62,9 @@ internal class ImageDownloader(
 
     private fun saveOnCache(cacheId: String, bitmap: Bitmap?) {
         if (bitmap != null) {
-            cache.put(cacheId, bitmap)
+            cache.persistImageData(cacheId, encodeImage(bitmap))
         }
     }
 
-    private fun hasBitmapOnCacheForId(url: String?) : Boolean =
-        cache.get(url) != null
-
-    private fun generateId(url: String?, contentWidth: Int, contentHeight: Int) = url + contentWidth + contentHeight
+    private fun generateBitmapId(url: String?, contentWidth: Int, contentHeight: Int) = url + contentWidth + contentHeight
 }
