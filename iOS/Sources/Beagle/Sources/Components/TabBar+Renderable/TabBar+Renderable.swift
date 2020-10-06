@@ -20,7 +20,7 @@ import BeagleSchema
 
 extension TabBar: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let tabBarScroll = TabBarUIComponent(model: .init(tabBarItems: items, renderer: renderer))
+        let tabBarScroll = TabBarUIComponent(model: .init(tabBarItems: items, styleId: styleId, renderer: renderer))
             
         if let currentTab = currentTab {
             renderer.observe(currentTab, andUpdateManyIn: tabBarScroll) {
@@ -34,11 +34,7 @@ extension TabBar: ServerDrivenComponent {
         tabBarScroll.onTabSelection = { tab in
             renderer.controller.execute(actions: self.onTabSelection, with: "onTabSelection", and: .int(tab), origin: tabBarScroll)
         }
-
-        if let styleId = styleId {
-            tabBarScroll.beagle.applyStyle(for: tabBarScroll as UIView, styleId: styleId, with: renderer.controller)
-        }
-
+        
         return tabBarScroll
     }
 }

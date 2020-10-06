@@ -107,25 +107,33 @@ final class TabBarItemUIComponent: UIView {
             title.style.setup(Style().display(.none))
             icon.style.setup(Style().display(.none))
         }
-        setupSelectionAppearance()
     }
     
     private func setupSelectionAppearance() {
-        guard let theme = theme, let isSelected = isSelected else { return }
+        guard let theme = theme else { return }
+        let appearanceColor = getSelectedAppearanceColors()
         switch styleVerification(theme: theme) {
         case .both:
-            title.textColor = isSelected ? theme.selectedTextColor : theme.unselectedTextColor
-            icon.tintColor = isSelected ? theme.selectedIconColor : theme.unselectedIconColor
+            title.textColor = appearanceColor.textColor
+            icon.tintColor = appearanceColor.iconColor
         case .icon:
-            icon.tintColor = isSelected ? theme.selectedIconColor : theme.unselectedIconColor
-            title.textColor = isSelected ? .black : .gray
+            icon.tintColor = appearanceColor.textColor
+            title.textColor = appearanceColor.iconColor
         case .text:
-            title.textColor = isSelected ? theme.selectedTextColor : theme.unselectedTextColor
-            icon.tintColor = isSelected ? .black : .gray
+            title.textColor = appearanceColor.textColor
+            icon.tintColor = appearanceColor.iconColor
         default:
-            title.textColor = isSelected ? .black : .gray
-            icon.tintColor = isSelected ? .black : .gray
+            title.textColor = appearanceColor.textColor
+            icon.tintColor = appearanceColor.iconColor
         }
+    }
+    
+    private func getSelectedAppearanceColors() -> (textColor: UIColor, iconColor: UIColor) {
+        guard let theme = theme, let isSelected = isSelected else { return (.black, .black) }
+        if isSelected {
+            return (theme.selectedTextColor ?? UIColor.black, theme.selectedIconColor ?? UIColor.black)
+        }
+        return (theme.unselectedTextColor ?? UIColor.gray, theme.unselectedIconColor ?? UIColor.gray)
     }
     
     private func styleVerification(theme: TabBarTheme) -> StyleEnabler {

@@ -32,6 +32,7 @@ final class TabBarUIComponent: UIScrollView {
     struct Model {
         var tabIndex: Int?
         var tabBarItems: [TabBarItem]
+        var styleId: String?
         var renderer: BeagleRenderer
     }
     
@@ -79,12 +80,15 @@ final class TabBarUIComponent: UIScrollView {
             contentSize = contentView.frame.size
             resetTabItemsStyle()
 
+            // swiftlint:disable unused_optional_binding
+            
             // Creates tabItems only after view it's already in superview hierarchy
-            if superview != nil, shouldCreateTabItemsView {
+            if let _ = superview, shouldCreateTabItemsView {
                 setupTabBarItems()
                 style.applyLayout()
                 scrollTo(page: model.tabIndex ?? 0)
             }
+            // swiftlint:enable unused_optional_binding
         }
     }
 
@@ -126,6 +130,10 @@ final class TabBarUIComponent: UIScrollView {
             tabItemViews[index] = itemView
             index += 1
             contentView.addSubview(itemView)
+        }
+        
+        if let styleId = model.styleId {
+            beagle.applyStyle(for: self as UIView, styleId: styleId, with: model.renderer.controller)
         }
     }
     
