@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.compiler.ANALYTICS
 import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
 import br.com.zup.beagle.compiler.BEAGLE_LOGGER
@@ -30,6 +29,7 @@ import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
 import br.com.zup.beagle.compiler.STORE_HANDLER
 import br.com.zup.beagle.compiler.URL_BUILDER_HANDLER
 import br.com.zup.beagle.compiler.VALIDATOR_HANDLER
+import br.com.zup.beagle.compiler.BEAGLE_IMAGE_DOWNLOADER
 import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.compiler.extendsFromClass
 import br.com.zup.beagle.compiler.implementsInterface
@@ -107,6 +107,13 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                     propertySpecifications?.logger = typeElement
                 } else {
                     logImplementationErrorMessage(typeElement, "BeagleLogger")
+                }
+            }
+            typeElement.implementsInterface(BEAGLE_IMAGE_DOWNLOADER.toString()) -> {
+                if (propertySpecifications?.imageDownloader == null) {
+                    propertySpecifications?.imageDownloader = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, BEAGLE_IMAGE_DOWNLOADER.className)
                 }
             }
         }
@@ -201,6 +208,11 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                 "controllerReference",
                 CONTROLLER_REFERENCE
             ),
+            implementProperty(
+                propertySpecifications?.imageDownloader.toString(),
+                "imageDownloader",
+                BEAGLE_IMAGE_DOWNLOADER
+            ),
             implementServerDrivenActivityProperty(propertySpecifications?.defaultBeagleActivity)
         )
     }
@@ -258,5 +270,6 @@ internal data class PropertySpecifications(
     var urlBuilder: TypeElement? = null,
     var storeHandler: TypeElement? = null,
     var analytics: TypeElement? = null,
-    var logger: TypeElement? = null
+    var logger: TypeElement? = null,
+    var imageDownloader: TypeElement? = null
 )

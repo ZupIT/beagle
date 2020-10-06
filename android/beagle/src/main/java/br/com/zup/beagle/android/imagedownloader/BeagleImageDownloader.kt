@@ -17,7 +17,8 @@
 package br.com.zup.beagle.android.imagedownloader
 
 import android.widget.ImageView
+import br.com.zup.beagle.android.widget.RootView
 
 interface BeagleImageDownloader {
-    fun download(url: String, imageView: ImageView)
+    fun download(url: String, imageView: ImageView, rootView: RootView)
 }

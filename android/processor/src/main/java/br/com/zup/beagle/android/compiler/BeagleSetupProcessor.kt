@@ -105,9 +105,6 @@ class BeagleSetupProcessor(
                 KModifier.OVERRIDE
             ).initializer("${BEAGLE_CUSTOM_ADAPTER_IMPL.className}()")
                 .build())
-
-        getBeagleImageDownloaderProperty(newTypeSpecBuilder, roundEnvironment)
-
         try {
             beagleSetupFile
                 .addType(newTypeSpecBuilder.build())
@@ -117,40 +114,6 @@ class BeagleSetupProcessor(
             val errorMessage = "Error when trying to generate code.\n${e.message!!}"
             processingEnv.messager.error(errorMessage)
         }
-    }
-
-    private fun getBeagleImageDownloaderProperty(
-        newTypeSpecBuilder: TypeSpec.Builder,
-        roundEnvironment: RoundEnvironment) {
-        val customImageDownloaderElements = roundEnvironment.getElementsAnnotatedWith(
-            BeagleComponent::class.java
-        ).filter { element ->
-            val typeElement = element as TypeElement
-            typeElement.implementsInterface(BEAGLE_IMAGE_DOWNLOADER.toString())
-        }
-
-        when {
-            customImageDownloaderElements.size == 1 -> {
-                addImageDownloaderProperty(newTypeSpecBuilder, customImageDownloaderElements[0].toString() + "()")
-            }
-            customImageDownloaderElements.size > 1 -> {
-                processingEnv.messager.error("BeagleImageDownloader already defined, " +
-                    "remove one implementation from the application.")
-            }
-            else -> {
-                addImageDownloaderProperty(newTypeSpecBuilder, "null")
-            }
-        }
-    }
-
-    private fun addImageDownloaderProperty(newTypeSpecBuilder: TypeSpec.Builder, className: String) {
-        newTypeSpecBuilder.addProperty(
-            PropertySpec.builder(
-                "beagleImageDownloader",
-                ClassName(BEAGLE_IMAGE_DOWNLOADER.packageName, BEAGLE_IMAGE_DOWNLOADER.className).copy(nullable = true),
-                KModifier.OVERRIDE
-            ).initializer(className).build()
-        )
     }
 
     private fun addDefaultImports(
