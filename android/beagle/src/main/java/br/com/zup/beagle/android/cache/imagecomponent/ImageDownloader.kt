@@ -66,5 +66,9 @@ internal class ImageDownloader(
         }
     }
 
-    private fun generateBitmapId(url: String?, contentWidth: Int, contentHeight: Int) = url + contentWidth + contentHeight
+    private fun generateBitmapId(
+        url: String?,
+        contentWidth: Int,
+        contentHeight: Int
+    ) = StringBuilder().append(url).append(contentWidth).append(contentHeight).toString()
 }
