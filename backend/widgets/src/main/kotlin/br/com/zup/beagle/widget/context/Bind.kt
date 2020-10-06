@@ -28,6 +28,17 @@ sealed class Bind<T> : BindAttribute<T>, Serializable {
     data class Value<T : Any>(override val value: T) : Bind<T>()
 }
 
+/**
+ * Transform the reference value of the expression string to Bind.Expression<Type>
+ */
 fun <T> expressionOf(expression: String) = Bind.Expression<T>(expression)
+
+/**
+ * Transform Type value to Bind<Type>.
+ */
 fun <T : Any> valueOf(value: T) = Bind.Value(value)
+
+/**
+ * Checks if the value is null. Returns if the value is not null.
+ */
 fun <T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
