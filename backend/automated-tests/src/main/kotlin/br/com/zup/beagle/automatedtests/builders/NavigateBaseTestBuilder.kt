@@ -23,6 +23,7 @@ import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.Text
 
 object NavigateBaseTestBuilder {
 
@@ -41,6 +42,9 @@ object NavigateBaseTestBuilder {
             ),
             children =
             listOf(
+                Text(
+                    text = "Navigation Screen"
+                ),
                 Button(
                     text = pushStackRemote,
                     onPress = listOf(
