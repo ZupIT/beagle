@@ -110,22 +110,9 @@ final class TabBarItemUIComponent: UIView {
     }
     
     private func setupSelectionAppearance() {
-        guard let theme = theme else { return }
         let appearanceColor = getSelectedAppearanceColors()
-        switch styleVerification(theme: theme) {
-        case .both:
-            title.textColor = appearanceColor.textColor
-            icon.tintColor = appearanceColor.iconColor
-        case .icon:
-            icon.tintColor = appearanceColor.textColor
-            title.textColor = appearanceColor.iconColor
-        case .text:
-            title.textColor = appearanceColor.textColor
-            icon.tintColor = appearanceColor.iconColor
-        default:
-            title.textColor = appearanceColor.textColor
-            icon.tintColor = appearanceColor.iconColor
-        }
+        title.textColor = appearanceColor.textColor
+        icon.tintColor = appearanceColor.iconColor
     }
     
     private func getSelectedAppearanceColors() -> (textColor: UIColor, iconColor: UIColor) {
@@ -134,22 +121,6 @@ final class TabBarItemUIComponent: UIView {
             return (theme.selectedTextColor ?? UIColor.black, theme.selectedIconColor ?? UIColor.black)
         }
         return (theme.unselectedTextColor ?? UIColor.gray, theme.unselectedIconColor ?? UIColor.gray)
-    }
-    
-    private func styleVerification(theme: TabBarTheme) -> StyleEnabler {
-        switch (theme.selectedIconColor, theme.unselectedIconColor, theme.selectedTextColor, theme.unselectedTextColor) {
-        case let (selectedIconColor?, unselectedIconColor?, selectedTextColor?, unselectedTextColor?):
-            return .both(iconSelectedColor: selectedIconColor,
-                         iconUnselectedColor: unselectedIconColor,
-                         textSelectedColor: selectedTextColor,
-                         textUnselectedColor: unselectedTextColor)
-        case let (selectedIconColor?, unselectedIconColor?, _, _):
-            return .icon(selectedIconColor, unselectedIconColor)
-        case let (_, _, selectedTextColor?, unselectedTextColor?):
-            return .text(selectedTextColor, unselectedTextColor)
-        default:
-            return .none
-        }
     }
     
     private func handleContextOnImage(iconName: String) {
@@ -162,12 +133,5 @@ final class TabBarItemUIComponent: UIView {
                     UIImage(named: icon, in: self.renderer?.controller.dependencies.appBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             }
         }
-    }
-    
-    private enum StyleEnabler {
-        case icon(UIColor, UIColor)
-        case text(UIColor, UIColor)
-        case both(iconSelectedColor: UIColor, iconUnselectedColor: UIColor, textSelectedColor: UIColor, textUnselectedColor: UIColor)
-        case none
     }
 }
