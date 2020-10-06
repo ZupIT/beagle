@@ -99,25 +99,24 @@ final class ListViewCell: UICollectionViewCell {
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        guard
-            let itemHash = itemHash,
-            let container = templateContainer,
-            let listView = listView else {
-                return layoutAttributes
-        }
         addBindings()
-        applyLayout(container: container, constrainedBy: listView)
+        applyLayout()
         
-        let size = container.bounds.size
-        layoutAttributes.size = size
-        listView.saveSize(size, forItem: itemHash)
-        
+        if let size = templateContainer?.bounds.size {
+            layoutAttributes.size = size
+        }
         return layoutAttributes
     }
     
     private func addBindings() {
         while let bind = bindings.popLast() {
             bind()
+        }
+    }
+    
+    func applyLayout() {
+        if let container = templateContainer, let listView = listView {
+            applyLayout(container: container, constrainedBy: listView)
         }
     }
     
@@ -132,8 +131,11 @@ final class ListViewCell: UICollectionViewCell {
         listView.listController.dependencies.style(contentView).applyLayout()
         
         let size = container.bounds.size
-        frame.size = size
         contentView.frame.size = size
+        
+        if let itemHash = itemHash {
+            listView.saveSize(container.bounds.size, forItem: itemHash)
+        }
     }
 }
 

@@ -132,11 +132,23 @@ extension ListViewController: BeagleControllerProtocol {
     }
     
     func setNeedsLayout(component: UIView) {
-        collectionViewFlowLayout.invalidateLayout()
         beagleController?.setNeedsLayout(component: component)
-        if let listComponentView = delegate?.listComponentView, listComponentView != component {
-            beagleController?.setNeedsLayout(component: listComponentView)
+        if let listComponent = delegate?.listComponentView, listComponent != component,
+           let cell = cellForView(component), let indexPath = collectionView.indexPath(for: cell) {
+            cell.applyLayout()
+            
+            let context = UICollectionViewFlowLayoutInvalidationContext()
+            context.invalidateFlowLayoutDelegateMetrics = true
+            context.invalidateFlowLayoutAttributes = false
+            context.invalidateItems(at: [indexPath])
+            collectionViewFlowLayout.invalidateLayout(with: context)
+            
+            beagleController?.setNeedsLayout(component: listComponent)
         }
+    }
+    
+    private func cellForView(_ view: UIView?) -> ListViewCell? {
+        return (view as? ListViewCell) ?? cellForView(view?.superview)
     }
 }
 
