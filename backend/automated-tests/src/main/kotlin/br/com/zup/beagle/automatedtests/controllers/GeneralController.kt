@@ -20,8 +20,8 @@ import ACCESSIBILITY_ENDPOINT
 import ANALYTICS_ENDPOINT
 import EXPRESSION_ESCAPING_ENDPOINT
 import KOTLIN_DSL_ENDPOINT
-import NAVIGATE_BASE_ENDPOINT
-import NAVIGATE_HERE_ENDPOINT
+import NAVIGATE_ACTIONS_ENDPOINT
+import GLOBAL_TEXT_ENDPOINT
 import SAFE_AREA_ENDPOINT
 import SCREEN_ACTION_CLICK_ENDPOINT
 import SCREEN_SAFE_AREA_FALSE_ENDPOINT
@@ -57,11 +57,11 @@ class GeneralController {
     @GetMapping(ACCESSIBILITY_ENDPOINT)
     fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
 
-    @GetMapping(NAVIGATE_BASE_ENDPOINT)
-    fun getNavigateBase() = NavigateBaseTestBuilder.build()
+    @GetMapping(NAVIGATE_ACTIONS_ENDPOINT)
+    fun getNavigateActions() = NavigateActionsScreenBuilder.build()
 
-    @GetMapping(NAVIGATE_HERE_ENDPOINT)
-    fun getNavigateHere() = NavigateHereBuilder.build()
+    @GetMapping(GLOBAL_TEXT_ENDPOINT)
+    fun getGlobalText() = GlobalSampleTextScreenBuilder.build()
 
 }
 

@@ -16,16 +16,15 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import NAVIGATE_HERE_ENDPOINT
+import GLOBAL_TEXT_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.SetContext
-import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
-object NavigateBaseTestBuilder {
+object NavigateActionsScreenBuilder {
 
     const val pushStackRemote = "PushStackRemote"
     const val pushStackRemoteFailure = "PushStackRemoteFailure"
@@ -53,7 +52,7 @@ object NavigateBaseTestBuilder {
                             value = pushStackRemote + "Screen"
                         ),
                         Navigate.PushStack(
-                            Route.Remote(NAVIGATE_HERE_ENDPOINT)
+                            Route.Remote(GLOBAL_TEXT_ENDPOINT)
                         )
                     )
                 ),
@@ -65,7 +64,7 @@ object NavigateBaseTestBuilder {
                             value = pushViewRemote + "Screen"
                         ),
                         Navigate.PushView(
-                            Route.Remote(NAVIGATE_HERE_ENDPOINT)
+                            Route.Remote(GLOBAL_TEXT_ENDPOINT)
                         )
                     )
                 ),
