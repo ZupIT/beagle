@@ -22,6 +22,12 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * helps with organization,  maintenance and code reuse.
+ * It does not have its own functionality and is exclusive to the backend.
+ *
+ * @property build returns your component, being able to call in several flows of your project.
+ */
 abstract class ComposeComponent : WidgetView() {
 
     @Transient

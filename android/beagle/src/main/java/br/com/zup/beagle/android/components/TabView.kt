@@ -43,6 +43,15 @@ import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
 
+/**
+ * TabView is a component responsible for the navigation between views.
+ * It works by displaying tabs corresponding to the different views that can be accessed.
+ *
+ * @param children define yours view has in tab
+ * @param styleId reference a native style in your local styles file to be applied on this view.
+ * @param context define the contextData that be set to tabView.
+ *
+ */
 @RegisterWidget
 @Deprecated(message = TabViewDeprecatedConstants.TAB_VIEW,
     replaceWith = ReplaceWith(TabViewDeprecatedConstants.TAB_VIEW_REPLACE))
