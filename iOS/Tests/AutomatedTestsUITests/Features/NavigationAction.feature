@@ -21,24 +21,22 @@ Feature: Navigation Action Validation
     I'd like to make sure my navigation action works as expected
     In order to guarantee that my application never fails
     
-    Scenario: Navigation 01 - Navigation action navigate from one screen to another
-    Given the app did load a screen with a navigation action
-    When I click on button "<title>"
-    Then the screen should navigate to another screen with text label "<text>"
+    Scenario Outline: Navigation 01 - navigation action navigates to a valid route
+        Given the Beagle application did launch with the navigation screen url
+        When I click on a navigate button "<title>"
+        Then the screen should navigate to another screen with text label "<text>"
 
-    Example:
-
-    |title| text|
-    |PushStackRemote|PushStackRemoteScreen|
-    |PushViewRemote|PushViewRemoteScreen|
+        Examples:
+        |       title        |           text             |
+        |   PushStackRemote  |    PushStackRemoteScreen   |
+        |   PushViewRemote   |    PushViewRemoteScreen    |
     
-    Scenario: Navigation 02 - navigation action navigate to some invalid route
-    Given the app did load a screen with a navigation action
-    When I click on button "<title>"
-    Then the screen should show a error message
+    Scenario Outline: Navigation 02 - navigation action navigates to an invalid route
+        Given the Beagle application did launch with the navigation screen url
+        When I click on a navigate button "<title>"
+        Then the screen should not navigate to another screen with text label "<text>"
 
-    Example:
-
-    |title| text|
-    |PushStackRemoteFailure|PushStackRemoteFailureScreen|
-    |PushViewRemoteFailure|PushViewRemoteFailureScreen|
+        Examples:
+        |           title           |               text                |
+        |   PushStackRemoteFailure  |    PushStackRemoteFailureScreen   |
+        |   PushViewRemoteFailure   |    PushViewRemoteFailureScreen    |
