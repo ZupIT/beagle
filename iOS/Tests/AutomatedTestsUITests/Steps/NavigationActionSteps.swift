@@ -15,7 +15,7 @@ class NavigationActionSteps: CucumberStepsDefinition {
     func loadSteps() {        
         before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("navigation") ?? false {
-                let url = "http://localhost:8080/navigate_base_test"
+                let url = "http://localhost:8080/navigate-actions"
                 self.application = TestUtils.launchBeagleApplication(url: url)
             }
         }
