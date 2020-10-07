@@ -51,3 +51,4 @@ const val PATH_SCREEN_DEEP_LINK_ENDPOINT = "screen-deep-link"
 
 const val NAVIGATE_ACTIONS_ENDPOINT = "/navigate-actions"
 const val GLOBAL_TEXT_ENDPOINT = "/global-text"
+const val GLOBAL_TEXT_EXPRESSION_ENDPOINT = "@{relativePath}"
