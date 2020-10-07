@@ -30,7 +30,6 @@ interface RootView {
     fun getContext(): Context
 
     /**
-     * Returns the Lifecycle of the provider.
      * Returns the providers Lifecycle.
      */
     fun getLifecycleOwner(): LifecycleOwner
