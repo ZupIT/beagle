@@ -27,6 +27,6 @@ object Constants {
     val listViewScreenBffUrl = "http://10.0.2.2:8080/listview"
     val imageScreenBffUrl = "http://10.0.2.2:8080/image"
     val buttonScreenBffUrl = "http://10.0.2.2:8080/button"
-    const val navigateBaseBffUrl = "/navigate_base_test"
-    const val navigateHereBffUrl = "/navigate_here"
+    const val navigateActionsBffUrl = "http://10.0.2.2:8080/navigate-actions"
+    const val globalTextBffUrl = "http://10.0.2.2:8080/global-text"
 }

@@ -24,16 +24,15 @@ Feature: Navigate Action Validation
     Background:
         Given the app did load a screen with a navigation action
 
-    Scenario: Navigation 01 - Navigation action navigate from one screen to another
+    Scenario Outline: Navigation 01 - Navigation action navigate from one screen to another
 
-        When I click on button "<title>"
-        Then the screen should navigate to another screen with text label "<text>"
+        When I click on button <title>
+        Then the screen should navigate to another screen with text label <text>
 
-    Example:
-
+    Examples:
     |title| text|
     |PushStackRemote|PushStackRemoteScreen|
-#    |PushViewRemote|PushViewRemoteScreen|
+    |PushViewRemote|PushViewRemoteScreen|
 
 #    Scenario: Navigation 02 - navigation action navigate to some invalid route
 #        Given the app did load a screen with a navigation action

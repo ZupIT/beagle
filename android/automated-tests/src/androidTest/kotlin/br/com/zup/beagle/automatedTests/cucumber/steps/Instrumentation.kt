@@ -23,7 +23,7 @@ import cucumber.api.android.CucumberInstrumentationCore
 
 @CucumberOptions(
     features = ["features"],
-    tags = ["@button"],
+    tags = ["@navigation"],
     glue = ["br.com.zup.beagle.automatedTests.cucumber.steps"])
 
 class Instrumentation : MonitoringInstrumentation() {

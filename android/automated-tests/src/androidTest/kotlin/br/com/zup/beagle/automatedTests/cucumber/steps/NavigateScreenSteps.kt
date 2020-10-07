@@ -18,13 +18,15 @@ package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.*
+import br.com.zup.beagle.automatedTests.cucumber.elements.NAVIGATION_SCREEN_TITLE
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
-import cucumber.api.java.en.*
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
 import org.junit.Rule
 
 
@@ -35,7 +37,7 @@ class NavigateScreenSteps {
 
     @Before("@navigation")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.navigateBaseBffUrl)
+        TestUtils.startActivity(activityTestRule, Constants.navigateActionsBffUrl)
     }
 
     @After("@navigation")
@@ -46,20 +48,19 @@ class NavigateScreenSteps {
     @Given("^the app did load a screen with a navigation action$")
     fun checkBaseScreen() {
         ScreenRobot()
-            .checkViewContainsText("PushStackRemote", true)
+            .checkViewContainsText(NAVIGATION_SCREEN_TITLE, true)
     }
 
-    @When("^I click on button \"<title>\"$")
-    fun clickOnButtonWithText() {
-        ScreenRobot()
-            .clickOnText("PushStackRemote")
-            .sleep(3)
-    }
+//    @When("^I click on another button (.*)$")
+//    fun clickOnButton(string1:String) {
+//        ScreenRobot()
+//            .clickOnText(string1)
+//    }
 
-    @Then("^the screen should navigate to another screen with text label \"<text>\"$")
-    fun checkNavigateHereScreen() {
+    @Then("^the screen should navigate to another screen with text label (.*)$")
+    fun checkNavigateHereScreen(string2:String) {
         ScreenRobot()
-            .checkViewContainsText("PushStackRemoteScreen")
+            .checkViewContainsText(string2)
             .sleep(2)
     }
 }

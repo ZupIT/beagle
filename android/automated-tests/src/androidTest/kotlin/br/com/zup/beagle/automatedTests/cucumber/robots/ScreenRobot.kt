@@ -30,6 +30,7 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.TypeSafeMatcher
+import kotlin.jvm.Throws
 
 
 class ScreenRobot {
