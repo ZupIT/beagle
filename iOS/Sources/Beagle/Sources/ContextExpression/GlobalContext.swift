@@ -61,9 +61,8 @@ public class DefaultGlobalContext: GlobalContext {
         guard let pathObject = path.toPath() else {
             return
         }
-        var contextValue = context.value.value
-        contextValue.set(value, forPath: pathObject)
-        context.value = Context(id: globalId, value: contextValue)
+        let contextValue = context.value.value
+        context.value = Context(id: globalId, value: contextValue.set(value, with: pathObject))
     }
     
     public func get(path: String? = nil) -> DynamicObject {
