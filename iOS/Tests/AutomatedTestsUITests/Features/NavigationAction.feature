@@ -21,22 +21,28 @@ Feature: Navigation Action Validation
     I'd like to make sure my navigation action works as expected
     In order to guarantee that my application never fails
     
-    Scenario Outline: Navigation 01 - navigation action navigates to a valid route
+    Background:
         Given the Beagle application did launch with the navigation screen url
+    
+    Scenario Outline: Navigation 01 - navigation action navigates to a valid route
         When I click on a navigate button "<title>"
         Then the screen should navigate to another screen with text label "<text>"
 
         Examples:
-        |       title        |           text             |
-        |   PushStackRemote  |    PushStackRemoteScreen   |
-        |   PushViewRemote   |    PushViewRemoteScreen    |
+        |            title             |                  text                |
+        |   PushStackRemote            |    PushStackRemoteScreen             |
+        |   PushViewRemote             |    PushViewRemoteScreen              |
+        |   PushStackRemoteExpression  |    PushStackRemoteExpressionScreen   |
+        |   PushViewRemoteExpression   |    PushViewRemoteExpressionScreen    |
     
     Scenario Outline: Navigation 02 - navigation action navigates to an invalid route
-        Given the Beagle application did launch with the navigation screen url
         When I click on a navigate button "<title>"
         Then the screen should not navigate to another screen with text label "<text>"
 
         Examples:
-        |           title           |               text                |
-        |   PushStackRemoteFailure  |    PushStackRemoteFailureScreen   |
-        |   PushViewRemoteFailure   |    PushViewRemoteFailureScreen    |
+        |                title                |                     text                    |
+        |   PushStackRemoteFailure            |    PushStackRemoteFailureScreen             |
+        |   PushViewRemoteFailure             |    PushViewRemoteFailureScreen              |
+        |   PushViewRemoteExpressionFailure   |    PushViewRemoteExpressionFailureScreen    |
+        |   PushStackRemoteExpressionFailure  |    PushStackRemoteExpressionFailureScreen   |
+
