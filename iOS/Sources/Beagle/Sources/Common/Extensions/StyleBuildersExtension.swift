@@ -29,6 +29,18 @@ public extension Style {
     }
     
     @discardableResult
+    func borderColor(_ borderColor: String) -> Style {
+        self.borderColor = borderColor
+        return self
+    }
+    
+    @discardableResult
+    func borderWidth(_ borderWidth: Double) -> Style {
+        self.borderWidth = borderWidth
+        return self
+    }
+    
+    @discardableResult
     func size(_ size: Size) -> Style {
         self.size = size
         return self
