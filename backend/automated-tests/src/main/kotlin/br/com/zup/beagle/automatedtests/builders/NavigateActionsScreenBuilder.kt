@@ -31,9 +31,11 @@ object NavigateActionsScreenBuilder {
     const val pushStackRemote = "PushStackRemote"
     const val pushStackRemoteExpression = "PushStackRemoteExpression"
     const val pushStackRemoteFailure = "PushStackRemoteFailure"
+    const val pushStackRemoteExpressionFailure = "PushStackRemoteExpressionFailure"
     const val pushViewRemote = "PushViewRemote"
     const val pushViewRemoteExpression = "PushViewRemoteExpression"
     const val pushViewRemoteFailure = "PushViewRemoteFailure"
+    const val pushViewRemoteExpressionFailure = "PushViewRemoteExpressionFailure"
 
     fun build() = Screen(
         child = Container(
@@ -108,27 +110,59 @@ object NavigateActionsScreenBuilder {
                         )
                     )
                 ),
-                Button(
-                    text = pushViewRemoteFailure,
-                    onPress = listOf(
-                        SetContext(
-                            contextId = "global",
-                            value = pushViewRemoteFailure + "Screen"
+                Container(
+                    listOf(
+                        Button(
+                            text = pushStackRemoteFailure,
+                            onPress = listOf(
+                                SetContext(
+                                    contextId = "global",
+                                    value = pushStackRemoteFailure + "Screen"
+                                ),
+                                Navigate.PushView(
+                                    Route.Remote("<3")
+                                )
+                            )
                         ),
-                        Navigate.PushView(
-                            Route.Remote("<3")
+                        Button(
+                            text = pushViewRemoteFailure,
+                            onPress = listOf(
+                                SetContext(
+                                    contextId = "global",
+                                    value = pushViewRemoteFailure + "Screen"
+                                ),
+                                Navigate.PushStack(
+                                    Route.Remote("<3")
+                                )
+                            )
                         )
                     )
                 ),
-                Button(
-                    text = pushStackRemoteFailure,
-                    onPress = listOf(
-                        SetContext(
-                            contextId = "global",
-                            value = pushStackRemoteFailure + "Screen"
+                Container(
+                    listOf(
+                        Button(
+                            text = pushViewRemoteExpressionFailure,
+                            onPress = listOf(
+                                SetContext(
+                                    contextId = "global",
+                                    value = pushViewRemoteExpressionFailure + "Screen"
+                                ),
+                                Navigate.PushView(
+                                    Route.Remote("@{global}")
+                                )
+                            )
                         ),
-                        Navigate.PushStack(
-                            Route.Remote("<3")
+                        Button(
+                            text = pushStackRemoteExpressionFailure,
+                            onPress = listOf(
+                                SetContext(
+                                    contextId = "global",
+                                    value = pushStackRemoteExpressionFailure + "Screen"
+                                ),
+                                Navigate.PushStack(
+                                    Route.Remote("@{global}")
+                                )
+                            )
                         )
                     )
                 )
