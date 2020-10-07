@@ -265,7 +265,6 @@ abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
                     }
                 }
                 is ViewState.DoRender -> {
-                    onServerDrivenContainerStateChanged(ServerDrivenState.Success)
                     showScreen(it.screenId, it.component)
                 }
             }
