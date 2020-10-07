@@ -97,7 +97,7 @@ private val beagleSerializer: BeagleSerializer = BeagleSerializer()
 private const val FIRST_SCREEN_REQUEST_KEY = "FIRST_SCREEN_REQUEST_KEY"
 private const val FIRST_SCREEN_KEY = "FIRST_SCREEN_KEY"
 
-abstract class BeagleActivity : AppCompatActivity() {
+abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
 
     private val viewModel by lazy { ViewModelProvider(this).get(BeagleViewModel::class.java) }
     private val screenRequest by lazy { intent.extras?.getParcelable<ScreenRequest>(FIRST_SCREEN_REQUEST_KEY) }
@@ -245,19 +245,23 @@ abstract class BeagleActivity : AppCompatActivity() {
         handleLiveData(liveData)
     }
 
+    override fun fragmentResume() {
+        onServerDrivenContainerStateChanged(ServerDrivenState.Success)
+        onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
+    }
+
     private fun handleLiveData(state: LiveData<ViewState>) {
         state.observe(this, Observer {
             when (it) {
                 is ViewState.Error -> {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable, it.retry))
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
                 }
                 is ViewState.Loading -> {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
 
                     if (it.value) {
                         onServerDrivenContainerStateChanged(ServerDrivenState.Started)
-                    } else {
-                        onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
                     }
                 }
                 is ViewState.DoRender -> {
