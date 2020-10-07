@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import NAVIGATE_ACTIONS_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
 object GlobalSampleTextScreenBuilder {
@@ -32,6 +34,14 @@ object GlobalSampleTextScreenBuilder {
                 ),
                 Text(
                     text = expressionOf("@{global}")
+                ),
+                Button(
+                    onPress = listOf(
+                        Navigate.PopToView(
+                            NAVIGATE_ACTIONS_ENDPOINT
+                        )
+                    ),
+                    text = "Click to PopToView $NAVIGATE_ACTIONS_ENDPOINT"
                 )
             )
         )
