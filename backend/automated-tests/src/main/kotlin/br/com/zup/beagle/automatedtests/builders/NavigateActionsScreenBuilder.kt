@@ -29,8 +29,10 @@ import br.com.zup.beagle.widget.ui.Text
 object NavigateActionsScreenBuilder {
 
     const val pushStackRemote = "PushStackRemote"
+    const val pushStackRemoteExpression = "PushStackRemoteExpression"
     const val pushStackRemoteFailure = "PushStackRemoteFailure"
     const val pushViewRemote = "PushViewRemote"
+    const val pushViewRemoteExpression = "PushViewRemoteExpression"
     const val pushViewRemoteFailure = "PushViewRemoteFailure"
 
     fun build() = Screen(
@@ -53,6 +55,34 @@ object NavigateActionsScreenBuilder {
                 Container(
                     listOf(
                         Button(
+                            text = pushStackRemoteExpression,
+                            onPress = listOf(
+                                SetContext(
+                                    contextId = "global",
+                                    value = pushStackRemoteExpression + "Screen"
+                                ),
+                                Navigate.PushStack(
+                                    Route.Remote(GLOBAL_TEXT_EXPRESSION_ENDPOINT)
+                                )
+                            )
+                        ),
+                        Button(
+                            text = pushViewRemoteExpression,
+                            onPress = listOf(
+                                SetContext(
+                                    contextId = "global",
+                                    value = pushViewRemoteExpression + "Screen"
+                                ),
+                                Navigate.PushView(
+                                    Route.Remote(GLOBAL_TEXT_EXPRESSION_ENDPOINT)
+                                )
+                            )
+                        )
+                    )
+                ),
+                Container(
+                    listOf(
+                        Button(
                             text = pushStackRemote,
                             onPress = listOf(
                                 SetContext(
@@ -60,7 +90,7 @@ object NavigateActionsScreenBuilder {
                                     value = pushStackRemote + "Screen"
                                 ),
                                 Navigate.PushStack(
-                                    Route.Remote(GLOBAL_TEXT_EXPRESSION_ENDPOINT)
+                                    Route.Remote(GLOBAL_TEXT_ENDPOINT)
                                 )
                             )
                         ),
@@ -72,41 +102,12 @@ object NavigateActionsScreenBuilder {
                                     value = pushViewRemote + "Screen"
                                 ),
                                 Navigate.PushView(
-                                    Route.Remote(GLOBAL_TEXT_EXPRESSION_ENDPOINT)
+                                    Route.Remote(GLOBAL_TEXT_ENDPOINT)
                                 )
                             )
                         )
                     )
                 ),
-//                Container(
-//                    listOf(
-//                        Button(
-//                            text = pushStackRemote,
-//                            onPress = listOf(
-//                                SetContext(
-//                                    contextId = "global",
-//                                    value = pushStackRemote + "Screen"
-//                                ),
-//                                Navigate.PushStack(
-//                                    Route.Remote(GLOBAL_TEXT_ENDPOINT)
-//                                )
-//                            )
-//                        ),
-//                        Button(
-//                            text = pushViewRemote,
-//                            onPress = listOf(
-//                                SetContext(
-//                                    contextId = "global",
-//                                    value = pushViewRemote + "Screen"
-//                                ),
-//                                Navigate.PushView(
-//                                    Route.Remote(GLOBAL_TEXT_ENDPOINT)
-//                                )
-//                            )
-//                        )
-//                    )
-//                ),
-
                 Button(
                     text = pushViewRemoteFailure,
                     onPress = listOf(
