@@ -25,33 +25,12 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     var screenType: ScreenType { get }
     var screen: Screen? { get }
     
-    var bindings: [() -> Void] { get set }
     func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void)
     
     func execute(actions: [RawAction]?, origin: UIView)
     func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView)
     
     func setNeedsLayout(component: UIView)
-}
-
-extension BeagleControllerProtocol where Self: UIViewController {
-    public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
-         bindings.append { [weak self, weak view] in
-             guard let self = self else { return }
-             view?.configBinding(
-                 for: expression,
-                 completion: self.bindBlock(view: view, update: update)
-             )
-         }
-     }
-
-    private func bindBlock<T: Decodable>(view: UIView?, update: @escaping (T?) -> Void) -> (T?) -> Void {
-        return { [weak self, weak view] value in
-            update(value)
-            view?.yoga.markDirty()
-            self?.viewIfLoaded?.setNeedsLayout()
-        }
-    }
 }
 
 public class BeagleScreenViewController: BeagleController {
@@ -129,24 +108,24 @@ public class BeagleScreenViewController: BeagleController {
         return viewModel.screen
     }
     
-//    public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
-//         bindings.append { [weak self, weak view] in
-//             guard let self = self else { return }
-//             view?.configBinding(
-//                 for: expression,
-//                 completion: self.bindBlock(view: view, update: update)
-//             )
-//         }
-//     }
-//
-//    private func bindBlock<T: Decodable>(view: UIView?, update: @escaping (T?) -> Void) -> (T?) -> Void {
-//        return { [weak self, weak view] value in
-//            update(value)
-//            view?.yoga.markDirty()
-//            self?.viewIfLoaded?.setNeedsLayout()
-//        }
-//    }
-    
+    public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+         bindings.append { [weak self, weak view] in
+             guard let self = self else { return }
+             view?.configBinding(
+                 for: expression,
+                 completion: self.bindBlock(view: view, update: update)
+             )
+         }
+     }
+
+    private func bindBlock<T: Decodable>(view: UIView?, update: @escaping (T?) -> Void) -> (T?) -> Void {
+        return { [weak self, weak view] value in
+            update(value)
+            view?.yoga.markDirty()
+            self?.viewIfLoaded?.setNeedsLayout()
+        }
+    }
+
     func configBindings() {
         while let bind = bindings.popLast() {
             bind()
