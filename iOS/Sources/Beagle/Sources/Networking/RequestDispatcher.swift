@@ -21,7 +21,7 @@ struct RequestDispatcher {
     
     // MARK: Dependencies
 
-    public typealias Dependencies =
+    typealias Dependencies =
         DependencyNetworkClient
         & DependencyUrlBuilder
         & DependencyLogger
