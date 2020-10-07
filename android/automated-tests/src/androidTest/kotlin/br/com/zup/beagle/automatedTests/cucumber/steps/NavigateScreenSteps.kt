@@ -51,14 +51,8 @@ class NavigateScreenSteps {
             .checkViewContainsText(NAVIGATION_SCREEN_TITLE, true)
     }
 
-//    @When("^I click on another button (.*)$")
-//    fun clickOnButton(string1:String) {
-//        ScreenRobot()
-//            .clickOnText(string1)
-//    }
-
     @Then("^the screen should navigate to another screen with text label (.*)$")
-    fun checkNavigateHereScreen(string2:String) {
+    fun checkGlobalTextScreen(string2:String) {
         ScreenRobot()
             .checkViewContainsText(string2)
             .sleep(2)

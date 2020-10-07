@@ -25,7 +25,6 @@ Feature: Navigate Action Validation
         Given the app did load a screen with a navigation action
 
     Scenario Outline: Navigation 01 - Navigation action navigate from one screen to another
-
         When I click on button <title>
         Then the screen should navigate to another screen with text label <text>
 
@@ -33,14 +32,14 @@ Feature: Navigate Action Validation
     |title| text|
     |PushStackRemote|PushStackRemoteScreen|
     |PushViewRemote|PushViewRemoteScreen|
+    |PushStackRemoteExpression|PushStackRemoteExpressionScreen|
+    |PushViewRemoteExpression|PushViewRemoteExpressionScreen|
 
-#    Scenario: Navigation 02 - navigation action navigate to some invalid route
-#        Given the app did load a screen with a navigation action
-#        When I click on button "<title>"
-#        Then the screen should show a error message
+#    Scenario Outline: Navigation 02 - navigation action navigate to some invalid route
+#        When I click on button <title>
+#        Then the screen should not show the next page with <text>
 #
-#    Example:
-#
+#    Examples:
 #    |title| text|
 #    |PushStackRemoteFailure|PushStackRemoteFailureScreen|
 #    |PushViewRemoteFailure|PushViewRemoteFailureScreen|
