@@ -231,6 +231,14 @@ final class RepositoryStub: Repository {
         }
         return token
     }
+    
+    func fetchImage(
+        url: String,
+        additionalData: RemoteScreenAdditionalData?,
+        completion: @escaping (Result<Data, Request.Error>) -> Void
+    ) -> RequestToken? {
+        return nil
+    }
 }
 
 class NetworkClientStub: NetworkClient {

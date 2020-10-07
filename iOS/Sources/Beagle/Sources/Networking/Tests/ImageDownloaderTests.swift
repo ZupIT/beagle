@@ -21,6 +21,39 @@ import BeagleSchema
 
 class ImageDownloaderTests: XCTestCase {
 
+    private var dependencies = BeagleDependencies()
+
+    private lazy var sut = ImageDownloaderDefault(dependencies: dependencies)
+
+    private let url = "www.something.com"
+    
+    // swiftlint:disable force_unwrapping
+    func testFetchImage() {
+        // Given
+        let image = UIImage(named: "beagle", in: Bundle(for: type(of: self)), compatibleWith: nil)
+        let imageData = image!.pngData()!
+
+        dependencies.networkClient = NetworkClientStub(result:
+            .success(.init(data: imageData, response: URLResponse()))
+        )
+
+        let expec = expectation(description: "fetchComponentExpectation")
+
+        // When
+        var dataReturned: Data?
+        sut.fetchImage(url: url, additionalData: nil) { result in
+            if case .success(let data) = result {
+                dataReturned = data
+            }
+            expec.fulfill()
+        }
+        wait(for: [expec], timeout: 1.0)
+
+        // Then
+        XCTAssertNotNil(dataReturned)
+        XCTAssertEqual(dataReturned, imageData)
+    }
+    // swiftlint:enable force_unwrapping
 }
 
 final class ImageDownloaderStub: ImageDownloader {
