@@ -18,40 +18,29 @@ package br.com.zup.beagle.android.cache.imagecomponent
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import br.com.zup.beagle.android.cache.BeagleCache
-import br.com.zup.beagle.android.cache.CacheManager
-import br.com.zup.beagle.android.cache.imagecomponent.BitmapUtils.decodeBitmap
-import br.com.zup.beagle.android.cache.imagecomponent.BitmapUtils.encodeImage
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.net.URL
 
 internal class ImageDownloader(
-    private val cache: CacheManager = CacheManager(),
     private val beagleBitmapFactory: BeagleBitmapFactory = BeagleBitmapFactory()
 ) {
 
     suspend fun getRemoteImage(url: String, contentWidth: Int, contentHeight: Int) : Bitmap? {
-        val cacheId = generateBitmapId(url, contentWidth, contentHeight)
+        val cacheId = LruImageCache.generateBitmapId(url, contentWidth, contentHeight)
 
         return withContext(CoroutineDispatchers.IO) {
-            val beagleCache = cache.restoreBeagleCache(cacheId)
+            val bitmapCached = LruImageCache.get(cacheId)
 
-            if (isNotFoundCache(beagleCache)) {
-                url.let {
+            bitmapCached
+                ?: url.let {
                     downloadBitmap(it, contentWidth, contentHeight).apply {
-                        saveOnCache(cacheId, this)
+                        LruImageCache.put(cacheId, this)
                     }
                 }
-            } else {
-                beagleCache?.data?.let { decodeBitmap(it) }
-            }
         }
     }
-
-    private fun isNotFoundCache(beagleCache: BeagleCache?) =
-        beagleCache == null || beagleCache.isExpired()
 
     private fun downloadBitmap(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
         val inputStream: InputStream = URL(url).openStream()
@@ -59,16 +48,4 @@ internal class ImageDownloader(
 
         return beagleBitmapFactory.getBitmap(bitmap, contentWidth, contentHeight)
     }
-
-    private fun saveOnCache(cacheId: String, bitmap: Bitmap?) {
-        if (bitmap != null) {
-            cache.persistImageData(cacheId, encodeImage(bitmap))
-        }
-    }
-
-    private fun generateBitmapId(
-        url: String?,
-        contentWidth: Int,
-        contentHeight: Int
-    ) = StringBuilder().append(url).append(contentWidth).append(contentHeight).toString()
 }

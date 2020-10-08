@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.cache.imagecomponent
 
 import android.graphics.Bitmap
 
-class BeagleBitmapFactory {
+internal class BeagleBitmapFactory {
 
     fun getBitmap(bitmap: Bitmap, contentWidth: Int, contentHeight: Int) : Bitmap {
         if (bitmap.width > contentWidth && bitmap.height > contentHeight) {

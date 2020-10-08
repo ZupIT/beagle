@@ -404,26 +404,4 @@ class CacheManagerTest {
         // Then
         assertEquals(maxAge, beagleCacheSlot.captured.maxTime)
     }
-
-    @Test
-    fun `GIVEN image parameters WHEN persistImageData cache enabled THEN check data saved` () {
-        // Given
-        val imageID = "imageID"
-        val imageBase64Data = "imageBase64Data"
-        val diskHashExpected = imageID + CACHE_KEY_DELIMITER + CACHE_HASH_KEY
-        val diskDataExpected = imageID + CACHE_KEY_DELIMITER + CACHE_DATA_KEY
-
-        // When
-        cacheManager.persistImageData(imageID, imageBase64Data)
-        val diskData = storeHandlerDataSlot.captured
-        val memoryData = beagleCacheSlot.captured
-
-        // Then
-        verify (exactly = once()) { storeHandler.save(StoreType.DATABASE, any()) }
-        verify (exactly = once()) { memoryCacheStore.save(diskHashExpected, any()) }
-        assertEquals(diskHashExpected, diskData[diskHashExpected])
-        assertEquals(imageBase64Data, diskData[diskDataExpected])
-        assertEquals(imageBase64Data, memoryData.data)
-        assertEquals(diskHashExpected, memoryData.hash)
-    }
 }

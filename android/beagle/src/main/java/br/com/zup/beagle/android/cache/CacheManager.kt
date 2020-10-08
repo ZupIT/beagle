@@ -120,15 +120,6 @@ internal class CacheManager(
         }
     }
 
-    fun persistImageData(imageId: String, base64Data: String) {
-        if (isCacheEnabled()) {
-            imageId.toBeagleHashKey().apply {
-                persistCacheDataOnDisk(imageId, base64Data, this)
-                persistCacheOnMemory(imageId, base64Data, this, null)
-            }
-        }
-    }
-
     fun handleResponseData(
         url: String,
         beagleCache: BeagleCache?,
