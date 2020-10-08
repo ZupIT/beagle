@@ -18,15 +18,15 @@
 Feature: Navigation Action Validation
 
     As a Beagle developer/user
-    I'd like to make sure my navigation action works as expected
+    I'd like to make sure my navigation actions work as expected
     In order to guarantee that my application never fails
     
     Background:
         Given the Beagle application did launch with the navigation screen url
     
-    Scenario Outline: Navigation 01 - navigation action navigates to a valid route
-        When I click on a navigate button "<title>"
-        Then the screen should navigate to another screen with text label "<text>"
+    Scenario Outline: Navigation 01 - The push actions navigate to a valid route
+        When I press a navigation button "<title>"
+        Then the screen should navigate to another screen with the text label "<text>"
 
         Examples:
         |            title             |                  text                |
@@ -35,9 +35,9 @@ Feature: Navigation Action Validation
         |   PushStackRemoteExpression  |    PushStackRemoteExpressionScreen   |
         |   PushViewRemoteExpression   |    PushViewRemoteExpressionScreen    |
     
-    Scenario Outline: Navigation 02 - navigation action navigates to an invalid route
-        When I click on a navigate button "<title>"
-        Then the screen should not navigate to another screen with text label "<text>"
+    Scenario Outline: Navigation 02 - The push actions navigate to an invalid route
+        When I press a navigation button "<title>"
+        Then the screen should not navigate to another screen with the text label "<text>"
 
         Examples:
         |                title                |                     text                    |
@@ -45,4 +45,28 @@ Feature: Navigation Action Validation
         |   PushViewRemoteFailure             |    PushViewRemoteFailureScreen              |
         |   PushViewRemoteExpressionFailure   |    PushViewRemoteExpressionFailureScreen    |
         |   PushStackRemoteExpressionFailure  |    PushStackRemoteExpressionFailureScreen   |
-
+        
+    Scenario Outline: Navigation 03 - 'popView' action dismisses the current screen
+        When I navigate to another screen and I press a button with the "<buttonTitle>" action
+        Then the app should dismiss the current view
+        
+        Examples:
+        |   buttonTitle  |
+        |   PopView      |
+        
+    Scenario Outline: Navigation 04 - 'popToView' action navigates to a specified route of a screen
+    on the stack and cleans up the navigation that was generated from this screen
+        When I navigate to another screen and I press a button with the "<buttonTitle>" action
+        Then the application should navigate back to a specific screen and remove from the stack the other screens loaded from the current screen
+        
+        Examples:
+        |   buttonTitle  |
+        |   PopToView    |
+        
+    Scenario Outline: Navigation 05 - 'popStack' action removes the current stack of views
+        When I navigate to another screen and I press a button with the "<buttonTitle>" action
+        Then the app should cleans up the entire stack
+            
+        Examples:
+        |   buttonTitle  |
+        |   PopStack     |
