@@ -29,11 +29,11 @@ Feature: Navigate Action Validation
         Then the screen should navigate to another screen with text label <text>
 
     Examples:
-    |title| text|
-    |PushStackRemote|PushStackRemoteScreen|
-    |PushViewRemote|PushViewRemoteScreen|
-    |PushStackRemoteExpression|PushStackRemoteExpressionScreen|
-    |PushViewRemoteExpression|PushViewRemoteExpressionScreen|
+    | title                      | text                            |
+    | PushStackRemote            | PushStackRemoteScreen           |
+    | PushViewRemote             | PushViewRemoteScreen            |
+    | PushStackRemoteExpression  | PushStackRemoteExpressionScreen |
+    | PushViewRemoteExpression   | PushViewRemoteExpressionScreen  |
 
 #    Scenario Outline: Navigation 02 - navigation action navigate to some invalid route
 #        When I click on button <title>
