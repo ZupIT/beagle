@@ -46,7 +46,7 @@ public class BeagleScreenViewController: BeagleController {
     
     lazy var renderer = dependencies.renderer(self)
     
-    public var bindings: [() -> Void] = []
+    let bindings = Bindings()
     
     private var navigationControllerId: String?
     
@@ -109,27 +109,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
-         bindings.append { [weak self, weak view] in
-             guard let self = self else { return }
-             view?.configBinding(
-                 for: expression,
-                 completion: self.bindBlock(view: view, update: update)
-             )
-         }
-     }
-
-    private func bindBlock<T: Decodable>(view: UIView?, update: @escaping (T?) -> Void) -> (T?) -> Void {
-        return { [weak self, weak view] value in
-            update(value)
-            view?.yoga.markDirty()
-            self?.viewIfLoaded?.setNeedsLayout()
-        }
-    }
-
-    func configBindings() {
-        while let bind = bindings.popLast() {
-            bind()
-        }
+        bindings.add(self, expression, view, update)
     }
     
     public func execute(actions: [RawAction]?, origin: UIView) {
@@ -173,7 +153,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     public override func viewDidLayoutSubviews() {
-        configBindings()
+        bindings.config()
         layoutManager.applyLayout()
         super.viewDidLayoutSubviews()
     }

@@ -102,7 +102,7 @@ class ImageTests: XCTestCase {
         
         //When
         view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
-        controller.configBindings()
+        controller.bindings.config()
         action.execute(controller: controller, origin: view)
         
         // Then
@@ -134,14 +134,14 @@ class ImageTests: XCTestCase {
     
     func testImageLeak() {
         // Given
-        let component = Image("@{img.path}")
+        let component = Image("@{img.path}", mode: .fitXY)
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(component.toScreen()), dependencies: BeagleDependencies()))
         
         var view = component.toView(renderer: controller.renderer)
         weak var weakView = view
     
         // When
-        controller.configBindings()
+        controller.bindings.config()
         view = UIView()
         
         // Then
