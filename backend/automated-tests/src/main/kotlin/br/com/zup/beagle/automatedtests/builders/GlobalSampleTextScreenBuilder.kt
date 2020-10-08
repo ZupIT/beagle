@@ -41,19 +41,19 @@ object GlobalSampleTextScreenBuilder {
                             NAVIGATE_ACTIONS_ENDPOINT
                         )
                     ),
-                    text = "Click to PopToView"
+                    text = "PopToView"
                 ),
                 Button(
                     onPress = listOf(
                         Navigate.PopStack()
                     ),
-                    text = "Click to PopStack"
+                    text = "PopStack"
                 ),
                 Button(
                     onPress = listOf(
                         Navigate.PopView()
                     ),
-                    text = "Click to PopView"
+                    text = "PopView"
                 )
             )
         )
