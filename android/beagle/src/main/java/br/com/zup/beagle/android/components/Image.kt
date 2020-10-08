@@ -102,14 +102,9 @@ data class Image constructor(
         }
     }
 
-    private fun ImageView.downloadImage(url: String, rootView: RootView) {
-        val downloader = BeagleEnvironment.beagleSdk.imageDownloader
-
-        if (downloader != null) {
-            downloader.download(url, this, rootView)
-        } else {
-            DefaultImageDownloader().download(url, this, rootView)
-        }
+    private fun ImageView.downloadImage(url: String, rootView: RootView) =
+        BeagleEnvironment.beagleSdk.imageDownloader?.download(url, this, rootView)
+            ?: DefaultImageDownloader().download(url, this, rootView)
     }
 
     private fun getImage(imagePath: String?): Int? =
