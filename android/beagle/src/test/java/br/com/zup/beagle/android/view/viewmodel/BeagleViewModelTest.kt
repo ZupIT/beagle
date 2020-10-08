@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ActionRequester
@@ -29,23 +30,16 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coEvery
-import io.mockk.coVerifyOrder
-import io.mockk.coVerifySequence
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Before
+import kotlinx.coroutines.Job
+import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class BeagleViewModelTest {
+class BeagleViewModelTest : BaseTest() {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -70,11 +64,10 @@ class BeagleViewModelTest {
 
     private lateinit var beagleUIViewModel: BeagleViewModel
 
-    private  val slotViewState = mutableListOf<ViewState>()
+    private val slotViewState = mutableListOf<ViewState>()
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
 
         beagleUIViewModel = BeagleViewModel(componentRequester = componentRequester)
 
@@ -82,7 +75,6 @@ class BeagleViewModelTest {
         coEvery { actionRequester.fetchAction(any()) } returns action
         every { observer.onChanged(any()) } just Runs
         coEvery { observer.onChanged(capture(slotViewState)) } just Runs
-
     }
 
     @Test
@@ -144,7 +136,7 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `GIVEN a ServerDrivenComponent WHEN fetchComponents called SHOULD post ViewState doRender `(){
+    fun `GIVEN a ServerDrivenComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
         //GIVEN
         val screenRequest = ScreenRequest("")
 
@@ -156,12 +148,12 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `GIVEN a IdentifierComponent WHEN fetchComponents called SHOULD post ViewState doRender `(){
+    fun `GIVEN a IdentifierComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
         //GIVEN
         val screenRequest = ScreenRequest("")
-        val component : IdentifierComponent = mockk()
+        val component: IdentifierComponent = mockk()
         val id = "id"
-        every {component.id} returns id
+        every { component.id } returns id
 
         //WHEN
         beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
@@ -171,7 +163,7 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `GIVEN a NULL ScreenComponent WHEN fetchComponents called SHOULD post ViewState doRender `(){
+    fun `GIVEN a NULL ScreenComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
         //GIVEN
         val screenRequest = ScreenRequest("url")
 
@@ -184,15 +176,15 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `GIIVEN a ScreenComponent WHEN fetchComponent called SHOULD use identifier as screenId on ViewState doRender`(){
+    fun `GIVEN a ScreenComponent WHEN fetchComponent called SHOULD use identifier as screenId on ViewState doRender`() {
         //Given
         val screenRequest = ScreenRequest("")
-        val component : ScreenComponent = mockk()
+        val component: ScreenComponent = mockk()
         val id = "id"
         val identifier = "identifier"
 
-        every {component.id} returns id
-        every {component.identifier} returns identifier
+        every { component.id } returns id
+        every { component.identifier } returns identifier
 
         //WHEN
         beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
@@ -200,5 +192,67 @@ class BeagleViewModelTest {
         //THEN
         verify(exactly = once()) { observer.onChanged(ViewState.DoRender(identifier, component)) }
 
+    }
+
+    @Test
+    fun `GIVEN a NULL FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        beagleUIViewModel.fetchComponent = null
+
+        //WHEN
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        Assert.assertEquals(isFetch, false)
+    }
+
+    @Test
+    fun `GIVEN a NULL Job in FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+
+        beagleUIViewModel.fetchComponent(screenRequest)
+        beagleUIViewModel.fetchComponent?.job = null
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        Assert.assertEquals(isFetch, false)
+    }
+
+    @Test
+    fun `GIVEN a Job COMPLETED in FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+        val mockJob = Job()
+        mockJob.complete()
+
+        beagleUIViewModel.fetchComponent(screenRequest)
+        beagleUIViewModel.fetchComponent?.job = mockJob
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        Assert.assertEquals(isFetch, false)
+    }
+
+    @Test
+    fun `GIVEN a Job NOT COMPLETED in FetchComponentLiveData WHEN isFetchComponent called SHOULD post ViewState doCancel and return true`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+        val mockJob = Job()
+
+        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+        beagleUIViewModel.fetchComponent?.job = mockJob
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        Assert.assertEquals(mockJob.isCancelled, true)
+        verify(exactly = once()) { observer.onChanged(ViewState.DoCancel) }
+        Assert.assertEquals(isFetch, true)
     }
 }

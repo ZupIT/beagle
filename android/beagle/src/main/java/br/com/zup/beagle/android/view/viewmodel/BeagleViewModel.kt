@@ -43,7 +43,7 @@ internal class BeagleViewModel(
     private val componentRequester: ComponentRequester = ComponentRequester()
 ) : ViewModel() {
 
-    private var fetchComponent: FetchComponentLiveData? = null
+    var fetchComponent: FetchComponentLiveData? = null
 
     fun fetchComponent(screenRequest: ScreenRequest, screen: ServerDrivenComponent? = null): LiveData<ViewState> {
         val fetchComponentLiveData = FetchComponentLiveData(screenRequest, screen, componentRequester,
@@ -65,14 +65,14 @@ internal class BeagleViewModel(
         return fetchComponent?.checkFetchComponent() ?: false
     }
 
-    private class FetchComponentLiveData(
+    internal class FetchComponentLiveData(
         private val screenRequest: ScreenRequest,
         private val screen: ServerDrivenComponent?,
         private val componentRequester: ComponentRequester,
         private val coroutineScope: CoroutineScope,
         private val ioDispatcher: CoroutineDispatcher) : LiveData<ViewState>() {
 
-        private var job: Job? = null
+        var job: Job? = null
         private val isRenderedReference = AtomicReference(false)
 
         override fun onActive() {
