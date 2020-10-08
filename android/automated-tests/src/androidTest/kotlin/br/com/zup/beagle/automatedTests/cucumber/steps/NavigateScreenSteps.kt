@@ -17,8 +17,11 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.automatedTests.activity.AppBeagleActivitiy
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.elements.NAVIGATION_SCREEN_TITLE
+import br.com.zup.beagle.automatedTests.cucumber.elements.POP_STACK_BUTTON
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
@@ -52,13 +55,21 @@ class NavigateScreenSteps {
             .checkViewContainsText(NAVIGATION_SCREEN_TITLE, true)
     }
 
-    @And("^I click on another button (.*)$")
-
+    @And("^I click on another button$")
+    fun clickOnButton() {
+        ScreenRobot()
+            .clickOnText(POP_STACK_BUTTON)
+    }
 
     @Then("^the screen should navigate to another screen with text label (.*)$")
     fun checkGlobalTextScreen(string2:String) {
         ScreenRobot()
             .checkViewContainsText(string2)
             .sleep(2)
+    }
+
+    @Then("^The text should not be available since its view is gone$")
+    fun checkTextIsNotOnAnyView(){
+        AppBeagleActivitiy.
     }
 }

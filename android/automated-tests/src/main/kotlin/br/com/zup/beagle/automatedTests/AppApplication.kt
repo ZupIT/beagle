@@ -25,5 +25,4 @@ class AppApplication: Application() {
         super.onCreate()
         BeagleSetup().init(this)
     }
-
 }

@@ -24,16 +24,16 @@ Feature: Navigate Action Validation
     Background:
         Given the app did load a screen with a navigation action
 
-    Scenario Outline: Navigation 01 - Navigation action navigate from one screen to another
-        When I click on button <title>
-        Then the screen should navigate to another screen with text label <text>
-
-    Examples:
-    | title                      | text                            |
-    | PushStackRemote            | PushStackRemoteScreen           |
-    | PushViewRemote             | PushViewRemoteScreen            |
-    | PushStackRemoteExpression  | PushStackRemoteExpressionScreen |
-    | PushViewRemoteExpression   | PushViewRemoteExpressionScreen  |
+#    Scenario Outline: Navigation 01 - Navigation action navigate from one screen to another
+#        When I click on button <title>
+#        Then the screen should navigate to another screen with text label <text>
+#
+#    Examples:
+#    | title                      | text                            |
+#    | PushStackRemote            | PushStackRemoteScreen           |
+#    | PushViewRemote             | PushViewRemoteScreen            |
+#    | PushStackRemoteExpression  | PushStackRemoteExpressionScreen |
+#    | PushViewRemoteExpression   | PushViewRemoteExpressionScreen  |
 
 #    Scenario Outline: Navigation 02 - navigation action navigate to some invalid route
 #        When I click on button <title>
@@ -44,13 +44,14 @@ Feature: Navigate Action Validation
 #    |PushStackRemoteFailure|PushStackRemoteFailureScreen|
 #    |PushViewRemoteFailure|PushViewRemoteFailureScreen|
 
-#    Scenario Outline: Navigation 03 - Navigation uses the PopStack action to clear the whole stack
-#        When I click on button <title>
-#        And I click on another button <popTitle>
-#
-#        Then the screen should navigate to another screen with text label <text>
-#
-#        Examples:
-#            |title| text| popTitle
-#            |PushStackRemote|PushStackRemoteScreen|PopStack
-#
+    Scenario Outline: Navigation 03 - Navigation uses the PopStack action to clear the whole stack
+        When I click on button <title>
+        Then the screen should navigate to another screen with text label <text>
+        When I click on another button
+        Then The text should not be available since its view is gone
+
+
+    Examples:
+    |title|text|
+    |PushStackRemote|PushStackRemoteScreen|
+
