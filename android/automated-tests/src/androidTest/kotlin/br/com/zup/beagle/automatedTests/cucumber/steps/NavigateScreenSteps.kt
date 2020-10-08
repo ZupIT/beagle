@@ -24,6 +24,7 @@ import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
+import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -50,6 +51,9 @@ class NavigateScreenSteps {
         ScreenRobot()
             .checkViewContainsText(NAVIGATION_SCREEN_TITLE, true)
     }
+
+    @And("^I click on another button (.*)$")
+
 
     @Then("^the screen should navigate to another screen with text label (.*)$")
     fun checkGlobalTextScreen(string2:String) {

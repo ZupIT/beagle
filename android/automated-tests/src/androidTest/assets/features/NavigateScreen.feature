@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-    
+
 @navigation @regression
 Feature: Navigate Action Validation
 
@@ -44,3 +44,13 @@ Feature: Navigate Action Validation
 #    |PushStackRemoteFailure|PushStackRemoteFailureScreen|
 #    |PushViewRemoteFailure|PushViewRemoteFailureScreen|
 
+#    Scenario Outline: Navigation 03 - Navigation uses the PopStack action to clear the whole stack
+#        When I click on button <title>
+#        And I click on another button <popTitle>
+#
+#        Then the screen should navigate to another screen with text label <text>
+#
+#        Examples:
+#            |title| text| popTitle
+#            |PushStackRemote|PushStackRemoteScreen|PopStack
+#
