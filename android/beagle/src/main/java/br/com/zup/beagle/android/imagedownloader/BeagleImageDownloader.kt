@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context
+package br.com.zup.beagle.android.imagedownloader
 
-/**
- *  Interface has context attribute, the components that inherit from that interface have access to create a context.
- */
-interface ContextComponent {
-    /**
-     * Creates a context.
-     */
-    val context: ContextData?
+import android.widget.ImageView
+import br.com.zup.beagle.android.widget.RootView
+
+interface BeagleImageDownloader {
+    fun download(url: String, imageView: ImageView, rootView: RootView)
 }

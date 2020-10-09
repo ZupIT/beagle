@@ -14,14 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context
+package br.com.zup.beagle.android.cache.imagecomponent
 
-/**
- *  Interface has context attribute, the components that inherit from that interface have access to create a context.
- */
-interface ContextComponent {
-    /**
-     * Creates a context.
-     */
-    val context: ContextData?
+import android.graphics.Bitmap
+
+internal class BeagleBitmapFactory {
+
+    fun getBitmap(bitmap: Bitmap, contentWidth: Int, contentHeight: Int) : Bitmap {
+        if (bitmap.width > contentWidth && bitmap.height > contentHeight) {
+            return Bitmap.createScaledBitmap(
+                bitmap,
+                contentWidth,
+                contentHeight,
+                true
+            )
+        }
+
+        return bitmap
+    }
 }
