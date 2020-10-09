@@ -16,10 +16,33 @@
 
 package br.com.zup.beagle.widget.core
 
+/**
+ * Enum define text support.
+ */
 enum class TextInputType {
-    DATE, // This attribute on iOS will have the same effect as NUMBER
+    /**
+     * Date text support.
+     * This attribute on iOS will have the same effect as NUMBER.
+     */
+    DATE,
+
+    /**
+     * Email text support.
+     */
     EMAIL,
-    PASSWORD, // TEXT_PASSWORD
+
+    /**
+     * Password text support.
+     */
+    PASSWORD,
+
+    /**
+     * Numeric text support.
+     */
     NUMBER,
+
+    /**
+     * Normal text support.
+     */
     TEXT
 }

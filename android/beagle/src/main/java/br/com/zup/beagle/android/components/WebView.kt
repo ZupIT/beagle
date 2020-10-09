@@ -34,6 +34,14 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 
+/**
+ * A WebView widget will define a WebView natively using the server driven information received through Beagle.
+ *
+ * @param url
+ *              define the initial page that the WebView will load when presented .
+ *              This attribute must be declared and it cannot be null.
+ *
+ */
 @RegisterWidget
 data class WebView(
     val url: Bind<String>

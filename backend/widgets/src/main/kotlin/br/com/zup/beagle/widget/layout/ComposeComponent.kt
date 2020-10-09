@@ -19,12 +19,13 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
- * TODO
+ * helps with organization,  maintenance and code reuse.
+ * It does not have its own functionality and is exclusive to the backend.
  */
 interface ComposeComponent : ServerDrivenComponent {
 
     /**
-     * TODO
+     * Returns your component, being able to call in several flows of your project.
      */
     fun build(): ServerDrivenComponent
 }

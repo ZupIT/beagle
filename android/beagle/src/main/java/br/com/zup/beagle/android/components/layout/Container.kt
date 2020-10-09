@@ -31,6 +31,15 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+
+/**
+ *  The container component is a general container that can hold other components inside.
+ *
+ * @param children define a list of components that are part of the container.
+ * @param context define the contextData that be set to container.
+ * @param onInit it is a parameter that allows you to define a list of actions to be performed
+ * when the Widget is displayed.
+ */
 @RegisterWidget
 data class Container(
     override val children: List<ServerDrivenComponent>,

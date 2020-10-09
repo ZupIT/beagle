@@ -157,6 +157,7 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var isLoggingEnabled: Bool = true
     var analytics: Analytics?
     var repository: Repository = RepositoryStub()
+    var imageDownloader: ImageDownloader = ImageDownloaderStub()
     var theme: Theme = AppThemeDummy()
     var validatorProvider: ValidatorProvider?
     var preFetchHelper: BeaglePrefetchHelping = PreFetchHelperDummy()

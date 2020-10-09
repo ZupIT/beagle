@@ -22,7 +22,7 @@ class ComponentHostController: BeagleController {
     let component: RawComponent
     let renderer: BeagleRenderer
 
-    private var bindings: [() -> Void] = []
+    let bindings = Bindings()
 
     var dependencies: BeagleDependenciesProtocol {
         return renderer.controller.dependencies
@@ -38,10 +38,6 @@ class ComponentHostController: BeagleController {
         return renderer.controller.screen
     }
 
-    func addBinding(_ update: @escaping () -> Void) {
-        bindings.append(update)
-    }
-
     func execute(actions: [RawAction]?, origin: UIView) {
         renderer.controller.execute(actions: actions, origin: origin)
     }
@@ -49,11 +45,9 @@ class ComponentHostController: BeagleController {
     func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         renderer.controller.execute(actions: actions, with: contextId, and: contextValue, origin: origin)
     }
-
-    func configBindings() {
-        while let bind = bindings.popLast() {
-            bind()
-        }
+    
+    public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        bindings.add(self, expression, view, update)
     }
 
     init(_ component: RawComponent, renderer: BeagleRenderer) {
@@ -72,7 +66,7 @@ class ComponentHostController: BeagleController {
     }
 
     override func viewDidLayoutSubviews() {
-        configBindings()
+        bindings.config()
         dependencies.style(view).applyLayout()
         super.viewDidLayoutSubviews()
     }
