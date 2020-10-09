@@ -27,11 +27,14 @@ import br.com.zup.beagle.android.utils.toAndroidId
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.verifyOrder
+import io.mockk.verifySequence
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -40,7 +43,7 @@ class ComponentStylizationTest : BaseTest() {
     @RelaxedMockK
     private lateinit var accessibilitySetup: AccessibilitySetup
 
-    @RelaxedMockK
+    @MockK
     private lateinit var view: View
 
     @RelaxedMockK
@@ -55,11 +58,7 @@ class ComponentStylizationTest : BaseTest() {
     override fun setUp() {
         super.setUp()
         styleManagerFactory = styleManager
-
-        mockkStatic("br.com.zup.beagle.android.utils.StringExtensionsKt")
-        mockkStatic("br.com.zup.beagle.android.utils.NumberExtensionsKt")
-        every { any<String>().toAndroidColor() } returns null
-        every { any<Int>().dp() } returns 0
+        mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
     }
 
     @Test
@@ -68,15 +67,18 @@ class ComponentStylizationTest : BaseTest() {
         val widgetId = "123"
         val slotId = slot<Int>()
 
-
         every { widget.id } returns widgetId
         every { view.id = capture(slotId) } just Runs
+        every { view.applyStyle(widget) } just Runs
 
         // WHEN
         componentStylization.apply(view, widget)
 
         // THEN
         assertEquals(widgetId.toAndroidId(), slotId.captured)
-        verify(exactly = once()) { accessibilitySetup.applyAccessibility(view, widget) }
+        verifyOrder {
+            view.applyStyle(widget)
+            accessibilitySetup.applyAccessibility(view, widget)
+        }
     }
 }
