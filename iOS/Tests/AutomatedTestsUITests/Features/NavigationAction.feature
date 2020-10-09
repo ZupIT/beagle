@@ -59,9 +59,13 @@ Feature: Navigation Action Validation
         Then the app should navigate to a specified screen and cleans up the entire stack of the previously loaded views
         
         Examples:
-        |       action1     |       action2         |
-        |   PushViewRemote  |   ResetStack          |
-        |   PushStackRemote |   ResetApplication    |
+        |       action1     |       action2                             |
+        |   PushViewRemote  |   ResetStack                              |
+        |   PushStackRemote |   ResetApplication                        |
+        |   PushViewRemote  |   ResetStackExpression                    |
+        |   PushStackRemote |   ResetApplicationExpression              |
+        |   PushViewRemote  |   ResetStackExpressionFallback            |
+        |   PushStackRemote |   ResetApplicationExpressionFallback      |
         
     Scenario Outline: Navigation 06 - removes the single existing stack of views
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "<action>" action
