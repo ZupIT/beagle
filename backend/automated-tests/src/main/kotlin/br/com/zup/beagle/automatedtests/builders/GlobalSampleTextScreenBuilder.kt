@@ -20,6 +20,7 @@ import NAVIGATE_ACTIONS_ENDPOINT
 import NAVIGATE_RESET_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
@@ -31,6 +32,10 @@ object GlobalSampleTextScreenBuilder {
 
     fun build() = Screen(
         child = Container(
+            context = ContextData(
+                id = "relativePath",
+                value = NAVIGATE_RESET_ENDPOINT
+            ),
             children =
             listOf(
                 Text(
@@ -40,66 +45,67 @@ object GlobalSampleTextScreenBuilder {
                     text = expressionOf("@{global}")
                 ),
                 Button(
+                    text = "PopToView",
                     onPress = listOf(
                         Navigate.PopToView(
                             NAVIGATE_ACTIONS_ENDPOINT
                         )
-                    ),
-                    text = "PopToView"
+                    )
                 ),
                 Button(
+                    text = "PopStack",
                     onPress = listOf(
                         Navigate.PopStack()
-                    ),
-                    text = "PopStack"
+                    )
                 ),
                 Button(
+                    text = "PopView",
                     onPress = listOf(
                         Navigate.PopView()
-                    ),
-                    text = "PopView"
+                    )
                 ),
                 Button(
+                    text = "ResetStack",
                     onPress = listOf(
                         Navigate.ResetStack(
                             Route.Remote(
                                 url = NAVIGATE_RESET_ENDPOINT
                             )
                         )
-                    ),
-                    text = "ResetStack"
+                    )
                 ),
                 Button(
+                    text = "ResetApplication",
                     onPress = listOf(
                         Navigate.ResetApplication(
                             Route.Remote(
                                 url = NAVIGATE_RESET_ENDPOINT
                             )
                         )
-                    ),
-                    text = "ResetApplication"
+                    )
                 ),
                 Button(
+                    text = "ResetStackExpression",
                     onPress = listOf(
                         Navigate.ResetStack(
                             Route.Remote(
-                                url = NAVIGATE_RESET_ENDPOINT
+                                url = "@{relativePath}"
                             )
                         )
-                    ),
-                    text = "ResetStackExpression"
+                    )
                 ),
                 Button(
+                    text = "ResetApplicationExpression",
                     onPress = listOf(
                         Navigate.ResetApplication(
                             Route.Remote(
-                                url = NAVIGATE_RESET_ENDPOINT
+                                url = "@{relativePath}"
                             )
                         )
-                    ),
-                    text = "ResetApplicationExpression"
+                    )
                 ),
                 Button(
+                    text = "ResetStackExpressionFallback",
                     onPress = listOf(
                         Navigate.ResetStack(
                             Route.Remote(
@@ -107,10 +113,10 @@ object GlobalSampleTextScreenBuilder {
                                 fallback = FALLBACK_SCREEN
                             )
                         )
-                    ),
-                    text = "ResetStackExpressionFallback"
+                    )
                 ),
                 Button(
+                    text = "ResetApplicationExpressionFallback",
                     onPress = listOf(
                         Navigate.ResetApplication(
                             Route.Remote(
@@ -118,8 +124,7 @@ object GlobalSampleTextScreenBuilder {
                                 fallback = FALLBACK_SCREEN
                             )
                         )
-                    ),
-                    text = "ResetApplicationExpressionFallback"
+                    )
                 )
             )
         )
