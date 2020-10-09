@@ -102,7 +102,7 @@ class ImageTests: XCTestCase {
         
         //When
         view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
-        controller.configBindings()
+        controller.bindings.config()
         action.execute(controller: controller, origin: view)
         
         // Then
@@ -141,7 +141,7 @@ class ImageTests: XCTestCase {
         weak var weakView = view
     
         // When
-        controller.configBindings()
+        controller.bindings.config()
         view = UIView()
         
         // Then

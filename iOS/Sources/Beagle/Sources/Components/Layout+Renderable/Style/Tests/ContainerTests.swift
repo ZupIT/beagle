@@ -142,11 +142,16 @@ class BeagleControllerSpy: BeagleController {
     
     var expectation: XCTestExpectation?
     
-    func addBinding(_ update: @escaping () -> Void) { }
+    var bindings: [() -> Void] = []
+    
     func execute(action: RawAction, sender: Any) { }
     
     private(set) var didCalledExecute = false
     private(set) var lastImplicitContext: Context?
+    
+    func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        // Intentionally unimplemented...
+    }
     
     func execute(actions: [RawAction]?, origin: UIView) {
         didCalledExecute = true
