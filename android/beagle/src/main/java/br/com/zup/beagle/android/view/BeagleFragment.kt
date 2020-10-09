@@ -61,7 +61,7 @@ internal class BeagleFragment : Fragment() {
         if (context is OnFragmentCallback) {
             mListener = context
         } else {
-            throw ClassCastException(context.toString() +" must implement OnFragmentCallback")
+            throw ClassCastException("$context must implement OnFragmentCallback")
         }
     }
 
