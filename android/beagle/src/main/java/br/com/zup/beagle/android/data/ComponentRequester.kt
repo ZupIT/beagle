@@ -33,9 +33,9 @@ internal class ComponentRequester(
     @Throws(BeagleException::class)
     suspend fun fetchComponent(screenRequest: ScreenRequest): ServerDrivenComponent {
         val url = screenRequest.url
-        val beagleCache = cacheManager.restoreBeagleCache(url)
+        val beagleCache = cacheManager.restoreBeagleCacheForUrl(url)
         val responseBody = if (beagleCache?.isExpired() == false) {
-            beagleCache.data
+            beagleCache.json
         } else {
             val newScreenRequest = cacheManager.screenRequestWithCache(screenRequest, beagleCache)
             val requestData = newScreenRequest.toRequestData()
