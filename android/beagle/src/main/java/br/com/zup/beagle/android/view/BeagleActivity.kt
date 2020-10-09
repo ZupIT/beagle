@@ -76,6 +76,14 @@ sealed class ServerDrivenState {
     open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
 }
 
+/**
+ * ScreenRequest is used to do requests.
+ *
+ * @param url  Server URL.
+ * @param method HTTP method.
+ * @param headers Header items for the request.
+ * @param body Content that will be deliver with the request.
+ */
 @Parcelize
 data class ScreenRequest(
     val url: String,
@@ -84,12 +92,41 @@ data class ScreenRequest(
     val body: String? = null
 ) : Parcelable
 
+/**
+ * Screen method to indicate the desired action to be performed for a given resource.
+ *
+ */
 enum class ScreenMethod {
+    /**
+     * The GET method requests a representation of the specified resource. Requests using GET should only retrieve
+     * data.
+     */
     GET,
+
+    /**
+     * The POST method is used to submit an entity to the specified resource, often causing
+     * a change in state or side effects on the server.
+     */
     POST,
+
+    /**
+     * The PUT method replaces all current representations of the target resource with the request payload.
+     */
     PUT,
+
+    /**
+     * The DELETE method deletes the specified resource.
+     */
     DELETE,
+
+    /**
+     * The HEAD method asks for a response identical to that of a GET request, but without the response body.
+     */
     HEAD,
+
+    /**
+     * The PATCH method is used to apply partial modifications to a resource.
+     */
     PATCH
 }
 
