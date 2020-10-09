@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -32,6 +33,7 @@ import br.com.zup.beagle.core.StyleComponent
 internal var viewExtensionsViewFactory = ViewFactory()
 internal var styleManagerFactory = StyleManager()
 const val FLOAT_ZERO = 0.0f
+private val COLOR_DEFAULT_STROKE = "#000000".toAndroidColor()
 
 internal fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -47,6 +49,7 @@ internal fun View.applyStyle(component: ServerDrivenComponent) {
         } else {
             styleManagerFactory.applyStyleComponent(component = it, view = this)
         }
+        applyStroke(it)
     }
 }
 
@@ -65,7 +68,16 @@ internal fun View.applyBackgroundColor(styleWidget: StyleComponent) {
     styleWidget.style?.backgroundColor?.toAndroidColor()?.let { androidColor ->
         (this.background as? GradientDrawable)?.setColor(androidColor)
     }
+}
 
+internal fun View.applyStroke(styleWidget: StyleComponent) {
+    val color = styleWidget.style?.borderColor?.toAndroidColor() ?: COLOR_DEFAULT_STROKE
+    val width = styleWidget.style?.borderWidth?.toInt()?.dp()
+    width?.let { strokeWidth ->
+        color?.let { strokeColor ->
+            (this.background as? GradientDrawable)?.setStroke(strokeWidth, strokeColor)
+        }
+    }
 }
 
 internal fun View.applyCornerRadius(styleWidget: StyleComponent) {

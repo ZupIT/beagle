@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components.utils
 
 import android.app.Activity
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -31,7 +32,9 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.loadView
+import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleView
@@ -39,11 +42,15 @@ import br.com.zup.beagle.android.view.custom.OnLoadCompleted
 import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.core.StyleComponent
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.internal.matchers.Null
+import kotlin.test.assertTrue
 
 private val URL = RandomData.httpUrl()
 private val screenRequest = ScreenRequest(URL)
@@ -89,6 +96,7 @@ class ViewExtensionsKtTest : BaseTest() {
         super.setUp()
 
         mockkStatic(TextViewCompat::class)
+        mockkStatic("br.com.zup.beagle.android.data.StringExtensionsKt")
 
         viewExtensionsViewFactory = viewFactory
 
@@ -204,4 +212,26 @@ class ViewExtensionsKtTest : BaseTest() {
         // Then
         verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(any(), 0) }
     }
+
+    @Test
+    fun `stroke test`() {
+        // Given
+        val defaultColor = "#000000".toAndroidColor()
+        val resultWidth = 5.0
+        val styleWidget = mockk<StyleComponent>()
+        val style = Style(borderWidth = resultWidth)
+        every { styleWidget.style } returns style
+//        every { resultWidth.toInt() } returns resultWidth.toInt().dp()
+
+        // When
+        viewGroup.applyStroke(styleWidget)
+
+        // Then
+//        verify {
+//            if (defaultColor != null) {
+//                (viewGroup.background as? GradientDrawable)?.setStroke(resultWidth.toInt().dp(),defaultColor)
+//            }
+//        }
+    }
 }
+
