@@ -80,16 +80,13 @@ final class TabBarUIComponent: UIScrollView {
             contentSize = contentView.frame.size
             resetTabItemsStyle()
 
-            // swiftlint:disable unused_optional_binding
-            
             // Creates tabItems only after view it's already in superview hierarchy
-            if let _ = superview, shouldCreateTabItemsView {
+            if superview != nil && shouldCreateTabItemsView {
                 setupTabBarItems()
                 setupIndicatorViewStyle(for: tabItemViews[0])
                 style.applyLayout()
                 scrollTo(page: model.tabIndex ?? 0)
             }
-            // swiftlint:enable unused_optional_binding
         }
     }
 
