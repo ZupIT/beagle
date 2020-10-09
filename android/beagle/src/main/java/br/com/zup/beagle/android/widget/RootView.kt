@@ -30,18 +30,17 @@ interface RootView {
     fun getContext(): Context
 
     /**
-     * Returns the providers Lifecycle.
+     * Returns A class that has an Android lifecycle.
      */
     fun getLifecycleOwner(): LifecycleOwner
 
     /**
-     * The method getViewModelStoreOwner () return this access interface ViewModelStoreOwner becomes the owner of
-     * ViewModelStore.
+     *  Retrieve a ViewModelStore for activities and fragments.
      */
     fun getViewModelStoreOwner(): ViewModelStoreOwner
 
     /**
-     * Returns parent view id.
+     * Returns the parent id of View that encapsulates all the content rendered by server-driven.
      */
     fun getParentId(): Int
 }

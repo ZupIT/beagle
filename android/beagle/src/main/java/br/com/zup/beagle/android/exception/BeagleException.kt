@@ -17,10 +17,10 @@
 package br.com.zup.beagle.android.exception
 
 /**
- * An exception class, thrown when an error occurs during parsing.
+ * An exception class, thrown when an error something happens in the Beagle.
  *
- * @param message shows message from exception thrown.
- * @param cause Shows the cause of the exception
+ * @param message get a message from the exception thrown.
+ * @param cause get the cause of the exception
  */
 open class BeagleException
 constructor(

@@ -66,7 +66,7 @@ interface BeagleConfig {
     val environment: Environment
 
     /**
-     * Informs the base URL used in Beagle in the application. If you are using the emulator.
+     * Informs the base URL used in Beagle in the application.
      */
     val baseUrl: String
 

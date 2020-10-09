@@ -25,10 +25,10 @@ import androidx.lifecycle.ViewModelStoreOwner
 import br.com.zup.beagle.android.widget.RootView
 
 /**
- * The FragmentRootView holder the reference of a fragment through the rootView interface.
+ * The FragmentRootView holder the reference of a fragment.
  *
- * @param fragment that is parent of a view.
- * @param parentId  parent view id.
+ * @param fragment that is the parent of a view.
+ * @param parentId parent view id.
  */
 class FragmentRootView(
     val fragment: Fragment,
@@ -45,10 +45,10 @@ class FragmentRootView(
 }
 
 /**
- * The ActivityRootView holder the reference of a activity through the rootView interface.
+ * The ActivityRootView holder the reference of activity.
  *
- *@param activity that is parent of a view.
- *@param parentId parent view id.
+ * @param activity that is the parent of a view.
+ * @param parentId parent view id.
  */
 class ActivityRootView(
     val activity: AppCompatActivity,

@@ -20,8 +20,12 @@ import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
- * Interface that contains buildView methods where you create the rule for your component.
+ * This interface is responsible to convert any server-driven component to a View in Android
  */
 interface ViewConvertable : ServerDrivenComponent {
+
+    /**
+     * This function is called to convert your server-driven component to a UI View in Android
+     */
     fun buildView(rootView: RootView): View
 }

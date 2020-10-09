@@ -21,7 +21,7 @@ typealias GlobalContextObserver = (ContextData) -> Unit
 private const val GLOBAL_KEY = "global"
 
 /**
- * A Global Context is a variable that can assume as value of any type of variable, like a map defines a subset
+ * A Global Context is a object that can assume as value of any type of variable, like a map defines a subset
  * of key/value or complex JSONs objects that defines object trees.
  *
  * It works exactly like the Context, however in a global scope, meaning that it will exists while the application is
@@ -35,11 +35,9 @@ object GlobalContext {
     private val contextDataManipulator = ContextDataManipulator()
 
     /**
-     * Global context also can be recovered through a get method and it can be called from the GlobalContext object.
+     *  Get the content in context.
      *
-     * @param path Represents the path that it will contain the information, on the example above,
-     * the path used was  "myValue". The path parameter is optional and if every value is passed,
-     * the global context will be returned.
+     * @param path Represents the path that it will contain the information.
      */
     fun get(path: String? = null): Any? {
         if (path.isNullOrEmpty()) {
@@ -50,13 +48,10 @@ object GlobalContext {
     }
 
     /**
-     * Global context can also be defined through a set method, that can be called from the GlobalContext object.
+     * Set the content in context.
      *
-     * @param value Required. It represents an information that can be any kind, for example, other JSONs objects,
-     * an array or any other object.
-     * @param path It represents the path that it will contain this information, like the example above,
-     * the path used was "myValue". The path parameter is not required, and when omitted it will define the value
-     * informed in the object's root, overwriting any other information.
+     * @param value represents content that can be any kind.
+     * @param path represents the path that it will save this information.
      */
     fun set(value: Any, path: String? = null) {
         val result = contextDataManipulator.set(globalContext, path, value)
@@ -64,7 +59,7 @@ object GlobalContext {
     }
 
     /**
-     * Global context can be deleted through clear method that can be called from the GlobalContext object.
+     * Clear content has in the context
      *
      * @param path Optional. Represents the path you want to remove.
      */

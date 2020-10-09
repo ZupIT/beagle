@@ -17,26 +17,26 @@
 package br.com.zup.beagle.android.logger
 
 /**
- * Interface that contains methods with types of logs.
+ * API for sending log output.
  */
 interface BeagleLogger {
     /**
-     * Method to pass warning message.
+     * Function to pass warning message.
      */
     fun warning(message: String)
 
     /**
-     * Method to pass error message.
+     * Function to pass error message.
      */
     fun error(message: String)
 
     /**
-     * Method to pass a throwable and error message.
+     * Function to pass a throwable and error message.
      */
     fun error(message: String, throwable: Throwable)
 
     /**
-     * Method for passing an information message.
+     * Function for passing an information message.
      */
     fun info(message: String)
 }

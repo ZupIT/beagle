@@ -20,11 +20,11 @@ import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 
 /**
- * Class for request call, response return and exception message.
+ * Exception throw when the request fails.
  *
  * @param responseData is used to return data made by the request.
  * @param requestData is used to make HTTP requests.
- * @param message shows message from exception thrown.
+ * @param message get a message from the exception thrown.
  */
 data class BeagleApiException(
     val responseData: ResponseData,

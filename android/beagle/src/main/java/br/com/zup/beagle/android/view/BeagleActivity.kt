@@ -77,9 +77,9 @@ sealed class ServerDrivenState {
 }
 
 /**
- * ScreenRequest is used to make screen requests of beagle .
+ * ScreenRequest is used to do requests.
  *
- * @param url Required. Server URL.
+ * @param url  Server URL.
  * @param method HTTP method.
  * @param headers Header items for the request.
  * @param body Content that will be deliver with the request.
@@ -92,34 +92,40 @@ data class ScreenRequest(
     val body: String? = null
 ) : Parcelable
 
+/**
+ * Screen method to indicate the desired action to be performed for a given resource.
+ *
+ */
 enum class ScreenMethod {
     /**
-     * Request we representation of an resource.
+     * The GET method requests a representation of the specified resource. Requests using GET should only retrieve
+     * data.
      */
     GET,
 
     /**
-     * The POST method is used when we want to create a resource.
+     * The POST method is used to submit an entity to the specified resource, often causing
+     * a change in state or side effects on the server.
      */
     POST,
 
     /**
-     * Require that a resource be "saved" in the given URI.
+     * The PUT method replaces all current representations of the target resource with the request payload.
      */
     PUT,
 
     /**
-     * Deletes the specified resource.
+     * The DELETE method deletes the specified resource.
      */
     DELETE,
 
     /**
-     * Returns only the headers of a response.
+     * The HEAD method asks for a response identical to that of a GET request, but without the response body.
      */
     HEAD,
 
     /**
-     * Used to update parts of a resource
+     * The PATCH method is used to apply partial modifications to a resource.
      */
     PATCH
 }

@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.widget
 import br.com.zup.beagle.widget.Widget
 
 /**
- * Interface where components inherit to have access attributes of id, flex and accessibility and override
+ * Interface where components inherit to have access attributes of id, style and accessibility and override
  * buildView method.
  */
 abstract class WidgetView : Widget(), ViewConvertable
