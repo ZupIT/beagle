@@ -91,8 +91,6 @@ class Dependencies : Plugin<Project> {
 
         const val incap = "0.3"
 
-        const val multidex = "2.0.1"
-
         const val cucumber = "1.2.5"
     }
 
@@ -125,8 +123,6 @@ class Dependencies : Plugin<Project> {
         const val simpleLogger = "org.slf4j:slf4j-simple:${Versions.simpleLogger}"
 
         const val jsonObject = "org.json:json:${Versions.jsonObject}"
-
-        const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
     }
 
     object GoogleLibraries {
