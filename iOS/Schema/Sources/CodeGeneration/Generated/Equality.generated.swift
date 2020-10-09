@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.18.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.0.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 /*
@@ -75,6 +75,8 @@ extension Style: Equatable {
      public static func == (lhs: Style, rhs: Style) -> Bool {
         guard lhs.backgroundColor == rhs.backgroundColor else { return false }
         guard lhs.cornerRadius == rhs.cornerRadius else { return false }
+        guard lhs.borderColor == rhs.borderColor else { return false }
+        guard lhs.borderWidth == rhs.borderWidth else { return false }
         guard lhs.size == rhs.size else { return false }
         guard lhs.margin == rhs.margin else { return false }
         guard lhs.padding == rhs.padding else { return false }

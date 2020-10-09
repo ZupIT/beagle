@@ -68,6 +68,12 @@ class ViewConfigurator: ViewConfiguratorProtocol {
             view?.layer.masksToBounds = true
             view?.layer.cornerRadius = CGFloat(cornerRadius.radius)
         }
+        if let borderWidth = style?.borderWidth {
+            view?.layer.borderWidth = CGFloat(borderWidth)
+        }
+        if let borderColor = style?.borderColor {
+            view?.layer.borderColor = UIColor(hex: borderColor)?.cgColor
+        }
     }
 
     func setup(id: String?) {

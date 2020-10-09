@@ -53,7 +53,7 @@ extension Image: Widget {
     
     private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, renderer: BeagleRenderer) -> RequestToken? {
         let controller = renderer.controller
-        return controller.dependencies.repository.fetchImage(url: path, additionalData: nil) {
+        return controller.dependencies.imageDownloader.fetchImage(url: path, additionalData: nil) {
             [weak imageView, weak controller] result in
             guard let imageView = imageView else { return }
             switch result {
