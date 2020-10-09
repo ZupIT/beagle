@@ -68,14 +68,14 @@ class NavigationActionSteps: CucumberStepsDefinition {
         }
 
         /// Scenario 5
-        Then("^the app should navigate to a specified screen and cleans up the entire stack of the previous loaded views$") { _, _ -> Void in
+        Then("^the app should navigate to a specified screen and cleans up the entire stack of the previously loaded views$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.RESET_NAVIGATION_SCREEN_TITLE.element.exists)
             XCTAssertFalse(ScreenElements.NAVIGATION_SCREEN_TITLE.element.exists)
             XCTAssertFalse(ScreenElements.SAMPLE_NAVIGATION_SCREEN_TITLE.element.exists)
         }
         
         /// Scenario 6
-        Then("^the app should cleans up the entire stack and the application should enter in foreground state$") { _, _ -> Void in
+        Then("^the app should clean up the entire stack and the application should enter in the foreground state$") { _, _ -> Void in
             XCTAssertEqual(self.application.state, XCUIApplication.State.runningForeground)
         }
     }
