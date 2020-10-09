@@ -26,6 +26,7 @@ import SAFE_AREA_ENDPOINT
 import SCREEN_ACTION_CLICK_ENDPOINT
 import SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import SCREEN_SAFE_AREA_TRUE_ENDPOINT
+import SEND_REQUEST_ACTION_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -59,6 +60,9 @@ class GeneralController {
 
     @GetMapping(NAVIGATE_ACTIONS_ENDPOINT)
     fun getNavigateActions() = NavigateActionsScreenBuilder.build()
+
+    @GetMapping(SEND_REQUEST_ACTION_ENDPOINT)
+    fun getSendRequest() = SendRequestScreenBuilder.build()
 
     @GetMapping(GLOBAL_TEXT_ENDPOINT)
     fun getGlobalText() = GlobalSampleTextScreenBuilder.build()

@@ -50,5 +50,6 @@ const val PATH_LAZY_COMPONENT_ENDPOINT = "https://run.mocky.io/v3/0ff5b613-e30f-
 const val PATH_SCREEN_DEEP_LINK_ENDPOINT = "screen-deep-link"
 
 const val NAVIGATE_ACTIONS_ENDPOINT = "/navigate-actions"
+const val SEND_REQUEST_ACTION_ENDPOINT = "/send-request"
 const val GLOBAL_TEXT_ENDPOINT = "/global-text"
 const val GLOBAL_TEXT_EXPRESSION_ENDPOINT = "@{relativePath}"

@@ -1,0 +1,107 @@
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package br.com.zup.beagle.automatedtests.builders
+
+import br.com.zup.beagle.widget.action.*
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.Text
+
+data class RequestButtonTitle(
+    val success: String,
+    val error: String
+)
+
+object SendRequestScreenBuilder {
+    fun build() = Screen(
+        context = ContextData(
+            id = "buttonTitle",
+            value = RequestButtonTitle(
+                success = "Send request success",
+                error = "Send request error"
+            )
+        ),
+        child = Container(
+            children =
+            listOf(
+                Text(
+                    text = "Send Request Screen"
+                ),
+                Container(
+                    listOf(
+                        Button(
+                            text = "@{buttonTitle.success}",
+                            onPress = listOf(
+                                SendRequest(
+                                    url = "http://localhost:8080/send-request",
+                                    method = RequestActionMethod.GET,
+                                    onSuccess = listOf(
+                                        Alert(
+                                            title = "Success",
+                                            message = "@{request}"
+                                        )),
+                                    onError = listOf(
+                                        Alert(
+                                            title = "Error",
+                                            message = "@{request}"
+                                        )),
+                                    onFinish = listOf(
+                                        SetContext(
+                                            contextId = "buttonTitle",
+                                            value = RequestButtonTitle(
+                                                success = "onFinished",
+                                                error = "Send request error"
+                                            )
+                                        ))
+                                )
+                            )
+                        ),
+                        Button(
+                            text = "@{buttonTitle.error}",
+                            onPress = listOf(
+                                SendRequest(
+                                    url = "http://localhost:8080",
+                                    method = RequestActionMethod.GET,
+                                    onSuccess = listOf(
+                                        Alert(
+                                            title = "Success",
+                                            message = "@{request}"
+                                        )),
+                                    onError = listOf(
+                                        Alert(
+                                            title = "Error",
+                                            message = "@{request}"
+                                        )),
+                                    onFinish = listOf(
+                                        SetContext(
+                                            contextId = "buttonTitle",
+                                            value = RequestButtonTitle(
+                                                success = "Send request success",
+                                                error = "onFinished"
+                                            )
+                                        ))
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+}
