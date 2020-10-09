@@ -33,12 +33,13 @@ class NavigationActionSteps: CucumberStepsDefinition {
             self.application.buttons[text].tap()
         }
         
-        /// Scenarios 3 and 4
-        When("^I navigate to another screen and I press a button with the \"([^\\\"]*)\" action$") { args, _ -> Void in
-            ScreenElements.PUSH_VIEW_REMOTE_BUTTON.element.tap()
+        /// Scenarios 3, 4 and 6
+        When("^I navigate to another screen using the \"([^\\\"]*)\" action and I press a button with the \"([^\\\"]*)\" action$") { args, _ -> Void in
+            let text1 = args![0]
+            self.application.buttons[text1].tap()
             XCTAssertTrue(ScreenElements.SAMPLE_NAVIGATION_SCREEN_TITLE.element.exists)
-            let text = args![0]
-            self.application.buttons[text].tap()
+            let text2 = args![1]
+            self.application.buttons[text2].tap()
         }
         
         // MARK: - Then
@@ -65,9 +66,16 @@ class NavigationActionSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.NAVIGATION_SCREEN_TITLE.element.exists)
             XCTAssertFalse(ScreenElements.SAMPLE_NAVIGATION_SCREEN_TITLE.element.exists)
         }
-        
+
         /// Scenario 5
-        Then("^the app should cleans up the entire stack$") { _, _ -> Void in
+        Then("^the app should navigate to a specified screen and cleans up the entire stack of the previous loaded views$") { _, _ -> Void in
+            XCTAssertTrue(ScreenElements.RESET_NAVIGATION_SCREEN_TITLE.element.exists)
+            XCTAssertFalse(ScreenElements.NAVIGATION_SCREEN_TITLE.element.exists)
+            XCTAssertFalse(ScreenElements.SAMPLE_NAVIGATION_SCREEN_TITLE.element.exists)
+        }
+        
+        /// Scenario 6
+        Then("^the app should cleans up the entire stack and the application should enter in foreground state$") { _, _ -> Void in
             XCTAssertEqual(self.application.state, XCUIApplication.State.runningForeground)
         }
     }

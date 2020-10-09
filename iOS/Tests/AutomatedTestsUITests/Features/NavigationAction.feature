@@ -46,27 +46,28 @@ Feature: Navigation Action Validation
         |   PushViewRemoteExpressionFailure   |    PushViewRemoteExpressionFailureScreen    |
         |   PushStackRemoteExpressionFailure  |    PushStackRemoteExpressionFailureScreen   |
         
-    Scenario Outline: Navigation 03 - 'popView' action dismisses the current screen
-        When I navigate to another screen and I press a button with the "<buttonTitle>" action
+    Scenario: Navigation 03 - 'popView' action dismisses the current screen
+        When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopView" action
         Then the app should dismiss the current view
         
-        Examples:
-        |   buttonTitle  |
-        |   PopView      |
-        
-    Scenario Outline: Navigation 04 - 'popToView' action navigates to a specified route of a screen
-    on the stack and cleans up the navigation that was generated from this screen
-        When I navigate to another screen and I press a button with the "<buttonTitle>" action
+    Scenario: Navigation 04 - 'popToView' action navigates to a specified route of a screen on the stack and cleans up the navigation that was generated from this screen
+        When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopToView" action
         Then the application should navigate back to a specific screen and remove from the stack the other screens loaded from the current screen
+
+    Scenario Outline: Navigation 05 - navigates to a specified screen and cleans up the stack of the previously loaded screens
+        When I navigate to another screen using the "<action1>" action and I press a button with the "<action2>" action
+        Then the app should navigate to a specified screen and cleans up the entire stack of the previously loaded views
         
         Examples:
-        |   buttonTitle  |
-        |   PopToView    |
+        |       action1     |       action2         |
+        |   PushViewRemote  |   ResetStack          |
+        |   PushStackRemote |   ResetApplication    |
         
-    Scenario Outline: Navigation 05 - 'popStack' action removes the current stack of views
-        When I navigate to another screen and I press a button with the "<buttonTitle>" action
-        Then the app should cleans up the entire stack
-            
+    Scenario Outline: Navigation 06 - removes the single existing stack of views
+        When I navigate to another screen using the "PushViewRemote" action and I press a button with the "<action>" action
+        Then the app should clean up the entire stack and the application should enter in the foreground state
+
         Examples:
-        |   buttonTitle  |
-        |   PopStack     |
+        |       action          |
+        |   PopStack            |
+        |   ResetApplication    |
