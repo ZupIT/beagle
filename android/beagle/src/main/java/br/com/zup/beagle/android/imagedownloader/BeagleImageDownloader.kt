@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample
+package br.com.zup.beagle.android.imagedownloader
 
-import android.app.Application
+import android.widget.ImageView
+import br.com.zup.beagle.android.widget.RootView
 
-class BeagleUiSampleApplication : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-
-        BeagleSetup().init(this)
-    }
+interface BeagleImageDownloader {
+    fun download(url: String, imageView: ImageView, rootView: RootView)
 }

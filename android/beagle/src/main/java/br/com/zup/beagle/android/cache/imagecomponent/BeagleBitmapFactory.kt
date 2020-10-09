@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample
+package br.com.zup.beagle.android.cache.imagecomponent
 
-import android.app.Application
+import android.graphics.Bitmap
 
-class BeagleUiSampleApplication : Application() {
+internal class BeagleBitmapFactory {
 
-    override fun onCreate() {
-        super.onCreate()
+    fun getBitmap(bitmap: Bitmap, contentWidth: Int, contentHeight: Int) : Bitmap {
+        if (bitmap.width > contentWidth && bitmap.height > contentHeight) {
+            return Bitmap.createScaledBitmap(
+                bitmap,
+                contentWidth,
+                contentHeight,
+                true
+            )
+        }
 
-        BeagleSetup().init(this)
+        return bitmap
     }
 }
