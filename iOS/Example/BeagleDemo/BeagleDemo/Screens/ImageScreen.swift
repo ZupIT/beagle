@@ -52,53 +52,55 @@ struct ImageScreen: DeeplinkScreen {
                 "pathRemote": ["_beagleImagePath_": "remote", "url": .string(.networkImageBeagle)]
             ]
         )) {
-            createText(text: "Image url with context!")
-            Image(
-                .remote(Image.Remote(url: "@{img.remote}")),
-                widgetProperties: sizeImage
-            )
-
-            createText(text: "Image mobileId with context!")
-            Image(
-                .local("@{img.local}"),
-                widgetProperties: sizeImage
-            )
-            createText(text: "Image with type remote path with context!")
-            Image(
-                "@{img.pathRemote}",
-                widgetProperties: sizeImage
-            )
-            createText(text: "Image with type local path with context!")
-            Image(
-                "@{img.pathLocal}",
-                widgetProperties: sizeImage
-            )
-            createText(text: "Image url without context!")
-            Image(
-                .remote(.init(url: .networkImageBeagle)),
-                widgetProperties: sizeImage
-            )
-
-            createText(text: "Image mobileId without context!")
-            Image(
-                .local("beagle"),
-                widgetProperties: sizeImage
-            )
-
-            Button(
-                text: "Chage Context",
-                onPress: [
-                    SetContext(
-                        contextId: "img",
-                        value: [
-                            "remote": "https://cdn.eso.org/images/screen/eso1907a.jpg",
-                            "local": "beagle",
-                            "pathLocal": ["_beagleImagePath_": "local", "mobileId": "beagle"],
-                            "pathRemote": ["_beagleImagePath_": "remote", "url": "https://cdn.eso.org/images/screen/eso1907a.jpg"]
-                        ]
-                    )
-                ]
-            )
+            ScrollView {
+                createText(text: "Image url with context!")
+                Image(
+                    .remote(Image.Remote(url: "@{img.remote}")),
+                    widgetProperties: sizeImage
+                )
+                
+                createText(text: "Image mobileId with context!")
+                Image(
+                    .local("@{img.local}"),
+                    widgetProperties: sizeImage
+                )
+                createText(text: "Image with type remote path with context!")
+                Image(
+                    "@{img.pathRemote}",
+                    widgetProperties: sizeImage
+                )
+                createText(text: "Image with type local path with context!")
+                Image(
+                    "@{img.pathLocal}",
+                    widgetProperties: sizeImage
+                )
+                createText(text: "Image url without context!")
+                Image(
+                    .remote(.init(url: .networkImageBeagle)),
+                    widgetProperties: sizeImage
+                )
+                
+                createText(text: "Image mobileId without context!")
+                Image(
+                    .local("beagle"),
+                    widgetProperties: sizeImage
+                )
+                
+                Button(
+                    text: "Chage Context",
+                    onPress: [
+                        SetContext(
+                            contextId: "img",
+                            value: [
+                                "remote": "https://cdn.eso.org/images/screen/eso1907a.jpg",
+                                "local": "beagle",
+                                "pathLocal": ["_beagleImagePath_": "local", "mobileId": "beagle"],
+                                "pathRemote": ["_beagleImagePath_": "remote", "url": "https://cdn.eso.org/images/screen/eso1907a.jpg"]
+                            ]
+                        )
+                    ]
+                )
+            }
         }
     }
     
