@@ -16,14 +16,39 @@
 
 package br.com.zup.beagle.android.store
 
+/**
+ * Define the type of Store.
+ */
 enum class StoreType {
+    /**
+     * Represents disk.
+     */
     DATABASE,
+
+    /**
+     * Represents memory.
+     */
     MEMORY
 }
 
 interface StoreHandler {
+    /**
+     * Save the content in store.
+     */
     fun save(storeType: StoreType, data: Map<String, String>)
+
+    /**
+     * Get content by keys
+     */
     fun restore(storeType: StoreType, vararg keys: String): Map<String, String?>
+
+    /**
+     * Delete content has in store.
+     */
     fun delete(storeType: StoreType, key: String)
+
+    /**
+     * Responsible to get all content
+     */
     fun getAll(storeType: StoreType): Map<String, String>
 }

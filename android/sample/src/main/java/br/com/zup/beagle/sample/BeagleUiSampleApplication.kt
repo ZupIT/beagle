@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample
 
-import androidx.multidex.MultiDexApplication
+import android.app.Application
 
-class BeagleUiSampleApplication : MultiDexApplication() {
+class BeagleUiSampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

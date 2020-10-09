@@ -27,7 +27,7 @@ import br.com.zup.beagle.widget.core.ScrollAxis
  * @param children define a list of components to be displayed on this view.
  * @param scrollDirection define the scroll roll direction on screen.
  * @param scrollBarEnabled determine if the Scroll bar is displayed or not. It is displayed by default.
- *
+ * @param context define the contextData that be set to scrollView.
  */
 data class ScrollView(
     val children: List<ServerDrivenComponent>,

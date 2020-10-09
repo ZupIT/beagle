@@ -140,11 +140,21 @@ private extension TextInput.TextInputView {
             keyboardType = .emailAddress
         case .number, .date:
             keyboardType = .numberPad
+            setupToolBar()
         case .password:
             keyboardType = .default
             isSecureTextEntry = true
         case .text:
             keyboardType = .default
         }
+    }
+    
+    func setupToolBar() {
+        let toolBar = UIToolbar()
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(resignFirstResponder))
+        toolBar.items = [spacer, doneButton]
+        toolBar.sizeToFit()
+        inputAccessoryView = toolBar
     }
 }
