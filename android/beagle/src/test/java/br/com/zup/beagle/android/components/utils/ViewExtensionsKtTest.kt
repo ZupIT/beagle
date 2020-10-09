@@ -29,7 +29,6 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.dp
@@ -44,13 +43,20 @@ import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
+import io.mockk.verifyOrder
+import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.internal.matchers.Null
-import kotlin.test.assertTrue
 
 private val URL = RandomData.httpUrl()
 private val screenRequest = ScreenRequest(URL)

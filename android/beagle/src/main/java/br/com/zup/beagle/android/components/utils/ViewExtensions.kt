@@ -17,13 +17,11 @@
 package br.com.zup.beagle.android.components.utils
 
 import android.content.Context
-import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.toColor
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
@@ -35,7 +33,6 @@ import br.com.zup.beagle.core.StyleComponent
 internal var viewExtensionsViewFactory = ViewFactory()
 internal var styleManagerFactory = StyleManager()
 const val FLOAT_ZERO = 0.0f
-private val COLOR_DEFAULT_STROKE = "#000000".toAndroidColor()
 
 internal fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
