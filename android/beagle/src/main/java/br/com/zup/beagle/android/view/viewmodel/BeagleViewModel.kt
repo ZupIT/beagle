@@ -28,7 +28,11 @@ import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicReference
 
 sealed class ViewState {
@@ -110,7 +114,7 @@ internal class BeagleViewModel(
             return false
         }
 
-        private fun fetchComponentIsCompleted(job: Job) : Boolean {
+        private fun fetchComponentIsCompleted(job: Job): Boolean {
             return if (!job.isCompleted) {
                 cancelFetchComponent(job)
                 true
