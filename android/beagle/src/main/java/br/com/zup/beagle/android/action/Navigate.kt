@@ -159,7 +159,6 @@ sealed class Navigate : Action {
             val newValue = evaluateExpression(rootView, origin, url)
             return this.copy(url = Bind.Value(newValue ?: ""))
         }
-
         return this
     }
 }
