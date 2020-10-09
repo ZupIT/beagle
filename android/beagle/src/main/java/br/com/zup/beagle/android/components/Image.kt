@@ -98,13 +98,13 @@ data class Image constructor(
         }
 
         observeBindChanges(rootView, imageView, pathType.url) { url ->
-            imageView.downloadImage(url ?: "", rootView)
+            downloadImage(imageView, url ?: "", rootView)
         }
     }
 
-    private fun ImageView.downloadImage(url: String, rootView: RootView) =
-        BeagleEnvironment.beagleSdk.imageDownloader?.download(url, this, rootView)
-            ?: DefaultImageDownloader().download(url, this, rootView)
+    private fun downloadImage(imageView: ImageView, url: String, rootView: RootView) =
+        BeagleEnvironment.beagleSdk.imageDownloader?.download(url, imageView, rootView)
+            ?: DefaultImageDownloader().download(url, imageView, rootView)
 
     private fun getImage(imagePath: String?): Int? =
         imagePath?.let {

@@ -30,7 +30,7 @@ import br.com.zup.beagle.android.widget.RootView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal class DefaultImageDownloader: BeagleImageDownloader {
+internal class DefaultImageDownloader : BeagleImageDownloader {
 
     private val imageDownloader: ImageDownloader = ImageDownloader()
 
@@ -45,7 +45,9 @@ internal class DefaultImageDownloader: BeagleImageDownloader {
                         null
                     }
 
-                    setImage(imageView, bitmap, rootView.getContext().resources)
+                    bitmap?.let {
+                        setImage(imageView, bitmap)
+                    }
                 }
             } else {
                 BeagleLoggerProxy.error("Your view has width or height with size 0, the image will no be rendered")
@@ -53,9 +55,12 @@ internal class DefaultImageDownloader: BeagleImageDownloader {
         }
     }
 
-    private suspend fun setImage(view: ImageView, bitmap: Bitmap?, resources: Resources) {
+    private suspend fun setImage(view: ImageView, bitmap: Bitmap?) {
         withContext(CoroutineDispatchers.Main) {
-            view.setImageDrawable(BitmapDrawable(resources, bitmap))
+            view.context?.let {
+                view.setImageDrawable(BitmapDrawable(it.resources, bitmap))
+            }
+
         }
     }
 
