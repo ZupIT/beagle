@@ -21,6 +21,8 @@
       ▿ some: Style
         ▿ backgroundColor: Optional<String>
           - some: "#800000FF"
+        - borderColor: Optional<String>.none
+        - borderWidth: Optional<Double>.none
         ▿ cornerRadius: Optional<CornerRadius>
           ▿ some: CornerRadius
             - radius: 30.0
