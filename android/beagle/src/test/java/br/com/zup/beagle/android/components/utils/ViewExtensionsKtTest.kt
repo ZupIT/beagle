@@ -96,7 +96,8 @@ class ViewExtensionsKtTest : BaseTest() {
         super.setUp()
 
         mockkStatic(TextViewCompat::class)
-        mockkStatic("br.com.zup.beagle.android.data.StringExtensionsKt")
+        mockkStatic("br.com.zup.beagle.android.utils.StringExtensionsKt")
+        mockkStatic("br.com.zup.beagle.android.utils.NumberExtensionsKt")
 
         viewExtensionsViewFactory = viewFactory
 
@@ -216,22 +217,25 @@ class ViewExtensionsKtTest : BaseTest() {
     @Test
     fun `stroke test`() {
         // Given
-        val defaultColor = "#000000".toAndroidColor()
-        val resultWidth = 5.0
+        val defaultColor = "#000000"
+        val resultWidth = 5
+        val resultColor = 0
         val styleWidget = mockk<StyleComponent>()
-        val style = Style(borderWidth = resultWidth)
+        val style = Style(borderWidth = resultWidth.toDouble(), borderColor = defaultColor)
+        val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
+
+        every { viewGroup.background } returns gradientDrawable
         every { styleWidget.style } returns style
-//        every { resultWidth.toInt() } returns resultWidth.toInt().dp()
+        every { resultWidth.dp() } returns resultWidth
+        every { defaultColor.toAndroidColor() } returns resultColor
 
         // When
         viewGroup.applyStroke(styleWidget)
 
         // Then
-//        verify {
-//            if (defaultColor != null) {
-//                (viewGroup.background as? GradientDrawable)?.setStroke(resultWidth.toInt().dp(),defaultColor)
-//            }
-//        }
+        verify {
+            gradientDrawable.setStroke(resultWidth, resultColor)
+        }
     }
 }
 
