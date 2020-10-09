@@ -17,11 +17,13 @@
 package br.com.zup.beagle.android.components.utils
 
 import android.content.Context
+import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColor
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
@@ -71,11 +73,13 @@ internal fun View.applyBackgroundColor(styleWidget: StyleComponent) {
 }
 
 internal fun View.applyStroke(styleWidget: StyleComponent) {
-    val color = styleWidget.style?.borderColor?.toAndroidColor() ?: COLOR_DEFAULT_STROKE
+    val color = styleWidget.style?.borderColor?.toAndroidColor()
     val width = styleWidget.style?.borderWidth?.toInt()?.dp()
     width?.let { strokeWidth ->
         color?.let { strokeColor ->
-            (this.background as? GradientDrawable)?.setStroke(strokeWidth, strokeColor)
+            val gradient = this.background as? GradientDrawable ?: GradientDrawable()
+            gradient.setStroke(strokeWidth, strokeColor)
+            this.background = gradient
         }
     }
 }

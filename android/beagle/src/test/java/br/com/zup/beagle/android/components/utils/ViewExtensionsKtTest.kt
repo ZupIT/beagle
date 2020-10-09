@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components.utils
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.manipulation.Ordering
 import org.mockito.internal.matchers.Null
 import kotlin.test.assertTrue
 
@@ -237,5 +239,75 @@ class ViewExtensionsKtTest : BaseTest() {
             gradientDrawable.setStroke(resultWidth, resultColor)
         }
     }
+
+    @Test
+    fun `stroke test Two`() {
+        // Given
+        val defaultColor = "#000000"
+        val resultWidth = 5
+        val resultColor = 0
+        val styleWidget = mockk<StyleComponent>()
+        val style = Style(borderWidth = null, borderColor = defaultColor)
+        val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
+
+        every { viewGroup.background } returns gradientDrawable
+        every { styleWidget.style } returns style
+        every { defaultColor.toAndroidColor() } returns resultColor
+
+        // When
+        viewGroup.applyStroke(styleWidget)
+
+        // Then
+        verify(exactly = 0) {
+            gradientDrawable.setStroke(resultWidth, resultColor)
+        }
+    }
+
+    @Test
+    fun `stroke test three`() {
+        // Given
+        val resultWidth = 5
+        val resultColor = 0
+        val styleWidget = mockk<StyleComponent>()
+        val style = Style(borderWidth = resultWidth.toDouble(), borderColor = null)
+        val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
+
+        every { viewGroup.background } returns gradientDrawable
+        every { styleWidget.style } returns style
+        every { resultWidth.dp() } returns resultWidth
+
+        // When
+        viewGroup.applyStroke(styleWidget)
+
+        // Then
+        verify(exactly = 0) {
+            gradientDrawable.setStroke(resultWidth, resultColor)
+        }
+    }
+
+//    @Test
+//    fun `stroke`() {
+//        // Given
+//        val defaultColor = "#gf5487"
+//        val resultWidth = 5
+//        val resultColor = 0
+//        val styleWidget = mockk<StyleComponent>()
+//        val style = Style(borderWidth = resultWidth.toDouble(), borderColor = defaultColor)
+//        val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
+//        val context = mockk<Context>(relaxed = true)
+//        val viewGroupTest = View(context)
+//        viewGroupTest.background = null
+//        every { styleWidget.style } returns style
+//        every { resultWidth.dp() } returns resultWidth
+//        every { defaultColor.toAndroidColor() } returns resultColor
+//
+//        // When
+//        viewGroupTest.applyStroke(styleWidget)
+//
+//        // Then
+//        verify(exactly = 0) {
+//            gradientDrawable.setStroke(resultWidth, resultColor)
+//        }
+//    }
 }
 
