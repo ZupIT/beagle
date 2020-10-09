@@ -28,6 +28,14 @@ import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
+/**
+ * ListView is a Layout component that will define a list of views natively.
+ * These views could be any Server Driven Component.
+ *
+ * @param children define the items on the list view.
+ * @param direction define the list direction.
+ *
+ */
 @RegisterWidget
 data class ListView(
     override val children: List<ServerDrivenComponent>,

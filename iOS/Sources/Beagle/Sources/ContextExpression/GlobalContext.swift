@@ -21,7 +21,23 @@ public protocol GlobalContext {
     var context: Observable<Context> { get }
     
     func isGlobal(id: String?) -> Bool
-    func setValue(_ value: DynamicObject)
+    func set(value: DynamicObject, path: String?)
+    func get(path: String?) -> DynamicObject
+    func clear(path: String?)
+}
+
+public extension GlobalContext {
+    func set(_ value: DynamicObject) {
+        set(value: value, path: nil)
+    }
+    
+    func get() -> DynamicObject {
+        get(path: nil)
+    }
+    
+    func clear() {
+        clear(path: nil)
+    }
 }
 
 public protocol DependencyGlobalContext {
@@ -41,7 +57,34 @@ public class DefaultGlobalContext: GlobalContext {
         globalId == id
     }
     
-    public func setValue(_ value: DynamicObject) {
-        context.value = Context(id: globalId, value: value)
+    public func set(value: DynamicObject, path: String?) {
+        guard let pathObject = path.toPath() else {
+            return
+        }
+        let contextValue = context.value.value
+        context.value = Context(id: globalId, value: contextValue.set(value, with: pathObject))
+    }
+    
+    public func get(path: String? = nil) -> DynamicObject {
+        guard let pathObject = path.toPath() else {
+            return .empty
+        }
+        return context.value.value[pathObject]
+    }
+    
+    public func clear(path: String?) {
+        set(value: nil, path: path)
+    }
+    
+}
+
+private extension Optional where Wrapped == String {
+    func toPath() -> Path? {
+        switch self {
+        case let .some(string):
+            return Path(rawValue: string)
+        case .none:
+            return Path(nodes: [])
+        }
     }
 }

@@ -27,6 +27,18 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 
+/**
+ * This action will show dialogues natively, such as an error alert indicating alternative flows, business system
+ * errors and others.
+ *
+ * @param title defines the title on the Dialog.
+ * @param message defines the Dialog message.
+ * @param labelOk define text of button positive in dialog.
+ * @param labelCancel define text of button negative in dialog.
+ * @param onPressOk define action of button positive in dialog.
+ * @param onPressCancel define action of button negative in dialog.
+ *
+ */
 data class Confirm(
     val title: Bind<String>? = null,
     val message: Bind<String>,

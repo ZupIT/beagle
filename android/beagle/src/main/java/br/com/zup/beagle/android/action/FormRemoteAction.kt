@@ -22,17 +22,54 @@ import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
 
+/**
+ *  Defines the type of operation submitted by this form. It will map these values to Http methods.
+ *
+ * @property GET
+ * @property POST
+ * @property PUT
+ * @property DELETE
+ *
+ */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 enum class FormMethodType {
+    /**
+     * The GET method requests a representation of the specified resource.
+     * Requests using GET should only retrieve data.
+     *
+     */
     GET,
+
+    /**
+     * The POST method is used to submit an entity to the specified resource,
+     * often causing a change in state or side effects on the server.
+     *
+     */
     POST,
+
+    /**
+     * The PUT method replaces all current representations of the target resource with the request payload.
+     *
+     */
     PUT,
+
+    /**
+     * The DELETE method deletes the specified resource.
+     *
+     */
     DELETE
 }
 
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 internal typealias ResultListener = (result: FormResult) -> Unit
 
+/**
+ *  Define remote action, when you want to do some request when submit the form.
+ *
+ * @param path defines the URL path to the back-end service which will receive this form inputs.
+ * @param method defines the type of operation submitted by this form. It will map these values to Http methods.
+ *
+ */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormRemoteAction(
     val path: String,

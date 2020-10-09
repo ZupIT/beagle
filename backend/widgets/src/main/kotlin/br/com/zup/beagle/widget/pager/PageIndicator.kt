@@ -23,7 +23,8 @@ import br.com.zup.beagle.widget.context.Bind
  *
  * @param selectedColor this is a string value and it must be filled as HEX (Hexadecimal)
  * @param unselectedColor this is a string value and it must be filled as HEX (Hexadecimal)
- *
+ * @param numberOfPages Numbers of pages that will contain.
+ * @param currentPage Integer number that identifies that selected
  */
 data class PageIndicator(
     val selectedColor: String,

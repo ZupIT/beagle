@@ -184,7 +184,6 @@ final class RepositoryStub: Repository {
 
     var componentResult: Result<ServerDrivenComponent, Request.Error>?
     var formResult: Result<RawAction, Request.Error>?
-    var imageResult: Result<Data, Request.Error>?
 
     private(set) var didCallDispatch = false
     private(set) var token = Token()
@@ -200,12 +199,10 @@ final class RepositoryStub: Repository {
 
     init(
         componentResult: Result<ServerDrivenComponent, Request.Error>? = nil,
-        formResult: Result<RawAction, Request.Error>? = nil,
-        imageResult: Result<Data, Request.Error>? = nil
+        formResult: Result<RawAction, Request.Error>? = nil
     ) {
         self.componentResult = componentResult
         self.formResult = formResult
-        self.imageResult = imageResult
     }
 
     func fetchComponent(
@@ -234,17 +231,13 @@ final class RepositoryStub: Repository {
         }
         return token
     }
-
+    
     func fetchImage(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         completion: @escaping (Result<Data, Request.Error>) -> Void
     ) -> RequestToken? {
-        didCallDispatch = true
-        if let result = imageResult {
-            completion(result)
-        }
-        return token
+        return nil
     }
 }
 
