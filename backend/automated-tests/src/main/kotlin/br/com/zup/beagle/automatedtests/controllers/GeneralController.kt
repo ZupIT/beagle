@@ -22,6 +22,7 @@ import EXPRESSION_ESCAPING_ENDPOINT
 import KOTLIN_DSL_ENDPOINT
 import NAVIGATE_ACTIONS_ENDPOINT
 import GLOBAL_TEXT_ENDPOINT
+import NAVIGATE_RESET_ENDPOINT
 import SAFE_AREA_ENDPOINT
 import SCREEN_ACTION_CLICK_ENDPOINT
 import SCREEN_SAFE_AREA_FALSE_ENDPOINT
@@ -62,6 +63,9 @@ class GeneralController {
 
     @GetMapping(GLOBAL_TEXT_ENDPOINT)
     fun getGlobalText() = GlobalSampleTextScreenBuilder.build()
+
+    @GetMapping(NAVIGATE_RESET_ENDPOINT)
+    fun getNavigateActionsResetScreen() = NavigateActionsResetScreenBuilder.build()
 
 }
 
