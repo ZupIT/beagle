@@ -22,6 +22,7 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import br.com.zup.beagle.automatedTests.R
@@ -41,6 +42,15 @@ class ScreenRobot {
         }
 
         onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
+        return this
+    }
+
+    fun checkViewDoesNotContainsText(text: String?, waitForText: Boolean = false): ScreenRobot {
+        if (waitForText){
+            WaitHelper.waitForWithElement(onView(withText(text)))
+        }
+
+        onView(Matchers.allOf(withText(text))).check(doesNotExist())
         return this
     }
 

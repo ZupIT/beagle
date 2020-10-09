@@ -29,4 +29,5 @@ object Constants {
     val buttonScreenBffUrl = "http://10.0.2.2:8080/button"
     const val navigateActionsBffUrl = "http://10.0.2.2:8080/navigate-actions"
     const val globalTextBffUrl = "http://10.0.2.2:8080/global-text"
+    const val navigateResetBffUrl = "http://10.0.2.2:8080/navigate-reset"
 }

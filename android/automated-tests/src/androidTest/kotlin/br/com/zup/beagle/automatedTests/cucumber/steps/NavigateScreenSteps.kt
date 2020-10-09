@@ -49,27 +49,46 @@ class NavigateScreenSteps {
         ActivityFinisher.finishOpenActivities()
     }
 
-    @Given("^the app did load a screen with a navigation action$")
+    @Given("^the Beagle application did launch with the navigation screen url$")
     fun checkBaseScreen() {
         ScreenRobot()
             .checkViewContainsText(NAVIGATION_SCREEN_TITLE, true)
     }
 
-    @And("^I click on another button$")
-    fun clickOnButton() {
+    @When("^I press a navigation button (.*)$")
+    fun clickOnButton(string:String) {
         ScreenRobot()
-            .clickOnText(POP_STACK_BUTTON)
+            .clickOnText(string)
     }
 
-    @Then("^the screen should navigate to another screen with text label (.*)$")
+    @And("^I click on (.*) button$")
+    fun clickOnPoPButton(string:String) {
+        ScreenRobot()
+            .clickOnText(string)
+    }
+
+    @Then("^the screen should navigate to another screen with the text label (.*)$")
     fun checkGlobalTextScreen(string2:String) {
         ScreenRobot()
-            .checkViewContainsText(string2)
-            .sleep(2)
+            .checkViewContainsText(string2, true)
     }
 
-    @Then("^The text should not be available since its view is gone$")
-    fun checkTextIsNotOnAnyView(){
-        AppBeagleActivitiy.
+    @Then("^the screen should not navigate to another screen with the text label (.*)$")
+    fun checkGlobalTextScreenIsNotOnView(string2:String) {
+        ScreenRobot()
+            .checkViewDoesNotContainsText(string2)
+    }
+
+    @Then("^the app should dismiss the view that contains (.*)$")
+    fun checkTextIsNotOnAnyView(string1:String){
+        ScreenRobot()
+            .checkViewDoesNotContainsText(string1)
+            .sleep(3)
+    }
+
+    @Then("^the view that contains the (.*) must still exist$")
+    fun checkTextExistsInAView(string2:String) {
+        ScreenRobot()
+            .checkViewContainsText(string2, true)
     }
 }
