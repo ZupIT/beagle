@@ -23,9 +23,37 @@ struct TabBarScreen: DeeplinkScreen {
     }
     
     func screenController() -> UIViewController {
-        return Beagle.screen(.declarative(screen))
+        return Beagle.screen(.declarative(coelho))
     }
     
+    var coelho = Screen(navigationBar: NavigationBar(title: "TabView"), context: Context(id: "tab",
+                value: [
+                    "currentTab": 0,
+                    "icon": [
+                        "tab1": "beagle",
+                        "tab4": "imageBeagle",
+                        "tab5": "informationImage",
+                        "tab8": "blackHole"
+                    ]
+                ]
+    )) {
+        TabView {
+            TabItem(icon: "@{tab.icon.tab1}", child: test)
+            TabItem(title: "Tab 2", child: test)
+            TabItem(title: "Tab 3", child: Text("tab 1"))
+            TabItem(icon: "@{tab.icon.tab4}", title: "Tab 4", child: Text("tab 1"))
+            TabItem(icon: "@{tab.icon.tab5}", child: Text("tab 1"))
+            TabItem(title: "Tab 6", child: Text("tab 1"))
+            TabItem(title: "Tab", child: Text("tab 1"))
+            TabItem(icon: "@{tab.icon.tab8}", title: "Tab 8", child: Text("tab 1"))
+        }
+
+    }
+    
+   static var test = Container {
+        Text("tab 1")
+    }
+
     var screen = Screen(navigationBar: NavigationBar(title: "TabBar")) {
         Container(context:
             Context(id: "tab",

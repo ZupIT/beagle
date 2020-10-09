@@ -16,12 +16,12 @@
 
 public struct TabItem: Decodable {
 
-    public let icon: String?
+    public let icon: StringOrExpression?
     public let title: String?
     public let child: RawComponent
 
     public init(
-        icon: String? = nil,
+        icon: StringOrExpression? = nil,
         title: String? = nil,
         child: RawComponent
     ) {
@@ -31,7 +31,7 @@ public struct TabItem: Decodable {
     }
     
     public init(
-        icon: String? = nil,
+        icon: StringOrExpression? = nil,
         title: String? = nil,
         @ChildBuilder
         _ child: () -> RawComponent

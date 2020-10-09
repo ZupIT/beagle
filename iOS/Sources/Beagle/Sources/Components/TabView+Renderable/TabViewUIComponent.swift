@@ -62,6 +62,7 @@ final class TabViewUIComponent: UIView {
             indicatorView: nil,
             controller: renderer.controller
         )
+        view.style.setup(Style(flex: Flex().grow(1)))
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
