@@ -12,15 +12,16 @@ import XCTest
 class NavigationActionSteps: CucumberStepsDefinition {
     var application: XCUIApplication!
     
-    func loadSteps() {        
+    func loadSteps() {
+        // MARK: - Before
         before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("navigation") ?? false {
                 let url = "http://localhost:8080/navigate-actions"
                 self.application = TestUtils.launchBeagleApplication(url: url)
             }
         }
-        // MARK: - Given
         
+        // MARK: - Given
         Given("^the Beagle application did launch with the navigation screen url$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.NAVIGATION_SCREEN_TITLE.element.exists)
         }
@@ -33,7 +34,7 @@ class NavigationActionSteps: CucumberStepsDefinition {
             self.application.buttons[text].tap()
         }
         
-        /// Scenarios 3, 4 and 6
+        /// Scenarios 3, 4, 5 and 6
         When("^I navigate to another screen using the \"([^\\\"]*)\" action and I press a button with the \"([^\\\"]*)\" action$") { args, _ -> Void in
             let text1 = args![0]
             self.application.buttons[text1].tap()
