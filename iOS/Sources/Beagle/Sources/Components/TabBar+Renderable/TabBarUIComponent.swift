@@ -85,6 +85,7 @@ final class TabBarUIComponent: UIScrollView {
             // Creates tabItems only after view it's already in superview hierarchy
             if let _ = superview, shouldCreateTabItemsView {
                 setupTabBarItems()
+                setupIndicatorViewStyle(for: tabItemViews[0])
                 style.applyLayout()
                 scrollTo(page: model.tabIndex ?? 0)
             }
@@ -174,7 +175,8 @@ private extension TabBarUIComponent {
         )
     }
     
-    func setupIndicatorViewStyle(for selectedItem: TabBarItemUIComponent) {
+    func setupIndicatorViewStyle(for selectedItem: TabBarItemUIComponent?) {
+        guard let selectedItem = selectedItem else { return }
         indicatorView.style.setup(
             Style(
                 size: Size().height(3).width(.init(value: Double(selectedItem.bounds.width), type: .real)),
@@ -253,9 +255,11 @@ extension TabBarUIComponent {
     func scrollTo(page: Int) {
         model.tabIndex = page
         guard let view = tabItemViews[page] else { return }
-
         let newRect = view.convert(view.bounds, to: self)
         scrollRectToVisible(newRect, animated: true)
+//        var point = view.center
+//        point.x += frame.width / 2
+//        setContentOffset(point, animated: true)
         setupTabBarItemsTheme(for: page)
         moveIndicatorView(to: view)
     }
