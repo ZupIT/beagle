@@ -28,7 +28,7 @@ import br.com.zup.beagle.widget.ui.Text
 
 object GlobalSampleTextScreenBuilder {
 
-    val FALLBACK_SCREEN = NavigateActionsScreenBuilder.build()
+    val FALLBACK_SCREEN = NavigateActionsResetScreenBuilder.build()
 
     fun build() = Screen(
         child = Container(
