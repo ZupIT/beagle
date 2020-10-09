@@ -152,8 +152,8 @@ class ImageTests: XCTestCase {
         //Given
         let image = Image("@{img.path}")
         let dependency = BeagleDependencies()
-        let repository = RepositoryStub(imageResult: .success(Data()))
-        dependency.repository = repository
+        let imageDownloader = ImageDownloaderStub(imageResult: .success(Data()))
+        dependency.imageDownloader = imageDownloader
         let container = Container(children: [image])
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
         let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
@@ -161,11 +161,11 @@ class ImageTests: XCTestCase {
         
         //When
         view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
-        controller.configBindings()
+        controller.bindings.config()
         action.execute(controller: controller, origin: view)
         
         // Then
-        XCTAssertTrue(repository.token.didCallCancel)
+        XCTAssertTrue(imageDownloader.token.didCallCancel)
     }
     
     func testLocalImageWithContext() {

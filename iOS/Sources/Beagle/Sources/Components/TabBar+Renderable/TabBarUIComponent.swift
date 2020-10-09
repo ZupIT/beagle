@@ -79,7 +79,7 @@ final class TabBarUIComponent: UIScrollView {
         if let contentView = subviews.first {
             contentSize = contentView.frame.size
             resetTabItemsStyle()
-
+            
             // Creates tabItems only after view it's already in superview hierarchy
             if superview != nil && shouldCreateTabItemsView {
                 setupTabBarItems()
