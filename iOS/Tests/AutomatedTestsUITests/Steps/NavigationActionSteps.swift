@@ -28,13 +28,13 @@ class NavigationActionSteps: CucumberStepsDefinition {
         
         // MARK: - When
         
-        /// Scenarios 1 and 2
+        // Scenarios 1 and 2
         When("^I press a navigation button \"([^\\\"]*)\"$") { args, _ -> Void in
             let text = args![0]
             self.application.buttons[text].tap()
         }
         
-        /// Scenarios 3, 4, 5 and 6
+        // Scenarios 3, 4, 5 and 6
         When("^I navigate to another screen using the \"([^\\\"]*)\" action and I press a button with the \"([^\\\"]*)\" action$") { args, _ -> Void in
             let text1 = args![0]
             self.application.buttons[text1].tap()
@@ -45,37 +45,37 @@ class NavigationActionSteps: CucumberStepsDefinition {
         
         // MARK: - Then
         
-        /// Scenario 1
+        // Scenario 1
         Then("^the screen should navigate to another screen with the text label \"([^\\\"]*)\"$") { args, _ -> Void in
             let text = args![0]
             XCTAssertTrue(self.application.staticTexts[text].exists)
         }
         
-        /// Scenario 2
+        // Scenario 2
         Then("^the screen should not navigate to another screen with the text label \"([^\\\"]*)\"$") { args, _ -> Void in
             let text = args![0]
             XCTAssertFalse(self.application.staticTexts[text].exists)
         }
         
-        /// Scenario 3
+        // Scenario 3
         Then("^the app should dismiss the current view$") { _, _ -> Void in
             XCTAssertFalse(ScreenElements.SAMPLE_NAVIGATION_SCREEN_TITLE.element.exists)
         }
 
-        /// Scenario 4
+        // Scenario 4
         Then("^the application should navigate back to a specific screen and remove from the stack the other screens loaded from the current screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.NAVIGATION_SCREEN_TITLE.element.exists)
             XCTAssertFalse(ScreenElements.SAMPLE_NAVIGATION_SCREEN_TITLE.element.exists)
         }
 
-        /// Scenario 5
+        // Scenario 5
         Then("^the app should navigate to a specified screen and cleans up the entire stack of the previously loaded views$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.RESET_NAVIGATION_SCREEN_TITLE.element.exists)
             XCTAssertFalse(ScreenElements.NAVIGATION_SCREEN_TITLE.element.exists)
             XCTAssertFalse(ScreenElements.SAMPLE_NAVIGATION_SCREEN_TITLE.element.exists)
         }
         
-        /// Scenario 6
+        // Scenario 6
         Then("^the app should clean up the entire stack and the application should enter in the foreground state$") { _, _ -> Void in
             XCTAssertEqual(self.application.state, XCUIApplication.State.runningForeground)
         }
