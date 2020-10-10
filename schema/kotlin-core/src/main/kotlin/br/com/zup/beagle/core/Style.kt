@@ -32,6 +32,8 @@ import br.com.zup.beagle.widget.core.Size
  *                          It must be listed as an Hexadecimal color format without the "#".
  *                          For example, for a WHITE background type in "FFFFFF".
  * @param cornerRadius Using a Double parameters it sets the corner of your view to make it round.
+ * @param borderColor Sets the color of your view border. Supported formats:#RRGGBB[AA] and #RGB[A].
+ * @param borderWidth Sets the width of your view border.
  * @param size add size to current view applying the flex.
  * @param margin
  *                  effects the spacing around the outside of a node.
@@ -53,6 +55,8 @@ import br.com.zup.beagle.widget.core.Size
 data class Style (
     val backgroundColor: String? = null,
     val cornerRadius: CornerRadius? = null,
+    val borderColor: String? = null,
+    val borderWidth: Double? = null,
     val size: Size? = null,
     val margin: EdgeValue? = null,
     val padding: EdgeValue? = null,
