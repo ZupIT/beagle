@@ -22,7 +22,9 @@ import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.Container
+
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
@@ -38,93 +40,101 @@ object GlobalSampleTextScreenBuilder {
             ),
             children =
             listOf(
-                Text(
-                    text = "Sample Screen"
-                ),
-                Text(
-                    text = expressionOf("@{global}")
-                ),
-                Button(
-                    text = "PopToView",
-                    onPress = listOf(
-                        Navigate.PopToView(
-                            NAVIGATE_ACTIONS_ENDPOINT
+                Text(text = "Sample Screen"),
+                Text(text = expressionOf("@{global}")),
+                popButtons(),
+                resetButtons()
+            )
+        )
+    )
+
+    private fun resetButtons(): Container = Container(
+        listOf(
+            Button(
+                text = "ResetStack",
+                onPress = listOf(
+                    Navigate.ResetStack(
+                        Route.Remote(
+                            url = NAVIGATE_RESET_ENDPOINT
                         )
                     )
-                ),
-                Button(
-                    text = "PopStack",
-                    onPress = listOf(
-                        Navigate.PopStack()
-                    )
-                ),
-                Button(
-                    text = "PopView",
-                    onPress = listOf(
-                        Navigate.PopView()
-                    )
-                ),
-                Button(
-                    text = "ResetStack",
-                    onPress = listOf(
-                        Navigate.ResetStack(
-                            Route.Remote(
-                                url = NAVIGATE_RESET_ENDPOINT
-                            )
+                )
+            ),
+            Button(
+                text = "ResetApplication",
+                onPress = listOf(
+                    Navigate.ResetApplication(
+                        Route.Remote(
+                            url = NAVIGATE_RESET_ENDPOINT
                         )
                     )
-                ),
-                Button(
-                    text = "ResetApplication",
-                    onPress = listOf(
-                        Navigate.ResetApplication(
-                            Route.Remote(
-                                url = NAVIGATE_RESET_ENDPOINT
-                            )
+                )
+            ),
+            Button(
+                text = "ResetStackExpression",
+                onPress = listOf(
+                    Navigate.ResetStack(
+                        Route.Remote(
+                            url = "@{relativePath}"
                         )
                     )
-                ),
-                Button(
-                    text = "ResetStackExpression",
-                    onPress = listOf(
-                        Navigate.ResetStack(
-                            Route.Remote(
-                                url = "@{relativePath}"
-                            )
+                )
+            ),
+            Button(
+                text = "ResetApplicationExpression",
+                onPress = listOf(
+                    Navigate.ResetApplication(
+                        Route.Remote(
+                            url = "@{relativePath}"
                         )
                     )
-                ),
-                Button(
-                    text = "ResetApplicationExpression",
-                    onPress = listOf(
-                        Navigate.ResetApplication(
-                            Route.Remote(
-                                url = "@{relativePath}"
-                            )
+                )
+            ),
+            Button(
+                text = "ResetStackExpressionFallback",
+                onPress = listOf(
+                    Navigate.ResetStack(
+                        Route.Remote(
+                            url = "@{global}",
+                            fallback = FALLBACK_SCREEN
                         )
                     )
-                ),
-                Button(
-                    text = "ResetStackExpressionFallback",
-                    onPress = listOf(
-                        Navigate.ResetStack(
-                            Route.Remote(
-                                url = "@{global}",
-                                fallback = FALLBACK_SCREEN
-                            )
+                )
+            ),
+            Button(
+                text = "ResetApplicationExpressionFallback",
+                onPress = listOf(
+                    Navigate.ResetApplication(
+                        Route.Remote(
+                            url = "@{global}",
+                            fallback = FALLBACK_SCREEN
                         )
                     )
-                ),
-                Button(
-                    text = "ResetApplicationExpressionFallback",
-                    onPress = listOf(
-                        Navigate.ResetApplication(
-                            Route.Remote(
-                                url = "@{global}",
-                                fallback = FALLBACK_SCREEN
-                            )
-                        )
+                )
+            )
+        )
+    )
+
+    private fun popButtons(): Container = Container(
+        listOf(
+            Button(
+                text = "PopToView",
+                onPress = listOf(
+                    Navigate.PopToView(
+                        NAVIGATE_ACTIONS_ENDPOINT
                     )
+                )
+            ),
+            Button(
+                text = "PopStack",
+                onPress = listOf(
+                    Navigate.PopStack()
+                )
+            ),
+            Button(
+                text = "PopView",
+                onPress = listOf(
+                    Navigate.PopView()
                 )
             )
         )
