@@ -20,9 +20,6 @@ import ACCESSIBILITY_ENDPOINT
 import ANALYTICS_ENDPOINT
 import EXPRESSION_ESCAPING_ENDPOINT
 import KOTLIN_DSL_ENDPOINT
-import NAVIGATE_ACTIONS_ENDPOINT
-import GLOBAL_TEXT_ENDPOINT
-import NAVIGATE_RESET_ENDPOINT
 import SAFE_AREA_ENDPOINT
 import SCREEN_ACTION_CLICK_ENDPOINT
 import SCREEN_SAFE_AREA_FALSE_ENDPOINT
@@ -33,9 +30,6 @@ import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.BuilderKotlinDslScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ExpressionEscapingScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.AccessibilityScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.NavigateActionsScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.GlobalSampleTextScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.NavigateActionsResetScreenBuilder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -65,15 +59,6 @@ class GeneralController {
 
     @GetMapping(ACCESSIBILITY_ENDPOINT)
     fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
-
-    @GetMapping(NAVIGATE_ACTIONS_ENDPOINT)
-    fun getNavigateActions() = NavigateActionsScreenBuilder.build()
-
-    @GetMapping(GLOBAL_TEXT_ENDPOINT)
-    fun getGlobalText() = GlobalSampleTextScreenBuilder.build()
-
-    @GetMapping(NAVIGATE_RESET_ENDPOINT)
-    fun getNavigateActionsResetScreen() = NavigateActionsResetScreenBuilder.build()
 }
 
 
