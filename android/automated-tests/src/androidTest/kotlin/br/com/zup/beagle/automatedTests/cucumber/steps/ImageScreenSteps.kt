@@ -35,7 +35,7 @@ class ImageScreenSteps {
 
     @Before("@image")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.imageScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, Constants.IMAGE_SCREEN_BFF_URL)
     }
 
     @After("@image")

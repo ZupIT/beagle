@@ -35,7 +35,7 @@ class TouchableScreenSteps {
 
     @Before("@touchable")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.touchableScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, Constants.TOUCHABLE_SCREEN_SCREEN_BFF_URL)
     }
 
     @After("@touchable")

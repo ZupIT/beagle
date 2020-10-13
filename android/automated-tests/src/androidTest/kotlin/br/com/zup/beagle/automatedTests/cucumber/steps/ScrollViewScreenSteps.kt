@@ -35,7 +35,7 @@ class ScrollViewScreenSteps {
 
     @Before("@scrollview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.scrollViewScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, Constants.SCROLL_VIEW_SCREEN_BFF_URL)
     }
 
     @After("@scrollview")
