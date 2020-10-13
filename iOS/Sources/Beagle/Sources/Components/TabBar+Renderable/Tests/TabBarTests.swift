@@ -21,16 +21,95 @@ import SnapshotTesting
 import BeagleSchema
 
 class TabBarTests: XCTestCase {
-    
-    func test_viewWithTabBar() {
-        let tabBar = TabBar(items: [
-            TabBarItem(title: "TAB 1"),
-            TabBarItem(title: "TAB 2"),
-            TabBarItem(title: "TAB 3")
-        ])
-        
-        let screen = Beagle.screen(.declarative(tabBar.toScreen()))
-        assertSnapshotImage(screen)
+
+    var dependencies: BeagleDependencies {
+        // swiftlint:disable implicit_getter
+        get {
+            let dependency = BeagleDependencies()
+            dependency.appBundle = Bundle(for: TabBarTests.self)
+            return dependency
+        }
     }
 
+    lazy var controller = BeagleControllerStub(dependencies: dependencies)
+    lazy var renderer = BeagleRenderer(controller: controller)
+
+    private let imageSize = ImageSize.custom(CGSize(width: 150, height: 80))
+
+    func testCurrentTabWithContext() {
+          // Given
+          let screen = Screen(
+              child: TabBar(
+                items: [
+                    TabBarItem(icon: "shuttle"),
+                    TabBarItem(icon: "shuttle", title: "Tab 2")
+                ],
+                currentTab: "@{tab}"),
+              context: Context(id: "tab", value: 1)
+          )
+
+          // When
+          let controller = BeagleScreenViewController(viewModel: .init(
+              screenType: .declarative(screen),
+              dependencies: dependencies
+          ))
+
+          // Then
+          assertSnapshotImage(controller.view, size: imageSize)
+      }
+
+    func testImageWithContext() {
+        // Given
+        let screen = Screen(
+            child: TabBar(
+                items: [
+                    TabBarItem(icon: "@{image}"),
+                    TabBarItem(icon: "@{image}", title: "Tab 2")
+                ]),
+            context: Context(id: "image", value: "shuttle")
+        )
+
+        // When
+        let controller = BeagleScreenViewController(viewModel: .init(
+            screenType: .declarative(screen),
+            dependencies: dependencies
+        ))
+
+        // Then
+        assertSnapshotImage(controller.view, size: imageSize)
+    }
+
+    func testTabSelection() {
+        // Given
+        let index = 1
+        var didCalledOnTabSelection = false
+        var passedIndex: Int?
+
+        let sut = TabBarUIComponent(model: .init(
+            tabIndex: 0,
+            tabBarItems: [
+                 TabBarItem(icon: "shuttle"),
+                 TabBarItem(icon: "shuttle", title: "Tab 2")
+            ],
+            renderer: renderer)
+        )
+
+        sut.setupTabBarItems()
+        
+        // When
+        sut.onTabSelection = { index in
+            didCalledOnTabSelection = true
+            passedIndex = index
+        }
+
+        guard let gestureRecognizer = sut.tabItemViews[index]?.gestureRecognizers?.first as? UITapGestureRecognizer else {
+            XCTFail("TabBarItem of index 1 has no gesture recognizer.")
+            return
+        }
+        sut.didSelectTabItem(sender: gestureRecognizer)
+
+        // Then
+        XCTAssert(didCalledOnTabSelection)
+        XCTAssert(passedIndex == index)
+    }
 }

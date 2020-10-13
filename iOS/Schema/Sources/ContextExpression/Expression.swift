@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+/// It's a `String` that will be treated internally as an `Expression<String>` if passed a value like "@{someExression}". Otherwise, it will be just a normal `String`.
+public typealias StringOrExpression = String
+
 public enum Expression<T: Decodable> {
     case value(T)
     case expression(ContextExpression)

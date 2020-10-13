@@ -24,7 +24,7 @@ private data class ImplicitContext(
     val caller: List<Action>
 )
 
-class ImplicitContextManager {
+internal class ImplicitContextManager {
 
     private val implicitContextData = mutableListOf<ImplicitContext>()
 

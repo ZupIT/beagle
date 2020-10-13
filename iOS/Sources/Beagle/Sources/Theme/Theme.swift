@@ -77,11 +77,16 @@ public struct BeagleStyle {
         return {
             guard let tabBar = $0 as? TabBarUIComponent else { return }
             tabBar.backgroundColor = backgroundColor
-            tabBar.containerIndicator.indicatorView.backgroundColor = indicatorColor
-            tabBar.model.selectedTextColor = selectedTextColor
-            tabBar.model.unselectedTextColor = unselectedTextColor
-            tabBar.model.selectedIconColor = selectedIconColor
-            tabBar.model.unselectedIconColor = unselectedIconColor
+            tabBar.indicatorView.backgroundColor = indicatorColor
+            tabBar.tabItemViews.forEach { _, item in
+                item.theme = TabBarTheme(
+                    selectedTextColor: selectedTextColor,
+                    unselectedTextColor: unselectedTextColor,
+                    selectedIconColor: selectedIconColor,
+                    unselectedIconColor: unselectedIconColor
+                )
+            }
+            
         }
     }
 

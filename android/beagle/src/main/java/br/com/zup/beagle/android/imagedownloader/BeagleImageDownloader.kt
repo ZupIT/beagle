@@ -14,26 +14,11 @@
  * limitations under the License.
  */
 
-import UIKit
+package br.com.zup.beagle.android.imagedownloader
 
-final class ContainerIndicatorView: UIView {
-    lazy var indicatorView: UIView = {
-        let view = UIView()
-        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.backgroundColor = .black
-        return view
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupView() {
-        addSubview(indicatorView)
-    }
+import android.widget.ImageView
+import br.com.zup.beagle.android.widget.RootView
+
+interface BeagleImageDownloader {
+    fun download(url: String, imageView: ImageView, rootView: RootView)
 }
