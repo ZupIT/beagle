@@ -35,7 +35,7 @@ class ImageScreenSteps {
 
     @Before("@image")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.imageScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, Constants.IMAGE_SCREEN_BFF_URL)
     }
 
     @After("@image")
@@ -49,7 +49,7 @@ class ImageScreenSteps {
             .checkViewContainsText(IMAGE_SCREEN_HEADER, true)
     }
 
-    @Then("^image screen should render all text attributes correctly$")
+    @Then("^image screen should render all image attributes correctly$")
     fun checkImageScreenTexts() {
         ScreenRobot()
             .checkViewContainsText(IMAGE_TEXT_1)

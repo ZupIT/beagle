@@ -18,7 +18,7 @@ class SimpleFormScreenSteps {
 
     @Before("@simpleform")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.simpleFormScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, Constants.SIMPLE_FORM_SCREEN_BFF_URL)
     }
 
     @After("@simpleform")

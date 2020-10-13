@@ -19,7 +19,7 @@ class ButtonScreen {
 
     @Before("@button")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.buttonScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, Constants.BUTTON_SCREEN_BFF_URL)
     }
 
     @Given("^that I'm on the button screen$")
