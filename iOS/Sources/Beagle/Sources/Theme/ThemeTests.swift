@@ -105,11 +105,15 @@ final class ThemeTests: XCTestCase {
     
     func test_tabViewWithStyle_shouldReturnAFunctionThatChangesTabViewStyle() {
         // Given
+        
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
+        
         let backgroundColor: UIColor = .clear
         let indicatorColor: UIColor = .blue
         let tabItem = TabBarItem(title: "Tab")
         let tabBar = TabBarUIComponent(
-            model: TabBarUIComponent.Model(tabIndex: 0, tabBarItems: [tabItem, tabItem])
+            model: TabBarUIComponent.Model(tabIndex: 0, tabBarItems: [tabItem, tabItem], renderer: renderer)
         )
         
         // When
@@ -117,6 +121,6 @@ final class ThemeTests: XCTestCase {
         
         //Then
         XCTAssertEqual(backgroundColor, tabBar.backgroundColor)
-        XCTAssertEqual(indicatorColor, tabBar.containerIndicator.indicatorView.backgroundColor)
+        XCTAssertEqual(indicatorColor, tabBar.indicatorView.backgroundColor)
     }
 }

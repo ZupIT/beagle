@@ -97,7 +97,7 @@ struct AppTheme {
     }
     
     static func tabView() -> (UIView?) -> Void {
-        return BeagleStyle.tabBar(backgroundColor: .clear, indicatorColor: .demoGray, selectedTextColor: .demoGray, unselectedTextColor: .demoDarkGray, selectedIconColor: .demoGray, unselectedIconColor: .demoDarkGray)
+        return BeagleStyle.tabBar(backgroundColor: .clear, indicatorColor: .demoGray, selectedTextColor: .demoGray, unselectedTextColor: .demoDarkGray)
     }
     
     static func textInput() -> (UITextField?) -> Void {

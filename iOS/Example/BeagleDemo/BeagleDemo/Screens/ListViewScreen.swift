@@ -29,14 +29,24 @@ struct ListViewScreen: DeeplinkScreen {
     
     var screen: Screen {
         return Screen(
-            navigationBar: NavigationBar(title: "ListView"),
-            child: listView
+            navigationBar: NavigationBar(
+                title: "ListView",
+                navigationBarItems: [
+                    NavigationBarItem(
+                        image: "@{img}",
+                        text: "",
+                        action: SetContext(contextId: "img", value: "imageBeagle")
+                    )
+                ]
+            ),
+            child: listView,
+            context: Context(id: "img", value: "informationImage")
         )
     }
     
     var listView = ListView(direction: .horizontal) {
-        Touchable(onPress: [Navigate.pushView(.remote(.init(url: .value(.textLazyComponentEndpoint))))]) {
-            Text("0000")
+        Touchable(onPress: [Navigate.pushView(.remote(.init(url: .textLazyComponentEndpoint)))]) {
+                   Text("0000")
         }
         Text("0001", widgetProperties: .init(style: Style(size: Size().width(100).height(100))))
         Text("0002")
@@ -55,11 +65,11 @@ struct ListViewScreen: DeeplinkScreen {
         Text("0011")
         Text("0012")
         Text("0013")
-        Image(.value(.local("beagle")))
+        Image(.local("beagle"))
         Text("0014")
         Text("0015")
         Text("0016")
-        Image(.value(.remote(.init(url: .networkImageBeagle))))
+        Image(.remote(.init(url: .networkImageBeagle)))
         Text("0017")
         Text("0018")
         Text("0019")

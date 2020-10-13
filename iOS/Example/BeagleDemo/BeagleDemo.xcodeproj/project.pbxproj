@@ -16,6 +16,7 @@
 		6E4EE6C1240E970000624DFB /* ScreenDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */; };
 		6E4EE6C7240E9C0B00624DFB /* ViewLayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */; };
 		6E8E1CC1249C57300053AD58 /* SimpleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8E1CC0249C57300053AD58 /* SimpleForm.swift */; };
+		6EA428722514457F00AEE741 /* ImageScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA428712514457F00AEE741 /* ImageScreen.swift */; };
 		6ED5B09E240464520070CB9D /* BeagleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED5B09D240464520070CB9D /* BeagleStyle.swift */; };
 		7685B043249A879F007EDED0 /* SendRequestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B042249A879F007EDED0 /* SendRequestScreen.swift */; };
 		932925B22327E0E400A61F01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932925B12327E0E400A61F01 /* AppDelegate.swift */; };
@@ -27,7 +28,7 @@
 		93D24A742514F9DA005A5CBD /* BeagleViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D24A732514F9DA005A5CBD /* BeagleViewScreen.swift */; };
 		93D8DC0D248965D10070CB41 /* ComponentInteractionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D8DC0C248965D10070CB41 /* ComponentInteractionScreen.swift */; };
 		93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */; };
-		98A7F36C23A926C600E88C70 /* TabViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7F36B23A926C600E88C70 /* TabViewScreen.swift */; };
+		98A7F36C23A926C600E88C70 /* TabBarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7F36B23A926C600E88C70 /* TabBarScreen.swift */; };
 		98E08D2324228DD200FBD21B /* WebViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D2224228DD200FBD21B /* WebViewScreen.swift */; };
 		98F3D41124ED770F006DAB05 /* NavigateTypeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3D41024ED770F006DAB05 /* NavigateTypeScreen.swift */; };
 		A038C8FD2407073D001164B1 /* FormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A038C8FC2407073D001164B1 /* FormScreen.swift */; };
@@ -104,6 +105,7 @@
 		6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDeepLink.swift; sourceTree = "<group>"; };
 		6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLayoutHelper.swift; sourceTree = "<group>"; };
 		6E8E1CC0249C57300053AD58 /* SimpleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleForm.swift; sourceTree = "<group>"; };
+		6EA428712514457F00AEE741 /* ImageScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScreen.swift; sourceTree = "<group>"; };
 		6ED5B09D240464520070CB9D /* BeagleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleStyle.swift; sourceTree = "<group>"; };
 		7685B042249A879F007EDED0 /* SendRequestScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequestScreen.swift; sourceTree = "<group>"; };
 		932925AE2327E0E400A61F01 /* BeagleDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeagleDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,7 +119,7 @@
 		93D24A732514F9DA005A5CBD /* BeagleViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleViewScreen.swift; sourceTree = "<group>"; };
 		93D8DC0C248965D10070CB41 /* ComponentInteractionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentInteractionScreen.swift; sourceTree = "<group>"; };
 		93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewScreen.swift; sourceTree = "<group>"; };
-		98A7F36B23A926C600E88C70 /* TabViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewScreen.swift; sourceTree = "<group>"; };
+		98A7F36B23A926C600E88C70 /* TabBarScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarScreen.swift; sourceTree = "<group>"; };
 		98E08D2224228DD200FBD21B /* WebViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewScreen.swift; sourceTree = "<group>"; };
 		98F3D41024ED770F006DAB05 /* NavigateTypeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateTypeScreen.swift; sourceTree = "<group>"; };
 		A038C8FC2407073D001164B1 /* FormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormScreen.swift; sourceTree = "<group>"; };
@@ -262,9 +264,10 @@
 				6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */,
 				7685B042249A879F007EDED0 /* SendRequestScreen.swift */,
 				6E8E1CC0249C57300053AD58 /* SimpleForm.swift */,
-				98A7F36B23A926C600E88C70 /* TabViewScreen.swift */,
+				98A7F36B23A926C600E88C70 /* TabBarScreen.swift */,
 				6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */,
 				98E08D2224228DD200FBD21B /* WebViewScreen.swift */,
+				6EA428712514457F00AEE741 /* ImageScreen.swift */,
 				4F36AB2D251E7A5A0036F839 /* GlobalContextScreen.swift */,
 			);
 			path = Screens;
@@ -524,11 +527,12 @@
 				A0642DCB23968A020028AFF3 /* MainScreen.swift in Sources */,
 				C80AF1342493F0950097D200 /* OtherComponent.swift in Sources */,
 				C09F4100249AAB0F002605EE /* TextContainerWithAction.swift in Sources */,
+				6EA428722514457F00AEE741 /* ImageScreen.swift in Sources */,
 				2576F469250ACF6C000CDB2A /* NativeViewController.swift in Sources */,
 				C8A2F6F42464C1F9002198B1 /* AutoDecodable.generated.swift in Sources */,
 				93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */,
 				932925B22327E0E400A61F01 /* AppDelegate.swift in Sources */,
-				98A7F36C23A926C600E88C70 /* TabViewScreen.swift in Sources */,
+				98A7F36C23A926C600E88C70 /* TabBarScreen.swift in Sources */,
 				A057D59824C9FE1D001F6835 /* ErrorView.swift in Sources */,
 				98E08D2324228DD200FBD21B /* WebViewScreen.swift in Sources */,
 				A0642DC82395A1840028AFF3 /* DeeplinkScreenManager.swift in Sources */,

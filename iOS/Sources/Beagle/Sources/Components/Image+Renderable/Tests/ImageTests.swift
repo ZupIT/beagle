@@ -91,6 +91,65 @@ class ImageTests: XCTestCase {
     
     func testCancelRequest() {
         //Given
+        let image = Image(.remote(.init(url: "@{url}")))
+        let dependency = BeagleDependencies()
+        let imageDownloader = ImageDownloaderStub(imageResult: .success(Data()))
+        dependency.imageDownloader = imageDownloader
+        let container = Container(children: [image])
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
+        let action = SetContext(contextId: "url", value: "www.com.br")
+        let view = image.toView(renderer: controller.renderer)
+        
+        //When
+        view.setContext(Context(id: "url", value: "www.beagle.com.br"))
+        controller.bindings.config()
+        action.execute(controller: controller, origin: view)
+        
+        // Then
+        XCTAssertTrue(imageDownloader.token.didCallCancel)
+    }
+    
+    func testInvalidURL() {
+        // Given
+        let component = Image(.remote(.init(url: "www.com")))
+        // When
+        let imageView = renderer.render(component) as? UIImageView
+        
+        // Then
+        XCTAssertNotNil(imageView)
+        XCTAssertNil(imageView?.image)
+    }
+    
+    func testPlaceholder() {
+        // Given
+        let component = Image(.remote(.init(url: "www.com", placeholder: "test_image_square-x")))
+ 
+        // When
+        let placeholderView = renderer.render(component) as? UIImageView
+
+        // Then
+        XCTAssertNotNil(placeholderView?.image, "Expected placeholder to not be nil.")
+
+    }
+    
+    func testImageLeak() {
+        // Given
+        let component = Image(.remote(.init(url: "@{img.path}")), mode: .fitXY)
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(component.toScreen()), dependencies: BeagleDependencies()))
+        
+        var view = component.toView(renderer: controller.renderer)
+        weak var weakView = view
+    
+        // When
+        controller.bindings.config()
+        view = UIView()
+        
+        // Then
+        XCTAssertNil(weakView)
+    }
+    
+    func testImageWithPathCancelRequest() {
+        //Given
         let image = Image("@{img.path}")
         let dependency = BeagleDependencies()
         let imageDownloader = ImageDownloaderStub(imageResult: .success(Data()))
@@ -109,43 +168,20 @@ class ImageTests: XCTestCase {
         XCTAssertTrue(imageDownloader.token.didCallCancel)
     }
     
-    func testInvalidURL() {
-        // Given
-        let component = Image(.value(.remote(.init(url: "www.com"))))
-        // When
-        let imageView = renderer.render(component) as? UIImageView
+    func testLocalImageWithContext() {
+        //Given
+        let container = Container(
+            children: [
+                Image(.local("@{mobileId}"))
+            ],
+            context: Context(id: "mobileId", value: "test_image_square-x")
+        )
+        
+        //When
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependencies))
         
         // Then
-        XCTAssertNotNil(imageView)
-        XCTAssertNil(imageView?.image)
-    }
-    
-    func testPlaceholder() {
-        // Given
-        let component = Image(.value(.remote(.init(url: "www.com", placeholder: "test_image_square-x"))))
- 
-        // When
-        let placeholderView = renderer.render(component) as? UIImageView
-
-        // Then
-        XCTAssertNotNil(placeholderView?.image, "Expected placeholder to not be nil.")
-
-    }
-    
-    func testImageLeak() {
-        // Given
-        let component = Image("@{img.path}", mode: .fitXY)
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(component.toScreen()), dependencies: BeagleDependencies()))
-        
-        var view = component.toView(renderer: controller.renderer)
-        weak var weakView = view
-    
-        // When
-        controller.bindings.config()
-        view = UIView()
-        
-        // Then
-        XCTAssertNil(weakView)
+        assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 100, height: 100)))
     }
 }
 
