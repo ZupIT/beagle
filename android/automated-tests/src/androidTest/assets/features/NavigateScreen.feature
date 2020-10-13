@@ -28,23 +28,23 @@ Feature: Navigation Action Validation
         When I press a navigation button <title>
         Then the screen should navigate to another screen with the text label <text>
 
-    Examples:
-    |title|text|
-    | PushStackRemote | PushStackRemoteScreen |
-    |PushViewRemote|PushViewRemoteScreen|
-    |PushStackRemoteExpression|PushStackRemoteExpressionScreen|
-    |PushViewRemoteExpression|PushViewRemoteExpressionScreen|
+        Examples:
+            | title                     | text                            |
+            | PushStackRemote           | PushStackRemoteScreen           |
+            | PushViewRemote            | PushViewRemoteScreen            |
+            | PushStackRemoteExpression | PushStackRemoteExpressionScreen |
+            | PushViewRemoteExpression  | PushViewRemoteExpressionScreen  |
 
-#    Scenario Outline: Navigation 02 - The push actions navigate to an invalid route
-#        When I press a navigation button "<title>"
-#        Then the screen should not navigate to another screen with the text label "<text>"
-#
-#        Examples:
-#            |                title                |                     text                    |
-#            |   PushStackRemoteFailure            |    PushStackRemoteFailureScreen             |
-#            |   PushViewRemoteFailure             |    PushViewRemoteFailureScreen              |
-#            |   PushViewRemoteExpressionFailure   |    PushViewRemoteExpressionFailureScreen    |
-#            |   PushStackRemoteExpressionFailure  |    PushStackRemoteExpressionFailureScreen   |
+    Scenario Outline: Navigation 02 - The push actions navigate to an invalid route
+        When I press a navigation failure button <title>
+        Then the screen should not navigate to another screen with the text label <text>
+
+        Examples:
+            | title                            | text                                   |
+            | PushStackRemoteFailure           | PushStackRemoteFailureScreen           |
+            | PushViewRemoteFailure            | PushViewRemoteFailureScreen            |
+            | PushViewRemoteExpressionFailure  | PushViewRemoteExpressionFailureScreen  |
+            | PushStackRemoteExpressionFailure | PushStackRemoteExpressionFailureScreen |
 
 
     Scenario Outline: Navigation 03 - 'popView' action dismisses the current screen
@@ -53,21 +53,21 @@ Feature: Navigation Action Validation
         And I click on <pop> button
         Then the app should dismiss the view that contains <text>
 
-    Examples:
-    |title|text|pop|
-    | PushStackRemote | PushStackRemoteScreen |PopView|
+        Examples:
+            | title           | text                  | pop     |
+            | PushStackRemote | PushStackRemoteScreen | PopView |
 
-#    Scenario Outline: Navigation 04 - 'popToView' action navigates to a specified route of a screen
-#    on the stack and cleans up the navigation that was generated from this screen
-#        When I press a navigation button <title>
-#        Then the screen should navigate to another screen with the text label <text>
-#        And I click on <pop> button
-#        Then the app should dismiss the view that contaid .ns <title>
-#        Then the view that contains the <text> must still exist
-#
-#    Examples:
-#    |title|text|pop|
-#    |PushStackRemote|PushStackRemoteScreen|PopToView|
+    Scenario Outline: Navigation 04 - 'popToView' action navigates to a specified route of a screen
+    on the stack and cleans up the navigation that was generated from this screen
+        When I press a navigation button <title>
+        Then the screen should navigate to another screen with the text label <text>
+        And I click on <pop> button
+        Then the app should dismiss the view that contaid .ns <title>
+        Then the view that contains the <text> must still exist
+
+        Examples:
+            | title           | text                  | pop       |
+            | PushStackRemote | PushStackRemoteScreen | PopToView |
 
     Scenario Outline: Navigation 05 - 'popStack' action removes the current stack of views
         When I press a navigation button <title>
@@ -89,9 +89,9 @@ Feature: Navigation Action Validation
         Then the screen should navigate to another screen with the text label <resetPage>
 
         Examples:
-            | title           | text                  | reset     | resetPage|
-            | PushViewRemote | PushViewRemoteScreen |ResetStack|Reset Screen|
-            | PushStackRemote | PushStackRemoteScreen |ResetApplication|Reset Screen|
+            | title           | text                  | reset            | resetPage    |
+            | PushViewRemote  | PushViewRemoteScreen  | ResetStack       | Reset Screen |
+            | PushStackRemote | PushStackRemoteScreen | ResetApplication | Reset Screen |
 
     Scenario Outline: Navigation 07 - 'ResetApplication' Opens a new screen with an informed
     route for a new Stack flow and cleans all previous stacks.
@@ -102,9 +102,9 @@ Feature: Navigation Action Validation
         Then the screen should navigate to another screen with the text label <resetPage>
 
         Examples:
-            | title           | text                  | reset     | resetPage|
-            | PushStackRemote | PushStackRemoteScreen | ResetApplication|Reset Screen|
-            | PushStackRemote | PushStackRemoteScreen | ResetApplicationExpression|Reset Screen|
+            | title           | text                  | reset                      | resetPage    |
+            | PushStackRemote | PushStackRemoteScreen | ResetApplication           | Reset Screen |
+            | PushStackRemote | PushStackRemoteScreen | ResetApplicationExpression | Reset Screen |
 
     Scenario Outline: Navigation 08 - 'ResetApplicationExpressionFallback' Try to open a new screen with an invalid
     route for a new Stack flow cleaning all previous stacks and navigate into a fallbackScreen
@@ -115,6 +115,6 @@ Feature: Navigation Action Validation
         Then the screen should navigate to another screen with the text label <resetPage>
 
         Examples:
-            | title           | text                  | reset     | resetPage|
-            | PushStackRemote | PushStackRemoteScreen | ResetApplication|Reset Screen|
-            | PushStackRemote | PushStackRemoteScreen | ResetApplicationExpression|Reset Screen|
+            | title           | text                  | reset                      | resetPage    |
+            | PushStackRemote | PushStackRemoteScreen | ResetApplication           | Reset Screen |
+            | PushStackRemote | PushStackRemoteScreen | ResetApplicationExpression | Reset Screen |

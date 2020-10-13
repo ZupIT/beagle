@@ -61,6 +61,12 @@ class NavigateScreenSteps {
             .clickOnText(string)
     }
 
+    @When("^I press a navigation failure button (.*)$")
+    fun clickOnButtonFailure(string:String) {
+        ScreenRobot()
+            .clickOnText(string)
+    }
+
     @And("^I click on (.*) button$")
     fun clickOnPoPButton(string:String) {
         ScreenRobot()
