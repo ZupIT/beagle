@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ActionRequester
@@ -45,7 +46,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class BeagleViewModelTest {
+class BeagleViewModelTest : BaseTest() {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -70,11 +71,10 @@ class BeagleViewModelTest {
 
     private lateinit var beagleUIViewModel: BeagleViewModel
 
-    private  val slotViewState = mutableListOf<ViewState>()
+    private val slotViewState = mutableListOf<ViewState>()
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp();
 
         beagleUIViewModel = BeagleViewModel(componentRequester = componentRequester)
 
@@ -144,7 +144,7 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `GIVEN a ServerDrivenComponent WHEN fetchComponents called SHOULD post ViewState doRender `(){
+    fun `GIVEN a ServerDrivenComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
         //GIVEN
         val screenRequest = ScreenRequest("")
 
@@ -156,12 +156,12 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `GIVEN a IdentifierComponent WHEN fetchComponents called SHOULD post ViewState doRender `(){
+    fun `GIVEN a IdentifierComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
         //GIVEN
         val screenRequest = ScreenRequest("")
-        val component : IdentifierComponent = mockk()
+        val component: IdentifierComponent = mockk()
         val id = "id"
-        every {component.id} returns id
+        every { component.id } returns id
 
         //WHEN
         beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
@@ -171,7 +171,7 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `GIVEN a NULL ScreenComponent WHEN fetchComponents called SHOULD post ViewState doRender `(){
+    fun `GIVEN a NULL ScreenComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
         //GIVEN
         val screenRequest = ScreenRequest("url")
 
@@ -184,15 +184,29 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun `GIIVEN a ScreenComponent WHEN fetchComponent called SHOULD use identifier as screenId on ViewState doRender`(){
+    fun `GIVEN screen with full path WHEN fetchComponents called SHOULD post ViewState doRender with correct screen id`() {
+        //GIVEN
+        every { beagleSdk.config.baseUrl } returns "http://localhost:2020/"
+
+        val screenRequest = ScreenRequest("http://localhost:2020/test")
+
+        //WHEN
+        beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
+
+        //THEN
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender("test", component)) }
+    }
+
+    @Test
+    fun `GIIVEN a ScreenComponent WHEN fetchComponent called SHOULD use identifier as screenId on ViewState doRender`() {
         //Given
         val screenRequest = ScreenRequest("")
-        val component : ScreenComponent = mockk()
+        val component: ScreenComponent = mockk()
         val id = "id"
         val identifier = "identifier"
 
-        every {component.id} returns id
-        every {component.identifier} returns identifier
+        every { component.id } returns id
+        every { component.identifier } returns identifier
 
         //WHEN
         beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
@@ -201,4 +215,5 @@ class BeagleViewModelTest {
         verify(exactly = once()) { observer.onChanged(ViewState.DoRender(identifier, component)) }
 
     }
+
 }
