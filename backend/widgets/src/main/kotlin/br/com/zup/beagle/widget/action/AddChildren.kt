@@ -44,7 +44,7 @@ enum class Mode {
 }
 
 /**
- * The AddChildrenAction class is responsible for adding - at the beginning or in the end - or changing
+ * The AddChildren class is responsible for adding - at the beginning or in the end - or changing
  * all views that inherit from  Widget  and who accept children.
  *
  * @param componentId Required. Defines the widget's id, in which you want to add the views.
@@ -52,7 +52,7 @@ enum class Mode {
  * @param mode Defines the placement of where the children will be inserted in the list or if the contents of
  * the list will be replaced.
  */
-data class AddChildrenAction(
+data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
     var mode: Mode? = Mode.APPEND
