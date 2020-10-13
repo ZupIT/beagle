@@ -54,12 +54,12 @@ object SendRequestScreenBuilder {
                                     onSuccess = listOf(
                                         Alert(
                                             title = "Success",
-                                            message = "@{request}"
+                                            message = "@{onSuccess.data}"
                                         )),
                                     onError = listOf(
                                         Alert(
                                             title = "Error",
-                                            message = "@{request}"
+                                            message = "@{onError.data}"
                                         )),
                                     onFinish = listOf(
                                         SetContext(
@@ -81,12 +81,12 @@ object SendRequestScreenBuilder {
                                     onSuccess = listOf(
                                         Alert(
                                             title = "Success",
-                                            message = "@{request}"
+                                            message = "@{onSuccess.data}"
                                         )),
                                     onError = listOf(
                                         Alert(
                                             title = "Error",
-                                            message = "@{request}"
+                                            message = "@{onError.data}"
                                         )),
                                     onFinish = listOf(
                                         SetContext(
