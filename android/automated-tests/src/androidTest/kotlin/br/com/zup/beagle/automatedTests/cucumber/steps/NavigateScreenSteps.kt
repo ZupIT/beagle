@@ -29,6 +29,7 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Rule
 
+const val NAVIGATE_ACTIONS_BFF_URL = "http://10.0.2.2:8080/navigate-actions"
 
 class NavigateScreenSteps {
 
@@ -37,7 +38,7 @@ class NavigateScreenSteps {
 
     @Before("@navigation")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.NAVIGATE_ACTIONS_BFF_URL)
+        TestUtils.startActivity(activityTestRule, NAVIGATE_ACTIONS_BFF_URL)
     }
 
     @After("@navigation")
