@@ -21,6 +21,9 @@ import BeagleSchema
 final class TabViewUIComponentTests: XCTestCase {
     
     // MARK: - Variables
+    private lazy var controller = BeagleControllerStub()
+    private lazy var renderer = BeagleRenderer(controller: controller)
+    
     private lazy var component = TabView(children: [
         TabItem(icon: "beagle", title: "Tab 1", child:
             Container(children: [
@@ -38,7 +41,7 @@ final class TabViewUIComponentTests: XCTestCase {
         )
     ])
     
-    private lazy var model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: component.children)
+    private lazy var model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: component.children, renderer: renderer)
 
     private lazy var sut = TabViewUIComponent(model: model, renderer: .init(controller: controllerStub))
 
@@ -93,11 +96,20 @@ final class TabViewUIComponentTests: XCTestCase {
     }
     
     func test_whenChangedTabs_shouldChangeCurrentPage() {
-        let tabBar = sut.tabBar
-        tabBar.collectionView(tabBar.collectionView, didSelectItemAt: IndexPath(item: 1, section: 0))
+        // Given
+        sut.tabBar.setupTabBarItems()
+        let tabItem = sut.tabBar.tabItemViews[1]
+        
+        guard let gestureRecognizer = tabItem?.gestureRecognizers?.first as? UITapGestureRecognizer else {
+            XCTFail("TabItem of index 1 has no gesture recognizer.")
+            return
+        }
+        
+        // When
+        sut.tabBar.didSelectTabItem(sender: gestureRecognizer)
+        
+        // Then
         XCTAssert(sut.contentView.model.currentPage == 1)
-        tabBar.collectionView(tabBar.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
-        XCTAssert(sut.contentView.model.currentPage == 0)
     }
 }
 

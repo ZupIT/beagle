@@ -18,11 +18,30 @@ package br.com.zup.beagle.android.setup
 
 import br.com.zup.beagle.android.utils.CacheDeprecatedConstants
 
+/**
+ * Enum responsible for informing Beagle about the current build status of the application.
+ */
 enum class Environment {
+    /**
+     * The debug mode has much more information available so that the debugging software can further help the
+     * programmer to debug their code.
+     */
     DEBUG,
+
+    /**
+     * Production mode provides more information about the software.
+     */
     PRODUCTION
 }
 
+/**
+ * Object responsible for managing the cache of Beagle requests.
+ *
+ * @param enabled Enables or disables memory and disk caching.
+ * @param maxAge Time in seconds that memory cache will live.
+ * @param memoryMaximumCapacity Memory LRU cache size. It represents number of screens that will be in memory.
+ * @param size Memory LRU cache size.
+ */
 data class Cache(
     val enabled: Boolean,
     val maxAge: Long,
@@ -37,9 +56,27 @@ data class Cache(
         this(enabled, maxAge, memoryMaximumCapacity, 0)
 }
 
+/**
+ * Interface that provides initial beagle configuration attributes.
+ */
 interface BeagleConfig {
+    /**
+     * Attribute responsible for informing Beagle about the current build status of the application.
+     */
     val environment: Environment
+
+    /**
+     * Informs the base URL used in Beagle in the application.
+     */
     val baseUrl: String
+
+    /**
+     * Object responsible for managing the cache of Beagle requests.
+     */
     val cache: Cache
+
+    /**
+     * Attribute that enables or disables all logs that Beagle generates.
+     */
     val isLoggingEnabled: Boolean
 }

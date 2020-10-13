@@ -451,6 +451,7 @@ class BeagleControllerStub: BeagleController {
     var serverDrivenState: ServerDrivenState = .finished
     var screenType: ScreenType
     var screen: Screen?
+    var bindings: [() -> Void] = []
 
     init(
         _ screenType: ScreenType = .remote(.init(url: "")),

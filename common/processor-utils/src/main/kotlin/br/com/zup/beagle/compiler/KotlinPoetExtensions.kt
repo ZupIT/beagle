@@ -26,6 +26,8 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
+import javax.lang.model.type.TypeKind
+import javax.lang.model.type.TypeMirror
 
 internal val TypeName.kotlin: TypeName get() = JAVA_TO_KOTLIN[this] ?: this
 
@@ -50,9 +52,14 @@ fun TypeElement.implementsInterface(interfaceName: String): Boolean {
 }
 
 fun TypeElement.extendsFromClass(className: String): Boolean {
-    val typeMirror = ((this.superclass as DeclaredType)).asElement()
-    if (typeMirror.toString() == className) {
-        return true
+    var currentClass: TypeMirror = this.superclass
+    while (currentClass.kind != TypeKind.NONE) {
+        val typeMirror = (currentClass as DeclaredType).asElement()
+        if (typeMirror.toString() == className) {
+            return true
+        }
+        currentClass = (typeMirror as TypeElement).superclass
     }
+
     return false
 }

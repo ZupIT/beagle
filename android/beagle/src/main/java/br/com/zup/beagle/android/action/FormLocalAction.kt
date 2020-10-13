@@ -24,7 +24,21 @@ import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
 
-
+/**
+ * Defines form local actions, that is, that do not make http requests,
+ * such as an action that creates a customized Dialog.
+ *
+ * @param name define name of the action.
+ * @param data sending data for the action.
+ *
+ * # Example: #
+ * ```
+ *
+ *  val action = Action(name = "openPosterDetector", data = mapOf("key" to "value"))
+ *
+ * ```
+ *
+ */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormLocalAction(
     val name: String,

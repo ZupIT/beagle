@@ -51,12 +51,16 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.init(route: .pageViewEndpoint))]
                 )
                 Button(
-                    text: "Tab View",
-                    onPress: [Navigate.openNativeRoute(.init(route: .tabViewEndpoint))]
+                    text: "Tab Bar",
+                    onPress: [Navigate.openNativeRoute(.init(route: .tabBarEndpoint))]
                 )
                 Button(
                     text: "List View",
                     onPress: [Navigate.openNativeRoute(.init(route: .listViewEndpoint))]
+                )
+                Button(
+                    text: "Image",
+                    onPress: [Navigate.openNativeRoute(.init(route: .imageEndpoint))]
                 )
                 Button(
                     text: "Form",
@@ -99,8 +103,12 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.init(route: .beagleView))]
                 )
                 Button(
+                    text: "Global Context",
+                    onPress: [Navigate.openNativeRoute(.init(route: .globalContextEndpoint))]
+                )
+                Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.init(url: .value(.componentsEndpoint))))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .componentsEndpoint)))]
                 )
         }
     }
@@ -110,4 +118,5 @@ struct MainScreen: DeeplinkScreen {
             title: "Beagle Demo"
         )
     }
+
 }

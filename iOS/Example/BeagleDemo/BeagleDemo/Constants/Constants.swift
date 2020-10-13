@@ -26,7 +26,7 @@ extension String {
     // MARK: - Endpoint
     static let lazyComponentEndpoint = "lazycomponent"
     static let pageViewEndpoint = "pageview"
-    static let tabViewEndpoint = "tabview"
+    static let tabBarEndpoint = "tabbar"
     static let listViewEndpoint = "listview"
     static let formEndpoint = "form"
     static let customComponentEndpoint = "customComponent"
@@ -34,6 +34,7 @@ extension String {
     static let screenDeeplinkEndpoint = "screen-deep-link"
     static let navigateStep1Endpoint = "navigateScreenStep1"
     static let navigateStep2Endpoint = "navigateScreenStep2"
+    static let globalContextEndpoint = "globalContext"
     static let beagleView = "beagleView"
     static let textFormEndpoint = "https://t001-2751a.firebaseapp.com/action/shownativedialog.json"
     static let textLazyComponentEndpoint = "https://run.mocky.io/v3/bd78fba6-da3d-4cb3-8807-85923366fe13"
@@ -41,6 +42,7 @@ extension String {
     static let componentInterationEndpoint = "componentInteractionText"
     static let conditionActionEndpoint = "conditionActionText"
     static let simpleFormEndpoint = "simpleFormComponent"
+    static let imageEndpoint = "image"
 
     // MARK: - URL
     static let webViewURL = "https://maps.google.com/"

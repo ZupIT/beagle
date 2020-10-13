@@ -17,6 +17,7 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import LOGO_BEAGLE
+import LOGO_BEAGLE_URL
 import TITLE_SCREEN
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.ImageContentMode
@@ -49,7 +50,7 @@ object ImageScreenBuilder {
         ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(Local.justMobile(LOGO_BEAGLE))) +
+            children = listOf(createText("Image"), Image(Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE))) +
                 ImageContentMode.values().flatMap(this::createImageWithModeAndText)
         )
     )
@@ -57,5 +58,5 @@ object ImageScreenBuilder {
     private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
 
     private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(Local.justMobile(LOGO_BEAGLE), mode))
+        listOf(createText("Image with contentMode = $mode"), Image(Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE), mode))
 }

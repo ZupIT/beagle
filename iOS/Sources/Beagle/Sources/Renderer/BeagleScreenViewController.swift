@@ -50,7 +50,7 @@ public class BeagleScreenViewController: BeagleController {
     
     lazy var renderer = dependencies.renderer(self)
     
-    private var bindings: [() -> Void] = []
+    let bindings = Bindings()
     
     private var onInit: [(UIView, [RawAction])] = []
     
@@ -120,27 +120,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
-        bindings.append { [weak self, weak view] in
-            guard let self = self else { return }
-            view?.configBinding(
-                for: expression,
-                completion: self.bindBlock(view: view, update: update)
-            )
-        }
-    }
-    
-    private func bindBlock<T: Decodable>(view: UIView?, update: @escaping (T?) -> Void) -> (T?) -> Void {
-        return { [weak self, weak view] value in
-            update(value)
-            view?.yoga.markDirty()
-            self?.viewIfLoaded?.setNeedsLayout()
-        }
-    }
-    
-    func configBindings() {
-        while let bind = bindings.popLast() {
-            bind()
-        }
+        bindings.add(self, expression, view, update)
     }
     
     public func execute(actions: [RawAction]?, origin: UIView) {
@@ -185,7 +165,7 @@ public class BeagleScreenViewController: BeagleController {
     
     public override func viewDidLayoutSubviews() {
         executeOnInit()
-        configBindings()
+        bindings.config()
         layoutManager.applyLayout()
         super.viewDidLayoutSubviews()
     }
@@ -233,7 +213,7 @@ public class BeagleScreenViewController: BeagleController {
         }
     }
     
-    // MARK: -
+    // MARK: - Update View
     
     fileprivate func updateView(state: ViewModel.State) {
         switch state {
@@ -298,6 +278,9 @@ extension BeagleControllerProtocol {
 extension BeagleControllerProtocol where Self: UIViewController {
     public func setNeedsLayout(component: UIView) {
         dependencies.style(component).markDirty()
+        if let beagleView = view.superview as? BeagleView {
+            beagleView.invalidateIntrinsicContentSize()
+        }
         viewIfLoaded?.setNeedsLayout()
     }
 }

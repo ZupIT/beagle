@@ -64,8 +64,6 @@ class Dependencies : Plugin<Project> {
 
         const val soLoader = "0.9.0"
 
-        const val glide = "4.11.0"
-
         const val junit = "4.13"
         const val junit5 = "5.7.0"
 
@@ -93,8 +91,6 @@ class Dependencies : Plugin<Project> {
 
         const val incap = "0.3"
 
-        const val multidex = "2.0.1"
-
         const val cucumber = "1.2.5"
     }
 
@@ -102,11 +98,6 @@ class Dependencies : Plugin<Project> {
         const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         const val sampleTestInstrumentationRunner = "br.com.zup.beagle.sample.SampleTestRunner"
         const val consumerProguard = "consumer-rules.pro"
-    }
-
-    object GlideLibraries {
-        const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-        const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
     }
 
     object ProcessorLibraries {
@@ -132,8 +123,6 @@ class Dependencies : Plugin<Project> {
         const val simpleLogger = "org.slf4j:slf4j-simple:${Versions.simpleLogger}"
 
         const val jsonObject = "org.json:json:${Versions.jsonObject}"
-
-        const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
     }
 
     object GoogleLibraries {

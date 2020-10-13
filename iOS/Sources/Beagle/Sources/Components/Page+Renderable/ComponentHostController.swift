@@ -22,7 +22,7 @@ class ComponentHostController: BeagleController {
     let component: RawComponent
     let renderer: BeagleRenderer
 
-    private var bindings: [() -> Void] = []
+    let bindings = Bindings()
 
     var dependencies: BeagleDependenciesProtocol {
         return renderer.controller.dependencies
@@ -41,24 +41,6 @@ class ComponentHostController: BeagleController {
     func addOnInit(_ onInit: [RawAction], in view: UIView) {
         renderer.controller.addOnInit(onInit, in: view)
     }
-
-    func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
-        bindings.append { [weak self, weak view] in
-            guard let self = self else { return }
-            view?.configBinding(
-                for: expression,
-                completion: self.bindBlock(view: view, update: update)
-            )
-        }
-    }
-    
-    private func bindBlock<T: Decodable>(view: UIView?, update: @escaping (T?) -> Void) -> (T?) -> Void {
-        return { [weak self, weak view] value in
-            update(value)
-            view?.yoga.markDirty()
-            self?.viewIfLoaded?.setNeedsLayout()
-        }
-    }
     
     func execute(actions: [RawAction]?, origin: UIView) {
         renderer.controller.execute(actions: actions, origin: origin)
@@ -67,11 +49,9 @@ class ComponentHostController: BeagleController {
     func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         renderer.controller.execute(actions: actions, with: contextId, and: contextValue, origin: origin)
     }
-
-    func configBindings() {
-        while let bind = bindings.popLast() {
-            bind()
-        }
+    
+    public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        bindings.add(self, expression, view, update)
     }
 
     init(_ component: RawComponent, renderer: BeagleRenderer) {
@@ -90,7 +70,7 @@ class ComponentHostController: BeagleController {
     }
 
     override func viewDidLayoutSubviews() {
-        configBindings()
+        bindings.config()
         dependencies.style(view).applyLayout()
         super.viewDidLayoutSubviews()
     }

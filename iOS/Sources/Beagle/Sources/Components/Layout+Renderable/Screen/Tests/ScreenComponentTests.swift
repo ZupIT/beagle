@@ -92,6 +92,30 @@ final class ScreenComponentTests: XCTestCase {
         assertSnapshotImage(viewController, size: .custom(CGSize(width: 300, height: 200)))
     }
     
+    func testNavigationBarItemWithContextOnImage() {
+        // Given
+        let dependencies = BeagleDependencies()
+        dependencies.appBundle = Bundle(for: ScreenComponentTests.self)
+        
+        let barItem = NavigationBarItem(image: "@{image}", text: "", action: ActionDummy())
+        
+        let screen = Screen(
+            safeArea: SafeArea.all,
+            navigationBar: .init(title: "title", showBackButton: true, navigationBarItems: [barItem]),
+            child: Text("test"),
+            context: Context(id: "image", value: "shuttle")
+        )
+        
+        // When
+        let controller = BeagleScreenViewController(viewModel: .init(
+            screenType: .declarative(screen),
+            dependencies: dependencies
+        ))
+        
+        // Then
+        assertSnapshotImage(controller.view, size: .custom(CGSize(width: 150, height: 80)))
+    }
+
     func test_action_shouldBeTriggered() {
         // Given
         let action = ActionSpy()
@@ -116,7 +140,7 @@ final class ScreenComponentTests: XCTestCase {
         controller.dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "button-item-prefetch"
-        let navigate = Navigate.pushView(.remote(.init(url: .value(navigatePath), shouldPrefetch: true)))
+        let navigate = Navigate.pushView(.remote(.init(url: navigatePath, shouldPrefetch: true)))
         let barItem = NavigationBarItem(text: "Item", action: navigate)
         let screen = ScreenComponent(
             navigationBar: NavigationBar(title: "Prefetch", navigationBarItems: [barItem]),

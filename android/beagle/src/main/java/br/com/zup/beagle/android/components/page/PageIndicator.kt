@@ -27,6 +27,14 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 
+/**
+ *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
+ *
+ * @param selectedColor this is a string value and it must be filled as HEX (Hexadecimal)
+ * @param unselectedColor this is a string value and it must be filled as HEX (Hexadecimal)
+ * @param numberOfPages Numbers of pages that will contain.
+ * @param currentPage Integer number that identifies that selected
+ */
 @RegisterWidget
 class PageIndicator(
     val selectedColor: String,

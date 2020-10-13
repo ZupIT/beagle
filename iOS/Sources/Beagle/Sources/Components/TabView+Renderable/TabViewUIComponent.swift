@@ -25,6 +25,7 @@ extension TabViewUIComponent {
         var unselectedTextColor: UIColor?
         var selectedIconColor: UIColor?
         var unselectedIconColor: UIColor?
+        var renderer: BeagleRenderer
 
 // sourcery:inline:auto:TabViewUIComponent.Model.Init
      init(
@@ -33,7 +34,8 @@ extension TabViewUIComponent {
         selectedTextColor: UIColor? = nil,
         unselectedTextColor: UIColor? = nil,
         selectedIconColor: UIColor? = nil,
-        unselectedIconColor: UIColor? = nil
+        unselectedIconColor: UIColor? = nil,
+        renderer: BeagleRenderer
     ) {
         self.tabIndex = tabIndex
         self.tabViewItems = tabViewItems
@@ -41,6 +43,7 @@ extension TabViewUIComponent {
         self.unselectedTextColor = unselectedTextColor
         self.selectedIconColor = selectedIconColor
         self.unselectedIconColor = unselectedIconColor
+        self.renderer = renderer
     }
 // sourcery:end
     }
@@ -59,6 +62,7 @@ final class TabViewUIComponent: UIView {
             indicatorView: nil,
             controller: renderer.controller
         )
+        view.style.setup(Style(flex: Flex().grow(1)))
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
@@ -75,10 +79,7 @@ final class TabViewUIComponent: UIView {
             model: .init(
                 tabIndex: model.tabIndex,
                 tabBarItems: model.tabViewItems.map { TabBarItem(icon: $0.icon, title: $0.title) },
-                selectedTextColor: model.selectedTextColor,
-                unselectedTextColor: model.unselectedTextColor,
-                selectedIconColor: model.selectedIconColor,
-                unselectedIconColor: model.unselectedIconColor
+                renderer: model.renderer
             )
         )
         self.contentView = Self.contentView(items: model.tabViewItems, renderer: renderer)
@@ -97,6 +98,7 @@ final class TabViewUIComponent: UIView {
         tabBar.onTabSelection = { [weak self] index in
             guard let self = self else { return }
             self.contentView.swipeToPage(at: index)
+            self.tabBar.scrollTo(page: index)
         }
     }
     

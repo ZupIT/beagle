@@ -178,7 +178,7 @@ struct ListViewScreen: DeeplinkScreen {
                     .margin(EdgeValue().all(10)))
         ) {
             Image(
-                .value(.remote(.init(url: "https://image.tmdb.org/t/p/w500/f4aul3FyD3jv3v4bul1IrkWZvzq.jpg"))),
+                .value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{item.poster_path}"))),
                 widgetProperties: .init(
                     style: Style()
                         .size(Size().width(120).height(180))
@@ -351,7 +351,7 @@ struct ListViewScreen: DeeplinkScreen {
                         )
                     ]) {
                         Image(
-                            .value(.remote(.init(url: "https://image.tmdb.org/t/p/w500/f4aul3FyD3jv3v4bul1IrkWZvzq.jpg"))),
+                            .value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{movie.poster_path}"))),
                             widgetProperties: .init(
                                 style: Style()
                                     .size(Size().width(180).height(270))
