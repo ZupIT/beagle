@@ -74,7 +74,8 @@ class ScreenRobot {
     }
 
     fun typeIntoTextField(position1: Int, position2: Int, text: String?): ScreenRobot {
-        onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
+        onView(childAtPosition(childAtPosition(withClassName(
+            Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
         Espresso.closeSoftKeyboard()
         return this
     }

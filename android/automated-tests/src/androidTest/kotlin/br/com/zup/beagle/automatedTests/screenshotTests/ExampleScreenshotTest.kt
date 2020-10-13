@@ -17,7 +17,7 @@
 package br.com.zup.beagle.automatedTests.screenshotTests
 
 import androidx.test.rule.ActivityTestRule
-import br.com.zup.beagle.automatedTests.activity.AppBeagleActivitiy
+import br.com.zup.beagle.automatedTests.activity.AppBeagleActivity
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import com.karumi.shot.ScreenshotTest
 import org.junit.Before
@@ -33,8 +33,8 @@ import org.junit.Test
 class ExampleScreenshotTest: ScreenshotTest {
 
     @get:Rule
-    var activityTestRule: ActivityTestRule<AppBeagleActivitiy> = ActivityTestRule(
-        AppBeagleActivitiy::class.java)
+    var activityTestRule: ActivityTestRule<AppBeagleActivity> = ActivityTestRule(
+        AppBeagleActivity::class.java)
 
     @Before
     fun setup() {
