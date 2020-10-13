@@ -49,7 +49,7 @@ class ImageScreenSteps {
             .checkViewContainsText(IMAGE_SCREEN_HEADER, true)
     }
 
-    @Then("^image screen should render all text attributes correctly$")
+    @Then("^image screen should render all image attributes correctly$")
     fun checkImageScreenTexts() {
         ScreenRobot()
             .checkViewContainsText(IMAGE_TEXT_1)
