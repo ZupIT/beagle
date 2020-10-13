@@ -77,7 +77,7 @@ class ImageTests: XCTestCase {
         }
 
         let dependencies = BeagleDependencies()
-        dependencies.repository = RepositoryMock(expectation: expectation(description: "repository"))
+        dependencies.imageDownloader = ImageDownloaderMock(expectation: expectation(description: "image downloader"))
 
         let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(screen), dependencies: dependencies))
 
@@ -93,8 +93,8 @@ class ImageTests: XCTestCase {
         //Given
         let image = Image(.remote(.init(url: "@{url}")))
         let dependency = BeagleDependencies()
-        let repository = RepositoryStub(imageResult: .success(Data()))
-        dependency.repository = repository
+        let imageDownloader = ImageDownloaderStub(imageResult: .success(Data()))
+        dependency.imageDownloader = imageDownloader
         let container = Container(children: [image])
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
         let action = SetContext(contextId: "url", value: "www.com.br")
@@ -102,11 +102,11 @@ class ImageTests: XCTestCase {
         
         //When
         view.setContext(Context(id: "url", value: "www.beagle.com.br"))
-        controller.configBindings()
+        controller.bindings.config()
         action.execute(controller: controller, origin: view)
         
         // Then
-        XCTAssertTrue(repository.token.didCallCancel)
+        XCTAssertTrue(imageDownloader.token.didCallCancel)
     }
     
     func testInvalidURL() {
@@ -141,7 +141,7 @@ class ImageTests: XCTestCase {
         weak var weakView = view
     
         // When
-        controller.configBindings()
+        controller.bindings.config()
         view = UIView()
         
         // Then
@@ -152,8 +152,8 @@ class ImageTests: XCTestCase {
         //Given
         let image = Image("@{img.path}")
         let dependency = BeagleDependencies()
-        let repository = RepositoryStub(imageResult: .success(Data()))
-        dependency.repository = repository
+        let imageDownloader = ImageDownloaderStub(imageResult: .success(Data()))
+        dependency.imageDownloader = imageDownloader
         let container = Container(children: [image])
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
         let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
@@ -161,11 +161,11 @@ class ImageTests: XCTestCase {
         
         //When
         view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
-        controller.configBindings()
+        controller.bindings.config()
         action.execute(controller: controller, origin: view)
         
         // Then
-        XCTAssertTrue(repository.token.didCallCancel)
+        XCTAssertTrue(imageDownloader.token.didCallCancel)
     }
     
     func testLocalImageWithContext() {
@@ -185,16 +185,8 @@ class ImageTests: XCTestCase {
     }
 }
 
-private struct RepositoryMock: Repository {
+private struct ImageDownloaderMock: ImageDownloader {
     var expectation: XCTestExpectation?
-    
-    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, useCache: Bool, completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
-        return nil
-    }
-    
-    func submitForm(url: String, additionalData: RemoteScreenAdditionalData?, data: Request.FormData, completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
-        return nil
-    }
     
     func fetchImage(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<Data, Request.Error>) -> Void) -> RequestToken? {
         let image = UIImage(named: "shuttle", in: Bundle(for: ImageTests.self), compatibleWith: nil)

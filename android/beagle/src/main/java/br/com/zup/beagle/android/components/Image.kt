@@ -16,15 +16,14 @@
 
 package br.com.zup.beagle.android.components
 
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.valueOf
-import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
+import br.com.zup.beagle.android.imagedownloader.DefaultImageDownloader
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -33,10 +32,14 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.ImageContentMode
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 
+
+/**
+ * Define an image view using the server driven information received through Beagle.
+ *
+ * @param path defines where the source of the image is
+ * @param mode defines how the declared image will fit the view.
+ */
 @RegisterWidget
 data class Image constructor(
     val path: Bind<ImagePath>,
@@ -95,37 +98,39 @@ data class Image constructor(
         }
 
         observeBindChanges(rootView, imageView, pathType.url) { url ->
-            imageView.loadImage(url ?: "")
+            downloadImage(imageView, url ?: "", rootView)
         }
-
     }
 
-    private fun ImageView.loadImage(url: String) {
-        Glide.with(this)
-            .load(url.formatUrl())
-            .into(object : CustomTarget<Drawable>() {
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                    this@loadImage.setImageDrawable(resource)
-                    this@loadImage.requestLayout()
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {}
-            })
-
-    }
+    private fun downloadImage(imageView: ImageView, url: String, rootView: RootView) =
+        BeagleEnvironment.beagleSdk.imageDownloader?.download(url, imageView, rootView)
+            ?: DefaultImageDownloader().download(url, imageView, rootView)
 
     private fun getImage(imagePath: String?): Int? =
         imagePath?.let {
             BeagleEnvironment.beagleSdk.designSystem?.image(it)
         }
-
 }
 
+/**
+ * Define the source of image data to populate the image view.
+ * */
 sealed class ImagePath {
+    /**
+     * Define an image whose data is local to the client app.
+     *
+     * @param mobileId reference an image natively in your mobile app local styles file.
+     * */
     data class Local(val mobileId: Bind<String>) : ImagePath() {
         constructor(mobileId: String) : this(expressionOrValueOf(mobileId))
     }
 
+    /**
+     * Define an image whose data needs to be downloaded from a source external to the client app.
+     *
+     * @param url reference the path where the image should be fetched from.
+     * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
+     * */
     data class Remote(val url: Bind<String>, val placeholder: Local? = null) : ImagePath() {
         constructor(url: String, placeholder: Local? = null) : this(expressionOrValueOf(url), placeholder)
     }

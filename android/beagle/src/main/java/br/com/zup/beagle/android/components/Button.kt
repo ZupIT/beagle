@@ -32,6 +32,15 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 
+/**
+ * Define a button natively using the server driven information received through Beagle
+ *
+ * @param text define the button text content.
+ * @param styleId reference a native style in your local styles file to be applied on this button.
+ * @param onPress attribute to define actions when this component is pressed
+ * @param clickAnalyticsEvent attribute to define click event name
+ *
+ */
 @RegisterWidget
 data class Button(
     val text: Bind<String>,
