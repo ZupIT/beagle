@@ -86,7 +86,8 @@ internal object BeagleNavigator {
 
     fun popToView(context: Context, route: String) {
         if (context is AppCompatActivity) {
-            context.supportFragmentManager.popBackStack(route, 0)
+            val relativePath = route.replace(BeagleEnvironment.beagleSdk.config.baseUrl, "")
+            context.supportFragmentManager.popBackStack(relativePath, 0)
         }
     }
 
