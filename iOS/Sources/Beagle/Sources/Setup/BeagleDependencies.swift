@@ -32,6 +32,7 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
     DependencyPreFetching,
     DependencyAppBundle,
     DependencyRepository,
+    DependencyImageDownloader,
     DependencyLogger,
     DependencyWindowManager,
     DependencyURLOpener,
@@ -52,6 +53,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var deepLinkHandler: DeepLinkScreenManaging?
     public var localFormHandler: LocalFormHandler?
     public var repository: Repository
+    public var imageDownloader: ImageDownloader
     public var analytics: Analytics?
     public var navigation: BeagleNavigation
     public var preFetchHelper: BeaglePrefetchHelping
@@ -112,6 +114,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.repository = RepositoryDefault(dependencies: resolver)
+        self.imageDownloader = ImageDownloaderDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
         self.opener = URLOpenerDefault(dependencies: resolver)
 

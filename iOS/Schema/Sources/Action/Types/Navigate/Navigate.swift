@@ -96,14 +96,13 @@ extension Route {
         /// A screen that should be rendered in case of request fail.
         public let fallback: Screen?
 
-        public init(url: Expression<String>, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
-            self.url = url
-            self.shouldPrefetch = shouldPrefetch
-            self.fallback = fallback
-        }
-        
-        @available(*, deprecated, message: "It was deprecated in version 1.2.2 and will be removed in a future version. Please use constructor with bind")
-        public init(url: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
+        /// Constructs a new path to a remote screen.
+        ///
+        /// - Parameters:
+        ///   - url: Contains the navigation endpoint. Since its a _ExpressibleString_ type you can pass a Expression<String> or a regular String.
+        ///   - shouldPrefetch: Changes _when_ this screen is requested.
+        ///   - fallback: A screen that should be rendered in case of request fail.
+        public init(url: StringOrExpression, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
             self.url = "\(url)"
             self.shouldPrefetch = shouldPrefetch
             self.fallback = fallback

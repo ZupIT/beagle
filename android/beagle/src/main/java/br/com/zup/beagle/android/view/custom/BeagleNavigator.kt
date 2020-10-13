@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.removeBaseUrl
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.widget.RootView
@@ -86,7 +87,8 @@ internal object BeagleNavigator {
 
     fun popToView(context: Context, route: String) {
         if (context is AppCompatActivity) {
-            context.supportFragmentManager.popBackStack(route, 0)
+            val relativePath = route.removeBaseUrl()
+            context.supportFragmentManager.popBackStack(relativePath, 0)
         }
     }
 

@@ -451,6 +451,7 @@ class BeagleControllerStub: BeagleController {
     var serverDrivenState: ServerDrivenState = .finished
     var screenType: ScreenType
     var screen: Screen?
+    var bindings: [() -> Void] = []
 
     init(
         _ screenType: ScreenType = .remote(.init(url: "")),
@@ -468,7 +469,9 @@ class BeagleControllerStub: BeagleController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addBinding(_ update: @escaping () -> Void) {}
+    func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        // Intentionally unimplemented...
+    }
     
     func execute(actions: [RawAction]?, origin: UIView) {
         actions?.forEach {

@@ -243,6 +243,21 @@ class BeagleNavigatorTest {
     }
 
     @Test
+    fun `GIVEN pop to view with full url WHEN call pop to view THEN format url to relative()`() {
+        // Given
+        every { context.supportFragmentManager.popBackStack("/test", 0) } just Runs
+        every { BeagleEnvironment.beagleSdk.config.baseUrl } returns url
+        val url = "$url/test"
+
+        // When
+        BeagleNavigator.popToView(context, url)
+
+        // Then
+        verify(exactly = once()) { context.supportFragmentManager.popBackStack("/test", 0) }
+    }
+
+
+    @Test
     fun pushStack_should_start_BeagleActivity() {
         // Given
         val context = mockk<Activity>()
