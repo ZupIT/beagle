@@ -33,8 +33,8 @@ object SendRequestScreenBuilder {
         context = ContextData(
             id = "buttonTitle",
             value = RequestButtonTitle(
-                success = "Send request onFinish with success",
-                error = "Send request onFinish with error"
+                success = "onFinish with success",
+                error = "onFinish with error"
             )
         ),
         child = Container(
@@ -46,7 +46,7 @@ object SendRequestScreenBuilder {
                 Container(
                     listOf(
                         Button(
-                            text = "Send request with success",
+                            text = "request with success",
                             onPress = listOf(
                                 SendRequest(
                                     url = "http://localhost:8080/send-request",
@@ -66,7 +66,7 @@ object SendRequestScreenBuilder {
                             )
                         ),
                         Button(
-                            text = "Send request with error",
+                            text = "request with error",
                             onPress = listOf(
                                 SendRequest(
                                     url = "http://localhost:8080",
@@ -99,8 +99,8 @@ object SendRequestScreenBuilder {
                                         SetContext(
                                             contextId = "buttonTitle",
                                             value = RequestButtonTitle(
-                                                success = "onFinished",
-                                                error = "Send request onFinish with error"
+                                                success = "didFinish",
+                                                error = "onFinish with error"
                                             )
                                         )
                                     )
@@ -117,8 +117,8 @@ object SendRequestScreenBuilder {
                                         SetContext(
                                             contextId = "buttonTitle",
                                             value = RequestButtonTitle(
-                                                success = "Send request onFinish with success",
-                                                error = "onFinished"
+                                                success = "onFinish with success",
+                                                error = "didFinish"
                                             )
                                         )
                                     )
