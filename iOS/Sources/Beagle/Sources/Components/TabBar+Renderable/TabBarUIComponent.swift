@@ -252,8 +252,12 @@ extension TabBarUIComponent {
     func scrollTo(page: Int) {
         model.tabIndex = page
         guard let view = tabItemViews[page] else { return }
-        let offsetX = view.center.x - (frame.width / 2)
-        setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
+        
+        let visibleRect = CGRect(
+            origin: CGPoint(x: max(0, view.center.x - (frame.width / 2)), y: 0),
+            size: bounds.size
+        )
+        scrollRectToVisible(visibleRect, animated: true)
         setupTabBarItemsTheme(for: page)
         moveIndicatorView(to: view)
     }
