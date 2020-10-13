@@ -33,9 +33,19 @@ public struct Image: RawWidget, AutoDecodable {
         self.widgetProperties = widgetProperties
     }
     
-    indirect public enum ImagePath: Decodable {
+    public init(
+        _ path: ImagePath,
+        mode: ImageContentMode? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
+    ) {
+        self.path = .value(path)
+        self.mode = mode
+        self.widgetProperties = widgetProperties
+    }
+    
+    public enum ImagePath: Decodable {
         case remote(Remote)
-        case local(String)
+        case local(StringOrExpression)
 
         enum CodingKeys: String, CodingKey {
             case type = "_beagleImagePath_"
@@ -61,10 +71,10 @@ public struct Image: RawWidget, AutoDecodable {
 
 public extension Image {
     struct Remote: Decodable {
-        public let url: String
+        public let url: StringOrExpression
         public let placeholder: String?
 
-        public init(url: String, placeholder: String? = nil) {
+        public init(url: StringOrExpression, placeholder: String? = nil) {
             self.url = url
             self.placeholder = placeholder
         }

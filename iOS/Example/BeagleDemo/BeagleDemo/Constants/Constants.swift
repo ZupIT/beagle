@@ -26,7 +26,7 @@ extension String {
     // MARK: - Endpoint
     static let lazyComponentEndpoint = "lazycomponent"
     static let pageViewEndpoint = "pageview"
-    static let tabViewEndpoint = "tabview"
+    static let tabBarEndpoint = "tabbar"
     static let listViewEndpoint = "listview"
     static let formEndpoint = "form"
     static let customComponentEndpoint = "customComponent"
@@ -42,6 +42,7 @@ extension String {
     static let componentInterationEndpoint = "componentInteractionText"
     static let conditionActionEndpoint = "conditionActionText"
     static let simpleFormEndpoint = "simpleFormComponent"
+    static let imageEndpoint = "image"
 
     // MARK: - URL
     static let webViewURL = "https://maps.google.com/"

@@ -45,7 +45,7 @@ public struct NavigationBar: Decodable, AutoInitiable {
 public struct NavigationBarItem: Decodable, AccessibilityComponent, IdentifiableComponent {
     
     public let id: String?
-    public let image: String?
+    public let image: StringOrExpression?
     public let text: String
     public let action: RawAction
     public let accessibility: Accessibility?

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "beagle.png",
+      "filename" : "buracoNegro.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "beagle@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "beagle@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
