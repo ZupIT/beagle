@@ -38,4 +38,4 @@ fun String.getExpressions(): List<String> {
     return expressions
 }
 
-internal fun String.removeBaseUrl(): String = this.replace(BeagleEnvironment.beagleSdk.config.baseUrl, "")
+internal fun String.removeBaseUrl(): String = this.removePrefix(BeagleEnvironment.beagleSdk.config.baseUrl)
