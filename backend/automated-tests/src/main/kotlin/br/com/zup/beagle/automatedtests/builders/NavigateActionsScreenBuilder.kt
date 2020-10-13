@@ -121,7 +121,7 @@ object NavigateActionsScreenBuilder {
                         contextId = "global",
                         value = pushStackRemoteFailure + "Screen"
                     ),
-                    Navigate.PushView(
+                    Navigate.PushStack(
                         Route.Remote("<3")
                     )
                 )
@@ -133,7 +133,7 @@ object NavigateActionsScreenBuilder {
                         contextId = "global",
                         value = pushViewRemoteFailure + "Screen"
                     ),
-                    Navigate.PushStack(
+                    Navigate.PushView(
                         Route.Remote("<3")
                     )
                 )

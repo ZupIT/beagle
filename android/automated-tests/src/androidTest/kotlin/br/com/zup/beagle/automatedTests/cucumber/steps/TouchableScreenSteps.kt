@@ -27,6 +27,7 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
+const val TOUCHABLE_SCREEN_SCREEN_BFF_URL = "http://10.0.2.2:8080/touchable"
 
 class TouchableScreenSteps {
 
@@ -35,7 +36,7 @@ class TouchableScreenSteps {
 
     @Before("@touchable")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.touchableScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, TOUCHABLE_SCREEN_SCREEN_BFF_URL)
     }
 
     @After("@touchable")

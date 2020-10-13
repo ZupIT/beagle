@@ -17,11 +17,7 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.automatedTests.activity.AppBeagleActivitiy
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.NAVIGATION_SCREEN_TITLE
-import br.com.zup.beagle.automatedTests.cucumber.elements.POP_STACK_BUTTON
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
@@ -33,6 +29,7 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Rule
 
+const val NAVIGATE_ACTIONS_BFF_URL = "http://10.0.2.2:8080/navigate-actions"
 
 class NavigateScreenSteps {
 
@@ -41,7 +38,7 @@ class NavigateScreenSteps {
 
     @Before("@navigation")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.navigateActionsBffUrl)
+        TestUtils.startActivity(activityTestRule, NAVIGATE_ACTIONS_BFF_URL)
     }
 
     @After("@navigation")
@@ -52,11 +49,17 @@ class NavigateScreenSteps {
     @Given("^the Beagle application did launch with the navigation screen url$")
     fun checkBaseScreen() {
         ScreenRobot()
-            .checkViewContainsText(NAVIGATION_SCREEN_TITLE, true)
+            .checkViewContainsText("Navigation Screen", true)
     }
 
     @When("^I press a navigation button (.*)$")
     fun clickOnButton(string:String) {
+        ScreenRobot()
+            .clickOnText(string)
+    }
+
+    @When("^I press a navigation failure button (.*)$")
+    fun clickOnButtonFailure(string:String) {
         ScreenRobot()
             .clickOnText(string)
     }
@@ -83,7 +86,6 @@ class NavigateScreenSteps {
     fun checkTextIsNotOnAnyView(string1:String){
         ScreenRobot()
             .checkViewDoesNotContainsText(string1)
-            .sleep(3)
     }
 
     @Then("^the view that contains the (.*) must still exist$")
