@@ -28,5 +28,4 @@ object Constants {
     val IMAGE_SCREEN_BFF_URL = "http://10.0.2.2:8080/image"
     val BUTTON_SCREEN_BFF_URL = "http://10.0.2.2:8080/button"
     const val NAVIGATE_ACTIONS_BFF_URL = "http://10.0.2.2:8080/navigate-actions"
-
 }

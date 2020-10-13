@@ -62,12 +62,12 @@ Feature: Navigation Action Validation
         When I press a navigation button <title>
         Then the screen should navigate to another screen with the text label <text>
         And I click on <pop> button
-        Then the app should dismiss the view that contaid .ns <title>
-        Then the view that contains the <text> must still exist
+        Then the app should dismiss the view that contains <text>
+        Then the view that contains the <title> must still exist
 
         Examples:
             | title           | text                  | pop       |
-            | PushStackRemote | PushStackRemoteScreen | PopToView |
+            | PushViewRemote  | PushViewRemoteScreen  | PopToView |
 
     Scenario Outline: Navigation 05 - 'popStack' action removes the current stack of views
         When I press a navigation button <title>
