@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -47,6 +48,7 @@ internal fun View.applyStyle(component: ServerDrivenComponent) {
         } else {
             styleManagerFactory.applyStyleComponent(component = it, view = this)
         }
+        applyStroke(it)
     }
 }
 
@@ -65,7 +67,18 @@ internal fun View.applyBackgroundColor(styleWidget: StyleComponent) {
     styleWidget.style?.backgroundColor?.toAndroidColor()?.let { androidColor ->
         (this.background as? GradientDrawable)?.setColor(androidColor)
     }
+}
 
+internal fun View.applyStroke(styleWidget: StyleComponent) {
+    val color = styleWidget.style?.borderColor?.toAndroidColor()
+    val width = styleWidget.style?.borderWidth?.toInt()?.dp()
+    width?.let { strokeWidth ->
+        color?.let { strokeColor ->
+            val gradient = this.background as? GradientDrawable ?: GradientDrawable()
+            gradient.setStroke(strokeWidth, strokeColor)
+            this.background = gradient
+        }
+    }
 }
 
 internal fun View.applyCornerRadius(styleWidget: StyleComponent) {

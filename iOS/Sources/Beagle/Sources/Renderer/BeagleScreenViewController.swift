@@ -25,7 +25,7 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     var screenType: ScreenType { get }
     var screen: Screen? { get }
     
-    func addBinding(_ update: @escaping () -> Void)
+    func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void)
     
     func execute(actions: [RawAction]?, origin: UIView)
     func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView)
@@ -46,7 +46,7 @@ public class BeagleScreenViewController: BeagleController {
     
     lazy var renderer = dependencies.renderer(self)
     
-    private var bindings: [() -> Void] = []
+    let bindings = Bindings()
     
     private var navigationControllerId: String?
     
@@ -107,15 +107,9 @@ public class BeagleScreenViewController: BeagleController {
     public var screen: Screen? {
         return viewModel.screen
     }
-        
-    public func addBinding(_ update: @escaping () -> Void) {
-        bindings.append(update)
-    }
     
-    func configBindings() {
-        while let bind = bindings.popLast() {
-            bind()
-        }
+    public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        bindings.add(self, expression, view, update)
     }
     
     public func execute(actions: [RawAction]?, origin: UIView) {
@@ -159,7 +153,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     public override func viewDidLayoutSubviews() {
-        configBindings()
+        bindings.config()
         layoutManager.applyLayout()
         super.viewDidLayoutSubviews()
     }
