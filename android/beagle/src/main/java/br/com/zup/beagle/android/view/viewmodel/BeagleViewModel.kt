@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
+import br.com.zup.beagle.android.utils.removeBaseUrl
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -81,7 +82,7 @@ internal class BeagleViewModel(
                     try {
                         setLoading(true)
                         val component = componentRequester.fetchComponent(screenRequest)
-                        val relativePath = screenRequest.url.replace(BeagleEnvironment.beagleSdk.config.baseUrl, "")
+                        val relativePath = screenRequest.url.removeBaseUrl()
                         postLiveDataResponse(ViewState.DoRender(relativePath, component))
                     } catch (exception: BeagleException) {
                         if (screen != null) {

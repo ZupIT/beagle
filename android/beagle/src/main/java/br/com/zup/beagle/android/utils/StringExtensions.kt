@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 
 internal fun String.toAndroidColor(): Int? = try {
     ColorUtils.hexColor(this)
@@ -27,7 +28,7 @@ internal fun String.toAndroidColor(): Int? = try {
 
 internal fun String.getContextId() = this.split(".", "[")[0]
 
-fun String.getExpressions(): List<String> {
+internal fun String.getExpressions(): List<String> {
     val expressions = mutableListOf<String>()
     val expressionContentRegex = "(\\\\*)@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}"
     expressionContentRegex.toRegex().findAll(this).iterator().forEach {
@@ -36,3 +37,5 @@ fun String.getExpressions(): List<String> {
     }
     return expressions
 }
+
+fun String.removeBaseUrl(): String = this.replace(BeagleEnvironment.beagleSdk.config.baseUrl, "")
