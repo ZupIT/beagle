@@ -28,7 +28,7 @@ internal fun String.toAndroidColor(): Int? = try {
 
 internal fun String.getContextId() = this.split(".", "[")[0]
 
-internal fun String.getExpressions(): List<String> {
+fun String.getExpressions(): List<String> {
     val expressions = mutableListOf<String>()
     val expressionContentRegex = "(\\\\*)@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}"
     expressionContentRegex.toRegex().findAll(this).iterator().forEach {
