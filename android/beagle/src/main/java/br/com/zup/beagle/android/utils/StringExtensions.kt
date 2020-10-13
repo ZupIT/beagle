@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 
 internal fun String.toAndroidColor(): Int? = try {
     ColorUtils.hexColor(this)
@@ -36,3 +37,5 @@ fun String.getExpressions(): List<String> {
     }
     return expressions
 }
+
+internal fun String.removeBaseUrl(): String = this.removePrefix(BeagleEnvironment.beagleSdk.config.baseUrl)
