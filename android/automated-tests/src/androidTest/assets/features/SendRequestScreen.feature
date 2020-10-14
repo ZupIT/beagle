@@ -15,29 +15,31 @@
 #
 
 @sendrequest @regression
-Feature: SendRequest Component Validation
+Feature: Send Request Action Validation
 
     As a Beagle developer/user
-    I'd like to make sure my sendRequest component works as expected
+    I'd like to make sure my send request action work as expected
+    In order to guarantee that my application never fails
 
-    Scenario Outline:
-        Given that I'm on the screen with a button for call a sendRequest and to realize the http requests <text1>
-        When I click on sendRequestSuccess button <text2>
-        Then the component should return an alert with a message onSuccess <text3> and onFinished <text4>
+    Background:
+        Given the Beagle application did launch with the send request screen url
 
-        Examples:
-            | text1               | text2                | text3   | text4      |
-            | Send request Screen | Send request success | Success | onFinished |
-
-    Scenario Outline:
-        When I click on sendRequestError button <text2>
-        Then the component should return an alert with a message onError <text3> and SendRequestError <text4>
+    Scenario Outline: Send Request 01 - The send request action get some result and show alert
+        When I press the <buttonTitle> button
+        Then the screen should show some alert with <alertTitle> title
 
         Examples:
-            | text2              | text3   | text4              |
-            | Send request error | Error   | Send request error |
+            |   buttonTitle              |    alertTitle      |
+            |   request with success     |    Success         |
+            |   request with error       |    Error           |
 
 
+    Scenario Outline: Send Request 02 - The send request onFinish action get some result and modify the pressed button
+        When I press the <title> button
+        Then the pressed button changes it's <title> title to didFinish
 
-
+        Examples:
+            |   title                   |
+            |   onFinish with success   |
+            |   onFinish with error     |
 

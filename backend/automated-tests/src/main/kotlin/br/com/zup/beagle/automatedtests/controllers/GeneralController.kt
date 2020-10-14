@@ -61,6 +61,9 @@ class GeneralController {
 
     @GetMapping(ACCESSIBILITY_ENDPOINT)
     fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
+
+    @GetMapping(SEND_REQUEST_ACTION_ENDPOINT)
+    fun getSendRequestScreen() = SendRequestScreenBuilder.build()
 }
 
 
