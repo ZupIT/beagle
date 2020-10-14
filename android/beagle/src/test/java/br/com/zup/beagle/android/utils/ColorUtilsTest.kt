@@ -23,6 +23,8 @@ import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkStatic
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -33,9 +35,13 @@ class ColorUtilsTest {
 
     @Before
     fun setUp() {
-        mockkObject(ColorUtils)
         mockkStatic(Color::class)
         every { Color.parseColor(capture(colorSlot)) } returns 0
+    }
+
+    @After
+    fun tearDown() {
+        unmockkStatic(Color::class)
     }
 
     @Test
@@ -47,12 +53,11 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgb)
 
         // Then
-        assertEquals("#11BB33",colorSlot.captured)
-
+        assertEquals("#11BB33", colorSlot.captured)
     }
 
     @Test
-    fun hexColor_should_return_AA55CC_when_A5C_is_given() {
+    fun hexColor_should_return_22FF33_when_2F3_is_given() {
         // Given
         val colorRgb = "#2f3"
 
@@ -60,8 +65,7 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgb)
 
         // Then
-        assertEquals("#22ff33",colorSlot.captured)
-
+        assertEquals("#22ff33", colorSlot.captured)
     }
 
     @Test
@@ -73,8 +77,7 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgba)
 
         // Then
-        assertEquals("#2266EEFF",colorSlot.captured)
-
+        assertEquals("#2266EEFF", colorSlot.captured)
     }
 
     @Test
@@ -86,8 +89,7 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgba)
 
         // Then
-        assertEquals("#cc9900bb",colorSlot.captured)
-
+        assertEquals("#cc9900bb", colorSlot.captured)
     }
 
     @Test
@@ -99,8 +101,7 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgb)
 
         // Then
-        assertEquals("#A3D256",colorSlot.captured)
-
+        assertEquals("#A3D256", colorSlot.captured)
     }
 
     @Test
@@ -112,8 +113,7 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgb)
 
         // Then
-        assertEquals("#584bcd",colorSlot.captured)
-
+        assertEquals("#584bcd", colorSlot.captured)
     }
 
     @Test
@@ -125,8 +125,7 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgba)
 
         // Then
-        assertEquals("#2018FAE3",colorSlot.captured)
-
+        assertEquals("#2018FAE3", colorSlot.captured)
     }
 
     @Test
@@ -138,7 +137,6 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgba)
 
         // Then
-        assertEquals("#30abc123",colorSlot.captured)
-
+        assertEquals("#30abc123", colorSlot.captured)
     }
 }

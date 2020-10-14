@@ -21,11 +21,13 @@ import android.graphics.Color
 internal object ColorUtils {
 
     fun hexColor(hexColor: String): Int {
-        return when (hexColor.count()){
-            9-> Color.parseColor(formatHexColorAlpha(hexColor))
+        return when (hexColor.getColorLength()) {
+            8 -> Color.parseColor(formatHexColorAlpha(hexColor))
             else -> Color.parseColor(formatHexColor(hexColor))
         }
     }
+
+    private fun String.getColorLength() = removePrefix("#").length
 
     private fun formatHexColorAlpha(color: String): String {
         return "^#([0-9A-F]{6})([0-9A-F]{2})$"
@@ -34,9 +36,25 @@ internal object ColorUtils {
     }
 
     private fun formatHexColor(color: String): String {
-        return "^#([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])?$"
+        val colorLength = color.getColorLength()
+        return generateRegexString(colorLength)
             .toRegex(RegexOption.IGNORE_CASE)
-            .replace(color,"#\$4\$4\$1\$1\$2\$2\$3\$3")
+            .replace(color, generateReplacement(colorLength))
     }
 
+    private fun generateRegexString(colorLength: Int): String {
+        return if (colorLength == 3) {
+            "^#([0-9A-F])([0-9A-F])([0-9A-F])?$"
+        } else {
+            "^#([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])?$"
+        }
+    }
+
+    private fun generateReplacement(colorLength: Int): String {
+        return if (colorLength == 3) {
+            "#\$1\$1\$2\$2\$3\$3"
+        } else {
+            "#\$4\$4\$1\$1\$2\$2\$3\$3"
+        }
+    }
 }
