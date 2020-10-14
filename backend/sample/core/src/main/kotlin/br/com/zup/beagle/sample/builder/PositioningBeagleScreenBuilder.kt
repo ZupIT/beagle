@@ -33,6 +33,8 @@ import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
@@ -42,32 +44,36 @@ import br.com.zup.beagle.widget.ui.Text
 const val RED = "#B22222"
 const val LIGHT_RED = "#FF5141"
 const val BLUE = "#2E02B6"
-const val LIGHT_BLUE = "#00C0EF"
+const val BROWN = "#8B4513"
 const val PURPLE = "#4B0082"
 const val BLACK = "#000000"
 const val GREEN = "#699C3E"
+const val PINK = "#FF007F"
 
 object PositioningBeagleScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
+                red(),
                 Container(
                     children = listOf(
-                        red(),
                         blue(),
-                        adjustHeight(),
-                        purple(),
-                        black(),
-                        green()
+                        pink(),
+                        black()
                     )
                 ).applyStyle(
                     Style(
+                        position = EdgeValue(top = UnitValue(-25.0, UnitType.REAL)),
+                        size = Size(width = 100.unitPercent()),
                         flex = Flex(
-                            grow = 1.0
+                            flexDirection = FlexDirection.ROW
                         )
                     )
-                )
+                ),
+                purple(),
+                brown(),
+                green()
             )
         )
     )
@@ -109,44 +115,50 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                         margin = EdgeValue(top = 16.unitReal(), right = 16.unitReal()),
                         positionType = PositionType.ABSOLUTE
                     )
-                ),
-                Text(
-                    text = "4",
-                    styleId = TEXT_WHITE_MEDIUM,
-                    alignment = TextAlignment.CENTER
-                ).applyStyle(
-                    Style(
-                        size = Size(width = 50.unitReal(), height = 50.unitReal()),
-                        backgroundColor = LIGHT_RED,
-                        flex = Flex(alignSelf = AlignSelf.FLEX_END),
-                        position = EdgeValue(right = 60.unitReal(), bottom = 0.unitReal()),
-                        margin = EdgeValue(top = 16.unitReal(), right = 16.unitReal()),
-                        positionType = PositionType.ABSOLUTE
-                    )
-                ),
-                Text(
-                    text = "5",
-                    styleId = TEXT_WHITE_MEDIUM,
-                    alignment = TextAlignment.CENTER
-                ).applyStyle(
-                    Style(
-                        size = Size(width = 50.unitReal(), height = 50.unitReal()),
-                        backgroundColor = LIGHT_RED,
-                        flex = Flex(alignSelf = AlignSelf.FLEX_END),
-                        position = EdgeValue(right = 0.unitReal(), bottom = 0.unitReal()),
-                        margin = EdgeValue(top = 16.unitReal(), right = 16.unitReal()),
-                        positionType = PositionType.ABSOLUTE
-                    )
                 )
             )
         ).applyStyle(
             Style(
-                size = Size(height = 245.unitReal(), width = 100.unitPercent()),
-                positionType = PositionType.ABSOLUTE
+                size = Size(height = 220.unitReal(), width = 100.unitPercent())
             )
         )
 
-    private fun blueA() =
+    private fun black() = Container(
+        children = listOf(
+            Text(
+                text = "4",
+                styleId = TEXT_WHITE_MEDIUM,
+                alignment = TextAlignment.CENTER
+            ).applyStyle(
+                Style(
+                    size = Size(width = 50.unitReal(), height = 50.unitReal()),
+                    backgroundColor = BLACK,
+                    margin = EdgeValue(right = 16.unitReal())
+                )
+            ),
+            Text(
+                text = "5",
+                styleId = TEXT_WHITE_MEDIUM,
+                alignment = TextAlignment.CENTER
+            ).applyStyle(
+                Style(
+                    size = Size(width = 50.unitReal(), height = 50.unitReal()),
+                    backgroundColor = BLACK,
+                    margin = EdgeValue(right = 16.unitReal())
+                )
+            )
+        )
+    ).applyStyle(
+        Style(
+            position = EdgeValue(right = 0.unitReal()),
+            positionType = PositionType.ABSOLUTE,
+            flex = Flex(
+                flexDirection = FlexDirection.ROW
+            )
+        )
+    )
+
+    private fun blue() =
         Container(
             children = listOf(
                 Text(
@@ -155,10 +167,9 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                     alignment = TextAlignment.CENTER
                 ).applyStyle(
                     Style(
-                        size = Size(height = 200.unitReal()),
+                        size = Size(height = 200.unitReal(), width = 144.unitReal()),
                         backgroundColor = BLUE,
-                        position = EdgeValue(top = 0.unitReal()),
-                        margin = EdgeValue(bottom = 5.unitReal())
+                        positionType = PositionType.ABSOLUTE
                     )
                 ),
                 Text(
@@ -167,21 +178,21 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                     alignment = TextAlignment.CENTER
                 ).applyStyle(
                     Style(
-                        size = Size(height = 40.unitReal()),
+                        size = Size(height = 40.unitReal(), width = 144.unitReal()),
                         backgroundColor = BLUE,
-                        position = EdgeValue(bottom = 0.unitReal())
+                        position = EdgeValue(top = 205.unitReal())
                     )
                 )
 
             )
         ).applyStyle(
             Style(
-                size = Size(width = 144.unitReal()),
+                size = Size(height = 245.unitReal()),
                 margin = EdgeValue(left = 16.unitReal())
             )
         )
 
-    private fun blueB() =
+    private fun pink() =
         Container(
             children = listOf(
                 Text(
@@ -191,7 +202,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                 ).applyStyle(
                     Style(
                         size = Size(height = 40.unitReal()),
-                        backgroundColor = "#00c0ef",
+                        backgroundColor = PINK,
                         position = EdgeValue(top = 0.unitReal()),
                         margin = EdgeValue(bottom = 5.unitReal())
                     )
@@ -203,7 +214,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                 ).applyStyle(
                     Style(
                         size = Size(height = 20.unitReal()),
-                        backgroundColor = LIGHT_BLUE,
+                        backgroundColor = PINK,
                         position = EdgeValue(top = 0.unitReal()),
                         margin = EdgeValue(bottom = 5.unitReal())
                     )
@@ -215,7 +226,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                 ).applyStyle(
                     Style(
                         size = Size(height = 20.unitReal()),
-                        backgroundColor = LIGHT_BLUE,
+                        backgroundColor = PINK,
                         position = EdgeValue(top = 0.unitReal()),
                         margin = EdgeValue(bottom = 5.unitReal())
                     )
@@ -227,7 +238,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                 ).applyStyle(
                     Style(
                         size = Size(height = 20.unitReal()),
-                        backgroundColor = LIGHT_BLUE,
+                        backgroundColor = PINK,
                         position = EdgeValue(top = 0.unitReal()),
                         margin = EdgeValue(bottom = 5.unitReal())
                     )
@@ -242,28 +253,6 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                 position = EdgeValue(top = 80.unitReal())
             )
         )
-
-    private fun blue() =
-        Container(
-            children = listOf(
-                blueA(),
-                blueB()
-            )
-        ).applyStyle(
-            Style(
-                position = EdgeValue(top = 190.unitReal()),
-                size = Size(width = 100.unitPercent()),
-                flex = Flex(
-                    flexDirection = FlexDirection.ROW
-                )
-            )
-        )
-
-    private fun adjustHeight() = Container(children = listOf()).applyStyle(
-        Style(
-            size = Size(height = 190.unitReal())
-        )
-    )
 
     private fun purple() =
         Container(
@@ -304,20 +293,21 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
             )
         ).applyStyle(
             Style(
+                position = EdgeValue(top = UnitValue(-25.0, UnitType.REAL)),
                 size = Size(width = 100.unitPercent()),
                 margin = EdgeValue(top = 16.unitReal())
             )
         )
 
-    private fun black() = Text(
+    private fun brown() = Text(
         text = "15",
         styleId = TEXT_WHITE_BUTTON,
         alignment = TextAlignment.CENTER
     ).applyStyle(
         Style(
             size = Size(height = 100.unitReal(), width = 100.unitPercent()),
-            backgroundColor = BLACK,
-            margin = EdgeValue(left = 16.unitReal(), top = 25.unitReal())
+            backgroundColor = BROWN,
+            margin = EdgeValue(left = 16.unitReal())
         )
     )
 
