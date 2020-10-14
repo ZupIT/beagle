@@ -18,11 +18,11 @@ package br.com.zup.beagle.automatedTests.cucumber.steps
 
 object Constants {
     val touchableScreenBffUrl = "http://10.0.2.2:8080/touchable"
-    val tabViewScreenBffUrl = "http://10.0.2.2:8080/tabview"
-    val simpleFormScreenBffUrl = "http://10.0.2.2:8080/simpleform"
-    val scrollViewScreenBffUrl = "http://10.0.2.2:8080/scrollview"
-    val pageViewScreenBffUrl = "http://10.0.2.2:8080/pageview"
-    val listViewScreenBffUrl = "http://10.0.2.2:8080/listview"
+    val tabViewScreenBffUrl = "http://10.0.2.2:8080/tab-view"
+    val simpleFormScreenBffUrl = "http://10.0.2.2:8080/simple-form"
+    val scrollViewScreenBffUrl = "http://10.0.2.2:8080/scroll-view-screen"
+    val pageViewScreenBffUrl = "http://10.0.2.2:8080/page-view-screen"
+    val listViewScreenBffUrl = "http://10.0.2.2:8080/list-view"
     val imageScreenBffUrl = "http://10.0.2.2:8080/image"
     val buttonScreenBffUrl = "http://10.0.2.2:8080/button"
 }
