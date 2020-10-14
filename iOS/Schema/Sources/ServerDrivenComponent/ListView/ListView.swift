@@ -25,7 +25,6 @@ public struct ListView: RawWidget, HasContext, InitiableComponent {
     public let iteratorName: String?
     public let onScrollEnd: [RawAction]?
     public let scrollThreshold: Int?
-    public let useParentScroll: Bool?
     public var widgetProperties: WidgetProperties
     
     public init(
@@ -38,7 +37,6 @@ public struct ListView: RawWidget, HasContext, InitiableComponent {
         iteratorName: String? = nil,
         onScrollEnd: [RawAction]? = nil,
         scrollThreshold: Int? = nil,
-        useParentScroll: Bool? = nil,
         widgetProperties: WidgetProperties = WidgetProperties(style: Style())
     ) {
         self.context = context
@@ -50,7 +48,6 @@ public struct ListView: RawWidget, HasContext, InitiableComponent {
         self.iteratorName = iteratorName
         self.onScrollEnd = onScrollEnd
         self.scrollThreshold = scrollThreshold
-        self.useParentScroll = useParentScroll
         self.widgetProperties = widgetProperties
     }
     
@@ -111,7 +108,6 @@ extension ListView: Decodable {
         case iteratorName
         case onScrollEnd
         case scrollThreshold
-        case useParentScroll
     }
 
     public init(from decoder: Decoder) throws {
@@ -126,7 +122,6 @@ extension ListView: Decodable {
         onInit = try container.decodeIfPresent(forKey: .onInit)
         onScrollEnd = try container.decodeIfPresent(forKey: .onScrollEnd)
         scrollThreshold = try container.decodeIfPresent(Int.self, forKey: .scrollThreshold)
-        useParentScroll = try container.decodeIfPresent(Bool.self, forKey: .useParentScroll)
         widgetProperties = try WidgetProperties(listFrom: decoder)
         
         if container.contains(.children) {

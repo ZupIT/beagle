@@ -217,7 +217,6 @@ extension ListViewUIComponent {
         var iteratorName: String
         var onScrollEnd: [RawAction]?
         var scrollThreshold: CGFloat
-        var useParentScroll: Bool
     }
 }
 
