@@ -21,14 +21,12 @@ public extension Expression {
 
     func observe(
         view: UIView,
-        controller: BeagleController,
+        controller: BeagleControllerProtocol,
         updateFunction: @escaping (T?) -> Void
     ) {
         switch self {
         case let .expression(expression):
-            controller.addBinding { [weak view] in
-               view?.configBinding(for: expression, completion: updateFunction)
-            }
+            controller.addBinding(expression: expression, in: view, update: updateFunction)
         case let .value(value):
             updateFunction(value)
         }

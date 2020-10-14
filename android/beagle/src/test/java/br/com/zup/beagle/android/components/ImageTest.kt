@@ -16,12 +16,12 @@
 
 package br.com.zup.beagle.android.components
 
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.beagle.android.components.utils.RoundedImageView
-import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
@@ -29,12 +29,16 @@ import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.Size
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.request.target.CustomTarget
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
+import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertTrue
 
@@ -43,10 +47,15 @@ private const val DEFAULT_URL = "http://teste.com/test.png"
 
 class ImageViewRendererTest : BaseComponentTest() {
 
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    val scope = CoroutineTestRule()
+
     private val imageView: RoundedImageView = mockk(relaxed = true, relaxUnitFun = true)
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
-    private val requestManager: RequestManager = mockk()
-    private val requestBuilder: RequestBuilder<Drawable> = mockk()
     private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
     private lateinit var imageLocal: Image
@@ -56,15 +65,8 @@ class ImageViewRendererTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkStatic(Glide::class)
-
         every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), any()) } returns imageView
-        every { Glide.with(imageView) } returns requestManager
-        every { requestManager.load(any<String>()) } returns requestBuilder
-        every { requestBuilder.into(any<CustomTarget<Drawable>>()) } returns mockk()
-
-        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
-        every { beagleSdk.designSystem } returns mockk()
+        every { beagleSdk.designSystem } returns mockk(relaxed = true)
         every { beagleSdk.designSystem!!.image(any()) } returns IMAGE_RES
 
         imageLocal = Image(ImagePath.Local("imageName"))
@@ -133,19 +135,6 @@ class ImageViewRendererTest : BaseComponentTest() {
         // Then
         Assert.assertTrue(view is ImageView)
         Assert.assertEquals(scaleType, scaleTypeSlot.captured)
-    }
-
-    @Test
-    fun build_should_set_url_to_Glide() {
-        //Given
-        val urlFormatted = DEFAULT_URL.formatUrl()
-
-        // When
-        imageRemote.buildView(rootView)
-
-        // Then
-        verify(exactly = once()) { Glide.with(imageView) }
-        verify(exactly = once()) { requestManager.load(urlFormatted) }
     }
 
     @Test

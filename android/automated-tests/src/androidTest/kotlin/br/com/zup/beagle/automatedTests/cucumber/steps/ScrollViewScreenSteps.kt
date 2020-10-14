@@ -27,6 +27,7 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
+const val SCROLL_VIEW_SCREEN_BFF_URL = "http://10.0.2.2:8080/scrollview"
 
 class ScrollViewScreenSteps {
 
@@ -35,7 +36,7 @@ class ScrollViewScreenSteps {
 
     @Before("@scrollview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.scrollViewScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, SCROLL_VIEW_SCREEN_BFF_URL)
     }
 
     @After("@scrollview")

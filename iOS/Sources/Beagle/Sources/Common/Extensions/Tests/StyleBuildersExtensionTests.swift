@@ -74,6 +74,8 @@ class StyleBuildersExtensionTests: XCTestCase {
             .position(EdgeValue())
             .backgroundColor("#FFFFFF")
             .cornerRadius(CornerRadius(radius: 5))
+            .borderWidth(2)
+            .borderColor("#000000")
         
         assertSnapshot(matching: sut, as: .dump)
     }

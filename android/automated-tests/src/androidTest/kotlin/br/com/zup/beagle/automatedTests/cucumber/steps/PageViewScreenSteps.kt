@@ -27,6 +27,8 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
+const val PAGE_VIEW_SCREEN_BFF_URL = "http://10.0.2.2:8080/pageview"
+
 class PageViewScreenSteps {
 
     @Rule
@@ -34,7 +36,7 @@ class PageViewScreenSteps {
 
     @Before("@pageview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.pageViewScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, PAGE_VIEW_SCREEN_BFF_URL)
     }
 
     @After("@pageview")

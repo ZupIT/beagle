@@ -89,6 +89,29 @@ final class ContainerTests: XCTestCase {
         assertSnapshotImage(screen, size: .custom(ViewImageConfig.iPhoneXr.size!))
     }
     
+    func testRenderContainerWithBorder() throws {
+        // Given
+        let container = Container(
+            children: [Text("Content")],
+            widgetProperties: .init(
+                style: .init(
+                    backgroundColor: "#0000FF50",
+                    cornerRadius: .init(radius: 15.0),
+                    borderColor: "#FF0000",
+                    borderWidth: 4,
+                    size: .init(width: 100%, height: 100%),
+                    padding: EdgeValue().all(4)
+                )
+            )
+        )
+        
+        // When
+        let screen = BeagleScreenViewController(container)
+        
+        // Then
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 100, height: 100)))
+    }
+    
     func test_testActionExecuting() {
         //Given
         
@@ -119,11 +142,16 @@ class BeagleControllerSpy: BeagleController {
     
     var expectation: XCTestExpectation?
     
-    func addBinding(_ update: @escaping () -> Void) { }
+    var bindings: [() -> Void] = []
+    
     func execute(action: RawAction, sender: Any) { }
     
     private(set) var didCalledExecute = false
     private(set) var lastImplicitContext: Context?
+    
+    func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        // Intentionally unimplemented...
+    }
     
     func execute(actions: [RawAction]?, origin: UIView) {
         didCalledExecute = true

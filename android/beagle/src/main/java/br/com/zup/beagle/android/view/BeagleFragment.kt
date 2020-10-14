@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,8 @@ internal class BeagleFragment : Fragment() {
         beagleSerializer.deserializeComponent(json)
     }
 
+    private lateinit var mListener: OnFragmentCallback
+
     companion object {
 
         @JvmStatic
@@ -53,6 +56,20 @@ internal class BeagleFragment : Fragment() {
         private const val JSON_SCREEN_KEY = "JSON_SCREEN_KEY"
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentCallback) {
+            mListener = context
+        } else {
+            throw ClassCastException("$context must implement OnFragmentCallback")
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mListener.fragmentResume()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,4 +82,8 @@ internal class BeagleFragment : Fragment() {
             }
         }
     }
+}
+
+interface OnFragmentCallback {
+    fun fragmentResume()
 }

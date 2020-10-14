@@ -234,6 +234,26 @@ class HttpClientDefaultTest {
     }
 
     @Test
+    fun `GIVEN request data with invalid uri when execute request THEN it should throw exception`() = runBlockingTest {
+        // Given
+        every { uri.toURL() } throws IllegalArgumentException("URI is not absolute")
+        val method = HttpMethod.GET
+        val requestData = RequestData(
+            uri = uri,
+            body = RandomData.string(),
+            method = method
+        )
+
+        // When
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {
+            // Then
+            assertEquals(-1, it.statusCode)
+            assertEquals(0, it.data.size)
+            assertEquals(0, it.headers.size)
+        })
+    }
+
+    @Test
     fun execute_should_throw_IllegalStateException_when_data_is_set_for_HttpMethod_DELETE() = runBlockingTest {
         // Given
         val method = HttpMethod.GET

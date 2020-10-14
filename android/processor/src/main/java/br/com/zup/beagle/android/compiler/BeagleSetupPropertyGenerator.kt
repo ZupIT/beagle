@@ -17,19 +17,11 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.annotation.RegisterController
+import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementationManager
+import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
 import br.com.zup.beagle.compiler.ANALYTICS
 import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
-import br.com.zup.beagle.compiler.BEAGLE_LOGGER
-import br.com.zup.beagle.compiler.BeagleClass
-import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
-import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.DESIGN_SYSTEM
-import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
-import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
-import br.com.zup.beagle.compiler.STORE_HANDLER
-import br.com.zup.beagle.compiler.URL_BUILDER_HANDLER
-import br.com.zup.beagle.compiler.VALIDATOR_HANDLER
 import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.compiler.extendsFromClass
 import br.com.zup.beagle.compiler.implementsInterface
@@ -66,50 +58,7 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
         typeElement: TypeElement,
         propertySpecifications: PropertySpecifications?
     ) {
-        when {
-            typeElement.implementsInterface(FORM_LOCAL_ACTION_HANDLER.toString()) -> {
-                if (propertySpecifications?.formLocalActionHandler == null) {
-                    propertySpecifications?.formLocalActionHandler = typeElement
-                } else {
-                    logImplementationErrorMessage(typeElement, "FormLocalActionHandler")
-                }
-            }
-            typeElement.implementsInterface(DEEP_LINK_HANDLER.toString()) -> {
-                if (propertySpecifications?.deepLinkHandler == null) {
-                    propertySpecifications?.deepLinkHandler = typeElement
-                } else {
-                    logImplementationErrorMessage(typeElement, "DeepLinkHandler")
-                }
-            }
-            typeElement.implementsInterface(HTTP_CLIENT_HANDLER.toString()) -> {
-                if (propertySpecifications?.httpClient == null) {
-                    propertySpecifications?.httpClient = typeElement
-                } else {
-                    logImplementationErrorMessage(typeElement, "HttpClient")
-                }
-            }
-            typeElement.implementsInterface(STORE_HANDLER.toString()) -> {
-                if (propertySpecifications?.storeHandler == null) {
-                    propertySpecifications?.storeHandler = typeElement
-                } else {
-                    logImplementationErrorMessage(typeElement, "StoreHandler")
-                }
-            }
-            typeElement.implementsInterface(URL_BUILDER_HANDLER.toString()) -> {
-                if (propertySpecifications?.urlBuilder == null) {
-                    propertySpecifications?.urlBuilder = typeElement
-                } else {
-                    logImplementationErrorMessage(typeElement, "UrlBuilder")
-                }
-            }
-            typeElement.implementsInterface(BEAGLE_LOGGER.toString()) -> {
-                if (propertySpecifications?.logger == null) {
-                    propertySpecifications?.logger = typeElement
-                } else {
-                    logImplementationErrorMessage(typeElement, "BeagleLogger")
-                }
-            }
-        }
+        TypeElementImplementationManager.manage(processingEnv, typeElement, propertySpecifications)
     }
 
     private fun checkIfOtherAttributesExists(
@@ -150,86 +99,9 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
         basePackageName: String,
         propertySpecifications: PropertySpecifications?
     ): List<PropertySpec> {
-        return listOf(
-            implementProperty(
-                propertySpecifications?.formLocalActionHandler.toString(),
-                "formLocalActionHandler",
-                FORM_LOCAL_ACTION_HANDLER
-            ),
-            implementProperty(
-                propertySpecifications?.deepLinkHandler.toString(),
-                "deepLinkHandler",
-                DEEP_LINK_HANDLER
-            ),
-            implementProperty(
-                propertySpecifications?.httpClient.toString(),
-                "httpClient",
-                HTTP_CLIENT_HANDLER
-            ),
-            implementProperty(
-                propertySpecifications?.designSystem.toString(),
-                "designSystem",
-                DESIGN_SYSTEM
-            ),
-            implementProperty(
-                propertySpecifications?.storeHandler.toString(),
-                "storeHandler",
-                STORE_HANDLER
-            ),
-            implementProperty(
-                "$basePackageName.$VALIDATOR_HANDLER_IMPL_NAME",
-                "validatorHandler",
-                VALIDATOR_HANDLER
-            ),
-            implementProperty(
-                propertySpecifications?.urlBuilder.toString(),
-                "urlBuilder",
-                URL_BUILDER_HANDLER
-            ),
-            implementProperty(
-                propertySpecifications?.analytics.toString(),
-                "analytics",
-                ANALYTICS
-            ),
-            implementProperty(
-                propertySpecifications?.logger.toString(),
-                "logger",
-                BEAGLE_LOGGER
-            ),
-            implementProperty(
-                CONTROLLER_REFERENCE_GENERATED,
-                "controllerReference",
-                CONTROLLER_REFERENCE
-            ),
-            implementServerDrivenActivityProperty(propertySpecifications?.defaultBeagleActivity)
-        )
-    }
-
-    private fun implementProperty(
-        propertyValue: String,
-        propertyName: String,
-        propertyType: BeagleClass
-    ): PropertySpec {
-
-        val propertyValueIsNull = propertyValue == "null"
-        val property = PropertySpec.builder(
-            propertyName,
-            ClassName(
-                propertyType.packageName,
-                propertyType.className
-            ).copy(nullable = propertyValueIsNull),
-            KModifier.OVERRIDE
-        )
-
-        val value = if (propertyValueIsNull) {
-            propertyValue
-        } else {
-            "$propertyValue()"
+        return PropertyImplementationManager.manage(basePackageName, propertySpecifications).toMutableList().apply {
+            add(implementServerDrivenActivityProperty(propertySpecifications?.defaultBeagleActivity))
         }
-
-        property.initializer(value)
-
-        return property.build()
     }
 
     private fun implementServerDrivenActivityProperty(typeElement: TypeElement?): PropertySpec {
@@ -258,5 +130,6 @@ internal data class PropertySpecifications(
     var urlBuilder: TypeElement? = null,
     var storeHandler: TypeElement? = null,
     var analytics: TypeElement? = null,
-    var logger: TypeElement? = null
+    var logger: TypeElement? = null,
+    var imageDownloader: TypeElement? = null
 )

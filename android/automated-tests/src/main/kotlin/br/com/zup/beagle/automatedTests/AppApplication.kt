@@ -17,6 +17,7 @@
 package br.com.zup.beagle.automatedTests
 
 import android.app.Application
+import android.util.Log
 import br.com.zup.beagle.automatedTests.BeagleSetup
 
 class AppApplication: Application() {
@@ -25,5 +26,4 @@ class AppApplication: Application() {
         super.onCreate()
         BeagleSetup().init(this)
     }
-
 }

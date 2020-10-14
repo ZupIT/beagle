@@ -20,22 +20,47 @@ import BeagleSchema
 extension Image: Widget {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let image = UIImageView(frame: .zero)
-        image.clipsToBounds = true
-        image.contentMode = (mode ?? .fitCenter).toUIKit()
-        var token: RequestToken?
+        let image = BeagleImageView(with: mode)
+        
+        switch path {
+        case .value(let path):
+            observeFields(path, renderer, image)
+        case .expression:
+            observePath(renderer, image)
+        }
+
+        return image
+    }
     
+    private func observeFields(_ path: Image.ImagePath, _ renderer: BeagleRenderer, _ image: BeagleImageView) {
+        switch path {
+        case .local(let mobileId):
+            let expression: Expression<String> = "\(mobileId)"
+            renderer.observe(expression, andUpdateManyIn: image) { mobileId in
+                guard let mobileId = mobileId else { return }
+                self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
+            }
+        case .remote(let remote):
+            let expression: Expression<String> = "\(remote.url)"
+            renderer.observe(expression, andUpdateManyIn: image) { url in
+                guard let url = url else { return }
+                image.token?.cancel()
+                image.token = self.setRemoteImage(from: url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
+            }
+        }
+    }
+    
+    private func observePath(_ renderer: BeagleRenderer, _ image: BeagleImageView) {
         renderer.observe(path, andUpdateManyIn: image) { path in
-            token?.cancel()
+            image.token?.cancel()
             switch path {
             case .local(let mobileId):
                 self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
             case .remote(let remote):
-                token = self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
+                image.token = self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
             case .none: ()
             }
         }
-        return image
     }
 
     private func setImageFromAsset(named: String, bundle: Bundle, imageView: UIImageView) {
@@ -53,7 +78,7 @@ extension Image: Widget {
     
     private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, renderer: BeagleRenderer) -> RequestToken? {
         let controller = renderer.controller
-        return controller.dependencies.repository.fetchImage(url: path, additionalData: nil) {
+        return controller.dependencies.imageDownloader.fetchImage(url: path, additionalData: nil) {
             [weak imageView, weak controller] result in
             guard let imageView = imageView else { return }
             switch result {
@@ -66,5 +91,19 @@ extension Image: Widget {
                 controller?.setNeedsLayout(component: imageView)
             }
         }
+    }
+}
+
+private class BeagleImageView: UIImageView {
+    var token: RequestToken?
+    
+    init(with mode: ImageContentMode?) {
+        super.init(frame: .zero)
+        clipsToBounds = true
+        contentMode = (mode ?? .fitCenter).toUIKit()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

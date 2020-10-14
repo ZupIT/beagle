@@ -6,6 +6,16 @@
       "c" : [
         1,
         2
+      ],
+      "d" : [
+        {
+          "code" : "123",
+          "name" : "John"
+        },
+        {
+          "code" : "321",
+          "name" : "Doe"
+        }
       ]
     }
   },
@@ -17,6 +27,16 @@
       "c" : [
         1,
         2
+      ],
+      "d" : [
+        {
+          "code" : "123",
+          "name" : "John"
+        },
+        {
+          "code" : "321",
+          "name" : "Doe"
+        }
       ]
     }
   },
@@ -27,6 +47,16 @@
       "c" : [
         "UPDATED",
         2
+      ],
+      "d" : [
+        {
+          "code" : "123",
+          "name" : "John"
+        },
+        {
+          "code" : "321",
+          "name" : "Doe"
+        }
       ]
     }
   },
@@ -40,6 +70,16 @@
         null,
         null,
         "UPDATED"
+      ],
+      "d" : [
+        {
+          "code" : "123",
+          "name" : "John"
+        },
+        {
+          "code" : "321",
+          "name" : "Doe"
+        }
       ]
     }
   },
@@ -52,5 +92,68 @@
       null,
       "UPDATED"
     ]
+  },
+  {
+    "input" : "d[0].name",
+    "output" : {
+      "a" : "default",
+      "c" : [
+        1,
+        2
+      ],
+      "d" : [
+        {
+          "code" : "123",
+          "name" : "UPDATED"
+        },
+        {
+          "code" : "321",
+          "name" : "Doe"
+        }
+      ]
+    }
+  },
+  {
+    "input" : "d[1].code",
+    "output" : {
+      "a" : "default",
+      "c" : [
+        1,
+        2
+      ],
+      "d" : [
+        {
+          "code" : "123",
+          "name" : "John"
+        },
+        {
+          "code" : "UPDATED",
+          "name" : "Doe"
+        }
+      ]
+    }
+  },
+  {
+    "input" : "d[2].name",
+    "output" : {
+      "a" : "default",
+      "c" : [
+        1,
+        2
+      ],
+      "d" : [
+        {
+          "code" : "123",
+          "name" : "John"
+        },
+        {
+          "code" : "321",
+          "name" : "Doe"
+        },
+        {
+          "name" : "UPDATED"
+        }
+      ]
+    }
   }
 ]

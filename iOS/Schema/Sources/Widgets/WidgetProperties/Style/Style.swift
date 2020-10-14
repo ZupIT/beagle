@@ -24,6 +24,12 @@ public class Style: Decodable, AutoEquatable, AutoInitiable {
     /// Sets the corner of your view to make it round.
     public var cornerRadius: CornerRadius?
     
+    /// Sets the color of your view border. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`.
+    public var borderColor: String?
+    
+    /// Sets the width of your view border
+    public var borderWidth: Double?
+    
     /// Allows  you to specify the size of the element.
     public var size: Size?
     
@@ -49,6 +55,8 @@ public class Style: Decodable, AutoEquatable, AutoInitiable {
     public init(
         backgroundColor: String? = nil,
         cornerRadius: CornerRadius? = nil,
+        borderColor: String? = nil,
+        borderWidth: Double? = nil,
         size: Size? = nil,
         margin: EdgeValue? = nil,
         padding: EdgeValue? = nil,
@@ -59,6 +67,8 @@ public class Style: Decodable, AutoEquatable, AutoInitiable {
     ) {
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
+        self.borderColor = borderColor
+        self.borderWidth = borderWidth
         self.size = size
         self.margin = margin
         self.padding = padding
