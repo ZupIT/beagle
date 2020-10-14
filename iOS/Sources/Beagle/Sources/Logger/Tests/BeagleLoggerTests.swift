@@ -46,6 +46,7 @@ class BeagleLoggerTests: XCTestCase {
             Log.navigation(.didReceiveAction(Navigate.openNativeRoute(.init(route: path)))),
             Log.navigation(.didReceiveAction(Navigate.openNativeRoute(.init(route: path, data: ["key": "value"])))),
             Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen),
+            Log.navigation(.unableToPrefetchWhenUrlIsExpression),
             Log.navigation(.didNotFindDeepLinkScreen(path: path)),
 
             Log.navigation(.didNavigateToExternalUrl(path: "externalURL")),

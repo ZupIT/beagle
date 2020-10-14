@@ -183,7 +183,8 @@ class ScreenComponentTest : BaseComponentTest() {
         //THEN
         verifyOrder {
             anyConstructed<ToolbarManager>().configureNavigationBarForScreen(context, navigationBar)
-            anyConstructed<ToolbarManager>().configureToolbar(rootView, navigationBar)
+            anyConstructed<ToolbarManager>().configureToolbar(rootView, navigationBar,
+                beagleFlexView, screenComponent)
         }
     }
 }

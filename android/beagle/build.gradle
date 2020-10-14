@@ -47,10 +47,18 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
-    implementation Dependencies.AndroidSupport.multidex
     implementation Dependencies.AndroidSupport.design
     implementation Dependencies.AndroidSupport.viewModel
     implementation Dependencies.AndroidSupport.extensions
@@ -64,8 +72,6 @@ dependencies {
     api project(Dependencies.Modules.commonAnnotation)
     api project(Dependencies.Modules.androidAnnotation)
 
-    implementation Dependencies.GlideLibraries.glide
-    kapt Dependencies.GlideLibraries.glideCompiler
     kapt project(Dependencies.Modules.internalProcessor)
 
     implementation Dependencies.GeneralLibraries.yoga
@@ -83,10 +89,6 @@ dependencies {
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.archCoreTesting
     testImplementation Dependencies.GeneralLibraries.jsonObject
-
-    // Integration Testing
-    androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.espressoCore
 }
 
 apply from: rootProject.file('../maven-publish.gradle')

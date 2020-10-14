@@ -103,5 +103,7 @@ class TextInputTest : BaseComponentTest() {
         verify(exactly = once()) { editText.isEnabled = DISABLED }
         verify(exactly = once()) { editText.visibility = View.INVISIBLE }
         verify(exactly = once()) { editText.inputType = InputType.TYPE_CLASS_NUMBER }
+        verify(exactly = once()) { editText.isFocusable = true }
+        verify(exactly = once()) { editText.isFocusableInTouchMode = true }
     }
 }

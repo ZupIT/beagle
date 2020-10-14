@@ -30,6 +30,13 @@ internal data class SetContextInternal(
     val path: String? = null
 )
 
+/**
+ * The setContext class is responsible for changing the value of a context.
+ *
+ * @param contextId Required. Wait context id.
+ * @param value Required. New value to be applied in the context.
+ * @param path Specific context point to be changed in the case of arrays and maps <key, value>.
+ */
 data class SetContext(
     val contextId: String,
     @property:ContextDataValue
@@ -49,8 +56,8 @@ data class SetContext(
 
     private fun toInternalSetContext(rootView: RootView, origin: View) = SetContextInternal(
         contextId = this.contextId,
-        value = evaluateExpression(rootView, origin, this.value) ?:
-            throw IllegalStateException("SetContext with id=${this.contextId} evaluated to null"),
+        value = evaluateExpression(rootView, origin, this.value)
+            ?: throw IllegalStateException("SetContext with id=${this.contextId} evaluated to null"),
         path = this.path
     )
 }

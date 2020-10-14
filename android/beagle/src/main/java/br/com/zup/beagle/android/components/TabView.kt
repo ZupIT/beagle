@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
@@ -31,20 +30,31 @@ import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_TAB_VIEW
+import br.com.zup.beagle.android.utils.TabViewDeprecatedConstants
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
 private val TAB_BAR_HEIGHT = 48.dp()
 
+/**
+ * TabView is a component responsible for the navigation between views.
+ * It works by displaying tabs corresponding to the different views that can be accessed.
+ *
+ * @param children define yours view has in tab
+ * @param styleId reference a native style in your local styles file to be applied on this view.
+ * @param context define the contextData that be set to tabView.
+ *
+ */
 @RegisterWidget
-@Deprecated(DEPRECATED_TAB_VIEW)
+@Deprecated(message = TabViewDeprecatedConstants.TAB_VIEW,
+    replaceWith = ReplaceWith(TabViewDeprecatedConstants.TAB_VIEW_REPLACE))
 data class TabView(
     override val children: List<TabItem>,
     val styleId: String? = null,
@@ -93,7 +103,7 @@ data class TabView(
             tabMode = TabLayout.MODE_SCROLLABLE
             tabGravity = TabLayout.GRAVITY_FILL
             setData()
-            addTabs(context)
+            addTabs(rootView)
         }
     }
 
@@ -110,12 +120,16 @@ data class TabView(
         }
     }
 
-    private fun TabLayout.addTabs(context: Context) {
+    private fun TabLayout.addTabs(rootView: RootView) {
         for (i in children.indices) {
             addTab(newTab().apply {
                 text = children[i].title
-                children[i].icon?.let {
-                    icon = getIconFromResources(context, it.mobileId)
+                children[i].icon?.let { localPath ->
+                    observeBindChanges(rootView, this@addTabs, localPath.mobileId) { iconPath ->
+                        iconPath?.let {
+                            icon = getIconFromResources(rootView.getContext(), iconPath)
+                        }
+                    }
                 }
             })
         }

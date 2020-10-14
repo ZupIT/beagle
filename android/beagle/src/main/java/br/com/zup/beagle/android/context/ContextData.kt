@@ -18,8 +18,15 @@ package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.annotation.ContextDataValue
 
+/**
+ * Context is a variable of any type, including a map that defines a set of key/value pairs.
+ * Through bindings, the value of a context can be accessed by any component or action on your scope.
+ *
+ * @param id a string that later has to be identified.
+ * @param value is a parameter (data) of any kind.
+ */
 data class ContextData(
     val id: String,
     @property:ContextDataValue
-    val value: Any // Should be a Number, String, Boolean, JSONObject or JSONArray
+    val value: Any
 )

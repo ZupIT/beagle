@@ -20,9 +20,27 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ViewModelStoreOwner
 import android.content.Context
 
+/**
+ * Interface RootView holder the reference of activity or fragment.
+ */
 interface RootView {
+    /**
+     * Returns the application context.
+     */
     fun getContext(): Context
+
+    /**
+     * Returns A class that has an Android lifecycle.
+     */
     fun getLifecycleOwner(): LifecycleOwner
+
+    /**
+     *  Retrieve a ViewModelStore for activities and fragments.
+     */
     fun getViewModelStoreOwner(): ViewModelStoreOwner
+
+    /**
+     * Returns the parent id of View that encapsulates all the content rendered by server-driven.
+     */
     fun getParentId(): Int
 }

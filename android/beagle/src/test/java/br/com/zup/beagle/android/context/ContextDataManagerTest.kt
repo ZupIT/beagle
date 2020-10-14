@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextData
 import br.com.zup.beagle.android.utils.setContextBinding
 import io.mockk.Runs

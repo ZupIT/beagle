@@ -157,6 +157,7 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var isLoggingEnabled: Bool = true
     var analytics: Analytics?
     var repository: Repository = RepositoryStub()
+    var imageDownloader: ImageDownloader = ImageDownloaderStub()
     var theme: Theme = AppThemeDummy()
     var validatorProvider: ValidatorProvider?
     var preFetchHelper: BeaglePrefetchHelping = PreFetchHelperDummy()
@@ -199,9 +200,10 @@ final class AppThemeDummy: Theme {
 }
 
 class BeagleNavigationDummy: BeagleNavigation {
+    
     var defaultAnimation: BeagleNavigatorAnimation?
     
-    func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
+    func navigate(action: Navigate, controller: BeagleController, animated: Bool, origin: UIView?) {
         // Intentionally unimplemented...
     }
 
@@ -223,5 +225,16 @@ class GlobalContextDummy: GlobalContext {
     let context: Observable<Context> = Observable(value: .init(id: "", value: .empty))
     
     func isGlobal(id: String?) -> Bool { true }
-    func setValue(_ value: DynamicObject) {}
+    
+    func set(value: DynamicObject, path: String?) {
+        // Intentionally unimplemented...
+    }
+    
+    func get(path: String?) -> DynamicObject {
+        .init(stringLiteral: "Dummy")
+    }
+    
+    func clear(path: String?) {
+        // Intentionally unimplemented...
+    }
 }

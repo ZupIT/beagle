@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.handleEvent
@@ -41,6 +42,16 @@ import br.com.zup.beagle.widget.core.Flex
 
 private val TAB_BAR_HEIGHT = 48.dp()
 
+/**
+ * TabBar is a component responsible to display a tab layout.
+ * It works by displaying tabs that can change a context when clicked.
+ *
+ * @param items define yours tabs title and icon
+ * @param styleId reference a native style in your local styles file to be applied on this view.
+ * @param currentTab define the expression that is observer to change the current tab selected
+ * @param onTabSelection define a list of action that will be executed when a tab is selected
+ *
+ */
 @RegisterWidget
 data class TabBar(
     val items: List<TabBarItem>,
@@ -49,21 +60,29 @@ data class TabBar(
     val onTabSelection: List<Action>? = null
 ) : WidgetView() {
 
+    constructor(
+        items: List<TabBarItem>,
+        styleId: String? = null,
+        currentTab: Int = 0,
+        onTabSelection: List<Action>? = null
+    ) : this(items, styleId, valueOf(currentTab), onTabSelection)
+
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
         val containerFlex = Style(flex = Flex(grow = 1.0))
-        val tabBar = makeTabLayout(rootView.getContext())
+
         val container = viewFactory.makeBeagleFlexView(rootView, containerFlex)
+        val tabBar = makeTabLayout(rootView, container)
         configTabSelectedListener(tabBar, rootView)
         configCurrentTabObserver(tabBar, container, rootView)
         container.addView(tabBar)
         return container
     }
 
-    private fun makeTabLayout(context: Context): TabLayout = viewFactory.makeTabLayout(
-        context,
+    private fun makeTabLayout(rootView: RootView, container: BeagleFlexView): TabLayout = viewFactory.makeTabLayout(
+        rootView.getContext(),
         styleManagerFactory.getTabViewStyle(styleId)
     ).apply {
         layoutParams =
@@ -74,7 +93,7 @@ data class TabBar(
         tabMode = TabLayout.MODE_SCROLLABLE
         tabGravity = TabLayout.GRAVITY_FILL
         configTabBarStyle()
-        addTabs(context)
+        addTabs(rootView, container)
     }
 
     private fun TabLayout.configTabBarStyle() {
@@ -90,12 +109,17 @@ data class TabBar(
         }
     }
 
-    private fun TabLayout.addTabs(context: Context) {
+    private fun TabLayout.addTabs(rootView: RootView, container: BeagleFlexView) {
         for (i in items.indices) {
             addTab(newTab().apply {
                 text = items[i].title
-                items[i].icon?.let {
-                    icon = getIconFromResources(context, it.mobileId)
+                items[i].icon?.let { imagePath ->
+
+                    observeBindChanges(rootView, container, imagePath.mobileId) { iconPath ->
+                        iconPath?.let {
+                            icon = getIconFromResources(rootView.getContext(), iconPath)
+                        }
+                    }
                 }
             })
         }
@@ -134,6 +158,15 @@ data class TabBar(
     }
 }
 
+/**
+ * Define the view has in the tab view
+ *
+ * @param title displays the text on the TabView component. If it is null or not declared it won't display any text.
+ * @param icon
+ *                  display an icon image on the TabView component.
+ *                  If it is left as null or not declared it won't display any icon.
+ *
+ */
 data class TabBarItem(
     val title: String? = null,
     val icon: ImagePath.Local? = null

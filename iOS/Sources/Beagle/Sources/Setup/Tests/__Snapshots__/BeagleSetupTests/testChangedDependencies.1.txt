@@ -12,8 +12,14 @@
       - observers: 0 elements
       ▿ value: Context
         - id: ""
-        - value: DynamicObject.empty
+        - value: 
     - globalId: ""
+  ▿ imageDownloader: ImageDownloaderDefault
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+    ▿ dispatcher: RequestDispatcher
+      ▿ dependencies: InnerDependenciesResolver
+        - container: (Function)
   - isLoggingEnabled: true
   ▿ localFormHandler: Optional<LocalFormHandler>
     ▿ some: LocalFormHandlerSpy
@@ -37,6 +43,9 @@
   ▿ repository: RepositoryDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+    ▿ dispatcher: RequestDispatcher
+      ▿ dependencies: InnerDependenciesResolver
+        - container: (Function)
     ▿ networkCache: NetworkCache
       - cacheHashHeader: "beagle-hash"
       ▿ dependencies: InnerDependenciesResolver

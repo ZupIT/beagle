@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
@@ -111,7 +111,8 @@ fun ViewGroup.loadView(
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
-@Deprecated(DEPRECATED_LOADING_VIEW)
+@Deprecated(DEPRECATED_LOADING_VIEW,
+    replaceWith = ReplaceWith("loadView(activity=activity, screenRequest=screenRequest,listener=listener)"))
 fun ViewGroup.loadView(
     activity: AppCompatActivity,
     screenRequest: ScreenRequest,
@@ -126,7 +127,8 @@ fun ViewGroup.loadView(
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
-@Deprecated(DEPRECATED_LOADING_VIEW)
+@Deprecated(DEPRECATED_LOADING_VIEW,
+    replaceWith = ReplaceWith("loadView(fragment=fragment, screenRequest=screenRequest,listener=listener)"))
 fun ViewGroup.loadView(
     fragment: Fragment,
     screenRequest: ScreenRequest,
@@ -150,8 +152,8 @@ private fun loadView(
         loadView(screenRequest)
     }
     view.loadCompletedListener = {
+        viewGroup.removeAllViews()
         viewGroup.addView(view)
-
     }
     view.listenerOnViewDetachedFromWindow = {
         viewModel.setViewCreated(rootView.getParentId())

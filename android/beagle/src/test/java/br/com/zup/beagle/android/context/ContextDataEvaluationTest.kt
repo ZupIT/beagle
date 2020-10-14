@@ -16,21 +16,21 @@
 
 package br.com.zup.beagle.android.context
 
-import android.support.v4.util.LruCache
+import androidx.collection.LruCache
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
+import br.com.zup.beagle.android.context.tokenizer.function.FunctionResolver
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.verify
+import io.mockk.*
 import org.json.JSONArray
 import org.json.JSONObject
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -386,7 +386,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<Boolean>("result: @{contains(insert(${CONTEXT_ID}, 4), 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1,2,3)
+            value = listOf(1, 2, 3)
         )
 
         // When
@@ -402,7 +402,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<List<ComponentModel>>("result: @{insert(${CONTEXT_ID}, 4, 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1,2,3)
+            value = listOf(1, 2, 3)
         )
 
         // When
@@ -497,6 +497,31 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
+    fun evaluateMultipleStringsExpressions() {
+        val bind = expressionOf<String>("lorem ipsum \\@{'hello world, this is { beagle }!}'} lotem ipsum @{nome} , \\\\\\\\@{context.id}" +
+            "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum gabriel , \\\\\\\\@{context.id}")
+
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        val expected = "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum  , \\\\" +
+            "lorem ipsum hello world, this is { beagle }!} lotem ipsum gabriel , \\\\"
+
+        assertEquals(expected = expected, actual = value)
+    }
+
+    @Test
+    fun evaluateAllContext_with_literal_string_with_close_key() {
+        // Given
+        val bind = expressionOf<String>("@{'hello world, this is { beagle }!}'}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertEquals("hello world, this is { beagle }!}", value)
+    }
+
+    @Test
     fun evaluateAllContext_in_multiple_expressions() {
         val bind = expressionOf<String>("lorem } ipsum \\@{'hello world, this is { beagle }!}'} lotem ipsum @{nome} , \\\\\\\\@{context.id}" +
             "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum gabriel , \\\\\\\\@{context.id}")
@@ -519,18 +544,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
 
         // Then
         assertEquals("{\"id\":\"test\",\"value\":{\"expression\":\"a\"}}", value)
-    }
-
-    @Test
-    fun evaluateAllContext_with_literal_string_with_close_key() {
-        // Given
-        val bind = expressionOf<String>("@{'hello world, this is { beagle }!}'}")
-
-        // When
-        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
-
-        // Then
-        assertEquals("hello world, this is { beagle }!}", value)
     }
 
     private fun createEscapeBindingMockCases(): List<EscapingTestCases> = listOf(

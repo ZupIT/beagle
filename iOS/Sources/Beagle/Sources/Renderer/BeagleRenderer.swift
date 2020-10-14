@@ -32,7 +32,7 @@ public struct BeagleRenderer {
     }
 
     /// main function of this class. Call it to transform a Component into a UIView
-    func render(_ component: BeagleSchema.RawComponent) -> UIView {
+    public func render(_ component: BeagleSchema.RawComponent) -> UIView {
         let view = makeView(component: component)
 
         setupView(view, of: component)
@@ -40,7 +40,7 @@ public struct BeagleRenderer {
         return view
     }
 
-    func render(_ children: [BeagleSchema.RawComponent]) -> [UIView] {
+    public func render(_ children: [BeagleSchema.RawComponent]) -> [UIView] {
         return children.map { render($0) }
     }
 
@@ -56,19 +56,12 @@ public struct BeagleRenderer {
     }
 
     private func setupView(_ view: UIView, of component: BeagleSchema.RawComponent) {
-        view.style.isFlexEnabled = true
-
-        // this switch could actually be inside the ViewConfigurator
-        if let c = component as? AccessibilityComponent {
-            view.beagle.setup(accessibility: c.accessibility)
-        }
+        view.beagle.setupView(of: component)
+        
         if let c = component as? IdentifiableComponent {
             view.beagle.setup(id: c.id)
         }
-        if let c = component as? StyleComponent {
-            view.beagle.setup(style: c.style)
-            view.style.setup(c.style)
-        }
+        
         if let context = (component as? HasContext)?.context {
             view.setContext(context)
         }

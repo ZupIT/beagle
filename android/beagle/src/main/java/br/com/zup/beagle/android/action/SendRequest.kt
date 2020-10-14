@@ -25,20 +25,59 @@ import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.normalizeContextValue
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 
+/**
+ * Enum with HTTP methods.
+ */
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
+    /**
+     * Request we representation of an resource.
+     */
     GET,
+
+    /**
+     * The POST method is used when we want to create a resource.
+     */
     POST,
+
+    /**
+     * Require that a resource be "saved" in the given URI.
+     */
     PUT,
+
+    /**
+     * Deletes the specified resource.
+     */
     DELETE,
+
+    /**
+     * Returns only the headers of a response.
+     */
     HEAD,
+
+    /**
+     * Used to update parts of a resource
+     */
     PATCH
 }
 
+/**
+ * SendRequest is used to make HTTP requests.
+ *
+ * @param url Required. Server URL.
+ * @param method  HTTP method.
+ * @param headers Header items for the request.
+ * @param data Content that will be deliver with the request.
+ * @param onSuccess Success action.
+ * @param onError  Error action.
+ * @param onFinish Finish action.
+ */
 data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
@@ -59,9 +98,9 @@ data class SendRequest(
         onError: List<Action>? = null,
         onFinish: List<Action>? = null
     ) : this(
-        Bind.Value(url),
-        Bind.Value(method),
-        headers?.let { Bind.Value(it) },
+        expressionOrValueOf(url),
+        valueOf(method),
+        headers?.let { valueOf(it) },
         data,
         onSuccess,
         onError,

@@ -13,13 +13,16 @@
       ▿ dependencies: InnerDependenciesResolver
         - container: (Function)
   ▿ decoder: ComponentDecoder
-    ▿ actionDecoders: 18 key/value pairs
+    ▿ actionDecoders: 19 key/value pairs
       ▿ (2 elements)
         - key: "beagle:addchildren"
         - value: AddChildren
       ▿ (2 elements)
         - key: "beagle:alert"
         - value: Alert
+      ▿ (2 elements)
+        - key: "beagle:condition"
+        - value: Condition
       ▿ (2 elements)
         - key: "beagle:confirm"
         - value: Confirm
@@ -138,6 +141,12 @@
   ▿ globalContext: DefaultGlobalContext
     - $__lazy_storage_$_context: Optional<Observable<Context>>.none
     - globalId: "global"
+  ▿ imageDownloader: ImageDownloaderDefault
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+    ▿ dispatcher: RequestDispatcher
+      ▿ dependencies: InnerDependenciesResolver
+        - container: (Function)
   - isLoggingEnabled: true
   - localFormHandler: Optional<LocalFormHandler>.none
   ▿ logger: BeagleLoggerProxy
@@ -165,6 +174,9 @@
   ▿ repository: RepositoryDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+    ▿ dispatcher: RequestDispatcher
+      ▿ dependencies: InnerDependenciesResolver
+        - container: (Function)
     ▿ networkCache: NetworkCache
       - cacheHashHeader: "beagle-hash"
       ▿ dependencies: InnerDependenciesResolver

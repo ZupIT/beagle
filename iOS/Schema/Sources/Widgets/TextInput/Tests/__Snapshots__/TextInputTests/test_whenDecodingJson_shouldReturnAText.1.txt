@@ -7,8 +7,7 @@
       ▿ SetContext
         - contextId: "myContext"
         - path: Optional<Path>.none
-        ▿ value: DynamicObject
-          - string: "2"
+        - value: 2
   - onFocus: Optional<Array<RawAction>>.none
   ▿ placeholder: Optional<Expression<String>>
     ▿ some: Expression<String>
@@ -26,6 +25,8 @@
     ▿ style: Optional<Style>
       ▿ some: Style
         - backgroundColor: Optional<String>.none
+        - borderColor: Optional<String>.none
+        - borderWidth: Optional<Double>.none
         - cornerRadius: Optional<CornerRadius>.none
         - display: Optional<Display>.none
         - flex: Optional<Flex>.none

@@ -25,19 +25,17 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     var screenType: ScreenType { get }
     var screen: Screen? { get }
     
-    func addBinding(_ update: @escaping () -> Void)
+    func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void)
     
     func execute(actions: [RawAction]?, origin: UIView)
     func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView)
+    
+    func setNeedsLayout(component: UIView)
 }
 
 public class BeagleScreenViewController: BeagleController {
     
     private let viewModel: BeagleScreenViewModel
-            
-    private var beagleNavigation: BeagleNavigationController? {
-        return navigationController as? BeagleNavigationController
-    }
     
     var content: Content? {
         willSet { content?.remove() }
@@ -48,9 +46,12 @@ public class BeagleScreenViewController: BeagleController {
     
     lazy var renderer = dependencies.renderer(self)
     
-    private var bindings: [() -> Void] = []
+    let bindings = Bindings()
     
     private var navigationControllerId: String?
+    
+    // TODO: This workaround should be removed in BeagleView future implementation
+    var skipNavigationCreation = false
     
     // MARK: - Initialization
     
@@ -106,15 +107,9 @@ public class BeagleScreenViewController: BeagleController {
     public var screen: Screen? {
         return viewModel.screen
     }
-        
-    public func addBinding(_ update: @escaping () -> Void) {
-        bindings.append(update)
-    }
     
-    func configBindings() {
-        while let bind = bindings.popLast() {
-            bind()
-        }
+    public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
+        bindings.add(self, expression, view, update)
     }
     
     public func execute(actions: [RawAction]?, origin: UIView) {
@@ -158,13 +153,13 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     public override func viewDidLayoutSubviews() {
-        configBindings()
+        bindings.config()
         layoutManager.applyLayout()
         super.viewDidLayoutSubviews()
     }
     
     private func createContent() {
-        if beagleNavigation == nil {
+        if navigationController == nil && !skipNavigationCreation {
             createNavigationContent()
             return
         }
@@ -179,7 +174,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func updateNavigationBar(animated: Bool) {
-        guard parent is BeagleNavigationController, let screen = screen else { return }
+        guard let screen = screen, !skipNavigationCreation else { return }
         let screenNavigationBar = screen.navigationBar
         let hideNavBar = screenNavigationBar == nil
         navigationController?.setNavigationBarHidden(hideNavBar, animated: animated)
@@ -195,11 +190,11 @@ public class BeagleScreenViewController: BeagleController {
         
         if let style = screen.navigationBar?.styleId,
         let navigationBar = navigationController?.navigationBar {
-            self.dependencies.theme.applyStyle(for: navigationBar, withId: style)
+            navigationBar.beagle.applyStyle(for: navigationBar as UINavigationBar, styleId: style, with: self)
         }
     }
     
-    // MARK: -
+    // MARK: - Update View
     
     fileprivate func updateView(state: ViewModel.State) {
         switch state {
@@ -247,7 +242,17 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func notifyBeagleNavigation(state: ServerDrivenState) {
-        beagleNavigation?.serverDrivenStateDidChange(to: state, at: self)
+        (navigationController as? BeagleNavigationController)?.serverDrivenStateDidChange(to: state, at: self)
+    }
+}
+
+extension BeagleControllerProtocol where Self: UIViewController {
+    public func setNeedsLayout(component: UIView) {
+        dependencies.style(component).markDirty()
+        if let beagleView = view.superview as? BeagleView {
+            beagleView.invalidateIntrinsicContentSize()
+        }
+        viewIfLoaded?.setNeedsLayout()
     }
 }
 
@@ -278,6 +283,7 @@ extension BeagleScreenViewController.Content {
             host.view.addSubview(view)
             view.anchorTo(superview: host.view)
             host.view.setNeedsLayout()
+            host.view.superview?.invalidateIntrinsicContentSize()
         }
     }
     

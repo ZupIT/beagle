@@ -1,10 +1,13 @@
-▿ 18 key/value pairs
+▿ 19 key/value pairs
   ▿ (2 elements)
     - key: "beagle:addchildren"
     - value: AddChildren
   ▿ (2 elements)
     - key: "beagle:alert"
     - value: Alert
+  ▿ (2 elements)
+    - key: "beagle:condition"
+    - value: Condition
   ▿ (2 elements)
     - key: "beagle:confirm"
     - value: Confirm

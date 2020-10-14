@@ -23,6 +23,12 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.widget.RootView
 
+/**
+ * The FragmentRootView holder the reference of a fragment.
+ *
+ * @param fragment that is the parent of a view.
+ * @param parentId parent view id.
+ */
 class FragmentRootView(
     val fragment: Fragment,
     private val parentId: Int
@@ -37,6 +43,12 @@ class FragmentRootView(
     override fun getParentId(): Int = parentId
 }
 
+/**
+ * The ActivityRootView holder the reference of activity.
+ *
+ * @param activity that is the parent of a view.
+ * @param parentId parent view id.
+ */
 class ActivityRootView(
     val activity: AppCompatActivity,
     private val parentId: Int

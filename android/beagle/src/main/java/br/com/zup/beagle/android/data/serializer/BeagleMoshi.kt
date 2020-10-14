@@ -16,14 +16,20 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import android.support.annotation.VisibleForTesting
-import br.com.zup.beagle.android.data.serializer.adapter.RouteAdapterFactory
-import br.com.zup.beagle.android.data.serializer.adapter.SimpleJsonAdapter
+import androidx.annotation.VisibleForTesting
 import br.com.zup.beagle.android.data.serializer.adapter.AndroidActionJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.BindAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ComponentJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ContextDataAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ImagePathTypeJsonAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.RouteAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.SimpleJsonAdapter
+import br.com.zup.beagle.android.data.serializer.adapter.SimpleJsonArrayAdapter
+import br.com.zup.beagle.android.data.serializer.adapter.defaults.CharSequenceAdapter
+import br.com.zup.beagle.android.data.serializer.adapter.defaults.MoshiArrayListJsonAdapter
+import br.com.zup.beagle.android.data.serializer.adapter.defaults.PairAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleGenericAdapterFactory
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
@@ -40,8 +46,17 @@ internal object BeagleMoshi {
         .add(ComponentJsonAdapterFactory.make())
         .add(RouteAdapterFactory())
         .add(AndroidActionJsonAdapterFactory.make())
-        .add(KotlinJsonAdapterFactory())
         .add(ContextDataAdapterFactory())
+        .add(MoshiArrayListJsonAdapter.FACTORY)
+        .add(CharSequenceAdapter())
+        .add(PairAdapterFactory)
+        .apply {
+            BeagleEnvironment.beagleSdk.typeAdapterResolver?.let {
+                add(BeagleGenericAdapterFactory(it))
+            }
+        }
+        .add(KotlinJsonAdapterFactory())
         .add(SimpleJsonAdapter())
+        .add(SimpleJsonArrayAdapter())
         .build()
 }

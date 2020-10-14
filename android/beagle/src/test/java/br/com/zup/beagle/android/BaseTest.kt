@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
@@ -40,9 +40,9 @@ abstract class BaseTest {
         MockKAnnotations.init(this)
 
         mockkObject(BeagleEnvironment)
-
-        every { rootView.activity } returns mockk(relaxed = true)
+        every { rootView.activity } returns mockk()
         every { BeagleEnvironment.beagleSdk } returns beagleSdk
+        every { beagleSdk.typeAdapterResolver } returns null
         every { beagleSdk.config.cache.memoryMaximumCapacity } returns 15
         every { beagleSdk.config.cache.size } returns 15
         every { beagleSdk.registeredWidgets() } returns listOf()

@@ -27,16 +27,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let deepLinkHandler = DeeplinkScreenManager.shared
         deepLinkHandler[.lazyComponentEndpoint] = LazyComponentScreen.self
         deepLinkHandler[.pageViewEndpoint] = PageViewScreen.self
-        deepLinkHandler[.tabViewEndpoint] = TabViewScreen.self
+        deepLinkHandler[.tabBarEndpoint] = TabBarScreen.self
         deepLinkHandler[.formEndpoint] = FormScreen.self
         deepLinkHandler[.customComponentEndpoint] = CustomComponentScreen.self
         deepLinkHandler[.screenDeeplinkEndpoint] = ScreenDeepLink.self
         deepLinkHandler[.listViewEndpoint] = ListViewScreen.self
         deepLinkHandler[.webViewEndpoint] = WebViewScreen.self
         deepLinkHandler[.componentInterationEndpoint] = ComponentInteractionText.self
+        deepLinkHandler[.conditionActionEndpoint] = ConditionActionText.self
         deepLinkHandler[.simpleFormEndpoint] = SimpleFormScreen.self
         deepLinkHandler[.navigateStep1Endpoint] = NavigateStep1Screen.self
         deepLinkHandler[.navigateStep2Endpoint] = NavigateStep2Screen.self
+        deepLinkHandler[.imageEndpoint] = ImageScreen.self
+        deepLinkHandler[.globalContextEndpoint] = GlobalContexScreen.self
+        deepLinkHandler[.beagleView] = BeagleViewScreen.self
 
         let validator = ValidatorProviding()
         validator[FormScreen.textValidatorName] = FormScreen.textValidator
@@ -55,8 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Beagle.dependencies = dependencies
         
-        let rootViewController = MainScreen().screenController()
-        window?.rootViewController = rootViewController
+        let mainScreenViewController = MainScreen().screenController()
+        mainScreenViewController.title = "Beagle"
+        
+        let nativeViewController = NativeViewController()
+        nativeViewController.title = "Native"
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [mainScreenViewController, UINavigationController(rootViewController: nativeViewController)]
+        
+        window?.rootViewController = tabBarController
         
         return true
     }

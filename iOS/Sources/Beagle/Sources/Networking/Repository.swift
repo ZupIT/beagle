@@ -35,6 +35,7 @@ public protocol Repository {
         completion: @escaping (Result<RawAction, Request.Error>) -> Void
     ) -> RequestToken?
 
+    @available(*, deprecated, message: "It was deprecated in version 1.3 and will be removed in a future version. Please use fetchImage from ImageDownloader instead.")
     @discardableResult
     func fetchImage(
         url: String,
@@ -63,12 +64,14 @@ public struct RepositoryDefault: Repository {
     let dependencies: Dependencies
 
     private var networkCache: NetworkCache
+    private let dispatcher: RequestDispatcher
     
     // MARK: Initialization
     
-    public init(dependencies: Dependencies ) {
+    public init(dependencies: Dependencies) {
         self.dependencies = dependencies
         self.networkCache = NetworkCache(dependencies: dependencies)
+        self.dispatcher = RequestDispatcher(dependencies: dependencies)
     }
     
     // MARK: Public Methods
@@ -88,7 +91,8 @@ public struct RepositoryDefault: Repository {
             return nil
         }
 
-        return dispatchRequest(path: url, type: .fetchComponent, additionalData: cache.additional) {  result in
+        let additional = cache.additional ?? additionalData
+        return dispatcher.dispatchRequest(path: url, type: .fetchComponent, additionalData: additional) {  result in
             let mapped = result
                 .flatMap { self.handleFetchComponent($0, cachedComponent: cache.data, url: url) }
 
@@ -103,7 +107,7 @@ public struct RepositoryDefault: Repository {
         data: Request.FormData,
         completion: @escaping (Result<RawAction>) -> Void
     ) -> RequestToken? {
-        return dispatchRequest(path: url, type: .submitForm(data), additionalData: additionalData) {  result in
+        return dispatcher.dispatchRequest(path: url, type: .submitForm(data), additionalData: additionalData) {  result in
             let mapped = result
                 .flatMap { self.handleForm($0.data) }
 
@@ -111,42 +115,17 @@ public struct RepositoryDefault: Repository {
         }
     }
 
+    @available(*, deprecated, message: "It was deprecated in version 1.3 and will be removed in a future version. Please use fetchImage from ImageDownloader instead.")
     @discardableResult
     public func fetchImage(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         completion: @escaping (Result<Data>) -> Void
     ) -> RequestToken? {
-        return dispatchRequest(path: url, type: .fetchImage, additionalData: additionalData) { result in
-            let mapped = result
-                .map { $0.data }
-
-            DispatchQueue.main.async { completion(mapped) }
-        }
+        return Beagle.dependencies.imageDownloader.fetchImage(url: url, additionalData: additionalData, completion: completion)
     }
     
     // MARK: Private Methods
-
-    private func dispatchRequest(
-        path: String,
-        type: Request.RequestType,
-        additionalData: RemoteScreenAdditionalData?,
-        completion: @escaping (Result<NetworkResponse>) -> Void
-    ) -> RequestToken? {
-        guard let url = dependencies.urlBuilder.build(path: path) else {
-            dependencies.logger.log(Log.network(.couldNotBuildUrl(url: path)))
-            completion(.failure(.urlBuilderError))
-            return nil
-        }
-
-        let request = Request(url: url, type: type, additionalData: additionalData)
-
-        return dependencies.networkClient.executeRequest(request) { result in
-            completion(
-                result.mapError { .networkError($0) }
-            )
-        }
-    }
     
     private func handleFetchComponent(
         _ response: NetworkResponse,

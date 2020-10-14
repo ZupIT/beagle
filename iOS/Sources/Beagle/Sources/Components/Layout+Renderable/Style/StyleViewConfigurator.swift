@@ -77,7 +77,7 @@ final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
         get { return view?.yoga.isEnabled ?? false }
         set { view?.yoga.isEnabled = newValue }
     }
-    
+        
     func markDirty() {
         view?.yoga.markDirty()
         var view = self.view
@@ -88,7 +88,7 @@ final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
             view = view?.superview
         }
     }
-
+    
     // MARK: - Private Methods
     
     private func applyYogaProperties(from style: Style, to layout: YGLayout) {

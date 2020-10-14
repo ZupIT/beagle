@@ -17,60 +17,47 @@
 
 import UIKit
 import BeagleSchema
+
+struct TabBarTheme {
+    var selectedTextColor: UIColor?
+    var unselectedTextColor: UIColor?
+    var selectedIconColor: UIColor?
+    var unselectedIconColor: UIColor?
+}
     
-final class TabBarUIComponent: UIView {
+final class TabBarUIComponent: UIScrollView {
     
     // MARK: - Model
     
     struct Model {
-        var tabIndex: Int
+        var tabIndex: Int?
         var tabBarItems: [TabBarItem]
-        var selectedTextColor: UIColor?
-        var unselectedTextColor: UIColor?
-        var selectedIconColor: UIColor?
-        var unselectedIconColor: UIColor?
+        var styleId: String?
+        var renderer: BeagleRenderer
     }
-
-    // MARK: - Properties
     
-    private var shouldScrollToCurrentTab = true
-    private var shouldAnimateOnCellDisplay = false
-    private var containerWidthConstraint: NSLayoutConstraint?
-    private let tabBarPreferedHeight: CGFloat = 65
-    private let collectionViewCellHeight: CGFloat = 55
+    // MARK: - Properties
+    private var shouldCreateTabItemsView = true
     private let tabItemMinimumHorizontalMargin: CGFloat = 40
     private let tabItemIconMinimunWidth: CGFloat = 75
     
     var model: Model
-    
+    var tabItemViews = [Int: TabBarItemUIComponent]()
     var onTabSelection: ((_ tab: Int) -> Void)?
-
+    
     // MARK: - UI
     
-    lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        let collection = UICollectionView(
-            frame: CGRect(),
-            collectionViewLayout: layout
-        )
-        collection.backgroundColor = .clear
-        collection.register(TabBarCollectionViewCell.self, forCellWithReuseIdentifier: TabBarCollectionViewCell.className)
-        collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.showsHorizontalScrollIndicator = false
-        collection.dataSource = self
-        collection.delegate = self
-        return collection
-    }()
-    
-    lazy var containerIndicator: ContainerIndicatorView = {
-        let view = ContainerIndicatorView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var contentView: UIView = {
+        let view = UIView()
         return view
     }()
     
+    lazy var indicatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
+        
     // MARK: - Initialization
     
     init(
@@ -78,8 +65,8 @@ final class TabBarUIComponent: UIView {
     ) {
         self.model = model
         super.init(frame: .zero)
-        setupLayout()
-        scrollTo(page: 0)
+        setupScrollView()
+        setupContentView()
     }
     
     @available(*, unavailable)
@@ -87,66 +74,173 @@ final class TabBarUIComponent: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Layout
-    
-    override var frame: CGRect {
-        didSet {
-            if collectionView.visibleCells.count != 0, shouldScrollToCurrentTab {
-                scrollTo(page: model.tabIndex)
-                shouldScrollToCurrentTab.toggle()
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let contentView = subviews.first {
+            contentSize = contentView.frame.size
+            resetTabItemsStyle()
+            
+            // Creates tabItems only after view it's already in superview hierarchy
+            if superview != nil && shouldCreateTabItemsView {
+                setupTabBarItems()
+                setupIndicatorViewStyle(for: tabItemViews[0])
+                style.applyLayout()
+                scrollTo(page: model.tabIndex ?? 0)
             }
         }
     }
+
+    // MARK: - Layout
     
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        .init(width: size.width, height: tabBarPreferedHeight)
+    private func resetTabItemsStyle() {
+        tabItemViews.forEach { key, item in
+            let size = getContentSize(forItem: model.tabBarItems[key].itemContentType)
+            setupTabBarItemStyle(for: item, with: size.width)
+        }
+        guard let selectedTabItem = tabItemViews[model.tabIndex ?? 0] else { return }
+        setupIndicatorViewStyle(for: selectedTabItem)
+        model.renderer.controller.setNeedsLayout(component: self)
     }
     
-    private lazy var tabBarItensFreeHorizontalSpace: CGFloat = {
+    private func setupScrollView() {
+        showsHorizontalScrollIndicator = false
+        showsVerticalScrollIndicator = false
+        style.setup(Style(
+            size: Size().height(65), flex: Flex().flexDirection(.row).shrink(0))
+        )
+    }
+    
+    private func setupContentView() {
+        contentView.style.setup(Style(
+            flex: Flex(flexDirection: .row, grow: 0, shrink: 0))
+        )
+        contentView.addSubview(indicatorView)
+        addSubview(contentView)
+    }
+    
+    func setupTabBarItems() {
+        var index = 0
+        shouldCreateTabItemsView = false
+        model.tabBarItems.forEach { item in
+            let size = getContentSize(forItem: item.itemContentType)
+            let itemView = createTabBarItemsView(with: item, index: index)
+            setupTabBarItemStyle(for: itemView, with: size.width)
+            tabItemViews[index] = itemView
+            index += 1
+            contentView.addSubview(itemView)
+        }
+        
+        if let styleId = model.styleId {
+            beagle.applyStyle(for: self as UIView, styleId: styleId, with: model.renderer.controller)
+        }
+    }
+    
+    private func createTabBarItemsView(with item: TabBarItem, index: Int) -> TabBarItemUIComponent {
+        let itemView = TabBarItemUIComponent(index: index, renderer: model.renderer)
+        itemView.setupTab(with: item)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didSelectTabItem(sender:)))
+        itemView.addGestureRecognizer(tap)
+        itemView.isUserInteractionEnabled = true
+        return itemView
+    }
+    
+    @objc func didSelectTabItem(sender: UITapGestureRecognizer) {
+        guard let tabItem = sender.view as? TabBarItemUIComponent, let index = tabItem.index else { return }
+        model.tabIndex = index
+        setupTabBarItemsTheme(for: index)
+        onTabSelection?(index)
+    }
+    
+    private func setupTabBarItemsTheme(for currentIndex: Int) {
+        tabItemViews.forEach { _, item in
+            item.isSelected = currentIndex == item.index
+        }
+    }
+}
+
+// MARK: - Style
+private extension TabBarUIComponent {
+    func setupTabBarItemStyle(for item: TabBarItemUIComponent, with width: CGFloat) {
+        item.style.setup(
+            Style(
+                size: Size().height(62).width(.init(value: Double(width), type: .real)),
+                position: EdgeValue().left(5),
+                flex: Flex()
+                    .alignItems(.center)
+                    .justifyContent(.spaceEvenly))
+        )
+    }
+    
+    func setupIndicatorViewStyle(for selectedItem: TabBarItemUIComponent?) {
+        guard let selectedItem = selectedItem else { return }
+        indicatorView.style.setup(
+            Style(
+                size: Size().height(3).width(.init(value: Double(selectedItem.bounds.width), type: .real)),
+                position: EdgeValue(left: UnitValue(value: Double(selectedItem.frame.origin.x), type: .real)),
+                positionType: .absolute,
+                flex: Flex().alignSelf(.flexEnd)
+            )
+        )
+    }
+
+}
+
+// MARK: - TabBarItem Size
+
+private extension TabBarUIComponent {
+    
+    func getTabBarItensFreeHorizontalSpace() -> CGFloat {
         let tabBarItems = model.tabBarItems
         let tabBarItemsAvailableSpace = frame.width
         let tabItensRequiredSpace = tabBarItems.reduce(0) { result, item -> CGFloat in
             if let title = item.title {
-                return result + getCellMinimumWidth(for: title)
+                return result + getItemMinimumWidth(for: title)
             }
             return result + tabItemIconMinimunWidth
         }
         return tabItensRequiredSpace <= tabBarItemsAvailableSpace ? (tabBarItemsAvailableSpace - tabItensRequiredSpace) / CGFloat(tabBarItems.count) : 0
-    }()
+    }
     
-    private func getCellMinimumWidth(for text: String) -> CGFloat {
+    func getItemMinimumWidth(for text: String) -> CGFloat {
         let label = UILabel()
         label.numberOfLines = 1
         label.text = text
         return label.intrinsicContentSize.width + tabItemMinimumHorizontalMargin
     }
+
+    func getContentSize(forItem item: TabBarItem.ItemContentType) -> CGSize {
+        switch item {
+        case .both(_, let title):
+            let minimumCellWidth = getItemMinimumWidth(for: title)
+            let width = minimumCellWidth <= tabItemIconMinimunWidth ? tabItemIconMinimunWidth : minimumCellWidth
+            return getContentSize(forWidth: width)
+        case .title(let title):
+            return getContentSize(forWidth: getItemMinimumWidth(for: title))
+        default:
+            return getContentSize(forWidth: tabItemIconMinimunWidth)
+        }
+    }
     
-    private func setupLayout() {
-        addSubview(collectionView)
-        collectionView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
-        collectionView.heightAnchor.constraint(lessThanOrEqualToConstant: tabBarPreferedHeight).isActive = true
-        collectionView.addSubview(containerIndicator)
-        collectionView.bringSubviewToFront(containerIndicator.indicatorView)
-        
-        containerIndicator.anchor(bottom: collectionView.bottomAnchor, bottomConstant: -tabBarPreferedHeight, heightConstant: 3)
-        containerWidthConstraint = NSLayoutConstraint(item: containerIndicator.indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)
-        containerWidthConstraint?.isActive = true
+    func getContentSize(forWidth width: CGFloat) -> CGSize {
+        CGSize(width: width + getTabBarItensFreeHorizontalSpace(), height: 62)
     }
 }
 
 // MARK: - Animation
 
 private extension TabBarUIComponent {
-    private func moveIndicatorView(to cell: UICollectionViewCell?) {
-        guard let cell = cell else { return }
+    private func moveIndicatorView(to tabItem: TabBarItemUIComponent) {
         UIView.animate(
             withDuration: 0.2,
             delay: 0,
             options: .curveLinear,
             animations: {
-                self.containerIndicator.indicatorView.frame.origin.x = cell.frame.origin.x
-                self.containerWidthConstraint?.constant = cell.frame.width
-                self.layoutIfNeeded()
+                self.setupIndicatorViewStyle(for: tabItem)
+                
+                // TODO: setNeedLayout should call layoutIfNeeded
+                self.model.renderer.controller.setNeedsLayout(component: self)
+                self.model.renderer.controller.view.layoutIfNeeded()
             }
         )
     }
@@ -157,72 +251,14 @@ private extension TabBarUIComponent {
 extension TabBarUIComponent {
     func scrollTo(page: Int) {
         model.tabIndex = page
-        let indexPath = IndexPath(item: page, section: 0)
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        guard let cell = collectionView.cellForItem(at: indexPath) else {
-            shouldAnimateOnCellDisplay = true
-            return
-        }
-        moveIndicatorView(to: cell)
-    }
-}
-
-// MARK: - UICollection View Delegate and DataSource Extension
-
-extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == model.tabIndex, shouldAnimateOnCellDisplay {
-            moveIndicatorView(to: cell)
-            shouldAnimateOnCellDisplay.toggle()
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.tabBarItems.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = model.tabBarItems[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TabBarCollectionViewCell.className, for: indexPath)
-        guard let tabBarCell = cell as? TabBarCollectionViewCell else { return cell }
+        guard let view = tabItemViews[page] else { return }
         
-        tabBarCell.model = TabBarCollectionViewCell.Model(
-            selectedTextColor: model.selectedTextColor,
-            unselectedTextColor: model.unselectedTextColor,
-            selectedIconColor: model.selectedIconColor,
-            unselectedIconColor: model.unselectedIconColor
+        let visibleRect = CGRect(
+            origin: CGPoint(x: max(0, view.center.x - (frame.width / 2)), y: 0),
+            size: bounds.size
         )
-        tabBarCell.setupTab(with: item)
-        
-        return tabBarCell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return getCellSize(forContent: model.tabBarItems[indexPath.row].itemContentType)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let index = Int(indexPath.row)
-        scrollTo(page: index)
-        onTabSelection?(index)
-    }
-    
-    private func getCellSize(forContent content: TabBarItem.ItemContentType) -> CGSize {
-        switch content {
-        case .both(_, let title):
-            let minimumCellWidth = getCellMinimumWidth(for: title)
-            let width = minimumCellWidth <= tabItemIconMinimunWidth ? tabItemIconMinimunWidth : minimumCellWidth
-            return getCellSize(forWidth: width)
-        case .title(let title):
-            return getCellSize(forWidth: getCellMinimumWidth(for: title))
-        default:
-            return getCellSize(forWidth: tabItemIconMinimunWidth)
-        }
-    }
-    
-    private func getCellSize(forWidth width: CGFloat) -> CGSize {
-        CGSize(width: width + tabBarItensFreeHorizontalSpace, height: collectionViewCellHeight)
+        scrollRectToVisible(visibleRect, animated: true)
+        setupTabBarItemsTheme(for: page)
+        moveIndicatorView(to: view)
     }
 }

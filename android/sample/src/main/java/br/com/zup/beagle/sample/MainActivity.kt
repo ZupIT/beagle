@@ -22,11 +22,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
+import br.com.zup.beagle.android.view.ServerDrivenActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
-import br.com.zup.beagle.sample.activities.SampleServerDrivenActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
+import br.com.zup.beagle.sample.fragment.ContextOperationsFragment
 import br.com.zup.beagle.sample.fragment.DisabledFormSubmitFragment
 import br.com.zup.beagle.sample.fragment.FormFragment
 import br.com.zup.beagle.sample.fragment.ImageViewFragment
@@ -38,7 +39,6 @@ import br.com.zup.beagle.sample.fragment.ScrollViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
-import br.com.zup.beagle.sample.fragment.ContextOperationsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
             R.id.sampleBff -> startActivity(
-                newServerDrivenIntent<SampleServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)
+                newServerDrivenIntent<ServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)
                 ))
         }
     }

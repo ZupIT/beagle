@@ -73,15 +73,20 @@ public struct BeagleStyle {
         return { $0?.setTitleColor(color, for: .normal) }
     }
     
-    public static func tabView(backgroundColor: UIColor, indicatorColor: UIColor, selectedTextColor: UIColor? = nil, unselectedTextColor: UIColor? = nil, selectedIconColor: UIColor? = nil, unselectedIconColor: UIColor? = nil) -> (UIView?) -> Void {
+    public static func tabBar(backgroundColor: UIColor, indicatorColor: UIColor, selectedTextColor: UIColor? = nil, unselectedTextColor: UIColor? = nil, selectedIconColor: UIColor? = nil, unselectedIconColor: UIColor? = nil) -> (UIView?) -> Void {
         return {
-            guard let tabView = $0 as? TabViewUIComponent else { return }
-            tabView.tabBar.backgroundColor = backgroundColor
-            tabView.tabBar.containerIndicator.indicatorView.backgroundColor = indicatorColor
-            tabView.tabBar.model.selectedTextColor = selectedTextColor
-            tabView.tabBar.model.unselectedTextColor = unselectedTextColor
-            tabView.tabBar.model.selectedIconColor = selectedIconColor
-            tabView.tabBar.model.unselectedIconColor = unselectedIconColor
+            guard let tabBar = $0 as? TabBarUIComponent else { return }
+            tabBar.backgroundColor = backgroundColor
+            tabBar.indicatorView.backgroundColor = indicatorColor
+            tabBar.tabItemViews.forEach { _, item in
+                item.theme = TabBarTheme(
+                    selectedTextColor: selectedTextColor,
+                    unselectedTextColor: unselectedTextColor,
+                    selectedIconColor: selectedIconColor,
+                    unselectedIconColor: unselectedIconColor
+                )
+            }
+            
         }
     }
 

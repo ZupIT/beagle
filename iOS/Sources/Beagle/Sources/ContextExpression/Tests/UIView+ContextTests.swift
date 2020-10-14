@@ -119,8 +119,9 @@ final class UIViewContextTests: XCTestCase {
         leaf.contextMap = ["leaf": contextObservableLeaf]
 
         let singleExpression = SingleExpression.value(.binding(.init(context: "context", path: .init(nodes: [.key("a")]))))
+        let leafExpression = SingleExpression.value(.binding(.init(context: "leaf", path: .init(nodes: [.index(0)]))))
         let exp = ContextExpression.single(singleExpression)
-        let multipleExpression = ContextExpression.multiple(.init(nodes: [.string("exp: "), .expression(singleExpression)]))
+        let multipleExpression = ContextExpression.multiple(.init(nodes: [.string("exp: "), .expression(singleExpression), .string(", leaf: "), .expression(leafExpression)]))
 
         leaf.configBinding(for: exp) {
             leaf.text = $0
@@ -131,21 +132,21 @@ final class UIViewContextTests: XCTestCase {
         
         contextObservableRoot.value = Context(id: "context", value: ["a": "updated", "b": "2"])
         XCTAssertEqual(leaf.text, "updated")
-        XCTAssertEqual(leaf.placeholder, "exp: updated")
+        XCTAssertEqual(leaf.placeholder, "exp: updated, leaf: test")
         
         contextObservableRoot.value = Context(id: "context", value: ["a": 2])
         XCTAssertEqual(leaf.text, "2")
-        XCTAssertEqual(leaf.placeholder, "exp: 2")
+        XCTAssertEqual(leaf.placeholder, "exp: 2, leaf: test")
     }
     
     func testConfigBindingShouldNotRetainTheView() {
         // Given
-        var view: UILabel? = UILabel()
+        var view: UIView? = UIView()
         weak var weakReference = view
-        
+
         let contextId = "context"
         view?.setContext(Context(id: contextId, value: .empty))
-        
+
         let binding = Binding(context: contextId, path: .init(nodes: []))
         let singleExpression = SingleExpression.value(.binding(binding))
         let multipleExpression = MultipleExpression(nodes: [.expression(singleExpression)])

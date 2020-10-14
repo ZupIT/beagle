@@ -25,7 +25,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
@@ -34,11 +34,20 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 
+/**
+ * A WebView widget will define a WebView natively using the server driven information received through Beagle.
+ *
+ * @param url
+ *              define the initial page that the WebView will load when presented .
+ *              This attribute must be declared and it cannot be null.
+ *
+ */
 @RegisterWidget
 data class WebView(
     val url: Bind<String>
 ) : WidgetView() {
-    constructor(url: String) : this(valueOf(url))
+
+    constructor(url: String) : this(expressionOrValueOf(url))
 
     @Transient
     private val viewFactory = ViewFactory()

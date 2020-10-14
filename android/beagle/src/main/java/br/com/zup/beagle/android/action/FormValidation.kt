@@ -22,6 +22,14 @@ import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.widget.RootView
 
+/**
+ * Configures the error messages returned by a service external to the application.
+ * For example, when checking the registration status of a CPF in the recipe,
+ * we can return the API error message to the application using FormValidation.
+ *
+ * @param errors list of errors.
+ *
+ */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 internal class FormValidation(
     val errors: List<FieldError>
@@ -42,6 +50,13 @@ internal class FormValidation(
     }
 }
 
+/**
+ * Class to define error.
+ *
+ * @param inputName component name to which this error refers.
+ * @param message The error message displayed.
+ *
+ */
 data class FieldError(
     val inputName: String,
     val message: String

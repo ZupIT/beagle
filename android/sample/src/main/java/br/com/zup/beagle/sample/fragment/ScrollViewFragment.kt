@@ -72,7 +72,7 @@ class ScrollViewFragment : Fragment() {
             ).applyStyle(Style(size = Size(height = UnitValue(100.0, UnitType.REAL)))),
             Image(
                 ImagePath.Remote(
-                    "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+                    "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg"
                 )
             ).applyStyle(Style(
                 cornerRadius = CornerRadius(30.0),

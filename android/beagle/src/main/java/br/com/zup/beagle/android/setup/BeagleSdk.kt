@@ -23,6 +23,8 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
+import br.com.zup.beagle.android.data.serializer.adapter.generic.TypeAdapterResolver
+import br.com.zup.beagle.android.imagedownloader.BeagleImageDownloader
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.navigation.BeagleControllerReference
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
@@ -44,8 +46,10 @@ interface BeagleSdk {
     val validatorHandler: ValidatorHandler?
     val httpClient: HttpClient?
     val designSystem: DesignSystem?
+    val imageDownloader: BeagleImageDownloader?
     val storeHandler: StoreHandler?
     val controllerReference: BeagleControllerReference?
+    val typeAdapterResolver: TypeAdapterResolver?
 
     @Deprecated(NewIntentDeprecatedConstants.BEAGLE_ACTIVITY_COMPONENT)
     val serverDrivenActivity: Class<BeagleActivity>

@@ -21,6 +21,8 @@ import android.view.View
 import android.widget.TextView
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.expressionOrValueOfNullable
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -31,6 +33,17 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextAlignment
 
+/**
+ * A text widget will define a text view natively using the server driven information received through Beagle.
+ *
+ * @param text defines the text view content. This attribute must be declared and it cannot be null.
+ * @param styleId
+ *              will reference a style in your local styles file to be applied on this text view.
+ *              This attribute can be set as null.
+ * @param textColor defines the text color natively.
+ * @param alignment defines the text content alignment inside the text view.
+ *
+ */
 @RegisterWidget
 data class Text(
     val text: Bind<String>,
@@ -38,15 +51,16 @@ data class Text(
     val textColor: Bind<String>? = null,
     val alignment: Bind<TextAlignment>? = null
 ) : WidgetView() {
+
     constructor(
         text: String,
         styleId: String? = null,
         textColor: String? = null,
         alignment: TextAlignment? = null
     ) : this(
-        valueOf(text),
+        expressionOrValueOf(text),
         styleId,
-        valueOfNullable(textColor),
+        expressionOrValueOfNullable(textColor),
         valueOfNullable(alignment)
     )
 
@@ -67,13 +81,13 @@ data class Text(
 
         text.textColor?.let {
             observeBindChanges(rootView, this, it) { value ->
-                value?.let { color ->this.setTextColor(color) }
+                value?.let { color -> this.setTextColor(color) }
             }
         }
 
         text.alignment?.let {
             observeBindChanges(rootView, this, it) { value ->
-                value?.let { alignment ->this.setAlignment(alignment) }
+                value?.let { alignment -> this.setAlignment(alignment) }
             }
         }
     }

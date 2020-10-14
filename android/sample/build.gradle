@@ -20,7 +20,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: "../screenshots.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -50,6 +49,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -60,13 +63,4 @@ dependencies {
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
-
-    // Unit Testing
-    testImplementation Dependencies.TestLibraries.junit
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.mockk
-
-    // Integration Testing
-    androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.espressoCore
 }

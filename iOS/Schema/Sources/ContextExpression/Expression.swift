@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+/// It's a `String` that will be treated internally as an `Expression<String>` if passed a value like "@{someExression}". Otherwise, it will be just a normal `String`.
+public typealias StringOrExpression = String
+
 public enum Expression<T: Decodable> {
     case value(T)
     case expression(ContextExpression)
@@ -140,3 +143,22 @@ extension String {
         return result.replacingOccurrences(of: "\\@{", with: "@{")
     }
 }
+
+// MARK: ExpressibleByLiteral
+extension Expression: ExpressibleByStringLiteral {
+    public init(stringLiteral value: String) {
+        let escaped = value.escapeExpressions()
+        if let expression = SingleExpression(rawValue: value) {
+            self = .expression(.single(expression))
+        } else if let multiple = MultipleExpression(rawValue: value) {
+            self = .expression(.multiple(multiple))
+        } else if let value = escaped as? T {
+            self = .value(value)
+        } else {
+            assertionFailure("Error: invalid Expression syntax \(value)")
+            self = .expression(.multiple(MultipleExpression(nodes: [])))
+        }
+    }
+}
+
+extension Expression: ExpressibleByStringInterpolation {}

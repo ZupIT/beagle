@@ -19,6 +19,13 @@ package br.com.zup.beagle.android.widget
 import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * This interface is responsible to convert any server-driven component to a View in Android
+ */
 interface ViewConvertable : ServerDrivenComponent {
+
+    /**
+     * This function is called to convert your server-driven component to a UI View in Android
+     */
     fun buildView(rootView: RootView): View
 }

@@ -21,7 +21,8 @@ import BeagleSchema
 
 final class BeaglePrefetchHelperTests: XCTestCase {
 
-    struct Dependencies: DependencyRepository, DependencyCacheManager {
+    struct Dependencies: BeaglePreFetchHelper.Dependencies {
+        var logger: BeagleLoggerType
         var cacheManager: CacheManagerProtocol?
         let repository: Repository
     }
@@ -44,7 +45,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             return
         }
         let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
-        let dependencies = Dependencies(cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
+        let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
@@ -65,7 +66,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             return
         }
         let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
-        let dependencies = Dependencies(cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
+        let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
@@ -126,6 +127,19 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         assertSnapshot(matching: result, as: .description)
     }
     
+    func testNavigateWithContextShouldNotPrefetch() {
+        // Given
+        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(ComponentDummy())))
+        let sut = BeaglePreFetchHelper(dependencies: dependencies)
+
+        // When
+        sut.prefetchComponent(newPath: .init(url: "@{url}", shouldPrefetch: true))
+        
+        // Then
+        XCTAssertNil(cacheManager.getReference(identifiedBy: "@{url}"))
+    }
+
     private func decodeComponent(from data: Data) -> ServerDrivenComponent? {
         do {
             let component = try decoder.decodeComponent(from: data)

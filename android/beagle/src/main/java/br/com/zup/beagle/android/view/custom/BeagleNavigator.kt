@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.removeBaseUrl
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.widget.RootView
@@ -64,7 +65,7 @@ internal object BeagleNavigator {
     fun pushView(context: Context, route: Route) {
         if (context is BeagleActivity) {
             when (route) {
-                is Route.Remote -> context.navigateTo(ScreenRequest(route.url), route.fallback)
+                is Route.Remote -> context.navigateTo(ScreenRequest(route.url.value as String), route.fallback)
                 is Route.Local -> context.navigateTo(ScreenRequest(""), route.screen)
             }
         } else {
@@ -86,7 +87,8 @@ internal object BeagleNavigator {
 
     fun popToView(context: Context, route: String) {
         if (context is AppCompatActivity) {
-            context.supportFragmentManager.popBackStack(route, 0)
+            val relativePath = route.removeBaseUrl()
+            context.supportFragmentManager.popBackStack(relativePath, 0)
         }
     }
 
@@ -109,9 +111,9 @@ internal object BeagleNavigator {
         val bundle = when (route) {
             is Route.Remote -> {
                 if (route.fallback != null) {
-                    BeagleActivity.bundleOf(ScreenRequest(route.url), route.fallback)
+                    BeagleActivity.bundleOf(ScreenRequest(route.url.value as String), route.fallback)
                 } else {
-                    BeagleActivity.bundleOf(ScreenRequest(route.url))
+                    BeagleActivity.bundleOf(ScreenRequest(route.url.value as String))
                 }
             }
             is Route.Local -> BeagleActivity.bundleOf(route.screen)
