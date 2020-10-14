@@ -40,7 +40,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner Dependencies.GeneralNames.testInstrumentationRunner
 
         if (project.ext.has("screenshotTests")) {
             testApplicationId "br.com.zup.beagle.automatedTests"
@@ -87,8 +87,12 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.espressoCore
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    androidTestImplementation Dependencies.TestLibraries.testExt
 
+}
+repositories {
+    mavenCentral()
 }
 
 def getTestTags() {

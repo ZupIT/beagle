@@ -18,7 +18,7 @@ package br.com.zup.beagle.automatedTests.utils
 
 import android.app.Activity
 import android.content.Intent
-import androidx.test.rule.ActivityTestRule
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.automatedTests.activity.AppBeagleActivitiy
 import br.com.zup.beagle.automatedTests.activity.MainActivity

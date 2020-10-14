@@ -1,6 +1,6 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import androidx.test.rule.ActivityTestRule
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot

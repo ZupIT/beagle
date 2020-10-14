@@ -63,4 +63,8 @@ dependencies {
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

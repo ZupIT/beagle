@@ -56,7 +56,7 @@ class Dependencies : Plugin<Project> {
 
         const val kotlinPoet = "1.6.0"
 
-        const val moshi = "1.10.0   "
+        const val moshi = "1.10.0"
 
         const val soLoader = "0.9.0"
 
@@ -82,8 +82,6 @@ class Dependencies : Plugin<Project> {
         const val mockk = "1.10.0"
 
         const val incap = "0.2"
-
-        const val testExt = "1.1.1"
     }
 
     object AndroidSupportVersions {
@@ -154,7 +152,7 @@ class Dependencies : Plugin<Project> {
         const val testRunner = "com.android.support.test:runner:${AndroidSupportVersions.supportTest}"
         const val archCoreTesting = "android.arch.core:core-testing:${AndroidSupportVersions.archCoreTesting}"
         const val espressoCore = "com.android.support.test.espresso:espresso-core:${AndroidSupportVersions.espressoCore}"
-        const val testRules = "com.android.support.test:rules:${Versions.testExt}"
+        const val testRules = "com.android.support.test:rules:${AndroidSupportVersions.supportTest}"
         const val cucumberAndroid = "info.cukes:cucumber-android:${AndroidSupportVersions.cucumberAndroidVersion}"
         const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${AndroidSupportVersions.cucumberPicocontainer}"
     }

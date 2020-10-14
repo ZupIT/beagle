@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.view.viewmodel
+package br.com.zup.beagle.android.imagedownloader
 
-import android.arch.lifecycle.ViewModel
+import br.com.zup.beagle.android.view.viewmodel.defaultExceptionHandler
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -24,16 +24,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-internal val defaultExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-    throw throwable
-}
-
-internal open class BaseViewModel : CoroutineScope, ViewModel() {
+internal open class ImageScope : CoroutineScope {
     private val job : Job = Job()
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main
     private val coroutineExceptionHandler : CoroutineExceptionHandler = defaultExceptionHandler
 
     override val coroutineContext: CoroutineContext
         get() = job + dispatcher + coroutineExceptionHandler
-
 }

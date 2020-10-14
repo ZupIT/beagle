@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.arch.lifecycle.LiveData
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
@@ -35,6 +33,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicReference
+import kotlin.coroutines.CoroutineContext
 
 sealed class ViewState {
     data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
@@ -45,14 +44,14 @@ sealed class ViewState {
 internal class BeagleViewModel(
     private val ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
     private val componentRequester: ComponentRequester = ComponentRequester()
-) : ViewModel() {
+) : BaseViewModel() {
 
     fun fetchComponent(screenRequest: ScreenRequest, screen: ServerDrivenComponent? = null): LiveData<ViewState> {
         return FetchComponentLiveData(screenRequest, screen, componentRequester,
-            viewModelScope, ioDispatcher)
+            ioDispatcher, coroutineContext)
     }
 
-    fun fetchForCache(url: String) = viewModelScope.launch(ioDispatcher) {
+    fun fetchForCache(url: String) = launch(ioDispatcher) {
         try {
             componentRequester.fetchComponent(ScreenRequest(url))
         } catch (exception: BeagleException) {
@@ -64,8 +63,8 @@ internal class BeagleViewModel(
         private val screenRequest: ScreenRequest,
         private val screen: ServerDrivenComponent?,
         private val componentRequester: ComponentRequester,
-        private val coroutineScope: CoroutineScope,
-        private val ioDispatcher: CoroutineDispatcher) : LiveData<ViewState>() {
+        private val ioDispatcher: CoroutineDispatcher,
+        override val coroutineContext: CoroutineContext) : LiveData<ViewState>(), CoroutineScope {
 
         private val isRenderedReference = AtomicReference(false)
 
@@ -76,7 +75,7 @@ internal class BeagleViewModel(
         }
 
         private fun fetchComponents() {
-            coroutineScope.launch(ioDispatcher) {
+            launch(ioDispatcher) {
                 val identifier = getComponentIdentifier()
                 if (screenRequest.url.isNotEmpty()) {
                     try {
@@ -108,7 +107,7 @@ internal class BeagleViewModel(
         }
 
         private suspend fun setLoading(loading: Boolean) {
-            withContext(coroutineScope.coroutineContext) {
+            withContext(coroutineContext) {
                 value = ViewState.Loading(loading)
             }
         }
