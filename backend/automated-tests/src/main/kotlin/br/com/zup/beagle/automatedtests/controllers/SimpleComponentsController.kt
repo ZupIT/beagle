@@ -16,11 +16,13 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
+import ADD_CHILDREN_ENDPOINT
 import SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT
 import SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT
 import SCREEN_IMAGE_ENDPOINT
 import TEXT_ENDPOINT
 import TOUCHABLE_ENDPOINT
+import br.com.zup.beagle.automatedtests.builders.AddChildrenScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ButtonScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ImageScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.TextScreenBuilder
@@ -45,4 +47,8 @@ class SimpleComponentsController {
 
     @GetMapping(TOUCHABLE_ENDPOINT)
     fun getTouchableScreen() = TouchableScreenBuilder.build()
+
+    @GetMapping(ADD_CHILDREN_ENDPOINT)
+    fun getAddChildrenScreen() = AddChildrenScreenBuilder.build()
+
 }
