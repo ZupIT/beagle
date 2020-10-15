@@ -44,7 +44,7 @@ class ImageViewFragment : Fragment() {
                             placeholder = ImagePath.Local("imageBeagle")
                         )
                     ),
-                    Text(text = "Opa!!!").applyStyle(
+                    Text(text = "Test!!!").applyStyle(
                         Style(
                             backgroundColor = "#CCC"
                         )
