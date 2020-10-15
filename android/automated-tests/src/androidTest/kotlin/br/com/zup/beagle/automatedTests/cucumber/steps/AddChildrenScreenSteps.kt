@@ -100,5 +100,4 @@ class AddChildrenScreenSteps {
     private fun waitForTextAdded(){
         ScreenRobot().checkViewContainsText(TEXT_ADDED, true)
     }
-
 }
