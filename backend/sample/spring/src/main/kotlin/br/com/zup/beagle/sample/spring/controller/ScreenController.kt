@@ -28,6 +28,7 @@ import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP2_E
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_PRESENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SAMPLE_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ADD_CHILDREN
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
@@ -57,6 +58,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_TEXT_INPUT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
+import br.com.zup.beagle.sample.spring.service.AddChildrenService
 import br.com.zup.beagle.sample.spring.service.SampleActionClickService
 import br.com.zup.beagle.sample.spring.service.SampleActionService
 import br.com.zup.beagle.sample.spring.service.SampleAnalyticsService
@@ -114,7 +116,9 @@ class ScreenController(
     private val sampleScreenContext: SampleContextService,
     private val sampleScreenSafeArea: SampleSafeAreaService,
     private val sampleScreenTextInput: TextInputService,
-    private val sampleSimpleFormService: SampleSimpleFormService
+    private val sampleSimpleFormService: SampleSimpleFormService,
+    private val sampleAddChildrenService : AddChildrenService
+
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -229,4 +233,7 @@ class ScreenController(
 
     @GetMapping(SCREEN_SIMPLE_FORM_ENDPOINT)
     fun getSampleSimpleFormService() = this.sampleSimpleFormService.createSimpleForm()
+
+    @GetMapping(SCREEN_ACTION_ADD_CHILDREN)
+    fun getSampleAddChildrenService() = this.sampleAddChildrenService.createAddChildren()
 }
