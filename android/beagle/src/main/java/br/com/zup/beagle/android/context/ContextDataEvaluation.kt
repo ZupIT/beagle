@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Type
 
@@ -58,7 +59,16 @@ internal class ContextDataEvaluation(
         val expressions = bind.expressions
 
         return when {
-            bind.type == String::class.java -> {
+            expressions.size == 1 && bind.type != String::class.java -> {
+                evaluateExpression(
+                    contextsData,
+                    contextCache,
+                    bind,
+                    expressions[0],
+                    evaluatedBindings
+                )
+            }
+            else -> {
                 val evaluatedExpressions = mutableMapOf<String, Any>()
                 expressions.forEach { expressionToken ->
                     evaluateExpressionsForContext(
@@ -71,17 +81,35 @@ internal class ContextDataEvaluation(
                     )
                 }
 
-                contextExpressionReplacer.replace(bind, evaluatedExpressions)
+                val response = contextExpressionReplacer.replace(bind, evaluatedExpressions)
+                val type = getType(response)
+                return try {
+                    if (evaluatedExpressions.size == 1 && type == null) {
+                        return when (evaluatedExpressions.entries.first().value) {
+                            is Int -> response.toInt()
+                            is Long -> response.toLong()
+                            is Double -> response.toDouble()
+                            is Boolean -> response.toBoolean()
+                            else -> response
+                        }
+                    }
+                    moshi.adapter<Any>(type ?: bind.type).fromJson(response)
+                } catch (ex: Exception) {
+                    response
+                }
             }
-            expressions.size == 1 -> evaluateExpression(
-                contextsData,
-                contextCache,
-                bind,
-                expressions[0],
-                evaluatedBindings
-            )
-            else -> {
-                BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
+        }
+    }
+
+
+
+    private fun getType(json: String): Type? {
+        return try {
+            JSONObject(json)::class.java
+        } catch (ex: JSONException) {
+            return try {
+                JSONArray(json)::class.java
+            } catch (ex1: JSONException) {
                 null
             }
         }
@@ -112,20 +140,7 @@ internal class ContextDataEvaluation(
         expressionToken: ExpressionToken,
         evaluatedBindings: MutableMap<String, Any>
     ): Any? {
-        val value = getValueFromExpression(contextsData, expressionToken, contextCache, bind, evaluatedBindings)
-
-        return try {
-            if (bind.type == String::class.java) {
-                value?.toString() ?: showLogErrorAndReturn(bind)
-            } else if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: showLogErrorAndReturn(bind)
-            } else {
-                value ?: showLogErrorAndReturn(bind)
-            }
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
-            null
-        }
+        return getValueFromExpression(contextsData, expressionToken, contextCache, bind, evaluatedBindings)
     }
 
     private fun getValueFromExpression(

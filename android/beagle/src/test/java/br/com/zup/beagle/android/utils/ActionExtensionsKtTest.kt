@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.utils
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.mockdata.createViewForContext
@@ -31,7 +32,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ActionExtensionsKtTest : BaseTest() {
@@ -263,6 +263,82 @@ class ActionExtensionsKtTest : BaseTest() {
     }
 
     @Test
+    fun evaluateExpression_should_evaluate_expression_of_type_double_fff() {
+        // Given
+        val contextValue = Double.MAX_VALUE
+        viewModel.addContext(contextView, ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+
+        // When
+        SetContext("context", contextValue).execute(rootView, bindView)
+
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue as Double)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_expression_of_type_double_two() {
+        // Given
+        val contextValue = "93629893111"
+        viewModel.addContext(contextView, ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+
+        // When
+        SetContext("context", "93629893111").execute(rootView, bindView)
+
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_expression_of_type_double_three() {
+        // Given
+        val contextValue = 9362989311.0
+        viewModel.addContext(contextView, ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+
+        // When
+        SetContext("context", contextValue).execute(rootView, bindView)
+
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue as Double)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_expression_of_type_double_four() {
+        // Given
+        val contextValue = Integer.MAX_VALUE
+        viewModel.addContext(contextView, ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+
+        // When
+        SetContext("context", contextValue).execute(rootView, bindView)
+
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue as Int)
+    }
+
+    @Test
     fun evaluateExpression_should_evaluate_expression_of_type_boolean() {
         // Given
         val contextValue = true
@@ -450,6 +526,34 @@ class ActionExtensionsKtTest : BaseTest() {
     }
 
     @Test
+    fun evaluateExpression_should_return_JSONObject_evaluated_with_multiple_expressions_two() {
+        // Given
+        val context1 = ContextData(
+            id = "context1",
+            value = 93629893111
+        )
+        val context2 = ContextData(
+            id = "context2",
+            value = 93629893130
+        )
+        val contextView1 = createViewForContext()
+        val contextView2 = createViewForContext(contextView1)
+        viewModel.addContext(contextView1, context1)
+        viewModel.addContext(contextView2, context2)
+        val value = JSONObject().apply {
+            put("value1", "@{context1}")
+            put("value2", "@{context2}")
+        }
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, contextView2, value)
+
+        // Then
+        assertTrue(actualValue is JSONObject)
+        assertEquals("""{"value2":${context2.value},"value1":${context1.value}}""", actualValue.toString())
+    }
+
+    @Test
     fun evaluateExpression_should_return_evaluated_value_from_implicit_context_and_normal_context() {
         // Given
         val secondAction = mockk<Action>(relaxed = true)
@@ -503,6 +607,23 @@ class ActionExtensionsKtTest : BaseTest() {
         val secondAction = mockk<Action>(relaxed = true)
         val bind = expressionOf<Int>("@{onChange}")
         val implicitContextValue = 0
+        val context = ContextData(id = "onChange", value = implicitContextValue)
+        action.handleEvent(rootView, contextView, secondAction, context)
+
+        // When
+        val actualValue = secondAction.evaluateExpression(rootView, bindView, bind)
+
+        // Then
+        assertEquals(implicitContextValue, actualValue)
+    }
+
+
+    @Test
+    fun evaluateExpression_should_return_evaluated_primitive_two_value_from_implicit_context() {
+        // Given
+        val secondAction = mockk<Action>(relaxed = true)
+        val bind = expressionOf<Int>("@{onChange}")
+        val implicitContextValue = 99999
         val context = ContextData(id = "onChange", value = implicitContextValue)
         action.handleEvent(rootView, contextView, secondAction, context)
 
