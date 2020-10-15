@@ -107,19 +107,17 @@ internal class BeagleViewModel(
         }
 
         fun checkFetchComponent(): Boolean {
-            job?.let {
-                return fetchComponentIsCompleted(it)
-            }
-
-            return false
+            return job?.let {
+                fetchComponentIsCompleted(it)
+            } ?: false
         }
 
         private fun fetchComponentIsCompleted(job: Job): Boolean {
-            return if (!job.isCompleted) {
+            val isCompleted = !job.isCompleted
+            if (isCompleted) {
                 cancelFetchComponent(job)
-                true
-            } else
-                false
+            }
+            return isCompleted
         }
 
         private fun cancelFetchComponent(job: Job) {

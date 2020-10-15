@@ -30,13 +30,21 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @ExperimentalCoroutinesApi
 class BeagleViewModelTest : BaseTest() {
@@ -203,7 +211,7 @@ class BeagleViewModelTest : BaseTest() {
         val isFetch = beagleUIViewModel.isFetchComponent()
 
         //THEN
-        Assert.assertEquals(isFetch, false)
+        assertFalse { isFetch }
     }
 
     @Test
@@ -218,7 +226,7 @@ class BeagleViewModelTest : BaseTest() {
         val isFetch = beagleUIViewModel.isFetchComponent()
 
         //THEN
-        Assert.assertEquals(isFetch, false)
+        assertFalse { isFetch }
     }
 
     @Test
@@ -235,7 +243,7 @@ class BeagleViewModelTest : BaseTest() {
         val isFetch = beagleUIViewModel.isFetchComponent()
 
         //THEN
-        Assert.assertEquals(isFetch, false)
+        assertFalse { isFetch }
     }
 
     @Test
@@ -251,8 +259,8 @@ class BeagleViewModelTest : BaseTest() {
         val isFetch = beagleUIViewModel.isFetchComponent()
 
         //THEN
-        Assert.assertEquals(mockJob.isCancelled, true)
+        assertTrue { mockJob.isCancelled }
         verify(exactly = once()) { observer.onChanged(ViewState.DoCancel) }
-        Assert.assertEquals(isFetch, true)
+        assertTrue { isFetch }
     }
 }

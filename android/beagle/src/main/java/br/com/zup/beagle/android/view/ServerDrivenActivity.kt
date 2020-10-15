@@ -43,18 +43,7 @@ class ServerDrivenActivity : BeagleActivity() {
                 server_driven_container.visibility = View.GONE
             }
             is ServerDrivenState.Error -> {
-                if (hasServerDrivenScreen()) {
-                    server_driven_container.visibility = View.VISIBLE
-                    Snackbar.make(server_driven_container, R.string.beagle_label_generic_error, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.beagle_label_try_again) { state.retry() }
-                        .show()
-                } else {
-                    buttonRetry.setOnClickListener {
-                        state.retry()
-                    }
-                    server_driven_container.visibility = View.GONE
-                    include_layout_error.visibility = View.VISIBLE
-                }
+                handleError(state)
             }
 
             is ServerDrivenState.Success, ServerDrivenState.Canceled -> {
@@ -65,6 +54,21 @@ class ServerDrivenActivity : BeagleActivity() {
             is ServerDrivenState.Finished -> {
                 showLoading(false)
             }
+        }
+    }
+
+    private fun handleError(state: ServerDrivenState.Error) {
+        if (hasServerDrivenScreen()) {
+            server_driven_container.visibility = View.VISIBLE
+            Snackbar.make(server_driven_container, R.string.beagle_label_generic_error, Snackbar.LENGTH_LONG)
+                .setAction(R.string.beagle_label_try_again) { state.retry() }
+                .show()
+        } else {
+            buttonRetry.setOnClickListener {
+                state.retry()
+            }
+            server_driven_container.visibility = View.GONE
+            include_layout_error.visibility = View.VISIBLE
         }
     }
 
