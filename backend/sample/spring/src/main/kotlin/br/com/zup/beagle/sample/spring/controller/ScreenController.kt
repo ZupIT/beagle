@@ -117,8 +117,7 @@ class ScreenController(
     private val sampleScreenSafeArea: SampleSafeAreaService,
     private val sampleScreenTextInput: TextInputService,
     private val sampleSimpleFormService: SampleSimpleFormService,
-    private val sampleAddChildrenService : AddChildrenService
-
+    private val sampleAddChildrenService: AddChildrenService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -235,5 +234,5 @@ class ScreenController(
     fun getSampleSimpleFormService() = this.sampleSimpleFormService.createSimpleForm()
 
     @GetMapping(SCREEN_ACTION_ADD_CHILDREN)
-    fun getSampleAddChildrenService() = this.sampleAddChildrenService.createAddChildren()
+    fun getAddChildrenService() = this.sampleAddChildrenService.createAddChildrenScreen()
 }
