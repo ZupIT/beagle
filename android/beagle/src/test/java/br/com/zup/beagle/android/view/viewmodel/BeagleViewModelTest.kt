@@ -75,7 +75,7 @@ class BeagleViewModelTest : BaseTest() {
     private val slotViewState = mutableListOf<ViewState>()
 
     override fun setUp() {
-        super.setUp()
+        super.setUp();
 
         beagleUIViewModel = BeagleViewModel(componentRequester = componentRequester)
 
@@ -184,7 +184,21 @@ class BeagleViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `GIVEN a ScreenComponent WHEN fetchComponent called SHOULD use identifier as screenId on ViewState doRender`() {
+    fun `GIVEN screen with full path WHEN fetchComponents called SHOULD post ViewState doRender with correct screen id`() {
+        //GIVEN
+        every { beagleSdk.config.baseUrl } returns "http://localhost:2020/"
+
+        val screenRequest = ScreenRequest("http://localhost:2020/test")
+
+        //WHEN
+        beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
+
+        //THEN
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender("test", component)) }
+    }
+
+    @Test
+    fun `GIIVEN a ScreenComponent WHEN fetchComponent called SHOULD use identifier as screenId on ViewState doRender`() {
         //Given
         val screenRequest = ScreenRequest("")
         val component: ScreenComponent = mockk()
@@ -263,4 +277,5 @@ class BeagleViewModelTest : BaseTest() {
         verify(exactly = once()) { observer.onChanged(ViewState.DoCancel) }
         assertTrue { isFetch }
     }
+
 }

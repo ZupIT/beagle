@@ -47,7 +47,7 @@ struct Page {
                 Text("Text with alignment attribute set to center", alignment: Expression.value(.center))
                 Text("Text with alignment attribute set to right", alignment: Expression.value(.right))
                 Text("Text with alignment attribute set to left", alignment: Expression.value(.left))
-                Image(.value(.remote(.init(url: .networkImageBeagle))))
+                Image(.remote(.init(url: .networkImageBeagle)))
         }
     }
 }

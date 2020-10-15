@@ -81,6 +81,14 @@ sealed class ServerDrivenState {
     open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
 }
 
+/**
+ * ScreenRequest is used to do requests.
+ *
+ * @param url  Server URL.
+ * @param method HTTP method.
+ * @param headers Header items for the request.
+ * @param body Content that will be deliver with the request.
+ */
 @Parcelize
 data class ScreenRequest(
     val url: String,
@@ -89,12 +97,41 @@ data class ScreenRequest(
     val body: String? = null
 ) : Parcelable
 
+/**
+ * Screen method to indicate the desired action to be performed for a given resource.
+ *
+ */
 enum class ScreenMethod {
+    /**
+     * The GET method requests a representation of the specified resource. Requests using GET should only retrieve
+     * data.
+     */
     GET,
+
+    /**
+     * The POST method is used to submit an entity to the specified resource, often causing
+     * a change in state or side effects on the server.
+     */
     POST,
+
+    /**
+     * The PUT method replaces all current representations of the target resource with the request payload.
+     */
     PUT,
+
+    /**
+     * The DELETE method deletes the specified resource.
+     */
     DELETE,
+
+    /**
+     * The HEAD method asks for a response identical to that of a GET request, but without the response body.
+     */
     HEAD,
+
+    /**
+     * The PATCH method is used to apply partial modifications to a resource.
+     */
     PATCH
 }
 
@@ -102,7 +139,7 @@ private val beagleSerializer: BeagleSerializer = BeagleSerializer()
 private const val FIRST_SCREEN_REQUEST_KEY = "FIRST_SCREEN_REQUEST_KEY"
 private const val FIRST_SCREEN_KEY = "FIRST_SCREEN_KEY"
 
-abstract class BeagleActivity : AppCompatActivity() {
+abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
 
     private val viewModel by lazy { ViewModelProvider(this).get(BeagleViewModel::class.java) }
     private val screenRequest by lazy { intent.extras?.getParcelable<ScreenRequest>(FIRST_SCREEN_REQUEST_KEY) }
@@ -254,11 +291,17 @@ abstract class BeagleActivity : AppCompatActivity() {
         handleLiveData(liveData)
     }
 
+    override fun fragmentResume() {
+        onServerDrivenContainerStateChanged(ServerDrivenState.Success)
+        onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
+    }
+
     private fun handleLiveData(state: LiveData<ViewState>) {
         state.observe(this, Observer {
             when (it) {
                 is ViewState.Error -> {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable, it.retry))
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
                 }
 
                 is ViewState.Loading -> {
@@ -266,8 +309,6 @@ abstract class BeagleActivity : AppCompatActivity() {
 
                     if (it.value) {
                         onServerDrivenContainerStateChanged(ServerDrivenState.Started)
-                    } else {
-                        onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
                     }
                 }
 
@@ -276,7 +317,6 @@ abstract class BeagleActivity : AppCompatActivity() {
                 }
 
                 is ViewState.DoRender -> {
-                    onServerDrivenContainerStateChanged(ServerDrivenState.Success)
                     showScreen(it.screenId, it.component)
                 }
             }

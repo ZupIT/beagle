@@ -107,6 +107,11 @@ class TabViewFragment : Fragment() {
                             )
                         )
                     )
+                ).applyStyle(
+                    Style(
+                        borderColor = "#7CFC00",
+                        borderWidth = 5.0
+                    )
                 )
             )
         )
