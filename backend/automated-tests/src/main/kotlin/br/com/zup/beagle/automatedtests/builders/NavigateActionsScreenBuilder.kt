@@ -18,6 +18,7 @@ package br.com.zup.beagle.automatedtests.builders
 
 import GLOBAL_TEXT_ENDPOINT
 import GLOBAL_TEXT_EXPRESSION_ENDPOINT
+import br.com.zup.beagle.ext.setId
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.SetContext
@@ -29,14 +30,16 @@ import br.com.zup.beagle.widget.ui.Text
 
 object NavigateActionsScreenBuilder {
 
-    const val pushStackRemote = "PushStackRemote"
-    const val pushStackRemoteExpression = "PushStackRemoteExpression"
-    const val pushStackRemoteFailure = "PushStackRemoteFailure"
-    const val pushStackRemoteExpressionFailure = "PushStackRemoteExpressionFailure"
-    const val pushViewRemote = "PushViewRemote"
-    const val pushViewRemoteExpression = "PushViewRemoteExpression"
+    const val PUSH_STACK_REMOTE = "PushStackRemote"
+    const val PUSH_STACK_REMOTE_EXPRESSION = "PushStackRemoteExpression"
+    const val PUSH_STACK_REMOTE_FAILURE = "PushStackRemoteFailure"
+    const val PUSH_STACK_REMOTE_EXPRESSION_FAILURE = "PushStackRemoteExpressionFailure"
+    const val PUSH_VIEW_REMOTE = "PushViewRemote"
+    const val PUSH_VIEW_REMOTE_EXPRESSION = "PushViewRemoteExpression"
     const val pushViewRemoteFailure = "PushViewRemoteFailure"
     const val pushViewRemoteExpressionFailure = "PushViewRemoteExpressionFailure"
+    const val REGISTER_CONTROLLER_ID = "otherController"
+    const val NAVIGATE_RESET_ENDPOINT_WRONG = "<3"
 
     fun build() = Screen(
         child = Container(
@@ -54,19 +57,54 @@ object NavigateActionsScreenBuilder {
             listOf(
                 Text(text = "Navigation Screen"),
                 pushButtonsSuccess(),
-                pushButtonsFail()
+                pushButtonsFail(),
+                resetToOtherServerDrivenActivity()
             )
         )
     )
 
+    private fun resetToOtherServerDrivenActivity(): Container = Container(
+        listOf(
+            Button(
+                text = "ResetStackOtherSDAFailsToShowButton",
+                onPress = listOf(
+                    Navigate.ResetStack(
+                        Route.Remote(url = NAVIGATE_RESET_ENDPOINT_WRONG),
+                        controllerId = REGISTER_CONTROLLER_ID)
+                )
+            ),
+            Button(
+                text = "ResetApplicationOtherSDAFailsToShowButton",
+                onPress = listOf(
+                    Navigate.ResetApplication(
+                        Route.Remote(url = NAVIGATE_RESET_ENDPOINT_WRONG),
+                        controllerId = REGISTER_CONTROLLER_ID)
+                )
+            ),
+            Button(
+                text = "ResetStackSameSDA",
+                onPress = listOf(
+                    Navigate.ResetStack(
+                        Route.Remote(url = NAVIGATE_RESET_ENDPOINT_WRONG))
+                )
+            ),
+            Button(
+                text = "ResetApplicationSameSDA",
+                onPress = listOf(
+                    Navigate.ResetApplication(
+                        Route.Remote(url = NAVIGATE_RESET_ENDPOINT_WRONG))
+                )
+            )
+        ))
+
     private fun pushButtonsSuccess(): Container = Container(
         listOf(
             Button(
-                text = pushStackRemote,
+                text = PUSH_STACK_REMOTE,
                 onPress = listOf(
                     SetContext(
                         contextId = "global",
-                        value = pushStackRemote + "Screen"
+                        value = PUSH_STACK_REMOTE + "Screen"
                     ),
                     Navigate.PushStack(
                         Route.Remote(GLOBAL_TEXT_ENDPOINT)
@@ -74,11 +112,11 @@ object NavigateActionsScreenBuilder {
                 )
             ),
             Button(
-                text = pushViewRemote,
+                text = PUSH_VIEW_REMOTE,
                 onPress = listOf(
                     SetContext(
                         contextId = "global",
-                        value = pushViewRemote + "Screen"
+                        value = PUSH_VIEW_REMOTE + "Screen"
                     ),
                     Navigate.PushView(
                         Route.Remote(GLOBAL_TEXT_ENDPOINT)
@@ -86,11 +124,11 @@ object NavigateActionsScreenBuilder {
                 )
             ),
             Button(
-                text = pushStackRemoteExpression,
+                text = PUSH_STACK_REMOTE_EXPRESSION,
                 onPress = listOf(
                     SetContext(
                         contextId = "global",
-                        value = pushStackRemoteExpression + "Screen"
+                        value = PUSH_STACK_REMOTE_EXPRESSION + "Screen"
                     ),
                     Navigate.PushStack(
                         Route.Remote(GLOBAL_TEXT_EXPRESSION_ENDPOINT)
@@ -98,11 +136,11 @@ object NavigateActionsScreenBuilder {
                 )
             ),
             Button(
-                text = pushViewRemoteExpression,
+                text = PUSH_VIEW_REMOTE_EXPRESSION,
                 onPress = listOf(
                     SetContext(
                         contextId = "global",
-                        value = pushViewRemoteExpression + "Screen"
+                        value = PUSH_VIEW_REMOTE_EXPRESSION + "Screen"
                     ),
                     Navigate.PushView(
                         Route.Remote(GLOBAL_TEXT_EXPRESSION_ENDPOINT)
@@ -115,15 +153,14 @@ object NavigateActionsScreenBuilder {
     private fun pushButtonsFail(): Container = Container(
         listOf(
             Button(
-                text = pushStackRemoteFailure,
+                text = PUSH_STACK_REMOTE_FAILURE,
                 onPress = listOf(
                     SetContext(
                         contextId = "global",
-                        value = pushStackRemoteFailure + "Screen"
+                        value = PUSH_STACK_REMOTE_FAILURE + "Screen"
                     ),
                     Navigate.PushStack(
-                        Route.Remote("<3")
-                    )
+                        Route.Remote("<3"), controllerId = REGISTER_CONTROLLER_ID)
                 )
             ),
             Button(
@@ -151,14 +188,14 @@ object NavigateActionsScreenBuilder {
                 )
             ),
             Button(
-                text = pushStackRemoteExpressionFailure,
+                text = PUSH_STACK_REMOTE_EXPRESSION_FAILURE,
                 onPress = listOf(
                     SetContext(
                         contextId = "global",
-                        value = pushStackRemoteExpressionFailure + "Screen"
+                        value = PUSH_STACK_REMOTE_EXPRESSION_FAILURE + "Screen"
                     ),
                     Navigate.PushStack(
-                        Route.Remote("@{global}")
+                        Route.Remote("@{global}"), controllerId = REGISTER_CONTROLLER_ID
                     )
                 )
             )
