@@ -29,9 +29,9 @@ Feature: Send Request Action Validation
         Then the screen should show some alert with <alertTitle> title
 
         Examples:
-            |   buttonTitle              |    alertTitle      |
-            |   request with success     |    Success         |
-            |   request with error       |    Error           |
+            | buttonTitle          | alertTitle |
+            | request with success | Success    |
+            | request with error   | Error      |
 
 
     Scenario Outline: Send Request 02 - The send request onFinish action get some result and modify the pressed button
@@ -39,7 +39,15 @@ Feature: Send Request Action Validation
         Then the pressed button changes it's <title> title to didFinish
 
         Examples:
-            |   title                   |
-            |   onFinish with success   |
-            |   onFinish with error     |
+            | title                 |
+            | onFinish with success |
+            | onFinish with error   |
 
+    Scenario Outline: Send Request 03 - The send request action get some result and show alert setting the
+    URL as an expression
+        When I press the <buttonTitle> button
+        Then the screen should show some alert with <alertTitle> title
+
+        Examples:
+            | buttonTitle                               | alertTitle |
+            | request with success using expression URL | Success    |
