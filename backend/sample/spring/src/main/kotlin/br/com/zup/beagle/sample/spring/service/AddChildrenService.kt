@@ -20,6 +20,7 @@ import br.com.zup.beagle.sample.builder.AddChildrenScreenBuilder
 import org.springframework.stereotype.Service
 
 @Service
-class AddChildrenService {
-    fun createAddChildren() = AddChildrenScreenBuilder
+class AddChildrenService{
+    fun createAddChildrenScreen()  = AddChildrenScreenBuilder
+
 }
