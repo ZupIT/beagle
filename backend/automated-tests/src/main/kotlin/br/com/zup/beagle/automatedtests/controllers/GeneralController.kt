@@ -25,7 +25,7 @@ import SCREEN_ACTION_CLICK_ENDPOINT
 import SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import SEND_REQUEST_ACTION_ENDPOINT
-import br.com.zup.beagle.automatedtests.builders.*
+import br.com.zup.beagle.automatedtests.builders.SendRequestScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder

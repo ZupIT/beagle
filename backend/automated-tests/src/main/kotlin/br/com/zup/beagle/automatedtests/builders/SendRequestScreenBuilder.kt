@@ -16,7 +16,10 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.widget.action.*
+import br.com.zup.beagle.widget.action.SendRequest
+import br.com.zup.beagle.widget.action.RequestActionMethod
+import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
@@ -38,6 +41,10 @@ object SendRequestScreenBuilder {
             )
         ),
         child = Container(
+            context = ContextData(
+                id = "sendRequestURL",
+                value = "/send-request"
+            ),
             children =
             listOf(
                 Text(
@@ -45,84 +52,118 @@ object SendRequestScreenBuilder {
                 ),
                 Container(
                     listOf(
-                        Button(
-                            text = "request with success",
-                            onPress = listOf(
-                                SendRequest(
-                                    url = "/send-request",
-                                    method = RequestActionMethod.GET,
-                                    onSuccess = listOf(
-                                        Alert(
-                                            title = "Success",
-                                            message = "@{onSuccess.data}"
-                                        )),
-                                    onError = listOf(
-                                        Alert(
-                                            title = "Error",
-                                            message = "@{onError.data}"
-                                        )
-                                    )
-                                )
-                            )
-                        ),
-                        Button(
-                            text = "request with error",
-                            onPress = listOf(
-                                SendRequest(
-                                    url = "/e",
-                                    method = RequestActionMethod.GET,
-                                    onSuccess = listOf(
-                                        Alert(
-                                            title = "Success",
-                                            message = "@{onSuccess.data}"
-                                        )),
-                                    onError = listOf(
-                                        Alert(
-                                            title = "Error",
-                                            message = "@{onError.data}"
-                                        )
-                                    )
+                        requestsWithSuccess(),
+                        requestWithError(),
+                        onFinishButtons()
+                    )
+                )
+            )
+        )
+    )
+
+    private fun onFinishButtons(): Container  = Container(
+        listOf(
+            Button(
+                text = "@{buttonTitle.success}",
+                onPress = listOf(
+                    SendRequest(
+                        url = "/send-request",
+                        method = RequestActionMethod.GET,
+                        onFinish = listOf(
+                            SetContext(
+                                contextId = "buttonTitle",
+                                value = RequestButtonTitle(
+                                    success = "didFinish",
+                                    error = "onFinish with error"
                                 )
                             )
                         )
                     )
-                ),
-                Container(
-                    listOf(
-                        Button(
-                            text = "@{buttonTitle.success}",
-                            onPress = listOf(
-                                SendRequest(
-                                    url = "/send-request",
-                                    method = RequestActionMethod.GET,
-                                    onFinish = listOf(
-                                        SetContext(
-                                            contextId = "buttonTitle",
-                                            value = RequestButtonTitle(
-                                                success = "didFinish",
-                                                error = "onFinish with error"
-                                            )
-                                        )
-                                    )
+                )
+            ),
+            Button(
+                text = "@{buttonTitle.error}",
+                onPress = listOf(
+                    SendRequest(
+                        url = "/e",
+                        method = RequestActionMethod.GET,
+                        onFinish = listOf(
+                            SetContext(
+                                contextId = "buttonTitle",
+                                value = RequestButtonTitle(
+                                    success = "onFinish with success",
+                                    error = "didFinish"
                                 )
                             )
-                        ),
-                        Button(
-                            text = "@{buttonTitle.error}",
-                            onPress = listOf(
-                                SendRequest(
-                                    url = "/e",
-                                    method = RequestActionMethod.GET,
-                                    onFinish = listOf(
-                                        SetContext(
-                                            contextId = "buttonTitle",
-                                            value = RequestButtonTitle(
-                                                success = "onFinish with success",
-                                                error = "didFinish"
-                                            )
-                                        )
-                                    )
-                                )
+                        )
+                    )
+                )
+            )
+        )
+    )
+
+    private fun requestWithError(): Container = Container(
+        listOf(
+            Button(
+                text = "request with error",
+                onPress = listOf(
+                    SendRequest(
+                        url = "/e",
+                        method = RequestActionMethod.GET,
+                        onSuccess = listOf(
+                            Alert(
+                                title = "Success",
+                                message = "@{onSuccess.data}"
+                            )),
+                        onError = listOf(
+                            Alert(
+                                title = "Error",
+                                message = "@{onError.data}"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+
+    private fun requestsWithSuccess(): Container = Container(
+        listOf(
+            Button(
+                text = "request with success using expression URL",
+                onPress = listOf(
+                    SendRequest(
+                        url = "@{sendRequestURL}",
+                        method = RequestActionMethod.GET,
+                        onSuccess = listOf(
+                            Alert(
+                                title = "Success",
+                                message = "@{onSuccess.data}"
+                            )),
+                        onError = listOf(
+                            Alert(
+                                title = "Error",
+                                message = "@{onError.data}"
+                            )
+                        )
+                    )
+                )
+            ),
+            Button(
+                text = "request with success",
+                onPress = listOf(
+                    SendRequest(
+                        url = "/send-request",
+                        method = RequestActionMethod.GET,
+                        onSuccess = listOf(
+                            Alert(
+                                title = "Success",
+                                message = "@{onSuccess.data}"
+                            )),
+                        onError = listOf(
+                            Alert(
+                                title = "Error",
+                                message = "@{onError.data}"
                             )
                         )
                     )
