@@ -49,7 +49,7 @@ object SendRequestScreenBuilder {
                             text = "request with success",
                             onPress = listOf(
                                 SendRequest(
-                                    url = "http://10.0.2.2:8080/send-request",
+                                    url = "/send-request",
                                     method = RequestActionMethod.GET,
                                     onSuccess = listOf(
                                         Alert(
@@ -69,7 +69,7 @@ object SendRequestScreenBuilder {
                             text = "request with error",
                             onPress = listOf(
                                 SendRequest(
-                                    url = "http://localhost:8080",
+                                    url = "/e",
                                     method = RequestActionMethod.GET,
                                     onSuccess = listOf(
                                         Alert(
@@ -93,7 +93,7 @@ object SendRequestScreenBuilder {
                             text = "@{buttonTitle.success}",
                             onPress = listOf(
                                 SendRequest(
-                                    url = "http://localhost:8080/send-request",
+                                    url = "/send-request",
                                     method = RequestActionMethod.GET,
                                     onFinish = listOf(
                                         SetContext(
@@ -111,7 +111,7 @@ object SendRequestScreenBuilder {
                             text = "@{buttonTitle.error}",
                             onPress = listOf(
                                 SendRequest(
-                                    url = "http://localhost:8080",
+                                    url = "/e",
                                     method = RequestActionMethod.GET,
                                     onFinish = listOf(
                                         SetContext(
