@@ -16,6 +16,6 @@
 
 <resources>
     <string name="app_name">Automated Tests</string>
-    <string name="title_btn_retry">Try again</string>
+    <string name="title_btn_retry">RETRY</string>
     <string name="tv_screen_deeplink">Screen DeepLink</string>
 </resources>

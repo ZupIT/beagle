@@ -11,6 +11,8 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
+const val SIMPLE_FORM_SCREEN_BFF_URL = "http://10.0.2.2:8080/simpleform"
+
 class SimpleFormScreenSteps {
 
     @Rule
@@ -18,7 +20,7 @@ class SimpleFormScreenSteps {
 
     @Before("@simpleform")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.simpleFormScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, SIMPLE_FORM_SCREEN_BFF_URL)
     }
 
     @After("@simpleform")

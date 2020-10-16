@@ -14,15 +14,26 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.automatedTests.cucumber.steps
+package br.com.zup.beagle.automatedtests.builders
 
-object Constants {
-    val touchableScreenBffUrl = "http://10.0.2.2:8080/touchable"
-    val tabViewScreenBffUrl = "http://10.0.2.2:8080/tabview"
-    val simpleFormScreenBffUrl = "http://10.0.2.2:8080/simpleform"
-    val scrollViewScreenBffUrl = "http://10.0.2.2:8080/scrollview"
-    val pageViewScreenBffUrl = "http://10.0.2.2:8080/pageview"
-    val listViewScreenBffUrl = "http://10.0.2.2:8080/listview"
-    val imageScreenBffUrl = "http://10.0.2.2:8080/image"
-    val buttonScreenBffUrl = "http://10.0.2.2:8080/button"
+import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.ui.Text
+
+object NavigateActionsResetScreenBuilder {
+
+    fun build() = Screen(
+        child = Container(
+            children =
+            listOf(
+                Text(
+                    text = "Reset Screen"
+                ),
+                Text(
+                    text = expressionOf("@{global}")
+                )
+            )
+        )
+    )
 }

@@ -27,6 +27,7 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
+val IMAGE_SCREEN_BFF_URL = "http://10.0.2.2:8080/image"
 
 class ImageScreenSteps {
 
@@ -35,7 +36,7 @@ class ImageScreenSteps {
 
     @Before("@image")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.imageScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, IMAGE_SCREEN_BFF_URL)
     }
 
     @After("@image")

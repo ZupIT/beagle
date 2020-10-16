@@ -27,6 +27,7 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
+val LIST_VIEW_SCREEN_BFF_URL = "http://10.0.2.2:8080/listview"
 
 class ListViewScreenSteps {
 
@@ -35,7 +36,7 @@ class ListViewScreenSteps {
 
     @Before("@listview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.listViewScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, LIST_VIEW_SCREEN_BFF_URL)
     }
 
     @After("@listview")
