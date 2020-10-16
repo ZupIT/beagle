@@ -42,10 +42,6 @@ class AddChildrenScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    private var textFixedPosition: Int? = null
-    private var textAddedPosition: Int? = null
-
-
     @Before("@addChildren")
     fun setup() {
         TestUtils.startActivity(activityTestRule, Constants.addChildrenBffUrl)
