@@ -45,7 +45,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun hexColor_should_return_11BB33_when_1B3_is_given() {
+    fun `GIVEN #1B3 WHEN hexColor is called THEN consider #11BB33`() {
         // Given
         val colorRgb = "#1B3"
 
@@ -57,7 +57,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun hexColor_should_return_22FF33_when_2F3_is_given() {
+    fun `GIVEN #2F3 WHEN hexColor is called THEN consider #22FF33`() {
         // Given
         val colorRgb = "#2f3"
 
@@ -69,7 +69,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun hexColor_should_return_66EEFF22_when_6EF2_is_given() {
+    fun `GIVEN #6EF2 WHEN hexColor is called THEN consider #2266EEFF`() {
         // Given
         val colorRgba = "#6EF2"
 
@@ -81,7 +81,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun hexColor_should_return_cc9900bb_when_90bc_is_given() {
+    fun `GIVEN #90BC WHEN hexColor is called THEN consider #CC9900BB`() {
         // Given
         val colorRgba = "#90bc"
 
@@ -93,7 +93,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun hexColor_should_return_A3D256_when_A3D256_is_given() {
+    fun `GIVEN #A3D256 WHEN hexColor is called THEN consider #A3D256`() {
         // Given
         val colorRgb = "#A3D256"
 
@@ -105,7 +105,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun hexColor_should_return_584bcd_when_584bcd_is_given() {
+    fun `GIVEN #584BCD WHEN hexColor is called THEN consider #584BCD`() {
         // Given
         val colorRgb = "#584bcd"
 
@@ -117,7 +117,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun hexColor_should_return_2018FAE3_when_18FAE320_is_given() {
+    fun `GIVEN #18FAE320 WHEN hexColor is called THEN consider #2018FAE3`() {
         // Given
         val colorRgba = "#18FAE320"
 
@@ -129,7 +129,7 @@ class ColorUtilsTest {
     }
 
     @Test
-    fun hexColor_should_return_50ae2g5c_when_ae2g5c50_is_given() {
+    fun `GIVEN #ABC12330 WHEN hexColor is called THEN consider #30ABC123`() {
         // Given
         val colorRgba = "#abc12330"
 
