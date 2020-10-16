@@ -47,7 +47,6 @@ android {
 }
 
 dependencies {
-    implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.webSocket
     implementation Dependencies.GeneralLibraries.simpleLogger
