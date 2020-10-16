@@ -23,10 +23,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.ADD_CHILDREN_HEADER
-import br.com.zup.beagle.automatedTests.cucumber.elements.CONTAINER_ID
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_ADDED
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_FIXED
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
@@ -38,6 +34,11 @@ import org.hamcrest.Matchers.not
 import org.junit.Rule
 
 class AddChildrenScreenSteps {
+
+    private val ADD_CHILDREN_HEADER = "Add Children"
+    private val TEXT_FIXED = "I'm the single text on screen"
+    private val TEXT_ADDED = "New text added"
+    private val CONTAINER_ID = "containerId"
 
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
