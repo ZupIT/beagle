@@ -118,3 +118,31 @@ Feature: Navigation Action Validation
             | title           | text                  | reset                      | resetPage    |
             | PushStackRemote | PushStackRemoteScreen | ResetApplication           | Reset Screen |
             | PushStackRemote | PushStackRemoteScreen | ResetApplicationExpression | Reset Screen |
+
+    Scenario Outline: Navigation 09 - 'PushStack, ResetStack, ResetApplication' This component could be called
+    from an other Beagle Server Driven Activity (SDA) rather than the basic one. The new Beagle Server Driven Activity must be annotated with the
+    "@RegisterController" annotation that will hold de controllerId that must be listed on the action above.
+    The retry button is called only on this other Beagle Activity
+
+        When I press a navigation failure button <title>
+        Then There must be a retry button with text <retry>
+
+        Examples:
+            | title                                     | retry |
+            | PushStackRemoteFailure                    | RETRY |
+            | ResetStackOtherSDAFailsToShowButton       | RETRY |
+            | ResetApplicationOtherSDAFailsToShowButton | RETRY |
+
+
+    Scenario Outline: Navigation 10 - 'ResetStack, ResetApplication' These components could be called
+    from a different Beagle Activity rather than the basic one. Here they are called from the
+    Default Beagle Server Driven Activity. When this happens they must trigger
+    a TRY AGAIN button on a failed attempt.
+
+        When I press a navigation failure button <title>
+        Then There must be a retry button with text <tryAgain>
+
+        Examples:
+            | title                   | tryAgain  |
+            | ResetStackSameSDA       | TRY AGAIN |
+            | ResetApplicationSameSDA | TRY AGAIN |

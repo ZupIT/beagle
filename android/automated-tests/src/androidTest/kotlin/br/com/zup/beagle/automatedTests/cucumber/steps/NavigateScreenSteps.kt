@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
+import android.util.Log
 import androidx.test.rule.ActivityTestRule
+import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
@@ -29,7 +31,7 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Rule
 
-const val NAVIGATE_ACTIONS_BFF_URL = "http://10.0.2.2:8080/navigate-actions"
+const val NAVIGATE_ACTIONS_BFF_URL = "http://10.0.2.2:8080/send-request"
 
 class NavigateScreenSteps {
 
@@ -90,6 +92,12 @@ class NavigateScreenSteps {
 
     @Then("^the view that contains the (.*) must still exist$")
     fun checkTextExistsInAView(string2:String) {
+        ScreenRobot()
+            .checkViewContainsText(string2, true)
+    }
+
+    @Then ("^There must be a retry button with text (.*)$")
+    fun checkButtonExistsInAView(string2:String) {
         ScreenRobot()
             .checkViewContainsText(string2, true)
     }
