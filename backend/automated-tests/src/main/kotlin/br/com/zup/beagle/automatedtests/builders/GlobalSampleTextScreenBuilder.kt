@@ -98,6 +98,12 @@ object GlobalSampleTextScreenBuilder {
     private fun popButtons(): Container = Container(
         listOf(
             Button(
+                text = "PopToViewInvalidRoute",
+                onPress = listOf(
+                    Navigate.PopToView(route = "<3")
+                )
+            ),
+            Button(
                 text = "PopToView",
                 onPress = listOf(
                     Navigate.PopToView(
