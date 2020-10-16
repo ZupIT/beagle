@@ -59,15 +59,6 @@ internal class ContextDataEvaluation(
         val expressions = bind.expressions
 
         return when {
-            expressions.size == 1 && bind.type != String::class.java -> {
-                evaluateExpression(
-                    contextsData,
-                    contextCache,
-                    bind,
-                    expressions[0],
-                    evaluatedBindings
-                )
-            }
             else -> {
                 val evaluatedExpressions = mutableMapOf<String, Any>()
                 expressions.forEach { expressionToken ->
@@ -82,25 +73,30 @@ internal class ContextDataEvaluation(
                 }
 
                 val response = contextExpressionReplacer.replace(bind, evaluatedExpressions)
-                val type = getType(response)
+                var type = getType(response)
                 return try {
+                    if (bind.type == String::class.java) return response
+
                     if (evaluatedExpressions.size == 1 && type == null) {
                         return when (evaluatedExpressions.entries.first().value) {
                             is Int -> response.toInt()
                             is Long -> response.toLong()
                             is Double -> response.toDouble()
+                            is Float -> response.toFloat()
                             is Boolean -> response.toBoolean()
                             else -> response
                         }
                     }
-                    moshi.adapter<Any>(type ?: bind.type).fromJson(response)
+
+                    type = if (bind.type == Any::class.java) type else bind.type
+                    moshi.adapter<Any>(type ?: bind.type).fromJson(response) ?: showLogErrorAndReturn(bind)
                 } catch (ex: Exception) {
-                    response
+                    showLogErrorAndReturn(bind)
+                    null
                 }
             }
         }
     }
-
 
 
     private fun getType(json: String): Type? {

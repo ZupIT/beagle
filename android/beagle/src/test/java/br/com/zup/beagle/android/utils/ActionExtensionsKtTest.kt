@@ -34,6 +34,9 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+
+data class Person(val name: String = "uzias")
+
 class ActionExtensionsKtTest : BaseTest() {
 
     private val contextView = createViewForContext()
@@ -293,6 +296,25 @@ class ActionExtensionsKtTest : BaseTest() {
 
         // When
         SetContext("context", "93629893111").execute(rootView, bindView)
+
+        val actualValue = action.evaluateExpression(rootView, bindView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_expression_of_type_double_tree() {
+        // Given
+        val contextValue = "matheus"
+        viewModel.addContext(contextView, ContextData(
+            id = "context",
+            value = "teste"
+        ))
+        val value = "@{context.name}"
+
+        // When
+        SetContext("context", Person("matheus")).execute(rootView, bindView)
 
         val actualValue = action.evaluateExpression(rootView, bindView, value)
 

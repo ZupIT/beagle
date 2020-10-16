@@ -122,6 +122,21 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
+    fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONObject_two() {
+        // Given
+        val bind = expressionOf<ComponentModel>("@{$CONTEXT_ID}")
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
+
+        // Then
+        assertTrue { value is ComponentModel }
+        val componentModel = value as ComponentModel
+        assertEquals("a", componentModel.a)
+        assertEquals(true, componentModel.b)
+    }
+
+    @Test
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONArray() {
         // Given
         val bind = expressionOf<List<ComponentModel>>("@{$CONTEXT_ID}")
@@ -188,7 +203,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
     @Test
     fun evaluateAllContext_should_not_evaluate_multiple_expressions_that_is_not_text() {
         // Given
-        val bind = expressionOf<Int>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
+        val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
         every { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() } just Runs
 
         // When
@@ -248,6 +263,8 @@ internal class ContextDataEvaluationTest : BaseTest() {
         assertEquals(cachedValue, value)
     }
 
+
+
     @Test
     fun evaluateAllContext_should_get_context2_value_from_evaluatedBindings() {
         // Given
@@ -290,9 +307,9 @@ internal class ContextDataEvaluationTest : BaseTest() {
         // Given
         val context = ContextData(
             id = "binding",
-            value = listOf(1, 2, 3)
+            value = listOf(1, 2, 3).normalizeContextValue()
         )
-        val bind = expressionOf<Int>("@{insert(binding, 2)}")
+        val bind = expressionOf<String>("@{insert(binding, 2)}")
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(context), bind)
@@ -383,10 +400,10 @@ internal class ContextDataEvaluationTest : BaseTest() {
     @Test
     fun evaluateContextBindings_with_operation_should_evaluate_contains_operation() {
         // Given
-        val bind = expressionOf<Boolean>("result: @{contains(insert(${CONTEXT_ID}, 4), 4)}")
+        val bind = expressionOf<Boolean>("@{contains(insert(${CONTEXT_ID}, 4), 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1, 2, 3)
+            value = listOf(1, 2, 3).normalizeContextValue()
         )
 
         // When
@@ -399,10 +416,10 @@ internal class ContextDataEvaluationTest : BaseTest() {
     @Test
     fun evaluateContextBindings_with_operation_should_throw_error_insert_operation_index_out_of_bound() {
         // Given
-        val bind = expressionOf<List<ComponentModel>>("result: @{insert(${CONTEXT_ID}, 4, 4)}")
+        val bind = expressionOf<List<ComponentModel>>("@{insert(${CONTEXT_ID}, 4, 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1, 2, 3)
+            value = listOf(1, 2, 3).normalizeContextValue()
         )
 
         // When

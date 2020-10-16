@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
@@ -56,7 +57,7 @@ data class SetContext(
 
     private fun toInternalSetContext(rootView: RootView, origin: View) = SetContextInternal(
         contextId = this.contextId,
-        value = evaluateExpression(rootView, origin, this.value)
+        value = evaluateExpression(rootView, origin, this.value)?.normalizeContextValue()
             ?: throw IllegalStateException("SetContext with id=${this.contextId} evaluated to null"),
         path = this.path
     )

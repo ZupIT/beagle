@@ -55,11 +55,6 @@ internal class ContextDataManager(
         GlobalContext.clearObserverGlobalContext(globalContextObserver)
     }
 
-    fun clearContext(view: View) {
-        contexts.remove(view.id)
-        viewBinding.remove(view)
-    }
-
     fun addContext(view: View, context: ContextData) {
         if (context.id == globalContext.context.id) {
             BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()
@@ -176,12 +171,16 @@ internal class ContextDataManager(
         val bindings = contextBinding.bindings
 
         bindings.forEach { binding ->
-            val value = contextDataEvaluation.evaluateBindExpression(
+            var value = contextDataEvaluation.evaluateBindExpression(
                 contextData,
                 contextBinding.cache,
                 binding.bind,
                 binding.evaluatedExpressions
             )
+            value = if (binding.bind.type != String::class.java) value
+            else {
+                value.toString()
+            }
             binding.notifyChanges(value)
         }
     }
