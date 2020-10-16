@@ -146,3 +146,14 @@ Feature: Navigation Action Validation
             | title                   | tryAgain  |
             | ResetStackSameSDA       | TRY AGAIN |
             | ResetApplicationSameSDA | TRY AGAIN |
+
+    Scenario Outline: Navigation 11 - 'PopToView' Must not open a new page since the route is invalid
+    The expected behaviour is to remain on the same page.
+        When I press a navigation button <title>
+        Then the screen should navigate to another screen with the text label <text>
+        When I click on button <popToView>
+        Then the view that contains the <text> must still exist
+
+        Examples:
+            | title           | text                  | popToView |
+            | PushViewRemote  | PushViewRemoteScreen  | PopToView |
