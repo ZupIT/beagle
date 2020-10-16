@@ -106,15 +106,9 @@ internal class ContextDataEvaluation(
     }
 
     private fun getType(json: String): Type? {
-        return try {
-            JSONObject(json)::class.java
-        } catch (ex: JSONException) {
-            return try {
-                JSONArray(json)::class.java
-            } catch (ex1: JSONException) {
-                null
-            }
-        }
+        val valueNormalized = json.normalizeContextValue()
+        if (valueNormalized is JSONArray || valueNormalized is JSONObject) return valueNormalized::class.java
+        return null
     }
 
     @Suppress("LongParameterList")
