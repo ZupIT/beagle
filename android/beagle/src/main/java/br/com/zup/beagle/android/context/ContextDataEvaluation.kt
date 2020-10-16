@@ -57,47 +57,53 @@ internal class ContextDataEvaluation(
         evaluatedBindings: MutableMap<String, Any> = mutableMapOf()
     ): Any? {
         val expressions = bind.expressions
+        val response = if (expressions.size == 1 && bind.value == "@{${bind.expressions[0].value}}") {
+            evaluateExpression(
+                contextsData,
+                contextCache,
+                bind,
+                expressions[0],
+                evaluatedBindings
+            )
+        } else evaluateMultipleExpression(expressions, contextsData, contextCache, bind, evaluatedBindings)
 
-        return when {
-            else -> {
-                val evaluatedExpressions = mutableMapOf<String, Any>()
-                expressions.forEach { expressionToken ->
-                    evaluateExpressionsForContext(
-                        contextsData,
-                        contextCache,
-                        expressionToken,
-                        bind,
-                        evaluatedExpressions,
-                        evaluatedBindings
-                    )
-                }
+        var type = getType(response.toString())
+        return try {
+            if (bind.type == String::class.java) return response ?: ""
 
-                val response = contextExpressionReplacer.replace(bind, evaluatedExpressions)
-                var type = getType(response)
-                return try {
-                    if (bind.type == String::class.java) return response
-
-                    if (evaluatedExpressions.size == 1 && type == null) {
-                        return when (evaluatedExpressions.entries.first().value) {
-                            is Int -> response.toInt()
-                            is Long -> response.toLong()
-                            is Double -> response.toDouble()
-                            is Float -> response.toFloat()
-                            is Boolean -> response.toBoolean()
-                            else -> response
-                        }
-                    }
-
-                    type = if (bind.type == Any::class.java) type else bind.type
-                    moshi.adapter<Any>(type ?: bind.type).fromJson(response) ?: showLogErrorAndReturn(bind)
-                } catch (ex: Exception) {
-                    showLogErrorAndReturn(bind)
-                    null
-                }
+            if (expressions.size == 1 && type == null) {
+                return response
             }
+
+            type = if (bind.type == Any::class.java) type else bind.type
+            moshi.adapter<Any>(type ?: bind.type).fromJson(response.toString()) ?: showLogErrorAndReturn(bind)
+        } catch (ex: Exception) {
+            showLogErrorAndReturn(bind)
+            null
         }
     }
 
+
+    private fun evaluateMultipleExpression(
+        expressions: List<ExpressionToken>,
+        contextsData: List<ContextData>,
+        contextCache: LruCache<String, Any>?,
+        bind: Bind.Expression<*>,
+        evaluatedBindings: MutableMap<String, Any>): String {
+        val evaluatedExpressions = mutableMapOf<String, Any>()
+        expressions.forEach { expressionToken ->
+            evaluateExpressionsForContext(
+                contextsData,
+                contextCache,
+                expressionToken,
+                bind,
+                evaluatedExpressions,
+                evaluatedBindings
+            )
+        }
+
+        return contextExpressionReplacer.replace(bind, evaluatedExpressions)
+    }
 
     private fun getType(json: String): Type? {
         return try {

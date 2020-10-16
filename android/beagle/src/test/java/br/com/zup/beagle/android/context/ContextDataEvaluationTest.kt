@@ -201,7 +201,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
-    fun evaluateAllContext_should_not_evaluate_multiple_expressions_that_is_not_text() {
+    fun evaluateAllContext_should_evaluate_multiple_expressions_that_is_not_text() {
         // Given
         val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
         every { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() } just Runs
@@ -210,8 +210,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
 
         // Then
-        assertNull(value)
-        verify(exactly = once()) { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() }
+        assertEquals("This is an expression a and this true", value)
     }
 
     @Test
@@ -262,8 +261,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
         // Then
         assertEquals(cachedValue, value)
     }
-
-
 
     @Test
     fun evaluateAllContext_should_get_context2_value_from_evaluatedBindings() {
@@ -416,18 +413,19 @@ internal class ContextDataEvaluationTest : BaseTest() {
     @Test
     fun evaluateContextBindings_with_operation_should_throw_error_insert_operation_index_out_of_bound() {
         // Given
-        val bind = expressionOf<List<ComponentModel>>("@{insert(${CONTEXT_ID}, 4, 4)}")
+        val bind = expressionOf<Any>("@{insert(${CONTEXT_ID}, 4, 5)}")
+
+        val initialArray = listOf(1, 2, 3).normalizeContextValue()
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1, 2, 3).normalizeContextValue()
+            value = initialArray
         )
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
 
         // Then
-        assertNull(value)
-        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+        assertEquals(initialArray.toString(), value.toString())
     }
 
     @Test

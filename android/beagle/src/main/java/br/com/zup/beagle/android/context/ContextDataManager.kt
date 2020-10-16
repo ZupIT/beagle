@@ -171,16 +171,12 @@ internal class ContextDataManager(
         val bindings = contextBinding.bindings
 
         bindings.forEach { binding ->
-            var value = contextDataEvaluation.evaluateBindExpression(
+            val value = contextDataEvaluation.evaluateBindExpression(
                 contextData,
                 contextBinding.cache,
                 binding.bind,
                 binding.evaluatedExpressions
             )
-            value = if (binding.bind.type != String::class.java) value
-            else {
-                value.toString()
-            }
             binding.notifyChanges(value)
         }
     }
