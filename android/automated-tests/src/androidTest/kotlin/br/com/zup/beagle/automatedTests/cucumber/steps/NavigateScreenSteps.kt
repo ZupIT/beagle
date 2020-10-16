@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
+import android.util.Log
 import androidx.test.rule.ActivityTestRule
+import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
@@ -90,6 +92,12 @@ class NavigateScreenSteps {
 
     @Then("^the view that contains the (.*) must still exist$")
     fun checkTextExistsInAView(string2:String) {
+        ScreenRobot()
+            .checkViewContainsText(string2, true)
+    }
+
+    @Then ("^There must be a retry button with text (.*)$")
+    fun checkButtonExistsInAView(string2:String) {
         ScreenRobot()
             .checkViewContainsText(string2, true)
     }

@@ -29,6 +29,11 @@ class GenericSteps {
             .clickOnText(string1)
     }
 
+    @When("^Scroll to (.*)$")
+    fun scrollTo(string1: String?) {
+        ScreenRobot().scrollTo(string1)
+    }
+
     @Then("^The Text should show (.*)$")
     fun textShouldShow(string1: String?) {
         ScreenRobot().checkViewContainsText(string1)

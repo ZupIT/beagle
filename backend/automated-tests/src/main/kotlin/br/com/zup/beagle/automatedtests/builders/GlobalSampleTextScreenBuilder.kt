@@ -54,48 +54,42 @@ object GlobalSampleTextScreenBuilder {
                 text = "ResetStack",
                 onPress = listOf(
                     Navigate.ResetStack(
-                        Route.Remote(url = NAVIGATE_RESET_ENDPOINT)
-                    )
+                        Route.Remote(url = NAVIGATE_RESET_ENDPOINT))
                 )
             ),
             Button(
                 text = "ResetApplication",
                 onPress = listOf(
                     Navigate.ResetApplication(
-                        Route.Remote(url = NAVIGATE_RESET_ENDPOINT)
-                    )
+                        Route.Remote(url = NAVIGATE_RESET_ENDPOINT))
                 )
             ),
             Button(
                 text = "ResetStackExpression",
                 onPress = listOf(
                     Navigate.ResetStack(
-                        Route.Remote(url = "@{relativePath}")
-                    )
+                        Route.Remote(url = "@{relativePath}"))
                 )
             ),
             Button(
                 text = "ResetApplicationExpression",
                 onPress = listOf(
                     Navigate.ResetApplication(
-                        Route.Remote(url = "@{relativePath}")
-                    )
+                        Route.Remote(url = "@{relativePath}"))
                 )
             ),
             Button(
                 text = "ResetStackExpressionFallback",
                 onPress = listOf(
                     Navigate.ResetStack(
-                        Route.Remote(url = "@{global}",fallback = FALLBACK_SCREEN)
-                    )
+                        Route.Remote(url = "@{global}", fallback = FALLBACK_SCREEN))
                 )
             ),
             Button(
                 text = "ResetApplicationExpressionFallback",
                 onPress = listOf(
                     Navigate.ResetApplication(
-                        Route.Remote(url = "@{global}",fallback = FALLBACK_SCREEN)
-                    )
+                        Route.Remote(url = "@{global}", fallback = FALLBACK_SCREEN))
                 )
             )
         )
@@ -103,6 +97,12 @@ object GlobalSampleTextScreenBuilder {
 
     private fun popButtons(): Container = Container(
         listOf(
+            Button(
+                text = "PopToViewInvalidRoute",
+                onPress = listOf(
+                    Navigate.PopToView(route = "<3")
+                )
+            ),
             Button(
                 text = "PopToView",
                 onPress = listOf(

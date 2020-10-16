@@ -50,11 +50,15 @@ Feature: Navigation Action Validation
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopView" action
         Then the app should dismiss the current view
         
-    Scenario: Navigation 04 - 'popToView' action navigates to a specified route of a screen on the stack and cleans up the navigation that was generated from this screen
+    Scenario: Navigation 04 - 'popToView' action with an invalid route not dismiss the current screen
+        When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopToViewInvalidRoute" action
+        Then the app should not dismiss the current view
+
+    Scenario: Navigation 05 - 'popToView' action navigates to a specified route of a screen on the stack and cleans up the navigation that was generated from this screen
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopToView" action
         Then the application should navigate back to a specific screen and remove from the stack the other screens loaded from the current screen
 
-    Scenario Outline: Navigation 05 - navigates to a specified screen and cleans up the stack of the previously loaded screens
+    Scenario Outline: Navigation 06 - navigates to a specified screen and cleans up the stack of the previously loaded screens
         When I navigate to another screen using the "<action1>" action and I press a button with the "<action2>" action
         Then the app should navigate to a specified screen and cleans up the entire stack of the previously loaded views
         
@@ -67,7 +71,7 @@ Feature: Navigation Action Validation
         |   PushViewRemote  |   ResetStackExpressionFallback            |
         |   PushStackRemote |   ResetApplicationExpressionFallback      |
         
-    Scenario Outline: Navigation 06 - removes the single existing stack of views
+    Scenario Outline: Navigation 07 - removes the single existing stack of views
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "<action>" action
         Then the app should clean up the entire stack and the application should enter in the foreground state
 
