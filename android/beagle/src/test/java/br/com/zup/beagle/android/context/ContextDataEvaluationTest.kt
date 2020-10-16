@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
-import androidx.collection.LruCache
+import android.support.v4.util.LruCache
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
 import br.com.zup.beagle.android.context.tokenizer.function.FunctionResolver

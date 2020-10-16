@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import androidx.test.rule.ActivityTestRule
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
@@ -78,7 +78,7 @@ class TabViewScreenSteps {
     @Then("^my tab should render the text (.*) and (.*) correctly$")
     fun renderTextCorrectly(string1: String?, string2: String?) {
         ScreenRobot()
-            .checkViewContainsText(string1)
-            .checkViewContainsText(string2)
+            .checkViewContainsText(string1, true)
+            .checkViewContainsText(string2, true)
     }
 }

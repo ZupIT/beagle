@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.android.components
 
+import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
@@ -124,18 +124,26 @@ data class TextInput(
     }
 
     private fun EditText.setUpOnTextChange(rootView: RootView) {
-        textWatcher = doOnTextChanged { newText, _, _, _ ->
-            notifyChanges()
-            onChange?.let {
-                this@TextInput.handleEvent(
-                    rootView,
-                    this,
-                    onChange,
-                    ContextData(
-                        id = "onChange",
-                        value = mapOf(VALUE_KEY to newText.toString())
+        textWatcher = object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(newText: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                notifyChanges()
+                onChange?.let {
+                    this@TextInput.handleEvent(
+                        rootView,
+                        textInputView,
+                        onChange,
+                        ContextData(
+                            id = "onChange",
+                            value = mapOf(VALUE_KEY to newText.toString())
+                        )
                     )
-                )
+                }
             }
         }
     }

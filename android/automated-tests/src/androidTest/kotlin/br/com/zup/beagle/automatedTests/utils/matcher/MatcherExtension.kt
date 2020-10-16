@@ -1,12 +1,12 @@
 package br.com.zup.beagle.automatedTests.utils.matcher
 
+import android.support.test.espresso.AmbiguousViewMatcherException
+import android.support.test.espresso.NoMatchingRootException
+import android.support.test.espresso.NoMatchingViewException
+import android.support.test.espresso.UiController
+import android.support.test.espresso.ViewAction
+import android.support.test.espresso.ViewInteraction
 import android.view.View
-import androidx.test.espresso.AmbiguousViewMatcherException
-import androidx.test.espresso.NoMatchingRootException
-import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
-import androidx.test.espresso.ViewInteraction
 import org.hamcrest.CoreMatchers.any
 import org.hamcrest.Matcher
 
