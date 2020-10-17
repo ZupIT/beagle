@@ -23,7 +23,6 @@ import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 import java.lang.reflect.Type
 
@@ -57,7 +56,40 @@ internal class ContextDataEvaluation(
         evaluatedBindings: MutableMap<String, Any> = mutableMapOf()
     ): Any? {
         val expressions = bind.expressions
-        val response = if (expressions.size == 1 && bind.value == "@{${bind.expressions[0].value}}") {
+        val response = getExpressionEvaluated(contextsData, bind, contextCache, evaluatedBindings, expressions)
+        val type = getType(response.toString())
+        return deserializeExpression(bind, expressions, type, response)
+    }
+
+    private fun deserializeExpression(
+        bind: Bind.Expression<*>,
+        expressions: List<ExpressionToken>,
+        type: Type?,
+        response: Any?): Any? {
+        return try {
+            return when {
+                bind.type == String::class.java -> response ?: ""
+                expressions.size == 1 && type == null -> response
+                else -> {
+                    val newType = if (bind.type == Any::class.java) type else bind.type
+                    moshi.adapter<Any>(newType ?: bind.type).fromJson(response.toString())
+                        ?: showLogErrorAndReturn(bind)
+                }
+            }
+
+        } catch (ex: Exception) {
+            showLogErrorAndReturn(bind)
+            null
+        }
+    }
+
+    private fun getExpressionEvaluated(
+        contextsData: List<ContextData>,
+        bind: Bind.Expression<*>,
+        contextCache: LruCache<String, Any>?,
+        evaluatedBindings: MutableMap<String, Any>,
+        expressions: List<ExpressionToken>): Any? {
+        return if (expressions.size == 1 && bind.value == "@{${bind.expressions[0].value}}") {
             evaluateExpression(
                 contextsData,
                 contextCache,
@@ -66,21 +98,6 @@ internal class ContextDataEvaluation(
                 evaluatedBindings
             )
         } else evaluateMultipleExpression(expressions, contextsData, contextCache, bind, evaluatedBindings)
-
-        var type = getType(response.toString())
-        return try {
-            if (bind.type == String::class.java) return response ?: ""
-
-            if (expressions.size == 1 && type == null) {
-                return response
-            }
-
-            type = if (bind.type == Any::class.java) type else bind.type
-            moshi.adapter<Any>(type ?: bind.type).fromJson(response.toString()) ?: showLogErrorAndReturn(bind)
-        } catch (ex: Exception) {
-            showLogErrorAndReturn(bind)
-            null
-        }
     }
 
 
