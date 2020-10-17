@@ -86,13 +86,14 @@ internal class FormSubmitter(
         }
     }
 
-    private fun createUrl(form: FormRemoteAction, formsValue: Map<String, String>) = if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE)
-        formsValue.filterValues {
-            isFormsValueValid(it)
-        }.toList().fold(Uri.parse(form.path).buildUpon()) { path, param ->
-            path.appendQueryParameter(param.first, param.second)
-        }.build().toString()
-    else form.path
+    private fun createUrl(form: FormRemoteAction, formsValue: Map<String, String>) =
+        if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE)
+            formsValue.filterValues {
+                isFormsValueValid(it)
+            }.toList().fold(Uri.parse(form.path).buildUpon()) { path, param ->
+                path.appendQueryParameter(param.first, param.second)
+            }.build().toString()
+        else form.path
 
     private fun isFormsValueValid(value: String?) = !value.isNullOrEmpty()
 }
