@@ -39,7 +39,7 @@ internal class FormSubmitter(
     private val beagleApi: BeagleApi = BeagleApi(),
     private val deserialization: BeagleSerializer = BeagleSerializer(),
     private val urlBuilder: UrlBuilder = UrlBuilderFactory().make(),
-    private val job:Job = Job(),
+    private val job: Job = Job(),
     override val coroutineContext: CoroutineContext = job + Main
 ) : CoroutineScope {
 
@@ -86,14 +86,13 @@ internal class FormSubmitter(
         }
     }
 
-    private fun createUrl(form: FormRemoteAction, formsValue: Map<String, String>)
-        = if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE)
-            formsValue.filterValues {
-                isFormsValueValid(it)
-            }.toList().fold(Uri.parse(form.path).buildUpon()) { path, param ->
-                path.appendQueryParameter(param.first, param.second)
-            }.build().toString()
-        else form.path
+    private fun createUrl(form: FormRemoteAction, formsValue: Map<String, String>) = if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE)
+        formsValue.filterValues {
+            isFormsValueValid(it)
+        }.toList().fold(Uri.parse(form.path).buildUpon()) { path, param ->
+            path.appendQueryParameter(param.first, param.second)
+        }.build().toString()
+    else form.path
 
     private fun isFormsValueValid(value: String?) = !value.isNullOrEmpty()
 }
