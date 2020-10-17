@@ -68,7 +68,7 @@ internal class ContextDataEvaluation(
         response: Any?): Any? {
         return try {
             return when {
-                bind.type == String::class.java -> response ?: ""
+                bind.type == String::class.java -> response?.toString() ?: ""
                 expressions.size == 1 && type == null -> response
                 else -> {
                     val newType = if (bind.type == Any::class.java) type else bind.type
