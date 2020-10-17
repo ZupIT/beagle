@@ -99,8 +99,7 @@ internal class ContextDataEvaluation(
             )
         } else evaluateMultipleExpression(expressions, contextsData, contextCache, bind, evaluatedBindings)
     }
-
-
+    
     private fun evaluateMultipleExpression(
         expressions: List<ExpressionToken>,
         contextsData: List<ContextData>,
