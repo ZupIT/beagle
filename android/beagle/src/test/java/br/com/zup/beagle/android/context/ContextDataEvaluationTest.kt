@@ -122,21 +122,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
-    fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONObject_two() {
-        // Given
-        val bind = expressionOf<ComponentModel>("@{$CONTEXT_ID}")
-
-        // When
-        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
-
-        // Then
-        assertTrue { value is ComponentModel }
-        val componentModel = value as ComponentModel
-        assertEquals("a", componentModel.a)
-        assertEquals(true, componentModel.b)
-    }
-
-    @Test
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONArray() {
         // Given
         val bind = expressionOf<List<ComponentModel>>("@{$CONTEXT_ID}")
@@ -201,7 +186,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
-    fun evaluateAllContext_should_evaluate_multiple_expressions_that_is_not_text() {
+    fun `GIVEN expression with values is not a string WHEN call evaluate expression THEN return correct text `() {
         // Given
         val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
         every { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() } just Runs

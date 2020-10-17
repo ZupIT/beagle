@@ -185,24 +185,6 @@ class SendRequestTest : BaseTest() {
         }
     }
 
-    @Test
-    fun `Data sent should be an JSON object`() {
-        // Given
-        val dataSlot = slot<Any>()
-        val requestAction = createSendRequest(data = DataTest("name@email.com", "123456"))
-        val mockedSendRequestInternal = slot<SendRequestInternal>()
-        every { viewModel.fetch(capture(mockedSendRequestInternal)) } returns liveData
-        every { requestAction.evaluateExpression(any(), any(), capture(dataSlot)) } answers {
-            dataSlot.captured
-        }
-
-        // When
-        requestAction.execute(rootView, view)
-
-        // Then
-        assertTrue(mockedSendRequestInternal.captured.data is JSONObject)
-    }
-
     private fun createSendRequest(
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
@@ -220,5 +202,23 @@ class SendRequestTest : BaseTest() {
             every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
             every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
         }
+    }
+
+    @Test
+    fun `Data sent should be an JSON object`() {
+        // Given
+        val dataSlot = slot<Any>()
+        val requestAction = createSendRequest(data = DataTest("name@email.com", "123456"))
+        val mockedSendRequestInternal = slot<SendRequestInternal>()
+        every { viewModel.fetch(capture(mockedSendRequestInternal)) } returns liveData
+        every { requestAction.evaluateExpression(any(), any(), capture(dataSlot)) } answers {
+            dataSlot.captured
+        }
+
+        // When
+        requestAction.execute(rootView, view)
+
+        // Then
+        assertTrue(mockedSendRequestInternal.captured.data is JSONObject)
     }
 }
