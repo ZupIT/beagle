@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
-import GLOBAL_TEXT_ENDPOINT
-import NAVIGATE_ACTIONS_ENDPOINT
-import NAVIGATE_RESET_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.GLOBAL_TEXT_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NAVIGATE_ACTIONS_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NAVIGATE_RESET_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.GlobalSampleTextScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.NavigateActionsResetScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.NavigateActionsScreenBuilder
