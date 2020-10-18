@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.components.utils
 import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.RectF
-import br.com.zup.beagle.android.components.utils.FLOAT_ZERO
 
 internal fun Canvas.applyRadius(radius: Float) {
     if (radius > FLOAT_ZERO) {
