@@ -89,6 +89,7 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
     androidTestImplementation Dependencies.TestLibraries.testExt
+
 }
 
 def getTestTags() {
