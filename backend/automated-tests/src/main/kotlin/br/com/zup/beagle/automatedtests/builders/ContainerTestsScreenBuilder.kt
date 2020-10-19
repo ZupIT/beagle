@@ -38,12 +38,14 @@ object ContainerTestsScreenBuilder {
                 value = "containerContextValue"
             ),
             onInit = listOf(
-                Alert(
-                    title = "1stActionExecuted",
-                    message = "Alert called"
+                SetContext(
+                    contextId = "global",
+                    path = "1",
+                    value = "1stActionExecuted"
                 ),
                 SetContext(
                     contextId = "global",
+                    path = "2",
                     value = "2ndActionExecuted"
                 )
             ),
@@ -62,7 +64,8 @@ object ContainerTestsScreenBuilder {
         children = listOf(
             Text(text = "@{containerContext}"+"1"),
             Text(text = "@{containerContext}"+"2"),
-            Text(text = "@{global}")
+            Text(text = "@{global.1}"),
+            Text(text = "@{global.2}")
         )
     )
 }
