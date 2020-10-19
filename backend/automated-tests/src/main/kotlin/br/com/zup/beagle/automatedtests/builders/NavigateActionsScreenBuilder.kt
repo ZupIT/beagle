@@ -16,9 +16,8 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import GLOBAL_TEXT_ENDPOINT
-import GLOBAL_TEXT_EXPRESSION_ENDPOINT
-import br.com.zup.beagle.ext.setId
+import br.com.zup.beagle.automatedtests.constants.GLOBAL_TEXT_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.GLOBAL_TEXT_EXPRESSION_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.SetContext

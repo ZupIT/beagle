@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.context.tokenizer.function.builtin.array
 
 import br.com.zup.beagle.android.context.tokenizer.function.Function
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.toJSONArray
 import org.json.JSONArray
 
 internal class InsertFunction : Function {

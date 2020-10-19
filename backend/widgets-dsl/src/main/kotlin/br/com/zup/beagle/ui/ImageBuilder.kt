@@ -17,7 +17,6 @@
 package br.com.zup.beagle.ui
 
 import br.com.zup.beagle.builder.BeagleBuilder
-import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ImagePath

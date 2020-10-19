@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import BUTTON_STYLE_ACCESSIBILITY
+import br.com.zup.beagle.automatedtests.constants.BUTTON_STYLE_ACCESSIBILITY
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyAccessibility

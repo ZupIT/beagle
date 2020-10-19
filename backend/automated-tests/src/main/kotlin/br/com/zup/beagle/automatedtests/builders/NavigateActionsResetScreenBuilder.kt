@@ -17,8 +17,8 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
 
 object NavigateActionsResetScreenBuilder {

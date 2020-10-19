@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.automatedtests.constants
+
 const val SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT = "/button"
 const val SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT = "/button-left"
 const val SCREEN_IMAGE_ENDPOINT = "/image"
