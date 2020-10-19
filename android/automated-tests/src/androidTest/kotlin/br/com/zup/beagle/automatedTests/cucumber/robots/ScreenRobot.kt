@@ -22,6 +22,7 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import br.com.zup.beagle.automatedTests.R
@@ -30,6 +31,7 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.TypeSafeMatcher
+import kotlin.jvm.Throws
 
 
 class ScreenRobot {
@@ -40,6 +42,15 @@ class ScreenRobot {
         }
 
         onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
+        return this
+    }
+
+    fun checkViewDoesNotContainsText(text: String?, waitForText: Boolean = false): ScreenRobot {
+        if (waitForText){
+            WaitHelper.waitForWithElement(onView(withText(text)))
+        }
+
+        onView(Matchers.allOf(withText(text))).check(doesNotExist())
         return this
     }
 
@@ -63,7 +74,8 @@ class ScreenRobot {
     }
 
     fun typeIntoTextField(position1: Int, position2: Int, text: String?): ScreenRobot {
-        onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
+        onView(childAtPosition(childAtPosition(withClassName(
+            Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
         Espresso.closeSoftKeyboard()
         return this
     }
