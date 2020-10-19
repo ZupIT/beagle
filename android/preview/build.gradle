@@ -58,11 +58,6 @@ dependencies {
     testImplementation Dependencies.TestLibraries.junit
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.mockk
-    implementation "androidx.core:core-ktx:+"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
-repositories {
-    mavenCentral()
-}
