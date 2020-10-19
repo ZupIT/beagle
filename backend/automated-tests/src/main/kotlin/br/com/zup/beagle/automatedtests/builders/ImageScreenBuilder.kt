@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import LOGO_BEAGLE
-import LOGO_BEAGLE_URL
-import TITLE_SCREEN
+import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
+import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE_URL
+import br.com.zup.beagle.automatedtests.constants.TITLE_SCREEN
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.ScrollAxis

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.automatedtests.constants
 
 const val LOGO_BEAGLE = "imageBeagle"
 

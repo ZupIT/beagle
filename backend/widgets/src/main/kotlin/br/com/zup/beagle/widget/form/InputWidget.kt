@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.action.Action
 
 /**
  * <p>It could be an EditText view in Android, a Radio button in HTML,

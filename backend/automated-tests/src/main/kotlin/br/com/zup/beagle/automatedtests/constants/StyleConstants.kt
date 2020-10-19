@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.automatedtests.constants
+
 const val BUTTON_STYLE = "DesignSystem.Stylish.Button"
 const val BUTTON_STYLE_APPEARANCE="DesignSystem.Stylish.ButtonAndAppearance"
 const val SCREEN_TEXT_STYLE = "DesignSystem.Text.helloWord"
