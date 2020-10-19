@@ -27,6 +27,8 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
+const val TAB_VIEW_SCREEN_BFF_URL = "http://10.0.2.2:8080/tabview"
+
 class TabViewScreenSteps {
 
     @Rule
@@ -34,7 +36,7 @@ class TabViewScreenSteps {
 
     @Before("@tabview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.tabViewScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, TAB_VIEW_SCREEN_BFF_URL)
     }
 
     @After("@tabview")

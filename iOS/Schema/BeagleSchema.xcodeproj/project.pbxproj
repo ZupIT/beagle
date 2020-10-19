@@ -36,6 +36,7 @@
 		93A2EE1824EC47C90085B3CF /* AddChildren.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1724EC47C90085B3CF /* AddChildren.swift */; };
 		93BFE32A249E2E34009838CE /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BFE329249E2E34009838CE /* Parser.swift */; };
 		93BFE32C249E9FBD009838CE /* PathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BFE32B249E9FBD009838CE /* PathTests.swift */; };
+		93E4896A253DC82100293568 /* AddChildrenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E48968253DC7B500293568 /* AddChildrenTests.swift */; };
 		9885564724C612A200D9818F /* FunctionBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9885564624C612A100D9818F /* FunctionBuilders.swift */; };
 		98E18D12249BE249009D6A54 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D11249BE249009D6A54 /* Alert.swift */; };
 		98E18D14249BE255009D6A54 /* Confirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D13249BE255009D6A54 /* Confirm.swift */; };
@@ -171,6 +172,8 @@
 		93A2EE1724EC47C90085B3CF /* AddChildren.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildren.swift; sourceTree = "<group>"; };
 		93BFE329249E2E34009838CE /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		93BFE32B249E9FBD009838CE /* PathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathTests.swift; sourceTree = "<group>"; };
+		93E48968253DC7B500293568 /* AddChildrenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildrenTests.swift; sourceTree = "<group>"; };
+		93E4896B253DCDBD00293568 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		9885564624C612A100D9818F /* FunctionBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionBuilders.swift; sourceTree = "<group>"; };
 		98E18D11249BE249009D6A54 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		98E18D13249BE255009D6A54 /* Confirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confirm.swift; sourceTree = "<group>"; };
@@ -412,6 +415,15 @@
 				9885564624C612A100D9818F /* FunctionBuilders.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		93E48967253DC77300293568 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				93E4896B253DCDBD00293568 /* __Snapshots__ */,
+				93E48968253DC7B500293568 /* AddChildrenTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		98E49741249CFDE70053DB87 /* TextInput */ = {
@@ -945,6 +957,7 @@
 		C8BB30B924870422002DD3C1 /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				93E48967253DC77300293568 /* Tests */,
 				93A2EE1724EC47C90085B3CF /* AddChildren.swift */,
 				98E18D11249BE249009D6A54 /* Alert.swift */,
 				25C762A72511007100AB4D33 /* Condition.swift */,
@@ -1380,6 +1393,7 @@
 				C8EAC4F8247C2844003089BE /* ContainerTests.swift in Sources */,
 				98FDE08E24AA6AD900C411F8 /* BeagleSchemaTestsComponent.swift in Sources */,
 				C8EBCC84247C3091002030CC /* ListViewTests.swift in Sources */,
+				93E4896A253DC82100293568 /* AddChildrenTests.swift in Sources */,
 				C8EBCC8E247C3112002030CC /* TabViewTests.swift in Sources */,
 				98E49751249ED5A00053DB87 /* TextInputTests.swift in Sources */,
 				C8EAC4F5247C2808003089BE /* ImageTests.swift in Sources */,

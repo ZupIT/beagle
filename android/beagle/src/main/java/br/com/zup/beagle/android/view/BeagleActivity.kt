@@ -37,7 +37,6 @@ import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_STATE_LOADING
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
-import br.com.zup.beagle.android.utils.tryToDeserialize
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -65,6 +64,11 @@ sealed class ServerDrivenState {
      * indicates a success state while fetching a server-driven component
      */
     object Success : ServerDrivenState()
+
+    /**
+     * indicates that a server-driven component fetch has cancel
+     */
+    object Canceled : ServerDrivenState()
 
     /**
      * indicates an error state while fetching a server-driven component
@@ -264,7 +268,11 @@ abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 1) {
+        if (viewModel.isFetchComponent()) {
+            if (supportFragmentManager.backStackEntryCount == 0) {
+                finish()
+            }
+        } else if (supportFragmentManager.backStackEntryCount == 1) {
             finish()
         } else {
             super.onBackPressed()
@@ -294,6 +302,7 @@ abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable, it.retry))
                     onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
                 }
+
                 is ViewState.Loading -> {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
 
@@ -301,6 +310,11 @@ abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
                         onServerDrivenContainerStateChanged(ServerDrivenState.Started)
                     }
                 }
+
+                is ViewState.DoCancel -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Canceled)
+                }
+
                 is ViewState.DoRender -> {
                     showScreen(it.screenId, it.component)
                 }

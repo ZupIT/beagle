@@ -33,6 +33,9 @@ import cucumber.api.java.en.Then
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 
+
+private const val ADD_CHILDREN_SCREEN_BFF_URL = "http://10.0.2.2:8080/add-children"
+
 class AddChildrenScreenSteps {
 
     private val ADD_CHILDREN_HEADER = "Add Children"
@@ -45,7 +48,7 @@ class AddChildrenScreenSteps {
 
     @Before("@addChildren")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.addChildrenBffUrl)
+        TestUtils.startActivity(activityTestRule, ADD_CHILDREN_SCREEN_BFF_URL)
     }
 
     @After("@addChildren")

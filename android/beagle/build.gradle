@@ -93,6 +93,11 @@ dependencies {
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.archCoreTesting
     testImplementation Dependencies.GeneralLibraries.jsonObject
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
+repositories {
+    mavenCentral()
+}
