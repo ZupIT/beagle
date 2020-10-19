@@ -54,17 +54,17 @@ class Dependencies : Plugin<Project> {
 
         const val kotlinCoroutines = "1.3.9"
 
-        const val kotlinPoet = "1.6.0"
+        const val kotlinPoet = "1.7.1"
 
         const val appcompat = "1.2.0"
         const val viewModel = "2.2.0"
         const val recyclerView = "1.1.0"
 
-        const val moshi = "1.10.0"
+        const val moshi = "1.11.0"
 
         const val soLoader = "0.9.0"
 
-        const val junit = "4.13"
+        const val junit = "4.13.1"
         const val junit5 = "5.7.0"
 
         const val yoga = "1.16.0"
@@ -82,7 +82,7 @@ class Dependencies : Plugin<Project> {
 
         const val jsonObject = "20200518"
 
-        const val mockk = "1.10.0"
+        const val mockk = "1.10.2"
 
         const val testRunner = "1.2.0"
         const val testExt = "1.1.1"
@@ -91,7 +91,7 @@ class Dependencies : Plugin<Project> {
 
         const val incap = "0.3"
 
-        const val cucumber = "1.2.5"
+        const val cucumber = "1.2.6"
     }
 
     object GeneralNames {

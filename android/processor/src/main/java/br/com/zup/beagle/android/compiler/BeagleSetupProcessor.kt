@@ -16,13 +16,11 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.compiler.ANDROID_ACTION
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
-import br.com.zup.beagle.compiler.implementsInterface
-import br.com.zup.beagle.compiler.BEAGLE_IMAGE_DOWNLOADER
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER_IMPL
+import br.com.zup.beagle.compiler.BEAGLE_IMAGE_DOWNLOADER
 import br.com.zup.beagle.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.compiler.BEAGLE_SDK
 import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
@@ -39,7 +37,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
-import javax.lang.model.element.TypeElement
 
 class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,

@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.utils
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.TypedValue
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -36,8 +36,6 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.components.layout.ScreenComponent
-import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.view.BeagleActivity
