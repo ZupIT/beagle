@@ -1,0 +1,14 @@
+▿ AddChildren
+  - componentId: "id"
+  - mode: Mode.prepend
+  ▿ value: 1 element
+    ▿ Text
+      - alignment: Optional<Expression<Alignment>>.none
+      - styleId: Optional<String>.none
+      ▿ text: Expression<String>
+        - value: "sample"
+      - textColor: Optional<Expression<String>>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
