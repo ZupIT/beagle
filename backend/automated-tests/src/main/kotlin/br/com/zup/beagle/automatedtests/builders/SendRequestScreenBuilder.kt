@@ -85,7 +85,7 @@ object SendRequestScreenBuilder {
                 text = "@{buttonTitle.error}",
                 onPress = listOf(
                     SendRequest(
-                        url = "/e",
+                        url = "<e",
                         method = RequestActionMethod.GET,
                         onFinish = listOf(
                             SetContext(
@@ -108,7 +108,7 @@ object SendRequestScreenBuilder {
                 text = "request with error",
                 onPress = listOf(
                     SendRequest(
-                        url = "/e",
+                        url = "erro",
                         method = RequestActionMethod.GET,
                         onSuccess = listOf(
                             Alert(
