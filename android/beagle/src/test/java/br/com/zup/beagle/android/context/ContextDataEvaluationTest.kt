@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.getExpressions
+import br.com.zup.beagle.widget.core.TextAlignment
 import com.squareup.moshi.Moshi
 import io.mockk.*
 import org.json.JSONArray
@@ -88,6 +89,22 @@ internal class ContextDataEvaluationTest : BaseTest() {
 
         // Then
         assertEquals(contextData.value, actualValue)
+    }
+
+    @Test
+    fun `GIVEN expression with context string enum WHEN evaluate expression THEN return correct enum`() {
+        // Given
+        val contextData = ContextData(
+            id = CONTEXT_ID,
+            value = "LEFT"
+        )
+        val bind = expressionOf<TextAlignment>("@{$CONTEXT_ID}")
+
+        // When
+        val actualValue = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
+
+        // Then
+        assertEquals(TextAlignment.LEFT, actualValue)
     }
 
     @Test
@@ -157,7 +174,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
     @Test
     fun evaluateAllContext_should_evaluate_text_string_text_expression() {
         // Given
-        val hello = "hello"
         val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
 
         // When

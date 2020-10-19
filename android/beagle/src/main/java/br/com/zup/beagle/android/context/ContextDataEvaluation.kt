@@ -69,7 +69,8 @@ internal class ContextDataEvaluation(
         return try {
             return when {
                 bind.type == String::class.java -> response?.toString() ?: ""
-                expressions.size == 1 && type == null -> response
+                expressions.size == 1 && type == null && bind.type == Any::class.java -> response
+                expressions.size == 1 && type == null -> moshi.adapter<Any>(bind.type).fromJsonValue(response)
                 else -> {
                     val newType = if (bind.type == Any::class.java) type else bind.type
                     moshi.adapter<Any>(newType ?: bind.type).fromJson(response.toString())
