@@ -21,11 +21,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.widget.context.Bind
-import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.context.valueOf
-import br.com.zup.beagle.widget.context.valueOfNullable
+import br.com.zup.beagle.widget.context.*
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.Container
@@ -70,13 +66,17 @@ object TextScreenBuilder {
                 beagleText(text = "hello world"),
                 beagleText(text = expressionOf("@{context.text}")),
                 beagleText(text = "hello world with textColor", textColor = LIGHT_GREY),
-                beagleText(text = expressionOf("@{context.textExpressionColor}"), textColor = expressionOf("@{context.color}")),
+                beagleText(text = expressionOf("@{context.textExpressionColor}"),
+                    textColor = expressionOf("@{context.color}")),
                 beagleText(text = "hello world with textAlignment LEFT", alignment = TextAlignment.LEFT),
                 beagleText(text = "hello world with textAlignment CENTER", alignment = TextAlignment.CENTER),
                 beagleText(text = "hello world with textAlignment RIGHT", alignment = TextAlignment.RIGHT),
-                beagleText(text = expressionOf("@{context.textExpressionAlignmentLeft}"), alignment = expressionOf("@{context.alignmentLeft}")),
-                beagleText(text = expressionOf("@{context.textExpressionAlignmentCenter}"), alignment = expressionOf("@{context.alignmentCenter}")),
-                beagleText(text = expressionOf("@{context.textExpressionAlignmentRight}"), alignment = expressionOf("@{context.alignmentRight}"))
+                beagleText(text = expressionOf("@{context.textExpressionAlignmentLeft}"),
+                    alignment = expressionOf("@{context.alignmentLeft}")),
+                beagleText(text = expressionOf("@{context.textExpressionAlignmentCenter}"),
+                    alignment = expressionOf("@{context.alignmentCenter}")),
+                beagleText(text = expressionOf("@{context.textExpressionAlignmentRight}"),
+                    alignment = expressionOf("@{context.alignmentRight}"))
             ),
             context = ContextData(
                 id = "context",
