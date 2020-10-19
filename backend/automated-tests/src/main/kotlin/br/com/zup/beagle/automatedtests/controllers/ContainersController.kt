@@ -16,14 +16,12 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
+import CONTAINER_TEST_ENDPOINT
 import LISTVIEW_TABVIEW_ENDPOINT
 import PAGEVIEW_TABVIEW_ENDPOINT
 import SCREEN_TABVIEW_ENDPOINT
 import SCROLLVIEW_TABVIEW_ENDPOINT
-import br.com.zup.beagle.automatedtests.builders.ListViewScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.PageViewScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.ScrollViewScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.TabViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -41,4 +39,7 @@ class ContainersController {
 
     @GetMapping(SCROLLVIEW_TABVIEW_ENDPOINT)
     fun getScrollViewScreen() = ScrollViewScreenBuilder.build()
+
+    @GetMapping(CONTAINER_TEST_ENDPOINT)
+    fun getContainerTestScreen() = ContainerTestsScreenBuilder.build()
 }
