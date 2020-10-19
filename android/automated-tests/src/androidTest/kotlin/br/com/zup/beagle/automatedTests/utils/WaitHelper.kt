@@ -1,8 +1,8 @@
 package br.com.zup.beagle.automatedTests.utils
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewInteraction
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.ViewInteraction
+import android.support.test.espresso.matcher.ViewMatchers.withId
 import br.com.zup.beagle.automatedTests.utils.matcher.MatcherExtension
 
 

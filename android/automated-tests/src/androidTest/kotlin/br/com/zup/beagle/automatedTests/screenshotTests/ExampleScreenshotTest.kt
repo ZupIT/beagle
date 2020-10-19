@@ -16,10 +16,11 @@
 
 package br.com.zup.beagle.automatedTests.screenshotTests
 
-import androidx.test.rule.ActivityTestRule
+import android.content.Intent
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.AppBeagleActivitiy
 import br.com.zup.beagle.automatedTests.utils.TestUtils
-import com.karumi.shot.ScreenshotTest
+import com.facebook.testing.screenshot.Screenshot
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,7 +31,7 @@ import org.junit.Test
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleScreenshotTest: ScreenshotTest {
+class ExampleScreenshotTest {
 
     @get:Rule
     var activityTestRule: ActivityTestRule<AppBeagleActivitiy> = ActivityTestRule(
@@ -43,7 +44,11 @@ class ExampleScreenshotTest: ScreenshotTest {
 
     @Test
     fun testButtonUrlLoading() {
-        compareScreenshot(activityTestRule.activity)
+        activityTestRule.launchActivity(Intent())
+
+
+        Screenshot.snapActivity(activityTestRule.activity)
+            .record()
     }
 
 }

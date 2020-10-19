@@ -16,12 +16,11 @@
 
 package br.com.zup.beagle.android.engine.renderer
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.ViewModelStoreOwner
 import android.content.Context
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelStoreOwner
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.widget.RootView
 
 /**

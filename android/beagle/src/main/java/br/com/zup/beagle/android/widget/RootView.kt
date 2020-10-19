@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.widget
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.ViewModelStoreOwner
 import android.content.Context
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelStoreOwner
 
 /**
  * Interface RootView holder the reference of activity or fragment.

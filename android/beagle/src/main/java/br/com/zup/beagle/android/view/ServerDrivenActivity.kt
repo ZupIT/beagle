@@ -17,10 +17,10 @@
 package br.com.zup.beagle.android.view
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v7.widget.Toolbar
 import android.view.View
-import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.R
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.beagle_activity_server_driven.*
 import kotlinx.android.synthetic.main.beagle_include_error_server_driven.*
 

@@ -56,13 +56,9 @@ class Dependencies : Plugin<Project> {
 
         const val kotlinPoet = "1.6.0"
 
-        const val appcompat = "1.2.0"
-        const val viewModel = "2.2.0"
-        const val recyclerView = "1.1.0"
+        const val moshi = "1.9.3"
 
-        const val moshi = "1.10.0"
-
-        const val soLoader = "0.9.0"
+        const val soLoader = "0.8.2"
 
         const val junit = "4.13"
         const val junit5 = "5.7.0"
@@ -74,9 +70,8 @@ class Dependencies : Plugin<Project> {
         const val webSocket = "1.5.1"
         const val simpleLogger = "1.7.30"
 
-        const val kotlinTest = "1.4.10"
-        const val kotlinCoroutinesTest = "1.3.9"
-        const val materialDesign = "1.2.1"
+        const val kotlinTest = "1.3.50"
+        const val kotlinCoroutinesTest = "1.3.1"
         const val googleCompileTesting = "0.18"
         const val googleAutoService = "1.0-rc7"
 
@@ -84,18 +79,23 @@ class Dependencies : Plugin<Project> {
 
         const val mockk = "1.10.0"
 
-        const val testRunner = "1.2.0"
-        const val testExt = "1.1.1"
-        const val espressoCore = "3.2.0"
-        const val archCoreTesting = "2.1.0"
+        const val incap = "0.2"
 
-        const val incap = "0.3"
+        const val cucumberAndroidVersion = "1.2.5@jar"
+        const val cucumberPicocontainer = "1.2.4"
+        const val testRule = "0.4"
+    }
 
-        const val cucumber = "1.2.5"
+    object AndroidSupportVersions {
+        const val arch = "1.1.0"
+        const val support = "28.0.0"
+        const val supportTest = "1.0.2"
+        const val archCoreTesting = "1.1.0"
+        const val espressoCore = "3.0.1"
     }
 
     object GeneralNames {
-        const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        const val testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         const val sampleTestInstrumentationRunner = "br.com.zup.beagle.sample.SampleTestRunner"
         const val consumerProguard = "consumer-rules.pro"
     }
@@ -125,16 +125,13 @@ class Dependencies : Plugin<Project> {
         const val jsonObject = "org.json:json:${Versions.jsonObject}"
     }
 
-    object GoogleLibraries {
-        const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
-    }
-
-    object AndroidxLibraries {
-        const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
-        const val coreKtx = "androidx.core:core-ktx:${Versions.appcompat}"
-        const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
-        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModel}"
-        const val viewModelExtensions = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.viewModel}"
+    object AndroidSupport {
+        const val design = "com.android.support:design:${AndroidSupportVersions.support}"
+        const val viewModel = "android.arch.lifecycle:viewmodel:${AndroidSupportVersions.arch}"
+        const val extensions = "android.arch.lifecycle:extensions:${AndroidSupportVersions.arch}"
+        const val testRunner = "com.android.support.test:runner:${AndroidSupportVersions.supportTest}"
+        const val archCoreTesting = "android.arch.core:core-testing:${AndroidSupportVersions.archCoreTesting}"
+        const val espressoCore = "com.android.support.test.espresso:espresso-core:${AndroidSupportVersions.espressoCore}"
     }
 
     object MoshiLibraries {
@@ -151,13 +148,15 @@ class Dependencies : Plugin<Project> {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlinTest}"
         const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
         const val googleCompileTesting = "com.google.testing.compile:compile-testing:${Versions.googleCompileTesting}"
-        const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
-        const val testRunner = "androidx.test:runner:${Versions.testRunner}"
-        const val testExt = "androidx.test.ext:junit:${Versions.testExt}"
-        const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
-        const val testRules = "androidx.test:rules:${Versions.testExt}"
-        const val cucumberAndroid = "info.cukes:cucumber-android:${Versions.cucumber}"
-        const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${Versions.cucumber}"
+
+        const val testRunner = "com.android.support.test:runner:${AndroidSupportVersions.supportTest}"
+        const val archCoreTesting = "android.arch.core:core-testing:${AndroidSupportVersions.archCoreTesting}"
+        const val espressoCore = "com.android.support.test.espresso:espresso-core:${AndroidSupportVersions.espressoCore}"
+
+        const val cucumberAndroid = "info.cukes:cucumber-android:${Versions.cucumberAndroidVersion}"
+        const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${Versions.cucumberPicocontainer}"
+        const val supportAnnotation = "com.android.support:support-annotations:${AndroidSupportVersions.support}"
+        const val testRules = "com.android.support.test:rules:${Versions.testRule}"
     }
 
 }

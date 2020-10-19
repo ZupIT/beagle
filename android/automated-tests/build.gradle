@@ -73,8 +73,7 @@ android {
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.AndroidxLibraries.coreKtx
-    implementation Dependencies.AndroidxLibraries.appcompat
+    implementation Dependencies.AndroidSupport.design
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
@@ -88,7 +87,6 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.espressoCore
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
 
 }
 

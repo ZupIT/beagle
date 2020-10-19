@@ -33,6 +33,7 @@ Feature: SimpleForm Component Validation
         And insert text <textValue>
         And I click on input with hint Street
         And hide keyboard
+        And Scroll to Enviar
         And I click on button Enviar
         Then confirm popup should appear correctly
 
