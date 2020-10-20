@@ -104,8 +104,8 @@ internal class ToolbarManager {
             val textAppearance = typedArray.getResourceId(
                 R.styleable.BeagleToolbarStyle_titleTextAppearance, 0
             )
+            removePreviousToolbarTitle(toolbar)
             if (typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false)) {
-                removePreviousToolbarTitle(toolbar)
                 val titleTextView = generateCenterTitle(context, navigationBar, textAppearance, toolbar)
                 toolbar.addView(titleTextView)
                 centerTitle(toolbar, titleTextView)
