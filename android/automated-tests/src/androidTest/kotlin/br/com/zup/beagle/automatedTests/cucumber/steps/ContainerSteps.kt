@@ -25,22 +25,20 @@ import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
-import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
-import cucumber.api.java.en.When
 import org.junit.Rule
 
-const val CONTROLLER_SCREEN_BFF_URL = "http://10.0.2.2:8080/container-test"
+const val CONTAINER_SCREEN_BFF_URL = "http://10.0.2.2:8080/container-test"
 
-class ContainerScreenSteps {
+class ContainerSteps {
 
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Before
     fun setup() {
-        TestUtils.startActivity(activityTestRule, CONTROLLER_SCREEN_BFF_URL)
+        TestUtils.startActivity(activityTestRule, CONTAINER_SCREEN_BFF_URL)
     }
 
     @After
