@@ -19,7 +19,6 @@ package br.com.zup.beagle.sample.validators
 import br.com.zup.beagle.android.annotation.RegisterValidator
 import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.components.form.core.Validator
-import br.com.zup.beagle.sample.widgets.TextField
 import java.util.Locale
 
 @RegisterValidator("Charade")

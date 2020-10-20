@@ -28,7 +28,6 @@ import br.com.zup.beagle.android.view.mapper.toResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 data class Response(
     val statusCode: Int?,

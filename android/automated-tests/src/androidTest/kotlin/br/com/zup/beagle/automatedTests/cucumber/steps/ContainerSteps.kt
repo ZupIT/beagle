@@ -36,12 +36,12 @@ class ContainerSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before
+    @Before("@container")
     fun setup() {
         TestUtils.startActivity(activityTestRule, CONTAINER_SCREEN_BFF_URL)
     }
 
-    @After
+    @After("@container")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import NAVIGATE_ACTIONS_ENDPOINT
-import NAVIGATE_RESET_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NAVIGATE_ACTIONS_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NAVIGATE_RESET_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.context.ContextData

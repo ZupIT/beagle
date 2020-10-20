@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.engine.mapper
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
