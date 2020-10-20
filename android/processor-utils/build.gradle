@@ -25,7 +25,6 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinPoet
     implementation project(Dependencies.Modules.commonAnnotation)
-    implementation project(Dependencies.Modules.kotlinCore)
 }
 
  apply from: rootProject.file('../maven-publish.gradle')

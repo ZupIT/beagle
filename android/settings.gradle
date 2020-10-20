@@ -23,6 +23,5 @@ include ":preview"
 include ":processor-utils"
 include ":annotation"
 include ":automated-tests"
-include ":kotlin-core"
 
 rootProject.name = "Beagle"
