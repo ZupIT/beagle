@@ -22,10 +22,8 @@ import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.WildcardTypeName
 import com.squareup.kotlinpoet.asTypeName
-import org.jetbrains.annotations.Nullable
 import java.io.File
 import javax.annotation.processing.ProcessingEnvironment
-import javax.lang.model.AnnotatedConstruct
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement

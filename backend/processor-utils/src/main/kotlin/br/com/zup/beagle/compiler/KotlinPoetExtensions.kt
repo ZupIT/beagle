@@ -17,17 +17,9 @@
 package br.com.zup.beagle.compiler
 
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
-import javax.lang.model.element.TypeElement
-import javax.lang.model.type.DeclaredType
-import javax.lang.model.type.TypeKind
-import javax.lang.model.type.TypeMirror
 
 internal val TypeName.kotlin: TypeName get() = JAVA_TO_KOTLIN[this] ?: this
 
