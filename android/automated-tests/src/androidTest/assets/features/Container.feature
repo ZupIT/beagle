@@ -38,5 +38,5 @@ Feature: Controller component validation
     Scenario: Container 03 - Create container component with actions when initializing and checking those
     actions are performed. We have tested 2 setContext actions setting the global context with different values.
 
-        Then the views that contains the text 1stActionExecuted set via context must be displayed
-        Then the views that contains the text 2ndActionExecuted set via context must be displayed
+        Then the views that contains the text FirstActionExecuted set via context must be displayed
+        Then the views that contains the text SecondActionExecuted set via context must be displayed
