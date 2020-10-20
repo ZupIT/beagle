@@ -16,10 +16,6 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.UnitType.AUTO
-import br.com.zup.beagle.widget.core.UnitType.PERCENT
-import br.com.zup.beagle.widget.core.UnitType.REAL
-
 /**
  * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
  * @property value the numeric measurement value.

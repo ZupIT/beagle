@@ -16,24 +16,6 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.AlignContent.CENTER
-import br.com.zup.beagle.widget.core.AlignContent.FLEX_END
-import br.com.zup.beagle.widget.core.AlignContent.FLEX_START
-import br.com.zup.beagle.widget.core.AlignContent.SPACE_AROUND
-import br.com.zup.beagle.widget.core.AlignContent.SPACE_BETWEEN
-import br.com.zup.beagle.widget.core.AlignContent.STRETCH
-import br.com.zup.beagle.widget.core.AlignItems.BASELINE
-import br.com.zup.beagle.widget.core.AlignSelf.AUTO
-import br.com.zup.beagle.widget.core.FlexDirection.COLUMN
-import br.com.zup.beagle.widget.core.FlexDirection.COLUMN_REVERSE
-import br.com.zup.beagle.widget.core.FlexDirection.ROW
-import br.com.zup.beagle.widget.core.FlexDirection.ROW_REVERSE
-import br.com.zup.beagle.widget.core.FlexWrap.NO_WRAP
-import br.com.zup.beagle.widget.core.FlexWrap.WRAP
-import br.com.zup.beagle.widget.core.FlexWrap.WRAP_REVERSE
-import br.com.zup.beagle.widget.core.JustifyContent.SPACE_EVENLY
-
-
 /**
  *
  * The flex is a Layout component that will handle your visual component positioning at the screen.

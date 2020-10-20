@@ -16,16 +16,16 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import BUTTON_STYLE_TITLE
-import LOGO_BEAGLE
-import NAVIGATION_BAR_STYLE
-import NAVIGATION_BAR_STYLE_DEFAULT
-import REPRESENTATION_NAVIGATION_BAR_ENDPOINT
-import REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT
-import REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT
-import REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
-import SCREEN_ACTION_CLICK_ENDPOINT
-import TEXT_FONT_MAX
+import br.com.zup.beagle.automatedtests.constants.BUTTON_STYLE_TITLE
+import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
+import br.com.zup.beagle.automatedtests.constants.NAVIGATION_BAR_STYLE
+import br.com.zup.beagle.automatedtests.constants.NAVIGATION_BAR_STYLE_DEFAULT
+import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.TEXT_FONT_MAX
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex

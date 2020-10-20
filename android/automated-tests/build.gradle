@@ -89,7 +89,12 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
     androidTestImplementation Dependencies.TestLibraries.testExt
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+}
+repositories {
+    mavenCentral()
 }
 
 def getTestTags() {
