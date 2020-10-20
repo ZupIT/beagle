@@ -35,7 +35,6 @@ Feature: Controller component validation
         Then the views that contains the text containerContextValue1 set via context must be displayed
         Then the views that contains the text containerContextValue2 set via context must be displayed
 
-
     Scenario: Container 03 - Create container component with actions when initializing and checking those
     actions are performed. We have tested 2 setContext actions setting the global context with different values.
 
