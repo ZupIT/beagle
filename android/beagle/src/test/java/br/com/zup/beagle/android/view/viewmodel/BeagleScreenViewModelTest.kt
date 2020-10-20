@@ -48,7 +48,7 @@ class BeagleScreenViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `GIVEN a BeagleScreenViewModel WHEN onScreenLoadFinished SHOULD post screenLoadFinished`() {
+    fun `GIVEN a BeagleScreenViewModel WHEN onScreenLoadFinished THEN post screenLoadFinished should be called`() {
 
         //Given
         beagleScreenViewModel.screenLoadFinished.observeForever(observer)
