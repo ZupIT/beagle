@@ -39,6 +39,6 @@ internal data class ContextBinding(
     val cache: LruCache<String, Any> = LruCache(MAX_SIZE_LRU_CACHE)
 ) {
     companion object {
-        const val MAX_SIZE_LRU_CACHE = 300
+        private const val MAX_SIZE_LRU_CACHE = 300
     }
 }
