@@ -41,12 +41,12 @@ object ContainerTestsScreenBuilder {
                 SetContext(
                     contextId = "global",
                     path = "1",
-                    value = "1stActionExecuted"
+                    value = "FirstActionExecuted"
                 ),
                 SetContext(
                     contextId = "global",
                     path = "2",
-                    value = "2ndActionExecuted"
+                    value = "SecondActionExecuted"
                 )
             ),
             children =
