@@ -34,14 +34,25 @@ class ContainerSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.CONTAINER_SCREEN_TITLE.element.exists)
         }
         
-        // MARK: - When
-
-        
         // MARK: - Then
         
         // Scenario 1
         Then("^the screen should contain three texts: \"([^\\\"]*)\", \"([^\\\"]*)\" and \"([^\\\"]*)\"$") { args, _ -> Void in
             let texts = [args![0], args![1], args![2]]
+            for text in texts {
+                XCTAssertTrue(self.application.staticTexts[text].exists)
+            }
+        }
+        
+        // Scenario 2
+        Then("^the text \"([^\\\"]*)\" and the text \"([^\\\"]*)\" set via context should be displayed$") { args, _ -> Void in
+            let text = args![0]
+            XCTAssertTrue(self.application.staticTexts[text].exists)
+        }
+        
+        // Scenario 3
+        Then("^the text \"([^\\\"]*)\" and the text \"([^\\\"]*)\" set via context should be displayed$") { args, _ -> Void in
+            let texts = [args![0], args![1]]
             for text in texts {
                 XCTAssertTrue(self.application.staticTexts[text].exists)
             }

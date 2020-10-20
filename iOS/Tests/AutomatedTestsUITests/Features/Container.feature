@@ -24,6 +24,12 @@ Feature: Container Component Validation
     Background:
         Given the Beagle application did launch with the container screen url
         
-    Scenario: Container 01 - Container children should be rendered correctly
+    Scenario: Container 01 - Container's children should be rendered correctly
         Then the screen should contain three texts: "item1", "item2" and "item3"
+        
+    Scenario: Container 02 - Container context should be available for the container children
+        Then the text "containerContextValue1" and the text "containerContextValue1" set via context should be displayed
+        
+    Scenario: Container 03 - Container actions should be performed when initializing It
+        Then the text "firstActionExecuted" and the text "secondActionExecuted" set via context should be displayed
 
