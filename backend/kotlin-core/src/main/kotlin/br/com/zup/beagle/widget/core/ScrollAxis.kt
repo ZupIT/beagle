@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.widget.core
 
+/**
+ * Enum define the scroll roll direction on screen.
+ */
+enum class ScrollAxis {
+    /**
+     * Defines the scroll as vertical.
+     */
+    VERTICAL,
 
-rootProject.name = "Beagle"
+    /**
+     * Defines the scroll as horizontal.
+     */
+    HORIZONTAL
+}

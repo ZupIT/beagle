@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.analytics
 
+/**
+ * Beagle analytics is used to track click events.
+ */
+interface Analytics {
+    /**
+     * sends the click event had in the view
+     */
+    fun trackEventOnClick(event: ClickEvent)
 
-rootProject.name = "Beagle"
+    /**
+     * sends the event when view appear
+     */
+    fun trackEventOnScreenAppeared(event: ScreenEvent)
+
+    /**
+     * sends the event when view disappear
+     */
+    fun trackEventOnScreenDisappeared(event: ScreenEvent)
+}

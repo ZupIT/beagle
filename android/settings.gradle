@@ -20,15 +20,9 @@ include ":processor"
 include ":internal-processor"
 include ":android-annotation"
 include ":preview"
-include ":schema:kotlin-core"
-include ":common:processor-utils"
-include ":common:extended-schema"
-include ":common:annotation"
+include ":processor-utils"
+include ":annotation"
 include ":automated-tests"
-
-project(":schema:kotlin-core").projectDir = file('../schema/kotlin-core')
-project(":common:extended-schema").projectDir = file('../common/extended-schema')
-project(":common:processor-utils").projectDir = file('../common/processor-utils')
-project(":common:annotation").projectDir = file('../common/annotation')
+include ":kotlin-core"
 
 rootProject.name = "Beagle"
