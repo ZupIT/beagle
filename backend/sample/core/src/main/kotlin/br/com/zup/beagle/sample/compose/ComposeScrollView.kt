@@ -17,14 +17,12 @@
 package br.com.zup.beagle.sample.compose
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Text
 

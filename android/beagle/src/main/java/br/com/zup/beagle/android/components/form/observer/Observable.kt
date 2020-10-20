@@ -65,12 +65,12 @@ class Observable<T> {
     }
 
     @Synchronized
-    protected fun setChanged() {
+    private fun setChanged() {
         changed = true
     }
 
     @Synchronized
-    protected fun clearChanged() {
+    private fun clearChanged() {
         changed = false
     }
 

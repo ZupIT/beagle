@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.automatedTests.widgets
+package br.com.zup.beagle.automatedTests.widgets
 
 import android.graphics.Color
 import android.widget.TextView

@@ -19,7 +19,8 @@ class CucumberishInitializer: NSObject {
                     ImageScreenSteps(),
                     PageViewScreenSteps(),
                     SimpleFormScreenSteps(),
-                    AddChildrenSteps()
+NavigationActionSteps(),
+AddChildrenSteps()
                 ]
             for stepsDefinition in stepsDefinitions {
                 stepsDefinition.loadSteps()

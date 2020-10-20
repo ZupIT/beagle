@@ -21,18 +21,18 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
         classpath "com.karumi:shot:4.3.0"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.0"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.10"
         classpath 'com.hiya:jacoco-android:0.2'
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
     }
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.13.1"
+    id "io.gitlab.arturbosch.detekt" version "1.14.1"
     id "com.github.ben-manes.versions" version "0.33.0"
     id "br.com.zup.beagle.dependencies"
 }

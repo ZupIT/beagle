@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import LOGO_BEAGLE
-import SCREEN_SAFE_AREA_FALSE_ENDPOINT
-import SCREEN_SAFE_AREA_TRUE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
+import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal

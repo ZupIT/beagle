@@ -23,7 +23,6 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.utils.removeBaseUrl
@@ -32,6 +31,7 @@ import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicReference
@@ -40,6 +40,7 @@ sealed class ViewState {
     data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
     data class Loading(val value: Boolean) : ViewState()
     data class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
+    object DoCancel : ViewState()
 }
 
 internal class BeagleViewModel(
@@ -47,9 +48,14 @@ internal class BeagleViewModel(
     private val componentRequester: ComponentRequester = ComponentRequester()
 ) : ViewModel() {
 
+    var fetchComponent: FetchComponentLiveData? = null
+
     fun fetchComponent(screenRequest: ScreenRequest, screen: ServerDrivenComponent? = null): LiveData<ViewState> {
-        return FetchComponentLiveData(screenRequest, screen, componentRequester,
+        val fetchComponentLiveData = FetchComponentLiveData(screenRequest, screen, componentRequester,
             viewModelScope, ioDispatcher)
+        fetchComponent = fetchComponentLiveData
+
+        return fetchComponentLiveData
     }
 
     fun fetchForCache(url: String) = viewModelScope.launch(ioDispatcher) {
@@ -60,13 +66,18 @@ internal class BeagleViewModel(
         }
     }
 
-    private class FetchComponentLiveData(
+    fun isFetchComponent(): Boolean {
+        return fetchComponent?.checkFetchComponent() ?: false
+    }
+
+    internal class FetchComponentLiveData(
         private val screenRequest: ScreenRequest,
         private val screen: ServerDrivenComponent?,
         private val componentRequester: ComponentRequester,
         private val coroutineScope: CoroutineScope,
         private val ioDispatcher: CoroutineDispatcher) : LiveData<ViewState>() {
 
+        var job: Job? = null
         private val isRenderedReference = AtomicReference(false)
 
         override fun onActive() {
@@ -76,7 +87,7 @@ internal class BeagleViewModel(
         }
 
         private fun fetchComponents() {
-            coroutineScope.launch(ioDispatcher) {
+            job = coroutineScope.launch(ioDispatcher) {
                 val identifier = getComponentIdentifier()
                 if (screenRequest.url.isNotEmpty()) {
                     try {
@@ -94,6 +105,27 @@ internal class BeagleViewModel(
                 } else if (screen != null) {
                     postLiveDataResponse(ViewState.DoRender(identifier, screen))
                 }
+            }
+        }
+
+        fun checkFetchComponent(): Boolean {
+            return job?.let {
+                fetchComponentIsCompleted(it)
+            } ?: false
+        }
+
+        private fun fetchComponentIsCompleted(job: Job): Boolean {
+            val isCompleted = !job.isCompleted
+            if (isCompleted) {
+                cancelFetchComponent(job)
+            }
+            return isCompleted
+        }
+
+        private fun cancelFetchComponent(job: Job) {
+            job.cancel()
+            coroutineScope.launch(ioDispatcher) {
+                postLiveDataResponse(ViewState.DoCancel)
             }
         }
 

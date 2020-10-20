@@ -24,29 +24,29 @@ Feature: AddChildren validation
         Given that I'm on the addChildren Screen
 
     Scenario: Default - AddChildren append a Text in the container children
-        When I click on button DEFAULT
+        When I click on button "DEFAULT"
         Then A Text need to be added after the already exist one
 
     Scenario: Prepend - AddChildren prepend a Text in the container children
-        When I click on button PREPEND
+        When I click on button "PREPEND"
         Then A Text need to be added before the already exist one
 
     Scenario: Append - AddChildren append a Text in the container children
-        When I click on button APPEND
+        When I click on button "APPEND"
         Then A Text need to be added after the already exist one
 
     Scenario: Replace - AddChildren replace the children container to a Text
-        When I click on button REPLACE
+        When I click on button "REPLACE"
         Then A Text need to replace the already exist one
 
     Scenario: Replace - AddChildren replace the children container to a Text
-        When I click on button PREPEND COMPONENT NULL
+        When I click on button "PREPEND COMPONENT NULL"
         Then Nothing should happen
 
     Scenario: Replace - AddChildren replace the children container to a Text
-        When I click on button APPEND COMPONENT NULL
+        When I click on button "APPEND COMPONENT NULL"
         Then Nothing should happen
 
     Scenario: Replace - AddChildren replace the children container to a Text
-        When I click on button REPLACE COMPONENT NULL
+        When I click on button "REPLACE COMPONENT NULL"
         Then Nothing should happen
