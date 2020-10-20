@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.core
 
-
-rootProject.name = "Beagle"
+/**
+ * Component that hold the style
+ * @property style attribute will enable a few visual options to be changed.
+ */
+interface StyleComponent : ServerDrivenComponent {
+    val style: Style?
+}

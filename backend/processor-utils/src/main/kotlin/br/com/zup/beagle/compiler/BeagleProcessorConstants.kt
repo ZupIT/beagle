@@ -14,19 +14,29 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.compiler
 
+import com.squareup.kotlinpoet.asTypeName
 
-rootProject.name = "Beagle"
+const val KAPT_KEY = "kapt.kotlin.generated"
+const val GET = "get"
+const val INTERNAL_MARKER = '$'
+
+val GETTER = Regex("$GET(?!Class).*")
+
+val JAVA_TO_KOTLIN = arrayOf(
+    Any::class,
+    Boolean::class,
+    Byte::class,
+    Char::class,
+    Int::class,
+    Long::class,
+    Float::class,
+    Double::class,
+    String::class,
+    Iterable::class,
+    Collection::class,
+    List::class,
+    Set::class,
+    Map::class
+).associate { it.javaObjectType.asTypeName() to it.asTypeName() }

@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.widget
 
+import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.AccessibilityComponent
+import br.com.zup.beagle.core.IdentifierComponent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.core.StyleComponent
 
-rootProject.name = "Beagle"
+/**
+ * Base of all widgets
+ *
+ */
+abstract class Widget : StyleComponent, AccessibilityComponent,
+    IdentifierComponent {
+
+    override var id: String? = null
+    override var style: Style? = null
+    override var accessibility: Accessibility? = null
+}

@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.analytics
 
-
-rootProject.name = "Beagle"
+/**
+ * Component that hold the screen analytics
+ * @property screenAnalyticsEvent attribute to define screen name
+ */
+interface ScreenAnalytics {
+    val screenAnalyticsEvent: ScreenEvent?
+}
