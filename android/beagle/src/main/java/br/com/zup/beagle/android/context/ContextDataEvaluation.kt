@@ -65,7 +65,8 @@ internal class ContextDataEvaluation(
         bind: Bind.Expression<*>,
         expressions: List<ExpressionToken>,
         type: Type?,
-        response: Any?): Any? {
+        response: Any?
+    ): Any? {
         return try {
             return when {
                 bind.type == String::class.java -> response?.toString() ?: ""
@@ -89,7 +90,8 @@ internal class ContextDataEvaluation(
         bind: Bind.Expression<*>,
         contextCache: LruCache<String, Any>?,
         evaluatedBindings: MutableMap<String, Any>,
-        expressions: List<ExpressionToken>): Any? {
+        expressions: List<ExpressionToken>
+    ): Any? {
         return if (expressions.size == 1 && bind.value == "@{${bind.expressions[0].value}}") {
             evaluateExpression(
                 contextsData,
@@ -106,7 +108,8 @@ internal class ContextDataEvaluation(
         contextsData: List<ContextData>,
         contextCache: LruCache<String, Any>?,
         bind: Bind.Expression<*>,
-        evaluatedBindings: MutableMap<String, Any>): String {
+        evaluatedBindings: MutableMap<String, Any>
+    ): String {
         val evaluatedExpressions = mutableMapOf<String, Any>()
         expressions.forEach { expressionToken ->
             evaluateExpressionsForContext(
