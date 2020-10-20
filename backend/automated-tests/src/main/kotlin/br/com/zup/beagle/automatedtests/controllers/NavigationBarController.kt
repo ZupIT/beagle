@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
-import NAVIGATION_BAR_ENDPOINT
-import REPRESENTATION_NAVIGATION_BAR_ENDPOINT
-import REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT
-import REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT
-import REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NAVIGATION_BAR_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.NavigationBarScreenBuilder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

@@ -16,14 +16,13 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Text
 
 object ClickActionScreenBuilder {

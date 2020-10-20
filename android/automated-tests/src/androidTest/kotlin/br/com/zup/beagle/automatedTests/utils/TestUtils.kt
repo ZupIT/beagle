@@ -20,7 +20,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.automatedTests.activity.AppBeagleActivitiy
+import br.com.zup.beagle.automatedTests.activity.AppBeagleActivity
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 
 class TestUtils {
@@ -33,9 +33,9 @@ class TestUtils {
             activityTestRule.launchActivity(intent)
         }
 
-        fun startBeagleActivity(activityTestRule: ActivityTestRule<AppBeagleActivitiy>, url: String) {
+        fun startBeagleActivity(activityTestRule: ActivityTestRule<AppBeagleActivity>, url: String) {
 
-            val intent = AppBeagleActivitiy.newAppIntent(activityTestRule.activity, ScreenRequest(url))
+            val intent = AppBeagleActivity.newAppIntent(activityTestRule.activity, ScreenRequest(url))
             activityTestRule.launchActivity(intent)
         }
     }

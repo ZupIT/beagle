@@ -37,27 +37,43 @@ class ServerDrivenActivity : BeagleActivity() {
     override fun getToolbar(): Toolbar = toolbar
 
     override fun onServerDrivenContainerStateChanged(state: ServerDrivenState) {
-        progress_bar.visibility = if (state is ServerDrivenState.Started) View.VISIBLE else View.GONE
-        handleError(state)
+        when (state) {
+            is ServerDrivenState.Started -> {
+                showLoading(true)
+                server_driven_container.visibility = View.GONE
+            }
+            is ServerDrivenState.Error -> {
+                handleError(state)
+            }
+
+            is ServerDrivenState.Success, ServerDrivenState.Canceled -> {
+                server_driven_container.visibility = View.VISIBLE
+                include_layout_error.visibility = View.GONE
+            }
+
+            is ServerDrivenState.Finished -> {
+                showLoading(false)
+            }
+        }
     }
 
-    private fun handleError(state: ServerDrivenState) {
-        if (state is ServerDrivenState.Error) {
-            if (hasServerDrivenScreen()) {
-                Snackbar.make(server_driven_container, R.string.beagle_label_generic_error, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.beagle_label_try_again) { state.retry() }
-                    .show()
-                return
-            }
+    private fun handleError(state: ServerDrivenState.Error) {
+        if (hasServerDrivenScreen()) {
+            server_driven_container.visibility = View.VISIBLE
+            Snackbar.make(server_driven_container, R.string.beagle_label_generic_error, Snackbar.LENGTH_LONG)
+                .setAction(R.string.beagle_label_try_again) { state.retry() }
+                .show()
+        } else {
             buttonRetry.setOnClickListener {
                 state.retry()
             }
             server_driven_container.visibility = View.GONE
             include_layout_error.visibility = View.VISIBLE
-        } else if (state == ServerDrivenState.Success || state is ServerDrivenState.Started) {
-            server_driven_container.visibility = View.VISIBLE
-            include_layout_error.visibility = View.GONE
         }
+    }
+
+    private fun showLoading(value: Boolean) {
+        progress_bar.visibility = if (value) View.VISIBLE else View.GONE
     }
 
     override fun getFragmentTransitionAnimation() = FragmentTransitionAnimation(

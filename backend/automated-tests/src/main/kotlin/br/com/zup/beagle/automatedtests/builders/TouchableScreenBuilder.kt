@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import BEACH_NETWORK_IMAGE
-import LOGO_BEAGLE
-import SCREEN_ACTION_CLICK_ENDPOINT
-import SCREEN_TEXT_STYLE
+import br.com.zup.beagle.automatedtests.constants.BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
+import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal

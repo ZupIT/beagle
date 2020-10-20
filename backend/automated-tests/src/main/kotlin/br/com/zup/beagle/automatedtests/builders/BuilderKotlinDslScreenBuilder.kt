@@ -17,12 +17,10 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.style
 import br.com.zup.beagle.layout.container
 import br.com.zup.beagle.layout.screen
 import br.com.zup.beagle.ui.text
 import br.com.zup.beagle.widget.context.valueOf
-import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
