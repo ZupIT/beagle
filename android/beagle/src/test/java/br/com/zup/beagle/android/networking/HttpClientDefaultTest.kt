@@ -46,6 +46,7 @@ import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
+import java.net.UnknownServiceException
 
 private val BYTE_ARRAY_DATA = byteArrayOf()
 private const val STATUS_CODE = 200
@@ -173,6 +174,25 @@ class HttpClientDefaultTest {
             }
 
         }, onError = {})
+
+    }
+
+    @Test
+    fun `Given request with method type POST and with body content WHEN call execute request should return error`() = runBlockingTest {
+        // Given
+        val data = RandomData.string()
+        val requestData = RequestData(
+            uri = uri,
+            body = data,
+            method = HttpMethod.POST
+        )
+        every { httpURLConnection.outputStream } throws UnknownServiceException()
+
+        // When
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
+        }, onError = {
+            assertEquals(ResponseData(-1, data = byteArrayOf()), it)
+        })
 
     }
 
