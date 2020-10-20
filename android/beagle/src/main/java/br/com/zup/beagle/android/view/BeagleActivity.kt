@@ -38,6 +38,7 @@ import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_STATE_LOAD
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.utils.tryToDeserialize
+import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -134,9 +135,9 @@ private val beagleSerializer: BeagleSerializer = BeagleSerializer()
 private const val FIRST_SCREEN_REQUEST_KEY = "FIRST_SCREEN_REQUEST_KEY"
 private const val FIRST_SCREEN_KEY = "FIRST_SCREEN_KEY"
 
-abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
+abstract class BeagleActivity : AppCompatActivity() {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(BeagleViewModel::class.java) }
+    private val screenViewModel by lazy { ViewModelProvider(this).get(BeagleScreenViewModel::class.java) }
     private val screenRequest by lazy { intent.extras?.getParcelable<ScreenRequest>(FIRST_SCREEN_REQUEST_KEY) }
     private val screen by lazy { intent.extras?.getString(FIRST_SCREEN_KEY) }
 
@@ -246,6 +247,18 @@ abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        observeScreenLoadFinish()
+    }
+
+    private fun observeScreenLoadFinish(){
+        screenViewModel.screenLoadFinished.observe(
+            this,
+            Observer {
+                onServerDrivenContainerStateChanged(ServerDrivenState.Success)
+                onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
+            }
+        )
     }
 
     override fun onResume() {
@@ -278,13 +291,8 @@ abstract class BeagleActivity : AppCompatActivity(), OnFragmentCallback {
     }
 
     private fun fetch(screenRequest: ScreenRequest, screenComponent: ServerDrivenComponent? = null) {
-        val liveData = viewModel.fetchComponent(screenRequest, screenComponent)
+        val liveData = screenViewModel.fetchComponent(screenRequest, screenComponent)
         handleLiveData(liveData)
-    }
-
-    override fun fragmentResume() {
-        onServerDrivenContainerStateChanged(ServerDrivenState.Success)
-        onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
     }
 
     private fun handleLiveData(state: LiveData<ViewState>) {
