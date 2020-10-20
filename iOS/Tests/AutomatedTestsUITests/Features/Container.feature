@@ -31,5 +31,5 @@ Feature: Container Component Validation
         Then the text "containerContextValue1" and the text "containerContextValue1" set via context should be displayed
         
     Scenario: Container 03 - Container actions should be performed when initializing It
-        Then the text "firstActionExecuted" and the text "secondActionExecuted" set via context should be displayed
+        Then the text "FirstActionExecuted" and the text "SecondActionExecuted" set via context should be displayed
 
