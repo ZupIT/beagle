@@ -15,7 +15,7 @@
 #
 
 @container @regression
-Feature: Controller component validation
+Feature: Container component validation
 
     As a Beagle developer/user
     I'd like to make sure my container component works as expected
