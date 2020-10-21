@@ -19,7 +19,6 @@ package br.com.zup.beagle.compiler
 import br.com.zup.beagle.annotation.RegisterAction
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.RoundEnvironment

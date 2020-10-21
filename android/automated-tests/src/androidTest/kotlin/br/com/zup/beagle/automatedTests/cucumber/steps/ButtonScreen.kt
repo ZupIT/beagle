@@ -13,13 +13,15 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Rule
 
+val BUTTON_SCREEN_BFF_URL = "http://10.0.2.2:8080/button"
+
 class ButtonScreen {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Before("@button")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, Constants.buttonScreenBffUrl)
+        TestUtils.startActivity(activityTestRule, BUTTON_SCREEN_BFF_URL)
     }
 
     @Given("^that I'm on the button screen$")

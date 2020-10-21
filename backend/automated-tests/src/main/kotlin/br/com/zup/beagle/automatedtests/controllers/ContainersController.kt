@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
-import LISTVIEW_TABVIEW_ENDPOINT
-import PAGEVIEW_TABVIEW_ENDPOINT
-import SCREEN_TABVIEW_ENDPOINT
-import SCROLLVIEW_TABVIEW_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LISTVIEW_TABVIEW_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.PAGEVIEW_TABVIEW_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_TABVIEW_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCROLLVIEW_TABVIEW_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.ListViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.PageViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ScrollViewScreenBuilder

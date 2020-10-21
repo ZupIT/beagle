@@ -35,11 +35,11 @@ import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_STATE_LOADING
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
-import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
@@ -64,6 +64,11 @@ sealed class ServerDrivenState {
      * indicates a success state while fetching a server-driven component
      */
     object Success : ServerDrivenState()
+
+    /**
+     * indicates that a server-driven component fetch has cancel
+     */
+    object Canceled : ServerDrivenState()
 
     /**
      * indicates an error state while fetching a server-driven component
@@ -249,7 +254,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         observeScreenLoadFinish()
     }
 
-    private fun observeScreenLoadFinish(){
+    private fun observeScreenLoadFinish() {
         screenViewModel.screenLoadFinished.observe(
             this,
             Observer {
@@ -275,7 +280,11 @@ abstract class BeagleActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 1) {
+        if (screenViewModel.isFetchComponent()) {
+            if (supportFragmentManager.backStackEntryCount == 0) {
+                finish()
+            }
+        } else if (supportFragmentManager.backStackEntryCount == 1) {
             finish()
         } else {
             super.onBackPressed()
@@ -300,6 +309,7 @@ abstract class BeagleActivity : AppCompatActivity() {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable, it.retry))
                     onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
                 }
+
                 is ViewState.Loading -> {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
 
@@ -307,6 +317,11 @@ abstract class BeagleActivity : AppCompatActivity() {
                         onServerDrivenContainerStateChanged(ServerDrivenState.Started)
                     }
                 }
+
+                is ViewState.DoCancel -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Canceled)
+                }
+
                 is ViewState.DoRender -> {
                     showScreen(it.screenId, it.component)
                 }
