@@ -97,6 +97,22 @@ object ScrollViewScreenBuilder {
                         onPress = listOf(
                             SetContext(contextId = "testScrollHorizontal", value = PARAGRAPH)
                         )
+                    ),
+                    Container(
+                        context = ContextData(id = "testScrollViewWithRotation", value = "Click to see the text change, rotate and scroll horizontally"),
+                        children = listOf(
+                            ScrollView(
+                                children = listOf(
+                                    Touchable(
+                                        child = createText("@{testScrollViewWithRotation}"),
+                                        onPress = listOf(
+                                            SetContext(contextId = "testScrollViewWithRotation", value = PARAGRAPH)
+                                        )
+                                    )
+                                ),
+                                scrollDirection = ScrollAxis.HORIZONTAL
+                            )
+                        )
                     )
                 ),
                 scrollDirection = ScrollAxis.HORIZONTAL
@@ -116,17 +132,41 @@ object ScrollViewScreenBuilder {
                         onPress = listOf(
                             SetContext(contextId = "testScrollVertical", value = PARAGRAPH)
                         )
+                    ),
+                    Container(
+                        context = ContextData(id = "testScrollRotation", value = "Click to see the text change, rotate and scroll vertically"),
+                        children = listOf(
+                            ScrollView(
+                                children = listOf(
+                                    Touchable(
+                                        child = createText("@{testScrollRotation}"),
+                                        onPress = listOf(
+                                            SetContext(contextId = "testScrollRotation", value = PARAGRAPH)
+                                        )
+                                    )
+                                ),
+                                scrollDirection = ScrollAxis.VERTICAL
+                            )
+                        )
+                    ).applyStyle(
+                        Style(
+                            size = Size(
+                                height = 520.unitReal(),
+                                width = 100.unitPercent()
+                            )
+                        )
                     )
                 ),
                 scrollDirection = ScrollAxis.VERTICAL
             )
         )
-    ).applyStyle(Style(
-        size = Size(
-            height = 520.unitReal(),
-            width = 100.unitPercent()
+    ).applyStyle(
+        Style(
+            size = Size(
+                height = 520.unitReal(),
+                width = 100.unitPercent()
+            )
         )
-    )
     )
 
     private fun createText(text: String) = Text(text, TEXT_FONT_MAX)
