@@ -21,9 +21,10 @@ import android.graphics.Color
 internal object ColorUtils {
 
     fun hexColor(hexColor: String): Int {
-        return when (hexColor.count()){
-            9-> Color.parseColor(formatHexColorAlpha(hexColor))
-            else -> Color.parseColor(formatHexColor(hexColor))
+        return when (hexColor.length) {
+            4 -> Color.parseColor(formatHexRGBColor(hexColor))
+            9 -> Color.parseColor(formatHexColorAlpha(hexColor))
+            else -> Color.parseColor(formatHexRGBAColor(hexColor))
         }
     }
 
@@ -33,10 +34,15 @@ internal object ColorUtils {
             .replace(color, "#\$2\$1")
     }
 
-    private fun formatHexColor(color: String): String {
-        return "^#([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])?$"
+    private fun formatHexRGBColor(color: String): String {
+        return "^#([0-9A-F])([0-9A-F])([0-9A-F])?$"
             .toRegex(RegexOption.IGNORE_CASE)
-            .replace(color,"#\$4\$4\$1\$1\$2\$2\$3\$3")
+            .replace(color, "#\$1\$1\$2\$2\$3\$3")
     }
 
+    private fun formatHexRGBAColor(color: String): String {
+        return "^#([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])?$"
+            .toRegex(RegexOption.IGNORE_CASE)
+            .replace(color, "#\$4\$4\$1\$1\$2\$2\$3\$3")
+    }
 }

@@ -26,36 +26,6 @@ import kotlin.test.assertEquals
 class SendRequestActionMapperTest : BaseTest(){
 
     @Test
-    fun `GIVEN response data is an integer WHEN toResponse is called THEN it should return an object of type Int`() {
-        //Given
-        val responseData = ResponseData(
-            statusCode = 200,
-            data = "10".toByteArray()
-        )
-
-        //When
-        val response = SendRequestActionMapper.toResponse(responseData)
-
-        //Then
-        assert(response.data is Int)
-    }
-
-    @Test
-    fun `GIVEN response data is a string with value '10' WHEN toResponse is called THEN it should return 10 as Int`() {
-        //Given
-        val responseData = ResponseData(
-            statusCode = 200,
-            data = "10".toByteArray()
-        )
-
-        //When
-        val response = SendRequestActionMapper.toResponse(responseData)
-
-        //Then
-        assert(response.data == 10)
-    }
-
-    @Test
     fun `GIVEN response data is an valid json WHEN toResponse is called THEN it should return an object of type JSONObject`() {
         //Given
         val responseData = ResponseData(

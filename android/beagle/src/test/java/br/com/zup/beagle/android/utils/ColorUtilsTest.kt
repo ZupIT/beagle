@@ -23,6 +23,8 @@ import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkStatic
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -33,13 +35,17 @@ class ColorUtilsTest {
 
     @Before
     fun setUp() {
-        mockkObject(ColorUtils)
         mockkStatic(Color::class)
         every { Color.parseColor(capture(colorSlot)) } returns 0
     }
 
+    @After
+    fun tearDown() {
+        unmockkStatic(Color::class)
+    }
+
     @Test
-    fun hexColor_should_return_11BB33_when_1B3_is_given() {
+    fun `GIVEN #1B3 WHEN hexColor is called THEN consider #11BB33`() {
         // Given
         val colorRgb = "#1B3"
 
@@ -47,12 +53,11 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgb)
 
         // Then
-        assertEquals("#11BB33",colorSlot.captured)
-
+        assertEquals("#11BB33", colorSlot.captured)
     }
 
     @Test
-    fun hexColor_should_return_AA55CC_when_A5C_is_given() {
+    fun `GIVEN #2F3 WHEN hexColor is called THEN consider #22FF33`() {
         // Given
         val colorRgb = "#2f3"
 
@@ -60,12 +65,11 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgb)
 
         // Then
-        assertEquals("#22ff33",colorSlot.captured)
-
+        assertEquals("#22ff33", colorSlot.captured)
     }
 
     @Test
-    fun hexColor_should_return_66EEFF22_when_6EF2_is_given() {
+    fun `GIVEN #6EF2 WHEN hexColor is called THEN consider #2266EEFF`() {
         // Given
         val colorRgba = "#6EF2"
 
@@ -73,12 +77,11 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgba)
 
         // Then
-        assertEquals("#2266EEFF",colorSlot.captured)
-
+        assertEquals("#2266EEFF", colorSlot.captured)
     }
 
     @Test
-    fun hexColor_should_return_cc9900bb_when_90bc_is_given() {
+    fun `GIVEN #90BC WHEN hexColor is called THEN consider #CC9900BB`() {
         // Given
         val colorRgba = "#90bc"
 
@@ -86,12 +89,11 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgba)
 
         // Then
-        assertEquals("#cc9900bb",colorSlot.captured)
-
+        assertEquals("#cc9900bb", colorSlot.captured)
     }
 
     @Test
-    fun hexColor_should_return_A3D256_when_A3D256_is_given() {
+    fun `GIVEN #A3D256 WHEN hexColor is called THEN consider #A3D256`() {
         // Given
         val colorRgb = "#A3D256"
 
@@ -99,12 +101,11 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgb)
 
         // Then
-        assertEquals("#A3D256",colorSlot.captured)
-
+        assertEquals("#A3D256", colorSlot.captured)
     }
 
     @Test
-    fun hexColor_should_return_584bcd_when_584bcd_is_given() {
+    fun `GIVEN #584BCD WHEN hexColor is called THEN consider #584BCD`() {
         // Given
         val colorRgb = "#584bcd"
 
@@ -112,12 +113,11 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgb)
 
         // Then
-        assertEquals("#584bcd",colorSlot.captured)
-
+        assertEquals("#584bcd", colorSlot.captured)
     }
 
     @Test
-    fun hexColor_should_return_2018FAE3_when_18FAE320_is_given() {
+    fun `GIVEN #18FAE320 WHEN hexColor is called THEN consider #2018FAE3`() {
         // Given
         val colorRgba = "#18FAE320"
 
@@ -125,12 +125,11 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgba)
 
         // Then
-        assertEquals("#2018FAE3",colorSlot.captured)
-
+        assertEquals("#2018FAE3", colorSlot.captured)
     }
 
     @Test
-    fun hexColor_should_return_50ae2g5c_when_ae2g5c50_is_given() {
+    fun `GIVEN #ABC12330 WHEN hexColor is called THEN consider #30ABC123`() {
         // Given
         val colorRgba = "#abc12330"
 
@@ -138,7 +137,6 @@ class ColorUtilsTest {
         ColorUtils.hexColor(colorRgba)
 
         // Then
-        assertEquals("#30abc123",colorSlot.captured)
-
+        assertEquals("#30abc123", colorSlot.captured)
     }
 }

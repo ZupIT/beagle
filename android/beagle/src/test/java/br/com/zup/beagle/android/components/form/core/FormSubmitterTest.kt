@@ -54,7 +54,7 @@ class FormSubmitterTest : BaseTest() {
     @MockK
     private lateinit var beagleApi: BeagleApi
 
-    @MockK
+    @MockK(relaxed = true, relaxUnitFun = true)
     private lateinit var beagleSerializer: BeagleSerializer
 
     @MockK
@@ -77,12 +77,12 @@ class FormSubmitterTest : BaseTest() {
 
         every { Uri.parse(any()) } returns uri
         every { uri.buildUpon() } returns uriBuilder
-        every {uriBuilder.appendQueryParameter(any(), any())} returns uriBuilder
-        every {uriBuilder.build()} returns uri
+        every { uriBuilder.appendQueryParameter(any(), any()) } returns uriBuilder
+        every { uriBuilder.build() } returns uri
         every { uri.toString() } returns ACTION
 
         every { beagleSdk.config.baseUrl } returns RandomData.httpUrl()
-        coEvery { beagleApi.fetchData(capture(requestDataSlot)) } returns mockk()
+        coEvery { beagleApi.fetchData(capture(requestDataSlot)) } returns mockk(relaxed = true)
         every { urlBuilder.format(any(), capture(urlSlot)) } returns ACTION
 
         formSubmitter = FormSubmitter(beagleApi, beagleSerializer, urlBuilder)
@@ -90,7 +90,7 @@ class FormSubmitterTest : BaseTest() {
     }
 
     @Test
-    fun submitForm_should_create_requestData_correctly() = runBlockingTest{
+    fun submitForm_should_create_requestData_correctly() = runBlockingTest {
         // Given
         val action = createAction(FormMethodType.POST)
         val inputName = RandomData.string()
