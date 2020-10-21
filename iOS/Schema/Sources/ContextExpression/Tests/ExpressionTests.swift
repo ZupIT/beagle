@@ -141,4 +141,30 @@ final class ExpressionTests: XCTestCase {
         let result = try? decoder.decode(DynamicObject.self, from: json)
         assertSnapshot(matching: result, as: .dump)
     }
+    
+    func testEquatable() {
+        // Given
+        let valueA = Expression.value(1)
+        let valueB = Expression.value(1)
+        let valueC = Expression.value(-1)
+        let singleExpression = SingleExpression.value(
+            .binding(.init(context: "ctx", path: .init(nodes: [])))
+        )
+        
+        let expressionA = Expression<Int>.expression(.single(singleExpression))
+        let expressionB = expressionA
+        let expressionC = Expression<Int>.expression(
+            .multiple(.init(nodes: [.expression(singleExpression)]))
+        )
+        
+        // When / Then
+        XCTAssertTrue(valueA == valueB)
+        XCTAssertTrue(expressionA == expressionB)
+        
+        XCTAssertFalse(valueA == valueC)
+        XCTAssertFalse(expressionA == expressionC)
+        
+        XCTAssertFalse(valueA == expressionA)
+        XCTAssertFalse(expressionC == valueC)
+    }
 }
