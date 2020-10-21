@@ -1,4 +1,4 @@
-▿ 3 elements
+▿ 5 elements
   ▿ MultipleExpression
     ▿ nodes: 4 elements
       ▿ Node
@@ -33,3 +33,85 @@
           ▿ value: Value
             ▿ literal: Literal
               - int: 42
+  ▿ MultipleExpression
+    ▿ nodes: 2 elements
+      ▿ Node
+        - string: "Operation: "
+      ▿ Node
+        ▿ expression: SingleExpression
+          ▿ operation: Operation
+            - name: Name.condition
+            ▿ parameters: 3 elements
+              ▿ Parameter
+                ▿ operation: Operation
+                  - name: Name.lt
+                  ▿ parameters: 2 elements
+                    ▿ Parameter
+                      ▿ operation: Operation
+                        - name: Name.sum
+                        ▿ parameters: 2 elements
+                          ▿ Parameter
+                            ▿ value: Value
+                              ▿ binding: Binding
+                                - context: "counter"
+                                ▿ path: Path
+                                  - nodes: 0 elements
+                          ▿ Parameter
+                            ▿ value: Value
+                              ▿ literal: Literal
+                                - int: 2
+                    ▿ Parameter
+                      ▿ value: Value
+                        ▿ literal: Literal
+                          - int: 5
+              ▿ Parameter
+                ▿ value: Value
+                  ▿ literal: Literal
+                    - string: "#FF0000"
+              ▿ Parameter
+                ▿ value: Value
+                  ▿ literal: Literal
+                    - string: "#00FF00"
+  ▿ MultipleExpression
+    ▿ nodes: 4 elements
+      ▿ Node
+        - string: "Operation1: "
+      ▿ Node
+        ▿ expression: SingleExpression
+          ▿ operation: Operation
+            - name: Name.sum
+            ▿ parameters: 3 elements
+              ▿ Parameter
+                ▿ value: Value
+                  ▿ literal: Literal
+                    - int: 1
+              ▿ Parameter
+                ▿ value: Value
+                  ▿ binding: Binding
+                    - context: "counter"
+                    ▿ path: Path
+                      - nodes: 0 elements
+              ▿ Parameter
+                ▿ value: Value
+                  - literal: Literal.null
+      ▿ Node
+        - string: " and "
+      ▿ Node
+        ▿ expression: SingleExpression
+          ▿ operation: Operation
+            - name: Name.sum
+            ▿ parameters: 3 elements
+              ▿ Parameter
+                ▿ value: Value
+                  ▿ literal: Literal
+                    - int: 2
+              ▿ Parameter
+                ▿ value: Value
+                  ▿ literal: Literal
+                    - string: "counter"
+              ▿ Parameter
+                ▿ value: Value
+                  ▿ binding: Binding
+                    - context: "2count"
+                    ▿ path: Path
+                      - nodes: 0 elements
