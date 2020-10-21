@@ -14,7 +14,7 @@
 # limitations under the License.
 #
     
-@navigation @regression
+@navigate @regression
 Feature: Navigation Action Validation
 
     As a Beagle developer/user

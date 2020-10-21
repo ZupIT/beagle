@@ -15,13 +15,3 @@
 */
 
 import Foundation
-
-class TestUtils {
-    
-    static func launchBeagleApplication(url: String) -> XCUIApplication {
-        let application = XCUIApplication()
-        application.launchEnvironment["InitialUrl"] = url
-        application.launch()
-        return application
-    }
-}
