@@ -80,7 +80,7 @@ let pathIndexNode: Parser<Path.Node> = zip(
     .index(int)
 }
 
-let pathKeyNode: Parser<Path.Node> = prefix(with: #"^(?!true|false|null|\d)\w+\b(?!\()"#).map { .key($0) }
+let pathKeyNode: Parser<Path.Node> = prefix(with: #"^\w+\b(?!\()"#).map { .key($0) }
 
 let pathHeadNodes: Parser<[Path.Node]> = zip(
     zeroOrOne(pathKeyNode),
@@ -133,8 +133,8 @@ let literal: Parser<Literal> = oneOf(
 // MARK: Value
 
 let value: Parser<Value> = oneOf(
-    binding.map { .binding($0) },
-    literal.map { .literal($0) }
+    literal.map { .literal($0) },
+    binding.map { .binding($0) }
 )
 
 // MARK: Operation
