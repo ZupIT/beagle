@@ -16,6 +16,16 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
+import android.app.Activity
+import android.app.PendingIntent.getActivity
+import android.content.Context
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
+import androidx.test.InstrumentationRegistry.getTargetContext
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.elements.SCROLLVIEW_SCREEN_HEADER
@@ -24,6 +34,7 @@ import br.com.zup.beagle.automatedTests.cucumber.elements.SCROLLVIEW_TEXT_2
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
+import br.com.zup.beagle.automatedTests.utils.action.OrientationChangeAction.Companion.orientationLandscape
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.And
@@ -122,6 +133,33 @@ class ScrollViewScreenSteps {
             .scrollTo(PARAGRAPH)
     }
 
+    @When("^I press on text to be scrolled and rotated (.*)$")
+    fun checkIfTextOneLineScrollViewWithRotationHorizontal(string: String) {
+        ScreenRobot()
+            .scrollTo(string)
+            .checkViewContainsText(string, true)
+            .clickOnText(string)
+    }
+
+    @Then("^the text horizontal of scrollview rotate should change$")
+    fun checkNewTextScrollViewRotationHorizontal() {
+        ScreenRobot()
+            .checkViewContainsText(PARAGRAPH)
+    }
+
+    @And("^the scrollview rotate should perform horizontally$")
+    fun checkScrollViewHorizontallyRotation() {
+        ScreenRobot()
+            .scrollViewDown()
+    }
+
+    @And("^even if the screen is rotated the scrollview must be perform horizontally$")
+    fun checkScrollViewRotationHorizontal() {
+        onView(isRoot()).perform(orientationLandscape())
+        ScreenRobot()
+            .scrollViewDown()
+    }
+
     @When("^I press on text scrollview vertical (.*)$")
     fun checkIfTextOneLineScrollViewVertical(string: String) {
         ScreenRobot()
@@ -135,8 +173,34 @@ class ScrollViewScreenSteps {
             .checkViewContainsText(PARAGRAPH)
     }
 
-    @And("^the scrollview that perform vertically$")
+    @And("^the scrollview should perform vertically$")
     fun checkScrollViewVertical() {
+        ScreenRobot()
+            .scrollViewDown()
+    }
+
+    @When("^I press on text scrollview to be rotate (.*)$")
+    fun checkIfTextOneLineScrollViewWithRotationVertical(string: String) {
+        ScreenRobot()
+            .checkViewContainsText(string, true)
+            .clickOnText(string)
+    }
+
+    @Then("^the text vertical of scrollview rotate should change$")
+    fun checkNewTextScrollViewRotationVertical() {
+        ScreenRobot()
+            .checkViewContainsText(PARAGRAPH)
+    }
+
+    @And("^the scrollview rotate should perform vertically$")
+    fun checkScrollViewVerticallyRotation() {
+        ScreenRobot()
+            .scrollViewDown()
+    }
+
+    @And("^even if the screen is rotated the scrollview must be perform vertically$")
+    fun checkScrollViewRotationVertical() {
+       onView(isRoot()).perform(orientationLandscape())
         ScreenRobot()
             .scrollViewDown()
     }
