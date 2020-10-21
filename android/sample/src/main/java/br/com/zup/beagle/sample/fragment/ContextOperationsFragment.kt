@@ -35,6 +35,7 @@ import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.core.Display
 import br.com.zup.beagle.ext.applyStyle
 
 class ContextOperationsFragment : Fragment() {
@@ -56,13 +57,13 @@ class ContextOperationsFragment : Fragment() {
             showBackButton = true
         ),
         child = Container(
-            context = ContextData("counter", 2),
+            context = ContextData("counter", Display.FLEX),
             children = listOf(
                 Text(expressionOf("Counter: @{sum(2, 1)}")),
                 Text(expressionOf("Counter: @{counter}")),
                 Button(
                     text = "increment",
-                    onPress = listOf(SetContext("counter", "@{sum(counter, 1)}"))
+                    onPress = listOf(SetContext("counter", Display.NONE))
                 ),
                 Button(
                     text = "decrement",
@@ -71,9 +72,9 @@ class ContextOperationsFragment : Fragment() {
                 Text(text = "The text bellow will show if the counter + 2 is below 5 or not"),
                 Text(expressionOf(
                     "@{condition(lt(sum(counter, 2), 5), 'less then 5', 'greater then 5')}")
-                ).applyStyle(Style(backgroundColor = "#00FF00"))
+                ).applyStyle(Style(backgroundColor = "#00FF00", display = expressionOf("@{counter}")))
             )
-        )
+        ).applyStyle(Style(backgroundColor = "#F2F2F2", display = expressionOf("@{counter}")))
     )
 
     companion object {

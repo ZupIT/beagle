@@ -39,6 +39,10 @@ internal open class BeagleFlexView(
     private val viewModel: ScreenContextViewModel = rootView.generateViewModelInstance()
 ) : YogaLayout(rootView.getContext(), flexMapper.makeYogaNode(style)) {
 
+    init {
+        flexMapper.observeBindChangesFlex(style, rootView, this, yogaNode)
+    }
+
     constructor(
         rootView: RootView,
         flexMapper: FlexMapper = FlexMapper()
@@ -47,7 +51,6 @@ internal open class BeagleFlexView(
     var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
 
     fun addView(child: View, style: Style) {
-
         super.addView(child, flexMapper.makeYogaNode(style))
     }
 
