@@ -21,13 +21,10 @@ public class Style: Decodable, AutoEquatable {
     public var backgroundColor: String?
     /// Sets the corner of your view to make it round.
     public var cornerRadius: CornerRadius?
-    
     /// Sets the color of your view border. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`.
     public var borderColor: String?
-    
-    /// Sets the width of your view border
+    /// Sets the width of your view border.
     public var borderWidth: Double?
-    
     /// Allows  you to specify the size of the element.
     public var size: Size?
     /// Allows you to apply a space to the child element.
@@ -40,7 +37,6 @@ public class Style: Decodable, AutoEquatable {
     public var positionType: PositionType?
     /// Set the display type of the component, allowing o be flexible or locked.
     public var display: Expression<Display>?
-    
     /// Apply positioning using the flex box concept.
     public var flex: Flex?
 

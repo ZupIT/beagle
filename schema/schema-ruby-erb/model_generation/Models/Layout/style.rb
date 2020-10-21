@@ -34,6 +34,18 @@ class Style < BaseComponent
                 :comment => "Sets the corner of your view to make it round."
             ),
             Variable.new(
+                :name => "borderColor",
+                :typeName => TypesToString.string,
+                :isOptional => true,
+                :comment => "Sets the color of your view border. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`."
+            ),
+            Variable.new(
+                :name => "borderWidth",
+                :typeName => TypesToString.double,
+                :isOptional => true,
+                :comment => "Sets the width of your view border."
+            ),
+            Variable.new(
                 :name => "size",
                 :typeName => Size.new.name,
                 :isOptional => true,
@@ -67,6 +79,7 @@ class Style < BaseComponent
                 :name => "display",
                 :typeName => Display.new.name,
                 :isOptional => true,
+                :isBindable => true,
                 :comment => "Set the display type of the component, allowing o be flexible or locked."
             ),
             Variable.new(
