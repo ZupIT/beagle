@@ -56,35 +56,79 @@ internal class ContextDataEvaluation(
         evaluatedBindings: MutableMap<String, Any> = mutableMapOf()
     ): Any? {
         val expressions = bind.expressions
+        val response = getExpressionEvaluated(contextsData, bind, contextCache, evaluatedBindings, expressions)
+        val type = getType(response.toString())
+        return deserializeExpression(bind, expressions, type, response)
+    }
 
-        return when {
-            bind.type == String::class.java -> {
-                val evaluatedExpressions = mutableMapOf<String, Any>()
-                expressions.forEach { expressionToken ->
-                    evaluateExpressionsForContext(
-                        contextsData,
-                        contextCache,
-                        expressionToken,
-                        bind,
-                        evaluatedExpressions,
-                        evaluatedBindings
-                    )
+    private fun deserializeExpression(
+        bind: Bind.Expression<*>,
+        expressions: List<ExpressionToken>,
+        type: Type?,
+        response: Any?
+    ): Any? {
+        return try {
+            return when {
+                bind.type == String::class.java -> response?.toString() ?: ""
+                expressions.size == 1 && type == null && bind.type == Any::class.java -> response
+                expressions.size == 1 && type == null -> moshi.adapter<Any>(bind.type).fromJsonValue(response)
+                else -> {
+                    val newType = if (bind.type == Any::class.java) type else bind.type
+                    moshi.adapter<Any>(newType ?: bind.type).fromJson(response.toString())
+                        ?: showLogErrorAndReturn(bind)
                 }
-
-                contextExpressionReplacer.replace(bind, evaluatedExpressions)
             }
-            expressions.size == 1 -> evaluateExpression(
+
+        } catch (ex: Exception) {
+            showLogErrorAndReturn(bind)
+            null
+        }
+    }
+
+    private fun getExpressionEvaluated(
+        contextsData: List<ContextData>,
+        bind: Bind.Expression<*>,
+        contextCache: LruCache<String, Any>?,
+        evaluatedBindings: MutableMap<String, Any>,
+        expressions: List<ExpressionToken>
+    ): Any? {
+        return if (expressions.size == 1 && bind.value == "@{${bind.expressions[0].value}}") {
+            evaluateExpression(
                 contextsData,
                 contextCache,
                 bind,
                 expressions[0],
                 evaluatedBindings
             )
-            else -> {
-                BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
-                null
-            }
+        } else evaluateMultipleExpression(expressions, contextsData, contextCache, bind, evaluatedBindings)
+    }
+
+    private fun evaluateMultipleExpression(
+        expressions: List<ExpressionToken>,
+        contextsData: List<ContextData>,
+        contextCache: LruCache<String, Any>?,
+        bind: Bind.Expression<*>,
+        evaluatedBindings: MutableMap<String, Any>
+    ): String {
+        val evaluatedExpressions = mutableMapOf<String, Any>()
+        expressions.forEach { expressionToken ->
+            evaluateExpressionsForContext(
+                contextsData,
+                contextCache,
+                expressionToken,
+                bind,
+                evaluatedExpressions,
+                evaluatedBindings
+            )
         }
+
+        return contextExpressionReplacer.replace(bind, evaluatedExpressions)
+    }
+
+    private fun getType(json: String): Type? {
+        val valueNormalized = json.normalizeContextValue()
+        if (valueNormalized is JSONArray || valueNormalized is JSONObject) return valueNormalized::class.java
+        return null
     }
 
     @Suppress("LongParameterList")
@@ -112,20 +156,7 @@ internal class ContextDataEvaluation(
         expressionToken: ExpressionToken,
         evaluatedBindings: MutableMap<String, Any>
     ): Any? {
-        val value = getValueFromExpression(contextsData, expressionToken, contextCache, bind, evaluatedBindings)
-
-        return try {
-            if (bind.type == String::class.java) {
-                value?.toString() ?: showLogErrorAndReturn(bind)
-            } else if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: showLogErrorAndReturn(bind)
-            } else {
-                value ?: showLogErrorAndReturn(bind)
-            }
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
-            null
-        }
+        return getValueFromExpression(contextsData, expressionToken, contextCache, bind, evaluatedBindings)
     }
 
     private fun getValueFromExpression(

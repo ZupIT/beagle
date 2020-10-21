@@ -55,11 +55,6 @@ internal class ContextDataManager(
         GlobalContext.clearObserverGlobalContext(globalContextObserver)
     }
 
-    fun clearContext(view: View) {
-        contexts.remove(view.id)
-        viewBinding.remove(view)
-    }
-
     fun addContext(view: View, context: ContextData) {
         if (context.id == globalContext.context.id) {
             BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()

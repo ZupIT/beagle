@@ -45,6 +45,22 @@ public struct MultipleExpression {
     }
 }
 
+// MARK: - Equatable
+
+extension Expression: Equatable where T: Equatable {
+    public static func == (lhs: Expression<T>, rhs: Expression<T>) -> Bool {
+        switch (lhs, rhs) {
+        case let (.value(lhsValue), .value(rhsValue)):
+            return lhsValue == rhsValue
+        case let (.expression(lhsValue), .expression(rhsValue)):
+            return lhsValue == rhsValue
+        case (.value, .expression),
+             (.expression, .value):
+            return false
+        }
+    }
+}
+
 // MARK: - Decodable
 
 extension Expression: Decodable {
