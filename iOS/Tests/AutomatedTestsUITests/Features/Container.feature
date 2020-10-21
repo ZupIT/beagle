@@ -30,6 +30,6 @@ Feature: Container Component Validation
     Scenario: Container 02 - Container context should be available for the container children
         Then the text "containerContextValue1" and the text "containerContextValue1" set via context should be displayed
         
-    Scenario: Container 03 - Container actions should be performed when initializing It
+    Scenario: Container 03 - Container actions should be performed when initializing it
         Then the text "FirstActionExecuted" and the text "SecondActionExecuted" set via context should be displayed
 
