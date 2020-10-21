@@ -16,17 +16,10 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import GLOBAL_TEXT_ENDPOINT
-import GLOBAL_TEXT_EXPRESSION_ENDPOINT
-import br.com.zup.beagle.ext.setId
-import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
 object ContainerTestsScreenBuilder {
