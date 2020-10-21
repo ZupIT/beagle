@@ -16,7 +16,11 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
-import br.com.zup.beagle.automatedtests.builders.*
+import br.com.zup.beagle.automatedtests.builders.ContainerTestsScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ListViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.PageViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ScrollViewScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.TabViewScreenBuilder
 import br.com.zup.beagle.automatedtests.constants.CONTAINER_TEST_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.LISTVIEW_TABVIEW_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.PAGEVIEW_TABVIEW_ENDPOINT
