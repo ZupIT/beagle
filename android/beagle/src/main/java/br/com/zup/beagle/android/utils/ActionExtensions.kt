@@ -23,13 +23,11 @@ import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.hasExpression
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.toJSONArray
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.widget.RootView
-import java.lang.reflect.Type
 
 internal var contextActionExecutor = ContextActionExecutor()
 
