@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let validator = ValidatorProviding()
         validator[FormScreen.textValidatorName] = FormScreen.textValidator
         
-        let dependencies = BeagleDependencies()
+        let dependencies = BeagleDependencies(networkClient: nil)
         dependencies.theme = AppTheme.theme
         dependencies.urlBuilder = UrlBuilder(baseUrl: URL(string: .baseURL))
         dependencies.navigation.defaultAnimation = .init(pushTransition: .init(type: .fade, subtype: .fromRight, duration: 0.1), modalPresentationStyle: .formSheet)

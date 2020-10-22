@@ -44,7 +44,7 @@ struct RequestDispatcher {
 
         let request = Request(url: url, type: type, additionalData: additionalData)
 
-        return dependencies.networkClient.executeRequest(request) { result in
+        return dependencies.networkClient?.executeRequest(request) { result in
             completion(
                 result.mapError { .networkError($0) }
             )

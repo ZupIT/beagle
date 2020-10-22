@@ -65,5 +65,5 @@ public protocol RequestToken {
 }
 
 public protocol DependencyNetworkClient {
-    var networkClient: NetworkClient { get }
+    var networkClient: NetworkClient? { get }
 }

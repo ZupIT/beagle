@@ -17,7 +17,7 @@
 import Foundation
 import BeagleSchema
 
-public var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
+public var dependencies: BeagleDependenciesProtocol = BeagleDependencies(networkClient: nil) {
     didSet { BeagleSchema.dependencies = dependencies }
 }
 
