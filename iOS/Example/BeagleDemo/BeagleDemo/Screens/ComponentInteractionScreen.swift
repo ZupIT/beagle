@@ -28,6 +28,10 @@ let componentInteractionScreen: Screen = {
                 onPress: [Navigate.pushView(.declarative(declarativeScreen))]
             )
             Button(
+                text: "Display",
+                onPress: [Navigate.pushView(.declarative(displayScreen))]
+            )
+            Button(
                 text: "Text (JSON)",
                 onPress: [Navigate.openNativeRoute(.init(route: .componentInterationEndpoint))]
             )
@@ -71,6 +75,28 @@ let declarativeScreen: Screen = {
         }
     }
 }()
+
+var displayScreen: Screen {
+    Screen(
+        navigationBar: NavigationBar(title: "Display"),
+        child: Container {
+            Button(text: "display = NONE", onPress: [SetContext(contextId: "display", value: "NONE")])
+            Button(text: "display = FLEX", onPress: [SetContext(contextId: "display", value: "FLEX")])
+            Text(
+                #"style: {display: "@{display}"}"#,
+                alignment: .value(.center),
+                textColor: "#333",
+                widgetProperties: WidgetProperties(
+                    style: Style()
+                        .display("@{display}")
+                        .backgroundColor("#ccc")
+                        .margin(EdgeValue().all(10))
+                )
+            )
+        },
+        context: Context(id: "display", value: "")
+    )
+}
 
 struct ComponentInteractionText: DeeplinkScreen {
     

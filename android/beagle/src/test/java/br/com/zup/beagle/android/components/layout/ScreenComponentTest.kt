@@ -176,6 +176,7 @@ class ScreenComponentTest : BaseComponentTest() {
         val navigationBar = NavigationBar("Stub")
         mockkConstructor(ToolbarManager::class)
         screenComponent = ScreenComponent(child = screenComponent, navigationBar = navigationBar)
+        every { anyConstructed<ToolbarManager>().configureToolbar(any(), any(), any(), any()) } just Runs
 
         //WHEN
         screenComponent.buildView(rootView)

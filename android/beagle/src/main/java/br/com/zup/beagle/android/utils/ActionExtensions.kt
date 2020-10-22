@@ -144,6 +144,5 @@ internal fun Action.evaluateExpression(rootView: RootView, view: View, data: Any
 }
 
 private fun String.generateBindAndEvaluateForAction(rootView: RootView, view: View, caller: Action): Any? {
-    return expressionOf<String>(this)
-        .evaluateForAction(rootView, view, caller)?.tryToDeserialize()
+    return expressionOf<Any>(this).evaluateForAction(rootView, view, caller)
 }

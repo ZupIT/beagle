@@ -27,8 +27,12 @@ final class PathTests: XCTestCase {
             "client",
             "client2.name",
             "client_[2].matrix[1][1]",
+            "2client.2phones[0]",
+            "_2client._2phones_[0]",
             "[2]",
-            "[2][2]"
+            "[2][2]",
+            "2",
+            "_"
         ]
         
         // When
@@ -45,10 +49,10 @@ final class PathTests: XCTestCase {
         // Given
         [
             "",
-            "2client.phones[0]",
             "client.[2]",
             "client[2].[2]",
-            "client[a]"
+            "client[a]",
+            "client[2.2]"
         ]
         
         // When

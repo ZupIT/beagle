@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.Observer
 
 internal data class Binding<T>(
@@ -37,8 +36,9 @@ internal data class Binding<T>(
 internal data class ContextBinding(
     var context: ContextData,
     val bindings: MutableSet<Binding<*>> = mutableSetOf(),
-    val cache: LruCache<String, Any> = LruCache(
-        BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity.takeIf { it > 0 }
-            ?: BeagleEnvironment.beagleSdk.config.cache.size
-    )
-)
+    val cache: LruCache<String, Any> = LruCache(MAX_SIZE_LRU_CACHE)
+) {
+    companion object {
+        private const val MAX_SIZE_LRU_CACHE = 300
+    }
+}

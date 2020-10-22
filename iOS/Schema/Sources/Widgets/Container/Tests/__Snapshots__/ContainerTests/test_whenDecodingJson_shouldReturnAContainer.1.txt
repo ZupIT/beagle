@@ -20,7 +20,7 @@
         ▿ cornerRadius: Optional<CornerRadius>
           ▿ some: CornerRadius
             - radius: 30.0
-        - display: Optional<Display>.none
+        - display: Optional<Expression<Display>>.none
         ▿ flex: Optional<Flex>
           ▿ some: Flex
             - alignContent: Optional<AlignContent>.none
