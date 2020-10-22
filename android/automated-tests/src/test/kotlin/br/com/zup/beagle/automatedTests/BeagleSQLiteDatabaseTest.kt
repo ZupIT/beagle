@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.automatedTests
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
+import br.com.zup.beagle.automatedTests.config.BeagleSQLiteDatabase
+import br.com.zup.beagle.automatedTests.config.ScreenEntry
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Before

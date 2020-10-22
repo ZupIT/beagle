@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.automatedTests
+package br.com.zup.beagle.sample.config
 
-import android.app.Application
-import br.com.zup.beagle.automatedTests.BeagleSetup
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-class AppApplication : Application() {
+internal object CoroutineDispatchers {
 
-    override fun onCreate() {
-        super.onCreate()
-        APPLICATION = this
-        BeagleSetup().init(this)
+    init {
+        reset()
     }
 
-    companion object {
-        var APPLICATION: Application? = null
-    }
+    lateinit var IO: CoroutineDispatcher
+    lateinit var Main: CoroutineDispatcher
+    lateinit var Default: CoroutineDispatcher
 
+    fun reset() {
+        IO = Dispatchers.IO
+        Main = Dispatchers.Main
+        Default = Dispatchers.Default
+    }
 }

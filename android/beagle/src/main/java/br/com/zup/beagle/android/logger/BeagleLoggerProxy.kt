@@ -20,22 +20,22 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 
 internal object BeagleLoggerProxy : BeagleLogger {
 
-    private val logger: BeagleLogger by lazy { BeagleLoggerFactory().make() }
+    private val logger: BeagleLogger? by lazy { BeagleEnvironment.beagleSdk.logger }
 
-    override fun warning(message: String) = runIfEnable{
-        logger.warning(message)
+    override fun warning(message: String) = runIfEnable {
+        logger?.warning(message)
     }
 
-    override fun error(message: String) = runIfEnable{
-        logger.error(message)
+    override fun error(message: String) = runIfEnable {
+        logger?.error(message)
     }
 
-    override fun error(message: String, throwable: Throwable) = runIfEnable{
-        logger.error(message, throwable)
+    override fun error(message: String, throwable: Throwable) = runIfEnable {
+        logger?.error(message, throwable)
     }
 
-    override fun info(message: String) = runIfEnable{
-        logger.info(message)
+    override fun info(message: String) = runIfEnable {
+        logger?.info(message)
     }
 
     private fun runIfEnable(runBlock: () -> Unit) {

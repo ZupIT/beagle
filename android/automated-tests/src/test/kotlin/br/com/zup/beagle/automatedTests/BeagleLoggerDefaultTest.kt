@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.logger
+package br.com.zup.beagle.automatedTests
 
 import android.util.Log
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.automatedTests.config.BeagleLoggerDefault
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkStatic

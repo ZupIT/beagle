@@ -19,15 +19,15 @@ package br.com.zup.beagle.android.data
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.networking.HttpClient
-import br.com.zup.beagle.android.networking.HttpClientFactory
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 internal class BeagleApi(
-    private val httpClient: HttpClient = HttpClientFactory().make()
+    private val httpClient: HttpClient? = BeagleEnvironment.beagleSdk.httpClient
 ) {
     companion object {
         const val BEAGLE_PLATFORM_HEADER_KEY = "beagle-platform"
@@ -41,7 +41,7 @@ internal class BeagleApi(
     suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
         val transformedRequest = request.let { it.copy(headers = it.headers + FIXED_HEADERS) }
         BeagleMessageLogs.logHttpRequestData(transformedRequest)
-        val call = httpClient.execute(
+        val call = httpClient?.execute(
             request = transformedRequest,
             onSuccess = { response ->
                 BeagleMessageLogs.logHttpResponseData(response)
@@ -58,7 +58,7 @@ internal class BeagleApi(
             )
         })
         cont.invokeOnCancellation {
-            call.cancel()
+            call?.cancel()
         }
     }
 

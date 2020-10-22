@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.automatedTests
 
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.store.StoreType
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.automatedTests.config.DatabaseLocalStore
+import br.com.zup.beagle.automatedTests.config.MemoryLocalStore
+import br.com.zup.beagle.automatedTests.config.StoreHandlerDefault
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Before

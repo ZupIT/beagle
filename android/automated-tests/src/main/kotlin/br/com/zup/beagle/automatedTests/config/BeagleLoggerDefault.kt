@@ -14,25 +14,31 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.automatedTests.config
 
-internal object MemoryLocalStore : LocalStore {
+import android.util.Log
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.logger.BeagleLogger
 
-    private val cache = mutableMapOf<String, String>()
+private const val BEAGLE_TAG = "BeagleSDK"
 
-    override fun save(key: String, value: String) {
-        cache[key] = value
+@BeagleComponent
+class BeagleLoggerDefault : BeagleLogger {
+
+    override fun warning(message: String) {
+        Log.w(BEAGLE_TAG, message)
     }
 
-    override fun restore(key: String): String? {
-        return cache[key]
+    override fun error(message: String) {
+        Log.e(BEAGLE_TAG, message)
     }
 
-    override fun delete(key: String) {
-        cache.remove(key)
+    override fun error(message: String, throwable: Throwable) {
+        Log.e(BEAGLE_TAG, message, throwable)
     }
 
-    override fun getAll(): Map<String, String> {
-        return cache.toMap()
+    override fun info(message: String) {
+        Log.i(BEAGLE_TAG, message)
     }
+
 }

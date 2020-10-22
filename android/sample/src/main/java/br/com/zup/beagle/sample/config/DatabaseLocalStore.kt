@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.sample.config
 
 import android.content.ContentValues
 import android.content.Context
@@ -22,8 +22,8 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.store.LocalStore
+import br.com.zup.beagle.sample.BeagleUiSampleApplication
 
 internal object ScreenEntry : BaseColumns {
     const val TABLE_NAME = "KeyValueCache"
@@ -33,9 +33,7 @@ internal object ScreenEntry : BaseColumns {
 
 internal class DatabaseLocalStore(
     private val contentValuesFactory: ContentValuesFactory = ContentValuesFactory(),
-    private val database: SQLiteDatabase = BeagleDatabaseManager.getDatabase(
-        BeagleEnvironment.application
-    )
+    private val database: SQLiteDatabase = BeagleDatabaseManager.getDatabase(BeagleUiSampleApplication.APPLICATION!!)
 ) : LocalStore {
 
     override fun save(key: String, value: String) {
@@ -48,7 +46,7 @@ internal class DatabaseLocalStore(
         val newRowId = database.insertWithOnConflict(ScreenEntry.TABLE_NAME, null, values,
             SQLiteDatabase.CONFLICT_REPLACE)
         if (newRowId == -1L) {
-            BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
+//            BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
         }
     }
 

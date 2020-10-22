@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.sample.config
 
-import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.store.LocalStore
 
-internal class StoreHandlerFactory(
-    private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment
-) {
-    fun make(): StoreHandler {
-        return beagleEnvironment.beagleSdk.storeHandler ?: StoreHandlerDefault()
+internal object MemoryLocalStore : LocalStore {
+
+    private val cache = mutableMapOf<String, String>()
+
+    override fun save(key: String, value: String) {
+        cache[key] = value
+    }
+
+    override fun restore(key: String): String? {
+        return cache[key]
+    }
+
+    override fun delete(key: String) {
+        cache.remove(key)
+    }
+
+    override fun getAll(): Map<String, String> {
+        return cache.toMap()
     }
 }

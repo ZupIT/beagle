@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.automatedTests
 
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.automatedTests.config.ContentValuesFactory
+import br.com.zup.beagle.automatedTests.config.DatabaseLocalStore
+import br.com.zup.beagle.automatedTests.config.ScreenEntry
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.After
@@ -51,9 +53,6 @@ class DatabaseLocalStoreTest {
 
         databaseLocalStore = DatabaseLocalStore(contentValuesFactory, database)
 
-        mockkObject(BeagleMessageLogs)
-
-        every { BeagleMessageLogs.logDataNotInsertedOnDatabase(any(), any()) } just Runs
         every { contentValuesFactory.make() } returns contentValues
         every { contentValues.put(any(), any<String>()) } just Runs
         every { database.query(any(), any(), any(), any(), any(), any(), any()) } returns cursor
@@ -80,22 +79,7 @@ class DatabaseLocalStoreTest {
         // Then
         val actualTableName = tableNameSlot.captured
         verify(exactly = once()) { database.insertWithOnConflict(actualTableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE) }
-        verify(exactly = 0) { BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value) }
         assertEquals(ScreenEntry.TABLE_NAME, actualTableName)
-    }
-
-    @Test
-    fun `save should log error when return value is minus 1`() {
-        // Given
-        val key = RandomData.string()
-        val value = RandomData.string()
-        every { database.insertWithOnConflict(any(), any(), any(), any()) } returns -1
-
-        // When
-        databaseLocalStore.save(key, value)
-
-        // Then
-        verify(exactly = once()) { BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value) }
     }
 
     @Test

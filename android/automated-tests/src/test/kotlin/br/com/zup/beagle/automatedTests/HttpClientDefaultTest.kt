@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.networking
+package br.com.zup.beagle.automatedTests
 
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.networking.HttpMethod
+import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.automatedTests.config.HttpClientDefault
+import br.com.zup.beagle.automatedTests.config.getSafeError
+import br.com.zup.beagle.automatedTests.config.getSafeResponseCode
+import br.com.zup.beagle.automatedTests.config.getSafeResponseMessage
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -28,11 +34,9 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -46,6 +50,7 @@ import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
+import kotlinx.coroutines.test.runBlockingTest
 import java.net.UnknownServiceException
 
 private val BYTE_ARRAY_DATA = byteArrayOf()
@@ -74,7 +79,6 @@ class HttpClientDefaultTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        mockkObject(BeagleEnvironment)
 
         urlRequestDispatchingDefault = HttpClientDefault()
 
