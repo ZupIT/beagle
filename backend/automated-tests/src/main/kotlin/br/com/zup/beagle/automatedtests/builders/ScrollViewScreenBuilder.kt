@@ -18,14 +18,14 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.TEXT_FONT_MAX
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.core.ScrollAxis
-import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -118,7 +118,7 @@ object ScrollViewScreenBuilder {
                 scrollDirection = ScrollAxis.HORIZONTAL
             )
         )
-    )
+    ).applyStyle(Style(padding = EdgeValue(bottom = 20.unitReal(), left = 10.unitReal(), right = 10.unitReal())))
 
     private fun getVerticalScrollView() = Container(
         context = ContextData(id = "testScrollVertical", value = "Click to see the new text in vertical"),
@@ -165,7 +165,8 @@ object ScrollViewScreenBuilder {
             size = Size(
                 height = 520.unitReal(),
                 width = 100.unitPercent()
-            )
+            ),
+            padding = EdgeValue(left = 10.unitReal())
         )
     )
 
