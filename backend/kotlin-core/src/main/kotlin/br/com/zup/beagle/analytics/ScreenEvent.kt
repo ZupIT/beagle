@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.analytics
 
-
-rootProject.name = "Beagle"
+/**
+ * Beagle analytics is used to track screen.
+ */
+data class ScreenEvent(
+    val screenName: String
+)

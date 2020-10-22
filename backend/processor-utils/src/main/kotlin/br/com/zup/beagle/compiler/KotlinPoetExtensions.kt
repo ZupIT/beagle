@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.compiler
 
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.TypeName
 
-rootProject.name = "Beagle"
+internal val TypeName.kotlin: TypeName get() = JAVA_TO_KOTLIN[this] ?: this
+
+fun ClassName.specialize(vararg names: TypeName): ParameterizedTypeName = this.parameterizedBy(names.map { it.kotlin })

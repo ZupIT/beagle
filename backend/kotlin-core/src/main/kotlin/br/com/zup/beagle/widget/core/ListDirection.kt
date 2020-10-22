@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.widget.core
 
+/**
+ * The direction attribute will define the list direction.
+ *
+ * @property VERTICAL
+ * @property HORIZONTAL
+ *
+ */
+enum class ListDirection {
+    /**
+     * Items list are displayed in vertical direction like LINES.
+     *
+     */
+    VERTICAL,
 
-rootProject.name = "Beagle"
+    /**
+     * Items list are displayed in Horizontal direction like COLUMNS.
+     *
+     */
+    HORIZONTAL
+}

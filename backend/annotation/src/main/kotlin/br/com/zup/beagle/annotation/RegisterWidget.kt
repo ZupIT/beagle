@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+package br.com.zup.beagle.annotation
 
-
-rootProject.name = "Beagle"
+/**
+ * Annotates a class that register a new widget.
+ * # Example: #
+ * ```
+ *  @RegisterWidget
+ *  class MyWidget : Widget()
+ * ```
+ *
+ */
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RegisterWidget

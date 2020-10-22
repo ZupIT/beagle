@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":automated-tests"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+import br.com.zup.beagle.Dependencies
 
+apply plugin: 'kotlin'
 
-rootProject.name = "Beagle"
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+dependencies {
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.GeneralLibraries.kotlinPoet
+    implementation project(Dependencies.Modules.commonAnnotation)
+    implementation project(Dependencies.Modules.kotlinCore)
+}
+
+ apply from: rootProject.file('../maven-publish.gradle')
