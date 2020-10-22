@@ -17,6 +17,32 @@
 
 package br.com.zup.beagle.widget.core
 
+/**
+ *
+ * The flex is a Layout component that will handle your visual component positioning at the screen.
+ * Internally Beagle uses a Layout engine called Yoga Layout to position elements on screen.
+ * In fact it will use the HTML Flexbox properties applied on the visual components and its children.
+ *
+ * @param flexDirection
+ *                          controls the direction in which the children of a node are laid out.
+ *                          This is also referred to as the main axis
+ * @param flexWrap
+ *                  set on containers and controls what happens when children
+ *                  overflow the size of the container along the main axis.
+ * @param justifyContent align children within the main axis of their container.
+ * @param alignItems Align items describes how to align children along the cross axis of their container.
+ * @param alignSelf
+ *                      Align self has the same options and effect as align items
+ *                      but instead of affecting the children within a container.
+ * @param alignContent Align content defines the distribution of lines along the cross-axis..
+ * @param basis is an axis-independent way of providing the default size of an item along the main axis.
+ * @param flex TODO.
+ * @param grow describes how any space within a container should be distributed among its children along the main axis.
+ * @param shrink
+ *              describes how to shrink children along the main axis in the case that
+ *              the total size of the children overflow the size of the container on the main axis.
+ *
+ */
 data class Flex(
   override val flexDirection: FlexDirection? = null,
   override val flexWrap: FlexWrap? = null,

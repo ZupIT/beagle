@@ -17,6 +17,11 @@
 
 package br.com.zup.beagle.widget.core
 
+/**
+ * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
+ * @property value the numeric measurement value.
+ * @property type the unit of measurement.
+ */
 data class UnitValue(
     override val value: Double,
     override val type: UnitType

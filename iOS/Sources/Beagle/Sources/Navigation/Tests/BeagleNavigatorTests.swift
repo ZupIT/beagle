@@ -349,13 +349,13 @@ final class BeagleNavigatorTests: XCTestCase {
 
         // When
         view.setContext(Context(id: "url", value: "initial"))
-        controller.configBindings()
+        controller.bindings.config()
         setContext.execute(controller: controller, origin: view)
         sut.navigate(action: pushViewRemote, controller: controller, animated: false, origin: view)
         
         // Then
         XCTAssertEqual(2, navigation.viewControllers.count)
-        XCTAssertEqual(pushViewRemote.newPath?.url.evaluate(with: view), url.toString())
+        XCTAssertEqual(pushViewRemote.newPath?.url.evaluate(with: view), url.description)
     }
 }
 

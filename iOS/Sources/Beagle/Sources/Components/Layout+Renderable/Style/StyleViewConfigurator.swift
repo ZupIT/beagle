@@ -77,7 +77,7 @@ final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
         get { return view?.yoga.isEnabled ?? false }
         set { view?.yoga.isEnabled = newValue }
     }
-    
+        
     func markDirty() {
         view?.yoga.markDirty()
         var view = self.view
@@ -88,13 +88,15 @@ final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
             view = view?.superview
         }
     }
-
+    
     // MARK: - Private Methods
     
     private func applyYogaProperties(from style: Style, to layout: YGLayout) {
         applyYogaProperties(from: style.flex ?? Flex(), to: layout)
         layout.position = yogaTranslator.translate(style.positionType ?? .relative)
-        layout.display = yogaTranslator.translate(style.display ?? .flex)
+        if case .value(let display) = style.display {
+            layout.display = yogaTranslator.translate(display)
+        }
         setSize(style.size, to: layout)
         setMargin(style.margin, to: layout)
         setPadding(style.padding, to: layout)

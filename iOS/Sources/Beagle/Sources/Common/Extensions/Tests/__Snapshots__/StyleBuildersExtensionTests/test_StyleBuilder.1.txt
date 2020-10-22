@@ -1,11 +1,16 @@
 ▿ Style
   ▿ backgroundColor: Optional<String>
     - some: "#FFFFFF"
+  ▿ borderColor: Optional<String>
+    - some: "#000000"
+  ▿ borderWidth: Optional<Double>
+    - some: 2.0
   ▿ cornerRadius: Optional<CornerRadius>
     ▿ some: CornerRadius
       - radius: 5.0
-  ▿ display: Optional<Display>
-    - some: Display.flex
+  ▿ display: Optional<Expression<Display>>
+    ▿ some: Expression<Display>
+      - value: Display.flex
   ▿ flex: Optional<Flex>
     ▿ some: Flex
       - alignContent: Optional<AlignContent>.none

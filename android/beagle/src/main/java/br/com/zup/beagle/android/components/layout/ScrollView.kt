@@ -31,6 +31,14 @@ import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 
+/**
+ * Component is a specialized container that will display its components in a Scroll
+ *
+ * @param children define a list of components to be displayed on this view.
+ * @param scrollDirection define the scroll roll direction on screen.
+ * @param scrollBarEnabled determine if the Scroll bar is displayed or not. It is displayed by default.
+ * @param context define the contextData that be set to scrollView.
+ */
 @RegisterWidget
 data class ScrollView(
     override val children: List<ServerDrivenComponent>,
@@ -63,10 +71,12 @@ data class ScrollView(
                     addChildrenViews(this, children, rootView, styleChild)
                 }
             } else {
+
                 viewFactory.makeScrollView(context).apply {
                     isVerticalScrollBarEnabled = scrollBarEnabled
                     addChildrenViews(this, children, rootView, styleChild)
                 }
+
             }, styleParent)
         }
     }
@@ -78,9 +88,12 @@ data class ScrollView(
         styleChild: Style
     ) {
         val viewGroup = viewFactory.makeBeagleFlexView(rootView, styleChild)
+
         children.forEach { component ->
-            viewGroup.addServerDrivenComponent(component)
+            viewGroup.addServerDrivenComponent(component, false)
         }
+
         scrollView.addView(viewGroup)
+        viewGroup.setHeightAutoAndDirtyAllViews()
     }
 }

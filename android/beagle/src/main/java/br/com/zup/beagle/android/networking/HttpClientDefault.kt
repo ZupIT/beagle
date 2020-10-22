@@ -67,7 +67,13 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
     private fun doHttpRequest(
         request: RequestData
     ): ResponseData {
-        val urlConnection = request.uri.toURL().openConnection() as HttpURLConnection
+        val urlConnection: HttpURLConnection
+
+        try {
+            urlConnection = request.uri.toURL().openConnection() as HttpURLConnection
+        } catch (e: Exception) {
+            throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
+        }
 
         request.headers.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
@@ -76,7 +82,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         addRequestMethod(urlConnection, request.method)
 
         if (request.body != null) {
-            setRequestBody(urlConnection, request.body)
+            setRequestBody(urlConnection, request)
         }
 
         try {
@@ -98,7 +104,6 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         return BeagleApiException(responseData, request)
     }
 
-
     private fun addRequestMethod(urlConnection: HttpURLConnection, method: HttpMethod) {
         val methodValue = method.toString()
 
@@ -110,9 +115,13 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         }
     }
 
-    private fun setRequestBody(urlConnection: HttpURLConnection, data: String) {
-        urlConnection.setRequestProperty("Content-Length", data.length.toString())
-        urlConnection.outputStream.write(data.toByteArray())
+    private fun setRequestBody(urlConnection: HttpURLConnection, request: RequestData) {
+        urlConnection.setRequestProperty("Content-Length", request.body?.length.toString())
+        try {
+            urlConnection.outputStream.write(request.body?.toByteArray())
+        } catch (e: Exception) {
+            throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
+        }
     }
 
     private fun createResponseData(urlConnection: HttpURLConnection): ResponseData {

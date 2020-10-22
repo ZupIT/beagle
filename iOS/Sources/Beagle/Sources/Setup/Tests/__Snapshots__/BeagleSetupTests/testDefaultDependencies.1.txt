@@ -141,6 +141,12 @@
   ▿ globalContext: DefaultGlobalContext
     - $__lazy_storage_$_context: Optional<Observable<Context>>.none
     - globalId: "global"
+  ▿ imageDownloader: ImageDownloaderDefault
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+    ▿ dispatcher: RequestDispatcher
+      ▿ dependencies: InnerDependenciesResolver
+        - container: (Function)
   - isLoggingEnabled: true
   - localFormHandler: Optional<LocalFormHandler>.none
   ▿ logger: BeagleLoggerProxy
@@ -168,6 +174,9 @@
   ▿ repository: RepositoryDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+    ▿ dispatcher: RequestDispatcher
+      ▿ dependencies: InnerDependenciesResolver
+        - container: (Function)
     ▿ networkCache: NetworkCache
       - cacheHashHeader: "beagle-hash"
       ▿ dependencies: InnerDependenciesResolver

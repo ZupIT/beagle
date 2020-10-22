@@ -28,6 +28,10 @@ let componentInteractionScreen: Screen = {
                 onPress: [Navigate.pushView(.declarative(declarativeScreen))]
             )
             Button(
+                text: "Display",
+                onPress: [Navigate.pushView(.declarative(displayScreen))]
+            )
+            Button(
                 text: "Text (JSON)",
                 onPress: [Navigate.openNativeRoute(.init(route: .componentInterationEndpoint))]
             )
@@ -64,10 +68,35 @@ let declarativeScreen: Screen = {
                     ]
                 )
                 MyComponent(person: "@{context1}", personOpt: nil, action: nil, widgetProperties: WidgetProperties())
+                Container(widgetProperties: WidgetProperties(style: Style(cornerRadius: CornerRadius(radius: 16), borderColor: "#000000", borderWidth: 6, size: Size(width: 100, height: 100), padding: EdgeValue().all(8)))) {
+                    Text("@{context1}")
+                }
             }
         }
     }
 }()
+
+var displayScreen: Screen {
+    Screen(
+        navigationBar: NavigationBar(title: "Display"),
+        child: Container {
+            Button(text: "display = NONE", onPress: [SetContext(contextId: "display", value: "NONE")])
+            Button(text: "display = FLEX", onPress: [SetContext(contextId: "display", value: "FLEX")])
+            Text(
+                #"style: {display: "@{display}"}"#,
+                alignment: .value(.center),
+                textColor: "#333",
+                widgetProperties: WidgetProperties(
+                    style: Style()
+                        .display("@{display}")
+                        .backgroundColor("#ccc")
+                        .margin(EdgeValue().all(10))
+                )
+            )
+        },
+        context: Context(id: "display", value: "")
+    )
+}
 
 struct ComponentInteractionText: DeeplinkScreen {
     
@@ -89,6 +118,7 @@ struct ComponentInteractionText: DeeplinkScreen {
                      "_beagleComponent_" : "beagle:textInput",
                      "value" : "@{address.data.zip}",
                      "placeholder" : "CEP",
+                     "type": "NUMBER",
                      "onChange" : [ {
                        "_beagleAction_" : "beagle:setContext",
                        "contextId" : "address",

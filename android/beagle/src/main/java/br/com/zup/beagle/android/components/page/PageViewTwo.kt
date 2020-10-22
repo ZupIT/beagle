@@ -36,6 +36,17 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
+/**
+ *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
+ *
+ * @param children define a List of components (views) that are contained on this PageView. Consider the
+ * @param pageIndicator defines in what page the PageView is currently on.
+ * @param context define the contextData that be set to pageView.
+ * @param onPageChange List of actions that are performed when you are on the selected page.
+ * @param currentPage Integer number that identifies that selected.
+ * @param showArrow This attribute is specific to the web platform, with which it allows you to place the arrows
+ * to change pages.
+ */
 internal data class PageViewTwo(
     override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,

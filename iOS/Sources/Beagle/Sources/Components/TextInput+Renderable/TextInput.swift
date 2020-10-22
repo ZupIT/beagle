@@ -104,14 +104,19 @@ extension TextInput: ServerDrivenComponent {
             controller?.execute(actions: onBlur, with: "onBlur", and: value, origin: self)
         }
         
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            resignFirstResponder()
+        }
+        
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
             var updatedText: String?
             if let text = textField.text,
                let textRange = Range(range, in: text) {
                updatedText = text.replacingCharacters(in: textRange, with: string)
             }
+            
             textField.text = updatedText
-            textChanged()
+            textChanged(updatedText)
             
             let value: DynamicObject = .dictionary(["value": .string(updatedText ?? "")])
             controller?.execute(actions: onChange, with: "onChange", and: value, origin: self)
@@ -123,7 +128,7 @@ extension TextInput: ServerDrivenComponent {
 
 private extension TextInput.TextInputView {
     
-    func textChanged() {
+    func textChanged(_ text: String?) {
         observable.value.value = text
     }
 
@@ -135,11 +140,21 @@ private extension TextInput.TextInputView {
             keyboardType = .emailAddress
         case .number, .date:
             keyboardType = .numberPad
+            setupToolBar()
         case .password:
             keyboardType = .default
             isSecureTextEntry = true
         case .text:
             keyboardType = .default
         }
+    }
+    
+    func setupToolBar() {
+        let toolBar = UIToolbar()
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(resignFirstResponder))
+        toolBar.items = [spacer, doneButton]
+        toolBar.sizeToFit()
+        inputAccessoryView = toolBar
     }
 }

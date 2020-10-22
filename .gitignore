@@ -13,6 +13,7 @@ out/
 !**/src/test/**
 common/gradle*
 schema/gradle*
+*.orig
 
 ### STS ###
 .apt_generated
@@ -106,6 +107,9 @@ flutter/**/**/ios/Runner/GeneratedPluginRegistrant.*
 !flutter/**/**/ios/**/default.perspectivev3
 !flutter/**/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
+### Schema ###
 schema/schema-ruby-erb/Model Generation/.bundle/
-
 *.orig
+
+### Bash ###
+nohup.out

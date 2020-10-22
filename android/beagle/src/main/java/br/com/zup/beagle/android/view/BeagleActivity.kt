@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -32,16 +31,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_STATE_LOADING
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
-import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
+import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
-import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
@@ -68,6 +66,11 @@ sealed class ServerDrivenState {
     object Success : ServerDrivenState()
 
     /**
+     * indicates that a server-driven component fetch has cancel
+     */
+    object Canceled : ServerDrivenState()
+
+    /**
      * indicates an error state while fetching a server-driven component
      *
      * @param throwable error occurred. See {@link br.com.zup.beagle.android.exception.BeagleApiException},
@@ -77,6 +80,14 @@ sealed class ServerDrivenState {
     open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
 }
 
+/**
+ * ScreenRequest is used to do requests.
+ *
+ * @param url  Server URL.
+ * @param method HTTP method.
+ * @param headers Header items for the request.
+ * @param body Content that will be deliver with the request.
+ */
 @Parcelize
 data class ScreenRequest(
     val url: String,
@@ -85,12 +96,41 @@ data class ScreenRequest(
     val body: String? = null
 ) : Parcelable
 
+/**
+ * Screen method to indicate the desired action to be performed for a given resource.
+ *
+ */
 enum class ScreenMethod {
+    /**
+     * The GET method requests a representation of the specified resource. Requests using GET should only retrieve
+     * data.
+     */
     GET,
+
+    /**
+     * The POST method is used to submit an entity to the specified resource, often causing
+     * a change in state or side effects on the server.
+     */
     POST,
+
+    /**
+     * The PUT method replaces all current representations of the target resource with the request payload.
+     */
     PUT,
+
+    /**
+     * The DELETE method deletes the specified resource.
+     */
     DELETE,
+
+    /**
+     * The HEAD method asks for a response identical to that of a GET request, but without the response body.
+     */
     HEAD,
+
+    /**
+     * The PATCH method is used to apply partial modifications to a resource.
+     */
     PATCH
 }
 
@@ -100,7 +140,7 @@ private const val FIRST_SCREEN_KEY = "FIRST_SCREEN_KEY"
 
 abstract class BeagleActivity : AppCompatActivity() {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(BeagleViewModel::class.java) }
+    private val screenViewModel by lazy { ViewModelProvider(this).get(BeagleScreenViewModel::class.java) }
     private val screenRequest by lazy { intent.extras?.getParcelable<ScreenRequest>(FIRST_SCREEN_REQUEST_KEY) }
     private val screen by lazy { intent.extras?.getString(FIRST_SCREEN_KEY) }
 
@@ -210,6 +250,18 @@ abstract class BeagleActivity : AppCompatActivity() {
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        observeScreenLoadFinish()
+    }
+
+    private fun observeScreenLoadFinish() {
+        screenViewModel.screenLoadFinished.observe(
+            this,
+            Observer {
+                onServerDrivenContainerStateChanged(ServerDrivenState.Success)
+                onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
+            }
+        )
     }
 
     override fun onResume() {
@@ -219,7 +271,7 @@ abstract class BeagleActivity : AppCompatActivity() {
             screen?.let { screen ->
                 fetch(
                     ScreenRequest(""),
-                    beagleSerializer.deserializeComponent(screen) as ScreenComponent
+                    beagleSerializer.deserializeComponent(screen)
                 )
             } ?: run {
                 screenRequest?.let { request -> fetch(request) }
@@ -228,7 +280,11 @@ abstract class BeagleActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 1) {
+        if (screenViewModel.isFetchComponent()) {
+            if (supportFragmentManager.backStackEntryCount == 0) {
+                finish()
+            }
+        } else if (supportFragmentManager.backStackEntryCount == 1) {
             finish()
         } else {
             super.onBackPressed()
@@ -241,8 +297,8 @@ abstract class BeagleActivity : AppCompatActivity() {
         fetch(screenRequest, screen?.toComponent())
     }
 
-    private fun fetch(screenRequest: ScreenRequest, screenComponent: ScreenComponent? = null) {
-        val liveData = viewModel.fetchComponent(screenRequest, screenComponent)
+    private fun fetch(screenRequest: ScreenRequest, screenComponent: ServerDrivenComponent? = null) {
+        val liveData = screenViewModel.fetchComponent(screenRequest, screenComponent)
         handleLiveData(liveData)
     }
 
@@ -251,18 +307,22 @@ abstract class BeagleActivity : AppCompatActivity() {
             when (it) {
                 is ViewState.Error -> {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable, it.retry))
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
                 }
+
                 is ViewState.Loading -> {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
 
                     if (it.value) {
                         onServerDrivenContainerStateChanged(ServerDrivenState.Started)
-                    } else {
-                        onServerDrivenContainerStateChanged(ServerDrivenState.Finished)
                     }
                 }
+
+                is ViewState.DoCancel -> {
+                    onServerDrivenContainerStateChanged(ServerDrivenState.Canceled)
+                }
+
                 is ViewState.DoRender -> {
-                    onServerDrivenContainerStateChanged(ServerDrivenState.Success)
                     showScreen(it.screenId, it.component)
                 }
             }

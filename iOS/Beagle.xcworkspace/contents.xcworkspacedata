@@ -49,4 +49,11 @@
          location = "group:Sources/Preview/BeaglePreview.xcodeproj">
       </FileRef>
    </Group>
+   <Group
+      location = "group:Tests"
+      name = "Tests">
+      <FileRef
+         location = "group:AutomatedTests.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

@@ -74,8 +74,6 @@ dependencies {
     api project(Dependencies.Modules.commonAnnotation)
     api project(Dependencies.Modules.androidAnnotation)
 
-    implementation Dependencies.GlideLibraries.glide
-    kapt Dependencies.GlideLibraries.glideCompiler
     kapt project(Dependencies.Modules.internalProcessor)
 
     implementation Dependencies.GeneralLibraries.yoga

@@ -26,7 +26,7 @@ import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_TAB_VIEW
  *
  * @param children define yours view has in tab
  * @param styleId reference a native style in your local styles file to be applied on this view.
- *
+ * @param context define the contextData that be set to tabView.
  */
 @Deprecated(DEPRECATED_TAB_VIEW)
 data class TabView(

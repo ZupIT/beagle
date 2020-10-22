@@ -152,13 +152,12 @@ class LazyRepositoryStub: Repository {
         formCompletion = completion
         return nil
     }
-
+    
     func fetchImage(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         completion: @escaping (Result<Data, Request.Error>) -> Void
     ) -> RequestToken? {
-        imageCompletion = completion
         return nil
     }
 }

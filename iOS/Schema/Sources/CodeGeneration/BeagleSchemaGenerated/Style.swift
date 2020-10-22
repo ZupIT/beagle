@@ -21,6 +21,13 @@ public class Style: Decodable, AutoEquatable {
     public var backgroundColor: String?
     /// Sets the corner of your view to make it round.
     public var cornerRadius: CornerRadius?
+    
+    /// Sets the color of your view border. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`.
+    public var borderColor: String?
+    
+    /// Sets the width of your view border
+    public var borderWidth: Double?
+    
     /// Allows  you to specify the size of the element.
     public var size: Size?
     /// Allows you to apply a space to the child element.
@@ -32,23 +39,28 @@ public class Style: Decodable, AutoEquatable {
     /// The position type of an element defines how it is positioned within its parent.
     public var positionType: PositionType?
     /// Set the display type of the component, allowing o be flexible or locked.
-    public var display: Display?
+    public var display: Expression<Display>?
+    
     /// Apply positioning using the flex box concept.
     public var flex: Flex?
 
     public init(
         backgroundColor: String? = nil,
         cornerRadius: CornerRadius? = nil,
+        borderColor: String? = nil,
+        borderWidth: Double? = nil,
         size: Size? = nil,
         margin: EdgeValue? = nil,
         padding: EdgeValue? = nil,
         position: EdgeValue? = nil,
         positionType: PositionType? = nil,
-        display: Display? = nil,
+        display: Expression<Display>? = nil,
         flex: Flex? = nil
     ) {
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
+        self.borderColor = borderColor
+        self.borderWidth = borderWidth
         self.size = size
         self.margin = margin
         self.padding = padding

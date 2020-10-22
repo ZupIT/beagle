@@ -36,7 +36,7 @@ extension AddChildren: Action {
             views.forEach { view.addSubview($0) }
         }
         
-        controller.view.setNeedsLayout()
+        views.forEach(controller.setNeedsLayout)
     }
 }
 

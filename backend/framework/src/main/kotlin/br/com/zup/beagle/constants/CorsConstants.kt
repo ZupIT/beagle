@@ -17,6 +17,5 @@
 package br.com.zup.beagle.constants
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
-import br.com.zup.beagle.platform.BeaglePlatformUtil
 
 val BEAGLE_EXPOSED_HEADERS = arrayOf(BeagleCacheHandler.CACHE_HEADER)

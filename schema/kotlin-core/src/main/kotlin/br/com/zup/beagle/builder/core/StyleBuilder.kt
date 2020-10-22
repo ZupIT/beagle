@@ -41,6 +41,8 @@ class StyleBuilder: BeagleBuilder<Style> {
     var flex: Flex? = null
     var positionType: PositionType? = null
     var display: Display? = null
+    var borderColor: String? = null
+    var borderWidth: Double? = null
 
     fun backgroundColor(backgroundColor: String?) = this.apply { this.backgroundColor = backgroundColor }
     fun cornerRadius(cornerRadius: CornerRadius?) = this.apply { this.cornerRadius = cornerRadius }
@@ -51,6 +53,8 @@ class StyleBuilder: BeagleBuilder<Style> {
     fun flex(flex: Flex?) = this.apply { this.flex = flex }
     fun positionType(positionType: PositionType?) = this.apply { this.positionType = positionType }
     fun display(display: Display?) = this.apply { this.display = display }
+    fun borderColor(borderColor: String?) = this.apply { this.borderColor = borderColor }
+    fun borderWidth(borderWidth: Double?) = this.apply { this.borderWidth = borderWidth }
 
     fun backgroundColor(block: () -> String?) {
         backgroundColor(block.invoke())
@@ -88,6 +92,14 @@ class StyleBuilder: BeagleBuilder<Style> {
         display(block.invoke())
     }
 
+    fun borderColor(block: () -> String?){
+        borderColor(block.invoke())
+    }
+
+    fun borderWidth(block: () -> Double?){
+        borderWidth(block.invoke())
+    }
+
     override fun build() = Style(
         backgroundColor = backgroundColor,
         cornerRadius = cornerRadius,
@@ -97,7 +109,9 @@ class StyleBuilder: BeagleBuilder<Style> {
         position = position,
         flex = flex,
         positionType = positionType,
-        display = display
+        display = display,
+        borderColor = borderColor,
+        borderWidth = borderWidth
     )
 }
 

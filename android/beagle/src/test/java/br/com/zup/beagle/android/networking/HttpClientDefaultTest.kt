@@ -46,6 +46,7 @@ import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
+import java.net.UnknownServiceException
 
 private val BYTE_ARRAY_DATA = byteArrayOf()
 private const val STATUS_CODE = 200
@@ -177,6 +178,25 @@ class HttpClientDefaultTest {
     }
 
     @Test
+    fun `Given request with method type POST and with body content WHEN call execute request should return error`() = runBlockingTest {
+        // Given
+        val data = RandomData.string()
+        val requestData = RequestData(
+            uri = uri,
+            body = data,
+            method = HttpMethod.POST
+        )
+        every { httpURLConnection.outputStream } throws UnknownServiceException()
+
+        // When
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
+        }, onError = {
+            assertEquals(ResponseData(-1, data = byteArrayOf()), it)
+        })
+
+    }
+
+    @Test
     fun execute_should_throw_IllegalArgumentException_when_data_is_set_for_HttpMethod_GET() = runBlockingTest {
         // Given
         val method = HttpMethod.GET
@@ -218,6 +238,26 @@ class HttpClientDefaultTest {
     fun execute_should_throw_IllegalArgumentException_when_data_is_set_for_HttpMethod_HEAD() = runBlockingTest {
         // Given
         val method = HttpMethod.HEAD
+        val requestData = RequestData(
+            uri = uri,
+            body = RandomData.string(),
+            method = method
+        )
+
+        // When
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {
+            // Then
+            assertEquals(-1, it.statusCode)
+            assertEquals(0, it.data.size)
+            assertEquals(0, it.headers.size)
+        })
+    }
+
+    @Test
+    fun `GIVEN request data with invalid uri when execute request THEN it should throw exception`() = runBlockingTest {
+        // Given
+        every { uri.toURL() } throws IllegalArgumentException("URI is not absolute")
+        val method = HttpMethod.GET
         val requestData = RequestData(
             uri = uri,
             body = RandomData.string(),

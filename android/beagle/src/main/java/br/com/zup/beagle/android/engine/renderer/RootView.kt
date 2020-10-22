@@ -17,13 +17,18 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.content.Context
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 import br.com.zup.beagle.android.widget.RootView
 
+/**
+ * The FragmentRootView holder the reference of a fragment.
+ *
+ * @param fragment that is the parent of a view.
+ * @param parentId parent view id.
+ */
 class FragmentRootView(
     val fragment: Fragment,
     private val parentId: Int
@@ -38,6 +43,12 @@ class FragmentRootView(
     override fun getParentId(): Int = parentId
 }
 
+/**
+ * The ActivityRootView holder the reference of activity.
+ *
+ * @param activity that is the parent of a view.
+ * @param parentId parent view id.
+ */
 class ActivityRootView(
     val activity: AppCompatActivity,
     private val parentId: Int

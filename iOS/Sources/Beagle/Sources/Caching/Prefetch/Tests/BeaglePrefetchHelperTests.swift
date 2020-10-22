@@ -51,7 +51,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         
         //When
-        sut.prefetchComponent(newPath: .init(url: .value(url), shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
         cacheManager.addToCache(reference)
         let result = dependencies.cacheManager?.getReference(identifiedBy: url)
 
@@ -73,9 +73,9 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         
         //When
         cacheManager.addToCache(reference)
-        sut.prefetchComponent(newPath: .init(url: .value(url), shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
         let result1 = dependencies.cacheManager?.getReference(identifiedBy: url)
-        sut.prefetchComponent(newPath: .init(url: .value(url), shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
         let result2 = dependencies.cacheManager?.getReference(identifiedBy: url)
         
         //Then
@@ -95,24 +95,24 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             Navigate.openNativeRoute(.init(route: path, data: data)),
 
             Navigate.resetApplication(.declarative(Screen(child: container))),
-            Navigate.resetApplication(.remote(.init(url: .value(path), shouldPrefetch: true))),
-            Navigate.resetApplication(.remote(.init(url: .value(path), shouldPrefetch: false))),
+            Navigate.resetApplication(.remote(.init(url: path, shouldPrefetch: true))),
+            Navigate.resetApplication(.remote(.init(url: path, shouldPrefetch: false))),
 
             Navigate.resetStack(.declarative(Screen(child: container))),
-            Navigate.resetStack(.remote(.init(url: .value(path), shouldPrefetch: true))),
-            Navigate.resetStack(.remote(.init(url: .value(path), shouldPrefetch: false))),
+            Navigate.resetStack(.remote(.init(url: path, shouldPrefetch: true))),
+            Navigate.resetStack(.remote(.init(url: path, shouldPrefetch: false))),
 
             Navigate.pushStack(.declarative(Screen(child: container))),
-            Navigate.pushStack(.remote(.init(url: .value(path), shouldPrefetch: true))),
-            Navigate.pushStack(.remote(.init(url: .value(path), shouldPrefetch: false))),
+            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: true))),
+            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: false))),
             
             Navigate.pushStack(.declarative(Screen(child: container)), controllerId: "customId"),
-            Navigate.pushStack(.remote(.init(url: .value(path), shouldPrefetch: true)), controllerId: "customId"),
-            Navigate.pushStack(.remote(.init(url: .value(path), shouldPrefetch: false)), controllerId: "customId"),
+            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: true)), controllerId: "customId"),
+            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: false)), controllerId: "customId"),
 
             Navigate.pushView(.declarative(Screen(child: container))),
-            Navigate.pushView(.remote(.init(url: .value(path), shouldPrefetch: true))),
-            Navigate.pushView(.remote(.init(url: .value(path), shouldPrefetch: false))),
+            Navigate.pushView(.remote(.init(url: path, shouldPrefetch: true))),
+            Navigate.pushView(.remote(.init(url: path, shouldPrefetch: false))),
 
             Navigate.popStack,
             Navigate.popView,

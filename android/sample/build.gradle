@@ -32,7 +32,6 @@ android {
 
         versionCode Dependencies.Releases.versionCode
         versionName Dependencies.Releases.versionName
-        multiDexEnabled true
 
         testInstrumentationRunner Dependencies.GeneralNames.sampleTestInstrumentationRunner
     }
@@ -61,16 +60,9 @@ dependencies {
 
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
-    implementation Dependencies.GeneralLibraries.multidex
 
     debugImplementation project(Dependencies.Modules.preview)
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
-
-    // Unit Testing
-    testImplementation Dependencies.TestLibraries.junit
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.mockk
-
 }

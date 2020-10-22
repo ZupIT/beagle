@@ -16,6 +16,13 @@
 
 package br.com.zup.beagle.widget.context
 
+/**
+ * Context is a variable of any type, including a map that defines a set of key/value pairs.
+ * Through bindings, the value of a context can be accessed by any component or action on your scope.
+ *
+ * @param id a string that later has to be identified.
+ * @param value is a parameter (data) of any kind.
+ */
 data class ContextData(
     val id: String,
     val value: Any

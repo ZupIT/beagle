@@ -54,19 +54,17 @@ class Dependencies : Plugin<Project> {
 
         const val kotlinCoroutines = "1.3.9"
 
-        const val kotlinPoet = "1.6.0"
+        const val kotlinPoet = "1.7.1"
 
         const val appcompat = "1.2.0"
         const val viewModel = "2.2.0"
         const val recyclerView = "1.1.0"
 
-        const val moshi = "1.10.0"
+        const val moshi = "1.11.0"
 
         const val soLoader = "0.9.0"
 
-        const val glide = "4.11.0"
-
-        const val junit = "4.13"
+        const val junit = "4.13.1"
         const val junit5 = "5.7.0"
 
         const val yoga = "1.16.0"
@@ -84,25 +82,22 @@ class Dependencies : Plugin<Project> {
 
         const val jsonObject = "20200518"
 
-        const val mockk = "1.10.0"
+        const val mockk = "1.10.2"
 
         const val testRunner = "1.2.0"
+        const val testExt = "1.1.1"
+        const val espressoCore = "3.2.0"
         const val archCoreTesting = "2.1.0"
 
         const val incap = "0.3"
 
-        const val multidex = "2.0.1"
+        const val cucumber = "1.2.6"
     }
 
     object GeneralNames {
         const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         const val sampleTestInstrumentationRunner = "br.com.zup.beagle.sample.SampleTestRunner"
         const val consumerProguard = "consumer-rules.pro"
-    }
-
-    object GlideLibraries {
-        const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-        const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
     }
 
     object ProcessorLibraries {
@@ -128,8 +123,6 @@ class Dependencies : Plugin<Project> {
         const val simpleLogger = "org.slf4j:slf4j-simple:${Versions.simpleLogger}"
 
         const val jsonObject = "org.json:json:${Versions.jsonObject}"
-
-        const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
     }
 
     object GoogleLibraries {
@@ -159,6 +152,12 @@ class Dependencies : Plugin<Project> {
         const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
         const val googleCompileTesting = "com.google.testing.compile:compile-testing:${Versions.googleCompileTesting}"
         const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
+        const val testRunner = "androidx.test:runner:${Versions.testRunner}"
+        const val testExt = "androidx.test.ext:junit:${Versions.testExt}"
+        const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
+        const val testRules = "androidx.test:rules:${Versions.testExt}"
+        const val cucumberAndroid = "info.cukes:cucumber-android:${Versions.cucumber}"
+        const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${Versions.cucumber}"
     }
 
 }

@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+/// It's a `String` that will be treated internally as an `Expression<String>` if passed a value like "@{someExression}". Otherwise, it will be just a normal `String`.
+public typealias StringOrExpression = String
+
 public enum Expression<T: Decodable> {
     case value(T)
     case expression(ContextExpression)
@@ -39,6 +42,22 @@ public struct MultipleExpression {
     
     public init(nodes: [Node]) {
         self.nodes = nodes
+    }
+}
+
+// MARK: - Equatable
+
+extension Expression: Equatable where T: Equatable {
+    public static func == (lhs: Expression<T>, rhs: Expression<T>) -> Bool {
+        switch (lhs, rhs) {
+        case let (.value(lhsValue), .value(rhsValue)):
+            return lhsValue == rhsValue
+        case let (.expression(lhsValue), .expression(rhsValue)):
+            return lhsValue == rhsValue
+        case (.value, .expression),
+             (.expression, .value):
+            return false
+        }
     }
 }
 

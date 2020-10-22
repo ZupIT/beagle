@@ -16,10 +16,12 @@
       ▿ some: Style
         ▿ backgroundColor: Optional<String>
           - some: "#FFFF00"
+        - borderColor: Optional<String>.none
+        - borderWidth: Optional<Double>.none
         ▿ cornerRadius: Optional<CornerRadius>
           ▿ some: CornerRadius
             - radius: 30.0
-        - display: Optional<Display>.none
+        - display: Optional<Expression<Display>>.none
         - flex: Optional<Flex>.none
         - margin: Optional<EdgeValue>.none
         - padding: Optional<EdgeValue>.none
