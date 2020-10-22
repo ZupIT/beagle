@@ -46,7 +46,7 @@ public class Style: Decodable, AutoEquatable, AutoInitiable {
     public var positionType: PositionType?
 
     /// Set the display type of the component, allowing o be flexible or locked.
-    public var display: Display?
+    public var display: Expression<Display>?
     
     /// Apply positioning using the flex box concept.
     public var flex: Flex?
@@ -62,7 +62,7 @@ public class Style: Decodable, AutoEquatable, AutoInitiable {
         padding: EdgeValue? = nil,
         position: EdgeValue? = nil,
         positionType: PositionType? = nil,
-        display: Display? = nil,
+        display: Expression<Display>? = nil,
         flex: Flex? = nil
     ) {
         self.backgroundColor = backgroundColor

@@ -72,6 +72,11 @@ public extension Style {
     
     @discardableResult
     func display(_ display: Style.Display) -> Style {
+        return self.display(.value(display))
+    }
+    
+    @discardableResult
+    func display(_ display: Expression<Style.Display>) -> Style {
         self.display = display
         return self
     }
