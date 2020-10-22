@@ -17,8 +17,6 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.UnitValueSchema
-
 interface FlexSchema {
   public val flexDirection: FlexDirection?
   public val flexWrap: FlexWrap?
