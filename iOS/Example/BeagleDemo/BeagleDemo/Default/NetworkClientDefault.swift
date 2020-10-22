@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import Beagle
 
 public class NetworkClientDefault: NetworkClient {
 

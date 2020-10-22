@@ -33,7 +33,8 @@
     - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
     - defaultBuilder: Optional<() -> BeagleNavigationController>.none
   - navigationControllerType: BeagleNavigationController
-  - networkClient: NetworkClientDummy
+  ▿ networkClient: Optional<NetworkClient>
+    - some: NetworkClientDummy
   ▿ opener: URLOpenerDumb
     - hasInvokedTryToOpen: false
   ▿ preFetchHelper: BeaglePreFetchHelper

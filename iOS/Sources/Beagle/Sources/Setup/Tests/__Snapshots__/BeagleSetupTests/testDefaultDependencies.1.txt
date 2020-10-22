@@ -158,12 +158,7 @@
     - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
     - defaultBuilder: Optional<() -> BeagleNavigationController>.none
   - navigationControllerType: BeagleNavigationController
-  ▿ networkClient: NetworkClientDefault
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
-    ▿ httpRequestBuilder: HttpRequestBuilder
-      - additionalHeaders: 0 key/value pairs
-    - session: <__NSURLSessionLocal>
+  - networkClient: Optional<NetworkClient>.none
   ▿ opener: URLOpenerDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)

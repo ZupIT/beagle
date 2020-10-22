@@ -34,7 +34,7 @@ extension SendRequest: Action {
             body: data?.evaluate(with: origin).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)
-        controller.dependencies.networkClient.executeRequest(request) { result in
+        controller.dependencies.networkClient?.executeRequest(request) { result in
             
             switch result {
             case .success(let response):

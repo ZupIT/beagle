@@ -46,7 +46,7 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
 open class BeagleDependencies: BeagleDependenciesProtocol {
 
     public var urlBuilder: UrlBuilderProtocol
-    public var networkClient: NetworkClient
+    public var networkClient: NetworkClient?
     public var appBundle: Bundle
     public var theme: Theme
     public var validatorProvider: ValidatorProvider?
@@ -94,7 +94,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 
     private let resolver: InnerDependenciesResolver
 
-    public init() {
+    public init(networkClient: NetworkClient? = nil) {
         let resolver = InnerDependenciesResolver()
         self.resolver = resolver
 
@@ -112,7 +112,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.navigation = BeagleNavigator()
         self.globalContext = DefaultGlobalContext()
         
-        self.networkClient = NetworkClientDefault(dependencies: resolver)
+        self.networkClient = networkClient
         self.repository = RepositoryDefault(dependencies: resolver)
         self.imageDownloader = ImageDownloaderDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
@@ -143,7 +143,7 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var decoder: ComponentDecoding { return container().decoder }
     var schemaLogger: SchemaLogger? { return container().logger }
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
-    var networkClient: NetworkClient { return container().networkClient }
+    var networkClient: NetworkClient? { return container().networkClient }
     var navigation: BeagleNavigation { return container().navigation }
     var deepLinkHandler: DeepLinkScreenManaging? { return container().deepLinkHandler }
     var localFormHandler: LocalFormHandler? { return container().localFormHandler }
