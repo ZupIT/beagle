@@ -18,19 +18,16 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.TEXT_FONT_MAX
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.core.*
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
@@ -90,8 +87,7 @@ object ScrollViewScreenBuilder {
             Text("Horizontal ScrollView with scrollBars"),
             ScrollView(
                 children = listOf(
-                    createText("Horizontal 1"),
-                    createText("Horizontal 2"),
+                    createText("Horizontal").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
                     Touchable(
                         child = createText("@{testScrollHorizontal}"),
                         onPress = listOf(
@@ -125,8 +121,7 @@ object ScrollViewScreenBuilder {
         children = listOf(
             ScrollView(
                 children = listOf(
-                    createText("Vertical 1"),
-                    createText("Vertical 2"),
+                    createText("Vertical"),
                     Touchable(
                         child = createText("@{testScrollVertical}"),
                         onPress = listOf(
