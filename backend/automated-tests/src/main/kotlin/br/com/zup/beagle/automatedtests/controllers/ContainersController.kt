@@ -16,14 +16,16 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
-import br.com.zup.beagle.automatedtests.constants.LISTVIEW_TABVIEW_ENDPOINT
-import br.com.zup.beagle.automatedtests.constants.PAGEVIEW_TABVIEW_ENDPOINT
-import br.com.zup.beagle.automatedtests.constants.SCREEN_TABVIEW_ENDPOINT
-import br.com.zup.beagle.automatedtests.constants.SCROLLVIEW_TABVIEW_ENDPOINT
+import br.com.zup.beagle.automatedtests.builders.ContainerTestsScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ListViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.PageViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ScrollViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.TabViewScreenBuilder
+import br.com.zup.beagle.automatedtests.constants.CONTAINER_TEST_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LISTVIEW_TABVIEW_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.PAGEVIEW_TABVIEW_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_TABVIEW_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCROLLVIEW_TABVIEW_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -41,4 +43,7 @@ class ContainersController {
 
     @GetMapping(SCROLLVIEW_TABVIEW_ENDPOINT)
     fun getScrollViewScreen() = ScrollViewScreenBuilder.build()
+
+    @GetMapping(CONTAINER_TEST_ENDPOINT)
+    fun getContainerTestScreen() = ContainerTestsScreenBuilder.build()
 }

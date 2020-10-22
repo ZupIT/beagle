@@ -28,7 +28,7 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlinPoet
 
     implementation project(Dependencies.Modules.commonProcessorUtils)
-    implementation project(Dependencies.Modules.schemaKotlinCore)
+    implementation project(Dependencies.Modules.kotlinCore)
     implementation project(Dependencies.Modules.commonAnnotation)
     implementation project(Dependencies.Modules.androidAnnotation)
 

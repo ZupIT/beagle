@@ -24,7 +24,6 @@ dependencies {
     api project(Dependencies.Modules.widgetsDsl)
     api project(Dependencies.Modules.commonAnnotation)
     api project(Dependencies.Modules.schemaKotlinCore)
-    api project(Dependencies.Modules.extendedSchema)
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.junit5Api
