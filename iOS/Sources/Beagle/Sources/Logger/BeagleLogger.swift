@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,27 +14,16 @@
  * limitations under the License.
  */
 
-import Foundation
+import BeagleSchema
 
-internal class BeagleLoggerProxy: BeagleLoggerType {
-    
-    private let logger: BeagleLoggerType?
-    private let dependencies: DependencyLoggingCondition
-    
-    init(logger: BeagleLoggerType?, dependencies: DependencyLoggingCondition) {
-        self.logger = logger
-        self.dependencies = dependencies
-    }
-    
-    func log(_ log: LogType) {
-        if dependencies.isLoggingEnabled {
-            logger?.log(log)
-        }
-    }
-    
-    func logDecodingError(type: String) {
-        if dependencies.isLoggingEnabled {
-            logger?.logDecodingError(type: type)
-        }
-    }
+public protocol DependencyLogger {
+    var logger: BeagleLoggerType { get }
+}
+
+public protocol DependencyLoggingCondition {
+    var isLoggingEnabled: Bool { get }
+}
+
+public protocol BeagleLoggerType: SchemaLogger {
+    func log(_ log: LogType)
 }

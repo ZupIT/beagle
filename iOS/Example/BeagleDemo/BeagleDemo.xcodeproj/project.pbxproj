@@ -30,6 +30,12 @@
 		93A2EE1A24EC49E90085B3CF /* AddChildrenScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1924EC49E90085B3CF /* AddChildrenScreen.swift */; };
 		93D24A742514F9DA005A5CBD /* BeagleViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D24A732514F9DA005A5CBD /* BeagleViewScreen.swift */; };
 		93D8DC0D248965D10070CB41 /* ComponentInteractionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D8DC0C248965D10070CB41 /* ComponentInteractionScreen.swift */; };
+		93E4897025423B1B00293568 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4896F25423B1B00293568 /* CacheManager.swift */; };
+		93E4897425423D4600293568 /* CacheManagerDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4897325423D4600293568 /* CacheManagerDefaultTests.swift */; };
+		93E4897E25423DD200293568 /* CacheLRU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4897C25423DD200293568 /* CacheLRU.swift */; };
+		93E4897F25423DD200293568 /* DoublyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4897D25423DD200293568 /* DoublyLinkedList.swift */; };
+		93E4898225423DFE00293568 /* LRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4898125423DFE00293568 /* LRUCacheTests.swift */; };
+		93E489842542416800293568 /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E489832542416800293568 /* BeagleLoggerDefault.swift */; };
 		93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */; };
 		98A7F36C23A926C600E88C70 /* TabBarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7F36B23A926C600E88C70 /* TabBarScreen.swift */; };
 		98E08D2324228DD200FBD21B /* WebViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D2224228DD200FBD21B /* WebViewScreen.swift */; };
@@ -125,6 +131,12 @@
 		93A2EE1924EC49E90085B3CF /* AddChildrenScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildrenScreen.swift; sourceTree = "<group>"; };
 		93D24A732514F9DA005A5CBD /* BeagleViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleViewScreen.swift; sourceTree = "<group>"; };
 		93D8DC0C248965D10070CB41 /* ComponentInteractionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentInteractionScreen.swift; sourceTree = "<group>"; };
+		93E4896F25423B1B00293568 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		93E4897325423D4600293568 /* CacheManagerDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManagerDefaultTests.swift; sourceTree = "<group>"; };
+		93E4897C25423DD200293568 /* CacheLRU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheLRU.swift; sourceTree = "<group>"; };
+		93E4897D25423DD200293568 /* DoublyLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoublyLinkedList.swift; sourceTree = "<group>"; };
+		93E4898125423DFE00293568 /* LRUCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LRUCacheTests.swift; sourceTree = "<group>"; };
+		93E489832542416800293568 /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
 		93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewScreen.swift; sourceTree = "<group>"; };
 		98A7F36B23A926C600E88C70 /* TabBarScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarScreen.swift; sourceTree = "<group>"; };
 		98E08D2224228DD200FBD21B /* WebViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewScreen.swift; sourceTree = "<group>"; };
@@ -199,6 +211,9 @@
 		3D8E5C6E25423124002B92E2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				3D8E5C7625423176002B92E2 /* HttpRequestBuilder.swift */,
+				3D8E5C7725423176002B92E2 /* NetworkClientDefault.swift */,
+				3D8E5C7A25423176002B92E2 /* Tests */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -210,16 +225,6 @@
 				3D8E5C7925423176002B92E2 /* HttpRequestBuilderTest.swift */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		3D8E5C7B25423176002B92E2 /* Default */ = {
-			isa = PBXGroup;
-			children = (
-				3D8E5C7625423176002B92E2 /* HttpRequestBuilder.swift */,
-				3D8E5C7725423176002B92E2 /* NetworkClientDefault.swift */,
-				3D8E5C7A25423176002B92E2 /* Tests */,
-			);
-			path = Default;
 			sourceTree = "<group>";
 		};
 		6E2C784B241984F800448728 /* Constants */ = {
@@ -252,7 +257,8 @@
 		932925B02327E0E400A61F01 /* BeagleDemo */ = {
 			isa = PBXGroup;
 			children = (
-				3D8E5C7B25423176002B92E2 /* Default */,
+				93E4896E25423AB000293568 /* Logger */,
+				93E4896D25423AA700293568 /* Cache */,
 				3D8E5C6E25423124002B92E2 /* Network */,
 				932925BF2327E0E500A61F01 /* Info.plist */,
 				C0479F58243282F00040E30C /* AnalyticsMock.swift */,
@@ -279,6 +285,50 @@
 				C0B1AAB523F326BB00F94ECA /* YogaKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		93E4896D25423AA700293568 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				93E4897525423D8E00293568 /* LRU */,
+				93E4896F25423B1B00293568 /* CacheManager.swift */,
+				93E4897225423B3600293568 /* Tests */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		93E4896E25423AB000293568 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				93E489832542416800293568 /* BeagleLoggerDefault.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		93E4897225423B3600293568 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				93E4897325423D4600293568 /* CacheManagerDefaultTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		93E4897525423D8E00293568 /* LRU */ = {
+			isa = PBXGroup;
+			children = (
+				93E4897C25423DD200293568 /* CacheLRU.swift */,
+				93E4897D25423DD200293568 /* DoublyLinkedList.swift */,
+				93E4898025423DE900293568 /* Tests */,
+			);
+			path = LRU;
+			sourceTree = "<group>";
+		};
+		93E4898025423DE900293568 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				93E4898125423DFE00293568 /* LRUCacheTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		A0642DC9239689E60028AFF3 /* Screens */ = {
@@ -563,6 +613,7 @@
 				C80AF1342493F0950097D200 /* OtherComponent.swift in Sources */,
 				C09F4100249AAB0F002605EE /* TextContainerWithAction.swift in Sources */,
 				6EA428722514457F00AEE741 /* ImageScreen.swift in Sources */,
+				93E4897E25423DD200293568 /* CacheLRU.swift in Sources */,
 				3D8E5C80254234A0002B92E2 /* HttpRequestBuilder.swift in Sources */,
 				2576F469250ACF6C000CDB2A /* NativeViewController.swift in Sources */,
 				C8A2F6F42464C1F9002198B1 /* AutoDecodable.generated.swift in Sources */,
@@ -583,14 +634,17 @@
 				A057D59A24CA1DE7001F6835 /* CustomBeagleNavigationController.swift in Sources */,
 				25C762AC251147F800AB4D33 /* ConditionActionScreen.swift in Sources */,
 				A0642DD12396EC670028AFF3 /* PageViewScreen.swift in Sources */,
+				93E4897F25423DD200293568 /* DoublyLinkedList.swift in Sources */,
 				C09F4102249AAC87002605EE /* SingleCustomActionableContainer.swift in Sources */,
 				C09F40FE249AAAEE002605EE /* CustomActionableContainer.swift in Sources */,
 				C0479F59243282F00040E30C /* AnalyticsMock.swift in Sources */,
 				C8A2F6F32464C1F9002198B1 /* Equality.generated.swift in Sources */,
 				6E4EE6C1240E970000624DFB /* ScreenDeepLink.swift in Sources */,
+				93E4897025423B1B00293568 /* CacheManager.swift in Sources */,
 				3D8E5C81254234A3002B92E2 /* NetworkClientDefault.swift in Sources */,
 				7685B043249A879F007EDED0 /* SendRequestScreen.swift in Sources */,
 				A038C8FD2407073D001164B1 /* FormScreen.swift in Sources */,
+				93E489842542416800293568 /* BeagleLoggerDefault.swift in Sources */,
 				93D8DC0D248965D10070CB41 /* ComponentInteractionScreen.swift in Sources */,
 				6E4EE6C7240E9C0B00624DFB /* ViewLayoutHelper.swift in Sources */,
 				C09F4125249BF652002605EE /* Protocols.swift in Sources */,
@@ -612,6 +666,8 @@
 				3D37850C250FF6AC00780F92 /* NativeScreenTest.swift in Sources */,
 				C09F4121249BE758002605EE /* ComponentFromJsonFile.swift in Sources */,
 				3D8E5C7C25423198002B92E2 /* HttpRequestBuilderTest.swift in Sources */,
+				93E4898225423DFE00293568 /* LRUCacheTests.swift in Sources */,
+				93E4897425423D4600293568 /* CacheManagerDefaultTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,6 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.analytics = AnalyticsMock()
         dependencies.isLoggingEnabled = true
         
+        dependencies.networkClient = NetworkClientDefault()
+        
         registerCustomComponents(in: dependencies)
         registerCustomControllers(in: dependencies)
         

@@ -94,7 +94,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 
     private let resolver: InnerDependenciesResolver
 
-    public init(networkClient: NetworkClient? = nil) {
+    public init(networkClient: NetworkClient? = nil, cacheManager: CacheManagerProtocol? = nil, logger: BeagleLoggerType? = nil) {
         let resolver = InnerDependenciesResolver()
         self.resolver = resolver
 
@@ -104,7 +104,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
         self.isLoggingEnabled = true
-        self.logger = BeagleLoggerProxy(logger: BeagleLoggerDefault(), dependencies: resolver)
+        self.logger = BeagleLoggerProxy(logger: logger, dependencies: resolver)
 
         self.decoder = BeagleSchema.dependencies.decoder
         self.formDataStoreHandler = FormDataStoreHandler()
@@ -115,7 +115,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.networkClient = networkClient
         self.repository = RepositoryDefault(dependencies: resolver)
         self.imageDownloader = ImageDownloaderDefault(dependencies: resolver)
-        self.cacheManager = CacheManagerDefault(dependencies: resolver)
+        self.cacheManager = cacheManager
         self.opener = URLOpenerDefault(dependencies: resolver)
 
         self.resolver.container = { [unowned self] in self }

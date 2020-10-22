@@ -16,6 +16,7 @@
 
 import Foundation
 import CoreData
+import Beagle
 
 /// This class is responsible to maintain and manage the cache.
 public class CacheManagerDefault: CacheManagerProtocol {
