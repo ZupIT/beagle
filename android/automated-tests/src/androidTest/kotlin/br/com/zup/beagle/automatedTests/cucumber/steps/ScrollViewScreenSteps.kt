@@ -86,13 +86,13 @@ class ScrollViewScreenSteps {
     @When("^I have a vertical scroll configured$")
     fun checkVerticalScrollText() {
         ScreenRobot()
-            .checkViewContainsText("Vertical 1", true)
+            .checkViewContainsText("Vertical", true)
     }
 
     @When("^I have a horizontal scroll configured$")
     fun checkHorizontalScrollText() {
         ScreenRobot()
-            .checkViewContainsText("Horizontal 1", true)
+            .checkViewContainsText("Horizontal", true)
     }
 
     @Then("^scrollview screen should render all text attributes correctly$")
@@ -105,13 +105,13 @@ class ScrollViewScreenSteps {
     @Then("^scrollview screen should perform the scroll action vertically$")
     fun validateVerticalScroll() {
         ScreenRobot()
-            .scrollTo("Vertical 2")
+            .scrollTo("Vertical")
     }
 
     @Then("^scrollview screen should perform the scroll action horizontally$")
     fun validateHorizontalScroll() {
         ScreenRobot()
-            .scrollTo("Horizontal 2")
+            .scrollTo("Horizontal")
     }
 
     @When("^I press on text scroll horizontal (.*)$")
