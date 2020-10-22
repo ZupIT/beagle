@@ -68,8 +68,6 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
-    api project(Dependencies.Modules.kotlinCore)
-
     api project(Dependencies.Modules.commonAnnotation)
     api project(Dependencies.Modules.androidAnnotation)
 
