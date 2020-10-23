@@ -36,7 +36,7 @@ class SendRequestActionSteps: CucumberStepsDefinition {
         
         // MARK: - When
         
-        /// Scenarios 1 and 2
+        // Scenarios 1 and 2
         When("^I press the \"([^\"]*)\" button$") { args, _ -> Void in
             let text = args![0]
             self.application.buttons[text].tap()
@@ -44,13 +44,13 @@ class SendRequestActionSteps: CucumberStepsDefinition {
         
         // MARK: - Then
         
-        /// Scenario 1
+        // Scenario 1
         Then("^the screen should show some alert with \"([^\"]*)\" title$") { args, _ -> Void in
             let text = args![0]
             XCTAssertTrue(self.application.alerts.element.staticTexts[text].exists)
         }
         
-        /// Scenario 2
+        // Scenario 2
         Then("^the pressed button changes it's \"([^\"]*)\" title to \"([^\"]*)\"$") { args, _ -> Void in
             let oldButtonTitle = args![0]
             let currentButtonTitle = args![1]
