@@ -159,6 +159,7 @@ lane :deploy do
   tagHashe = sh "git show-ref -s #{tagName}"
   puts tagHashe
   puts ENV["teste"]
+  puts "alooo"
 
   # ENV["VERSION_DEPLOY"] = versionNumber
 
