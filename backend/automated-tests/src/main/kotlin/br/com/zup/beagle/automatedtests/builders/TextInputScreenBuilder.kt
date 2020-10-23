@@ -16,15 +16,24 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitPercent
+import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.ImagePath
+import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
 
 data class TextInputAtt(val placeholder: String, val isReadOnly: Boolean)
@@ -52,20 +61,27 @@ object TextInputScreenBuilder {
                 )
             )
         ),
-        child = Container(
+        child = ScrollView(
             children = listOf(
-                textInputValue(),
-                textInputPlaceholder(),
-                TextInput(placeholder = "Standard text with disabled field", disabled = true),
-                textInputReadOnly(),
-                textInputTypes(),
-                textInputTypesExpression(),
-                textInputHidden(),
-                textInputActions()
+                Container(
+                    context = ContextData(id = "checkDisabled", value = true),
+                    children = listOf(
+                        Text(""),
+                        textInputValue(),
+                        textInputPlaceholder(),
+                        textInputDisabled(),
+                        textInputReadOnly(),
+                        textInputTypes(),
+                        textInputHidden(),
+                        textInputActions()
+                    )
+                ).applyStyle(Style(
+                    size = Size(height = 100.0.unitPercent()),
+                    backgroundColor = "#000000",
+                    padding = EdgeValue(left = 5.unitReal(), bottom = 5.unitReal())))
             )
         )
     )
-
 
     private fun textInputValue() = Container(
         context = ContextData(id = "textInput", value = "TextInput with expression"),
@@ -87,24 +103,40 @@ object TextInputScreenBuilder {
         )
     )
 
+    private fun textInputDisabled() = Container(
+        context = ContextData(id = "textInputPlaceholder", value = "Standard text with disabled field set with expression"),
+        children = listOf(
+            TextInput(placeholder = "Standard text with disabled field", disabled = true),
+            TextInput(placeholder = expressionOf("@{textInputPlaceholder}"),
+                disabled = expressionOf("@{checkDisabled}")
+            )
+        )
+    )
+
     private fun textInputReadOnly() = Container(
         context = ContextData(
-            id = "isReadOnly", value = TextInputAtt(placeholder = "is Read Only", isReadOnly = true)
+            id = "isReadOnly", value = TextInputAtt(placeholder = "is Read Only with expression", isReadOnly = true)
         ),
         children = listOf(
-            TextInput(placeholder = "non-editable field", readOnly = true),
-            TextInput(placeholder = expressionOf("@{isReadyOnly.placeholder}"),
+            TextInput(value = "is Read Only", readOnly = true),
+            TextInput(value = expressionOf("@{isReadyOnly.placeholder}"),
                 readOnly = expressionOf("@{isReadOnly.isReadyOnly}"))
         )
     )
 
     private fun textInputTypes() = Container(
         listOf(
-            TextInput(type = TextInputType.DATE),
-            TextInput(type = TextInputType.EMAIL),
-            TextInput(type = TextInputType.PASSWORD),
             TextInput(type = TextInputType.NUMBER),
-            TextInput(type = TextInputType.TEXT),
+            Container(
+                context = ContextData(
+                    id = "isNumberExpression", value = TextInputTypes(placeholder = "is textInput type number",
+                    textInputType = TextInputType.NUMBER)
+                ),
+                children = listOf(
+                    TextInput(placeholder = expressionOf("@{isNumberExpression.placeholder}"),
+                        type = expressionOf("@{isNumberExpression.textInputType}"))
+                )
+            )
         )
     )
 
@@ -126,74 +158,21 @@ object TextInputScreenBuilder {
     )
 
     private fun textInputActions() = Container(
+        context = ContextData(
+            id = "textInputActions", value = "TextInput Actions"
+        ),
         children = listOf(
+            Text("@{textInputActions}"),
             TextInput(
-                placeholder = "textInput with onChange", onChange = listOf(
-                Alert(title = "Text input onChange", message = "This is a textInput with onChange action"))
-            ),
-            TextInput(
-                placeholder = "textInput with Focus", onFocus = listOf(
-                Alert(title = "Text input onFocus", message = "This is a textInput with onFocus action"))
-            ),
-            TextInput(
-                placeholder = "textInput with onBlur", onBlur = listOf(
-                Alert(title = "Text input onBlur", message = "This is a textInput with onBlur action"))
+                placeholder = "textInput with onChange",
+                onChange = listOf(
+                    SetContext(contextId = "textInputActions", value = "Did onChange action")),
+                onFocus = listOf(
+                    SetContext(contextId = "textInputActions", value = "Did onFocus action")),
+                onBlur = listOf(
+                    SetContext(contextId = "textInputActions", value = "Did onBlur action"))
             )
         )
     )
 
-    private fun textInputTypesExpression() = Container(
-        children = listOf(
-            Container(
-                context = ContextData(
-                    id = "isDateExpression", value = TextInputTypes(placeholder = "is textInput type Date",
-                    textInputType = TextInputType.DATE)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isDateExpression.placeholder}"),
-                        type = expressionOf("@{isDateExpression.textInputType}"))
-                )
-            ),
-            Container(
-                context = ContextData(
-                    id = "isEmailExpression", value = TextInputTypes(placeholder = "is textInput type email",
-                    textInputType = TextInputType.EMAIL)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isEmailExpression.placeholder}"),
-                        type = expressionOf("@{isEmailExpression.textInputType}"))
-                )
-            ),
-            Container(
-                context = ContextData(
-                    id = "isPasswordExpression", value = TextInputTypes(placeholder = "is textInput type password",
-                    textInputType = TextInputType.PASSWORD)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isPasswordExpression.placeholder}"),
-                        type = expressionOf("@{isPasswordExpression.textInputType}"))
-                )
-            ),
-            Container(
-                context = ContextData(
-                    id = "isNumberExpression", value = TextInputTypes(placeholder = "is textInput type number",
-                    textInputType = TextInputType.NUMBER)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isNumberExpression.placeholder}"),
-                        type = expressionOf("@{isNumberExpression.textInputType}"))
-                )
-            ),
-            Container(
-                context = ContextData(
-                    id = "isTextExpression", value = TextInputTypes(placeholder = "is textInput type text",
-                    textInputType = TextInputType.TEXT)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isTextExpression.placeholder}"),
-                        type = expressionOf("@{isTextExpression.textInputType}"))
-                )
-            )
-        )
-    )
 }
