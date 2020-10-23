@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.automatedTests
 
-import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.store.StoreType
-import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.automatedTests.config.DatabaseLocalStore
 import br.com.zup.beagle.automatedTests.config.MemoryLocalStore
 import br.com.zup.beagle.automatedTests.config.StoreHandlerDefault
@@ -47,8 +45,8 @@ class StoreHandlerDefaultTest {
     @Test
     fun save_should_call_database_store_when_type_is_DATABASE() {
         // Given
-        val dataKey = RandomData.string(3)
-        val dataValue = RandomData.string()
+        val dataKey = "key"
+        val dataValue = "value"
         val data = mapOf(dataKey to dataValue)
         every { databaseLocalStore.save(any(), any()) } just Runs
 
@@ -56,14 +54,14 @@ class StoreHandlerDefaultTest {
         storeHandlerDefault.save(StoreType.DATABASE, data)
 
         // Then
-        verify(exactly = once()) { databaseLocalStore.save(dataKey, dataValue) }
+        verify(exactly = 1) { databaseLocalStore.save(dataKey, dataValue) }
     }
 
     @Test
     fun save_should_call_memory_store_when_type_is_MEMORY() {
         // Given
-        val dataKey = RandomData.string(3)
-        val dataValue = RandomData.string()
+        val dataKey = "key"
+        val dataValue = "value"
         val data = mapOf(dataKey to dataValue)
         every { memoryLocalStore.save(any(), any()) } just Runs
 
@@ -71,14 +69,14 @@ class StoreHandlerDefaultTest {
         storeHandlerDefault.save(StoreType.MEMORY, data)
 
         // Then
-        verify(exactly = once()) { memoryLocalStore.save(dataKey, dataValue) }
+        verify(exactly = 1) { memoryLocalStore.save(dataKey, dataValue) }
     }
 
     @Test
     fun restore_should_call_database_store_when_type_is_DATABASE() {
         // Given
-        val dataKey = RandomData.string(3)
-        val dataValue = RandomData.string()
+        val dataKey = "key"
+        val dataValue = "value"
         every { databaseLocalStore.restore(dataKey) } returns dataValue
 
         // When
@@ -92,8 +90,8 @@ class StoreHandlerDefaultTest {
     @Test
     fun restore_should_call_memory_store_when_type_is_MEMORY() {
         // Given
-        val dataKey = RandomData.string(3)
-        val dataValue = RandomData.string()
+        val dataKey = "key"
+        val dataValue = "value"
         every { memoryLocalStore.restore(dataKey) } returns dataValue
 
         // When

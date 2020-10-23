@@ -32,7 +32,7 @@ class BeagleLoggerProxyTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        every { beagleSdk.logger } returns logger
+        every { beagleSdk.logger } returns mockk()
         every { beagleSdk.config.isLoggingEnabled } returns true
     }
 

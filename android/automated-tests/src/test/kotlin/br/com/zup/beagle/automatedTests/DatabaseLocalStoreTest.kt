@@ -19,8 +19,6 @@ package br.com.zup.beagle.automatedTests
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.automatedTests.config.ContentValuesFactory
 import br.com.zup.beagle.automatedTests.config.DatabaseLocalStore
 import br.com.zup.beagle.automatedTests.config.ScreenEntry
@@ -32,7 +30,7 @@ import org.junit.Test
 
 import org.junit.Assert.*
 
-private val DATA_KEY = RandomData.string()
+private const val DATA_KEY = "data_key"
 
 class DatabaseLocalStoreTest {
 
@@ -68,8 +66,8 @@ class DatabaseLocalStoreTest {
     @Test
     fun `save should add new data on database`() {
         // Given
-        val key = RandomData.string()
-        val value = RandomData.string()
+        val key = "key"
+        val value = "value"
         val tableNameSlot = slot<String>()
         every { database.insertWithOnConflict(capture(tableNameSlot), any(), any(), any()) } returns 1
 
@@ -78,14 +76,14 @@ class DatabaseLocalStoreTest {
 
         // Then
         val actualTableName = tableNameSlot.captured
-        verify(exactly = once()) { database.insertWithOnConflict(actualTableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE) }
+        verify(exactly = 1) { database.insertWithOnConflict(actualTableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE) }
         assertEquals(ScreenEntry.TABLE_NAME, actualTableName)
     }
 
     @Test
     fun `restore should return value when query find key`() {
         // Given
-        val value = RandomData.string()
+        val value = "value"
         every { cursor.count } returns 1
         every { cursor.moveToFirst() } returns true
         every { cursor.getColumnIndexOrThrow(ScreenEntry.VALUE_COLUMN_NAME) } returns 0
