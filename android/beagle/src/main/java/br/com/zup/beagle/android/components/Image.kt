@@ -44,8 +44,8 @@ import br.com.zup.beagle.widget.ui.ImageSchema
  */
 @RegisterWidget
 data class Image constructor(
-    val path: Bind<ImagePath>,
-    val mode: ImageContentMode? = null
+    override val path: Bind<ImagePath>,
+    override val mode: ImageContentMode? = null
 ) : WidgetView(), ImageSchema {
 
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)

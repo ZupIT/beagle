@@ -24,6 +24,8 @@ import br.com.zup.beagle.widget.core.SizeSchema
 interface StyleSchema {
     val backgroundColor: String?
     val cornerRadius: CornerRadiusSchema?
+    val borderColor: String?
+    val borderWidth: Double?
     val size: SizeSchema?
     val margin: EdgeValueSchema?
     val padding: EdgeValueSchema?

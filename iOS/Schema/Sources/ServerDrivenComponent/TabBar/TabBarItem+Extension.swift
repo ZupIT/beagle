@@ -16,35 +16,6 @@
  */
 
 extension TabBarItem {
-
-// sourcery:inline:auto:TabBar.Init
-    public init(
-        items: [TabBarItem],
-        styleId: String? = nil,
-        currentTab: Expression<Int>? = nil,
-        onTabSelection: [RawAction]? = nil
-    ) {
-        self.items = items
-        self.styleId = styleId
-        self.currentTab = currentTab
-        self.onTabSelection = onTabSelection
-    }
-// sourcery:end
-}
-
-public struct TabBarItem: Decodable, AutoInitiable {
-    public let icon: StringOrExpression?
-    public let title: String?
-
-// sourcery:inline:auto:TabBarItem.Init
-    public init(
-        icon: StringOrExpression? = nil,
-        title: String? = nil
-    ) {
-        self.icon = icon
-        self.title = title
-    }
-// sourcery:end
     
     enum CodingKeys: String, CodingKey {
         case icon
@@ -61,4 +32,5 @@ public struct TabBarItem: Decodable, AutoInitiable {
         icon = try nestedContainer?.decodeIfPresent(String.self, forKey: .mobileId)
         title = try container.decodeIfPresent(String.self, forKey: .title)
     }
+
 }

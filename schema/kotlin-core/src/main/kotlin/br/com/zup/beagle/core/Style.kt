@@ -50,66 +50,15 @@ import br.com.zup.beagle.widget.core.Size
  * @param display enables a flex context for all its direct children.
  */
 data class Style (
-    val backgroundColor: String? = null,
-    val cornerRadius: CornerRadius? = null,
-    val borderColor: String? = null,
-    val borderWidth: Double? = null,
-    val size: Size? = null,
-    val margin: EdgeValue? = null,
-    val padding: EdgeValue? = null,
-    val position: EdgeValue? = null,
-    val flex: Flex? = null,
-    val positionType: PositionType? = null,
-    val display: Display? = null
+    override val backgroundColor: String? = null,
+    override val cornerRadius: CornerRadius? = null,
+    override val borderColor: String? = null,
+    override val borderWidth: Double? = null,
+    override val size: Size? = null,
+    override val margin: EdgeValue? = null,
+    override val padding: EdgeValue? = null,
+    override val position: EdgeValue? = null,
+    override val flex: Flex? = null,
+    override val positionType: PositionType? = null,
+    override val display: Display? = null
 ) : StyleSchema
-
-/**
- * The corner radius change the appearance of view
- *
- * @param radius define size of radius
- */
-data class CornerRadius(
-    val radius: Double = 0.0
-)
-
-/**
- * This defines a flex container;
- * inline or block depending on the given value. It enables a flex context for all its direct children.
- *
- * @property FLEX
- * @property NONE
- */
-enum class Display {
-    /**
-     * Apply the flex properties.
-     */
-    FLEX,
-
-    /**
-     * No flex properties will be applied to the element.
-     */
-    NONE
-}
-
-/**
- * The position type of an element defines how it is positioned within its parent.
- *
- * @property ABSOLUTE
- * @property RELATIVE
- */
-enum class PositionType {
-
-    /**
-     * This means an element is positioned according to the normal flow of the layout,
-     * and then offset relative to that position based on the values of top, right, bottom, and left.
-     * The offset does not affect the position of any sibling or parent elements.
-     */
-    ABSOLUTE,
-
-    /**
-     * When positioned absolutely an element doesn't take part in the normal layout flow.
-     * It is instead laid out independent of its siblings.
-     * The position is determined based on the top, right, bottom, and left values.
-     */
-    RELATIVE
-}
