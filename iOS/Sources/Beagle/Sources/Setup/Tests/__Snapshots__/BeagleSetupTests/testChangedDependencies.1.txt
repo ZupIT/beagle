@@ -27,7 +27,7 @@
   ▿ logger: BeagleLoggerProxy
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
-    - logger: BeagleLoggerDefault
+    - logger: Optional<BeagleLoggerType>.none
   ▿ navigation: BeagleNavigator
     - builders: 0 key/value pairs
     - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
