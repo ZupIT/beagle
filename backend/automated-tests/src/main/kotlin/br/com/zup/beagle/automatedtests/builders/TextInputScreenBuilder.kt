@@ -16,22 +16,24 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.ImagePath
-import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
 
+data class TextInputAtt(val placeholder: String, val isReadOnly: Boolean)
+
+data class TextInputTypes(val placeholder: String, val textInputType: TextInputType)
+
+data class TextInputHidden(val placeholder: String, val hidden: Boolean)
+
 object TextInputScreenBuilder {
-    val styleTextInput = Style(margin = EdgeValue(top = 10.unitReal(), left = 25.unitReal(), right = 25.unitReal()))
 
     fun build() = Screen(
         navigationBar = NavigationBar(
@@ -51,25 +53,108 @@ object TextInputScreenBuilder {
             )
         ),
         child = Container(
-            listOf(
-                createTextInput(value = "Text Input without style!"),
-                createTextInput(value = "Text Input with style!", styleId =  "DesignSystem.TextInput.Style.Bff")
+            context = ContextData(id = "textInput", value = "TextInput with expression"),
+            children = listOf(
+                TextInput(value = "TextInput test"),
+                TextInput(value = expressionOf("@{textInput}")),
+                TextInput(placeholder = "TextInput placeholder"),
+                Container(
+                    context = ContextData(id = "isPlaceholder", value = "TextInput placeholder with expression"),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{isPlaceholder}"))
+                    )
+                ),
+                TextInput(placeholder = "Standard text with disabled field", disabled = true),
+                TextInput(placeholder = "non-editable field", readOnly = true),
+                Container(
+                    context = ContextData(
+                        id = "isReadOnly", value = TextInputAtt(placeholder = "is Read Only", isReadOnly = true)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{isReadyOnly.placeholder}"),
+                            readOnly = expressionOf("@{isReadOnly.isReadyOnly}"))
+                    )
+                ),
+                TextInput(type = TextInputType.DATE),
+                TextInput(type = TextInputType.EMAIL),
+                TextInput(type = TextInputType.PASSWORD),
+                TextInput(type = TextInputType.NUMBER),
+                TextInput(type = TextInputType.TEXT),
+                Container(
+                    context = ContextData(
+                        id = "isDateExpression", value = TextInputTypes(placeholder = "is textInput type Date",
+                        textInputType = TextInputType.DATE)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{isDateExpression.placeholder}"),
+                            type = expressionOf("@{isDateExpression.textInputType}"))
+                    )
+                ),
+                Container(
+                    context = ContextData(
+                        id = "isEmailExpression", value = TextInputTypes(placeholder = "is textInput type email",
+                        textInputType = TextInputType.EMAIL)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{isEmailExpression.placeholder}"),
+                            type = expressionOf("@{isEmailExpression.textInputType}"))
+                    )
+                ),
+                Container(
+                    context = ContextData(
+                        id = "isPasswordExpression", value = TextInputTypes(placeholder = "is textInput type password",
+                        textInputType = TextInputType.PASSWORD)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{isPasswordExpression.placeholder}"),
+                            type = expressionOf("@{isPasswordExpression.textInputType}"))
+                    )
+                ),
+                Container(
+                    context = ContextData(
+                        id = "isNumberExpression", value = TextInputTypes(placeholder = "is textInput type number",
+                        textInputType = TextInputType.NUMBER)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{isNumberExpression.placeholder}"),
+                            type = expressionOf("@{isNumberExpression.textInputType}"))
+                    )
+                ),
+                Container(
+                    context = ContextData(
+                        id = "isTextExpression", value = TextInputTypes(placeholder = "is textInput type text",
+                        textInputType = TextInputType.TEXT)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{isTextExpression.placeholder}"),
+                            type = expressionOf("@{isTextExpression.textInputType}"))
+                    )
+                ),
+                TextInput(placeholder = "Field will be hidden", hidden = true),
+                Container(
+                    context = ContextData(
+                        id = "isHiddenWithExpression", value = TextInputHidden(placeholder = "is textInput hidden",
+                        hidden = true)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{placeholder}"),
+                            readOnly = expressionOf("@{placeholder.hidden}")
+                        )
+                    )
+                ),
+                TextInput(
+                    placeholder = "textInput with onChange", onChange = listOf(
+                    Alert(title = "Text input onChange", message = "This is a textInput with onChange action"))
+                ),
+                TextInput(
+                    placeholder = "textInput with onChange", onFocus = listOf(
+                    Alert(title = "Text input onFocus", message = "This is a textInput with onFocus action"))
+                ),
+                TextInput(
+                    placeholder = "textInput with onChange", onBlur = listOf(
+                    Alert(title = "Text input onBlur", message = "This is a textInput with onBlur action"))
+                )
             )
         )
     )
-
-    private fun createTextInput(styleId: String? = null, value: String) =
-        Container(
-            children = listOf(
-                Text(text = "@{textInput}").applyStyle(styleTextInput),
-                TextInput(
-                    placeholder = "Your text",
-                    styleId = styleId
-                ).applyStyle(styleTextInput)
-            ),
-            context = ContextData(
-                id = "textInput",
-                value = value
-            )
-        )
 }
