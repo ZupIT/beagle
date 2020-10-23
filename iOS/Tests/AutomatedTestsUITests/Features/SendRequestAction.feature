@@ -37,7 +37,7 @@ Feature: Send Request Action Validation
         
     Scenario Outline: Send Request 02 - The send request onFinish action get some result and modifies the pressed button
         When I press the "<title>" button
-        Then the pressed button changes it's "<title>" title to "didFinish"
+        Then the pressed button changes its "<title>" title to "didFinish"
     
     Examples:
     |          title            |
