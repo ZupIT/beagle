@@ -312,6 +312,10 @@ error do |lane, exception, options|
   end
 end
 
+# input: 1.2.0; output: 1.1.0
+# input: 1.2.2; output: 1.2.1
+# input: 1.2.3-iOS; output: 1.2.2-iOS
+# input: 3.0.0; output: 2.0.0
 lane :lastExpectedVersion do |params|
   platform = params[:newVersion].split("-")
   releaseNumberArray = platform.first.split(".")
