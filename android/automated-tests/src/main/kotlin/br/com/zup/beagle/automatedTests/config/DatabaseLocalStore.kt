@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.automatedTests.config
 
-import android.app.Application
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
