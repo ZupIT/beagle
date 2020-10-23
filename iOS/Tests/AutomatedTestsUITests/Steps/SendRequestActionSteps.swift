@@ -51,7 +51,7 @@ class SendRequestActionSteps: CucumberStepsDefinition {
         }
         
         // Scenario 2
-        Then(#"^the pressed button changes it's "([^\"]*)" title to "([^\"]*)"$"#) { args, _ -> Void in
+        Then(#"^the pressed button changes its "([^\"]*)" title to "([^\"]*)"$"#) { args, _ -> Void in
             let oldButtonTitle = args![0]
             let currentButtonTitle = args![1]
             XCTAssertFalse(self.application.buttons[oldButtonTitle].exists)
