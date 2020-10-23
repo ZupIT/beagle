@@ -28,8 +28,8 @@ class SendRequestActionSteps: CucumberStepsDefinition {
                 self.application = TestUtils.launchBeagleApplication(url: url)
             }
         }
-        // MARK: - Given
         
+        // MARK: - Given
         Given("^the Beagle application did launch with the send request screen url$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.SEND_REQUEST_SCREEN_TITLE.element.exists)
         }
@@ -37,7 +37,7 @@ class SendRequestActionSteps: CucumberStepsDefinition {
         // MARK: - When
         
         /// Scenarios 1 and 2
-        When("^I press the \"([^\\\"]*)\" button$") { args, _ -> Void in
+        When("^I press the \"([^\"]*)\" button$") { args, _ -> Void in
             let text = args![0]
             self.application.buttons[text].tap()
         }
@@ -45,13 +45,13 @@ class SendRequestActionSteps: CucumberStepsDefinition {
         // MARK: - Then
         
         /// Scenario 1
-        Then("^the screen should show some alert with \"([^\\\"]*)\" title$") { args, _ -> Void in
+        Then("^the screen should show some alert with \"([^\"]*)\" title$") { args, _ -> Void in
             let text = args![0]
             XCTAssertTrue(self.application.alerts.element.staticTexts[text].exists)
         }
         
         /// Scenario 2
-        Then("^the pressed button changes it's \"([^\\\"]*)\" title to \"([^\\\"]*)\"$") { args, _ -> Void in
+        Then("^the pressed button changes it's \"([^\"]*)\" title to \"([^\"]*)\"$") { args, _ -> Void in
             let oldButtonTitle = args![0]
             let currentButtonTitle = args![1]
             XCTAssertFalse(self.application.buttons[oldButtonTitle].exists)
