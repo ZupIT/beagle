@@ -15,7 +15,8 @@
 */
 
 import XCTest
-@testable import Beagle
+import Beagle
+@testable import BeagleDemo
 
 class CacheDiskManagerTests: XCTestCase {
     // swiftlint:disable force_unwrapping
@@ -198,6 +199,6 @@ class CacheDiskManagerTests: XCTestCase {
     }
 }
 
-struct CacheDiskManagerDependencies: DefaultCacheDiskManager.Dependencies {
+struct CacheDiskManagerDependencies: DependencyLogger {
     var logger: BeagleLoggerType = BeagleLoggerDefault()
 }

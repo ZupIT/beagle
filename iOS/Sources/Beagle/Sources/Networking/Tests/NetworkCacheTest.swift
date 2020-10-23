@@ -35,7 +35,7 @@ final class NetworkCacheTests: XCTestCase {
         "Cache-Control": "max-age=\(maxAge)"
     ]
 
-    func test_withCacheControlHeader_itShouldCacheTheResponse() {
+    func testCacheControlHeaderShouldCacheTheResponse() {
         // Given
         let urlResponse = HTTPURLResponse(url: URL(string: id)!, statusCode: 200, httpVersion: nil, headerFields: completeHeaders)!
 
@@ -53,7 +53,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache.maxAge == maxAge)
     }
 
-    func test_shouldFailMetaDataWithoutHash() {
+    func testShouldFailMetaDataWithoutHash() {
         // Given
         let headers = [AnyHashable: Any]()
 
@@ -64,7 +64,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache == nil)
     }
 
-    func test_shouldHaveMetaData() {
+    func testShouldHaveMetaData() {
         // When
         let cache = subject.getMetaData(from: completeHeaders)
 
@@ -73,7 +73,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache?.maxAge == maxAge)
     }
 
-    func test_metaDataWithInvalidMaxAge() {
+    func testMetaDataWithInvalidMaxAge() {
         // Given
         let invalidMaxAge = "notNumber"
         completeHeaders["Cache-Control"] = invalidMaxAge
@@ -86,7 +86,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache?.maxAge == nil)
     }
 
-    func test_whenDataNotCached() {
+    func testWhenDataNotCached() {
         // When
         let cache = subject.checkCache(identifiedBy: id, additionalData: nil)
 
@@ -94,7 +94,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache == .dataNotCached)
     }
 
-    func test_whenValidCachedData() {
+    func testWhenValidCachedData() {
         // Given
         cacheSpy.references.append(.init(cache: reference, isValid: true))
 
@@ -105,7 +105,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache == .validCachedData(data))
     }
 
-    func test_cacheDisabled() {
+    func testCacheDisabled() {
         // Given
         dependencies.cacheManager = nil
 
@@ -116,7 +116,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache == .disabled)
     }
 
-    func test_invalidCachedData() {
+    func testInvalidCachedData() {
         // Given
         cacheSpy.references.append(.init(cache: reference, isValid: false))
 
@@ -127,7 +127,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache == .invalidCachedData(data: data, additional: nil))
     }
 
-    func test_invalidCachedDataWithHash() {
+    func testInvalidCachedDataWithHash() {
         // Given
         cacheSpy.references.append(.init(cache: reference, isValid: false))
 

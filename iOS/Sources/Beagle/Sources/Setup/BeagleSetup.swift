@@ -21,6 +21,8 @@ public var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
     didSet { BeagleSchema.dependencies = dependencies }
 }
 
+
+
 // MARK: - Public Functions
 
 /// Register a custom component
