@@ -14,6 +14,7 @@
 		3D8E5C7C25423198002B92E2 /* HttpRequestBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7925423176002B92E2 /* HttpRequestBuilderTest.swift */; };
 		3D8E5C80254234A0002B92E2 /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7625423176002B92E2 /* HttpRequestBuilder.swift */; };
 		3D8E5C81254234A3002B92E2 /* NetworkClientDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7725423176002B92E2 /* NetworkClientDefault.swift */; };
+		3DCE5356254320D600D3B0A4 /* BeagleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCE5355254320D600D3B0A4 /* BeagleConfig.swift */; };
 		4F36AB2E251E7A5A0036F839 /* GlobalContextScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F36AB2D251E7A5A0036F839 /* GlobalContextScreen.swift */; };
 		6E2C784D2419853A00448728 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C784C2419853A00448728 /* Constants.swift */; };
 		6E4EE6C1240E970000624DFB /* ScreenDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */; };
@@ -116,6 +117,7 @@
 		3D8E5C7725423176002B92E2 /* NetworkClientDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientDefault.swift; sourceTree = "<group>"; };
 		3D8E5C7825423176002B92E2 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		3D8E5C7925423176002B92E2 /* HttpRequestBuilderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilderTest.swift; sourceTree = "<group>"; };
+		3DCE5355254320D600D3B0A4 /* BeagleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleConfig.swift; sourceTree = "<group>"; };
 		4F36AB2D251E7A5A0036F839 /* GlobalContextScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalContextScreen.swift; sourceTree = "<group>"; };
 		6E2C784C2419853A00448728 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDeepLink.swift; sourceTree = "<group>"; };
@@ -233,6 +235,27 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		3DCE53572543233600D3B0A4 /* BeagleConfig */ = {
+			isa = PBXGroup;
+			children = (
+				3DCE5355254320D600D3B0A4 /* BeagleConfig.swift */,
+				A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */,
+				3DCE53582543247C00D3B0A4 /* Analytics */,
+				93E4896D25423AA700293568 /* Cache */,
+				93E4896E25423AB000293568 /* Logger */,
+				3D8E5C6E25423124002B92E2 /* Network */,
+			);
+			path = BeagleConfig;
+			sourceTree = "<group>";
+		};
+		3DCE53582543247C00D3B0A4 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				C0479F58243282F00040E30C /* AnalyticsMock.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
 		6E2C784B241984F800448728 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,16 +286,10 @@
 		932925B02327E0E400A61F01 /* BeagleDemo */ = {
 			isa = PBXGroup;
 			children = (
-				93E4896E25423AB000293568 /* Logger */,
-				93E4896D25423AA700293568 /* Cache */,
-				3D8E5C6E25423124002B92E2 /* Network */,
 				932925BF2327E0E500A61F01 /* Info.plist */,
-				C0479F58243282F00040E30C /* AnalyticsMock.swift */,
 				932925B12327E0E400A61F01 /* AppDelegate.swift */,
-				6ED5B09D240464520070CB9D /* BeagleStyle.swift */,
-				A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */,
-				2576F468250ACF6C000CDB2A /* NativeViewController.swift */,
 				932925BA2327E0E500A61F01 /* Assets.xcassets */,
+				3DCE53572543233600D3B0A4 /* BeagleConfig */,
 				C0D0F47E245B48BB00FB57C1 /* CodeGeneration */,
 				6E2C784B241984F800448728 /* Constants */,
 				E75619862408363E0025E0A9 /* DesignSystem */,
@@ -295,9 +312,9 @@
 		93E4896D25423AA700293568 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				93E4896F25423B1B00293568 /* CacheManager.swift */,
 				93E4898525431ACB00293568 /* CoreData */,
 				93E4897525423D8E00293568 /* LRU */,
-				93E4896F25423B1B00293568 /* CacheManager.swift */,
 				93E4897225423B3600293568 /* Tests */,
 			);
 			path = Cache;
@@ -365,9 +382,12 @@
 				25C762AB251147F800AB4D33 /* ConditionActionScreen.swift */,
 				E756198E2408691A0025E0A9 /* CustomComponentScreen.swift */,
 				A038C8FC2407073D001164B1 /* FormScreen.swift */,
+				4F36AB2D251E7A5A0036F839 /* GlobalContextScreen.swift */,
+				6EA428712514457F00AEE741 /* ImageScreen.swift */,
 				A0642DCC23968B500028AFF3 /* LazyComponentScreen.swift */,
 				93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */,
 				A0642DCA23968A020028AFF3 /* MainScreen.swift */,
+				2576F468250ACF6C000CDB2A /* NativeViewController.swift */,
 				98F3D41024ED770F006DAB05 /* NavigateTypeScreen.swift */,
 				93A2EE1524E57E120085B3CF /* OperationsScreen.swift */,
 				A0642DD02396EC670028AFF3 /* PageViewScreen.swift */,
@@ -377,8 +397,6 @@
 				98A7F36B23A926C600E88C70 /* TabBarScreen.swift */,
 				6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */,
 				98E08D2224228DD200FBD21B /* WebViewScreen.swift */,
-				6EA428712514457F00AEE741 /* ImageScreen.swift */,
-				4F36AB2D251E7A5A0036F839 /* GlobalContextScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -459,11 +477,12 @@
 		E75619862408363E0025E0A9 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
-				25B7472E24F6D84E00AFE60A /* NavigationControllers */,
-				C09F40FC249AAAC2002605EE /* GenerationTests */,
-				E75619872408364A0025E0A9 /* DSCollection */,
-				C80AF1332493F0950097D200 /* OtherComponent.swift */,
+				6ED5B09D240464520070CB9D /* BeagleStyle.swift */,
 				A057D59724C9FE1D001F6835 /* ErrorView.swift */,
+				C80AF1332493F0950097D200 /* OtherComponent.swift */,
+				E75619872408364A0025E0A9 /* DSCollection */,
+				C09F40FC249AAAC2002605EE /* GenerationTests */,
+				25B7472E24F6D84E00AFE60A /* NavigationControllers */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -657,6 +676,7 @@
 				E75619892408365B0025E0A9 /* DSCollection.swift in Sources */,
 				C09F40F7249A8FFE002605EE /* TextContainer.swift in Sources */,
 				98F3D41124ED770F006DAB05 /* NavigateTypeScreen.swift in Sources */,
+				3DCE5356254320D600D3B0A4 /* BeagleConfig.swift in Sources */,
 				A057D59A24CA1DE7001F6835 /* CustomBeagleNavigationController.swift in Sources */,
 				25C762AC251147F800AB4D33 /* ConditionActionScreen.swift in Sources */,
 				A0642DD12396EC670028AFF3 /* PageViewScreen.swift in Sources */,

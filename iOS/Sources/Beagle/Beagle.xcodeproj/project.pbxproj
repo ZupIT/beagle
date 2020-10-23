@@ -1550,9 +1550,9 @@
 		E5CE41E82332B9B600295277 /* BeagleTests */ = {
 			isa = PBXGroup;
 			children = (
+				E5CE41EB2332B9B600295277 /* Info.plist */,
 				C0291887247D5BEE00C3AA13 /* Helpers */,
 				C0E569132476F003003D413F /* Spies */,
-				E5CE41EB2332B9B600295277 /* Info.plist */,
 			);
 			path = BeagleTests;
 			sourceTree = "<group>";
