@@ -159,7 +159,7 @@ lane :deploy do
   tagHashe = sh "git show-ref -s #{tagName}"
   puts tagHashe
   puts ENV["teste"]
-  sh "git checkout tags/#{{ tagName }} -b testedoido2"
+  sh "git checkout tags/#{tagName} -b testedoido2"
 
   ENV["VERSION_DEPLOY"] = versionNumber
 
