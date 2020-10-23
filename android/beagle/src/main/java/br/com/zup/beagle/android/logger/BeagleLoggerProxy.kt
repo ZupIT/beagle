@@ -20,7 +20,7 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 
 internal object BeagleLoggerProxy : BeagleLogger {
 
-    internal val logger: BeagleLogger? by lazy { BeagleEnvironment.beagleSdk.logger }
+    internal var logger: BeagleLogger? = BeagleEnvironment.beagleSdk.logger
 
     override fun warning(message: String) = runIfEnable {
         logger?.warning(message)

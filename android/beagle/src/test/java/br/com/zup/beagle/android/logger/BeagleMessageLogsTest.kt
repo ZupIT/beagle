@@ -178,21 +178,6 @@ class BeagleMessageLogsTest {
     }
 
     @Test
-    fun logDataNotInsertedOnDatabase_should_call_BeagleLogger_warning() {
-        // Given
-        val key = RandomData.string()
-        val value = RandomData.string()
-
-        // When
-        BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
-
-        // Then
-        verify(exactly = 1) {  BeagleLoggerProxy.warning("Error when trying to insert key=$key " +
-            "with value=$value on Beagle default database.") }
-
-    }
-
-    @Test
     fun errorWhileTryingToAccessContext_should_call_BeagleLogger_error() {
         // Given
         val exception = mockk<Exception>()

@@ -16,24 +16,33 @@
 
 package br.com.zup.beagle.android.logger
 
-import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.*
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 
 private val LOG = RandomData.string()
 
-class BeagleLoggerProxyTest : BaseTest() {
+class BeagleLoggerProxyTest {
 
-    private val logger = mockk<BeagleLogger>(relaxed = true, relaxUnitFun = true)
+    private val logger = mockk<BeagleLogger>(relaxUnitFun = true, relaxed = true)
 
-    override fun setUp() {
-        super.setUp()
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
 
-        every { beagleSdk.logger } returns mockk()
-        every { beagleSdk.config.isLoggingEnabled } returns true
+        mockkObject(BeagleEnvironment)
+
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
+        BeagleLoggerProxy.logger = logger
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test
@@ -59,6 +68,7 @@ class BeagleLoggerProxyTest : BaseTest() {
 
     @Test
     fun error_should_call_Log_w_if_is_enable() {
+
         // When
         BeagleLoggerProxy.error(LOG)
 
@@ -69,7 +79,7 @@ class BeagleLoggerProxyTest : BaseTest() {
     @Test
     fun error_should_not_call_Log_w_if_is_not_enable() {
         // Given
-        every { beagleSdk.config.isLoggingEnabled } returns false
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns false
 
         // When
         BeagleLoggerProxy.error(LOG)
@@ -90,7 +100,7 @@ class BeagleLoggerProxyTest : BaseTest() {
     @Test
     fun info_should_not_call_Log_w_if_is_not_enable() {
         // Given
-        every { beagleSdk.config.isLoggingEnabled } returns false
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns false
 
         // When
         BeagleLoggerProxy.info(LOG)
