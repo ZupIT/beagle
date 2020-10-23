@@ -147,19 +147,12 @@ lane :deploy do
   sh "git fetch"
 
   tagName = ENV["TAG_NAME"].split("/").last
-  isHotFix = tagName.index("-")
 
-  if isHotFix
-    branchName = "release/" + tagName
-    (versionNumber, platformHotfix) = tagName.split("-")
-  else
-    versionNumber = last_git_tag(pattern: "*[0-9]")
-    branchName = "master"
-  end
+  (versionNumber, platformHotfix) = tagName.split("-")
 
   ENV["VERSION_DEPLOY"] = versionNumber
 
-  sh "git checkout #{branchName}"
+  sh "git checkout tags/#{tagName} -b newReleaseFromTag#{tagName}"
 
   if platformHotfix == "iOS"
     puts "iOS Hotfix release"
@@ -185,7 +178,7 @@ lane :deploy do
     name: tagName,
     tag_name: tagName,
     description: releaseNotes,
-    commitish: branchName
+    commitish: ENV["COMMITISG"]
   )
 end
 
