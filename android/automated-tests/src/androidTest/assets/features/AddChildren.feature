@@ -39,14 +39,14 @@ Feature: AddChildren validation
         When I click on button REPLACE
         Then A Text need to replace the already exist one
 
-    Scenario: Replace - AddChildren replace the children container to a Text
+    Scenario: Prepend component doesn't exist - AddChildren replace the children container to a Text
         When I click on button PREPEND COMPONENT NULL
         Then Nothing should happen
 
-    Scenario: Replace - AddChildren replace the children container to a Text
+    Scenario: Append component doesn't exist - AddChildren replace the children container to a Text
         When I click on button APPEND COMPONENT NULL
         Then Nothing should happen
 
-    Scenario: Replace - AddChildren replace the children container to a Text
+    Scenario: Replace component doesn't exist - AddChildren replace the children container to a Text
         When I click on button REPLACE COMPONENT NULL
         Then Nothing should happen

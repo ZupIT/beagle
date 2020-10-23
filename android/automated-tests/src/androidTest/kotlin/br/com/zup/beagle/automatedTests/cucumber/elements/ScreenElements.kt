@@ -84,9 +84,3 @@ const val SEND_BUTTON = "Enviar"
 //Confirm Popup
 const val OK_BUTTON = "OK"
 const val CANCEL_BUTTON = "Cancel"
-
-//AddChildren Screen
-const val ADD_CHILDREN_HEADER = "Add Children"
-const val TEXT_FIXED = "I'm the single text on screen"
-const val TEXT_ADDED = "New text added"
-const val CONTAINER_ID = "containerId"
