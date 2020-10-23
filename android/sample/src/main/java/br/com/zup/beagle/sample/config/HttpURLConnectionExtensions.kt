@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.networking
+package br.com.zup.beagle.sample.config
 
 import java.lang.Exception
 import java.net.HttpURLConnection

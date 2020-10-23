@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.networking
+package br.com.zup.beagle.automatedTests
 
-import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
-import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.networking.HttpMethod
+import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.automatedTests.config.HttpClientDefault
+import br.com.zup.beagle.automatedTests.config.getSafeError
+import br.com.zup.beagle.automatedTests.config.getSafeResponseCode
+import br.com.zup.beagle.automatedTests.config.getSafeResponseMessage
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -46,6 +46,7 @@ import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
+import kotlinx.coroutines.test.runBlockingTest
 import java.net.UnknownServiceException
 
 private val BYTE_ARRAY_DATA = byteArrayOf()
@@ -74,7 +75,6 @@ class HttpClientDefaultTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        mockkObject(BeagleEnvironment)
 
         urlRequestDispatchingDefault = HttpClientDefault()
 
@@ -102,8 +102,8 @@ class HttpClientDefaultTest {
     @Test
     fun execute_should_be_executed_successfully() = runBlockingTest {
         // Given
-        val headerName = RandomData.string()
-        val headerValue = RandomData.string()
+        val headerName = "headerName"
+        val headerValue = "headerValue"
         val headers = mapOf(headerName to listOf(headerValue))
         every { httpURLConnection.headerFields } returns headers
 
@@ -121,7 +121,7 @@ class HttpClientDefaultTest {
     @Test
     fun execute_should_disconnect_after_response() = runBlockingTest {
         urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
-            verify(exactly = once()) { httpURLConnection.disconnect() }
+            verify(exactly = 1) { httpURLConnection.disconnect() }
         }, onError = { })
     }
 
@@ -129,8 +129,8 @@ class HttpClientDefaultTest {
     fun execute_should_set_headers() = runBlockingTest {
         // Given
         val headers = mapOf(
-            Pair(RandomData.string(), RandomData.string()),
-            Pair(RandomData.string(), RandomData.string())
+            Pair("header1", "value1"),
+            Pair("header2", "value2")
         )
         val requestData = RequestData(
             uri = uri,
@@ -141,7 +141,7 @@ class HttpClientDefaultTest {
         urlRequestDispatchingDefault.execute(requestData, onSuccess = {
             // Then
             headers.forEach {
-                verify(exactly = once()) { httpURLConnection.setRequestProperty(it.key, it.value) }
+                verify(exactly = 1) { httpURLConnection.setRequestProperty(it.key, it.value) }
             }
         }, onError = {})
 
@@ -151,7 +151,7 @@ class HttpClientDefaultTest {
     @Test
     fun execute_should_set_requestBody() = runBlockingTest {
         // Given
-        val data = RandomData.string()
+        val data = "data"
         val outputStream = mockk<OutputStream>()
         val requestData = RequestData(
             uri = uri,
@@ -165,8 +165,8 @@ class HttpClientDefaultTest {
         urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
             // Then
-            verify(exactly = once()) { outputStream.write(data.toByteArray()) }
-            verify(exactly = once()) {
+            verify(exactly = 1) { outputStream.write(data.toByteArray()) }
+            verify(exactly = 1) {
                 httpURLConnection.setRequestProperty(
                     "Content-Length",
                     data.length.toString()
@@ -180,10 +180,9 @@ class HttpClientDefaultTest {
     @Test
     fun `Given request with method type POST and with body content WHEN call execute request should return error`() = runBlockingTest {
         // Given
-        val data = RandomData.string()
         val requestData = RequestData(
             uri = uri,
-            body = data,
+            body = "body",
             method = HttpMethod.POST
         )
         every { httpURLConnection.outputStream } throws UnknownServiceException()
@@ -202,7 +201,7 @@ class HttpClientDefaultTest {
         val method = HttpMethod.GET
         val requestData = RequestData(
             uri = uri,
-            body = RandomData.string(),
+            body = "body",
             method = method
         )
 
@@ -221,7 +220,7 @@ class HttpClientDefaultTest {
         val method = HttpMethod.DELETE
         val requestData = RequestData(
             uri = uri,
-            body = RandomData.string(),
+            body = "body",
             method = method
         )
 
@@ -240,7 +239,7 @@ class HttpClientDefaultTest {
         val method = HttpMethod.HEAD
         val requestData = RequestData(
             uri = uri,
-            body = RandomData.string(),
+            body = "body",
             method = method
         )
 
@@ -260,7 +259,7 @@ class HttpClientDefaultTest {
         val method = HttpMethod.GET
         val requestData = RequestData(
             uri = uri,
-            body = RandomData.string(),
+            body = "body",
             method = method
         )
 
@@ -279,7 +278,7 @@ class HttpClientDefaultTest {
         val method = HttpMethod.GET
         val requestData = RequestData(
             uri = uri,
-            body = RandomData.string(),
+            body = "body",
             method = method
         )
 
@@ -310,7 +309,7 @@ class HttpClientDefaultTest {
                     "GET"
                 )
             }
-            verify(exactly = once()) { httpURLConnection.requestMethod = "GET" }
+            verify(exactly = 1) { httpURLConnection.requestMethod = "GET" }
 
         }, onError = {})
     }
@@ -333,7 +332,7 @@ class HttpClientDefaultTest {
                     "POST"
                 )
             }
-            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            verify(exactly = 1) { httpURLConnection.requestMethod = "POST" }
 
         }, onError = {})
 
@@ -357,7 +356,7 @@ class HttpClientDefaultTest {
                     "PUT"
                 )
             }
-            verify(exactly = once()) { httpURLConnection.requestMethod = "PUT" }
+            verify(exactly = 1) { httpURLConnection.requestMethod = "PUT" }
 
         }, onError = {})
 
@@ -381,7 +380,7 @@ class HttpClientDefaultTest {
                     "DELETE"
                 )
             }
-            verify(exactly = once()) { httpURLConnection.requestMethod = "DELETE" }
+            verify(exactly = 1) { httpURLConnection.requestMethod = "DELETE" }
 
         }, onError = {})
 
@@ -399,13 +398,13 @@ class HttpClientDefaultTest {
         urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
             // Then
-            verify(exactly = once()) {
+            verify(exactly = 1) {
                 httpURLConnection.setRequestProperty(
                     "X-HTTP-Method-Override",
                     "HEAD"
                 )
             }
-            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            verify(exactly = 1) { httpURLConnection.requestMethod = "POST" }
 
         }, onError = {})
 
@@ -423,13 +422,13 @@ class HttpClientDefaultTest {
         urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
             // Then
-            verify(exactly = once()) {
+            verify(exactly = 1) {
                 httpURLConnection.setRequestProperty(
                     "X-HTTP-Method-Override",
                     "PATCH"
                 )
             }
-            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            verify(exactly = 1) { httpURLConnection.requestMethod = "POST" }
 
         }, onError = {})
 
@@ -459,8 +458,8 @@ class HttpClientDefaultTest {
     @Test
     fun execute_should_read_empty_response() = runBlockingTest {
         // Given
-        val headerName = RandomData.string()
-        val headerValue = RandomData.string()
+        val headerName = "headerName"
+        val headerValue = "headerValue"
         val headers = mapOf(headerName to listOf(headerValue))
         every { httpURLConnection.headerFields } returns headers
         every { inputStream.readBytes() } throws EOFException()

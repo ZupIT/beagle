@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.logger
+package br.com.zup.beagle.automatedTests.config
 
-import br.com.zup.beagle.android.setup.BeagleEnvironment
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-internal class BeagleLoggerFactory {
-    fun make(): BeagleLogger {
-        return BeagleEnvironment.beagleSdk.logger ?: BeagleLoggerDefault()
+internal object CoroutineDispatchers {
+
+    init {
+        reset()
+    }
+
+    lateinit var IO: CoroutineDispatcher
+    lateinit var Main: CoroutineDispatcher
+    lateinit var Default: CoroutineDispatcher
+
+    fun reset() {
+        IO = Dispatchers.IO
+        Main = Dispatchers.Main
+        Default = Dispatchers.Default
     }
 }

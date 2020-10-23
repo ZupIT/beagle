@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.automatedTests
 
-import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.testutil.getPrivateField
+import br.com.zup.beagle.automatedTests.config.MemoryLocalStore
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
@@ -40,8 +39,8 @@ class MemoryLocalStoreTest {
     @Test
     fun save_should_call_lruCache_put() {
         // Given
-        val key = RandomData.string()
-        val value = RandomData.string()
+        val key = "key"
+        val value = "value"
 
         // When
         MemoryLocalStore.save(key, value)
@@ -55,8 +54,8 @@ class MemoryLocalStoreTest {
     @Test
     fun restore_should_call_lruCache() {
         // Given
-        val key = RandomData.string()
-        val value = RandomData.string()
+        val key = "key"
+        val value = "value"
 
         // When
         MemoryLocalStore.save(key, value)

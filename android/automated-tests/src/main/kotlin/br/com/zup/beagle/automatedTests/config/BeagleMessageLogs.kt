@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.networking
+package br.com.zup.beagle.automatedTests.config
 
-import br.com.zup.beagle.android.setup.BeagleEnvironment
+internal object BeagleMessageLogs {
 
-internal class HttpClientFactory {
-    fun make(): HttpClient {
-        return BeagleEnvironment.beagleSdk.httpClient ?: HttpClientDefault()
+    fun logDataNotInsertedOnDatabase(key: String, value: String) {
+        BeagleLoggerDefault().warning(
+            "Error when trying to insert key=$key with value=$value on Beagle default database."
+        )
     }
 }
