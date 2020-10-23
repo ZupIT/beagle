@@ -16,12 +16,11 @@
 
 package br.com.zup.beagle.android.imagedownloader
 
-import android.content.res.Resources
+
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import android.widget.ImageView
-import androidx.lifecycle.lifecycleScope
 import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
@@ -30,14 +29,14 @@ import br.com.zup.beagle.android.widget.RootView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal class DefaultImageDownloader : BeagleImageDownloader {
+internal class DefaultImageDownloader : BeagleImageDownloader, CoroutineScope() {
 
     private val imageDownloader: ImageDownloader = ImageDownloader()
 
     override fun download(url: String, imageView: ImageView, rootView: RootView) {
         imageView.post {
             if (allSizesGreaterThanZero(imageView)) {
-                rootView.getLifecycleOwner().lifecycleScope.launch(CoroutineDispatchers.IO) {
+                launch(CoroutineDispatchers.IO) {
                     val bitmap = try {
                         imageDownloader.getRemoteImage(url.formatUrl() ?: url, imageView.width, imageView.height)
                     } catch (e: Exception) {

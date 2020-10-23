@@ -19,11 +19,10 @@ package br.com.zup.beagle.automatedTests.utils
 import android.app.Activity
 import android.os.Handler
 import android.os.Looper
-import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
-import androidx.test.runner.lifecycle.Stage
-import java.util.*
+import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import android.support.test.runner.lifecycle.Stage
+import java.util.EnumSet
 import java.util.concurrent.CountDownLatch
-import kotlin.collections.ArrayList
 
 
 class ActivityFinisher : Runnable {

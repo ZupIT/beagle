@@ -40,7 +40,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner Dependencies.GeneralNames.testInstrumentationRunner
 
         if (project.ext.has("screenshotTests")) {
             testApplicationId "br.com.zup.beagle.automatedTests"
@@ -73,8 +73,7 @@ android {
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.AndroidxLibraries.coreKtx
-    implementation Dependencies.AndroidxLibraries.appcompat
+    implementation Dependencies.AndroidSupport.design
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
@@ -88,7 +87,6 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.espressoCore
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
 
 }
 

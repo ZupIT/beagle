@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import androidx.test.rule.ActivityTestRule
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
@@ -49,7 +49,7 @@ class ImageScreenSteps {
             .checkViewContainsText(IMAGE_SCREEN_HEADER, true)
     }
 
-    @Then("^image screen should render all text attributes correctly$")
+    @Then("^image screen should render all image attributes correctly$")
     fun checkImageScreenTexts() {
         ScreenRobot()
             .checkViewContainsText(IMAGE_TEXT_1)
@@ -58,6 +58,5 @@ class ImageScreenSteps {
 //            .checkViewContainsText(IMAGE_TEXT_3)
 //            .checkViewContainsText(IMAGE_TEXT_4)
 //            .checkViewContainsText(IMAGE_TEXT_5)
-
     }
 }

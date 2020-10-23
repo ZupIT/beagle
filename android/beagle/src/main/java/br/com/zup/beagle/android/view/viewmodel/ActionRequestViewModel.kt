@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.arch.lifecycle.LiveData
 import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
@@ -28,7 +26,7 @@ import br.com.zup.beagle.android.view.mapper.toResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlin.coroutines.CoroutineContext
 
 data class Response(
     val statusCode: Int?,
@@ -45,19 +43,19 @@ internal sealed class FetchViewState {
 internal class ActionRequestViewModel(
     private val ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
     private val actionRequester: ActionRequester = ActionRequester()
-) : ViewModel() {
+) : BaseViewModel() {
 
     fun fetch(sendRequest: SendRequestInternal): LiveData<FetchViewState> {
-        return FetchActionLiveData(actionRequester, sendRequest, viewModelScope, ioDispatcher)
+        return FetchActionLiveData(actionRequester, sendRequest, ioDispatcher, coroutineContext)
     }
 }
 
 private class FetchActionLiveData(
     private val actionRequester: ActionRequester,
     private val sendRequest: SendRequestInternal,
-    private val coroutineScope: CoroutineScope,
-    private val ioDispatcher: CoroutineDispatcher
-) : LiveData<FetchViewState>() {
+    private val ioDispatcher: CoroutineDispatcher,
+    override val coroutineContext: CoroutineContext,
+    ) : LiveData<FetchViewState>(), CoroutineScope {
 
     override fun onActive() {
         if (value == null) {
@@ -66,7 +64,7 @@ private class FetchActionLiveData(
     }
 
     private fun fetchData() {
-        coroutineScope.launch(ioDispatcher) {
+        launch(ioDispatcher) {
             try {
                 val response = actionRequester.fetchData(sendRequest.toRequestData())
                 postValue(FetchViewState.Success(response.toResponse()))

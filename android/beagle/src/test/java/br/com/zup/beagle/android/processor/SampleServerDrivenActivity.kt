@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.processor
 
-import androidx.appcompat.widget.Toolbar
+import android.support.v7.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState

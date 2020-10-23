@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.android.data.serializer;
 
-import androidx.annotation.Nullable;
+
+
+import android.support.annotation.Nullable;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
