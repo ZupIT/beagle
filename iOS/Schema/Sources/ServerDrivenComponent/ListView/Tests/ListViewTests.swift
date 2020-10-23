@@ -75,7 +75,6 @@ class ListViewTests: XCTestCase {
                   - position: Optional<EdgeValue>.none
                   - positionType: Optional<PositionType>.none
                   - size: Optional<Size>.none
-          - useParentScroll: Optional<Bool>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none

@@ -21,7 +21,7 @@ protocol ListViewDelegate: NSObjectProtocol {
     
     var listComponentView: ListViewUIComponent? { get }
     
-    func listIdentifierFor(_: String?) -> String?
+    func setIdentifier(_ id: String, in view: UIView)
     
     func setContext(_: Context, in: UIView)
     
@@ -95,9 +95,12 @@ extension ListViewController: BeagleControllerProtocol {
         return beagleController?.screen
     }
     
-    public func setIdentifier(_ id: String?, in view: UIView) {
-        let newId = delegate?.listIdentifierFor(id)
-        beagleController?.setIdentifier(newId, in: view)
+    func setIdentifier(_ id: String?, in view: UIView) {
+        if let id = id {
+            delegate?.setIdentifier(id, in: view)
+        } else {
+            beagleController?.setIdentifier(id, in: view)
+        }
     }
     
     func setContext(_ context: Context, in view: UIView) {
@@ -134,7 +137,8 @@ extension ListViewController: BeagleControllerProtocol {
     func setNeedsLayout(component: UIView) {
         beagleController?.setNeedsLayout(component: component)
         if let listComponent = delegate?.listComponentView, listComponent != component,
-           let cell = cellForView(component), let indexPath = collectionView.indexPath(for: cell) {
+           let cell = ListViewCell.cellForView(component),
+           let indexPath = collectionView.indexPath(for: cell) {
             cell.applyLayout()
             
             let context = UICollectionViewFlowLayoutInvalidationContext()
@@ -145,10 +149,6 @@ extension ListViewController: BeagleControllerProtocol {
             
             beagleController?.setNeedsLayout(component: listComponent)
         }
-    }
-    
-    private func cellForView(_ view: UIView?) -> ListViewCell? {
-        return (view as? ListViewCell) ?? cellForView(view?.superview)
     }
 }
 

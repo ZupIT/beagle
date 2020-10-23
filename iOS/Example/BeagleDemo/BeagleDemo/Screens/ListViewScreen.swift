@@ -353,6 +353,7 @@ struct ListViewScreen: DeeplinkScreen {
                         Image(
                             .value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{movie.poster_path}"))),
                             widgetProperties: .init(
+                                id: "imagem",
                                 style: Style()
                                     .size(Size().width(180).height(270))
                                     .margin(EdgeValue().all(10))

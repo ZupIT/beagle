@@ -21,6 +21,7 @@ final class ListViewCell: UICollectionViewCell {
     
     private(set) var itemHash: Int?
     private(set) var itemKey: String?
+    private(set) var viewsIdentifier = [UIView: String]()
     private(set) var viewContexts = [UIView: [Context]]()
     
     private var bindings = [() -> Void]()
@@ -53,13 +54,30 @@ final class ListViewCell: UICollectionViewCell {
         if let contexts = contexts {
             restoreContexts(contexts)
             container.setContext(Context(id: listView.model.iteratorName, value: item))
+            setViewsIdentifier(viewsIdentifier)
         } else {
             initContexts()
             container.setContext(Context(id: listView.model.iteratorName, value: item))
+            setViewsIdentifier(viewsIdentifier)
             onInits.forEach(listView.listController.execute)
         }
         
         addBindings()
+    }
+    
+    private func setViewsIdentifier(_ viewsIdentifier: [UIView: String]) {
+        let suffix = ":\(itemKey ?? "")"
+        let extendedIds = viewsIdentifier.reduce(into: [UIView: String]()) { result, entry in
+            result[entry.key] = entry.value.appending(suffix)
+        }
+        let beagleController = listView?.listController.beagleController
+        if beagleController is ListViewController {
+            Self.cellForView(listView)?.setViewsIdentifier(extendedIds)
+        } else {
+            for (view, id) in extendedIds {
+                beagleController?.setIdentifier(id, in: view)
+            }
+        }
     }
     
     private func templateContainer(for listView: ListViewUIComponent) -> TemplateContainer {
@@ -96,6 +114,11 @@ final class ListViewCell: UICollectionViewCell {
         for (view, contexts) in viewContexts {
             contexts.forEach(view.setContext)
         }
+    }
+    
+    static func cellForView(_ view: UIView?) -> Self? {
+        guard let view = view else { return nil }
+        return (view as? Self) ?? cellForView(view.superview)
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -145,11 +168,8 @@ extension ListViewCell: ListViewDelegate {
         return listView
     }
     
-    func listIdentifierFor(_ id: String?) -> String? {
-        if let id = id, let itemKey = itemKey {
-            return "\(id):\(itemKey)"
-        }
-        return id
+    func setIdentifier(_ id: String, in view: UIView) {
+        viewsIdentifier[view] = id
     }
     
     func setContext(_ context: Context, in view: UIView) {
