@@ -18,13 +18,11 @@ package br.com.zup.beagle.android.view.mapper
 
 import br.com.zup.beagle.android.action.RequestActionMethod
 import br.com.zup.beagle.android.action.SendRequestInternal
-import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.formatUrl
-import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
-import br.com.zup.beagle.android.utils.tryToDeserialize
 import br.com.zup.beagle.android.view.viewmodel.Response
 import java.net.URI
 
@@ -62,8 +60,5 @@ internal object SendRequestActionMapper {
         )
     }
 
-    private fun getDataFormatted(byteData: ByteArray): Any? {
-        val data = String(byteData)
-        return data.tryToDeserialize()
-    }
+    private fun getDataFormatted(byteData: ByteArray): Any? = String(byteData).normalizeContextValue()
 }

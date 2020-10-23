@@ -95,7 +95,7 @@ class ContextExpressionReplacer {
         if (isNotTheLastMatch(index, listInReverseOrderOfStringsToEvaluate)) {
             val nextStringItem = listInReverseOrderOfStringsToEvaluate[index + 1]
             listInReverseOrderOfStringsToEvaluate[index + 1] = nextStringItem.plus(actualStringToEvaluate)
-        }else{
+        } else {
             evaluatedItemsInReverseOrder.add(actualStringToEvaluate)
         }
     }
@@ -114,10 +114,15 @@ class ContextExpressionReplacer {
         actualStringToEvaluate: String
     ): String {
         val valueToChangeInEvaluation = matchResult.groupValues[2]
-        val evaluatedValueToBeReplaced = evaluatedExpressions[valueToChangeInEvaluation].toString()
+        val evaluatedValueToBeReplaced = evaluatedExpressions[valueToChangeInEvaluation]
+        var valueReplaced = "@{$valueToChangeInEvaluation}"
+        val newType = "\"@{$valueToChangeInEvaluation}\""
+        if (evaluatedValueToBeReplaced !is String && actualStringToEvaluate.contains(newType)) {
+            valueReplaced = newType
+        }
         return actualStringToEvaluate
-            .replace("@{$valueToChangeInEvaluation}", evaluatedValueToBeReplaced)
+            .replace(valueReplaced, evaluatedValueToBeReplaced.toString())
     }
 
-    private fun isQuantityEven(quantity: Int) = quantity %2 == 0
+    private fun isQuantityEven(quantity: Int) = quantity % 2 == 0
 }

@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.automatedTests.config
 
-import br.com.zup.beagle.android.setup.BeagleEnvironment
+internal object BeagleMessageLogs {
 
-internal class StoreHandlerFactory(
-    private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment
-) {
-    fun make(): StoreHandler {
-        return beagleEnvironment.beagleSdk.storeHandler ?: StoreHandlerDefault()
+    fun logDataNotInsertedOnDatabase(key: String, value: String) {
+        BeagleLoggerDefault().warning(
+            "Error when trying to insert key=$key with value=$value on Beagle default database."
+        )
     }
 }

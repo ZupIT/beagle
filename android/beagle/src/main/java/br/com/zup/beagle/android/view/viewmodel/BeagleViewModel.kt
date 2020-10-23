@@ -42,7 +42,7 @@ sealed class ViewState {
     data class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
 }
 
-internal class BeagleViewModel(
+internal open class BeagleViewModel(
     private val ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
     private val componentRequester: ComponentRequester = ComponentRequester()
 ) : ViewModel() {

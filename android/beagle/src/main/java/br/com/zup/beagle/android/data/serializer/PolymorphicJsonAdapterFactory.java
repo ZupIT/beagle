@@ -90,8 +90,8 @@ import java.util.Set;
  *
  * <ul>
  *   <li>Base types may be classes or interfaces.
- *   <li>Subtypes must encode as JSON objects.
- *   <li>Type information must be in the encoded object. Each message must have a type label like
+ *   <li>Subtypes must cryptography as JSON objects.
+ *   <li>Type information must be in the cryptography object. Each message must have a type label like
  *       {@code hand_type} whose value is a string like {@code blackjack} that identifies which type
  *       to use.
  *   <li>Each type identifier must be unique.

@@ -64,12 +64,18 @@ class PreviewActivity : BeagleActivity() {
 
         beaglePreview.startListening(object : WebSocketListener {
             override fun onClose(reason: String?) {
-                Log.d(TAG, "onClose: Connection closed by remote host")
+                Toast.makeText(applicationContext,
+                    "onClose: Connection closed by remote host",
+                    Toast.LENGTH_SHORT
+                ).show()
                 beaglePreview.reconnectSchedule()
             }
 
             override fun onMessage(message: String) {
-                Log.d(TAG, "onMessage: $message")
+                Toast.makeText(applicationContext,
+                    "onMessage: $message",
+                    Toast.LENGTH_SHORT
+                ).show()
                 runOnUiThread {
                     if (!message.startsWith("Welcome")) {
                         flPreview.renderScreen(activity = this@PreviewActivity, screenJson = message)
@@ -80,7 +86,10 @@ class PreviewActivity : BeagleActivity() {
             }
 
             override fun onError(ex: Exception?) {
-                Log.w(TAG, "onError: Closed webSocket trying to reconnect")
+                Toast.makeText(applicationContext,
+                    "onError: Closed webSocket trying to reconnect",
+                    Toast.LENGTH_SHORT
+                ).show()
                 beaglePreview.reconnectSchedule()
             }
         })

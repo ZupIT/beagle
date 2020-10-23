@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.logger
+package br.com.zup.beagle.automatedTests
 
 import android.util.Log
-import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.logger.BeagleLogger
+import br.com.zup.beagle.automatedTests.config.BeagleLoggerDefault
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
@@ -28,7 +28,7 @@ import org.junit.Before
 import org.junit.Test
 
 private const val BEAGLE_TAG = "BeagleSDK"
-private val LOG = RandomData.string()
+private const val LOG = "log"
 
 class BeagleLoggerDefaultTest {
 
@@ -58,7 +58,7 @@ class BeagleLoggerDefaultTest {
         beagleLoggerDispatchingDefault.warning(LOG)
 
         // Then
-        verify(exactly = once()) { Log.w(BEAGLE_TAG, LOG) }
+        verify(exactly = 1) { Log.w(BEAGLE_TAG, LOG) }
     }
 
     @Test
@@ -67,7 +67,7 @@ class BeagleLoggerDefaultTest {
         beagleLoggerDispatchingDefault.error(LOG)
 
         // Then
-        verify(exactly = once()) { Log.e(BEAGLE_TAG, LOG) }
+        verify(exactly = 1) { Log.e(BEAGLE_TAG, LOG) }
     }
     
     @Test
@@ -76,7 +76,7 @@ class BeagleLoggerDefaultTest {
         beagleLoggerDispatchingDefault.info(LOG)
 
         // Then
-        verify(exactly = once()) { Log.i(BEAGLE_TAG, LOG) }
+        verify(exactly = 1) { Log.i(BEAGLE_TAG, LOG) }
     }
 
 }

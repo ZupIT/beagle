@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.logger
+package br.com.zup.beagle.sample.config
 
 import android.util.Log
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.logger.BeagleLogger
 
 private const val BEAGLE_TAG = "BeagleSDK"
 
-internal class BeagleLoggerDefault : BeagleLogger {
+@BeagleComponent
+class BeagleLoggerDefault : BeagleLogger {
 
     override fun warning(message: String) {
         Log.w(BEAGLE_TAG, message)

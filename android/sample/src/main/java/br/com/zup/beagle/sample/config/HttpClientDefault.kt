@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.networking
+package br.com.zup.beagle.sample.config
 
+import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.exception.BeagleApiException
-import br.com.zup.beagle.android.utils.CoroutineDispatchers
+import br.com.zup.beagle.android.networking.HttpClient
+import br.com.zup.beagle.android.networking.HttpMethod
+import br.com.zup.beagle.android.networking.RequestCall
+import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.sample.config.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -29,7 +34,8 @@ import java.net.HttpURLConnection
 typealias OnSuccess = (responseData: ResponseData) -> Unit
 typealias OnError = (responseData: ResponseData) -> Unit
 
-internal class HttpClientDefault : HttpClient, CoroutineScope {
+@BeagleComponent
+class HttpClientDefault : HttpClient, CoroutineScope {
 
     private val job = Job()
     override val coroutineContext = job + CoroutineDispatchers.IO
@@ -82,7 +88,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         addRequestMethod(urlConnection, request.method)
 
         if (request.body != null) {
-            setRequestBody(urlConnection, request.body)
+            setRequestBody(urlConnection, request)
         }
 
         try {
@@ -115,9 +121,13 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         }
     }
 
-    private fun setRequestBody(urlConnection: HttpURLConnection, data: String) {
-        urlConnection.setRequestProperty("Content-Length", data.length.toString())
-        urlConnection.outputStream.write(data.toByteArray())
+    private fun setRequestBody(urlConnection: HttpURLConnection, request: RequestData) {
+        urlConnection.setRequestProperty("Content-Length", request.body?.length.toString())
+        try {
+            urlConnection.outputStream.write(request.body?.toByteArray())
+        } catch (e: Exception) {
+            throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
+        }
     }
 
     private fun createResponseData(urlConnection: HttpURLConnection): ResponseData {

@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.store
+package br.com.zup.beagle.automatedTests.config
 
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.store.StoreHandler
+import br.com.zup.beagle.android.store.StoreType
+
+@BeagleComponent
 internal class StoreHandlerDefault(
     private val memoryLocalStore: MemoryLocalStore = MemoryLocalStore,
     private val databaseLocalStore: DatabaseLocalStore = DatabaseLocalStore()

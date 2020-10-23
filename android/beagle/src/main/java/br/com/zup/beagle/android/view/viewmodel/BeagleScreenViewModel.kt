@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.logger
+package br.com.zup.beagle.android.view.viewmodel
 
-import br.com.zup.beagle.android.setup.BeagleEnvironment
+import androidx.lifecycle.MutableLiveData
+import br.com.zup.beagle.android.data.ComponentRequester
+import br.com.zup.beagle.android.utils.CoroutineDispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 
-internal class BeagleLoggerFactory {
-    fun make(): BeagleLogger {
-        return BeagleEnvironment.beagleSdk.logger ?: BeagleLoggerDefault()
+internal class BeagleScreenViewModel(
+    private val ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
+    private val componentRequester: ComponentRequester = ComponentRequester()
+) : BeagleViewModel(ioDispatcher, componentRequester) {
+
+    val screenLoadFinished = MutableLiveData<Boolean>()
+
+    fun onScreenLoadFinished() {
+        screenLoadFinished.value = true
     }
 }

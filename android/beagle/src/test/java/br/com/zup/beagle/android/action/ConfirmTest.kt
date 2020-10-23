@@ -46,7 +46,7 @@ class ConfirmTest {
     private lateinit var viewFactory: ViewFactory
 
     private val builder = mockk<AlertDialog.Builder>()
-    private val dialog = mockk<AlertDialog>()
+    private val dialogBox = mockk<AlertDialog>()
     private val titleSlot = slot<String>()
     private val messageSlot = slot<String>()
     private val labelOkSlot = slot<String>()
@@ -123,15 +123,15 @@ class ConfirmTest {
             message = RandomData.string(),
             labelOk = RandomData.string()
         )
-        every { dialog.dismiss() } just Runs
+        every { dialogBox.dismiss() } just Runs
 
         // When
         action.viewFactory = viewFactory
         action.execute(rootView, view)
-        listenerOkSlot.captured.onClick(dialog, 0)
+        listenerOkSlot.captured.onClick(dialogBox, 0)
 
         // Then
-        verify(exactly = once()) { dialog.dismiss() }
+        verify(exactly = once()) { dialogBox.dismiss() }
     }
 
     @Test
@@ -145,12 +145,12 @@ class ConfirmTest {
             labelCancel = RandomData.string(),
             onPressOk = onPressOk
         )
-        every { dialog.dismiss() } just Runs
+        every { dialogBox.dismiss() } just Runs
 
         // When
         action.viewFactory = viewFactory
         action.execute(rootView, view)
-        listenerOkSlot.captured.onClick(dialog, 0)
+        listenerOkSlot.captured.onClick(dialogBox, 0)
 
         // Then
         verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk) }
@@ -167,12 +167,12 @@ class ConfirmTest {
             labelCancel = RandomData.string(),
             onPressCancel = onPressCancel
         )
-        every { dialog.dismiss() } just Runs
+        every { dialogBox.dismiss() } just Runs
 
         // When
         action.viewFactory = viewFactory
         action.execute(rootView, view)
-        listenerCancelSlot.captured.onClick(dialog, 0)
+        listenerCancelSlot.captured.onClick(dialogBox, 0)
 
         // Then
         verify(exactly = once()) { action.handleEvent(rootView, view, onPressCancel) }

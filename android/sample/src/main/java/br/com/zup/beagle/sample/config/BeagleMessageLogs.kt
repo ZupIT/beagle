@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.automatedTests
+package br.com.zup.beagle.sample.config
 
-import android.app.Application
-import br.com.zup.beagle.automatedTests.BeagleSetup
+internal object BeagleMessageLogs {
 
-class AppApplication : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-        APPLICATION = this
-        BeagleSetup().init(this)
+    fun logDataNotInsertedOnDatabase(key: String, value: String) {
+        BeagleLoggerDefault().warning(
+            "Error when trying to insert key=$key with value=$value on Beagle default database."
+        )
     }
-
-    companion object {
-        var APPLICATION: Application? = null
-    }
-
 }
