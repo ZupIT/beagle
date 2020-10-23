@@ -73,7 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [mainScreenViewController, UINavigationController(rootViewController: nativeViewController)]
         
+        window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
         
         return true
     }
