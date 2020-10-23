@@ -35,8 +35,6 @@ class Dependencies : Plugin<Project> {
         const val preview = ":preview"
         const val commonAnnotation = ":annotation"
         const val commonProcessorUtils = ":processor-utils"
-        const val kotlinCore = ":kotlin-core"
-        const val extendedSchema = ":common:extended-schema"
     }
 
     object Releases {
