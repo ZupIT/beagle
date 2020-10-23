@@ -19,12 +19,10 @@ package br.com.zup.beagle.android.view.custom
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.interfaces.OnStateUpdatable
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER
 import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_ON_STATE_CHANGED
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.implementsGenericTypeOf
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
@@ -107,12 +105,8 @@ internal class BeagleView(
     private fun renderComponent(component: ServerDrivenComponent, view: View? = null) {
         serverStateChangedListener?.invoke(ServerDrivenState.Success)
         if (view != null) {
-            if (component.implementsGenericTypeOf(OnStateUpdatable::class.java, component::class.java)) {
-                (component as? OnStateUpdatable<ServerDrivenComponent>)?.onUpdateState(component)
-            } else {
-                removeView(view)
-                addServerDrivenComponent(component)
-            }
+            removeView(view)
+            addServerDrivenComponent(component)
         } else {
             removeAllViewsInLayout()
             addServerDrivenComponent(component)

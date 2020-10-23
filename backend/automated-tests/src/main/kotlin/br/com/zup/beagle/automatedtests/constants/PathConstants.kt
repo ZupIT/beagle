@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.automatedtests.constants
+
 const val SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT = "/button"
 const val SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT = "/button-left"
 const val SCREEN_IMAGE_ENDPOINT = "/image"
@@ -49,7 +51,8 @@ const val PATH_LAZY_COMPONENT_ENDPOINT = "https://run.mocky.io/v3/0ff5b613-e30f-
 const val PATH_SCREEN_DEEP_LINK_ENDPOINT = "screen-deep-link"
 
 const val NAVIGATE_ACTIONS_ENDPOINT = "/navigate-actions"
-const val NAVIGATE_RESET_ENDPOINT = "/navigate-reset"
 const val GLOBAL_TEXT_ENDPOINT = "/global-text"
 const val GLOBAL_TEXT_EXPRESSION_ENDPOINT = "@{relativePath}"
+const val NAVIGATE_RESET_ENDPOINT = "/navigate-reset"
+const val CONTAINER_TEST_ENDPOINT = "/container-test"
 const val SEND_REQUEST_ACTION_ENDPOINT = "/send-request"

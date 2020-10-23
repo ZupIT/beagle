@@ -30,7 +30,6 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
@@ -41,9 +40,11 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Before
+import kotlinx.coroutines.Job
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @ExperimentalCoroutinesApi
 class BeagleViewModelTest : BaseTest() {
@@ -82,7 +83,6 @@ class BeagleViewModelTest : BaseTest() {
         coEvery { actionRequester.fetchAction(any()) } returns action
         every { observer.onChanged(any()) } just Runs
         coEvery { observer.onChanged(capture(slotViewState)) } just Runs
-
     }
 
     @Test
@@ -214,6 +214,68 @@ class BeagleViewModelTest : BaseTest() {
         //THEN
         verify(exactly = once()) { observer.onChanged(ViewState.DoRender(identifier, component)) }
 
+    }
+
+    @Test
+    fun `GIVEN a NULL FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        beagleUIViewModel.fetchComponent = null
+
+        //WHEN
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        assertFalse { isFetch }
+    }
+
+    @Test
+    fun `GIVEN a NULL Job in FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+
+        beagleUIViewModel.fetchComponent(screenRequest)
+        beagleUIViewModel.fetchComponent?.job = null
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        assertFalse { isFetch }
+    }
+
+    @Test
+    fun `GIVEN a Job COMPLETED in FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+        val mockJob = Job()
+        mockJob.complete()
+
+        beagleUIViewModel.fetchComponent(screenRequest)
+        beagleUIViewModel.fetchComponent?.job = mockJob
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        assertFalse { isFetch }
+    }
+
+    @Test
+    fun `GIVEN a Job NOT COMPLETED in FetchComponentLiveData WHEN isFetchComponent called SHOULD post ViewState doCancel and return true`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+        val mockJob = Job()
+
+        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+        beagleUIViewModel.fetchComponent?.job = mockJob
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        assertTrue { mockJob.isCancelled }
+        verify(exactly = once()) { observer.onChanged(ViewState.DoCancel) }
+        assertTrue { isFetch }
     }
 
 }

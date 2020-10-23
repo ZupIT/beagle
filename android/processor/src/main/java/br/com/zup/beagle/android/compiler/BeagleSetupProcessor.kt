@@ -16,13 +16,12 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.compiler.ANDROID_ACTION
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
-import br.com.zup.beagle.compiler.implementsInterface
-import br.com.zup.beagle.compiler.BEAGLE_IMAGE_DOWNLOADER
+import br.com.zup.beagle.compiler.BEAGLE_CORE_WIDGET
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
 import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER_IMPL
+import br.com.zup.beagle.compiler.BEAGLE_IMAGE_DOWNLOADER
 import br.com.zup.beagle.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.compiler.BEAGLE_SDK
 import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
@@ -30,7 +29,6 @@ import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
 import br.com.zup.beagle.compiler.error
-import br.com.zup.beagle.widget.Widget
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
@@ -39,7 +37,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
-import javax.lang.model.element.TypeElement
 
 class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
@@ -134,7 +131,7 @@ class BeagleSetupProcessor(
             .addImport(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
             .addImport(BEAGLE_CUSTOM_ADAPTER_IMPL.packageName, BEAGLE_CUSTOM_ADAPTER_IMPL.className)
             .addImport(basePackageName, beagleConfigClassName)
-            .addImport(Widget::class, "")
+            .addImport(BEAGLE_CORE_WIDGET.packageName, BEAGLE_CORE_WIDGET.className)
             .addImport(ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className), "")
     }
 

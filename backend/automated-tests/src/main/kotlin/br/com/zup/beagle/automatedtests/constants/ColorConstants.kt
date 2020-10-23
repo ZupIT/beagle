@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.automatedtests.constants
+
 const val CYAN_BLUE = "#0f4c81"
 const val STEEL_BLUE = "#4682b4"
 const val LIGHT_GREEN = "#B8E297"

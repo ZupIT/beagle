@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.automatedtests.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.context.ContextData

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import PATH_LAZY_COMPONENT_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.PATH_LAZY_COMPONENT_ENDPOINT
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.AlignSelf
