@@ -24,9 +24,17 @@ Feature: TextInput Validation
         Given the Beagle application did launch with the textInput on screen
 
     Scenario Outline: TextInput 01 - validate value field if filled
-        Then I must check if the text <textInputValue> appears on the screen
+        Then I must check if the textInput value <textInputValue> appears on the screen
 
         Examples:
-        |  textInputValue            |
-        |  TextInput test            |
-        |  TextInput with expression |
+            | textInputValue            |
+            | TextInput test            |
+            | TextInput with expression |
+
+    Scenario Outline: TextInput 02 - validate placeholder field if filled
+        Then I must check if the textInput placeholder <textInputPlaceholder> appears on the screen
+
+        Examples:
+            | textInputPlaceholder                  |
+            | TextInput placeholder                 |
+            | TextInput placeholder with expression |

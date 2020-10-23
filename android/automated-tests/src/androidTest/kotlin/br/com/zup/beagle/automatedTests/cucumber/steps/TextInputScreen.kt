@@ -30,10 +30,16 @@ class TextInputScreen {
             .checkViewContainsText("Beagle Text Input", true)
     }
 
-    @Then("^I must check if the text (.*) appears on the screen$")
-    fun checkGlobalTextScreen(string2:String) {
+    @Then("^I must check if the textInput value (.*) appears on the screen$")
+    fun checkTextInput(string:String) {
         ScreenRobot()
-            .checkViewContainsText(string2, true)
+            .checkViewContainsText(string, true)
+    }
+
+    @Then("^I must check if the textInput placeholder (.*) appears on the screen$")
+    fun checkTextInputPlaceholder(string:String) {
+        ScreenRobot()
+            .checkViewContainsHint(string, true)
     }
 
     @After("@textInput")
