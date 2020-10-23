@@ -30,16 +30,16 @@ final class RepositoryTests: XCTestCase {
     func test_requestWithInvalidURL_itShouldFail() {
         // Given
         let invalidURL = "🥶"
-        let dependencies = BeagleDependencies()
-        dependencies.urlBuilder = UrlBuilderStub(baseUrl: nil, resultURL: nil)
-        let sut = RepositoryDefault(dependencies: dependencies)
+        let beagleDependencies = BeagleDependencies()
+        beagleDependencies.urlBuilder = UrlBuilderStub(baseUrl: nil, resultURL: nil)
+        let repository = RepositoryDefault(dependencies: beagleDependencies)
         
-        // When
         let fetchComponentExpectation = expectation(description: "fetchComponent")
         var fetchError: Request.Error?
         let expectedError = Request.Error.urlBuilderError
         
-        sut.fetchComponent(url: invalidURL, additionalData: nil) {
+        // When
+        repository.fetchComponent(url: invalidURL, additionalData: nil) {
             if case let .failure(error) = $0 {
                 fetchError = error
             }
@@ -52,7 +52,7 @@ final class RepositoryTests: XCTestCase {
             method: .post, values: [:]
         )
 
-        sut.submitForm(url: invalidURL, additionalData: nil, data: formData) {
+        repository.submitForm(url: invalidURL, additionalData: nil, data: formData) {
             if case let .failure(error) = $0 {
                 formError = error
             }
