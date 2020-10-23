@@ -21,6 +21,7 @@ import br.com.zup.beagle.widget.action.RequestActionMethod
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
@@ -52,6 +53,7 @@ object SendRequestScreenBuilder {
                 ),
                 Container(
                     listOf(
+                        requestWithExpressionMethod(),
                         requestsWithSuccess(),
                         requestWithError(),
                         onFinishButtons()
@@ -60,6 +62,35 @@ object SendRequestScreenBuilder {
             )
         )
     )
+
+    private fun requestWithExpressionMethod(): Container =
+        Container(
+            context = ContextData(
+                id = "methodViaExpression",
+                value = RequestActionMethod.GET
+            ),
+            children = listOf(
+                Button(
+                    text = "Request with Expression Method",
+                    onPress = listOf(
+                        SendRequest(
+                            url = expressionOf("@{sendRequestURL}"),
+                            method = expressionOf("@{methodViaExpression}"),
+                            onSuccess = listOf(
+                                Alert(
+                                    title = "Success",
+                                    message = "@{onSuccess.data}"
+                                )),
+                            onError = listOf(
+                                Alert(
+                                    title = "Error",
+                                    message = "@{onError.data}"
+                                ))
+                        )
+                    )
+                )
+            )
+        )
 
     private fun onFinishButtons(): Container  = Container(
         listOf(
