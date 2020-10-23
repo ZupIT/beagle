@@ -71,7 +71,7 @@ object SendRequestScreenBuilder {
             ),
             children = listOf(
                 Button(
-                    text = "Request with Expression Method",
+                    text = "request with expression method",
                     onPress = listOf(
                         SendRequest(
                             url = expressionOf("@{sendRequestURL}"),

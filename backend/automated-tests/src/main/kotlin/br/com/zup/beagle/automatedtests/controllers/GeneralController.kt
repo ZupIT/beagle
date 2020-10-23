@@ -24,7 +24,7 @@ import br.com.zup.beagle.automatedtests.constants.SAFE_AREA_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
-import SEND_REQUEST_ACTION_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SEND_REQUEST_ACTION_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.SendRequestScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
