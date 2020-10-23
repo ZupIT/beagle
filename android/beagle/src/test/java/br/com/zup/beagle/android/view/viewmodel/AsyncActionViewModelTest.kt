@@ -18,47 +18,39 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
-import io.mockk.*
-import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import br.com.zup.beagle.android.context.AsyncActionData
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class BeagleScreenViewModelTest: BaseTest() {
+class AsyncActionViewModelTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val scope = CoroutineTestRule()
+    private val observer = mockk<Observer<AsyncActionData>>()
 
-    @MockK
-    private lateinit var observer: Observer<Boolean>
-
-    private lateinit var beagleScreenViewModel: BeagleScreenViewModel
-
-    override fun setUp() {
-        super.setUp()
-
-        beagleScreenViewModel = BeagleScreenViewModel()
+    @Before
+    fun setUp() {
         every { observer.onChanged(any()) } just Runs
     }
 
     @Test
-    fun `GIVEN a BeagleScreenViewModel WHEN onScreenLoadFinished THEN post screenLoadFinished should be called`() {
-
+    fun `GIVEN a AsyncActionViewModel WHEN onAsyncActionExecuted was called THEN should post asyncActionData received`() {
         //Given
-        beagleScreenViewModel.screenLoadFinished.observeForever(observer)
+        val asyncActionData = mockk<AsyncActionData>()
+        val viewModel = AsyncActionViewModel()
+        viewModel.asyncActionExecuted.observeForever(observer)
 
         // When
-        beagleScreenViewModel.onScreenLoadFinished()
+        viewModel.onAsyncActionExecuted(asyncActionData)
 
         // Then
-        verify {
-            observer.onChanged(true)
-        }
+        verify { observer.onChanged(asyncActionData) }
     }
 }

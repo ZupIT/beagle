@@ -90,8 +90,7 @@ class AbstractViewRendererTest : BaseTest() {
             rootView.getParentId()
             generateIdViewModel.getViewId(0)
             view.id = viewId
-            contextViewRenderer.addContext(contextViewModel, view, component)
-            contextViewRenderer.addListenerToHandleContext(contextViewModel, view)
+            contextViewRenderer.handleComponent(view, contextViewModel, component)
         }
     }
 
