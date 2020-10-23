@@ -178,7 +178,7 @@ lane :deploy do
     name: tagName,
     tag_name: tagName,
     description: releaseNotes,
-    commitish: ENV["COMMITISG"]
+    commitish: ENV["COMMITISH"]
   )
 end
 
