@@ -604,10 +604,10 @@
 		7C0391062425075D003E6FCD /* Logger */ = {
 			isa = PBXGroup;
 			children = (
-				C85688C02433F85A00DD8B60 /* Tests */,
-				7C03910724250772003E6FCD /* BeagleMessageLogs.swift */,
 				7C03910924250FC6003E6FCD /* BeagleLogger.swift */,
 				7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */,
+				7C03910724250772003E6FCD /* BeagleMessageLogs.swift */,
+				C85688C02433F85A00DD8B60 /* Tests */,
 			);
 			path = Logger;
 			sourceTree = "<group>";

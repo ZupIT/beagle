@@ -30,6 +30,7 @@ struct RequestDispatcher {
     
     // MARK: Internal Methods
 
+    @discardableResult
     func dispatchRequest(
         path: String,
         type: Request.RequestType,
@@ -41,10 +42,13 @@ struct RequestDispatcher {
             completion(.failure(.urlBuilderError))
             return nil
         }
+
         guard let networkClient = dependencies.networkClient else {
-            completion(.failure(.httpClientNil))
+            dependencies.logger.log(Log.network(.networkClientWasNotConfigured))
+            completion(.failure(.networkClientWasNotConfigured))
             return nil
         }
+        
         let request = Request(url: url, type: type, additionalData: additionalData)
         return networkClient.executeRequest(request) { result in
             completion(
