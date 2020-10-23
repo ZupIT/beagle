@@ -62,10 +62,10 @@ class NetworkCache {
         }
 
         var additional: RemoteScreenAdditionalData? {
-            switch self {
-            case .invalidCachedData(data: _, additional: let additional): return additional
-            default: return nil
+            if case .invalidCachedData(data: _, additional: let additional) = self {
+                return additional
             }
+            return nil
         }
     }
 
@@ -102,7 +102,7 @@ class NetworkCache {
             return nil
         }
 
-        // TODO: see if we need to work with other "cache-control" formats, like:
+        // See if we need to work with other "cache-control" formats, like:
         // Cache-Control: private, max-age=0, no-cache
         let values = specifiedAge.split(separator: "=")
         if let maxAgeValue = values.last, let int = Int(String(maxAgeValue)) {
