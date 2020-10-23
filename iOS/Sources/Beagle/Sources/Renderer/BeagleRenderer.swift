@@ -67,6 +67,19 @@ public struct BeagleRenderer {
         if let onInit = (component as? InitiableComponent)?.onInit {
             controller.addOnInit(onInit, in: view)
         }
+        
+        if let style = (component as? StyleComponent)?.style {
+            observe(style: style, in: view)
+        }
+    }
+    
+    private func observe(style: Style, in view: UIView) {
+        if let displayExpression = style.display {
+            observe(displayExpression, andUpdateManyIn: view) { [weak view] display in
+                guard let display = display else { return }
+                view?.yoga.display = YogaTranslating().translate(display)
+            }
+        }
     }
 }
 

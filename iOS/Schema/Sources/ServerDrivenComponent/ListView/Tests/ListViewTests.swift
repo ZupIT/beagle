@@ -56,7 +56,7 @@ class ListViewTests: XCTestCase {
                   - borderColor: Optional<String>.none
                   - borderWidth: Optional<Double>.none
                   - cornerRadius: Optional<CornerRadius>.none
-                  - display: Optional<Display>.none
+                  - display: Optional<Expression<Display>>.none
                   ▿ flex: Optional<Flex>
                     ▿ some: Flex
                       - alignContent: Optional<AlignContent>.none
@@ -84,7 +84,7 @@ class ListViewTests: XCTestCase {
                 - borderColor: Optional<String>.none
                 - borderWidth: Optional<Double>.none
                 - cornerRadius: Optional<CornerRadius>.none
-                - display: Optional<Display>.none
+                - display: Optional<Expression<Display>>.none
                 - flex: Optional<Flex>.none
                 - margin: Optional<EdgeValue>.none
                 - padding: Optional<EdgeValue>.none

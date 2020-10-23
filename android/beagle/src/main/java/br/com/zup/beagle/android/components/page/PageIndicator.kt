@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components.page
 
 import android.graphics.Color
-import android.util.Log
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.observeBindChanges

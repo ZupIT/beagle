@@ -16,14 +16,14 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
-import ACCESSIBILITY_ENDPOINT
-import ANALYTICS_ENDPOINT
-import EXPRESSION_ESCAPING_ENDPOINT
-import KOTLIN_DSL_ENDPOINT
-import SAFE_AREA_ENDPOINT
-import SCREEN_ACTION_CLICK_ENDPOINT
-import SCREEN_SAFE_AREA_FALSE_ENDPOINT
-import SCREEN_SAFE_AREA_TRUE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.ACCESSIBILITY_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.ANALYTICS_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.EXPRESSION_ESCAPING_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.KOTLIN_DSL_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SAFE_AREA_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder

@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import NAVIGATION_BAR_STYLE_DEFAULT
-import PATH_SCREEN_DEEP_LINK_ENDPOINT
-import SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NAVIGATION_BAR_STYLE_DEFAULT
+import br.com.zup.beagle.automatedtests.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
@@ -132,7 +132,8 @@ object ActionScreenBuilder {
             Text("Navigate with prefetch"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true,
-                    url = SCREEN_ACTION_CLICK_ENDPOINT))),
+                    url = SCREEN_ACTION_CLICK_ENDPOINT
+                ))),
                 text = "Click me!"
             )
         )

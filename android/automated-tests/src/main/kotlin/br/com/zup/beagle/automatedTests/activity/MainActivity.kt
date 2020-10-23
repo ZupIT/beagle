@@ -18,7 +18,7 @@ package br.com.zup.beagle.automatedTests.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.utils.newServerDrivenIntent
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.automatedTests.R
 
@@ -33,12 +33,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val url = bffUrl()
-        if(url != null) {
-            val intent = BeagleActivity.newIntent(this, ScreenRequest(url))
+        if (url != null) {
+            val intent = this.newServerDrivenIntent<AppBeagleActivity>(ScreenRequest(url))
             startActivity(intent)
             finish()
         }
     }
 
-    fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/button"
+    fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/navigate-actions"
 }

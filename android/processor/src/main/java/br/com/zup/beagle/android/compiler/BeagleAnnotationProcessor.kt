@@ -19,12 +19,11 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.annotation.RegisterValidator
-import br.com.zup.beagle.compiler.BEAGLE_CONFIG
-import br.com.zup.beagle.compiler.implementsInterface
 import br.com.zup.beagle.annotation.RegisterAction
-import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.implementsInterface
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
@@ -35,7 +34,6 @@ import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
 import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
-import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
 @AutoService(Processor::class)

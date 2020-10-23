@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components.form
 
 import android.view.View
-import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
