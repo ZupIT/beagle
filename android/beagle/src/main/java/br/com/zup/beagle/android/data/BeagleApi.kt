@@ -61,7 +61,7 @@ internal class BeagleApi(
             )
         })
         cont.invokeOnCancellation {
-            call?.cancel()
+            call.cancel()
         }
     }
 
