@@ -1,0 +1,15 @@
+on:
+    push:
+    pull_request:
+
+jobs:
+  horusec-security:
+    name: horusec-security
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Running Horusec Security
+      run: |
+        curl -fsSL https://horusec-cli.s3.amazonaws.com/install.sh | bash
+        horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**" -e="true" - F="f724792634fb01a17e7a3ff52dbabdd28388653aca1d726f1bbc1945eed8c4f3,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92"
