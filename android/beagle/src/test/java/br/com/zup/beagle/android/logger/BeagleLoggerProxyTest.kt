@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.*
+import kotlin.math.log
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -32,11 +33,10 @@ class BeagleLoggerProxyTest {
 
     @Before
     fun setUp() {
-        MockKAnnotations.init(this)
-
         mockkObject(BeagleEnvironment)
 
         every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
+        every { BeagleEnvironment.beagleSdk.logger } returns logger
         BeagleLoggerProxy.logger = logger
     }
 
