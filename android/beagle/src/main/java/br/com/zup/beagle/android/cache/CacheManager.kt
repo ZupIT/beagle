@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.cache
 
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.store.StoreHandler
@@ -51,7 +52,7 @@ internal class CacheManager(
 ) {
 
     fun restoreBeagleCacheForUrl(url: String): BeagleCache? {
-        if (!isCacheEnabled() || storeHandler == null) {
+        if (!isCacheEnabled()) {
             return null
         }
 
@@ -208,7 +209,7 @@ internal class CacheManager(
         }
     }
 
-    private fun isCacheEnabled(): Boolean = beagleEnvironment.beagleSdk.config.cache.enabled
+    private fun isCacheEnabled(): Boolean = beagleEnvironment.beagleSdk.config.cache.enabled || storeHandler == null
 
     private fun String.toBeagleHashKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_HASH_KEY"
     private fun String.toBeagleJsonKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_JSON_KEY"

@@ -35,13 +35,16 @@ internal class BeagleApi(
         const val CONTENT_TYPE = "Content-Type"
         const val APP_JSON = "application/json"
         val FIXED_HEADERS = mapOf(CONTENT_TYPE to APP_JSON, BEAGLE_PLATFORM_HEADER_KEY to BEAGLE_PLATFORM_HEADER_VALUE)
+        const val HTTP_CLIENT_NULL = "don't has http client implemented"
     }
 
     @Throws(BeagleApiException::class)
     suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
+        if (httpClient == null) throw BeagleApiException(
+            ResponseData(-1, data = HTTP_CLIENT_NULL.toByteArray()), request)
         val transformedRequest = request.let { it.copy(headers = it.headers + FIXED_HEADERS) }
         BeagleMessageLogs.logHttpRequestData(transformedRequest)
-        val call = httpClient?.execute(
+        val call = httpClient.execute(
             request = transformedRequest,
             onSuccess = { response ->
                 BeagleMessageLogs.logHttpResponseData(response)

@@ -34,7 +34,7 @@ import java.net.HttpURLConnection
 typealias OnSuccess = (responseData: ResponseData) -> Unit
 typealias OnError = (responseData: ResponseData) -> Unit
 
-@BeagleComponent
+//@BeagleComponent
 class HttpClientDefault : HttpClient, CoroutineScope {
 
     private val job = Job()
