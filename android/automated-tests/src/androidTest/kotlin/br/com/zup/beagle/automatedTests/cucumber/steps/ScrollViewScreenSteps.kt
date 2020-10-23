@@ -16,21 +16,11 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import android.app.Activity
-import android.app.PendingIntent.getActivity
-import android.content.Context
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
-import androidx.test.InstrumentationRegistry.getTargetContext
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.elements.SCROLLVIEW_SCREEN_HEADER
-import br.com.zup.beagle.automatedTests.cucumber.elements.SCROLLVIEW_TEXT_1
-import br.com.zup.beagle.automatedTests.cucumber.elements.SCROLLVIEW_TEXT_2
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
@@ -103,11 +93,11 @@ class ScrollViewScreenSteps {
             .clickOnText(string)
     }
 
-    @Then("^the text should change for the next and the scrollview should perform horizontally$")
-    fun checkNewTextScrollViewHorizontal() {
+    @Then("^the text should change for the next and the scrollview should perform horizontally (.*)$")
+    fun checkNewTextScrollViewHorizontal(string: String) {
         ScreenRobot()
             .checkViewContainsText(PARAGRAPH)
-            .scrollTo(PARAGRAPH)
+            .scrollViewIsNotDisplayed(string)
     }
 
     @When("^I press on text to be scrolled and rotated (.*)$")
@@ -124,17 +114,17 @@ class ScrollViewScreenSteps {
             .checkViewContainsText(PARAGRAPH)
     }
 
-    @And("^the scrollview rotate should perform horizontally$")
-    fun checkScrollViewHorizontallyRotation() {
+    @And("^the scrollview rotate should perform horizontally (.*)$")
+    fun checkScrollViewHorizontallyRotation(string: String) {
         ScreenRobot()
-            .scrollViewDown()
+            .scrollViewIsNotDisplayed(string)
     }
 
-    @And("^even if the screen is rotated the scrollview must be perform horizontally$")
-    fun checkScrollViewRotationHorizontal() {
+    @And("^even if the screen is rotated the scrollview must be perform horizontally (.*)$")
+    fun checkScrollViewRotationHorizontal(string: String) {
         onView(isRoot()).perform(orientationLandscape())
         ScreenRobot()
-            .scrollViewDown()
+            .scrollViewIsNotDisplayed(string)
     }
 
     @When("^I have a vertical scroll configured$")
@@ -162,10 +152,10 @@ class ScrollViewScreenSteps {
             .checkViewContainsText(PARAGRAPH)
     }
 
-    @And("^the scrollview should perform vertically$")
-    fun checkScrollViewVertical() {
+    @And("^the scrollview should perform vertically (.*)$")
+    fun checkScrollViewVertical(string: String) {
         ScreenRobot()
-            .scrollViewDown()
+            .scrollViewIsNotDisplayed(string)
     }
 
     @When("^I press on text scrollview to be rotate (.*)$")
@@ -181,17 +171,17 @@ class ScrollViewScreenSteps {
             .checkViewContainsText(PARAGRAPH)
     }
 
-    @And("^the scrollview rotate should perform vertically$")
-    fun checkScrollViewVerticallyRotation() {
+    @And("^the scrollview rotate should perform vertically (.*)$")
+    fun checkScrollViewVerticallyRotation(string: String) {
         ScreenRobot()
-            .scrollViewDown()
+            .scrollViewIsNotDisplayed(string)
     }
 
-    @And("^even if the screen is rotated the scrollview must be perform vertically$")
-    fun checkScrollViewRotationVertical() {
+    @And("^even if the screen is rotated the scrollview must be perform vertically (.*)$")
+    fun checkScrollViewRotationVertical(string: String) {
         onView(isRoot()).perform(orientationLandscape())
         ScreenRobot()
-            .scrollViewDown()
+            .scrollViewIsNotDisplayed(string)
     }
 
     @After("@scrollview")

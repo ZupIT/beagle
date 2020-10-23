@@ -30,7 +30,7 @@ Feature: ScrollView Component Validation
 
     Scenario Outline: ScrollView 02 - scrollView component should be render the correctly texts and perform the scroll horizontal
         When I press on text scroll horizontal <textScrollHorizontal>
-        Then the text should change for the next and the scrollview should perform horizontally
+        Then the text should change for the next and the scrollview should perform horizontally <textScrollHorizontal>
 
         Examples:
             | textScrollHorizontal                    |
@@ -39,8 +39,8 @@ Feature: ScrollView Component Validation
     Scenario Outline: ScrollView 03 - scrollView component should be render the correctly texts in horizontal even if the screen is rotated
         When I press on text to be scrolled and rotated <textScrollViewRotate>
         Then the text horizontal of scrollview rotate should change
-        And the scrollview rotate should perform horizontally
-        And even if the screen is rotated the scrollview must be perform horizontally
+        And the scrollview rotate should perform horizontally <textScrollViewRotate>
+        And even if the screen is rotated the scrollview must be perform horizontally <textScrollViewRotate>
 
         Examples:
             | textScrollViewRotate                                         |
@@ -53,7 +53,7 @@ Feature: ScrollView Component Validation
     Scenario Outline: ScrollView 05 - scrollView component should be render the correctly texts and perform the scroll vertically
         When I press on text scrollview vertical <textScrollVertical>
         Then the text should change
-        And the scrollview should perform vertically
+        And the scrollview should perform vertically <textScrollVertical>
 
         Examples:
             | textScrollVertical                    |
@@ -62,8 +62,8 @@ Feature: ScrollView Component Validation
     Scenario Outline: ScrollView 06 - scrollView component should be render the correctly texts in vertical even if the screen is rotated
         When I press on text scrollview to be rotate <textScrollRotate>
         Then the text vertical of scrollview rotate should change
-        And the scrollview rotate should perform vertically
-        And even if the screen is rotated the scrollview must be perform vertically
+        And the scrollview rotate should perform vertically <textScrollRotate>
+        And even if the screen is rotated the scrollview must be perform vertically <textScrollRotate>
 
         Examples:
             | textScrollRotate                                           |
