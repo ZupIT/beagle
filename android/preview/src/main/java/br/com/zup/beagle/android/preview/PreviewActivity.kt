@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.preview
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.utils.renderScreen
@@ -64,19 +63,22 @@ class PreviewActivity : BeagleActivity() {
 
         beaglePreview.startListening(object : WebSocketListener {
             override fun onClose(reason: String?) {
-                Toast.makeText(applicationContext,
-                    "onClose: Connection closed by remote host",
-                    Toast.LENGTH_SHORT
-                ).show()
+                runOnUiThread {
+                    Toast.makeText(applicationContext,
+                        "onClose: Connection closed by remote host",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 beaglePreview.reconnectSchedule()
             }
 
             override fun onMessage(message: String) {
-                Toast.makeText(applicationContext,
-                    "onMessage: $message",
-                    Toast.LENGTH_SHORT
-                ).show()
                 runOnUiThread {
+                    Toast.makeText(applicationContext,
+                        "onMessage: $message",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                     if (!message.startsWith("Welcome")) {
                         flPreview.renderScreen(activity = this@PreviewActivity, screenJson = message)
                     } else {
@@ -86,10 +88,12 @@ class PreviewActivity : BeagleActivity() {
             }
 
             override fun onError(ex: Exception?) {
-                Toast.makeText(applicationContext,
-                    "onError: Closed webSocket trying to reconnect",
-                    Toast.LENGTH_SHORT
-                ).show()
+                runOnUiThread {
+                    Toast.makeText(applicationContext,
+                        "onError: Closed webSocket trying to reconnect",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 beaglePreview.reconnectSchedule()
             }
         })
