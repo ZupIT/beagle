@@ -54,7 +54,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.analytics = AnalyticsMock()
         dependencies.isLoggingEnabled = true
         
-        dependencies.networkClient = NetworkClientDefault()
+        let innerDependencies = InnerDependencies()
+        dependencies.networkClient = NetworkClientDefault(dependencies: innerDependencies)
+        dependencies.cacheManager = CacheManagerDefault(dependencies: innerDependencies)
+        dependencies.logger = BeagleLoggerDefault()
         
         registerCustomComponents(in: dependencies)
         registerCustomControllers(in: dependencies)
@@ -86,4 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.navigation.registerNavigationController(builder: CustomBeagleNavigationController.init, forId: "CustomBeagleNavigation")
         dependencies.navigation.registerNavigationController(builder: CustomPushStackNavigationController.init, forId: "PushStackNavigation")
     }
+}
+
+struct InnerDependencies: DependencyLogger {
+    var logger: BeagleLoggerType = BeagleLoggerDefault()
 }

@@ -52,6 +52,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         
         //When
         sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
+        
         cacheManager.addToCache(reference)
         let result = dependencies.cacheManager?.getReference(identifiedBy: url)
 

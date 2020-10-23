@@ -19,15 +19,15 @@ import Beagle
 
 public class NetworkClientDefault: NetworkClient {
 
-//    public typealias Dependencies = DependencyLogger
+    public typealias Dependencies = DependencyLogger
 
     public var session = URLSession.shared
-//    let dependencies: Dependencies
+    let dependencies: Dependencies
 
     public var httpRequestBuilder = HttpRequestBuilder()
     
-    public init() {
-//        self.dependencies = dependencies
+    public init(dependencies: DependencyLogger) {
+        self.dependencies = dependencies
     }
 
     enum ClientError: Swift.Error {
@@ -57,11 +57,11 @@ public class NetworkClientDefault: NetworkClient {
 
         let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
-//            self.dependencies.logger.log(Log.network(.httpResponse(response: .init(data: data, response: response))))
+            self.dependencies.logger.log(Log.network(.httpResponse(response: .init(data: data, response: response))))
             completion(self.handleResponse(data: data, request: urlRequest, response: response, error: error))
         }
         
-//        dependencies.logger.log(Log.network(.httpRequest(request: .init(url: urlRequest))))
+        dependencies.logger.log(Log.network(.httpRequest(request: .init(url: urlRequest))))
         task.resume()
         return task
     }
