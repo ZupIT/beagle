@@ -17,6 +17,7 @@
 import Foundation
 import CoreData
 import UIKit
+import Beagle
 
 public protocol CacheDiskManagerProtocol {
     func update(_ reference: CacheReference)
@@ -40,7 +41,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
     let dependencies: Dependencies
 
     lazy var persistentContainer: NSPersistentContainer = {
-        let url = Bundle(for: BeagleDependencies.self)
+        let url = Bundle(for: DefaultCacheDiskManager.self)
             .url(forResource: "CoreCache", withExtension: "momd")!
         let object = NSManagedObjectModel(contentsOf: url)!
         return NSPersistentContainer(name: "CoreCache", managedObjectModel: object)

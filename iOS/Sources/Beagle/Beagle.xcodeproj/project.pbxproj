@@ -32,14 +32,11 @@
 		25CDD47824EDBB7600CC49CB /* OperationOtherEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */; };
 		3D8E5C7E2542341C002B92E2 /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */; };
 		5744D121251E6868003638F4 /* DynamicObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744D120251E6868003638F4 /* DynamicObjectExtension.swift */; };
-		5763889F244A563A00CDBD35 /* CacheDiskManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5763889E244A563A00CDBD35 /* CacheDiskManagerTests.swift */; };
 		576A4D17249BFC09002EADFD /* ImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 57D6F0FD249985D600A422E3 /* ImageComponent.json */; };
 		576F61052487004900273BA0 /* ContextObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576F61042487004900273BA0 /* ContextObserver.swift */; };
 		57A8097F243CF44A0034D180 /* CacheReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A8097E243CF44A0034D180 /* CacheReference.swift */; };
 		57A80981243CF4620034D180 /* DependencyCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A80980243CF4620034D180 /* DependencyCacheManager.swift */; };
-		57A8098C243CF4C90034D180 /* CacheEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A80988243CF4C80034D180 /* CacheEntity+CoreDataProperties.swift */; };
 		57A8098E243CF5020034D180 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57A8098D243CF5020034D180 /* CoreData.framework */; };
-		57A809D5243E5F0C0034D180 /* CacheDiskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */; };
 		57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */; };
 		6E71540D24B3B4F20025B850 /* SimpleFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540B24B3B4CE0025B850 /* SimpleFormTests.swift */; };
 		6E71541024B3B88D0025B850 /* SubmitFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540E24B3B88A0025B850 /* SubmitFormTests.swift */; };
@@ -68,7 +65,6 @@
 		9337F839249A7F0000B0A260 /* LocalFormHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337F834249A7F0000B0A260 /* LocalFormHandlerTests.swift */; };
 		935278F42499720800AB9D1F /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278F32499720800AB9D1F /* Expression.swift */; };
 		935278F62499728400AB9D1F /* DynamicObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278F52499728400AB9D1F /* DynamicObject.swift */; };
-		935278FD24997F6F00AB9D1F /* CoreCache.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57A80985243CF4C80034D180 /* CoreCache.xcdatamodeld */; };
 		9380222A249A989300FA8519 /* FormSubmit+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5223784237C3CC500E555BB /* FormSubmit+Renderable.swift */; };
 		9380222B249A98CA00FA8519 /* FormManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9999542448A38000D77F07 /* FormManagerTests.swift */; };
 		938B13CE2497FBF900AA8E3B /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B13CD2497FBF900AA8E3B /* CollectionExtension.swift */; };
@@ -277,14 +273,10 @@
 		570434E824A5680100DAD0D3 /* test_renderTextInputComponent.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_renderTextInputComponent.1.png; sourceTree = "<group>"; };
 		570434E924A5680100DAD0D3 /* test_textInputComponent_whenTextValueChanges.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_textInputComponent_whenTextValueChanges.1.png; sourceTree = "<group>"; };
 		5744D120251E6868003638F4 /* DynamicObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DynamicObjectExtension.swift; path = ../../../../../../Test/DynamicObjectExtension.swift; sourceTree = "<group>"; };
-		5763889E244A563A00CDBD35 /* CacheDiskManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheDiskManagerTests.swift; sourceTree = "<group>"; };
 		576F61042487004900273BA0 /* ContextObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextObserver.swift; sourceTree = "<group>"; };
 		57A8097E243CF44A0034D180 /* CacheReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheReference.swift; sourceTree = "<group>"; };
 		57A80980243CF4620034D180 /* DependencyCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyCacheManager.swift; sourceTree = "<group>"; };
-		57A80986243CF4C80034D180 /* CoreCache.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreCache.xcdatamodel; sourceTree = "<group>"; };
-		57A80988243CF4C80034D180 /* CacheEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CacheEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		57A8098D243CF5020034D180 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheDiskManager.swift; sourceTree = "<group>"; };
 		57D6F0FD249985D600A422E3 /* ImageComponent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ImageComponent.json; sourceTree = "<group>"; };
 		57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Context.swift"; sourceTree = "<group>"; };
 		6E71540B24B3B4CE0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
@@ -576,25 +568,6 @@
 			path = CacheManager;
 			sourceTree = "<group>";
 		};
-		5763889D244A562200CDBD35 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				5763889E244A563A00CDBD35 /* CacheDiskManagerTests.swift */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		57A80982243CF4760034D180 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				5763889D244A562200CDBD35 /* Tests */,
-				57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */,
-				57A80988243CF4C80034D180 /* CacheEntity+CoreDataProperties.swift */,
-				57A80985243CF4C80034D180 /* CoreCache.xcdatamodeld */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
 		57E7F96E247D9EBD00FBD398 /* UIView */ = {
 			isa = PBXGroup;
 			children = (
@@ -803,7 +776,6 @@
 		93B9741D23A282C700B0D1CF /* Caching */ = {
 			isa = PBXGroup;
 			children = (
-				57A80982243CF4760034D180 /* CoreData */,
 				5740E23523F708BE004A0BF0 /* CacheManager */,
 				C8A5DC4D23E323DE001968C4 /* Prefetch */,
 			);
@@ -1766,12 +1738,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				935278FD24997F6F00AB9D1F /* CoreCache.xcdatamodeld in Sources */,
 				A0EF0AAC238811AA0019BE83 /* LocalFormHandler.swift in Sources */,
 				25C762A62510FFF500AB4D33 /* Condition.swift in Sources */,
 				C08D4E452485804400AAAC0A /* OnStateUpdatable.swift in Sources */,
 				7685B045249A8880007EDED0 /* SendRequest.swift in Sources */,
-				57A809D5243E5F0C0034D180 /* CacheDiskManager.swift in Sources */,
 				C85D9BA1238701E60075B6C0 /* PageViewUIComponent.swift in Sources */,
 				983E8C8C2396C7FA0018C6CA /* TabViewUIComponent.swift in Sources */,
 				C08D4EFE248AC5C800AAAC0A /* SafeArea.swift in Sources */,
@@ -1868,7 +1838,6 @@
 				C08D4E8B2485946000AAAC0A /* WebView+Renderable.swift in Sources */,
 				C08D4EFC248ABE6700AAAC0A /* InputValue.swift in Sources */,
 				2552F1982502AE7E004055A5 /* BeagleView.swift in Sources */,
-				57A8098C243CF4C90034D180 /* CacheEntity+CoreDataProperties.swift in Sources */,
 				98E18D16249BE714009D6A54 /* Alert.swift in Sources */,
 				C0CE9488248038100029B35F /* SourceryProtocols.swift in Sources */,
 				C85E1CCD23EB461200C1E323 /* Request.swift in Sources */,
@@ -1904,7 +1873,6 @@
 				7C7B249224C78E4C005A4D3D /* TabBarTests.swift in Sources */,
 				E531D6BC235A007C007EEBA7 /* UIView+LoadingTests.swift in Sources */,
 				25CDD47024EC5E6800CC49CB /* OperationLogicEvaluationTests.swift in Sources */,
-				5763889F244A563A00CDBD35 /* CacheDiskManagerTests.swift in Sources */,
 				2539A45124C633D700B8FA92 /* GlobalContextTests.swift in Sources */,
 				25CDD47624EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift in Sources */,
 				C05E164D24365DBE0088F9D2 /* AnalyticsTests.swift in Sources */,
@@ -2275,19 +2243,6 @@
 			productName = SnapshotTesting;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		57A80985243CF4C80034D180 /* CoreCache.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				57A80986243CF4C80034D180 /* CoreCache.xcdatamodel */,
-			);
-			currentVersion = 57A80986243CF4C80034D180 /* CoreCache.xcdatamodel */;
-			path = CoreCache.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 932925C62327E11000A61F01 /* Project object */;
 }

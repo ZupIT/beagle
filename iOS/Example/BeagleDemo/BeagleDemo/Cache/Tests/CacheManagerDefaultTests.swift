@@ -15,12 +15,12 @@
  */
 
 import XCTest
-@testable import Beagle
 import BeagleSchema
+import Beagle
+@testable import BeagleDemo
 
 final class CacheManagerDefaultTests: XCTestCase {
     
-    private let dependencies = BeagleScreenDependencies()
     // swiftlint:disable force_unwrapping
     private let jsonData = """
     {
@@ -239,4 +239,14 @@ struct CacheDiskManagerDummy: CacheDiskManagerProtocol {
         return 0
     }
     func clear() { }
+}
+
+extension XCTestCase {
+    /// Improves readability when implementing a `Delay`.
+    /// - Parameter seconds: time to trigger the  completion, by default is 1 second.
+    func delay(seconds: Int, _ completionHadler: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(seconds)) {
+            completionHadler()
+        }
+    }
 }

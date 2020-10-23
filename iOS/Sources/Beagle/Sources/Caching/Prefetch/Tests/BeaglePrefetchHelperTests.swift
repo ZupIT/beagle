@@ -44,7 +44,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             XCTFail("Could not decode component.")
             return
         }
-        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let cacheManager = CacheManagerSpy()
         let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
@@ -66,7 +66,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             XCTFail("Could not decode component.")
             return
         }
-        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let cacheManager = CacheManagerSpy()
         let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
@@ -130,7 +130,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
     
     func testNavigateWithContextShouldNotPrefetch() {
         // Given
-        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let cacheManager = CacheManagerSpy()
         let dependencies = Dependencies(logger: BeagleLoggerDumb(), cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(ComponentDummy())))
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
 
