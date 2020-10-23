@@ -46,7 +46,7 @@ internal class DatabaseLocalStore(
         val newRowId = database.insertWithOnConflict(ScreenEntry.TABLE_NAME, null, values,
             SQLiteDatabase.CONFLICT_REPLACE)
         if (newRowId == -1L) {
-//            BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
+            BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
         }
     }
 

@@ -19,6 +19,7 @@ package br.com.zup.beagle.automatedTests
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import br.com.zup.beagle.automatedTests.config.BeagleMessageLogs
 import br.com.zup.beagle.automatedTests.config.ContentValuesFactory
 import br.com.zup.beagle.automatedTests.config.DatabaseLocalStore
 import br.com.zup.beagle.automatedTests.config.ScreenEntry
@@ -51,6 +52,9 @@ class DatabaseLocalStoreTest {
 
         databaseLocalStore = DatabaseLocalStore(contentValuesFactory, database)
 
+        mockkObject(BeagleMessageLogs)
+
+        every { BeagleMessageLogs.logDataNotInsertedOnDatabase(any(), any()) } just Runs
         every { contentValuesFactory.make() } returns contentValues
         every { contentValues.put(any(), any<String>()) } just Runs
         every { database.query(any(), any(), any(), any(), any(), any(), any()) } returns cursor
@@ -78,7 +82,23 @@ class DatabaseLocalStoreTest {
         val actualTableName = tableNameSlot.captured
         verify(exactly = 1) { database.insertWithOnConflict(actualTableName, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE) }
         assertEquals(ScreenEntry.TABLE_NAME, actualTableName)
+        verify(exactly = 0) { BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value) }
     }
+
+    @Test
+    fun `save should log error when return value is minus 1`() {
+        // Given
+        val key = "key"
+        val value = "value"
+        every { database.insertWithOnConflict(any(), any(), any(), any()) } returns -1
+
+        // When
+        databaseLocalStore.save(key, value)
+
+        // Then
+        verify(exactly = 1) { BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value) }
+    }
+
 
     @Test
     fun `restore should return value when query find key`() {
