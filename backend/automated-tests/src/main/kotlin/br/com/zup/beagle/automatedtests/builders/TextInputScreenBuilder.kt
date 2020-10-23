@@ -147,11 +147,11 @@ object TextInputScreenBuilder {
                     Alert(title = "Text input onChange", message = "This is a textInput with onChange action"))
                 ),
                 TextInput(
-                    placeholder = "textInput with onChange", onFocus = listOf(
+                    placeholder = "textInput with Focus", onFocus = listOf(
                     Alert(title = "Text input onFocus", message = "This is a textInput with onFocus action"))
                 ),
                 TextInput(
-                    placeholder = "textInput with onChange", onBlur = listOf(
+                    placeholder = "textInput with onBlur", onBlur = listOf(
                     Alert(title = "Text input onBlur", message = "This is a textInput with onBlur action"))
                 )
             )
