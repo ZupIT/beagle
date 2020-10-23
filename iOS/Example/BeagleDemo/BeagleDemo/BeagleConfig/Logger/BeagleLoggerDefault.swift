@@ -14,21 +14,8 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
+import Beagle
 import os.log
-
-public protocol DependencyLogger {
-    var logger: BeagleLoggerType { get }
-}
-
-public protocol DependencyLoggingCondition {
-    var isLoggingEnabled: Bool { get }
-}
-
-public protocol BeagleLoggerType: SchemaLogger {
-    func log(_ log: LogType)
-}
 
 public class BeagleLoggerDefault: BeagleLoggerType {
 

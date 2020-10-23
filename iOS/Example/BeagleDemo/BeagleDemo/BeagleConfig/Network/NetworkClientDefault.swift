@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import Beagle
 
 public class NetworkClientDefault: NetworkClient {
 
@@ -25,7 +26,7 @@ public class NetworkClientDefault: NetworkClient {
 
     public var httpRequestBuilder = HttpRequestBuilder()
     
-    public init(dependencies: Dependencies) {
+    public init(dependencies: DependencyLogger) {
         self.dependencies = dependencies
     }
 
@@ -91,5 +92,3 @@ public class NetworkClientDefault: NetworkClient {
         return .success(.init(data: responseData, response: httpResponse))
     }
 }
-
-extension URLSessionDataTask: RequestToken { }

@@ -15,7 +15,7 @@
  */
 
 import XCTest
-@testable import Beagle
+@testable import BeagleDemo
 
 class LRUCacheTests: XCTestCase {
     
