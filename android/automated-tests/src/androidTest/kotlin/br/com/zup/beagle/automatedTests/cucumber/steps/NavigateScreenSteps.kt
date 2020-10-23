@@ -31,7 +31,7 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Rule
 
-const val NAVIGATE_ACTIONS_BFF_URL = "http://10.0.2.2:8080/send-request"
+const val NAVIGATE_ACTIONS_BFF_URL = "http://10.0.2.2:8080/navigate-actions"
 
 class NavigateScreenSteps {
 
