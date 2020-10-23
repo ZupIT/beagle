@@ -35,7 +35,7 @@ internal class BeagleApi(
         const val CONTENT_TYPE = "Content-Type"
         const val APP_JSON = "application/json"
         val FIXED_HEADERS = mapOf(CONTENT_TYPE to APP_JSON, BEAGLE_PLATFORM_HEADER_KEY to BEAGLE_PLATFORM_HEADER_VALUE)
-        const val HTTP_CLIENT_NULL = "don't has http client implemented"
+        const val HTTP_CLIENT_NULL = "an instance was not found of HttpClient."
     }
 
     @Throws(BeagleApiException::class)
