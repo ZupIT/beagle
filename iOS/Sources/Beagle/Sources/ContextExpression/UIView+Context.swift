@@ -191,10 +191,6 @@ extension UIView {
         }
         guard let context = contextMap[id] else {
             let observable = (parentContext ?? superview)?.getContext(with: id)
-            // Cache disabled 👇
-            // if let contextObservable = observable {
-            //     contextMap[id] = contextObservable
-            // }
             return observable
         }
         return context
