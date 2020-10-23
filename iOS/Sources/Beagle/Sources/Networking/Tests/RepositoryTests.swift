@@ -28,15 +28,17 @@ final class RepositoryTests: XCTestCase {
 
     // swiftlint:disable force_unwrapping
     func test_requestWithInvalidURL_itShouldFail() {
+        // Given
         let invalidURL = "🥶"
+        let dependencies = BeagleDependencies()
+        dependencies.urlBuilder = UrlBuilderStub(baseUrl: nil, resultURL: nil)
+        let sut = RepositoryDefault(dependencies: dependencies)
         
         // When
         let fetchComponentExpectation = expectation(description: "fetchComponent")
         var fetchError: Request.Error?
-        let expectedError = Request.Error.networkError(.init(error:
-            NSError(domain: "kCFErrorDomainCFNetwork", code: 1002, description: ""), request: .init(url: URL(string: "url")!)
-        ))
-
+        let expectedError = Request.Error.urlBuilderError
+        
         sut.fetchComponent(url: invalidURL, additionalData: nil) {
             if case let .failure(error) = $0 {
                 fetchError = error
@@ -290,5 +292,14 @@ class CacheManagerSpy: CacheManagerProtocol {
 
     private func first(_ id: String) -> Reference? {
         return references.first { $0.cache.identifier == id }
+    }
+}
+
+private struct UrlBuilderStub: UrlBuilderProtocol {
+    var baseUrl: URL?
+    var resultURL: URL?
+    
+    func build(path: String) -> URL? {
+        return resultURL
     }
 }

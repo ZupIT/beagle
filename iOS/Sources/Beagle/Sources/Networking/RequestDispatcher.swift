@@ -41,10 +41,12 @@ struct RequestDispatcher {
             completion(.failure(.urlBuilderError))
             return nil
         }
-
+        guard let networkClient = dependencies.networkClient else {
+            completion(.failure(.httpClientNil))
+            return nil
+        }
         let request = Request(url: url, type: type, additionalData: additionalData)
-
-        return dependencies.networkClient?.executeRequest(request) { result in
+        return networkClient.executeRequest(request) { result in
             completion(
                 result.mapError { .networkError($0) }
             )

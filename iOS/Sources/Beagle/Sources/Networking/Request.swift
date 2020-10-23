@@ -73,5 +73,6 @@ public struct Request {
         case decoding(Swift.Error)
         case loadFromTextError
         case urlBuilderError
+        case httpClientNil
     }
 }
