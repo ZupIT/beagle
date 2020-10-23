@@ -159,38 +159,38 @@ lane :deploy do
   tagHashe = sh "git show-ref -s #{tagName}"
   puts tagHashe
   puts ENV["teste"]
-  puts "alooo"
+  sh "git checkout tags/#{{ tagName }} -b testedoido2"
 
-  # ENV["VERSION_DEPLOY"] = versionNumber
+  ENV["VERSION_DEPLOY"] = versionNumber
 
   # sh "git checkout #{branchName}"
 
-  # if platformHotfix == "iOS"
-  #   puts "iOS Hotfix release"
-  #   sh "fastlane ios release_pods version:#{versionNumber} tag:#{tagName}"
-  # elsif platformHotfix == "android"
-  #   puts "Android Hotfix release"
-  #   sh "fastlane android deploy_to_production"
-  # elsif platformHotfix == "backend"
-  #   puts "Backend Hotfix release"
-  #   sh "fastlane backend deploy_to_production"
-  # else
-  #   puts "Normal Release"
-  #   sh "fastlane android deploy_to_production"
-  #   sh "fastlane backend deploy_to_production"
-  #   sh "fastlane ios release_pods version:#{versionNumber} tag:#{tagName}"
-  # end
+  if platformHotfix == "iOS"
+    puts "iOS Hotfix release"
+    # sh "fastlane ios release_pods version:#{versionNumber} tag:#{tagName}"
+  elsif platformHotfix == "android"
+    puts "Android Hotfix release"
+    # sh "fastlane android deploy_to_production"
+  elsif platformHotfix == "backend"
+    puts "Backend Hotfix release"
+    # sh "fastlane backend deploy_to_production"
+  else
+    puts "Normal Release"
+    # sh "fastlane android deploy_to_production"
+    # sh "fastlane backend deploy_to_production"
+    # sh "fastlane ios release_pods version:#{versionNumber} tag:#{tagName}"
+  end
 
-  # releaseNotes = release_notes(versionDeploy: tagName)
-  # sh "bash ./delete_release.sh " + tagName
-  # set_github_release(
-  #   repository_name: ENV["REPO"],
-  #   api_token: ENV["REPO_TOKEN"],
-  #   name: tagName,
-  #   tag_name: tagName,
-  #   description: releaseNotes,
-  #   commitish: branchName
-  # )
+  releaseNotes = release_notes(versionDeploy: tagName)
+  sh "bash ./delete_release.sh " + tagName
+  set_github_release(
+    repository_name: ENV["REPO"],
+    api_token: ENV["REPO_TOKEN"],
+    name: tagName,
+    tag_name: tagName,
+    description: releaseNotes,
+    commitish: branchName
+  )
 end
 
 lane :run_danger do |options|
