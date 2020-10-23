@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import BUTTON_STYLE_APPEARANCE
-import CYAN_BLUE
-import SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.BUTTON_STYLE_APPEARANCE
+import br.com.zup.beagle.automatedtests.constants.CYAN_BLUE
+import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle

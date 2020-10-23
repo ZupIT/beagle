@@ -21,7 +21,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.1"
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.12.0'
     }
@@ -29,7 +29,7 @@ buildscript {
 
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.3.72" apply false
-    id "io.gitlab.arturbosch.detekt" version "1.13.1" apply false
+    id "io.gitlab.arturbosch.detekt" version "1.14.1" apply false
     id "br.com.zup.beagle.dependencies" apply false
 }
 

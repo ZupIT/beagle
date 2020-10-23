@@ -28,6 +28,7 @@ final class ExpressionTests: XCTestCase {
             "@{client}",
             "@{client2.name}",
             "@{client_[2].matrix[1][1]}",
+            "@{2client.phones[0]}",
             simple,
             "@{3.5}",
             "@{true}",
@@ -51,7 +52,6 @@ final class ExpressionTests: XCTestCase {
         // Given
         [
             "2",
-            "@{2client.phones[0]}",
             "@{}",
             "@{[2]}",
             "@{client.[2]}",
@@ -82,7 +82,9 @@ final class ExpressionTests: XCTestCase {
         let data = [
             "name: \(simple), phone: \(simple)",
             "name@name\\@name@\(simple)",
-            "\\\\@\(simple)"
+            "\\\\@\(simple)",
+            "Operation: @{condition(lt(sum(counter, 2), 5), '#FF0000', '#00FF00')}",
+            "Operation1: @{sum(1, counter, null)} and @{sum(2, 'counter', 2count)}"
         ]
         
         // When
@@ -97,7 +99,9 @@ final class ExpressionTests: XCTestCase {
         [
           "name: @{42}, phone: @{42}",
           "name@name\\@name@@{42}",
-          "\\@@{42}"
+          "\\@@{42}",
+          "Operation: @{condition(lt(sum(counter, 2), 5), '#FF0000', '#00FF00')}",
+          "Operation1: @{sum(1, counter, null)} and @{sum(2, 'counter', 2count)}"
         ]
         """#)
     }
@@ -136,5 +140,31 @@ final class ExpressionTests: XCTestCase {
         let decoder = JSONDecoder()
         let result = try? decoder.decode(DynamicObject.self, from: json)
         assertSnapshot(matching: result, as: .dump)
+    }
+    
+    func testEquatable() {
+        // Given
+        let valueA = Expression.value(1)
+        let valueB = Expression.value(1)
+        let valueC = Expression.value(-1)
+        let singleExpression = SingleExpression.value(
+            .binding(.init(context: "ctx", path: .init(nodes: [])))
+        )
+        
+        let expressionA = Expression<Int>.expression(.single(singleExpression))
+        let expressionB = expressionA
+        let expressionC = Expression<Int>.expression(
+            .multiple(.init(nodes: [.expression(singleExpression)]))
+        )
+        
+        // When / Then
+        XCTAssertTrue(valueA == valueB)
+        XCTAssertTrue(expressionA == expressionB)
+        
+        XCTAssertFalse(valueA == valueC)
+        XCTAssertFalse(expressionA == expressionC)
+        
+        XCTAssertFalse(valueA == expressionA)
+        XCTAssertFalse(expressionC == valueC)
     }
 }

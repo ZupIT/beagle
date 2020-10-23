@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import BEACH_NETWORK_IMAGE
-import TEXT_IMAGE_REMOTE
+import br.com.zup.beagle.automatedtests.constants.BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.automatedtests.constants.TEXT_IMAGE_REMOTE
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal

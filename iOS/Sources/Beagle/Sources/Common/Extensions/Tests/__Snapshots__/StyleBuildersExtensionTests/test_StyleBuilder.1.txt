@@ -8,8 +8,9 @@
   ▿ cornerRadius: Optional<CornerRadius>
     ▿ some: CornerRadius
       - radius: 5.0
-  ▿ display: Optional<Display>
-    - some: Display.flex
+  ▿ display: Optional<Expression<Display>>
+    ▿ some: Expression<Display>
+      - value: Display.flex
   ▿ flex: Optional<Flex>
     ▿ some: Flex
       - alignContent: Optional<AlignContent>.none
