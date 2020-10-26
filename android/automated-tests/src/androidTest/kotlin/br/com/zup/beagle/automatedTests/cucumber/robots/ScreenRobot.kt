@@ -21,7 +21,9 @@ import android.view.ViewGroup
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -32,6 +34,8 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.TypeSafeMatcher
 import kotlin.jvm.Throws
+import org.hamcrest.CoreMatchers.not
+import org.hamcrest.Matchers.allOf
 
 
 class ScreenRobot {
@@ -70,6 +74,23 @@ class ScreenRobot {
 
     fun clickOnInputWithHint(hint: String?): ScreenRobot {
         onView(Matchers.allOf(withHint(hint), isDisplayed())).perform(ViewActions.click())
+        return this
+    }
+
+    fun disabledFieldHint(text: String) : ScreenRobot {
+        onView(withHint(text)).check(matches(not(isEnabled())))
+        return this
+    }
+
+    fun disabledFieldText(text: String) : ScreenRobot {
+        onView(withText(text)).check(matches(not(isEnabled())))
+        return this
+    }
+
+    fun hintInSecondPlan(text: String) : ScreenRobot {
+        //onView(allOf(withHint(text),isDisplayed()))
+        onView(withHint(text)).perform(pressBack())
+        onView(allOf(withHint(text), isDisplayed()))
         return this
     }
 
