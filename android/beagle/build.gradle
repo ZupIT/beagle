@@ -93,4 +93,3 @@ dependencies {
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
-
