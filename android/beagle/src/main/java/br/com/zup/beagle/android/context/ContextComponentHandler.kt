@@ -17,28 +17,40 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal class ContextComponentHandler {
 
-    fun addContext(viewModel: ScreenContextViewModel, view: View, component: ServerDrivenComponent) {
+    fun handleComponent(
+        builtView: View,
+        viewModel: ScreenContextViewModel,
+        component: ServerDrivenComponent
+    ) {
+        addListenerToHandleContext(viewModel, builtView)
+        addContext(viewModel, builtView, component)
+    }
+
+    private fun addListenerToHandleContext(viewModel: ScreenContextViewModel, view: View) {
+        if (view !is BeagleFlexView) {
+            view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewDetachedFromWindow(v: View?) {}
+
+                override fun onViewAttachedToWindow(v: View?) {
+                    v?.let {
+                        viewModel.linkBindingToContextAndEvaluateThem(it)
+                    }
+                }
+            })
+        }
+    }
+
+    private fun addContext(viewModel: ScreenContextViewModel, view: View, component: ServerDrivenComponent) {
         if (component is ContextComponent) {
             component.context?.let { context ->
                 viewModel.addContext(view, context)
             }
         }
-    }
-
-    fun addListenerToHandleContext(viewModel: ScreenContextViewModel, view: View) {
-        view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-            override fun onViewDetachedFromWindow(v: View?) {}
-
-            override fun onViewAttachedToWindow(v: View?) {
-                v?.let {
-                    viewModel.linkBindingToContextAndEvaluateThem(it)
-                }
-            }
-        })
     }
 }

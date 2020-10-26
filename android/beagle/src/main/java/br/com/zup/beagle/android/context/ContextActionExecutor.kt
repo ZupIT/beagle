@@ -18,11 +18,13 @@ package br.com.zup.beagle.android.context
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
-internal class ContextActionExecutor {
+internal object ContextActionExecutor {
 
     @Suppress("LongParameterList")
     fun executeActions(
@@ -36,9 +38,7 @@ internal class ContextActionExecutor {
             createImplicitContextForActions(rootView, sender, context, actions)
         }
 
-        actions.forEach {
-            it.execute(rootView, origin)
-        }
+        executeActions(rootView, origin, actions)
     }
 
     private fun createImplicitContextForActions(
@@ -50,4 +50,20 @@ internal class ContextActionExecutor {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
+
+    fun executeActions(rootView: RootView, origin: View, actions: List<Action>?) {
+        actions?.forEach {  action ->
+            if (action is AsyncAction) {
+                val viewModel = rootView.generateViewModelInstance<AsyncActionViewModel>()
+                viewModel.onAsyncActionExecuted(AsyncActionData(origin, action))
+                action.onActionStarted()
+            }
+            action.execute(rootView, origin)
+        }
+    }
 }
+
+internal data class AsyncActionData(
+    val origin: View,
+    val asyncAction: AsyncAction
+)
