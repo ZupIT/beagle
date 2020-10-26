@@ -11,6 +11,8 @@ StatusCode= 0
 Body= 
 Headers= [:]
 
+networkClientWasNotConfigured
+
 Number of formInput and values are different. You probably declared formInputs with the same name in form: 
 	 Form(onSubmit: nil, child: ComponentDummy(), group: nil, additionalData: nil, shouldStoreFields: false)
 
