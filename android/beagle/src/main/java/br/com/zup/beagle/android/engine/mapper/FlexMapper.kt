@@ -51,7 +51,7 @@ internal class FlexMapper {
         }
         style.flex?.flex?.toFloat()?.let { flex = it }
 
-
+        display = YogaDisplay.FLEX
         positionType = makeYogaPositionType(style.positionType) ?: YogaPositionType.RELATIVE
         applyAttributes(style, this)
     }
