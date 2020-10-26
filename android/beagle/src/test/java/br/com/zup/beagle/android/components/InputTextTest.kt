@@ -120,5 +120,4 @@ class TextInputTest : BaseComponentTest() {
         //Then
         verify(exactly = once()) { editText.inputType = InputType.TYPE_CLASS_NUMBER }
     }
-
 }
