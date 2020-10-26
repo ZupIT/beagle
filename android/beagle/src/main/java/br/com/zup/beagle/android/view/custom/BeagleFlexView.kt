@@ -53,9 +53,7 @@ internal open class BeagleFlexView(
     var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
 
     fun addView(child: View, style: Style) {
-        val childYogaNode = flexMapper.makeYogaNode(style)
-        observeStyleChanges(style, this, childYogaNode)
-        super.addView(child, childYogaNode)
+        addViewWithBind(style, child, this)
     }
 
     fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent,
@@ -72,9 +70,13 @@ internal open class BeagleFlexView(
                 (yogaNode as YogaNodeJNIBase).dirtyAllDescendants()
             }
         }
+        addViewWithBind(style, view, view)
+    }
+
+    private fun addViewWithBind(style: Style, child: View, viewBind: View){
         val childYogaNode = flexMapper.makeYogaNode(style)
-        observeStyleChanges(style, view, childYogaNode)
-        super.addView(view, childYogaNode)
+        observeStyleChanges(style, viewBind, childYogaNode)
+        super.addView(child, childYogaNode)
     }
 
     private fun observeStyleChanges(style: Style, view: View, yogaNode: YogaNode) {
