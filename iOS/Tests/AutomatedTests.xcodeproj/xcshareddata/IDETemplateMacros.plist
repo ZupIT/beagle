@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FILEHEADER</key>
+	<string>
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -13,16 +19,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import br.com.zup.beagle.Dependencies
-
-apply plugin: 'kotlin'
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
-}
-
- apply from: rootProject.file('../maven-publish.gradle')
+	</string>
+</dict>
+</plist>

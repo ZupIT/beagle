@@ -89,6 +89,11 @@ val BEAGLE_CUSTOM_ADAPTER_IMPL = BeagleClass(
     "TypeAdapterResolverImpl"
 )
 
+val BEAGLE_CORE_WIDGET = BeagleClass(
+    "br.com.zup.beagle.widget",
+    "Widget"
+)
+
 val BEAGLE_LOGGER = BeagleClass(
     "br.com.zup.beagle.android.logger",
     "BeagleLogger"
