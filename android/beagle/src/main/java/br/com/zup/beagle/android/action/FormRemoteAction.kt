@@ -74,7 +74,7 @@ internal typealias ResultListener = (result: FormResult) -> Unit
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType
-) : AsyncAction() {
+) : Action, AsyncAction by AsyncActionImpl() {
 
     @Transient
     internal lateinit var formsValue: Map<String, String>

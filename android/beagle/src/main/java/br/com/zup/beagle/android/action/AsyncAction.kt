@@ -20,38 +20,55 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 /**
- * Class that represents async actions in Beagle
- * @property status represents the current state of execution of the action
- */
-abstract class AsyncAction : Action {
-
-    @Transient
-    private val _status = MutableLiveData<AsyncActionStatus>()
-    val status: LiveData<AsyncActionStatus> get() = _status
-
-    /**
-     * Updates action status to started.
-     * It is not necessary to call this method for a custom async action.
-     * The initial state of the action is already updated automatically by ContextActionExecutor
-     */
-    internal fun onActionStarted() {
-        _status.value = AsyncActionStatus.STARTED
-    }
-
-    /**
-     * Updates action status to finished
-     */
-    fun onActionFinished() {
-        _status.value = AsyncActionStatus.FINISHED
-        _status.value = AsyncActionStatus.IDLE
-    }
-}
-
-/**
  * Status of asynchronous actions
  */
 enum class AsyncActionStatus {
     STARTED,
     FINISHED,
     IDLE
+}
+
+/**
+ * Interface that represents async actions in Beagle
+ * @property status represents the current state of execution of the action
+ */
+interface AsyncAction {
+
+    val status: LiveData<AsyncActionStatus>
+
+    /**
+     * Updates action status to started.
+     * It is not necessary to call this method for a custom async action.
+     * The initial state of the action is already updated automatically by ContextActionExecutor
+     */
+    fun onActionStarted()
+
+    /**
+     * Updates action status to finished
+     */
+    fun onActionFinished()
+}
+
+class AsyncActionImpl : AsyncAction {
+
+    @Transient
+    private val _status = MutableLiveData<AsyncActionStatus>()
+    override val status get() = _status
+
+    /**
+     * Updates action status to started.
+     * It is not necessary to call this method for a custom async action.
+     * The initial state of the action is already updated automatically by ContextActionExecutor
+     */
+    override fun onActionStarted() {
+        _status.value = AsyncActionStatus.STARTED
+    }
+
+    /**
+     * Updates action status to finished
+     */
+    override fun onActionFinished() {
+        _status.value = AsyncActionStatus.FINISHED
+        _status.value = AsyncActionStatus.IDLE
+    }
 }

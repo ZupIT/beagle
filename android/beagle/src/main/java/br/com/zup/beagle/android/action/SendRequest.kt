@@ -86,7 +86,7 @@ data class SendRequest(
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
     val onFinish: List<Action>? = null
-) : AsyncAction() {
+) : Action, AsyncAction by AsyncActionImpl() {
 
     constructor(
         url: String,

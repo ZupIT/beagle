@@ -18,8 +18,13 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.widget.RootView
 
+/**
+ * Class that has onInit property
+ * @property onInit list of actions performed as soon as the component is rendered
+ */
 interface OnInitiableComponent {
 
     val onInit: List<Action>?
@@ -37,4 +42,41 @@ interface OnInitiableComponent {
      * regardless of whether they have already been executed.
      */
     fun markToRerunOnInit()
+}
+
+/**
+ * Class that implements onInitiableComponent behavior
+ * @property onInitCalled tells if onInit actions has been called
+ */
+class OnInitiableComponentImpl(override val onInit: List<Action>?) : OnInitiableComponent {
+
+    @Transient
+    private var onInitCalled = false
+
+    override fun handleOnInit(rootView: RootView, origin: View) {
+        onInit?.let {
+            addListenerToExecuteOnInit(rootView, origin)
+        }
+    }
+
+    private fun addListenerToExecuteOnInit(rootView: RootView, origin: View) {
+        origin.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View?) {
+                if (!onInitCalled) {
+                    ContextActionExecutor.executeActions(rootView, origin, onInit)
+                    onInitCalled = true
+                }
+            }
+
+            override fun onViewDetachedFromWindow(v: View?) {}
+        })
+    }
+
+    /**
+     * Method responsible for releasing the execution of all actions present in the onInit property
+     * regardless of whether they have already been executed.
+     */
+    override fun markToRerunOnInit() {
+        onInitCalled = false
+    }
 }
