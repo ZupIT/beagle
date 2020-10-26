@@ -15,7 +15,7 @@
 #
     
 @navigate @regression
-Feature: Navigation Action Validation
+Feature: Navigate Component Validation
 
     As a Beagle developer/user
     I'd like to make sure my navigation actions work as expected
@@ -24,7 +24,7 @@ Feature: Navigation Action Validation
     Background:
         Given the Beagle application did launch with the navigation screen url
     
-    Scenario Outline: Navigation 01 - The push actions navigate to a valid route
+    Scenario Outline: Navigate 01 - The push actions navigate to a valid route
         When I press a navigation button "<title>"
         Then the screen should navigate to another screen with the text label "<text>"
 
@@ -35,7 +35,7 @@ Feature: Navigation Action Validation
         |   PushStackRemoteExpression  |    PushStackRemoteExpressionScreen   |
         |   PushViewRemoteExpression   |    PushViewRemoteExpressionScreen    |
     
-    Scenario Outline: Navigation 02 - The push actions navigate to an invalid route
+    Scenario Outline: Navigate 02 - The push actions navigate to an invalid route
         When I press a navigation button "<title>"
         Then the screen should not navigate to another screen with the text label "<text>"
 
@@ -46,19 +46,19 @@ Feature: Navigation Action Validation
         |   PushViewRemoteExpressionFailure   |    PushViewRemoteExpressionFailureScreen    |
         |   PushStackRemoteExpressionFailure  |    PushStackRemoteExpressionFailureScreen   |
         
-    Scenario: Navigation 03 - 'popView' action dismisses the current screen
+    Scenario: Navigate 03 - 'popView' action dismisses the current screen
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopView" action
         Then the app should dismiss the current view
         
-    Scenario: Navigation 04 - 'popToView' action with an invalid route not dismiss the current screen
+    Scenario: Navigate 04 - 'popToView' action with an invalid route not dismiss the current screen
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopToViewInvalidRoute" action
         Then the app should not dismiss the current view
         
-    Scenario: Navigation 05 - 'popToView' action navigates to a specified route of a screen on the stack and cleans up the navigation that was generated from this screen
+    Scenario: Navigate 05 - 'popToView' action navigates to a specified route of a screen on the stack and cleans up the navigation that was generated from this screen
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopToView" action
         Then the application should navigate back to a specific screen and remove from the stack the other screens loaded from the current screen
 
-    Scenario Outline: Navigation 06 - navigates to a specified screen and cleans up the stack of the previously loaded screens
+    Scenario Outline: Navigate 06 - navigates to a specified screen and cleans up the stack of the previously loaded screens
         When I navigate to another screen using the "<action1>" action and I press a button with the "<action2>" action
         Then the app should navigate to a specified screen and cleans up the entire stack of the previously loaded views
         
@@ -71,7 +71,7 @@ Feature: Navigation Action Validation
         |   PushViewRemote  |   ResetStackExpressionFallback            |
         |   PushStackRemote |   ResetApplicationExpressionFallback      |
         
-    Scenario Outline: Navigation 07 - removes the single existing stack of views
+    Scenario Outline: Navigate 07 - removes the single existing stack of views
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "<action>" action
         Then the app should clean up the entire stack and the application should enter in the foreground state
 
