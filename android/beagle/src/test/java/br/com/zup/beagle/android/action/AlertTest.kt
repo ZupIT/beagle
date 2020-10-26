@@ -46,7 +46,7 @@ class AlertTest {
     private lateinit var viewFactory: ViewFactory
 
     private val builder = mockk<AlertDialog.Builder>()
-    private val dialog = mockk<AlertDialog>()
+    private val dialogBox = mockk<AlertDialog>()
     private val titleSlot = slot<String>()
     private val messageSlot = slot<String>()
     private val buttonTextSlot = slot<String>()
@@ -62,7 +62,7 @@ class AlertTest {
         every { builder.setMessage(capture(messageSlot)) } returns builder
         every { builder.setPositiveButton(capture(buttonTextSlot), capture(listenerSlot)) } returns builder
         every { builder.show() } returns mockk()
-        every { dialog.dismiss() } just Runs
+        every { dialogBox.dismiss() } just Runs
     }
 
     @Test
@@ -112,15 +112,15 @@ class AlertTest {
             message = RandomData.string(),
             labelOk = RandomData.string()
         )
-        every { dialog.dismiss() } just Runs
+        every { dialogBox.dismiss() } just Runs
 
         // When
         action.viewFactory = viewFactory
         action.execute(rootView, view)
-        listenerSlot.captured.onClick(dialog, 0)
+        listenerSlot.captured.onClick(dialogBox, 0)
 
         // Then
-        verify(exactly = once()) { dialog.dismiss() }
+        verify(exactly = once()) { dialogBox.dismiss() }
     }
 
     @Test
@@ -133,12 +133,12 @@ class AlertTest {
             labelOk = RandomData.string(),
             onPressOk = onPressOk
         )
-        every { dialog.dismiss() } just Runs
+        every { dialogBox.dismiss() } just Runs
 
         // When
         action.viewFactory = viewFactory
         action.execute(rootView, view)
-        listenerSlot.captured.onClick(dialog, 0)
+        listenerSlot.captured.onClick(dialogBox, 0)
 
         // Then
         verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk) }

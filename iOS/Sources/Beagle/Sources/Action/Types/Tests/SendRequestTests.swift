@@ -21,6 +21,7 @@ import SnapshotTesting
 @testable import Beagle
 
 final class SendRequestTests: XCTestCase {
+    // swiftlint:disable force_unwrapping
 
     func test_whenSendRequestWithSuccess_shouldDoRequestAndTriggerActions() {
         // Given
@@ -31,7 +32,7 @@ final class SendRequestTests: XCTestCase {
         )
         let view = UIView()
         let controller = BeagleControllerSpy()
-        // swiftlint:disable force_unwrapping
+
         let jsonData = """
         [
             {
@@ -39,7 +40,7 @@ final class SendRequestTests: XCTestCase {
             }
         ]
         """.data(using: .utf8)!
-        // swiftlint:enable force_unwrapping
+
         let networkClient = NetworkClientStub(result: .success(.init(data: jsonData, response: URLResponse())))
         controller.dependencies = BeagleScreenDependencies(networkClient: networkClient)
         let expec = expectation(description: "executeActions")
@@ -64,7 +65,7 @@ final class SendRequestTests: XCTestCase {
         )
         let view = UIView()
         let controller = BeagleControllerSpy()
-        // swiftlint:disable force_unwrapping
+
         let jsonData = """
         {
             "error": "errorString"
@@ -76,7 +77,7 @@ final class SendRequestTests: XCTestCase {
             request: URLRequest(url: URL(string: url)!),
             response: URLResponse()
         )
-        // swiftlint:enable force_unwrapping
+
         let networkClient = NetworkClientStub(result: .failure(networkError))
         controller.dependencies = BeagleScreenDependencies(networkClient: networkClient)
         let expec = expectation(description: "executeActions")
@@ -89,6 +90,5 @@ final class SendRequestTests: XCTestCase {
         // Then
         wait(for: [expec], timeout: 1.0)
         assertSnapshot(matching: controller.lastImplicitContext, as: .dump)
-        
     }
 }
