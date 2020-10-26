@@ -31,12 +31,6 @@ abstract class OnInitiableWidget : WidgetView() {
     @Transient
     private var onInitCalled = false
 
-    @Transient
-    private lateinit var rootView: RootView
-
-    @Transient
-    private lateinit var origin: View
-
     /**
      * Method responsible for executing all actions present in the onInit property once the component is rendered.
      * It is recommended to call this method within the buildView.
@@ -44,14 +38,12 @@ abstract class OnInitiableWidget : WidgetView() {
      * @property origin view that triggered the action
      */
     fun handleOnInit(rootView: RootView, origin: View) {
-        this.rootView = rootView
-        this.origin = origin
         onInit?.let {
-            addListenerToExecuteOnInit()
+            addListenerToExecuteOnInit(rootView, origin)
         }
     }
 
-    private fun addListenerToExecuteOnInit() {
+    private fun addListenerToExecuteOnInit(rootView: RootView, origin: View) {
         origin.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
                 if (!onInitCalled) {
