@@ -264,7 +264,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
    func test_loadPreFetchedScreen() {
         
         let url = "screen-url"
-        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let cacheManager = CacheManagerSpy()
         guard let jsonData = """
         {
           "_beagleType_": "beagle:component:text",

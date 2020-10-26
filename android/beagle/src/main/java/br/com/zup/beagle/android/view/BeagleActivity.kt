@@ -254,7 +254,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         observeScreenLoadFinish()
     }
 
-    private fun observeScreenLoadFinish() {
+    private fun observeScreenLoadFinish(){
         screenViewModel.screenLoadFinished.observe(
             this,
             Observer {
