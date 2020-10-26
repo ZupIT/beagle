@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.cache
 
-import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.store.StoreHandler
