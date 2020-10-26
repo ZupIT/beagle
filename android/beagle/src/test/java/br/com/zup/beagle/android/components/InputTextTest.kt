@@ -29,13 +29,9 @@ import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.verify
+import io.mockk.*
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 const val VALUE = "Text Value"
@@ -110,14 +106,26 @@ class TextInputTest : BaseComponentTest() {
     }
 
     @Test
-    fun `verify the TextInputClass on Beagle is returning the right type of TYPE_CLASS`(){
+    fun `verify the TextInputClass on Beagle is returning the right type of TYPE_CLASS`() {
         //Given
-        val textInputNumber = callTextInput(TextInputType.NUMBER)
+        val inputTypesAndroid = mutableListOf<Int>()
+        val inputTypesBeagle = TextInputType.values().toList()
+
+        every { editText.inputType = capture(inputTypesAndroid) } just Runs
 
         // When
-        textInputNumber.buildView(rootView)
+        inputTypesBeagle.forEach {
+            val textInputView = callTextInput(it)
+            textInputView.buildView(rootView)
+        }
 
         //Then
-        verify(exactly = once()) { editText.inputType = InputType.TYPE_CLASS_NUMBER }
+        assertEquals(listOf(
+            InputType.TYPE_CLASS_DATETIME,
+            InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
+            InputType.TYPE_CLASS_NUMBER,
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        ), inputTypesAndroid)
     }
 }
