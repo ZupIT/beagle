@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.engine.mapper
 
+import android.view.View
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.internalObserveBindChanges
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
@@ -57,17 +58,14 @@ internal class FlexMapper {
 
     fun observeBindChangesFlex(style: Style,
                                rootView: RootView,
-                               view: BeagleFlexView,
+                               view: View,
                                yogaNode: YogaNode) {
 
         if (style.display != null) {
             internalObserveBindChanges(rootView, view, style.display) {
-                if (view.yogaNode.isMeasureDefined) {
-                    view.yogaNode.display = makeYogaDisplay(it) ?: YogaDisplay.FLEX
-                    (yogaNode as YogaNodeJNIBase).dirty()
-                    view.getmYogaNodes()[view]?.dirty()
-                    view.invalidate()
-                }
+                yogaNode.display = makeYogaDisplay(it) ?: YogaDisplay.FLEX
+                view.invalidate()
+                view.requestLayout()
 
             }
         }

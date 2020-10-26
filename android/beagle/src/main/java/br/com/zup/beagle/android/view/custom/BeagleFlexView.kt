@@ -28,8 +28,10 @@ import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
+import com.facebook.yoga.YogaNode
 import com.facebook.yoga.YogaNodeJNIBase
 
+@Suppress("LeakingThis")
 @SuppressLint("ViewConstructor")
 internal open class BeagleFlexView(
     private val rootView: RootView,
@@ -40,7 +42,7 @@ internal open class BeagleFlexView(
 ) : YogaLayout(rootView.getContext(), flexMapper.makeYogaNode(style)) {
 
     init {
-        flexMapper.observeBindChangesFlex(style, rootView, this, yogaNode)
+        observeBindChanges(style, this, yogaNode)
     }
 
     constructor(
@@ -51,7 +53,10 @@ internal open class BeagleFlexView(
     var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
 
     fun addView(child: View, style: Style) {
-        super.addView(child, flexMapper.makeYogaNode(style))
+        val childYogaNode = flexMapper.makeYogaNode(style)
+        observeBindChanges(style, this, childYogaNode)
+        flexMapper.observeBindChangesFlex(style, rootView, this, childYogaNode)
+        super.addView(child, childYogaNode)
     }
 
     fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent,
@@ -68,7 +73,13 @@ internal open class BeagleFlexView(
                 (yogaNode as YogaNodeJNIBase).dirtyAllDescendants()
             }
         }
-        super.addView(view, flexMapper.makeYogaNode(style))
+        val childYogaNode = flexMapper.makeYogaNode(style)
+        observeBindChanges(style, view, childYogaNode)
+        super.addView(view, childYogaNode)
+    }
+
+    private fun observeBindChanges(style: Style, view: View, yogaNode: YogaNode) {
+        flexMapper.observeBindChangesFlex(style, rootView, view, yogaNode)
     }
 
     override fun onAttachedToWindow() {

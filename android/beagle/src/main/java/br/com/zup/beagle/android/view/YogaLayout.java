@@ -72,10 +72,6 @@ public class YogaLayout extends ViewGroup {
         return mYogaNode;
     }
 
-    public Map<View, YogaNode> getmYogaNodes() {
-        return mYogaNodes;
-    }
-
     public void addView(View child, @Nullable YogaNode node, int index) {
         // Internal nodes (which this is now) cannot have measure functions
         mYogaNode.setMeasureFunction(null);
