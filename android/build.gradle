@@ -15,7 +15,6 @@
  */
 
 buildscript {
-    ext.kotlin_version = '1.4.10'
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
         google()
@@ -29,7 +28,6 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.10"
         classpath 'com.hiya:jacoco-android:0.2'
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
