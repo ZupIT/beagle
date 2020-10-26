@@ -2,7 +2,6 @@ package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
@@ -10,7 +9,6 @@ import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
-import cucumber.api.java.en.When
 import org.junit.Rule
 
 const val TEXT_INPUT_SCREEN_BFF_URL = "http://10.0.2.2:8080/textinput"
@@ -31,13 +29,13 @@ class TextInputScreen {
     }
 
     @Then("^I must check if the textInput value (.*) appears on the screen$")
-    fun checkTextInput(string:String) {
+    fun checkTextInput(string: String) {
         ScreenRobot()
             .checkViewContainsText(string, true)
     }
 
     @Then("^I must check if the textInput placeholder (.*) appears on the screen$")
-    fun checkTextInputPlaceholder(string:String) {
+    fun checkTextInputPlaceholder(string: String) {
         ScreenRobot()
             .checkViewContainsHint(string, true)
     }
