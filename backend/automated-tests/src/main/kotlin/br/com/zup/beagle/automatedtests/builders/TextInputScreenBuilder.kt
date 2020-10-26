@@ -64,14 +64,13 @@ object TextInputScreenBuilder {
         child = ScrollView(
             children = listOf(
                 Container(
-                    context = ContextData(id = "checkDisabled", value = true),
                     children = listOf(
                         Text(""),
                         textInputValue(),
                         textInputPlaceholder(),
                         textInputDisabled(),
                         textInputReadOnly(),
-                        textInputTypes(),
+                        textInputTypeNumber(),
                         textInputHidden(),
                         textInputActions()
                     )
@@ -104,11 +103,17 @@ object TextInputScreenBuilder {
     )
 
     private fun textInputDisabled() = Container(
-        context = ContextData(id = "textInputPlaceholder", value = "Standard text with disabled field set with expression"),
+        context = ContextData(id = "placeholderValue",
+            value = "Standard text with disabled field set with expression"),
         children = listOf(
-            TextInput(placeholder = "Standard text with disabled field", disabled = true),
-            TextInput(placeholder = expressionOf("@{textInputPlaceholder}"),
-                disabled = expressionOf("@{checkDisabled}")
+            Container(
+                context = ContextData(id = "isDisabled", value = true),
+                children = listOf(
+                    TextInput(placeholder = "Standard text with disabled field", disabled = true),
+                    TextInput(placeholder = expressionOf("@{placeholderValue}"),
+                        disabled = expressionOf("@{isDisabled}")
+                    )
+                )
             )
         )
     )
@@ -124,7 +129,7 @@ object TextInputScreenBuilder {
         )
     )
 
-    private fun textInputTypes() = Container(
+    private fun textInputTypeNumber() = Container(
         listOf(
             TextInput(type = TextInputType.NUMBER),
             Container(
