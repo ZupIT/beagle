@@ -89,13 +89,15 @@ object ScrollViewScreenBuilder {
                 children = listOf(
                     createText("Horizontal").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
                     Touchable(
-                        child = createText("@{testScrollHorizontal}").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
+                        child = createText("@{testScrollHorizontal}")
+                            .applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
                         onPress = listOf(
                             SetContext(contextId = "testScrollHorizontal", value = PARAGRAPH)
                         )
                     ),
                     Container(
-                        context = ContextData(id = "testScrollViewWithRotation", value = "Click to see the text change, rotate and scroll horizontally"),
+                        context = ContextData(id = "testScrollViewWithRotation",
+                            value = "Click to see the text change, rotate and scroll horizontally"),
                         children = listOf(
                             ScrollView(
                                 children = listOf(
@@ -129,7 +131,8 @@ object ScrollViewScreenBuilder {
                         )
                     ),
                     Container(
-                        context = ContextData(id = "testScrollRotation", value = "Click to see the text change, rotate and scroll vertically"),
+                        context = ContextData(id = "testScrollRotation",
+                            value = "Click to see the text change, rotate and scroll vertically"),
                         children = listOf(
                             ScrollView(
                                 children = listOf(
