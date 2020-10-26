@@ -29,8 +29,8 @@ Feature: ScrollView Component Validation
         Then scrollview screen should perform the scroll action horizontally
 
     Scenario Outline: ScrollView 02 - scrollView component should be render the correctly texts and perform the scroll horizontal
-        When I press on text scroll horizontal "<textScrollHorizontal>
-        Then the text should change for the next and the scrollview should perform horizontally <textScrollHorizontal>
+        When I press on text scroll horizontal "<textScrollHorizontal>"
+        Then the text should change for the next and the scrollview should perform horizontally "<textScrollHorizontal>"
 
         Examples:
             | textScrollHorizontal                    |

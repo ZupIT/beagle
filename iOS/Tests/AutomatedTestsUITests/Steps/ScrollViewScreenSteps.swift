@@ -37,12 +37,11 @@ class ScrollViewScreenSteps: CucumberStepsDefinition {
                 return
             }
             screen.clickOnText(textOption: element)
-            screen.clickOnText(textOption: element)
-            
+            XCTest.accessibilityScroll(UIAccessibilityScrollDirection.right)
+
         }
         
-        Then("^the text should change for the next and the scrollview should perform horizontally \"([^\\\"]*)\"$") { _, _ -> Void in
-            XCTest.accessibilityScroll(UIAccessibilityScrollDirection.right)
+        Then("^the text should change for the next and the scrollview should perform horizontally$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.SCROLLVIEW_ELEMENTS_1.element.exists)
         }
         
