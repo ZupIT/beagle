@@ -42,7 +42,7 @@ internal open class BeagleFlexView(
 ) : YogaLayout(rootView.getContext(), flexMapper.makeYogaNode(style)) {
 
     init {
-        observeBindChanges(style, this, yogaNode)
+        observeStyleChanges(style, this, yogaNode)
     }
 
     constructor(
@@ -54,8 +54,7 @@ internal open class BeagleFlexView(
 
     fun addView(child: View, style: Style) {
         val childYogaNode = flexMapper.makeYogaNode(style)
-        observeBindChanges(style, this, childYogaNode)
-        flexMapper.observeBindChangesFlex(style, rootView, this, childYogaNode)
+        observeStyleChanges(style, this, childYogaNode)
         super.addView(child, childYogaNode)
     }
 
@@ -74,11 +73,11 @@ internal open class BeagleFlexView(
             }
         }
         val childYogaNode = flexMapper.makeYogaNode(style)
-        observeBindChanges(style, view, childYogaNode)
+        observeStyleChanges(style, view, childYogaNode)
         super.addView(view, childYogaNode)
     }
 
-    private fun observeBindChanges(style: Style, view: View, yogaNode: YogaNode) {
+    private fun observeStyleChanges(style: Style, view: View, yogaNode: YogaNode) {
         flexMapper.observeBindChangesFlex(style, rootView, view, yogaNode)
     }
 

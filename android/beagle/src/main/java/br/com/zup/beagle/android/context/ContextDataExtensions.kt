@@ -47,7 +47,7 @@ internal fun Any.normalizeContextValue(): Any {
     }
 }
 
-fun isEnum(type: KClass<out Any>) = type.isSubclassOf(Enum::class)
+private fun isEnum(type: KClass<out Any>) = type.isSubclassOf(Enum::class)
 
 
 internal fun String.normalizeContextValue(): Any {

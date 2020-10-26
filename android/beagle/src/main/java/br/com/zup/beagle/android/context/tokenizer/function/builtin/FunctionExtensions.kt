@@ -20,7 +20,7 @@ import org.json.JSONArray
 
 internal fun Array<out Any?>.toListOfDoubles(): List<Double> {
     return this.map {
-         it as Double
+        it as Double
     }
 }
 
