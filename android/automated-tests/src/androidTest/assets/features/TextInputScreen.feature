@@ -38,3 +38,33 @@ Feature: TextInput Validation
             | textInputPlaceholder                  |
             | TextInput placeholder                 |
             | TextInput placeholder with expression |
+
+    Scenario Outline: TextInput 03 - validate disabled field
+        When the placeholder <textInputDisabled> of the disabled field is on the screen
+        Then verify if the field with the placeholder <textInputDisabled> is disabled
+
+        Examples:
+            | textInputDisabled                                 |
+            | Standard text with disabled field                 |
+            | Standard text with disabled field with expression |
+
+    Scenario Outline: TextInput 04 - validate readOnly field
+        When the placeholder <textInputReadOnly> of the readOnly field is on the screen
+        Then verify if the field with the placeholder <textInputReadOnly> is read only
+
+        Examples:
+            | textInputReadOnly            |
+            | is Read Only                 |
+            | is Read Only with expression |
+
+    Scenario Outline: TextInput 05 - validate keyboard appears on Focus
+        When I click in the textInput with the placeholder <textInputSecondPlan>
+        Then verify if the text <textInputSecondPlan> is in the second plan
+
+        Examples:
+            | textInputSecondPlan                           |
+            | is a textInput in second plan                 |
+            | is a textInput in second plan with expression |
+
+
+
