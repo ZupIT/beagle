@@ -29,7 +29,12 @@ import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
-import io.mockk.*
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.Runs
+import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
