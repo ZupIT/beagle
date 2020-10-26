@@ -94,7 +94,9 @@ final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
     private func applyYogaProperties(from style: Style, to layout: YGLayout) {
         applyYogaProperties(from: style.flex ?? Flex(), to: layout)
         layout.position = yogaTranslator.translate(style.positionType ?? .relative)
-        layout.display = yogaTranslator.translate(style.display ?? .flex)
+        if case .value(let display) = style.display {
+            layout.display = yogaTranslator.translate(display)
+        }
         setSize(style.size, to: layout)
         setMargin(style.margin, to: layout)
         setPadding(style.padding, to: layout)

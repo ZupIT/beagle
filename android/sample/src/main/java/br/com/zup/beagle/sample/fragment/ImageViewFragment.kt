@@ -27,6 +27,8 @@ import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 
 class ImageViewFragment : Fragment() {
     override fun onCreateView(
@@ -42,7 +44,11 @@ class ImageViewFragment : Fragment() {
                             placeholder = ImagePath.Local("imageBeagle")
                         )
                     ),
-                    Text(text = "Opa!!!")
+                    Text(text = "Test!!!").applyStyle(
+                        Style(
+                            backgroundColor = "#CCC"
+                        )
+                    )
                 )
             )
         )
