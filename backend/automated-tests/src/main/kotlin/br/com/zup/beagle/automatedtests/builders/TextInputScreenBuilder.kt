@@ -38,7 +38,7 @@ import br.com.zup.beagle.widget.ui.TextInput
 
 data class TextInputAtt(val placeholder: String, val isReadOnly: Boolean)
 
-data class TextInputTypes(val placeholder: String, val textInputType: TextInputType)
+data class TextInputType(val placeholder: String, val textInputType: TextInputType)
 
 data class TextInputHidden(val placeholder: String, val hidden: Boolean)
 
@@ -65,7 +65,6 @@ object TextInputScreenBuilder {
             children = listOf(
                 Container(
                     children = listOf(
-                        Text(""),
                         textInputValue(),
                         textInputPlaceholder(),
                         textInputDisabled(),
@@ -104,7 +103,7 @@ object TextInputScreenBuilder {
 
     private fun textInputDisabled() = Container(
         context = ContextData(id = "placeholderValue",
-            value = "Standard text with disabled field set with expression"),
+            value = "Standard text with disabled field with expression"),
         children = listOf(
             Container(
                 context = ContextData(id = "isDisabled", value = true),
@@ -124,17 +123,19 @@ object TextInputScreenBuilder {
         ),
         children = listOf(
             TextInput(value = "is Read Only", readOnly = true),
-            TextInput(value = expressionOf("@{isReadyOnly.placeholder}"),
-                readOnly = expressionOf("@{isReadOnly.isReadyOnly}"))
+            TextInput(value = expressionOf("@{isReadOnly.placeholder}"),
+                readOnly = expressionOf("@{isReadOnly.isReadOnly}")
+            )
         )
     )
 
     private fun textInputTypeNumber() = Container(
         listOf(
-            TextInput(type = TextInputType.NUMBER),
+            TextInput(placeholder = "is textInput type number", type = TextInputType.NUMBER),
             Container(
                 context = ContextData(
-                    id = "isNumberExpression", value = TextInputTypes(placeholder = "is textInput type number",
+                    id = "isNumberExpression",
+                    value = TextInputType(placeholder = "is textInput type number with expression",
                     textInputType = TextInputType.NUMBER)
                 ),
                 children = listOf(
@@ -147,15 +148,16 @@ object TextInputScreenBuilder {
 
     private fun textInputHidden() = Container(
         children = listOf(
-            TextInput(placeholder = "Field will be hidden", hidden = true),
+            TextInput(placeholder = "is textInput hidden", hidden = true),
             Container(
                 context = ContextData(
-                    id = "isHiddenWithExpression", value = TextInputHidden(placeholder = "is textInput hidden",
+                    id = "isHiddenWithExpression",
+                    value = TextInputHidden(placeholder = "is textInput hidden with expression",
                     hidden = true)
                 ),
                 children = listOf(
-                    TextInput(placeholder = expressionOf("@{placeholder}"),
-                        readOnly = expressionOf("@{placeholder.hidden}")
+                    TextInput(placeholder = expressionOf("@{isHiddenWithExpression.placeholder}"),
+                        hidden = expressionOf("@{isHiddenWithExpression.hidden}")
                     )
                 )
             )
@@ -169,13 +171,13 @@ object TextInputScreenBuilder {
         children = listOf(
             Text("@{textInputActions}"),
             TextInput(
-                placeholder = "textInput with onChange",
+                placeholder = "textInput with actions",
                 onChange = listOf(
                     SetContext(contextId = "textInputActions", value = "Did onChange action")),
                 onFocus = listOf(
                     SetContext(contextId = "textInputActions", value = "Did onFocus action")),
                 onBlur = listOf(
-                    SetContext(contextId = "textInputActions", value = "Did onBlur action"))
+                    SetContext(contextId = "textInputActions", value = "Did onBlur action")),
             )
         )
     )
