@@ -89,7 +89,7 @@ object ScrollViewScreenBuilder {
                 children = listOf(
                     createText("Horizontal").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
                     Touchable(
-                        child = createText("@{testScrollHorizontal}"),
+                        child = createText("@{testScrollHorizontal}").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
                         onPress = listOf(
                             SetContext(contextId = "testScrollHorizontal", value = PARAGRAPH)
                         )
