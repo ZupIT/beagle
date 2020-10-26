@@ -147,19 +147,12 @@ lane :deploy do
   sh "git fetch"
 
   tagName = ENV["TAG_NAME"].split("/").last
-  isHotFix = tagName.index("-")
 
-  if isHotFix
-    branchName = "release/" + tagName
-    (versionNumber, platformHotfix) = tagName.split("-")
-  else
-    versionNumber = last_git_tag(pattern: "*[0-9]")
-    branchName = "master"
-  end
+  (versionNumber, platformHotfix) = tagName.split("-")
 
   ENV["VERSION_DEPLOY"] = versionNumber
 
-  sh "git checkout #{branchName}"
+  sh "git checkout tags/#{tagName} -b newReleaseFromTag#{tagName}"
 
   if platformHotfix == "iOS"
     puts "iOS Hotfix release"
@@ -185,7 +178,7 @@ lane :deploy do
     name: tagName,
     tag_name: tagName,
     description: releaseNotes,
-    commitish: branchName
+    commitish: ENV["COMMITISH"]
   )
 end
 
@@ -319,6 +312,10 @@ error do |lane, exception, options|
   end
 end
 
+# input: 1.2.0; output: 1.1.0
+# input: 1.2.2; output: 1.2.1
+# input: 1.2.3-iOS; output: 1.2.2-iOS
+# input: 3.0.0; output: 2.0.0
 lane :lastExpectedVersion do |params|
   platform = params[:newVersion].split("-")
   releaseNumberArray = platform.first.split(".")
