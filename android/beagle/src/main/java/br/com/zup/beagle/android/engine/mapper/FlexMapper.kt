@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.engine.mapper
 import android.view.View
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.internalObserveBindChanges
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.EdgeValue
@@ -32,7 +31,6 @@ import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
 import com.facebook.yoga.YogaNode
-import com.facebook.yoga.YogaNodeJNIBase
 import com.facebook.yoga.YogaPositionType
 import com.facebook.yoga.YogaWrap
 
