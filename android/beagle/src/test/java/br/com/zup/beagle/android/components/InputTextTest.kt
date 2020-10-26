@@ -69,18 +69,20 @@ class TextInputTest : BaseComponentTest() {
 
         every { editText.context } returns context
 
-        textInput = TextInput(
-            value = VALUE,
-            placeholder = PLACE_HOLDER,
-            readOnly = READ_ONLY,
-            disabled = DISABLED,
-            hidden = HIDDEN,
-            type = TYPE,
-            styleId = STYLE_ID
-        )
+        textInput = callTextInput(TYPE)
 
         textInput.setPrivateField("textWatcher", textWatcher)
     }
+
+    private fun callTextInput(type: TextInputType) = TextInput(
+        value = VALUE,
+        placeholder = PLACE_HOLDER,
+        readOnly = READ_ONLY,
+        disabled = DISABLED,
+        hidden = HIDDEN,
+        type = type,
+        styleId = STYLE_ID
+    )
 
     @Test
     fun `build should return a EditText instance`() {
@@ -106,4 +108,17 @@ class TextInputTest : BaseComponentTest() {
         verify(exactly = once()) { editText.isFocusable = true }
         verify(exactly = once()) { editText.isFocusableInTouchMode = true }
     }
+
+    @Test
+    fun `verify the TextInputClass on Beagle is returning the right type of TYPE_CLASS`(){
+        //Given
+        val textInputNumber = callTextInput(TextInputType.NUMBER)
+
+        // When
+        textInputNumber.buildView(rootView)
+
+        //Then
+        verify(exactly = once()) { editText.inputType = InputType.TYPE_CLASS_NUMBER }
+    }
+
 }
