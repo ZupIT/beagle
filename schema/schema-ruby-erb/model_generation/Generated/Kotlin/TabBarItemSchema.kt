@@ -16,10 +16,7 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
-
 interface TabBarItemSchema {
-  public val icon: String?
-  public val title: String? 
+    public val icon: String?
+    public val title: String?
 }

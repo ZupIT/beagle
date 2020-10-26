@@ -16,12 +16,9 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
-
 interface SafeAreaSchema {
-  public val top: Boolean?
-  public val leading: Boolean?
-  public val bottom: Boolean?
-  public val trailing: Boolean? 
+    public val top: Boolean?
+    public val leading: Boolean?
+    public val bottom: Boolean?
+    public val trailing: Boolean?
 }

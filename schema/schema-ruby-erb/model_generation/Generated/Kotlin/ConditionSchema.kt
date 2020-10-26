@@ -16,13 +16,11 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
 import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.action.ui.ActionSchema
 
 interface ConditionSchema {
-  public val condition: BindAttribute<Boolean>
-  public val onTrue: List<ActionSchema>?
-  public val onFalse: List<ActionSchema>? 
+    public val condition: BindAttribute<Boolean>
+    public val onTrue: List<ActionSchema>?
+    public val onFalse: List<ActionSchema>?
 }

@@ -16,9 +16,6 @@
  */
 package br.com.zup.beagle.core
 
-
-
-
 interface CornerRadiusSchema {
-  public val radius: Double 
+    public val radius: Double
 }

@@ -16,10 +16,12 @@
  */
 package br.com.zup.beagle.widget.ui
 
-
-
-
 interface ListViewSchema {
-  public val children: List<ServerDrivenComponent>
-  public val direction: Direction 
+    public val children: List<ServerDrivenComponent>
+    public val direction: Direction
+}
+
+enum class Direction {
+    VERTICAL,
+    HORIZONTAL
 }

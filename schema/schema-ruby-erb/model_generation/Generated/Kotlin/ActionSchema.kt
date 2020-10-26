@@ -16,8 +16,5 @@
  */
 package br.com.zup.beagle.action.ui
 
-
-
-
-interface ActionSchema { 
+interface ActionSchema {
 }

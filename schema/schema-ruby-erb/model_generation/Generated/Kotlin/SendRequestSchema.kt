@@ -16,17 +16,23 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
 import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.action.ui.ActionSchema
 
 interface SendRequestSchema {
-  public val url: BindAttribute<String>
-  public val method: BindAttribute<HTTPMethod>?
-  public val data: Any?
-  public val headers: BindAttribute<Map<String, String>>?
-  public val onSuccess: List<ActionSchema>?
-  public val onError: List<ActionSchema>?
-  public val onFinish: List<ActionSchema>? 
+    public val url: BindAttribute<String>
+    public val method: BindAttribute<HTTPMethod>?
+    public val data: Any?
+    public val headers: BindAttribute<Map<String, String>>?
+    public val onSuccess: List<ActionSchema>?
+    public val onError: List<ActionSchema>?
+    public val onFinish: List<ActionSchema>?
+}
+
+enum class HTTPMethod {
+    GET,
+    POST,
+    PUT,
+    PATCH,
+    DELETE
 }

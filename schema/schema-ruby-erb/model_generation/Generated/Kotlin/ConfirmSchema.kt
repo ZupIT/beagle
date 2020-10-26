@@ -16,16 +16,20 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
 import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.action.ui.ActionSchema
 
 interface ConfirmSchema {
-  public val title: BindAttribute<String>?
-  public val message: BindAttribute<String>
-  public val onPressOk: ActionSchema?
-  public val onPressCancel: ActionSchema?
-  public val labelOk: String?
-  public val labelCancel: String? 
+    public val title: BindAttribute<String>?
+    public val message: BindAttribute<String>
+    public val onPressOk: ActionSchema?
+    public val onPressCancel: ActionSchema?
+    public val labelOk: String?
+    public val labelCancel: String?
+}
+
+enum class Mode {
+    APPEND,
+    PREPEND,
+    REPLACE
 }

@@ -16,21 +16,19 @@
  */
 package br.com.zup.beagle.widget.ui
 
-
-
 import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.action.ui.ActionSchema
 import br.com.zup.beagle.widget.core.TextInputType
 
 interface TextInputSchema {
-  public val value: BindAttribute<String>?
-  public val placeholder: BindAttribute<String>?
-  public val disabled: BindAttribute<Boolean>?
-  public val readOnly: BindAttribute<Boolean>?
-  public val type: BindAttribute<TextInputType>?
-  public val hidden: BindAttribute<Boolean>?
-  public val styleId: String?
-  public val onChange: List<ActionSchema>?
-  public val onBlur: List<ActionSchema>?
-  public val onFocus: List<ActionSchema>? 
+    public val value: BindAttribute<String>?
+    public val placeholder: BindAttribute<String>?
+    public val disabled: BindAttribute<Boolean>?
+    public val readOnly: BindAttribute<Boolean>?
+    public val type: BindAttribute<TextInputType>?
+    public val hidden: BindAttribute<Boolean>?
+    public val styleId: String?
+    public val onChange: List<ActionSchema>?
+    public val onBlur: List<ActionSchema>?
+    public val onFocus: List<ActionSchema>?
 }

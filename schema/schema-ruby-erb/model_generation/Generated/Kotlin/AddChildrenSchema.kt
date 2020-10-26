@@ -16,11 +16,14 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
-
 interface AddChildrenSchema {
-  public val componentId: String
-  public val value: List<ServerDrivenComponent>
-  public val mode: Mode 
+    public val componentId: String
+    public val value: List<ServerDrivenComponent>
+    public val mode: Mode
+}
+
+enum class Mode {
+    APPEND,
+    PREPEND,
+    REPLACE
 }

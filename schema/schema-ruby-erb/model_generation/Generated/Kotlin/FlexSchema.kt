@@ -16,19 +16,65 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
 import br.com.zup.beagle.widget.core.UnitValueSchema
 
 interface FlexSchema {
-  public val flexDirection: FlexDirection?
-  public val flexWrap: FlexWrap?
-  public val justifyContent: JustifyContent?
-  public val alignItems: AlignItems?
-  public val alignSelf: AlignSelf?
-  public val alignContent: AlignContent?
-  public val basis: UnitValueSchema?
-  public val flex: Double?
-  public val grow: Double?
-  public val shrink: Double? 
+    public val flexDirection: FlexDirection?
+    public val flexWrap: FlexWrap?
+    public val justifyContent: JustifyContent?
+    public val alignItems: AlignItems?
+    public val alignSelf: AlignSelf?
+    public val alignContent: AlignContent?
+    public val basis: UnitValueSchema?
+    public val flex: Double?
+    public val grow: Double?
+    public val shrink: Double?
+}
+
+enum class FlexDirection {
+    ROW,
+    ROWREVERSE,
+    COLUMN,
+    COLUMNREVERSE
+}
+
+enum class FlexWrap {
+    NOWRAP,
+    WRAP,
+    WRAPREVERSE
+}
+
+enum class JustifyContent {
+    FLEXSTART,
+    CENTER,
+    FLEXEND,
+    SPACEBETWEEN,
+    SPACEAROUND,
+    SPACEEVENLY
+}
+
+enum class AlignItems {
+    FLEXSTART,
+    CENTER,
+    FLEXEND,
+    BASELINE,
+    STRETCH
+}
+
+enum class AlignSelf {
+    FLEXSTART,
+    CENTER,
+    FLEXEND,
+    BASELINE,
+    AUTO,
+    STRETCH
+}
+
+enum class AlignContent {
+    FLEXSTART,
+    CENTER,
+    FLEXEND,
+    SPACEBETWEEN,
+    SPACEAROUND,
+    STRETCH
 }

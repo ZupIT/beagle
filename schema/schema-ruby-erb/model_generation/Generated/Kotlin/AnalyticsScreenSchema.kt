@@ -16,9 +16,6 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
-
 interface AnalyticsScreenSchema {
-  public val screenName: String 
+    public val screenName: String
 }

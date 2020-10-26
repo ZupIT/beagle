@@ -16,11 +16,7 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
-
-
 enum class ScrollAxis {
-  VERTICAL,
-  HORIZONTAL
+    VERTICAL,
+    HORIZONTAL
 }

@@ -16,9 +16,6 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
-
 interface UnknownActionSchema {
-  public val type: String 
+    public val type: String
 }

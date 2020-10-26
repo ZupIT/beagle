@@ -16,13 +16,11 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
 import br.com.zup.beagle.widget.core.ScrollAxis
 
 interface ScrollViewSchema {
-  public val children: List<ServerDrivenComponent>
-  public val scrollDirection: ScrollAxis?
-  public val scrollBarEnabled: Boolean?
-  public val context: Context? 
+    public val children: List<ServerDrivenComponent>
+    public val scrollDirection: ScrollAxis?
+    public val scrollBarEnabled: Boolean?
+    public val context: Context?
 }

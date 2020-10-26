@@ -16,15 +16,13 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
 import br.com.zup.beagle.widget.core.AccessibilitySchema
 import br.com.zup.beagle.widget.core.NavigationBarItemSchema
 
 interface NavigationBarSchema {
-  public val title: String
-  public val styleId: String?
-  public val showBackButton: Boolean?
-  public val backButtonAccessibility: AccessibilitySchema?
-  public val navigationBarItems: List<NavigationBarItemSchema>? 
+    public val title: String
+    public val styleId: String?
+    public val showBackButton: Boolean?
+    public val backButtonAccessibility: AccessibilitySchema?
+    public val navigationBarItems: List<NavigationBarItemSchema>?
 }

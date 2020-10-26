@@ -16,8 +16,6 @@
  */
 package br.com.zup.beagle.core
 
-
-
 import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.core.CornerRadiusSchema
 import br.com.zup.beagle.widget.core.SizeSchema
@@ -25,15 +23,25 @@ import br.com.zup.beagle.widget.core.EdgeValueSchema
 import br.com.zup.beagle.widget.core.FlexSchema
 
 interface StyleSchema {
-  public val backgroundColor: String?
-  public val cornerRadius: CornerRadiusSchema?
-  public val borderColor: String?
-  public val borderWidth: Double?
-  public val size: SizeSchema?
-  public val margin: EdgeValueSchema?
-  public val padding: EdgeValueSchema?
-  public val position: EdgeValueSchema?
-  public val positionType: PositionType?
-  public val display: BindAttribute<Display>?
-  public val flex: FlexSchema? 
+    public val backgroundColor: String?
+    public val cornerRadius: CornerRadiusSchema?
+    public val borderColor: String?
+    public val borderWidth: Double?
+    public val size: SizeSchema?
+    public val margin: EdgeValueSchema?
+    public val padding: EdgeValueSchema?
+    public val position: EdgeValueSchema?
+    public val positionType: PositionType?
+    public val display: BindAttribute<Display>?
+    public val flex: FlexSchema?
+}
+
+enum class PositionType {
+    RELATIVE,
+    ABSOLUTE
+}
+
+enum class Display {
+    FLEX,
+    NONE
 }

@@ -16,19 +16,17 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
 import br.com.zup.beagle.core.StyleSchema
 import br.com.zup.beagle.widget.core.SafeAreaSchema
 import br.com.zup.beagle.widget.core.NavigationBarSchema
 import br.com.zup.beagle.widget.core.AnalyticsScreenSchema
 
 interface ScreenSchema {
-  public val id: String?
-  public val style: StyleSchema?
-  public val safeArea: SafeAreaSchema?
-  public val navigationBar: NavigationBarSchema?
-  public val screenAnalyticsEvent: AnalyticsScreenSchema?
-  public val child: ServerDrivenComponent
-  public val context: Context? 
+    public val id: String?
+    public val style: StyleSchema?
+    public val safeArea: SafeAreaSchema?
+    public val navigationBar: NavigationBarSchema?
+    public val screenAnalyticsEvent: AnalyticsScreenSchema?
+    public val child: ServerDrivenComponent
+    public val context: Context?
 }

@@ -16,14 +16,10 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
-
-
 enum class TextInputType {
-  DATE,
-  EMAIL,
-  PASSWORD,
-  NUMBER,
-  TEXT
+    DATE,
+    EMAIL,
+    PASSWORD,
+    NUMBER,
+    TEXT
 }

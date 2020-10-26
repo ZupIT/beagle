@@ -17,6 +17,7 @@
 <%
   require_relative 'Templates/template_helper.rb'
 
+  @tab = "    "
   @template_helper = TemplateHelper.new
   @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
   @template_helper.defaultDeclarationType = TypesToString.interface
@@ -66,32 +67,90 @@
       typeName
     end
   end
+
+  def fullDeclaration(objectType)
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+
+    output = initImports(objectType)
+    output += resolveObjectType(objectType)
+
+    output
+  end
+
+  def initImports(objectType)
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+    outputImports = "package #{objectType.synthax_type.package}\n"
+
+    if !isEnumDeclaration
+      if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
+        outputImports += "\nimport br.com.zup.beagle.core.BindAttribute"
+      end
+
+      for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager)
+        outputImports += "\nimport #{qualifiedName}Schema"
+      end
+
+      for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager)
+        outputImports += "\nimport #{qualifiedName}"
+      end
+      
+    end
+
+    if outputImports.include? "import"
+      outputImports += "\n"
+    end
+
+    outputImports
+  end
+
+  def resolveObjectType(objectType)
+    output = ""
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+
+    if isEnumDeclaration
+      output += initForEnum(objectType)
+    else
+      output += initForCommonObject(objectType)
+    end
+    output += "\n}"
+
+    output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+
+    output
+  end
+
+  def initForEnum(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+
+    output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
+    output += "#{@tab}"
+    output += objectType.synthax_type.variables.map { |enumCase| enumCase.name.upcase }.join(",\n#{@tab}")
+    output
+  end
+
+  def initForCommonObject(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+
+    output = "\n#{typeKind} #{objectType.synthax_type.name}Schema {"
+    for variable in objectType.synthax_type.variables 
+      output += "\n#{@tab}#{variable.accessor} val #{variable.name}: #{variable_type_declaration(variable, import_manager)}"
+    end
+    output
+  end
+
+  def handleInnerTypes(objectTypes, input)
+    output = input
+    for objectType in objectTypes
+      output += "\n#{resolveObjectType(objectType)}"
+      possibleNestedTypes = objectType.synthax_type.sameFileTypes
+      if possibleNestedTypes.size > 0
+        handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+      end
+    end
+    output
+  end
+
 -%>
-package <%= objectType.synthax_type.package %>
-
-
-
-<% default_declaration_type = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type) -%><% -%>
-<% if !@template_helper.is_enum(objectType) -%>
-<% if objectType.synthax_type.variables.any? { |variable| variable.isBindable }-%>
-import br.com.zup.beagle.core.BindAttribute
-<% end -%>
-<% for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager) -%>
-import <%= qualifiedName %>Schema
-<% end -%>
-<% for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
-import <%= qualifiedName %>
-<% end -%>
-<% end -%>
-
-<% if @template_helper.is_enum(objectType) %>
-<%=default_declaration_type-%> <%= objectType.synthax_type.name -%> {
-  <%= objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue.upcase }.join(",\n  ") %>
-}
-<% else %><% -%>
-<%=default_declaration_type-%> <%= objectType.synthax_type.name -%>Schema {<% -%>
-<% for variable in objectType.synthax_type.variables %>
-  <%= variable.accessor %> val <%= variable.name %>: <%= variable_type_declaration(variable, import_manager) -%>
-<% end -%> 
-}
-<% end %><% -%>
+<%=
+fullDeclaration(objectType) 
+%>

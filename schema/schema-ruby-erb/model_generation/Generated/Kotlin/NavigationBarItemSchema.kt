@@ -16,15 +16,13 @@
  */
 package br.com.zup.beagle.widget.core
 
-
-
 import br.com.zup.beagle.action.ui.ActionSchema
 import br.com.zup.beagle.widget.core.AccessibilitySchema
 
 interface NavigationBarItemSchema {
-  public val id: String?
-  public val image: String?
-  public val text: String
-  public val action: ActionSchema
-  public val accessibility: AccessibilitySchema? 
+    public val id: String?
+    public val image: String?
+    public val text: String
+    public val action: ActionSchema
+    public val accessibility: AccessibilitySchema?
 }

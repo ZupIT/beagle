@@ -16,10 +16,7 @@
  */
 package br.com.zup.beagle.widget.ui
 
-
-
-
 interface LazyComponentSchema {
-  public val path: String
-  public val initialState: ServerDrivenComponent 
+    public val path: String
+    public val initialState: ServerDrivenComponent
 }
