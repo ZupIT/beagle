@@ -18,26 +18,19 @@ package br.com.zup.beagle.android.widget
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.OnInitiableComponent
 import br.com.zup.beagle.android.context.ContextActionExecutor
 
 /**
  * Abstract class that has onInit property
  * @property onInit list of actions performed as soon as the component is rendered
  */
-abstract class OnInitiableWidget : WidgetView() {
-
-    abstract val onInit: List<Action>?
+class OnInitiableWidget(override val onInit: List<Action>?) : OnInitiableComponent {
 
     @Transient
     private var onInitCalled = false
 
-    /**
-     * Method responsible for executing all actions present in the onInit property once the component is rendered.
-     * It is recommended to call this method within the buildView.
-     * @property rootView from buildView
-     * @property origin view that triggered the action
-     */
-    fun handleOnInit(rootView: RootView, origin: View) {
+    override fun handleOnInit(rootView: RootView, origin: View) {
         onInit?.let {
             addListenerToExecuteOnInit(rootView, origin)
         }
@@ -60,7 +53,7 @@ abstract class OnInitiableWidget : WidgetView() {
      * Method responsible for releasing the execution of all actions present in the onInit property
      * regardless of whether they have already been executed.
      */
-    fun markToRerunOnInit() {
+    override fun markToRerunOnInit() {
         onInitCalled = false
     }
 }

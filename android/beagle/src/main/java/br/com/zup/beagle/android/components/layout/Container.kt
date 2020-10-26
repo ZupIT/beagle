@@ -18,12 +18,14 @@ package br.com.zup.beagle.android.components.layout
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.OnInitiableComponent
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.OnInitiableWidget
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -42,7 +44,7 @@ data class Container(
     override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     override val onInit: List<Action>? = null
-) : OnInitiableWidget(), ContextComponent, MultiChildComponent {
+) : WidgetView(), OnInitiableComponent by OnInitiableWidget(onInit), ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory = ViewFactory()
