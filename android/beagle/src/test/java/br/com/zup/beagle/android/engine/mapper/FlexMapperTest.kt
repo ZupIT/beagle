@@ -52,6 +52,7 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
+import io.mockk.verifyOrder
 import io.mockk.verifySequence
 import kotlin.test.assertFalse
 import org.junit.After
@@ -238,7 +239,7 @@ class FlexMapperTest {
         observeSlot.captured.invoke(Display.NONE)
 
         // Then
-        verifySequence {
+        verifyOrder {
             yogaNodeMock.display = YogaDisplay.NONE
             viewMock.requestLayout()
         }
@@ -256,9 +257,8 @@ class FlexMapperTest {
         observeSlot.captured.invoke(Display.FLEX)
 
         // Then
-        verifySequence {
+        verifyOrder {
             yogaNodeMock.display = YogaDisplay.FLEX
-            viewMock.invalidate()
             viewMock.requestLayout()
         }
     }
