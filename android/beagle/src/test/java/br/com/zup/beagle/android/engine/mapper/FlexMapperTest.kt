@@ -45,7 +45,6 @@ import com.facebook.yoga.YogaNode
 import com.facebook.yoga.YogaWrap
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.called
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -55,7 +54,6 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifySequence
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -242,7 +240,6 @@ class FlexMapperTest {
         // Then
         verifySequence {
             yogaNodeMock.display = YogaDisplay.NONE
-            viewMock.invalidate()
             viewMock.requestLayout()
         }
     }
