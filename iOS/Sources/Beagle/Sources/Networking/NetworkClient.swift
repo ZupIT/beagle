@@ -64,6 +64,9 @@ public protocol RequestToken {
     func cancel()
 }
 
+/// this is just for facility
+extension URLSessionDataTask: RequestToken { }
+
 public protocol DependencyNetworkClient {
-    var networkClient: NetworkClient { get }
+    var networkClient: NetworkClient? { get }
 }
