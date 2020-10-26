@@ -70,8 +70,9 @@ object TextInputScreenBuilder {
                         textInputDisabled(),
                         textInputReadOnly(),
                         textInputTypeNumber(),
-                        textInputHidden(),
-                        textInputActions()
+                        textInputSecondPlan(),
+                        textInputActions(),
+                        textInputHidden()
                     )
                 ).applyStyle(Style(
                     size = Size(height = 100.0.unitPercent()),
@@ -146,20 +147,11 @@ object TextInputScreenBuilder {
         )
     )
 
-    private fun textInputHidden() = Container(
+    private fun textInputSecondPlan() = Container(
+       context = ContextData(id = "isTextInputInSecondPlan", value = "is a textInput in second plan with expression"),
         children = listOf(
-            TextInput(placeholder = "is textInput hidden", hidden = true),
-            Container(
-                context = ContextData(
-                    id = "isHiddenWithExpression",
-                    value = TextInputHidden(placeholder = "is textInput hidden with expression",
-                    hidden = true)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isHiddenWithExpression.placeholder}"),
-                        hidden = expressionOf("@{isHiddenWithExpression.hidden}")
-                    )
-                )
+            TextInput(placeholder = "is a textInput in second plan"),
+            TextInput(placeholder = expressionOf("@{isTextInputInSecondPlan}")
             )
         )
     )
@@ -169,15 +161,33 @@ object TextInputScreenBuilder {
             id = "textInputActions", value = "TextInput Actions"
         ),
         children = listOf(
-            Text("@{textInputActions}"),
+            Text("@{textInputActions.focus} + @{textInputActions.change} + @{textInputActions.blur}"),
             TextInput(
                 placeholder = "textInput with actions",
                 onChange = listOf(
-                    SetContext(contextId = "textInputActions", value = "Did onChange action")),
+                    SetContext(contextId = "textInputActions", path = "change", value = "Did onChange action")),
                 onFocus = listOf(
-                    SetContext(contextId = "textInputActions", value = "Did onFocus action")),
+                    SetContext(contextId = "textInputActions", path = "focus", value = "Did onFocus action")),
                 onBlur = listOf(
-                    SetContext(contextId = "textInputActions", value = "Did onBlur action")),
+                    SetContext(contextId = "textInputActions", path = "blur", value = "Did onBlur action")),
+            )
+        )
+    )
+
+    private fun textInputHidden() = Container(
+        children = listOf(
+            TextInput(placeholder = "is textInput hidden", hidden = true),
+            Container(
+                context = ContextData(
+                    id = "isHiddenWithExpression",
+                    value = TextInputHidden(placeholder = "is textInput hidden with expression",
+                        hidden = true)
+                ),
+                children = listOf(
+                    TextInput(placeholder = expressionOf("@{isHiddenWithExpression.placeholder}"),
+                        hidden = expressionOf("@{isHiddenWithExpression.hidden}")
+                    )
+                )
             )
         )
     )
