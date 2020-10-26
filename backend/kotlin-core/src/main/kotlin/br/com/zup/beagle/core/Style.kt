@@ -59,7 +59,7 @@ data class Style (
     val position: EdgeValue? = null,
     val flex: Flex? = null,
     val positionType: PositionType? = null,
-    val display: Display? = null
+    val display: BindAttribute<Display>? = null
 )
 
 /**

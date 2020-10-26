@@ -20,6 +20,7 @@ import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.builder.widget.EdgeValueBuilder
 import br.com.zup.beagle.builder.widget.FlexBuilder
 import br.com.zup.beagle.builder.widget.SizeBuilder
+import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Display
 import br.com.zup.beagle.core.PositionType
@@ -31,7 +32,7 @@ import br.com.zup.beagle.widget.core.Size
 fun style(block: StyleBuilder.() -> Unit) = StyleBuilder()
     .apply(block).build()
 
-class StyleBuilder: BeagleBuilder<Style> {
+class StyleBuilder : BeagleBuilder<Style> {
     var backgroundColor: String? = null
     var cornerRadius: CornerRadius? = null
     var size: Size? = null
@@ -40,7 +41,7 @@ class StyleBuilder: BeagleBuilder<Style> {
     var position: EdgeValue? = null
     var flex: Flex? = null
     var positionType: PositionType? = null
-    var display: Display? = null
+    var display: BindAttribute<Display>? = null
     var borderColor: String? = null
     var borderWidth: Double? = null
 
@@ -52,7 +53,7 @@ class StyleBuilder: BeagleBuilder<Style> {
     fun position(position: EdgeValue?) = this.apply { this.position = position }
     fun flex(flex: Flex?) = this.apply { this.flex = flex }
     fun positionType(positionType: PositionType?) = this.apply { this.positionType = positionType }
-    fun display(display: Display?) = this.apply { this.display = display }
+    fun display(display: BindAttribute<Display>?) = this.apply { this.display = display }
     fun borderColor(borderColor: String?) = this.apply { this.borderColor = borderColor }
     fun borderWidth(borderWidth: Double?) = this.apply { this.borderWidth = borderWidth }
 
@@ -88,15 +89,15 @@ class StyleBuilder: BeagleBuilder<Style> {
         positionType(block.invoke())
     }
 
-    fun display(block: () -> Display?) {
+    fun display(block: () -> BindAttribute<Display>?) {
         display(block.invoke())
     }
 
-    fun borderColor(block: () -> String?){
+    fun borderColor(block: () -> String?) {
         borderColor(block.invoke())
     }
 
-    fun borderWidth(block: () -> Double?){
+    fun borderWidth(block: () -> Double?) {
         borderWidth(block.invoke())
     }
 
@@ -117,7 +118,7 @@ class StyleBuilder: BeagleBuilder<Style> {
 
 fun cornerRadius(block: CornerRadiusBuilder.() -> Unit) = CornerRadiusBuilder().apply(block).build()
 
-class CornerRadiusBuilder: BeagleBuilder<CornerRadius> {
+class CornerRadiusBuilder : BeagleBuilder<CornerRadius> {
     var radius: Double = 0.0
 
     fun radius(radius: Double) = this.apply { this.radius = radius }
