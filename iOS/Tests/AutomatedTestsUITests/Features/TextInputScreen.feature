@@ -46,3 +46,20 @@ Feature: TextInput Validation
             | textInputDisabled                                 |
             | Standard text with disabled field                 |
             | Standard text with disabled field with expression |
+            
+    Scenario Outline: TextInput 04 - validate readOnly field
+        Then verify if the field with the value "<textInputReadOnly>" is read only
+
+        Examples:
+            | textInputReadOnly            |
+            | is Read Only                 |
+            | is Read Only with expression |
+
+    Scenario Outline: TextInput 05 - validate keyboard appears on Focus
+        When I click in the textInput with the placeholder "<textInputSecondPlan>"
+        Then verify if the textInput "<textInputSecondPlan>" is in the second plan
+
+        Examples:
+            | textInputSecondPlan                           |
+            | is a textInput in second plan                 |
+            | is a textInput in second plan with expression |

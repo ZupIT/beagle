@@ -69,8 +69,8 @@ object TextInputScreenBuilder {
                         textInputPlaceholder(),
                         textInputDisabled(),
                         textInputReadOnly(),
-                        textInputTypeNumber(),
                         textInputSecondPlan(),
+                        textInputTypeNumber(),
                         textInputActions(),
                         textInputHidden()
                     )
