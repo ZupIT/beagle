@@ -25,8 +25,18 @@ public protocol DependencyCustomOperationProvider {
 }
 
 public protocol CustomOperationProvider {
+    
+    /// Use this function to register your custom operation.
+    /// - Warning:
+    ///     - Be careful when replacing a default operation in Beagle, consider creating it using `custom()`
+    ///     - Custom Operations names must have at least 1 character, it can also contain numbers and the character _
+    /// - Parameters:
+    ///   - operation: The custom operation you wish to register.
+    ///   - handler: A closure where you tell us what your custom operation should do.
     func register(operation: Operation, handler: @escaping OperationHandler)
+    
     func getCustomOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject
+    
     func checkCustomOperationExistence(_ operation: Operation) -> Bool
 }
 
@@ -34,14 +44,19 @@ public class CustomOperationProviding: CustomOperationProvider {
     private(set) public var operations: [Operation.Name: OperationHandler] = [:]
     
     public func register(operation: Operation, handler: @escaping OperationHandler) {
-        if operation.name != .custom("") {
-            dependencies.logger.log(Log.customOperations(.alreadyExists))
-        }
         operations[operation.name] = handler
+        
+        guard case Operation.Name.custom = operation.name else {
+            dependencies.logger.log(Log.customOperations(.alreadyExists))
+            return
+        }
     }
     
     public func getCustomOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject {
-        guard let operationHandler = operations[operation.name] else { return nil }
+        guard let operationHandler = operations[operation.name] else {
+            return nil
+        }
+        
         let anyParameters = operation.evaluatedParameters(in: view).map { $0.asAny() }
         return operationHandler(anyParameters)
     }
