@@ -34,6 +34,17 @@ class TextInputSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.TEXT_INPUT_SCREEN_TITLE.element.exists)
         }
         
+        // MARK: - When
+        
+        // Scenarios 5
+        When(#"^I click in the textInput with the placeholder "([^\"]*)"$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            
+            if let textField = self.application.textFields[placeholder: placeholder] {
+                textField.tap()
+            }
+        }
+
         // MARK: - Then
         
         // Scenario 1
@@ -60,6 +71,27 @@ class TextInputSteps: CucumberStepsDefinition {
             if let textField = self.application.textFields[placeholder: placeholder] {
                 XCTAssertTrue(textField.exists)
                 XCTAssertFalse(textField.isEnabled)
+            } else {
+                XCTFail("Couldn't find text field")
+            }
+        }
+        
+        // Scenario 4
+        Then(#"^verify if the field with the value "([^\"]*)" is read only$"#) { args, _ -> Void in
+            let text = args![0]
+            let textField = self.application.textFields[text]
+            
+            XCTAssertTrue(textField.exists)
+            XCTAssertFalse(textField.isEnabled)
+        }
+        
+        // Scenario 5
+        Then(#"^verify if the textInput "([^\"]*)" is in the second plan$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            
+            if let textField = self.application.textFields[placeholder: placeholder] {
+                XCTAssertTrue(textField.exists)
+                XCTAssertEqual(self.application.keyboards.count, 1)
             } else {
                 XCTFail("Couldn't find text field")
             }
