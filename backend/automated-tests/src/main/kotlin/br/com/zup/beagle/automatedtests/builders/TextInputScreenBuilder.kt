@@ -36,7 +36,7 @@ import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
 
-data class TextInputAtt(val placeholder: String, val isReadOnly: Boolean)
+data class TextInputAtt(val value: String, val isReadOnly: Boolean)
 
 data class TextInputType(val placeholder: String, val textInputType: TextInputType)
 
@@ -120,11 +120,11 @@ object TextInputScreenBuilder {
 
     private fun textInputReadOnly() = Container(
         context = ContextData(
-            id = "isReadOnly", value = TextInputAtt(placeholder = "is Read Only with expression", isReadOnly = true)
+            id = "isReadOnly", value = TextInputAtt(value = "is Read Only with expression", isReadOnly = true)
         ),
         children = listOf(
             TextInput(value = "is Read Only", readOnly = true),
-            TextInput(value = expressionOf("@{isReadOnly.placeholder}"),
+            TextInput(value = expressionOf("@{isReadOnly.value}"),
                 readOnly = expressionOf("@{isReadOnly.isReadOnly}")
             )
         )
