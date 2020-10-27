@@ -166,7 +166,7 @@ object NavigationBarScreenBuilder {
 
     private fun createBeagleText(text: Bind<String>) = Container(
         children = listOf(
-            Text(text = text, styleId = TEXT_FONT_MAX, textColor =expressionOf("@{global.textColor}")),
+            Text(text = text, styleId = TEXT_FONT_MAX, textColor = expressionOf("@{global.textColor}")),
             Button(
                 text = "Update Global Context",
                 onPress = listOf(

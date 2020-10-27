@@ -33,10 +33,8 @@ class Dependencies : Plugin<Project> {
         const val internalProcessor = ":internal-processor"
         const val androidAnnotation = ":android-annotation"
         const val preview = ":preview"
-        const val commonAnnotation = ":common:annotation"
-        const val commonProcessorUtils = ":common:processor-utils"
-        const val schemaKotlinCore = ":schema:kotlin-core"
-        const val extendedSchema = ":common:extended-schema"
+        const val commonAnnotation = ":annotation"
+        const val commonProcessorUtils = ":processor-utils"
     }
 
     object Releases {

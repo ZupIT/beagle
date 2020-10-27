@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
@@ -42,6 +43,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.spyk
@@ -170,6 +172,8 @@ class ToolbarManagerTest : BaseTest() {
     fun configure_toolbar_style_when_toolbar_is_not_null() {
         // Given
         val title = RandomData.string()
+        val textView: TextView = mockk()
+        every { toolbar.findViewById<TextView>(any()) } returns textView
         every { navigationBar.title } returns title
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
@@ -181,6 +185,7 @@ class ToolbarManagerTest : BaseTest() {
         toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
 
         // Then
+        verify(exactly = once()) { toolbar.removeView(textView) }
         verify(atLeast = once()) { toolbar.navigationIcon = navigationIcon }
         verify(atLeast = once()) { toolbar.title = title }
         verify(atLeast = once()) { toolbar.setTitleTextAppearance(context, titleTextAppearance) }
@@ -199,6 +204,8 @@ class ToolbarManagerTest : BaseTest() {
         every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar
         every { navigationBar.showBackButton } returns false
+        every { toolbar.findViewById<TextView>(any()) } returns mockk()
+
 
         // When
         toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
@@ -220,6 +227,8 @@ class ToolbarManagerTest : BaseTest() {
         every { navigationBar.navigationBarItems } returns navigationBarItems
         val menuItem = spyk<MenuItem>()
         every { menu.add(any(), any(), any(), any<String>()) } returns menuItem
+        every { toolbar.findViewById<TextView>(any()) } returns mockk()
+
 
         // WHEN
         toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
@@ -246,6 +255,8 @@ class ToolbarManagerTest : BaseTest() {
         val menuItem = spyk<MenuItem>()
         every { menu.add(any(), any(), any(), any<String>()) } returns menuItem
         every { ResourcesCompat.getDrawable(any(), any(), any()) } returns icon
+        every { toolbar.findViewById<TextView>(any()) } returns mockk()
+
 
         // WHEN
         toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)

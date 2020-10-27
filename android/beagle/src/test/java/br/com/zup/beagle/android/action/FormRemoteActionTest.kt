@@ -17,10 +17,8 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
-import br.com.zup.beagle.android.extensions.once
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -29,8 +27,9 @@ import io.mockk.mockkConstructor
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
+import kotlin.test.assertEquals
 
-class FormRemoteActionTest : BaseTest() {
+class FormRemoteActionTest : BaseAsyncActionTest() {
 
     private val formSubmitCallbackSlot = slot<(formResult: FormResult) -> Unit>()
     private val formParamsSlot = slot<Map<String, String>>()
@@ -46,12 +45,13 @@ class FormRemoteActionTest : BaseTest() {
     }
 
     @Test
-    fun `should execute action`() {
+    fun `GIVEN a FormRemoteAction WHEN executed THEN should call submitForm and his callback`() {
         // Given
         val resultListener: ResultListener = mockk()
         val action = FormRemoteAction("", FormMethodType.GET)
         action.formsValue = mapOf()
         action.resultListener = resultListener
+        action.status.observeForever(observer)
         val formResult: FormResult.Success = mockk()
         every { resultListener(any()) } just Runs
 
@@ -59,11 +59,9 @@ class FormRemoteActionTest : BaseTest() {
         action.execute(mockk(), view)
         formSubmitCallbackSlot.captured(formResult)
 
-
         // Then
-        verify(exactly = once()) {
-            anyConstructed<FormSubmitter>().submitForm(action, action.formsValue, any())
-        }
-        verify(exactly = once()) { resultListener(formResult) }
+        verify(exactly = 1) { anyConstructed<FormSubmitter>().submitForm(action, action.formsValue, any()) }
+        verify(exactly = 1) { resultListener(formResult) }
+        assert(onActionFinishedWasCalled())
     }
 }

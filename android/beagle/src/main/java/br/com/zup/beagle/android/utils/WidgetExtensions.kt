@@ -125,6 +125,15 @@ fun <T> ServerDrivenComponent.observeBindChanges(
     bind: Bind<T>,
     observes: Observer<T?>
 ) {
+    internalObserveBindChanges(rootView, view, bind, observes)
+}
+
+internal fun <T> internalObserveBindChanges(
+    rootView: RootView,
+    view: View,
+    bind: Bind<T>,
+    observes: Observer<T?>
+) {
     val value = bind.observe(rootView, view, observes)
     if (bind is Bind.Value) {
         observes(value)

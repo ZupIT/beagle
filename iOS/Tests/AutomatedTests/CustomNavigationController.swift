@@ -34,14 +34,14 @@ class CustomBeagleNavigationController: BeagleNavigationController {
                 message = messageError.error.localizedDescription
             case .decoding(let messageError):
                 message = messageError.localizedDescription
-            case .loadFromTextError, .urlBuilderError:
+            case .loadFromTextError, .urlBuilderError, .networkClientWasNotConfigured:
                 message = error.localizedDescription
             }
             
         case .action(let error):
             message = error.localizedDescription
         default:
-            message = "Unknow Error."
+            message = "Unknown Error."
         }
         
         if !view.subviews.contains(errorView) {
