@@ -60,9 +60,9 @@ internal class GenerateIdManager(
         if (serverDrivenComponent is WidgetView) {
             setNoIdToComponentWithoutId(serverDrivenComponent)
         }
-        if(serverDrivenComponent is SingleChildComponent) {
+        if (serverDrivenComponent is SingleChildComponent) {
             markEachNestedComponentAsNoIdIfNeeded(serverDrivenComponent.child)
-        }else if(serverDrivenComponent is MultiChildComponent){
+        } else if (serverDrivenComponent is MultiChildComponent) {
             serverDrivenComponent.children.forEach { childComponent ->
                 markEachNestedComponentAsNoIdIfNeeded(childComponent)
             }
