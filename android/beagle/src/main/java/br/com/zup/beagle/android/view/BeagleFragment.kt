@@ -16,14 +16,13 @@
 
 package br.com.zup.beagle.android.view
 
-import android.content.Context
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.components.utils.applyBackgroundFromWindowBackgroundTheme
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
@@ -38,7 +37,7 @@ internal class BeagleFragment : Fragment() {
         beagleSerializer.deserializeComponent(json)
     }
 
-    private val screenViewModel by lazy { ViewModelProvider(requireActivity()).get(BeagleScreenViewModel::class.java) }
+    private val screenViewModel by lazy { ViewModelProviders.of(this).get(BeagleScreenViewModel::class.java) }
 
     companion object {
 

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
+import android.support.design.widget.TabLayout
 import android.widget.FrameLayout
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
@@ -27,7 +28,6 @@ import br.com.zup.beagle.android.utils.*
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import br.com.zup.beagle.core.Style
-import com.google.android.material.tabs.TabLayout
 import io.mockk.*
 import org.junit.Test
 import kotlin.test.assertEquals

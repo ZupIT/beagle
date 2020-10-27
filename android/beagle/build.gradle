@@ -59,11 +59,9 @@ android {
 }
 
 dependencies {
-    implementation Dependencies.AndroidxLibraries.appcompat
-    implementation Dependencies.AndroidxLibraries.coreKtx
-    implementation Dependencies.AndroidxLibraries.recyclerView
-    implementation Dependencies.AndroidxLibraries.viewModel
-    implementation Dependencies.AndroidxLibraries.viewModelExtensions
+    implementation Dependencies.AndroidSupport.design
+    implementation Dependencies.AndroidSupport.viewModel
+    implementation Dependencies.AndroidSupport.extensions
 
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
@@ -79,8 +77,6 @@ dependencies {
     implementation Dependencies.GeneralLibraries.yoga
     implementation Dependencies.GeneralLibraries.soLoader
     implementation Dependencies.GeneralLibraries.jni
-
-    implementation Dependencies.GoogleLibraries.materialDesign
 
     implementation Dependencies.MoshiLibraries.moshi
     implementation Dependencies.MoshiLibraries.kotlin

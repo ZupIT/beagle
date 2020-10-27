@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.components
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.widget.ImageView
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
