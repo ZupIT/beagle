@@ -371,12 +371,12 @@
 		639CA15424B4EF1A009FAC90 /* AutomatedTests */ = {
 			isa = PBXGroup;
 			children = (
-				42C55D0B25477EA7003ECF63 /* Config */,
 				639CA23324B4F3C7009FAC90 /* MainScreen.swift */,
 				639CA15524B4EF1A009FAC90 /* AppDelegate.swift */,
 				639CA15E24B4EF1D009FAC90 /* Assets.xcassets */,
 				639CA16024B4EF1D009FAC90 /* LaunchScreen.storyboard */,
 				639CA16324B4EF1D009FAC90 /* Info.plist */,
+				639CA24024B51B40009FAC90 /* BeagleConfig.swift */,
 				9897E52625013D4D00C74A0D /* ErrorView.swift */,
 				9897E52825013DCE00C74A0D /* CustomNavigationController.swift */,
 			);
@@ -773,11 +773,8 @@
 				639CA23424B4F3C7009FAC90 /* MainScreen.swift in Sources */,
 				9897E52925013DCE00C74A0D /* CustomNavigationController.swift in Sources */,
 				639CA24124B51B40009FAC90 /* BeagleConfig.swift in Sources */,
-				42C55D1325477F70003ECF63 /* NetworkClientDefault.swift in Sources */,
-				42C55D1125477F42003ECF63 /* HttpRequestBuilder.swift in Sources */,
 				639CA15624B4EF1A009FAC90 /* AppDelegate.swift in Sources */,
 				9897E52725013D4D00C74A0D /* ErrorView.swift in Sources */,
-				42C55D0E25477EEF003ECF63 /* BeagleLoggerDefault.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -287,13 +287,18 @@
 			isa = PBXGroup;
 			children = (
 				932925BF2327E0E500A61F01 /* Info.plist */,
+				C0479F58243282F00040E30C /* AnalyticsMock.swift */,
 				932925B12327E0E400A61F01 /* AppDelegate.swift */,
+				6ED5B09D240464520070CB9D /* BeagleStyle.swift */,
+				A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */,
+				2576F468250ACF6C000CDB2A /* NativeViewController.swift */,
 				932925BA2327E0E500A61F01 /* Assets.xcassets */,
 				3DCE53572543233600D3B0A4 /* BeagleConfig */,
 				C0D0F47E245B48BB00FB57C1 /* CodeGeneration */,
 				6E2C784B241984F800448728 /* Constants */,
 				E75619862408363E0025E0A9 /* DesignSystem */,
 				932925BC2327E0E500A61F01 /* LaunchScreen.storyboard */,
+				932925B72327E0E400A61F01 /* Main.storyboard */,
 				A0642DC9239689E60028AFF3 /* Screens */,
 			);
 			path = BeagleDemo;
@@ -397,6 +402,8 @@
 				98A7F36B23A926C600E88C70 /* TabBarScreen.swift */,
 				6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */,
 				98E08D2224228DD200FBD21B /* WebViewScreen.swift */,
+				6EA428712514457F00AEE741 /* ImageScreen.swift */,
+				4F36AB2D251E7A5A0036F839 /* GlobalContextScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -659,6 +666,7 @@
 				6EA428722514457F00AEE741 /* ImageScreen.swift in Sources */,
 				93E4897E25423DD200293568 /* CacheLRU.swift in Sources */,
 				3D8E5C80254234A0002B92E2 /* HttpRequestBuilder.swift in Sources */,
+				6EA428722514457F00AEE741 /* ImageScreen.swift in Sources */,
 				2576F469250ACF6C000CDB2A /* NativeViewController.swift in Sources */,
 				C8A2F6F42464C1F9002198B1 /* AutoDecodable.generated.swift in Sources */,
 				93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */,

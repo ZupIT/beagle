@@ -49,8 +49,8 @@ Feature: TextInput Validation
             | Standard text with disabled field with expression |
 
     Scenario Outline: TextInput 04 - validate readOnly field
-        When the placeholder <textInputReadOnly> of the readOnly field is on the screen
-        Then verify if the field with the placeholder <textInputReadOnly> is read only
+        When the value <textInputReadOnly> of the readOnly field is on the screen
+        Then verify if the field with the value <textInputReadOnly> is read only
 
         Examples:
             | textInputReadOnly            |
@@ -65,6 +65,15 @@ Feature: TextInput Validation
             | textInputSecondPlan                           |
             | is a textInput in second plan                 |
             | is a textInput in second plan with expression |
+
+    Scenario Outline: TextInput 06 - validate textInput of type number
+        Then validate textInput component of type number with text <textInputTypeNumber>
+
+        Examples:
+            | textInputTypeNumber                      |
+            | is textInput type number                 |
+            | is textInput type number with expression |
+
 
     Scenario Outline: TextInput 07 - validate that textInput is hidden
         Then The hidden input fields <textInputHidden> should not be visible

@@ -24,18 +24,18 @@ struct TabBarTheme {
     var selectedIconColor: UIColor?
     var unselectedIconColor: UIColor?
 }
-    
+
 final class TabBarUIComponent: UIScrollView {
-    
+
     // MARK: - Model
-    
+
     struct Model {
         var tabIndex: Int?
         var tabBarItems: [TabBarItem]
         var styleId: String?
         var renderer: BeagleRenderer
     }
-    
+
     // MARK: - Properties
     private var shouldCreateTabItemsView = true
     private let tabItemMinimumHorizontalMargin: CGFloat = 40
@@ -44,7 +44,7 @@ final class TabBarUIComponent: UIScrollView {
     var model: Model
     var tabItemViews = [Int: TabBarItemUIComponent]()
     var onTabSelection: ((_ tab: Int) -> Void)?
-    
+
     // MARK: - UI
     
     private lazy var contentView: UIView = {
@@ -57,7 +57,7 @@ final class TabBarUIComponent: UIScrollView {
         view.backgroundColor = .black
         return view
     }()
-        
+
     // MARK: - Initialization
     
     init(
@@ -79,7 +79,7 @@ final class TabBarUIComponent: UIScrollView {
         if let contentView = subviews.first {
             contentSize = contentView.frame.size
             resetTabItemsStyle()
-            
+
             // Creates tabItems only after view it's already in superview hierarchy
             if superview != nil && shouldCreateTabItemsView {
                 setupTabBarItems()
@@ -101,7 +101,7 @@ final class TabBarUIComponent: UIScrollView {
         setupIndicatorViewStyle(for: selectedTabItem)
         model.renderer.controller.setNeedsLayout(component: self)
     }
-    
+
     private func setupScrollView() {
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
@@ -109,7 +109,7 @@ final class TabBarUIComponent: UIScrollView {
             size: Size().height(65), flex: Flex().flexDirection(.row).shrink(0))
         )
     }
-    
+
     private func setupContentView() {
         contentView.style.setup(Style(
             flex: Flex(flexDirection: .row, grow: 0, shrink: 0))
@@ -117,7 +117,7 @@ final class TabBarUIComponent: UIScrollView {
         contentView.addSubview(indicatorView)
         addSubview(contentView)
     }
-    
+
     func setupTabBarItems() {
         var index = 0
         shouldCreateTabItemsView = false
@@ -129,22 +129,22 @@ final class TabBarUIComponent: UIScrollView {
             index += 1
             contentView.addSubview(itemView)
         }
-        
+
         if let styleId = model.styleId {
             beagle.applyStyle(for: self as UIView, styleId: styleId, with: model.renderer.controller)
         }
     }
-    
+
     private func createTabBarItemsView(with item: TabBarItem, index: Int) -> TabBarItemUIComponent {
         let itemView = TabBarItemUIComponent(index: index, renderer: model.renderer)
         itemView.setupTab(with: item)
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(didSelectTabItem(sender:)))
         itemView.addGestureRecognizer(tap)
         itemView.isUserInteractionEnabled = true
         return itemView
     }
-    
+
     @objc func didSelectTabItem(sender: UITapGestureRecognizer) {
         guard let tabItem = sender.view as? TabBarItemUIComponent, let index = tabItem.index else { return }
         model.tabIndex = index
@@ -171,7 +171,7 @@ private extension TabBarUIComponent {
                     .justifyContent(.spaceEvenly))
         )
     }
-    
+
     func setupIndicatorViewStyle(for selectedItem: TabBarItemUIComponent?) {
         guard let selectedItem = selectedItem else { return }
         indicatorView.style.setup(
@@ -189,7 +189,7 @@ private extension TabBarUIComponent {
 // MARK: - TabBarItem Size
 
 private extension TabBarUIComponent {
-    
+
     func getTabBarItensFreeHorizontalSpace() -> CGFloat {
         let tabBarItems = model.tabBarItems
         let tabBarItemsAvailableSpace = frame.width
@@ -221,7 +221,7 @@ private extension TabBarUIComponent {
             return getContentSize(forWidth: tabItemIconMinimunWidth)
         }
     }
-    
+
     func getContentSize(forWidth width: CGFloat) -> CGSize {
         CGSize(width: width + getTabBarItensFreeHorizontalSpace(), height: 62)
     }
@@ -237,7 +237,7 @@ private extension TabBarUIComponent {
             options: .curveLinear,
             animations: {
                 self.setupIndicatorViewStyle(for: tabItem)
-                
+
                 // TODO: setNeedLayout should call layoutIfNeeded
                 self.model.renderer.controller.setNeedsLayout(component: self)
                 self.model.renderer.controller.view.layoutIfNeeded()
@@ -252,12 +252,8 @@ extension TabBarUIComponent {
     func scrollTo(page: Int) {
         model.tabIndex = page
         guard let view = tabItemViews[page] else { return }
-        
-        let visibleRect = CGRect(
-            origin: CGPoint(x: max(0, view.center.x - (frame.width / 2)), y: 0),
-            size: bounds.size
-        )
-        scrollRectToVisible(visibleRect, animated: true)
+        let offsetX = view.center.x - (frame.width / 2)
+        setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
         setupTabBarItemsTheme(for: page)
         moveIndicatorView(to: view)
     }

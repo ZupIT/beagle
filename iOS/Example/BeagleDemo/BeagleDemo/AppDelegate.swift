@@ -24,8 +24,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        BeagleConfig.start()
+        let deepLinkHandler = DeeplinkScreenManager.shared
+        deepLinkHandler[.lazyComponentEndpoint] = LazyComponentScreen.self
+        deepLinkHandler[.pageViewEndpoint] = PageViewScreen.self
+        deepLinkHandler[.tabBarEndpoint] = TabBarScreen.self
+        deepLinkHandler[.formEndpoint] = FormScreen.self
+        deepLinkHandler[.customComponentEndpoint] = CustomComponentScreen.self
+        deepLinkHandler[.screenDeeplinkEndpoint] = ScreenDeepLink.self
+        deepLinkHandler[.listViewEndpoint] = ListViewScreen.self
+        deepLinkHandler[.webViewEndpoint] = WebViewScreen.self
+        deepLinkHandler[.componentInterationEndpoint] = ComponentInteractionText.self
+        deepLinkHandler[.conditionActionEndpoint] = ConditionActionText.self
+        deepLinkHandler[.simpleFormEndpoint] = SimpleFormScreen.self
+        deepLinkHandler[.navigateStep1Endpoint] = NavigateStep1Screen.self
+        deepLinkHandler[.navigateStep2Endpoint] = NavigateStep2Screen.self
+        deepLinkHandler[.imageEndpoint] = ImageScreen.self
+        deepLinkHandler[.globalContextEndpoint] = GlobalContexScreen.self
+        deepLinkHandler[.beagleView] = BeagleViewScreen.self
+
+        let validator = ValidatorProviding()
+        validator[FormScreen.textValidatorName] = FormScreen.textValidator
         
+        let dependencies = BeagleDependencies()
+        dependencies.theme = AppTheme.theme
+        dependencies.urlBuilder = UrlBuilder(baseUrl: URL(string: .baseURL))
+        dependencies.navigation.defaultAnimation = .init(pushTransition: .init(type: .fade, subtype: .fromRight, duration: 0.1), modalPresentationStyle: .formSheet)
+        dependencies.deepLinkHandler = deepLinkHandler
+        dependencies.validatorProvider = validator
+        dependencies.analytics = AnalyticsMock()
+        dependencies.isLoggingEnabled = true
+        
+        registerCustomComponents(in: dependencies)
+        registerCustomControllers(in: dependencies)
+        
+        Beagle.dependencies = dependencies
+        BeagleConfig.start()
+
         let mainScreenViewController = MainScreen().screenController()
         mainScreenViewController.title = "Beagle"
         
@@ -38,7 +72,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
-        
+
         return true
+    }
+    
+    private func registerCustomComponents(in dependencies: BeagleDependencies) {
+        dependencies.decoder.register(component: DSCollection.self)
+        dependencies.decoder.register(component: MyComponent.self)
+        dependencies.decoder.register(action: CustomConsoleLogAction.self)
+        dependencies.decoder.register(component: DemoTextField.self, named: "SampleTextField")
+    }
+    
+    private func registerCustomControllers(in dependencies: BeagleDependencies) {
+        dependencies.navigation.registerNavigationController(builder: CustomBeagleNavigationController.init, forId: "CustomBeagleNavigation")
+        dependencies.navigation.registerNavigationController(builder: CustomPushStackNavigationController.init, forId: "PushStackNavigation")
     }
 }

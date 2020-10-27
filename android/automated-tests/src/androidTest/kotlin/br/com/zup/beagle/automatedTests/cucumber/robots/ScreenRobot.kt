@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.robots
 
+import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso
@@ -23,7 +24,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -34,10 +34,9 @@ import br.com.zup.beagle.widget.core.TextAlignment
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
-import org.hamcrest.TypeSafeMatcher
-import kotlin.jvm.Throws
-import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
+import org.hamcrest.TypeSafeMatcher
 
 class ScreenRobot {
 
@@ -112,9 +111,13 @@ class ScreenRobot {
     }
 
     fun hintInSecondPlan(text: String) : ScreenRobot {
-        //onView(allOf(withHint(text),isDisplayed()))
         onView(withHint(text)).perform(pressBack())
         onView(allOf(withHint(text), isDisplayed()))
+        return this
+    }
+
+    fun checkInputType(text: String) : ScreenRobot {
+        onView(withHint(text)).check(matches(allOf(withInputType(InputType.TYPE_CLASS_NUMBER))))
         return this
     }
 

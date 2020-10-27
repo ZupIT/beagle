@@ -50,6 +50,10 @@ class AppDesignSystem : DesignSystem() {
             "DesignSystem.Text.Action.Click" -> R.style.DesignSystem_Text_Action_Click
             "DesignSystem.Text.helloWord" -> R.style.DesignSystem_Text_helloWord
             "DesignSystem.Text.Image.Remote" -> R.style.DesignSystem_Text_Image_Remote
+            "DesignSystem.Text.White.Large" -> R.style.DesignSystem_Text_White_Large
+            "DesignSystem.Text.White.Medium" -> R.style.DesignSystem_Text_White_Medium
+            "DesignSystem.Text.White.Default" -> R.style.DesignSystem_Text_White_Default
+            "DesignSystem.Text.White.Button" -> R.style.DesignSystem_Text_White_Button
             else -> R.style.DesignSystem_Text_Default
         }
     }

@@ -98,3 +98,13 @@ const val SEND_BUTTON = "Enviar"
 const val OK_BUTTON = "OK"
 const val CANCEL_BUTTON = "Cancel"
 
+//Navigate Buttons Screen
+const val NAVIGATION_SCREEN_TITLE = "Navigation Screen"
+const val PUSH_VIEW_REMOTE_BUTTON = "PushViewRemote"
+const val PUSH_STACK_REMOTE_BUTTON = "PushStackRemote"
+const val PUSH_VIEW_REMOTE_FAILURE_BUTTON = "PushViewRemoteFailure"
+const val PUSH_STACK_REMOTE_FAILURE_BUTTON = "PushStackRemoteFailure"
+const val POP_TO_VIEW_BUTTON = "PopToView"
+const val POP_STACK_BUTTON = "PopStack"
+const val POP_VIEW_BUTTON = "PopView"
+const val RESET_SCREEN_TITLE = "Reset Screen"

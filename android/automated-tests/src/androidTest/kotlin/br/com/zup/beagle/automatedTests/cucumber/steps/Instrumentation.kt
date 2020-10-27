@@ -31,7 +31,10 @@ class Instrumentation : MonitoringInstrumentation() {
     private val instrumentationCore: CucumberInstrumentationCore = CucumberInstrumentationCore(this)
     override fun onCreate(arguments: Bundle) {
         super.onCreate(arguments)
-
+        val tags: String = BuildConfig.TEST_TAGS
+        if (tags.isNotEmpty()) {
+            arguments.putString("tags", tags.replace(",".toRegex(), "--").replace("\\s".toRegex(), ""))
+        }
         instrumentationCore.create(arguments)
         start()
     }

@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.MyScreenBuilder
+import br.com.zup.beagle.sample.builder.PositioningBeagleScreenBuilder
 import org.springframework.stereotype.Service
 
 @Service
 class SampleScreenBuilderService {
-    fun createScreenBuilder() = MyScreenBuilder("Hello World!")
+    fun createScreenBuilder() = PositioningBeagleScreenBuilder
 }

@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -84,6 +85,9 @@ class TextInputTest : BaseComponentTest() {
         type = type,
         styleId = STYLE_ID
     )
+
+        textInput.setPrivateField("textWatcher", textWatcher)
+    }
 
     @Test
     fun `build should return a EditText instance`() {

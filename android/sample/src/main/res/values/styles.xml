@@ -126,6 +126,26 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="DesignSystem.Text.White.Large" parent="DesignSystem.Text.Default">
+        <item name="android:textSize">50sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="DesignSystem.Text.White.Medium" parent="DesignSystem.Text.Default">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="DesignSystem.Text.White.Default" parent="DesignSystem.Text.Default">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name= "DesignSystem.Text.White.Button" parent="DesignSystem.Text.Default">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="DesignSystem.Button.Style" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/colorBlack</item>
     </style>
