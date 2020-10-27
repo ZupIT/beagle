@@ -54,7 +54,7 @@ class BeagleFlexViewTest {
 
         // Then
         verify {
-            flexMapperMock.observeBindChangesFlex(any(), rootViewMock, beagleFlexView, beagleFlexView.yogaNode)
+            flexMapperMock.observeBindChangesFlex(styleMock, rootViewMock, beagleFlexView, beagleFlexView.yogaNode)
         }
     }
 
