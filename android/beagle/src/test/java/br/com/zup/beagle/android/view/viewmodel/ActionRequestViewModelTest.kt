@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Observer
 import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
@@ -26,16 +26,7 @@ import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.mapper.toResponse
-import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.unmockkAll
-import io.mockk.verify
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before

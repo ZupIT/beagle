@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.view
 
-import androidx.annotation.AnimRes
-import androidx.annotation.AnimatorRes
+import android.support.annotation.AnimRes
+import android.support.annotation.AnimatorRes
 
 data class FragmentTransitionAnimation(
     @AnimatorRes

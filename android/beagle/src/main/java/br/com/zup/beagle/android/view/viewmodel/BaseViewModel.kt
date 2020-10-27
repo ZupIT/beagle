@@ -16,19 +16,24 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
-import br.com.zup.beagle.android.data.ComponentRequester
-import br.com.zup.beagle.android.utils.CoroutineDispatchers
+import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
-internal class BeagleScreenViewModel(
-    private val ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
-    private val componentRequester: ComponentRequester = ComponentRequester()
-) : BeagleViewModel(ioDispatcher, componentRequester) {
+internal val defaultExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    throw throwable
+}
 
-    val screenLoadFinished = MutableLiveData<Boolean>()
+internal open class BaseViewModel : CoroutineScope, ViewModel() {
+    private val job : Job = Job()
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
+    private val coroutineExceptionHandler : CoroutineExceptionHandler = defaultExceptionHandler
 
-    fun onScreenLoadFinished() {
-        screenLoadFinished.value = true
-    }
+    override val coroutineContext: CoroutineContext
+        get() = job + dispatcher + coroutineExceptionHandler
+
 }

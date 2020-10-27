@@ -16,22 +16,17 @@
 
 package br.com.zup.beagle.android.context
 
-import androidx.collection.LruCache
+import android.support.v4.util.LruCache
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
-import br.com.zup.beagle.android.context.tokenizer.function.FunctionResolver
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.widget.core.TextAlignment
 import com.squareup.moshi.Moshi
 import io.mockk.*
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

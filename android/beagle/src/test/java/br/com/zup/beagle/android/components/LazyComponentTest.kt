@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import androidx.core.view.get
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
@@ -43,7 +42,7 @@ class LazyComponentTest : BaseComponentTest() {
         super.setUp()
 
         every { anyConstructed<ViewFactory>().makeBeagleView(any()) } returns beagleView
-        every { beagleView[0] } returns initialStateView
+        every { beagleView.getChildAt(0) } returns initialStateView
 
         lazyComponent = LazyComponent(URL, initialState)
     }

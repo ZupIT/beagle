@@ -17,7 +17,8 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import android.os.Bundle
-import androidx.test.runner.MonitoringInstrumentation
+import android.support.test.runner.MonitoringInstrumentation
+import br.com.zup.beagle.automatedTests.BuildConfig
 import cucumber.api.CucumberOptions
 import cucumber.api.android.CucumberInstrumentationCore
 

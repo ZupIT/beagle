@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Observer
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.layout.ScreenComponent
@@ -30,18 +30,9 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coEvery
-import io.mockk.coVerifyOrder
-import io.mockk.coVerifySequence
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 

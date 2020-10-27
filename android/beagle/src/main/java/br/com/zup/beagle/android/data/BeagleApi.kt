@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.jvm.Throws
 
 internal class BeagleApi(
     private val httpClient: HttpClient? = BeagleEnvironment.beagleSdk.httpClient

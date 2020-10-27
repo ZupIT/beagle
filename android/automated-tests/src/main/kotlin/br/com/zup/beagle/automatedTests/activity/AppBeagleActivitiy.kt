@@ -19,11 +19,11 @@ package br.com.zup.beagle.automatedTests.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
-import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
 import br.com.zup.beagle.android.view.BeagleActivity

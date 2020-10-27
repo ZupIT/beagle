@@ -23,13 +23,13 @@ import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestCall
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
-import br.com.zup.beagle.sample.config.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.EOFException
 import java.net.HttpURLConnection
+import kotlin.jvm.Throws
 
 typealias OnSuccess = (responseData: ResponseData) -> Unit
 typealias OnError = (responseData: ResponseData) -> Unit
