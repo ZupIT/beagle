@@ -26,11 +26,12 @@ import java.lang.reflect.Type
 
 sealed class Bind<T> {
     abstract val type: Type
+    abstract val value: Any
 
     data class Expression<T>(
         val expressions: List<ExpressionToken>,
-        val value: String,
-        override val type: Type
+        override val value: String,
+        override val type: Type,
     ) : Bind<T>() {
         constructor(
             expressions: List<ExpressionToken>,
@@ -39,7 +40,7 @@ sealed class Bind<T> {
         ) : this(expressions, value, type as Type)
     }
 
-    data class Value<T : Any>(val value: T) : Bind<T>() {
+    data class Value<T : Any>(override val value: T) : Bind<T>() {
         override val type: Class<T> = value.javaClass
     }
 }
