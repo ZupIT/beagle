@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.sample.builder.MyScreenBuilder
+import br.com.zup.beagle.sample.builder.PositioningBeagleScreenBuilder
 import javax.inject.Singleton
 
 @Singleton
 class SampleScreenBuilderService {
-    fun createScreenBuilder() = MyScreenBuilder("Hello World!")
+    fun createScreenBuilder() = PositioningBeagleScreenBuilder
 }
