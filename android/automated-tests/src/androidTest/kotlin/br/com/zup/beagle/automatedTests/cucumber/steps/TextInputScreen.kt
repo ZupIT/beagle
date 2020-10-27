@@ -82,7 +82,6 @@ class TextInputScreen {
     fun validateTextsInTextInputNumberType(string: String) {
         ScreenRobot()
             .checkInputType(string)
-
     }
 
     @After("@textInput")
