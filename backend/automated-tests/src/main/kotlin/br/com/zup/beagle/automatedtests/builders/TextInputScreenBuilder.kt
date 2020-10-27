@@ -27,11 +27,7 @@ import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextInputType
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
@@ -65,14 +61,14 @@ object TextInputScreenBuilder {
             children = listOf(
                 Container(
                     children = listOf(
+                        textInputHidden(),
                         textInputValue(),
                         textInputPlaceholder(),
                         textInputDisabled(),
                         textInputReadOnly(),
                         textInputSecondPlan(),
                         textInputTypeNumber(),
-                        textInputActions(),
-                        textInputHidden()
+                        textInputActions()
                     )
                 ).applyStyle(Style(
                     size = Size(height = 100.0.unitPercent()),
@@ -137,7 +133,7 @@ object TextInputScreenBuilder {
                 context = ContextData(
                     id = "isNumberExpression",
                     value = TextInputType(placeholder = "is textInput type number with expression",
-                    textInputType = TextInputType.NUMBER)
+                        textInputType = TextInputType.NUMBER)
                 ),
                 children = listOf(
                     TextInput(placeholder = expressionOf("@{isNumberExpression.placeholder}"),
@@ -148,7 +144,7 @@ object TextInputScreenBuilder {
     )
 
     private fun textInputSecondPlan() = Container(
-       context = ContextData(id = "isTextInputInSecondPlan", value = "is a textInput in second plan with expression"),
+        context = ContextData(id = "isTextInputInSecondPlan", value = "is a textInput in second plan with expression"),
         children = listOf(
             TextInput(placeholder = "is a textInput in second plan"),
             TextInput(placeholder = expressionOf("@{isTextInputInSecondPlan}")
@@ -169,27 +165,22 @@ object TextInputScreenBuilder {
                 onFocus = listOf(
                     SetContext(contextId = "textInputActions", path = "focus", value = "Did onFocus action")),
                 onBlur = listOf(
-                    SetContext(contextId = "textInputActions", path = "blur", value = "Did onBlur action")),
-            )
+                    SetContext(contextId = "textInputActions", path = "blur", value = "Did onBlur action"))
+                )
         )
     )
 
     private fun textInputHidden() = Container(
+        context = ContextData(
+            id = "isHiddenWithExpression",
+            value = TextInputHidden(placeholder = "this text is hidden with expression",
+                hidden = true)
+        ),
         children = listOf(
-            TextInput(placeholder = "is textInput hidden", hidden = true),
-            Container(
-                context = ContextData(
-                    id = "isHiddenWithExpression",
-                    value = TextInputHidden(placeholder = "is textInput hidden with expression",
-                        hidden = true)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isHiddenWithExpression.placeholder}"),
-                        hidden = expressionOf("@{isHiddenWithExpression.hidden}")
-                    )
-                )
+            TextInput(value = "this text is hidden", hidden = true),
+            TextInput(value = expressionOf("@{isHiddenWithExpression.placeholder}"),
+                hidden = expressionOf("@{isHiddenWithExpression.hidden}")
             )
         )
     )
-
 }
