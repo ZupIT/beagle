@@ -17,17 +17,13 @@
 package br.com.zup.beagle.automatedTests
 
 import android.app.Application
+import android.util.Log
+import br.com.zup.beagle.automatedTests.BeagleSetup
 
-class AppApplication : Application() {
+class AppApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        APPLICATION = this
         BeagleSetup().init(this)
     }
-
-    companion object {
-        var APPLICATION: Application? = null
-    }
-
 }

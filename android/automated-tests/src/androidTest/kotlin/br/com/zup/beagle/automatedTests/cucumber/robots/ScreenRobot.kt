@@ -43,6 +43,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.TypeSafeMatcher
 import kotlin.jvm.Throws
+import kotlin.jvm.Throws
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers.allOf
 
@@ -55,6 +56,15 @@ class ScreenRobot {
         }
 
         onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
+        return this
+    }
+
+    fun checkViewDoesNotContainsText(text: String?, waitForText: Boolean = false): ScreenRobot {
+        if (waitForText){
+            WaitHelper.waitForWithElement(onView(withText(text)))
+        }
+
+        onView(Matchers.allOf(withText(text))).check(doesNotExist())
         return this
     }
 
@@ -126,8 +136,7 @@ class ScreenRobot {
     }
 
     fun typeIntoTextField(position1: Int, position2: Int, text: String?): ScreenRobot {
-        onView(childAtPosition(childAtPosition(withClassName(
-            Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
+        onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
         Espresso.closeSoftKeyboard()
         return this
     }
@@ -168,20 +177,20 @@ class ScreenRobot {
     }
 
     companion object {
-        private fun childAtPosition(
-            parentMatcher: Matcher<View>, position: Int): Matcher<View> {
-            return object : TypeSafeMatcher<View>() {
-                override fun describeTo(description: Description) {
-                    description.appendText("Child at position $position in parent ")
-                    parentMatcher.describeTo(description)
-                }
+            private fun childAtPosition(
+                parentMatcher: Matcher<View>, position: Int): Matcher<View> {
+                return object : TypeSafeMatcher<View>() {
+                    override fun describeTo(description: Description) {
+                        description.appendText("Child at position $position in parent ")
+                        parentMatcher.describeTo(description)
+                    }
 
-                public override fun matchesSafely(view: View): Boolean {
-                    val parent = view.parent
-                    return (parent is ViewGroup && parentMatcher.matches(parent)
-                        && view == parent.getChildAt(position))
+                    public override fun matchesSafely(view: View): Boolean {
+                        val parent = view.parent
+                        return (parent is ViewGroup && parentMatcher.matches(parent)
+                            && view == parent.getChildAt(position))
+                    }
                 }
             }
         }
     }
-}
