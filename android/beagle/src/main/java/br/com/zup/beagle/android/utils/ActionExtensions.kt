@@ -29,7 +29,7 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.widget.RootView
 
-internal var contextActionExecutor = ContextActionExecutor()
+internal var contextActionExecutor = ContextActionExecutor
 
 /**
  * Execute a list of actions and create the implicit context with eventName and eventValue (optional).

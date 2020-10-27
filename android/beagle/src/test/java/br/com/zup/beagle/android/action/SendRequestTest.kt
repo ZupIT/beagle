@@ -45,10 +45,7 @@ import kotlin.test.assertTrue
 
 data class DataTest(val email: String, val password: String)
 
-class SendRequestTest : BaseTest() {
-
-    @get:Rule
-    var executorRule = InstantTaskExecutorRule()
+class SendRequestTest : BaseAsyncActionTest() {
 
     private val viewModel: ActionRequestViewModel = mockk()
     private val liveData: MutableLiveData<FetchViewState> = mockk()
@@ -147,6 +144,21 @@ class SendRequestTest : BaseTest() {
         verify(exactly = 0) {
             requestAction.handleEvent(any(), any(), any<List<Action>>())
         }
+    }
+
+    @Test
+    fun `GIVEN a RequestAction WHEN finish execution THEN should call onActionFinished`() {
+        // Given
+        val requestAction = createSendRequest(onSuccess = null, onError = null, onFinish = null)
+
+        // When
+        requestAction.status.observeForever(observer)
+        requestAction.execute(rootView, view)
+        val result = FetchViewState.Success(mockk())
+        observerSlot.captured.onChanged(result)
+
+        // Then
+        assert(onActionFinishedWasCalled())
     }
 
     @Test

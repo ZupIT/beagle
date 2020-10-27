@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.android.view.viewmodel
 
-interface BindAttribute<T> {
-    val value: Any
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.android.context.AsyncActionData
+
+internal class AsyncActionViewModel : ViewModel() {
+
+    private val _asyncActionExecuted = MutableLiveData<AsyncActionData>()
+    val asyncActionExecuted: LiveData<AsyncActionData> get() = _asyncActionExecuted
+
+    fun onAsyncActionExecuted(asyncActionData: AsyncActionData) {
+        _asyncActionExecuted.value = asyncActionData
+    }
 }

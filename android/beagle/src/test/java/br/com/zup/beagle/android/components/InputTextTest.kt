@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -85,6 +86,9 @@ class TextInputTest : BaseComponentTest() {
         styleId = STYLE_ID
     )
 
+        textInput.setPrivateField("textWatcher", textWatcher)
+    }
+
     @Test
     fun `build should return a EditText instance`() {
         // When
@@ -111,7 +115,7 @@ class TextInputTest : BaseComponentTest() {
     }
 
     @Test
-    fun `verify the TextInputClass on Beagle is returning the right type of TYPE_CLASS`() {
+    fun `GIVEN a TextInput component WHEN its TypeInput type is set THEN the Edit view must be the same TYPE_CLASS`() {
         //Given
         val inputTypesAndroid = mutableListOf<Int>()
         val inputTypesBeagle = TextInputType.values().toList()
