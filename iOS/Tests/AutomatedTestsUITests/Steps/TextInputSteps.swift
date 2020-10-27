@@ -34,12 +34,73 @@ class TextInputSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.TEXT_INPUT_SCREEN_TITLE.element.exists)
         }
         
+        // MARK: - When
+        
+        // Scenarios 5
+        When(#"^I click in the textInput with the placeholder "([^\"]*)"$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            
+            if let textField = self.application.textFields[placeholder: placeholder] {
+                textField.tap()
+            }
+        }
+
         // MARK: - Then
         
-        // Scenario 1 and 2
-        Then(#"^I must check if the text "([^\"]*)" appears on the screen$"#) { args, _ -> Void in
+        // Scenario 1
+        Then(#"^I must check if the textInput value "([^\"]*)" appears on the screen$"#) { args, _ -> Void in
             let text = args![0]
-            XCTAssertTrue(self.application.staticTexts[text].exists)
+            XCTAssertTrue(self.application.textFields[text].exists)
         }
+        
+        // Scenario 2
+        Then(#"^I must check if the textInput placeholder "([^\"]*)" appears on the screen$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            
+            if let textField = self.application.textFields[placeholder: placeholder] {
+                XCTAssertTrue(textField.exists)
+            } else {
+                XCTFail("Couldn't find text field")
+            }
+        }
+        
+        // Scenario 3
+        Then(#"^verify if the field with the placeholder "([^\"]*)" is disabled$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            
+            if let textField = self.application.textFields[placeholder: placeholder] {
+                XCTAssertTrue(textField.exists)
+                XCTAssertFalse(textField.isEnabled)
+            } else {
+                XCTFail("Couldn't find text field")
+            }
+        }
+        
+        // Scenario 4
+        Then(#"^verify if the field with the value "([^\"]*)" is read only$"#) { args, _ -> Void in
+            let text = args![0]
+            let textField = self.application.textFields[text]
+            
+            XCTAssertTrue(textField.exists)
+            XCTAssertFalse(textField.isEnabled)
+        }
+        
+        // Scenario 5
+        Then(#"^verify if the textInput "([^\"]*)" is in the second plan$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            
+            if let textField = self.application.textFields[placeholder: placeholder] {
+                XCTAssertTrue(textField.exists)
+                XCTAssertEqual(self.application.keyboards.count, 1)
+            } else {
+                XCTFail("Couldn't find text field")
+            }
+        }
+    }
+}
+
+private extension XCUIElementQuery {
+    subscript(placeholder value: String) -> XCUIElement? {
+        first { $0.placeholderValue == value }
     }
 }

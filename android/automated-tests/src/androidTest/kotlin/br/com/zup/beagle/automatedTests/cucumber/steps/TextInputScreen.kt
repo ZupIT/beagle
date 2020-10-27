@@ -53,13 +53,13 @@ class TextInputScreen {
             .disabledFieldHint(string)
     }
 
-    @When("^the placeholder (.*) of the readOnly field is on the screen$")
+    @When("^the value (.*) of the readOnly field is on the screen$")
     fun checkIfTextInputIsReadOnly(string: String) {
         ScreenRobot()
             .checkViewContainsText(string)
     }
 
-    @Then("^verify if the field with the placeholder (.*) is read only$")
+    @Then("^verify if the field with the value (.*) is read only$")
     fun checkReadOnlyField(string: String) {
         ScreenRobot()
             .disabledFieldText(string)

@@ -49,8 +49,8 @@ Feature: TextInput Validation
             | Standard text with disabled field with expression |
 
     Scenario Outline: TextInput 04 - validate readOnly field
-        When the placeholder <textInputReadOnly> of the readOnly field is on the screen
-        Then verify if the field with the placeholder <textInputReadOnly> is read only
+        When the value <textInputReadOnly> of the readOnly field is on the screen
+        Then verify if the field with the value <textInputReadOnly> is read only
 
         Examples:
             | textInputReadOnly            |
