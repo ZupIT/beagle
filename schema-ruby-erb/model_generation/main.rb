@@ -159,7 +159,7 @@ class ModelGenerator
       path = @c.swift_path
 
       if ready_to_prod.include? @objectType.name
-        path += "../../../../../iOS/Schema/Sources/CodeGeneration/BeagleSchemaGenerated/"
+        path += "../../../../iOS/Schema/Sources/CodeGeneration/BeagleSchemaGenerated/"
       end
 
       @writer.write(path, @objectType.name + ".swift", to_s)

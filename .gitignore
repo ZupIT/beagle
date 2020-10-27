@@ -108,7 +108,7 @@ flutter/**/**/ios/Runner/GeneratedPluginRegistrant.*
 !flutter/**/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 ### Schema ###
-schema/schema-ruby-erb/Model Generation/.bundle/
+schema-ruby-erb/Model Generation/.bundle/
 *.orig
 
 ### Bash ###
