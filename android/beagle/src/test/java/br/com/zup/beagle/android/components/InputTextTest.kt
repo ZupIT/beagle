@@ -111,20 +111,20 @@ class TextInputTest : BaseComponentTest() {
     }
 
     @Test
-    fun `verify the TextInputClass on Beagle is returning the right type of TYPE_CLASS`() {
-        //Given a TextInput component on beagle is being configured
+    fun `GIVEN a TextInput component WHEN its TypeInput type is set THEN the Edit view must be the same TYPE_CLASS`() {
+        //Given
         val inputTypesAndroid = mutableListOf<Int>()
         val inputTypesBeagle = TextInputType.values().toList()
 
         every { editText.inputType = capture(inputTypesAndroid) } just Runs
 
-        // When I set the TextInputType and Beagle creates an Edit text on screen
+        // When
         inputTypesBeagle.forEach {
             val textInputView = callTextInput(it)
             textInputView.buildView(rootView)
         }
 
-        //Then the Type Class on the Edit text displayed must be equals to the corresponding Type Class in Android
+        //Then
         assertEquals(listOf(
             InputType.TYPE_CLASS_DATETIME,
             InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
