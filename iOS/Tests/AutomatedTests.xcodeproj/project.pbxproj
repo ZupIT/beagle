@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		174096E9252B8FB10009C749 /* NavigationActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174096E8252B8FB10009C749 /* NavigationActionSteps.swift */; };
+		252A2247254773C400E83E0A /* XCUIElementQuery+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252A2246254773C400E83E0A /* XCUIElementQuery+Extension.swift */; };
 		42C55D0E25477EEF003ECF63 /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */; };
+		25CADBC7254353A80092E93F /* TextInputSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CADBC6254353A80092E93F /* TextInputSteps.swift */; };
 		42C55D1125477F42003ECF63 /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */; };
 		42C55D1325477F70003ECF63 /* NetworkClientDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1225477F70003ECF63 /* NetworkClientDefault.swift */; };
 		42D7B4E5253E6C3E00431477 /* ContainerSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */; };
@@ -130,6 +132,8 @@
 
 /* Begin PBXFileReference section */
 		174096E8252B8FB10009C749 /* NavigationActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationActionSteps.swift; sourceTree = "<group>"; };
+		252A2246254773C400E83E0A /* XCUIElementQuery+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementQuery+Extension.swift"; sourceTree = "<group>"; };
+		25CADBC6254353A80092E93F /* TextInputSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputSteps.swift; sourceTree = "<group>"; };
 		42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
 		42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilder.swift; sourceTree = "<group>"; };
 		42C55D1225477F70003ECF63 /* NetworkClientDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientDefault.swift; sourceTree = "<group>"; };
@@ -619,6 +623,7 @@
 				F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */,
 				174096E8252B8FB10009C749 /* NavigationActionSteps.swift */,
 				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
+				25CADBC6254353A80092E93F /* TextInputSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -627,6 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				F3BF51B825191EAD00B5A35B /* TestUtils.swift */,
+				252A2246254773C400E83E0A /* XCUIElementQuery+Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -831,6 +837,7 @@
 				639CA1FD24B4F0B0009FAC90 /* CCILoggingManager.m in Sources */,
 				6B4F7E8524C9C5F9003F461A /* ListViewScreenSteps.swift in Sources */,
 				639CA20C24B4F0B0009FAC90 /* GHTableCell.m in Sources */,
+				25CADBC7254353A80092E93F /* TextInputSteps.swift in Sources */,
 				639CA21624B4F0B0009FAC90 /* GHTag.m in Sources */,
 				639CA20A24B4F0B0009FAC90 /* GHToken.m in Sources */,
 				639CA22724B4F0B0009FAC90 /* GHTokenMatcher.m in Sources */,
@@ -849,6 +856,7 @@
 				639CA22224B4F0B0009FAC90 /* GHTableRow.m in Sources */,
 				6B4F7E7F24C71D04003F461A /* TabViewScreenSteps.swift in Sources */,
 				639CA22A24B4F0B0009FAC90 /* XCTestCase+RecordFailure.m in Sources */,
+				252A2247254773C400E83E0A /* XCUIElementQuery+Extension.swift in Sources */,
 				639CA21B24B4F0B0009FAC90 /* NSString+Trim.m in Sources */,
 				639CA22D24B4F0B0009FAC90 /* Cucumberish.m in Sources */,
 			);
