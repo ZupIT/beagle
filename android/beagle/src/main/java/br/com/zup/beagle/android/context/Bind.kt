@@ -22,16 +22,16 @@ import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.TokenParser
 import br.com.zup.beagle.android.utils.BeagleRegex
 import br.com.zup.beagle.android.utils.getExpressions
-import br.com.zup.beagle.core.BindAttribute
 import java.lang.reflect.Type
 
-sealed class Bind<T> : BindAttribute<T> {
+sealed class Bind<T> {
     abstract val type: Type
+    abstract val value: Any
 
     data class Expression<T>(
         val expressions: List<ExpressionToken>,
         override val value: String,
-        override val type: Type
+        override val type: Type,
     ) : Bind<T>() {
         constructor(
             expressions: List<ExpressionToken>,
