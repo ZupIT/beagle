@@ -66,5 +66,13 @@ Feature: TextInput Validation
             | is a textInput in second plan                 |
             | is a textInput in second plan with expression |
 
+    Scenario Outline: TextInput 06 - validate textInput of type number
+        Then validate textInput component of type number with text <textInputTypeNumber>
+
+        Examples:
+            | textInputTypeNumber                      |
+            | is textInput type number                 |
+            | is textInput type number with expression |
+
 
 

@@ -78,6 +78,13 @@ class TextInputScreen {
             .hintInSecondPlan(string)
     }
 
+    @Then("^validate textInput component of type number with text (.*)$")
+    fun validateTextsInTextInputNumberType(string: String) {
+        ScreenRobot()
+            .checkInputType(string)
+
+    }
+
     @After("@textInput")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
