@@ -44,8 +44,7 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
                 View.generateViewId()
             }
         }
-        contextComponentHandler.addContext(viewModel, builtView, component)
-        contextComponentHandler.addListenerToHandleContext(viewModel, builtView)
+        contextComponentHandler.handleComponent(builtView, viewModel, component)
         return builtView
     }
 

@@ -32,6 +32,7 @@ class BeagleLoggerTests: XCTestCase {
             Log.network(.couldNotBuildUrl(url: "asdfa/asdfa/asdf")),
             Log.network(.httpRequest(request: .init(url: URLRequest(url: URL(string: "test")!)))),
             Log.network(.httpResponse(response: .init(data: nil, response: nil))),
+            Log.network(.networkClientWasNotConfigured),
 
             Log.form(.divergentInputViewAndValueCount(form: form)),
             Log.form(.inputsNotFound(form: form)),

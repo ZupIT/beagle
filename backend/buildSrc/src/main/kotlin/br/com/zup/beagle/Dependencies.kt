@@ -46,11 +46,10 @@ class Dependencies : Plugin<Project> {
         const val springStarter = ":starters:spring"
         const val micronautStarter = ":starters:micronaut"
 
-        const val schemaKotlinCore = ":schema:kotlin-core"
+        const val schemaKotlinCore = ":kotlin-core"
 
-        const val commonAnnotation = ":common:annotation"
-        const val commonProcessorUtils = ":common:processor-utils"
-        const val extendedSchema = ":common:extended-schema"
+        const val commonAnnotation = ":annotation"
+        const val commonProcessorUtils = ":processor-utils"
     }
 
     object Releases {
