@@ -44,6 +44,7 @@ class BeagleConfig {
         dependencies.cacheManager = CacheManagerDefault(dependencies: innerDependencies)
         dependencies.logger = innerDependencies.logger
 
+        registerCustomOperations(in: dependencies)
         registerCustomComponents(in: dependencies)
         registerCustomControllers(in: dependencies)
 
@@ -81,6 +82,30 @@ class BeagleConfig {
     private static func registerCustomControllers(in dependencies: BeagleDependencies) {
         dependencies.navigation.registerNavigationController(builder: CustomBeagleNavigationController.init, forId: "CustomBeagleNavigation")
         dependencies.navigation.registerNavigationController(builder: CustomPushStackNavigationController.init, forId: "PushStackNavigation")
+    }
+    
+    private static func registerCustomOperations(in dependencies: BeagleDependencies) {
+        let sumCustom = Operation(name: .sum, parameters: [.value(.literal(.string("4, 5")))])
+        dependencies.customOperationsProvider.register(operation: sumCustom) { evaluatedParameters in
+            guard !sumCustom.parameters.isEmpty else { return nil }
+            if let integerParameters = evaluatedParameters as? [Int] {
+                return .int(integerParameters.reduce(0, +))
+            } else if let doubleParameters = evaluatedParameters as? [Double] {
+                return .double(doubleParameters.reduce(0.0, +))
+            }
+            return nil
+        }
+        
+        let subCustom = Operation(name: .custom("SUBTRACT"), parameters: [.value(.literal(.string("3, 4")))])
+        dependencies.customOperationsProvider.register(operation: subCustom) { evaluatedParameters in
+            guard !sumCustom.parameters.isEmpty else { return nil }
+            if let integerParameters = evaluatedParameters as? [Int] {
+                return .int(integerParameters.reduce(integerParameters[0] * 2, -))
+            } else if let doubleParameters = evaluatedParameters as? [Double] {
+                return .double(doubleParameters.reduce(doubleParameters[0] * 2, -))
+            }
+            return nil
+        }
     }
 }
 

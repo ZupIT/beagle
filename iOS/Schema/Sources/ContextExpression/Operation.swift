@@ -17,6 +17,8 @@
 
 import Foundation
 
+public typealias OperationHandler = (_ evaluatedParameters: [Any?]) -> DynamicObject
+
 public struct Operation {
     public let name: Name
     public let parameters: [Parameter]
@@ -57,7 +59,9 @@ extension Operation: RepresentableByParsableString {
 }
 
 extension Operation {
-    public enum Name: String {
+    public enum Name: RawRepresentable, CaseIterable, Hashable {
+        public static var allCases: [Name] = [.sum, .subtract, .multiply, .divide, .condition, .not, .and, .or, .gt, .gte, .lt, .lte, eq, .concat, .capitalize, .uppercase, .lowercase, .substr, .insert, .remove, .removeIndex, .contains, .isNull, .isEmpty, .length, .custom("")]
+        
         // number
         case sum, subtract, multiply, divide
 
@@ -73,7 +77,49 @@ extension Operation {
         // array
         case insert, remove, removeIndex, contains
 
-        //other
+        // other
         case isNull, isEmpty, length
+        
+        // new
+        case custom(String)
+        
+        public init?(rawValue: String) {
+            for value in Operation.Name.allCases where "\(value)" == rawValue {
+                self = value
+                return
+            }
+            return nil
+        }
+
+        public var rawValue: String {
+            switch self {
+            case .sum: return "sum"
+            case .subtract: return "subtract"
+            case .multiply: return "multiply"
+            case .divide: return "divide"
+            case .condition: return "condition"
+            case .not: return "not"
+            case .and: return "and"
+            case .or: return "or"
+            case .gt: return "gt"
+            case .gte: return "gte"
+            case .lt: return "lt"
+            case .lte: return "lte"
+            case .eq: return "eq"
+            case .concat: return "concat"
+            case .capitalize: return "capitalize"
+            case .uppercase: return "uppercase"
+            case .lowercase: return "lowercase"
+            case .substr: return "substr"
+            case .insert: return "insert"
+            case .remove: return "remove"
+            case .removeIndex: return "removeIndex"
+            case .contains: return "contains"
+            case .isNull: return "isNull"
+            case .isEmpty: return "isEmpty"
+            case .length: return "length"
+            case .custom(let name): return name
+            }
+        }
     }
 }

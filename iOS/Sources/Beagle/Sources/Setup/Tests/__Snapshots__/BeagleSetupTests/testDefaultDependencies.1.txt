@@ -2,6 +2,8 @@
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
   - cacheManager: Optional<CacheManagerProtocol>.none
+  ▿ customOperationsProvider: CustomOperationProviding
+    - operations: 0 key/value pairs
   ▿ decoder: ComponentDecoder
     ▿ actionDecoders: 19 key/value pairs
       ▿ (2 elements)

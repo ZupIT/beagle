@@ -140,7 +140,10 @@ let value: Parser<Value> = oneOf(
 // MARK: Operation
 
 let operationName: Parser<Operation.Name> = prefix(with: #"^\w+"#).flatMap {
-    guard let name = Operation.Name(rawValue: $0) else { return .never }
+    guard let name = Operation.Name(rawValue: $0) else {
+        let custom = Operation.Name.custom($0)
+        return always(custom)
+    }
     return always(name)
 }
 

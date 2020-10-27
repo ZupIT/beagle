@@ -19,7 +19,11 @@ import UIKit
 import BeagleSchema
 
 extension BeagleSchema.Operation {
+
     func evaluate(in view: UIView) -> DynamicObject {
+        if dependencies.customOperationsProvider.checkCustomOperationExistence(self) {
+            return dependencies.customOperationsProvider.getCustomOperationHandler(with: self, in: view)
+        }
         switch self.name {
         case .sum:
             return sum(in: view)
@@ -71,10 +75,12 @@ extension BeagleSchema.Operation {
             return isEmpty(in: view)
         case .length:
             return length(in: view)
+        case .custom:
+            return dependencies.customOperationsProvider.getCustomOperationHandler(with: self, in: view)
         }
     }
-    
-    private func evaluatedParameters(in view: UIView) -> [DynamicObject] {
+        
+    public func evaluatedParameters(in view: UIView) -> [DynamicObject] {
         return parameters.map { parameter in
             switch parameter {
             case .operation(let operation):
