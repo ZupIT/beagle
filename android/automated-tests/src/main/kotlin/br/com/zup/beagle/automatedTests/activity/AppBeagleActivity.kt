@@ -19,29 +19,25 @@ package br.com.zup.beagle.automatedTests.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
-import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.automatedTests.R
 
-
-@BeagleComponent
-class AppBeagleActivitiy : BeagleActivity() {
+@RegisterController("otherController")
+class AppBeagleActivity : BeagleActivity() {
 
     private val progressBar: ProgressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
     private val mToolbar: Toolbar by lazy { findViewById<Toolbar>(R.id.custom_toolbar) }
     private val mButton: Button by lazy { findViewById<Button>(R.id.btn_retry) }
     private val mFrame: FrameLayout by lazy { findViewById<FrameLayout>(R.id.server_driven_container) }
-
-    private val activityId = "@"+this.toString().substringAfterLast("@")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +49,15 @@ class AppBeagleActivitiy : BeagleActivity() {
     override fun getToolbar(): Toolbar = mToolbar
 
     override fun onServerDrivenContainerStateChanged(state: ServerDrivenState) {
-        if (state is ServerDrivenState.Loading) {
-            progressBar.visibility = if (state.loading) View.VISIBLE else View.GONE
-        } else if (state is ServerDrivenState.Error) {
-            mFrame.visibility = View.GONE
-            buttonRetry(state)
+        when (state) {
+            is ServerDrivenState.Started -> {
+                progressBar.visibility = View.VISIBLE
+            }
+            is ServerDrivenState.Error -> {
+                mFrame.visibility = View.GONE
+                buttonRetry(state)
+            }
+            is ServerDrivenState.Finished -> progressBar.visibility = View.GONE
         }
     }
 
@@ -67,39 +67,20 @@ class AppBeagleActivitiy : BeagleActivity() {
             state.retry()
             mButton.visibility = View.GONE
             mFrame.visibility = View.VISIBLE
-
         }
     }
 
-    private var isInForegroundMode = false
-
-    override fun onPause() {
-        super.onPause()
-        isInForegroundMode = true
-        Log.i("TesteOnPause", "ToOnPause")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        isInForegroundMode = false
-        Log.i("TesteOnPause", "ToOnResume")
-        Log.i("TesteId", activityId)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("TesteOnPause", "ToOnDestroy $this")
-    }
-
-    // Some function.
-    fun isInForeground(): Boolean {
-        return isInForegroundMode
+    override fun onBackPressed() {
+        if (mFrame.visibility == View.GONE && supportFragmentManager.backStackEntryCount == 1) {
+            mFrame.visibility = View.VISIBLE
+            mButton.visibility = View.GONE
+        } else
+            super.onBackPressed()
     }
 
     companion object {
         fun newAppIntent(context: Context, screenRequest: ScreenRequest): Intent {
-            return context.newServerDrivenIntent<AppBeagleActivitiy>(screenRequest)
+            return context.newServerDrivenIntent<AppBeagleActivity>(screenRequest)
         }
     }
-
 }

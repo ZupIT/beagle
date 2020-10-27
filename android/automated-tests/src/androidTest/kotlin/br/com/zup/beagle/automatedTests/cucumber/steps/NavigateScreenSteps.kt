@@ -17,11 +17,8 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.automatedTests.activity.AppBeagleActivitiy
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.elements.NAVIGATION_SCREEN_TITLE
-import br.com.zup.beagle.automatedTests.cucumber.elements.POP_STACK_BUTTON
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
