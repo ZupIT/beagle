@@ -20,7 +20,7 @@ import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.builder.widget.EdgeValueBuilder
 import br.com.zup.beagle.builder.widget.FlexBuilder
 import br.com.zup.beagle.builder.widget.SizeBuilder
-import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Display
 import br.com.zup.beagle.core.PositionType
@@ -41,7 +41,7 @@ class StyleBuilder : BeagleBuilder<Style> {
     var position: EdgeValue? = null
     var flex: Flex? = null
     var positionType: PositionType? = null
-    var display: BindAttribute<Display>? = null
+    var display: Bind<Display>? = null
     var borderColor: String? = null
     var borderWidth: Double? = null
 
@@ -53,7 +53,7 @@ class StyleBuilder : BeagleBuilder<Style> {
     fun position(position: EdgeValue?) = this.apply { this.position = position }
     fun flex(flex: Flex?) = this.apply { this.flex = flex }
     fun positionType(positionType: PositionType?) = this.apply { this.positionType = positionType }
-    fun display(display: BindAttribute<Display>?) = this.apply { this.display = display }
+    fun display(display: Bind<Display>?) = this.apply { this.display = display }
     fun borderColor(borderColor: String?) = this.apply { this.borderColor = borderColor }
     fun borderWidth(borderWidth: Double?) = this.apply { this.borderWidth = borderWidth }
 
@@ -89,7 +89,7 @@ class StyleBuilder : BeagleBuilder<Style> {
         positionType(block.invoke())
     }
 
-    fun display(block: () -> BindAttribute<Display>?) {
+    fun display(block: () -> Bind<Display>?) {
         display(block.invoke())
     }
 
