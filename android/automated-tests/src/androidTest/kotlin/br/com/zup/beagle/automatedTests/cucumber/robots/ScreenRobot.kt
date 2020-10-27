@@ -77,6 +77,11 @@ class ScreenRobot {
         return this
     }
 
+    fun checkViewIsNotDisplayed(text: String?): ScreenRobot{
+        onView(Matchers.allOf(withText(text))).check(matches(not(isDisplayed())))
+        return this
+    }
+
     fun checkViewContainsHint(hint: String?, waitForText: Boolean = false): ScreenRobot {
         if (waitForText) {
             WaitHelper.waitForWithElement(onView(withHint(hint)))

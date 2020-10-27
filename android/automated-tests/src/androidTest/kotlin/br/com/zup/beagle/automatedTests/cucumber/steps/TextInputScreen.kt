@@ -78,6 +78,12 @@ class TextInputScreen {
             .hintInSecondPlan(string)
     }
 
+    @Then("^The hidden input fields (.*) should not be visible$")
+    fun checkInputTextIsHidden(string: String){
+        ScreenRobot()
+            .checkViewIsNotDisplayed(string)
+    }
+
     @After("@textInput")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()

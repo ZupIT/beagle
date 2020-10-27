@@ -66,5 +66,10 @@ Feature: TextInput Validation
             | is a textInput in second plan                 |
             | is a textInput in second plan with expression |
 
+    Scenario Outline: TextInput 07 - validate that textInput is hidden
+        Then The hidden input fields <textInputHidden> should not be visible
 
-
+        Examples:
+            | textInputHidden                     |
+            | this text is hidden                 |
+            | this text is hidden with expression |
