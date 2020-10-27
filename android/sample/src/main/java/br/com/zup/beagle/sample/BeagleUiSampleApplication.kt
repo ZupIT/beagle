@@ -22,7 +22,12 @@ class BeagleUiSampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        APPLICATION = this
 
         BeagleSetup().init(this)
+    }
+
+    companion object {
+        var APPLICATION: Application? = null
     }
 }

@@ -77,10 +77,6 @@ internal object BeagleMessageLogs {
             "form action '$formActionName'?")
     }
 
-    fun logDataNotInsertedOnDatabase(key: String, value: String) {
-        BeagleLoggerProxy.warning("Error when trying to insert key=$key with value=$value on Beagle default database.")
-    }
-
     fun errorWhileTryingToAccessContext(ex: Throwable) {
         val errorMessage = "Error while evaluating expression bindings."
         BeagleLoggerProxy.error(errorMessage, ex)

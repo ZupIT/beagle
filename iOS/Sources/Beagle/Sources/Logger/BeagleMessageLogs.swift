@@ -45,6 +45,7 @@ public enum Log {
         case httpRequest(request: NetworkRequest)
         case httpResponse(response: NetworkResponse)
         case couldNotBuildUrl(url: String)
+        case networkClientWasNotConfigured
     }
 
     public enum Form {
@@ -192,7 +193,7 @@ extension Log: LogType {
         case .network(let net):
             switch net {
             case .httpRequest, .httpResponse: return .info
-            case .couldNotBuildUrl: return .error
+            case .couldNotBuildUrl, .networkClientWasNotConfigured: return .error
             }
 
         case .decode(.decodingError): return .error
