@@ -22,7 +22,12 @@ import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 
 fun String.toAndroidId(): Int {
-    return this.hashCode()
+    // Validation required to avoid conflict of View.generateViewId() with a component's numeral id
+    return if (toIntOrNull() != null) {
+        toInt()
+    } else {
+        hashCode()
+    }
 }
 
 internal fun BeagleActivity.configureSupportActionBar() {
