@@ -28,6 +28,7 @@ import io.mockk.slot
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 class ListViewTest : BaseComponentTest() {
 
@@ -37,6 +38,7 @@ class ListViewTest : BaseComponentTest() {
 
     private lateinit var listView: ListView
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

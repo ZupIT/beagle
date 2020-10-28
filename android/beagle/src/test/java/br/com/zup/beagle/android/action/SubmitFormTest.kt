@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import io.mockk.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class SubmitFormTest : BaseTest() {
@@ -32,6 +33,7 @@ class SubmitFormTest : BaseTest() {
     private val parent = mockk<ViewGroup>()
     private val simpleForm = mockk<SimpleForm>(relaxed = true)
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         every { beagleSdk.logger } returns null

@@ -20,25 +20,28 @@ import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.rules.TestRule
-import org.junit.runner.Description
-import org.junit.runners.model.Statement
+import org.junit.jupiter.api.extension.AfterEachCallback
+import org.junit.jupiter.api.extension.BeforeEachCallback
+import org.junit.jupiter.api.extension.ExtensionContext
 
 @ExperimentalCoroutinesApi
-class CoroutineTestRule : TestRule {
+class CoroutinesTestExtension
+constructor(
+    private val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+) : BeforeEachCallback, AfterEachCallback, TestCoroutineScope by TestCoroutineScope(dispatcher) {
 
-    override fun apply(base: Statement, description: Description?) = object : Statement() {
-        @Throws(Throwable::class)
-        override fun evaluate() {
-            CoroutineDispatchers.Main = Dispatchers.Unconfined
-            CoroutineDispatchers.IO = Dispatchers.Unconfined
-            CoroutineDispatchers.Default = Dispatchers.Unconfined
-            Dispatchers.setMain(TestCoroutineDispatcher())
+    override fun beforeEach(context: ExtensionContext?) {
+        CoroutineDispatchers.Main = Dispatchers.Unconfined
+        CoroutineDispatchers.IO = Dispatchers.Unconfined
+        CoroutineDispatchers.Default = Dispatchers.Unconfined
+        Dispatchers.setMain(dispatcher)
+    }
 
-            base.evaluate()
-
-            CoroutineDispatchers.reset()
-        }
+    override fun afterEach(context: ExtensionContext?) {
+        cleanupTestCoroutines()
+        Dispatchers.resetMain()
     }
 }

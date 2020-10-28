@@ -39,8 +39,8 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.net.URI
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -75,7 +75,7 @@ class BeagleApiTest {
 
     private lateinit var beagleApi: BeagleApi
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -92,7 +92,7 @@ class BeagleApiTest {
         every { BeagleMessageLogs.logUnknownHttpError(any()) } just Runs
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

@@ -21,6 +21,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'shot'
+apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
     compileOptions {

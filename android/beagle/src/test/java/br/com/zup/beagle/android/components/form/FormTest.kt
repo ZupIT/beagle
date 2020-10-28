@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.beagle.android.action.*
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.form.core.*
@@ -28,15 +27,18 @@ import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import io.mockk.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
-import org.junit.Rule
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 private const val FORM_INPUT_VIEWS_FIELD_NAME = "formInputs"
 private const val FORM_SUBMIT_VIEW_FIELD_NAME = "formSubmitView"
@@ -46,10 +48,9 @@ private const val FORM_GROUP_VALUE = "GROUP"
 private const val ADDITIONAL_DATA_KEY = "dataKey"
 private const val ADDITIONAL_DATA_VALUE = "dataValue"
 
+@ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class)
 class FormTest : BaseComponentTest() {
-
-    @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
 
     private val formInput: FormInput = mockk(relaxed = true)
     private val formSubmit: FormSubmit = mockk(relaxed = true)
@@ -70,6 +71,7 @@ class FormTest : BaseComponentTest() {
 
     private lateinit var form: Form
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

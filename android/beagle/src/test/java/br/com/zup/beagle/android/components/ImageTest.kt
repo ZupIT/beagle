@@ -17,11 +17,11 @@
 package br.com.zup.beagle.android.components
 
 import android.widget.ImageView
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
+import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
@@ -37,21 +37,17 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
-import org.junit.Rule
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.extension.ExtendWith
 
 private val IMAGE_RES = RandomData.int()
 private const val DEFAULT_URL = "http://teste.com/test.png"
 
+@ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class ImageViewRendererTest : BaseComponentTest() {
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val scope = CoroutineTestRule()
 
     private val imageView: RoundedImageView = mockk(relaxed = true, relaxUnitFun = true)
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
@@ -61,6 +57,7 @@ class ImageViewRendererTest : BaseComponentTest() {
     private lateinit var imageRemote: Image
     private val scaleType = ImageView.ScaleType.FIT_CENTER
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

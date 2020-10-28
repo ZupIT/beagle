@@ -45,6 +45,7 @@ import io.mockk.verifyOrder
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private const val DEFAULT_COLOR = 0xFFFFFF
 
@@ -64,6 +65,7 @@ class ScreenComponentTest : BaseComponentTest() {
 
     private lateinit var screenComponent: ScreenComponent
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

@@ -36,6 +36,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 class ScrollViewTest : BaseComponentTest() {
 
@@ -50,6 +51,7 @@ class ScrollViewTest : BaseComponentTest() {
 
     private lateinit var scrollViewComponent: ScrollView
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

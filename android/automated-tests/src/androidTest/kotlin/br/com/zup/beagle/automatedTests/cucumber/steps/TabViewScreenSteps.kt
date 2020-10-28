@@ -34,12 +34,12 @@ class TabViewScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@tabview")
+    @BeforeEach("@tabview")
     fun setup() {
         TestUtils.startActivity(activityTestRule, TAB_VIEW_SCREEN_BFF_URL)
     }
 
-    @After("@tabview")
+    @AfterEach("@tabview")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

@@ -24,8 +24,8 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkStatic
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
@@ -33,13 +33,13 @@ class ColorUtilsTest {
 
     private val colorSlot = slot<String>()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkStatic(Color::class)
         every { Color.parseColor(capture(colorSlot)) } returns 0
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkStatic(Color::class)
     }

@@ -23,7 +23,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
-import org.junit.After
+import org.junit.jupiter.api.AfterEach
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import java.net.URI
@@ -33,7 +33,7 @@ class StringExtensionsKtTest {
     private val urlBuilder: UrlBuilder = mockk()
     private val environment: BeagleEnvironment = mockk(relaxed = true)
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

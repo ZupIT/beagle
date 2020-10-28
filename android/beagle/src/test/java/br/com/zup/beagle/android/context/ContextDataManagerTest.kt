@@ -47,6 +47,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private val CONTEXT_ID = RandomData.string()
 
@@ -58,6 +59,7 @@ class ContextDataManagerTest : BaseTest() {
 
     private val viewContext = createViewForContext()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

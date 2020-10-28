@@ -26,9 +26,9 @@ import br.com.zup.beagle.android.view.ScreenRequest
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
-import org.junit.After
+import org.junit.jupiter.api.AfterEach
 import org.junit.Assert.assertEquals
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.net.URI
 
@@ -43,12 +43,12 @@ class ScreenRequestMapperTest {
     private val urlBuilder: UrlBuilder = mockk()
     private val environment: BeagleEnvironment = mockk(relaxed = true)
 
-    @Before
+    @BeforeEach
     fun setUp() {
         every { urlBuilder.format(environment.beagleSdk.config.baseUrl, SCREEN_REQUEST.url) } returns ""
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

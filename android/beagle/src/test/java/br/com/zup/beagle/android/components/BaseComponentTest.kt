@@ -28,6 +28,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
+import org.junit.jupiter.api.BeforeEach
 
 abstract class BaseComponentTest : BaseTest() {
 
@@ -37,6 +38,7 @@ abstract class BaseComponentTest : BaseTest() {
 
     protected val view = mockk<View>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

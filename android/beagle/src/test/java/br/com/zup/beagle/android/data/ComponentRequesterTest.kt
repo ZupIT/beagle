@@ -39,6 +39,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 private val URL = RandomData.string()
 private val SCREEN_REQUEST = ScreenRequest(URL)
@@ -59,6 +60,7 @@ class ComponentRequesterTest : BaseTest() {
 
     private lateinit var componentRequester: ComponentRequester
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 
@@ -68,11 +70,6 @@ class ComponentRequesterTest : BaseTest() {
             cacheManager
         )
         mockkStatic("br.com.zup.beagle.android.view.mapper.ScreenRequestMapperKt")
-    }
-
-    override fun tearDown() {
-        super.tearDown()
-        unmockkAll()
     }
 
     @Test

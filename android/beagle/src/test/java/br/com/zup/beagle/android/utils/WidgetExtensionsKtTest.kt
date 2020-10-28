@@ -35,6 +35,7 @@ import io.mockk.mockk
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 class WidgetExtensionsKtTest : BaseTest() {
 
@@ -44,6 +45,7 @@ class WidgetExtensionsKtTest : BaseTest() {
     private val generateIdViewModel: GenerateIdViewModel = mockk(relaxed = true)
     private val contextViewModel: ScreenContextViewModel = mockk(relaxed = true)
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         viewFactory = viewFactoryMock

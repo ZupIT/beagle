@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.extensions.once
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class FormInputTest : BaseComponentTest() {
@@ -29,6 +30,7 @@ class FormInputTest : BaseComponentTest() {
 
     private lateinit var formInput: FormInput
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

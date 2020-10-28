@@ -38,12 +38,12 @@ class NavigateScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@navigation")
+    @BeforeEach("@navigation")
     fun setup() {
         TestUtils.startActivity(activityTestRule, NAVIGATE_ACTIONS_BFF_URL)
     }
 
-    @After("@navigation")
+    @AfterEach("@navigation")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

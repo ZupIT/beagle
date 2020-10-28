@@ -24,7 +24,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class DefaultImageDownloaderTest {
@@ -33,7 +33,7 @@ internal class DefaultImageDownloaderTest {
     private val imageView: ImageView = mockk(relaxed = true)
     private val rootView: RootView = mockk(relaxed = true)
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkObject(BeagleEnvironment)
         every { BeagleEnvironment.beagleSdk } returns mockk(relaxed = true)

@@ -32,11 +32,11 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
-internal class SetContextTest {
+class SetContextTest {
 
     private val viewModel = mockk<ScreenContextViewModel>()
     private val view = mockk<View>()
@@ -45,8 +45,8 @@ internal class SetContextTest {
         every { getViewModelStoreOwner() } returns activity
     }
 
-    @Before
-    internal fun setUp() {
+    @BeforeEach
+    fun setUp() {
         mockkObject(BeagleLoggerProxy)
         mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
 

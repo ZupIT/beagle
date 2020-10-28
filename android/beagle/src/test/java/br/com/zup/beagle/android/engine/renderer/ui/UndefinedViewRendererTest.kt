@@ -33,6 +33,7 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class UndefinedViewRendererTest : BaseComponentTest() {
@@ -45,6 +46,7 @@ class UndefinedViewRendererTest : BaseComponentTest() {
 
     private lateinit var undefinedViewRenderer: UndefinedWidget
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

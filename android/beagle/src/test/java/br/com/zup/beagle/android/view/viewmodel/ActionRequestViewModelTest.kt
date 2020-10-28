@@ -16,40 +16,34 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
+import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.mapper.toResponse
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class ActionRequestViewModelTest {
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
-    @get:Rule
-    val scope = CoroutineTestRule()
 
     private val actionRequester: ActionRequester = mockk()
 
@@ -59,7 +53,7 @@ class ActionRequestViewModelTest {
 
     private lateinit var viewModel: ActionRequestViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -70,7 +64,7 @@ class ActionRequestViewModelTest {
         every { observer.onChanged(any()) } just Runs
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

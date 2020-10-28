@@ -18,12 +18,12 @@ class SimpleFormScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@simpleform")
+    @BeforeEach("@simpleform")
     fun setup() {
         TestUtils.startActivity(activityTestRule, SIMPLE_FORM_SCREEN_BFF_URL)
     }
 
-    @After("@simpleform")
+    @AfterEach("@simpleform")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

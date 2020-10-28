@@ -28,7 +28,7 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.slot
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
@@ -45,7 +45,7 @@ class AccessibilitySetupTest {
     @InjectMockKs
     private lateinit var accessibilitySetup: AccessibilitySetup
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 

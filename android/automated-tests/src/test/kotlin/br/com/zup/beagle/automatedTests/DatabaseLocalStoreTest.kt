@@ -25,8 +25,8 @@ import br.com.zup.beagle.automatedTests.config.DatabaseLocalStore
 import br.com.zup.beagle.automatedTests.config.ScreenEntry
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
@@ -46,7 +46,7 @@ class DatabaseLocalStoreTest {
 
     private lateinit var databaseLocalStore: DatabaseLocalStore
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -62,7 +62,7 @@ class DatabaseLocalStoreTest {
         every { cursor.close() } just Runs
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

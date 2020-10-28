@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.networking
 
 import br.com.zup.beagle.android.testutil.RandomData
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.net.URI
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -28,7 +28,7 @@ class RequestDataTest {
 
     private lateinit var requestData: RequestData
 
-    @Before
+    @BeforeEach
     fun setUp() {
         requestData = RequestData(URI(RandomData.httpUrl()))
     }

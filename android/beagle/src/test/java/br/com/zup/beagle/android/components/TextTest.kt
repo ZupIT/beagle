@@ -23,6 +23,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private const val DEFAULT_TEXT = "Hello"
 private const val DEFAULT_STYLE = "DummyStyle"
@@ -33,6 +34,7 @@ class TextTest : BaseComponentTest() {
 
     private lateinit var text: Text
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

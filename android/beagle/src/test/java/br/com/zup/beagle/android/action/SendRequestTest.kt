@@ -42,6 +42,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 data class DataTest(val email: String, val password: String)
 
@@ -54,6 +55,7 @@ class SendRequestTest : BaseAsyncActionTest() {
     private val view: View = mockk()
     private val contextDataSlot = slot<ContextData>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

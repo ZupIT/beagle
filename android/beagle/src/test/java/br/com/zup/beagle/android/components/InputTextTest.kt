@@ -38,6 +38,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 const val VALUE = "Text Value"
 const val PLACE_HOLDER = "Text Hint"
@@ -56,6 +57,7 @@ class TextInputTest : BaseComponentTest() {
 
     private lateinit var textInput: TextInput
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

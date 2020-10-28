@@ -27,9 +27,9 @@ import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
-import org.junit.After
+import org.junit.jupiter.api.AfterEach
 import org.junit.Assert.assertEquals
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 private val CACHE_KEY = RandomData.string()
@@ -44,7 +44,7 @@ class LruCacheStoreTest {
     @MockK
     private lateinit var beagleCache: BeagleCache
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -53,7 +53,7 @@ class LruCacheStoreTest {
         cacheStore = LruCacheStore(cache = cachedData)
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

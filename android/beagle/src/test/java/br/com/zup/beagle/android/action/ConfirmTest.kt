@@ -33,7 +33,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
@@ -55,7 +55,7 @@ class ConfirmTest {
     private val listenerCancelSlot = slot<DialogInterface.OnClickListener>()
     private val view: View = mockk()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 

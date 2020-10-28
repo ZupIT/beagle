@@ -16,26 +16,26 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.context.AsyncActionData
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Before
-import org.junit.Rule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class)
 class AsyncActionViewModelTest {
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
 
     private val observer = mockk<Observer<AsyncActionData>>()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         every { observer.onChanged(any()) } just Runs
     }

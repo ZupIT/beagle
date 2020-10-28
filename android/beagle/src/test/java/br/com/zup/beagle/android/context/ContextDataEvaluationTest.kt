@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private val CONTEXT_ID = RandomData.string()
 private val CONTEXT_DATA = ContextData(CONTEXT_ID, JSONObject().apply {
@@ -48,6 +49,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
 
     private lateinit var contextDataEvaluation: ContextDataEvaluation
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 
@@ -154,7 +156,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         assertTrue { value is ArrayList<*> }
     }
 
-    @org.junit.Test
+    @Test
     fun evaluateContextBindings_should_show_error_when_moshi_returns_null() {
         // Given
         val bind = expressionOf<ComponentModel>("@{$CONTEXT_ID}")

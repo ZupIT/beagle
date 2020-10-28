@@ -29,6 +29,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 class FormLocalActionTest : BaseAsyncActionTest() {
 
@@ -43,6 +44,7 @@ class FormLocalActionTest : BaseAsyncActionTest() {
     private val actionListener = slot<ActionListener>()
     private val activityStates = mutableListOf<ServerDrivenState>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

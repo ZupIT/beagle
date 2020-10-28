@@ -23,8 +23,8 @@ import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
 import io.mockk.verify
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 private const val BEAGLE_TAG = "BeagleSDK"
@@ -34,7 +34,7 @@ class BeagleLoggerDefaultTest {
 
     private lateinit var beagleLoggerDispatchingDefault: BeagleLogger
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkStatic(Log::class)
 
@@ -47,7 +47,7 @@ class BeagleLoggerDefaultTest {
         every { Log.v(any(), any()) } returns 0
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkStatic(Log::class)
     }

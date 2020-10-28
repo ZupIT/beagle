@@ -36,6 +36,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 data class PersonTest(val name: String)
 
@@ -52,6 +53,7 @@ class ContextActionExecutorTest : BaseTest() {
 
     private val contextDataSlot = slot<ContextData>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

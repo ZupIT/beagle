@@ -34,12 +34,12 @@ class ScrollViewScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@scrollview")
+    @BeforeEach("@scrollview")
     fun setup() {
         TestUtils.startActivity(activityTestRule, SCROLL_VIEW_SCREEN_BFF_URL)
     }
 
-    @After("@scrollview")
+    @AfterEach("@scrollview")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

@@ -19,7 +19,7 @@ class ButtonScreen {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@button")
+    @BeforeEach("@button")
     fun setup() {
         TestUtils.startActivity(activityTestRule, BUTTON_SCREEN_BFF_URL)
     }
@@ -54,7 +54,7 @@ class ButtonScreen {
             .sleep(2)
     }
 
-    @After("@button")
+    @AfterEach("@button")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

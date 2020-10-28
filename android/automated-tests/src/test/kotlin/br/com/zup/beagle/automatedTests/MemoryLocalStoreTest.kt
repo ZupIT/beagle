@@ -19,7 +19,7 @@ package br.com.zup.beagle.automatedTests
 import br.com.zup.beagle.automatedTests.config.MemoryLocalStore
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
@@ -28,7 +28,7 @@ class MemoryLocalStoreTest {
     @MockK
     private lateinit var cache: MutableMap<String, String>
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 

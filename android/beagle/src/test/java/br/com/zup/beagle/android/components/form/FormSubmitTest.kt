@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class FormSubmitTest : BaseComponentTest() {
@@ -29,6 +30,7 @@ class FormSubmitTest : BaseComponentTest() {
     private val child: WidgetView = mockk()
     private lateinit var formSubmit: FormSubmit
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

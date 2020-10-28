@@ -18,22 +18,22 @@ package br.com.zup.beagle.android.context.tokenizer.function
 
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import io.mockk.*
-import org.junit.After
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 
 class FunctionResolverTest {
     
     private val functionResolver =  FunctionResolver()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkObject(BeagleMessageLogs)
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

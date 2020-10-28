@@ -36,8 +36,8 @@ import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
@@ -61,7 +61,7 @@ class BeagleNavigatorTest {
     @MockK
     private lateinit var deepLinkHandler: DeepLinkHandler
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(BeagleEnvironment)
@@ -94,7 +94,7 @@ class BeagleNavigatorTest {
         every { fragmentTransaction.commit() } returns 0
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

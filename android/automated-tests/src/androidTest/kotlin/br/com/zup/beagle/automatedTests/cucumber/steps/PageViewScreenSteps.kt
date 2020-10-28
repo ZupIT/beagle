@@ -34,12 +34,12 @@ class PageViewScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@pageview")
+    @BeforeEach("@pageview")
     fun setup() {
         TestUtils.startActivity(activityTestRule, PAGE_VIEW_SCREEN_BFF_URL)
     }
 
-    @After("@pageview")
+    @AfterEach("@pageview")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

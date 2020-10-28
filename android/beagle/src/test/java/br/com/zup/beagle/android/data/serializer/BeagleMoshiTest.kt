@@ -69,6 +69,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.BeforeEach
 
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
@@ -86,6 +87,7 @@ class BeagleMoshiTest : BaseTest() {
 
     private lateinit var moshi: Moshi
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

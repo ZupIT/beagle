@@ -30,7 +30,7 @@ class TextScreen {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@text")
+    @BeforeEach("@text")
     fun setup() {
         TestUtils.startActivity(activityTestRule, TEXT_SCREEN_BFF_URL)
     }
@@ -111,7 +111,7 @@ class TextScreen {
             .sleep(2)
     }
 
-    @After("@text")
+    @AfterEach("@text")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test
 import java.io.IOException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
 
 class BeagleSerializerTest : BaseTest() {
@@ -52,6 +53,7 @@ class BeagleSerializerTest : BaseTest() {
 
     private lateinit var beagleSerializer: BeagleSerializer
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         beagleSerializer = BeagleSerializer(BeagleMoshi)

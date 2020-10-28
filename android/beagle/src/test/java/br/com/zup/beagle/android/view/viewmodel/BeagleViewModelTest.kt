@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
@@ -25,7 +24,8 @@ import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
+import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
@@ -41,19 +41,15 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import org.junit.Rule
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class BeagleViewModelTest : BaseTest() {
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
-    @get:Rule
-    val scope = CoroutineTestRule()
 
     @MockK
     private lateinit var component: ServerDrivenComponent
@@ -74,8 +70,9 @@ class BeagleViewModelTest : BaseTest() {
 
     private val slotViewState = mutableListOf<ViewState>()
 
+    @BeforeEach
     override fun setUp() {
-        super.setUp();
+        super.setUp()
 
         beagleUIViewModel = BeagleViewModel(componentRequester = componentRequester)
 

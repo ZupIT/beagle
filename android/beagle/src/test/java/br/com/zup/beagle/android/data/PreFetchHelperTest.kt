@@ -33,6 +33,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class PreFetchHelperTest : BaseTest() {
@@ -50,6 +51,7 @@ class PreFetchHelperTest : BaseTest() {
     @MockK
     private lateinit var beagleViewModel: BeagleViewModel
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

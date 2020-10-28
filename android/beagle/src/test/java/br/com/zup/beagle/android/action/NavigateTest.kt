@@ -33,8 +33,8 @@ import br.com.zup.beagle.android.widget.RootView
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class NavigateTest : BaseTest() {
@@ -44,6 +44,7 @@ class NavigateTest : BaseTest() {
 
     private val view: View = mockk()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         mockkObject(BeagleNavigator)

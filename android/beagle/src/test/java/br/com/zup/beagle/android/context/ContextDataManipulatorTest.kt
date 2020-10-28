@@ -28,8 +28,8 @@ import io.mockk.verify
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -42,7 +42,7 @@ class ContextDataManipulatorTest {
 
     private val contextDataManipulator = ContextDataManipulator()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkObject(BeagleMessageLogs)
 
@@ -50,7 +50,7 @@ class ContextDataManipulatorTest {
         every { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) } just Runs
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

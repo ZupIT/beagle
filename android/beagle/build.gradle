@@ -87,6 +87,7 @@ dependencies {
     // Unit Testing
     testImplementation Dependencies.TestLibraries.junitApi
     testRuntimeOnly Dependencies.TestLibraries.junitEngine
+
     testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.archCoreTesting

@@ -28,6 +28,7 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 class FormRemoteActionTest : BaseAsyncActionTest() {
 
@@ -35,6 +36,7 @@ class FormRemoteActionTest : BaseAsyncActionTest() {
     private val formParamsSlot = slot<Map<String, String>>()
     private val view: View = mockk()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         mockkConstructor(FormSubmitter::class)

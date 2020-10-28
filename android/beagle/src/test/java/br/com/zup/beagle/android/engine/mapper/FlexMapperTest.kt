@@ -55,8 +55,8 @@ import io.mockk.verify
 import io.mockk.verifyOrder
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 private const val HUNDRED_UNIT_VALUE = 100.0
@@ -72,7 +72,7 @@ class FlexMapperTest {
 
     private lateinit var flexMapper: FlexMapper
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -96,7 +96,7 @@ class FlexMapperTest {
         every { YogaNode.create() } returns yogaNodeMock
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

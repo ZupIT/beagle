@@ -41,6 +41,7 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 class StyleManagerTest : BaseTest() {
 
@@ -73,6 +74,7 @@ class StyleManagerTest : BaseTest() {
 
     private var textAppearanceInt: Int = 0
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")

@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
+import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.coEvery
 import io.mockk.every
@@ -36,8 +36,9 @@ import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
-import org.junit.Rule
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import java.net.URI
 
 private val FORMS_VALUE = mapOf<String, String>()
@@ -46,10 +47,8 @@ private val PATH = RandomData.httpUrl()
 private val REQUEST_DATA = RequestData(URI(PATH))
 
 @ExperimentalCoroutinesApi
+@ExtendWith(CoroutinesTestExtension::class)
 class FormSubmitterTest : BaseTest() {
-
-    @get:Rule
-    val scope = CoroutineTestRule()
 
     @MockK
     private lateinit var beagleApi: BeagleApi
@@ -71,6 +70,7 @@ class FormSubmitterTest : BaseTest() {
 
     private lateinit var formSubmitter: FormSubmitter
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         mockkStatic("android.net.Uri")
