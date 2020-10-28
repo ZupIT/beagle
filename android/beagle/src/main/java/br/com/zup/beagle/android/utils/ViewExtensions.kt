@@ -41,9 +41,9 @@ internal fun View.findParentContextWithId(contextId: String): View? {
 internal fun View.getAllParentContexts(): MutableList<ContextBinding> {
     val contexts = mutableListOf<ContextBinding>()
 
-    getParentContextBinding()?.let {
+    /*getParentContextBinding()?.let {
         contexts.addAll(it)
-    }
+    }*/
 
     if (contexts.isEmpty()) {
         var parentView: View? = getParentContextData()

@@ -55,6 +55,9 @@
             android:name="br.com.zup.beagle.android.preview.PreviewActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoToolbar" />
-    </application>
 
+        <activity android:name=".fragment.list.ListViewActivity"/>
+        <activity android:name=".fragment.list.DeprecatedListViewActivity"/>
+
+    </application>
 </manifest>

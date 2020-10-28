@@ -157,6 +157,7 @@ class ContextActionExecutorTest : BaseTest() {
         assertEquals(asyncActionSlot.captured.origin, view)
         verify(exactly = 1) { asyncActionViewModel.onAsyncActionExecuted(asyncActionSlot.captured) }
         verify(exactly = 1) { asyncAction.onActionStarted() }
+        //todo capture value
         verify(exactly = 1) { asyncAction.execute(rootView, view) }
     }
 }

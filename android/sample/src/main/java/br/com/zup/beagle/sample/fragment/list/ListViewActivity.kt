@@ -14,52 +14,38 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.automatedtests.builders
+package br.com.zup.beagle.sample.fragment.list
 
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.android.action.SetContext
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.list.ListView
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.setId
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.action.SetContext
-import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.ListDirection
-import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.layout.extensions.dynamic
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.ImagePath.Local
-import br.com.zup.beagle.widget.ui.ListView
-import br.com.zup.beagle.widget.ui.Text
 
-object ListViewScreenBuilder {
-     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle ListView",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "ListView",
-                        message = "Is a Layout component that will define a list of views natively. " +
-                            "These views could be any Server Driven Component.",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
-        child = buildListView()
-    )
+class ListViewActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val declarative = Screen(
+            navigationBar = NavigationBar(title = "List"),
+            child = buildListView()
+        )
+        setContentView(declarative.toView(this))
+    }
 
     private fun buildListView() = ListView(
         context = ContextData(
