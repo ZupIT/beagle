@@ -158,13 +158,21 @@ object TextInputScreenBuilder {
 
     private fun textInputActions() = Container(
         context = ContextData(
-            id = "textInputActions", value = ""
+            id = "textInputActions", value = "initial value"
         ),
         children = listOf(
-            TextInput(placeholder = "@{textInputActions.focus}" + "@{textInputActions.change}" + "@{textInputActions.blur}",
-                readOnly = true),
+            Text(text = "@{textInputActions.validation}"),
+            TextInput(placeholder = "action validation",
+                onChange = listOf(
+                    SetContext(contextId = "textInputActions", path = "validation", value = "DidOnChange")),
+                onFocus = listOf(
+                    SetContext(contextId = "textInputActions", path = "validation", value = "DidOnFocus")),
+                onBlur = listOf(
+                    SetContext(contextId = "textInputActions", path = "validation", value = "DidOnBlur"))
+            ),
+            Text(text = "@{textInputActions.focus}" + "@{textInputActions.change}" + "@{textInputActions.blur}"),
             TextInput(
-                placeholder = "textInput with actions",
+                placeholder = "action order",
                 onChange = listOf(
                     SetContext(contextId = "textInputActions", path = "change", value = "DidOnChange")),
                 onFocus = listOf(
