@@ -47,7 +47,7 @@ public class CustomOperationsDefault: CustomOperationProvider {
 
     let dependencies: Dependencies
     
-    private(set) public var operations: [Operation.Name: OperationHandler] = [:]
+    private(set) var operations: [Operation.Name: OperationHandler] = [:]
     
     // MARK: Init
 
