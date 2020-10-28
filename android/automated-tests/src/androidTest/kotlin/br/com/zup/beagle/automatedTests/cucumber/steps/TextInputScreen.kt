@@ -85,19 +85,24 @@ class TextInputScreen {
             .checkInputType(string)
     }
 
-//    @Then("^when I click to textInput with the placeholder (.*) check if contains the text (.*) then the text (.*) and then the text (.*)$")
-//    fun clickTextInputPlaceholderAction(string: String, string2: String, string3: String, string4: String) {
-//        ScreenRobot()
-//            .scrollToWithHint(string)
-//            .checkViewContainsHint(string)
-//            .clickOnInputWithHint(string)
-//            .checkViewContainsHint(string2)
-//            .typeText(string, "a")
-//            .checkViewContainsHint(string3)
-//            .checkViewContainsHint("is textInput type number")
-//            .clickOnInputWithHint("is textInput type number")
-//            .checkViewContainsHint(string4)
-//    }
+    @When("^I click to textInput with the placeholder (.*) then change to (.*) and to (.*)$")
+    fun textInoutWithActionOfOnFocusAndOnChange(string: String, string2: String, string3: String) {
+        ScreenRobot()
+            .scrollToWithHint(string)
+            .checkViewContainsHint(string)
+            .clickOnInputWithHint(string)
+            .checkViewContainsHint(string2)
+            .typeText(string, "a")
+            .checkViewContainsHint(string3)
+    }
+
+    @Then("^the text (.*) should be appear$")
+    fun textInoutWithActionOfOnBlur(string: String) {
+        ScreenRobot()
+            .checkViewContainsHint("is textInput type number")
+            .clickOnInputWithHint("is textInput type number")
+            .checkViewContainsHint(string)
+    }
 
     @Then("^The hidden input fields (.*) should not be visible$")
     fun checkInputTextIsHidden(string: String) {

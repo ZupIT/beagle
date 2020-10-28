@@ -74,12 +74,14 @@ Feature: TextInput Validation
             | is textInput type number                 |
             | is textInput type number with expression |
 
-#    Scenario Outline: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
-#        Then when I click to textInput with the placeholder <textInputActions> check if contains the text <didOnFocus> then the text <didOnChange> and then the text <didOnBlur>
-#
-#        Examples:
-#            | textInputActions       | didOnFocus  | didOnChange           | didOnBlur                      |
-#            | textInput with actions | DidOnFocus  | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
+   Scenario Outline: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
+
+        When I click to textInput with the placeholder <placeholder> then change to <didOnFocus> and to <didOnChange>
+        Then the text <didOnBlur> should be appear
+
+        Examples:
+            | placeholder            | didOnFocus | didOnChange           | didOnBlur                      |
+            | textInput with actions | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
 
     Scenario Outline: TextInput 09 - validate that textInput is hidden
         Then The hidden input fields <textInputHidden> should not be visible
