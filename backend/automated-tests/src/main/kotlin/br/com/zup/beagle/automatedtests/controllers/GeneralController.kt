@@ -24,6 +24,8 @@ import br.com.zup.beagle.automatedtests.constants.SAFE_AREA_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.SEND_REQUEST_ACTION_ENDPOINT
+import br.com.zup.beagle.automatedtests.builders.SendRequestScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder
@@ -59,6 +61,9 @@ class GeneralController {
 
     @GetMapping(ACCESSIBILITY_ENDPOINT)
     fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
+
+    @GetMapping(SEND_REQUEST_ACTION_ENDPOINT)
+    fun getSendRequestScreen() = SendRequestScreenBuilder.build()
 }
 
 

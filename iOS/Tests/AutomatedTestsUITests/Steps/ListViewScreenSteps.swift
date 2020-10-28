@@ -43,11 +43,11 @@ class ListViewScreenSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.STATIC_LISTVIEW_TEXT_2.element.exists)
             XCTAssertTrue(ScreenElements.DYNAMIC_LISTVIEW_TEXT_1.element.exists)
         }
-    
+        
         Then("^listview screen should perform the scroll action vertically$") { _, _ -> Void in
             XCUIApplication().scrollToElement(element: ScreenElements.DYNAMIC_LISTVIEW_TEXT_2.element)
         }
         
     }
-
+    
 }
