@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.sample.spring.service
 
-interface BindAttribute<T> {
-    val value: Any
+import br.com.zup.beagle.sample.builder.AddChildrenScreenBuilder
+import org.springframework.stereotype.Service
+
+@Service
+class AddChildrenService{
+    fun createAddChildrenScreen()  = AddChildrenScreenBuilder
 }

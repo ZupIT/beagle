@@ -41,7 +41,7 @@ class BeagleScreenViewModelTest: BaseTest() {
     private lateinit var beagleScreenViewModel: BeagleScreenViewModel
 
     override fun setUp() {
-        super.setUp();
+        super.setUp()
 
         beagleScreenViewModel = BeagleScreenViewModel()
         every { observer.onChanged(any()) } just Runs

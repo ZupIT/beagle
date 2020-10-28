@@ -20,13 +20,11 @@ import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.ContextBinding
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.extensions.once
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
-import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -37,23 +35,23 @@ class ViewExtensionsKtTest : BaseTest() {
     private val contextData = ContextData("contextId", "stub")
 
     @Test
-    fun setContextData_with_contextBinding_should_clear_cache() {
+    fun `GIVEN a contextBinding WHEN setContextData THEN should use bindings`() {
         // Given
         val contextBinding = mockk<ContextBinding>(relaxed = true)
-        val contextSlot  = slot<ContextData>()
+        val bindingSlot = slot<ContextBinding>()
         every { view.getContextBinding() } returns contextBinding
-        every { contextBinding.context = capture(contextSlot) } just Runs
+        every { view.setContextBinding(capture(bindingSlot)) } just Runs
 
         // When
         view.setContextData(contextData)
 
         // Then
-        assertEquals(contextSlot.captured, contextData)
-        verify(exactly = once()) { contextBinding.cache.evictAll() }
+        assertEquals(bindingSlot.captured.context, contextData)
+        assertEquals(bindingSlot.captured.bindings, contextBinding.bindings)
     }
 
     @Test
-    fun setContextData_without_contextBinding_should_set_contextBinding() {
+    fun `GIVEN an empty contextBinding WHEN setContextData THEN should not set bindings`() {
         // Given
         val bindingSlot = slot<ContextBinding>()
         every { view.getContextBinding() } returns null

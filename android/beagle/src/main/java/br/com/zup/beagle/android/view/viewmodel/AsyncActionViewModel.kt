@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+package br.com.zup.beagle.android.view.viewmodel
 
-/**
- * Interface that has onInit property
- * @property onInit list of actions performed as soon as the component is rendered
- */
-interface OnInitableComponent {
-    val onInit: List<Action>?
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.android.context.AsyncActionData
+
+internal class AsyncActionViewModel : ViewModel() {
+
+    private val _asyncActionExecuted = MutableLiveData<AsyncActionData>()
+    val asyncActionExecuted: LiveData<AsyncActionData> get() = _asyncActionExecuted
+
+    fun onAsyncActionExecuted(asyncActionData: AsyncActionData) {
+        _asyncActionExecuted.value = asyncActionData
+    }
 }

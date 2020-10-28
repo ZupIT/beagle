@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.widget.expression
 
-
 sealed class ExpressionHelper<T>(private val intermediate: String) {
     companion object {
         private const val START = "@{"

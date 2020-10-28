@@ -43,7 +43,7 @@ import br.com.zup.beagle.android.widget.RootView
 data class FormLocalAction(
     val name: String,
     val data: Map<String, String>
-) : Action {
+) : Action, AsyncAction by AsyncActionImpl() {
 
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler
@@ -54,11 +54,13 @@ data class FormLocalAction(
             override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
                 handleEvent(rootView, origin, action)
+                onActionFinished()
             }
 
             override fun onError(e: Throwable) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
                 changeActivityState(rootView, ServerDrivenState.FormError(e) { execute(rootView, origin) })
+                onActionFinished()
             }
 
             override fun onStart() {
