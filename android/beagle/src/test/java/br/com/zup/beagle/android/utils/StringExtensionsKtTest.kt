@@ -34,8 +34,8 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class StringExtensionsKtTest{
 

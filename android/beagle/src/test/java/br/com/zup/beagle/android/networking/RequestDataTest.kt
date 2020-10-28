@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.networking
 
 import br.com.zup.beagle.android.testutil.RandomData
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.net.URI
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 
 class RequestDataTest {
 

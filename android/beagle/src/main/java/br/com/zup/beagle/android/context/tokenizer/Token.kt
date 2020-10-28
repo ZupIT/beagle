@@ -59,7 +59,18 @@ internal class TokenBoolean(
 
 internal class TokenNull : Token(Any())
 
-internal class InvalidToken : Token(Any())
+internal class InvalidToken : Token(Any()) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        return other is InvalidToken
+    }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+}
 
 internal class TokenFunction(
     val name: String,

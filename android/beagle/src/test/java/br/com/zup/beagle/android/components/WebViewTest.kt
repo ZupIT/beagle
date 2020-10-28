@@ -24,8 +24,7 @@ import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.*
 import org.junit.Assert.*
-import org.junit.Test
-import kotlin.test.assertNotNull
+import org.junit.jupiter.api.Test
 
 private const val MOCKED_URL = "http://mocked.com"
 

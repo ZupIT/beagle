@@ -19,10 +19,10 @@ package br.com.zup.beagle.android.jsonpath
 import br.com.zup.beagle.android.testutil.RandomData
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
-import kotlin.test.assertFails
+import org.junit.jupiter.api.assertThrows
 
 private const val LONG = Long.MAX_VALUE
 private const val INT = Int.MAX_VALUE
@@ -148,7 +148,7 @@ class JsonPathFinderTest {
     fun find_should_throw_exception_when_trying_to_access_object_position_with_array() {
         val keys = JsonPathUtils.splitKeys("b.c[0]")
 
-        assertFails {
+        assertThrows<IllegalStateException> {
             jsonPathFinder.find(keys, jsonObject)
         }
     }
@@ -158,7 +158,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.h[]")
 
 
-        assertFails {
+        assertThrows<IllegalStateException> {
             jsonPathFinder.find(keys, jsonObject)
         }
     }
@@ -167,7 +167,7 @@ class JsonPathFinderTest {
     fun find_should_throw_exception_when_trying_to_access_invalid_array_position() {
         val keys = JsonPathUtils.splitKeys("b.h[3]")
 
-        assertFails {
+        assertThrows<IllegalStateException> {
             jsonPathFinder.find(keys, jsonObject)
         }
     }

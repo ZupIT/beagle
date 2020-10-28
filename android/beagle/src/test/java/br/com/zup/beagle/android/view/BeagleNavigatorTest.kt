@@ -38,8 +38,8 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 private val route = Route.Remote(RandomData.httpUrl())
 private val url = RandomData.httpUrl()

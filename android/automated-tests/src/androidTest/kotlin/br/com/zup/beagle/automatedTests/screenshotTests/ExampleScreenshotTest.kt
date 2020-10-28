@@ -22,7 +22,7 @@ import br.com.zup.beagle.automatedTests.utils.TestUtils
 import com.karumi.shot.ScreenshotTest
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 
 /**

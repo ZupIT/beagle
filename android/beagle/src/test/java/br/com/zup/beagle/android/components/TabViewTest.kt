@@ -30,7 +30,7 @@ import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.unmockkAll
 import io.mockk.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private const val DEFAULT_STYLE = "DummyStyle"
 

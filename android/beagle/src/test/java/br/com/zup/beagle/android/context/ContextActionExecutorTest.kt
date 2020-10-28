@@ -34,8 +34,8 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 data class PersonTest(val name: String)
 

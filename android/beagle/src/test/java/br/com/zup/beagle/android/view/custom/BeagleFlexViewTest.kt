@@ -31,7 +31,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class BeagleFlexViewTest {
 

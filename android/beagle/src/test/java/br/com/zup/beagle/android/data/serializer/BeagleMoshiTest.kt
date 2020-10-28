@@ -61,14 +61,14 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertNotNull
 
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
@@ -443,11 +443,10 @@ class BeagleMoshiTest : BaseTest() {
         val jsonComponent = makeNavigationActionJsonWithExpression()
 
         // When
-        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)
+        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)!!
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is Navigate)
         assertEquals("@{test}", (actual.route as Route.Remote).url.value)
         assertTrue((actual.route as Route.Remote).url is Bind.Expression<String>)
         assertFalse((actual.route as Route.Remote).shouldPrefetch)
@@ -459,11 +458,10 @@ class BeagleMoshiTest : BaseTest() {
         val jsonComponent = makeNavigationActionJsonWithUrlHardcoded()
 
         // When
-        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)
+        val actual = moshi.adapter(Navigate.PushView::class.java).fromJson(jsonComponent)!!
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is Navigate)
         assertEquals("http://localhost:8080/test/example", (actual.route as Route.Remote).url.value)
         assertTrue((actual.route as Route.Remote).url is Bind.Value<String>)
         assertFalse((actual.route as Route.Remote).shouldPrefetch)
@@ -496,7 +494,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun `GIVEN json from AddChildren WHEN moshi deserialize the action THEN it should return action deserialized` (){
+    fun `GIVEN json from AddChildren WHEN moshi deserialize the action THEN it should return action deserialized`() {
         // Given
         val json = makeAddChildrenJson()
 
@@ -509,7 +507,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun `GIVEN AddChildren action WHEN moshi to serialize the action THEN it should return action serialized `(){
+    fun `GIVEN AddChildren action WHEN moshi to serialize the action THEN it should return action serialized `() {
         // Given
         val component = AddChildren(componentId = "", value = listOf())
 

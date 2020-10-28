@@ -30,7 +30,7 @@ import io.mockk.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private val CACHE_KEY = RandomData.string()
 

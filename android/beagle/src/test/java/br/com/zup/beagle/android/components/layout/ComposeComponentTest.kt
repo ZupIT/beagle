@@ -23,8 +23,8 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class ComposeComponentTest : BaseComponentTest() {
 

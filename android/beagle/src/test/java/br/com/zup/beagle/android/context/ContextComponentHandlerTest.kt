@@ -31,7 +31,7 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ContextComponentHandlerTest {
 

@@ -33,8 +33,8 @@ import br.com.zup.beagle.core.Style
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifySequence
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class WidgetExtensionsKtTest : BaseTest() {
 

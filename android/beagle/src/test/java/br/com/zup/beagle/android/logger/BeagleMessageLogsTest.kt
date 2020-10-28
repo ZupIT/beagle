@@ -25,7 +25,7 @@ import io.mockk.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class BeagleMessageLogsTest {
 

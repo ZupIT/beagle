@@ -25,7 +25,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 internal class DefaultImageDownloaderTest {
 

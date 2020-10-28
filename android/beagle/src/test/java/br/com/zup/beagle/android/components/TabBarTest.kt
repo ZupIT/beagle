@@ -29,9 +29,9 @@ import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import br.com.zup.beagle.core.Style
 import com.google.android.material.tabs.TabLayout
 import io.mockk.*
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 private const val DEFAULT_STYLE = "DummyStyle"
 

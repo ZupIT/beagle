@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class FormValidationTest : BaseTest(){
 

@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.context.tokenizer.function
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import io.mockk.*
 import org.junit.After
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
 import org.junit.Before

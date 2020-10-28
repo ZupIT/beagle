@@ -54,10 +54,10 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
 import io.mockk.verifySequence
-import kotlin.test.assertFalse
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private const val HUNDRED_UNIT_VALUE = 100.0
 private const val ONE_UNIT_VALUE = 1.0

@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.networking.urlbuilder
 import br.com.zup.beagle.android.testutil.IoUtils
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 

@@ -23,7 +23,7 @@ import io.mockk.*
 import kotlin.math.log
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private val LOG = RandomData.string()
 

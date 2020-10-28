@@ -20,6 +20,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'de.mannodermaus.android-junit5'
 apply from: rootProject.file('jacoco-android.gradle')
 
 android {
@@ -84,8 +85,8 @@ dependencies {
     implementation Dependencies.MoshiLibraries.adapters
 
     // Unit Testing
-    testImplementation Dependencies.TestLibraries.junit
-    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.junitApi
+    testRuntimeOnly Dependencies.TestLibraries.junitEngine
     testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.archCoreTesting

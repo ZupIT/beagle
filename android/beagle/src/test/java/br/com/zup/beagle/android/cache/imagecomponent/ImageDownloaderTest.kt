@@ -22,8 +22,8 @@ import android.util.LruCache
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class ImageDownloaderTest {
 

@@ -37,10 +37,10 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 
 private val URL = RandomData.string()
 private val BEAGLE_HASH_KEY = "$URL#hash"

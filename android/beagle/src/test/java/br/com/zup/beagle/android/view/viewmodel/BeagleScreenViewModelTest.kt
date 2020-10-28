@@ -24,7 +24,7 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class BeagleScreenViewModelTest: BaseTest() {
 

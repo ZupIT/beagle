@@ -25,7 +25,7 @@ import io.mockk.unmockkStatic
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private const val BEAGLE_TAG = "BeagleSDK"
 private const val LOG = "log"

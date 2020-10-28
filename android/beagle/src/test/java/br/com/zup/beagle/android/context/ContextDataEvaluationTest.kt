@@ -18,25 +18,25 @@ package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
-import br.com.zup.beagle.android.context.tokenizer.function.FunctionResolver
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.widget.core.TextAlignment
 import com.squareup.moshi.Moshi
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.verify
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 
 private val CONTEXT_ID = RandomData.string()
 private val CONTEXT_DATA = ContextData(CONTEXT_ID, JSONObject().apply {
@@ -522,7 +522,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val expected = "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum  , \\\\" +
             "lorem ipsum hello world, this is { beagle }!} lotem ipsum gabriel , \\\\"
 
-        assertEquals(expected = expected, actual = value)
+        assertEquals(expected, value)
     }
 
     @Test
@@ -547,7 +547,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val expected = "lorem } ipsum @{'hello world, this is { beagle }!}'} lotem ipsum  , \\\\" +
             "lorem ipsum hello world, this is { beagle }!} lotem ipsum gabriel , \\\\"
 
-        assertEquals(expected = expected, actual = value)
+        assertEquals(expected, value)
     }
 
     @Test

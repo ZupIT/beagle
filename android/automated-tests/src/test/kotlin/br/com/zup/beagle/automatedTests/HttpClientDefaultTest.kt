@@ -36,17 +36,17 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.io.EOFException
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import kotlin.test.fail
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.jupiter.api.fail
 import java.net.UnknownServiceException
 
 private val BYTE_ARRAY_DATA = byteArrayOf()

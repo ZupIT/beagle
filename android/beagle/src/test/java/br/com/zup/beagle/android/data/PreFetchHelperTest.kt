@@ -33,7 +33,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class PreFetchHelperTest : BaseTest() {
 

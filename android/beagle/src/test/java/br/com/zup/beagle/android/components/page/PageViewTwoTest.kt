@@ -37,7 +37,9 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 class PageViewTwoTest : BaseComponentTest() {
 
@@ -71,8 +73,8 @@ class PageViewTwoTest : BaseComponentTest() {
         pageView.buildView(rootView)
 
         // Then
-        kotlin.test.assertEquals(1.0, styleSlot[0].flex?.grow)
-        kotlin.test.assertEquals(1.0, styleSlot[1].flex?.grow)
+        assertEquals(1.0, styleSlot[0].flex?.grow)
+        assertEquals(1.0, styleSlot[1].flex?.grow)
     }
 
     @Test
@@ -159,7 +161,7 @@ class PageViewTwoTest : BaseComponentTest() {
         pageListenerSlot.captured.onPageSelected(1)
 
         // THEN
-        kotlin.test.assertTrue { pageListenerSlot.isCaptured }
+        assertTrue { pageListenerSlot.isCaptured }
     }
 
 

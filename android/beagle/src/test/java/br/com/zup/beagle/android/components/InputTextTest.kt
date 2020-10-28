@@ -35,9 +35,9 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.Runs
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 const val VALUE = "Text Value"
 const val PLACE_HOLDER = "Text Hint"

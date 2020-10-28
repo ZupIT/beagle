@@ -26,7 +26,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class AddChildrenTest {
 

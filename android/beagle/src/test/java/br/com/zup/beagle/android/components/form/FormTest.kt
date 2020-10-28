@@ -36,7 +36,7 @@ import br.com.zup.beagle.android.view.ServerDrivenState
 import io.mockk.*
 import org.junit.Assert.assertEquals
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private const val FORM_INPUT_VIEWS_FIELD_NAME = "formInputs"
 private const val FORM_SUBMIT_VIEW_FIELD_NAME = "formSubmitView"

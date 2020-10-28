@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import io.mockk.*
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class SubmitFormTest : BaseTest() {
 

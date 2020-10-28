@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.context
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.testutil.RandomData
 import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class GlobalContextTest : BaseTest() {
 

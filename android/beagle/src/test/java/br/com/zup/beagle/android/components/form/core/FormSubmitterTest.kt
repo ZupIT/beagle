@@ -37,7 +37,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import java.net.URI
 
 private val FORMS_VALUE = mapOf<String, String>()

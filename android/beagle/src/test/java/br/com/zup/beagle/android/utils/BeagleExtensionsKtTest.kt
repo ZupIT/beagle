@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import org.junit.Assert.assertEquals
 

@@ -24,7 +24,7 @@ import br.com.zup.beagle.automatedTests.config.ScreenEntry
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
 import org.mockito.Mockito.spy

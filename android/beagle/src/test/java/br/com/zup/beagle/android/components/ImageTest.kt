@@ -38,8 +38,8 @@ import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Rule
-import org.junit.Test
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertTrue
 
 private val IMAGE_RES = RandomData.int()
 private const val DEFAULT_URL = "http://teste.com/test.png"
