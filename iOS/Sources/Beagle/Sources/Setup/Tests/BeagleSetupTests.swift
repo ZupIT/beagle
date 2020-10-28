@@ -242,16 +242,16 @@ class GlobalContextDummy: GlobalContext {
 }
 
 class CustomOperationsProviderDummy: CustomOperationProvider {
-    func register(operation: Operation, handler: @escaping OperationHandler) {
+    func register(operation: Operation.Name, handler: @escaping OperationHandler) {
         // Intentionally unimplemented...
     }
     
-    func getCustomOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject {
+    func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject {
         // Intentionally unimplemented...
         return nil
     }
     
-    func checkCustomOperationExistence(_ operation: Operation) -> Bool {
+    func checkCustomOperationExistence(_ operation: Operation.Name) -> Bool {
         // Intentionally unimplemented...
         return false
     }

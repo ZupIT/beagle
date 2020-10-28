@@ -23,9 +23,7 @@ final class CustomOperationsTests: OperationEvaluationTests {
         
     func testCustomOperation() {
         // Given
-        let customOperation = Operation(name: .custom("isValidCPF"), parameters: [.value(.literal(.string("")))])
-        
-        dependencies.customOperationsProvider.register(operation: customOperation, handler: { parameters -> DynamicObject in
+        dependencies.customOperationsProvider.register(operation: .custom("isValidCPF"), handler: { parameters -> DynamicObject in
             if let intParameters = parameters.first as? Int {
                 let stringParameters = String(intParameters)
                 return .bool(stringParameters.isValidCPF)
@@ -46,11 +44,9 @@ final class CustomOperationsTests: OperationEvaluationTests {
     
     func testReplacingSumOperation() {
         // Given
-        let customSumOperation = Operation(name: .sum, parameters: [.value(.literal(.string("")))])
-        
         let comparableResults: [DynamicObject] = [10, 11, 7, 14]
         
-        dependencies.customOperationsProvider.register(operation: customSumOperation, handler: { parameters -> DynamicObject in
+        dependencies.customOperationsProvider.register(operation: .sum, handler: { parameters -> DynamicObject in
             if let integerParameters = parameters as? [Int] {
                 return .int(integerParameters.reduce(0, +))
             }
@@ -62,6 +58,18 @@ final class CustomOperationsTests: OperationEvaluationTests {
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
+    }
+    
+    func testInvalidName() {
+        // Given /When
+        dependencies.customOperationsProvider.register(operation: .custom("sum???"), handler: { parameters -> DynamicObject in
+            return .bool(false)
+        })
+        
+        let customOperationExists = dependencies.customOperationsProvider.checkCustomOperationExistence(.custom("sum???"))
+
+        // Then
+        XCTAssertFalse(customOperationExists)
     }
 
     private func evaluateCustomOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {

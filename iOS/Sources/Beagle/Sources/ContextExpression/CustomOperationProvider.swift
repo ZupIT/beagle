@@ -33,11 +33,11 @@ public protocol CustomOperationProvider {
     /// - Parameters:
     ///   - operation: The custom operation you wish to register.
     ///   - handler: A closure where you tell us what your custom operation should do.
-    func register(operation: Operation, handler: @escaping OperationHandler)
+    func register(operation: Operation.Name, handler: @escaping OperationHandler)
     
-    func getCustomOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject
+    func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject
     
-    func checkCustomOperationExistence(_ operation: Operation) -> Bool
+    func checkCustomOperationExistence(_ operation: Operation.Name) -> Bool
 }
 
 public class CustomOperationProviding: CustomOperationProvider {
@@ -55,22 +55,23 @@ public class CustomOperationProviding: CustomOperationProvider {
         self.dependencies = dependencies
     }
     
-    public func register(operation: Operation, handler: @escaping OperationHandler) {
-        guard operation.name.rawValue.range(of: "^[a-zA-Z0-9_]*$", options: .regularExpression) != nil else {
-            dependencies.logger.log(Log.customOperations(.invalid(name: operation.name.rawValue)))
+    public func register(operation: Operation.Name, handler: @escaping OperationHandler) {
+        guard operation.rawValue.range(of: "^[a-zA-Z0-9_]*$", options: .regularExpression) != nil else {
+            dependencies.logger.log(Log.customOperations(.invalid(name: operation.rawValue)))
             return
         }
         
-        operations[operation.name] = handler
+        operations[operation] = handler
         
-        guard case Operation.Name.custom = operation.name else {
+        guard case Operation.Name.custom = operation else {
             dependencies.logger.log(Log.customOperations(.alreadyExists))
             return
         }
     }
     
-    public func getCustomOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject {
+    public func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject {
         guard let operationHandler = operations[operation.name] else {
+            dependencies.logger.log(Log.customOperations(.notFound))
             return nil
         }
         
@@ -78,7 +79,7 @@ public class CustomOperationProviding: CustomOperationProvider {
         return operationHandler(anyParameters)
     }
     
-    public func checkCustomOperationExistence(_ operation: Operation) -> Bool {
-        return operations.contains(where: { $0.key == operation.name })
+    public func checkCustomOperationExistence(_ operation: Operation.Name) -> Bool {
+        return operations.contains(where: { $0.key == operation })
     }
 }

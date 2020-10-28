@@ -85,9 +85,7 @@ class BeagleConfig {
     }
     
     private static func registerCustomOperations(in dependencies: BeagleDependencies) {
-        let sumCustom = Operation(name: .sum, parameters: [.value(.literal(.string("4, 5")))])
-        dependencies.customOperationsProvider.register(operation: sumCustom) { evaluatedParameters in
-            guard !sumCustom.parameters.isEmpty else { return nil }
+        dependencies.customOperationsProvider.register(operation: .sum) { evaluatedParameters in
             if let integerParameters = evaluatedParameters as? [Int] {
                 return .int(integerParameters.reduce(0, +))
             } else if let doubleParameters = evaluatedParameters as? [Double] {
@@ -96,9 +94,7 @@ class BeagleConfig {
             return nil
         }
         
-        let subCustom = Operation(name: .custom("SUBTRACT"), parameters: [.value(.literal(.string("3, 4")))])
-        dependencies.customOperationsProvider.register(operation: subCustom) { evaluatedParameters in
-            guard !sumCustom.parameters.isEmpty else { return nil }
+        dependencies.customOperationsProvider.register(operation: .custom("SUBTRACT")) { evaluatedParameters in
             if let integerParameters = evaluatedParameters as? [Int] {
                 return .int(integerParameters.reduce(integerParameters[0] * 2, -))
             } else if let doubleParameters = evaluatedParameters as? [Double] {
