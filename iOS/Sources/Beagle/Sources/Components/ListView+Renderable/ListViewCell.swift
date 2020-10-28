@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import YogaKit
 import BeagleSchema
 
 final class ListViewCell: UICollectionViewCell {
@@ -36,7 +37,23 @@ final class ListViewCell: UICollectionViewCell {
     }
     
     func templateSizeThatFits(_ size: CGSize) -> CGSize {
-        return templateContainer?.yoga.calculateLayout(with: size) ?? .zero
+        let undefined = YGValue(value: .nan, unit: .undefined)
+        contentView.configureLayout { layout in
+            func maxValue(_ value: CGFloat) -> YGValue {
+                guard value != .nan, value != .greatestFiniteMagnitude else {
+                    return undefined
+                }
+                return YGValue(value: Float(value), unit: .point)
+            }
+            layout.maxWidth = maxValue(size.width)
+            layout.maxHeight = maxValue(size.height)
+        }
+        let contentSize = contentView.yoga.calculateLayout(with: size)
+        contentView.configureLayout { layout in
+            layout.maxWidth = undefined
+            layout.maxHeight = undefined
+        }
+        return contentSize
     }
     
     func configure(

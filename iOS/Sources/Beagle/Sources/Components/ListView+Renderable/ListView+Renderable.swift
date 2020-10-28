@@ -38,26 +38,8 @@ extension ListView: ServerDrivenComponent {
             ),
             renderer: renderer
         )
-        
-        setupSizeDefaultListView()
-     
         renderer.observe(dataSource, andUpdate: \.items, in: view)
         return view
-    }
-    
-    private func setupSizeDefaultListView() {
-        if widgetProperties.style?.flex?.grow == nil,
-            widgetProperties.style?.size == nil {
-            setupGrow()
-        }
-    }
-    
-    private func setupGrow() {
-        if widgetProperties.style?.flex != nil {
-            widgetProperties.style?.flex?.grow = 1.0
-        } else {
-            widgetProperties.style?.flex = Flex().grow(1)
-        }
     }
 }
 

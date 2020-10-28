@@ -217,7 +217,7 @@ final class ListViewTests: XCTestCase {
         _ = renderListView(component)
         
         // Then
-        XCTAssertEqual(component.widgetProperties.style?.flex?.grow, 1)
+        XCTAssertNil(component.widgetProperties.style?.flex?.grow)
     }
     
 }

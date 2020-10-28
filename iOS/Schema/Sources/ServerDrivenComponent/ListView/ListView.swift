@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct ListView: RawWidget, HasContext, InitiableComponent {
+public struct ListView: RawWidget, HasContext, InitiableComponent, AutoInitiable {
     
     public var context: Context?
     public let onInit: [RawAction]?
@@ -27,6 +27,7 @@ public struct ListView: RawWidget, HasContext, InitiableComponent {
     public let scrollThreshold: Int?
     public var widgetProperties: WidgetProperties
     
+// sourcery:inline:auto:ListView.Init
     public init(
         context: Context? = nil,
         onInit: [RawAction]? = nil,
@@ -37,7 +38,7 @@ public struct ListView: RawWidget, HasContext, InitiableComponent {
         iteratorName: String? = nil,
         onScrollEnd: [RawAction]? = nil,
         scrollThreshold: Int? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties(style: Style())
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.context = context
         self.onInit = onInit
@@ -50,6 +51,7 @@ public struct ListView: RawWidget, HasContext, InitiableComponent {
         self.scrollThreshold = scrollThreshold
         self.widgetProperties = widgetProperties
     }
+// sourcery:end
     
     // MARK: Deprecated initializers
     
