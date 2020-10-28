@@ -53,7 +53,7 @@ Feature: Navigation Action Validation
     Scenario: Navigation 04 - 'popToView' action with an invalid route not dismiss the current screen
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopToViewInvalidRoute" action
         Then the app should not dismiss the current view
-        
+
     Scenario: Navigation 05 - 'popToView' action navigates to a specified route of a screen on the stack and cleans up the navigation that was generated from this screen
         When I navigate to another screen using the "PushViewRemote" action and I press a button with the "PopToView" action
         Then the application should navigate back to a specific screen and remove from the stack the other screens loaded from the current screen

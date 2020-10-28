@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.utils.GenerateIdManager
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.YogaLayout
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -38,17 +39,15 @@ internal open class BeagleFlexView(
     style: Style,
     private val flexMapper: FlexMapper = FlexMapper(),
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory(),
-    private val viewModel: ScreenContextViewModel = rootView.generateViewModelInstance()
+    private val viewModel: ScreenContextViewModel = rootView.generateViewModelInstance(),
+    private val generateIdManager: GenerateIdManager = GenerateIdManager(rootView)
 ) : YogaLayout(rootView.getContext(), flexMapper.makeYogaNode(style)) {
 
     init {
         observeStyleChanges(style, this, yogaNode)
     }
 
-    constructor(
-        rootView: RootView,
-        flexMapper: FlexMapper = FlexMapper()
-    ) : this(rootView, Style(), flexMapper)
+    constructor(rootView: RootView, flexMapper: FlexMapper = FlexMapper()) : this(rootView, Style(), flexMapper)
 
     var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
 
@@ -56,13 +55,17 @@ internal open class BeagleFlexView(
         addViewWithBind(style, child, this)
     }
 
-    fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent,
-                                 addLayoutChangeListener: Boolean = true) {
+    fun addServerDrivenComponent(
+        serverDrivenComponent: ServerDrivenComponent,
+        addLayoutChangeListener: Boolean = true
+    ) {
         val component = if (serverDrivenComponent is GhostComponent) {
             serverDrivenComponent.child
         } else {
             serverDrivenComponent
         }
+        generateIdManager.manageId(component, this)
+
         val style = (component as? StyleComponent)?.style ?: Style()
         val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
         if (addLayoutChangeListener) {
@@ -73,7 +76,7 @@ internal open class BeagleFlexView(
         addViewWithBind(style, view, view)
     }
 
-    private fun addViewWithBind(style: Style, child: View, viewBind: View){
+    private fun addViewWithBind(style: Style, child: View, viewBind: View) {
         val childYogaNode = flexMapper.makeYogaNode(style)
         observeStyleChanges(style, viewBind, childYogaNode)
         super.addView(child, childYogaNode)
@@ -92,5 +95,4 @@ internal open class BeagleFlexView(
         super.onDetachedFromWindow()
         listenerOnViewDetachedFromWindow?.invoke()
     }
-
 }

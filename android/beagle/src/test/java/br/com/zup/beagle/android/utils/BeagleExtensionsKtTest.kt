@@ -23,7 +23,7 @@ import org.junit.Assert.assertEquals
 class BeagleExtensionsKtTest {
 
     @Test
-    fun toAndroidId_should_return_3546_when_value_is_oi() {
+    fun `GIVEN oi has Id WHEN toAndroidId is called THEN should returns 3546`() {
         // Given
         val myId = "oi"
 
@@ -35,7 +35,7 @@ class BeagleExtensionsKtTest {
     }
 
     @Test
-    fun toAndroidId_should_return_3366_when_value_is_OI() {
+    fun `GIVEN OI has Id WHEN toAndroidId is called THEN should returns 2522`() {
         // Given
         val myId = "OI"
 
@@ -47,7 +47,7 @@ class BeagleExtensionsKtTest {
     }
 
     @Test
-    fun toAndroidId_should_return_3366_when_value_is_io() {
+    fun `GIVEN io has Id WHEN toAndroidId is called THEN should returns 3366`() {
         // Given
         val myId = "io"
 
@@ -57,4 +57,17 @@ class BeagleExtensionsKtTest {
         // Then
         assertEquals(3366, result)
     }
+
+    @Test
+    fun `GIVEN 123 has Id WHEN toAndroidId is called THEN should returns 123`() {
+        // Given
+        val myId = "123"
+
+        // When
+        val result = myId.toAndroidId()
+
+        // Then
+        assertEquals(123, result)
+    }
+
 }

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("TooManyFunctions")
+
 package br.com.zup.beagle.android.utils
 
 import android.view.View
@@ -79,8 +81,7 @@ internal fun View.setContextData(context: ContextData) {
     val normalizedContext = context.normalize()
     val contextBinding = getContextBinding()
     if (contextBinding != null) {
-        contextBinding.context = normalizedContext
-        contextBinding.cache.evictAll()
+        setContextBinding(ContextBinding(normalizedContext, contextBinding.bindings))
     } else {
         setContextBinding(ContextBinding(normalizedContext))
     }
@@ -104,4 +105,12 @@ internal fun View.setParentContextBinding(contextBinding: List<ContextBinding>) 
 
 internal fun View.getParentContextBinding(): List<ContextBinding>? {
     return getTag(R.id.beagle_context_view_parent) as? List<ContextBinding>
+}
+
+internal fun View.setIsAutoGenerateIdEnabled(autoGenerateId: Boolean) {
+    setTag(R.id.beagle_auto_generate_id_enabled, autoGenerateId)
+}
+
+internal fun View.isAutoGenerateIdEnabled(): Boolean {
+    return getTag(R.id.beagle_auto_generate_id_enabled) as? Boolean ?: true
 }

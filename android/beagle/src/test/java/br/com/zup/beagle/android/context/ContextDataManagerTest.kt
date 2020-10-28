@@ -136,6 +136,21 @@ class ContextDataManagerTest : BaseTest() {
     }
 
     @Test
+    fun `GIVEN context already exists WHEN addContext again THEN should add only if flag enabled`() {
+        // Given
+        val contextData1 = ContextData(CONTEXT_ID, true)
+        val contextData2 = ContextData(CONTEXT_ID, false)
+        contextDataManager.addContext(viewContext, contextData1)
+
+        // When
+        contextDataManager.addContext(viewContext, contextData2, true)
+
+        // Then
+        assertEquals(contextData2, contexts[viewContext.id]?.context)
+        assertEquals(contextData2, viewContext.getContextData())
+    }
+
+    @Test
     fun addContext_should_clear_bindings_when_context_already_exists() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
@@ -312,16 +327,23 @@ class ContextDataManagerTest : BaseTest() {
     }
 
     @Test
-    fun clearContexts_should_clear_viewBindings_and_contexts() {
+    fun `GIVEN contextDataManager with contexts WHEN clearContexts THEN should clear viewBindings, contexts and contextsWithoutId`() {
         // Given
         val bind = mockk<Bind.Expression<Boolean>>()
         val observer = mockk<Observer<Boolean?>>()
         val context = ContextData(id = RandomData.string(), value = RandomData.string())
         val contextDataManager = ContextDataManager()
+        val viewWithoutId = mockk<View>(relaxed = true) {
+            every { id } returns View.NO_ID
+            every { getContextBinding() } returns mockk(relaxed = true)
+        }
+        contextDataManager.addContext(viewWithoutId, context)
         contextDataManager.addContext(viewContext, context)
         contextDataManager.addBinding(viewContext, bind, observer)
         val contexts: Map<Int, ContextBinding> = contextDataManager.getPrivateField("contexts")
+        val contextsWithoutId: Map<View, ContextBinding> = contextDataManager.getPrivateField("contextsWithoutId")
         val viewBinding: Map<View, MutableSet<Binding<*>>> = contextDataManager.getPrivateField("viewBinding")
+        val contextsWithoutIdSizeBefore = contextsWithoutId.size
         val contextsSizeBefore = contexts.size
         val viewBindingSizeBefore = viewBinding.size
         every { GlobalContext.clearObserverGlobalContext(any()) } just Runs
@@ -330,9 +352,11 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.clearContexts()
 
         // Then
+        assertNotEquals(contextsWithoutIdSizeBefore, contextsWithoutId.size)
         assertNotEquals(contextsSizeBefore, contexts.size)
         assertNotEquals(viewBindingSizeBefore, viewBinding.size)
         assertTrue { contexts.isEmpty() }
+        assertTrue { contextsWithoutId.isEmpty() }
         assertTrue { viewBinding.isEmpty() }
         verify(exactly = once()) { GlobalContext.clearObserverGlobalContext(any()) }
     }
@@ -426,5 +450,89 @@ class ContextDataManagerTest : BaseTest() {
             contextDataManager.notifyBindingChanges(globalContextMock)
         }
         assertEquals(contexts[Int.MAX_VALUE], globalContextMock)
+    }
+
+    @Test
+    fun `GIVEN a view with id that has context WHEN getContextData THEN should return it`() {
+        // Given
+        val contextData = ContextData(CONTEXT_ID, true)
+        contextDataManager.addContext(viewContext, contextData)
+
+        // When
+        val result = contextDataManager.getContextData(viewContext)
+
+        // Then
+        assertEquals(contextData, result)
+    }
+
+    @Test
+    fun `GIVEN a view with id that has context WHEN restoreContext THEN should update view's context`() {
+        // Given
+        val contextData = ContextData(CONTEXT_ID, true)
+        contextDataManager.addContext(viewContext, contextData)
+
+        // When
+        contextDataManager.restoreContext(viewContext)
+
+        // Then
+        assertEquals(contextData, viewContext.getContextData())
+    }
+
+    @Test
+    fun `GIVEN a view without id that has context WHEN setIdToViewWithContext THEN should update view's context`() {
+        // Given
+        val contextData1 = ContextData(CONTEXT_ID, true)
+        val viewWithoutId = mockk<View>(relaxed = true) {
+            every { id } returns View.NO_ID
+            every { getContextBinding() } returns mockk(relaxed = true) {
+                every { context } returns contextData1
+            }
+        }
+        contextDataManager.addContext(viewWithoutId, contextData1)
+
+        val contextData2 = ContextData(CONTEXT_ID, false)
+        val viewWithId = viewWithoutId.apply {
+            every { id } returns 10
+            every { getContextBinding() } returns mockk(relaxed = true) {
+                every { context } returns contextData2
+            }
+        }
+        contextDataManager.addContext(viewWithId, contextData2)
+
+        val contextsWithoutId: Map<View, ContextBinding> = contextDataManager.getPrivateField("contextsWithoutId")
+        val contextsWithoutIdSizeBefore = contextsWithoutId.size
+
+        // When
+        contextDataManager.setIdToViewWithContext(viewWithId)
+
+        // Then
+        assertEquals(contextData2, viewWithId.getContextData())
+        assertNotEquals(contextsWithoutIdSizeBefore, contextsWithoutId.size)
+    }
+
+    @Test
+    fun `GIVEN a view with id and context WHEN setIdToViewWithContext THEN should update manager's binding`() {
+        // Given
+        val contextData = ContextData(CONTEXT_ID, true)
+        val viewWithoutId = mockk<View>(relaxed = true) {
+            every { id } returns View.NO_ID
+            every { getContextBinding() } returns mockk(relaxed = true) {
+                every { context } returns contextData
+            }
+        }
+        contextDataManager.addContext(viewWithoutId, contextData)
+
+        val viewWithId = viewWithoutId.apply { every { id } returns 10 }
+
+        val contexts = contextDataManager.getPrivateField<MutableMap<Int, ContextBinding>>("contexts")
+        val contextsWithoutId: Map<View, ContextBinding> = contextDataManager.getPrivateField("contextsWithoutId")
+        val contextsWithoutIdSizeBefore = contextsWithoutId.size
+
+        // When
+        contextDataManager.setIdToViewWithContext(viewWithId)
+
+        // Then
+        assertEquals(contexts[viewWithId.id], viewWithId.getContextBinding())
+        assertNotEquals(contextsWithoutIdSizeBefore, contextsWithoutId.size)
     }
 }

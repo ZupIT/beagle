@@ -18,7 +18,6 @@ package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
@@ -29,48 +28,52 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Rule
 
-val BUTTON_SCREEN_BFF_URL = "http://10.0.2.2:8080/button"
+const val SEND_REQUEST_BFF_URL = "http://10.0.2.2:8080/send-request"
 
-class ButtonScreen {
+class SendRequestSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @BeforeEach("@button")
+    @Before("@sendrequest")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, BUTTON_SCREEN_BFF_URL)
+        TestUtils.startActivity(activityTestRule, SEND_REQUEST_BFF_URL)
     }
 
-    @Given("^that I'm on the button screen$")
-    fun checkButtonScreen() {
+    @Given("^the Beagle application did launch with the send request screen url$")
+    fun checkTitleScreen() {
         ScreenRobot()
-            .checkViewContainsText(BUTTON_SCREEN_HEADER, true)
+            .checkViewContainsText("Send Request Screen", true)
     }
 
-    @When("I click on a component with a valid style attribute configured$")
-    fun clickOnButtonWithStyle() {
+    @When("^I press the (.*) button$")
+    fun clickOnButtonSendRequestSuccess(string: String) {
         ScreenRobot()
-            .clickOnText(BUTTON_WITH_STYLE_TEXT)
+            .clickOnText(string)
             .sleep(2)
     }
 
-    @Then("all my button components should render their respective text attributes correctly$")
-    fun renderTextAttributeCorrectly() {
+    @Then("^the screen should show some alert with (.*) title$")
+    fun verifyAlertTitle(string: String) {
         ScreenRobot()
-            .checkViewContainsText(BUTTON_DEFAULT_TEXT)
-            .checkViewContainsText(BUTTON_WITH_STYLE_TEXT)
-            .checkViewContainsText(BUTTON_WITH_APPEARANCE_TEXT)
+            .checkViewContainsText(string, true)
             .sleep(2)
     }
 
-    @Then("component should render the action attribute correctly$")
-    fun renderActionAttributeCorrectly() {
+    @When("^I click on sendRequestError button (.*)")
+    fun clickOnButtonSendRequestError(string: String) {
         ScreenRobot()
-            .checkViewContainsText(ACTION_CLICK_HEADER)
-            .checkViewContainsText(ACTION_CLICK_TEXT)
+            .clickOnText(string)
             .sleep(2)
     }
 
-    @AfterEach("@button")
+    @Then("^the pressed button changes it's (.*) title to didFinish$")
+    fun verifyChangeTitle(string: String) {
+        ScreenRobot()
+            .checkViewDoesNotContainsText(string)
+            .sleep(2)
+    }
+
+    @After("@sendrequest")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

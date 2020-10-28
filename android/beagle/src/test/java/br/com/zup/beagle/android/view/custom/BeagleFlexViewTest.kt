@@ -20,6 +20,7 @@ import android.view.View
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.utils.GenerateIdManager
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -31,6 +32,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
+import io.mockk.verifySequence
 import org.junit.jupiter.api.Test
 
 class BeagleFlexViewTest {
@@ -40,6 +42,7 @@ class BeagleFlexViewTest {
     private val styleMock = mockk<Style>()
     private val viewRendererFactoryMock = mockk<ViewRendererFactory>()
     private val screenContextViewModelMock = mockk<ScreenContextViewModel>()
+    private val generateIdManagerMock = mockk<GenerateIdManager>(relaxed = true)
 
     @Test
     fun `GIVEN a BeagleFlexView WHEN instance the class THEN should call bind changes`() {
@@ -115,6 +118,35 @@ class BeagleFlexViewTest {
         // Then
         verify {
             flexMapperMock.observeBindChangesFlex(style, rootViewMock, viewAddChild, yogaNodeChild)
+        }
+    }
+
+    @Test
+    fun `GIVEN a BeagleFlexView WHEN addServerDrivenComponent THEN should call manageId before make and build`() {
+        // Given
+        val beagleFlexView = BeagleFlexView(
+            rootView = rootViewMock,
+            style = styleMock,
+            flexMapper = flexMapperMock,
+            viewRendererFactory = viewRendererFactoryMock,
+            viewModel = screenContextViewModelMock,
+            generateIdManager = generateIdManagerMock
+        )
+
+        val serverDrivenComponent = mockk<ServerDrivenComponent>()
+        val viewRenderer = mockk<ViewRenderer<*>>(relaxed = true)
+        every { viewRendererFactoryMock.make(serverDrivenComponent) } returns viewRenderer
+        val beagleFlexViewSpy = spyk(beagleFlexView)
+        every { beagleFlexViewSpy.addView(any(), any<YogaNode>()) } just Runs
+
+        // When
+        beagleFlexViewSpy.addServerDrivenComponent(serverDrivenComponent)
+
+        // Then
+        verifySequence {
+            generateIdManagerMock.manageId(serverDrivenComponent, beagleFlexViewSpy)
+            viewRendererFactoryMock.make(serverDrivenComponent)
+            viewRenderer.build(rootViewMock)
         }
     }
 }
