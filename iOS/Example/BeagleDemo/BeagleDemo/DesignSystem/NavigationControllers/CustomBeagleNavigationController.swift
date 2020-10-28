@@ -34,7 +34,7 @@ class CustomBeagleNavigationController: BeagleNavigationController {
                 message = messageError.error.localizedDescription
             case .decoding(let messageError):
                 message = messageError.localizedDescription
-            case .loadFromTextError, .urlBuilderError:
+            case .loadFromTextError, .urlBuilderError, .networkClientWasNotConfigured:
                 message = error.localizedDescription
             }
             

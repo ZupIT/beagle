@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.core
 
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -59,7 +60,7 @@ data class Style (
     val position: EdgeValue? = null,
     val flex: Flex? = null,
     val positionType: PositionType? = null,
-    val display: Display? = null
+    val display: Bind<Display>? = null
 )
 
 /**

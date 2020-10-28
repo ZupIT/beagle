@@ -61,8 +61,8 @@ data class Alert(
         viewFactory.makeAlertDialogBuilder(rootView.getContext())
             .setTitle(title?.let { evaluateExpression(rootView, origin, it) } ?: "")
             .setMessage(evaluateExpression(rootView, origin, message))
-            .setPositiveButton(labelOk ?: rootView.getContext().getString(android.R.string.ok)) { dialog, _ ->
-                dialog.dismiss()
+            .setPositiveButton(labelOk ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->
+                dialogBox.dismiss()
                 onPressOk?.let {
                     handleEvent(rootView, origin, it)
                 }

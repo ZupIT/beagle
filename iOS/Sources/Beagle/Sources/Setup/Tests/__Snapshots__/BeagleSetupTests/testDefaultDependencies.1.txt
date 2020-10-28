@@ -1,17 +1,7 @@
 ▿ BeagleDependencies
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
-  ▿ cacheManager: Optional<CacheManagerProtocol>
-    ▿ some: CacheManagerDefault
-      - $__lazy_storage_$_diskManager: Optional<CacheDiskManagerProtocol>.none
-      - $__lazy_storage_$_memoryReferences: Optional<CacheLRU<String, CacheReference>>.none
-      ▿ config: Config
-        - cacheMaxAge: 300
-        - diskMaximumCapacity: 150
-        - memoryMaximumCapacity: 15
-      - defaultMaxCacheAge: "maxValidAge"
-      ▿ dependencies: InnerDependenciesResolver
-        - container: (Function)
+  - cacheManager: Optional<CacheManagerProtocol>.none
   ▿ decoder: ComponentDecoder
     ▿ actionDecoders: 19 key/value pairs
       ▿ (2 elements)
@@ -152,18 +142,13 @@
   ▿ logger: BeagleLoggerProxy
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
-    - logger: BeagleLoggerDefault
+    - logger: Optional<BeagleLoggerType>.none
   ▿ navigation: BeagleNavigator
     - builders: 0 key/value pairs
     - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
     - defaultBuilder: Optional<() -> BeagleNavigationController>.none
   - navigationControllerType: BeagleNavigationController
-  ▿ networkClient: NetworkClientDefault
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
-    ▿ httpRequestBuilder: HttpRequestBuilder
-      - additionalHeaders: 0 key/value pairs
-    - session: <__NSURLSessionLocal>
+  - networkClient: Optional<NetworkClient>.none
   ▿ opener: URLOpenerDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
