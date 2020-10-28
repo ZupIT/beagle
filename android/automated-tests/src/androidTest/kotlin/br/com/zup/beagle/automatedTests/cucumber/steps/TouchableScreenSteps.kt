@@ -34,12 +34,12 @@ class TouchableScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @BeforeEach("@touchable")
+    @Before("@touchable")
     fun setup() {
         TestUtils.startActivity(activityTestRule, TOUCHABLE_SCREEN_SCREEN_BFF_URL)
     }
 
-    @AfterEach("@touchable")
+    @After("@touchable")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

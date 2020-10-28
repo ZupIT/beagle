@@ -34,12 +34,12 @@ class ImageScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @BeforeEach("@image")
+    @Before("@image")
     fun setup() {
         TestUtils.startActivity(activityTestRule, IMAGE_SCREEN_BFF_URL)
     }
 
-    @AfterEach("@image")
+    @After("@image")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }

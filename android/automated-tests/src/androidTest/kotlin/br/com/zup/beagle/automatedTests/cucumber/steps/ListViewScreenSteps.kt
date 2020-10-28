@@ -34,12 +34,12 @@ class ListViewScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @BeforeEach("@listview")
+    @Before("@listview")
     fun setup() {
         TestUtils.startActivity(activityTestRule, LIST_VIEW_SCREEN_BFF_URL)
     }
 
-    @AfterEach("@listview")
+    @After("@listview")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
