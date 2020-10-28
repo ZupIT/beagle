@@ -74,10 +74,19 @@ Feature: TextInput Validation
             | is textInput type number                 |
             | is textInput type number with expression |
 
-   Scenario Outline: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
+    Scenario Outline: TextInput 07 - validate textInput with actions of onChange, onFocus and onBlur
 
         When I click to textInput with the placeholder <placeholder> then change to <didOnFocus> and to <didOnChange>
         Then the text <didOnBlur> should be appear
+
+        Examples:
+            | placeholder            | didOnFocus | didOnChange           | didOnBlur                      |
+            | textInput with actions | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
+
+    Scenario Outline: TextInput 08 - validate if the actions of the textInput are ate the correctly order
+
+        When I click to textInput with the placeholder <placeholder> then change to <didOnFocus> and to <didOnChange>
+        Then the text <didOnBlur> should be appear in the correctly order
 
         Examples:
             | placeholder            | didOnFocus | didOnChange           | didOnBlur                      |

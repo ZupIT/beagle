@@ -7,7 +7,6 @@ import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
-import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -102,6 +101,16 @@ class TextInputScreen {
             .checkViewContainsHint("is textInput type number")
             .clickOnInputWithHint("is textInput type number")
             .checkViewContainsHint(string)
+    }
+
+    @Then("^the text (.*) should be appear in the correctly order$")
+    fun textInoutWithActionOfOnBlurCorrectlyOrder(string: String) {
+        ScreenRobot()
+            .checkViewContainsHint("is textInput type number")
+            .clickOnInputWithHint("is textInput type number")
+            .checkViewContainsHint(string)
+            .checkViewDoesNotContainsHint("DidOnFocus")
+            .checkViewDoesNotContainsHint("DidOnFocusDidOnChange")
     }
 
     @Then("^The hidden input fields (.*) should not be visible$")

@@ -19,6 +19,7 @@ package br.com.zup.beagle.automatedTests.cucumber.robots
 import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -95,6 +96,15 @@ class ScreenRobot {
         return this
     }
 
+    fun checkViewDoesNotContainsHint(text: String?, waitForText: Boolean = false): ScreenRobot {
+        if (waitForText) {
+            WaitHelper.waitForWithElement(onView(withHint(text)))
+        }
+
+        onView(Matchers.allOf(withHint(text))).check(doesNotExist())
+        return this
+    }
+
     fun clickOnText(text: String?): ScreenRobot {
         onView(Matchers.allOf(withText(text), isDisplayed())).perform(ViewActions.click())
         return this
@@ -105,7 +115,7 @@ class ScreenRobot {
         return this
     }
 
-    fun disabledFieldHint(text: String) : ScreenRobot {
+    fun disabledFieldHint(text: String)  : ScreenRobot {
         onView(withHint(text)).check(matches(not(isEnabled())))
         return this
     }
