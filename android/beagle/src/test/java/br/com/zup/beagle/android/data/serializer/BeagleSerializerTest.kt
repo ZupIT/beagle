@@ -33,6 +33,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import java.io.IOException
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -67,6 +68,7 @@ class BeagleSerializerTest : BaseTest() {
         every { moshi.adapter(Action::class.java) } returns actionJsonAdapter
     }
 
+    @AfterEach
     override fun tearDown() {
         super.tearDown()
         unmockkObject(BeagleMessageLogs)
