@@ -20,9 +20,9 @@ import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.AppBeagleActivity
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import com.karumi.shot.ScreenshotTest
-import org.junit.jupiter.api.BeforeEach
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 
 /**
@@ -36,7 +36,7 @@ class ExampleScreenshotTest: ScreenshotTest {
     var activityTestRule: ActivityTestRule<AppBeagleActivity> = ActivityTestRule(
         AppBeagleActivity::class.java)
 
-    @BeforeEach
+    @Before
     fun setup() {
         TestUtils.startBeagleActivity(activityTestRule,"http://10.0.2.2:8080/button" )
     }
