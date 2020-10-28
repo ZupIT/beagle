@@ -81,6 +81,11 @@ class ScreenRobot {
         return this
     }
 
+    fun typeText(hint: String, text: String) : ScreenRobot {
+        onView(withHint(hint)).perform(ViewActions.typeText((text)))
+        return this
+    }
+
     fun checkViewContainsHint(hint: String?, waitForText: Boolean = false): ScreenRobot {
         if (waitForText) {
             WaitHelper.waitForWithElement(onView(withHint(hint)))
@@ -145,6 +150,11 @@ class ScreenRobot {
 
     fun scrollTo(text: String?): ScreenRobot {
         onView(withText(text)).perform(scrollTo()).check(matches(isDisplayed()))
+        return this
+    }
+
+    fun scrollToWithHint(text: String?): ScreenRobot {
+        onView(withHint(text)).perform(scrollTo()).check(matches(isDisplayed()))
         return this
     }
 

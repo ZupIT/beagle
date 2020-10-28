@@ -7,6 +7,7 @@ import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
+import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -84,8 +85,46 @@ class TextInputScreen {
             .checkInputType(string)
     }
 
+//    @When("^I click to textInput with the placeholder (.*) check if contains the text (.*)$")
+//        fun clickTextInputPlaceholderAction(string: String, string2: String) {
+//            ScreenRobot()
+//                .scrollToWithHint(string)
+//                .checkViewContainsHint(string)
+//                .clickOnInputWithHint(string)
+//                .checkViewContainsHint(string)
+//        }
+//
+//    @Then("^when I click to textInput with the placeholder (.*) and when I write a text, should be change for didOnFocus with didOnChange (.*)$")
+//    fun checkTextInputActions(string: String) {
+//        ScreenRobot()
+//            .typeText(string, "a")
+//            .checkViewContainsHint(string)
+//    }
+//
+//    @And("^when I click to other view, should be change for a new text (.*) representing the onBlur action")
+//    fun checkActionOfOnBlur(string: String) {
+//        ScreenRobot()
+//        .checkViewContainsHint("is textInput type number")
+//            .clickOnInputWithHint("is textInput type number")
+//            .checkViewContainsHint(string)
+    }
+
+//    @Then("^I click to textInput with actions (.*) and write a text$")
+//    fun checkTextInputActions(string: String) {
+//        ScreenRobot()
+//            .scrollToWithHint(string)
+//            .checkViewContainsHint(string)
+//            .clickOnInputWithHint(string)
+//            .checkViewContainsHint(string)
+//            .typeText(string, "a")
+//            .checkViewContainsHint(string)
+//            .checkViewContainsHint("is textInput type number")
+//            .clickOnInputWithHint("is textInput type number")
+//            .checkViewContainsHint(string)
+//    }
+
     @Then("^The hidden input fields (.*) should not be visible$")
-    fun checkInputTextIsHidden(string: String){
+    fun checkInputTextIsHidden(string: String) {
         ScreenRobot()
             .scrollTo("There are two hidden input fields above")
             .checkViewIsNotDisplayed(string)

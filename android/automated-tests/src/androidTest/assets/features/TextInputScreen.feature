@@ -47,7 +47,7 @@ Feature: TextInput Validation
             | textInputDisabled                                 |
             | Standard text with disabled field                 |
             | Standard text with disabled field with expression |
-#
+
     Scenario Outline: TextInput 04 - validate readOnly field
         When the value <textInputReadOnly> of the readOnly field is on the screen
         Then verify if the field with the value <textInputReadOnly> is read only
@@ -74,6 +74,16 @@ Feature: TextInput Validation
             | is textInput type number                 |
             | is textInput type number with expression |
 
+#    Scenario Outline: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
+#        When I click to textInput with the placeholder <textInputActions> check if contains the text <didOnFocus>
+#        Then when I click to textInput with the placeholder <textInputActions> and when I write a text, should be change for didOnFocus with didOnChange <didOnChange>
+#        And when I click to other view, should be change for a new text <didOnBlur> representing the onBlur action
+#
+#        #Then validate if the actions of the textInput <textInputActions> are trigger correctly in the text
+#
+#        Examples:
+#            | textInputActions       | didOnFocus  | didOnChange           | didOnBlur                      |
+#            | textInput with actions | DidOnFocus  | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBLur |
 
     Scenario Outline: TextInput 09 - validate that textInput is hidden
         Then The hidden input fields <textInputHidden> should not be visible
