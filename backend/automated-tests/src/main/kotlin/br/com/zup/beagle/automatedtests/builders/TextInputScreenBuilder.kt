@@ -161,7 +161,8 @@ object TextInputScreenBuilder {
             id = "textInputActions", value = ""
         ),
         children = listOf(
-            Text("@{textInputActions.focus} + @{textInputActions.change} + @{textInputActions.blur}"),
+            TextInput(placeholder = "@{textInputActions.focus}" + "@{textInputActions.change}" + "@{textInputActions.blur}",
+                readOnly = true),
             TextInput(
                 placeholder = "textInput with actions",
                 onChange = listOf(
