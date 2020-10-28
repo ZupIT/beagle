@@ -87,6 +87,7 @@ class TextInputScreen {
     @Then("^The hidden input fields (.*) should not be visible$")
     fun checkInputTextIsHidden(string: String){
         ScreenRobot()
+            .scrollTo("There are two hidden input fields above")
             .checkViewIsNotDisplayed(string)
     }
 

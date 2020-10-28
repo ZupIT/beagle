@@ -47,7 +47,7 @@ Feature: TextInput Validation
             | textInputDisabled                                 |
             | Standard text with disabled field                 |
             | Standard text with disabled field with expression |
-
+#
     Scenario Outline: TextInput 04 - validate readOnly field
         When the value <textInputReadOnly> of the readOnly field is on the screen
         Then verify if the field with the value <textInputReadOnly> is read only
@@ -75,7 +75,7 @@ Feature: TextInput Validation
             | is textInput type number with expression |
 
 
-    Scenario Outline: TextInput 07 - validate that textInput is hidden
+    Scenario Outline: TextInput 09 - validate that textInput is hidden
         Then The hidden input fields <textInputHidden> should not be visible
 
         Examples:
