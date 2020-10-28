@@ -107,7 +107,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.theme = AppTheme(styles: [:])
         self.isLoggingEnabled = true
         self.logger = BeagleLoggerProxy(logger: logger, dependencies: resolver)
-        self.customOperationsProvider = CustomOperationProviding()
+        self.customOperationsProvider = CustomOperationProviding(dependencies: resolver)
 
         self.decoder = BeagleSchema.dependencies.decoder
         self.formDataStoreHandler = FormDataStoreHandler()

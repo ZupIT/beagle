@@ -131,7 +131,7 @@ public enum Log {
     
     public enum Operation {
         case alreadyExists
-        case invalidName
+        case invalid(name: String)
     }
 }
 
@@ -195,8 +195,8 @@ extension Log: LogType {
             
         case .customOperations(.alreadyExists):
             return "You are replacing a default operation in Beagle, consider creating it using `custom()`"
-        case .customOperations(.invalidName):
-            return "Custom Operations names must have at least 1 character, it can also contain numbers and the character _"
+        case .customOperations(.invalid(let name)):
+            return "\n Invalid custom operation name: \(name) \n Names should have at least 1 character, it can also contain numbers and the character _"
         }
     }
 
@@ -234,8 +234,10 @@ extension Log: LogType {
             
         case .customOperations(let custom):
             switch custom {
-            case .alreadyExists, .invalidName:
+            case .alreadyExists:
                 return .info
+            case .invalid:
+                return .error
             }
         }
     }

@@ -29,7 +29,7 @@ public protocol CustomOperationProvider {
     /// Use this function to register your custom operation.
     /// - Warning:
     ///     - Be careful when replacing a default operation in Beagle, consider creating it using `custom()`
-    ///     - Custom Operations names must have at least 1 character, it can also contain numbers and the character _
+    ///     - Custom Operations names must have at least 1 letter. It can also contain numbers and the character _
     /// - Parameters:
     ///   - operation: The custom operation you wish to register.
     ///   - handler: A closure where you tell us what your custom operation should do.
@@ -41,9 +41,26 @@ public protocol CustomOperationProvider {
 }
 
 public class CustomOperationProviding: CustomOperationProvider {
+    
+    public typealias Dependencies =
+        DependencyLogger
+
+    let dependencies: Dependencies
+    
     private(set) public var operations: [Operation.Name: OperationHandler] = [:]
     
+    // MARK: Init
+
+    public init(dependencies: Dependencies) {
+        self.dependencies = dependencies
+    }
+    
     public func register(operation: Operation, handler: @escaping OperationHandler) {
+        guard operation.name.rawValue.range(of: "^[a-zA-Z0-9_]*$", options: .regularExpression) != nil else {
+            dependencies.logger.log(Log.customOperations(.invalid(name: operation.name.rawValue)))
+            return
+        }
+        
         operations[operation.name] = handler
         
         guard case Operation.Name.custom = operation.name else {
