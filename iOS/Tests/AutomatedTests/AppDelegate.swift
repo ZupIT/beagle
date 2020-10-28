@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         BeagleConfig.config()
         let environment = ProcessInfo.processInfo.environment
-        let url = environment[AppDelegate.InitialUrlEnvironmentKey] ?? "/send-request"
+        let url = environment[AppDelegate.InitialUrlEnvironmentKey] ?? "/textinput"
         let beagleScreen = Beagle.screen(.remote(.init(url: url)), controllerId: "CustomBeagleNavigation")
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = beagleScreen

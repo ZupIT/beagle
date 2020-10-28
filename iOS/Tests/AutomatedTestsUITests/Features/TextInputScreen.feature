@@ -63,3 +63,27 @@ Feature: TextInput Validation
             | textInputSecondPlan                           |
             | is a textInput in second plan                 |
             | is a textInput in second plan with expression |
+            
+    Scenario Outline: TextInput 06 - validate textInput of type number
+        Then validate textInput component of type number with text "<textInputTypeNumber>"
+
+        Examples:
+            | textInputTypeNumber                      |
+            | is textInput type number                 |
+            | is textInput type number with expression |
+            
+    Scenario Outline: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
+        When I click in the textInput with the placeholder "<placeholder>"
+        Then change to "<didOnFocus>" then to "<didOnChange>" then the text "<didOnBlur>" should be appear
+
+        Examples:
+            | placeholder            | didOnFocus | didOnChange           | didOnBlur                      |
+            | textInput with actions | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
+    
+    Scenario Outline: TextInput 09 - validate that textInput is hidden
+        Then The hidden input fields "<textInputHidden>" should not be visible
+
+        Examples:
+            | textInputHidden                     |
+            | this text is hidden                 |
+            | this text is hidden with expression |

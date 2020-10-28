@@ -36,11 +36,12 @@ class TextInputSteps: CucumberStepsDefinition {
         
         // MARK: - When
         
-        // Scenarios 5
+        // Scenarios 5 and 8
         When(#"^I click in the textInput with the placeholder "([^\"]*)"$"#) { args, _ -> Void in
             let placeholder = args![0]
             
             if let textField = self.application.textFields[placeholder: placeholder] {
+                self.application.scrollToElement(element: textField)
                 textField.tap()
             }
         }
@@ -56,24 +57,18 @@ class TextInputSteps: CucumberStepsDefinition {
         // Scenario 2
         Then(#"^I must check if the textInput placeholder "([^\"]*)" appears on the screen$"#) { args, _ -> Void in
             let placeholder = args![0]
+            let textField = self.application.textFields[placeholder: placeholder]
             
-            if let textField = self.application.textFields[placeholder: placeholder] {
-                XCTAssertTrue(textField.exists)
-            } else {
-                XCTFail("Couldn't find text field")
-            }
+            XCTAssertTrue(textField?.exists ?? false)
         }
         
         // Scenario 3
         Then(#"^verify if the field with the placeholder "([^\"]*)" is disabled$"#) { args, _ -> Void in
             let placeholder = args![0]
+            let textField = self.application.textFields[placeholder: placeholder]
             
-            if let textField = self.application.textFields[placeholder: placeholder] {
-                XCTAssertTrue(textField.exists)
-                XCTAssertFalse(textField.isEnabled)
-            } else {
-                XCTFail("Couldn't find text field")
-            }
+            XCTAssertTrue(textField?.exists ?? false)
+            XCTAssertFalse(textField?.isEnabled ?? true)
         }
         
         // Scenario 4
@@ -88,13 +83,47 @@ class TextInputSteps: CucumberStepsDefinition {
         // Scenario 5
         Then(#"^verify if the textInput "([^\"]*)" is in the second plan$"#) { args, _ -> Void in
             let placeholder = args![0]
+            let textField = self.application.textFields[placeholder: placeholder]
             
-            if let textField = self.application.textFields[placeholder: placeholder] {
-                XCTAssertTrue(textField.exists)
-                XCTAssertEqual(self.application.keyboards.count, 1)
-            } else {
-                XCTFail("Couldn't find text field")
-            }
+            XCTAssertTrue(textField?.exists ?? false)
+            XCTAssertEqual(self.application.keyboards.count, 1)
+        }
+        
+        // Scenario 6
+        Then(#"^validate textInput component of type number with text "([^\"]*)"$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            let textField = self.application.textFields[placeholder: placeholder]
+            
+            textField?.tap()
+            XCTAssertTrue(textField?.exists ?? false)
+            XCTAssertEqual(self.application.keyboards.count, 1)
+        }
+        
+        // Scenario 8
+        Then(#"^change to "([^\"]*)" then to "([^\"]*)" then the text "([^\"]*)" should be appear$"#) { args, _ -> Void in
+            let didOnFocus = args![0]
+            let didOnChange = args![1]
+            let didOnBlur = args![2]
+            let textFieldOnFocus = self.application.textFields[placeholder: didOnFocus]
+            
+            XCTAssertTrue(textFieldOnFocus?.exists ?? false)
+            self.application.typeText("a")
+            
+            let textFieldOnChange = self.application.textFields[placeholder: didOnChange]
+            XCTAssertTrue(textFieldOnChange?.exists ?? false)
+            self.application.typeText("\n")
+            
+            let textFieldOnBlur = self.application.textFields[placeholder: didOnBlur]
+            XCTAssertTrue(textFieldOnBlur?.exists ?? false)
+        }
+        
+        // Scenario 9
+        Then(#"^The hidden input fields "([^\"]*)" should not be visible$"#) { args, _ -> Void in
+            let text = args![0]
+            let staticText = self.application.staticTexts["There are two hidden input fields above"]
+            
+            self.application.scrollToElement(element: staticText)
+            XCTAssertFalse(self.application.textFields[text].exists)
         }
     }
 }
