@@ -85,42 +85,18 @@ class TextInputScreen {
             .checkInputType(string)
     }
 
-//    @When("^I click to textInput with the placeholder (.*) check if contains the text (.*)$")
-//        fun clickTextInputPlaceholderAction(string: String, string2: String) {
-//            ScreenRobot()
-//                .scrollToWithHint(string)
-//                .checkViewContainsHint(string)
-//                .clickOnInputWithHint(string)
-//                .checkViewContainsHint(string)
-//        }
-//
-//    @Then("^when I click to textInput with the placeholder (.*) and when I write a text, should be change for didOnFocus with didOnChange (.*)$")
-//    fun checkTextInputActions(string: String) {
-//        ScreenRobot()
-//            .typeText(string, "a")
-//            .checkViewContainsHint(string)
-//    }
-//
-//    @And("^when I click to other view, should be change for a new text (.*) representing the onBlur action")
-//    fun checkActionOfOnBlur(string: String) {
-//        ScreenRobot()
-//        .checkViewContainsHint("is textInput type number")
-//            .clickOnInputWithHint("is textInput type number")
-//            .checkViewContainsHint(string)
-    }
-
-//    @Then("^I click to textInput with actions (.*) and write a text$")
-//    fun checkTextInputActions(string: String) {
+//    @Then("^when I click to textInput with the placeholder (.*) check if contains the text (.*) then the text (.*) and then the text (.*)$")
+//    fun clickTextInputPlaceholderAction(string: String, string2: String, string3: String, string4: String) {
 //        ScreenRobot()
 //            .scrollToWithHint(string)
 //            .checkViewContainsHint(string)
 //            .clickOnInputWithHint(string)
-//            .checkViewContainsHint(string)
+//            .checkViewContainsHint(string2)
 //            .typeText(string, "a")
-//            .checkViewContainsHint(string)
+//            .checkViewContainsHint(string3)
 //            .checkViewContainsHint("is textInput type number")
 //            .clickOnInputWithHint("is textInput type number")
-//            .checkViewContainsHint(string)
+//            .checkViewContainsHint(string4)
 //    }
 
     @Then("^The hidden input fields (.*) should not be visible$")
@@ -134,4 +110,6 @@ class TextInputScreen {
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
+
 }
+
