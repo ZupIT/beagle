@@ -18,9 +18,9 @@ import Foundation
 import XCTest
 
 enum ScreenElements: String {
-    
+
     case MAIN_HEADER = "Automated Tests"
-    
+
     //Button Screen
     case BUTTON_SCREEN_HEADER = "Beagle Button"
     case BUTTON_DEFAULT = "Button"
@@ -29,7 +29,7 @@ enum ScreenElements: String {
     case BUTTON_WITH_APPEARANCE_AND_STYLE = "Button with Appearance and style"
     case ACTION_CLICK_HEADER = "Action Click"
     case ACTION_CLICK_TEXT = "You clicked right"
-    
+
     //Image Screen
     case IMAGE_SCREEN_HEADER = "Beagle Image"
     case IMAGE_TEXT_1 = "Image"
@@ -37,7 +37,7 @@ enum ScreenElements: String {
     case IMAGE_TEXT_3 = "Image with contentMode = FIT_CENTER"
     case IMAGE_TEXT_4 = "Image with contentMode = CENTER_CROP"
     case IMAGE_TEXT_5 = "Image with contentMode = CENTER"
-    
+
     //TabView Screen
     case TABVIEW_SCREEN_HEADER = "Beagle Tab View"
     case TAB_1 = "Tab 1"
@@ -52,25 +52,25 @@ enum ScreenElements: String {
     case TAB_4 = "Tab 4"
     case TAB_4_TEXT = "Welcome to Tab 4"
     case TAB_4_TEXT_2 = "This is Tab4's second text"
-    
+
     //PageView Screen
     case PAGEVIEW_SCREEN_HEADER = "Beagle PageView"
     case PAGE_1_TEXT = "Page 1"
     case PAGE_2_TEXT = "Page 2"
     case PAGE_3_TEXT = "Page 3"
-    
+
     //ScrollView Screen
     case SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
     case SCROLLVIEW_TEXT_1 = "Vertical ScrollView"
     case SCROLLVIEW_TEXT_2 = "Horizontal ScrollView with scrollBars"
-    
+
     //ListView Screen
     case LISTVIEW_SCREEN_HEADER = "Beagle ListView"
     case STATIC_LISTVIEW_TEXT_1 = "Static VERTICAL ListView"
     case STATIC_LISTVIEW_TEXT_2 = "Static HORIZONTAL ListView"
     case DYNAMIC_LISTVIEW_TEXT_1 = "Dynamic VERTICAL ListView"
     case DYNAMIC_LISTVIEW_TEXT_2 = "Dynamic HORIZONTAL ListView"
-    
+
     //Touchable Screen
     case TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"
     case TOUCHABLE_TEXT_1 = "Text with Touchable"
@@ -94,22 +94,27 @@ enum ScreenElements: String {
     case OK_BUTTON = "Ok"
     case CANCEL_BUTTON = "Cancel"
     
+    //Send Request Buttons Screen
+    case SEND_REQUEST_SCREEN_TITLE = "Send Request Screen"
+
     //Navigate Actions
     case NAVIGATION_SCREEN_TITLE = "Navigation Screen"
     case SAMPLE_NAVIGATION_SCREEN_TITLE = "Sample Screen"
     case RESET_NAVIGATION_SCREEN_TITLE = "Reset Screen"
-    
+
     //Container Screen
     case CONTAINER_SCREEN_TITLE = "Container Screen"
-    
+
+
     //Text Input
     case TEXT_INPUT_SCREEN_TITLE = "Beagle Text Input"
-    
+
     var element: XCUIElement {
         switch self {
+        case .MAIN_HEADER, .BUTTON_SCREEN_HEADER, .ACTION_CLICK_HEADER, .ACTION_CLICK_TEXT, .IMAGE_SCREEN_HEADER, .IMAGE_TEXT_1, .IMAGE_TEXT_2, .IMAGE_TEXT_3, .IMAGE_TEXT_4, .IMAGE_TEXT_5, .TABVIEW_SCREEN_HEADER, .TAB_1, .TAB_2, .TAB_3, .TAB_4, .TAB_1_TEXT, .TAB_2_TEXT, .TAB_3_TEXT, .TAB_4_TEXT, .TAB_1_TEXT_2, .TAB_2_TEXT_2, .TAB_3_TEXT_2, .TAB_4_TEXT_2, .PAGEVIEW_SCREEN_HEADER, .PAGE_1_TEXT, .PAGE_2_TEXT, .PAGE_3_TEXT, .SCROLLVIEW_SCREEN_HEADER, .SCROLLVIEW_TEXT_1, .SCROLLVIEW_TEXT_2, .LISTVIEW_SCREEN_HEADER, .STATIC_LISTVIEW_TEXT_1, .STATIC_LISTVIEW_TEXT_2, .DYNAMIC_LISTVIEW_TEXT_1, .DYNAMIC_LISTVIEW_TEXT_2, .TOUCHABLE_SCREEN_HEADER, .TOUCHABLE_TEXT_1, .TOUCHABLE_TEXT_2, .TOUCHABLE_TEXT_3, .TOUCHABLE_TEXT_4, .SIMPLE_FORM_SCREEN_HEADER, .SIMPLE_FORM_TITLE, .NAVIGATION_SCREEN_TITLE, .SAMPLE_NAVIGATION_SCREEN_TITLE, .RESET_NAVIGATION_SCREEN_TITLE, .SEND_REQUEST_SCREEN_TITLE, .CONTAINER_SCREEN_TITLE:
         case .MAIN_HEADER, .BUTTON_SCREEN_HEADER, .ACTION_CLICK_HEADER, .ACTION_CLICK_TEXT, .IMAGE_SCREEN_HEADER, .IMAGE_TEXT_1, .IMAGE_TEXT_2, .IMAGE_TEXT_3, .IMAGE_TEXT_4, .IMAGE_TEXT_5, .TABVIEW_SCREEN_HEADER, .TAB_1, .TAB_2, .TAB_3, .TAB_4, .TAB_1_TEXT, .TAB_2_TEXT, .TAB_3_TEXT, .TAB_4_TEXT, .TAB_1_TEXT_2, .TAB_2_TEXT_2, .TAB_3_TEXT_2, .TAB_4_TEXT_2, .PAGEVIEW_SCREEN_HEADER, .PAGE_1_TEXT, .PAGE_2_TEXT, .PAGE_3_TEXT, .SCROLLVIEW_SCREEN_HEADER, .SCROLLVIEW_TEXT_1, .SCROLLVIEW_TEXT_2, .LISTVIEW_SCREEN_HEADER, .STATIC_LISTVIEW_TEXT_1, .STATIC_LISTVIEW_TEXT_2, .DYNAMIC_LISTVIEW_TEXT_1, .DYNAMIC_LISTVIEW_TEXT_2, .TOUCHABLE_SCREEN_HEADER, .TOUCHABLE_TEXT_1, .TOUCHABLE_TEXT_2, .TOUCHABLE_TEXT_3, .TOUCHABLE_TEXT_4, .SIMPLE_FORM_SCREEN_HEADER, .SIMPLE_FORM_TITLE, .NAVIGATION_SCREEN_TITLE, .SAMPLE_NAVIGATION_SCREEN_TITLE, .RESET_NAVIGATION_SCREEN_TITLE, .CONTAINER_SCREEN_TITLE, .TEXT_INPUT_SCREEN_TITLE:
             return XCUIApplication().staticTexts[self.rawValue]
-            
+
         case .BUTTON_DEFAULT, .BUTTON_WITH_STYLE, .BUTTON_WITH_APPEARANCE, .BUTTON_WITH_APPEARANCE_AND_STYLE, .OK_BUTTON, .CANCEL_BUTTON, .SEND_BUTTON:
             return XCUIApplication().buttons[self.rawValue]
             
