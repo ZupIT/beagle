@@ -17,24 +17,20 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.setId
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.ListDirection
-import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.layout.extensions.dynamic
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.ListView
