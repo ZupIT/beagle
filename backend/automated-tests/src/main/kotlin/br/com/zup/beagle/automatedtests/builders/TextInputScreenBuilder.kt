@@ -27,7 +27,11 @@ import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextInputType
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
@@ -61,14 +65,14 @@ object TextInputScreenBuilder {
             children = listOf(
                 Container(
                     children = listOf(
-                        textInputHidden(),
                         textInputValue(),
                         textInputPlaceholder(),
                         textInputDisabled(),
                         textInputReadOnly(),
                         textInputSecondPlan(),
                         textInputTypeNumber(),
-                        textInputActions()
+                        textInputActions(),
+                        textInputHidden()
                     )
                 ).applyStyle(Style(
                     size = Size(height = 100.0.unitPercent()),
@@ -154,19 +158,19 @@ object TextInputScreenBuilder {
 
     private fun textInputActions() = Container(
         context = ContextData(
-            id = "textInputActions", value = "TextInput Actions"
+            id = "textInputActions", value = ""
         ),
         children = listOf(
             Text("@{textInputActions.focus} + @{textInputActions.change} + @{textInputActions.blur}"),
             TextInput(
                 placeholder = "textInput with actions",
                 onChange = listOf(
-                    SetContext(contextId = "textInputActions", path = "change", value = "Did onChange action")),
+                    SetContext(contextId = "textInputActions", path = "change", value = "DidOnChange")),
                 onFocus = listOf(
-                    SetContext(contextId = "textInputActions", path = "focus", value = "Did onFocus action")),
+                    SetContext(contextId = "textInputActions", path = "focus", value = "DidOnFocus")),
                 onBlur = listOf(
-                    SetContext(contextId = "textInputActions", path = "blur", value = "Did onBlur action"))
-                )
+                    SetContext(contextId = "textInputActions", path = "blur", value = "DidOnBlur"))
+            )
         )
     )
 
@@ -180,7 +184,8 @@ object TextInputScreenBuilder {
             TextInput(value = "this text is hidden", hidden = true),
             TextInput(value = expressionOf("@{isHiddenWithExpression.placeholder}"),
                 hidden = expressionOf("@{isHiddenWithExpression.hidden}")
-            )
+            ),
+            Text("There are two hidden input fields above")
         )
     )
 }
