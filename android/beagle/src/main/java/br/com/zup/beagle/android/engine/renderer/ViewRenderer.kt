@@ -20,7 +20,6 @@ import android.view.View
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
@@ -36,16 +35,7 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         val builtView = buildView(rootView)
         componentStylization.apply(builtView, component)
-        if (builtView.id == View.NO_ID) {
-            val generateIdViewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
-            builtView.id = try {
-                generateIdViewModel.getViewId(rootView.getParentId())
-            } catch (exception: Exception) {
-                View.generateViewId()
-            }
-        }
-        contextComponentHandler.addContext(viewModel, builtView, component)
-        contextComponentHandler.addListenerToHandleContext(viewModel, builtView)
+        contextComponentHandler.handleComponent(builtView, viewModel, component)
         return builtView
     }
 

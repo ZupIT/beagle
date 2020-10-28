@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import com.fasterxml.jackson.databind.module.SimpleModule
@@ -36,7 +36,7 @@ class BeagleModule(
             ScreenBuilderMixin::class.java
         )
         this.setMixInAnnotation(
-            getClass(BindAttribute::class, this.classLoader),
+            getClass(Bind::class, this.classLoader),
             BindMixin::class.java
         )
     }

@@ -16,8 +16,13 @@
 
 package br.com.zup.beagle.android.engine.mapper
 
+import android.view.View
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.internalObserveBindChanges
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.Display
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
@@ -40,12 +45,16 @@ import com.facebook.yoga.YogaNode
 import com.facebook.yoga.YogaWrap
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.clearStaticMockk
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.unmockkAll
 import io.mockk.verify
+import io.mockk.verifyOrder
+import io.mockk.verifySequence
+import kotlin.test.assertFalse
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -55,8 +64,11 @@ private const val ONE_UNIT_VALUE = 1.0
 
 class FlexMapperTest {
 
-    @MockK
-    private lateinit var yogaNode: YogaNode
+    private val yogaNodeMock: YogaNode = mockk(relaxed = true, relaxUnitFun = true)
+    private val rootViewMock: RootView = mockk()
+    private val viewMock: View = mockk(relaxUnitFun = true, relaxed = true)
+
+    private val observeSlot = slot<Observer<Display?>>()
 
     private lateinit var flexMapper: FlexMapper
 
@@ -68,48 +80,25 @@ class FlexMapperTest {
 
         mockkStatic(YogaNode::class)
         mockkStatic("br.com.zup.beagle.android.utils.NumberExtensionsKt")
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
+
+        every {
+            internalObserveBindChanges(
+                rootView = rootViewMock,
+                view = viewMock,
+                bind = any(),
+                observes = capture(observeSlot)
+            )
+        } just Runs
 
         every { HUNDRED_UNIT_VALUE.dp() } returns HUNDRED_UNIT_VALUE
         every { ONE_UNIT_VALUE.dp() } returns ONE_UNIT_VALUE
-        every { YogaNode.create() } returns yogaNode
-        every { yogaNode.flexDirection = any() } just Runs
-        every { yogaNode.wrap = any() } just Runs
-        every { yogaNode.justifyContent = any() } just Runs
-        every { yogaNode.alignItems = any() } just Runs
-        every { yogaNode.alignSelf = any() } just Runs
-        every { yogaNode.alignContent = any() } just Runs
-        every { yogaNode.flex = any() } just Runs
-        every { yogaNode.flexGrow = any() } just Runs
-        every { yogaNode.flexShrink = any() } just Runs
-        every { yogaNode.display = any() } just Runs
-        every { yogaNode.aspectRatio = any() } just Runs
-        every { yogaNode.positionType = any() } just Runs
-        every { yogaNode.setWidth(any()) } just Runs
-        every { yogaNode.setWidthPercent(any()) } just Runs
-        every { yogaNode.setHeight(any()) } just Runs
-        every { yogaNode.setHeightPercent(any()) } just Runs
-        every { yogaNode.setMaxWidth(any()) } just Runs
-        every { yogaNode.setMaxWidthPercent(any()) } just Runs
-        every { yogaNode.setMaxHeight(any()) } just Runs
-        every { yogaNode.setMaxHeightPercent(any()) } just Runs
-        every { yogaNode.setMinWidth(any()) } just Runs
-        every { yogaNode.setMinWidthPercent(any()) } just Runs
-        every { yogaNode.setMinHeight(any()) } just Runs
-        every { yogaNode.setMinHeightPercent(any()) } just Runs
-        every { yogaNode.setFlexBasis(any()) } just Runs
-        every { yogaNode.setFlexBasisPercent(any()) } just Runs
-        every { yogaNode.setMargin(any(), any()) } just Runs
-        every { yogaNode.setMarginPercent(any(), any()) } just Runs
-        every { yogaNode.setPadding(any(), any()) } just Runs
-        every { yogaNode.setPaddingPercent(any(), any()) } just Runs
-        every { yogaNode.setPosition(any(), any()) } just Runs
-        every { yogaNode.setPositionPercent(any(), any()) } just Runs
-        every { yogaNode.setFlexBasisAuto() } just Runs
+        every { YogaNode.create() } returns yogaNodeMock
     }
 
     @After
     fun tearDown() {
-        clearStaticMockk()
+        unmockkAll()
     }
 
     @Test
@@ -197,7 +186,7 @@ class FlexMapperTest {
     }
 
     @Test
-    fun makeYogaNode_should_set_flex_as_1(){
+    fun makeYogaNode_should_set_flex_as_1() {
         //Given
         val flex = Flex(
             flex = ONE_UNIT_VALUE
@@ -207,7 +196,7 @@ class FlexMapperTest {
         val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         //Then
-        verify (exactly = once()) { yogaNode.flex = ONE_UNIT_VALUE.toFloat() }
+        verify(exactly = once()) { yogaNode.flex = ONE_UNIT_VALUE.toFloat() }
     }
 
     @Test
@@ -239,31 +228,53 @@ class FlexMapperTest {
     }
 
     @Test
-    fun makeYogaNode_should_set_display_as_FLEX() {
+    fun `GIVEN display NONE WHEN call observe bind changes THEN it should set in yoga node correct display`() {
         // Given
         val style = Style(
-            display = Display.FLEX
+            display = valueOf(Display.NONE)
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(style)
+        flexMapper.observeBindChangesFlex(style, rootViewMock, viewMock, yogaNodeMock)
+        observeSlot.captured.invoke(Display.NONE)
 
         // Then
-        verify(exactly = once()) { yogaNode.display = YogaDisplay.FLEX }
+        verifyOrder {
+            yogaNodeMock.display = YogaDisplay.NONE
+            viewMock.requestLayout()
+        }
     }
 
     @Test
-    fun makeYogaNode_should_set_display_as_NONE() {
+    fun `GIVEN display FLEX WHEN call observe bind changes THEN it should set in yoga node correct display`() {
         // Given
         val style = Style(
-            display = Display.NONE
+            display = valueOf(Display.FLEX)
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(style)
+        flexMapper.observeBindChangesFlex(style, rootViewMock, viewMock, yogaNodeMock)
+        observeSlot.captured.invoke(Display.FLEX)
 
         // Then
-            verify(exactly = once()) { yogaNode.display = YogaDisplay.NONE }
+        verifyOrder {
+            yogaNodeMock.display = YogaDisplay.FLEX
+            viewMock.requestLayout()
+        }
+    }
+
+    @Test
+    fun `GIVEN display NULL WHEN call observe bind changes THEN it should never call bind changes`() {
+        // Given
+        val style = Style(
+            display = null
+        )
+
+        // When
+        flexMapper.observeBindChangesFlex(style, rootViewMock, viewMock, yogaNodeMock)
+
+        // Then
+        assertFalse(observeSlot.isCaptured)
     }
 
     @Test

@@ -39,6 +39,7 @@ internal class ContextDataManager(
 
     private var globalContext: ContextBinding = ContextBinding(GlobalContext.getContext())
     private val contexts = mutableMapOf<Int, ContextBinding>()
+    private val contextsWithoutId = mutableMapOf<View, ContextBinding>()
     private val viewBinding = mutableMapOf<View, MutableSet<Binding<*>>>()
     private val globalContextObserver: GlobalContextObserver = {
         updateGlobalContext(it)
@@ -50,12 +51,24 @@ internal class ContextDataManager(
     }
 
     fun clearContexts() {
+        contextsWithoutId.clear()
         contexts.clear()
         viewBinding.clear()
         GlobalContext.clearObserverGlobalContext(globalContextObserver)
     }
 
-    fun addContext(view: View, context: ContextData) {
+    fun setIdToViewWithContext(view: View) {
+        contextsWithoutId[view]?.apply {
+            contexts[view.id]?.let {
+                view.setContextData(it.context)
+            } ?: run {
+                contexts[view.id] = this
+            }
+            contextsWithoutId.remove(view)
+        }
+    }
+
+    fun addContext(view: View, context: ContextData, shouldOverrideExistingContext: Boolean = false) {
         if (context.id == globalContext.context.id) {
             BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()
             return
@@ -64,13 +77,33 @@ internal class ContextDataManager(
         val existingContext = contexts[view.id]
 
         if (existingContext != null) {
-            view.setContextBinding(existingContext)
-            existingContext.bindings.clear()
-        } else {
-            view.setContextData(context)
-            view.getContextBinding()?.let {
-                contexts[view.id] = it
+            if (shouldOverrideExistingContext) {
+                updateContextAndReference(view, context)
+            } else {
+                view.setContextBinding(existingContext)
+                existingContext.bindings.clear()
             }
+        } else {
+            updateContextAndReference(view, context)
+        }
+    }
+
+    private fun updateContextAndReference(view: View, context: ContextData) {
+        view.setContextData(context)
+        view.getContextBinding()?.let {
+            if (view.id != View.NO_ID) {
+                contexts[view.id] = it
+            } else {
+                contextsWithoutId[view] = it
+            }
+        }
+    }
+
+    fun getContextData(view: View) = contexts[view.id]?.context
+
+    fun restoreContext(view: View) {
+        contexts[view.id]?.let {
+            view.setContextData(it.context)
         }
     }
 

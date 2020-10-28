@@ -22,7 +22,7 @@ class ButtonSteps: CucumberStepsDefinition {
     var application: XCUIApplication?
     
     func loadSteps() {
-    
+        
         let screen = ScreenRobot()
         
         before { scenarioDefinition in
@@ -31,28 +31,28 @@ class ButtonSteps: CucumberStepsDefinition {
                 self.application = TestUtils.launchBeagleApplication(url: url)
             }
         }
-                
+        
         Given("^the app did load buttons screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.BUTTON_SCREEN_HEADER.element.exists)
         }
-
+        
         When("I click on button \"([^\\\"]*)\"$") { args, _ -> Void in
             guard let button: String = args?[0],
-                  let element = ScreenElements(rawValue: button)
-                  else {
-                XCTFail("button element not found")
-                return
+                let element = ScreenElements(rawValue: button)
+                else {
+                    XCTFail("button element not found")
+                    return
             }
             screen.clickOnButton(button: element)
         }
-
-         Then("all my button components should render their respective text attributes correctly$") { _, _ -> Void in
+        
+        Then("all my button components should render their respective text attributes correctly$") { _, _ -> Void in
             screen.renderTextAttributeCorrectly()
-         }
-
-         Then("component should render the action attribute correctly$") { _, _ -> Void in
+        }
+        
+        Then("component should render the action attribute correctly$") { _, _ -> Void in
             screen.renderActionAttributeCorrectly()
-         }
+        }
         
     }
 

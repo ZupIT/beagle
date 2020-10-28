@@ -22,8 +22,8 @@ import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 
 internal class BeagleScreenViewModel(
-    private val ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
-    private val componentRequester: ComponentRequester = ComponentRequester()
+    ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
+    componentRequester: ComponentRequester = ComponentRequester()
 ) : BeagleViewModel(ioDispatcher, componentRequester) {
 
     val screenLoadFinished = MutableLiveData<Boolean>()

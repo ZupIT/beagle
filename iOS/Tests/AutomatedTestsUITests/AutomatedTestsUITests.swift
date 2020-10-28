@@ -27,6 +27,7 @@ class CucumberishInitializer: NSObject {
                     ImageSteps(),
                     PageViewSteps(),
                     SimpleFormSteps(),
+                    SendRequestActionSteps(),
                     NavigateSteps(),
                     ContainerSteps()
                 ]
