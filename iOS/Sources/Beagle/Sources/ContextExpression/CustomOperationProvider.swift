@@ -40,7 +40,7 @@ public protocol CustomOperationProvider {
     func checkCustomOperationExistence(_ operation: Operation.Name) -> Bool
 }
 
-public class CustomOperationProviding: CustomOperationProvider {
+public class CustomOperationsDefault: CustomOperationProvider {
     
     public typealias Dependencies =
         DependencyLogger

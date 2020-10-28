@@ -62,7 +62,7 @@ final class CustomOperationsTests: OperationEvaluationTests {
     
     func testInvalidName() {
         // Given /When
-        dependencies.customOperationsProvider.register(operation: .custom("sum???"), handler: { parameters -> DynamicObject in
+        dependencies.customOperationsProvider.register(operation: .custom("sum???"), handler: { _ -> DynamicObject in
             return .bool(false)
         })
         
