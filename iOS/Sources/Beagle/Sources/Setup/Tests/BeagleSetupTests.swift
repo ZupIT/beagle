@@ -169,7 +169,7 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var navigationControllerType = BeagleNavigationController.self
     var schemaLogger: SchemaLogger?
     var urlBuilder: UrlBuilderProtocol = UrlBuilder()
-    var networkClient: NetworkClient = NetworkClientDummy()
+    var networkClient: NetworkClient? = NetworkClientDummy()
     var deepLinkHandler: DeepLinkScreenManaging?
     var localFormHandler: LocalFormHandler?
     var navigation: BeagleNavigation = BeagleNavigationDummy()

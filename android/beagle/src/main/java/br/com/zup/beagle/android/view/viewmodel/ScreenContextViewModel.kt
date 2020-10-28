@@ -27,15 +27,26 @@ import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.context.ImplicitContextManager
 import br.com.zup.beagle.android.utils.Observer
 
+@Suppress("TooManyFunctions")
 internal class ScreenContextViewModel(
     private val contextDataManager: ContextDataManager = ContextDataManager(),
     private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation(),
     private val implicitContextManager: ImplicitContextManager = ImplicitContextManager()
 ) : ViewModel() {
 
-    fun addContext(view: View, contextData: ContextData) {
-        contextDataManager.addContext(view, contextData)
+    fun setIdToViewWithContext(view: View) {
+        contextDataManager.setIdToViewWithContext(view)
     }
+
+    fun addContext(view: View, contextData: ContextData, shouldOverrideExistingContext: Boolean = false) {
+        contextDataManager.addContext(view, contextData, shouldOverrideExistingContext)
+    }
+
+    fun restoreContext(view: View) {
+        contextDataManager.restoreContext(view)
+    }
+
+    fun getContextData(view: View) = contextDataManager.getContextData(view)
 
     fun updateContext(originView: View, setContextInternal: SetContextInternal) {
         contextDataManager.updateContext(originView, setContextInternal)
@@ -65,6 +76,7 @@ internal class ScreenContextViewModel(
     }
 
     override fun onCleared() {
+        super.onCleared()
         clearContexts()
     }
 }

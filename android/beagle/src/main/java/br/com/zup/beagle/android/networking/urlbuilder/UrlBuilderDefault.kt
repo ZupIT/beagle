@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets
 internal class UrlBuilderDefault : UrlBuilder {
 
     override fun format(endpoint: String?, path: String): String? {
-        val newPath = encodeUrlBeforeCalls(path)
+        val newPath = formatUrl(path)
         return when {
             newPath.isEmpty() -> null
             endpoint.isNullOrEmpty() -> newPath
@@ -32,7 +32,7 @@ internal class UrlBuilderDefault : UrlBuilder {
         }
     }
 
-    private fun encodeUrlBeforeCalls(baseUrl: String): String {
+    private fun formatUrl(baseUrl: String): String {
         return URLEncoder.encode(baseUrl, StandardCharsets.UTF_8.name())
             .replace("+", "%20")
             .replace("%2F", "/")

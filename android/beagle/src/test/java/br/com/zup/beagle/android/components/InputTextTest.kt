@@ -29,13 +29,14 @@ import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
-import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.Runs
 import io.mockk.verify
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 const val VALUE = "Text Value"
@@ -69,18 +70,20 @@ class TextInputTest : BaseComponentTest() {
 
         every { editText.context } returns context
 
-        textInput = TextInput(
-            value = VALUE,
-            placeholder = PLACE_HOLDER,
-            readOnly = READ_ONLY,
-            disabled = DISABLED,
-            hidden = HIDDEN,
-            type = TYPE,
-            styleId = STYLE_ID
-        )
+        textInput = callTextInput(TYPE)
 
         textInput.setPrivateField("textWatcher", textWatcher)
     }
+
+    private fun callTextInput(type: TextInputType) = TextInput(
+        value = VALUE,
+        placeholder = PLACE_HOLDER,
+        readOnly = READ_ONLY,
+        disabled = DISABLED,
+        hidden = HIDDEN,
+        type = type,
+        styleId = STYLE_ID
+    )
 
     @Test
     fun `build should return a EditText instance`() {
@@ -105,5 +108,29 @@ class TextInputTest : BaseComponentTest() {
         verify(exactly = once()) { editText.inputType = InputType.TYPE_CLASS_NUMBER }
         verify(exactly = once()) { editText.isFocusable = true }
         verify(exactly = once()) { editText.isFocusableInTouchMode = true }
+    }
+
+    @Test
+    fun `GIVEN a TextInput component WHEN its TypeInput type is set THEN the Edit view must be the same TYPE_CLASS`() {
+        //Given
+        val inputTypesAndroid = mutableListOf<Int>()
+        val inputTypesBeagle = TextInputType.values().toList()
+
+        every { editText.inputType = capture(inputTypesAndroid) } just Runs
+
+        // When
+        inputTypesBeagle.forEach {
+            val textInputView = callTextInput(it)
+            textInputView.buildView(rootView)
+        }
+
+        //Then
+        assertEquals(listOf(
+            InputType.TYPE_CLASS_DATETIME,
+            InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
+            InputType.TYPE_CLASS_NUMBER,
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        ), inputTypesAndroid)
     }
 }

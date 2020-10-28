@@ -73,5 +73,9 @@ public struct Request {
         case decoding(Swift.Error)
         case loadFromTextError
         case urlBuilderError
+
+        /// Beagle needs to be configured with your custom NetworkClient that is responsible to do network requests.
+        /// So, this error occurs when trying to make a network request and there is no NetworkClient.
+        case networkClientWasNotConfigured
     }
 }

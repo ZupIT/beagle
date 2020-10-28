@@ -24,6 +24,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.hasTextColor
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withHint
@@ -31,6 +32,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
+import br.com.zup.beagle.automatedTests.utils.matcher.MatcherExtension
+import br.com.zup.beagle.widget.core.TextAlignment
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -40,7 +43,7 @@ import org.hamcrest.TypeSafeMatcher
 class ScreenRobot {
 
     fun checkViewContainsText(text: String?, waitForText: Boolean = false): ScreenRobot {
-        if (waitForText){
+        if (waitForText) {
             WaitHelper.waitForWithElement(onView(withText(text)))
         }
 
@@ -48,8 +51,26 @@ class ScreenRobot {
         return this
     }
 
+    fun checkViewTextColor(text: String?, textColor: Int, waitForText: Boolean = false): ScreenRobot {
+        if (waitForText) {
+            WaitHelper.waitForWithElement(onView(withText(text)))
+        }
+
+        onView(Matchers.allOf(withText(text), hasTextColor(textColor))).check(matches(isDisplayed()))
+        return this
+    }
+
+    fun checkViewTextAlignment(text: String?, textAlignment: TextAlignment, waitForText: Boolean = false): ScreenRobot {
+        if (waitForText) {
+            WaitHelper.waitForWithElement(onView(withText(text)))
+        }
+
+        onView(Matchers.allOf(withText(text), MatcherExtension.withTextAlignment(textAlignment))).check(matches(isDisplayed()))
+        return this
+    }
+
     fun checkViewDoesNotContainsText(text: String?, waitForText: Boolean = false): ScreenRobot {
-        if (waitForText){
+        if (waitForText) {
             WaitHelper.waitForWithElement(onView(withText(text)))
         }
 
@@ -58,7 +79,7 @@ class ScreenRobot {
     }
 
     fun checkViewContainsHint(hint: String?, waitForText: Boolean = false): ScreenRobot {
-        if (waitForText){
+        if (waitForText) {
             WaitHelper.waitForWithElement(onView(withHint(hint)))
         }
 
@@ -124,20 +145,20 @@ class ScreenRobot {
     }
 
     companion object {
-            private fun childAtPosition(
-                parentMatcher: Matcher<View>, position: Int): Matcher<View> {
-                return object : TypeSafeMatcher<View>() {
-                    override fun describeTo(description: Description) {
-                        description.appendText("Child at position $position in parent ")
-                        parentMatcher.describeTo(description)
-                    }
+        private fun childAtPosition(
+            parentMatcher: Matcher<View>, position: Int): Matcher<View> {
+            return object : TypeSafeMatcher<View>() {
+                override fun describeTo(description: Description) {
+                    description.appendText("Child at position $position in parent ")
+                    parentMatcher.describeTo(description)
+                }
 
-                    public override fun matchesSafely(view: View): Boolean {
-                        val parent = view.parent
-                        return (parent is ViewGroup && parentMatcher.matches(parent)
-                            && view == parent.getChildAt(position))
-                    }
+                public override fun matchesSafely(view: View): Boolean {
+                    val parent = view.parent
+                    return (parent is ViewGroup && parentMatcher.matches(parent)
+                        && view == parent.getChildAt(position))
                 }
             }
         }
     }
+}

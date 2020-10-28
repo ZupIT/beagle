@@ -94,7 +94,7 @@ object ListViewDslScreenBuilder : ScreenBuilder {
         children{
 
             +text {
-                text{valueOf("Dynamic $listDirection ListView")}
+                text{ valueOf("Dynamic $listDirection ListView") }
             }.style {
                 margin {
                     bottom = 10.unitReal()
