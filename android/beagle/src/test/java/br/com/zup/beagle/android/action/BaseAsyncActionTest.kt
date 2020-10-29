@@ -16,24 +16,24 @@
 
 package br.com.zup.beagle.android.action
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import org.junit.Rule
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(InstantExecutorExtension::class)
 abstract class BaseAsyncActionTest : BaseTest() {
-
-    @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
 
     internal val observer = mockk<Observer<AsyncActionStatus>>()
 
     private val asyncActionStatus = mutableListOf<AsyncActionStatus>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

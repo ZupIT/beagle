@@ -29,9 +29,10 @@ import io.mockk.every
 import io.mockk.mockk
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 class ActionExtensionsKtTest : BaseTest() {
 
@@ -41,6 +42,7 @@ class ActionExtensionsKtTest : BaseTest() {
 
     private lateinit var viewModel: ScreenContextViewModel
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

@@ -32,20 +32,20 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 class PageIndicatorTest : BaseComponentTest() {
-
 
     private val beaglePageIndicatorView: BeaglePageIndicatorView = mockk(relaxed = true, relaxUnitFun = true)
     private val numberOfPages: Int = RandomData.int()
     private val currentPage: Bind<Int> = mockk(relaxed = true, relaxUnitFun = true)
     private val currentPageSlot = slot<Observer<Int?>>()
 
-
     private lateinit var pageIndicator: PageIndicator
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

@@ -21,9 +21,9 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.*
 import kotlin.math.log
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 private val LOG = RandomData.string()
 
@@ -31,7 +31,7 @@ class BeagleLoggerProxyTest {
 
     private val logger = mockk<BeagleLogger>(relaxUnitFun = true, relaxed = true)
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkObject(BeagleEnvironment)
 
@@ -40,7 +40,7 @@ class BeagleLoggerProxyTest {
         BeagleLoggerProxy.logger = logger
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

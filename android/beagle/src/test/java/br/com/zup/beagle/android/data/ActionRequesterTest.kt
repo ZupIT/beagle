@@ -35,10 +35,10 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 private val JSON_SUCCESS = makeFormLocalActionJson()
 
@@ -51,7 +51,7 @@ class ActionRequesterTest {
     @InjectMockKs
     private lateinit var actionRequester: ActionRequester
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -59,7 +59,7 @@ class ActionRequesterTest {
         mockkStatic("br.com.zup.beagle.android.data.StringExtensionsKt")
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

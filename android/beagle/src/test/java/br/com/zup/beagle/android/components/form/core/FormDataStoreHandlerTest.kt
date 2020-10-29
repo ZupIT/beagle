@@ -18,8 +18,9 @@ package br.com.zup.beagle.android.components.form.core
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 private const val FORM_GROUP_VALUE = "GROUP"
 private const val FORM_KEY = "KEY"
@@ -29,6 +30,7 @@ class FormDataStoreHandlerTest : BaseTest() {
 
     private lateinit var formDataStoreHandler: FormDataStoreHandler
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         formDataStoreHandler = FormDataStoreHandler()

@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.automatedTests
 
-import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleTypeAdapter
 import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.automatedTests.adapters.Person
@@ -26,17 +25,17 @@ import br.com.zup.beagle.automatedTests.config.BeagleSQLiteDatabase
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class BeagleSetupTest {
 
     private lateinit var beagleSetup: BeagleSetup
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkConstructor(BeagleSQLiteDatabase::class)
 

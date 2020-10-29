@@ -38,10 +38,10 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 private val URL = RandomData.httpUrl()
 private val screenRequest = ScreenRequest(URL)
@@ -66,7 +66,7 @@ class BeagleServiceWrapperTest {
 
     private lateinit var subject: BeagleServiceWrapper
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -79,7 +79,7 @@ class BeagleServiceWrapperTest {
         subject = BeagleServiceWrapper()
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkObject(BeagleEnvironment)
 
