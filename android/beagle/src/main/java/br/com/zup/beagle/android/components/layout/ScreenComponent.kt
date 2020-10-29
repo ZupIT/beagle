@@ -37,7 +37,7 @@ import br.com.zup.beagle.widget.core.Flex
 @RegisterWidget
 internal data class ScreenComponent(
     @Deprecated(
-        "It was deprecated in version 1.4.0 and will be removed in a future version. Use field id instead."
+        "It was deprecated in version 1.5.0 and will be removed in a future version. Use field id instead."
     )
     val identifier: String? = null,
     val safeArea: SafeArea? = null,
