@@ -90,9 +90,9 @@ class TextInputScreen {
             .scrollToWithHint(string)
             .checkViewContainsHint(string)
             .clickOnInputWithHint(string)
-            .checkViewContainsHint(string2)
+            .checkViewContainsText(string2)
             .typeText(string, "a")
-            .checkViewContainsHint(string3)
+            .checkViewContainsText(string3)
     }
 
     @Then("^the text (.*) should be appear$")
@@ -100,7 +100,7 @@ class TextInputScreen {
         ScreenRobot()
             .checkViewContainsHint("is textInput type number")
             .clickOnInputWithHint("is textInput type number")
-            .checkViewContainsHint(string)
+            .checkViewContainsText(string)
     }
 
     @Then("^the text (.*) should be appear in the correctly order$")
@@ -108,9 +108,9 @@ class TextInputScreen {
         ScreenRobot()
             .checkViewContainsHint("is textInput type number")
             .clickOnInputWithHint("is textInput type number")
-            .checkViewContainsHint(string)
-            .checkViewDoesNotContainsHint("DidOnFocus")
-            .checkViewDoesNotContainsHint("DidOnFocusDidOnChange")
+            .checkViewContainsText(string)
+            .checkViewDoesNotContainsText("DidOnFocus")
+            .checkViewDoesNotContainsText("DidOnFocusDidOnChange")
     }
 
     @Then("^The hidden input fields (.*) should not be visible$")

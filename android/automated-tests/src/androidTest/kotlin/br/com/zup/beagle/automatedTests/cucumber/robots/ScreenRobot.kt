@@ -96,15 +96,6 @@ class ScreenRobot {
         return this
     }
 
-    fun checkViewDoesNotContainsHint(text: String?, waitForText: Boolean = false): ScreenRobot {
-        if (waitForText) {
-            WaitHelper.waitForWithElement(onView(withHint(text)))
-        }
-
-        onView(Matchers.allOf(withHint(text))).check(doesNotExist())
-        return this
-    }
-
     fun clickOnText(text: String?): ScreenRobot {
         onView(Matchers.allOf(withText(text), isDisplayed())).perform(ViewActions.click())
         return this
