@@ -80,8 +80,8 @@ Feature: TextInput Validation
         Then the text <didOnBlur> should be appear
 
         Examples:
-            | placeholder            | didOnFocus | didOnChange           | didOnBlur                      |
-            | textInput with actions | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
+            | placeholder       | didOnFocus | didOnChange | didOnBlur |
+            | action validation | DidOnFocus | DidOnChange | DidOnBlur |
 
     Scenario Outline: TextInput 08 - validate if the actions of the textInput are ate the correctly order
 
@@ -89,8 +89,8 @@ Feature: TextInput Validation
         Then the text <didOnBlur> should be appear in the correctly order
 
         Examples:
-            | placeholder            | didOnFocus | didOnChange           | didOnBlur                      |
-            | textInput with actions | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
+            | placeholder  | didOnFocus | didOnChange           | didOnBlur                      |
+            | action order | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
 
     Scenario Outline: TextInput 09 - validate that textInput is hidden
         Then The hidden input fields <textInputHidden> should not be visible
