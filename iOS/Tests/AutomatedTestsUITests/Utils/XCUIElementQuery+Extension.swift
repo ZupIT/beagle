@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 	
-
 import XCTest
 
 extension XCUIElementQuery: Sequence {

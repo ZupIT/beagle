@@ -118,7 +118,6 @@ enum ScreenElements: String {
     //Container Screen
     case CONTAINER_SCREEN_TITLE = "Container Screen"
 
-
     //Text Input
     case TEXT_INPUT_SCREEN_TITLE = "Beagle Text Input"
 

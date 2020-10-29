@@ -18,7 +18,6 @@ import Foundation
 import XCTest
 
 class SendRequestActionSteps: CucumberStepsDefinition {
-    
     var application: XCUIApplication!
     
     func loadSteps() {
