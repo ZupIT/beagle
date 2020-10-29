@@ -42,4 +42,6 @@ abstract class BaseAsyncActionTest : BaseTest() {
 
     internal fun onActionFinishedWasCalled() = asyncActionStatus[0] == AsyncActionStatus.FINISHED &&
         asyncActionStatus[1] == AsyncActionStatus.IDLE
+
+    internal fun onActionStartedWasCalled() = asyncActionStatus[0] == AsyncActionStatus.STARTED
 }

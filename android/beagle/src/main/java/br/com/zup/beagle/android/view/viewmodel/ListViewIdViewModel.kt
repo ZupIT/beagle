@@ -29,7 +29,7 @@ internal class ListViewIdViewModel : ViewModel() {
 
     private val internalIdsByListId = mutableMapOf<Int, LocalListView>()
 
-    fun createSingleManagerByListViewId(recyclerViewId: Int, previouslyEmpty: Boolean = true): Int {
+    fun createSingleManagerByListViewId(recyclerViewId: Int, previouslyEmpty: Boolean = true) {
         require(recyclerViewId != View.NO_ID) { NO_ID_RECYCLER }
         val listViewManager = internalIdsByListId[recyclerViewId]?.run {
             completelyLoaded = false
@@ -41,7 +41,6 @@ internal class ListViewIdViewModel : ViewModel() {
         if (listViewManager == null) {
             internalIdsByListId[recyclerViewId] = LocalListView()
         }
-        return recyclerViewId
     }
 
     fun setViewId(recyclerViewId: Int, position: Int, viewId: Int): Int {

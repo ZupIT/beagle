@@ -17,6 +17,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="br.com.zup.beagle.sample">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,7 +30,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoToolbar"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup"
+        tools:targetApi="m">
         <activity android:name=".activities.DeepLinkActivity">
             <intent-filter>
                 <action android:name="screen-deep-link" />
@@ -37,7 +40,8 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,8 +60,8 @@
             android:exported="true"
             android:theme="@style/AppTheme.NoToolbar" />
 
-        <activity android:name=".fragment.list.ListViewActivity"/>
-        <activity android:name=".fragment.list.DeprecatedListViewActivity"/>
+        <activity android:name=".fragment.list.ListViewActivity" />
+        <activity android:name=".fragment.list.DeprecatedListViewActivity" />
 
     </application>
 </manifest>

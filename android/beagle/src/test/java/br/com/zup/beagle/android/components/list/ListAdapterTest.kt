@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components
+package br.com.zup.beagle.android.components.list
 
 import android.content.Context
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.view.ViewFactory
@@ -37,7 +36,7 @@ import kotlin.test.assertEquals
 
 private val ROWS = listOf<ServerDrivenComponent>(mockk(), mockk())
 
-class ListViewRecyclerAdapterTest {
+class ListAdapterTest {
 
     @MockK
     private lateinit var viewFactory: ViewFactory
@@ -50,13 +49,13 @@ class ListViewRecyclerAdapterTest {
     @RelaxedMockK
     private lateinit var view: BeagleFlexView
 
-    private lateinit var listViewRecyclerAdapter: ListViewRecyclerAdapter
+    private lateinit var listAdapter: ListAdapter
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        listViewRecyclerAdapter = ListViewRecyclerAdapter(ROWS, viewFactory, RecyclerView.VERTICAL, rootView)
+//        listAdapter = ListAdapter(ROWS, viewFactory, RecyclerView.VERTICAL, rootView)
 
         every { viewFactory.makeBeagleFlexView(any()) } returns view
         every { rootView.getContext() } returns context
@@ -68,7 +67,7 @@ class ListViewRecyclerAdapterTest {
         val position = 0
 
         // When
-        val actual = listViewRecyclerAdapter.getItemViewType(position)
+        val actual = listAdapter.getItemViewType(position)
 
         // Then
         assertEquals(position, actual)
@@ -82,7 +81,7 @@ class ListViewRecyclerAdapterTest {
         every { parent.context } returns context
 
         // When
-        val actual = listViewRecyclerAdapter.onCreateViewHolder(parent, position)
+        val actual = listAdapter.onCreateViewHolder(parent, position)
 
         // Then
         assertEquals(view, actual.itemView)
@@ -91,11 +90,11 @@ class ListViewRecyclerAdapterTest {
     @Test
     fun onBindViewHolder_should_do_nothing() {
         // Given
-        val viewHolder = mockk<ViewHolder>()
+        val viewHolder = mockk<ListViewHolder>()
         val position = 0
 
         // When
-        listViewRecyclerAdapter.onBindViewHolder(viewHolder, position)
+        listAdapter.onBindViewHolder(viewHolder, position)
 
         // Then
         verify { viewHolder wasNot Called }
@@ -103,7 +102,7 @@ class ListViewRecyclerAdapterTest {
 
     @Test
     fun getItemCount_should_return_rows_size() {
-        val actual = listViewRecyclerAdapter.itemCount
+        val actual = listAdapter.itemCount
 
         assertEquals(ROWS.size, actual)
     }

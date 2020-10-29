@@ -222,7 +222,8 @@ internal class ListAdapter(
             recyclerId != View.NO_ID -> recyclerId
             else -> generateIdViewModel.getViewId(rootView.getParentId())
         }
-        recyclerId = listViewIdViewModel.createSingleManagerByListViewId(recyclerIdToUse, listItems.isEmpty())
+        listViewIdViewModel.createSingleManagerByListViewId(recyclerIdToUse, listItems.isEmpty())
+        recyclerId = recyclerIdToUse
     }
 
     private fun clearList() {

@@ -33,7 +33,7 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.LazyComponent
-import br.com.zup.beagle.android.components.ListView
+import br.com.zup.beagle.android.components.list.ListView
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.form.Form
