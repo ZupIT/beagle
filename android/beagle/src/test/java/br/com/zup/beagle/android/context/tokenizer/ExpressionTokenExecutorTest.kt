@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.context.tokenizer
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.testutil.RandomData
 import org.junit.Assert.assertNull
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class ExpressionTokenExecutorTest {
 

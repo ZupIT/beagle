@@ -21,9 +21,9 @@ import android.graphics.BitmapFactory
 import android.util.LruCache
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class ImageDownloaderTest {
 
@@ -35,7 +35,7 @@ internal class ImageDownloaderTest {
     private val url = "https://vitafelice.com.br/wp-content/uploads/2019/01/beagle.jpg"
     private val bitmapId = url + contentWidth + contentHeight
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkStatic(BitmapFactory::class)
         mockkObject(LruImageCache)

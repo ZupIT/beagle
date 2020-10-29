@@ -29,10 +29,10 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
 import io.mockk.verify
-import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class GenerateIdManagerTest {
 
@@ -42,7 +42,7 @@ class GenerateIdManagerTest {
     private val generatedId = 1
     private lateinit var generateIdManager: GenerateIdManager
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkStatic(View::class)
         every { View.generateViewId() } returns generatedId
@@ -51,7 +51,7 @@ class GenerateIdManagerTest {
         generateIdManager = GenerateIdManager(rootView, generateIdViewModel)
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkStatic(View::class)
     }

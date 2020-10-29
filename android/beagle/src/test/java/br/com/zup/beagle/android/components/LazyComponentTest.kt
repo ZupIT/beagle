@@ -26,8 +26,9 @@ import br.com.zup.beagle.android.view.custom.BeagleView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private val URL = RandomData.httpUrl()
 
@@ -39,6 +40,7 @@ class LazyComponentTest : BaseComponentTest() {
 
     private lateinit var lazyComponent: LazyComponent
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

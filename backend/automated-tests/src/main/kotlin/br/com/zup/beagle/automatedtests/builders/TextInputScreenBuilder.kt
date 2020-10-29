@@ -154,7 +154,7 @@ object TextInputScreenBuilder {
 
     private fun textInputActions() = Container(
         context = ContextData(
-            id = "textInputActions", value = "initial value"
+            id = "textInputActions", value = ""
         ),
         children = listOf(
             TextInput(

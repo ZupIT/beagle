@@ -42,11 +42,12 @@ import io.mockk.mockkObject
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private val CONTEXT_ID = RandomData.string()
 
@@ -58,6 +59,7 @@ class ContextDataManagerTest : BaseTest() {
 
     private val viewContext = createViewForContext()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

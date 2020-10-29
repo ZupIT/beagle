@@ -22,10 +22,20 @@ import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.ViewFactory
-import io.mockk.*
-import org.junit.Assert.*
-import org.junit.Test
-import kotlin.test.assertNotNull
+import io.mockk.CapturingSlot
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkClass
+import io.mockk.slot
+import io.mockk.verify
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 private const val MOCKED_URL = "http://mocked.com"
 
@@ -37,6 +47,7 @@ class WebViewTest : BaseComponentTest() {
 
     private lateinit var webViewComponent: WebView
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

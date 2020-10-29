@@ -22,17 +22,17 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.verify
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.lang.Exception
 import java.util.LinkedList
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class GenerateIdViewModelTest {
 
     private lateinit var viewModel: GenerateIdViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
