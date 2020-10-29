@@ -61,15 +61,30 @@ final class CustomOperationsTests: OperationEvaluationTests {
     }
     
     func testInvalidName() {
-        // Given /When
+        // Given
         dependencies.customOperationsProvider.register(operation: .custom("sum???"), handler: { _ -> DynamicObject in
-            return .bool(false)
+            return nil
         })
         
-        let customOperationExists = dependencies.customOperationsProvider.checkCustomOperationExistence(.custom("sum???"))
+        dependencies.customOperationsProvider.register(operation: .custom("")) { _ -> DynamicObject in
+            return nil
+        }
+        
+        dependencies.customOperationsProvider.register(operation: .custom("123")) { _ -> DynamicObject in
+            return nil
+        }
+        
+        // When
+        let customOperationSumExists = dependencies.customOperationsProvider.checkCustomOperationExistence(.custom("sum???"))
 
+        let customOperationEmptyExists = dependencies.customOperationsProvider.checkCustomOperationExistence(.custom(""))
+        
+        let customOperationNumbersExists = dependencies.customOperationsProvider.checkCustomOperationExistence(.custom("123"))
+        
         // Then
-        XCTAssertFalse(customOperationExists)
+        XCTAssertFalse(customOperationSumExists)
+        XCTAssertFalse(customOperationEmptyExists)
+        XCTAssertFalse(customOperationNumbersExists)
     }
 
     private func evaluateCustomOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {

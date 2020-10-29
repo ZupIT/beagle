@@ -56,7 +56,7 @@ public class CustomOperationsDefault: CustomOperationProvider {
     }
     
     public func register(operation: Operation.Name, handler: @escaping OperationHandler) {
-        guard operation.rawValue.range(of: "^[a-zA-Z0-9_]*$", options: .regularExpression) != nil else {
+        guard operation.rawValue.range(of: #"^\w*[A-z_]+\w*$"#, options: .regularExpression) != nil else {
             dependencies.logger.log(Log.customOperations(.invalid(name: operation.rawValue)))
             return
         }
