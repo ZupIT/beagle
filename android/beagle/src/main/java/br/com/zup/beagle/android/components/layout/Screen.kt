@@ -127,7 +127,7 @@ data class Screen private constructor(
 ) : ScreenAnalytics, ContextComponent, SingleChildComponent, IdentifierComponent {
 
     @Deprecated(
-        "It was deprecated in version 1.4.0 and will be removed in a future version. Use field id instead.",
+        "It was deprecated in version 1.5.0 and will be removed in a future version. Use field id instead.",
         replaceWith = ReplaceWith("Screen(id = )")
     )
     constructor(
