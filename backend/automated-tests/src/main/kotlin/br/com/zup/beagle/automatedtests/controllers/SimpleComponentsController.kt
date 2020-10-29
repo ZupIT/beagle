@@ -16,15 +16,18 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
+import br.com.zup.beagle.automatedtests.builders.AddChildrenScreenBuilder
 import br.com.zup.beagle.automatedtests.constants.SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_IMAGE_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.TEXT_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.ADD_CHILDREN_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.ButtonScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ImageScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.TextScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.TouchableScreenBuilder
+import br.com.zup.beagle.automatedtests.constants.ADD_CHILDREN_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -45,4 +48,8 @@ class SimpleComponentsController {
 
     @GetMapping(TOUCHABLE_ENDPOINT)
     fun getTouchableScreen() = TouchableScreenBuilder.build()
+
+    @GetMapping(ADD_CHILDREN_ENDPOINT)
+    fun getAddChildrenScreen() = AddChildrenScreenBuilder.build()
+
 }

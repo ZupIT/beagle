@@ -17,12 +17,12 @@
 import Foundation
 import XCTest
 
-class PageViewScreenSteps: CucumberStepsDefinition {
+class PageViewSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication?
     
     func loadSteps() {
-    
+        
         before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("pageview") ?? false {
                 let url = "http://localhost:8080/pageview"
@@ -33,7 +33,7 @@ class PageViewScreenSteps: CucumberStepsDefinition {
         Given("^the app did load pageview screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.PAGEVIEW_SCREEN_HEADER.element.exists)
         }
-
+        
         Then("^pageview should render correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.PAGE_1_TEXT.element.exists)
             self.application?.swipeLeft()
@@ -43,7 +43,7 @@ class PageViewScreenSteps: CucumberStepsDefinition {
             
             self.application?.swipeRight()
             self.application?.swipeRight()
-
+            
         }
     }
 }

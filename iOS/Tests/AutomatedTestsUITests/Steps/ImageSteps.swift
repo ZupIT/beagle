@@ -17,12 +17,12 @@
 import Foundation
 import XCTest
 
-class ImageScreenSteps: CucumberStepsDefinition {
+class ImageSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication?
     
     func loadSteps() {
-  
+        
         before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("image") ?? false {
                 let url = "http://localhost:8080/image"
@@ -33,7 +33,7 @@ class ImageScreenSteps: CucumberStepsDefinition {
         Given("^the app did load image screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.IMAGE_SCREEN_HEADER.element.exists)
         }
-
+        
         Then("^image screen should render all text attributes correctly$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.IMAGE_TEXT_1.element.exists)
             XCTAssertTrue(ScreenElements.IMAGE_TEXT_2.element.exists)

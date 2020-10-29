@@ -28,8 +28,9 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 internal class SimpleFormTest : BaseComponentTest() {
 
@@ -40,6 +41,7 @@ internal class SimpleFormTest : BaseComponentTest() {
 
     private lateinit var simpleForm: SimpleForm
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

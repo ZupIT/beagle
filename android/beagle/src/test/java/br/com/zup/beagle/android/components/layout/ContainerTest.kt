@@ -25,7 +25,8 @@ import br.com.zup.beagle.ext.applyStyle
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class ContainerTest : BaseComponentTest() {
 
@@ -35,6 +36,7 @@ class ContainerTest : BaseComponentTest() {
 
     private lateinit var container: Container
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

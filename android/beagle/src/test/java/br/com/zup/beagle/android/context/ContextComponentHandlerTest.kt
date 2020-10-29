@@ -29,9 +29,9 @@ import io.mockk.mockkConstructor
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class ContextComponentHandlerTest {
 
@@ -43,7 +43,7 @@ class ContextComponentHandlerTest {
 
     private val contextComponentHandler = ContextComponentHandler()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         every { rootView.activity } returns mockk(relaxed = true)
         every { rootView.getViewModelStoreOwner() } returns rootView.activity
@@ -52,7 +52,7 @@ class ContextComponentHandlerTest {
         every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }
