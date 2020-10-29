@@ -246,8 +246,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                 flex = Flex(
                     grow = 1.0
                 ),
-                position = EdgeValue(top = 80.unitReal())
-            )
+                position = EdgeValue(top = 80.unitReal()))
         )
 
     private fun purple() =
