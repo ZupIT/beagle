@@ -242,7 +242,7 @@ class GlobalContextDummy: GlobalContext {
 }
 
 class CustomOperationsProviderDummy: CustomOperationProvider {
-    func register(operation: Operation.Name, handler: @escaping OperationHandler) {
+    func register(operationId: String, handler: @escaping OperationHandler) {
         // Intentionally unimplemented...
     }
     

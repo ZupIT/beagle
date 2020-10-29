@@ -23,15 +23,16 @@ final class CustomOperationsTests: OperationEvaluationTests {
         
     func testCustomOperation() {
         // Given
-        dependencies.customOperationsProvider.register(operation: .custom("isValidCPF"), handler: { parameters -> DynamicObject in
-            if let intParameters = parameters.first as? Int {
+        dependencies.customOperationsProvider.register(operationId: "isValidCPF") { parameters in
+            let anyParameters = parameters.map { $0.asAny() }
+            if let intParameters = anyParameters.first as? Int {
                 let stringParameters = String(intParameters)
                 return .bool(stringParameters.isValidCPF)
-            } else if let stringParameters = parameters.first as? String {
+            } else if let stringParameters = anyParameters.first as? String {
                 return .bool(stringParameters.isValidCPF)
             }
-            return .bool(false)
-        })
+            return nil
+        }
         
         let comparableResults: [DynamicObject] = [true, true, true, true, false, false, false, false]
 
@@ -46,12 +47,13 @@ final class CustomOperationsTests: OperationEvaluationTests {
         // Given
         let comparableResults: [DynamicObject] = [10, 11, 7, 14]
         
-        dependencies.customOperationsProvider.register(operation: .sum, handler: { parameters -> DynamicObject in
-            if let integerParameters = parameters as? [Int] {
+        dependencies.customOperationsProvider.register(operationId: "sum") { parameters in
+            let anyParameters = parameters.map { $0.asAny() }
+            if let integerParameters = anyParameters as? [Int] {
                 return .int(integerParameters.reduce(0, +))
             }
             return nil
-        })
+        }
 
         // When
         evaluateSumOperation { evaluatedResults in
@@ -62,15 +64,15 @@ final class CustomOperationsTests: OperationEvaluationTests {
     
     func testInvalidName() {
         // Given
-        dependencies.customOperationsProvider.register(operation: .custom("sum???"), handler: { _ -> DynamicObject in
-            return nil
-        })
-        
-        dependencies.customOperationsProvider.register(operation: .custom("")) { _ -> DynamicObject in
+        dependencies.customOperationsProvider.register(operationId: "sum???") { _ in
             return nil
         }
         
-        dependencies.customOperationsProvider.register(operation: .custom("123")) { _ -> DynamicObject in
+        dependencies.customOperationsProvider.register(operationId: "") { _ in
+            return nil
+        }
+        
+        dependencies.customOperationsProvider.register(operationId: "123") { _ in
             return nil
         }
         

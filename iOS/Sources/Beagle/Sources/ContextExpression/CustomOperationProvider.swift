@@ -33,7 +33,7 @@ public protocol CustomOperationProvider {
     /// - Parameters:
     ///   - operation: The custom operation you wish to register.
     ///   - handler: A closure where you tell us what your custom operation should do.
-    func register(operation: Operation.Name, handler: @escaping OperationHandler)
+    func register(operationId: String, handler: @escaping OperationHandler)
     
     func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject
     
@@ -55,12 +55,14 @@ public class CustomOperationsDefault: CustomOperationProvider {
         self.dependencies = dependencies
     }
     
-    public func register(operation: Operation.Name, handler: @escaping OperationHandler) {
-        guard operation.rawValue.range(of: #"^\w*[A-z_]+\w*$"#, options: .regularExpression) != nil else {
-            dependencies.logger.log(Log.customOperations(.invalid(name: operation.rawValue)))
+    public func register(operationId: String, handler: @escaping OperationHandler) {
+        guard
+            operationId.range(of: #"^\w*[A-z_]+\w*$"#, options: .regularExpression) != nil else {
+            dependencies.logger.log(Log.customOperations(.invalid(name: operationId)))
             return
         }
-        
+ 
+        let operation = Operation.Name(rawValue: operationId) ?? Operation.Name.custom(operationId)
         operations[operation] = handler
         
         guard case Operation.Name.custom = operation else {
@@ -75,7 +77,7 @@ public class CustomOperationsDefault: CustomOperationProvider {
             return nil
         }
         
-        let anyParameters = operation.evaluatedParameters(in: view).map { $0.asAny() }
+        let anyParameters = operation.evaluatedParameters(in: view)
         return operationHandler(anyParameters)
     }
     

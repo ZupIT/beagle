@@ -17,7 +17,7 @@
 
 import Foundation
 
-public typealias OperationHandler = (_ evaluatedParameters: [Any?]) -> DynamicObject
+public typealias OperationHandler = (_ parameters: [DynamicObject]) -> DynamicObject
 
 public struct Operation {
     public let name: Name
@@ -59,8 +59,8 @@ extension Operation: RepresentableByParsableString {
 }
 
 extension Operation {
-    public enum Name: RawRepresentable, CaseIterable, Hashable {
-        public static var allCases: [Name] = [.sum, .subtract, .multiply, .divide, .condition, .not, .and, .or, .gt, .gte, .lt, .lte, eq, .concat, .capitalize, .uppercase, .lowercase, .substr, .insert, .remove, .removeIndex, .contains, .isNull, .isEmpty, .length, .custom("")]
+    public enum Name: RawRepresentable, Hashable {
+        public static var allCases: [Name] = [.sum, .subtract, .multiply, .divide, .condition, .not, .and, .or, .gt, .gte, .lt, .lte, eq, .concat, .capitalize, .uppercase, .lowercase, .substr, .insert, .remove, .removeIndex, .contains, .isNull, .isEmpty, .length]
         
         // number
         case sum, subtract, multiply, divide

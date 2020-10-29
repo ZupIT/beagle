@@ -80,7 +80,7 @@ extension BeagleSchema.Operation {
         }
     }
         
-    public func evaluatedParameters(in view: UIView) -> [DynamicObject] {
+    func evaluatedParameters(in view: UIView) -> [DynamicObject] {
         return parameters.map { parameter in
             switch parameter {
             case .operation(let operation):

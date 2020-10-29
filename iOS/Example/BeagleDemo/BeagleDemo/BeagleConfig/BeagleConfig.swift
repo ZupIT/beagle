@@ -85,19 +85,21 @@ class BeagleConfig {
     }
     
     private static func registerCustomOperations(in dependencies: BeagleDependencies) {
-        dependencies.customOperationsProvider.register(operation: .sum) { evaluatedParameters in
-            if let integerParameters = evaluatedParameters as? [Int] {
+        dependencies.customOperationsProvider.register(operationId: "sum") { parameters in
+            let anyParameters = parameters.map { $0.asAny() }
+            if let integerParameters = anyParameters as? [Int] {
                 return .int(integerParameters.reduce(0, +))
-            } else if let doubleParameters = evaluatedParameters as? [Double] {
+            } else if let doubleParameters = anyParameters as? [Double] {
                 return .double(doubleParameters.reduce(0.0, +))
             }
             return nil
         }
         
-        dependencies.customOperationsProvider.register(operation: .custom("SUBTRACT")) { evaluatedParameters in
-            if let integerParameters = evaluatedParameters as? [Int] {
+        dependencies.customOperationsProvider.register(operationId: "SUBTRACT") { parameters in
+            let anyParameters = parameters.map { $0.asAny() }
+            if let integerParameters = anyParameters as? [Int] {
                 return .int(integerParameters.reduce(integerParameters[0] * 2, -))
-            } else if let doubleParameters = evaluatedParameters as? [Double] {
+            } else if let doubleParameters = anyParameters as? [Double] {
                 return .double(doubleParameters.reduce(doubleParameters[0] * 2, -))
             }
             return nil
