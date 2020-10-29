@@ -31,9 +31,9 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 private val ROWS = listOf<ServerDrivenComponent>(mockk(), mockk())
 
@@ -52,7 +52,7 @@ class ListViewRecyclerAdapterTest {
 
     private lateinit var listViewRecyclerAdapter: ListViewRecyclerAdapter
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 

@@ -26,14 +26,15 @@ import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.assertThrows
 
 private val CONTEXT_ID = RandomData.string()
 
@@ -41,7 +42,7 @@ class ContextDataManipulatorTest {
 
     private val contextDataManipulator = ContextDataManipulator()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkObject(BeagleMessageLogs)
 
@@ -49,7 +50,7 @@ class ContextDataManipulatorTest {
         every { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) } just Runs
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }
@@ -206,7 +207,7 @@ class ContextDataManipulatorTest {
         // Then
         assertTrue { result is ContextSetResult.Succeed }
         val succeed = result as ContextSetResult.Succeed
-        assertFails {
+        assertThrows<JSONException> {
             (succeed.newContext.value as JSONObject).getJSONObject("a")
         }
     }
@@ -226,7 +227,7 @@ class ContextDataManipulatorTest {
         // Then
         assertTrue { result is ContextSetResult.Succeed }
         val succeed = result as ContextSetResult.Succeed
-        assertFails {
+        assertThrows<JSONException> {
             (succeed.newContext.value as JSONObject).getJSONObject("a")
         }
     }
@@ -248,7 +249,7 @@ class ContextDataManipulatorTest {
         // Then
         assertTrue { result is ContextSetResult.Succeed }
         val succeed = result as ContextSetResult.Succeed
-        assertFails {
+        assertThrows<JSONException> {
             (succeed.newContext.value as JSONArray).get(0)
         }
     }

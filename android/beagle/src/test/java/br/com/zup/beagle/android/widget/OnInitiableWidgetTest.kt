@@ -28,9 +28,9 @@ import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.unmockkObject
 import io.mockk.verify
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class OnInitiableWidgetTest {
 
@@ -38,7 +38,7 @@ class OnInitiableWidgetTest {
     private val origin = mockk<View>()
     private val listenerSlot = slot<View.OnAttachStateChangeListener>()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkObject(ContextActionExecutor)
 
@@ -46,7 +46,7 @@ class OnInitiableWidgetTest {
         every { ContextActionExecutor.executeActions(rootView, origin, any()) } just Runs
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkObject(ContextActionExecutor)
     }

@@ -38,8 +38,9 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private val DEFAULT_TEXT = Bind.Value("Hello")
 private const val DEFAULT_STYLE = "DummyStyle"
@@ -55,6 +56,7 @@ class ButtonTest : BaseComponentTest() {
 
     private lateinit var buttonComponent: Button
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

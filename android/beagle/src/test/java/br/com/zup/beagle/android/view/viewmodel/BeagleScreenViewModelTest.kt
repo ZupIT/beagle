@@ -16,30 +16,27 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
+import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class BeagleScreenViewModelTest: BaseTest() {
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val scope = CoroutineTestRule()
 
     @MockK
     private lateinit var observer: Observer<Boolean>
 
     private lateinit var beagleScreenViewModel: BeagleScreenViewModel
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

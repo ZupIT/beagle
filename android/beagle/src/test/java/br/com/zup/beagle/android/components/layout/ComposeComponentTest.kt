@@ -23,14 +23,16 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 class ComposeComponentTest : BaseComponentTest() {
 
     private val child: WidgetView = mockk()
     private lateinit var composeComponent: ComposeComponent
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         composeComponent = object : ComposeComponent() {
