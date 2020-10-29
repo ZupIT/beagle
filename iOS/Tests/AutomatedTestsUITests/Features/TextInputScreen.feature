@@ -18,7 +18,7 @@
 Feature: TextInput Validation
 
     As a Beagle developer/user
-    I'd like to make sure my textInput work as expected
+    I'd like to make sure my textInput works as expected
 
     Background:
         Given the Beagle application did launch with the textInput on screen
@@ -57,7 +57,7 @@ Feature: TextInput Validation
 
     Scenario Outline: TextInput 05 - validate keyboard appears on Focus
         When I click in the textInput with the placeholder "<textInputSecondPlan>"
-        Then verify if the textInput "<textInputSecondPlan>" is in the second plan
+        Then verify if the textInput "<textInputSecondPlan>" is the first responder
 
         Examples:
             | textInputSecondPlan                           |
@@ -65,20 +65,29 @@ Feature: TextInput Validation
             | is a textInput in second plan with expression |
             
     Scenario Outline: TextInput 06 - validate textInput of type number
+        When I click in the textInput with the placeholder "<textInputTypeNumber>"
         Then validate textInput component of type number with text "<textInputTypeNumber>"
 
         Examples:
             | textInputTypeNumber                      |
             | is textInput type number                 |
             | is textInput type number with expression |
-            
-    Scenario Outline: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
+    
+    Scenario Outline: TextInput 07 - validate textInput with actions of onChange, onFocus and onBlur
         When I click in the textInput with the placeholder "<placeholder>"
-        Then change to "<didOnFocus>" then to "<didOnChange>" then the text "<didOnBlur>" should be appear
+        Then change to "<didOnFocus>" then to "<didOnChange>" then to "<didOnBlur>"
 
         Examples:
-            | placeholder            | didOnFocus | didOnChange           | didOnBlur                      |
-            | textInput with actions | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
+            | placeholder       | didOnFocus | didOnChange | didOnBlur |
+            | action validation | DidOnFocus | DidOnChange | DidOnBlur |
+    
+    Scenario Outline: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
+        When I click in the textInput with the placeholder "<placeholder>"
+        Then change to "<didOnFocus>" then to "<didOnChange>" then to "<didOnBlur>" in the correct order
+
+        Examples:
+            | placeholder  | didOnFocus | didOnChange           | didOnBlur                      |
+            | action order | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
     
     Scenario Outline: TextInput 09 - validate that textInput is hidden
         Then The hidden input fields "<textInputHidden>" should not be visible

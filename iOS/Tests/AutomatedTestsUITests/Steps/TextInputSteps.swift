@@ -36,7 +36,7 @@ class TextInputSteps: CucumberStepsDefinition {
         
         // MARK: - When
         
-        // Scenarios 5 and 8
+        // Scenarios 5, 6 and 8
         When(#"^I click in the textInput with the placeholder "([^\"]*)"$"#) { args, _ -> Void in
             let placeholder = args![0]
             
@@ -81,7 +81,7 @@ class TextInputSteps: CucumberStepsDefinition {
         }
         
         // Scenario 5
-        Then(#"^verify if the textInput "([^\"]*)" is in the second plan$"#) { args, _ -> Void in
+        Then(#"^verify if the textInput "([^\"]*)" is the first responder$"#) { args, _ -> Void in
             let placeholder = args![0]
             let textField = self.application.textFields[placeholder: placeholder]
             
@@ -94,27 +94,41 @@ class TextInputSteps: CucumberStepsDefinition {
             let placeholder = args![0]
             let textField = self.application.textFields[placeholder: placeholder]
             
-            textField?.tap()
             XCTAssertTrue(textField?.exists ?? false)
             XCTAssertEqual(self.application.keyboards.count, 1)
         }
         
-        // Scenario 8
-        Then(#"^change to "([^\"]*)" then to "([^\"]*)" then the text "([^\"]*)" should be appear$"#) { args, _ -> Void in
+        // Scenario 7
+        Then(#"^change to "([^\"]*)" then to "([^\"]*)" then to "([^\"]*)"$"#) { args, _ -> Void in
             let didOnFocus = args![0]
             let didOnChange = args![1]
             let didOnBlur = args![2]
-            let textFieldOnFocus = self.application.textFields[placeholder: didOnFocus]
             
-            XCTAssertTrue(textFieldOnFocus?.exists ?? false)
+            XCTAssertTrue(self.application.textFields[didOnFocus].exists)
             self.application.typeText("a")
             
-            let textFieldOnChange = self.application.textFields[placeholder: didOnChange]
-            XCTAssertTrue(textFieldOnChange?.exists ?? false)
+            XCTAssertTrue(self.application.textFields[didOnChange].exists)
             self.application.typeText("\n")
             
-            let textFieldOnBlur = self.application.textFields[placeholder: didOnBlur]
-            XCTAssertTrue(textFieldOnBlur?.exists ?? false)
+            XCTAssertTrue(self.application.textFields[didOnBlur].exists)
+        }
+        
+        // Scenario 8
+        Then(#"^change to "([^\"]*)" then to "([^\"]*)" then to "([^\"]*)" in the correct order$"#) { args, _ -> Void in
+            let didOnFocus = args![0]
+            let didOnChange = args![1]
+            let didOnBlur = args![2]
+            
+            XCTAssertTrue(self.application.textFields[didOnFocus].exists)
+            self.application.typeText("a")
+            
+            XCTAssertTrue(self.application.textFields[didOnChange].exists)
+            self.application.typeText("\n")
+            
+            XCTAssertTrue(self.application.textFields[didOnBlur].exists)
+            
+            XCTAssertFalse(self.application.textFields[didOnFocus].exists)
+            XCTAssertFalse(self.application.textFields[didOnChange].exists)
         }
         
         // Scenario 9
