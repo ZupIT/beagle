@@ -56,7 +56,8 @@ import io.mockk.verify
 import io.mockk.verifyOrder
 import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 private val URL = RandomData.httpUrl()
 private val screenRequest = ScreenRequest(URL)
@@ -98,6 +99,7 @@ class ViewExtensionsKtTest : BaseTest() {
 
     private val viewSlot = slot<View>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

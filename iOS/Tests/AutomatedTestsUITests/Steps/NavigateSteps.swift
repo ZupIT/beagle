@@ -17,13 +17,13 @@
 import Foundation
 import XCTest
 
-class NavigationActionSteps: CucumberStepsDefinition {
+class NavigateSteps: CucumberStepsDefinition {
     var application: XCUIApplication!
     
     func loadSteps() {
         // MARK: - Before
         before { scenarioDefinition in
-            if scenarioDefinition?.tags.contains("navigation") ?? false {
+            if scenarioDefinition?.tags.contains("navigate") ?? false {
                 let url = "http://localhost:8080/navigate-actions"
                 self.application = TestUtils.launchBeagleApplication(url: url)
             }

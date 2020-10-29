@@ -27,12 +27,19 @@ import br.com.zup.beagle.android.context.tokenizer.function.builtin.number.Subtr
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.number.SumFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.other.IsEmptyFunction
 import br.com.zup.beagle.android.context.tokenizer.function.builtin.other.LengthFunction
-import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.*
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.CapitalizeFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.ConcatFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.LowercaseFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.SubstrFunction
+import br.com.zup.beagle.android.context.tokenizer.function.builtin.string.UppercaseFunction
 import org.json.JSONArray
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 
-import org.junit.Assert.*
-import kotlin.test.assertFails
+import org.junit.jupiter.api.assertThrows
+import java.lang.IllegalArgumentException
 
 class OperationsTest {
 
@@ -82,7 +89,7 @@ class OperationsTest {
         assertTrue(eq.execute("a", "a"))
         assertFalse(eq.execute("a", "b"))
         assertTrue(eq.execute(listOf(1), listOf(1)))
-        assertFails { eq.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException> { eq.execute() }
     }
 
     @Test
@@ -95,7 +102,7 @@ class OperationsTest {
         assertTrue(gte.execute(1, 1))
         assertFalse(gte.execute(1, 2))
         assertTrue(gte.execute(2, 1))
-        assertFails { gte.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { gte.execute() }
     }
 
     @Test
@@ -108,7 +115,7 @@ class OperationsTest {
         assertFalse(gt.execute(1, 1))
         assertFalse(gt.execute(1, 2))
         assertTrue(gt.execute(2, 1))
-        assertFails { gt.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { gt.execute() }
     }
 
     @Test
@@ -121,7 +128,7 @@ class OperationsTest {
         assertTrue(lte.execute(1, 1))
         assertTrue(lte.execute(1, 2))
         assertFalse(lte.execute(2, 1))
-        assertFails { lte.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { lte.execute() }
     }
 
     @Test
@@ -134,7 +141,7 @@ class OperationsTest {
         assertFalse(lt.execute(1, 1))
         assertTrue(lt.execute(1, 2))
         assertFalse(lt.execute(2, 1))
-        assertFails { lt.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { lt.execute() }
     }
 
     // Logic
@@ -145,7 +152,7 @@ class OperationsTest {
         assertTrue(and.execute(true))
         assertTrue(and.execute(true, true, true))
         assertFalse(and.execute(true, false, true))
-        assertFails { and.execute() }
+        assertThrows<UnsupportedOperationException>  { and.execute() }
     }
 
     @Test
@@ -181,7 +188,7 @@ class OperationsTest {
 
         assertEquals(1.0, divide.execute(2.0, 2.0))
         assertEquals(1, divide.execute(2, 2))
-        assertFails { divide.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { divide.execute() }
     }
 
     @Test
@@ -190,7 +197,7 @@ class OperationsTest {
 
         assertEquals(4.0, multiply.execute(2.0, 2.0))
         assertEquals(4, multiply.execute(2, 2))
-        assertFails { multiply.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { multiply.execute() }
     }
 
     @Test
@@ -199,7 +206,7 @@ class OperationsTest {
 
         assertEquals(0.0, subtract.execute(2.0, 2.0))
         assertEquals(0, subtract.execute(2, 2))
-        assertFails { subtract.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { subtract.execute() }
     }
 
     @Test
@@ -208,7 +215,7 @@ class OperationsTest {
 
         assertEquals(4.0, sum.execute(2.0, 2.0))
         assertEquals(4, sum.execute(2, 2))
-        assertFails { sum.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { sum.execute() }
     }
 
     // Other
@@ -224,7 +231,7 @@ class OperationsTest {
         assertTrue(isEmpty.execute(emptyMap<String, String>()))
         assertFalse(isEmpty.execute(mapOf("" to "")))
         assertTrue(isEmpty.execute(null))
-        assertFails { isEmpty.execute() }
+        assertThrows<ArrayIndexOutOfBoundsException>  { isEmpty.execute() }
     }
 
     @Test
@@ -265,7 +272,7 @@ class OperationsTest {
 
     @Test
     fun lowercase_should_return_string_lowered() {
-        assertEquals("aa",  LowercaseFunction().execute("AA"))
+        assertEquals("aa", LowercaseFunction().execute("AA"))
     }
 
     @Test

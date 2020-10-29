@@ -34,8 +34,9 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 class TouchableViewRenderer : BaseComponentTest() {
 
@@ -48,6 +49,7 @@ class TouchableViewRenderer : BaseComponentTest() {
 
     private lateinit var touchable: Touchable
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

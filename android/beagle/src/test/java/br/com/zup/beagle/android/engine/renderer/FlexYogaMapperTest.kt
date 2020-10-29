@@ -40,7 +40,7 @@ import com.facebook.yoga.YogaPositionType
 import com.facebook.yoga.YogaWrap
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class FlexYogaMapperTest {
 

@@ -17,7 +17,7 @@
 import Foundation
 import XCTest
 
-class TabViewScreenSteps: CucumberStepsDefinition {
+class TabViewSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication?
     
