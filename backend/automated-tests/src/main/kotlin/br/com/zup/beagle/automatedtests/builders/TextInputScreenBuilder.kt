@@ -27,7 +27,11 @@ import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextInputType
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
