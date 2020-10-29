@@ -195,8 +195,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
     private fun pink() =
         Container(
             children = listOf(
-                Text(
-                    text = "8",
+                Text(text = "8",
                     styleId = TEXT_WHITE_MEDIUM,
                     alignment = TextAlignment.CENTER
                 ).applyStyle(
@@ -207,8 +206,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                         margin = EdgeValue(bottom = 5.unitReal())
                     )
                 ),
-                Text(
-                    text = "9",
+                Text(text = "9",
                     styleId = TEXT_WHITE_DEFAULT,
                     alignment = TextAlignment.CENTER
                 ).applyStyle(
@@ -219,8 +217,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                         margin = EdgeValue(bottom = 5.unitReal())
                     )
                 ),
-                Text(
-                    text = "10",
+                Text(text = "10",
                     styleId = TEXT_WHITE_DEFAULT,
                     alignment = TextAlignment.CENTER
                 ).applyStyle(
@@ -231,8 +228,7 @@ object PositioningBeagleScreenBuilder : ScreenBuilder {
                         margin = EdgeValue(bottom = 5.unitReal())
                     )
                 ),
-                Text(
-                    text = "11",
+                Text(text = "11",
                     styleId = TEXT_WHITE_DEFAULT,
                     alignment = TextAlignment.CENTER
                 ).applyStyle(
