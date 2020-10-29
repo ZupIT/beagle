@@ -114,12 +114,39 @@ data class NavigationBar(
  * @param context define the contextData that be set to screen.
  *
  */
-data class Screen(
+@Suppress("DataClassPrivateConstructor")
+data class Screen private constructor(
     val identifier: String? = null,
     val safeArea: SafeArea? = null,
     val navigationBar: NavigationBar? = null,
     override val child: ServerDrivenComponent,
     val style: Style? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null,
-    override val context: ContextData? = null
-) : ScreenAnalytics, ContextComponent, SingleChildComponent
+    override val context: ContextData? = null,
+    override val id: String? = null
+) : ScreenAnalytics, ContextComponent, SingleChildComponent, IdentifierComponent {
+
+    @Deprecated(
+        "It was deprecated in version 1.4.0 and will be removed in a future version. Use field id instead.",
+        replaceWith = ReplaceWith("Screen(id = )")
+    )
+    constructor(
+        identifier: String?,
+        safeArea: SafeArea? = null,
+        navigationBar: NavigationBar? = null,
+        child: ServerDrivenComponent,
+        style: Style? = null,
+        screenAnalyticsEvent: ScreenEvent? = null,
+        context: ContextData? = null,
+    ) : this(identifier, safeArea, navigationBar, child, style, screenAnalyticsEvent, context, null)
+
+    constructor(
+        safeArea: SafeArea? = null,
+        navigationBar: NavigationBar? = null,
+        child: ServerDrivenComponent,
+        style: Style? = null,
+        screenAnalyticsEvent: ScreenEvent? = null,
+        context: ContextData? = null,
+        id: String? = null
+    ) : this(null, safeArea, navigationBar, child, style, screenAnalyticsEvent, context, id)
+}
