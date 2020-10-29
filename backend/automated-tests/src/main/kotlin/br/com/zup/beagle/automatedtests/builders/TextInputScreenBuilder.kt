@@ -161,7 +161,10 @@ object TextInputScreenBuilder {
             id = "textInputActions", value = "initial value"
         ),
         children = listOf(
-            Text(text = "@{textInputActions.validation}"),
+            TextInput(
+                placeholder = "@{textInputActions.validation}",
+                readOnly = true
+            ),
             TextInput(placeholder = "action validation",
                 onChange = listOf(
                     SetContext(contextId = "textInputActions", path = "validation", value = "DidOnChange")),
@@ -170,7 +173,10 @@ object TextInputScreenBuilder {
                 onBlur = listOf(
                     SetContext(contextId = "textInputActions", path = "validation", value = "DidOnBlur"))
             ),
-            Text(text = "@{textInputActions.focus}" + "@{textInputActions.change}" + "@{textInputActions.blur}"),
+            TextInput(
+                placeholder = "@{textInputActions.focus}" + "@{textInputActions.change}" + "@{textInputActions.blur}",
+                readOnly = true
+            ),
             TextInput(
                 placeholder = "action order",
                 onChange = listOf(
