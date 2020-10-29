@@ -76,16 +76,16 @@ Feature: TextInput Validation
 
     Scenario Outline: TextInput 07 - validate textInput with actions of onChange, onFocus and onBlur
 
-        When I click to textInput with the placeholder <placeholder> then change to <didOnFocus> and to <didOnChange>
+        When I click to textInput <placeholder> then change to <didOnFocus> and to <didOnChange>
         Then the text <didOnBlur> should be appear
 
         Examples:
             | placeholder       | didOnFocus | didOnChange | didOnBlur |
             | action validation | DidOnFocus | DidOnChange | DidOnBlur |
 
-    Scenario Outline: TextInput 08 - validate if the actions of the textInput are ate the correctly order
+    Scenario Outline: TextInput 08 - validate textInput in correctly order
 
-        When I click to textInput with the placeholder <placeholder> then change to <didOnFocus> and to <didOnChange>
+        When I click to textInput <placeholder> then change to <didOnFocus> and to <didOnChange>
         Then the text <didOnBlur> should be appear in the correctly order
 
         Examples:

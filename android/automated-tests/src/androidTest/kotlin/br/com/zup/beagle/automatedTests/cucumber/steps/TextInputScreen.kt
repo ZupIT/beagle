@@ -84,7 +84,7 @@ class TextInputScreen {
             .checkInputType(string)
     }
 
-    @When("^I click to textInput with the placeholder (.*) then change to (.*) and to (.*)$")
+    @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
     fun textInoutWithActionOfOnFocusAndOnChange(string: String, string2: String, string3: String) {
         ScreenRobot()
             .scrollToWithHint(string)
