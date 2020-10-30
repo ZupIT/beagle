@@ -23,6 +23,7 @@ import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
+import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -100,6 +101,31 @@ class TextInputScreen {
             .checkInputTypeNumber(string)
     }
 
+    @And("^I click the textInput with the placeholder (.*)$")
+    fun textInoutWithActionOfOnFocusAndOnFocus(string: String) {
+        ScreenRobot()
+            .scrollToWithHint(string)
+            .clickOnInputWithHint(string)
+    }
+
+    @Then("^the textInput with the placeholder \"Ordered actions\" should have value (.*)$")
+    fun checkOrderedActions(string: String) {
+        ScreenRobot()
+            .checkViewContainsText(string)
+    }
+
+    @Then("^the textInput with the placeholder \"Unordered actions\" will change its value to (.*)$")
+    fun textInoutWithActionOfOnBlur(string: String) {
+        ScreenRobot()
+            .checkViewContainsText(string)
+    }
+
+    @And("^I type anything on textInput with the placeholder (.*)$")
+    fun triggersOnChangeMethodAndCheckChanges(string: String) {
+        ScreenRobot()
+            .typeText(string, "a")
+    }
+
     @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
     fun textInoutWithActionOfOnFocusAndOnChange(string: String, string2: String, string3: String) {
         ScreenRobot()
@@ -109,14 +135,6 @@ class TextInputScreen {
             .checkViewContainsText(string2)
             .typeText(string, "a")
             .checkViewContainsText(string3)
-    }
-
-    @Then("^the text (.*) should be appear$")
-    fun textInoutWithActionOfOnBlur(string: String) {
-        ScreenRobot()
-            .checkViewContainsHint("is textInput type number")
-            .clickOnInputWithHint("is textInput type number")
-            .checkViewContainsText(string)
     }
 
     @Then("^the text (.*) should be appear in the correctly order$")
