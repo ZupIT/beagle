@@ -122,7 +122,7 @@ class ScreenRobot {
         return this
     }
 
-    fun checkInputType(text: String) : ScreenRobot {
+    fun checkInputTypeNumber(text: String) : ScreenRobot {
         onView(withHint(text)).check(matches(allOf(withInputType(InputType.TYPE_CLASS_NUMBER))))
         return this
     }

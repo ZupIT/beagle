@@ -57,13 +57,13 @@ class TextInputScreen {
             .checkViewContainsHint(string, true)
     }
 
-    @When("^the placeholder (.*) of the disabled field is on the screen$")
+    @When("^the disabled textInput (.*) is visible$")
     fun checkIfTextInputIsDisabled(string: String) {
         ScreenRobot()
             .checkViewContainsHint(string)
     }
 
-    @Then("^verify if the field with the placeholder (.*) is disabled$")
+    @Then("^verify if it's (.*) disabled$")
     fun checkDisabledField(string: String) {
         ScreenRobot()
             .disabledFieldHint(string)
@@ -94,10 +94,10 @@ class TextInputScreen {
             .hintInSecondPlan(string)
     }
 
-    @Then("^validate textInput component of type number with text (.*)$")
-    fun validateTextsInTextInputNumberType(string: String) {
+    @Then("^validate that a textInput (.*) of type number is set$")
+    fun validateTextsInputNumberType(string: String) {
         ScreenRobot()
-            .checkInputType(string)
+            .checkInputTypeNumber(string)
     }
 
     @When("^I click to textInput (.*) then change to (.*) and to (.*)$")

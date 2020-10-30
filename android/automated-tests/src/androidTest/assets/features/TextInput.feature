@@ -40,8 +40,8 @@
              | TextInput placeholder with expression |
 
      Scenario Outline: TextInput 03 - validate disabled field
-         When the placeholder <textInputDisabled> of the disabled field is on the screen
-         Then verify if the field with the placeholder <textInputDisabled> is disabled
+         When the disabled textInput <textInputDisabled> is visible
+         Then verify if it's <textInputDisabled> disabled
 
          Examples:
              | textInputDisabled                                 |
@@ -67,7 +67,7 @@
              | is a textInput in second plan with expression |
 
      Scenario Outline: TextInput 06 - validate textInput of type number
-         Then validate textInput component of type number with text <textInputTypeNumber>
+         Then validate that a textInput <textInputTypeNumber> of type number is set
 
          Examples:
              | textInputTypeNumber                      |
