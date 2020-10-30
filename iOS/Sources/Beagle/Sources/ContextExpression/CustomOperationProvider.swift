@@ -35,9 +35,7 @@ public protocol CustomOperationProvider {
     ///   - handler: A closure where you tell us what your custom operation should do.
     func register(operationId: String, handler: @escaping OperationHandler)
     
-    func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject
-    
-    func checkCustomOperationExistence(_ operation: Operation.Name) -> Bool
+    func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject?
 }
 
 public class CustomOperationsDefault: CustomOperationProvider {
@@ -57,7 +55,7 @@ public class CustomOperationsDefault: CustomOperationProvider {
     
     public func register(operationId: String, handler: @escaping OperationHandler) {
         guard
-            operationId.range(of: #"^\w*[A-z_]+\w*$"#, options: .regularExpression) != nil else {
+            operationId.range(of: #"^\w*[a-zA-Z_]+\w*$"#, options: .regularExpression) != nil else {
             dependencies.logger.log(Log.customOperations(.invalid(name: operationId)))
             return
         }
@@ -71,17 +69,15 @@ public class CustomOperationsDefault: CustomOperationProvider {
         }
     }
     
-    public func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject {
+    public func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject? {
         guard let operationHandler = operations[operation.name] else {
-            dependencies.logger.log(Log.customOperations(.notFound))
+            if case Operation.Name.custom = operation.name {
+                dependencies.logger.log(Log.customOperations(.notFound))
+            }
             return nil
         }
         
         let anyParameters = operation.evaluatedParameters(in: view)
         return operationHandler(anyParameters)
-    }
-    
-    public func checkCustomOperationExistence(_ operation: Operation.Name) -> Bool {
-        return operations.contains(where: { $0.key == operation })
     }
 }

@@ -21,8 +21,8 @@ import BeagleSchema
 extension BeagleSchema.Operation {
 
     func evaluate(in view: UIView) -> DynamicObject {
-        if dependencies.customOperationsProvider.checkCustomOperationExistence(self.name) {
-            return dependencies.customOperationsProvider.getOperationHandler(with: self, in: view)
+        if let operationHandler = dependencies.customOperationsProvider.getOperationHandler(with: self, in: view) {
+            return operationHandler
         }
         switch self.name {
         case .sum:
@@ -76,7 +76,7 @@ extension BeagleSchema.Operation {
         case .length:
             return length(in: view)
         case .custom:
-            return dependencies.customOperationsProvider.getOperationHandler(with: self, in: view)
+            return nil
         }
     }
         

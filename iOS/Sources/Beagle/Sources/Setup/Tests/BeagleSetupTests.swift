@@ -246,13 +246,8 @@ class CustomOperationsProviderDummy: CustomOperationProvider {
         // Intentionally unimplemented...
     }
     
-    func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject {
+    func getOperationHandler(with operation: Operation, in view: UIView) -> DynamicObject? {
         // Intentionally unimplemented...
         return nil
-    }
-    
-    func checkCustomOperationExistence(_ operation: Operation.Name) -> Bool {
-        // Intentionally unimplemented...
-        return false
     }
 }

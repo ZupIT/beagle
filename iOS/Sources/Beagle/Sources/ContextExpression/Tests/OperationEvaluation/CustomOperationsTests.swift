@@ -64,6 +64,11 @@ final class CustomOperationsTests: OperationEvaluationTests {
     
     func testInvalidName() {
         // Given
+        let view = UIView()
+        let customSumOperation = Operation(name: .custom("sum???"), parameters: [.value(.literal(.int(2)))])
+        let customEmptyOperation = Operation(name: .custom(""), parameters: [.value(.literal(.int(2)))])
+        let customNumbersOperation = Operation(name: .custom("123"), parameters: [.value(.literal(.int(2)))])
+
         dependencies.customOperationsProvider.register(operationId: "sum???") { _ in
             return nil
         }
@@ -76,17 +81,10 @@ final class CustomOperationsTests: OperationEvaluationTests {
             return nil
         }
         
-        // When
-        let customOperationSumExists = dependencies.customOperationsProvider.checkCustomOperationExistence(.custom("sum???"))
-
-        let customOperationEmptyExists = dependencies.customOperationsProvider.checkCustomOperationExistence(.custom(""))
-        
-        let customOperationNumbersExists = dependencies.customOperationsProvider.checkCustomOperationExistence(.custom("123"))
-        
-        // Then
-        XCTAssertFalse(customOperationSumExists)
-        XCTAssertFalse(customOperationEmptyExists)
-        XCTAssertFalse(customOperationNumbersExists)
+        // When // Then
+        XCTAssertNil(dependencies.customOperationsProvider.getOperationHandler(with: customSumOperation, in: view))
+        XCTAssertNil(dependencies.customOperationsProvider.getOperationHandler(with: customEmptyOperation, in: view))
+        XCTAssertNil(dependencies.customOperationsProvider.getOperationHandler(with: customNumbersOperation, in: view))
     }
 
     private func evaluateCustomOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
