@@ -89,40 +89,112 @@
       typeName
     end
   end
+
+  def fullDeclaration(objectType)
+    output = initImports(objectType)
+    output += resolveObjectType(objectType)
+
+    output
+  end
+
+  def initImports(objectType)
+    outputImports = "package #{objectType.synthax_type.package}\n"
+
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
+      outputImports += "\nimport br.com.zup.beagle.widget.context.Bind"
+    end
+
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional }
+      outputImports += "\nimport br.com.zup.beagle.widget.context.valueOf"
+    end
+
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional }
+      outputImports += "\nimport br.com.zup.beagle.widget.context.valueOfNullable"
+    end
+
+    for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, import_manager)
+      outputImports += "\nimport #{qualifiedName}"
+    end
+
+    for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, enum_import_manager)
+      outputImports += "\nimport #{qualifiedName}"
+    end
+
+    if outputImports.include? "import"
+      outputImports += "\n"
+    end
+
+    outputImports
+  end
+
+  def resolveObjectType(objectType)
+    output = ""
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+    
+    if isEnumDeclaration
+      output += initForEnum(objectType)
+    else
+      output += initForCommonObject(objectType)
+    end
+
+    output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+
+    output
+  end
+
+  def initForCommonObject(objectType)
+    output = "\ndata class #{objectType.synthax_type.name} ("
+
+    counter = 0 
+    for variable in objectType.synthax_type.variables
+      output += "\n#{@tab}#{variable.accessor} override val #{variable.name}: #{handleTypeNameAndDefault(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+      counter += 1
+    end
+
+    output += "\n) : #{getSuperClasses(objectType.synthax_type)} "
+
+    if objectType.synthax_type.variables.any?(&:isBindable)
+      output += "{\n#{@tab}constructor ("
+      counter = 0 
+      for variable in objectType.synthax_type.variables
+        output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+      output += "\n#{@tab}) : this ("
+      counter = 0
+      for variable in objectType.synthax_type.variables
+        output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+      output += "\n#{@tab})\n}"
+    end
+
+    output
+  end
+
+  def initForEnum(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+
+    output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
+    output += "#{@tab}"
+    output += objectType.synthax_type.variables.map { |enumCase| enumCase.name.upcase }.join(",\n#{@tab}")
+    output += "\n}"
+    output
+  end
+
+  def handleInnerTypes(objectTypes, input)
+    output = input
+    for objectType in objectTypes
+      output += "\n#{resolveObjectType(objectType)}"
+      possibleNestedTypes = objectType.synthax_type.sameFileTypes
+      if possibleNestedTypes.size > 0
+        handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+      end
+    end
+    output
+  end
+
 -%>
-
-package <%= objectType.synthax_type.package %>
-
-<% if objectType.synthax_type.variables.any? { |variable| variable.isBindable } -%>
-import br.com.zup.beagle.widget.context.Bind
-import br.com.zup.beagle.widget.context.valueOf
-import br.com.zup.beagle.widget.context.valueOfNullable
-<% end -%>
-<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, import_manager) -%>
-import <%= qualifiedName %>
-<% end -%>
-<% for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, enum_import_manager) -%>
-import <%= qualifiedName %>
-<% end -%>
-
-data class <%= objectType.synthax_type.name -%> (<% -%>
-<% counter = 0 -%>
-<% for variable in objectType.synthax_type.variables %>
-  <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeNameAndDefault(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
-  <% counter += 1 -%>
-<% end -%> 
-) : <%= getSuperClasses(objectType.synthax_type) -%> <% if objectType.synthax_type.variables.any?(&:isBindable) -%>{
-  constructor (<% -%>
-  <% counter = 0 -%>
-  <% for variable in objectType.synthax_type.variables %>
-    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
-    <% counter += 1 -%>
-  <% end %>
-  ) : this (<% -%>
-  <% counter = 0 -%>
-  <% for variable in objectType.synthax_type.variables %>
-      <%= handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter) -%>
-    <% counter += 1 -%>
-  <% end %>
-  )
-}<% end -%>
+<%=
+fullDeclaration(objectType) 
+%>
