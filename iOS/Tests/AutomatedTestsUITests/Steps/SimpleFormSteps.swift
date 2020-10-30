@@ -17,7 +17,7 @@
 import Foundation
 import XCTest
 
-class SimpleFormScreenSteps: CucumberStepsDefinition {
+class SimpleFormSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication?
     

@@ -28,8 +28,8 @@ import br.com.zup.beagle.android.utils.Observer
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class ScreenContextViewModelTest {
 
@@ -43,7 +43,7 @@ class ScreenContextViewModelTest {
 
     private lateinit var screenContextViewModel: ScreenContextViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
         screenContextViewModel = ScreenContextViewModel(contextDataManager, contextDataEvaluation, implicitContextManager)
     }

@@ -20,10 +20,10 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.testutil.RandomData
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 private data class Test(val a: String)
 

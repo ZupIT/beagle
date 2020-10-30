@@ -17,7 +17,7 @@
 import Foundation
 import XCTest
 
-class ListViewScreenSteps: CucumberStepsDefinition {
+class ListViewSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication?
     
