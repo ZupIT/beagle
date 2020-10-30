@@ -38,6 +38,7 @@ object TextScreenBuilder {
 
         child = Container(
             children = listOf(
+                Text("TextScreen"),
                 textRendering(),
                 textColoring(),
                 textAligning()
