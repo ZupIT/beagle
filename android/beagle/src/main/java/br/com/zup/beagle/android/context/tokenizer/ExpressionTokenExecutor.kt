@@ -17,14 +17,14 @@
 package br.com.zup.beagle.android.context.tokenizer
 
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.context.tokenizer.function.FunctionResolver
+import br.com.zup.beagle.android.operation.OperationResolver
 import br.com.zup.beagle.android.utils.getContextId
 import java.lang.IllegalStateException
 
 typealias FindValue = (String, ContextData?) -> Any?
 
 internal class ExpressionTokenExecutor(
-    private val functionResolver: FunctionResolver = FunctionResolver()
+    private val operationResolver: OperationResolver = OperationResolver()
 ) {
 
     fun execute(
@@ -59,7 +59,7 @@ internal class ExpressionTokenExecutor(
             params[index] = interpretToken(findValue, contexts, token)
         }
 
-        return functionResolver.execute(tokenFunction.name, *params)
+        return operationResolver.execute(tokenFunction.name, *params)
     }
 
     private fun interpretBinding(findValue: FindValue, contexts: List<ContextData>, tokenBinding: TokenBinding): Any? {
