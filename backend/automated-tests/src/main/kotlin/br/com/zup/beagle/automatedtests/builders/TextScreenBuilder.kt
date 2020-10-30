@@ -31,11 +31,14 @@ data class TextWithAlignment(
     val alignmentRight: TextAlignment
 )
 
+const val TEXT_COLOR = "#008000"
+
 object TextScreenBuilder {
     fun build() = Screen(
 
         child = Container(
             children = listOf(
+                Text("TextScreen"),
                 textRendering(),
                 textColoring(),
                 textAligning()
@@ -54,9 +57,9 @@ object TextScreenBuilder {
     private fun textColoring(): Container = Container(
         context = ContextData(
             id = "textWithColor",
-            value = TextWithColor(text = "TextWithColorViaExpression", color = "LIGHT_GREY")),
+            value = TextWithColor(text = "TextWithColorViaExpression", color = TEXT_COLOR)),
         children = listOf(
-            Text(text = "TextWithColor", textColor = "LIGHT_GREY"),
+            Text(text = "TextWithColor", textColor = TEXT_COLOR),
             Text(
                 text = expressionOf("@{textWithColor.text}"),
                 textColor = expressionOf("@{textWithColor.color}")
