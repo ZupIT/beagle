@@ -24,6 +24,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.hasTextColor
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withHint
@@ -104,6 +105,11 @@ class ScreenRobot {
 
     fun scrollViewDown(): ScreenRobot {
         onView(withId(R.id.root_layout)).perform(ViewActions.swipeUp())
+        return this
+    }
+
+    fun scrollViewIsNotDisplayed(text: String?): ScreenRobot {
+        onView(Matchers.allOf(withText(text))).check(doesNotExist())
         return this
     }
 
