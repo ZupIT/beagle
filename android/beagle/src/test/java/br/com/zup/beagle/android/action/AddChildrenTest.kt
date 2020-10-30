@@ -25,8 +25,8 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class AddChildrenTest {
 
@@ -52,7 +52,7 @@ class AddChildrenTest {
 
     private val id = "id"
 
-    @Before
+    @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { rootView.getContext() } returns context

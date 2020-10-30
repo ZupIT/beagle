@@ -25,8 +25,9 @@ import br.com.zup.beagle.android.widget.WidgetView
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 class ViewConvertableRendererTest : BaseTest() {
 
@@ -41,6 +42,7 @@ class ViewConvertableRendererTest : BaseTest() {
 
     private lateinit var viewConvertableRenderer: ViewConvertableRenderer
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

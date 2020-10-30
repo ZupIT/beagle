@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.jsonpath
 import br.com.zup.beagle.android.testutil.RandomData
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
 

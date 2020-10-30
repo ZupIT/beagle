@@ -17,7 +17,7 @@
 import Foundation
 import XCTest
 
-class SimpleFormScreenSteps: CucumberStepsDefinition {
+class SimpleFormSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication?
     
@@ -35,15 +35,15 @@ class SimpleFormScreenSteps: CucumberStepsDefinition {
         Given("^the app did load simpleform screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.SIMPLE_FORM_SCREEN_HEADER.element.exists)
         }
-
+        
         When("^I click on text field \"([^\\\"]*)\"$") { args, _ -> Void in
             guard let param = args?[0],
-                  let text: ScreenElements = ScreenElements(rawValue: param) else {
-                return
+                let text: ScreenElements = ScreenElements(rawValue: param) else {
+                    return
             }
             screen.clickOnText(textOption: text)
         }
-
+        
         When("^insert text \"([^\\\"]*)\"$") { args, _ -> Void in
             guard let text: String = (args?[0]) else { return }
             screen.typeTextIntoField(insertText: text)
@@ -53,7 +53,7 @@ class SimpleFormScreenSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.SIMPLE_FORM_TITLE.element.exists)
             XCTAssertTrue(ScreenElements.ZIP_FIELD.element.exists)
             XCTAssertTrue(ScreenElements.STREET_FIELD.element.exists)
-
+            
         }
         
         Then("confirm popup should appear correctly$") { _, _ -> Void in
@@ -61,5 +61,5 @@ class SimpleFormScreenSteps: CucumberStepsDefinition {
         }
         
     }
-
+    
 }

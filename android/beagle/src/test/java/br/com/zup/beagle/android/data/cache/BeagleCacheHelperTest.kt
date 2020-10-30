@@ -19,9 +19,9 @@ package br.com.zup.beagle.android.data.cache
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.mockk
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 
 class BeagleCacheHelperTest {
 
