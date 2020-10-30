@@ -33,6 +33,7 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.TypeSafeMatcher
+import kotlin.jvm.Throws
 
 class ScreenRobot {
 
@@ -45,12 +46,12 @@ class ScreenRobot {
         return this
     }
 
-    fun checkViewTextColor(text: String?, textColor: Int, waitForText: Boolean = false): ScreenRobot {
+    fun checkViewTextColor(text: String?, color: String, waitForText: Boolean = false): ScreenRobot {
         if (waitForText) {
             WaitHelper.waitForWithElement(onView(withText(text)))
         }
 
-        onView(Matchers.allOf(withText(text), hasTextColor(textColor))).check(matches(isDisplayed()))
+        onView(Matchers.allOf(withText(text), MatcherExtension.withTextColor(color))).check(matches(isDisplayed()))
         return this
     }
 

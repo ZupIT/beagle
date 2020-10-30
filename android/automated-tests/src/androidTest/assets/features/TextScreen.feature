@@ -36,9 +36,9 @@ Feature: Text Component Validation
         Then my text component <textWithColor> should render their respective color <color> correctly
 
         Examples:
-            | textWithColor              |
-            | TextWithColor              |
-            | TextWithColorViaExpression |
+            | textWithColor              | color   |
+            | TextWithColor              | #008000 |
+            | TextWithColorViaExpression | #008000 |
 
     Scenario Outline: Text 03 - Text component renders text with textAlignment correctly
         Then my text component <textAttribute> should render itself with a textAlignment <Position>

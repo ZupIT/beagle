@@ -49,11 +49,11 @@ class TextScreen {
             .checkViewContainsText(string, true)
     }
 
-    @Then("^my text component should render their respective color (.*) correctly$")
-    fun renderTextColorCorrectly(string:String) {
+    @Then("^my text component (.*) should render their respective color (.*) correctly$")
+    fun renderTextColorCorrectly(string:String, string2: String) {
 
         ScreenRobot()
-            .checkViewTextColor(string, R.color.colorGreen)
+            .checkViewTextColor(string, string2)
     }
 
     @Then("^my text component (.*) should render itself with a textAlignment (.*)$")
