@@ -1,0 +1,156 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+<%
+  require_relative 'Templates/template_helper.rb'
+
+  @tab = "    "
+  @template_helper = TemplateHelper.new
+  @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
+  @template_helper.defaultDeclarationType = TypesToString.interface
+  
+  def dictionary_variable_declaration(variable) 
+    type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
+    type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
+    type_name = "Map<#{type_of_key}, #{type_of_value}>"
+    type_name
+  end
+
+  def single_variable_declaration(variable, import_manager)
+    type_name = @template_helper.fetch_type(variable.typeName)
+    type_name = import_manager.has_key?(type_name) ? type_name + "Schema" : type_name
+    type_name = adapt_type_name_to_kotlin_specific(type_name)
+    type_name
+  end
+
+  def variable_type_declaration(variable, import_manager)
+    #todo variables now have default values!
+    output = ""
+    if variable.instance_of? Dictionary
+      output = dictionary_variable_declaration(variable)
+    else
+      output = single_variable_declaration(variable, import_manager)
+    end
+    
+    output = variable.isBindable ? "BindAttribute<#{output}>" : output
+    output = variable.class == List ? "List<#{output}>" : output
+    output = variable.isOptional ? output + "?" : output
+    output
+  end
+
+  def getImports(variables, import_manager)
+    
+    variables
+      .select{|variable| !variable.instance_of? Dictionary}
+      .map { | variable| import_manager[variable.typeName] }
+      .uniq.filter { |import| !import.empty? }
+    
+  end
+
+  def adapt_type_name_to_kotlin_specific(typeName)
+    if typeName.eql?("ContextData")
+      "Any"
+    else
+      typeName
+    end
+  end
+
+  def fullDeclaration(objectType)
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+
+    output = initImports(objectType)
+    output += resolveObjectType(objectType)
+
+    output
+  end
+
+  def initImports(objectType)
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+    outputImports = "package #{objectType.synthax_type.package}\n"
+
+    if !isEnumDeclaration
+      if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
+        outputImports += "\nimport br.com.zup.beagle.core.BindAttribute"
+      end
+
+      for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager)
+        outputImports += "\nimport #{qualifiedName}Schema"
+      end
+
+      for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager)
+        outputImports += "\nimport #{qualifiedName}"
+      end
+      
+    end
+
+    if outputImports.include? "import"
+      outputImports += "\n"
+    end
+
+    outputImports
+  end
+
+  def resolveObjectType(objectType)
+    output = ""
+    isEnumDeclaration = @template_helper.is_enum(objectType)
+
+    if isEnumDeclaration
+      output += initForEnum(objectType)
+    else
+      output += initForCommonObject(objectType)
+    end
+    output += "\n}"
+
+    output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+
+    output
+  end
+
+  def initForEnum(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+
+    output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
+    output += "#{@tab}"
+    output += objectType.synthax_type.variables.map { |enumCase| enumCase.name.upcase }.join(",\n#{@tab}")
+    output
+  end
+
+  def initForCommonObject(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+
+    output = "\n#{typeKind} #{objectType.synthax_type.name}Schema {"
+    for variable in objectType.synthax_type.variables 
+      output += "\n#{@tab}#{variable.accessor} val #{variable.name}: #{variable_type_declaration(variable, import_manager)}"
+    end
+    output
+  end
+
+  def handleInnerTypes(objectTypes, input)
+    output = input
+    for objectType in objectTypes
+      output += "\n#{resolveObjectType(objectType)}"
+      possibleNestedTypes = objectType.synthax_type.sameFileTypes
+      if possibleNestedTypes.size > 0
+        handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+      end
+    end
+    output
+  end
+
+-%>
+<%=
+fullDeclaration(objectType) 
+%>

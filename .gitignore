@@ -109,3 +109,8 @@ flutter/**/**/ios/Runner/GeneratedPluginRegistrant.*
 
 ### Bash ###
 nohup.out
+
+### Schema ###
+schema-ruby-erb/model_generation/Generated
+schema-ruby-erb/**/.yardoc/*
+schema-ruby-erb/**/doc
