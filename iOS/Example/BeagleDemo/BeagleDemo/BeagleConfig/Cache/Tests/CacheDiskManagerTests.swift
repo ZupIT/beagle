@@ -33,7 +33,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testGetReference() {
         //Given
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         let hash = "1"
         let identifier = "id"
         let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash, timeOfCreation: generateTimeOfCreation())
@@ -51,7 +51,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testGetNilReference() {
         //Given //When
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         sut.clear()
         sut.saveChanges()
         let identifier = "id"
@@ -62,7 +62,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testClear() {
         //Given
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         let identifier = "id"
         let hash = "1"
         let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash)
@@ -78,7 +78,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testRemoveLastUsed() {
         //Given
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         let identifier1 = "id1"
         let hash1 = "1"
         let identifier2 = "id2"
@@ -100,7 +100,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testRemoveLastUsedUpdated() {
         //Given
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         let identifier1 = "id1"
         let hash1 = "1"
         let identifier2 = "id2"
@@ -124,7 +124,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testInsertNewValue() {
         //Given
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         let identifier = "id"
         let hash = "1"
         let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash, timeOfCreation: generateTimeOfCreation())
@@ -141,7 +141,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testUpdateValue() {
         //Given
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         let identifier = "id"
         let hash = "1"
         let hash2 = "2"
@@ -161,7 +161,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testNumberOfRegistersNoRegisters() {
         //Given
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         
         //When
         sut.clear()
@@ -172,7 +172,7 @@ class CacheDiskManagerTests: XCTestCase {
     
     func testNumberOfRegistersWithRegisters() {
         //Given
-        let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
+        let sut = CacheDiskManagerDefault(dependencies: CacheDiskManagerDependencies())
         let identifier1 = "id1"
         let hash1 = "1"
         let identifier2 = "id2"

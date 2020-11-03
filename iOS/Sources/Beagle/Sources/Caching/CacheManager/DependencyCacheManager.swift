@@ -25,3 +25,18 @@ public protocol CacheManagerProtocol {
     func getReference(identifiedBy id: String) -> CacheReference?
     func isValid(reference: CacheReference) -> Bool
 }
+
+public protocol DependencyCacheDiskManager {
+    var cacheDiskManager: CacheDiskManagerProtocol? { get }
+}
+
+public protocol CacheDiskManagerProtocol {
+    func update(_ reference: CacheReference)
+    func getReference(for key: String) -> CacheReference?
+    func numberOfReferences() -> Int
+    func removeLastUsed()
+    func clear()
+    
+    /// call this when there is no more batch changes to perform
+    func saveChanges()
+}

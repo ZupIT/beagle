@@ -1,7 +1,17 @@
 ▿ BeagleDependencies
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
-  - cacheManager: Optional<CacheManagerProtocol>.none
+  - cacheDiskManager: Optional<CacheDiskManagerProtocol>.none
+  ▿ cacheManager: Optional<CacheManagerProtocol>
+    ▿ some: CacheManagerDefault
+      - $__lazy_storage_$_memoryReferences: Optional<CacheLRU<String, CacheReference>>.none
+      ▿ config: Config
+        - cacheMaxAge: 300
+        - diskMaximumCapacity: 150
+        - memoryMaximumCapacity: 15
+      - defaultMaxCacheAge: "maxValidAge"
+      ▿ dependencies: InnerDependenciesResolver
+        - container: (Function)
   ▿ decoder: ComponentDecoder
     ▿ actionDecoders: 19 key/value pairs
       ▿ (2 elements)

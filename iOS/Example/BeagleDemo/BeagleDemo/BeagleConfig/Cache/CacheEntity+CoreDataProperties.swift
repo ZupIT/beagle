@@ -18,18 +18,17 @@ import Foundation
 import CoreData
 import Beagle
 
-public protocol CacheEntityProtocol {}
-
-public class CacheEntity: NSManagedObject, CacheEntityProtocol {}
+protocol CacheEntityProtocol {}
+final class CacheEntity: NSManagedObject, CacheEntityProtocol {}
 
 extension CacheEntity {
 
-    @NSManaged public var id: String
-    @NSManaged public var data: Data
-    @NSManaged public var beagleHash: String
-    @NSManaged public var timeOfCreation: Date
+    @NSManaged var id: String
+    @NSManaged var data: Data
+    @NSManaged var beagleHash: String
+    @NSManaged var timeOfCreation: Date
 
-    public func update(with reference: CacheReference) {
+    func update(with reference: CacheReference) {
         id = reference.identifier
         data = reference.data
         beagleHash = reference.hash

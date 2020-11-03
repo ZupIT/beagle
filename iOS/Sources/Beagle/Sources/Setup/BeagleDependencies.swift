@@ -40,7 +40,8 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
     DependencyFormDataStoreHandler,
     DependencyRenderer,
     DependencyGlobalContext,
-    DependencyLoggingCondition {
+    DependencyLoggingCondition,
+    DependencyCacheDiskManager {
 }
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
@@ -58,6 +59,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var navigation: BeagleNavigation
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?
+    public var cacheDiskManager: CacheDiskManagerProtocol?
     public var formDataStoreHandler: FormDataStoreHandling
     public var windowManager: WindowManager
     public var opener: URLOpener
@@ -94,7 +96,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 
     private let resolver: InnerDependenciesResolver
 
-    public init(networkClient: NetworkClient? = nil, cacheManager: CacheManagerProtocol? = nil, logger: BeagleLoggerType? = nil) {
+    public init(networkClient: NetworkClient? = nil, cacheDiskManager: CacheDiskManagerProtocol? = nil, logger: BeagleLoggerType? = nil) {
         let resolver = InnerDependenciesResolver()
         self.resolver = resolver
 
@@ -115,7 +117,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.networkClient = networkClient
         self.repository = RepositoryDefault(dependencies: resolver)
         self.imageDownloader = ImageDownloaderDefault(dependencies: resolver)
-        self.cacheManager = cacheManager
+        self.cacheManager = CacheManagerDefault(dependencies: resolver)
+        self.cacheDiskManager = cacheDiskManager
         self.opener = URLOpenerDefault(dependencies: resolver)
 
         self.resolver.container = { [unowned self] in self }
@@ -134,6 +137,7 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     DependencyWindowManager,
     DependencyURLOpener,
     DependencyLoggingCondition,
+    DependencyCacheDiskManager,
     BeagleSchema.DependencyLogger {
         
     var container: () -> BeagleDependenciesProtocol = {
@@ -149,6 +153,7 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var localFormHandler: LocalFormHandler? { return container().localFormHandler }
     var logger: BeagleLoggerType { return container().logger }
     var cacheManager: CacheManagerProtocol? { return container().cacheManager }
+    var cacheDiskManager: CacheDiskManagerProtocol? { return container().cacheDiskManager }
     var repository: Repository { return container().repository }
     var windowManager: WindowManager { return container().windowManager }
     var opener: URLOpener { return container().opener }

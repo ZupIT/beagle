@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,15 +15,11 @@
  * limitations under the License.
  */
 
-import Foundation
-import CoreData
-import Beagle
-
 /// This class is responsible to maintain and manage the cache.
 public class CacheManagerDefault: CacheManagerProtocol {
     
     public typealias Dependencies =
-        DependencyLogger
+        DependencyLogger & DependencyCacheDiskManager
 
     let dependencies: Dependencies
 
@@ -48,9 +45,6 @@ public class CacheManagerDefault: CacheManagerProtocol {
         capacity: config.memoryMaximumCapacity
     )
 
-    lazy var diskManager: CacheDiskManagerProtocol =
-        DefaultCacheDiskManager(dependencies: dependencies)
-
     private let defaultMaxCacheAge = "maxValidAge"
     
     // MARK: Init
@@ -69,12 +63,12 @@ public class CacheManagerDefault: CacheManagerProtocol {
     
     public func getReference(identifiedBy id: String) -> CacheReference? {
         return memoryReferences.getValue(for: id)
-            ?? diskManager.getReference(for: id)
+            ?? dependencies.cacheDiskManager?.getReference(for: id)
     }
     
     public func clear() {
         memoryReferences.clear()
-        diskManager.clear()
+        dependencies.cacheDiskManager?.clear()
     }
 
     public func isValid(reference: CacheReference) -> Bool {
@@ -90,6 +84,7 @@ public class CacheManagerDefault: CacheManagerProtocol {
     }
     
     private func saveInDisk(reference: CacheReference) {
+        guard let diskManager = dependencies.cacheDiskManager else { return }
         diskManager.update(reference)
 
         if diskManager.numberOfReferences() > config.diskMaximumCapacity {

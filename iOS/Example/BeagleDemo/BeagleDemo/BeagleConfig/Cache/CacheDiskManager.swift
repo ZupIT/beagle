@@ -19,29 +19,18 @@ import CoreData
 import UIKit
 import Beagle
 
-public protocol CacheDiskManagerProtocol {
-    func update(_ reference: CacheReference)
-    func getReference(for key: String) -> CacheReference?
-    func numberOfReferences() -> Int
-    func removeLastUsed()
-    func clear()
-    
-    /// call this when there is no more batch changes to perform
-    func saveChanges()
-}
-
-public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
+final class CacheDiskManagerDefault: CacheDiskManagerProtocol {
     // disabling lint because it's CoreData 👌
     // swiftlint:disable force_unwrapping
     // swiftlint:disable force_cast
 
-    public typealias Dependencies =
+    typealias Dependencies =
         DependencyLogger
     
     let dependencies: Dependencies
 
     lazy var persistentContainer: NSPersistentContainer = {
-        let url = Bundle(for: DefaultCacheDiskManager.self)
+        let url = Bundle(for: CacheDiskManagerDefault.self)
             .url(forResource: "CoreCache", withExtension: "momd")!
         let object = NSManagedObjectModel(contentsOf: url)!
         return NSPersistentContainer(name: "CoreCache", managedObjectModel: object)
@@ -57,7 +46,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
     
     // MARK: Init
     
-    public init(dependencies: Dependencies) {
+    init(dependencies: Dependencies) {
         self.dependencies = dependencies
 
         self.persistentContainer.loadPersistentStores() { _, error in
@@ -70,7 +59,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
     
     // MARK: CacheDiskManagerProtocol
 
-    public func update(_ reference: CacheReference) {
+    func update(_ reference: CacheReference) {
         if let old = getEntity(for: reference.identifier) {
             old.update(with: reference)
         } else {
@@ -78,7 +67,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
         }
     }
 
-    public func numberOfReferences() -> Int {
+    func numberOfReferences() -> Int {
         let request = NSFetchRequest<NSNumber>(entityName: "CacheEntity")
         request.resultType = .countResultType
         do {
@@ -90,14 +79,14 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
         }
     }
 
-    public func getReference(for key: String) -> CacheReference? {
+    func getReference(for key: String) -> CacheReference? {
         let entity = getEntity(for: key)
         entity?.timeOfCreation = Date()
         try? context.save()
         return entity?.mapToReference()
     }
     
-    public func removeLastUsed() {
+    func removeLastUsed() {
         let request = fetchRequest
         request.sortDescriptors = [NSSortDescriptor(keyPath: \CacheEntity.timeOfCreation, ascending: true)]
         
@@ -110,7 +99,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
         }
     }
 
-    public func saveChanges() {
+    func saveChanges() {
         guard context.hasChanges else { return }
 
         do {
@@ -120,7 +109,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
         }
     }
     
-    public func clear() {
+    func clear() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = self.fetchRequest as! NSFetchRequest<NSFetchRequestResult>
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 

@@ -1,6 +1,7 @@
 ▿ BeagleDependencies
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
+  - cacheDiskManager: Optional<CacheDiskManagerProtocol>.none
   - cacheManager: Optional<CacheManagerProtocol>.none
   - decoder: ComponentDecodingDummy
   ▿ deepLinkHandler: Optional<DeepLinkScreenManaging>

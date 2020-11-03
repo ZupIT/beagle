@@ -163,6 +163,7 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var preFetchHelper: BeaglePrefetchHelping = PreFetchHelperDummy()
     var appBundle: Bundle = Bundle(for: ImageTests.self)
     var cacheManager: CacheManagerProtocol?
+    var cacheDiskManager: CacheDiskManagerProtocol? = CacheDiskManagerDummy()
     var decoder: ComponentDecoding = ComponentDecodingDummy()
     var logger: BeagleLoggerType = BeagleLoggerDumb()
     var formDataStoreHandler: FormDataStoreHandling = FormDataStoreHandlerDummy()
