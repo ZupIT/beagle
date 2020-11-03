@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components.list
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
@@ -26,6 +25,7 @@ import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.ListDirection
 import io.mockk.Runs
@@ -34,15 +34,14 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Rule
-import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(InstantExecutorExtension::class)
 class ListViewTest : BaseComponentTest() {
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
 
     private data class Cell(
         val id: Int,
@@ -69,6 +68,7 @@ class ListViewTest : BaseComponentTest() {
     private lateinit var deprecatedListView: ListView
     private lateinit var listView: ListView
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

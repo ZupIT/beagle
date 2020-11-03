@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.components.list
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.AsyncActionData
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
@@ -36,12 +36,13 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.verify
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(InstantExecutorExtension::class)
 class ListAdapterTest : BaseTest() {
 
     private val template = Container(children = listOf())
@@ -58,10 +59,7 @@ class ListAdapterTest : BaseTest() {
 
     private lateinit var listAdapter: ListAdapter
 
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
-    @Before
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         every { asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs

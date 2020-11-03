@@ -308,17 +308,17 @@ internal class ListViewHolder(
         }
     }
 
-    private fun restoreContexts() {
-        viewsWithContext.forEach {
-            viewModel.restoreContext(it)
-        }
-    }
-
     private fun restoreAdapters(listItem: ListItem) {
         val temporaryNestedAdapters: LinkedList<ListAdapter> =
             LinkedList(listItem.directNestedAdapters)
         directNestedRecyclers.forEach {
             it.swapAdapter(temporaryNestedAdapters.pollFirst(), false)
+        }
+    }
+
+    private fun restoreContexts() {
+        viewsWithContext.forEach {
+            viewModel.restoreContext(it)
         }
     }
 
