@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public enum DynamicObject: Equatable {
+public enum DynamicObject: Equatable, Hashable {
     case empty
     case bool(Bool)
     case int(Int)

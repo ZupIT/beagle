@@ -469,6 +469,10 @@ class BeagleControllerStub: BeagleController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func addOnInit(_ onInit: [RawAction], in view: UIView) {
+        // Intentionally unimplemented...
+    }
+    
     func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
         // Intentionally unimplemented...
     }
