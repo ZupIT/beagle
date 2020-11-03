@@ -21,7 +21,6 @@ class ScrollViewSteps: CucumberStepsDefinition {
     var application: XCUIApplication!
     
     func loadSteps() {
-        let screen = ScreenRobot()
         // MARK: - Before
         before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("scrollview") ?? false {
@@ -30,122 +29,38 @@ class ScrollViewSteps: CucumberStepsDefinition {
             }
         }
         // MARK: - Given
-        Given("^that I'm on the scrollview screen$") { _, _ -> Void in
+        Given("^the Beagle application did launch with the scrollview screen url$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.SCROLLVIEW_SCREEN_HEADER.element.exists)
         }
        
         //MARK: - When
         
-        //Senario 1
-        When("^I have a horizontal scroll configured$") { _, _ -> Void in
-            self.application.staticTexts[ScreenElements.CLICK_SCROLLVIEW_HORIZONTAL.rawValue].scrollViews
-        }
-        
-        //Senario 2
-        When("^I press on text scroll horizontal \"([^\\\"]*)\"$") { args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertTrue(self.application.staticTexts[text].exists)
+        //Scenario 1
+        When(#"^I press on text scroll "([^\"]*)"$"#) { args, _ -> Void in
+            let text = args![0]
             self.application.staticTexts[text].tap()
         }
-        
-        //Senario 3
-        When("^I press on text to be scrolled and rotated \"([^\\\"]*)\"$") { args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertTrue(self.application.staticTexts[text].exists)
-            XCUIDevice.shared.orientation = .landscapeLeft
-            self.application.staticTexts[text].tap()
-        }
-        
-        //Senario 4
-        When("^I have a vertical scroll configured$") { _, _ -> Void in
-            self.application.staticTexts[ScreenElements.CLICK_SCROLLVIEW_VERTICAL.rawValue].scrollViews
-        }
-        
-        //Senario 5
-        When("^I press on text scrollview vertical \"([^\\\"]*)\"$") { args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertTrue(self.application.staticTexts[text].exists)
-            self.application.staticTexts[text].tap()
-        }
-        
-        //Senario 6
-        When("^I press on text scrollview to be rotate \"([^\\\"]*)\"$") { args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertTrue(self.application.staticTexts[text].exists)
-            XCUIDevice.shared.orientation = .landscapeLeft
-            self.application.staticTexts[text].tap()
-        }
-        
         
         //MARK: - Then
         
-        //Senario 1
-        Then("^scrollview screen should perform the scroll action horizontally$") { _, _ -> Void in
-            XCTAssertFalse(ScreenElements.SCROLLVIEW_ELEMENTS_1.element.exists)
+        //Scenario 1
+        Then(#"^the current text "([^\"]*)" should be replaced for a large text and the scrollview should perform in the specified orientation "([^\"]*)"$"#) { args, _ -> Void in
+            let currentText = args![0]
+            let orientation = args![1]
+            
+            XCTAssertFalse(self.application.staticTexts[currentText].exists)
+            
+            let element = self.elementFrom(string: ScreenElements.SCROLLVIEW_LARGE_TEXT.rawValue)
+            XCTAssertNotNil(element)
+            
+            let button = self.application.buttons[orientation]
+            button.tap()
         }
-        
-        //Senario 2
-        Then("^the text should change for the next and the scrollview should perform horizontally \"([^\\\"]*)\"$") {args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertFalse(self.application.staticTexts[text].exists)
-            XCTAssertTrue(self.elementContains(string: ScreenElements.SCROLLVIEW_ELEMENTS_1.rawValue))
-        }
-        
-        //Senario 3
-        Then("^the text horizontal of scrollview rotate should change$") { _, _ -> Void in
-            XCTAssertTrue(ScreenElements.SCROLLVIEW_ELEMENTS_1.element.exists)
-        }
-        
-        Then("^the scrollview rotate should perform horizontally \"([^\\\"]*)\"$") {args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertFalse(self.application.staticTexts[text].exists)
-        }
-        
-        Then("^even if the screen is rotated the scrollview must be perform horizontally \"([^\\\"]*)\"$") {args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertFalse(self.application.staticTexts[text].exists)
-            XCTAssertTrue(self.elementContains(string: ScreenElements.SCROLLVIEW_ELEMENTS_1.rawValue))
-        }
-        
-        //Senario 4
-        Then("^scrollview screen should perform the scroll action vertically$") { _, _ -> Void in
-            XCTAssertTrue(ScreenElements.SCROLLVIEW_ELEMENTS_1.element.exists)
-        }
-        
-        //Senario 5
-        Then("^the text should change$") { _, _ -> Void in
-            XCTAssertFalse(ScreenElements.CLICK_SCROLLVIEW_VERTICAL.element.exists)
-        }
-        
-        Then("^the scrollview should perform vertically \"([^\\\"]*)\"$") {args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertFalse(self.application.staticTexts[text].exists)
-            XCTAssertTrue(self.elementContains(string: ScreenElements.SCROLLVIEW_ELEMENTS_1.rawValue))
-        }
-        
-        //Senario 6
-        Then("^the text vertical of scrollview rotate should change$") { _, _ -> Void in
-            XCTAssertFalse(ScreenElements.CLICK_SCROLLVIEW_VERTICAL.element.exists)
-        }
-        
-        Then("^the scrollview rotate should perform vertically \"([^\\\"]*)\"$") {args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertFalse(self.application.staticTexts[text].exists)
-            XCTAssertTrue(self.elementContains(string: ScreenElements.SCROLLVIEW_ELEMENTS_1.rawValue))
-        }
-        
-        Then("^even if the screen is rotated the scrollview must be perform vertically \"([^\\\"]*)\"$") {args, _ -> Void in
-            let text: String = args![0]
-            XCTAssertFalse(self.application.staticTexts[text].exists)
-            XCTAssertTrue(self.elementContains(string: ScreenElements.SCROLLVIEW_ELEMENTS_1.rawValue))
-        }
-        
     }
-    //MARK: - Funções
     
-    func elementContains(string: String) -> Bool {
+    //MARK: - Helper method
+    func elementFrom(string: String) -> XCUIElement? {
         let predicate = NSPredicate(format: "staticTexts CONTAINS[c] %@", string)
-        let result = self.application?.staticTexts.element(matching: predicate)
-        return ((result?.exists) != nil)
+        return self.application.staticTexts.element(matching: predicate)
     }
 }
