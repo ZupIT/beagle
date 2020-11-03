@@ -17,6 +17,8 @@
 import Foundation
 import XCTest
 
+// swiftlint:disable implicitly_unwrapped_optional
+// swiftlint:disable force_unwrapping
 class ContainerSteps: CucumberStepsDefinition {
     var application: XCUIApplication!
     
