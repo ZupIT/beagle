@@ -17,12 +17,12 @@
 package br.com.zup.beagle.android.operation.builtin.comparison
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("eq")
 internal class EqOperation : Operation {
 
     override fun execute(vararg params: Any?): Boolean {
         return params[0] == params[1]
     }
-
-    override fun operationName(): String = "eq"
 }

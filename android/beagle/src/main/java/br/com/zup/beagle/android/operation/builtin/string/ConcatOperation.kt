@@ -17,9 +17,10 @@
 package br.com.zup.beagle.android.operation.builtin.string
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("concat")
 internal class ConcatOperation : Operation {
-    override fun operationName(): String = "concat"
 
     override fun execute(vararg params: Any?): String {
         val value = StringBuilder()
