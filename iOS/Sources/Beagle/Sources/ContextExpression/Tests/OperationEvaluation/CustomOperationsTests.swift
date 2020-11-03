@@ -43,25 +43,6 @@ final class CustomOperationsTests: OperationEvaluationTests {
         }
     }
     
-    func testReplacingSumOperation() {
-        // Given
-        let comparableResults: [DynamicObject] = [10, 11, 7, 14]
-        
-        dependencies.customOperationsProvider.register(operationId: "sum") { parameters in
-            let anyParameters = parameters.map { $0.asAny() }
-            if let integerParameters = anyParameters as? [Int] {
-                return .int(integerParameters.reduce(0, +))
-            }
-            return nil
-        }
-
-        // When
-        evaluateSumOperation { evaluatedResults in
-            // Then
-            XCTAssertEqual(evaluatedResults, comparableResults)
-        }
-    }
-    
     func testInvalidName() {
         // Given
         let view = UIView()
@@ -100,17 +81,6 @@ final class CustomOperationsTests: OperationEvaluationTests {
         
         // When/Then
         evaluateOperations(operations, contexts: contexts, completion: completion)
-    }
-    
-    private func evaluateSumOperation(completion: ([DynamicObject]) -> Void) {
-        // Given
-        let contexts = [Context(id: "context1", value: 3), Context(id: "context2", value: 10)]
-        let bindings = contexts.map { $0.id }
-        
-        let simpleOperations = ["6, 4", "5, 6", "4, \(bindings[0])", "4, \(bindings[1])"].toOperations(name: .sum)
-                
-        // When/Then
-        evaluateOperations(simpleOperations, contexts: contexts, completion: completion)
     }
 }
 

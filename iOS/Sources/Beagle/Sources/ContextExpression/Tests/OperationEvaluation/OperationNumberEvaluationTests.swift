@@ -23,9 +23,6 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateSum() {
         // Given
-        let dependencies = BeagleDependencies()
-        dependencies.customOperationsProvider = CustomOperationsProviderDummy()
-        
         let comparableResults: [DynamicObject] = [10, 10.5, 6, 6.5, 14, 13.3, 27.5, nil, nil, nil, nil]
         
         // When
