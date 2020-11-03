@@ -267,6 +267,7 @@ internal class ListViewHolder(
         directNestedRecyclers.forEach {
             val oldAdapter = it.adapter as ListAdapter
             val updatedAdapter = ListAdapter(
+                oldAdapter.orientation,
                 oldAdapter.template,
                 oldAdapter.iteratorName,
                 oldAdapter.key,

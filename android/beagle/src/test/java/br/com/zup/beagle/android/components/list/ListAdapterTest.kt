@@ -19,10 +19,12 @@ package br.com.zup.beagle.android.components.list
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.AsyncActionData
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
+import br.com.zup.beagle.android.utils.setIsAutoGenerateIdEnabled
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
@@ -45,6 +47,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(InstantExecutorExtension::class)
 class ListAdapterTest : BaseTest() {
 
+    private val orientation = RecyclerView.VERTICAL
     private val template = Container(children = listOf())
     private val iteratorName = "iteratorName"
     private val key = "id"
@@ -68,6 +71,7 @@ class ListAdapterTest : BaseTest() {
 
         listAdapter = spyk(
             ListAdapter(
+                orientation,
                 template,
                 iteratorName,
                 key,
@@ -108,9 +112,40 @@ class ListAdapterTest : BaseTest() {
 
         // When
         val viewHolder = listAdapter.onCreateViewHolder(parent, viewType)
+        val itemView = viewHolder.itemView
 
         // Then
+        verify(exactly = 1) { itemView.setIsAutoGenerateIdEnabled(false) }
         assertTrue { viewHolder.itemView is BeagleFlexView }
+        verify { (itemView as BeagleFlexView).setHeightAutoAndDirtyAllViews() }
+    }
+
+    @Test
+    fun `GIVEN a listAdapter with horizontal recycler WHEN onCreateViewHolder THEN should setWidthAutoAndDirtyAllViews`() {
+        // Given
+        val parent = mockk<ViewGroup>()
+        val viewType = 0
+        listAdapter = spyk(
+            ListAdapter(
+                RecyclerView.HORIZONTAL,
+                template,
+                iteratorName,
+                key,
+                viewFactory,
+                rootView,
+                asyncActionViewModel,
+                contextViewModel,
+                listViewIdViewModel,
+                generateIdViewModel
+            )
+        )
+
+        // When
+        val viewHolder = listAdapter.onCreateViewHolder(parent, viewType)
+        val itemView = viewHolder.itemView
+
+        // Then
+        verify { (itemView as BeagleFlexView).setWidthAutoAndDirtyAllViews() }
     }
 
     @Test

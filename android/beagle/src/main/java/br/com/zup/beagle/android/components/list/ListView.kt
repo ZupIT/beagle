@@ -207,6 +207,7 @@ constructor(
 
     private fun setupRecyclerView(orientation: Int) {
         val contextAdapter = ListAdapter(
+            orientation,
             template!!,
             iteratorName,
             key,

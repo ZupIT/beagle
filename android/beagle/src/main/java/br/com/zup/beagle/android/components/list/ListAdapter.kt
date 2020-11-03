@@ -38,6 +38,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 
 @Suppress("LongParameterList")
 internal class ListAdapter(
+    val orientation: Int,
     val template: ServerDrivenComponent,
     val iteratorName: String,
     val key: String? = null,
@@ -137,7 +138,11 @@ internal class ListAdapter(
     private fun generateView(newTemplate: ServerDrivenComponent) = viewFactory.makeBeagleFlexView(rootView).apply {
         setIsAutoGenerateIdEnabled(false)
         addServerDrivenComponent(newTemplate, false)
-        setWidthAutoAndDirtyAllViews()
+        if (orientation == RecyclerView.VERTICAL) {
+            setHeightAutoAndDirtyAllViews()
+        } else {
+            setWidthAutoAndDirtyAllViews()
+        }
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
