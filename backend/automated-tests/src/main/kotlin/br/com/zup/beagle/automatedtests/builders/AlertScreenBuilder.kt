@@ -48,16 +48,6 @@ object AlertScreenBuilder {
                         Alert(title = "", message = "@{alertContext.message}")
                     )),
                 Button(
-                    text = "JustATitle",
-                    onPress = listOf(
-                        Alert(title = "AlertTitle", message = "")
-                    )),
-                Button(
-                    text = "JustATitleViaExpression",
-                    onPress = listOf(
-                        Alert(title = "@{alertContext.title}", message = "")
-                    )),
-                Button(
                     text = "TitleAndMessage",
                     onPress = listOf(
                         Alert(title = "AlertTitle", message = "AlertMessage")
