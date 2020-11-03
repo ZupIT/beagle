@@ -33,27 +33,29 @@ class ScrollViewSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.SCROLLVIEW_SCREEN_HEADER.element.exists)
         }
        
-        //MARK: - When
+        // MARK: - When
         
         //Scenario 1
-        When(#"^I press on text scroll "([^\"]*)"$"#) { args, _ -> Void in
+        When(#"^I press on "([^\"]*)" scrollable text$"#) { args, _ -> Void in
             let text = args![0]
             self.application.staticTexts[text].tap()
         }
         
-        //MARK: - Then
+        // MARK: - Then
         
-        //Scenario 1
-        Then(#"^the current text "([^\"]*)" should be replaced for a large text and the scrollview should perform in the specified orientation "([^\"]*)"$"#) { args, _ -> Void in
-            let currentText = args![0]
-            let orientation = args![1]
+        // Scenario 1
+        Then(#"^the current text "([^\"]*)" should be replaced for a large text and It should scroll to the "([^\"]*)" button in the "([^\"]*)" orientation for tapping it$"#) { args, _ -> Void in
+            let text = args![0]
+            let buttonTitle = args![1]
+            let orientation = args![2]
             
-            XCTAssertFalse(self.application.staticTexts[currentText].exists)
+            XCUIDevice.shared.orientation = orientation == "horizontal" ? .portrait : .landscapeRight
+            XCTAssertFalse(self.application.staticTexts[text].exists)
             
             let element = self.elementFrom(string: ScreenElements.SCROLLVIEW_LARGE_TEXT.rawValue)
             XCTAssertNotNil(element)
             
-            let button = self.application.buttons[orientation]
+            let button = self.application.buttons[buttonTitle]
             button.tap()
         }
     }
