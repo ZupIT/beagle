@@ -17,9 +17,10 @@
 package br.com.zup.beagle.android.operation.builtin.string
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("substr")
 internal class SubstrOperation : Operation {
-    override fun operationName(): String = "substr"
 
     override fun execute(vararg params: Any?): String {
         val text = params[0] as String

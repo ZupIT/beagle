@@ -17,11 +17,12 @@
 package br.com.zup.beagle.android.operation.builtin.other
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 import org.json.JSONArray
 import org.json.JSONObject
 
+@RegisterOperation("length")
 internal class LengthOperation : Operation {
-    override fun operationName(): String = "length"
 
     override fun execute(vararg params: Any?): Int {
         return when (val value = params[0]) {

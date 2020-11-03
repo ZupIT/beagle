@@ -17,11 +17,12 @@
 package br.com.zup.beagle.android.operation.builtin.other
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 import org.json.JSONArray
 import org.json.JSONObject
 
+@RegisterOperation("isEmpty")
 internal class IsEmptyOperation : Operation {
-    override fun operationName(): String = "isEmpty"
 
     override fun execute(vararg params: Any?): Boolean {
         return when (val value = params[0]) {

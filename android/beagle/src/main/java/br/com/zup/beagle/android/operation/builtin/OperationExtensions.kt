@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.android.operation.builtin
 
-import org.json.JSONArray
-
 internal fun Array<out Any?>.toListOfDoubles(): List<Double> {
     return this.map {
         it as Double
@@ -34,8 +32,4 @@ internal fun Array<out Any?>.toListOfBooleans(): List<Boolean> {
     return this.map {
         it as Boolean
     }
-}
-
-internal fun Any?.toJSONArray(): JSONArray {
-    return this as JSONArray
 }
