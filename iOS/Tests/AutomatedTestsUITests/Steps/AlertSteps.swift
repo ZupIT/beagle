@@ -37,7 +37,7 @@ class AlertSteps: CucumberStepsDefinition {
         
         // MARK: - When
         
-        // Scenarios 1 and 2
+        // Scenarios 1, 2, 3 and 4
         When(#"^I press an alert button with the "([^\"]*)" title$"#) { args, _ -> Void in
             let text = args![0]
             self.application.buttons[text].tap()
@@ -57,6 +57,22 @@ class AlertSteps: CucumberStepsDefinition {
             let message = args![1]
             XCTAssertTrue(self.application.staticTexts[title].exists)
             XCTAssertTrue(self.application.staticTexts[message].exists)
+        }
+        
+        // Scenario 3
+        Then(#"^an alert with the "([^\"]*)" title should appear on the screen$"#) { args, _ -> Void in
+            let text = args![0]
+            let element = self.application.staticTexts[text]
+            let result = element.waitForExistence(timeout: 10)
+            XCTAssertNotNil(result)
+            XCTAssertTrue(element.exists)
+        }
+        
+        // Scenario 4
+        Then(#"^an alert should appear on the screen and its confirmation button should display the "([^\"]*)" custom title$"#) { args, _ -> Void in
+            let title = args![0]
+            let element = self.application.buttons[title]
+            XCTAssertTrue(element.exists)
         }
     }
 }

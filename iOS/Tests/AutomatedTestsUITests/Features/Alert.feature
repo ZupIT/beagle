@@ -41,3 +41,13 @@ Feature: Alert Component Validation
         |         buttonTitle             |            title            |           message            |
         |   TitleAndMessage               |    AlertTitle               |   AlertMessage               |
         |   TitleAndMessageViaExpression  |    AlertTitleViaExpression  |   AlertMessageViaExpression  |
+
+
+    Scenario: Alert 03 - The alert should trigger an action when pressing its confirmation button
+        When I press an alert button with the "AlertTriggersAnAction" title
+        When I press an alert button with the "Ok" title
+        Then an alert with the "SecondAlert" title should appear on the screen
+        
+    Scenario: Alert 04 - The alert should display its confirmation button with a custom title
+        When I press an alert button with the "CustomAlertButton" title
+        Then an alert should appear on the screen and its confirmation button should display the "CustomLabel" custom title
