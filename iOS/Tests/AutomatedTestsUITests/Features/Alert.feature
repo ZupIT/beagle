@@ -33,11 +33,11 @@ Feature: Alert Component Validation
         |   JustAMessage                  |    AlertMessage                      |
         |   JustAMessageViaExpression     |    AlertMessageViaExpression         |
         
-    Scenario Outline: Alert 02 - The alert should display a message
+    Scenario Outline: Alert 02 - The alert should display a title and a message
         When I press an alert button with the "<buttonTitle>" title
-        Then an alert with the "<message>" message should appear on the screen
+        Then an alert with the "<title>" title and the "<message>" message should appear on the screen
 
-    Examples:
-    |         buttonTitle             |               message                |
-    |   JustAMessage                  |    AlertMessage                      |
-    |   JustAMessageViaExpression     |    AlertMessageViaExpression         |
+        Examples:
+        |         buttonTitle             |            title            |           message            |
+        |   TitleAndMessage               |    AlertTitle               |   AlertMessage               |
+        |   TitleAndMessageViaExpression  |    AlertTitleViaExpression  |   AlertMessageViaExpression  |
