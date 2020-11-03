@@ -17,10 +17,11 @@
 package br.com.zup.beagle.android.operation.builtin.array
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 import org.json.JSONArray
 
+@RegisterOperation("remove")
 internal class RemoveOperation : Operation {
-    override fun operationName(): String = "remove"
 
     @Suppress("ReturnCount")
     override fun execute(vararg params: Any?): Any {

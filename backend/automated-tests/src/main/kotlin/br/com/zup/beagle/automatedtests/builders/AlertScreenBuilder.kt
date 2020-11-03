@@ -39,13 +39,13 @@ object AlertScreenBuilder {
                 Button(
                     text = "JustAMessage",
                     onPress = listOf(
-                        Alert(title = "", message = "AlertMessage")
+                        Alert(message = "AlertMessage")
                     )
                 ),
                 Button(
                     text = "JustAMessageViaExpression",
                     onPress = listOf(
-                        Alert(title = "", message = "@{alertContext.message}")
+                        Alert(message = "@{alertContext.message}")
                     )),
                 Button(
                     text = "TitleAndMessage",
@@ -61,9 +61,8 @@ object AlertScreenBuilder {
                     text = "AlertTriggersAnAction",
                     onPress = listOf(
                         Alert(
-                            title = "",
                             message = "AlertMessage",
-                            onPressOk = Alert(title = "", message = "SecondAlert")
+                            onPressOk = Alert(message = "SecondAlert")
                         )
                     ),
                 ),
@@ -71,7 +70,6 @@ object AlertScreenBuilder {
                     text = "CustomAlertButton",
                     onPress = listOf(
                         Alert(
-                            title = "",
                             message = "AlertMessage",
                             labelOk = "CustomLabel")
                     ))
