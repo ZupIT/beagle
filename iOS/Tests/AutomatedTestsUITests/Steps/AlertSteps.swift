@@ -60,7 +60,7 @@ class AlertSteps: CucumberStepsDefinition {
         }
         
         // Scenario 3
-        Then(#"^an alert with the "([^\"]*)" title should appear on the screen$"#) { args, _ -> Void in
+        Then(#"^a second alert with the "([^\"]*)" title should appear on the screen$"#) { args, _ -> Void in
             let text = args![0]
             let element = self.application.staticTexts[text]
             let result = element.waitForExistence(timeout: 10)
