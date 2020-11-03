@@ -63,7 +63,7 @@ object AlertScreenBuilder {
                         Alert(
                             title = "",
                             message = "AlertMessage",
-                            onPressOk = Alert(message = "2ndAlert")
+                            onPressOk = Alert(message = "SecondAlert")
                         )
                     ),
                 ),
