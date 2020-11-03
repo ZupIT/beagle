@@ -17,7 +17,9 @@
 package br.com.zup.beagle.android.operation.builtin.comparison
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("gt")
 internal class GtOperation : Operation {
 
     override fun execute(vararg params: Any?): Boolean {
@@ -30,6 +32,4 @@ internal class GtOperation : Operation {
             (value1 as Double) > (value2 as Double)
         }
     }
-
-    override fun operationName(): String = "gt"
 }
