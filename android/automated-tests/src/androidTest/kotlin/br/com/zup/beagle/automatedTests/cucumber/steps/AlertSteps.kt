@@ -75,7 +75,7 @@ class AlertScreenSteps {
         ScreenRobot().clickOnText(string)
     }
 
-    @Then("^Then an alert with a confirmation button with (.*) label should appear$")
+    @Then("^an alert with a confirmation button with (.*) label should appear$")
     fun checkAlertConfirmationButtonLabelIsSetWithText(string:String){
         ScreenRobot()
             .checkViewContainsText(string)

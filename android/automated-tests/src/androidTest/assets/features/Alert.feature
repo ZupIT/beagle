@@ -50,4 +50,4 @@ Feature: Alert Action Validation
 
     Scenario: Alert 04 - The alert should display an confirmation button with a custom label
         When I press an alert button with the CustomAlertButton title
-        Then Then an alert with a confirmation button with CustomLabel label should appear
+        Then an alert with a confirmation button with CustomLabel label should appear
