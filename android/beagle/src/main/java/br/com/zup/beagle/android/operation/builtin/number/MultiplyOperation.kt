@@ -19,9 +19,10 @@ package br.com.zup.beagle.android.operation.builtin.number
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.builtin.toListOfDoubles
 import br.com.zup.beagle.android.operation.builtin.toListOfInts
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("multiply")
 internal class MultiplyOperation : Operation {
-    override fun operationName(): String = "multiply"
 
     override fun execute(vararg params: Any?): Number {
         return if (params[0] is Int) {

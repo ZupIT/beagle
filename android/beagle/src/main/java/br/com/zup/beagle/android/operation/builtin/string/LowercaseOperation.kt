@@ -17,10 +17,11 @@
 package br.com.zup.beagle.android.operation.builtin.string
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 import java.util.*
 
+@RegisterOperation("lowercase")
 class LowercaseOperation : Operation {
-    override fun operationName(): String = "lowercase"
 
     override fun execute(vararg params: Any?): String {
         return params[0].toString().toLowerCase(Locale.getDefault())
