@@ -48,7 +48,7 @@ data class ListView
  * @see OnInitiableComponent
  */
 @Deprecated(
-    message = "It was deprecated in version 1.4 and will be removed in a future version. " +
+    message = "It was deprecated in version 1.5 and will be removed in a future version. " +
         "Use dataSource and template instead children.",
     replaceWith = ReplaceWith(
         "ListView(direction, context, onInit, dataSource, template, onScrollEnd, scrollThreshold," +
@@ -71,7 +71,7 @@ constructor(
      * @param children define the items on the list view.
      * @param direction define the list direction.
      */
-    @Deprecated(message = "It was deprecated in version 1.4 and will be removed in a future version. " +
+    @Deprecated(message = "It was deprecated in version 1.5 and will be removed in a future version. " +
         "Use dataSource and template instead children.",
         replaceWith = ReplaceWith(
             "ListView(direction, context, onInit, dataSource, template, onScrollEnd, scrollThreshold," +
@@ -137,19 +137,14 @@ constructor(
 
     override fun buildView(rootView: RootView): View {
         this.rootView = rootView
-        val listView = if (children.isNullOrEmpty()) {
-            template?.let {
-                dataSource?.let {
-                    buildNewListView()
-                }
-            }
+        return if (children.isNullOrEmpty() && template != null && dataSource != null) {
+            buildNewListView()
         } else {
             buildOldListView()
         }
-        return listView!!
     }
 
-    @Deprecated(message = "It was deprecated in version x.x and will be removed in a future version. " +
+    @Deprecated(message = "It was deprecated in version 1.5 and will be removed in a future version. " +
         "Use new ListView implementation instead.",
         replaceWith = ReplaceWith("buildNewListView()"))
     private fun buildOldListView(): View {
@@ -157,9 +152,7 @@ constructor(
         recyclerView.apply {
             val orientation = listDirectionToRecyclerViewOrientation()
             layoutManager = LinearLayoutManager(context, orientation, false)
-            this@ListView.children?.let {
-                adapter = ListViewRecyclerAdapter(it, viewFactory, orientation, this@ListView.rootView)
-            }
+            adapter = ListViewRecyclerAdapter(children!!, viewFactory, orientation, this@ListView.rootView)
         }
         return recyclerView
     }
@@ -177,11 +170,11 @@ constructor(
         return recyclerView
     }
 
-    @Deprecated(message = "It was deprecated in version x.x and will be removed in a future version. " +
+    @Deprecated(message = "It was deprecated in version 1.5 and will be removed in a future version. " +
         "Use new ListView implementation instead.",
         replaceWith = ReplaceWith("buildNewListView()"))
     internal class ListViewRecyclerAdapter(
-        private val children: List<ServerDrivenComponent>,
+        val children: List<ServerDrivenComponent>,
         private val viewFactory: ViewFactory,
         private val orientation: Int,
         private val rootView: RootView

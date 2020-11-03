@@ -36,19 +36,18 @@ import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@Suppress("LongParameterList")
 internal class ListAdapter(
     val template: ServerDrivenComponent,
     val iteratorName: String,
     val key: String? = null,
     val viewFactory: ViewFactory,
-    val rootView: RootView
+    val rootView: RootView,
+    asyncActionViewModel: AsyncActionViewModel = rootView.generateViewModelInstance(),
+    private val contextViewModel: ScreenContextViewModel = rootView.generateViewModelInstance(),
+    private val listViewIdViewModel: ListViewIdViewModel = rootView.generateViewModelInstance(),
+    private val generateIdViewModel: GenerateIdViewModel = rootView.generateViewModelInstance()
 ) : RecyclerView.Adapter<ListViewHolder>() {
-
-    // ViewModels to manage ids and contexts
-    private val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-    private val asyncActionViewModel = rootView.generateViewModelInstance<AsyncActionViewModel>()
-    private val listViewIdViewModel = rootView.generateViewModelInstance<ListViewIdViewModel>()
-    private val generateIdViewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
 
     // Recyclerview id for post config changes id management
     private var recyclerId = View.NO_ID
@@ -126,7 +125,7 @@ internal class ListAdapter(
             view,
             newTemplate,
             serializer,
-            viewModel,
+            contextViewModel,
             listViewIdViewModel,
             templateJson,
             iteratorName

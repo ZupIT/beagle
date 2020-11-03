@@ -16,94 +16,161 @@
 
 package br.com.zup.beagle.android.components.list
 
-import android.content.Context
+import android.view.View
 import android.view.ViewGroup
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.android.engine.renderer.ViewRenderer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.context.AsyncActionData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
-import br.com.zup.beagle.android.widget.RootView
-import io.mockk.Called
-import io.mockk.MockKAnnotations
+import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
+import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
+import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
+import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.spyk
 import io.mockk.verify
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-private val ROWS = listOf<ServerDrivenComponent>(mockk(), mockk())
+class ListAdapterTest : BaseTest() {
 
-class ListAdapterTest {
-
-    @MockK
-    private lateinit var viewFactory: ViewFactory
-    @MockK
-    private lateinit var viewRendererMock: ViewRenderer<*>
-    @MockK
-    private lateinit var rootView: RootView
-    @MockK
-    private lateinit var context: Context
-    @RelaxedMockK
-    private lateinit var view: BeagleFlexView
+    private val template = Container(children = listOf())
+    private val iteratorName = "iteratorName"
+    private val key = "id"
+    private val generatedId = 10
+    private val list = listOf("stub 1", "stub 2")
+    private val viewFactory = mockk<ViewFactory>(relaxed = true)
+    private val asyncActionViewModel = mockk<AsyncActionViewModel>()
+    private val contextViewModel = mockk<ScreenContextViewModel>()
+    private val listViewIdViewModel = mockk<ListViewIdViewModel>()
+    private val generateIdViewModel = mockk<GenerateIdViewModel>()
+    private val observerSlot = slot<Observer<AsyncActionData>>()
 
     private lateinit var listAdapter: ListAdapter
 
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+
     @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
+        every { asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        every { listViewIdViewModel.createSingleManagerByListViewId(any(), any()) } just Runs
+        every { generateIdViewModel.getViewId(rootView.getParentId()) } returns generatedId
 
-//        listAdapter = ListAdapter(ROWS, viewFactory, RecyclerView.VERTICAL, rootView)
-
-        every { viewFactory.makeBeagleFlexView(any()) } returns view
-        every { rootView.getContext() } returns context
+        listAdapter = spyk(
+            ListAdapter(
+                template,
+                iteratorName,
+                key,
+                viewFactory,
+                rootView,
+                asyncActionViewModel,
+                contextViewModel,
+                listViewIdViewModel,
+                generateIdViewModel
+            )
+        )
+        every { listAdapter.notifyDataSetChanged() } just Runs
     }
 
     @Test
-    fun getItemViewType_should_return_position() {
+    fun `GIVEN a listAdapter WHEN getItemViewType THEN should return 0`() {
         // Given
-        val position = 0
+        val position = 1
 
         // When
         val actual = listAdapter.getItemViewType(position)
 
         // Then
-        assertEquals(position, actual)
+        assertEquals(0, actual)
     }
 
     @Test
-    fun onCreateViewHolder_should_return_ViewHolder_with_widget_view() {
+    fun `GIVEN a listAdapter WHEN init THEN should observe asyncActions`() {
+        // Then
+        verify { asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), observerSlot.captured) }
+    }
+
+    @Test
+    fun `GIVEN a listAdapter WHEN onCreateViewHolder THEN should create a ListViewHolder`() {
         // Given
         val parent = mockk<ViewGroup>()
-        val position = 0
-        every { parent.context } returns context
+        val viewType = 0
 
         // When
-        val actual = listAdapter.onCreateViewHolder(parent, position)
+        val viewHolder = listAdapter.onCreateViewHolder(parent, viewType)
 
         // Then
-        assertEquals(view, actual.itemView)
+        assertTrue { viewHolder.itemView is BeagleFlexView }
     }
 
     @Test
-    fun onBindViewHolder_should_do_nothing() {
+    fun `GIVEN a loaded listAdapter WHEN onBindViewHolder THEN should call onBind from viewHolder`() {
         // Given
-        val viewHolder = mockk<ListViewHolder>()
+        val viewHolder = mockk<ListViewHolder>(relaxed = true)
+        val parentListViewSuffix = "parent"
         val position = 0
+        val isRecycled = false
+        val recyclerId = 10
+        val listItemSlot = slot<ListItem>()
+        listAdapter.setParentSuffix(parentListViewSuffix)
+        listAdapter.setList(list, recyclerId)
 
         // When
         listAdapter.onBindViewHolder(viewHolder, position)
 
         // Then
-        verify { viewHolder wasNot Called }
+        verify(exactly = 1) { viewHolder.onBind(parentListViewSuffix, key, capture(listItemSlot), isRecycled, position, recyclerId) }
+        assertEquals(list[0], listItemSlot.captured.data)
     }
 
     @Test
-    fun getItemCount_should_return_rows_size() {
-        val actual = listAdapter.itemCount
+    fun `GIVEN a loaded listAdapter WHEN getItemCount THEN should use list and recyclerId`() {
+        // Given
+        val recyclerId = 10
 
-        assertEquals(ROWS.size, actual)
+        // When
+        listAdapter.setList(list, recyclerId)
+
+        // Then
+        assertEquals(list.size, listAdapter.itemCount)
+        verify(exactly = 1) { listViewIdViewModel.createSingleManagerByListViewId(recyclerId, true) }
+    }
+
+    @Test
+    fun `GIVEN empty list WHEN setList THEN should itemCount be 0`() {
+        // Given
+        val recyclerId = 10
+        listAdapter.setList(list, recyclerId)
+
+        // When
+        listAdapter.setList(emptyList(), recyclerId)
+
+        // Then
+        assertEquals(0, listAdapter.itemCount)
+    }
+
+    @Test
+    fun `GIVEN recyclerId is -1 WHEN setList THEN should getViewId from generateIdViewModel`() {
+        // Given
+        val recyclerId = View.NO_ID
+
+        // When
+        listAdapter.setList(list, recyclerId)
+
+        // Then
+        verify(exactly = 1) { generateIdViewModel.getViewId(rootView.getParentId()) }
+        verify(exactly = 1) { listViewIdViewModel.createSingleManagerByListViewId(generatedId, true) }
     }
 }
