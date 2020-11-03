@@ -37,7 +37,7 @@ data class Alert(
     val labelOk: String? = null
 ) : Action {
     constructor(
-        title: String? = null,
+        title: String?,
         message: String,
         onPressOk: Action? = null,
         labelOk: String? = null
