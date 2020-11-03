@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D0165EE254C5299000A48AD /* TextSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0165ED254C5299000A48AD /* TextSteps.swift */; };
 		174096E9252B8FB10009C749 /* NavigateSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174096E8252B8FB10009C749 /* NavigateSteps.swift */; };
-		57A9F3592538E21D00F75396 /* AddChildrenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9F3582538E21D00F75396 /* AddChildrenSteps.swift */; };
 		17F6C7BA25364B8800A0ECAA /* SendRequestActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */; };
 		42C55D0E25477EEF003ECF63 /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */; };
 		42C55D1125477F42003ECF63 /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */; };
 		42C55D1325477F70003ECF63 /* NetworkClientDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1225477F70003ECF63 /* NetworkClientDefault.swift */; };
 		42D7B4E5253E6C3E00431477 /* ContainerSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */; };
+		57A9F3592538E21D00F75396 /* AddChildrenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A9F3582538E21D00F75396 /* AddChildrenSteps.swift */; };
 		639CA15624B4EF1A009FAC90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639CA15524B4EF1A009FAC90 /* AppDelegate.swift */; };
 		639CA15F24B4EF1D009FAC90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 639CA15E24B4EF1D009FAC90 /* Assets.xcassets */; };
 		639CA16224B4EF1D009FAC90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 639CA16024B4EF1D009FAC90 /* LaunchScreen.storyboard */; };
@@ -131,13 +132,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D0165ED254C5299000A48AD /* TextSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSteps.swift; sourceTree = "<group>"; };
 		174096E8252B8FB10009C749 /* NavigateSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateSteps.swift; sourceTree = "<group>"; };
-		57A9F3582538E21D00F75396 /* AddChildrenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildrenSteps.swift; sourceTree = "<group>"; };
 		17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestActionSteps.swift; sourceTree = "<group>"; };
 		42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
 		42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilder.swift; sourceTree = "<group>"; };
 		42C55D1225477F70003ECF63 /* NetworkClientDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientDefault.swift; sourceTree = "<group>"; };
 		42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerSteps.swift; sourceTree = "<group>"; };
+		57A9F3582538E21D00F75396 /* AddChildrenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildrenSteps.swift; sourceTree = "<group>"; };
 		639CA15224B4EF1A009FAC90 /* AutomatedTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutomatedTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		639CA15524B4EF1A009FAC90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		639CA15E24B4EF1D009FAC90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 				17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */,
 				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
 				174096E8252B8FB10009C749 /* NavigateSteps.swift */,
+				0D0165ED254C5299000A48AD /* TextSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				639CA21224B4F0B0009FAC90 /* GHNode.m in Sources */,
 				639CA22224B4F0B0009FAC90 /* GHTableRow.m in Sources */,
 				6B4F7E7F24C71D04003F461A /* TabViewSteps.swift in Sources */,
+				0D0165EE254C5299000A48AD /* TextSteps.swift in Sources */,
 				639CA22A24B4F0B0009FAC90 /* XCTestCase+RecordFailure.m in Sources */,
 				639CA21B24B4F0B0009FAC90 /* NSString+Trim.m in Sources */,
 				639CA22D24B4F0B0009FAC90 /* Cucumberish.m in Sources */,
