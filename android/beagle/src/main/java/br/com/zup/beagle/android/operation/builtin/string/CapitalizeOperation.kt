@@ -18,9 +18,10 @@ package br.com.zup.beagle.android.operation.builtin.string
 
 import android.annotation.SuppressLint
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("capitalize")
 internal class CapitalizeOperation : Operation {
-    override fun operationName(): String = "capitalize"
 
     @SuppressLint("DefaultLocale")
     override fun execute(vararg params: Any?): String {

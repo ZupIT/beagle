@@ -17,10 +17,11 @@
 package br.com.zup.beagle.android.operation.builtin.array
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 import org.json.JSONArray
 
+@RegisterOperation("insert")
 internal class InsertOperation : Operation {
-    override fun operationName(): String = "insert"
 
     @Suppress("ReturnCount")
     override fun execute(vararg params: Any?): Any {
