@@ -17,7 +17,9 @@
 package br.com.zup.beagle.android.operation.builtin.logic
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("or")
 internal class OrOperation : Operation {
 
     override fun execute(vararg params: Any?): Boolean {
@@ -29,6 +31,4 @@ internal class OrOperation : Operation {
 
         return false
     }
-
-    override fun operationName(): String = "or"
 }

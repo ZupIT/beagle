@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.operation.builtin.string
+package br.com.zup.beagle.annotation
 
-import br.com.zup.beagle.android.operation.Operation
-import br.com.zup.beagle.annotation.RegisterOperation
-import java.util.*
-
-@RegisterOperation("uppercase")
-internal class UppercaseOperation : Operation {
-
-    override fun execute(vararg params: Any?): String {
-        return params[0].toString().toUpperCase(Locale.getDefault())
-    }
-
-}
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RegisterOperation(
+    val name: String
+)

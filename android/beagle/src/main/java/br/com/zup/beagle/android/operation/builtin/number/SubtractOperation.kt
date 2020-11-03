@@ -19,7 +19,9 @@ package br.com.zup.beagle.android.operation.builtin.number
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.builtin.toListOfDoubles
 import br.com.zup.beagle.android.operation.builtin.toListOfInts
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("subtract")
 internal class SubtractOperation : Operation {
 
     override fun execute(vararg params: Any?): Number {
@@ -29,6 +31,4 @@ internal class SubtractOperation : Operation {
             params.toListOfDoubles().reduce { num1, num2 -> num1 - num2 }
         }
     }
-
-    override fun operationName(): String = "subtract"
 }
