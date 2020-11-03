@@ -19,6 +19,7 @@ import XCTest
 
 class ScrollViewSteps: CucumberStepsDefinition {
     var application: XCUIApplication!
+    var device = XCUIDevice.shared
     
     func loadSteps() {
         // MARK: - Before
@@ -36,27 +37,29 @@ class ScrollViewSteps: CucumberStepsDefinition {
         // MARK: - When
         
         //Scenario 1
-        When(#"^I press on "([^\"]*)" scrollable text$"#) { args, _ -> Void in
-            let text = args![0]
+        When(#"^I change the screen orientation to "([^\"]*)" and I press on "([^\"]*)" scrollable text$"#) { args, _ -> Void in
+            let orientation = args![0]
+            let text = args![1]
+            self.device.orientation = orientation == "horizontal" ? .portrait : .landscapeRight
             self.application.staticTexts[text].tap()
         }
         
         // MARK: - Then
         
         // Scenario 1
-        Then(#"^the current text "([^\"]*)" should be replaced for a large text and It should scroll to the "([^\"]*)" button in the "([^\"]*)" orientation for tapping it$"#) { args, _ -> Void in
+        Then(#"^the current text "([^\"]*)" should be replaced for a large text and It should scroll to the "([^\"]*)" button for tapping it$"#) { args, _ -> Void in
             let text = args![0]
-            let buttonTitle = args![1]
-            let orientation = args![2]
-            
-            XCUIDevice.shared.orientation = orientation == "horizontal" ? .portrait : .landscapeRight
+            let buttonTitle = args![1]            
             XCTAssertFalse(self.application.staticTexts[text].exists)
             
             let element = self.elementFrom(string: ScreenElements.SCROLLVIEW_LARGE_TEXT.rawValue)
             XCTAssertNotNil(element)
             
             let button = self.application.buttons[buttonTitle]
+            XCTAssertFalse(button.isHittable)
+
             button.tap()
+            XCTAssertTrue(button.isHittable)
         }
     }
     

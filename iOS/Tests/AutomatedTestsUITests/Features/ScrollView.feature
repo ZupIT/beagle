@@ -25,8 +25,8 @@ Feature: ScrollView Component Validation
         Given the Beagle application did launch with the scrollview screen url
 
     Scenario Outline: ScrollView 01 - scrollView component should perform the horizontal scroll correctly
-        When I press on "<text>" scrollable text
-        Then the current text "<text>" should be replaced for a large text and It should scroll to the "<buttonTitle>" button in the "<orientation>" orientation for tapping it
+        When I change the screen orientation to "<orientation>" and I press on "<text>" scrollable text
+        Then the current text "<text>" should be replaced for a large text and It should scroll to the "<buttonTitle>" button for tapping it
         
         Examples:
         |                 text                    |      buttonTitle       |  orientation  |
