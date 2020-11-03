@@ -17,7 +17,9 @@
 package br.com.zup.beagle.android.operation.builtin.logic
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("condition")
 internal class ConditionOperation : Operation {
 
     override fun execute(vararg params: Any?): Any? {
@@ -27,6 +29,4 @@ internal class ConditionOperation : Operation {
             params[2]
         }
     }
-
-    override fun operationName(): String = "condition"
 }

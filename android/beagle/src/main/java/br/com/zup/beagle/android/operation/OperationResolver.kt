@@ -16,17 +16,12 @@
 
 package br.com.zup.beagle.android.operation
 
-import br.com.zup.beagle.android.operation.builtin.mapOfArrayOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfComparisonOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfLogicOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfNumberOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfOtherOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfStringOperations
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.setup.InternalOperationFactory
 
 internal class OperationResolver {
 
-    private val functions = createFunctions()
+    private val functions = createOperations()
 
     fun execute(functionName: String, vararg params: Any?): Any? {
         val function = functions[functionName]
@@ -38,13 +33,6 @@ internal class OperationResolver {
         return function?.execute(*params)
     }
 
-    private fun createFunctions(): Map<String, Operation> {
-        return mutableMapOf<String, Operation>() +
-            mapOfNumberOperations() +
-            mapOfArrayOperations() +
-            mapOfLogicOperations() +
-            mapOfComparisonOperations() +
-            mapOfStringOperations() +
-            mapOfOtherOperations()
-    }
+    private fun createOperations(): Map<String, Operation> = InternalOperationFactory.registeredOperations()
+
 }
