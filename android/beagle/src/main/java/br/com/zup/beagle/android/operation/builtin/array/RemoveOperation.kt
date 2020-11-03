@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.operation.builtin.array
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
 import org.json.JSONArray
 
@@ -24,27 +25,12 @@ import org.json.JSONArray
 internal class RemoveOperation : Operation {
 
     @Suppress("ReturnCount")
-    override fun execute(vararg params: Any?): Any {
-        val array = params[0]
-        val element = params[1] as Any
+    override fun execute(vararg params: OperationType?): OperationType {
+        val array = (params[0] as OperationType.TypeJsonArray).value
+        val element = params[1]!!.value
 
-        if (array is Collection<*>) {
-            val list = array.toMutableList()
-            return removeElementsOnList(list, element)
-        } else if (array is JSONArray) {
-            return removeElementsOnJSONArray(array, element)
-        }
-
-
-        return emptyList<Any>()
-    }
-
-    private fun removeElementsOnList(list: MutableList<Any?>, element: Any): List<Any?> {
-        var shouldRemove = true
-        while (shouldRemove) {
-            shouldRemove = list.remove(element)
-        }
-        return list
+        val result = removeElementsOnJSONArray(array, element)
+        return OperationType.TypeJsonArray(result)
     }
 
     private fun removeElementsOnJSONArray(array: JSONArray, element: Any): JSONArray {

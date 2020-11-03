@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.operation.builtin.other
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
 import org.json.JSONArray
 import org.json.JSONObject
@@ -24,12 +25,13 @@ import org.json.JSONObject
 @RegisterOperation("isEmpty")
 internal class IsEmptyOperation : Operation {
 
-    override fun execute(vararg params: Any?): Boolean {
+    override fun execute(vararg params: OperationType?): OperationType {
+
         return when (val value = params[0]) {
-            is String -> value.isEmpty()
+            is OperationType.TypeString -> value.value.isEmpty()
             is Collection<Any?> -> value.isEmpty()
-            is JSONArray -> value.length() == 0
-            is JSONObject -> value.length() == 0
+            is OperationType.TypeJsonArray  -> value.length() == 0
+            is OperationType.TypeString  -> value.length() == 0
             is Map<*, *> -> value.isEmpty()
             else -> true
         }

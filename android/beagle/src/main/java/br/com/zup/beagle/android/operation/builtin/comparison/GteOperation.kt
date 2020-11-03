@@ -17,19 +17,16 @@
 package br.com.zup.beagle.android.operation.builtin.comparison
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("gte")
 internal class GteOperation : Operation {
 
-    override fun execute(vararg params: Any?): Boolean {
-        val value1 = params[0]
-        val value2 = params[1]
-
-        return if (value1 is Int && value2 is Int) {
-            value1 >= value2
-        } else {
-            (value1 as Double) >= (value2 as Double)
-        }
+    override fun execute(vararg params: OperationType?): OperationType {
+        val value1 = (params[0] as OperationType.TypeNumber).value
+        val value2 = (params[1] as OperationType.TypeNumber).value
+        val result = value1.toDouble() >= value2.toDouble()
+        return OperationType.TypeBoolean(result)
     }
 }

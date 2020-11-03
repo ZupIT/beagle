@@ -17,18 +17,20 @@
 package br.com.zup.beagle.android.operation.builtin.number
 
 import br.com.zup.beagle.android.operation.Operation
-import br.com.zup.beagle.android.operation.builtin.toListOfDoubles
-import br.com.zup.beagle.android.operation.builtin.toListOfInts
+import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("divide")
 internal class DivideOperation : Operation {
 
-    override fun execute(vararg params: Any?): Number {
-        return if (params[0] is Int) {
-            params.toListOfInts().reduce { num1, num2 -> num1 / num2 }
-        } else {
-            params.toListOfDoubles().reduce { num1, num2 -> num1 / num2 }
+    override fun execute(vararg params: OperationType?): OperationType? {
+        return params.reduce { parameterOne, parameterTwo ->
+            (parameterOne as OperationType.TypeNumber)
+            (parameterTwo as OperationType.TypeNumber)
+            val result = parameterOne.value.toDouble() / parameterTwo.value.toDouble()
+
+            val isInt = (params[0] as OperationType.TypeNumber).value is Int
+            if (isInt) OperationType.TypeNumber(result.toInt()) else OperationType.TypeNumber(result)
         }
     }
 

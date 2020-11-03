@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.operation.builtin
+package br.com.zup.beagle.android.operation
 
-internal fun Array<out Any?>.toListOfDoubles(): List<Double> {
-    return this.map {
-        it as Double
-    }
-}
+import org.json.JSONArray
+import org.json.JSONObject
 
-internal fun Array<out Any?>.toListOfInts(): List<Int> {
-    return this.map {
-        it as Int
-    }
-}
-
-internal fun Array<out Any?>.toListOfBooleans(): List<Boolean> {
-    return this.map {
-        it as Boolean
-    }
+sealed class OperationType(open val value: Any) {
+    data class TypeString(override val value: String) : OperationType(value)
+    data class TypeBoolean(override val value: Boolean) : OperationType(value)
+    data class TypeNumber(override val value: Number) : OperationType(value)
+    data class TypeJsonArray(override val value: JSONArray) : OperationType(value)
+    data class TypeJsonObject(override val value: JSONObject) : OperationType(value)
 }

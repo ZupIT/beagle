@@ -18,6 +18,9 @@ package br.com.zup.beagle.android.operation
 
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.InternalOperationFactory
+import org.json.JSONArray
+import org.json.JSONObject
+import java.lang.Exception
 
 internal class OperationResolver {
 
@@ -26,11 +29,23 @@ internal class OperationResolver {
     fun execute(functionName: String, vararg params: Any?): Any? {
         val function = functions[functionName]
 
+        val paramsMapped = params.map { parameter ->
+            when (parameter) {
+                is String -> OperationType.TypeString(parameter)
+                is Number -> OperationType.TypeNumber(parameter)
+                is Boolean -> OperationType.TypeBoolean(parameter)
+                is JSONArray -> OperationType.TypeJsonArray(parameter)
+                is JSONObject -> OperationType.TypeJsonObject(parameter)
+                else -> throw Exception("type not mapped by beagle")
+            }
+        }
+
         if (function == null) {
             BeagleMessageLogs.functionWithNameDoesNotExist(functionName)
         }
 
-        return function?.execute(*params)
+        val result = function?.execute(*paramsMapped.toTypedArray())
+        return result?.value
     }
 
     private fun createOperations(): Map<String, Operation> = InternalOperationFactory.registeredOperations()

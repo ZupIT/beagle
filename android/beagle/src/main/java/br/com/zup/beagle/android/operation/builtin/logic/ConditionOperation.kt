@@ -17,13 +17,15 @@
 package br.com.zup.beagle.android.operation.builtin.logic
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("condition")
 internal class ConditionOperation : Operation {
 
-    override fun execute(vararg params: Any?): Any? {
-        return if (params[0] as Boolean) {
+    override fun execute(vararg params: OperationType?): OperationType? {
+        val value = (params[0] as OperationType.TypeBoolean).value
+        return if (value) {
             params[1]
         } else {
             params[2]
