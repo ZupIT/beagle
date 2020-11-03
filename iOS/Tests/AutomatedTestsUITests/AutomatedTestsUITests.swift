@@ -22,14 +22,15 @@ class CucumberishInitializer: NSObject {
         beforeStart { () -> Void in
             let stepsDefinitions: [CucumberStepsDefinition] =
                 [
-                    ButtonScreenSteps(),
-                    TabViewScreenSteps(),
-                    ImageScreenSteps(),
-                    PageViewScreenSteps(),
-                    SimpleFormScreenSteps(),
+                    ButtonSteps(),
+                    TabViewSteps(),
+                    ImageSteps(),
+                    PageViewSteps(),
+                    SimpleFormSteps(),
                     SendRequestActionSteps(),
-                    NavigationActionSteps(),
-                    ContainerSteps()
+                    NavigateSteps(),
+                    ContainerSteps(),
+                    AddChildrenSteps()
                 ]
             for stepsDefinition in stepsDefinitions {
                 stepsDefinition.loadSteps()

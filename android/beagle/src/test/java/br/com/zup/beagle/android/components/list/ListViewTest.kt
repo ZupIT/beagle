@@ -24,11 +24,8 @@ import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
-import br.com.zup.beagle.android.utils.Observer
-import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.ListDirection
 import io.mockk.Runs
@@ -39,8 +36,8 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 class ListViewTest : BaseComponentTest() {
 

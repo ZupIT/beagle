@@ -35,12 +35,12 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifySequence
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 
 private val URL = RandomData.string()
 private val BEAGLE_HASH_KEY = "$URL#hash"
@@ -77,7 +77,7 @@ class CacheManagerTest {
 
     private lateinit var cacheManager: CacheManager
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkObject(BeagleEnvironment)
 
@@ -115,7 +115,7 @@ class CacheManagerTest {
         } just Runs
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }

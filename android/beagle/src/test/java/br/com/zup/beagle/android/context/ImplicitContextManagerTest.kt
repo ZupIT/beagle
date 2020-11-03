@@ -19,9 +19,9 @@ package br.com.zup.beagle.android.context
 import android.view.View
 import br.com.zup.beagle.android.action.Action
 import io.mockk.mockk
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 class ImplicitContextManagerTest {
 

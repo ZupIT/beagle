@@ -49,9 +49,11 @@ import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.unmockkAll
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 class ToolbarManagerTest : BaseTest() {
 
@@ -102,6 +104,7 @@ class ToolbarManagerTest : BaseTest() {
     private val backgroundColorInt = RandomData.int()
     private val listenerSlot = slot<View.OnClickListener>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         mockkStatic(ResourcesCompat::class)
@@ -129,6 +132,7 @@ class ToolbarManagerTest : BaseTest() {
         every { toolbar.setNavigationOnClickListener(capture(listenerSlot)) } returns Unit
     }
 
+    @AfterEach
     override fun tearDown() {
         super.tearDown()
         unmockkAll()

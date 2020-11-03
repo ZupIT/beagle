@@ -33,7 +33,8 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 private open class AbstractViewRenderer(
     override val component: Widget,
@@ -55,6 +56,7 @@ class AbstractViewRendererTest : BaseTest() {
 
     private lateinit var viewRenderer: AbstractViewRenderer
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

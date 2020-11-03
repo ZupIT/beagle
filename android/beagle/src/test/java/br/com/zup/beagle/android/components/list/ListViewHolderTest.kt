@@ -40,8 +40,8 @@ import io.mockk.verify
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 
 class ListViewHolderTest {
 

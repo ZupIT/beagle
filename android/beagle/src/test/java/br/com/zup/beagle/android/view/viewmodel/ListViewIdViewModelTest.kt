@@ -26,12 +26,12 @@ import io.mockk.unmockkStatic
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.assertThrows
 import java.util.LinkedList
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 class ListViewIdViewModelTest {
 
@@ -61,7 +61,7 @@ class ListViewIdViewModelTest {
         val recyclerViewId = View.NO_ID
 
         // When
-        val exception = assertFails {
+        val exception = assertThrows<IllegalArgumentException> {
             listViewIdViewModel.createSingleManagerByListViewId(recyclerViewId)
         }
 
@@ -143,7 +143,7 @@ class ListViewIdViewModelTest {
         val viewId = 0
 
         // When
-        val exception = assertFails {
+        val exception = assertThrows<IllegalArgumentException> {
             listViewIdViewModel.setViewId(recyclerViewId, position, viewId)
         }
 
@@ -241,7 +241,7 @@ class ListViewIdViewModelTest {
         val viewId = View.NO_ID
 
         // When
-        val exception = assertFails {
+        val exception = assertThrows<IllegalArgumentException> {
             listViewIdViewModel.setViewId(recyclerViewId, position, viewId)
         }
 
@@ -256,7 +256,7 @@ class ListViewIdViewModelTest {
         val viewId = View.NO_ID
 
         // When
-        val exception = assertFails {
+        val exception = assertThrows<IllegalArgumentException> {
             listViewIdViewModel.setViewId(recyclerViewId, position, viewId)
         }
 
@@ -271,7 +271,7 @@ class ListViewIdViewModelTest {
         val position = 0
 
         // When
-        val exception = assertFails {
+        val exception = assertThrows<IllegalArgumentException> {
             listViewIdViewModel.getViewId(recyclerViewId, position)
         }
 
@@ -301,7 +301,7 @@ class ListViewIdViewModelTest {
         val itemSuffix = ""
 
         // When
-        val exception = assertFails {
+        val exception = assertThrows<IllegalArgumentException> {
             listViewIdViewModel.getViewId(recyclerViewId, position, componentId, itemSuffix)
         }
 
@@ -348,7 +348,7 @@ class ListViewIdViewModelTest {
         val recyclerViewId = View.NO_ID
 
         // When
-        val exception = assertFails {
+        val exception = assertThrows<IllegalArgumentException> {
             listViewIdViewModel.markHasCompletelyLoaded(recyclerViewId)
         }
 

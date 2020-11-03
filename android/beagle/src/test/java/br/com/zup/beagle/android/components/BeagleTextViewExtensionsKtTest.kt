@@ -31,8 +31,9 @@ import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextAlignment
 import io.mockk.*
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 private val STYLE_RES = RandomData.int()
 private val IMAGE_RES = RandomData.int()
@@ -49,6 +50,7 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
 
     private lateinit var text: Text
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 

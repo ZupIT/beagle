@@ -97,4 +97,3 @@ const val SEND_BUTTON = "Enviar"
 //Confirm Popup
 const val OK_BUTTON = "OK"
 const val CANCEL_BUTTON = "Cancel"
-

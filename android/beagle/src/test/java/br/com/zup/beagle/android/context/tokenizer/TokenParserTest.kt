@@ -16,12 +16,19 @@
 
 package br.com.zup.beagle.android.context.tokenizer
 
-import org.junit.Test
-import kotlin.math.exp
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockkObject
+import io.mockk.verify
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.assertThrows
+import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
 
 class TokenParserTest {
 
@@ -40,9 +47,16 @@ class TokenParserTest {
     fun parse_should_return_string_throw_exception_with_invalid_string() {
         // Given
         val expression = "'hello"
+        mockkObject(BeagleMessageLogs)
+
+        every { BeagleMessageLogs.errorWhileTryingParseExpressionFunction(expression, any()) } just Runs
+        val result = tokenParser.parse(expression)
 
         // When Then
-        assertFails { tokenParser.parse(expression) }
+        verify {
+            BeagleMessageLogs.errorWhileTryingParseExpressionFunction(expression, any())
+        }
+        assertEquals(ExpressionToken(expression, InvalidToken()), result)
     }
 
     @Test

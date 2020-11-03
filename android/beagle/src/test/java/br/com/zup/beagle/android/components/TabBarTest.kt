@@ -29,15 +29,15 @@ import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import br.com.zup.beagle.core.Style
 import com.google.android.material.tabs.TabLayout
 import io.mockk.*
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private const val DEFAULT_STYLE = "DummyStyle"
+private const val TAB_BAR_ITEM_TITLE = "Beagle Tab"
 
 class TabBarTest : BaseComponentTest() {
-
-    private val TAB_BAR_ITEM_TITLE = "Beagle Tab"
 
     private val tabLayout: BeagleTabLayout = mockk(relaxed = true)
     private val frameLayoutParams: FrameLayout.LayoutParams = mockk()
@@ -51,6 +51,7 @@ class TabBarTest : BaseComponentTest() {
 
     private lateinit var tabBar: TabBar
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")

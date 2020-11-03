@@ -20,8 +20,8 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.networking.ResponseData
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class SendRequestActionMapperTest : BaseTest(){
 

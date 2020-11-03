@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Container: RawWidget, HasContext, AutoDecodable {
+public struct Container: RawWidget, HasContext, InitiableComponent, AutoDecodable {
     // MARK: - Public Properties
     public let children: [RawComponent]
     public var widgetProperties: WidgetProperties
