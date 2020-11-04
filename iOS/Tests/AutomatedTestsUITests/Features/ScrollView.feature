@@ -24,11 +24,11 @@ Feature: ScrollView Component Validation
     Background:
         Given the Beagle application did launch with the scrollview screen url
 
-    Scenario Outline: ScrollView 01 - scrollView component should perform the horizontal scroll correctly
+    Scenario Outline: ScrollView 01 - scrollView component should perform the specified scroll orientation correctly
         When I change the screen orientation to "<orientation>" and I press on "<text>" scrollable text
         Then the current text "<text>" should be replaced for a large text and It should scroll to the "<buttonTitle>" button for tapping it
         
         Examples:
-        |                 text                    |      buttonTitle       |  orientation  |
+        |                 text                    |      buttonTitle   |  orientation  |
         | Click to see the new text in horizontal | horizontalScroll   | horizontal    |
         | Click to see the new text in vertical   | verticalScroll     | vertical      |
