@@ -108,3 +108,8 @@ val ANDROID_ACTION = BeagleClass(
     packageName = "br.com.zup.beagle.android.action",
     className = "Action"
 )
+
+val ANDROID_OPERATION = BeagleClass(
+    packageName = "br.com.zup.beagle.android.operation",
+    className = "Operation"
+)
