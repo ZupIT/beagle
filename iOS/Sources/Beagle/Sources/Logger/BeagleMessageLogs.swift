@@ -195,7 +195,7 @@ extension Log: LogType {
             return "Using Expressions without proper syntax"
             
         case .customOperations(.alreadyExists):
-            return "You are replacing a default operation in Beagle, consider creating it using `custom()`"
+            return "You are replacing a default operation in Beagle, consider using a different name."
         case .customOperations(.invalid(let name)):
             return "\n Invalid custom operation name: \(name) \n Names should have at least 1 character, it can also contain numbers and the character _"
         case .customOperations(.notFound):

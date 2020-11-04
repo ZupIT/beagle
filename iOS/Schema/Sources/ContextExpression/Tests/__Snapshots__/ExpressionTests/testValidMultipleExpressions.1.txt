@@ -40,15 +40,15 @@
       ▿ Node
         ▿ expression: SingleExpression
           ▿ operation: Operation
-            - name: Name.condition
+            - name: "condition"
             ▿ parameters: 3 elements
               ▿ Parameter
                 ▿ operation: Operation
-                  - name: Name.lt
+                  - name: "lt"
                   ▿ parameters: 2 elements
                     ▿ Parameter
                       ▿ operation: Operation
-                        - name: Name.sum
+                        - name: "sum"
                         ▿ parameters: 2 elements
                           ▿ Parameter
                             ▿ value: Value
@@ -79,7 +79,7 @@
       ▿ Node
         ▿ expression: SingleExpression
           ▿ operation: Operation
-            - name: Name.sum
+            - name: "sum"
             ▿ parameters: 3 elements
               ▿ Parameter
                 ▿ value: Value
@@ -99,7 +99,7 @@
       ▿ Node
         ▿ expression: SingleExpression
           ▿ operation: Operation
-            - name: Name.sum
+            - name: "sum"
             ▿ parameters: 3 elements
               ▿ Parameter
                 ▿ value: Value

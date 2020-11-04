@@ -58,7 +58,7 @@
       - literal: Literal.null
   ▿ SingleExpression
     ▿ operation: Operation
-      - name: Name.sum
+      - name: "sum"
       ▿ parameters: 2 elements
         ▿ Parameter
           ▿ value: Value

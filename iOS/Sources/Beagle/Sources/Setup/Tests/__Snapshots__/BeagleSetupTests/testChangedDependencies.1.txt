@@ -2,7 +2,6 @@
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
   - cacheManager: Optional<CacheManagerProtocol>.none
-  - customOperationsProvider: CustomOperationsProviderDummy
   - decoder: ComponentDecodingDummy
   ▿ deepLinkHandler: Optional<DeepLinkScreenManaging>
     - some: DeepLinkHandlerDummy
@@ -38,6 +37,7 @@
     - some: NetworkClientDummy
   ▿ opener: URLOpenerDumb
     - hasInvokedTryToOpen: false
+  - operationsProvider: OperationsProviderDummy
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)

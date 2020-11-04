@@ -23,7 +23,7 @@ final class CustomOperationsTests: OperationEvaluationTests {
         
     func testCustomOperation() {
         // Given
-        dependencies.customOperationsProvider.register(operationId: "isValidCPF") { parameters in
+        dependencies.operationsProvider.register(operationId: "isValidCPF") { parameters in
             let anyParameters = parameters.map { $0.asAny() }
             if let intParameters = anyParameters.first as? Int {
                 let stringParameters = String(intParameters)
@@ -37,7 +37,7 @@ final class CustomOperationsTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [true, true, true, true, false, false, false, false]
 
         // When
-        evaluateCustomOperation(.custom("isValidCPF")) { evaluatedResults in
+        evaluateCustomOperation("isValidCPF") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -46,29 +46,29 @@ final class CustomOperationsTests: OperationEvaluationTests {
     func testInvalidName() {
         // Given
         let view = UIView()
-        let customSumOperation = Operation(name: .custom("sum???"), parameters: [.value(.literal(.int(2)))])
-        let customEmptyOperation = Operation(name: .custom(""), parameters: [.value(.literal(.int(2)))])
-        let customNumbersOperation = Operation(name: .custom("123"), parameters: [.value(.literal(.int(2)))])
+        let customSumOperation = Operation(name: "sum???", parameters: [.value(.literal(.int(2)))])
+        let customEmptyOperation = Operation(name: "", parameters: [.value(.literal(.int(2)))])
+        let customNumbersOperation = Operation(name: "123", parameters: [.value(.literal(.int(2)))])
 
-        dependencies.customOperationsProvider.register(operationId: "sum???") { _ in
+        dependencies.operationsProvider.register(operationId: "sum???") { _ in
             return nil
         }
         
-        dependencies.customOperationsProvider.register(operationId: "") { _ in
+        dependencies.operationsProvider.register(operationId: "") { _ in
             return nil
         }
         
-        dependencies.customOperationsProvider.register(operationId: "123") { _ in
+        dependencies.operationsProvider.register(operationId: "123") { _ in
             return nil
         }
         
         // When // Then
-        XCTAssertNil(dependencies.customOperationsProvider.getOperationHandler(with: customSumOperation, in: view))
-        XCTAssertNil(dependencies.customOperationsProvider.getOperationHandler(with: customEmptyOperation, in: view))
-        XCTAssertNil(dependencies.customOperationsProvider.getOperationHandler(with: customNumbersOperation, in: view))
+        XCTAssertEqual(dependencies.operationsProvider.evaluate(with: customSumOperation, in: view), .empty)
+        XCTAssertEqual(dependencies.operationsProvider.evaluate(with: customEmptyOperation, in: view), .empty)
+        XCTAssertEqual(dependencies.operationsProvider.evaluate(with: customNumbersOperation, in: view), .empty)
     }
 
-    private func evaluateCustomOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateCustomOperation(_ name: String, completion: ([DynamicObject]) -> Void) {
         // Given
         let contexts = [Context(id: "context1", value: "50573178577")]
         let binding = contexts[0].id
@@ -103,6 +103,5 @@ private extension StringProtocol {
         guard numbers.count == 11 && Set(numbers).count != 1 else { return false }
         return numbers.prefix(9).digitCPF == numbers[9] &&
                numbers.prefix(10).digitCPF == numbers[10]
-
     }
 }
