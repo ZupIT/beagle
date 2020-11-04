@@ -18,11 +18,10 @@ package br.com.zup.beagle.android.operation.builtin.number
 
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
-import br.com.zup.beagle.android.operation.builtin.comparison.ComparisonValidationParameterOperation
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("divide")
-internal class DivideOperation : Operation, ComparisonValidationParameterOperation {
+internal class DivideOperation : Operation {
 
     override fun execute(vararg params: OperationType?): OperationType {
         return params.reduce { parameterOne, parameterTwo ->
