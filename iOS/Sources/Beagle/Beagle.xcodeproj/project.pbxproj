@@ -89,6 +89,8 @@
 		983E8C8E2396C81C0018C6CA /* TabBarItemUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983E8C8D2396C81C0018C6CA /* TabBarItemUIComponent.swift */; };
 		983E8C912396DF430018C6CA /* TabViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983E8C902396DF430018C6CA /* TabViewTests.swift */; };
 		983E8C992396DFC90018C6CA /* TabViewUIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983E8C982396DFC90018C6CA /* TabViewUIComponentTests.swift */; };
+		984DD930253A56A9003A78D8 /* OperationsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984DD92F253A56A9003A78D8 /* OperationsProvider.swift */; };
+		9873128C2542589F00386638 /* CustomOperationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9873128B2542589F00386638 /* CustomOperationsTests.swift */; };
 		988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F81FA23E24ECA008562BE /* UIView+Subviews.swift */; };
 		98B7D95623DB2722002622AC /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7D95523DB2722002622AC /* Observable.swift */; };
 		98E18D16249BE714009D6A54 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D15249BE714009D6A54 /* Alert.swift */; };
@@ -346,6 +348,8 @@
 		983E8C8D2396C81C0018C6CA /* TabBarItemUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemUIComponent.swift; sourceTree = "<group>"; };
 		983E8C902396DF430018C6CA /* TabViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewTests.swift; sourceTree = "<group>"; };
 		983E8C982396DFC90018C6CA /* TabViewUIComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewUIComponentTests.swift; sourceTree = "<group>"; };
+		984DD92F253A56A9003A78D8 /* OperationsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsProvider.swift; sourceTree = "<group>"; };
+		9873128B2542589F00386638 /* CustomOperationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOperationsTests.swift; sourceTree = "<group>"; };
 		988F81FA23E24ECA008562BE /* UIView+Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Subviews.swift"; sourceTree = "<group>"; };
 		98B7D95523DB2722002622AC /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		98E18D15249BE714009D6A54 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
@@ -540,6 +544,7 @@
 				25CDD47324ED666D00CC49CB /* OperationStringEvaluationTests.swift */,
 				25CDD47524EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift */,
 				25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */,
+				9873128B2542589F00386638 /* CustomOperationsTests.swift */,
 			);
 			path = OperationEvaluation;
 			sourceTree = "<group>";
@@ -706,6 +711,7 @@
 		935278F0249970E300AB9D1F /* ContextExpression */ = {
 			isa = PBXGroup;
 			children = (
+				984DD92F253A56A9003A78D8 /* OperationsProvider.swift */,
 				935278F52499728400AB9D1F /* DynamicObject.swift */,
 				935278F32499720800AB9D1F /* Expression.swift */,
 				2539A44E24C61C0D00B8FA92 /* GlobalContext.swift */,
@@ -1840,6 +1846,7 @@
 				E52236CB23745DED00E555BB /* HTTPRequestCanceling.swift in Sources */,
 				A040DBBC2497E259000F3213 /* Action.swift in Sources */,
 				C08D4E8B2485946000AAAC0A /* WebView+Renderable.swift in Sources */,
+				984DD930253A56A9003A78D8 /* OperationsProvider.swift in Sources */,
 				C08D4EFC248ABE6700AAAC0A /* InputValue.swift in Sources */,
 				2552F1982502AE7E004055A5 /* BeagleView.swift in Sources */,
 				98E18D16249BE714009D6A54 /* Alert.swift in Sources */,
@@ -1933,6 +1940,7 @@
 				98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */,
 				98E4974B249E9B830053DB87 /* TextInputTests.swift in Sources */,
 				17D62CEC24DAFAF9008A4E96 /* XCTestCase+Delay.swift in Sources */,
+				9873128C2542589F00386638 /* CustomOperationsTests.swift in Sources */,
 				5744D121251E6868003638F4 /* DynamicObjectExtension.swift in Sources */,
 				C81C9C7423AA9B4800C557D2 /* ListViewTests.swift in Sources */,
 				C8ECF2D024BD2AB000525CF5 /* NetworkCacheTest.swift in Sources */,
