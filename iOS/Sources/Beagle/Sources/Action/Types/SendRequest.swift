@@ -18,7 +18,7 @@
 import BeagleSchema
 import UIKit
 
-extension SendRequest: Action {
+extension SendRequest: AsyncAction {
     
     public func execute(controller: BeagleController, origin: UIView) {
         let methodValue = method?.evaluate(with: origin)

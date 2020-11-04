@@ -36,6 +36,7 @@ public enum Log {
     case navigation(_ navigator: Navigator)
     case cache(_ cache: Cache)
     case expression(_ expression: Expression)
+    case customOperations(_ operation: Operation)
 
     public enum Decoding {
         case decodingError(type: String)
@@ -127,6 +128,12 @@ public enum Log {
     public enum Expression {
         case invalidSyntax
     }
+    
+    public enum Operation {
+        case alreadyExists
+        case invalid(name: String)
+        case notFound
+    }
 }
 
 extension Log: LogType {
@@ -139,6 +146,7 @@ extension Log: LogType {
         case .network: return "Network"
         case .cache: return "Cache"
         case .expression: return "Expression"
+        case .customOperations: return "CustomOperation"
         }
     }
 
@@ -185,6 +193,13 @@ extension Log: LogType {
 
         case .expression(.invalidSyntax):
             return "Using Expressions without proper syntax"
+            
+        case .customOperations(.alreadyExists):
+            return "You are replacing a default operation in Beagle, consider using a different name."
+        case .customOperations(.invalid(let name)):
+            return "\n Invalid custom operation name: \(name) \n Names should have at least 1 character, it can also contain numbers and the character _"
+        case .customOperations(.notFound):
+            return "Custom operation not registered."
         }
     }
 
@@ -219,6 +234,14 @@ extension Log: LogType {
 
         case .expression(.invalidSyntax):
             return .info
+            
+        case .customOperations(let custom):
+            switch custom {
+            case .alreadyExists, .notFound:
+                return .info
+            case .invalid:
+                return .error
+            }
         }
     }
 }
