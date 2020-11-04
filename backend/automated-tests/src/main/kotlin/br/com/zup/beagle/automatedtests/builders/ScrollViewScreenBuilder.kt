@@ -29,6 +29,7 @@ import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.navigation.Touchable
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
@@ -106,6 +107,9 @@ object ScrollViewScreenBuilder {
                                         onPress = listOf(
                                             SetContext(contextId = "testScrollViewWithRotation", value = PARAGRAPH)
                                         )
+                                    ),
+                                    Button(
+                                        text = "horizontalScroll"
                                     )
                                 ),
                                 scrollDirection = ScrollAxis.HORIZONTAL
@@ -141,6 +145,9 @@ object ScrollViewScreenBuilder {
                                         onPress = listOf(
                                             SetContext(contextId = "testScrollRotation", value = PARAGRAPH)
                                         )
+                                    ),
+                                    Button(
+                                        text = "verticalScroll"
                                     )
                                 ),
                                 scrollDirection = ScrollAxis.VERTICAL

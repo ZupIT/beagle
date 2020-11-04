@@ -30,5 +30,5 @@ Feature: ScrollView Component Validation
         
         Examples:
         |                 text                    |      buttonTitle       |  orientation  |
-        | Click to see the new text in horizontal | horizontalScrollTest   | horizontal    |
-        | Click to see the new text in vertical   | verticalScrollTest     | vertical      |
+        | Click to see the new text in horizontal | horizontalScroll   | horizontal    |
+        | Click to see the new text in vertical   | verticalScroll     | vertical      |
