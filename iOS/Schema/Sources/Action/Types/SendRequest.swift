@@ -33,7 +33,7 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
     public let headers: Expression<[String: String]>?
     public let onSuccess: [RawAction]?
     public let onError: [RawAction]?
-    public let onFinish: [RawAction]?
+    public var onFinish: [RawAction]?
     
 // sourcery:inline:auto:SendRequest.Init
     public init(

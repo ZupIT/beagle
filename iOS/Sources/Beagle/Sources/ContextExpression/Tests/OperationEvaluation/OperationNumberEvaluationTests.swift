@@ -26,7 +26,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [10, 10.5, 6, 6.5, 14, 13.3, 27.5, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.sum) { evaluatedResults in
+        evaluateOperation("sum") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -37,7 +37,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [2, -1.5, 2, 1.5, 2, 4.3, -1.5, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.subtract) { evaluatedResults in
+        evaluateOperation("subtract") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -48,7 +48,7 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [24, 27.0, 8, 10.0, 96, 75.6, 7290.0, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.multiply) { evaluatedResults in
+        evaluateOperation("multiply") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -59,13 +59,13 @@ final class OperationNumberEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [1, 0.75, 2, 1.6, 4, 3.733333333333333, 0.625, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.divide) { evaluatedResults in
+        evaluateOperation("divide") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
-    private func evaluateOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateOperation(_ name: String, completion: ([DynamicObject]) -> Void) {
         // Given
         let contexts = [Context(id: "context1", value: 2), Context(id: "context2", value: 2.5)]
         let bindings = contexts.map { $0.id }

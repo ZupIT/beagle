@@ -31,13 +31,13 @@ import br.com.zup.beagle.widget.context.valueOfNullable
  *
  */
 data class Alert(
-    val title: Bind<String>?,
+    val title: Bind<String>? = null,
     val message: Bind<String>,
     val onPressOk: Action? = null,
     val labelOk: String? = null
 ) : Action {
     constructor(
-        title: String?,
+        title: String? = null,
         message: String,
         onPressOk: Action? = null,
         labelOk: String? = null
