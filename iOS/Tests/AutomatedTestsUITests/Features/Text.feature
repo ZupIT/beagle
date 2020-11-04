@@ -22,12 +22,12 @@ Feature: Text Component Validation
     In order to guarantee that my application never fails
     
     Background:
-        Given the Beagle application did launch with the text on screen
+        Given the Beagle application did launch with the text url screen
         
-    Scenario Outline: Text 01 - test if my value is on the screen
-        Then I must check if the text value "<textValue>" appears on the screen
+    Scenario Outline: Text 01 - a text should be displayed on the screen correctly
+        Then the text "<text>" should appear on the screen
         
         Examples:
-            | textValue                  |
-            | hello world                |
-            | hello world via expression |
+        |           text            |
+        |   TextValue               |
+        |   TextValueViaExpression  |
