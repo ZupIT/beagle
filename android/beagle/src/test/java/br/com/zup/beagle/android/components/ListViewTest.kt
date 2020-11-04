@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.list
+package br.com.zup.beagle.android.components
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.SendRequest
-import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.list.ListAdapter
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension

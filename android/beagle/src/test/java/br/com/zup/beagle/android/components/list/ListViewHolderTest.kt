@@ -57,6 +57,7 @@ class ListViewHolderTest : BaseTest() {
     private val itemView = mockk<View>(relaxed = true)
     private val template = mockk<ServerDrivenComponent>(relaxed = true)
     private val serializer = mockk<BeagleSerializer>(relaxed = true)
+    private val listViewModels = mockk<ListViewModels>()
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val listViewIdViewModel = mockk<ListViewIdViewModel>(relaxed = true)
     private val jsonTemplate = ""
@@ -68,7 +69,9 @@ class ListViewHolderTest : BaseTest() {
         super.setUp()
         mockkConstructor(BeagleSerializer::class)
 
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        every { listViewModels.contextViewModel } returns viewModel
+        every { listViewModels.listViewIdViewModel } returns listViewIdViewModel
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
     }
 
     @Test
@@ -77,7 +80,7 @@ class ListViewHolderTest : BaseTest() {
         val template = Container(children = listOf(), onInit = listOf(Navigate.PopView()))
 
         // When
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // Then
         assertEquals(template, listViewHolder.initiableComponents[0])
@@ -92,7 +95,7 @@ class ListViewHolderTest : BaseTest() {
         every { itemView.findViewById<View>(id.toAndroidId()) } returns view
 
         // When
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
         val viewsWithId = listViewHolder.getPrivateField<MutableMap<String, View>>("viewsWithId")
 
         // Then
@@ -108,7 +111,7 @@ class ListViewHolderTest : BaseTest() {
         }
 
         // When
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
         val viewsWithContext = listViewHolder.getPrivateField<MutableList<View>>("viewsWithContext")
 
         // Then
@@ -121,7 +124,7 @@ class ListViewHolderTest : BaseTest() {
         val itemView = mockk<ImageView>(relaxed = true)
 
         // When
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // Then
         assertEquals(itemView, listViewHolder.directNestedImageViews[0])
@@ -133,7 +136,7 @@ class ListViewHolderTest : BaseTest() {
         val itemView = mockk<TextView>(relaxed = true)
 
         // When
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // Then
         assertEquals(itemView, listViewHolder.directNestedTextViews[0])
@@ -145,7 +148,7 @@ class ListViewHolderTest : BaseTest() {
         val itemView = mockk<RecyclerView>(relaxed = true)
 
         // When
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
         val directNestedRecyclers = listViewHolder.getPrivateField<MutableList<RecyclerView>>("directNestedRecyclers")
 
         // Then
@@ -159,7 +162,7 @@ class ListViewHolderTest : BaseTest() {
         contexts.add(mockk())
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         assertTrue { contexts.isEmpty() }
@@ -168,10 +171,10 @@ class ListViewHolderTest : BaseTest() {
     @Test
     fun `GIVEN a recycled item WHEN onBind THEN should call deserializeComponent`() {
         // Given
-        val isRecycled = true
+        every { listItem.isRecycled } returns true
 
         // When
-        listViewHolder.onBind(null, null, listItem, isRecycled, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         verify(exactly = 1) { serializer.deserializeComponent(jsonTemplate) }
@@ -182,10 +185,10 @@ class ListViewHolderTest : BaseTest() {
         // Given
         val context = ContextData("id", "value")
         val template = Container(children = listOf(), context = context)
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
         val contexts = listViewHolder.getPrivateField<MutableList<ContextData>>("contextComponents")
 
         // Then
@@ -202,7 +205,7 @@ class ListViewHolderTest : BaseTest() {
         val listIdByItemKey = position.toString()
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, position, 0)
+        listViewHolder.onBind(null, null, listItem, position, 0)
 
         // Then
         assertEquals(listIdByItemKey, itemSuffixSlot.captured)
@@ -219,7 +222,7 @@ class ListViewHolderTest : BaseTest() {
         val listIdByItemKey = "$parentListViewSuffix:$position"
 
         // When
-        listViewHolder.onBind(parentListViewSuffix, null, listItem, false, position, 0)
+        listViewHolder.onBind(parentListViewSuffix, null, listItem, position, 0)
 
         // Then
         assertEquals(listIdByItemKey, itemSuffixSlot.captured)
@@ -236,7 +239,7 @@ class ListViewHolderTest : BaseTest() {
         val listIdByItemKey = "10"
 
         // When
-        listViewHolder.onBind(null, "id", listItem, false, 0, 0)
+        listViewHolder.onBind(null, "id", listItem, 0, 0)
 
         // Then
         assertEquals(listIdByItemKey, itemSuffixSlot.captured)
@@ -259,7 +262,7 @@ class ListViewHolderTest : BaseTest() {
         every { itemView.id = capture(viewIdSlot) } just Runs
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, position, recyclerId)
+        listViewHolder.onBind(null, null, listItem, position, recyclerId)
 
         // Then
         assertEquals(generatedId, viewIdSlot.captured)
@@ -284,7 +287,7 @@ class ListViewHolderTest : BaseTest() {
         every { itemView.id = capture(viewIdSlot) } just Runs
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, position, recyclerId)
+        listViewHolder.onBind(null, null, listItem, position, recyclerId)
 
         // Then
         assertEquals(previousId, viewIdSlot.captured)
@@ -296,6 +299,7 @@ class ListViewHolderTest : BaseTest() {
     fun `GIVEN a firstTimeBinding recycled item WHEN onBind THEN should setDefaultContextToEachContextView`() {
         // Given
         every { listItem.firstTimeBinding } returns true
+        every { listItem.isRecycled } returns true
         every { itemView.getContextBinding() } returns mockk {
             every { context } returns ContextData("id", "value")
         }
@@ -304,10 +308,10 @@ class ListViewHolderTest : BaseTest() {
 
         val contextSlot = mutableListOf<ContextData>()
         every { viewModel.addContext(itemView, capture(contextSlot), shouldOverrideExistingContext = true) } just Runs
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // When
-        listViewHolder.onBind(null, null, listItem, true, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         assertEquals(context, contextSlot[0])
@@ -317,6 +321,7 @@ class ListViewHolderTest : BaseTest() {
     fun `GIVEN a firstTimeBinding recycled item with savedContext WHEN onBind THEN should setDefaultContextToEachContextView`() {
         // Given
         every { listItem.firstTimeBinding } returns true
+        every { listItem.isRecycled } returns true
         every { itemView.getContextBinding() } returns mockk {
             every { context } returns ContextData("id", "otherContext")
         }
@@ -328,10 +333,10 @@ class ListViewHolderTest : BaseTest() {
 
         val contextSlot = mutableListOf<ContextData>()
         every { viewModel.addContext(itemView, capture(contextSlot), shouldOverrideExistingContext = true) } just Runs
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // When
-        listViewHolder.onBind(null, null, listItem, true, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         assertEquals(context, contextSlot[0])
@@ -341,14 +346,15 @@ class ListViewHolderTest : BaseTest() {
     fun `GIVEN a firstTimeBinding recycled item with recycler WHEN onBind THEN should generateAdapterToEachDirectNestedRecycler`() {
         // Given
         every { listItem.firstTimeBinding } returns true
+        every { listItem.isRecycled } returns true
         val itemView = mockk<RecyclerView>(relaxed = true)
         every { itemView.adapter } returns mockk<ListAdapter>(relaxed = true)
         val jsonTemplate = """{ "_beagleComponent_": "beagle:button", "text": "Test" }""".trimIndent()
         every { anyConstructed<BeagleSerializer>().serializeComponent(any()) } returns jsonTemplate
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // When
-        listViewHolder.onBind(null, null, listItem, true, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         verify(exactly = 1) { itemView.swapAdapter(any(), false) }
@@ -362,10 +368,10 @@ class ListViewHolderTest : BaseTest() {
         val itemView = mockk<RecyclerView>(relaxed = true)
         val adapter = mockk<ListAdapter>(relaxed = true)
         every { itemView.adapter } returns adapter
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         assertEquals(adapter, listItem.directNestedAdapters[0])
@@ -382,10 +388,10 @@ class ListViewHolderTest : BaseTest() {
             every { setParentSuffix(capture(itemSuffixSlot)) } just Runs
         }
         every { itemView.adapter } returns adapter
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         assertEquals(suffix, itemSuffixSlot.captured)
@@ -402,7 +408,7 @@ class ListViewHolderTest : BaseTest() {
         every { itemView.id = capture(idSlot) } just Runs
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         assertEquals(viewIds[0], idSlot.captured)
@@ -417,10 +423,10 @@ class ListViewHolderTest : BaseTest() {
             add(adapter)
         }
         every { listItem.directNestedAdapters } returns adapters
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         verify(exactly = 1) { itemView.swapAdapter(adapter, false) }
@@ -432,10 +438,10 @@ class ListViewHolderTest : BaseTest() {
         every { itemView.getContextBinding() } returns mockk {
             every { context } returns ContextData("id", "value")
         }
-        listViewHolder = ListViewHolder(itemView, template, serializer, viewModel, listViewIdViewModel, jsonTemplate, iteratorName)
+        listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         verify(exactly = 1) { viewModel.restoreContext(itemView) }
@@ -450,7 +456,7 @@ class ListViewHolderTest : BaseTest() {
         every { viewModel.addContext(itemView, capture(contextSlot), true) } just Runs
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         assertEquals(iteratorName, contextSlot.captured.id)
@@ -463,7 +469,7 @@ class ListViewHolderTest : BaseTest() {
         val listItem = ListItem(data = "stub")
 
         // When
-        listViewHolder.onBind(null, null, listItem, false, 0, 0)
+        listViewHolder.onBind(null, null, listItem, 0, 0)
 
         // Then
         assertFalse(listItem.firstTimeBinding)

@@ -26,28 +26,17 @@ import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.action.AsyncActionStatus
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.setIsAutoGenerateIdEnabled
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
-import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
-import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
-@Suppress("LongParameterList")
 internal class ListAdapter(
     val orientation: Int,
     val template: ServerDrivenComponent,
     val iteratorName: String,
     val key: String? = null,
     val viewFactory: ViewFactory,
-    val rootView: RootView,
-    asyncActionViewModel: AsyncActionViewModel = rootView.generateViewModelInstance(),
-    private val contextViewModel: ScreenContextViewModel = rootView.generateViewModelInstance(),
-    private val listViewIdViewModel: ListViewIdViewModel = rootView.generateViewModelInstance(),
-    private val generateIdViewModel: GenerateIdViewModel = rootView.generateViewModelInstance()
+    val listViewModels: ListViewModels
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
     // Recyclerview id for post config changes id management
@@ -74,7 +63,8 @@ internal class ListAdapter(
     private val templateJson = serializer.serializeComponent(template)
 
     init {
-        asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), {
+        listViewModels.asyncActionViewModel.asyncActionExecuted.observe(
+            listViewModels.rootView.getLifecycleOwner(), {
             manageIfInsideRecyclerView(it.origin, it.asyncAction)
         })
     }
@@ -109,7 +99,7 @@ internal class ListAdapter(
                         }
                     }
                 holder.observer = observer
-                asyncAction.status.observe(rootView.getLifecycleOwner(), observer)
+                asyncAction.status.observe(listViewModels.rootView.getLifecycleOwner(), observer)
                 return
             }
         }
@@ -126,8 +116,7 @@ internal class ListAdapter(
             view,
             newTemplate,
             serializer,
-            contextViewModel,
-            listViewIdViewModel,
+            listViewModels,
             templateJson,
             iteratorName
         )
@@ -135,20 +124,33 @@ internal class ListAdapter(
         return viewHolder
     }
 
-    private fun generateView(newTemplate: ServerDrivenComponent) = viewFactory.makeBeagleFlexView(rootView).apply {
-        setIsAutoGenerateIdEnabled(false)
-        addServerDrivenComponent(newTemplate, false)
-        if (orientation == RecyclerView.VERTICAL) {
-            setHeightAutoAndDirtyAllViews()
-        } else {
-            setWidthAutoAndDirtyAllViews()
+    private fun generateView(newTemplate: ServerDrivenComponent) =
+        viewFactory.makeBeagleFlexView(listViewModels.rootView).apply {
+            setIsAutoGenerateIdEnabled(false)
+            addServerDrivenComponent(newTemplate, false)
+            layoutParams = generateLayoutParams()
+            if (orientation == RecyclerView.VERTICAL) {
+                setHeightAutoAndDirtyAllViews()
+            } else {
+                setWidthAutoAndDirtyAllViews()
+            }
         }
+
+    private fun generateLayoutParams(): ViewGroup.LayoutParams {
+        val width = if (orientation == RecyclerView.VERTICAL) {
+            ViewGroup.LayoutParams.MATCH_PARENT
+        } else {
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        }
+        return ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        // Checks and stores holder recycling status
         val isRecycled = recycledViewHolders.contains(holder)
+        adapterItems[position].isRecycled = isRecycled
         // Handle context, ids and direct nested adapters
-        holder.onBind(parentListViewSuffix, key, adapterItems[position], isRecycled, position, recyclerId)
+        holder.onBind(parentListViewSuffix, key, adapterItems[position], position, recyclerId)
         // Handle widgets with onInit
         if (!adapterItems[position].completelyInitialized) {
             handleInitiableWidgets(holder, isRecycled)
@@ -224,9 +226,9 @@ internal class ListAdapter(
         val recyclerIdToUse = when {
             incomingRecyclerId != View.NO_ID -> incomingRecyclerId
             recyclerId != View.NO_ID -> recyclerId
-            else -> generateIdViewModel.getViewId(rootView.getParentId())
+            else -> listViewModels.generateIdViewModel.getViewId(listViewModels.rootView.getParentId())
         }
-        listViewIdViewModel.createSingleManagerByListViewId(recyclerIdToUse, listItems.isEmpty())
+        listViewModels.listViewIdViewModel.createSingleManagerByListViewId(recyclerIdToUse, listItems.isEmpty())
         recyclerId = recyclerIdToUse
     }
 

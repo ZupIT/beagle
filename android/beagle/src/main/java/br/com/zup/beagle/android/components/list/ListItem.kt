@@ -18,11 +18,12 @@ package br.com.zup.beagle.android.components.list
 
 import java.util.LinkedList
 
-internal class ListItem(
+internal data class ListItem(
     var viewIds: LinkedList<Int> = LinkedList(),
     val data: Any,
     var itemSuffix: String = "",
     var completelyInitialized: Boolean = false,
     var firstTimeBinding: Boolean = true,
-    val directNestedAdapters: LinkedList<ListAdapter> = LinkedList()
+    val directNestedAdapters: LinkedList<ListAdapter> = LinkedList(),
+    var isRecycled: Boolean = false
 )

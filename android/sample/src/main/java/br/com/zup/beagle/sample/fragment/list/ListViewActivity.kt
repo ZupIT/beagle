@@ -20,11 +20,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.ListView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.android.components.list.ListView
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.utils.toView

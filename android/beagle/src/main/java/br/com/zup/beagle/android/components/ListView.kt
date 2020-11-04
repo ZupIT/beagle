@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.list
+package br.com.zup.beagle.android.components
 
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +23,8 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.OnInitiableComponent
-import br.com.zup.beagle.android.components.OnInitiableComponentImpl
+import br.com.zup.beagle.android.components.list.ListAdapter
+import br.com.zup.beagle.android.components.list.ListViewModels
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
@@ -212,7 +212,7 @@ constructor(
             iteratorName,
             key,
             viewFactory,
-            rootView
+            ListViewModels(rootView)
         )
         recyclerView.apply {
             adapter = contextAdapter
