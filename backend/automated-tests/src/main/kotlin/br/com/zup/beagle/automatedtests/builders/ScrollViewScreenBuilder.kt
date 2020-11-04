@@ -175,7 +175,7 @@ object ScrollViewScreenBuilder {
         )
     )
 
-    private fun createText(text: String) = Text(text, TEXT_FONT_MAX)
+    private fun createText(text: String) = Text(text)
 }
 
 
