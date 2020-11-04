@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.compiler.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.REGISTERED_OPERATIONS
-import br.com.zup.beagle.compiler.REGISTERED_WIDGETS
 import br.com.zup.beagle.compiler.RegisteredOperationGenerator
 import br.com.zup.beagle.compiler.error
 import com.squareup.kotlinpoet.AnnotationSpec

@@ -29,6 +29,8 @@ const val REGISTERED_OPERATIONS = "registeredOperations"
 
 class RegisteredOperationGenerator {
 
+    private val temporaryListOfNames = mutableListOf<String>()
+
     fun generate(roundEnvironment: RoundEnvironment, processingEnv: ProcessingEnvironment): FunSpec {
         val operations = StringBuilder()
         val registerOperationElements = roundEnvironment.getElementsAnnotatedWith(RegisterOperation::class.java)
@@ -37,14 +39,21 @@ class RegisteredOperationGenerator {
             val registerOperationAnnotation = element.getAnnotation(RegisterOperation::class.java)
             val name = registerOperationAnnotation.name
 
+            if (temporaryListOfNames.contains(name)) {
+                val errorMessage = "existing the operation with this name $element"
+                processingEnv.messager.error(errorMessage)
+                return@forEach
+            }
+
             if (name.isEmpty()) {
                 val errorMessage = "missing name in operation $element"
                 processingEnv.messager.error(errorMessage)
                 return@forEach
             }
+
+            temporaryListOfNames.add(name)
             operations.append("\"$name\" to $element(),")
             operations.append("\n")
-
         }
 
         val operationsFormatted = operations.toString().removeSuffix("\n").removeSuffix(",")
