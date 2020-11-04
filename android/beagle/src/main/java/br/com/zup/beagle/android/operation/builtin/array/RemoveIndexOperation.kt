@@ -23,7 +23,6 @@ import br.com.zup.beagle.annotation.RegisterOperation
 @RegisterOperation("removeIndex")
 internal class RemoveIndexOperation : Operation {
 
-    @Suppress("ReturnCount")
     override fun execute(vararg params: OperationType?): OperationType {
         val array = (params[0] as OperationType.TypeJsonArray).value
         val index = (params[1] as OperationType.TypeNumber).value as Int

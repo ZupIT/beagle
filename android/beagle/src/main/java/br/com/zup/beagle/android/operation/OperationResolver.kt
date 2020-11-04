@@ -20,7 +20,6 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.InternalOperationFactory
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.Exception
 
 internal class OperationResolver {
 

@@ -19,12 +19,10 @@ package br.com.zup.beagle.android.operation.builtin.array
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
-import org.json.JSONArray
 
 @RegisterOperation("contains")
 internal class ContainsOperation : Operation {
 
-    @Suppress("ReturnCount")
     override fun execute(vararg params: OperationType?): OperationType {
         val parameterOne = params[0]
         val elementCompare = params[1]

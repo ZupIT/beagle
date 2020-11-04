@@ -27,6 +27,9 @@ internal class AndOperation : Operation {
         params.forEach {
             if (it is OperationType.TypeBoolean && it.value == false) return OperationType.TypeBoolean(false)
         }
-        return OperationType.TypeBoolean(true)
+
+        val paramsIsNotEmpty = !params.isNullOrEmpty()
+
+        return OperationType.TypeBoolean(paramsIsNotEmpty)
     }
 }

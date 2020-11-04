@@ -19,8 +19,6 @@ package br.com.zup.beagle.android.operation.builtin.other
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
-import org.json.JSONArray
-import org.json.JSONObject
 
 @RegisterOperation("length")
 internal class LengthOperation : Operation {

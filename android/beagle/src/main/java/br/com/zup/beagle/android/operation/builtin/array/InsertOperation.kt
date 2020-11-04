@@ -24,7 +24,6 @@ import org.json.JSONArray
 @RegisterOperation("insert")
 internal class InsertOperation : Operation {
 
-    @Suppress("ReturnCount")
     override fun execute(vararg params: OperationType?): OperationType {
         val array = (params[0] as OperationType.TypeJsonArray).value
         val element = params.getOrNull(1)?.value
