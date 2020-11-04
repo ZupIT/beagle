@@ -23,7 +23,7 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateCondition() {
         // Given
-        let name = Operation.Name.condition
+        let name = "condition"
         let contexts = [Context(id: "context", value: true)]
         let binding = contexts[0].id
         
@@ -46,7 +46,7 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateNot() {
         // Given
-        let name = Operation.Name.not
+        let name = "not"
         let contexts = [Context(id: "context", value: true)]
         let binding = contexts[0].id
         
@@ -72,7 +72,7 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [true, false, false, true, false, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.and) { evaluatedResults in
+        evaluateOperation("and") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -83,13 +83,13 @@ final class OperationLogicEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [true, false, true, true, true, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.or) { evaluatedResults in
+        evaluateOperation("or") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
-    private func evaluateOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateOperation(_ name: String, completion: ([DynamicObject]) -> Void) {
         // Given
         let contexts = [Context(id: "context1", value: false)]
         let binding = contexts[0].id

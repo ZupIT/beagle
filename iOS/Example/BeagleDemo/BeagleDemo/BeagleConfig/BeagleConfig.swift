@@ -44,6 +44,7 @@ class BeagleConfig {
         dependencies.cacheManager = CacheManagerDefault(dependencies: innerDependencies)
         dependencies.logger = innerDependencies.logger
 
+        registerCustomOperations(in: dependencies)
         registerCustomComponents(in: dependencies)
         registerCustomControllers(in: dependencies)
 
@@ -81,6 +82,28 @@ class BeagleConfig {
     private static func registerCustomControllers(in dependencies: BeagleDependencies) {
         dependencies.navigation.registerNavigationController(builder: CustomBeagleNavigationController.init, forId: "CustomBeagleNavigation")
         dependencies.navigation.registerNavigationController(builder: CustomPushStackNavigationController.init, forId: "PushStackNavigation")
+    }
+    
+    private static func registerCustomOperations(in dependencies: BeagleDependencies) {
+        dependencies.operationsProvider.register(operationId: "sum") { parameters in
+            let anyParameters = parameters.map { $0.asAny() }
+            if let integerParameters = anyParameters as? [Int] {
+                return .int(integerParameters.reduce(0, +))
+            } else if let doubleParameters = anyParameters as? [Double] {
+                return .double(doubleParameters.reduce(0.0, +))
+            }
+            return nil
+        }
+        
+        dependencies.operationsProvider.register(operationId: "SUBTRACT") { parameters in
+            let anyParameters = parameters.map { $0.asAny() }
+            if let integerParameters = anyParameters as? [Int] {
+                return .int(integerParameters.reduce(integerParameters[0] * 2, -))
+            } else if let doubleParameters = anyParameters as? [Double] {
+                return .double(doubleParameters.reduce(doubleParameters[0] * 2, -))
+            }
+            return nil
+        }
     }
 }
 
