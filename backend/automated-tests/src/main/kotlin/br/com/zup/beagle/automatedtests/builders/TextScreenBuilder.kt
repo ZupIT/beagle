@@ -16,12 +16,18 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.action.SubmitForm
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.form.SimpleForm
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.ui.TextInput
 
 data class TextWithColor(val text: String, val color: String)
 data class TextWithAlignment(
