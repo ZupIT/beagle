@@ -29,10 +29,6 @@ internal class InsertOperation : Operation {
         val element = params.getOrNull(1)?.value
         val index = (params.getOrNull(2) as? OperationType.TypeNumber)?.value?.toInt()
 
-        if (array == null) {
-            return OperationType.TypeJsonArray(JSONArray())
-        }
-
         val result = insertOnJSONArray(array, element, index)
 
         return OperationType.TypeJsonArray(result)

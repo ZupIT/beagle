@@ -16,20 +16,13 @@
 
 package br.com.zup.beagle.android.operation.builtin.comparison
 
-import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
-import br.com.zup.beagle.annotation.RegisterOperation
 
-@RegisterOperation("gte")
-internal class GteOperation : Operation, ComparisonValidationParameterOperation {
+internal interface ComparisonValidationParameterOperation {
 
-    override fun execute(vararg params: OperationType?): OperationType? {
-        if (parametersIsNull(params)) return null
+    fun parametersIsNull(params: Array<out OperationType?>): Boolean =
+        params.isNullOrEmpty() || checkItemsInParameterIsNull(params)
 
-        val value1 = (params[0] as OperationType.TypeNumber).value
-        val value2 = (params[1] as OperationType.TypeNumber).value
-
-        val result = value1.toDouble() >= value2.toDouble()
-        return OperationType.TypeBoolean(result)
-    }
+    private fun checkItemsInParameterIsNull(params: Array<out OperationType?>): Boolean =
+        params[0] is OperationType.Null || params[1] is OperationType.Null
 }

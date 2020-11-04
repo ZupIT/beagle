@@ -27,7 +27,7 @@ internal class ContainsOperation : Operation {
         val parameterOne = params[0]
         val elementCompare = params[1]
 
-        if (parameterOne is OperationType.TypeJsonArray && parameterOne.value != null) {
+        if (parameterOne is OperationType.TypeJsonArray) {
             val array = parameterOne.value
             for (index in 0 until array.length()) {
                 if (array[index] == elementCompare?.value) {

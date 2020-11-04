@@ -28,10 +28,6 @@ internal class RemoveOperation : Operation {
         val array = (params[0] as OperationType.TypeJsonArray).value
         val element = params[1]?.value
 
-        if (array == null) {
-            return OperationType.TypeJsonArray(JSONArray())
-        }
-
         val result = removeElementsOnJSONArray(array, element)
         return OperationType.TypeJsonArray(result)
     }

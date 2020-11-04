@@ -27,7 +27,7 @@ internal class RemoveIndexOperation : Operation {
         val array = (params[0] as OperationType.TypeJsonArray).value
         val index = (params[1] as OperationType.TypeNumber).value as Int
 
-        array?.remove(index)
+        array.remove(index)
         return OperationType.TypeJsonArray(array)
     }
 

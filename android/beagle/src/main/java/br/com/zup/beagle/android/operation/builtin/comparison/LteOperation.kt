@@ -21,13 +21,13 @@ import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("lte")
-internal class LteOperation : Operation {
+internal class LteOperation : Operation, ComparisonValidationParameterOperation {
 
     override fun execute(vararg params: OperationType?): OperationType? {
-        val value1 = (params[0] as OperationType.TypeNumber).value?.toDouble()
-        val value2 = (params[1] as OperationType.TypeNumber).value?.toDouble()
+        if (parametersIsNull(params)) return null
 
-        if (value1 == null || value2 == null) return null
+        val value1 = (params[0] as OperationType.TypeNumber).value.toDouble()
+        val value2 = (params[1] as OperationType.TypeNumber).value.toDouble()
 
         val result = value1 <= value2
         return OperationType.TypeBoolean(result)

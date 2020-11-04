@@ -29,6 +29,10 @@ internal class OperationResolver {
         val function = functions[functionName]
 
         val paramsMapped = params.map { parameter ->
+            if (parameter == null) {
+                return OperationType.Null
+            }
+
             when (parameter) {
                 is String -> OperationType.TypeString(parameter)
                 is Number -> OperationType.TypeNumber(parameter)
