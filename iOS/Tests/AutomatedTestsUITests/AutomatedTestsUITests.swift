@@ -30,7 +30,8 @@ class CucumberishInitializer: NSObject {
                     SendRequestActionSteps(),
                     NavigateSteps(),
                     ContainerSteps(),
-                    AddChildrenSteps()
+                    AddChildrenSteps(),
+                    TextSteps()
                 ]
             for stepsDefinition in stepsDefinitions {
                 stepsDefinition.loadSteps()
