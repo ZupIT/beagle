@@ -19,10 +19,11 @@ package br.com.zup.beagle.android.operation
 import org.json.JSONArray
 import org.json.JSONObject
 
-sealed class OperationType(open val value: Any) {
-    data class TypeString(override val value: String) : OperationType(value)
-    data class TypeBoolean(override val value: Boolean) : OperationType(value)
-    data class TypeNumber(override val value: Number) : OperationType(value)
-    data class TypeJsonArray(override val value: JSONArray) : OperationType(value)
-    data class TypeJsonObject(override val value: JSONObject) : OperationType(value)
+sealed class OperationType(open val value: Any?) {
+    data class TypeString(override val value: String?) : OperationType(value)
+    data class TypeBoolean(override val value: Boolean?) : OperationType(value)
+    data class TypeNumber(override val value: Number?) : OperationType(value)
+    data class TypeJsonArray(override val value: JSONArray?) : OperationType(value)
+    data class TypeJsonObject(override val value: JSONObject?) : OperationType(value)
+    data class NotMapped(override val value: Any?) : OperationType(value)
 }

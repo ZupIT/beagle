@@ -25,7 +25,7 @@ internal class AndOperation : Operation {
 
     override fun execute(vararg params: OperationType?): OperationType {
         params.forEach {
-            if (it is OperationType.TypeBoolean && !it.value) return OperationType.TypeBoolean(false)
+            if (it is OperationType.TypeBoolean && it.value == false) return OperationType.TypeBoolean(false)
         }
         return OperationType.TypeBoolean(true)
     }

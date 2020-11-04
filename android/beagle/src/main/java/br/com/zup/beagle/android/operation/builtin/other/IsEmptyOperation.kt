@@ -26,15 +26,13 @@ import org.json.JSONObject
 internal class IsEmptyOperation : Operation {
 
     override fun execute(vararg params: OperationType?): OperationType {
-
-        return when (val value = params[0]) {
-            is OperationType.TypeString -> value.value.isEmpty()
-            is Collection<Any?> -> value.isEmpty()
-            is OperationType.TypeJsonArray  -> value.length() == 0
-            is OperationType.TypeString  -> value.length() == 0
-            is Map<*, *> -> value.isEmpty()
+        val result = when (val operationType = params[0]) {
+            is OperationType.TypeString -> operationType.value?.isEmpty()
+            is OperationType.TypeJsonArray -> operationType.value?.length() == 0
+            is OperationType.TypeJsonObject -> operationType.value?.length() == 0
             else -> true
         }
+        return OperationType.TypeBoolean(result)
     }
 
 }

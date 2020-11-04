@@ -23,9 +23,12 @@ import br.com.zup.beagle.annotation.RegisterOperation
 @RegisterOperation("gte")
 internal class GteOperation : Operation {
 
-    override fun execute(vararg params: OperationType?): OperationType {
+    override fun execute(vararg params: OperationType?): OperationType? {
         val value1 = (params[0] as OperationType.TypeNumber).value
         val value2 = (params[1] as OperationType.TypeNumber).value
+
+        if (value1 == null || value2 == null) return null
+
         val result = value1.toDouble() >= value2.toDouble()
         return OperationType.TypeBoolean(result)
     }

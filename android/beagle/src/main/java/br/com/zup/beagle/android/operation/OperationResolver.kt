@@ -36,7 +36,7 @@ internal class OperationResolver {
                 is Boolean -> OperationType.TypeBoolean(parameter)
                 is JSONArray -> OperationType.TypeJsonArray(parameter)
                 is JSONObject -> OperationType.TypeJsonObject(parameter)
-                else -> throw Exception("type not mapped by beagle")
+                else -> OperationType.NotMapped(parameter)
             }
         }
 

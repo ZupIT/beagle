@@ -27,15 +27,19 @@ internal class InsertOperation : Operation {
     @Suppress("ReturnCount")
     override fun execute(vararg params: OperationType?): OperationType {
         val array = (params[0] as OperationType.TypeJsonArray).value
-        val element = params[1]!!.value
-        val index = (params.getOrNull(2) as OperationType.TypeNumber).value as Int
+        val element = params.getOrNull(1)?.value
+        val index = (params.getOrNull(2) as? OperationType.TypeNumber)?.value?.toInt()
+
+        if (array == null) {
+            return OperationType.TypeJsonArray(JSONArray())
+        }
 
         val result = insertOnJSONArray(array, element, index)
 
         return OperationType.TypeJsonArray(result)
     }
 
-    private fun insertOnJSONArray(array: JSONArray, element: Any, index: Int?): JSONArray {
+    private fun insertOnJSONArray(array: JSONArray, element: Any?, index: Int?): JSONArray {
         if (index != null) {
             return appendValueToJSONArray(array, element, index)
         } else {
@@ -45,7 +49,7 @@ internal class InsertOperation : Operation {
         return array
     }
 
-    private fun appendValueToJSONArray(array: JSONArray, element: Any, index: Int): JSONArray {
+    private fun appendValueToJSONArray(array: JSONArray, element: Any?, index: Int): JSONArray {
         val newArray = JSONArray()
         for (i in 0 until array.length()) {
             if (i == index) {

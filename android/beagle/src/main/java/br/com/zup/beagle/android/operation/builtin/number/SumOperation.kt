@@ -25,7 +25,7 @@ internal class SumOperation : Operation {
 
     override fun execute(vararg params: OperationType?): OperationType {
         val result = params.sumOf {
-            val number = (it as OperationType.TypeNumber).value
+            val number = (it as OperationType.TypeNumber).value ?: 0
             number.toDouble()
         }
         return if ((params[0] as OperationType.TypeNumber).value is Int) {

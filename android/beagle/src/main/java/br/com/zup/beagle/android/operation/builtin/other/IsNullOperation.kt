@@ -17,13 +17,15 @@
 package br.com.zup.beagle.android.operation.builtin.other
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("isNull")
 internal class IsNullOperation : Operation {
 
-    override fun execute(vararg params: Any?): Boolean {
-        return params.getOrNull(0) == null
+    override fun execute(vararg params: OperationType?): OperationType {
+        val result = params.getOrNull(0) == null
+        return OperationType.TypeBoolean(result)
     }
 
 }

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.operation.builtin.other
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
 import br.com.zup.beagle.annotation.RegisterOperation
 import org.json.JSONArray
 import org.json.JSONObject
@@ -24,15 +25,14 @@ import org.json.JSONObject
 @RegisterOperation("length")
 internal class LengthOperation : Operation {
 
-    override fun execute(vararg params: Any?): Int {
-        return when (val value = params[0]) {
-            is String -> value.length
-            is Collection<*> -> value.size
-            is JSONArray -> value.length()
-            is JSONObject -> value.length()
-            is Map<*, *> -> value.size
+    override fun execute(vararg params: OperationType?): OperationType {
+        val result = when (val operationType = params[0]) {
+            is OperationType.TypeString -> operationType.value?.length
+            is OperationType.TypeJsonArray -> operationType.value?.length()
+            is OperationType.TypeJsonObject -> operationType.value?.length()
             else -> 0
         }
+        return OperationType.TypeNumber(result)
     }
 
 }

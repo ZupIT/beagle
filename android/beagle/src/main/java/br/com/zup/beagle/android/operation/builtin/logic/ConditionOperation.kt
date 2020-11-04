@@ -25,7 +25,7 @@ internal class ConditionOperation : Operation {
 
     override fun execute(vararg params: OperationType?): OperationType? {
         val value = (params[0] as OperationType.TypeBoolean).value
-        return if (value) {
+        return if (value == true) {
             params[1]
         } else {
             params[2]
