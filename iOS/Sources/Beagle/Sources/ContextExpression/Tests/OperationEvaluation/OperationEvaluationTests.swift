@@ -38,13 +38,13 @@ class OperationEvaluationTests: XCTestCase {
 }
 
 extension String {
-    func toOperation(name: Operation.Name) -> Operation? {
-        Operation(rawValue: name.rawValue + "(\(self))")
+    func toOperation(name: String) -> Operation? {
+        Operation(rawValue: name + "(\(self))")
     }
 }
 
 extension Array where Element == String {
-    func toOperations(name: Operation.Name) -> [Operation] {
+    func toOperations(name: String) -> [Operation] {
         self.compactMap { $0.toOperation(name: name) }
     }
 }
