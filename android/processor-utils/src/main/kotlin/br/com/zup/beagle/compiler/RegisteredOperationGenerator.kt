@@ -25,7 +25,7 @@ import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-private const val REGISTERED_OPERATIONS = "registeredOperations"
+const val REGISTERED_OPERATIONS = "registeredOperations"
 
 class RegisteredOperationGenerator {
 
@@ -59,7 +59,7 @@ class RegisteredOperationGenerator {
             .build()
     }
 
-    private fun createFuncSpec(): FunSpec.Builder {
+    fun createFuncSpec(): FunSpec.Builder {
         val returnType = Map::class.asClassName().parameterizedBy(
             String::class.asClassName(),
             ClassName(ANDROID_OPERATION.packageName, ANDROID_OPERATION.className)

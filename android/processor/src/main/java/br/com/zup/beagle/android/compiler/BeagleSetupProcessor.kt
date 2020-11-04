@@ -49,7 +49,8 @@ class BeagleSetupProcessor(
     private val registerAnnotationProcessor: RegisterControllerProcessor =
         RegisterControllerProcessor(processingEnv),
     private val registerBeagleAdapterProcessor: RegisterBeagleAdapterProcessor =
-        RegisterBeagleAdapterProcessor(processingEnv)
+        RegisterBeagleAdapterProcessor(processingEnv),
+    private val registerOperationsProcessor: RegisterOperationsProcessor = RegisterOperationsProcessor(processingEnv)
 ) {
 
     fun process(
@@ -78,6 +79,7 @@ class BeagleSetupProcessor(
 
         registerWidgetProcessorProcessor.process(basePackageName, roundEnvironment)
         registerActionProcessorProcessor.process(basePackageName, roundEnvironment)
+        registerOperationsProcessor.process(basePackageName, roundEnvironment)
         registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
         registerBeagleAdapterProcessor.process(
             BEAGLE_CUSTOM_ADAPTER.packageName,
