@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.operation
 
+import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.InternalOperationFactory
 import org.json.JSONArray
@@ -30,7 +31,7 @@ internal class OperationResolver {
 
         val paramsMapped = params.map { parameter ->
             if (parameter == null) {
-                return OperationType.Null
+                return@map OperationType.Null
             }
 
             when (parameter) {
@@ -39,7 +40,7 @@ internal class OperationResolver {
                 is Boolean -> OperationType.TypeBoolean(parameter)
                 is JSONArray -> OperationType.TypeJsonArray(parameter)
                 is JSONObject -> OperationType.TypeJsonObject(parameter)
-                else -> OperationType.NotMapped(parameter)
+                else -> throw BeagleException("type not mapped")
             }
         }
 

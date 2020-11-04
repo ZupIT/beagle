@@ -14,24 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.operation.builtin.string
+package br.com.zup.beagle.android.operation.builtin
 
-import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
-import br.com.zup.beagle.annotation.RegisterOperation
 
-@RegisterOperation("concat")
-internal class ConcatOperation : Operation {
+internal interface SafeGetHelper {
 
-    override fun execute(vararg params: OperationType?): OperationType {
-        val value = StringBuilder()
-
-        params.forEach {
-            if (it != null && it is OperationType.TypeString && it.value.isNotEmpty()) {
-                value.append(it.value)
-            }
-        }
-        return OperationType.TypeString(value.toString())
+    fun safeGet(params: Array<out OperationType?>, position: Int): OperationType {
+        val parameter = params.getOrNull(position)
+        return parameter ?: OperationType.Null
     }
-
 }

@@ -60,19 +60,36 @@ internal class ConditionOperationTest {
             // THEN
             assertEquals(returnIfFalse, result)
         }
+
+        @Test
+        @DisplayName("Then should return correct object")
+        fun checkInputAndReturnCorrectTextC() {
+            // GIVEN
+            val input = OperationType.TypeBoolean(false)
+            val textNull = OperationType.Null
+
+            // WHEN
+            val result = conditionOperation.execute(input, returnIfTrue, textNull)
+
+            // THEN
+            assertEquals(textNull, result)
+        }
     }
 
     @DisplayName("When execute operation with empty parameters")
     @Nested
-    inner class ExceptionOperation {
+    inner class NullOperation {
 
         @Test
-        @DisplayName("Then should throw exception")
-        fun checkException() {
+        @DisplayName("Then should return null")
+        fun checkNull() {
             // WHEN THEN
-            assertThrows<ArrayIndexOutOfBoundsException> {
-                conditionOperation.execute()
-            }
+            // WHEN
+            val result = conditionOperation.execute()
+
+            // THEN
+            val expected = OperationType.Null
+            assertEquals(expected, result)
         }
 
     }

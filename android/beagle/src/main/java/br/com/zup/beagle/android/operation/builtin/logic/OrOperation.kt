@@ -25,7 +25,7 @@ internal class OrOperation : Operation {
 
     override fun execute(vararg params: OperationType?): OperationType {
         params.forEach {
-            if (it is OperationType.TypeBoolean && it.value == true) {
+            if (it is OperationType.TypeBoolean && it.value) {
                 return OperationType.TypeBoolean(true)
             }
         }

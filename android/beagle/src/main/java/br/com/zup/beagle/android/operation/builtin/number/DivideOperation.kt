@@ -18,23 +18,24 @@ package br.com.zup.beagle.android.operation.builtin.number
 
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.android.operation.builtin.comparison.ComparisonValidationParameterOperation
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("divide")
-internal class DivideOperation : Operation {
+internal class DivideOperation : Operation, ComparisonValidationParameterOperation {
 
-    override fun execute(vararg params: OperationType?): OperationType? {
+    override fun execute(vararg params: OperationType?): OperationType {
         return params.reduce { parameterOne, parameterTwo ->
-            val value1 = (parameterOne as OperationType.TypeNumber).value?.toDouble()
-            val value2 = (parameterTwo as OperationType.TypeNumber).value?.toDouble()
+            val value1 = (parameterOne as? OperationType.TypeNumber)?.value?.toDouble()
+            val value2 = (parameterTwo as? OperationType.TypeNumber)?.value?.toDouble()
 
-            if (value1 == null || value2 == null) return null
+            if (value1 == null || value2 == null) return OperationType.Null
 
             val result = value1 / value2
 
             val isInt = (params[0] as OperationType.TypeNumber).value is Int
             if (isInt) OperationType.TypeNumber(result.toInt()) else OperationType.TypeNumber(result)
-        }
+        } ?: OperationType.Null
     }
 
 }

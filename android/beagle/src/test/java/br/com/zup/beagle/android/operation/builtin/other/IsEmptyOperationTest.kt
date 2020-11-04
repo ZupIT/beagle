@@ -166,15 +166,18 @@ internal class IsEmptyOperationTest {
 
     @DisplayName("When execute operation with empty parameters")
     @Nested
-    inner class ExceptionOperation {
+    inner class NullOperation {
 
         @Test
-        @DisplayName("Then should throw exception")
-        fun checkException() {
+        @DisplayName("Then should return null")
+        fun checkNull() {
             // WHEN THEN
-            assertThrows<ArrayIndexOutOfBoundsException> {
-                isEmptyOperation.execute()
-            }
+            // WHEN
+            val result = isEmptyOperation.execute()
+
+            // THEN
+            val expected = OperationType.Null
+            assertEquals(expected, result)
         }
 
     }

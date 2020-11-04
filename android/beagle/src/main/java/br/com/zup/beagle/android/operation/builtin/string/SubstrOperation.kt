@@ -24,8 +24,8 @@ import br.com.zup.beagle.annotation.RegisterOperation
 internal class SubstrOperation : Operation {
 
     override fun execute(vararg params: OperationType?): OperationType {
-        val text = (params[0] as OperationType.TypeString).value ?: ""
-        val start = (params[1] as OperationType.TypeNumber).value as Int? ?: 0
+        val text = (params[0] as? OperationType.TypeString)?.value ?: ""
+        val start = (params[1] as? OperationType.TypeNumber)?.value as Int? ?: 0
         val lengthParameter = (params.getOrNull(2) as? OperationType.TypeNumber)?.value as Int?
         val length = lengthParameter ?: text.length - start
         val end = start + (length - 1)

@@ -130,15 +130,18 @@ internal class GteOperationTest {
 
     @DisplayName("When execute operation with empty parameters")
     @Nested
-    inner class ExceptionOperation {
+    inner class NullOperation {
 
         @Test
-        @DisplayName("Then should throw exception")
-        fun checkEqualsList() {
+        @DisplayName("Then should return null")
+        fun checkNull() {
             // WHEN THEN
-            assertThrows<ArrayIndexOutOfBoundsException> {
-                gteOperation.execute()
-            }
+            // WHEN
+            val result = gteOperation.execute()
+
+            // THEN
+            val expected = OperationType.Null
+            assertEquals(expected, result)
         }
 
     }

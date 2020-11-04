@@ -18,16 +18,17 @@ package br.com.zup.beagle.android.operation.builtin.other
 
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.android.operation.builtin.SafeGetHelper
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("length")
-internal class LengthOperation : Operation {
+internal class LengthOperation : Operation, SafeGetHelper {
 
     override fun execute(vararg params: OperationType?): OperationType {
-        val result = when (val operationType = params[0]) {
-            is OperationType.TypeString -> operationType.value?.length
-            is OperationType.TypeJsonArray -> operationType.value?.length()
-            is OperationType.TypeJsonObject -> operationType.value?.length()
+        val result = when (val operationType = safeGet(params, 0)) {
+            is OperationType.TypeString -> operationType.value.length
+            is OperationType.TypeJsonArray -> operationType.value.length()
+            is OperationType.TypeJsonObject -> operationType.value.length()
             else -> 0
         }
         return OperationType.TypeNumber(result)

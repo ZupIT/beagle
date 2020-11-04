@@ -17,5 +17,5 @@
 package br.com.zup.beagle.android.operation
 
 internal interface Operation {
-    fun execute(vararg params: OperationType?): OperationType?
+    fun execute(vararg params: OperationType?): OperationType
 }

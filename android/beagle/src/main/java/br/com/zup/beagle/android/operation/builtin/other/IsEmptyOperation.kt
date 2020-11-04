@@ -18,16 +18,17 @@ package br.com.zup.beagle.android.operation.builtin.other
 
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.android.operation.builtin.SafeGetHelper
 import br.com.zup.beagle.annotation.RegisterOperation
 
 @RegisterOperation("isEmpty")
-internal class IsEmptyOperation : Operation {
+internal class IsEmptyOperation : Operation, SafeGetHelper {
 
     override fun execute(vararg params: OperationType?): OperationType {
-        val result = when (val operationType = params[0]) {
-            is OperationType.TypeString -> operationType.value?.isEmpty()
-            is OperationType.TypeJsonArray -> operationType.value?.length() == 0
-            is OperationType.TypeJsonObject -> operationType.value?.length() == 0
+        val result = when (val operationType = safeGet(params, 0)) {
+            is OperationType.TypeString -> operationType.value.isEmpty()
+            is OperationType.TypeJsonArray -> operationType.value.length() == 0
+            is OperationType.TypeJsonObject -> operationType.value.length() == 0
             else -> true
         }
         return OperationType.TypeBoolean(result)

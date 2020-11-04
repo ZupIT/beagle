@@ -17,11 +17,10 @@
 package br.com.zup.beagle.android.operation.builtin.comparison
 
 import br.com.zup.beagle.android.operation.OperationType
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 @DisplayName("Given Gt Operation")
 internal class GtOperationTest {
@@ -44,7 +43,7 @@ internal class GtOperationTest {
 
             // THEN
             val expected = OperationType.TypeBoolean(true)
-            Assertions.assertEquals(expected, result)
+            assertEquals(expected, result)
         }
 
         @Test
@@ -59,7 +58,7 @@ internal class GtOperationTest {
 
             // THEN
             val expected = OperationType.TypeBoolean(false)
-            Assertions.assertEquals(expected, result)
+            assertEquals(expected, result)
         }
 
         @Test
@@ -74,7 +73,7 @@ internal class GtOperationTest {
 
             // THEN
             val expected = OperationType.TypeBoolean(false)
-            Assertions.assertEquals(expected, result)
+            assertEquals(expected, result)
         }
     }
 
@@ -94,7 +93,7 @@ internal class GtOperationTest {
 
             // THEN
             val expected = OperationType.TypeBoolean(true)
-            Assertions.assertEquals(expected, result)
+            assertEquals(expected, result)
         }
 
         @Test
@@ -109,7 +108,7 @@ internal class GtOperationTest {
 
             // THEN
             val expected = OperationType.TypeBoolean(false)
-            Assertions.assertEquals(expected, result)
+            assertEquals(expected, result)
         }
 
         @Test
@@ -124,21 +123,24 @@ internal class GtOperationTest {
 
             // THEN
             val expected = OperationType.TypeBoolean(false)
-            Assertions.assertEquals(expected, result)
+            assertEquals(expected, result)
         }
     }
 
     @DisplayName("When execute operation with empty parameters")
     @Nested
-    inner class ExceptionOperation {
+    inner class NullOperation {
 
         @Test
-        @DisplayName("Then should throw exception")
-        fun checkEqualsList() {
+        @DisplayName("Then should return null")
+        fun checkNull() {
             // WHEN THEN
-            assertThrows<ArrayIndexOutOfBoundsException> {
-                gteOperation.execute()
-            }
+            // WHEN
+            val result = gteOperation.execute()
+
+            // THEN
+            val expected = OperationType.Null
+            assertEquals(expected, result)
         }
 
     }

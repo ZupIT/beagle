@@ -23,16 +23,16 @@ import br.com.zup.beagle.annotation.RegisterOperation
 @RegisterOperation("subtract")
 internal class SubtractOperation : Operation {
 
-    override fun execute(vararg params: OperationType?): OperationType? {
+    override fun execute(vararg params: OperationType?): OperationType {
         return params.reduce { parameterOne, parameterTwo ->
-            val value1 = (parameterOne as OperationType.TypeNumber).value?.toDouble()
-            val value2 = (parameterTwo as OperationType.TypeNumber).value?.toDouble()
+            val value1 = (parameterOne as? OperationType.TypeNumber)?.value?.toDouble()
+            val value2 = (parameterTwo as? OperationType.TypeNumber)?.value?.toDouble()
 
-            if (value1 == null || value2 == null) return null
+            if (value1 == null || value2 == null) return OperationType.Null
             val result = value1 - value2
 
             val isInt = (params[0] as OperationType.TypeNumber).value is Int
             if (isInt) OperationType.TypeNumber(result.toInt()) else OperationType.TypeNumber(result)
-        }
+        } ?: OperationType.Null
     }
 }
