@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.operation.builtin.string
+package br.com.zup.beagle.android.operation.builtin.comparison
 
-import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.operation.OperationType
-import br.com.zup.beagle.annotation.RegisterOperation
 
-@RegisterOperation("concat")
-internal class ConcatOperation : Operation {
+internal interface ComparisonValidationParameterOperation {
 
-    override fun execute(vararg params: OperationType?): OperationType {
-        val value = StringBuilder()
+    fun parametersIsNull(params: Array<out OperationType?>): Boolean =
+        params.isNullOrEmpty() || checkItemsInParameterIsNull(params)
 
-        params.forEach {
-            if (it != null && it is OperationType.TypeString && it.value.isNotEmpty()) {
-                value.append(it.value)
-            }
-        }
-        return OperationType.TypeString(value.toString())
-    }
-
+    private fun checkItemsInParameterIsNull(params: Array<out OperationType?>): Boolean =
+        params[0] is OperationType.Null || params[1] is OperationType.Null
 }

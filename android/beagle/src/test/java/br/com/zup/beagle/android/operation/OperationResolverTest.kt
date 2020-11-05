@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.operation
 
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import io.mockk.*
+import org.json.JSONArray
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 
@@ -43,10 +44,10 @@ class OperationResolverTest {
         assertNotNull(functionResolver.execute("divide", 1, 2))
         assertNotNull(functionResolver.execute("multiply", 1, 2))
         assertNotNull(functionResolver.execute("subtract", 1, 2))
-        assertNotNull(functionResolver.execute("contains", listOf(1), 1))
-        assertNotNull(functionResolver.execute("insert", listOf(1), 1))
-        assertNotNull(functionResolver.execute("remove", listOf(1), 1))
-        assertNotNull(functionResolver.execute("removeIndex", listOf(1), 0))
+        assertNotNull(functionResolver.execute("contains", JSONArray(listOf(1)), 1))
+        assertNotNull(functionResolver.execute("insert", JSONArray(listOf(1)), 1))
+        assertNotNull(functionResolver.execute("remove", JSONArray(listOf(1)), 1))
+        assertNotNull(functionResolver.execute("removeIndex", JSONArray(listOf(1)), 0))
         assertNotNull(functionResolver.execute("and", true))
         assertNotNull(functionResolver.execute("or", true))
         assertNotNull(functionResolver.execute("not", true))

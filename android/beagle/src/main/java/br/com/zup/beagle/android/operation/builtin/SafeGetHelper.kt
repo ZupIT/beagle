@@ -16,20 +16,12 @@
 
 package br.com.zup.beagle.android.operation.builtin
 
-internal fun Array<out Any?>.toListOfDoubles(): List<Double> {
-    return this.map {
-        it as Double
-    }
-}
+import br.com.zup.beagle.android.operation.OperationType
 
-internal fun Array<out Any?>.toListOfInts(): List<Int> {
-    return this.map {
-        it as Int
-    }
-}
+internal interface SafeGetHelper {
 
-internal fun Array<out Any?>.toListOfBooleans(): List<Boolean> {
-    return this.map {
-        it as Boolean
+    fun safeGet(params: Array<out OperationType?>, position: Int): OperationType {
+        val parameter = params.getOrNull(position)
+        return parameter ?: OperationType.Null
     }
 }
