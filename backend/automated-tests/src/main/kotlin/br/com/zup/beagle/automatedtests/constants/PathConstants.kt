@@ -57,3 +57,5 @@ const val GLOBAL_TEXT_EXPRESSION_ENDPOINT = "@{relativePath}"
 const val NAVIGATE_RESET_ENDPOINT = "/navigate-reset"
 const val CONTAINER_TEST_ENDPOINT = "/container-test"
 const val SEND_REQUEST_ACTION_ENDPOINT = "/send-request"
+
+const val ALERT_SCREEN_ENDPOINT = "/alert"

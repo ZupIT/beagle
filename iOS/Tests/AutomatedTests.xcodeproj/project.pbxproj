@@ -10,6 +10,7 @@
 		0D0165EE254C5299000A48AD /* TextSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0165ED254C5299000A48AD /* TextSteps.swift */; };
 		174096E9252B8FB10009C749 /* NavigateSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174096E8252B8FB10009C749 /* NavigateSteps.swift */; };
 		17F6C7BA25364B8800A0ECAA /* SendRequestActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */; };
+		42554D3B25519E6F00B028ED /* AlertSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42554D3A25519E6F00B028ED /* AlertSteps.swift */; };
 		42C55D0E25477EEF003ECF63 /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */; };
 		42C55D1125477F42003ECF63 /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */; };
 		42C55D1325477F70003ECF63 /* NetworkClientDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1225477F70003ECF63 /* NetworkClientDefault.swift */; };
@@ -135,6 +136,7 @@
 		0D0165ED254C5299000A48AD /* TextSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSteps.swift; sourceTree = "<group>"; };
 		174096E8252B8FB10009C749 /* NavigateSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateSteps.swift; sourceTree = "<group>"; };
 		17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestActionSteps.swift; sourceTree = "<group>"; };
+		42554D3A25519E6F00B028ED /* AlertSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSteps.swift; sourceTree = "<group>"; };
 		42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
 		42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilder.swift; sourceTree = "<group>"; };
 		42C55D1225477F70003ECF63 /* NetworkClientDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientDefault.swift; sourceTree = "<group>"; };
@@ -628,6 +630,7 @@
 				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
 				174096E8252B8FB10009C749 /* NavigateSteps.swift */,
 				0D0165ED254C5299000A48AD /* TextSteps.swift */,
+				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -846,6 +849,7 @@
 				639CA20C24B4F0B0009FAC90 /* GHTableCell.m in Sources */,
 				639CA21624B4F0B0009FAC90 /* GHTag.m in Sources */,
 				17F6C7BA25364B8800A0ECAA /* SendRequestActionSteps.swift in Sources */,
+				42554D3B25519E6F00B028ED /* AlertSteps.swift in Sources */,
 				639CA20A24B4F0B0009FAC90 /* GHToken.m in Sources */,
 				639CA22724B4F0B0009FAC90 /* GHTokenMatcher.m in Sources */,
 				639CA20E24B4F0B0009FAC90 /* GHBackground.m in Sources */,
