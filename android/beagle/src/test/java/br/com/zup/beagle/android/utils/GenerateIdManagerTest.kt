@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
+import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.setId
@@ -37,7 +38,8 @@ import org.junit.jupiter.api.Test
 class GenerateIdManagerTest {
 
     private val rootView = mockk<RootView>(relaxed = true)
-    private val generateIdViewModel = mockk<GenerateIdViewModel>()
+    private val generateIdViewModel = mockk<GenerateIdViewModel>(relaxed = true)
+    private val listViewIdViewModel = mockk<ListViewIdViewModel>(relaxed = true)
     private val view = mockk<BeagleFlexView>()
     private val generatedId = 1
     private lateinit var generateIdManager: GenerateIdManager
@@ -47,13 +49,41 @@ class GenerateIdManagerTest {
         mockkStatic(View::class)
         every { View.generateViewId() } returns generatedId
         every { rootView.generateViewModelInstance<GenerateIdViewModel>() } returns generateIdViewModel
+        every { rootView.generateViewModelInstance<ListViewIdViewModel>() } returns listViewIdViewModel
 
-        generateIdManager = GenerateIdManager(rootView, generateIdViewModel)
+        generateIdManager = GenerateIdManager(rootView, generateIdViewModel, listViewIdViewModel)
     }
 
     @AfterEach
     fun tearDown() {
         unmockkStatic(View::class)
+    }
+
+    @Test
+    fun `GIVEN a rootView with parentId WHEN createSingleManagerByRootViewId is called THEN should call createIfNotExisting`() {
+        // Given
+        val parentId = 10
+        every { rootView.getParentId() } returns parentId
+
+        // When
+        generateIdManager.createSingleManagerByRootViewId()
+
+        // Then
+        verify(exactly = 1) { generateIdViewModel.createIfNotExisting(parentId) }
+    }
+
+    @Test
+    fun `GIVEN a rootView with parentId WHEN onViewDetachedFromWindow is called THEN should call setViewCreated and prepareToReuseIds`() {
+        // Given
+        val parentId = 10
+        every { rootView.getParentId() } returns parentId
+
+        // When
+        generateIdManager.onViewDetachedFromWindow(view)
+
+        // Then
+        verify(exactly = 1) { generateIdViewModel.setViewCreated(parentId) }
+        verify(exactly = 1) { listViewIdViewModel.prepareToReuseIds(view) }
     }
 
     @Test
