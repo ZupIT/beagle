@@ -209,7 +209,7 @@ internal class CacheManager(
         }
     }
 
-    private fun isCacheEnabled(): Boolean = beagleEnvironment.beagleSdk.config.cache.enabled || storeHandler == null
+    private fun isCacheEnabled(): Boolean = beagleEnvironment.beagleSdk.config.cache.enabled && storeHandler != null
 
     private fun String.toBeagleHashKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_HASH_KEY"
     private fun String.toBeagleJsonKey(): String = "$this$CACHE_KEY_DELIMITER$CACHE_JSON_KEY"
