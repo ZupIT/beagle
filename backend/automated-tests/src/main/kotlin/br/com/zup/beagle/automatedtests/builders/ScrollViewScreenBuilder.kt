@@ -18,14 +18,12 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.ScrollAxis
-import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -91,9 +89,9 @@ object ScrollViewScreenBuilder {
             Text("Horizontal ScrollView with scrollBars"),
             ScrollView(
                 children = listOf(
-                    createText("Horizontal").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
+                    Text("Horizontal").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
                     Touchable(
-                        child = createText("@{testScrollHorizontal}")
+                        child = Text("@{testScrollHorizontal}")
                             .applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
                         onPress = listOf(
                             SetContext(contextId = "testScrollHorizontal", value = PARAGRAPH)
@@ -106,7 +104,7 @@ object ScrollViewScreenBuilder {
                             ScrollView(
                                 children = listOf(
                                     Touchable(
-                                        child = createText("@{testScrollViewWithRotation}"),
+                                        child = Text("@{testScrollViewWithRotation}"),
                                         onPress = listOf(
                                             SetContext(contextId = "testScrollViewWithRotation", value = PARAGRAPH)
                                         )
@@ -130,9 +128,9 @@ object ScrollViewScreenBuilder {
         children = listOf(
             ScrollView(
                 children = listOf(
-                    createText("Vertical"),
+                    Text("Vertical"),
                     Touchable(
-                        child = createText("@{testScrollVertical}"),
+                        child = Text("@{testScrollVertical}"),
                         onPress = listOf(
                             SetContext(contextId = "testScrollVertical", value = PARAGRAPH)
                         )
@@ -144,7 +142,7 @@ object ScrollViewScreenBuilder {
                             ScrollView(
                                 children = listOf(
                                     Touchable(
-                                        child = createText("@{testScrollRotation}"),
+                                        child = Text("@{testScrollRotation}"),
                                         onPress = listOf(
                                             SetContext(contextId = "testScrollRotation", value = PARAGRAPH)
                                         )
@@ -158,9 +156,8 @@ object ScrollViewScreenBuilder {
                         )
                     ).applyStyle(
                         Style(
-                            size = Size(
-                                height = 520.unitReal(),
-                                width = 100.unitPercent()
+                            padding = EdgeValue(
+                                bottom = 20.unitReal(), left = 10.unitReal(), right = 10.unitReal()
                             )
                         )
                     )
@@ -170,15 +167,10 @@ object ScrollViewScreenBuilder {
         )
     ).applyStyle(
         Style(
-            size = Size(
-                height = 520.unitReal(),
-                width = 100.unitPercent()
-            ),
             padding = EdgeValue(left = 10.unitReal())
         )
     )
 
-    private fun createText(text: String) = Text(text)
 }
 
 
