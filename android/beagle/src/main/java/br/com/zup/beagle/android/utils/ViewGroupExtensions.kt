@@ -29,7 +29,6 @@ import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
-import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
@@ -137,15 +136,16 @@ fun ViewGroup.loadView(
     loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
 }
 
+@Suppress("LongParameterList")
 private fun loadView(
     viewGroup: ViewGroup,
     rootView: RootView,
     screenRequest: ScreenRequest,
     listener: OnStateChanged? = null,
-    newListener: OnServerStateChanged? = null
+    newListener: OnServerStateChanged? = null,
+    generateIdManager: GenerateIdManager = GenerateIdManager(rootView)
 ) {
-    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
-    viewModel.createIfNotExisting(rootView.getParentId())
+    generateIdManager.createSingleManagerByRootViewId()
     val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
         stateChangedListener = listener
         serverStateChangedListener = newListener
@@ -156,7 +156,7 @@ private fun loadView(
         viewGroup.addView(view)
     }
     view.listenerOnViewDetachedFromWindow = {
-        viewModel.setViewCreated(rootView.getParentId())
+        generateIdManager.onViewDetachedFromWindow(view)
     }
 }
 
