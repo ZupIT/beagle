@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.utils
+package br.com.zup.beagle.android.components.list
 
-object BeagleConstants {
-    const val DEPRECATED_PAGE_VIEW =
-        "This constructor will be removed in a future version, use the constructor with Bind"
-    const val DEPRECATED_TAB_VIEW ="This component will be removed in a future version, use TabBar instead."
-    const val DEPRECATED_LIST_VIEW = "This component was deprecated in version 1.4 " +
-        "and will be removed in a future version"
-}
+import java.util.LinkedList
+
+internal data class ListItem(
+    var viewIds: LinkedList<Int> = LinkedList(),
+    val data: Any,
+    var itemSuffix: String = "",
+    var completelyInitialized: Boolean = false,
+    var firstTimeBinding: Boolean = true,
+    val directNestedAdapters: LinkedList<ListAdapter> = LinkedList(),
+    var isRecycled: Boolean = false
+)
