@@ -20,8 +20,6 @@ import android.view.View
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.expressionOrValueOfNullable
-import br.com.zup.beagle.android.context.valueOf
-import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
@@ -72,15 +70,15 @@ data class Confirm(
             .setTitle(title?.let { evaluateExpression(rootView, origin, it) } ?: "")
             .setMessage(evaluateExpression(rootView, origin, message))
             .setPositiveButton(labelOk
-                ?: rootView.getContext().getString(android.R.string.ok)) { dialog, _ ->
-                dialog.dismiss()
+                ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->
+                dialogBox.dismiss()
                 onPressOk?.let {
                     handleEvent(rootView, origin, it)
                 }
             }
             .setNegativeButton(labelCancel
-                ?: rootView.getContext().getString(android.R.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
+                ?: rootView.getContext().getString(android.R.string.cancel)) { dialogBox, _ ->
+                dialogBox.dismiss()
                 onPressCancel?.let {
                     handleEvent(rootView, origin, it)
                 }

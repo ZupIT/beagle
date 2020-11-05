@@ -37,9 +37,10 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 class PageViewTest : BaseComponentTest() {
 
@@ -51,11 +52,11 @@ class PageViewTest : BaseComponentTest() {
     private val currentPage: Bind<Int> = mockk(relaxed = true, relaxUnitFun = true)
     private val pageListenerSlot = slot<ViewPager.OnPageChangeListener>()
 
-
     private lateinit var pageView: PageView
 
     private val styleSlot = mutableListOf<Style>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")

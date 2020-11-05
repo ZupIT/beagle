@@ -27,15 +27,15 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
-import org.junit.After
-import org.junit.Before
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 
 abstract class BaseTest {
 
     protected val rootView = mockk<ActivityRootView>(relaxed = true, relaxUnitFun = true)
     protected val beagleSdk = mockk<BeagleSdk>(relaxed = true)
 
-    @Before
+    @BeforeEach
     open fun setUp() {
         MockKAnnotations.init(this)
 
@@ -49,7 +49,7 @@ abstract class BaseTest {
         every { beagleSdk.registeredActions() } returns listOf()
     }
 
-    @After
+    @AfterEach
     open fun tearDown() {
         unmockkAll()
     }

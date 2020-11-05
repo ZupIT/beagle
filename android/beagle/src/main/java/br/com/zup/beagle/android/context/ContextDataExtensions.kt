@@ -17,7 +17,10 @@
 package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
+import kotlin.reflect.KClass
+import kotlin.reflect.full.isSubclassOf
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 /*
@@ -30,19 +33,32 @@ internal fun ContextData.normalize(): ContextData {
 }
 
 internal fun Any.normalizeContextValue(): Any {
-    return if (isValueNormalized()) {
-        this
-    } else {
-        val newValue = BeagleMoshi.moshi.adapter(Any::class.java).toJson(this) ?: ""
-        return newValue.normalizeContextValue()
+    return when {
+        isValueNormalized() -> {
+            this
+        }
+        isEnum(this::class) -> {
+            this.toString()
+        }
+        else -> {
+            val newValue = BeagleMoshi.moshi.adapter(Any::class.java).toJson(this) ?: ""
+            newValue.normalizeContextValue()
+        }
     }
 }
 
+private fun isEnum(type: KClass<out Any>) = type.isSubclassOf(Enum::class)
+
+
 internal fun String.normalizeContextValue(): Any {
-    return when {
-        this.startsWith("{") -> JSONObject(this)
-        this.startsWith("[") -> JSONArray(this)
-        else -> this
+    return try {
+        JSONObject(this)
+    } catch (ex: JSONException) {
+        try {
+            JSONArray(this)
+        } catch (ex1: JSONException) {
+            this
+        }
     }
 }
 

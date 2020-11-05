@@ -1,4 +1,4 @@
-▿ 9 elements
+▿ 10 elements
   ▿ SingleExpression
     ▿ value: Value
       ▿ binding: Binding
@@ -29,6 +29,16 @@
               - index: 1
   ▿ SingleExpression
     ▿ value: Value
+      ▿ binding: Binding
+        - context: "2client"
+        ▿ path: Path
+          ▿ nodes: 2 elements
+            ▿ Node
+              - key: "phones"
+            ▿ Node
+              - index: 0
+  ▿ SingleExpression
+    ▿ value: Value
       ▿ literal: Literal
         - int: 42
   ▿ SingleExpression
@@ -48,7 +58,7 @@
       - literal: Literal.null
   ▿ SingleExpression
     ▿ operation: Operation
-      - name: Name.sum
+      - name: "sum"
       ▿ parameters: 2 elements
         ▿ Parameter
           ▿ value: Value

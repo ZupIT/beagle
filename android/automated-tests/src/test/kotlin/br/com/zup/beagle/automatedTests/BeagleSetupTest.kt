@@ -21,14 +21,28 @@ import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.automatedTests.adapters.Person
 import br.com.zup.beagle.automatedTests.adapters.PersonAdapter
 import br.com.zup.beagle.automatedTests.adapters.PersonImpl
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
-import org.junit.Test
+import br.com.zup.beagle.automatedTests.config.BeagleSQLiteDatabase
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class BeagleSetupTest {
 
-    private val beagleSetup = BeagleSetup()
+    private lateinit var beagleSetup: BeagleSetup
+
+    @BeforeEach
+    fun setUp() {
+        mockkConstructor(BeagleSQLiteDatabase::class)
+
+        every { anyConstructed<BeagleSQLiteDatabase>().writableDatabase } returns mockk()
+        AppApplication.APPLICATION = mockk()
+        beagleSetup = BeagleSetup()
+    }
 
     @Test
     fun beagleSetup_should_be_instance_of_BeagleSdk() {
@@ -51,8 +65,8 @@ class BeagleSetupTest {
     }
 
     @Test
-    fun httpClient_should_be_null() {
-        assertNull(beagleSetup.httpClient)
+    fun httpClient_should_not_be_null() {
+        assertNotNull(beagleSetup.httpClient)
     }
 
     @Test

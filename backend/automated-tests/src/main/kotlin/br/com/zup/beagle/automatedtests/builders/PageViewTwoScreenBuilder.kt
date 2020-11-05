@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import BLACK
-import LIGHT_GREY
+import br.com.zup.beagle.automatedtests.constants.BLACK
+import br.com.zup.beagle.automatedtests.constants.LIGHT_GREY
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext

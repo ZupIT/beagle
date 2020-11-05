@@ -22,17 +22,17 @@ public enum Expression<T: Decodable> {
     case expression(ContextExpression)
 }
 
-public enum ContextExpression: Equatable {
+public enum ContextExpression: Equatable, Hashable {
     case single(SingleExpression)
     case multiple(MultipleExpression)
 }
 
-public enum SingleExpression {
+public enum SingleExpression: Hashable {
     case value(Value)
     case operation(Operation)
 }
 
-public struct MultipleExpression {
+public struct MultipleExpression: Hashable {
     public let nodes: [Node]
 
     public enum Node: Equatable {
@@ -42,6 +42,22 @@ public struct MultipleExpression {
     
     public init(nodes: [Node]) {
         self.nodes = nodes
+    }
+}
+
+// MARK: - Equatable
+
+extension Expression: Equatable where T: Equatable {
+    public static func == (lhs: Expression<T>, rhs: Expression<T>) -> Bool {
+        switch (lhs, rhs) {
+        case let (.value(lhsValue), .value(rhsValue)):
+            return lhsValue == rhsValue
+        case let (.expression(lhsValue), .expression(rhsValue)):
+            return lhsValue == rhsValue
+        case (.value, .expression),
+             (.expression, .value):
+            return false
+        }
     }
 }
 

@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.internal.processor
 
+import br.com.zup.beagle.compiler.BEAGLE_CORE_WIDGET
 import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
 import br.com.zup.beagle.compiler.error
-import br.com.zup.beagle.widget.Widget
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
@@ -46,7 +46,7 @@ class InternalWidgetFactoryProcessor(
             basePackageName,
             className
         )
-            .addImport(Widget::class, "")
+            .addImport(BEAGLE_CORE_WIDGET.packageName, BEAGLE_CORE_WIDGET.className)
             .addType(typeSpec)
             .build()
 

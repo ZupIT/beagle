@@ -18,24 +18,26 @@ package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
-import br.com.zup.beagle.android.context.tokenizer.function.FunctionResolver
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.getExpressions
+import br.com.zup.beagle.widget.core.TextAlignment
 import com.squareup.moshi.Moshi
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.verify
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
 private val CONTEXT_ID = RandomData.string()
 private val CONTEXT_DATA = ContextData(CONTEXT_ID, JSONObject().apply {
@@ -47,6 +49,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
 
     private lateinit var contextDataEvaluation: ContextDataEvaluation
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 
@@ -88,6 +91,22 @@ internal class ContextDataEvaluationTest : BaseTest() {
 
         // Then
         assertEquals(contextData.value, actualValue)
+    }
+
+    @Test
+    fun `GIVEN expression with context string enum WHEN evaluate expression THEN return correct enum`() {
+        // Given
+        val contextData = ContextData(
+            id = CONTEXT_ID,
+            value = "LEFT"
+        )
+        val bind = expressionOf<TextAlignment>("@{$CONTEXT_ID}")
+
+        // When
+        val actualValue = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
+
+        // Then
+        assertEquals(TextAlignment.LEFT, actualValue)
     }
 
     @Test
@@ -137,7 +156,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         assertTrue { value is ArrayList<*> }
     }
 
-    @org.junit.Test
+    @Test
     fun evaluateContextBindings_should_show_error_when_moshi_returns_null() {
         // Given
         val bind = expressionOf<ComponentModel>("@{$CONTEXT_ID}")
@@ -157,7 +176,6 @@ internal class ContextDataEvaluationTest : BaseTest() {
     @Test
     fun evaluateAllContext_should_evaluate_text_string_text_expression() {
         // Given
-        val hello = "hello"
         val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
 
         // When
@@ -186,17 +204,16 @@ internal class ContextDataEvaluationTest : BaseTest() {
     }
 
     @Test
-    fun evaluateAllContext_should_not_evaluate_multiple_expressions_that_is_not_text() {
+    fun `GIVEN expression with values is not a string WHEN call evaluate expression THEN return correct text `() {
         // Given
-        val bind = expressionOf<Int>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
+        val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.a} and this @{$CONTEXT_ID.b}")
         every { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() } just Runs
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
 
         // Then
-        assertNull(value)
-        verify(exactly = once()) { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() }
+        assertEquals("This is an expression a and this true", value)
     }
 
     @Test
@@ -290,9 +307,9 @@ internal class ContextDataEvaluationTest : BaseTest() {
         // Given
         val context = ContextData(
             id = "binding",
-            value = listOf(1, 2, 3)
+            value = listOf(1, 2, 3).normalizeContextValue()
         )
-        val bind = expressionOf<Int>("@{insert(binding, 2)}")
+        val bind = expressionOf<String>("@{insert(binding, 2)}")
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(context), bind)
@@ -383,10 +400,10 @@ internal class ContextDataEvaluationTest : BaseTest() {
     @Test
     fun evaluateContextBindings_with_operation_should_evaluate_contains_operation() {
         // Given
-        val bind = expressionOf<Boolean>("result: @{contains(insert(${CONTEXT_ID}, 4), 4)}")
+        val bind = expressionOf<Boolean>("@{contains(insert(${CONTEXT_ID}, 4), 4)}")
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1, 2, 3)
+            value = listOf(1, 2, 3).normalizeContextValue()
         )
 
         // When
@@ -399,18 +416,19 @@ internal class ContextDataEvaluationTest : BaseTest() {
     @Test
     fun evaluateContextBindings_with_operation_should_throw_error_insert_operation_index_out_of_bound() {
         // Given
-        val bind = expressionOf<List<ComponentModel>>("result: @{insert(${CONTEXT_ID}, 4, 4)}")
+        val bind = expressionOf<Any>("@{insert(${CONTEXT_ID}, 4, 5)}")
+
+        val initialArray = listOf(1, 2, 3).normalizeContextValue()
         val contextData = ContextData(
             id = CONTEXT_ID,
-            value = listOf(1, 2, 3)
+            value = initialArray
         )
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
 
         // Then
-        assertNull(value)
-        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+        assertEquals(initialArray.toString(), value.toString())
     }
 
     @Test
@@ -506,7 +524,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val expected = "lorem ipsum @{'hello world, this is { beagle }!}'} lotem ipsum  , \\\\" +
             "lorem ipsum hello world, this is { beagle }!} lotem ipsum gabriel , \\\\"
 
-        assertEquals(expected = expected, actual = value)
+        assertEquals(expected, value)
     }
 
     @Test
@@ -531,7 +549,7 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val expected = "lorem } ipsum @{'hello world, this is { beagle }!}'} lotem ipsum  , \\\\" +
             "lorem ipsum hello world, this is { beagle }!} lotem ipsum gabriel , \\\\"
 
-        assertEquals(expected = expected, actual = value)
+        assertEquals(expected, value)
     }
 
     @Test

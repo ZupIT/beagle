@@ -21,6 +21,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'shot'
+apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
     compileOptions {
@@ -75,13 +76,17 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.AndroidxLibraries.appcompat
+    implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
 
-    testImplementation Dependencies.TestLibraries.junit
-    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.junitApi
+    testRuntimeOnly Dependencies.TestLibraries.junitEngine
+    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
     testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.archCoreTesting
+    testImplementation Dependencies.GeneralLibraries.jsonObject
 
     androidTestImplementation Dependencies.TestLibraries.cucumberAndroid
     androidTestImplementation Dependencies.TestLibraries.cucumberPicocontainer
@@ -89,7 +94,6 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
     androidTestImplementation Dependencies.TestLibraries.testExt
-
 }
 
 def getTestTags() {

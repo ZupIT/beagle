@@ -19,6 +19,7 @@ import br.com.zup.beagle.Dependencies
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'de.mannodermaus.android-junit5'
 apply from: rootProject.file('jacoco-android.gradle')
 
 android {
@@ -55,9 +56,10 @@ dependencies {
     implementation project(Dependencies.Modules.core)
 
     // Unit Testing
-    testImplementation Dependencies.TestLibraries.junit
-    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.junitApi
+    testRuntimeOnly Dependencies.TestLibraries.junitEngine
     testImplementation Dependencies.TestLibraries.mockk
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
+

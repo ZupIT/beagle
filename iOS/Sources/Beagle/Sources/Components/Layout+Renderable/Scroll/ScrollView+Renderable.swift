@@ -37,7 +37,7 @@ extension ScrollView: ServerDrivenComponent {
         scrollView.yoga.overflow = .scroll
 
         contentView.style.setup(
-            Style(flex: Flex(flexDirection: flexDirection, grow: 0, shrink: 0))
+            Style(flex: Flex(flexDirection: flexDirection, grow: 1, shrink: 0))
         )
         
         return scrollView

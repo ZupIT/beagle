@@ -18,16 +18,16 @@ package br.com.zup.beagle.android.engine.mapper
 
 import android.widget.ImageView
 import br.com.zup.beagle.widget.core.ImageContentMode
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 
 class ViewMapperTest {
 
     private lateinit var viewMapper: ViewMapper
 
-    @Before
+    @BeforeEach
     fun setUp() {
         viewMapper = ViewMapper()
     }

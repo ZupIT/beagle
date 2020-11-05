@@ -24,6 +24,7 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE
 import br.com.zup.beagle.sample.constants.CUSTOM_PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.NAVIGATION_TYPE_ENDPOINT
 import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ADD_CHILDREN
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BFF_NETWORK_IMAGE_ENDPOINT
@@ -92,7 +93,8 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Context", SCREEN_CONTEXT_ENDPOINT),
                 createMenu("Safe Area", SCREEN_SAFE_AREA_ENDPOINT),
                 createMenu("Text Input", SCREEN_TEXT_INPUT_ENDPOINT),
-                createMenu("Simple Form", SCREEN_SIMPLE_FORM_ENDPOINT)
+                createMenu("Simple Form", SCREEN_SIMPLE_FORM_ENDPOINT),
+                createMenu("Add Children", SCREEN_ACTION_ADD_CHILDREN)
             )
         )
     )

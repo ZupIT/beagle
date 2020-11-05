@@ -26,6 +26,19 @@ const val BUTTON_WITH_APPEARANCE_TEXT = "Button with Appearance"
 const val ACTION_CLICK_HEADER = "Action Click"
 const val ACTION_CLICK_TEXT = "You clicked right"
 
+//Text Screen
+const val TEXT_SCREEN_HEADER = "Beagle Text"
+const val TEXT_DEFAULT = "hello world"
+const val TEXT_VIA_EXPRESSION = "hello world via expression"
+const val TEXT_WITH_TEXT_COLOR = "hello world with textColor"
+const val TEXT_WITH_TEXT_COLOR_VIA_EXPRESSION = "hello world with textColor via expression"
+const val TEXT_WITH_ALIGNMENT_LEFT = "hello world with textAlignment LEFT"
+const val TEXT_WITH_ALIGNMENT_CENTER = "hello world with textAlignment CENTER"
+const val TEXT_WITH_ALIGNMENT_RIGHT = "hello world with textAlignment RIGHT"
+const val TEXT_WITH_ALIGNMENT_LEFT_VIA_EXPRESSION = "hello world with textAlignment LEFT via expression"
+const val TEXT_WITH_ALIGNMENT_CENTER_VIA_EXPRESSION = "hello world with textAlignment CENTER via expression"
+const val TEXT_WITH_ALIGNMENT_RIGHT_VIA_EXPRESSION = "hello world with textAlignment RIGHT via expression"
+
 //Image Screen
 const val IMAGE_SCREEN_HEADER = "Beagle Image"
 const val IMAGE_TEXT_1 = "Image"
@@ -84,4 +97,3 @@ const val SEND_BUTTON = "Enviar"
 //Confirm Popup
 const val OK_BUTTON = "OK"
 const val CANCEL_BUTTON = "Cancel"
-

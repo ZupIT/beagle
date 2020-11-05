@@ -20,7 +20,6 @@ import android.view.View
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
-import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
@@ -159,7 +158,6 @@ sealed class Navigate : Action {
             val newValue = evaluateExpression(rootView, origin, url)
             return this.copy(url = Bind.Value(newValue ?: ""))
         }
-
         return this
     }
 }

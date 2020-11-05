@@ -16,50 +16,42 @@
 
 package br.com.zup.beagle.android.logger
 
-import android.util.Log
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.*
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import kotlin.math.log
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-private const val BEAGLE_TAG = "BeagleSDK"
 private val LOG = RandomData.string()
 
 class BeagleLoggerProxyTest {
 
-    @Before
+    private val logger = mockk<BeagleLogger>(relaxUnitFun = true, relaxed = true)
+
+    @BeforeEach
     fun setUp() {
         mockkObject(BeagleEnvironment)
-        mockkStatic(Log::class)
 
-        every { Log.w(any(), any<String>()) }returns 0
-        every { Log.i(any(), any()) } returns 0
-        every { Log.e(any(), any()) } returns 0
-        every { Log.d(any(), any()) } returns 0
-        every { Log.v(any(), any()) } returns 0
-
-        every { BeagleEnvironment.beagleSdk.logger } returns null
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
+        every { BeagleEnvironment.beagleSdk.logger } returns logger
+        BeagleLoggerProxy.logger = logger
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
-        unmockkObject(BeagleEnvironment)
-        unmockkStatic(Log::class)
+        unmockkAll()
     }
 
     @Test
     fun warning_should_call_Log_w_if_is_enable() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
-
         // When
         BeagleLoggerProxy.warning(LOG)
 
         // Then
-        verify(exactly = once()) { Log.w(BEAGLE_TAG, LOG) }
+        verify(exactly = once()) { logger.warning(LOG) }
     }
 
     @Test
@@ -71,19 +63,17 @@ class BeagleLoggerProxyTest {
         BeagleLoggerProxy.warning(LOG)
 
         // Then
-        verify(exactly = 0) { Log.w(BEAGLE_TAG, LOG) }
+        verify(exactly = 0) { logger.warning(LOG) }
     }
 
     @Test
     fun error_should_call_Log_w_if_is_enable() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
 
         // When
         BeagleLoggerProxy.error(LOG)
 
         // Then
-        verify(exactly = once()) { Log.e(BEAGLE_TAG, LOG) }
+        verify(exactly = once()) { logger.error(LOG) }
     }
 
     @Test
@@ -95,19 +85,16 @@ class BeagleLoggerProxyTest {
         BeagleLoggerProxy.error(LOG)
 
         // Then
-        verify(exactly = 0) { Log.e(BEAGLE_TAG, LOG) }
+        verify(exactly = 0) { logger.error(LOG) }
     }
 
     @Test
     fun info_should_call_Log_w_if_is_enable() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
-
         // When
         BeagleLoggerProxy.info(LOG)
 
         // Then
-        verify(exactly = once()) { Log.i(BEAGLE_TAG, LOG) }
+        verify(exactly = once()) { logger.info(LOG) }
     }
 
     @Test
@@ -119,6 +106,6 @@ class BeagleLoggerProxyTest {
         BeagleLoggerProxy.info(LOG)
 
         // Then
-        verify(exactly = 0) { Log.i(BEAGLE_TAG, LOG) }
+        verify(exactly = 0) { logger.info(LOG) }
     }
 }

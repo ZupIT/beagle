@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.android.engine.mapper
 
+import android.view.View
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.internalObserveBindChanges
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
@@ -32,7 +34,7 @@ import com.facebook.yoga.YogaNode
 import com.facebook.yoga.YogaPositionType
 import com.facebook.yoga.YogaWrap
 
-class FlexMapper {
+internal class FlexMapper {
 
     fun makeYogaNode(style: Style): YogaNode = YogaNode.create().apply {
         flexDirection = makeYogaFlexDirection(style.flex?.flexDirection) ?: YogaFlexDirection.COLUMN
@@ -41,14 +43,28 @@ class FlexMapper {
         alignItems = makeYogaAlignItems(style.flex?.alignItems) ?: YogaAlign.STRETCH
         alignSelf = makeYogaAlignSelf(style.flex?.alignSelf) ?: YogaAlign.AUTO
         alignContent = makeYogaAlignContent(style.flex?.alignContent) ?: YogaAlign.FLEX_START
-        if(style.flex?.flex == null) {
+        if (style.flex?.flex == null) {
             flexGrow = style.flex?.grow?.toFloat() ?: 0.0f
             flexShrink = style.flex?.shrink?.toFloat() ?: 1.0f
         }
         style.flex?.flex?.toFloat()?.let { flex = it }
-        display = makeYogaDisplay(style.display) ?: YogaDisplay.FLEX
+
+        display = YogaDisplay.FLEX
         positionType = makeYogaPositionType(style.positionType) ?: YogaPositionType.RELATIVE
         applyAttributes(style, this)
+    }
+
+    fun observeBindChangesFlex(style: Style,
+                               rootView: RootView,
+                               view: View,
+                               yogaNode: YogaNode) {
+
+        if (style.display != null) {
+            internalObserveBindChanges(rootView, view, style.display) {
+                yogaNode.display = makeYogaDisplay(it) ?: YogaDisplay.FLEX
+                view.requestLayout()
+            }
+        }
     }
 
     private fun applyAttributes(style: Style, yogaNode: YogaNode) {

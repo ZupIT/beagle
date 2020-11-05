@@ -27,23 +27,29 @@ import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import io.mockk.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 private const val FORM_INPUT_VIEWS_FIELD_NAME = "formInputs"
 private const val FORM_SUBMIT_VIEW_FIELD_NAME = "formSubmitView"
 private val INPUT_VALUE = RandomData.string()
 private const val INPUT_NAME = "INPUT_NAME"
 private const val FORM_GROUP_VALUE = "GROUP"
-private const val ADDIONAL_DATA_KEY = "dataKey"
-private const val ADDIONAL_DATA_VALUE = "dataValue"
+private const val ADDITIONAL_DATA_KEY = "dataKey"
+private const val ADDITIONAL_DATA_VALUE = "dataValue"
 
+@ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class)
 class FormTest : BaseComponentTest() {
 
     private val formInput: FormInput = mockk(relaxed = true)
@@ -65,6 +71,7 @@ class FormTest : BaseComponentTest() {
 
     private lateinit var form: Form
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 
@@ -316,7 +323,7 @@ class FormTest : BaseComponentTest() {
 
     private fun createSimpleAdditionalData(): Map<String, String> {
         val additionalData = HashMap<String, String>()
-        additionalData[ADDIONAL_DATA_KEY] = ADDIONAL_DATA_VALUE
+        additionalData[ADDITIONAL_DATA_KEY] = ADDITIONAL_DATA_VALUE
         return additionalData
     }
 
@@ -402,8 +409,8 @@ class FormTest : BaseComponentTest() {
         verify {
             formDataStoreHandler.put(
                 eq(FORM_GROUP_VALUE),
-                eq(ADDIONAL_DATA_KEY),
-                eq(ADDIONAL_DATA_VALUE))
+                eq(ADDITIONAL_DATA_KEY),
+                eq(ADDITIONAL_DATA_VALUE))
         }
     }
 
@@ -420,7 +427,7 @@ class FormTest : BaseComponentTest() {
         executeFormSubmitOnClickListener()
 
         // Then
-        assertEquals(ADDIONAL_DATA_VALUE, formsValuesSlot.captured[ADDIONAL_DATA_KEY])
+        assertEquals(ADDITIONAL_DATA_VALUE, formsValuesSlot.captured[ADDITIONAL_DATA_KEY])
     }
 
     @Test

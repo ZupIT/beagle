@@ -22,16 +22,16 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
-import org.junit.After
+import org.junit.jupiter.api.AfterEach
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class BeagleMessageLogsTest {
 
     private val beagleLoggerInfoSlot = slot<String>()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkObject(BeagleEnvironment)
 
@@ -46,7 +46,7 @@ class BeagleMessageLogsTest {
         every {  BeagleLoggerProxy.error(any(), any()) } just Runs
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkAll()
     }
@@ -175,21 +175,6 @@ class BeagleMessageLogsTest {
         // Then
         verify(exactly = 1) {  BeagleLoggerProxy.warning("Are you missing to declare your FormSubmit component for " +
                 "form action '$formActionName'?") }
-    }
-
-    @Test
-    fun logDataNotInsertedOnDatabase_should_call_BeagleLogger_warning() {
-        // Given
-        val key = RandomData.string()
-        val value = RandomData.string()
-
-        // When
-        BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
-
-        // Then
-        verify(exactly = 1) {  BeagleLoggerProxy.warning("Error when trying to insert key=$key " +
-            "with value=$value on Beagle default database.") }
-
     }
 
     @Test

@@ -35,8 +35,9 @@ import io.mockk.slot
 import io.mockk.verify
 import io.mockk.verifyOrder
 import io.mockk.verifySequence
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 class ComponentStylizationTest : BaseTest() {
 
@@ -55,6 +56,7 @@ class ComponentStylizationTest : BaseTest() {
     @InjectMockKs
     private lateinit var componentStylization: ComponentStylization<Text>
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
         styleManagerFactory = styleManager

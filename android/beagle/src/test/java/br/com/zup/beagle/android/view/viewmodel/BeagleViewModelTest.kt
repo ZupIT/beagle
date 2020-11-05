@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
@@ -25,12 +24,12 @@ import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
+import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerifyOrder
@@ -41,18 +40,16 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import kotlinx.coroutines.Job
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class BeagleViewModelTest : BaseTest() {
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
-    @get:Rule
-    val scope = CoroutineTestRule()
 
     @MockK
     private lateinit var component: ServerDrivenComponent
@@ -73,8 +70,9 @@ class BeagleViewModelTest : BaseTest() {
 
     private val slotViewState = mutableListOf<ViewState>()
 
+    @BeforeEach
     override fun setUp() {
-        super.setUp();
+        super.setUp()
 
         beagleUIViewModel = BeagleViewModel(componentRequester = componentRequester)
 
@@ -82,7 +80,6 @@ class BeagleViewModelTest : BaseTest() {
         coEvery { actionRequester.fetchAction(any()) } returns action
         every { observer.onChanged(any()) } just Runs
         coEvery { observer.onChanged(capture(slotViewState)) } just Runs
-
     }
 
     @Test
@@ -214,6 +211,68 @@ class BeagleViewModelTest : BaseTest() {
         //THEN
         verify(exactly = once()) { observer.onChanged(ViewState.DoRender(identifier, component)) }
 
+    }
+
+    @Test
+    fun `GIVEN a NULL FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        beagleUIViewModel.fetchComponent = null
+
+        //WHEN
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        assertFalse { isFetch }
+    }
+
+    @Test
+    fun `GIVEN a NULL Job in FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+
+        beagleUIViewModel.fetchComponent(screenRequest)
+        beagleUIViewModel.fetchComponent?.job = null
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        assertFalse { isFetch }
+    }
+
+    @Test
+    fun `GIVEN a Job COMPLETED in FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+        val mockJob = Job()
+        mockJob.complete()
+
+        beagleUIViewModel.fetchComponent(screenRequest)
+        beagleUIViewModel.fetchComponent?.job = mockJob
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        assertFalse { isFetch }
+    }
+
+    @Test
+    fun `GIVEN a Job NOT COMPLETED in FetchComponentLiveData WHEN isFetchComponent called SHOULD post ViewState doCancel and return true`() {
+        //Given
+        val screenRequest = ScreenRequest("")
+        val mockJob = Job()
+
+        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+        beagleUIViewModel.fetchComponent?.job = mockJob
+
+        // When
+        val isFetch = beagleUIViewModel.isFetchComponent()
+
+        //THEN
+        assertTrue { mockJob.isCancelled }
+        verify(exactly = once()) { observer.onChanged(ViewState.DoCancel) }
+        assertTrue { isFetch }
     }
 
 }

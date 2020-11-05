@@ -33,10 +33,8 @@ class Dependencies : Plugin<Project> {
         const val internalProcessor = ":internal-processor"
         const val androidAnnotation = ":android-annotation"
         const val preview = ":preview"
-        const val commonAnnotation = ":common:annotation"
-        const val commonProcessorUtils = ":common:processor-utils"
-        const val schemaKotlinCore = ":schema:kotlin-core"
-        const val extendedSchema = ":common:extended-schema"
+        const val commonAnnotation = ":annotation"
+        const val commonProcessorUtils = ":processor-utils"
     }
 
     object Releases {
@@ -54,17 +52,16 @@ class Dependencies : Plugin<Project> {
 
         const val kotlinCoroutines = "1.3.9"
 
-        const val kotlinPoet = "1.6.0"
+        const val kotlinPoet = "1.7.1"
 
         const val appcompat = "1.2.0"
         const val viewModel = "2.2.0"
         const val recyclerView = "1.1.0"
 
-        const val moshi = "1.10.0"
+        const val moshi = "1.11.0"
 
         const val soLoader = "0.9.0"
 
-        const val junit = "4.13"
         const val junit5 = "5.7.0"
 
         const val yoga = "1.16.0"
@@ -74,7 +71,6 @@ class Dependencies : Plugin<Project> {
         const val webSocket = "1.5.1"
         const val simpleLogger = "1.7.30"
 
-        const val kotlinTest = "1.4.10"
         const val kotlinCoroutinesTest = "1.3.9"
         const val materialDesign = "1.2.1"
         const val googleCompileTesting = "0.18"
@@ -82,7 +78,7 @@ class Dependencies : Plugin<Project> {
 
         const val jsonObject = "20200518"
 
-        const val mockk = "1.10.0"
+        const val mockk = "1.10.2"
 
         const val testRunner = "1.2.0"
         const val testExt = "1.1.1"
@@ -91,7 +87,7 @@ class Dependencies : Plugin<Project> {
 
         const val incap = "0.3"
 
-        const val cucumber = "1.2.5"
+        const val cucumber = "1.2.6"
     }
 
     object GeneralNames {
@@ -144,11 +140,9 @@ class Dependencies : Plugin<Project> {
     }
 
     object TestLibraries {
-        const val junit = "junit:junit:${Versions.junit}"
-        const val junit5Api = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
-        const val junit5Engine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
+        const val junitApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
+        const val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
-        const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlinTest}"
         const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
         const val googleCompileTesting = "com.google.testing.compile:compile-testing:${Versions.googleCompileTesting}"
         const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"

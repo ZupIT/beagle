@@ -264,7 +264,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
    func test_loadPreFetchedScreen() {
         
         let url = "screen-url"
-        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let cacheManager = CacheManagerSpy()
         guard let jsonData = """
         {
           "_beagleType_": "beagle:component:text",
@@ -467,6 +467,10 @@ class BeagleControllerStub: BeagleController {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func addOnInit(_ onInit: [RawAction], in view: UIView) {
+        // Intentionally unimplemented...
     }
     
     func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {

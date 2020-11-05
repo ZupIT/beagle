@@ -19,8 +19,12 @@ package br.com.zup.beagle.android.context
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.AsyncAction
+import br.com.zup.beagle.android.action.BaseAsyncActionTest
+import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import io.mockk.Runs
 import io.mockk.every
@@ -31,28 +35,28 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
 data class PersonTest(val name: String)
 
 private const val NAME = "name"
 
-class ContextActionExecutorTest : BaseTest() {
+class ContextActionExecutorTest : BaseAsyncActionTest() {
 
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val sender = mockk<Action>()
     private val action = mockk<Action>()
     private val view: View = mockk()
 
-    private lateinit var contextActionExecutor: ContextActionExecutor
+    private val contextActionExecutor = ContextActionExecutor
 
     private val contextDataSlot = slot<ContextData>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
-
-        contextActionExecutor = ContextActionExecutor()
 
         every { action.execute(any(), view) } just Runs
 
@@ -137,5 +141,26 @@ class ContextActionExecutorTest : BaseTest() {
         // Then
         verify(exactly = 0) { viewModel.addImplicitContext(any(), any(), any()) }
         verify(exactly = once()) { action.execute(rootView, view) }
+    }
+
+    @Test
+    fun `GIVEN an AsyncAction WHEN executed THEN should call onActionStarted and onAsyncActionExecuted`() {
+        // Given
+        val asyncActionViewModel = mockk<AsyncActionViewModel>()
+        prepareViewModelMock(asyncActionViewModel)
+        val asyncActionSlot = slot<AsyncActionData>()
+        val asyncAction = SendRequest("http://www.test.com")
+        asyncAction.status.observeForever(observer)
+        every { asyncActionViewModel.onAsyncActionExecuted(capture(asyncActionSlot)) } just Runs
+
+        // When
+        contextActionExecutor.executeActions(rootView, view, listOf(asyncAction))
+
+        // Then
+        assertEquals(asyncActionSlot.captured.asyncAction, asyncAction)
+        assertEquals(asyncActionSlot.captured.origin, view)
+        verify(exactly = 1) { asyncActionViewModel.onAsyncActionExecuted(asyncActionSlot.captured) }
+        verify(exactly = 1) { asyncAction.onActionStarted() }
+        assert(onActionStartedWasCalled())
     }
 }

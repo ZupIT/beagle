@@ -17,8 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import io.mockk.Runs
@@ -28,11 +26,12 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 
-class FormLocalActionTest : BaseTest() {
+class FormLocalActionTest : BaseAsyncActionTest() {
 
     @MockK
     private lateinit var formLocalActionHandler: FormLocalActionHandler
@@ -45,6 +44,7 @@ class FormLocalActionTest : BaseTest() {
     private val actionListener = slot<ActionListener>()
     private val activityStates = mutableListOf<ServerDrivenState>()
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 
@@ -54,7 +54,7 @@ class FormLocalActionTest : BaseTest() {
     }
 
     @Test
-    fun doAction_should_not_handle_CustomAction_action_when_handler_is_null() {
+    fun `GIVEN a FormLocalAction WHEN handler is null THEN should not call handle`() {
         // Given
         val formLocalAction = FormLocalAction("Stub", emptyMap())
         val listener = mockk<ActionListener>()
@@ -67,12 +67,10 @@ class FormLocalActionTest : BaseTest() {
     }
 
     @Test
-    fun do_customAction_and_listen_onStart() {
+    fun `GIVEN a FormLocalAction WHEN onStart THEN should call changeActivityState`() {
         // Given
         val formLocalAction = FormLocalAction("Stub", emptyMap())
-        val expectedStates = listOf<ServerDrivenState>(
-            ServerDrivenState.Loading(true)
-        )
+        val expectedStates = listOf<ServerDrivenState>(ServerDrivenState.Loading(true))
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
@@ -80,63 +78,67 @@ class FormLocalActionTest : BaseTest() {
         actionListener.captured.onStart()
 
         // Then
-        verify(exactly = once()) { formLocalActionHandler.handle(activity, any(), actionListener.captured) }
-        verify(exactly = once()) { activity.onServerDrivenContainerStateChanged(any()) }
+        verify(exactly = 1) { formLocalActionHandler.handle(activity, any(), actionListener.captured) }
+        verify(exactly = 1) { activity.onServerDrivenContainerStateChanged(any()) }
         assertEquals(expectedStates, activityStates)
     }
 
     @Test
-    fun do_customAction_and_listen_onSuccess() {
+    fun `GIVEN a FormLocalAction WHEN onSuccess THEN should changeActivityState and call onActionFinished`() {
         // Given
         val formLocalAction = FormLocalAction("Stub", emptyMap())
-        val expectedState = listOf<ServerDrivenState>(
-            ServerDrivenState.Loading(false)
-        )
+        val expectedState = listOf<ServerDrivenState>(ServerDrivenState.Loading(false))
         val dumbAction = mockk<Action>(relaxed = true)
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
+        formLocalAction.status.observeForever(observer)
         formLocalAction.execute(rootView, view)
         actionListener.captured.onSuccess(dumbAction)
 
         // Then
-        verify(exactly = once()) { formLocalActionHandler.handle(activity, any(), actionListener.captured) }
-        verify(exactly = once()) { activity.onServerDrivenContainerStateChanged(any()) }
+        verify(exactly = 1) { formLocalActionHandler.handle(activity, any(), actionListener.captured) }
+        verify(exactly = 1) { activity.onServerDrivenContainerStateChanged(any()) }
         assertEquals(expectedState, activityStates)
+        assert(onActionFinishedWasCalled())
     }
 
     @Test
-    fun do_customAction_and_listen_onError() {
+    fun `GIVEN a FormLocalAction WHEN onError THEN should changeActivityState and call onActionFinished`() {
         // Given
         val formLocalAction = FormLocalAction("Stub", emptyMap())
         val error = mockk<Throwable>()
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
+        formLocalAction.status.observeForever(observer)
         formLocalAction.execute(rootView, view)
         actionListener.captured.onError(error)
 
         // Then
-        verify(exactly = once()) { formLocalActionHandler.handle(activity, any(), actionListener.captured) }
+        verify(exactly = 1) { formLocalActionHandler.handle(activity, any(), actionListener.captured) }
         verify(exactly = 2) { activity.onServerDrivenContainerStateChanged(any()) }
         assertEquals(2, activityStates.size)
         assertEquals(ServerDrivenState.Loading(false), activityStates[0])
         assertTrue(activityStates[1] is ServerDrivenState.FormError)
+        assert(onActionFinishedWasCalled())
     }
 
     @Test
-    fun do_customAction_and_listen_onError_retry() {
+    fun `GIVEN a FormLocalAction WHEN retry THEN should call handle twice`() {
         // Given
         val formLocalAction = FormLocalAction("Stub", emptyMap())
         val error = mockk<Throwable>()
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
+        formLocalAction.status.observeForever(observer)
         formLocalAction.execute(rootView, view)
         actionListener.captured.onError(error)
         (activityStates[1] as ServerDrivenState.FormError).retry.invoke()
 
         // Then
         verify(exactly = 2) { formLocalActionHandler.handle(activity, any(), any()) }
+        assert(onActionFinishedWasCalled())
     }
 }

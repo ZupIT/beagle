@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler
-import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -31,11 +30,11 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 private open class AbstractViewRenderer(
     override val component: Widget,
@@ -57,6 +56,7 @@ class AbstractViewRendererTest : BaseTest() {
 
     private lateinit var viewRenderer: AbstractViewRenderer
 
+    @BeforeEach
     override fun setUp() {
         super.setUp()
 
@@ -87,13 +87,7 @@ class AbstractViewRendererTest : BaseTest() {
         verifySequence {
             rootView.getViewModelStoreOwner()
             componentStylization.apply(view, component)
-            view.id
-            rootView.getViewModelStoreOwner()
-            rootView.getParentId()
-            generateIdViewModel.getViewId(0)
-            view.id = viewId
-            contextViewRenderer.addContext(contextViewModel, view, component)
-            contextViewRenderer.addListenerToHandleContext(contextViewModel, view)
+            contextViewRenderer.handleComponent(view, contextViewModel, component)
         }
     }
 

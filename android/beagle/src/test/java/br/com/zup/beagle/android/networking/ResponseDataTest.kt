@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.networking
 
 import io.mockk.mockk
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
 

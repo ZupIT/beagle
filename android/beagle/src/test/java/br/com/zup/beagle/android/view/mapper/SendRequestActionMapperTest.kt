@@ -20,40 +20,10 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.networking.ResponseData
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class SendRequestActionMapperTest : BaseTest(){
-
-    @Test
-    fun `GIVEN response data is an integer WHEN toResponse is called THEN it should return an object of type Int`() {
-        //Given
-        val responseData = ResponseData(
-            statusCode = 200,
-            data = "10".toByteArray()
-        )
-
-        //When
-        val response = SendRequestActionMapper.toResponse(responseData)
-
-        //Then
-        assert(response.data is Int)
-    }
-
-    @Test
-    fun `GIVEN response data is a string with value '10' WHEN toResponse is called THEN it should return 10 as Int`() {
-        //Given
-        val responseData = ResponseData(
-            statusCode = 200,
-            data = "10".toByteArray()
-        )
-
-        //When
-        val response = SendRequestActionMapper.toResponse(responseData)
-
-        //Then
-        assert(response.data == 10)
-    }
 
     @Test
     fun `GIVEN response data is an valid json WHEN toResponse is called THEN it should return an object of type JSONObject`() {

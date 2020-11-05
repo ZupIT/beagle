@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.utils
 
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.R
@@ -30,9 +29,6 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
-import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -128,6 +124,15 @@ fun <T> ServerDrivenComponent.observeBindChanges(
     bind: Bind<T>,
     observes: Observer<T?>
 ) {
+    internalObserveBindChanges(rootView, view, bind, observes)
+}
+
+internal fun <T> internalObserveBindChanges(
+    rootView: RootView,
+    view: View,
+    bind: Bind<T>,
+    observes: Observer<T?>
+) {
     val value = bind.observe(rootView, view, observes)
     if (bind is Bind.Value) {
         observes(value)
@@ -150,18 +155,17 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id
 fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View =
     this.toView(FragmentRootView(fragment, idView))
 
-
-internal fun ServerDrivenComponent.toView(rootView: RootView): View {
-    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
-    viewModel.createIfNotExisting(rootView.getParentId())
+internal fun ServerDrivenComponent.toView(
+    rootView: RootView,
+    generateIdManager: GenerateIdManager = GenerateIdManager(rootView)
+): View {
+    generateIdManager.createSingleManagerByRootViewId()
     val view = viewFactory.makeBeagleFlexView(rootView).apply {
         id = rootView.getParentId()
         addServerDrivenComponent(this@toView)
     }
-
     view.listenerOnViewDetachedFromWindow = {
-        viewModel.setViewCreated(rootView.getParentId())
+        generateIdManager.onViewDetachedFromWindow(view)
     }
-
     return view
 }
