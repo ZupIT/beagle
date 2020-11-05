@@ -32,17 +32,16 @@ class TextSteps: CucumberStepsDefinition {
         }
         
         // MARK: - Given
-        Given(#"^the Beagle application did launch with the text on screen$"#) { _, _ -> Void in
+        Given(#"^the Beagle application did launch with the text url screen$"#) { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TEXT_SCREEN_TITLE.element.exists)
         }
         
+        // MARK: - Then
+        
         // Scenario 1
-        Then(#"^I must check if the text value "([^\"]*)" appears on the screen$"#) { args, _ -> Void in
+        Then(#"^the text "([^\"]*)" should appear on the screen$"#) { args, _ -> Void in
             let text = args![0]
             XCTAssertTrue(self.application.staticTexts[text].exists)
         }
-
     }
-    
-    
 }

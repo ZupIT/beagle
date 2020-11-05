@@ -119,7 +119,7 @@ enum ScreenElements: String {
     case CONTAINER_SCREEN_TITLE = "Container Screen"
     
     //Text
-    case TEXT_SCREEN_TITLE = "Beagle Text"
+    case TEXT_SCREEN_TITLE = "TextScreen"
 
     var element: XCUIElement {
         switch self {
