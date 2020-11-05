@@ -11,6 +11,7 @@
 		17F6C7BA25364B8800A0ECAA /* SendRequestActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */; };
 		25CEAC6B2551E25B00404B21 /* XCUIElementQuery+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CEAC692551E24E00404B21 /* XCUIElementQuery+Extension.swift */; };
 		25CEAC6D2551E2C000404B21 /* TextInputSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */; };
+		42554D3B25519E6F00B028ED /* AlertSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42554D3A25519E6F00B028ED /* AlertSteps.swift */; };
 		42C55D0E25477EEF003ECF63 /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */; };
 		42C55D1125477F42003ECF63 /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */; };
 		42C55D1325477F70003ECF63 /* NetworkClientDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1225477F70003ECF63 /* NetworkClientDefault.swift */; };
@@ -135,6 +136,7 @@
 /* Begin PBXFileReference section */
 		174096E8252B8FB10009C749 /* NavigateSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateSteps.swift; sourceTree = "<group>"; };
 		17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestActionSteps.swift; sourceTree = "<group>"; };
+		42554D3A25519E6F00B028ED /* AlertSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSteps.swift; sourceTree = "<group>"; };
 		25CEAC692551E24E00404B21 /* XCUIElementQuery+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementQuery+Extension.swift"; sourceTree = "<group>"; };
 		25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputSteps.swift; sourceTree = "<group>"; };
 		42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 				17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */,
 				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
 				174096E8252B8FB10009C749 /* NavigateSteps.swift */,
+				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
 				25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */,
 			);
 			path = Steps;
