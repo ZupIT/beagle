@@ -16,34 +16,34 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Condition
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.context.valueOf
-import br.com.zup.beagle.widget.core.*
-import br.com.zup.beagle.widget.layout.*
-import br.com.zup.beagle.widget.navigation.Touchable
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 
-object ConditionalActionScreenBuilder {
+object ConditionalScreenBuilder {
     fun build() = Screen(
         child = Container(
+            context = ContextData(id = "conditionalContext", value = false),
             children = listOf(
-                Text("Conditional Action"),
-                conditionButton("Action on True", condition = valueOf(true)),
-                conditionButton("Action on False", condition = valueOf(false)),
-                conditionButton("Action on expression true", condition = expressionOf("@{lt(2, 4)}")),
-                conditionButton("Action on invalid expression", condition = expressionOf("@{lt(context, 4)}"))
+                Text("Conditional Screen"),
+                conditionButton(text = "Action on True", condition = valueOf(true)),
+                conditionButton(text = "Action on False", condition = valueOf(false)),
+                conditionButton(
+                    text = "Action on expression true",
+                    condition = expressionOf("@{lt(2, 4)}")),
+                conditionButton(
+                    text = "Action on expression false",
+                    condition = expressionOf("@{conditionalContext}")),
+                conditionButton(
+                    text = "Action on invalid expression",
+                    condition = expressionOf("@{lt(context, 4)}"))
             )
         )
     )
