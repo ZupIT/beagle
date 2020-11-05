@@ -35,7 +35,7 @@ class TextInputScreen {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@textInput")
+    @Before("@textinput")
     fun setup() {
         TestUtils.startActivity(activityTestRule, TEXT_INPUT_SCREEN_BFF_URL)
     }
@@ -154,7 +154,7 @@ class TextInputScreen {
             .checkViewIsNotDisplayed(string)
     }
 
-    @After("@textInput")
+    @After("@textinput")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
