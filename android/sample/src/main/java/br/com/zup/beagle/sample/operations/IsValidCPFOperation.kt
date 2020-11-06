@@ -28,6 +28,7 @@ class IsValidCPFOperation : Operation {
         return OperationType.TypeBoolean(isCPF(cpf))
     }
 
+    @Suppress("ReturnCount")
     private fun isCPF(document: String): Boolean {
         if (TextUtils.isEmpty(document)) return false
 
@@ -39,7 +40,7 @@ class IsValidCPFOperation : Operation {
 
         if (numbers.size != 11) return false
 
-        (0..9).forEach { n ->
+        for (n in 0..9) {
             val digits = arrayListOf<Int>()
             repeat((0..10).count()) { _ -> digits.add(n) }
             if (numbers == digits) return false
