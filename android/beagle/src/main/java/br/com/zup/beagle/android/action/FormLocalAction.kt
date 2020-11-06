@@ -43,7 +43,7 @@ import br.com.zup.beagle.android.widget.RootView
 data class FormLocalAction(
     val name: String,
     val data: Map<String, String>
-) : Action, AsyncAction by AsyncActionImpl() {
+) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
 
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler

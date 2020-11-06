@@ -36,7 +36,7 @@ data class Condition(
     val condition: Bind<Boolean>,
     val onTrue: List<Action>? = null,
     val onFalse: List<Action>? = null
-) : Action {
+) : ActionAnalytics() {
 
     constructor(
         condition: Boolean,

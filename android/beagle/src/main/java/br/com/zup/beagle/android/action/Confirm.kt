@@ -44,7 +44,7 @@ data class Confirm(
     val onPressCancel: Action? = null,
     val labelOk: String? = null,
     val labelCancel: String? = null
-) : Action {
+) : ActionAnalytics() {
 
     constructor(
         title: String? = null,

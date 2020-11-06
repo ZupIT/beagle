@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+package br.com.zup.beagle.analytics2
 
-import android.view.View
-import br.com.zup.beagle.android.action.ActionAnalytics
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.annotation.RegisterAction
+interface AnalyticsProvider {
 
-@RegisterAction
-data class MyAction(
-    val value: String,
-    val intValue: Int
-) : ActionAnalytics() {
+    fun getConfig(config: (analyticConfig: AnalyticsConfig) -> Unit)
 
-    override fun execute(rootView: RootView, origin: View) {
+    fun startSession(startSession: () -> Unit)
 
-    }
+    fun createRecord(record: AnalyticsRecord)
 }

@@ -33,7 +33,7 @@ import br.com.zup.beagle.android.widget.RootView
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 internal class FormValidation(
     val errors: List<FieldError>
-) : Action {
+) : ActionAnalytics() {
 
     @Transient
     var formInputs: List<FormInput>? = null
@@ -43,7 +43,7 @@ internal class FormValidation(
             val formInput = formInputs?.find {
                 it.name == error.inputName
             }
-            val childInputWidget : InputWidget? = formInput?.child
+            val childInputWidget: InputWidget? = formInput?.child
 
             childInputWidget?.onErrorMessage(error.message)
         }

@@ -40,7 +40,7 @@ data class Alert(
     val message: Bind<String>,
     val onPressOk: Action? = null,
     val labelOk: String? = null
-) : Action {
+) : ActionAnalytics() {
 
     constructor(
         title: String? = null,

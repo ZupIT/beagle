@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.android.action.FormMethodType.*
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
@@ -74,7 +75,7 @@ internal typealias ResultListener = (result: FormResult) -> Unit
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType
-) : Action, AsyncAction by AsyncActionImpl() {
+) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
 
     @Transient
     internal lateinit var formsValue: Map<String, String>

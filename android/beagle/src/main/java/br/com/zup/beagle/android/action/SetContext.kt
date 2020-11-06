@@ -43,7 +43,7 @@ data class SetContext(
     @property:ContextDataValue
     val value: Any,
     val path: String? = null
-) : Action {
+) : ActionAnalytics() {
 
     override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()

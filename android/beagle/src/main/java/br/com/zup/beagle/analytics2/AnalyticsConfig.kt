@@ -14,20 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+package br.com.zup.beagle.analytics2
 
-import android.view.View
-import br.com.zup.beagle.android.action.ActionAnalytics
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.annotation.RegisterAction
+interface AnalyticsConfig {
 
-@RegisterAction
-data class MyAction(
-    val value: String,
-    val intValue: Int
-) : ActionAnalytics() {
+    var enableScreenAnalytics : Boolean?
 
-    override fun execute(rootView: RootView, origin: View) {
-
-    }
+    var actions : Map<String, List<String>>
 }
