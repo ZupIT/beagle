@@ -30,6 +30,7 @@ import br.com.zup.beagle.android.navigation.BeagleControllerReference
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
+import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.store.StoreHandler
 import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.view.BeagleActivity
@@ -59,6 +60,7 @@ interface BeagleSdk {
 
     fun registeredWidgets(): List<Class<WidgetView>>
     fun registeredActions(): List<Class<Action>>
+    fun registeredOperations(): Map<String, Operation>
 
     fun init(application: Application) {
         BeagleEnvironment.beagleSdk = this

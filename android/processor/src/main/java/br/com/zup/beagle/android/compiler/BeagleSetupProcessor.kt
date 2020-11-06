@@ -38,7 +38,7 @@ import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-class BeagleSetupProcessor(
+data class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
     private val registerWidgetProcessorProcessor: RegisterWidgetProcessorProcessor =
         RegisterWidgetProcessorProcessor(processingEnv),
@@ -49,7 +49,8 @@ class BeagleSetupProcessor(
     private val registerAnnotationProcessor: RegisterControllerProcessor =
         RegisterControllerProcessor(processingEnv),
     private val registerBeagleAdapterProcessor: RegisterBeagleAdapterProcessor =
-        RegisterBeagleAdapterProcessor(processingEnv)
+        RegisterBeagleAdapterProcessor(processingEnv),
+    private val registerOperationsProcessor: RegisterOperationsProcessor = RegisterOperationsProcessor(processingEnv)
 ) {
 
     fun process(
@@ -68,6 +69,7 @@ class BeagleSetupProcessor(
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
             .addFunction(registerWidgetProcessorProcessor.createRegisteredWidgetsFunction())
             .addFunction(registerActionProcessorProcessor.createRegisteredActionsFunction())
+            .addFunction(registerOperationsProcessor.createRegisteredWidgetsFunction())
 
 
         val beagleSetupFile = addDefaultImports(basePackageName, beagleSetupClassName, beagleConfigClassName)
@@ -78,6 +80,7 @@ class BeagleSetupProcessor(
 
         registerWidgetProcessorProcessor.process(basePackageName, roundEnvironment)
         registerActionProcessorProcessor.process(basePackageName, roundEnvironment)
+        registerOperationsProcessor.process(basePackageName, roundEnvironment)
         registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
         registerBeagleAdapterProcessor.process(
             BEAGLE_CUSTOM_ADAPTER.packageName,
@@ -92,7 +95,6 @@ class BeagleSetupProcessor(
         val newProperties = properties.toMutableList().apply {
             this[propertyIndex] = property
         }
-
 
         val newTypeSpecBuilder = typeSpec.addProperties(newProperties)
             .addProperty(createBeagleConfigAttribute(beagleConfigClassName))

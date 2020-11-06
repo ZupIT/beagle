@@ -15,6 +15,7 @@
  */
 package br.com.zup.beagle.automatedTests.utils.matcher
 
+import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -82,6 +83,21 @@ class MatcherExtension {
 
                 override fun describeTo(description: Description) {
                     description.appendText("textAlignment is $textAlignment ")
+                }
+            }
+        }
+
+        fun withTextColor(color: String): Matcher<View?>? {
+            return object : TypeSafeMatcher<View>() {
+                override fun matchesSafely(item: View): Boolean {
+                    if (item is TextView) {
+                        return item.currentTextColor == Color.parseColor(color)
+                    }
+                    return false
+                }
+
+                override fun describeTo(description: Description) {
+                    description.appendText("textColor is $color ")
                 }
             }
         }
