@@ -15,7 +15,6 @@
  */
 
 import XCTest
-import BeagleSchema
 import Beagle
 @testable import BeagleDemo
 

@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import Foundation
-import SnapshotTesting
 import UIKit
+import SnapshotTesting
 
 private let imageDiffPrecision: Float = 0.98
 private let diffTool = "code"

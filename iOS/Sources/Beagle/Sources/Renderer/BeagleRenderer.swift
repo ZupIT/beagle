@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import Foundation
 import UIKit
-import BeagleSchema
 
 public protocol DependencyRenderer {
     var renderer: (BeagleController) -> BeagleRenderer { get set }
@@ -32,30 +30,19 @@ public struct BeagleRenderer {
     }
 
     /// main function of this class. Call it to transform a Component into a UIView
-    public func render(_ component: BeagleSchema.RawComponent) -> UIView {
-        let view = makeView(component: component)
+    public func render(_ component: ServerDrivenComponent) -> UIView {
+        let view = component.toView(renderer: self)
 
         setupView(view, of: component)
 
         return view
     }
 
-    public func render(_ children: [BeagleSchema.RawComponent]) -> [UIView] {
+    public func render(_ children: [ServerDrivenComponent]) -> [UIView] {
         return children.map { render($0) }
     }
 
-    private func makeView(component: BeagleSchema.RawComponent) -> UIView {
-        guard let renderable = component as? Renderable else {
-            assertionFailure("This should never happen since we ensure users only subscribe components that are Renderable")
-            let type = String(describing: component.self)
-            controller.dependencies.logger.log(Log.decode(.decodingError(type: type)))
-            return UnknownComponent(type: type).makeView()
-        }
-
-        return renderable.toView(renderer: self)
-    }
-
-    private func setupView(_ view: UIView, of component: BeagleSchema.RawComponent) {
+    private func setupView(_ view: UIView, of component: ServerDrivenComponent) {
         view.beagle.setupView(of: component)
         
         if let id = (component as? IdentifiableComponent)?.id {

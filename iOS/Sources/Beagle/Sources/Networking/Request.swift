@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-
 public struct Request {
     public let url: URL
     public let type: RequestType
@@ -71,7 +68,7 @@ public struct Request {
     public enum Error: Swift.Error {
         case networkError(NetworkError)
         case decoding(Swift.Error)
-        case loadFromTextError
+        case loadFromTextError // unused error
         case urlBuilderError
 
         /// Beagle needs to be configured with your custom NetworkClient that is responsible to do network requests.

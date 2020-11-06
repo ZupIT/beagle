@@ -15,7 +15,6 @@
  */
 
 import UIKit
-import BeagleSchema
 
 /// Use this View when you need to add a Beagle component inside a native screen that have other UIViews and uses AutoLayout
 public class BeagleView: UIView {
@@ -28,7 +27,7 @@ public class BeagleView: UIView {
     
     // MARK: - Initialization
     
-    public convenience init(_ component: RawComponent) {
+    public convenience init(_ component: ServerDrivenComponent) {
         self.init(.declarative(component.toScreen()))
     }
     

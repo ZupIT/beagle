@@ -17,7 +17,6 @@
 import XCTest
 import SnapshotTesting
 @testable import Beagle
-import BeagleSchema
 
 class StyleBuildersExtensionTests: XCTestCase {
     

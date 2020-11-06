@@ -15,7 +15,6 @@
  */
 
 import UIKit
-import BeagleSchema
 
 class Bindings {
     var bindings: [() -> Void] = []

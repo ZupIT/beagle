@@ -10,13 +10,6 @@
    </Group>
    <Group
       location = "container:"
-      name = "Schema">
-      <FileRef
-         location = "group:Schema/BeagleSchema.xcodeproj">
-      </FileRef>
-   </Group>
-   <Group
-      location = "container:"
       name = "Libraries">
       <FileRef
          location = "group:Libraries/YogaKit/YogaKit.xcodeproj">

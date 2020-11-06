@@ -89,7 +89,6 @@ public extension Style {
 }
 
 // MARK: - Flex Builders
-import BeagleSchema
 
 public extension Flex {
     @discardableResult

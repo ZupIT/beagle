@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-
 /// Your application can handle the form submit by its own using a `FormLocalAction`.
 /// The `LocalFormHandler` defined by your application will be used to achieve it.
 public protocol LocalFormHandler {

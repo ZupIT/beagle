@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-
 extension NSObject {
     
     /// String describing the class name.

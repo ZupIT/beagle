@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,9 +14,8 @@
  * limitations under the License.
  */
 
-import Beagle
-import BeagleSchema
 import UIKit
+import Beagle
 
 let conditionActionScreen: Screen = {
     Screen(navigationBar: NavigationBar(title: "Conditional Action", showBackButton: true)) {

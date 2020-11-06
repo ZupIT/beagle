@@ -16,7 +16,6 @@
 
 import UIKit
 import Beagle
-import BeagleSchema
 
 struct LazyComponentScreen: DeeplinkScreen {
     
@@ -29,18 +28,18 @@ struct LazyComponentScreen: DeeplinkScreen {
     
     var screen: Screen {
         return Screen(navigationBar: NavigationBar(title: "Form & LazyComponent")) {
-            Deprecated.Form(
+            Form(
                 onSubmit: [Navigate.pushView(.declarative(screen1))],
                 child: Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween))) {
                     Text("Form & LazyComponent")
-                    Deprecated.FormInput(
+                    FormInput(
                         name: "field",
                         child: LazyComponent(
                             path: .textLazyComponentEndpoint,
                             initialState: Text("Loading...")
                         )
                     )
-                    Deprecated.FormSubmit(child:
+                    FormSubmit(child:
                         Text("FormSubmit")
                     )
                 },
@@ -53,18 +52,18 @@ struct LazyComponentScreen: DeeplinkScreen {
     var screen1: Screen {
         return Screen(
             navigationBar: NavigationBar(title: "Form & LazyComponent")) {
-            Deprecated.Form(
+            Form(
                 onSubmit: [FormRemoteAction(path: .textFormEndpoint, method: .get)],
                 child: Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween))) {
                     Text("Form & LazyComponent")
-                    Deprecated.FormInput(
+                    FormInput(
                         name: "field1",
                         child: LazyComponent(
                             path: .textLazyComponentEndpoint,
                             initialState: Text("Loading...")
                         )
                     )
-                    Deprecated.FormSubmit(child:
+                    FormSubmit(child:
                         Text("FormSubmit")
                     )
                 },

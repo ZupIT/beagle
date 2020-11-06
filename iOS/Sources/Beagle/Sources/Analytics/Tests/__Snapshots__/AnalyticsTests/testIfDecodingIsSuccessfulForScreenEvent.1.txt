@@ -40,7 +40,7 @@
                       - type: UnitType.percent
                       - value: 100.0
     - context: Optional<Context>.none
-    - onInit: Optional<Array<RawAction>>.none
+    - onInit: Optional<Array<Action>>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
       - id: Optional<String>.none

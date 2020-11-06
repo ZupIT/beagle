@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,10 +14,8 @@
  * limitations under the License.
  */
 
-import Foundation
-import Beagle
 import UIKit
-import BeagleSchema
+import Beagle
 
 public struct TextContainerWithAction: ServerDrivenComponent, AutoInitiableAndDecodable {
     public let childrenOfTextContainer: TextComponents?

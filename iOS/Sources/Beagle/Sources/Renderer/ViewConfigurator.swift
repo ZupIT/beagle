@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import Foundation
 import UIKit
-import BeagleSchema
 
 public protocol ViewConfiguratorProtocol: AnyObject {
     var view: UIView? { get set }
@@ -25,7 +23,7 @@ public protocol ViewConfiguratorProtocol: AnyObject {
     func setup(id: String?)
     func setup(accessibility: Accessibility?)
     func applyStyle<T: UIView>(for view: T, styleId: String, with controller: BeagleController?)
-    func setupView(of component: BeagleSchema.RawComponent)
+    func setupView(of component: ServerDrivenComponent)
 }
 
 public protocol DependencyViewConfigurator {
@@ -47,7 +45,7 @@ class ViewConfigurator: ViewConfiguratorProtocol {
         self.view = view
     }
     
-    func setupView(of component: BeagleSchema.RawComponent) {
+    func setupView(of component: ServerDrivenComponent) {
         view?.style.isFlexEnabled = true
         
         if let c = component as? AccessibilityComponent {

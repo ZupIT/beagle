@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-import Foundation
 import XCTest
-@testable import Beagle
 import SnapshotTesting
-@testable import BeagleSchema
+@testable import Beagle
 
 class BeagleLoggerTests: XCTestCase {
     // swiftlint:disable force_unwrapping

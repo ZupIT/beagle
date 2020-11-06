@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-
 public protocol Observer: AnyObject {
     func didChangeValue(_ value: Any?)
 }

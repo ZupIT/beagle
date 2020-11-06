@@ -15,7 +15,6 @@
  */
 
 import UIKit
-import BeagleSchema
 
 final class EventsGestureRecognizer: UITapGestureRecognizer {
     let events: [Event]
@@ -43,6 +42,6 @@ final class EventsGestureRecognizer: UITapGestureRecognizer {
 }
 
 public enum Event {
-    case action(RawAction)
+    case action(Action)
     case analytics(AnalyticsClick)
 }

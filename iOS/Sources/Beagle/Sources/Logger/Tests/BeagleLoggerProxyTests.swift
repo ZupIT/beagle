@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -33,11 +32,9 @@ class BeagleLoggerProxyTests: XCTestCase {
         dependencies.isLoggingEnabled = false
         Beagle.dependencies = dependencies
         sut.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
-        sut.logDecodingError(type: "TestType")
 
         //Then
         XCTAssert(spy.didCalledLog == false)
-        XCTAssert(spy.didCalledlogDecodingError == false)
     }
 
     func testLog_WhenLogEnableIsTrue() {
@@ -49,11 +46,9 @@ class BeagleLoggerProxyTests: XCTestCase {
         //When
         dependencies.isLoggingEnabled = true
         sut.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
-        sut.logDecodingError(type: "TestType")
 
         //Then
         XCTAssert(spy.didCalledLog)
-        XCTAssert(spy.didCalledlogDecodingError)
     }
 
     override func tearDown() {
@@ -65,11 +60,6 @@ class BeagleLoggerProxyTests: XCTestCase {
 
 private class BeagleLoggerSpy: BeagleLoggerType {
     private(set) var didCalledLog = false
-    private(set) var didCalledlogDecodingError = false
-
-    func logDecodingError(type: String) {
-        didCalledlogDecodingError = true
-    }
 
     func log(_ log: LogType) {
         didCalledLog = true

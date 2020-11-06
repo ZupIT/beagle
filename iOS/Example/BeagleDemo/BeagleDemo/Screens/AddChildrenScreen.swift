@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,9 +14,7 @@
  * limitations under the License.
  */
 
-import Foundation
 import Beagle
-import BeagleSchema
 
 let addChildrenScreen: Screen = {
     return Screen(navigationBar: NavigationBar(title: "AddChildren", showBackButton: true)) {

@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,7 +15,6 @@
  */
 
 import XCTest
-import BeagleSchema
 @testable import Beagle
 
 final class ConfirmTests: XCTestCase {

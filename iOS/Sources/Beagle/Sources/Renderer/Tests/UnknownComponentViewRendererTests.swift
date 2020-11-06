@@ -15,9 +15,8 @@
  */
 
 import XCTest
-@testable import Beagle
 import SnapshotTesting
-import BeagleSchema
+@testable import Beagle
 
 final class UnknownComponentTests: XCTestCase {
     

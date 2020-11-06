@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-import Foundation
-
 import XCTest
-@testable import BeagleDemo
 import SnapshotTesting
-import BeagleSchema
 import Beagle
+@testable import BeagleDemo
 
 final class HttpRequestBuilderTest: XCTestCase {
 

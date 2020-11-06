@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,41 +14,28 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-import UIKit
-
-extension AddChildren: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        guard let view = controller.view.getView(by: componentId) else { return }
-        let renderer = controller.dependencies.renderer(controller)
-        let views = renderer.render(value)
-        
-        switch mode {
-        case .append:
-            views.forEach { view.addSubview($0) }
-        case .prepend:
-            for (index, subView) in views.enumerated() {
-                view.insertSubview(subView, at: index)
-            }
-        case .replace:
-            view.subviews.forEach { $0.removeFromSuperview() }
-            views.forEach { view.addSubview($0) }
-        }
-        
-        views.forEach(controller.setNeedsLayout)
+/// Action that insert children components in a node hierarchy
+public struct AddChildren: Action, AutoInitiableAndDecodable {
+    
+    public let componentId: String
+    public let value: [ServerDrivenComponent]
+    public var mode: Mode = .append
+    
+    public enum Mode: String, Decodable {
+        case append = "APPEND"
+        case prepend = "PREPEND"
+        case replace = "REPLACE"
     }
-}
 
-private extension UIView {
-    func getView(by id: String) -> UIView? {
-        if accessibilityIdentifier == id {
-            return self
-        }
-        for view in subviews {
-            if let view = view.getView(by: id) {
-                return view
-            }
-        }
-        return nil
+// sourcery:inline:auto:AddChildren.Init
+    public init(
+        componentId: String,
+        value: [ServerDrivenComponent],
+        mode: Mode = .append
+    ) {
+        self.componentId = componentId
+        self.value = value
+        self.mode = mode
     }
+// sourcery:end
 }

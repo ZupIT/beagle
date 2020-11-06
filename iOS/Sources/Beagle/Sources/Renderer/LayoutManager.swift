@@ -15,7 +15,6 @@
  */
 
 import UIKit
-import BeagleSchema
 
 final class LayoutManager {
 

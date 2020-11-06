@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-import Foundation
 import UIKit
 import Beagle
-import BeagleSchema
 
 struct OtherComponent: Widget, AutoInitiableAndDecodable {
 

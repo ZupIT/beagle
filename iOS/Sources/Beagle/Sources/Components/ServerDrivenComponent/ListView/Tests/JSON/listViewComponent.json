@@ -1,0 +1,14 @@
+{
+  "_beagleComponent_" : "beagle:listView",
+  "direction": "VERTICAL",
+  "iteratorName": "main",
+  "children" : [{
+    "_beagleComponent_" : "custom:beagleschematestscomponent"
+  },
+  {
+    "_beagleComponent_" : "custom:beagleschematestscomponent"
+  },
+  {
+    "_beagleComponent_" : "custom:beagleschematestscomponent"
+  }]
+}

@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-
 public protocol LogType {
     var category: String { get }
     var message: String { get }
@@ -52,9 +49,9 @@ public enum Log {
     public enum Form {
         case validatorNotFound(named: String)
         case validationInputNotValid(inputName: String)
-        case submitNotFound(form: Deprecated.Form)
-        case inputsNotFound(form: Deprecated.Form)
-        case divergentInputViewAndValueCount(form: Deprecated.Form)
+        case submitNotFound(form: Beagle.Form)
+        case inputsNotFound(form: Beagle.Form)
+        case divergentInputViewAndValueCount(form: Beagle.Form)
         case submittedValues(values: [String: String])
         case keyDuplication(data: [String: String])
         case unableToSaveData

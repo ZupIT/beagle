@@ -16,7 +16,6 @@
 
 import XCTest
 @testable import Beagle
-import BeagleSchema
 
 final class BeagleNavigatorTests: XCTestCase {
 

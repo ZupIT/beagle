@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-import BeagleSchema
 import UIKit
 
-public protocol Action: RawAction {
+/// Markup to define an action to be triggered in response to some event
+public protocol Action: Decodable {
     func execute(controller: BeagleController, origin: UIView)
 }
 
 public protocol AsyncAction: Action {
-    var onFinish: [RawAction]? { get set }
+    var onFinish: [Action]? { get set }
 }
 
-extension UnknownAction: Action {
+/// Defines a representation of an unknown Action
+public struct UnknownAction: Action {
+    public let type: String
+    
+    public init(type: String) {
+        self.type = type
+    }
+    
     public func execute(controller: BeagleController, origin: UIView) {
         controller.dependencies.logger.log(Log.decode(.decodingError(type: "error trying to execute unknown action")))
     }

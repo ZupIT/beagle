@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
-
 class BeagleScreenViewModel {
         
     var screenType: ScreenType {

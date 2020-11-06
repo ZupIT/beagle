@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,7 +15,6 @@
  */
 
 import UIKit
-import BeagleSchema
 
 extension UIView {
     private static var contextMapKey = "contextMapKey"
@@ -93,7 +91,7 @@ extension UIView {
         context.addObserver(contextObserver)
     }
     
-    private func configBinding<T: Decodable>(_ operation: BeagleSchema.Operation, in expression: SingleExpression, completion: @escaping (T?) -> Void) {
+    private func configBinding<T: Decodable>(_ operation: Operation, in expression: SingleExpression, completion: @escaping (T?) -> Void) {
         for parameter in operation.parameters {
             switch parameter {
             case let .value(.binding(binding)):
@@ -140,7 +138,7 @@ extension UIView {
         context.addObserver(contextObserver)
     }
     
-    private func configBinding<T: Decodable>(_ operation: BeagleSchema.Operation, in expression: MultipleExpression, completion: @escaping (T?) -> Void) {
+    private func configBinding<T: Decodable>(_ operation: Operation, in expression: MultipleExpression, completion: @escaping (T?) -> Void) {
         for parameter in operation.parameters {
             switch parameter {
             case let .value(.binding(binding)):

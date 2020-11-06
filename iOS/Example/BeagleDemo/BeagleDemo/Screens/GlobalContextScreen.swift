@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,7 +16,6 @@
 
 import UIKit
 import Beagle
-import BeagleSchema
 
 struct GlobalContexScreen: DeeplinkScreen {
     

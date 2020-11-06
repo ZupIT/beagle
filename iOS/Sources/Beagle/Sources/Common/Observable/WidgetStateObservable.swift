@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-
 public struct WidgetState {
     public var value: Any?
 

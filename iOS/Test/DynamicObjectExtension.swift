@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import BeagleSchema
+import Beagle
 import SnapshotTesting
 
 extension DynamicObject: AnySnapshotStringConvertible {

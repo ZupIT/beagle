@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-
 public protocol GlobalContext {
     var globalId: String { get }
     var context: Observable<Context> { get }

@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-
 public enum ScreenType {
     case remote(Remote)
     case declarative(Screen)

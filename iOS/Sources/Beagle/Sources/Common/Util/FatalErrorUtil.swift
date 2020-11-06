@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-
 /// This replaces the system's `fatalError` implementation, calling our util in order to make it
 /// possible for us to capture it's parameters, results and such, then unit test our fatal errors 🎉
 func fatalError(_ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) -> Never {

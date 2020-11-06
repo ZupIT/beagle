@@ -16,7 +16,6 @@
 
 import UIKit
 import Beagle
-import BeagleSchema
 
 struct CustomComponentScreen: DeeplinkScreen {
     init(path: String, data: [String: String]?) {

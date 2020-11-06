@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-
-public var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
-    didSet { BeagleSchema.dependencies = dependencies }
-}
-
-
+public var dependencies: BeagleDependenciesProtocol = BeagleDependencies()
 
 // MARK: - Public Functions
 

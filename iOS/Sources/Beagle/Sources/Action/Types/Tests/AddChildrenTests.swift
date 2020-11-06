@@ -15,10 +15,43 @@
  */
 
 import XCTest
-import BeagleSchema
+import SnapshotTesting
 @testable import Beagle
 
 final class AddChildrenTests: XCTestCase {
+    
+    func testDecodingAddChildrenWithDefaultMode() throws {
+        let action: AddChildren = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:addChildren",
+            "componentId": "id",
+            "value": [
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "sample"
+                }
+            ]
+        }
+        """)
+        assertSnapshot(matching: action, as: .dump)
+    }
+    
+    func testDecodingAddChildren() throws {
+        let action: AddChildren = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:addChildren",
+            "componentId": "id",
+            "value": [
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "sample"
+                }
+            ],
+            "mode": "PREPEND"
+        }
+        """)
+        assertSnapshot(matching: action, as: .dump)
+    }
 
     func testModeAppend() {
         runTest(mode: .append)

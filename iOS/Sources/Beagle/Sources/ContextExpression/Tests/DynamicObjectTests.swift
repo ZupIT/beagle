@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,10 +14,9 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-@testable import Beagle
 import XCTest
 import SnapshotTesting
+@testable import Beagle
 
 final class DynamicObjectTests: XCTestCase {
 

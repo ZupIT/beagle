@@ -15,7 +15,6 @@
  */
 
 import UIKit
-import BeagleSchema
 
 @available(*, deprecated, message: "use functionality from BeagleNavigation to customize BeagleNavigationController type")
 public protocol DependencyNavigationController {

@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,18 +14,18 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-import UIKit
+public struct SetContext: Action {
+    public let contextId: String
+    public let path: Path?
+    public let value: DynamicObject
 
-extension SetContext: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        let valueEvaluated = value.evaluate(with: origin)
-        let contextObserver = origin.getContext(with: contextId)
-
-        if let contextValue = contextObserver?.value.value, let path = path {
-            contextObserver?.value = Context(id: contextId, value: contextValue.set(valueEvaluated, with: path))
-        } else {
-            contextObserver?.value = Context(id: contextId, value: valueEvaluated)
-        }
+    public init(
+        contextId: String,
+        path: String? = nil,
+        value: DynamicObject
+    ) {
+        self.contextId = contextId
+        self.path = path.flatMap { Path(rawValue: $0) }
+        self.value = value
     }
 }
