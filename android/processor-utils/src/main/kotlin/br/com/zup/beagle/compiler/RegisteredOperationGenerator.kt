@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.compiler
 
-
 import br.com.zup.beagle.annotation.RegisterOperation
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
@@ -40,13 +39,7 @@ class RegisteredOperationGenerator {
             val name = registerOperationAnnotation.name
 
             if (temporaryListOfNames.contains(name)) {
-                val errorMessage = "existing the operation with this name $element"
-                processingEnv.messager.error(errorMessage)
-                return@forEach
-            }
-
-            if (name.isEmpty()) {
-                val errorMessage = "missing name in operation $element"
+                val errorMessage = "there is another operation with the same name\n a class that was found with a duplicate name: $element"
                 processingEnv.messager.error(errorMessage)
                 return@forEach
             }
