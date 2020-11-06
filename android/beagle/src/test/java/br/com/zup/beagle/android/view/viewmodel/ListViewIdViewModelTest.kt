@@ -17,19 +17,20 @@
 package br.com.zup.beagle.android.view.viewmodel
 
 import android.view.View
+import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.utils.toAndroidId
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.LinkedList
 
@@ -44,13 +45,13 @@ class ListViewIdViewModelTest {
     private val recyclerViewId = 10
     private val generatedViewId = 100
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockkStatic(View::class)
         every { View.generateViewId() } returns generatedViewId
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         unmockkStatic(View::class)
     }
@@ -241,7 +242,7 @@ class ListViewIdViewModelTest {
         val viewId = View.NO_ID
 
         // When
-        val exception = assertThrows<IllegalArgumentException> {
+        val exception = assertThrows<BeagleException> {
             listViewIdViewModel.setViewId(recyclerViewId, position, viewId)
         }
 
@@ -256,7 +257,7 @@ class ListViewIdViewModelTest {
         val viewId = View.NO_ID
 
         // When
-        val exception = assertThrows<IllegalArgumentException> {
+        val exception = assertThrows<BeagleException> {
             listViewIdViewModel.setViewId(recyclerViewId, position, viewId)
         }
 
