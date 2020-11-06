@@ -176,7 +176,6 @@
 		C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C8A2F6F22464C1F9002198B1 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
 		C8D5F03524A4005C0037B11C /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8D5F03824A400660037B11C /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E75619882408365B0025E0A9 /* DSCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSCollection.swift; sourceTree = "<group>"; };
 		E756198C240865150025E0A9 /* DSCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSCollectionViewCell.swift; sourceTree = "<group>"; };
 		E756198E2408691A0025E0A9 /* CustomComponentScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomComponentScreen.swift; sourceTree = "<group>"; };
@@ -298,7 +297,6 @@
 		93365E3F23624AD40017CB89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C8D5F03824A400660037B11C /* BeagleSchema.framework */,
 				C8D5F03524A4005C0037B11C /* Beagle.framework */,
 				C0B1AAB523F326BB00F94ECA /* YogaKit.framework */,
 			);

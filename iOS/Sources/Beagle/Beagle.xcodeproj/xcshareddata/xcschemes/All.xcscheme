@@ -79,13 +79,6 @@
             BlueprintName = "Beagle"
             ReferencedContainer = "container:Beagle.xcodeproj">
          </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C0FBBD162475803900B72A9B"
-            BuildableName = "BeagleSchema.framework"
-            BlueprintName = "BeagleSchema"
-            ReferencedContainer = "container:../../Schema/BeagleSchema.xcodeproj">
-         </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
          <TestableReference

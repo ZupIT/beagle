@@ -352,7 +352,6 @@
 		576F61042487004900273BA0 /* ContextObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextObserver.swift; sourceTree = "<group>"; };
 		57A8097E243CF44A0034D180 /* CacheReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheReference.swift; sourceTree = "<group>"; };
 		57A80980243CF4620034D180 /* DependencyCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyCacheManager.swift; sourceTree = "<group>"; };
-		57A8098D243CF5020034D180 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		57D6F0FD249985D600A422E3 /* ImageComponent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ImageComponent.json; sourceTree = "<group>"; };
 		57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Context.swift"; sourceTree = "<group>"; };
 		6E71540B24B3B4CE0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
@@ -604,7 +603,6 @@
 		C81EAB4923C8BFD70074B9D2 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
 		C829CF1323B196C1001B7225 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8311A6824099A8700E95C15 /* WidgetStateObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStateObservable.swift; sourceTree = "<group>"; };
-		C838415F24A4485700EDD344 /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = ../../Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
 		C852A0F2247F246B009535D9 /* BeagleRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleRenderer.swift; sourceTree = "<group>"; };
 		C85688C12433F87400DD8B60 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C85D9BA0238701E60075B6C0 /* PageViewUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewUIComponent.swift; sourceTree = "<group>"; };
@@ -626,7 +624,6 @@
 		C89FFA932412EA4200C1B53B /* UrlBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
 		C8CDAA6423AA6E5B00E95AA6 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8CDAA6523AA969300E95AA6 /* ListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewTests.swift; sourceTree = "<group>"; };
-		C8D5F01B24A3FD740037B11C /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D5F01F24A3FD840037B11C /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8E42FCF23C7C89800B1963F /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
 		C8ECF2CC24BD1D9800525CF5 /* NetworkCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCache.swift; sourceTree = "<group>"; };
@@ -1963,10 +1960,7 @@
 		E53524A923310F5A00D1A0C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C838415F24A4485700EDD344 /* SnapshotTesting.framework */,
 				C8D5F01F24A3FD840037B11C /* YogaKit.framework */,
-				C8D5F01B24A3FD740037B11C /* BeagleSchema.framework */,
-				57A8098D243CF5020034D180 /* CoreData.framework */,
 				C8E42FCF23C7C89800B1963F /* SnapshotTesting.framework */,
 			);
 			name = Frameworks;
