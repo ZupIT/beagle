@@ -16,27 +16,29 @@
 
 package br.com.zup.beagle.android.operation
 
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockkObject
+import io.mockk.verify
 import org.json.JSONArray
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-
-import org.junit.Assert.*
 import org.junit.jupiter.api.BeforeEach
 
-class OperationResolverTest {
-    
-    private val functionResolver =  OperationResolver()
+class OperationResolverTest : BaseTest() {
+
+    private lateinit var functionResolver: OperationResolver
 
     @BeforeEach
-    fun setUp() {
-        mockkObject(BeagleMessageLogs)
-    }
+    override fun setUp() {
+        super.setUp()
+        functionResolver = OperationResolver()
 
-    @AfterEach
-    fun tearDown() {
-        unmockkAll()
+        mockkObject(BeagleMessageLogs)
     }
 
     @Test
