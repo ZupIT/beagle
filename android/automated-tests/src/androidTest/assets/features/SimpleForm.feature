@@ -25,28 +25,14 @@ Feature: SimpleForm Component Validation
     Background:
         Given that I'm on the simple form screen
 
-    Scenario: SimpleForm 01 - SimpleForm component renders text attribute correctly
-        Then all my simple form components should render their respective text attributes correctly
+    Scenario: SimpleForm 01 - SimpleForm component renders action attribute correctly
+        When I click on textInput with the placeholder Type in your email and insert my email
+        And I click on textInput with hint Type in your password and insert my password
+        And I click to Click to Submit
+        Then confirm alert should appear correctly
 
-    Scenario Outline: SimpleForm 02 - SimpleForm component renders action attribute correctly
-        When I click on input with hint <textFieldText>
-        And insert text <textValue>
-        And I click on input with hint Street
-        And hide keyboard
-        And Scroll to Enviar
-        And I click on button Enviar
-        Then confirm popup should appear correctly
 
-        Examples:
-            |textFieldText  | textValue |
-            |ZIP            | 38408480  |
-    
- #   |Street         |
- #   |Number         |
- #   |Neighborhood   |
- #   |City           |
- #   |State          |
- #   |Complement     |
+
 
 
 
