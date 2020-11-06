@@ -39,7 +39,8 @@ class RegisteredOperationGenerator {
             val name = registerOperationAnnotation.name
 
             if (temporaryListOfNames.contains(name)) {
-                val errorMessage = "there is another operation with the same name\n a class that was found with a duplicate name: $element"
+                val errorMessage = "there is another operation with the same name\n " +
+                    "a class that was found with a duplicate name: $element"
                 processingEnv.messager.error(errorMessage)
                 return@forEach
             }
