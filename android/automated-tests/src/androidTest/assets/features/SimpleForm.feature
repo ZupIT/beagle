@@ -25,11 +25,15 @@ Feature: SimpleForm Component Validation
     Background:
         Given that I'm on the simple form screen
 
-    Scenario: SimpleForm 01 - SimpleForm component renders action attribute correctly
-        When I click on textInput with the placeholder Type in your email and insert my email
-        And I click on textInput with hint Type in your password and insert my password
-        And I click to Click to Submit
-        Then confirm alert should appear correctly
+    Scenario Outline: SimpleForm 01 - SimpleForm component renders action attribute correctly
+        When I click on textInput with the placeholder Type in your email and insert my <email>
+        When I click on textInput with hint Type in your password and insert my <password>
+        When I click to Click to Submit
+        Then verify if the <email> and the <password> is appear correctly
+
+        Examples:
+        | email                 | password |
+        | teste@simpleform.com  | 123      |
 
 
 
