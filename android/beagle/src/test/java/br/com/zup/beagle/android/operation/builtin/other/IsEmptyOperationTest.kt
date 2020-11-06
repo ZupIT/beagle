@@ -169,14 +169,14 @@ internal class IsEmptyOperationTest {
     inner class NullOperation {
 
         @Test
-        @DisplayName("Then should return null")
+        @DisplayName("Then should return true")
         fun checkNull() {
-            // WHEN THEN
             // WHEN
             val result = isEmptyOperation.execute()
 
             // THEN
-            val expected = OperationType.Null
+            val expected = OperationType.TypeBoolean(true)
+
             assertEquals(expected, result)
         }
 

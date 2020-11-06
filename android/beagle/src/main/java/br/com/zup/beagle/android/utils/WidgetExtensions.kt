@@ -29,7 +29,6 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -156,18 +155,17 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id
 fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View =
     this.toView(FragmentRootView(fragment, idView))
 
-
-internal fun ServerDrivenComponent.toView(rootView: RootView): View {
-    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
-    viewModel.createIfNotExisting(rootView.getParentId())
+internal fun ServerDrivenComponent.toView(
+    rootView: RootView,
+    generateIdManager: GenerateIdManager = GenerateIdManager(rootView)
+): View {
+    generateIdManager.createSingleManagerByRootViewId()
     val view = viewFactory.makeBeagleFlexView(rootView).apply {
         id = rootView.getParentId()
         addServerDrivenComponent(this@toView)
     }
-
     view.listenerOnViewDetachedFromWindow = {
-        viewModel.setViewCreated(rootView.getParentId())
+        generateIdManager.onViewDetachedFromWindow(view)
     }
-
     return view
 }

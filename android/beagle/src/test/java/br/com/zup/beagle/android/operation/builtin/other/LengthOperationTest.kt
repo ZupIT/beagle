@@ -105,7 +105,7 @@ internal class LengthOperationTest {
     inner class JsonObjectParameter {
 
         @Test
-        @DisplayName("Then should return true")
+        @DisplayName("Then should return correct length")
         fun checkEmptyJsonObject() {
             // GIVEN
             val input = OperationType.TypeJsonObject(JSONObject())
@@ -120,7 +120,7 @@ internal class LengthOperationTest {
         }
 
         @Test
-        @DisplayName("Then should return false")
+        @DisplayName("Then should return correct length")
         fun checkNotEmptyJsonObject() {
             // GIVEN
             val input = OperationType.TypeJsonObject(
@@ -149,7 +149,7 @@ internal class LengthOperationTest {
     inner class NullParameter {
 
         @Test
-        @DisplayName("Then should return true")
+        @DisplayName("Then should return correct length")
         fun checkNull() {
             // GIVEN
             val input = null
@@ -169,14 +169,14 @@ internal class LengthOperationTest {
     inner class NullOperation {
 
         @Test
-        @DisplayName("Then should return null")
+        @DisplayName("Then should return correct length")
         fun checkNull() {
-            // WHEN THEN
             // WHEN
             val result = lengthOperation.execute()
 
             // THEN
-            val expected = OperationType.Null
+            val expected = OperationType.TypeNumber(0)
+
             assertEquals(expected, result)
         }
 
