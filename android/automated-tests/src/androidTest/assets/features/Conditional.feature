@@ -24,27 +24,32 @@ Feature: Conditional Action Validation
     Background:
         Given the Beagle application did launch with the conditional screen url
 
-    Scenario Outline: Conditional 01 - Checks the conditional action triggers onTrue method when the condition
-        is TRUE
+    Scenario Outline: Conditional 01 - Checks that the onTrue method is triggered when the condition
+    is set TRUE HARDCODED and via EXPRESSION
         When I click in a conditional button with <buttonTitle> title
         Then an Alert action should pop up with a TrueCondition message
 
         Examples:
-            | buttonTitle               |
-            | Action on True            |
-            | Action on expression true |
+            | buttonTitle                   |
+            | Condition true                |
+            | Condition via expression true |
 
-    Scenario Outline: Conditional 02 - Checks the conditional action triggers onFalse method when the condition
-    is FALSE
+    Scenario Outline: Conditional 02 - Checks that the onFalse method is triggered when the condition
+    is set FALSE HARDCODED and via EXPRESSION
         When I click in a conditional button with <buttonTitle> title
         Then an Alert action should pop up with a FalseCondition message
 
         Examples:
-            | buttonTitle                |
-            | Action on False            |
-            | Action on expression false |
+            | buttonTitle                    |
+            | Condition false                |
+            | Condition via expression false |
 
-    Scenario: Conditional 03 - Checks the conditional action triggers onFalse method when the expression set for
-        condition is invalid
-        When I click in a conditional button with Action on invalid expression title
+    Scenario: Conditional 03 - Checks that the onTrue method is triggered when an operation returns TRUE
+    on the condition attribute
+        When I click in a conditional button with Condition via valid expression operation title
+        Then an Alert action should pop up with a TrueCondition message
+
+    Scenario: Conditional 04 -  Checks that the onFalse method is triggered when a invalid expression is set
+    on the condition attribute
+        When I click in a conditional button with Condition via invalid expression title
         Then an Alert action should pop up with a FalseCondition message
