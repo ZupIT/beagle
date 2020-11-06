@@ -86,7 +86,7 @@ object SimpleFormScreenBuilder {
                     onSubmit = listOf(
                         Alert(
                             title = "Registered data",
-                            message = "The email is " + "@{user.email} " + "and the password is " + "@{user.password}"
+                            message = "the email: " + "@{user.email} " + "and the password: " + "@{user.password}"
                         )
                     )
                 )
