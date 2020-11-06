@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.compiler.BEAGLE_CORE_WIDGET
-import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
-import br.com.zup.beagle.compiler.REGISTERED_WIDGETS
+import br.com.zup.beagle.compiler.ANDROID_OPERATION
+import br.com.zup.beagle.compiler.REGISTERED_OPERATIONS
+import br.com.zup.beagle.compiler.RegisteredOperationGenerator
 import br.com.zup.beagle.compiler.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
@@ -29,23 +29,22 @@ import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-private const val REGISTERED_WIDGETS_GENERATED = "RegisteredWidgets"
+const val REGISTERED_OPERATIONS_GENERATED = "RegisteredOperations"
 
-class RegisterWidgetProcessorProcessor(
+class RegisterOperationsProcessor(
     private val processingEnv: ProcessingEnvironment,
-    private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
-        BeagleSetupRegisteredWidgetGenerator()
+    private val registeredOperationGenerator: RegisteredOperationGenerator = RegisteredOperationGenerator()
 ) {
 
     fun process(packageName: String, roundEnvironment: RoundEnvironment) {
-        val typeSpec = TypeSpec.classBuilder(REGISTERED_WIDGETS_GENERATED)
+        val typeSpec = TypeSpec.classBuilder(REGISTERED_OPERATIONS_GENERATED)
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
-            .addFunction(createRegisteredWidgetsFunctionInternal(roundEnvironment))
+            .addFunction(createRegisteredOperationsFunctionInternal(roundEnvironment))
             .build()
 
         try {
-            FileSpec.builder(packageName, REGISTERED_WIDGETS_GENERATED)
-                .addImport(BEAGLE_CORE_WIDGET.packageName, BEAGLE_CORE_WIDGET.className)
+            FileSpec.builder(packageName, REGISTERED_OPERATIONS_GENERATED)
+                .addImport(ANDROID_OPERATION.packageName, ANDROID_OPERATION.className)
                 .addAnnotation(
                     AnnotationSpec.builder(Suppress::class.java)
                         .addMember("%S", "UNCHECKED_CAST")
@@ -60,14 +59,14 @@ class RegisterWidgetProcessorProcessor(
         }
     }
 
-    private fun createRegisteredWidgetsFunctionInternal(roundEnvironment: RoundEnvironment): FunSpec {
-        return beagleSetupRegisteredWidgetGenerator.generate(roundEnvironment)
+    private fun createRegisteredOperationsFunctionInternal(roundEnvironment: RoundEnvironment): FunSpec {
+        return registeredOperationGenerator.generate(roundEnvironment, processingEnv)
     }
 
     fun createRegisteredWidgetsFunction(): FunSpec {
-        return beagleSetupRegisteredWidgetGenerator.createFuncSpec()
+        return registeredOperationGenerator.createFuncSpec()
             .addModifiers(KModifier.OVERRIDE)
-            .addStatement("return $REGISTERED_WIDGETS_GENERATED().$REGISTERED_WIDGETS()")
+            .addStatement("return $REGISTERED_OPERATIONS_GENERATED().$REGISTERED_OPERATIONS()")
             .build()
     }
 }
