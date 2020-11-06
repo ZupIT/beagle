@@ -31,7 +31,7 @@ class CucumberishInitializer: NSObject {
                     NavigateSteps(),
                     ContainerSteps(),
                     AddChildrenSteps(),
-                    TextInputSteps()
+                    TextInputSteps(),
                     TextSteps(),
                     AlertSteps()
                 ]

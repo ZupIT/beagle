@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-@textInput @regression
+@textinput @regression
 Feature: TextInput Validation
 
     As a Beagle developer/user
@@ -27,72 +27,64 @@ Feature: TextInput Validation
         Then I must check if the textInput value "<textInputValue>" appears on the screen
 
         Examples:
-            | textInputValue            |
-            | TextInput test            |
-            | TextInput with expression |
+        |      textInputValue       |
+        | TextInput test            |
+        | TextInput with expression |
 
     Scenario Outline: TextInput 02 - validate placeholder field if filled
         Then I must check if the textInput placeholder "<textInputPlaceholder>" appears on the screen
 
         Examples:
-            | textInputPlaceholder                  |
-            | TextInput placeholder                 |
-            | TextInput placeholder with expression |
+        |        textInputPlaceholder           |
+        | TextInput placeholder                 |
+        | TextInput placeholder with expression |
 
     Scenario Outline: TextInput 03 - validate disabled field
         Then verify if the field with the placeholder "<textInputDisabled>" is disabled
 
         Examples:
-            | textInputDisabled                                 |
-            | Standard text with disabled field                 |
-            | Standard text with disabled field with expression |
+        |             textInputDisabled                     |
+        | Standard text with disabled field                 |
+        | Standard text with disabled field with expression |
 
     Scenario Outline: TextInput 04 - validate readOnly field
         Then verify if the field with the value "<textInputReadOnly>" is read only
 
         Examples:
-            | textInputReadOnly            |
-            | is Read Only                 |
-            | is Read Only with expression |
+        |       textInputReadOnly      |
+        | is Read Only                 |
+        | is Read Only with expression |
 
     Scenario Outline: TextInput 05 - validate keyboard appears on Focus
         When I click in the textInput with the placeholder "<textInputSecondPlan>"
         Then verify if the textInput "<textInputSecondPlan>" is the first responder
 
         Examples:
-            | textInputSecondPlan                           |
-            | is a textInput in second plan                 |
-            | is a textInput in second plan with expression |
+        |            textInputSecondPlan                |
+        | is a textInput in second plan                 |
+        | is a textInput in second plan with expression |
 
     Scenario Outline: TextInput 06 - validate textInput of type number
         When I click in the textInput with the placeholder "<textInputTypeNumber>"
         Then validate textInput component of type number with text "<textInputTypeNumber>"
 
         Examples:
-            | textInputTypeNumber                      |
-            | is textInput type number                 |
-            | is textInput type number with expression |
+        |          textInputTypeNumber             |
+        | is textInput type number                 |
+        | is textInput type number with expression |
 
-    Scenario Outline: TextInput 07 - validate textInput with actions of onChange, onFocus and onBlur
-        When I click in the textInput with the placeholder "<placeholder>"
-        Then change to "<didOnFocus>" then to "<didOnChange>" then to "<didOnBlur>"
+    Scenario: TextInput 07 - validate textInput with actions of onChange, onFocus and onBlur
+        When I click in the textInput with the placeholder "action validation"
+        Then change to "DidOnFocus" then to "DidOnChange" then to "DidOnBlur"
 
-        Examples:
-            | placeholder       | didOnFocus | didOnChange | didOnBlur |
-            | action validation | DidOnFocus | DidOnChange | DidOnBlur |
-
-    Scenario Outline: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
-        When I click in the textInput with the placeholder "<placeholder>"
-        Then change to "<didOnFocus>" then to "<didOnChange>" then to "<didOnBlur>" in the correct order
-
-        Examples:
-            | placeholder  | didOnFocus | didOnChange           | didOnBlur                      |
-            | action order | DidOnFocus | DidOnFocusDidOnChange | DidOnFocusDidOnChangeDidOnBlur |
+    Scenario: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
+        When I click in the textInput with the placeholder "action order"
+        Then change to "DidOnFocus" then to "DidOnFocusDidOnChange" then to "DidOnFocusDidOnChangeDidOnBlur" in the correct order
 
     Scenario Outline: TextInput 09 - validate that textInput is hidden
         Then The hidden input fields "<textInputHidden>" should not be visible
 
         Examples:
-            | textInputHidden                     |
-            | this text is hidden                 |
-            | this text is hidden with expression |
+        |          textInputHidden            |
+        | this text is hidden                 |
+        | this text is hidden with expression |

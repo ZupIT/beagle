@@ -25,7 +25,7 @@ class TextInputSteps: CucumberStepsDefinition {
     func loadSteps() {
         // MARK: - Before
         before { scenarioDefinition in
-            if scenarioDefinition?.tags.contains("textInput") ?? false {
+            if scenarioDefinition?.tags.contains("textinput") ?? false {
                 let url = "http://localhost:8080/textinput"
                 self.application = TestUtils.launchBeagleApplication(url: url)
             }
