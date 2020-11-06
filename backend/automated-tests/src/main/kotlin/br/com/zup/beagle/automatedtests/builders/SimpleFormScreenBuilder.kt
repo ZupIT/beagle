@@ -16,10 +16,16 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.action.SubmitForm
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.form.SimpleForm
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
@@ -27,53 +33,67 @@ import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
 
+data class User(
+    val email: String,
+    val password: String,
+    val placeholderEmail: String,
+    val placeholderPassword: String,
+    val textInputTypeEmail: TextInputType,
+    val textInputTypePassword: TextInputType
+)
 
 object SimpleFormScreenBuilder {
- fun build() = Screen(
-  child = Container(
-    children = listOf(
-      Text(text = "context container"),
-      SimpleForm(
-        context = ContextData(id = "user", value = ""),
-        children = listOf(
-          Text(text = "SimpleForm"),
-          TextInput(
-            value = "@{user.email}",
-            placeholder = "Type in your email",
-            onChange = listOf(
-                SetContext(
-                    path = "user",
-                    contextId = "email",
-                    value = "@{onChange.value}"
+    fun build() = Screen(
+        child = Container(
+            children = listOf(
+                Text(text = "SimpleForm", textColor = "#ffffff"),
+                SimpleForm(
+                    context = ContextData(id = "user", value = User(
+                        email = "", password = "",
+                        placeholderEmail = "Type in your email", placeholderPassword = "Type in your password",
+                        textInputTypeEmail = TextInputType.EMAIL, textInputTypePassword = TextInputType.PASSWORD)
+                    ),
+                    children = listOf(
+                        TextInput(
+                            value = expressionOf("@{user.email}"),
+                            placeholder = expressionOf("@{user.placeholderEmail}"),
+                            type = expressionOf("@{user.textInputTypeEmail}"),
+                            onChange = listOf(
+                                SetContext(
+                                    contextId = "user",
+                                    path = "email",
+                                    value = "@{onChange.value}"
+                                )
+                            )
+                        ),
+                        TextInput(
+                            value = expressionOf("user.password"),
+                            placeholder = expressionOf("@{user.placeholderPassword}"),
+                            type = expressionOf("@{user.textInputTypePassword}"),
+                            onChange = listOf(
+                                SetContext(
+                                    contextId = "user",
+                                    path = "password",
+                                    value = "@{onChange.value}"
+                                )
+                            )
+                        ),
+                        Button(text = "Click to Submit",
+                            onPress = listOf(SubmitForm())
+                        )
+                    ),
+                    onSubmit = listOf(
+                        Alert(
+                            title = "Submit",
+                            message = "The email is " + "@{user.email} " + "and the password is " + "@{user.password}"
+                        )
+                    )
                 )
             )
-          ),
-          TextInput(
-            value = "@{user.password}",
-            placeholder = "Type in your password",
-
-            onChange = listOf(
-              SetContext(
-                  path = "user",
-                  contextId = "password",
-                  value = "@{onChange.value}"
-              )
-            )
-          ),
-          Button(text = "Click to Submit",
-            onPress = listOf(SubmitForm()
-            )
-          )
-        ),
-        onSubmit = listOf(
-          Alert(
-              title = "Submit",
-              message = "The email is " + "@{user.email} " + "and the password is " + "@{user.password}"
-          )
+        ).applyStyle(
+            Style(backgroundColor = "#000000",
+                size = Size(height = 100.00.unitPercent()))
         )
-      )
     )
-  )
- )
 }
 
