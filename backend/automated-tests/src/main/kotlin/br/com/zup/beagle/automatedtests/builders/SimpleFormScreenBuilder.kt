@@ -80,7 +80,8 @@ object SimpleFormScreenBuilder {
                         ),
                         Button(text = "Click to Submit",
                             onPress = listOf(SubmitForm())
-                        )
+                        ).applyStyle(
+                            Style(backgroundColor = "#ffffff"))
                     ),
                     onSubmit = listOf(
                         Alert(
