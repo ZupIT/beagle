@@ -67,7 +67,7 @@ object SimpleFormScreenBuilder {
                             )
                         ),
                         TextInput(
-                            value = expressionOf("user.password"),
+                            value = expressionOf("@{user.password}"),
                             placeholder = expressionOf("@{user.placeholderPassword}"),
                             type = expressionOf("@{user.textInputTypePassword}"),
                             onChange = listOf(
