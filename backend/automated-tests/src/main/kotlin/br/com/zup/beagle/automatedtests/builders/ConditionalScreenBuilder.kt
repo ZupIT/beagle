@@ -27,23 +27,30 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
+const val EXPRESSION_OPERATION = "@{lt(2, 4)}"
+const val INVALID_EXPRESSION_OPERATION = "@{lt(context, 4)}"
+data class ConditionValues(val confirmTrue:Boolean = true, val confirmNotTrue:Boolean = false)
+
 object ConditionalScreenBuilder {
     fun build() = Screen(
         child = Container(
-            context = ContextData(id = "conditionalContext", value = false),
+            context = ContextData(id = "conditionalContext", ConditionValues()),
             children = listOf(
                 Text("Conditional Screen"),
-                conditionButton(text = "Action on True", condition = valueOf(true)),
-                conditionButton(text = "Action on False", condition = valueOf(false)),
+                conditionButton(text = "Condition true", condition = valueOf(true)),
+                conditionButton(text = "Condition false", condition = valueOf(false)),
+                conditionButton(text = "Condition via expression true",
+                    condition = expressionOf("@{conditionalContext.confirmTrue}")),
                 conditionButton(
-                    text = "Action on expression true",
-                    condition = expressionOf("@{lt(2, 4)}")),
+                    text = "Condition via expression false",
+                    condition = expressionOf("@{conditionalContext.confirmFalse}")),
                 conditionButton(
-                    text = "Action on expression false",
-                    condition = expressionOf("@{conditionalContext}")),
+                    text = "Condition via valid expression operation",
+                    condition = expressionOf(EXPRESSION_OPERATION)),
                 conditionButton(
-                    text = "Action on invalid expression",
-                    condition = expressionOf("@{lt(context, 4)}"))
+                    text = "Condition via invalid expression",
+                    condition = expressionOf(INVALID_EXPRESSION_OPERATION))
+
             )
         )
     )
@@ -61,11 +68,11 @@ object ConditionalScreenBuilder {
 
     fun alertTrue() = Alert(
         title = "TRUE",
-        message = "The condition is true"
+        message = "TrueCondition"
     )
 
     fun alertFalse() = Alert(
         title = "FALSE",
-        message = "The condition is false"
+        message = "FalseCondition"
     )
 }
