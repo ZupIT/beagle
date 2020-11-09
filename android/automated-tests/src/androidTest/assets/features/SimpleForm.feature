@@ -29,11 +29,11 @@ Feature: SimpleForm Component Validation
         When I click on textInput with the placeholder Type in your email and insert my <email>
         When I click on textInput with hint Type in your password and insert my <password>
         When I click to Click to Submit
-        Then verify if the <email> and the <password> is appear correctly
+        Then verify if the email: <email> and the password: <password> is appear correctly
 
         Examples:
-        | email                 | password |
-        | teste@simpleform.com  | 123      |
+            | email                | password |
+            | teste@simpleform.com | 123      |
 
 
 
