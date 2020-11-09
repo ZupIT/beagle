@@ -246,9 +246,9 @@ internal class ListViewHolder(
         view.id = viewId
         listItem.viewIds.add(viewId)
         if (!isRecycled) {
-            if(viewPreviousId == View.NO_ID) {
+            if (viewPreviousId == View.NO_ID) {
                 listViewModels.contextViewModel.setIdToViewWithContext(view)
-            }else{
+            } else {
                 listViewModels.contextViewModel.onViewIdChanged(viewPreviousId, view.id)
             }
         }

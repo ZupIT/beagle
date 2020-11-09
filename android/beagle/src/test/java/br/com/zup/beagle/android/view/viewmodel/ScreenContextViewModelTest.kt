@@ -34,11 +34,8 @@ import org.junit.jupiter.api.Test
 class ScreenContextViewModelTest {
 
     private val contextDataManager = mockk<ContextDataManager>(relaxed = true)
-
     private val contextDataEvaluation = mockk<ContextDataEvaluation>(relaxed = true)
-
     private val implicitContextManager = mockk<ImplicitContextManager>(relaxed = true)
-
     val view = mockk<View>()
 
     private lateinit var screenContextViewModel: ScreenContextViewModel
@@ -110,6 +107,19 @@ class ScreenContextViewModelTest {
 
         // Then
         verify(exactly = 1) { contextDataManager.updateContext(view, setContextInternal) }
+    }
+
+    @Test
+    fun `GIVEN ScreenContextViewModel WHEN onViewIdChanged THEN should call onViewIdChanged`() {
+        // Given
+        val oldId = 0
+        val newId = 1
+
+        // When
+        screenContextViewModel.onViewIdChanged(oldId, newId)
+
+        // Then
+        verify(exactly = 1) { contextDataManager.onViewIdChanged(oldId, newId) }
     }
 
     @Test

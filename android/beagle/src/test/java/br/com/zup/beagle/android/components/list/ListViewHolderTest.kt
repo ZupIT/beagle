@@ -271,6 +271,28 @@ class ListViewHolderTest : BaseTest() {
     }
 
     @Test
+    fun `GIVEN a firstTimeBinding item with bff id WHEN onBind THEN should updateIdToEachSubView`() {
+        // Given
+        val bffId = "idFromBff".toAndroidId()
+        every { listItem.firstTimeBinding } returns true
+        val newIdSlot = slot<Int>()
+        every { itemView.id = capture(newIdSlot) } just Runs
+        every { itemView.id } answers {
+            if (newIdSlot.isCaptured) newIdSlot.captured else bffId
+        }
+        val recyclerId = 0
+        val position = 0
+        val generatedId = 100
+        every { listViewIdViewModel.setViewId(recyclerId, position, bffId) } returns generatedId
+
+        // When
+        listViewHolder.onBind(null, null, listItem, position, recyclerId)
+
+        // Then
+        verify(exactly = 1) { viewModel.onViewIdChanged(bffId, newIdSlot.captured) }
+    }
+
+    @Test
     fun `GIVEN a firstTimeBinding item with id WHEN onBind THEN should updateIdToEachSubView`() {
         // Given
         val previousId = 100
