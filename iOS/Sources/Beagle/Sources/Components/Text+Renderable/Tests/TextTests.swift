@@ -98,4 +98,20 @@ class TextTests: XCTestCase {
         let view = renderer.render(text)
         assertSnapshotImage(view, size: .custom(CGSize(width: 300, height: 150)))
     }
+    
+    func testTextWithContext() {
+        //Given
+        let container = Container(
+             children: [
+                 Text("@{textExpressions.value}", alignment: "@{textExpressions.alignment}", textColor: "@{textExpressions.color}")
+             ],
+             context: Context(id: "textExpressions", value: .dictionary(["value": "text via expression", "color": "#000000", "alignment": .string(Text.Alignment.center.rawValue)]))
+         )
+         
+         //When
+         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen())))
+         
+         // Then
+         assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 100, height: 100)))
+    }
 }

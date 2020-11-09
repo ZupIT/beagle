@@ -19,7 +19,18 @@ package br.com.zup.beagle.android.utils
 import com.squareup.moshi.JsonEncodingException
 import com.squareup.moshi.JsonReader
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
+
+internal fun JSONObject.safeGet(key: String): Any? {
+    return try {
+        this.getInt(key)
+    } catch (ex: JSONException) {
+        this[key]
+    } catch (ex: JSONException) {
+        null
+    }
+}
 
 internal fun JsonReader.readValue(): Any? =
     peek().let { token ->

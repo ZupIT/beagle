@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.operation.builtin
+package br.com.zup.beagle.android.components.list
 
-internal fun Array<out Any?>.toListOfDoubles(): List<Double> {
-    return this.map {
-        it as Double
-    }
-}
+import java.util.LinkedList
 
-internal fun Array<out Any?>.toListOfInts(): List<Int> {
-    return this.map {
-        it as Int
-    }
-}
-
-internal fun Array<out Any?>.toListOfBooleans(): List<Boolean> {
-    return this.map {
-        it as Boolean
-    }
-}
+internal data class ListItem(
+    var viewIds: LinkedList<Int> = LinkedList(),
+    val data: Any,
+    var itemSuffix: String = "",
+    var completelyInitialized: Boolean = false,
+    var firstTimeBinding: Boolean = true,
+    val directNestedAdapters: LinkedList<ListAdapter> = LinkedList(),
+    var isRecycled: Boolean = false
+)

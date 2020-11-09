@@ -29,7 +29,7 @@ import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-const val REGISTERED_WIDGETS_GENERATED = "RegisteredWidgets"
+private const val REGISTERED_WIDGETS_GENERATED = "RegisteredWidgets"
 
 class RegisterWidgetProcessorProcessor(
     private val processingEnv: ProcessingEnvironment,

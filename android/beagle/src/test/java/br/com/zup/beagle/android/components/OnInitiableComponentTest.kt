@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget
+package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.ContextActionExecutor
+import br.com.zup.beagle.android.widget.RootView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -32,7 +33,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class OnInitiableWidgetTest {
+class OnInitiableComponentTest {
 
     private val rootView = mockk<RootView>()
     private val origin = mockk<View>()
