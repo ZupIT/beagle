@@ -16,11 +16,8 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.android.annotation.RegisterValidator
-import br.com.zup.beagle.compiler.VALIDATOR
-import br.com.zup.beagle.compiler.VALIDATOR_HANDLER
-import br.com.zup.beagle.compiler.implementsInterface
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec

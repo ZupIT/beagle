@@ -16,19 +16,8 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.compiler.ANDROID_ACTION
-import br.com.zup.beagle.compiler.BEAGLE_CONFIG
-import br.com.zup.beagle.compiler.BEAGLE_CORE_WIDGET
-import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
-import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER_IMPL
-import br.com.zup.beagle.compiler.BEAGLE_IMAGE_DOWNLOADER
-import br.com.zup.beagle.compiler.BEAGLE_LOGGER
-import br.com.zup.beagle.compiler.BEAGLE_SDK
-import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
-import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
-import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
-import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
-import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.shared.BEAGLE_CORE_WIDGET
+import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
