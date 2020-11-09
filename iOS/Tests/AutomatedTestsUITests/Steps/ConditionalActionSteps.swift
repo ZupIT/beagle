@@ -1,5 +1,5 @@
 //
-//  ConditionalActionScreenSteps.swift
+//  ConditionalActionSteps.swift
 //  AutomatedTestsUITests
 //
 //  Created by Caio Ortu on 10/14/20.
@@ -9,34 +9,38 @@
 import Foundation
 import XCTest
 
-class ConditionalActionScreenSteps: CucumberStepsDefinition {
+// swiftlint:disable implicitly_unwrapped_optional
+// swiftlint:disable force_unwrapping
+class ConditionalActionSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication!
     
     func loadSteps() {
         before { scenarioDefinition in
-            if scenarioDefinition?.tags.contains("conditionalaction") ?? false {
-                let url = "http://localhost:8080/conditional-action"
+            if scenarioDefinition?.tags.contains("conditional") ?? false {
+                let url = "http://localhost:8080/conditional"
                 self.application = TestUtils.launchBeagleApplication(url: url)
             }
         }
         
         // MARK: - Given
         
-        Given("^the Beagle application did launch with the conditional action screen url$") { _, _ -> Void in
+        Given(#"^the Beagle application did launch with the conditional screen url$"#) { _, _ -> Void in
             XCTAssertTrue(ScreenElements.CONDITIONAL_ACTION_SCREEN_HEADER.element.exists)
         }
         
         // MARK: - When
         
-        When("^I press the \"([^\\\"]*)\" button$") { args, _ -> Void in
+        // Scenario 1 and 2, 3, 4
+        When(#"^I click in a conditional button with "([^\"]*)" title$"#) { args, _ -> Void in
             let text = args![0]
             self.application.buttons[text].tap()
         }
 
         // MARK: - Then
         
-        Then("^the screen should show some alert with \"([^\\\"]*)\" title$") { args, _ -> Void in
+        // Scenario 1 and 2, 3, 4
+        Then(#"^an Alert action should pop up with a "([^\"]*)" message$"#) { args, _ -> Void in
             let text = args![0]
             XCTAssertTrue(self.application.alerts.element.staticTexts[text].exists)
         }
