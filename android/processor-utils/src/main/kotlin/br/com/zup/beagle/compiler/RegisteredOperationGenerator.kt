@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.compiler
 
-
 import br.com.zup.beagle.annotation.RegisterOperation
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
@@ -25,9 +24,11 @@ import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-private const val REGISTERED_OPERATIONS = "registeredOperations"
+const val REGISTERED_OPERATIONS = "registeredOperations"
 
 class RegisteredOperationGenerator {
+
+    private val temporaryListOfNames = mutableListOf<String>()
 
     fun generate(roundEnvironment: RoundEnvironment, processingEnv: ProcessingEnvironment): FunSpec {
         val operations = StringBuilder()
@@ -37,14 +38,16 @@ class RegisteredOperationGenerator {
             val registerOperationAnnotation = element.getAnnotation(RegisterOperation::class.java)
             val name = registerOperationAnnotation.name
 
-            if (name.isEmpty()) {
-                val errorMessage = "missing name in operation $element"
+            if (temporaryListOfNames.contains(name)) {
+                val errorMessage = "there is another operation with the same name\n " +
+                    "a class that was found with a duplicate name: $element"
                 processingEnv.messager.error(errorMessage)
                 return@forEach
             }
+
+            temporaryListOfNames.add(name)
             operations.append("\"$name\" to $element(),")
             operations.append("\n")
-
         }
 
         val operationsFormatted = operations.toString().removeSuffix("\n").removeSuffix(",")
@@ -59,7 +62,7 @@ class RegisteredOperationGenerator {
             .build()
     }
 
-    private fun createFuncSpec(): FunSpec.Builder {
+    fun createFuncSpec(): FunSpec.Builder {
         val returnType = Map::class.asClassName().parameterizedBy(
             String::class.asClassName(),
             ClassName(ANDROID_OPERATION.packageName, ANDROID_OPERATION.className)
