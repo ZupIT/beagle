@@ -44,4 +44,6 @@ extension ScreenComponent {
     }
 }
 
-class ScreenView: UIView {}
+class ScreenView: UIView {
+    // This class is used as a marker for a view returned in toView
+}

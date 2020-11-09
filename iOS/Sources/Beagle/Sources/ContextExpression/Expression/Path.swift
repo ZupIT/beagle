@@ -35,7 +35,9 @@ extension Path: RepresentableByParsableString {
         for node in self.nodes {
             switch node {
             case let .key(string):
-                if node != nodes.first { path += "." }
+                if node != nodes.first {
+                    path += "."
+                }
                 path += string
             case let .index(index):
                 path += "[\(index)]"

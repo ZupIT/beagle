@@ -6,4 +6,4 @@ templates:
 output:
   CodeGeneration/Generated
 args:
-  shouldNotImportBeagleUI: 1
+  shouldNotImportBeagle: 1

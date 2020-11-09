@@ -17,8 +17,6 @@
 * limitations under the License.
 */
 
-import Beagle
-
 // MARK: AddChildren Decodable
 extension AddChildren {
 

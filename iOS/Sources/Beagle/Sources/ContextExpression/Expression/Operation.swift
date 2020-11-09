@@ -64,4 +64,3 @@ extension Operation {
         dependencies.operationsProvider.evaluate(with: self, in: view)
     }
 }
-

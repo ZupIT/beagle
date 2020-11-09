@@ -44,7 +44,6 @@ func componentFromJsonFile<W: ServerDrivenComponent>(
     return typed
 }
 
-// TODO: Make decoding process generic
 func actionFromJsonFile<W: Action>(
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()

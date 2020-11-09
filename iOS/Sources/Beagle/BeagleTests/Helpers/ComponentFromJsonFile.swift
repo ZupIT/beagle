@@ -44,8 +44,7 @@ func componentFromJsonFile<W: ServerDrivenComponent>(
 
 // TODO: Make decoding process generic
 func actionFromJsonFile<W: Action>(
-    fileName: String,
-    decoder: ComponentDecoding = ComponentDecoder()
+    fileName: String
 ) throws -> W {
     guard let url = Bundle(for: ComponentDecoderTests.self).url(
         forResource: fileName,
@@ -59,8 +58,7 @@ func actionFromJsonFile<W: Action>(
 }
 
 func actionFromString<A: Action>(
-    _ string: String,
-    decoder: ComponentDecoding = ComponentDecoder()
+    _ string: String
 ) throws -> A {
     guard let data = string.data(using: .utf8) else {
         throw ComponentFromJsonError.wrongUrlPath

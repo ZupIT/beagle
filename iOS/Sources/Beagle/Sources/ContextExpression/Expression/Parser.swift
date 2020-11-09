@@ -86,7 +86,9 @@ let pathHeadNodes: Parser<[Path.Node]> = zip(
     zeroOrOne(pathKeyNode),
     zeroOrMore(pathIndexNode, separatedBy: literal(string: ""))
 ).flatMap { first, tail in
-    if first.isEmpty && tail.isEmpty { return .never }
+    if first.isEmpty && tail.isEmpty {
+        return .never
+    }
     return always(first + tail)
 }
 

@@ -19,7 +19,7 @@ import UIKit
 
 // MARK: - CustomPageIndicator Component
 
-public struct CustomPageIndicator: PageIndicatorComponent {
+public struct CustomPageIndicator: Deprecated.PageIndicatorComponent {
 
     // MARK: - Public Properties
 

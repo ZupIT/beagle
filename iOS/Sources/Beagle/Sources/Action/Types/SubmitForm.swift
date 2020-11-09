@@ -15,5 +15,7 @@
  */
 
 public struct SubmitForm: Action {
-    public init() {}
+    public init() {
+        // Intentionally unimplemented...
+    }
 }

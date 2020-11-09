@@ -27,6 +27,7 @@ public final class ValidatorProviding: ValidatorProvider {
     private var handlers: [String: ClosureValidator] = [:]
     
     public init() {
+        // Intentionally unimplemented...
     }
     
     public func getValidator(name: String) -> Validator? {

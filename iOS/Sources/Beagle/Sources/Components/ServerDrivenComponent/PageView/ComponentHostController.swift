@@ -64,8 +64,8 @@ class ComponentHostController: BeagleController {
     }
 
     override func loadView() {
-        let renderer = BeagleRenderer(controller: self)
-        view = renderer.render(component)
+        let beagleRenderer = BeagleRenderer(controller: self)
+        view = beagleRenderer.render(component)
     }
 
     override func viewDidLayoutSubviews() {

@@ -18,7 +18,7 @@ import XCTest
 import SnapshotTesting
 @testable import Beagle
 
-class CustomPageIndicatorTest: XCTestCase {
+class CustomPageIndicatorTests: XCTestCase {
 
     private static let typeName = "CustomPageIndicator"
     private let indicator = CustomPageIndicator(
@@ -36,7 +36,7 @@ class CustomPageIndicatorTest: XCTestCase {
         Beagle.dependencies = BeagleDependencies()
         Beagle.dependencies.decoder.register(
             component: CustomPageIndicator.self,
-            named: CustomPageIndicatorTest.typeName
+            named: CustomPageIndicatorTests.typeName
         )
     }
     

@@ -20,4 +20,5 @@ enum Deprecated {
     typealias FormInput = Beagle.FormInput
     typealias FormSubmit = Beagle.FormSubmit
     typealias TabView = Beagle.TabView
+    typealias PageIndicatorComponent = Beagle.PageIndicatorComponent
 }

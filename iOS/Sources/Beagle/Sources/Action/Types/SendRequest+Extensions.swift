@@ -78,7 +78,7 @@ private extension NetworkResponse {
     }
     
     func getDynamicObject() -> DynamicObject {
-        return _makeDynamicObject(with: data)
+        return makeDynamicObject(with: data)
     }
 }
 
@@ -89,11 +89,11 @@ private extension NetworkError {
     }
     
     func getDynamicObject() -> DynamicObject {
-        return _makeDynamicObject(with: data ?? Data())
+        return makeDynamicObject(with: data ?? Data())
     }
 }
 
-private func _makeDynamicObject(with data: Data) -> DynamicObject {
+private func makeDynamicObject(with data: Data) -> DynamicObject {
     let decoder = JSONDecoder()
     let result = try? decoder.decode(DynamicObject.self, from: data)
     return result ?? .empty
