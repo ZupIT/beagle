@@ -109,11 +109,6 @@ class ScreenRobot {
         return this
     }
 
-    fun scrollViewIsNotDisplayed(text: String?): ScreenRobot {
-        onView(Matchers.allOf(withText(text))).check(doesNotExist())
-        return this
-    }
-
     fun swipeLeftOnView(): ScreenRobot {
         onView(Matchers.allOf(withId(R.id.root_layout))).perform(ViewActions.swipeLeft())
         return this

@@ -97,7 +97,7 @@ class ScrollViewScreenSteps {
     fun checkNewTextScrollViewHorizontal(string: String) {
         ScreenRobot()
             .checkViewContainsText(PARAGRAPH)
-            .scrollViewIsNotDisplayed(string)
+            .checkViewDoesNotContainsText(string)
     }
 
     @When("^I press on text to be scrolled and rotated (.*)$")
@@ -117,14 +117,14 @@ class ScrollViewScreenSteps {
     @And("^the scrollview rotate should perform horizontally (.*)$")
     fun checkScrollViewHorizontallyRotation(string: String) {
         ScreenRobot()
-            .scrollViewIsNotDisplayed(string)
+            .checkViewDoesNotContainsText(string)
     }
 
     @And("^even if the screen is rotated the scrollview must be perform horizontally (.*)$")
     fun checkScrollViewRotationHorizontal(string: String) {
         onView(isRoot()).perform(orientationLandscape())
         ScreenRobot()
-            .scrollViewIsNotDisplayed(string)
+            .checkViewDoesNotContainsText(string)
     }
 
     @When("^I have a vertical scroll configured$")
@@ -155,7 +155,7 @@ class ScrollViewScreenSteps {
     @And("^the scrollview should perform vertically (.*)$")
     fun checkScrollViewVertical(string: String) {
         ScreenRobot()
-            .scrollViewIsNotDisplayed(string)
+            .checkViewDoesNotContainsText(string)
     }
 
     @When("^I press on text scrollview to be rotate (.*)$")
@@ -174,14 +174,14 @@ class ScrollViewScreenSteps {
     @And("^the scrollview rotate should perform vertically (.*)$")
     fun checkScrollViewVerticallyRotation(string: String) {
         ScreenRobot()
-            .scrollViewIsNotDisplayed(string)
+            .checkViewDoesNotContainsText(string)
     }
 
     @And("^even if the screen is rotated the scrollview must be perform vertically (.*)$")
     fun checkScrollViewRotationVertical(string: String) {
         onView(isRoot()).perform(orientationLandscape())
         ScreenRobot()
-            .scrollViewIsNotDisplayed(string)
+            .checkViewDoesNotContainsText(string)
     }
 
     @After("@scrollview")
