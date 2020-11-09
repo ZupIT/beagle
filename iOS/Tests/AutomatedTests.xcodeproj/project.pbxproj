@@ -10,7 +10,9 @@
 		0D0165EE254C5299000A48AD /* TextSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0165ED254C5299000A48AD /* TextSteps.swift */; };
 		174096E9252B8FB10009C749 /* NavigateSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174096E8252B8FB10009C749 /* NavigateSteps.swift */; };
 		17F6C7BA25364B8800A0ECAA /* SendRequestActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */; };
-		42554D3B25519E6F00B028ED /* AlertSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42554D3A25519E6F00B028ED /* AlertSteps.swift */; };
+		25CEAC6B2551E25B00404B21 /* XCUIElementQuery+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CEAC692551E24E00404B21 /* XCUIElementQuery+Extension.swift */; };
+		25CEAC6D2551E2C000404B21 /* TextInputSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */; };
+		422E0FB52555FFD200A43424 /* AlertSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42554D3A25519E6F00B028ED /* AlertSteps.swift */; };
 		42C55D0E25477EEF003ECF63 /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */; };
 		42C55D1125477F42003ECF63 /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */; };
 		42C55D1325477F70003ECF63 /* NetworkClientDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C55D1225477F70003ECF63 /* NetworkClientDefault.swift */; };
@@ -136,6 +138,8 @@
 		0D0165ED254C5299000A48AD /* TextSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSteps.swift; sourceTree = "<group>"; };
 		174096E8252B8FB10009C749 /* NavigateSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateSteps.swift; sourceTree = "<group>"; };
 		17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestActionSteps.swift; sourceTree = "<group>"; };
+		25CEAC692551E24E00404B21 /* XCUIElementQuery+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementQuery+Extension.swift"; sourceTree = "<group>"; };
+		25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputSteps.swift; sourceTree = "<group>"; };
 		42554D3A25519E6F00B028ED /* AlertSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSteps.swift; sourceTree = "<group>"; };
 		42C55D0D25477EEF003ECF63 /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
 		42C55D1025477F42003ECF63 /* HttpRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilder.swift; sourceTree = "<group>"; };
@@ -631,6 +635,7 @@
 				174096E8252B8FB10009C749 /* NavigateSteps.swift */,
 				0D0165ED254C5299000A48AD /* TextSteps.swift */,
 				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
+				25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -639,6 +644,7 @@
 			isa = PBXGroup;
 			children = (
 				F3BF51B825191EAD00B5A35B /* TestUtils.swift */,
+				25CEAC692551E24E00404B21 /* XCUIElementQuery+Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -654,6 +660,7 @@
 				639CA14F24B4EF1A009FAC90 /* Frameworks */,
 				639CA15024B4EF1A009FAC90 /* Resources */,
 				63ED0EFE24B785960086E433 /* Embed Frameworks */,
+				25CEAC6E2551E4CF00404B21 /* SwiftLint Run Script */,
 			);
 			buildRules = (
 			);
@@ -771,6 +778,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		25CEAC6E2551E4CF00404B21 /* SwiftLint Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		639CA14E24B4EF1A009FAC90 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -800,6 +828,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				639CA22324B4F0B0009FAC90 /* GHGherkinLine.m in Sources */,
+				422E0FB52555FFD200A43424 /* AlertSteps.swift in Sources */,
 				639CA21724B4F0B0009FAC90 /* GHScenario.m in Sources */,
 				639CA21324B4F0B0009FAC90 /* GHDocString.m in Sources */,
 				639CA22C24B4F0B0009FAC90 /* NSObject+Dictionary.m in Sources */,
@@ -811,12 +840,14 @@
 				6B4F7E8324C7943C003F461A /* PageViewSteps.swift in Sources */,
 				639CA1FF24B4F0B0009FAC90 /* CCIHock.m in Sources */,
 				639CA21D24B4F0B0009FAC90 /* GHLocation.m in Sources */,
+				25CEAC6B2551E25B00404B21 /* XCUIElementQuery+Extension.swift in Sources */,
 				639CA20724B4F0B0009FAC90 /* CCILocation.m in Sources */,
 				639CA21124B4F0B0009FAC90 /* GHTokenScanner.m in Sources */,
 				639CA22424B4F0B0009FAC90 /* GHStepArgument.m in Sources */,
 				6B4F7E7B24C65A76003F461A /* ScreenRobot.swift in Sources */,
 				6B4F7E8124C728F8003F461A /* ImageSteps.swift in Sources */,
 				639CA17824B4EF1D009FAC90 /* AutomatedTestsUITests.swift in Sources */,
+				25CEAC6D2551E2C000404B21 /* TextInputSteps.swift in Sources */,
 				F3BF51B225191A9300B5A35B /* CucumberStepsDefinition.swift in Sources */,
 				639CA22524B4F0B0009FAC90 /* GHScenarioDefinition.m in Sources */,
 				639CA21F24B4F0B0009FAC90 /* GHExamples.m in Sources */,
@@ -849,7 +880,6 @@
 				639CA20C24B4F0B0009FAC90 /* GHTableCell.m in Sources */,
 				639CA21624B4F0B0009FAC90 /* GHTag.m in Sources */,
 				17F6C7BA25364B8800A0ECAA /* SendRequestActionSteps.swift in Sources */,
-				42554D3B25519E6F00B028ED /* AlertSteps.swift in Sources */,
 				639CA20A24B4F0B0009FAC90 /* GHToken.m in Sources */,
 				639CA22724B4F0B0009FAC90 /* GHTokenMatcher.m in Sources */,
 				639CA20E24B4F0B0009FAC90 /* GHBackground.m in Sources */,
