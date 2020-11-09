@@ -25,3 +25,11 @@
 -keep class br.com.zup.beagle.widget.** { *; }
 -keep class br.com.zup.beagle.core.** { *; }
 -keep class br.com.zup.beagle.analytics.** { *; }
+
+
+# Keeping enum values
+-keepclassmembers class * extends java.lang.Enum {
+    <fields>;
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}

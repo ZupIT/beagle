@@ -36,7 +36,7 @@ data class SampleTextField(val placeholder: String = "") : InputWidget() {
 
     override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {
         textFieldView = this
-
+        textFieldView.hint = placeholder
         textFieldView.isSingleLine = true
         doOnTextChanged { _, _, _, _ -> notifyChanges() }
     }
