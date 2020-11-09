@@ -19,11 +19,13 @@ package br.com.zup.beagle.automatedtests.builders
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
+import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.action.SubmitForm
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.form.SimpleForm
@@ -37,9 +39,7 @@ data class User(
     val email: String,
     val password: String,
     val placeholderEmail: String,
-    val placeholderPassword: String,
-    val textInputTypeEmail: TextInputType,
-    val textInputTypePassword: TextInputType
+    val placeholderPassword: String
 )
 
 object SimpleFormScreenBuilder {
@@ -50,14 +50,12 @@ object SimpleFormScreenBuilder {
                 SimpleForm(
                     context = ContextData(id = "user", value = User(
                         email = "", password = "",
-                        placeholderEmail = "Type in your email", placeholderPassword = "Type in your password",
-                        textInputTypeEmail = TextInputType.EMAIL, textInputTypePassword = TextInputType.PASSWORD)
+                        placeholderEmail = "Type in your email", placeholderPassword = "Type in your password")
                     ),
                     children = listOf(
                         TextInput(
                             value = expressionOf("@{user.email}"),
                             placeholder = expressionOf("@{user.placeholderEmail}"),
-                            type = expressionOf("@{user.textInputTypeEmail}"),
                             onChange = listOf(
                                 SetContext(
                                     contextId = "user",
@@ -69,7 +67,6 @@ object SimpleFormScreenBuilder {
                         TextInput(
                             value = expressionOf("@{user.password}"),
                             placeholder = expressionOf("@{user.placeholderPassword}"),
-                            type = expressionOf("@{user.textInputTypePassword}"),
                             onChange = listOf(
                                 SetContext(
                                     contextId = "user",
@@ -81,7 +78,10 @@ object SimpleFormScreenBuilder {
                         Button(text = "Click to Submit",
                             onPress = listOf(SubmitForm())
                         ).applyStyle(
-                            Style(backgroundColor = "#ffffff"))
+                            Style(backgroundColor = "#ffffff",
+                                margin = EdgeValue(top = 10.unitReal())
+                            )
+                        )
                     ),
                     onSubmit = listOf(
                         Alert(
