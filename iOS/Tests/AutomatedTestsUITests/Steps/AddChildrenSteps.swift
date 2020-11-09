@@ -24,7 +24,6 @@ class AddChildrenSteps: CucumberStepsDefinition {
             }
         }
         
-                
         Given("^that I'm on the addChildren Screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.ADD_CHILDREN_HEADER.element.exists)
         }
@@ -43,17 +42,14 @@ class AddChildrenSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.TEXT_ADDED.element.exists)
         }
         
-        
         Then("^A Text need to be added before the already exist one$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TEXT_FIXED.element.exists)
         }
-        
         
         Then("^A Text need to replace the already exist one$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TEXT_ADDED.element.exists)
             XCTAssertFalse(ScreenElements.TEXT_FIXED.element.exists)
         }
-        
         
         Then("^Nothing should happen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TEXT_FIXED.element.exists)
