@@ -66,21 +66,14 @@ object ConfirmScreenBuilder {
 
     private fun customLabelConfirms(): Container = Container(listOf(
         Button(
-            text = "CustomConfirmOk",
+            text = "CustomConfirmLabel",
             onPress = listOf(
                 Confirm(
                     title = null,
                     message = "ConfirmMessage",
-                    labelOk = "CustomLabel")
-            )
-        ),
-        Button(
-            text = "CustomConfirmCancel",
-            onPress = listOf(
-                Confirm(
-                    title = null,
-                    message = "ConfirmMessage",
-                    labelOk = "CustomLabel")
+                    labelOk = "CustomLabelOk",
+                    labelCancel = "CustomLabelCancel"
+                )
             )
         )
     ))
@@ -92,7 +85,7 @@ object ConfirmScreenBuilder {
                 Confirm(
                     title = null,
                     message = "ConfirmMessage",
-                    onPressOk = Alert(message = "SecondAlert")
+                    onPressOk = Alert(message = "Confirm ok clicked")
                 )
             ),
         ),
@@ -102,7 +95,7 @@ object ConfirmScreenBuilder {
                 Confirm(
                     title = null,
                     message = "CancelMessage",
-                    onPressCancel = Alert(message = "SecondAlert")
+                    onPressCancel = Alert(message = "Confirm cancel clicked")
                 )
             ),
         )
