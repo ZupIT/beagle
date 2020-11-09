@@ -79,4 +79,8 @@ internal class ScreenContextViewModel(
         super.onCleared()
         clearContexts()
     }
+
+    fun onViewIdChanged(oldId: Int, newId: Int) {
+        contextDataManager.onViewIdChanged(oldId, newId)
+    }
 }
