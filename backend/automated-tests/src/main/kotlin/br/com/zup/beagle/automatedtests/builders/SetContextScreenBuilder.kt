@@ -16,9 +16,13 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Button
@@ -31,7 +35,8 @@ object SetContextScreenBuilder {
             context = ContextData(id = "setContextid", "ValueExpression"),
             children =
             listOf(
-                Text(text = "SetContext Screen"),
+                Text(text = "SetContext Screen").applyStyle(Style(
+                    margin = EdgeValue(vertical = 20.unitReal()))),
                 hardcodedSetContextButtons(),
                 expressionSectContextButtons()
             )
@@ -61,7 +66,7 @@ object SetContextScreenBuilder {
                         SetContext(
                             contextId = "expressionValueId",
                             path = "path",
-                            value = "@{setContextid}" + "path"
+                            value = "@{setContextid}" + "Path"
                         )
                     )
                 ),
@@ -91,10 +96,10 @@ object SetContextScreenBuilder {
                         SetContext(
                             contextId = "hardcodedValueId",
                             path = "path",
-                            value = "ValueHardcoded" + "path"
+                            value = "ValueHardcoded" + "Path"
                         )
                     )
                 ),
-                Text("@{expressionValueId.path}")
+                Text("@{hardcodedValueId.path}")
             ))
 }
