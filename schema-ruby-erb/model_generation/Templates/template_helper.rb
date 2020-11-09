@@ -43,7 +43,8 @@ class BasicType < SupportedLanguages
             TypesToString.bool => {@swift => "Bool", @kotlin => "Boolean"},
             TypesToString.interface => {@swift => "protocol", @kotlin => "interface"},
             TypesToString.enum => {@swift => "enum", @kotlin => "enum class"},
-            TypesToString.integer => {@swift => "Int", @kotlin => "Int"}
+            TypesToString.integer => {@swift => "Int", @kotlin => "Int"},
+            TypesToString.abstract => {@swift => "protocol", @kotlin => "abstract class"}
         }
 
     end
@@ -115,6 +116,21 @@ class TemplateHelper
         object_type.synthax_type.class == EnumType
     end
 
+    def variable_is_enum(variable)
+        variable.class == EnumCase
+    end
+
+    def variable_is_primitive(variable)
+        variable.typeName == TypesToString.string or variable.typeName == TypesToString.integer or variable.typeName == TypesToString.bool or variable.typeName == TypesToString.double
+    end
+
+    def is_interface(object_type)
+        object_type.synthax_type.type == TypesToString.interface
+    end
+
+    def is_abstract(object_type)
+        object_type.synthax_type.type == TypesToString.abstract
+    end
     # Given object_type, this functions returns if such an object is widget or not
     #
     # @param object_type [BaseComponent]

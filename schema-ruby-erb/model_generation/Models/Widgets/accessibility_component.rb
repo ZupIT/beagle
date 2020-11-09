@@ -12,24 +12,24 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/constant.rb'
+require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative 'unit_type.rb'
 
-class UnitValue < BaseComponent
+class AccessibilityComponent < BaseComponent
 
     def initialize
-        variables = [
-            Constant.new(:name => "value", :typeName => TypesToString.double),
-            Constant.new(:name => "type", :typeName => UnitType.new.name)
+    	variables = [
+            Variable.new(:name => "accessibility", :typeName => Accessibility.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
+            :type => TypesToString.interface,
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
-            :comment => "Receive the amount to be applied and the type.",
-            :sameFileTypes => [UnitType.new]
+            :package => "br.com.zup.beagle.core",
+            :inheritFrom => [
+               ServerDrivenComponent.new
+            ]
         )
 
         super(synthax_type)

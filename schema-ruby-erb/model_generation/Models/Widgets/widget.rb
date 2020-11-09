@@ -20,14 +20,15 @@ class Widget < BaseComponent
 
     #todo finish implementation, missing accessibility
     def initialize
-        variables = [
-            Variable.new(:name => "text", :typeName => TypesToString.string, :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true)
-        ]
         synthax_type = BuiltInType.new(
+            :type => TypesToString.abstract,
             :name => self.name,
-            :variables => variables,
-            :package => "br.com.zup.beagle.widget.ui"
+            :package => "br.com.zup.beagle.widget",
+            :inheritFrom => [
+                StyleComponent.new,
+                AccessibilityComponent.new,
+                IdentifierComponent.new
+            ]
         )
 
         super(synthax_type)

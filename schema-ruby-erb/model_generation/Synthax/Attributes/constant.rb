@@ -12,25 +12,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative '../../Synthax/Attributes/variable.rb'
-require_relative '../base_component.rb'
+require_relative 'base_attributes.rb'
+require_relative 'Mixins/bindable.rb'
+require_relative 'Mixins/optional.rb'
+require_relative 'Mixins/single_type_name.rb'
 
-class Action < BaseComponent
+# Use this class when you attempt to generate a list
+class Constant < BaseAttributes
+    include Bindable, Optional, SingleTypeName
 
-    #todo finish implementation, and add to be generated on main
-    def initialize
-        synthax_type = BuiltInType.new(
-            :name => self.name,
-            :variables => [],
-            :package => "br.com.zup.beagle.widget.action",
-            :comment => "Markup to define an action to be triggered in response to some event"
-        )
-
-        synthax_type.type = TypesToString.interface
-
-        super(synthax_type)
-
+    def initialize(params = {})
+        super
+        @typeName = params.fetch(:typeName, '')
+        @isBindable = params.fetch(:isBindable, false)
+        @isOptional = params.fetch(:isOptional, false)
     end
 
 end

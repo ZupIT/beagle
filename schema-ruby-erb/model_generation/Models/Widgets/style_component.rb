@@ -16,38 +16,20 @@ require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
-class AnalyticsClick < BaseComponent
+class StyleComponent < BaseComponent
 
     def initialize
-        variables = [
-            Variable.new(:name => "accessibilityLabel", :typeName => TypesToString.string, :isOptional => true),
-            Variable.new(:name => "accessible", :typeName => TypesToString.bool, :defaultValue => "true")
-
+    	variables = [
+            Variable.new(:name => "style", :typeName => Style.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
+            :type => TypesToString.interface,
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => [AnalyticsEvent.new.name]
-        )
-
-        super(synthax_type)
-
-    end
-
-end
-
-class AnalyticsScreen < BaseComponent
-
-    def initialize
-        variables = [
-            Variable.new(:name => "screenName", :typeName => TypesToString.string)
-        ]
-        synthax_type = BuiltInType.new(
-            :name => self.name,
-            :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => [AnalyticsEvent.new.name]
+            :package => "br.com.zup.beagle.core",
+            :inheritFrom => [
+               ServerDrivenComponent.new
+            ]
         )
 
         super(synthax_type)

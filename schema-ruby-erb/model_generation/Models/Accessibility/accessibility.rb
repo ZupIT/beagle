@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/constant.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -20,14 +20,14 @@ class Accessibility < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "accessibilityLabel", :typeName => TypesToString.string, :isOptional => true),
-            Variable.new(:name => "accessible", :typeName => TypesToString.bool, :defaultValue => "true")
+            Constant.new(:name => "accessible", :typeName => TypesToString.bool, :defaultValue => "true"),
+            Constant.new(:name => "accessibilityLabel", :typeName => TypesToString.string, :isOptional => true)
 
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.core"
         )
 
         super(synthax_type)

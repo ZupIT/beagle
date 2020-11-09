@@ -20,10 +20,10 @@ class ServerDrivenComponent < BaseComponent
 
     def initialize
         synthax_type = BuiltInType.new(
+            :type => TypesToString.interface,
             :name => self.name,
             :variables => [],
-            :package => "",
-            :type => TypesToString.interface
+            :package => "br.com.zup.beagle.core"
         )
 
         super(synthax_type)

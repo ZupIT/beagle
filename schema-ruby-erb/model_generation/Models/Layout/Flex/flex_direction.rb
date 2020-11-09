@@ -20,15 +20,14 @@ class FlexDirection < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "row", :defaultValue => "ROW"),
-            EnumCase.new(:name => "rowReverse", :defaultValue => "ROW_REVERSE"),
             EnumCase.new(:name => "column", :defaultValue => "COLUMN"),
-            EnumCase.new(:name => "columnReverse", :defaultValue => "COLUMN_REVERSE")
+            EnumCase.new(:name => "row", :defaultValue => "ROW"),
+            EnumCase.new(:name => "columnReverse", :defaultValue => "COLUMN_REVERSE"),
+            EnumCase.new(:name => "rowReverse", :defaultValue => "ROW_REVERSE")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :inheritFrom => [TypesToString.string],
             :package => "br.com.zup.beagle.widget.core"
         )
 

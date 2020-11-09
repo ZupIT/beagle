@@ -30,16 +30,19 @@ require_relative 'Models/Layout/unit_type.rb'
 
 require_relative 'Models/Accessibility/accessibility.rb'
 
-require_relative 'Models/Analytics/analytics_events.rb'
-require_relative 'Models/Analytics/analytics_models.rb'
+require_relative 'Models/Analytics/touchable_analytics.rb'
 
 require_relative 'Models/Widgets/button.rb'
+require_relative 'Models/Widgets/click_event.rb'
+require_relative 'Models/Widgets/style_component.rb'
+require_relative 'Models/Widgets/accessibility_component.rb'
 require_relative 'Models/Widgets/text.rb'
 require_relative 'Models/Widgets/text_input.rb'
 require_relative 'Models/Widgets/text_input_type.rb'
 require_relative 'Models/Widgets/container.rb'
 require_relative 'Models/Widgets/image.rb'
 require_relative 'Models/Widgets/image_content.rb'
+require_relative 'Models/Widgets/identifier_component.rb'
 
 require_relative 'Models/ServerDriven/server_driven_component.rb'
 require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
@@ -84,15 +87,12 @@ class ModelGenerator
 
     components.each do |clazz|
       component = clazz.new
-      type = component.synthax_type
-      if helper.is_enum(component)
-        @enum_import_manager[type.name] = "#{type.package}.#{type.name}"
-      else
-        @import_manager[type.name] = "#{type.package}.#{type.name}"
-      end
+      handleInnerTypes(component, helper)
     end
+    puts "#{@import_manager}"
+    puts "#{@enum_import_manager}"
   end
-  
+
   # Array of BaseComponents
   # @return [Array<BaseComponent>]
   attr_accessor :objectType
@@ -102,6 +102,43 @@ class ModelGenerator
 
   # @return [Hash]
   attr_accessor :enum_import_manager
+
+  def defineImport(component, helper)
+    type = component.synthax_type
+    if helper.is_enum(component)
+      @enum_import_manager[type.name] = "#{type.package}.#{type.name}"
+    else
+      @import_manager[type.name] = "#{type.package}.#{type.name}"
+    end
+
+    #TODO refactor list imports
+    for inherit in type.inheritFrom
+        if helper.is_enum(inherit)
+          @enum_import_manager[inherit.synthax_type.name] = "#{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
+        else
+          @import_manager[inherit.synthax_type.name] = "#{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
+        end
+
+        for variable in type.variables
+          if !helper.variable_is_primitive(variable)
+            if helper.variable_is_enum(variable)
+              @enum_import_manager[variable.typeName] = "#{inherit.synthax_type.package}.#{variable.typeName}"
+            else
+              @import_manager[variable.typeName] = "#{inherit.synthax_type.package}.#{variable.typeName}"
+            end
+          end
+        end
+      end
+  end
+
+  def handleInnerTypes(component, helper)
+    defineImport(component, helper)
+    
+    for components in component.synthax_type.sameFileTypes
+      handleInnerTypes(components, helper)
+    end
+    
+  end
 
   # This method is used to trigger the logic for code generation inside the templates
   # @return [String] the result of this method return a string that will be saved in a file
@@ -131,12 +168,39 @@ class ModelGenerator
   # Generates models for kotlin backend
   def generate_kotlin_backend
     helper = TemplateHelper.new
+    ready_to_widgets = [
+      Button.new.name,
+      Action.new.name
+    ]
+
+    ready_to_core = [
+      Widget.new.name,
+      IdentifierComponent.new.name,
+      ServerDrivenComponent.new.name,
+      TouchableAnalytics.new.name,
+      StyleComponent.new.name,
+      AccessibilityComponent.new.name,
+      ClickEvent.new.name,
+      Flex.new.name,
+      Style.new.name,
+      UnitValue.new.name,
+      Accessibility.new.name
+    ]
+    
     @erb = ERB.new(File.read("#{@c.templates}kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      if !helper.is_enum(@objectType)
-        @writer.write(@c.kotlin_backend_path, @objectType.name + ".kt", to_s)
+      path = @c.kotlin_backend_path
+
+      if ready_to_widgets.include? @objectType.name
+        path += "/widgets/"
+      else
+        if ready_to_core.include? @objectType.name
+        path += "/kotlin-core/"
+        end
       end
+
+      @writer.write(path, @objectType.name + ".kt", to_s)
     end
   end
   
@@ -174,48 +238,57 @@ if __FILE__ == $0
   components = [
     # Components
     Button,
-    Text,
-    TextInputType,
-    ImageContentMode,
-    TextInput,
-    Container,
-    Image,
-    # Layout
-    CornerRadius,
-    EdgeValue,
+    Widget,
+    IdentifierComponent,
+    ServerDrivenComponent,
+    TouchableAnalytics,
+    StyleComponent,
+    AccessibilityComponent,
+    ClickEvent,
+    # Text,
+    # TextInputType,
+    # ImageContentMode,
+    # TextInput,
+    # Container,
+    # Image,
+    # # Layout
+    # CornerRadius,
+    # EdgeValue,
     Flex,
-    Size,
+    # Size,
     Style,
     UnitValue,
-    UnitType,
-    # Accessibility
+    # UnitType,
+    # # Accessibility
     Accessibility,
-    # Far from being usable
-    ListView,
-    AnalyticsEvent,
-    AnalyticsClick,
-    AnalyticsScreen,
-    SendRequest,
-    # ServerDriven
-    ScrollAxis,
-    ScrollView,
-    # Action
-    Action,
-    UnknownAction,
-    AddChildren,
-    Alert,
-    Confirm,
-    Condition,
-    # Lazy
-    LazyComponent,
-    # Screen
-    SafeArea,
-    Screen,
-    NavigationBar,
-    NavigationBarItem,
-    # TabBar
-    TabBar,
-    TabBarItem
+    # # Far from being usable
+    # ListView,
+    # AnalyticsEvent,
+    # AnalyticsClick,
+    # TouchableAnalytics,
+    # ClickEvent,
+    # AnalyticsScreen,
+    # SendRequest,
+    # # ServerDriven
+    # ScrollAxis,
+    # ScrollView,
+    # # Action
+    Action
+    # UnknownAction,
+    # AddChildren,
+    # Alert,
+    # Confirm,
+    # Condition,
+    # # Lazy
+    # LazyComponent,
+    # # Screen
+    # SafeArea,
+    # Screen,
+    # NavigationBar,
+    # NavigationBarItem,
+    # # TabBar
+    # TabBar,
+    # TabBarItem
   ]
   
   generator = ModelGenerator.new(components)

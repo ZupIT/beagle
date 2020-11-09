@@ -15,21 +15,18 @@
 require_relative '../../Synthax/Attributes/constant.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative 'unit_type.rb'
 
-class UnitValue < BaseComponent
+class TouchableAnalytics < BaseComponent
 
     def initialize
-        variables = [
-            Constant.new(:name => "value", :typeName => TypesToString.double),
-            Constant.new(:name => "type", :typeName => UnitType.new.name)
+    	variables = [
+            Constant.new(:name => "clickAnalyticsEvent", :typeName => ClickEvent.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
+            :type => TypesToString.interface,
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
-            :comment => "Receive the amount to be applied and the type.",
-            :sameFileTypes => [UnitType.new]
+            :package => "br.com.zup.beagle.analytics"
         )
 
         super(synthax_type)

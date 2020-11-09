@@ -12,12 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/constant.rb'
 require_relative '../../Synthax/Attributes/list.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
-require_relative '../Analytics/analytics_events.rb'
-require_relative '../Analytics/analytics_models.rb'
 require_relative '../Action/action.rb'
 require_relative 'widget.rb'
 
@@ -25,18 +23,17 @@ class Button < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "text", :typeName => TypesToString.string, :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
-            List.new(:name => "onPress", :typeName => Action.new.name, :isOptional => true),
-            Variable.new(:name => "clickAnalyticsEvent", :typeName => AnalyticsClick.new.name, :isOptional => true)
+            Constant.new(:name => "text", :typeName => TypesToString.string, :isBindable => true),
+            Constant.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
+            List.new(:name => "onPress", :typeName => Action.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
-               Widget.new.name,
-               "ClickedOnComponent" #todo create
+               Widget.new,
+               TouchableAnalytics.new
             ]
         )
 

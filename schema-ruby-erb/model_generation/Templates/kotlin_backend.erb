@@ -17,9 +17,253 @@
 <%
   require_relative 'Templates/template_helper.rb'
 
-  @templateHelper = TemplateHelper.new
-  @templateHelper.languageIdentifier = SupportedLanguages.new.kotlin
-  @templateHelper.defaultDeclarationType = "data class"
+  @tab = "    "
+  @template_helper = TemplateHelper.new
+  @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
+  @template_helper.defaultDeclarationType = "data class"
+
+  def fullDeclaration(objectType)
+    output = "package #{objectType.synthax_type.package}\n"
+
+    output += resolveImports(objectType)
+    output += resolveObject(objectType)
+    output
+  end
+
+  def resolveImports(objectType)
+    output = ""
+
+    for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager)
+      output += "\nimport #{qualifiedName}"
+    end
+
+    for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager)
+      output += "\nimport #{qualifiedName}"
+    end
+
+    for inherit in objectType.synthax_type.inheritFrom
+      output += "\nimport #{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
+      for qualifiedName in @template_helper.getImports(inherit.synthax_type.variables, import_manager)
+        output += "\nimport #{qualifiedName}"
+      end
+
+      for qualifiedName in @template_helper.getImports(inherit.synthax_type.variables, enum_import_manager)
+        output += "\nimport #{qualifiedName}"
+      end
+    end
+
+    output += resolveBindImport(objectType)
+
+    if output.include? "import"
+      output += "\n"
+    end
+
+    output
+  end
+
+  #TODO remove bind import rules
+  def resolveBindImport(objectType)
+    output = ""
+
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
+      output += "\nimport br.com.zup.beagle.widget.context.Bind"
+    end
+
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional }
+      output += "\nimport br.com.zup.beagle.widget.context.valueOf"
+    end
+
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional }
+      output += "\nimport br.com.zup.beagle.widget.context.valueOfNullable"
+    end
+
+    output
+  end
+
+  def resolveObject(objectType)
+    output = ""
+    
+    if @template_helper.is_enum(objectType)
+      output += initEnum(objectType)
+    else 
+      if @template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType)
+        output += initInterfaceOrAbstract(objectType)
+      else
+        output += initCommonClass(objectType)
+      end
+    end
+
+    output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+
+    output
+  end
+
+  def initEnum(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+
+    output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
+    output += "#{@tab}"
+    output += objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue }.join(",\n#{@tab}")
+    output += "\n}"
+    output
+  end
+
+  def initInterfaceOrAbstract(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    
+    output = "\n#{typeKind} #{objectType.synthax_type.name}"
+    output += getSuperClasses(objectType)
+
+    counter = 0 
+    if objectType.synthax_type.variables.any?
+      output += " {"
+      for variable in objectType.synthax_type.variables
+        fieldType = variable.class == Variable ? "var" : "val"
+        output += "\n#{@tab}#{variable.accessor} #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+    end
+
+    for inherit in objectType.synthax_type.inheritFrom
+      if @template_helper.fetch_built_in_type_declaration(inherit.synthax_type.type) == "interface"
+        for variable in inherit.synthax_type.variables
+          if !output.include? "{"
+            output += "{"
+          end
+          fieldType = variable.class == Variable ? "var" : "val"
+          output += "\n#{@tab}#{variable.accessor} override #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
+          counter += 1
+        end
+      end
+    end
+
+    if output.include? "val" or output.include? "var"
+      output += "\n}"
+    end
+    
+    output
+  end
+
+  def initCommonClass(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    
+    output = "\n#{typeKind} #{objectType.synthax_type.name}"
+
+    counter = 0 
+    if objectType.synthax_type.variables.any?
+      output += " ("
+      for variable in objectType.synthax_type.variables
+        fieldType = variable.class == Variable ? "var" : "val"
+        output += "\n#{@tab}#{variable.accessor} #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+    end
+
+    for inherit in objectType.synthax_type.inheritFrom
+      if @template_helper.fetch_built_in_type_declaration(inherit.synthax_type.type) == "interface" && inherit.synthax_type.variables.size > 0
+        if objectType.synthax_type.variables.size == 0
+            output += " ("
+        else
+          output += ","
+        end
+        counter = 0 
+        for variable in inherit.synthax_type.variables
+          fieldType = variable.class == Variable ? "var" : "val"
+          output += "\n#{@tab}#{variable.accessor} override #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+        end
+      end
+    end
+    
+    output += getSuperClasses(objectType)
+
+    if objectType.synthax_type.variables.any?(&:isBindable) and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
+      output += "{\n#{@tab}constructor ("
+      counter = 0 
+      for variable in objectType.synthax_type.variables
+        output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+      for inherit in objectType.synthax_type.inheritFrom
+        if @template_helper.fetch_built_in_type_declaration(inherit.synthax_type.type) == "interface" && inherit.synthax_type.variables.size > 0
+          if objectType.synthax_type.variables.size == 0
+            output += " ("
+          else
+            output += ","
+          end
+          counter = 0 
+          for variable in inherit.synthax_type.variables
+          output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, inherit.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+          end
+        end
+      end
+      output += "\n#{@tab}) : this ("
+
+      counter = 0
+      for variable in objectType.synthax_type.variables
+        output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+
+      for inherit in objectType.synthax_type.inheritFrom
+        if @template_helper.fetch_built_in_type_declaration(inherit.synthax_type.type) == "interface" && inherit.synthax_type.variables.size > 0
+          if objectType.synthax_type.variables.size == 0
+              output += " ("
+          else
+            output += ","
+          end
+          counter = 0
+          for variable in inherit.synthax_type.variables
+          output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, inherit.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+          end
+        end
+      end
+      output += "\n#{@tab})\n}"
+    end
+
+    output
+  end
+
+  def handleInnerTypes(objectTypes, input)
+    output = input
+    for objectType in objectTypes
+      output += "\n#{resolveObject(objectType)}"
+      possibleNestedTypes = objectType.synthax_type.sameFileTypes
+      if possibleNestedTypes.size > 0
+        handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+      end
+    end
+    output
+  end
+
+  def getSuperClasses(objectType)
+    output = ""
+    if objectType.synthax_type.inheritFrom.size > 0
+      if @template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType)
+        output += " : "
+      else
+        output += "\n) : "
+      end
+
+      counter = 0 
+      for inherit in objectType.synthax_type.inheritFrom
+        output += inherit.synthax_type.type == TypesToString.abstract ? "#{inherit.name}()" : inherit.name
+        if objectType.synthax_type.inheritFrom.size - 1 != counter 
+          output += ", "
+        end
+        counter += 1
+      end
+      output += " "
+    else
+      if !@template_helper.is_interface(objectType)
+        output += "\n)"
+      end
+    end
+
+    output
+  end
 
   def dictionary_variable_declaration(variable) 
     type_of_key = adapt_type_name_to_kotlin_specific(@template_helper.fetch_type(variable.type_of_key))
@@ -30,12 +274,11 @@
 
   def single_variable_declaration(variable, import_manager)
     type_name = @template_helper.fetch_type(variable.typeName)
-    type_name = import_manager.has_key?(type_name) ? type_name + "Schema" : type_name
     type_name = adapt_type_name_to_kotlin_specific(type_name)
     type_name
   end
 
-  def handleTypeNameAndDefault(variable, shouldAddComma = false)
+  def handleTypeNameAndDefault(objectType, variable, shouldAddComma = false)
 
     if variable.instance_of? Dictionary
       output = dictionary_variable_declaration(variable)
@@ -47,7 +290,7 @@
     output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
-    output = !default.empty? ? "#{output} = #{default}" : output
+    output = !default.empty? && objectType.synthax_type.type != TypesToString.interface ? "#{output} = #{default}" : output
     output = shouldAddComma ? output + "," : output
     output
   end
@@ -77,121 +320,12 @@
     variable.defaultValue.empty? && variable.isOptional ? "null" : variable.defaultValue
   end
 
-  def getSuperClasses(type)
-    # TODO handle this in general Kotlin when all supertypes are defined with schema
-    (type.inheritFrom << "#{type.name}Schema").map { |parent| parent == Widget.new.name ? "#{parent}()" : parent }.join(", ")
-  end
-
   def adapt_type_name_to_kotlin_specific(typeName)
     if typeName.eql?("ContextData")
       "Any"
     else
       typeName
     end
-  end
-
-  def fullDeclaration(objectType)
-    output = initImports(objectType)
-    output += resolveObjectType(objectType)
-
-    output
-  end
-
-  def initImports(objectType)
-    outputImports = "package #{objectType.synthax_type.package}\n"
-
-    if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
-      outputImports += "\nimport br.com.zup.beagle.widget.context.Bind"
-    end
-
-    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional }
-      outputImports += "\nimport br.com.zup.beagle.widget.context.valueOf"
-    end
-
-    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional }
-      outputImports += "\nimport br.com.zup.beagle.widget.context.valueOfNullable"
-    end
-
-    for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, import_manager)
-      outputImports += "\nimport #{qualifiedName}"
-    end
-
-    for qualifiedName in @templateHelper.getImports(objectType.synthax_type.variables, enum_import_manager)
-      outputImports += "\nimport #{qualifiedName}"
-    end
-
-    if outputImports.include? "import"
-      outputImports += "\n"
-    end
-
-    outputImports
-  end
-
-  def resolveObjectType(objectType)
-    output = ""
-    isEnumDeclaration = @template_helper.is_enum(objectType)
-    
-    if isEnumDeclaration
-      output += initForEnum(objectType)
-    else
-      output += initForCommonObject(objectType)
-    end
-
-    output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
-
-    output
-  end
-
-  def initForCommonObject(objectType)
-    output = "\ndata class #{objectType.synthax_type.name} ("
-
-    counter = 0 
-    for variable in objectType.synthax_type.variables
-      output += "\n#{@tab}#{variable.accessor} override val #{variable.name}: #{handleTypeNameAndDefault(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-      counter += 1
-    end
-
-    output += "\n) : #{getSuperClasses(objectType.synthax_type)} "
-
-    if objectType.synthax_type.variables.any?(&:isBindable)
-      output += "{\n#{@tab}constructor ("
-      counter = 0 
-      for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-      output += "\n#{@tab}) : this ("
-      counter = 0
-      for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-      output += "\n#{@tab})\n}"
-    end
-
-    output
-  end
-
-  def initForEnum(objectType)
-    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
-
-    output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
-    output += "#{@tab}"
-    output += objectType.synthax_type.variables.map { |enumCase| enumCase.name.upcase }.join(",\n#{@tab}")
-    output += "\n}"
-    output
-  end
-
-  def handleInnerTypes(objectTypes, input)
-    output = input
-    for objectType in objectTypes
-      output += "\n#{resolveObjectType(objectType)}"
-      possibleNestedTypes = objectType.synthax_type.sameFileTypes
-      if possibleNestedTypes.size > 0
-        handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
-      end
-    end
-    output
   end
 
 -%>

@@ -59,4 +59,11 @@ module TypesToString
         @@enum
     end
 
+    # Abstract id for abstract
+    # @return [String]
+    @@abstract = "abstract"
+    def self.abstract
+        @@abstract
+    end
+
 end

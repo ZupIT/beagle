@@ -20,15 +20,14 @@ class UnitType < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "auto", :defaultValue => "AUTO"),
             EnumCase.new(:name => "real", :defaultValue => "REAL"),
-            EnumCase.new(:name => "percent", :defaultValue => "PERCENT")
+            EnumCase.new(:name => "percent", :defaultValue => "PERCENT"),
+            EnumCase.new(:name => "auto", :defaultValue => "AUTO")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => [TypesToString.string]
+            :package => "br.com.zup.beagle.widget.core"
         )
 
         super(synthax_type)

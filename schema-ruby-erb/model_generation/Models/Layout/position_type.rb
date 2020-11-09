@@ -20,14 +20,13 @@ class PositionType < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "relative", :defaultValue => "RELATIVE"),
-            EnumCase.new(:name => "absolute", :defaultValue => "ABSOLUTE")
+            EnumCase.new(:name => "absolute", :defaultValue => "ABSOLUTE"),
+            EnumCase.new(:name => "relative", :defaultValue => "RELATIVE")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => [TypesToString.string]
+            :package => "br.com.zup.beagle.core"
         )
 
         super(synthax_type)
