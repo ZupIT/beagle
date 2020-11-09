@@ -28,7 +28,7 @@
 
 
 # Keeping enum values
--keepclassmembers class * extends java.lang.Enum {
+-keepclassmembers class br.com.zup.beagle.** extends java.lang.Enum {
     <fields>;
     public static **[] values();
     public static ** valueOf(java.lang.String);
