@@ -149,7 +149,7 @@ class ListViewTest : BaseComponentTest() {
         // When
         listView.buildView(rootView)
         every { recyclerView.layoutManager } returns layoutManagerSlot.captured
-        scrollSlot.captured.onScrollStateChanged(recyclerView, RecyclerView.SCROLL_STATE_DRAGGING)
+        scrollSlot.captured.onScrolled(recyclerView, 0, 0)
 
         // Then
         onScrollEnd.forEach {
