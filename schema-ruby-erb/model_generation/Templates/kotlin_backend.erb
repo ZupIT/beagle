@@ -119,7 +119,7 @@
       output += " {"
       for variable in objectType.synthax_type.variables
         fieldType = variable.class == Variable ? "var" : "val"
-        output += "\n#{@tab}#{variable.accessor} #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{@tab}#{handleFieldAccessor(variable)}#{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
@@ -131,7 +131,7 @@
             output += "{"
           end
           fieldType = variable.class == Variable ? "var" : "val"
-          output += "\n#{@tab}#{variable.accessor} override #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
+          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
           counter += 1
         end
       end
@@ -154,7 +154,7 @@
       output += " ("
       for variable in objectType.synthax_type.variables
         fieldType = variable.class == Variable ? "var" : "val"
-        output += "\n#{@tab}#{variable.accessor} #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{@tab}#{handleFieldAccessor(variable)}#{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
@@ -169,7 +169,7 @@
         counter = 0 
         for variable in inherit.synthax_type.variables
           fieldType = variable.class == Variable ? "var" : "val"
-          output += "\n#{@tab}#{variable.accessor} override #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter)}"
+          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter)}"
           counter += 1
         end
       end
@@ -276,6 +276,14 @@
     type_name = @template_helper.fetch_type(variable.typeName)
     type_name = adapt_type_name_to_kotlin_specific(type_name)
     type_name
+  end
+
+  def handleFieldAccessor(variable)
+    output = ""
+    if variable.accessor != "public"
+      output += "#{variable.accessor} "
+    end
+    output
   end
 
   def handleTypeNameAndDefault(objectType, variable, shouldAddComma = false)
