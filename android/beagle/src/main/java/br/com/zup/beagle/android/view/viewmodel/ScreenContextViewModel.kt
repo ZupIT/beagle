@@ -27,7 +27,6 @@ import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.context.ImplicitContextManager
 import br.com.zup.beagle.android.utils.Observer
 
-@Suppress("TooManyFunctions")
 internal class ScreenContextViewModel(
     private val contextDataManager: ContextDataManager = ContextDataManager(),
     private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation(),
@@ -50,6 +49,10 @@ internal class ScreenContextViewModel(
 
     fun updateContext(originView: View, setContextInternal: SetContextInternal) {
         contextDataManager.updateContext(originView, setContextInternal)
+    }
+
+    fun onViewIdChanged(oldId: Int, newId: Int) {
+        contextDataManager.onViewIdChanged(oldId, newId)
     }
 
     fun <T> addBindingToContext(view: View, bind: Bind.Expression<T>, observer: Observer<T?>) {

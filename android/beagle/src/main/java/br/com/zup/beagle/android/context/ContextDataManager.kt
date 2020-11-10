@@ -68,6 +68,13 @@ internal class ContextDataManager(
         }
     }
 
+    fun onViewIdChanged(oldId: Int, newId: Int) {
+        contexts[oldId]?.let { context ->
+            contexts.put(newId, context)
+        }
+        contexts.remove(oldId)
+    }
+
     fun addContext(view: View, context: ContextData, shouldOverrideExistingContext: Boolean = false) {
         if (context.id == globalContext.context.id) {
             BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()

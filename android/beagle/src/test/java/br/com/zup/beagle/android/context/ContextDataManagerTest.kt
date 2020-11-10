@@ -535,4 +535,28 @@ class ContextDataManagerTest : BaseTest() {
         assertEquals(contexts[viewWithId.id], viewWithId.getContextBinding())
         assertNotEquals(contextsWithoutIdSizeBefore, contextsWithoutId.size)
     }
+
+    @Test
+    fun `GIVEN a view with oldId and context WHEN onViewIdChanged THEN should swipe context to newId`() {
+        // Given
+        val oldId = 0
+        val newId = 1
+        val contextData = ContextData(CONTEXT_ID, true)
+        val viewWithId = mockk<View>(relaxed = true) {
+            every { id } returns oldId
+            every { getContextBinding() } returns mockk(relaxed = true) {
+                every { context } returns contextData
+            }
+        }
+        contextDataManager.addContext(viewWithId, contextData)
+
+        val contexts = contextDataManager.getPrivateField<MutableMap<Int, ContextBinding>>("contexts")
+
+        // When
+        contextDataManager.onViewIdChanged(oldId, newId)
+
+        // Then
+        assertEquals(contexts[newId], viewWithId.getContextBinding())
+        assertNull(contexts[oldId])
+    }
 }
