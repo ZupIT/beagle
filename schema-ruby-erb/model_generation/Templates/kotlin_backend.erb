@@ -34,21 +34,32 @@
     output = ""
 
     for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager)
-      output += "\nimport #{qualifiedName}"
+      if !qualifiedName.include? "#{objectType.synthax_type.package}"
+        output += "\nimport #{qualifiedName}"
+      end
     end
 
     for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager)
-      output += "\nimport #{qualifiedName}"
+      if !qualifiedName.include? "#{objectType.synthax_type.package}"
+        output += "\nimport #{qualifiedName}"
+      end
     end
 
     for inherit in objectType.synthax_type.inheritFrom
-      output += "\nimport #{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
+      if !inherit.synthax_type.package.include? "#{objectType.synthax_type.package}"
+        output += "\nimport #{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
+      end
+      
       for qualifiedName in @template_helper.getImports(inherit.synthax_type.variables, import_manager)
-        output += "\nimport #{qualifiedName}"
+        if !qualifiedName.include? "#{objectType.synthax_type.package}"
+          output += "\nimport #{qualifiedName}"
+        end
       end
 
       for qualifiedName in @template_helper.getImports(inherit.synthax_type.variables, enum_import_manager)
-        output += "\nimport #{qualifiedName}"
+        if !qualifiedName.include? "#{objectType.synthax_type.package}"
+          output += "\nimport #{qualifiedName}"
+        end
       end
     end
 
@@ -66,15 +77,21 @@
     output = ""
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
-      output += "\nimport br.com.zup.beagle.widget.context.Bind"
+      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
+        output += "\nimport br.com.zup.beagle.widget.context.Bind"
+      end
     end
 
-    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional }
-      output += "\nimport br.com.zup.beagle.widget.context.valueOf"
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional } and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
+      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
+        output += "\nimport br.com.zup.beagle.widget.context.valueOf"
+      end
     end
 
-    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional }
-      output += "\nimport br.com.zup.beagle.widget.context.valueOfNullable"
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional } and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
+      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
+        output += "\nimport br.com.zup.beagle.widget.context.valueOfNullable"
+      end
     end
 
     output
