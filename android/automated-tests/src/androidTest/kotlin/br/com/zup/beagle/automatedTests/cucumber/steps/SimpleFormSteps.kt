@@ -50,7 +50,19 @@ class SimpleFormScreenSteps {
             .checkViewContainsText("SimpleForm", true)
     }
 
-    @When("^I click on textInput with the placeholder (.*) and insert my (.*)$")
+    @Then("^checks that the textInput with the place holder (.*) is on the screen$")
+    fun checkTextInputEmailInSimpleForm(field: String) {
+        ScreenRobot()
+            .checkViewContainsHint(field, true)
+    }
+
+    @Then("^checks that the button with the title (.*) is on the screen$")
+    fun checkButtonOnScreen(textButton: String) {
+        ScreenRobot()
+            .checkViewContainsText(textButton)
+    }
+
+    @When("^I click on textInput for email with (.*) and insert my (.*)$")
     fun insertEmailInTextInput(hint: String, email: String) {
         ScreenRobot()
             .checkViewContainsHint(hint)
@@ -59,7 +71,7 @@ class SimpleFormScreenSteps {
             .hideKeyboard()
     }
 
-    @When("^I click on textInput with hint (.*) and insert my (.*)$")
+    @When("^I click on textInput for password with (.*) and insert my (.*)$")
     fun insertPasswordInTextInput(hint: String, password: String) {
         ScreenRobot()
             .checkViewContainsHint(hint)
@@ -76,9 +88,9 @@ class SimpleFormScreenSteps {
     }
 
     @Then("^verify if (.*) is appear correctly$")
-    fun checkIfTextInputDataIsEqualAlert(dataAlert: String) {
+    fun checkIfTextInputDataIsEqualAlert(alertData: String) {
         ScreenRobot()
             .checkViewContainsText("Registered data", true)
-            .checkViewContainsText(dataAlert)
+            .checkViewContainsText(alertData)
     }
 }
