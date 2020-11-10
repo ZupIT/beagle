@@ -233,14 +233,16 @@ constructor(
 
     private fun configRecyclerViewScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
                 // listen if reach max and notify the ViewModel
                 checkIfNeedToCallScrollEnd(rootView)
                 if (cannotScrollDirectionally()) {
                     listViewIdViewModel.markHasCompletelyLoaded(recyclerView.id)
                 }
             }
+
         })
     }
 
