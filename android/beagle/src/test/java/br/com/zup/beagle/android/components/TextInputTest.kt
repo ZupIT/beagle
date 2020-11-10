@@ -29,16 +29,15 @@ import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.Runs
 import io.mockk.verify
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 const val VALUE = "Text Value"
 const val PLACE_HOLDER = "Text Hint"
@@ -107,32 +106,73 @@ class TextInputTest : BaseComponentTest() {
         verify(exactly = once()) { editText.isEnabled = READ_ONLY }
         verify(exactly = once()) { editText.isEnabled = DISABLED }
         verify(exactly = once()) { editText.visibility = View.INVISIBLE }
-        verify(exactly = once()) { editText.inputType = InputType.TYPE_CLASS_NUMBER }
         verify(exactly = once()) { editText.isFocusable = true }
         verify(exactly = once()) { editText.isFocusableInTouchMode = true }
     }
 
     @Test
-    fun `GIVEN a TextInput component WHEN its TypeInput type is set THEN the Edit view must be the same TYPE_CLASS`() {
-        //Given
-        val inputTypesAndroid = mutableListOf<Int>()
-        val inputTypesBeagle = TextInputType.values().toList()
-
-        every { editText.inputType = capture(inputTypesAndroid) } just Runs
+    fun `GIVEN a type DATE WHEN setInputType THEN should call setRawInputType with TYPE_CLASS_DATETIME`() {
+        // Given
+        val type = TextInputType.DATE
 
         // When
-        inputTypesBeagle.forEach {
-            val textInputView = callTextInput(it)
-            textInputView.buildView(rootView)
-        }
+        val textInput = callTextInput(type)
+        textInput.buildView(rootView)
 
-        //Then
-        assertEquals(listOf(
-            InputType.TYPE_CLASS_DATETIME,
-            InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
-            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD,
-            InputType.TYPE_CLASS_NUMBER,
-            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-        ), inputTypesAndroid)
+        // Then
+        verify(exactly = 1) { editText.setRawInputType(InputType.TYPE_CLASS_DATETIME) }
     }
+
+    @Test
+    fun `GIVEN a type EMAIL WHEN setInputType THEN should call setRawInputType with your respective type`() {
+        // Given
+        val type = TextInputType.EMAIL
+
+        // When
+        val textInput = callTextInput(type)
+        textInput.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { editText.setRawInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) }
+    }
+
+    @Test
+    fun `GIVEN a type PASSWORD WHEN setInputType THEN should call TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD`() {
+        // Given
+        val type = TextInputType.PASSWORD
+
+        // When
+        val textInput = callTextInput(type)
+        textInput.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD }
+    }
+
+    @Test
+    fun `GIVEN a type NUMBER WHEN setInputType THEN should call setRawInputType with TYPE_CLASS_NUMBER`() {
+        // Given
+        val type = TextInputType.NUMBER
+
+        // When
+        val textInput = callTextInput(type)
+        textInput.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { editText.setRawInputType(InputType.TYPE_CLASS_NUMBER) }
+    }
+
+    @Test
+    fun `GIVEN a type TEXT WHEN setInputType THEN should call setRawInputType with with your respective type`() {
+        // Given
+        val type = TextInputType.TEXT
+
+        // When
+        val textInput = callTextInput(type)
+        textInput.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { editText.setRawInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES) }
+    }
+
 }
