@@ -288,7 +288,7 @@ struct ListViewScreen: DeeplinkScreen {
                     ]
                 )
             ],
-            scrollThreshold: 80
+            scrollEndThreshold: 80
         )
     }
     
@@ -375,7 +375,7 @@ struct ListViewScreen: DeeplinkScreen {
                             ]
                         )
                     ],
-                    scrollThreshold: 80
+                    scrollEndThreshold: 80
                 )
             },
             iteratorName: "category"

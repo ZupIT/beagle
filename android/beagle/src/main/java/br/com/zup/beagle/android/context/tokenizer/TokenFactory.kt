@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("TooManyFunctions")
-
 package br.com.zup.beagle.android.context.tokenizer
 
 internal fun tokenOpenBracket() = GenericToken("(", TokenType.OPEN_BRACKET)
