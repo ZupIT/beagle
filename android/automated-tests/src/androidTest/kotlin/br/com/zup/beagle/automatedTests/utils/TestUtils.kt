@@ -26,7 +26,7 @@ import br.com.zup.beagle.automatedTests.activity.MainActivity
 class TestUtils {
 
     companion object {
-        fun <T: Activity> startActivity(activityTestRule: ActivityTestRule<T>, url: String) {
+        fun <T : Activity> startActivity(activityTestRule: ActivityTestRule<T>, url: String) {
 
             val intent = Intent()
             intent.putExtra(MainActivity.BFF_URL_KEY, url)
@@ -39,6 +39,5 @@ class TestUtils {
             activityTestRule.launchActivity(intent)
         }
     }
-
-
 }
+

@@ -59,11 +59,6 @@ enum ScreenElements: String {
     case PAGE_2_TEXT = "Page 2"
     case PAGE_3_TEXT = "Page 3"
 
-    //ScrollView Screen
-    case SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
-    case SCROLLVIEW_TEXT_1 = "Vertical ScrollView"
-    case SCROLLVIEW_TEXT_2 = "Horizontal ScrollView with scrollBars"
-
     //ListView Screen
     case LISTVIEW_SCREEN_HEADER = "Beagle ListView"
     case STATIC_LISTVIEW_TEXT_1 = "Static VERTICAL ListView"
