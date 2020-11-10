@@ -36,7 +36,7 @@ class ListViewTests: XCTestCase {
           - key: Optional<String>.none
           - onInit: Optional<Array<RawAction>>.none
           - onScrollEnd: Optional<Array<RawAction>>.none
-          - scrollThreshold: Optional<Int>.none
+          - scrollEndThreshold: Optional<Int>.none
           ▿ template: Container
             ▿ children: 3 elements
               ▿ UnknownComponent

@@ -203,7 +203,7 @@ final class ListViewUIComponent: UIView {
         let contentOffset = collection.contentOffset[keyPath: model.direction.pointKeyPath]
         let offset = contentOffset + frame.size[keyPath: model.direction.sizeKeyPath]
         
-        return (contentSize > 0) && (offset / contentSize * 100 >= model.scrollThreshold)
+        return (contentSize > 0) && (offset / contentSize * 100 >= model.scrollEndThreshold)
     }
 }
 
@@ -216,7 +216,7 @@ extension ListViewUIComponent {
         var template: RawComponent
         var iteratorName: String
         var onScrollEnd: [RawAction]?
-        var scrollThreshold: CGFloat
+        var scrollEndThreshold: CGFloat
     }
 }
 
