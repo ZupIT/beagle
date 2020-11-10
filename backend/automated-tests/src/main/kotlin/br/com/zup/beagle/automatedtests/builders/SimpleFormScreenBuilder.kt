@@ -27,7 +27,6 @@ import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.form.SimpleForm
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
