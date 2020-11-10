@@ -113,9 +113,10 @@ complexity:
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**', '**/widgets-dsl/**', '**/kotlin-core/**/builder/**', '**/android/beagle/**/builder/**']
-    thresholdInFiles: 11
-    thresholdInClasses: 11
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**', '**/widgets-dsl/**', 
+    '**/kotlin-core/**/builder/**', '**/android/beagle/**/builder/**', '**/android/logger/BeagleMessageLogs.kt', '**/android/view/ViewFactory.kt']
+    thresholdInFiles: 13
+    thresholdInClasses: 13
     thresholdInInterfaces: 11
     thresholdInObjects: 11
     thresholdInEnums: 11
