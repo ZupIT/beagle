@@ -34,7 +34,7 @@ extension ListView: ServerDrivenComponent {
                 template: template,
                 iteratorName: iteratorName ?? "item",
                 onScrollEnd: onScrollEnd,
-                scrollThreshold: CGFloat(scrollThreshold ?? 100)
+                scrollEndThreshold: CGFloat(scrollEndThreshold ?? 100)
             ),
             renderer: renderer
         )
