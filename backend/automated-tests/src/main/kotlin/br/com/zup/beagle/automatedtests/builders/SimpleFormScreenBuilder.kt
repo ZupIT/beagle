@@ -49,7 +49,7 @@ object SimpleFormScreenBuilder {
                 SimpleForm(
                     context = ContextData(id = "user", value = User(
                         email = "", password = "",
-                        placeholderEmail = "Type in your email", placeholderPassword = "Type in your password")
+                        placeholderEmail = "Type in your email", placeholderPassword = "Type in your pass")
                     ),
                     children = listOf(
                         TextInput(

@@ -58,7 +58,7 @@ class SimpleFormSteps: CucumberStepsDefinition {
             textField.typeText(text)
         }
         
-        When("^I click on button with title Click to Submit") { args, _ -> Void in
+        When("^I click on button with title Click to Submit") { _, _ -> Void in
             let button = self.application!.buttons[Seeds.submitButtonTitle]
             button.tap()
         }
@@ -68,8 +68,8 @@ class SimpleFormSteps: CucumberStepsDefinition {
             let email = args![0]
             let pass = args![1]
             
-            XCTAssertTrue(self.application!.textFields[Seeds.emailInputText].exists)
-            XCTAssertTrue(self.application!.textFields[Seeds.passInputText].exists)
+            XCTAssertTrue(self.application!.textFields[email].exists)
+            XCTAssertTrue(self.application!.textFields[pass].exists)
 
         }
     }
@@ -78,12 +78,9 @@ class SimpleFormSteps: CucumberStepsDefinition {
 // MARK: - Helpers
 fileprivate struct Seeds {
     static let screenTitle = "SimpleForm"
-    static let title = "Fill the form"
     static let emailPlaceholder = "Type in your email"
-    static let passPlaceholder = "Type in your password"
+    static let passPlaceholder = "Type in your pass"
     static let submitButtonTitle = "Click to Submit"
-    static let emailInputText = "teste@simpleform.com"
-    static let passInputText = "123"
 }
 
 
