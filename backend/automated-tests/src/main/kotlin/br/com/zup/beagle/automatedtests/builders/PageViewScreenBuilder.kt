@@ -18,11 +18,18 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.BLACK
 import br.com.zup.beagle.automatedtests.constants.LIGHT_GREY
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -30,60 +37,62 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.pager.PageIndicator
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
-data class PageViewText(
-    var pageOne: String = "",
-    var pageTwo: String = "",
-    var pageThree: String = ""
-)
-
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
-        navigationBar = NavigationBar(
-            "Beagle PageView",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "PageView",
-                        message = "This component is a specialized container " +
-                            "to hold pages (views) that may be swiped.",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
-        child = PageView(
-            pageIndicator = PageIndicator(
-                selectedColor = BLACK,
-                unselectedColor = LIGHT_GREY
-            ),
+        child = Container(
+            context = ContextData(id = "PageViewContext", value = 2),
             children = listOf(
-                Container(
-                    children = listOf(
-                        Text(text = "Page 1",textColor = "#000000")
+                Text("PageView Screen"),
+                Container(children = listOf(
+                    PageView(
+                        context = ContextData("currentPage", "@{PageViewContext}"),
+                        children = listOf(
+                            Text("pageOne"),
+                            Text("pageTwo"),
+                            Text("pageThree")
+                        ),
+                        onPageChange = listOf(
+                            SetContext(contextId = "PageViewContext", "@{onPageChange}")
+                        ),
+                        currentPage = expressionOf("@{PageViewContext}"),
+                        showArrow = true
                     )
-                ).applyFlex(Flex(grow = 1.0,alignItems = AlignItems.CENTER)),
-
-                Container(
-                    children = listOf(
-                        Text("Page 2",textColor = "#000000")
-                    )
-                ).applyFlex(Flex(grow = 1.0,alignItems = AlignItems.CENTER)),
-
-                Container(
-                children = listOf(
-                    Text("Page 3",textColor = "#000000")
                 )
-            ).applyFlex(Flex(grow = 1.0,alignItems = AlignItems.CENTER))
-            ) ,
-            context = ContextData(
-                id = "pageView",
-                value = "This is my Page 1"
+                ).applyStyle(Style(size = Size(height = UnitValue(40.0, UnitType.REAL)))),
+                Button(
+                    text = "SetCurrentPageToPageOne",
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "PageViewContext",
+                            value = 0
+                        ),
+                        Alert(message = "@{PageViewContext}")
+                    )
+                ),
+                Button(
+                    text = "SetCurrentPageToPageTwo",
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "PageViewContext",
+                            value = 1
+                        ),
+                        Alert(message = "@{PageViewContext}")
+                    )
+                ),
+                Button(
+                    text = "SetCurrentPageToPageThree",
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "PageViewContext",
+                            value = 2
+                        ),
+                        Alert(message = "@{PageViewContext}")
+                    )
+                )
             )
         )
     )
