@@ -18,35 +18,50 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
+@DisplayName("Given OnInit ViewModel")
 class OnInitViewModelTest {
 
     private val onInitViewModel = OnInitViewModel()
 
-    @Test
-    fun `GIVEN onInitiableComponentId WHEN setOnInitActionStatus THEN should set to onInitStatusByComponent id the given value`() {
-        // Given
-        val onInitiableComponentId = 10
-        val onInitCalled = true
+    @DisplayName("When set OnInit action status")
+    @Nested
+    inner class SetOnInitStatus {
 
-        // When
-        onInitViewModel.setOnInitActionStatus(onInitiableComponentId, onInitCalled)
-        val result = onInitViewModel.getOnInitActionStatus(onInitiableComponentId)
+        @DisplayName("Then should set to onInitStatusByComponent id the given value")
+        @Test
+        fun setOnInitActionStatus() {
+            // Given
+            val onInitiableComponentId = 10
+            val onInitCalled = true
 
-        // Then
-        assertEquals(onInitCalled, result)
+            // When
+            onInitViewModel.setOnInitActionStatus(onInitiableComponentId, onInitCalled)
+            val result = onInitViewModel.getOnInitActionStatus(onInitiableComponentId)
+
+            // Then
+            assertEquals(onInitCalled, result)
+        }
     }
 
-    @Test
-    fun `GIVEN onInitiableComponentId not found WHEN getOnInitActionStatus THEN should return false`() {
-        // Given
-        val onInitiableComponentId = 10
+    @DisplayName("When get OnInit action status not found")
+    @Nested
+    inner class GetOnInitStatus {
 
-        // When
-        val result = onInitViewModel.getOnInitActionStatus(onInitiableComponentId)
+        @DisplayName("Then should return false")
+        @Test
+        fun getOnInitActionStatus() {
+            // Given
+            val onInitiableComponentId = 10
 
-        // Then
-        assertFalse(result)
+            // When
+            val result = onInitViewModel.getOnInitActionStatus(onInitiableComponentId)
+
+            // Then
+            assertFalse(result)
+        }
     }
 }
