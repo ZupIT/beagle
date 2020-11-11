@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.compiler.shared
 
 import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeMirror

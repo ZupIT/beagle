@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-include ":sample"
-include ":beagle"
-include ":processor"
-include ":internal-processor"
-include ":android-annotation"
-include ":preview"
-include ":processor-shared-code"
-include ":annotation"
-include ":automated-tests"
+package br.com.zup.beagle.compiler.shared
 
-rootProject.name = "Beagle"
+data class BeagleClass(
+    val packageName: String,
+    val className: String
+) {
+    override fun toString(): String {
+        return "$packageName.$className"
+    }
+}

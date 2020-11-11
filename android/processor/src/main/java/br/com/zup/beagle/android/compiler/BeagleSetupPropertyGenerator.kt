@@ -19,12 +19,7 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementationManager
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
-import br.com.zup.beagle.compiler.ANALYTICS
-import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
-import br.com.zup.beagle.compiler.DESIGN_SYSTEM
-import br.com.zup.beagle.compiler.error
-import br.com.zup.beagle.compiler.extendsFromClass
-import br.com.zup.beagle.compiler.implementsInterface
+import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy

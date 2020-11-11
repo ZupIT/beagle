@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.compiler.beaglesetupmanage
 
-import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.shared.error
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
 

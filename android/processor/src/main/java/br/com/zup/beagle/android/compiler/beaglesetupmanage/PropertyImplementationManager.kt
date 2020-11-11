@@ -19,18 +19,18 @@ package br.com.zup.beagle.android.compiler.beaglesetupmanage
 import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE_GENERATED
 import br.com.zup.beagle.android.compiler.PropertySpecifications
 import br.com.zup.beagle.android.compiler.VALIDATOR_HANDLER_IMPL_NAME
-import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
-import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
-import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
-import br.com.zup.beagle.compiler.STORE_HANDLER
-import br.com.zup.beagle.compiler.URL_BUILDER_HANDLER
-import br.com.zup.beagle.compiler.BEAGLE_LOGGER
-import br.com.zup.beagle.compiler.BEAGLE_IMAGE_DOWNLOADER
-import br.com.zup.beagle.compiler.DESIGN_SYSTEM
-import br.com.zup.beagle.compiler.ANALYTICS
-import br.com.zup.beagle.compiler.VALIDATOR_HANDLER
-import br.com.zup.beagle.compiler.CONTROLLER_REFERENCE
-import br.com.zup.beagle.compiler.BeagleClass
+import br.com.zup.beagle.android.compiler.FORM_LOCAL_ACTION_HANDLER
+import br.com.zup.beagle.android.compiler.DEEP_LINK_HANDLER
+import br.com.zup.beagle.android.compiler.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.android.compiler.STORE_HANDLER
+import br.com.zup.beagle.android.compiler.URL_BUILDER_HANDLER
+import br.com.zup.beagle.android.compiler.BEAGLE_LOGGER
+import br.com.zup.beagle.android.compiler.BEAGLE_IMAGE_DOWNLOADER
+import br.com.zup.beagle.android.compiler.DESIGN_SYSTEM
+import br.com.zup.beagle.android.compiler.ANALYTICS
+import br.com.zup.beagle.android.compiler.VALIDATOR_HANDLER
+import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE
+import br.com.zup.beagle.compiler.shared.BeagleClass
 import javax.lang.model.element.TypeElement
 
 internal object PropertyImplementationManager {

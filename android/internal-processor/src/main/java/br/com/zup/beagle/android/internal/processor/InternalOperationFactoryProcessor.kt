@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.internal.processor
 
-import br.com.zup.beagle.compiler.ANDROID_OPERATION
-import br.com.zup.beagle.compiler.RegisteredOperationGenerator
-import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
+import br.com.zup.beagle.compiler.shared.RegisteredOperationGenerator
+import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec

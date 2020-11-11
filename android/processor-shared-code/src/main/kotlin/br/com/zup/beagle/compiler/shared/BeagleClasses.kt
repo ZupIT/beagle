@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.compiler.shared
 
-data class BeagleClass(
-    val packageName: String,
-    val className: String
-) {
-    override fun toString(): String {
-        return "$packageName.$className"
-    }
-}
+val ANDROID_OPERATION = BeagleClass(
+    packageName = "br.com.zup.beagle.android.operation",
+    className = "Operation"
+)
+
+val WIDGET_VIEW = BeagleClass(
+    "br.com.zup.beagle.android.widget",
+    "WidgetView"
+)
+
+val BEAGLE_CORE_WIDGET = BeagleClass(
+    "br.com.zup.beagle.widget",
+    "Widget"
+)
