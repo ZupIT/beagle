@@ -89,13 +89,13 @@ constructor(
      * @param direction define the list direction.
      * @param context define the contextData that be set to component.
      * @param onInit allows to define a list of actions to be performed when the Widget is displayed.
-     * @param dataSource it's an expression that points to a list of values used to populate the Widget
-     * @param template represents each cell in the list through a ServerDrivenComponent
-     * @param onScrollEnd list of actions performed when the list is scrolled to the end
-     * @param scrollEndThreshold sets the scrolled percentage of the list to trigger onScrollEnd
-     * @param iteratorName is the context identifier of each cell
+     * @param dataSource it's an expression that points to a list of values used to populate the Widget.
+     * @param template represents each cell in the list through a ServerDrivenComponent.
+     * @param onScrollEnd list of actions performed when the list is scrolled to the end.
+     * @param scrollEndThreshold sets the scrolled percentage of the list to trigger onScrollEnd.
+     * @param iteratorName is the context identifier of each cell.
      * @param key points to a unique value present in each dataSource item
-     * used as a suffix in the component ids within the Widget
+     * used as a suffix in the component ids within the Widget.
      */
     constructor(
         direction: ListDirection,
@@ -105,7 +105,7 @@ constructor(
         template: ServerDrivenComponent,
         onScrollEnd: List<Action>? = null,
         scrollEndThreshold: Int? = null,
-        iteratorName: String,
+        iteratorName: String = "item",
         key: String? = null
     ) : this(
         null,
