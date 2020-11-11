@@ -18,7 +18,9 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.context.ContextActionExecutor
+import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
 
 /**
@@ -46,25 +48,36 @@ interface OnInitiableComponent {
 
 /**
  * Class that implements onInitiableComponent behavior
- * @property onInitCalled tells if onInit actions has been called
+ * @property onInitViewModel manages the onInit called status
  */
 class OnInitiableComponentImpl(override val onInit: List<Action>?) : OnInitiableComponent {
 
     @Transient
-    private var onInitCalled = false
+    private lateinit var onInitViewModel: OnInitViewModel
 
+    @Transient
+    private lateinit var origin: View
+
+    /**
+     * Execute the actions present in the onInit property as soon as the component is attached to window.
+     * Call this method preferably from the component's buildView method.
+     */
     override fun handleOnInit(rootView: RootView, origin: View) {
+        onInitViewModel = rootView.generateViewModelInstance()
+        this.origin = origin
         onInit?.let {
-            addListenerToExecuteOnInit(rootView, origin)
+            addListenerToExecuteOnInit(rootView)
         }
     }
 
-    private fun addListenerToExecuteOnInit(rootView: RootView, origin: View) {
+    private fun addListenerToExecuteOnInit(rootView: RootView) {
         origin.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
-                if (!onInitCalled) {
-                    ContextActionExecutor.executeActions(rootView, origin, onInit)
-                    onInitCalled = true
+                if (!onInitViewModel.getOnInitActionStatus(origin.id)) {
+                    onInit?.forEach {
+                        it.handleEvent(rootView, origin, it)
+                    }
+                    onInitViewModel.setOnInitActionStatus(origin.id, true)
                 }
             }
 
@@ -77,6 +90,6 @@ class OnInitiableComponentImpl(override val onInit: List<Action>?) : OnInitiable
      * regardless of whether they have already been executed.
      */
     override fun markToRerunOnInit() {
-        onInitCalled = false
+        onInitViewModel.setOnInitActionStatus(origin.id, false)
     }
 }
