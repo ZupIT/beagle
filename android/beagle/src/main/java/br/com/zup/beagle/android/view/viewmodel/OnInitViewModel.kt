@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.android.view.viewmodel
 
-plugins {
-    id 'org.springframework.boot' version '2.3.5.RELEASE'
-}
+import androidx.lifecycle.ViewModel
 
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlinReflect
-    implementation project(Dependencies.Modules.springStarter)
-    implementation Dependencies.SpringLibraries.actuatorStarter
+internal class OnInitViewModel : ViewModel() {
+
+    private val onInitStatusByComponent: MutableMap<Int, Boolean> = mutableMapOf()
+
+    fun setOnInitActionStatus(onInitiableComponentId: Int, onInitCalled: Boolean) {
+        onInitStatusByComponent[onInitiableComponentId] = onInitCalled
+    }
+
+    fun getOnInitActionStatus(onInitiableComponentId: Int) = onInitStatusByComponent[onInitiableComponentId] ?: false
 }
