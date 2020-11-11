@@ -20,6 +20,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.R
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
@@ -31,6 +32,8 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal var viewFactory = ViewFactory()
@@ -47,9 +50,12 @@ fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     actions: List<Action>,
-    context: ContextData? = null
+    context: ContextData? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, actions, context)
+    this is IdentifierComponent
+    this is WidgetView
+    contextActionExecutor.executeActions(rootView, origin, this, actions, context, analyticsHandleEvent)
 }
 
 /**
@@ -67,10 +73,11 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     actions: List<Action>,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
-        ?: handleEvent(rootView, origin, actions)
+    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue), analyticsHandleEvent) }
+        ?: handleEvent(rootView, origin, actions, analyticsHandleEvent = analyticsHandleEvent)
 }
 
 /**
@@ -85,9 +92,10 @@ fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     action: Action,
-    context: ContextData? = null
+    context: ContextData? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
+    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context, analyticsHandleEvent)
 }
 
 /**
@@ -105,10 +113,11 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     action: Action,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
-        ?: handleEvent(rootView, origin, action)
+    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue), analyticsHandleEvent) }
+        ?: handleEvent(rootView, origin, action, analyticsHandleEvent = analyticsHandleEvent)
 }
 
 /**
@@ -145,17 +154,30 @@ internal fun <T> internalObserveBindChanges(
  * @property activity <p>is the reference for your activity.
  * Make sure to use this method if you are inside a Activity because of the lifecycle</p>
  */
-fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id.beagle_default_id): View =
-    this.toView(ActivityRootView(activity, idView))
+fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id.beagle_default_id): View {
+    var screenId: String = ""
+    if (this is IdentifierComponent) {
+        this.id?.let {
+            screenId = it
+        }
+    }
+    return this.toView(ActivityRootView(activity, idView, screenId))
+}
 
 /**
  * Transform your Component to a view.
  * @property fragment <p>is the reference for your fragment.
  * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  */
-fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View =
-    this.toView(FragmentRootView(fragment, idView))
-
+fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View {
+    var screenId: String = ""
+    if (this is IdentifierComponent) {
+        this.id?.let {
+            screenId = it
+        }
+    }
+    return this.toView(FragmentRootView(fragment, idView, screenId))
+}
 
 internal fun ServerDrivenComponent.toView(rootView: RootView): View {
     val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()

@@ -33,6 +33,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.components.layout.ScreenComponent
@@ -184,7 +185,7 @@ internal class ToolbarManager {
             toolbar.menu.add(Menu.NONE, items[i].id?.toAndroidId() ?: i, Menu.NONE, items[i].text).apply {
                 setOnMenuItemClickListener {
                     val action = items[i].action
-                    action.handleEvent(rootView, toolbar, action)
+                    action.handleEvent(rootView, toolbar, action, analyticsHandleEvent = AnalyticsHandleEvent(screenComponent))
                     return@setOnMenuItemClickListener true
                 }
 
@@ -209,7 +210,7 @@ internal class ToolbarManager {
             }
         }
     }
-    
+
     @Suppress("LongParameterList")
     private fun MenuItem.configMenuItem(
         design: DesignSystem?,

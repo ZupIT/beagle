@@ -16,9 +16,17 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.ServerDrivenComponent
 
-abstract class ActionAnalytics: Action{
-    var analytics : ActionAnalyticsConfig? = null
-    val type : String? = null
+abstract class ActionAnalytics : Action {
+    abstract var analytics: ActionAnalyticsConfig?
+    abstract val type: String?
+    abstract fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent? = null)
+
+    override fun execute(rootView: RootView, origin: View) {
+        this.execute(rootView, origin, null)
+    }
 }

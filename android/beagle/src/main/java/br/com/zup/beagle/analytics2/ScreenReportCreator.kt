@@ -16,8 +16,23 @@
 
 package br.com.zup.beagle.analytics2
 
-interface AnalyticsRecord {
-    val type : String
-    val platform : String
-    val attributes : HashMap<String, Any>
+object ScreenReportCreator {
+
+    fun createScreenLocalReport(screenId : String) = object : AnalyticsRecord {
+        override val type: String
+            get() = "screen"
+        override val platform: String
+            get() = "android"
+        override val attributes: HashMap<String, Any>
+            get() = hashMapOf("screenId" to screenId)
+    }
+
+    fun createScreenRemoteReport(url : String) = object : AnalyticsRecord {
+        override val type: String
+            get() = "screen"
+        override val platform: String
+            get() = "android"
+        override val attributes: HashMap<String, Any>
+            get() = hashMapOf("url" to url)
+    }
 }

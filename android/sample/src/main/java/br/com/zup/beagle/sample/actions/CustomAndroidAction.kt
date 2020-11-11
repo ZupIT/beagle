@@ -17,16 +17,20 @@
 package br.com.zup.beagle.sample.actions
 
 import android.view.View
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 @RegisterAction
 data class CustomAndroidAction(
     val value: String,
-    val intValue: Int
+    val intValue: Int,
+    override var analytics: ActionAnalyticsConfig?,
+    override val type: String?
 ) : ActionAnalytics() {
-    override fun execute(rootView: RootView, origin: View) {
+    override fun execute(rootView: RootView, origin: View, originComponent : ServerDrivenComponent?) {
 
     }
 }

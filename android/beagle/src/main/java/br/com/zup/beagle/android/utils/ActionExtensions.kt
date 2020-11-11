@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import android.view.View
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextActionExecutor
@@ -43,9 +44,11 @@ fun Action.handleEvent(
     rootView: RootView,
     origin: View,
     actions: List<Action>,
-    context: ContextData? = null
+    context: ContextData? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, actions, context)
+
+    contextActionExecutor.executeActions(rootView, origin, this, actions, context, analyticsHandleEvent)
 }
 
 /**
@@ -63,10 +66,11 @@ fun Action.handleEvent(
     origin: View,
     actions: List<Action>,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
-        ?: handleEvent(rootView, origin, actions)
+    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue), analyticsHandleEvent) }
+        ?: handleEvent(rootView = rootView, origin = origin, actions = actions, analyticsHandleEvent = analyticsHandleEvent)
 }
 
 /**
@@ -81,9 +85,10 @@ fun Action.handleEvent(
     rootView: RootView,
     origin: View,
     action: Action,
-    context: ContextData? = null
+    context: ContextData? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
+    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context, analyticsHandleEvent)
 }
 
 /**
@@ -101,10 +106,11 @@ fun Action.handleEvent(
     origin: View,
     action: Action,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
-        ?: handleEvent(rootView, origin, action)
+    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue), analyticsHandleEvent) }
+        ?: handleEvent(rootView = rootView, origin = origin, action = action, analyticsHandleEvent = analyticsHandleEvent)
 }
 
 /**

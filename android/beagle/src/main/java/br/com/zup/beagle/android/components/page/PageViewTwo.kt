@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
@@ -92,7 +93,7 @@ internal data class PageViewTwo(
 
     private fun executeActions(viewPager: BeaglePageView, rootView: RootView, position: Int) {
         onPageChange?.let { listAction ->
-            handleEvent(rootView, viewPager, listAction, ContextData("onPageChange", position))
+            handleEvent(rootView, viewPager, listAction, ContextData("onPageChange", position), analyticsHandleEvent = AnalyticsHandleEvent(this@PageViewTwo, "onPageChange"))
         }
     }
 

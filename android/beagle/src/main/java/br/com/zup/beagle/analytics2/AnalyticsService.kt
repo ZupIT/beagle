@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.analytics2
 
+import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import kotlin.reflect.KClass
-import kotlin.reflect.full.memberProperties
+import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.widget.RootView
+import java.lang.Exception
 
 class AnalyticsService(private val analyticsProvider: AnalyticsProvider? = null) {
 
@@ -36,28 +36,25 @@ class AnalyticsService(private val analyticsProvider: AnalyticsProvider? = null)
         }
     }
 
-    fun createActionRecord(action: Action) {
-        analyticsProvider?.let { analyticsProvider ->
-            generateActionReport(getActionAnalytics(action), action, analyticsProvider)
-        }
-    }
+    fun createActionRecord(rootView: RootView, origin: View, action: Action, analyticsHandleEvent: AnalyticsHandleEvent? = null) {
+        if (action is ActionAnalytics)
+            analyticsProvider?.let { analyticsProvider ->
+                val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(action)
+                if (shouldReport(config)) {
+                    try{
+                        analyticsProvider.createRecord(
+                            ActionRecordCreator.createRecord(rootView, origin, config, action, analyticsHandleEvent)
+                        )
+                    } catch (e : Exception){
 
-    private fun generateActionReport(actionAnalyticsConfig: ActionAnalyticsConfig, action: Action, analyticsProvider : AnalyticsProvider) {
-        if (shouldReport(actionAnalyticsConfig)) {
-            analyticsProvider.createRecord(object : AnalyticsRecord {
-                override val type: String
-                    get() = "action"
-                override val platform: String
-                    get() = "android"
-                override val attributes: HashMap<String, Any>
-                    get() = generateAttributes(actionAnalyticsConfig, action)
-            })
-        }
+                    }
+                }
+            }
     }
 
     private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
 
-    private fun getActionAnalytics(action: Action): ActionAnalyticsConfig {
+    private fun createAConfigFromActionAnalyticsOrAnalyticsConfig(action: ActionAnalytics): ActionAnalyticsConfig {
         action.analytics?.let { actionAnalytics ->
             return ActionAnalyticsConfig(
                 enable = actionAnalytics.enable,
@@ -67,57 +64,27 @@ class AnalyticsService(private val analyticsProvider: AnalyticsProvider? = null)
         return actionAnalyticsFromConfig(action)
     }
 
-    private fun actionAnalyticsFromConfig(action: Action): ActionAnalyticsConfig {
-        val key = createKey(action)
+    private fun actionAnalyticsFromConfig(action: ActionAnalytics): ActionAnalyticsConfig {
+        val key = action.type
         val attributeList = analyticsConfig.actions[key]
         return ActionAnalyticsConfig(enable = attributeList != null, attributes = attributeList)
     }
 
-    private fun generateAttributes(actionAnalyticsConfig: ActionAnalyticsConfig, action: Action): HashMap<String, Any>{
-        val hashMap : HashMap<String, Any> = HashMap()
-        actionAnalyticsConfig.attributes?.forEach{
-            (action::class as KClass<Action>).memberProperties.forEach { property ->
-
-                val needToReport = actionAnalyticsConfig.attributes?.contains(property.name) ?: false
-                if (needToReport){
-                    val value = property.get(action)
-                    value?.let{
-
-                        hashMap[property.name] = value
-                    }
-                }
-
-            }
-        }
-        actionAnalyticsConfig.additionalEntries?.let {
-            hashMap.putAll(it)
-        }
-        return hashMap
-    }
-
-    private fun createKey(action: Action): String =
-        if (isCustom(action)) "custom:" + action::class.simpleName else "beagle:" + action::class.simpleName
-
-    fun isCustom(action: Action): Boolean =
-        BeagleEnvironment.beagleSdk.registeredActions().contains(action::class.java)
-
-    fun createScreenRecord(attribute: HashMap<String, Any>) {
+    fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
         analyticsProvider?.let { analyticsProvider ->
-            if (this::analyticsConfig.isInitialized) {
-                val screen = analyticsConfig.enableScreenAnalytics ?: false
-                if (screen) {
-                    analyticsProvider.createRecord(createScreenRecordReturn(attribute))
+            if (isAnalyticsConfigInitialized()) {
+                if (shouldReportScreen()) {
+                    if (isLocalScreen)
+                        analyticsProvider.createRecord(ScreenReportCreator.createScreenLocalReport(screenIdentifier))
+                    else
+                        analyticsProvider.createRecord(ScreenReportCreator.createScreenRemoteReport(screenIdentifier))
                 }
             }
         }
     }
 
-    private fun createScreenRecordReturn(attribute: HashMap<String, Any>) = object : AnalyticsRecord {
-        override val type: String
-            get() = "screen"
-        override val platform: String
-            get() = "android"
-        override val attributes: HashMap<String, Any>
-            get() = attribute
-    }
+    private fun isAnalyticsConfigInitialized() = this::analyticsConfig.isInitialized
+
+    private fun shouldReportScreen() = analyticsConfig.enableScreenAnalytics ?: false
+
 }

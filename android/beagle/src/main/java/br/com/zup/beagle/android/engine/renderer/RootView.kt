@@ -31,7 +31,8 @@ import br.com.zup.beagle.android.widget.RootView
  */
 class FragmentRootView(
     val fragment: Fragment,
-    private val parentId: Int
+    private val parentId: Int,
+    private val screenId : String
 ) : RootView {
 
     override fun getContext(): Context = fragment.requireContext()
@@ -41,6 +42,8 @@ class FragmentRootView(
     override fun getViewModelStoreOwner(): ViewModelStoreOwner = fragment
 
     override fun getParentId(): Int = parentId
+
+    override fun getScreenId(): String = screenId
 }
 
 /**
@@ -51,7 +54,8 @@ class FragmentRootView(
  */
 class ActivityRootView(
     val activity: AppCompatActivity,
-    private val parentId: Int
+    private val parentId: Int,
+    private val screenId : String
 ) : RootView {
 
     override fun getContext(): Context = activity
@@ -61,4 +65,6 @@ class ActivityRootView(
     override fun getViewModelStoreOwner(): ViewModelStoreOwner = activity
 
     override fun getParentId(): Int = parentId
+
+    override fun getScreenId(): String = screenId
 }

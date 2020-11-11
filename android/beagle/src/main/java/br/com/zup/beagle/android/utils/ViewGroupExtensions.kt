@@ -46,7 +46,7 @@ fun ViewGroup.loadView(
 ) {
     loadView(
         viewGroup = this,
-        rootView = ActivityRootView(activity, this.id),
+        rootView = ActivityRootView(activity, this.id, screenRequest.url),
         screenRequest = screenRequest,
         listener = null,
         newListener = object : OnServerStateChanged {
@@ -66,7 +66,7 @@ fun ViewGroup.loadView(
 ) {
     loadView(
         viewGroup = this,
-        rootView = FragmentRootView(fragment, this.id),
+        rootView = FragmentRootView(fragment, this.id, screenRequest.url),
         screenRequest = screenRequest,
         listener = null,
         newListener = object : OnServerStateChanged {
@@ -87,7 +87,13 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null
 ) {
-    loadView(this, ActivityRootView(activity, this.id), screenRequest, null, listener)
+    loadView(
+        this,
+        ActivityRootView(activity, this.id, screenRequest.url),
+        screenRequest,
+        null,
+        listener
+    )
 }
 
 /**
@@ -102,7 +108,12 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null
 ) {
-    loadView(this, FragmentRootView(fragment, this.id), screenRequest, null, listener)
+    loadView(this,
+        FragmentRootView(fragment, this.id, screenRequest.url),
+        screenRequest,
+        null,
+        listener
+    )
 }
 
 /**
@@ -118,7 +129,11 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnStateChanged? = null
 ) {
-    loadView(this, ActivityRootView(activity, this.id), screenRequest, listener)
+    loadView(this,
+        ActivityRootView(activity, this.id, screenRequest.url),
+        screenRequest,
+        listener
+    )
 }
 
 /**
@@ -134,7 +149,11 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnStateChanged? = null
 ) {
-    loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
+    loadView(this,
+        FragmentRootView(fragment, this.id, screenRequest.url),
+        screenRequest,
+        listener
+    )
 }
 
 private fun loadView(
@@ -167,7 +186,7 @@ private fun loadView(
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
-    this.renderScreen(ActivityRootView(activity, this.id), screenJson)
+    this.renderScreen(ActivityRootView(activity, this.id,""), screenJson)
 }
 
 /**
@@ -177,7 +196,7 @@ fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
-    this.renderScreen(FragmentRootView(fragment, this.id), screenJson)
+    this.renderScreen(FragmentRootView(fragment, this.id,""), screenJson)
 }
 
 internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String) {

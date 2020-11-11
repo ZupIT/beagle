@@ -21,6 +21,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
@@ -134,7 +135,8 @@ data class TextInput(
                     ContextData(
                         id = "onChange",
                         value = mapOf(VALUE_KEY to newText.toString())
-                    )
+                    ),
+                    analyticsHandleEvent = AnalyticsHandleEvent(this@TextInput, "onChange")
                 )
             }
         }
@@ -155,7 +157,8 @@ data class TextInput(
                         ContextData(
                             id = "onFocus",
                             value = mapOf(VALUE_KEY to text.toString())
-                        )
+                        ),
+                        AnalyticsHandleEvent(this@TextInput, "onFocus")
                     )
                 }
             } else {
@@ -167,7 +170,8 @@ data class TextInput(
                         ContextData(
                             id = "onBlur",
                             value = mapOf(VALUE_KEY to text.toString())
-                        )
+                        ),
+                        analyticsHandleEvent = AnalyticsHandleEvent(this@TextInput, "onBlur")
                     )
                 }
             }

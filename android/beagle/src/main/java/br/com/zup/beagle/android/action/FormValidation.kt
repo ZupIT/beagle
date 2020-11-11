@@ -17,10 +17,13 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * Configures the error messages returned by a service external to the application.
@@ -32,13 +35,15 @@ import br.com.zup.beagle.android.widget.RootView
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 internal class FormValidation(
-    val errors: List<FieldError>
+    val errors: List<FieldError>,
+    override var analytics: ActionAnalyticsConfig? = null,
+    override val type: String? = null
 ) : ActionAnalytics() {
 
     @Transient
     var formInputs: List<FormInput>? = null
 
-    override fun execute(rootView: RootView, origin: View) {
+    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
         errors.forEach { error ->
             val formInput = formInputs?.find {
                 it.name == error.inputName

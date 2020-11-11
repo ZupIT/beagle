@@ -17,7 +17,9 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
@@ -32,13 +34,14 @@ internal object ContextActionExecutor {
         origin: View,
         sender: Any,
         actions: List<Action>,
-        context: ContextData? = null
+        context: ContextData? = null,
+        analyticsHandleEvent:  AnalyticsHandleEvent? = null
     ) {
         if (context != null) {
             createImplicitContextForActions(rootView, sender, context, actions)
         }
 
-        executeActions(rootView, origin, actions)
+        executeActions(rootView, origin, actions, analyticsHandleEvent)
     }
 
     private fun createImplicitContextForActions(
@@ -51,12 +54,19 @@ internal object ContextActionExecutor {
         viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
 
-    fun executeActions(rootView: RootView, origin: View, actions: List<Action>?) {
-        actions?.forEach {  action ->
+    fun executeActions(rootView: RootView,
+                       origin: View,
+                       actions: List<Action>?,
+                       analyticsHandleEvent: AnalyticsHandleEvent? = null
+    ) {
+        actions?.forEach { action ->
             if (action is AsyncAction) {
                 val viewModel = rootView.generateViewModelInstance<AsyncActionViewModel>()
                 viewModel.onAsyncActionExecuted(AsyncActionData(origin, action))
                 action.onActionStarted()
+            }
+            if(action is ActionAnalytics){
+                action.execute(rootView, origin, analyticsHandleEvent?.originComponent)
             }
             action.execute(rootView, origin)
         }

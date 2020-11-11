@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormRemoteAction
@@ -218,7 +219,7 @@ data class Form(
                     data = formsValue.plus(newAction.data)
                 )
             }
-            handleEvent(rootView, view, newAction)
+            handleEvent(rootView, view, newAction, analyticsHandleEvent = AnalyticsHandleEvent(this@Form, "onSubmit"))
         }
     }
 
@@ -231,7 +232,7 @@ data class Form(
                 if (formResult.action is FormValidation) {
                     formResult.action.formInputs = formInputs
                 }
-                handleEvent(rootView, view, formResult.action)
+                handleEvent(rootView, view, formResult.action, analyticsHandleEvent = AnalyticsHandleEvent(this@Form))
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.FormError(formResult.throwable){ handleFormSubmit(rootView, view) }

@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget
+package br.com.zup.beagle.analytics2
 
-import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.AccessibilityComponent
-import br.com.zup.beagle.core.IdentifierComponent
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.StyleComponent
+import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.Widget
 
-/**
- * Base of all widgets
- *
- */
-abstract class Widget : StyleComponent, AccessibilityComponent,
-    IdentifierComponent {
-    val beagleType : String? = null
-    override var id: String? = null
-    override var style: Style? = null
-    override var accessibility: Accessibility? = null
-}
+data class AnalyticsHandleEvent(
+    val originComponent: ServerDrivenComponent? = null,
+    val analyticsValue: String? = null
+)

@@ -19,11 +19,13 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.action.Mode.*
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -63,10 +65,12 @@ enum class Mode {
 data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
-    var mode: Mode? = Mode.APPEND
+    var mode: Mode? = Mode.APPEND,
+    override var analytics: ActionAnalyticsConfig? = null,
+    override val type: String? = null
 ) : ActionAnalytics() {
 
-    override fun execute(rootView: RootView, origin: View) {
+    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
         try {
             val view = (rootView.getContext() as AppCompatActivity).findViewById<ViewGroup>(componentId.toAndroidId())
             val viewList = convertServerDrivenListOnViewList(value, rootView)
