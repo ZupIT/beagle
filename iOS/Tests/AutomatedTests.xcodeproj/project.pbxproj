@@ -622,23 +622,23 @@
 		6B4F7E7724C656FC003F461A /* Steps */ = {
 			isa = PBXGroup;
 			children = (
-				6B4F7E7824C659AF003F461A /* ButtonSteps.swift */,
-				6B4F7E7E24C71D04003F461A /* TabViewSteps.swift */,
-				6B4F7E8024C728F8003F461A /* ImageSteps.swift */,
-				6B4F7E8224C7943C003F461A /* PageViewSteps.swift */,
-				6B4F7E8424C9C5F9003F461A /* ListViewSteps.swift */,
-				6B4F7E8824C9C621003F461A /* ScrollViewSteps.swift */,
-				6B4F7E8A24C9C637003F461A /* TouchableSteps.swift */,
-				6B9ADC5624D88FD300097605 /* SimpleFormSteps.swift */,
-				F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */,
-				251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */,
 				57A9F3582538E21D00F75396 /* AddChildrenSteps.swift */,
-				17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */,
-				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
-				174096E8252B8FB10009C749 /* NavigateSteps.swift */,
-				0D0165ED254C5299000A48AD /* TextSteps.swift */,
 				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
+				6B4F7E7824C659AF003F461A /* ButtonSteps.swift */,
+				251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */,
+				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
+				F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */,
+				6B4F7E8024C728F8003F461A /* ImageSteps.swift */,
+				6B4F7E8424C9C5F9003F461A /* ListViewSteps.swift */,
+				174096E8252B8FB10009C749 /* NavigateSteps.swift */,
+				6B4F7E8224C7943C003F461A /* PageViewSteps.swift */,
+				6B4F7E8824C9C621003F461A /* ScrollViewSteps.swift */,
+				17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */,
+				6B9ADC5624D88FD300097605 /* SimpleFormSteps.swift */,
+				6B4F7E7E24C71D04003F461A /* TabViewSteps.swift */,
 				25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */,
+				0D0165ED254C5299000A48AD /* TextSteps.swift */,
+				6B4F7E8A24C9C637003F461A /* TouchableSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
