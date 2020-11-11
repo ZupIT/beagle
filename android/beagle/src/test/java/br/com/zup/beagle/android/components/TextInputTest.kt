@@ -37,6 +37,8 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 const val VALUE = "Text Value"
@@ -47,6 +49,7 @@ const val HIDDEN = true
 const val STYLE_ID = "Style"
 val TYPE = TextInputType.NUMBER
 
+@DisplayName("Given Text Input")
 class TextInputTest : BaseComponentTest() {
 
     private val editText: EditText = mockk(relaxed = true, relaxUnitFun = true)
@@ -110,21 +113,28 @@ class TextInputTest : BaseComponentTest() {
         verify(exactly = once()) { editText.isFocusableInTouchMode = true }
     }
 
-    @Test
-    fun `GIVEN a type DATE WHEN setInputType THEN should call setRawInputType with TYPE_CLASS_DATETIME`() {
-        // Given
-        val type = TextInputType.DATE
+    @DisplayName("When passing input type")
+    @Nested
+    inner class InputTypeTest {
 
-        // When
-        val textInput = callTextInput(type)
-        textInput.buildView(rootView)
+        @Test
+        @DisplayName("Then should call setRawInputType with TYPE_CLASS_DATETIME")
+        fun testInputTypeDate() {
+            // Given
+            val type = TextInputType.DATE
 
-        // Then
-        verify(exactly = 1) { editText.setRawInputType(InputType.TYPE_CLASS_DATETIME) }
+            // When
+            val textInput = callTextInput(type)
+            textInput.buildView(rootView)
+
+            // Then
+            verify(exactly = 1) { editText.setRawInputType(InputType.TYPE_CLASS_DATETIME) }
+        }
     }
 
     @Test
-    fun `GIVEN a type EMAIL WHEN setInputType THEN should call setRawInputType with your respective type`() {
+    @DisplayName("Then should call setRawInputType with TYPE_TEXT_VARIATION_EMAIL_ADDRESS")
+    fun setInputTypeEmail() {
         // Given
         val type = TextInputType.EMAIL
 
@@ -137,7 +147,8 @@ class TextInputTest : BaseComponentTest() {
     }
 
     @Test
-    fun `GIVEN a type PASSWORD WHEN setInputType THEN should call TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD`() {
+    @DisplayName("Then should call TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD")
+    fun setInputTypePassword() {
         // Given
         val type = TextInputType.PASSWORD
 
@@ -150,7 +161,8 @@ class TextInputTest : BaseComponentTest() {
     }
 
     @Test
-    fun `GIVEN a type NUMBER WHEN setInputType THEN should call setRawInputType with TYPE_CLASS_NUMBER`() {
+    @DisplayName("Then should call setRawInputType with TYPE_CLASS_NUMBER")
+    fun setInputTypeNumber() {
         // Given
         val type = TextInputType.NUMBER
 
@@ -163,7 +175,8 @@ class TextInputTest : BaseComponentTest() {
     }
 
     @Test
-    fun `GIVEN a type TEXT WHEN setInputType THEN should call setRawInputType with with your respective type`() {
+    @DisplayName(" Then should call setRawInputType with TYPE_CLASS_TEXT or TYPE_TEXT_FLAG_CAP_SENTENCES")
+    fun setInputTypeText() {
         // Given
         val type = TextInputType.TEXT
 
