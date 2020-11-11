@@ -25,8 +25,10 @@ import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.action.SubmitForm
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.form.SimpleForm
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
@@ -49,7 +51,7 @@ object SimpleFormScreenBuilder {
                 SimpleForm(
                     context = ContextData(id = "user", value = User(
                         email = "", password = "",
-                        placeholderEmail = "Type in your email", placeholderPassword = "Type in your pass")
+                        placeholderEmail = "Type in your email", placeholderPassword = "Type in your password")
                     ),
                     children = listOf(
                         TextInput(

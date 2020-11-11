@@ -37,7 +37,7 @@ class SimpleFormSteps: CucumberStepsDefinition {
         // Scenario 1
         Then("^all my children components should render their respective attributes correctly$") { _, _ -> Void in
             XCTAssertTrue(self.application!.textFields[placeholder: Seeds.emailPlaceholder]!.exists)
-            XCTAssertTrue(self.application!.textFields[placeholder: Seeds.passPlaceholder]!.exists)
+            XCTAssertTrue(self.application!.textFields[placeholder: "Type in your password"]!.exists)
             XCTAssertTrue(self.application!.buttons[Seeds.submitButtonTitle].exists)
         }
 
@@ -53,7 +53,7 @@ class SimpleFormSteps: CucumberStepsDefinition {
         When("^I click on a textInput with password Type and type in my \"([^\\\"]*)\"$") { args, _ -> Void in
             let text = args![0]
 
-            let textField = self.application!.textFields[placeholder: Seeds.passPlaceholder]!
+            let textField = self.application!.textFields[placeholder: "Type in your password"]!
             textField.tap()
             textField.typeText(text)
         }
@@ -79,7 +79,6 @@ class SimpleFormSteps: CucumberStepsDefinition {
 fileprivate struct Seeds {
     static let screenTitle = "SimpleForm"
     static let emailPlaceholder = "Type in your email"
-    static let passPlaceholder = "Type in your pass"
     static let submitButtonTitle = "Click to Submit"
 }
 
