@@ -16,16 +16,10 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply plugin: 'kotlin'
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinPoet
     implementation project(Dependencies.Modules.commonAnnotation)
     implementation project(Dependencies.Modules.schemaKotlinCore)
 }
 
- apply from: rootProject.file('../maven-publish.gradle')
+apply from: rootProject.file('../maven-publish.gradle')
