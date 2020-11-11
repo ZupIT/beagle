@@ -240,7 +240,7 @@ end
 platform :automated_tests do
   desc "Run iOS automated tests"
   lane :run_ios_automation do
-    xcversion(version: "~> 12.0.0")
+    xcversion(version: "~> 11.5.0")
     #TODO pass bff url to test
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
