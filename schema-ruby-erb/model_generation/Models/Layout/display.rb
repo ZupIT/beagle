@@ -20,8 +20,8 @@ class Display < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "flex", :defaultValue => "FLEX"),
-            EnumCase.new(:name => "none", :defaultValue => "NONE")
+            EnumCase.new(:name => "FLEX"),
+            EnumCase.new(:name => "NONE")
         ]
         synthax_type = EnumType.new(
             :name => self.name,

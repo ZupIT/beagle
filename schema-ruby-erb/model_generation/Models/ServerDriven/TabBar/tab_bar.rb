@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../../Synthax/Attributes/variable.rb'
+require_relative '../../../Synthax/Attributes/field.rb'
 require_relative '../../base_component.rb'
 require_relative '../../../Synthax/Types/built_in_type.rb'
 require_relative '../server_driven_component.rb'
@@ -27,13 +27,13 @@ class TabBar < BaseComponent
                 :typeName => TabBarItem.new.name,
                 :comment => "define your tabs title and icon"
             ),
-            Variable.new(
+            Field.new(
                 :name => "styleId",
                 :typeName => TypesToString.string,
                 :isOptional => true,
                 :comment => "reference a native style in your local styles file to be applied on this view."
             ),
-            Variable.new(
+            Field.new(
                 :name => "currentTab",
                 :typeName => TypesToString.integer,
                 :isOptional => true,

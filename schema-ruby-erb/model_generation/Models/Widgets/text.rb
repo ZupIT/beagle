@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative 'widget.rb'
 
@@ -21,23 +21,23 @@ class Text < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(
+            Field.new(
                 :name => "text",
                 :typeName => TypesToString.string,
                 :isBindable => true
             ),
-            Variable.new(
+            Field.new(
                 :name => "styleId",
                 :typeName => TypesToString.string,
                 :isOptional => true
             ),
-            Variable.new(
+            Field.new(
                 :name => "alignment",
                 :typeName => Alignment.new.name,
                 :isOptional => true,
                 :isBindable => true
             ),
-            Variable.new(
+            Field.new(
                 :name => "textColor",
                 :typeName => TypesToString.string,
                 :isOptional => true,

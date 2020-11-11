@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/constant.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -21,67 +21,67 @@ class Style < BaseComponent
     def initialize
         edge_value = EdgeValue.new.name
         variables = [
-            Constant.new(
+            Field.new(
                 :name => "backgroundColor",
                 :typeName => TypesToString.string,
                 :isOptional => true,
                 :comment => "Set the view background color. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`."
             ),
-            Constant.new(
+            Field.new(
                 :name => "cornerRadius",
                 :typeName => CornerRadius.new.name,
                 :isOptional => true,
                 :comment => "Sets the corner of your view to make it round."
             ),
-            Constant.new(
+            Field.new(
                 :name => "borderColor",
                 :typeName => TypesToString.string,
                 :isOptional => true,
                 :comment => "Sets the color of your view border. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`."
             ),
-            Constant.new(
+            Field.new(
                 :name => "borderWidth",
                 :typeName => TypesToString.double,
                 :isOptional => true,
                 :comment => "Sets the width of your view border."
             ),
-            Constant.new(
+            Field.new(
                 :name => "size",
                 :typeName => Size.new.name,
                 :isOptional => true,
                 :comment => "Allows  you to specify the size of the element."
             ),
-            Constant.new(
+            Field.new(
                 :name => "margin",
                 :typeName => edge_value,
                 :isOptional => true,
                 :comment => "Allows you to apply a space to the child element."
             ),
-            Constant.new(
+            Field.new(
                 :name => "padding",
                 :typeName => edge_value,
                 :isOptional => true,
                 :comment => "Allows you to apply a space to the parent element. So when a child is created it starts with padding-defined spacing."
             ),
-            Constant.new(
+            Field.new(
                 :name => "position",
                 :typeName => edge_value,
                 :isOptional => true,
                 :comment => "Sets the placement of the component in its parent."
             ),
-            Constant.new(
+            Field.new(
                 :name => "flex",
                 :typeName => Flex.new.name,
                 :isOptional => true,
                 :comment => "Apply positioning using the flex box concept."
             ),
-            Constant.new(
+            Field.new(
                 :name => "positionType",
                 :typeName => PositionType.new.name,
                 :isOptional => true,
                 :comment => "The position type of an element defines how it is positioned within its parent."
             ),
-            Constant.new(
+            Field.new(
                 :name => "display",
                 :typeName => Display.new.name,
                 :isOptional => true,

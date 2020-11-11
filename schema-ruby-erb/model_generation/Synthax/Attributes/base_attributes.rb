@@ -20,14 +20,6 @@ class BaseAttributes
     # @return [String]
     attr_accessor :name
     
-    # The acessor of the attribute. Default is public
-    # @return [String] 
-    attr_accessor :accessor
-
-    # The default value of an attribute. It can be left in blank.
-    # @return [String]
-    attr_accessor :defaultValue
-    
     # Comment to be generated to this attributed. It can be left in blank.
     # @return [String]
     attr_accessor :comment 
@@ -35,8 +27,6 @@ class BaseAttributes
     # Initialize for BaseAttributes
     def initialize(params = {})
         @name = params.fetch(:name, '')
-        @accessor = params.fetch(:accessor, 'public')
-        @defaultValue = params.fetch(:defaultValue, '')
         @comment = params.fetch(:comment, nil)
     end
 

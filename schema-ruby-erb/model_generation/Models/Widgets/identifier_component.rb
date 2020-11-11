@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -20,7 +20,7 @@ class IdentifierComponent < BaseComponent
 
     def initialize
     	variables = [
-            Variable.new(:name => "id", :typeName => TypesToString.string, :isOptional => true)
+            Field.new(:name => "id", :typeName => TypesToString.string, :isOptional => true, :isMutable => true)
         ]
         synthax_type = BuiltInType.new(
             :type => TypesToString.interface,

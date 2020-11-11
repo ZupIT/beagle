@@ -20,9 +20,9 @@ class UnitType < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "real", :defaultValue => "REAL"),
-            EnumCase.new(:name => "percent", :defaultValue => "PERCENT"),
-            EnumCase.new(:name => "auto", :defaultValue => "AUTO")
+            EnumCase.new(:name => "REAL"),
+            EnumCase.new(:name => "PERCENT"),
+            EnumCase.new(:name => "AUTO")
         ]
         synthax_type = EnumType.new(
             :name => self.name,

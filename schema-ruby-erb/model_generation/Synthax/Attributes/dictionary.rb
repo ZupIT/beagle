@@ -13,13 +13,9 @@
 #  limitations under the License.
 
 require_relative 'base_attributes.rb'
-require_relative 'Mixins/bindable.rb'
-require_relative 'Mixins/optional.rb'
 
 # Use this class when you attempt to generate a dictionary variable
-class Dictionary < BaseAttributes
-
-    include Bindable, Optional
+class Dictionary < Field
 
     # Type for dictionary key
     # @return [String]
@@ -32,8 +28,6 @@ class Dictionary < BaseAttributes
     def initialize(params = {})
         @type_of_key = params.fetch(:type_of_key, '')
         @type_of_value = params.fetch(:type_of_value, '')
-        @isBindable = params.fetch(:isBindable, false)
-        @isOptional = params.fetch(:isOptional, false)
         super
     end
 

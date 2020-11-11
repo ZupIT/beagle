@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/constant.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative 'unit_type.rb'
@@ -21,8 +21,8 @@ class UnitValue < BaseComponent
 
     def initialize
         variables = [
-            Constant.new(:name => "value", :typeName => TypesToString.double),
-            Constant.new(:name => "type", :typeName => UnitType.new.name)
+            Field.new(:name => "value", :typeName => TypesToString.double),
+            Field.new(:name => "type", :typeName => UnitType.new.name)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

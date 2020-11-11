@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../../Synthax/Attributes/variable.rb'
+require_relative '../../../Synthax/Attributes/field.rb'
 require_relative '../../base_component.rb'
 require_relative '../../../Synthax/Types/built_in_type.rb'
 require_relative '../server_driven_component.rb'
@@ -22,29 +22,29 @@ class NavigationBarItem < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(
+            Field.new(
                 :name => "id",
                 :typeName => TypesToString.string,
                 :isOptional => true,
                 :comment => "defines the Title on the navigation bar"
             ),
-            Variable.new(
+            Field.new(
                 :name => "image",
                 :typeName => TypesToString.string,
                 :isOptional => true,
                 :comment => "defines an image for your navigation bar"
             ),
-            Variable.new(
+            Field.new(
                 :name => "text",
                 :typeName => TypesToString.string,
                 :comment => "defines an action to be called when the item is clicked on"
             ),
-            Variable.new(
+            Field.new(
                 :name => "action",
                 :typeName => Action.new.name,
                 :comment => "define the Title on the navigation bar"
             ),
-            Variable.new(
+            Field.new(
                 :name => "accessibility",
                 :typeName => Accessibility.new.name,
                 :isOptional => true,

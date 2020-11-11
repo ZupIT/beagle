@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Attributes/constant.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
@@ -21,8 +21,8 @@ class AnalyticsClick < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "accessibilityLabel", :typeName => TypesToString.string, :isOptional => true),
-            Variable.new(:name => "accessible", :typeName => TypesToString.bool, :defaultValue => "true")
+            Field.new(:name => "accessibilityLabel", :typeName => TypesToString.string, :isOptional => true),
+            Field.new(:name => "accessible", :typeName => TypesToString.bool, :defaultValue => "true")
 
         ]
         synthax_type = BuiltInType.new(

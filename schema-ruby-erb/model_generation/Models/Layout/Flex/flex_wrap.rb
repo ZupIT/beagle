@@ -20,9 +20,9 @@ class FlexWrap < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "noWrap", :defaultValue => "NO_WRAP"),
-            EnumCase.new(:name => "wrap", :defaultValue => "WRAP"),
-            EnumCase.new(:name => "wrapReverse", :defaultValue => "WRAP_REVERSE")
+            EnumCase.new(:name => "NO_WRAP"),
+            EnumCase.new(:name => "WRAP"),
+            EnumCase.new(:name => "WRAP_REVERSE")
         ]
         synthax_type = EnumType.new(
             :name => self.name,

@@ -15,7 +15,7 @@
 require 'erb'
 require 'date'
 
-require_relative 'Synthax/Attributes/variable.rb'
+require_relative 'Synthax/Attributes/field.rb'
 require_relative 'Synthax/Types/type.rb'
 
 require_relative 'Models/Layout/corner_radius.rb'
@@ -31,9 +31,9 @@ require_relative 'Models/Layout/unit_type.rb'
 require_relative 'Models/Accessibility/accessibility.rb'
 
 require_relative 'Models/Analytics/touchable_analytics.rb'
+require_relative 'Models/Analytics/click_event.rb'
 
 require_relative 'Models/Widgets/button.rb'
-require_relative 'Models/Widgets/click_event.rb'
 require_relative 'Models/Widgets/style_component.rb'
 require_relative 'Models/Widgets/accessibility_component.rb'
 require_relative 'Models/Widgets/text.rb'
@@ -89,8 +89,6 @@ class ModelGenerator
       component = clazz.new
       handleInnerTypes(component, helper)
     end
-    puts "#{@import_manager}"
-    puts "#{@enum_import_manager}"
   end
 
   # Array of BaseComponents

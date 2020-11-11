@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -21,9 +21,9 @@ class AddChildren < BaseComponent
     def initialize
         action = Action.new
         variables = [
-            Variable.new(:name => "componentId", :typeName => TypesToString.string),
+            Field.new(:name => "componentId", :typeName => TypesToString.string),
             List.new(:name => "value", :typeName => ServerDrivenComponent.new.name),
-            Variable.new(:name => "mode", :typeName => Mode.new.name),
+            Field.new(:name => "mode", :typeName => Mode.new.name),
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

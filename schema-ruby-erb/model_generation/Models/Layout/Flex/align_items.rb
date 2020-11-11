@@ -20,11 +20,11 @@ class AlignItems < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "flexStart", :defaultValue => "FLEX_START"),
-            EnumCase.new(:name => "center", :defaultValue => "CENTER"),
-            EnumCase.new(:name => "flexEnd", :defaultValue => "FLEX_END"),
-            EnumCase.new(:name => "baseline", :defaultValue => "BASELINE"),
-            EnumCase.new(:name => "stretch", :defaultValue => "STRETCH")
+            EnumCase.new(:name => "FLEX_START"),
+            EnumCase.new(:name => "CENTER"),
+            EnumCase.new(:name => "FLEX_END"),
+            EnumCase.new(:name => "BASELINE"),
+            EnumCase.new(:name => "STRETCH")
         ]
         synthax_type = EnumType.new(
             :name => self.name,

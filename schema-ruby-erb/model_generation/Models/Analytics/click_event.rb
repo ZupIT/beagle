@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/constant.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -20,15 +20,15 @@ class ClickEvent < BaseComponent
 
     def initialize
         variables = [
-            Constant.new(:name => "category", :typeName => TypesToString.string),
-            Constant.new(:name => "label", :typeName => TypesToString.string, :isOptional => true),
-            Constant.new(:name => "value", :typeName => TypesToString.string, :isOptional => true)
+            Field.new(:name => "category", :typeName => TypesToString.string),
+            Field.new(:name => "label", :typeName => TypesToString.string, :isOptional => true),
+            Field.new(:name => "value", :typeName => TypesToString.string, :isOptional => true)
 
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.ui"
+            :package => "br.com.zup.beagle.analytics"
         )
 
         super(synthax_type)

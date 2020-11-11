@@ -15,7 +15,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -24,7 +24,7 @@ class Condition < BaseComponent
     def initialize
         action = Action.new
         variables = [
-            Variable.new(:name => "condition", :typeName => TypesToString.bool, :isBindable => true),
+            Field.new(:name => "condition", :typeName => TypesToString.bool, :isBindable => true),
             List.new(:name => "onTrue", :typeName => Action.new.name, :isOptional => true),
             List.new(:name => "onFalse", :typeName => Action.new.name, :isOptional => true),
         ]

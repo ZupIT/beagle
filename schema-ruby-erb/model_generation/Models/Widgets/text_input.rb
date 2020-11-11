@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Attributes/list.rb'
 require_relative '../base_component.rb'
 require_relative 'widget.rb'
@@ -23,13 +23,13 @@ class TextInput < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "value", :typeName => TypesToString.string, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "placeholder", :typeName => TypesToString.string, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "disabled", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "readOnly", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "type", :typeName => TextInputType.new.name, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "hidden", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
-            Variable.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
+            Field.new(:name => "value", :typeName => TypesToString.string, :isBindable => true, :isOptional => true),
+            Field.new(:name => "placeholder", :typeName => TypesToString.string, :isBindable => true, :isOptional => true),
+            Field.new(:name => "disabled", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
+            Field.new(:name => "readOnly", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
+            Field.new(:name => "type", :typeName => TextInputType.new.name, :isBindable => true, :isOptional => true),
+            Field.new(:name => "hidden", :typeName => TypesToString.bool, :isBindable => true, :isOptional => true),
+            Field.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
             List.new(:name => "onChange", :typeName => "Action", :isOptional => true),
             List.new(:name => "onBlur", :typeName => "Action", :isOptional => true),
             List.new(:name => "onFocus", :typeName => "Action", :isOptional => true)

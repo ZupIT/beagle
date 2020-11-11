@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Attributes/list.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
@@ -23,8 +23,8 @@ class Image < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "path", :typeName => "ImagePath", :isBindable => true),
-            Variable.new(:name => "mode", :typeName => ImageContentMode.new.name, :isOptional => true)
+            Field.new(:name => "path", :typeName => "ImagePath", :isBindable => true),
+            Field.new(:name => "mode", :typeName => ImageContentMode.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

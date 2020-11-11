@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/constant.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -20,7 +20,7 @@ class TouchableAnalytics < BaseComponent
 
     def initialize
     	variables = [
-            Constant.new(:name => "clickAnalyticsEvent", :typeName => ClickEvent.new.name, :isOptional => true)
+            Field.new(:name => "clickAnalyticsEvent", :typeName => ClickEvent.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(
             :type => TypesToString.interface,

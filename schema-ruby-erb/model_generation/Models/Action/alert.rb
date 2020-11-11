@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -21,23 +21,23 @@ class Alert < BaseComponent
     def initialize
         action = Action.new
         variables = [
-            Variable.new(
+            Field.new(
                 :name => "title",
                 :typeName => TypesToString.string,
                 :isBindable => true,
                 :isOptional => true
             ),
-            Variable.new(
+            Field.new(
                 :name => "message",
                 :typeName => TypesToString.string,
                 :isBindable => true
             ),
-            Variable.new(
+            Field.new(
                 :name => "onPressOk",
                 :typeName => Action.new.name,
                 :isOptional => true
             ),
-            Variable.new(
+            Field.new(
                 :name => "labelOk",
                 :typeName => TypesToString.string,
                 :isOptional => true
@@ -47,7 +47,7 @@ class Alert < BaseComponent
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => [action.name],
+            :inheritFrom => [action],
             :comment => "Action to represents an alert",
             :sameFileTypes => [Mode.new]
         )

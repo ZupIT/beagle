@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/constant.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative 'unit_value.rb'
@@ -22,38 +22,38 @@ class EdgeValue < BaseComponent
     def initialize
         unit_value = UnitValue.new.name
         variables = [
-            Constant.new(:name => "left",
+            Field.new(:name => "left",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "top",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "right",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "bottom",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "horizontal",
                 :typeName => unit_value,
                 :isOptional => true,
                 :comment => "Specify the offset the horizontal edge of the item should have from it’s closest sibling (item) or parent (container)."
             ),
-            Constant.new(
+            Field.new(
                 :name => "vertical",
                 :typeName => unit_value,
                 :isOptional => true,
                 :comment => "Specify the offset the vertical edge of the item should have from it’s closest sibling (item) or parent (container)."
             ),
-            Constant.new(
+            Field.new(
                 :name => "all",
                 :typeName => unit_value,
                 :isOptional => true,

@@ -120,7 +120,7 @@
 
     output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
     output += "#{@tab}"
-    output += objectType.synthax_type.variables.map { |enumCase| enumCase.defaultValue }.join(",\n#{@tab}")
+    output += objectType.synthax_type.variables.map { |enumCase| enumCase.name }.join(",\n#{@tab}")
     output += "\n}"
     output
   end
@@ -135,8 +135,7 @@
     if objectType.synthax_type.variables.any?
       output += " {"
       for variable in objectType.synthax_type.variables
-        fieldType = variable.class == Variable ? "var" : "val"
-        output += "\n#{@tab}#{handleFieldAccessor(variable)}#{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{@tab}#{handleFieldAccessor(variable)}#{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
@@ -147,8 +146,7 @@
           if !output.include? "{"
             output += "{"
           end
-          fieldType = variable.class == Variable ? "var" : "val"
-          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
+          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
           counter += 1
         end
       end
@@ -170,8 +168,7 @@
     if objectType.synthax_type.variables.any?
       output += " ("
       for variable in objectType.synthax_type.variables
-        fieldType = variable.class == Variable ? "var" : "val"
-        output += "\n#{@tab}#{handleFieldAccessor(variable)}#{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{@tab}#{handleFieldAccessor(variable)}#{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
@@ -185,8 +182,7 @@
         end
         counter = 0 
         for variable in inherit.synthax_type.variables
-          fieldType = variable.class == Variable ? "var" : "val"
-          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{fieldType} #{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter)}"
+          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter)}"
           counter += 1
         end
       end
@@ -299,6 +295,16 @@
     output = ""
     if variable.accessor != "public"
       output += "#{variable.accessor} "
+    end
+    output
+  end
+
+  def handleFieldMutable(variable)
+    output = ""
+    if variable.isMutable
+      output += "var "
+    else
+      output += "val "
     end
     output
   end

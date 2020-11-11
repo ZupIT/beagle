@@ -13,7 +13,6 @@
 #  limitations under the License.
 
 require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
 
 class Action < BaseComponent

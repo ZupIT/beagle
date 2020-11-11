@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../../Synthax/Attributes/variable.rb'
+require_relative '../../../Synthax/Attributes/field.rb'
 require_relative '../../base_component.rb'
 require_relative '../server_driven_component.rb'
 
@@ -26,7 +26,7 @@ class ListView < BaseComponent
                 :typeName => server_driven.name,
                 :comment => "define the items on the list view."
             ),
-            Variable.new(
+            Field.new(
                 :name => "direction",
                 :typeName => Direction.new.name,
                 :comment => "define the list direction."

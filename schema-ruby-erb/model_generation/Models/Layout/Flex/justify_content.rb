@@ -20,19 +20,19 @@ class JustifyContent < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "flexStart", :defaultValue => "FLEX_START"),
-            EnumCase.new(:name => "center", :defaultValue => "CENTER"),
-            EnumCase.new(:name => "flexEnd", :defaultValue => "FLEX_END"),
-            EnumCase.new(:name => "spaceBetween", :defaultValue => "SPACE_BETWEEN"),
-            EnumCase.new(:name => "spaceAround", :defaultValue => "SPACE_AROUND"),
-            EnumCase.new(:name => "spaceEvenly", :defaultValue => "SPACE_EVENLY")
+            EnumCase.new(:name => "FLEX_START"),
+            EnumCase.new(:name => "CENTER"),
+            EnumCase.new(:name => "FLEX_END"),
+            EnumCase.new(:name => "SPACE_BETWEEN"),
+            EnumCase.new(:name => "SPACE_AROUND"),
+            EnumCase.new(:name => "SPACE_EVENLY")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
             :package => "br.com.zup.beagle.widget.core"
         )
-
+    
         super(synthax_type)
 
     end

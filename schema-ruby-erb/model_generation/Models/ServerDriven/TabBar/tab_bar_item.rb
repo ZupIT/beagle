@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../../Synthax/Attributes/variable.rb'
+require_relative '../../../Synthax/Attributes/field.rb'
 require_relative '../../base_component.rb'
 require_relative '../../../Synthax/Types/built_in_type.rb'
 require_relative '../server_driven_component.rb'
@@ -22,13 +22,13 @@ class TabBarItem < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(
+            Field.new(
                 :name => "icon",
                 :typeName => TypesToString.string,
                 :isOptional => true,
                 :comment => "display an icon image on the TabView component. If it is left as null or not declared it won't display any icon."
             ),
-            Variable.new(
+            Field.new(
                 :name => "title",
                 :typeName => TypesToString.string,
                 :isOptional => true,

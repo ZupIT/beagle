@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../../Synthax/Attributes/constant.rb'
+require_relative '../../../Synthax/Attributes/field.rb'
 require_relative '../../base_component.rb'
 require_relative '../../../Synthax/Types/built_in_type.rb'
 require_relative 'flex_direction.rb'
@@ -35,61 +35,61 @@ class Flex < BaseComponent
         edgeValue = EdgeValue.new
         
         variables = [
-            Constant.new(
+            Field.new(
                 :name => "flexDirection",
                 :typeName => flex_direction.name,
                 :isOptional => true,
                 :comment => "Controls the direction in which the children of a node are laid out.This is also referred to as the main axis.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "flexWrap",
                 :typeName => flex_wrap.name,
                 :isOptional => true,
                 :comment => "Set on containers and controls what happens when children overflow the size of the container along the main axis.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "justifyContent",
                 :typeName => justify_content.name,
                 :isOptional => true,
                 :comment => "Align children within the main axis of their container.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "alignItems",
                 :typeName => align_items.name,
                 :isOptional => true,
                 :comment => "Align items describes how to align children along the cross axis of their container.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "alignSelf",
                 :typeName => align_self.name,
                 :isOptional => true,
                 :comment => "This property allows to override the behavior of an item defined by the align-items property.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "alignContent",
                 :typeName => align_content.name,
                 :isOptional => true,
                 :comment => "Align content defines the distribution of lines along the cross-axis.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "basis",
                 :typeName => UnitValue.new.name,
                 :isOptional => true,
                 :comment => "Is an axis-independent way of providing the default size of an item along the main axis.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "flex",
                 :typeName => TypesToString.double,
                 :isOptional => true,
                 :comment => "Describes how any space within a container should be distributed among its children along the main axis.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "grow",
                 :typeName => TypesToString.double,
                 :isOptional => true,
                 :comment => "Define the proportion with which an item should grow if necessary.",
             ),
-            Constant.new(
+            Field.new(
                 :name => "shrink",
                 :typeName => TypesToString.double,
                 :isOptional => true,

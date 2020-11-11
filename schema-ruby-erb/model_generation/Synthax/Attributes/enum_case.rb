@@ -13,15 +13,11 @@
 #  limitations under the License.
 
 require_relative 'base_attributes.rb'
-require_relative 'Mixins/single_type_name.rb'
 
 # Use this class when you attempt to generate a enun case
 class EnumCase < BaseAttributes
-    
-    include SingleTypeName
 
     def initialize(params = {})
-        @typeName = params.fetch(:typeName, '')
         super
     end
 

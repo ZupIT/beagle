@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Attributes/list.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
@@ -26,7 +26,7 @@ class Container < BaseComponent
         variables = [
             List.new(:name => "children", :typeName => ServerDrivenComponent.new.name),
             List.new(:name => "onInit", :typeName => "Action", :isOptional => true),
-            Variable.new(
+            Field.new(
                 :name => "context",
                 :typeName => "Context",
                 :isOptional => true

@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../../Synthax/Attributes/variable.rb'
+require_relative '../../../Synthax/Attributes/field.rb'
 require_relative '../../base_component.rb'
 require_relative '../../../Synthax/Types/built_in_type.rb'
 require_relative '../server_driven_component.rb'
@@ -22,25 +22,25 @@ class SafeArea < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(
+            Field.new(
                 :name => "top",
                 :typeName => TypesToString.bool,
                 :isOptional => true,
                 :comment => "enable the safeArea constraint only on the TOP of the screen view."
             ),
-            Variable.new(
+            Field.new(
                 :name => "leading",
                 :typeName => TypesToString.bool,
                 :isOptional => true,
                 :comment => "enable the safeArea constraint only on the LEFT side of the screen view."
             ),
-            Variable.new(
+            Field.new(
                 :name => "bottom",
                 :typeName => TypesToString.bool,
                 :isOptional => true,
                 :comment => "enable the safeArea constraint only on the BOTTOM of the screen view."
             ),
-            Variable.new(
+            Field.new(
                 :name => "trailing",
                 :typeName => TypesToString.bool,
                 :isOptional => true,

@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/constant.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Attributes/list.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
@@ -23,8 +23,8 @@ class Button < BaseComponent
 
     def initialize
         variables = [
-            Constant.new(:name => "text", :typeName => TypesToString.string, :isBindable => true),
-            Constant.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
+            Field.new(:name => "text", :typeName => TypesToString.string, :isBindable => true),
+            Field.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
             List.new(:name => "onPress", :typeName => Action.new.name, :isOptional => true)
         ]
         synthax_type = BuiltInType.new(

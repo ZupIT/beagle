@@ -20,8 +20,8 @@ class PositionType < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "absolute", :defaultValue => "ABSOLUTE"),
-            EnumCase.new(:name => "relative", :defaultValue => "RELATIVE")
+            EnumCase.new(:name => "ABSOLUTE"),
+            EnumCase.new(:name => "RELATIVE")
         ]
         synthax_type = EnumType.new(
             :name => self.name,

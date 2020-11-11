@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/constant.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
@@ -21,37 +21,37 @@ class Size < BaseComponent
     def initialize
         unit_value = UnitValue.new.name
         variables = [
-            Constant.new(
+            Field.new(
                 :name => "width",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "height",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "maxWidth",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "maxHeight",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "minWidth",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "minHeight",
                 :typeName => unit_value,
                 :isOptional => true
             ),
-            Constant.new(
+            Field.new(
                 :name => "aspectRatio",
                 :typeName => TypesToString.double,
                 :isOptional => true,
