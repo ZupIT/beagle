@@ -57,26 +57,17 @@ class Dependencies : Plugin<Project> {
     }
 
     object Versions {
-        const val kotlin = "1.3.72"
-
-        const val kotlinPoet = "1.5.0"
-
-        const val junit5 = "5.6.2"
-
-        const val kotlinTest = "1.3.72"
-        const val googleAutoService = "1.0-rc6"
-
-        const val mockk = "1.10.0"
-
-        const val jacksonKotlin = "2.11.1"
-
-        const val guava = "29.0-jre"
+        const val kotlin = "1.4.10"
+        const val kotlinPoet = "1.7.2"
+        const val junit5 = "5.7.0"
+        const val googleAutoService = "1.0-rc7"
+        const val mockk = "1.10.2"
+        const val jacksonKotlin = "2.11.3"
+        const val guava = "30.0-jre"
         const val slf4j = "1.7.30"
-
-        const val springBoot = "2.3.1.RELEASE"
-        const val micronaut = "2.0.0"
-
-        const val incap = "0.2"
+        const val springBoot = "2.3.5.RELEASE"
+        const val micronaut = "2.1.3"
+        const val incap = "0.3"
     }
 
     object BackendLibraries {
@@ -91,7 +82,6 @@ class Dependencies : Plugin<Project> {
     }
 
     object GeneralLibraries {
-        const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
         const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
         const val kotlinPoet = "com.squareup:kotlinpoet:${Versions.kotlinPoet}"
         const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jacksonKotlin}"
@@ -101,7 +91,7 @@ class Dependencies : Plugin<Project> {
         const val junit5Api = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
         const val junit5Engine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
-        const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlinTest}"
+        const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}"
     }
 
     object SpringLibraries {

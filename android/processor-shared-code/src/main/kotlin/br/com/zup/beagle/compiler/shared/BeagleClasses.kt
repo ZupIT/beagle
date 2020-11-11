@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.compiler.shared
 
-import javax.lang.model.type.DeclaredType
-import javax.lang.model.type.TypeMirror
+val ANDROID_OPERATION = BeagleClass(
+    packageName = "br.com.zup.beagle.android.operation",
+    className = "Operation"
+)
 
-val TypeMirror.elementType: TypeMirror get() = if (this is DeclaredType) this.typeArguments[0] else this
+val WIDGET_VIEW = BeagleClass(
+    "br.com.zup.beagle.android.widget",
+    "WidgetView"
+)
+
+val BEAGLE_CORE_WIDGET = BeagleClass(
+    "br.com.zup.beagle.widget",
+    "Widget"
+)

@@ -17,9 +17,8 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
-import br.com.zup.beagle.compiler.BEAGLE_CUSTOM_ADAPTER
-import br.com.zup.beagle.compiler.elementType
-import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.shared.elementType
+import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier

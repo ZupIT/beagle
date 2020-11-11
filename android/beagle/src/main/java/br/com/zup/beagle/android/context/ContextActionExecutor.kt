@@ -51,7 +51,7 @@ internal object ContextActionExecutor {
         viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
 
-    fun executeActions(rootView: RootView, origin: View, actions: List<Action>?) {
+    private fun executeActions(rootView: RootView, origin: View, actions: List<Action>?) {
         actions?.forEach {  action ->
             if (action is AsyncAction) {
                 val viewModel = rootView.generateViewModelInstance<AsyncActionViewModel>()

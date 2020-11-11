@@ -17,13 +17,14 @@ package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
-import cucumber.api.java.en.*
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
 import org.junit.Rule
 
 const val SIMPLE_FORM_SCREEN_BFF_URL = "http://10.0.2.2:8080/simpleform"
@@ -44,29 +45,52 @@ class SimpleFormScreenSteps {
     }
 
     @Given("^that I'm on the simple form screen$")
-    fun checkTabViewScreen() {
+    fun checkBaseScreen() {
         ScreenRobot()
-            .checkViewContainsText(SIMPLE_FORM_SCREEN_HEADER, true)
+            .checkViewContainsText("SimpleForm", true)
     }
 
-    @Then("^all my simple form components should render their respective text attributes correctly$")
-    fun checkTabViewRendersTabs() {
+    @Then("^checks that the textInput with the place holder (.*) is on the screen$")
+    fun checkTextInputEmailInSimpleForm(field: String) {
         ScreenRobot()
-            .checkViewContainsText(SIMPLE_FORM_TITLE)
-            .checkViewContainsHint(STREET_FIELD)
-            .checkViewContainsHint(ZIP_FIELD)
+            .checkViewContainsHint(field, true)
     }
 
-    @And("^insert text (.*)$")
-    fun insertText(text: String?) {
+    @Then("^checks that the button with the title (.*) is on the screen$")
+    fun checkButtonOnScreen(textButton: String) {
         ScreenRobot()
-            .typeIntoTextField(0, 1, text)
+            .checkViewContainsText(textButton)
     }
 
-    @Then("^confirm popup should appear correctly$")
-    fun confirmPopUp() {
+    @When("^I click on textInput for email with (.*) and insert my (.*)$")
+    fun insertEmailInTextInput(hint: String, email: String) {
         ScreenRobot()
-            .checkViewContainsText(OK_BUTTON)
-            .checkViewContainsText(CANCEL_BUTTON)
+            .checkViewContainsHint(hint)
+            .clickOnInputWithHint(hint)
+            .typeText(hint, email)
+            .hideKeyboard()
+    }
+
+    @When("^I click on textInput for password with (.*) and insert my (.*)$")
+    fun insertPasswordInTextInput(hint: String, password: String) {
+        ScreenRobot()
+            .checkViewContainsHint(hint)
+            .clickOnInputWithHint(hint)
+            .typeText(hint, password)
+            .hideKeyboard()
+    }
+
+    @When("^I click to (.*)$")
+    fun sendDataFromTextInputs(submit: String) {
+        ScreenRobot()
+            .checkViewContainsText(submit)
+            .clickOnText(submit)
+    }
+
+    @Then("^verify if (.*) is appear correctly$")
+    fun checkIfTextInputDataIsEqualAlert(alertData: String) {
+        ScreenRobot()
+            .checkViewContainsText("Registered data", true)
+            .checkViewContainsText(alertData)
     }
 }

@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.compiler.shared
 
-plugins {
-    id 'org.springframework.boot' version '2.3.5.RELEASE'
-}
+import javax.lang.model.type.DeclaredType
+import javax.lang.model.type.TypeMirror
 
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlinReflect
-    implementation project(Dependencies.Modules.springStarter)
-    implementation Dependencies.SpringLibraries.actuatorStarter
-}
+val TypeMirror.elementType: TypeMirror get() = if (this is DeclaredType) this.typeArguments[0] else this

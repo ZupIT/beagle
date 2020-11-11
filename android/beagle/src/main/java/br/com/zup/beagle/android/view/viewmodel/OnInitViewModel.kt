@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.android.view.viewmodel
 
-data class BeagleClass(
-    val packageName: String,
-    val className: String
-) {
-    override fun toString(): String {
-        return "$packageName.$className"
+import androidx.lifecycle.ViewModel
+
+internal class OnInitViewModel : ViewModel() {
+
+    private val onInitStatusByComponent: MutableMap<Int, Boolean> = mutableMapOf()
+
+    fun setOnInitActionStatus(onInitiableComponentId: Int, onInitCalled: Boolean) {
+        onInitStatusByComponent[onInitiableComponentId] = onInitCalled
     }
+
+    fun getOnInitActionStatus(onInitiableComponentId: Int) = onInitStatusByComponent[onInitiableComponentId] ?: false
 }

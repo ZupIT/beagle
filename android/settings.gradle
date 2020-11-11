@@ -20,7 +20,7 @@ include ":processor"
 include ":internal-processor"
 include ":android-annotation"
 include ":preview"
-include ":processor-utils"
+include ":processor-shared-code"
 include ":annotation"
 include ":automated-tests"
 

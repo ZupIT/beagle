@@ -68,13 +68,13 @@ data class ScrollView(
             addView(if (scrollDirection == ScrollAxis.HORIZONTAL) {
                 viewFactory.makeHorizontalScrollView(context).apply {
                     isHorizontalScrollBarEnabled = scrollBarEnabled
-                    addChildrenViews(this, children, rootView, styleChild)
+                    addChildrenViews(this, children, rootView, styleChild, true)
                 }
             } else {
 
                 viewFactory.makeScrollView(context).apply {
                     isVerticalScrollBarEnabled = scrollBarEnabled
-                    addChildrenViews(this, children, rootView, styleChild)
+                    addChildrenViews(this, children, rootView, styleChild, false)
                 }
 
             }, styleParent)
@@ -85,7 +85,8 @@ data class ScrollView(
         scrollView: ViewGroup,
         children: List<ServerDrivenComponent>,
         rootView: RootView,
-        styleChild: Style
+        styleChild: Style,
+        isHorizontal: Boolean
     ) {
         val viewGroup = viewFactory.makeBeagleFlexView(rootView, styleChild)
 
@@ -94,6 +95,10 @@ data class ScrollView(
         }
 
         scrollView.addView(viewGroup)
-        viewGroup.setHeightAutoAndDirtyAllViews()
+        if (isHorizontal) {
+            viewGroup.setWidthAndHeightAutoAndDirtyAllViews()
+        } else {
+            viewGroup.setHeightAutoAndDirtyAllViews()
+        }
     }
 }

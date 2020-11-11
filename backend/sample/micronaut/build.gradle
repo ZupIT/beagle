@@ -18,7 +18,7 @@ import br.com.zup.beagle.Dependencies
 
 plugins {
     id "org.jetbrains.kotlin.kapt"
-    id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
     id "application"
 }
 

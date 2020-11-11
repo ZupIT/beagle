@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.compiler.shared
 
-plugins {
-    id 'org.springframework.boot' version '2.3.5.RELEASE'
-}
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlinReflect
-    implementation project(Dependencies.Modules.springStarter)
-    implementation Dependencies.SpringLibraries.actuatorStarter
+data class BeagleClass(
+    val packageName: String,
+    val className: String
+) {
+    override fun toString(): String {
+        return "$packageName.$className"
+    }
 }
