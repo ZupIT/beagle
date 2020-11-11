@@ -37,7 +37,7 @@ class SimpleFormSteps: CucumberStepsDefinition {
         // Scenario 1
         Then("^all my children components should render their respective attributes correctly$") { _, _ -> Void in
             XCTAssertTrue(self.application!.textFields[placeholder: Seeds.emailPlaceholder]!.exists)
-            XCTAssertTrue(self.application!.textFields[placeholder: Seeds.passwordPlaceholder]!.exists)
+            XCTAssertTrue(self.application!.textFields[placeholder: Seeds.passPlaceholder]!.exists)
             XCTAssertTrue(self.application!.buttons[Seeds.submitButtonTitle].exists)
         }
 
@@ -53,7 +53,7 @@ class SimpleFormSteps: CucumberStepsDefinition {
         When("^I click on a textInput with password Type and type in my \"([^\\\"]*)\"$") { args, _ -> Void in
             let text = args![0]
 
-            let textField = self.application!.textFields[placeholder: Seeds.passwordPlaceholder]!
+            let textField = self.application!.textFields[placeholder: Seeds.passPlaceholder]!
             textField.tap()
             textField.typeText(text)
         }
@@ -66,10 +66,10 @@ class SimpleFormSteps: CucumberStepsDefinition {
         
         Then(#"^verify if the email: "([^\"]*)" and the password: "([^\"]*)" is appearing correctly$"#) { args, _ -> Void in
             let email = args![0]
-            let password = args![1]
+            let pass = args![1]
             
-            XCTAssertTrue(self.application!.textFields[email].exists)
-            XCTAssertTrue(self.application!.textFields[password].exists)
+            XCTAssertTrue(self.application!.textFields[Seeds.emailInputText].exists)
+            XCTAssertTrue(self.application!.textFields[Seeds.passInputText].exists)
 
         }
     }
@@ -80,10 +80,10 @@ fileprivate struct Seeds {
     static let screenTitle = "SimpleForm"
     static let title = "Fill the form"
     static let emailPlaceholder = "Type in your email"
-    static let passwordPlaceholder = "Type in your password"
+    static let passPlaceholder = "Type in your password"
     static let submitButtonTitle = "Click to Submit"
-    static let email = "teste@simpleform.com"
-    static let password = "123"
+    static let emailInputText = "teste@simpleform.com"
+    static let passInputText = "123"
 }
 
 
