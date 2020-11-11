@@ -41,7 +41,7 @@ class LayoutComponentsController {
 
 
     @GetMapping(SIMPLE_FORM_ENDPOINT)
-    fun getSimpleFormScreen() = SimpleFormScreenBuilder
+    fun getSimpleFormScreen() = SimpleFormScreenBuilder.build()
 
     @GetMapping(TEXT_INPUT_ENDPOINT)
     fun getTextInputScreen() = TextInputScreenBuilder.build()
