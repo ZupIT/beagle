@@ -45,7 +45,7 @@ object SimpleFormScreenBuilder {
     fun build() = Screen(
         child = Container(
             children = listOf(
-                Text(text = "SimpleForm"),
+                Text(text = "SimpleForm", textColor = "#ffffff"),
                 SimpleForm(
                     context = ContextData(id = "user", value = User(
                         email = "", password = "",
@@ -77,7 +77,7 @@ object SimpleFormScreenBuilder {
                         Button(text = "Click to Submit",
                             onPress = listOf(SubmitForm())
                         ).applyStyle(
-                            Style(
+                            Style(backgroundColor = "#ffffff",
                                 margin = EdgeValue(top = 10.unitReal())
                             )
                         )
@@ -91,7 +91,8 @@ object SimpleFormScreenBuilder {
                 )
             )
         ).applyStyle(
-            Style(size = Size(height = 100.00.unitPercent()))
+            Style(backgroundColor = "#fa7f72",
+                size = Size(height = 100.00.unitPercent()))
         )
     )
 }
