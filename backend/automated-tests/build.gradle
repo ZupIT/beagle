@@ -17,7 +17,7 @@
 import br.com.zup.beagle.Dependencies
 
 plugins {
-    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
 }
 
 dependencies {
