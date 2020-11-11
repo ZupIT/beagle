@@ -22,7 +22,6 @@ import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
@@ -67,13 +66,13 @@ object ActionRecordCreator {
         action.type?.let { type ->
             hashMap["beagleAction"] = type
         }
-        analyticsHandleEvent?.originComponent?.let{
+        analyticsHandleEvent?.originComponent?.let {
             hashMap["component"] = createComponentHashMap(origin, it)
         }
         return hashMap
     }
 
-    private fun createComponentHashMap(origin: View, originComponent : ServerDrivenComponent): HashMap<String, Any> {
+    private fun createComponentHashMap(origin: View, originComponent: ServerDrivenComponent): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
         if (originComponent is IdentifierComponent) {
             originComponent.id?.let { componentId ->
@@ -85,7 +84,7 @@ object ActionRecordCreator {
                 hashMap["type"] = type
             }
         }
-        hashMap["position"] = hashMapOf( "x" to origin.x,"y" to origin.y)
+        hashMap["position"] = hashMapOf("x" to origin.x, "y" to origin.y)
         return hashMap
     }
 

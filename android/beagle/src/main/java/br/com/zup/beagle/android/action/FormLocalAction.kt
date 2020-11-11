@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -54,12 +53,17 @@ data class FormLocalAction(
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler
 
-    override fun execute(rootView: RootView, origin: View, originComponent : ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
         formLocalActionHandler?.handle(rootView.getContext(), this, object : ActionListener {
 
             override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
-                handleEvent(rootView, origin, action, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onSuccess"))
+                handleEvent(
+                    rootView,
+                    origin,
+                    action,
+                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onSuccess")
+                )
                 onActionFinished()
             }
 

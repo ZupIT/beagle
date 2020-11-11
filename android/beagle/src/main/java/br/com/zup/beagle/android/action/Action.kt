@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 
 /**
  * Interface that represents actions in Beagle

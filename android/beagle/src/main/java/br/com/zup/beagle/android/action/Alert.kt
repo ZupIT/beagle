@@ -26,7 +26,6 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -70,7 +69,12 @@ data class Alert(
             .setPositiveButton(labelOk ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressOk?.let {
-                    handleEvent(rootView, origin, it, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onPressOk"))
+                    handleEvent(
+                        rootView,
+                        origin,
+                        it,
+                        analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onPressOk")
+                    )
                 }
             }
             .show()

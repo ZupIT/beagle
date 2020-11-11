@@ -185,7 +185,12 @@ internal class ToolbarManager {
             toolbar.menu.add(Menu.NONE, items[i].id?.toAndroidId() ?: i, Menu.NONE, items[i].text).apply {
                 setOnMenuItemClickListener {
                     val action = items[i].action
-                    action.handleEvent(rootView, toolbar, action, analyticsHandleEvent = AnalyticsHandleEvent(screenComponent))
+                    action.handleEvent(
+                        rootView,
+                        toolbar,
+                        action,
+                        analyticsHandleEvent = AnalyticsHandleEvent(screenComponent)
+                    )
                     return@setOnMenuItemClickListener true
                 }
 

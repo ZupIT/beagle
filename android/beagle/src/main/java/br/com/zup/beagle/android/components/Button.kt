@@ -79,7 +79,12 @@ data class Button(
 
         button.setOnClickListener { view ->
             onPress?.let {
-                this@Button.handleEvent(rootView, view, it, analyticsHandleEvent = AnalyticsHandleEvent(originComponent = this@Button, analyticsValue = "onPress"))
+                this@Button.handleEvent(
+                    rootView,
+                    view,
+                    it,
+                    analyticsHandleEvent = AnalyticsHandleEvent(this@Button, "onPress")
+                )
             }
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)

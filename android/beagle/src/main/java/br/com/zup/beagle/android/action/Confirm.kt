@@ -26,7 +26,6 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -79,14 +78,24 @@ data class Confirm(
                 ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressOk?.let {
-                    handleEvent(rootView, origin, it, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onPressOk"))
+                    handleEvent(
+                        rootView,
+                        origin,
+                        it,
+                        analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onPressOk")
+                    )
                 }
             }
             .setNegativeButton(labelCancel
                 ?: rootView.getContext().getString(android.R.string.cancel)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressCancel?.let {
-                    handleEvent(rootView, origin, it, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onPressCancel"))
+                    handleEvent(
+                        rootView,
+                        origin,
+                        it,
+                        analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onPressCancel")
+                    )
                 }
             }
             .show()

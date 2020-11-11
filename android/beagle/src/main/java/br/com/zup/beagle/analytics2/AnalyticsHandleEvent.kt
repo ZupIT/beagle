@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.analytics2
 
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
 
 data class AnalyticsHandleEvent(
     val originComponent: ServerDrivenComponent? = null,

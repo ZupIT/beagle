@@ -70,7 +70,12 @@ fun Action.handleEvent(
     analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
     eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue), analyticsHandleEvent) }
-        ?: handleEvent(rootView = rootView, origin = origin, actions = actions, analyticsHandleEvent = analyticsHandleEvent)
+        ?: handleEvent(
+            rootView = rootView,
+            origin = origin,
+            actions = actions,
+            analyticsHandleEvent = analyticsHandleEvent
+        )
 }
 
 /**
@@ -110,7 +115,12 @@ fun Action.handleEvent(
     analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
     eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue), analyticsHandleEvent) }
-        ?: handleEvent(rootView = rootView, origin = origin, action = action, analyticsHandleEvent = analyticsHandleEvent)
+        ?: handleEvent(
+            rootView = rootView,
+            origin = origin,
+            action = action,
+            analyticsHandleEvent = analyticsHandleEvent
+        )
 }
 
 /**

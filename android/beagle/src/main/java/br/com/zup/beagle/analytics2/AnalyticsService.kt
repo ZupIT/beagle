@@ -36,7 +36,12 @@ class AnalyticsService(private val analyticsProvider: AnalyticsProvider? = null)
         }
     }
 
-    fun createActionRecord(rootView: RootView, origin: View, action: Action, analyticsHandleEvent: AnalyticsHandleEvent? = null) {
+    fun createActionRecord(
+        rootView: RootView,
+        origin: View,
+        action: Action,
+        analyticsHandleEvent: AnalyticsHandleEvent? = null
+    ) {
         if (action is ActionAnalytics)
             analyticsProvider?.let { analyticsProvider ->
                 val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(action)

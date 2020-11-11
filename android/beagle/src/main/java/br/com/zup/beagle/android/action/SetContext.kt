@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal data class SetContextInternal(

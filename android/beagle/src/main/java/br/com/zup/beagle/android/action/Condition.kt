@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -60,12 +59,31 @@ data class Condition(
         }
 
         if (result.getOrNull() != true && result.getOrNull() != false) {
-            onFalse?.let { handleEvent(rootView, origin, it, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")) }
+            onFalse?.let {
+                handleEvent(
+                    rootView,
+                    origin,
+                    it,
+                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+                )
+            }
             BeagleLoggerProxy.warning("Conditional action. Expected boolean or null. Received: ${condition.value}")
         } else if (result.getOrNull() == true) {
-            onTrue?.let { handleEvent(rootView, origin, it, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onTrue")) }
+            onTrue?.let {
+                handleEvent(rootView,
+                    origin,
+                    it,
+                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onTrue")
+                )
+            }
         } else {
-            onFalse?.let { handleEvent(rootView, origin, it, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")) }
+            onFalse?.let {
+                handleEvent(rootView,
+                    origin,
+                    it,
+                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+                )
+            }
         }
     }
 }

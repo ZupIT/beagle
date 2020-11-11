@@ -22,7 +22,6 @@ import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**

@@ -73,7 +73,12 @@ data class SimpleForm(
 
     fun submit(rootView: RootView, view: View) {
         onSubmit.forEach { action ->
-            handleEvent(rootView, view, action, analyticsHandleEvent = AnalyticsHandleEvent(this@SimpleForm, "onSubmit"))
+            handleEvent(
+                rootView,
+                view,
+                action,
+                analyticsHandleEvent = AnalyticsHandleEvent(this@SimpleForm, "onSubmit")
+            )
         }
     }
 }
