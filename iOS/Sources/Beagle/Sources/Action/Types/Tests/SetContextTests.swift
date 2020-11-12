@@ -36,14 +36,32 @@ final class SetContextTests: XCTestCase {
         
         // When/Then
         assertSnapshotImage(navigation, size: size)
-        
-        guard case let .view(screen) = controller.content, let container = screen.subviews[safe: 0] else {
-            XCTFail("Component not loaded!")
-            return
-        }
-        
-        controller.execute(actions: [action], origin: container)
+        controller.execute(actions: [action], origin: getOriginView(controller))
         assertSnapshotImage(navigation, size: size)
+    }
+    
+    func testSetContextWithMultipleExpression() {
+        // Given
+        let component = Container(context: Context(id: "context", value: "John")) {
+            Text("SetContext:")
+            Text("@{context}")
+        }
+        let controller = BeagleScreenViewController(component)
+        let navigation = UINavigationController(rootViewController: controller)
+        let action = SetContext(contextId: "context", value: "@{context} Doe")
+        let smallSize = ImageSize.custom(CGSize(width: 150, height: 70))
+        
+        // When/Then
+        assertSnapshotImage(navigation, size: smallSize)
+        controller.execute(actions: [action], origin: getOriginView(controller))
+        assertSnapshotImage(navigation, size: smallSize)
+    }
+    
+    private func getOriginView(_ controller: BeagleScreenViewController) -> UIView {
+        guard case let .view(screen) = controller.content, let container = screen.subviews[safe: 0] else {
+            return UIView()
+        }
+        return container
     }
     
 }
