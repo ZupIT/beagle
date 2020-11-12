@@ -16,45 +16,38 @@
 
 package br.com.zup.beagle.android.internal.processor
 
-import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
-import br.com.zup.beagle.compiler.shared.RegisteredOperationGenerator
-import br.com.zup.beagle.compiler.shared.error
+import br.com.zup.beagle.compiler.shared.BeagleClass
+import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
-import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-class InternalOperationFactoryProcessor(
+internal class GenericFactoryProcessor<T : Annotation>(
     private val processingEnv: ProcessingEnvironment,
-    private val operationGenerator: RegisteredOperationGenerator =
-        RegisteredOperationGenerator()) {
+    private val className: String,
+    private val beagleGeneratorFunction: BeagleGeneratorFunction<T>) {
 
     fun process(
         basePackageName: String,
-        roundEnvironment: RoundEnvironment
+        roundEnvironment: RoundEnvironment,
+        importClass: BeagleClass
     ) {
-        val className = "InternalOperationFactory"
 
         val typeSpec = TypeSpec.objectBuilder(className)
             .addModifiers(KModifier.INTERNAL)
-            .addFunction(operationGenerator.generate(roundEnvironment, processingEnv))
+            .addFunction(beagleGeneratorFunction.generate(roundEnvironment))
             .build()
 
         val beagleSetupFile = FileSpec.builder(
             basePackageName,
             className
         )
-            .addImport(ANDROID_OPERATION.packageName, ANDROID_OPERATION.className)
+            .addImport(importClass.packageName, importClass.className)
             .addType(typeSpec)
             .build()
 
-        try {
-            beagleSetupFile.writeTo(processingEnv.filer)
-        } catch (e: IOException) {
-            val errorMessage = "Error when trying to generate code.\n${e.message!!}"
-            processingEnv.messager.error(errorMessage)
-        }
+        beagleSetupFile.writeTo(processingEnv.filer)
     }
 }

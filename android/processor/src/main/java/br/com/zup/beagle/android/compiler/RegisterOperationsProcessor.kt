@@ -17,8 +17,8 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
-import br.com.zup.beagle.compiler.shared.REGISTERED_OPERATIONS
-import br.com.zup.beagle.compiler.shared.RegisteredOperationGenerator
+import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
+import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation.Companion.REGISTERED_OPERATIONS
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
@@ -33,7 +33,7 @@ const val REGISTERED_OPERATIONS_GENERATED = "RegisteredOperations"
 
 class RegisterOperationsProcessor(
     private val processingEnv: ProcessingEnvironment,
-    private val registeredOperationGenerator: RegisteredOperationGenerator = RegisteredOperationGenerator()
+    private val operationGenerator: GenerateFunctionOperation = GenerateFunctionOperation(processingEnv)
 ) {
 
     fun process(packageName: String, roundEnvironment: RoundEnvironment) {
@@ -60,11 +60,11 @@ class RegisterOperationsProcessor(
     }
 
     private fun createRegisteredOperationsFunctionInternal(roundEnvironment: RoundEnvironment): FunSpec {
-        return registeredOperationGenerator.generate(roundEnvironment, processingEnv)
+        return operationGenerator.generate(roundEnvironment)
     }
 
     fun createRegisteredWidgetsFunction(): FunSpec {
-        return registeredOperationGenerator.createFuncSpec()
+        return operationGenerator.createFuncSpec(REGISTERED_OPERATIONS)
             .addModifiers(KModifier.OVERRIDE)
             .addStatement("return $REGISTERED_OPERATIONS_GENERATED().$REGISTERED_OPERATIONS()")
             .build()

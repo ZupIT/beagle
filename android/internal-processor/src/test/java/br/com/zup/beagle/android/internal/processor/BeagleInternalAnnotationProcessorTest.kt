@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.internal.processor
 
+import br.com.zup.beagle.android.internal.processor.BeagleInternalAnnotationProcessor.Companion.CLASS_NAME_OPERATION
+import br.com.zup.beagle.android.internal.processor.BeagleInternalAnnotationProcessor.Companion.CLASS_NAME_WIDGET
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -38,18 +40,40 @@ internal class BeagleInternalAnnotationProcessorTest {
 
         @Test
         @DisplayName("Then should create class with list of widgets")
-        fun testGenerateWidgetsCorrect() {
+        fun testGenerateListOfWidgetsCorrect() {
+            // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, VALID_WIDGETS)
+                FILE_NAME, VALID_LIST_WIDGETS)
 
-
+            // WHEN
             val compilationResult = compile(kotlinSource)
-            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(InternalWidgetFactoryProcessor.CLASS_NAME) }!!
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(CLASS_NAME_WIDGET) }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = INTERNAL_LIST_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
 
+        @Test
+        @DisplayName("Then should create class with list of widgets")
+        fun testGenerateSingleWidgetCorrect() {
+            // GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, VALID_WIDGET_WITH_INHERITANCE_WIDGET_VIEW)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(CLASS_NAME_WIDGET) }!!
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
         }
 
     }
@@ -61,10 +85,14 @@ internal class BeagleInternalAnnotationProcessorTest {
         @Test
         @DisplayName("Then should show error with invalid widget")
         fun testInvalidWidget() {
+            // GIVEN
             val kotlinSource = SourceFile.kotlin(
                 FILE_NAME, INVALID_WIDGET)
 
+            // WHEN
             val compilationResult = compile(kotlinSource)
+
+            // THEN
             assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
             assertTrue(compilationResult.messages.contains(MESSAGE_INVALID_WIDGET_ERROR))
         }
@@ -72,12 +100,111 @@ internal class BeagleInternalAnnotationProcessorTest {
         @Test
         @DisplayName("Then should show error with invalid widget")
         fun testInvalidWidgetWithInherit() {
+            // GIVEN
             val kotlinSource = SourceFile.kotlin(
                 FILE_NAME, INVALID_WIDGET_WITH_INHERITANCE)
 
+            // WHEN
             val compilationResult = compile(kotlinSource)
+
+            // THEN
             assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
             assertTrue(compilationResult.messages.contains(MESSAGE_INVALID_WIDGET_ERROR))
+        }
+
+    }
+
+    @DisplayName("When register operations")
+    @Nested
+    inner class Operations {
+
+        @Test
+        @DisplayName("Then should create class with map of operations")
+        fun testGenerateSingleOperationsCorrect() {
+            // GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, VALID_OPERATION)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(CLASS_NAME_OPERATION) }!!
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+
+        @Test
+        @DisplayName("Then should create class with map of operations")
+        fun testGenerateListOperationsCorrect() {
+            // GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, VALID_LIST_OPERATIONS)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(CLASS_NAME_OPERATION) }!!
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = INTERNAL_LIST_OPERATION_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+
+    }
+
+    @DisplayName("When register operations")
+    @Nested
+    inner class InvalidOperations {
+
+        @Test
+        @DisplayName("Then should show error with invalid operation")
+        fun testInvalidOperation() {
+            // GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, INVALID_OPERATION)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource)
+
+            // THEN
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+            assertTrue(compilationResult.messages.contains(MESSAGE_INVALID_OPERATION_ERROR))
+        }
+
+        @Test
+        @DisplayName("Then should show error with invalid operation")
+        fun testInvalidOperationWithInherit() {
+            // GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, INVALID_OPERATION_WITH_INHERITANCE)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource)
+
+            // THEN
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+            assertTrue(compilationResult.messages.contains(MESSAGE_INVALID_OPERATION_ERROR))
+        }
+
+        @Test
+        @DisplayName("Then should show error with invalid operation")
+        fun testInvalidOperationWithSameName() {
+            // GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, INVALID_OPERATION + INVALID_OPERATION_TWO)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource)
+
+            // THEN
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+            assertTrue(compilationResult.messages.contains(MESSAGE_INVALID_OPERATION_ERROR_THE_SAME_NAME))
         }
 
     }
@@ -102,5 +229,10 @@ internal class BeagleInternalAnnotationProcessorTest {
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
         private const val MESSAGE_INVALID_WIDGET_ERROR = "The class br.com.test.beagle.InvalidWidget need to inherit" +
             " from the class WidgetView when annotate class with @RegisterWidget."
+        private const val MESSAGE_INVALID_OPERATION_ERROR = "The class br.com.test.beagle.InvalidOperation need to inherit" +
+            " from the class Operation when annotate class with @RegisterOperation."
+        private const val MESSAGE_INVALID_OPERATION_ERROR_THE_SAME_NAME = "The class " +
+            "br.com.test.beagle.InvalidOperationTwo need to inherit from " +
+            "the class Operation when annotate class with @RegisterOperation."
     }
 }

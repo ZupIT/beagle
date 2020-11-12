@@ -60,12 +60,12 @@ const val VALID_WIDGET_WITH_INHERITANCE_PAGE_INDICATOR =
         class PageIndicatorTest: PageIndicatorComponent { }
     """
 
-const val VALID_WIDGETS =
+const val VALID_LIST_WIDGETS =
     VALID_WIDGET_WITH_INHERITANCE_WIDGET_VIEW +
         VALID_WIDGET_WITH_INHERITANCE_INPUT_WIDGET +
         VALID_WIDGET_WITH_INHERITANCE_PAGE_INDICATOR
 
-const val INTERNAL_WIDGET_GENERATED_EXPECTED: String =
+const val INTERNAL_LIST_WIDGET_GENERATED_EXPECTED: String =
     """
 
     package br.com.zup.beagle.android.setup
@@ -80,11 +80,123 @@ const val INTERNAL_WIDGET_GENERATED_EXPECTED: String =
             val registeredWidgets = listOf<Class<WidgetView>>(
                 br.com.test.beagle.PageIndicatorTest::class.java as Class<WidgetView>,
                 br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
-                br.com.test.beagle.InputWidgetTest::class.java as Class<WidgetView>
+                br.com.test.beagle.InputWidgetTest::class.java as Class<WidgetView>,
             )
         
         return registeredWidgets
         }
     }
 
+    """
+
+const val INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED: String =
+    """
+
+    package br.com.zup.beagle.android.setup
+
+    import br.com.zup.beagle.android.widget.WidgetView
+    import java.lang.Class
+    import kotlin.collections.List
+
+    internal object InternalWidgetFactory {
+        
+        public fun registeredWidgets(): List<Class<WidgetView>> {
+            val registeredWidgets = listOf<Class<WidgetView>>(
+                br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
+            )
+        
+        return registeredWidgets
+        }
+    }
+
+    """
+
+const val VALID_OPERATION =
+    """
+        package br.com.test.beagle
+        
+        import br.com.zup.beagle.annotation.RegisterOperation
+        import br.com.zup.beagle.android.operation.Operation
+        
+        @RegisterOperation("OperationTestName")
+        class OperationTest: Operation { }
+    """
+
+const val VALID_SECOND_OPERATION =
+    """
+        
+        @RegisterOperation("OperationTwoTestName")
+        class OperationTwoTest: Operation { }
+    """
+
+const val VALID_LIST_OPERATIONS = VALID_OPERATION + VALID_SECOND_OPERATION
+
+const val INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED: String =
+    """
+    package br.com.zup.beagle.android.setup 
+    import br.com.zup.beagle.android.operation.Operation
+    import kotlin.String 
+    import kotlin.collections.Map
+    
+    internal object InternalOperationFactory {
+    
+        public fun registeredOperations() : Map<String, Operation> {
+            
+            val operations = mapOf<String, Operation>(
+                "OperationTestName" to br.com.test.beagle.OperationTest(),
+                )
+                
+            return operations
+        }
+    }
+
+    """
+
+const val INTERNAL_LIST_OPERATION_GENERATED_EXPECTED: String =
+    """
+    package br.com.zup.beagle.android.setup 
+    import br.com.zup.beagle.android.operation.Operation
+    import kotlin.String 
+    import kotlin.collections.Map
+    
+    internal object InternalOperationFactory {
+    
+        public fun registeredOperations() : Map<String, Operation> {
+            
+            val operations = mapOf<String, Operation>(
+                "OperationTwoTestName" to br.com.test.beagle.OperationTwoTest(),
+                "OperationTestName" to br.com.test.beagle.OperationTest(),
+                )
+                
+            return operations
+        }
+    }
+
+    """
+
+const val INVALID_OPERATION =
+    """
+        package br.com.test.beagle
+        import br.com.zup.beagle.annotation.RegisterOperation
+
+        @RegisterOperation("test")
+        class InvalidOperation { }
+    """
+
+const val INVALID_OPERATION_TWO =
+    """
+        package br.com.test.beagle
+        import br.com.zup.beagle.annotation.RegisterOperation
+
+        @RegisterOperation("test")
+        class InvalidOperationTwo { }
+    """
+
+const val INVALID_OPERATION_WITH_INHERITANCE =
+    """
+        package br.com.test.beagle
+        import br.com.zup.beagle.annotation.RegisterOperation
+
+        @RegisterOperation("testTwo")
+        class InvalidOperation : WidgetView { }
     """
