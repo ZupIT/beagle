@@ -21,32 +21,63 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
+import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
+import javax.lang.model.element.Element
+import javax.lang.model.element.TypeElement
 
 const val REGISTERED_WIDGETS = "registeredWidgets"
 
-class BeagleSetupRegisteredWidgetGenerator {
+class BeagleSetupRegisteredWidgetGenerator(private val processingEnv: ProcessingEnvironment) {
 
     fun generate(roundEnvironment: RoundEnvironment): FunSpec {
+        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
+
+        return createFuncSpec()
+            .addCode(getCodeFormatted(classesWithAnnotation))
+            .addStatement("return $REGISTERED_WIDGETS")
+            .build()
+    }
+
+    private fun getAllClassWithAnnotation(roundEnvironment: RoundEnvironment): String {
         val classValues = StringBuilder()
+
         val registerWidgetAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterWidget::class.java)
 
         registerWidgetAnnotatedClasses.forEachIndexed { index, element ->
+            validationElement(element)
+
             classValues.append("\t${element}::class.java as Class<WidgetView>")
             if (index < registerWidgetAnnotatedClasses.size - 1) {
                 classValues.append(",\n")
             }
         }
 
-        return createFuncSpec()
-            .addCode("""
-                        |val $REGISTERED_WIDGETS = listOf<Class<WidgetView>>(
-                        |   $classValues
-                        |)
-                    |""".trimMargin())
-            .addStatement("return $REGISTERED_WIDGETS")
-            .build()
+        return classValues.toString()
+
     }
+
+    private fun validationElement(element: Element) {
+        val typeElement = element as TypeElement
+        if (!(isValidInheritance(typeElement))) {
+            val errorMessage = "The class $element need to inherit from the class ${WIDGET_VIEW.className} when annotate class with @RegisterWidget."
+            processingEnv.messager.error(typeElement, errorMessage)
+        }
+    }
+
+    private fun isValidInheritance(typeElement: TypeElement): Boolean {
+        return typeElement.extendsFromClass(WIDGET_VIEW.toString())
+            || typeElement.extendsFromClass(BEAGLE_INPUT_WIDGET.toString())
+            || typeElement.implementsInterface(BEAGLE_PAGE_INDICATOR.toString())
+    }
+
+    private fun getCodeFormatted(partOfCode: String): String =
+        """
+            |val $REGISTERED_WIDGETS = listOf<Class<WidgetView>>(
+            |   $partOfCode
+            |)
+        |""".trimMargin()
+
 
     fun createFuncSpec(): FunSpec.Builder {
         val listReturnType = List::class.asClassName().parameterizedBy(

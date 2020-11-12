@@ -20,6 +20,8 @@ import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementationManager
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
 import br.com.zup.beagle.compiler.shared.error
+import br.com.zup.beagle.compiler.shared.extendsFromClass
+import br.com.zup.beagle.compiler.shared.implementsInterface
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy

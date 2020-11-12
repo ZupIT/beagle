@@ -102,3 +102,9 @@ val ANDROID_ACTION = BeagleClass(
     packageName = "br.com.zup.beagle.android.action",
     className = "Action"
 )
+
+val BEAGLE_CORE_WIDGET = BeagleClass(
+    "br.com.zup.beagle.widget",
+    "Widget"
+)
+

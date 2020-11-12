@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.internal.processor
 
-import br.com.zup.beagle.compiler.shared.BEAGLE_CORE_WIDGET
 import br.com.zup.beagle.compiler.shared.BeagleSetupRegisteredWidgetGenerator
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.FileSpec
@@ -29,24 +28,22 @@ import javax.annotation.processing.RoundEnvironment
 class InternalWidgetFactoryProcessor(
     private val processingEnv: ProcessingEnvironment,
     private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
-        BeagleSetupRegisteredWidgetGenerator()) {
+        BeagleSetupRegisteredWidgetGenerator(processingEnv)) {
 
     fun process(
         basePackageName: String,
         roundEnvironment: RoundEnvironment
     ) {
-        val className = "InternalWidgetFactory"
 
-        val typeSpec = TypeSpec.objectBuilder(className)
+        val typeSpec = TypeSpec.objectBuilder(CLASS_NAME)
             .addModifiers(KModifier.INTERNAL)
             .addFunction(beagleSetupRegisteredWidgetGenerator.generate(roundEnvironment))
             .build()
 
         val beagleSetupFile = FileSpec.builder(
             basePackageName,
-            className
+            CLASS_NAME
         )
-            .addImport(BEAGLE_CORE_WIDGET.packageName, BEAGLE_CORE_WIDGET.className)
             .addType(typeSpec)
             .build()
 
@@ -56,5 +53,9 @@ class InternalWidgetFactoryProcessor(
             val errorMessage = "Error when trying to generate code.\n${e.message!!}"
             processingEnv.messager.error(errorMessage)
         }
+    }
+
+    companion object {
+        const val CLASS_NAME = "InternalWidgetFactory"
     }
 }

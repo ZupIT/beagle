@@ -31,16 +31,25 @@ dependencies {
     implementation project(Dependencies.Modules.commonAnnotation)
     implementation project(Dependencies.Modules.androidAnnotation)
 
+
     implementation Dependencies.ProcessorLibraries.incap
     kapt Dependencies.ProcessorLibraries.incapPrcessor
 
     implementation Dependencies.ProcessorLibraries.autoService
     kapt Dependencies.ProcessorLibraries.autoService
 
+    /*
+     *
+     * When put the library with testImplementation the test not compile
+     * Issue tracker: https://github.com/tschuchortdev/kotlin-compile-testing/issues/73
+     *
+     */
+    implementation Dependencies.TestLibraries.kotlinCompileTesting
+
     testImplementation Dependencies.TestLibraries.junitApi
     testImplementation Dependencies.TestLibraries.junitEngine
 
-    testImplementation 'com.github.tschuchortdev:kotlin-compile-testing:1.3.1'
+
 }
 
 apply from: rootProject.file('../maven-publish.gradle')

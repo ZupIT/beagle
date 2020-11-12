@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.compiler.shared.BeagleSetupRegisteredWidgetGenerator
 import br.com.zup.beagle.compiler.shared.REGISTERED_WIDGETS
-import br.com.zup.beagle.compiler.shared.BEAGLE_CORE_WIDGET
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
@@ -34,7 +33,7 @@ private const val REGISTERED_WIDGETS_GENERATED = "RegisteredWidgets"
 class RegisterWidgetProcessorProcessor(
     private val processingEnv: ProcessingEnvironment,
     private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
-        BeagleSetupRegisteredWidgetGenerator()
+        BeagleSetupRegisteredWidgetGenerator(processingEnv)
 ) {
 
     fun process(packageName: String, roundEnvironment: RoundEnvironment) {
@@ -45,7 +44,6 @@ class RegisterWidgetProcessorProcessor(
 
         try {
             FileSpec.builder(packageName, REGISTERED_WIDGETS_GENERATED)
-                .addImport(BEAGLE_CORE_WIDGET.packageName, BEAGLE_CORE_WIDGET.className)
                 .addAnnotation(
                     AnnotationSpec.builder(Suppress::class.java)
                         .addMember("%S", "UNCHECKED_CAST")
