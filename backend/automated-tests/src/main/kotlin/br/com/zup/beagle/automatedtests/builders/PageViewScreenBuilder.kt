@@ -32,6 +32,10 @@ import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
+data class TextValue(
+    val value: String
+)
+
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         child = Container(
@@ -40,11 +44,12 @@ object PageViewScreenBuilder : ScreenBuilder {
                 Text("PageView Screen"),
                 Container(children = listOf(
                     PageView(
-                        context = ContextData("pageViewContext", ""),
+                        context = ContextData("pageViewContext", TextValue("pageFour")),
                         children = listOf(
                             Text("pageOne"),
                             Text("pageTwo"),
-                            Text("pageThree")
+                            Text("pageThree"),
+                            Text("@{pageViewContext}")
                         ),
                         onPageChange = listOf(
                             SetContext(contextId = "currentPage", "@{onPageChange}")
