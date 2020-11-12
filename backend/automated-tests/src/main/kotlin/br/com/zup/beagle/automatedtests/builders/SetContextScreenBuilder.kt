@@ -32,7 +32,7 @@ object SetContextScreenBuilder {
 
     fun build() = Screen(
         child = Container(
-            context = ContextData(id = "setContextid", "ValueExpression"),
+            context = ContextData("setContextid", "ValueExpression"),
             children =
             listOf(
                 Text(text = "SetContext Screen").applyStyle(Style(
