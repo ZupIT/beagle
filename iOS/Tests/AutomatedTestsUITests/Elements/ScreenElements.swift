@@ -74,7 +74,7 @@ enum ScreenElements: String {
     case TOUCHABLE_TEXT_4 = "NetworkImage with Touchable"
     
     //Simpleform Screen
-    case SIMPLE_FORM_SCREEN_HEADER = "Beagle Context"
+    case SIMPLE_FORM_SCREEN_HEADER = "SimpleForm"
     case SIMPLE_FORM_TITLE = "Fill the form"
     case ZIP_FIELD = "ZIP"
     case STREET_FIELD = "Street"
