@@ -44,12 +44,12 @@ object PageViewScreenBuilder : ScreenBuilder {
                 Text("PageView Screen"),
                 Container(children = listOf(
                     PageView(
-                        context = ContextData("pageViewContext", TextValue("pageFour")),
+                        context = ContextData(id ="pageViewContext", value = TextValue("pageFour")),
                         children = listOf(
                             Text("pageOne"),
                             Text("pageTwo"),
                             Text("pageThree"),
-                            Text("@{pageViewContext}")
+                            Text("@{pageViewContext.value}")
                         ),
                         onPageChange = listOf(
                             SetContext(contextId = "currentPage", "@{onPageChange}")
