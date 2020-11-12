@@ -44,7 +44,7 @@ import br.com.zup.beagle.widget.ui.Text
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         child = Container(
-            context = ContextData(id = "PageViewContext", value = 2),
+            context = ContextData(id = "PageViewContext", value = 0),
             children = listOf(
                 Text("PageView Screen"),
                 Container(children = listOf(
