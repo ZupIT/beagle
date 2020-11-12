@@ -41,7 +41,7 @@ data class ListView(
     val dataSource: Bind<List<Any>>? = null,
     val template: ServerDrivenComponent? = null,
     val onScrollEnd: List<Action>? = null,
-    val scrollThreshold: Int? = null,
+    val scrollEndThreshold: Int? = null,
     val iteratorName: String = "item",
     val key: String? = null
 ) : Widget(), ContextComponent {
@@ -67,15 +67,15 @@ data class ListView(
 
     /**
      * @param direction define the list direction.
-     * @param context define the contextData that be set to container.
+     * @param context define the contextData that be set to component.
      * @param onInit allows to define a list of actions to be performed when the Widget is displayed.
-     * @param dataSource it's an expression that points to a list of values used to populate the Widget
-     * @param template represents each cell in the list through a ServerDrivenComponent
-     * @param onScrollEnd list of actions performed when the list is scrolled to the end
-     * @param scrollThreshold sets the scrolled percentage of the list to trigger onScrollEnd
-     * @param iteratorName is the context identifier of each cell
+     * @param dataSource it's an expression that points to a list of values used to populate the Widget.
+     * @param template represents each cell in the list through a ServerDrivenComponent.
+     * @param onScrollEnd list of actions performed when the list is scrolled to the end.
+     * @param scrollEndThreshold sets the scrolled percentage of the list to trigger onScrollEnd.
+     * @param iteratorName is the context identifier of each cell.
      * @param key points to a unique value present in each dataSource item
-     * used as a suffix in the component ids within the Widget
+     * used as a suffix in the component ids within the Widget.
      */
     constructor(
         direction: ListDirection,
@@ -84,7 +84,7 @@ data class ListView(
         dataSource: Bind<List<Any>>,
         template: ServerDrivenComponent,
         onScrollEnd: List<Action>? = null,
-        scrollThreshold: Int? = null,
+        scrollEndThreshold: Int? = null,
         iteratorName: String = "item",
         key: String? = null
     ) : this(
@@ -95,7 +95,7 @@ data class ListView(
         dataSource,
         template,
         onScrollEnd,
-        scrollThreshold,
+        scrollEndThreshold,
         iteratorName,
         key
     )

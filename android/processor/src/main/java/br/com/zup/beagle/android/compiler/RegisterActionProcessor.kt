@@ -16,10 +16,8 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.compiler.BEAGLE_CORE_WIDGET
-import br.com.zup.beagle.compiler.REGISTERED_ACTIONS
-import br.com.zup.beagle.compiler.RegisteredActionGenerator
-import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.shared.BEAGLE_CORE_WIDGET
+import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec

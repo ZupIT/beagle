@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.compiler.shared
 
 import br.com.zup.beagle.annotation.RegisterOperation
 import com.squareup.kotlinpoet.ClassName

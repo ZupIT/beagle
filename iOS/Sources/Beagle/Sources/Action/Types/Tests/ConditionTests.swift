@@ -96,7 +96,7 @@ final class ConditionTests: XCTestCase {
 
         // Then
         XCTAssertEqual(onTrue.executionCount, 0)
-        XCTAssertEqual(onFalse.executionCount, 0)
+        XCTAssertEqual(onFalse.executionCount, 1)
     }
 
 }

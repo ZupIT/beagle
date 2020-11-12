@@ -51,7 +51,7 @@ data class ListView
     message = "It was deprecated in version 1.5 and will be removed in a future version. " +
         "Use dataSource and template instead children.",
     replaceWith = ReplaceWith(
-        "ListView(direction, context, onInit, dataSource, template, onScrollEnd, scrollThreshold," +
+        "ListView(direction, context, onInit, dataSource, template, onScrollEnd, scrollEndThreshold," +
             "iteratorName, key)")
 )
 constructor(
@@ -62,7 +62,7 @@ constructor(
     val dataSource: Bind<List<Any>>? = null,
     val template: ServerDrivenComponent? = null,
     val onScrollEnd: List<Action>? = null,
-    val scrollThreshold: Int? = null,
+    val scrollEndThreshold: Int? = null,
     val iteratorName: String = "item",
     val key: String? = null
 ) : WidgetView(), ContextComponent, OnInitiableComponent by OnInitiableComponentImpl(onInit) {
@@ -74,7 +74,7 @@ constructor(
     @Deprecated(message = "It was deprecated in version 1.5 and will be removed in a future version. " +
         "Use dataSource and template instead children.",
         replaceWith = ReplaceWith(
-            "ListView(direction, context, onInit, dataSource, template, onScrollEnd, scrollThreshold," +
+            "ListView(direction, context, onInit, dataSource, template, onScrollEnd, scrollEndThreshold," +
                 "iteratorName, key)"))
     constructor(
         children: List<ServerDrivenComponent>,
@@ -87,15 +87,15 @@ constructor(
 
     /**
      * @param direction define the list direction.
-     * @param context define the contextData that be set to container.
+     * @param context define the contextData that be set to component.
      * @param onInit allows to define a list of actions to be performed when the Widget is displayed.
-     * @param dataSource it's an expression that points to a list of values used to populate the Widget
-     * @param template represents each cell in the list through a ServerDrivenComponent
-     * @param onScrollEnd list of actions performed when the list is scrolled to the end
-     * @param scrollThreshold sets the scrolled percentage of the list to trigger onScrollEnd
-     * @param iteratorName is the context identifier of each cell
+     * @param dataSource it's an expression that points to a list of values used to populate the Widget.
+     * @param template represents each cell in the list through a ServerDrivenComponent.
+     * @param onScrollEnd list of actions performed when the list is scrolled to the end.
+     * @param scrollEndThreshold sets the scrolled percentage of the list to trigger onScrollEnd.
+     * @param iteratorName is the context identifier of each cell.
      * @param key points to a unique value present in each dataSource item
-     * used as a suffix in the component ids within the Widget
+     * used as a suffix in the component ids within the Widget.
      */
     constructor(
         direction: ListDirection,
@@ -104,7 +104,7 @@ constructor(
         dataSource: Bind<List<Any>>,
         template: ServerDrivenComponent,
         onScrollEnd: List<Action>? = null,
-        scrollThreshold: Int? = null,
+        scrollEndThreshold: Int? = null,
         iteratorName: String = "item",
         key: String? = null
     ) : this(
@@ -115,7 +115,7 @@ constructor(
         dataSource,
         template,
         onScrollEnd,
-        scrollThreshold,
+        scrollEndThreshold,
         iteratorName,
         key
     )
@@ -233,14 +233,16 @@ constructor(
 
     private fun configRecyclerViewScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
                 // listen if reach max and notify the ViewModel
                 checkIfNeedToCallScrollEnd(rootView)
                 if (cannotScrollDirectionally()) {
                     listViewIdViewModel.markHasCompletelyLoaded(recyclerView.id)
                 }
             }
+
         })
     }
 
@@ -256,19 +258,16 @@ constructor(
     }
 
     private fun canCallOnScrollEnd(): Boolean {
-        val reachEnd = scrollThreshold?.let {
+        val reachEnd = scrollEndThreshold?.let {
             val scrolledPercent = calculateScrolledPercent()
-            scrolledPercent >= scrollThreshold
+            scrolledPercent >= scrollEndThreshold
         } ?: cannotScrollDirectionally()
         return reachEnd && canScrollEnd
     }
 
-    private fun cannotScrollDirectionally() = !run {
-        if (direction == ListDirection.VERTICAL) {
-            recyclerView.canScrollVertically(1)
-        } else {
-            recyclerView.canScrollHorizontally(1)
-        }
+    private fun cannotScrollDirectionally(): Boolean {
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        return layoutManager.findLastVisibleItemPosition() == layoutManager.itemCount - 1
     }
 
     private fun calculateScrolledPercent(): Float {

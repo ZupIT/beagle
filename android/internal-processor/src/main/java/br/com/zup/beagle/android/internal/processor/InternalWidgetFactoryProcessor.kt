@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.internal.processor
 
-import br.com.zup.beagle.compiler.BEAGLE_CORE_WIDGET
-import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
-import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.shared.BEAGLE_CORE_WIDGET
+import br.com.zup.beagle.compiler.shared.BeagleSetupRegisteredWidgetGenerator
+import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec

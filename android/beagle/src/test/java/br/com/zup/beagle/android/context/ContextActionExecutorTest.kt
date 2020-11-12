@@ -146,6 +146,7 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
     @Test
     fun `GIVEN an AsyncAction WHEN executed THEN should call onActionStarted and onAsyncActionExecuted`() {
         // Given
+        val context = null
         val asyncActionViewModel = mockk<AsyncActionViewModel>()
         prepareViewModelMock(asyncActionViewModel)
         val asyncActionSlot = slot<AsyncActionData>()
@@ -154,7 +155,7 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
         every { asyncActionViewModel.onAsyncActionExecuted(capture(asyncActionSlot)) } just Runs
 
         // When
-        contextActionExecutor.executeActions(rootView, view, listOf(asyncAction))
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(asyncAction), context)
 
         // Then
         assertEquals(asyncActionSlot.captured.asyncAction, asyncAction)
