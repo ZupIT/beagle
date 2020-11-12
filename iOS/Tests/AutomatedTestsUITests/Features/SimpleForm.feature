@@ -25,17 +25,16 @@ Feature: SimpleForm Component Validation
         Given that I'm on the simple form screen
 
     Scenario: SimpleForm 01 - Checking if simpleForm children components appear on the screen
-        Then all my children components should render their respective attributes correctly
+        Then checks that the textInput with the placeholder "Type in your email" is on the screen
+        Then checks that the textInput with the placeholder "Type in your password" is on the screen
+        Then checks that the button with the title "Click to Submit" is on the screen
 
     Scenario Outline: SimpleForm 02 - Verify if onSubmit is working correctly
         When I click on a textInput with email Type and type in my "<email>"
         When I click on a textInput with password Type and type in my "<password>"
-        When I click on button with title Click to Submit
+        When I click on button with title "Click to Submit"
         Then verify if the email: "<email>" and the password: "<password>" is appearing correctly
 
         Examples:
             | email                | password |
             | teste@simpleform.com | 123      |
-
-
-

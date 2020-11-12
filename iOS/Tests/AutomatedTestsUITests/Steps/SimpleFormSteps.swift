@@ -17,6 +17,7 @@
 import Foundation
 import XCTest
 
+// swiftlint:disable force_unwrapping
 class SimpleFormSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication?
@@ -30,27 +31,33 @@ class SimpleFormSteps: CucumberStepsDefinition {
             }
         }
 
-        Given("^that I'm on the simple form screen$") { _, _ -> Void in
-            XCTAssertTrue(self.application!.staticTexts[Seeds.screenTitle].exists)
+        Given(#"^that I'm on the simple form screen$"#) { _, _ -> Void in
+            XCTAssertTrue(ScreenElements.SIMPLE_FORM_SCREEN_HEADER.element.exists)
         }
         
         // Scenario 1
-        Then("^all my children components should render their respective attributes correctly$") { _, _ -> Void in
-            XCTAssertTrue(self.application!.textFields[placeholder: Seeds.emailPlaceholder]!.exists)
-            XCTAssertTrue(self.application!.textFields[placeholder: "Type in your password"]!.exists)
-            XCTAssertTrue(self.application!.buttons[Seeds.submitButtonTitle].exists)
+        Then(#"^checks that the textInput with the placeholder "([^\"]*)" is on the screen$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            
+            XCTAssertTrue(self.application!.textFields[placeholder: placeholder]!.exists)
+        }
+        
+        Then(#"^checks that the button with the title "([^\"]*)" is on the screen$"#) { args, _ -> Void in
+            let button = args![0]
+            
+            XCTAssertTrue(self.application!.buttons[button].exists)
         }
 
         // Scenario 2
-        When("^I click on a textInput with email Type and type in my \"([^\\\"]*)\"$") { args, _ -> Void in
+        When(#"^I click on a textInput with email Type and type in my "([^\"]*)"$"#) { args, _ -> Void in
             let text = args![0]
 
-            let textField = self.application!.textFields[placeholder: Seeds.emailPlaceholder]!
+            let textField = self.application!.textFields[placeholder: "Type in your email"]!
             textField.tap()
             textField.typeText(text)
         }
         
-        When("^I click on a textInput with password Type and type in my \"([^\\\"]*)\"$") { args, _ -> Void in
+        When(#"^I click on a textInput with password Type and type in my "([^\"]*)"$"#) { args, _ -> Void in
             let text = args![0]
 
             let textField = self.application!.textFields[placeholder: "Type in your password"]!
@@ -58,12 +65,11 @@ class SimpleFormSteps: CucumberStepsDefinition {
             textField.typeText(text)
         }
         
-        When("^I click on button with title Click to Submit") { _, _ -> Void in
-            let button = self.application!.buttons[Seeds.submitButtonTitle]
+        When(#"^I click on button with title "([^\"]*)""#) { args, _ -> Void in
+            let button = self.application!.buttons[args![0]]
             button.tap()
         }
 
-        
         Then(#"^verify if the email: "([^\"]*)" and the password: "([^\"]*)" is appearing correctly$"#) { args, _ -> Void in
             let email = args![0]
             let pass = args![1]
@@ -76,13 +82,6 @@ class SimpleFormSteps: CucumberStepsDefinition {
 }
 
 // MARK: - Helpers
-fileprivate struct Seeds {
-    static let screenTitle = "SimpleForm"
-    static let emailPlaceholder = "Type in your email"
-    static let submitButtonTitle = "Click to Submit"
-}
-
-
 private extension XCUIElementQuery {
     subscript(placeholder value: String) -> XCUIElement? {
         first { $0.placeholderValue == value }
