@@ -24,5 +24,7 @@ Feature: PageView Component Validation
     Background:
         Given that I'm on the pageview screen
 
-    Scenario: PageView 01 - PageView component renders text attribute correctly
-        Then my pageview components should render their respective pages attributes correctly
+    Scenario: PageView 01 - Checking if pageview children components appear on the screen
+        Then checks that the text pageOne is on the screen
+        Then checks that the text pageTwo is on the screen
+        Then checks that the text pageThree is on the screen
