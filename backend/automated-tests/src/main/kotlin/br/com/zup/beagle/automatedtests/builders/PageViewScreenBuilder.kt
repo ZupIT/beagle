@@ -59,7 +59,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                     onPress = listOf(
                         SetContext(
                             contextId = "currentPage",
-                            value = 0
+                            value = "pageOne"
                         ),
                         Alert(message = "@{currentPage}")
                     )
@@ -69,7 +69,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                     onPress = listOf(
                         SetContext(
                             contextId = "currentPage",
-                            value = 1
+                            value = "pageTwo"
                         ),
                         Alert(message = "@{currentPage}")
                     )
@@ -79,7 +79,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                     onPress = listOf(
                         SetContext(
                             contextId = "currentPage",
-                            value = 2
+                            value = "pageThree"
                         ),
                         Alert(message = "@{currentPage}")
                     )
