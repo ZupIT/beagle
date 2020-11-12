@@ -26,13 +26,7 @@ import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isEnabled
-import androidx.test.espresso.matcher.ViewMatchers.withClassName
-import androidx.test.espresso.matcher.ViewMatchers.withHint
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withInputType
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
 import br.com.zup.beagle.automatedTests.utils.matcher.MatcherExtension
@@ -129,6 +123,15 @@ class ScreenRobot {
 
     fun checkInputTypeNumber(text: String): ScreenRobot {
         onView(withHint(text)).check(matches(allOf(withInputType(InputType.TYPE_CLASS_NUMBER))))
+        return this
+    }
+
+    fun checkComponentsPageView(text: String?): ScreenRobot {
+        onView(allOf(withText(text))).check(matches(isDisplayed()))
+            .perform(ViewActions.swipeLeft())
+            .check(matches(isDisplayed()))
+            .perform(ViewActions.swipeLeft())
+            .check(matches(isDisplayed()))
         return this
     }
 
