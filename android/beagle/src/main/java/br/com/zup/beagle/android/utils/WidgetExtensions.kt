@@ -32,7 +32,6 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -51,11 +50,16 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     actions: List<Action>,
     context: ContextData? = null,
-    analyticsHandleEvent: AnalyticsHandleEvent? = null
+    analyticsValue: String? = null
 ) {
-    this is IdentifierComponent
-    this is WidgetView
-    contextActionExecutor.executeActions(rootView, origin, this, actions, context, analyticsHandleEvent)
+    contextActionExecutor.executeActions(
+        rootView,
+        origin,
+        this,
+        actions,
+        context,
+        AnalyticsHandleEvent(this, analyticsValue)
+    )
 }
 
 /**
@@ -73,11 +77,10 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     actions: List<Action>,
     eventName: String,
-    eventValue: Any? = null,
-    analyticsHandleEvent: AnalyticsHandleEvent? = null
+    eventValue: Any? = null
 ) {
-    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue), analyticsHandleEvent) }
-        ?: handleEvent(rootView, origin, actions, analyticsHandleEvent = analyticsHandleEvent)
+    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
+        ?: handleEvent(rootView, origin, actions)
 }
 
 /**
@@ -93,9 +96,16 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     action: Action,
     context: ContextData? = null,
-    analyticsHandleEvent: AnalyticsHandleEvent? = null
+    analyticsValue: String? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context, analyticsHandleEvent)
+    contextActionExecutor.executeActions(
+        rootView,
+        origin,
+        this,
+        listOf(action),
+        context,
+        AnalyticsHandleEvent(this, analyticsValue)
+    )
 }
 
 /**
@@ -114,10 +124,9 @@ fun ServerDrivenComponent.handleEvent(
     action: Action,
     eventName: String,
     eventValue: Any? = null,
-    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue), analyticsHandleEvent) }
-        ?: handleEvent(rootView, origin, action, analyticsHandleEvent = analyticsHandleEvent)
+    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
+        ?: handleEvent(rootView, origin, action)
 }
 
 /**

@@ -17,10 +17,8 @@
 package br.com.zup.beagle.analytics2
 
 import android.view.View
-import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.widget.RootView
-import java.lang.Exception
 
 class AnalyticsService(private val analyticsProvider: AnalyticsProvider? = null) {
 
@@ -39,22 +37,29 @@ class AnalyticsService(private val analyticsProvider: AnalyticsProvider? = null)
     fun createActionRecord(
         rootView: RootView,
         origin: View,
-        action: Action,
+        action: ActionAnalytics,
         analyticsHandleEvent: AnalyticsHandleEvent? = null
     ) {
-        if (action is ActionAnalytics)
-            analyticsProvider?.let { analyticsProvider ->
-                val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(action)
-                if (shouldReport(config)) {
-                    try{
-                        analyticsProvider.createRecord(
-                            ActionRecordCreator.createRecord(rootView, origin, config, action, analyticsHandleEvent)
-                        )
-                    } catch (e : Exception){
+        val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(action)
+        if (shouldReport(config)) {
+            reportAction(rootView, origin, action, analyticsHandleEvent, config)
+        }
+    }
 
-                    }
-                }
-            }
+    private fun reportAction(
+        rootView: RootView,
+        origin: View,
+        action: ActionAnalytics,
+        analyticsHandleEvent: AnalyticsHandleEvent? = null,
+        actionAnalyticsConfig: ActionAnalyticsConfig
+    ) {
+        try {
+            analyticsProvider?.createRecord(
+                ActionRecordCreator.createRecord(rootView, origin, actionAnalyticsConfig, action, analyticsHandleEvent)
+            )
+        } catch (e: Exception) {
+
+        }
     }
 
     private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
@@ -76,15 +81,17 @@ class AnalyticsService(private val analyticsProvider: AnalyticsProvider? = null)
     }
 
     fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
-        analyticsProvider?.let { analyticsProvider ->
-            if (isAnalyticsConfigInitialized()) {
-                if (shouldReportScreen()) {
-                    if (isLocalScreen)
-                        analyticsProvider.createRecord(ScreenReportCreator.createScreenLocalReport(screenIdentifier))
-                    else
-                        analyticsProvider.createRecord(ScreenReportCreator.createScreenRemoteReport(screenIdentifier))
-                }
-            }
+        if (isAnalyticsConfigInitialized()) {
+            reportScreen(isLocalScreen, screenIdentifier)
+        }
+    }
+
+    private fun reportScreen(isLocalScreen: Boolean, screenIdentifier: String) {
+        if (shouldReportScreen()) {
+            if (isLocalScreen)
+                analyticsProvider?.createRecord(ScreenReportCreator.createScreenLocalReport(screenIdentifier))
+            else
+                analyticsProvider?.createRecord(ScreenReportCreator.createScreenRemoteReport(screenIdentifier))
         }
     }
 

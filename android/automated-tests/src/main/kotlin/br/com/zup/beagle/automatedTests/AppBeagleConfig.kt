@@ -16,13 +16,14 @@
 
 package br.com.zup.beagle.automatedTests
 
+import br.com.zup.beagle.analytics2.AnalyticsProvider
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.setup.BeagleConfig
 import br.com.zup.beagle.android.setup.Cache
 import br.com.zup.beagle.android.setup.Environment
 
 @BeagleComponent
-class AppBeagleConfig : BeagleConfig {
+class AppBeagleConfig() : BeagleConfig {
     override val isLoggingEnabled: Boolean = true
     override val baseUrl: String get() = "http://10.0.2.2:8080" // return the base url based on your environment
     override val environment: Environment get() = Environment.DEBUG // return the current build state of your app
@@ -31,4 +32,5 @@ class AppBeagleConfig : BeagleConfig {
         maxAge = 300, // Time in seconds that memory cache will live.
         memoryMaximumCapacity = 15 // Memory LRU cache size. It represents number of screens that will be in memory.
     ) // Cache management configuration
+    override val analyticsProvider: AnalyticsProvider? = null
 }

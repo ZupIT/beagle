@@ -20,7 +20,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
@@ -98,7 +97,7 @@ internal data class PageViewTwo(
                 viewPager,
                 listAction,
                 ContextData("onPageChange", position),
-                AnalyticsHandleEvent(this@PageViewTwo, "onPageChange")
+                "onPageChange"
             )
         }
     }

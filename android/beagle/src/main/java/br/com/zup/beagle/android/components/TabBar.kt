@@ -22,7 +22,6 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import br.com.zup.beagle.R
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
@@ -142,7 +141,7 @@ data class TabBar(
                             tabBar,
                             it,
                             ContextData("onTabSelection", value = tab.position),
-                            AnalyticsHandleEvent(this@TabBar, "onTabSelection")
+                            "onTabSelection"
                         )
                     }
                 }

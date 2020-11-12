@@ -14,21 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+package br.com.zup.beagle.android.annotation
 
-import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-abstract class ActionAnalytics : Action {
-
-    abstract var analytics: ActionAnalyticsConfig?
-    abstract val type: String?
-
-    abstract fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent? = null)
-
-    override fun execute(rootView: RootView, origin: View) {
-        this.execute(rootView, origin, null)
-    }
-}
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class BeagleAnalytics

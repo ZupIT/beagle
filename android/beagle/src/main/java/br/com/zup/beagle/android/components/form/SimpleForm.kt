@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components.form
 
 import android.view.View
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.context.ContextComponent
@@ -77,7 +76,7 @@ data class SimpleForm(
                 rootView,
                 view,
                 action,
-                analyticsHandleEvent = AnalyticsHandleEvent(this@SimpleForm, "onSubmit")
+                analyticsValue = "onSubmit"
             )
         }
     }

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.sample
 
+import br.com.zup.beagle.analytics2.AnalyticsProvider
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.setup.BeagleConfig
 import br.com.zup.beagle.android.setup.Cache
@@ -32,4 +33,6 @@ class AppBeagleConfig : BeagleConfig {
         maxAge = 300,
         size = 15
     )
+    override val analyticsProvider: AnalyticsProvider? = null
+
 }

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.setup
 
+import br.com.zup.beagle.analytics2.AnalyticsProvider
 import br.com.zup.beagle.android.utils.CacheDeprecatedConstants
 
 /**
@@ -79,6 +80,8 @@ interface BeagleConfig {
      * Attribute that enables or disables all logs that Beagle generates.
      */
     val isLoggingEnabled: Boolean
-
-    //val analyticsProvider : AnalyticsProvider? = null
+    /**
+     * Attribute that be used to get the config to analytics
+     */
+    val analyticsProvider : AnalyticsProvider?
 }

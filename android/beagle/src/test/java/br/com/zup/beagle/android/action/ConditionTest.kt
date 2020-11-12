@@ -17,14 +17,15 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
 import io.mockk.every
-import io.mockk.junit5.MockKExtension
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -32,13 +33,13 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
 class ConditionTest : BaseTest() {
 
     private val view: View = mockk()
     private val onFalse: Action = mockk(relaxed = true)
     private val onTrue: Action = mockk(relaxed = true)
+    private val originComponent: ServerDrivenComponent = mockk()
 
     @BeforeEach
     override fun setUp() {
@@ -56,13 +57,13 @@ class ConditionTest : BaseTest() {
             onTrue = listOf(onTrue)
         )
         every { condition.evaluateExpression(rootView, view, condition.condition) } returns true
-        every { condition.handleEvent(rootView, view, listOf(onTrue)) } just Runs
+        every { condition.handleEvent(rootView, view, listOf(onTrue), analyticsHandleEvent = any()) } just Runs
 
         // When
-        condition.execute(rootView, view)
+        condition.execute(rootView, view, originComponent)
 
         // Then
-        verify { condition.handleEvent(rootView, view, listOf(onTrue)) }
+        verify { condition.handleEvent(rootView, view, listOf(onTrue), analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onTrue")) }
     }
 
     @Test
@@ -74,13 +75,13 @@ class ConditionTest : BaseTest() {
             onTrue = listOf(onTrue)
         )
         every { condition.evaluateExpression(rootView, view, condition.condition) } returns false
-        every { condition.handleEvent(rootView, view, listOf(onFalse)) } just Runs
+        every { condition.handleEvent(rootView, view, listOf(onFalse), analyticsHandleEvent = any()) } just Runs
 
         // When
-        condition.execute(rootView, view)
+        condition.execute(rootView, view, originComponent)
 
         // Then
-        verify { condition.handleEvent(rootView, view, listOf(onFalse)) }
+        verify { condition.handleEvent(rootView, view, listOf(onFalse), analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")) }
     }
 
     @Test
@@ -97,10 +98,10 @@ class ConditionTest : BaseTest() {
         every { BeagleLoggerProxy.warning(any()) } just Runs
 
         // When
-        condition.execute(rootView, view)
+        condition.execute(rootView, view, originComponent)
 
         // Then
-        verify { condition.handleEvent(rootView, view, listOf(onFalse)) }
+        verify { condition.handleEvent(rootView, view, listOf(onFalse), analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")) }
         BeagleLoggerProxy.warning("Conditional action. Expected boolean or null. Received: ${condition.condition.value}")
     }
 
@@ -113,12 +114,12 @@ class ConditionTest : BaseTest() {
             onTrue = listOf(onTrue)
         )
         every { condition.evaluateExpression(rootView, view, condition.condition) } returns null
-        every { condition.handleEvent(rootView, view, listOf(onFalse)) } just Runs
+        every { condition.handleEvent(rootView, view, listOf(onFalse),analyticsHandleEvent = any()) } just Runs
 
         // When
-        condition.execute(rootView, view)
+        condition.execute(rootView, view, originComponent)
 
         // Then
-        verify { condition.handleEvent(rootView, view, listOf(onFalse)) }
+        verify { condition.handleEvent(rootView, view, listOf(onFalse), analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")) }
     }
 }

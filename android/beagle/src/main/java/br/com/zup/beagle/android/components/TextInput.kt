@@ -21,7 +21,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
@@ -35,10 +34,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextInputType
-import br.com.zup.beagle.widget.core.TextInputType.DATE
-import br.com.zup.beagle.widget.core.TextInputType.EMAIL
-import br.com.zup.beagle.widget.core.TextInputType.NUMBER
-import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
+import br.com.zup.beagle.widget.core.TextInputType.*
 
 private const val VALUE_KEY = "value"
 
@@ -136,7 +132,7 @@ data class TextInput(
                         id = "onChange",
                         value = mapOf(VALUE_KEY to newText.toString())
                     ),
-                    analyticsHandleEvent = AnalyticsHandleEvent(this@TextInput, "onChange")
+                    analyticsValue = "onChange"
                 )
             }
         }
@@ -158,7 +154,7 @@ data class TextInput(
                             id = "onFocus",
                             value = mapOf(VALUE_KEY to text.toString())
                         ),
-                        AnalyticsHandleEvent(this@TextInput, "onFocus")
+                        "onFocus"
                     )
                 }
             } else {
@@ -171,7 +167,7 @@ data class TextInput(
                             id = "onBlur",
                             value = mapOf(VALUE_KEY to text.toString())
                         ),
-                        analyticsHandleEvent = AnalyticsHandleEvent(this@TextInput, "onBlur")
+                        analyticsValue = "onBlur"
                     )
                 }
             }

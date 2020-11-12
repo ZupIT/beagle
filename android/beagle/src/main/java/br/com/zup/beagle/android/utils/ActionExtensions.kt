@@ -47,7 +47,6 @@ fun Action.handleEvent(
     context: ContextData? = null,
     analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-
     contextActionExecutor.executeActions(rootView, origin, this, actions, context, analyticsHandleEvent)
 }
 
@@ -66,16 +65,10 @@ fun Action.handleEvent(
     origin: View,
     actions: List<Action>,
     eventName: String,
-    eventValue: Any? = null,
-    analyticsHandleEvent: AnalyticsHandleEvent? = null
+    eventValue: Any? = null
 ) {
-    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue), analyticsHandleEvent) }
-        ?: handleEvent(
-            rootView = rootView,
-            origin = origin,
-            actions = actions,
-            analyticsHandleEvent = analyticsHandleEvent
-        )
+    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
+        ?: handleEvent(rootView = rootView, origin = origin, actions = actions)
 }
 
 /**
@@ -111,16 +104,10 @@ fun Action.handleEvent(
     origin: View,
     action: Action,
     eventName: String,
-    eventValue: Any? = null,
-    analyticsHandleEvent: AnalyticsHandleEvent? = null
+    eventValue: Any? = null
 ) {
-    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue), analyticsHandleEvent) }
-        ?: handleEvent(
-            rootView = rootView,
-            origin = origin,
-            action = action,
-            analyticsHandleEvent = analyticsHandleEvent
-        )
+    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
+        ?: handleEvent(rootView = rootView, origin = origin, action = action)
 }
 
 /**

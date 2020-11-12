@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -57,7 +56,7 @@ data class Touchable(
                     rootView,
                     this,
                     onPress,
-                    analyticsHandleEvent = AnalyticsHandleEvent(this@Touchable, "onPress")
+                    analyticsValue = "onPress"
                 )
                 clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)

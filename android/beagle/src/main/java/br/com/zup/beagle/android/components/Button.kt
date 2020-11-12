@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
@@ -83,7 +82,7 @@ data class Button(
                     rootView,
                     view,
                     it,
-                    analyticsHandleEvent = AnalyticsHandleEvent(this@Button, "onPress")
+                    analyticsValue = "onPress"
                 )
             }
             clickAnalyticsEvent?.let {
