@@ -19,7 +19,6 @@ package br.com.zup.beagle.automatedTests.cucumber.robots
 import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -27,7 +26,13 @@ import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
+import androidx.test.espresso.matcher.ViewMatchers.withHint
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withInputType
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
 import br.com.zup.beagle.automatedTests.utils.matcher.MatcherExtension
@@ -38,7 +43,6 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.hamcrest.TypeSafeMatcher
-import kotlin.jvm.Throws
 
 class ScreenRobot {
 
@@ -78,12 +82,12 @@ class ScreenRobot {
         return this
     }
 
-    fun checkViewIsNotDisplayed(text: String?): ScreenRobot{
+    fun checkViewIsNotDisplayed(text: String?): ScreenRobot {
         onView(Matchers.allOf(withText(text))).check(matches(not(isDisplayed())))
         return this
     }
 
-    fun typeText(hint: String, text: String) : ScreenRobot {
+    fun typeText(hint: String, text: String): ScreenRobot {
         onView(withHint(hint)).perform(ViewActions.typeText((text)))
         return this
     }
@@ -107,23 +111,23 @@ class ScreenRobot {
         return this
     }
 
-    fun disabledFieldHint(text: String)  : ScreenRobot {
+    fun disabledFieldHint(text: String): ScreenRobot {
         onView(withHint(text)).check(matches(not(isEnabled())))
         return this
     }
 
-    fun disabledFieldText(text: String) : ScreenRobot {
+    fun disabledFieldText(text: String): ScreenRobot {
         onView(withText(text)).check(matches(not(isEnabled())))
         return this
     }
 
-    fun hintInSecondPlan(text: String) : ScreenRobot {
+    fun hintInSecondPlan(text: String): ScreenRobot {
         onView(withHint(text)).perform(pressBack())
         onView(allOf(withHint(text), isDisplayed()))
         return this
     }
 
-    fun checkInputTypeNumber(text: String) : ScreenRobot {
+    fun checkInputTypeNumber(text: String): ScreenRobot {
         onView(withHint(text)).check(matches(allOf(withInputType(InputType.TYPE_CLASS_NUMBER))))
         return this
     }

@@ -27,13 +27,15 @@ class CucumberishInitializer: NSObject {
                     ImageSteps(),
                     PageViewSteps(),
                     SimpleFormSteps(),
+                    ScrollViewSteps(),
                     SendRequestActionSteps(),
                     NavigateSteps(),
                     ContainerSteps(),
                     AddChildrenSteps(),
                     TextInputSteps(),
                     TextSteps(),
-                    AlertSteps()
+                    AlertSteps(),
+                    ConditionalActionSteps()
                 ]
             for stepsDefinition in stepsDefinitions {
                 stepsDefinition.loadSteps()

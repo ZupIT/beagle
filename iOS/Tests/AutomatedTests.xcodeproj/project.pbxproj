@@ -10,6 +10,7 @@
 		0D0165EE254C5299000A48AD /* TextSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0165ED254C5299000A48AD /* TextSteps.swift */; };
 		174096E9252B8FB10009C749 /* NavigateSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174096E8252B8FB10009C749 /* NavigateSteps.swift */; };
 		17F6C7BA25364B8800A0ECAA /* SendRequestActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */; };
+		251FDDF725378BA600B2C5EB /* ConditionalActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */; };
 		25CEAC6B2551E25B00404B21 /* XCUIElementQuery+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CEAC692551E24E00404B21 /* XCUIElementQuery+Extension.swift */; };
 		25CEAC6D2551E2C000404B21 /* TextInputSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */; };
 		422E0FB52555FFD200A43424 /* AlertSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42554D3A25519E6F00B028ED /* AlertSteps.swift */; };
@@ -138,6 +139,7 @@
 		0D0165ED254C5299000A48AD /* TextSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSteps.swift; sourceTree = "<group>"; };
 		174096E8252B8FB10009C749 /* NavigateSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateSteps.swift; sourceTree = "<group>"; };
 		17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestActionSteps.swift; sourceTree = "<group>"; };
+		251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalActionSteps.swift; sourceTree = "<group>"; };
 		25CEAC692551E24E00404B21 /* XCUIElementQuery+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementQuery+Extension.swift"; sourceTree = "<group>"; };
 		25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputSteps.swift; sourceTree = "<group>"; };
 		42554D3A25519E6F00B028ED /* AlertSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSteps.swift; sourceTree = "<group>"; };
@@ -620,22 +622,23 @@
 		6B4F7E7724C656FC003F461A /* Steps */ = {
 			isa = PBXGroup;
 			children = (
-				6B4F7E7824C659AF003F461A /* ButtonSteps.swift */,
-				6B4F7E7E24C71D04003F461A /* TabViewSteps.swift */,
-				6B4F7E8024C728F8003F461A /* ImageSteps.swift */,
-				6B4F7E8224C7943C003F461A /* PageViewSteps.swift */,
-				6B4F7E8424C9C5F9003F461A /* ListViewSteps.swift */,
-				6B4F7E8824C9C621003F461A /* ScrollViewSteps.swift */,
-				6B4F7E8A24C9C637003F461A /* TouchableSteps.swift */,
-				6B9ADC5624D88FD300097605 /* SimpleFormSteps.swift */,
-				F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */,
 				57A9F3582538E21D00F75396 /* AddChildrenSteps.swift */,
-				17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */,
-				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
-				174096E8252B8FB10009C749 /* NavigateSteps.swift */,
-				0D0165ED254C5299000A48AD /* TextSteps.swift */,
 				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
+				6B4F7E7824C659AF003F461A /* ButtonSteps.swift */,
+				251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */,
+				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
+				F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */,
+				6B4F7E8024C728F8003F461A /* ImageSteps.swift */,
+				6B4F7E8424C9C5F9003F461A /* ListViewSteps.swift */,
+				174096E8252B8FB10009C749 /* NavigateSteps.swift */,
+				6B4F7E8224C7943C003F461A /* PageViewSteps.swift */,
+				6B4F7E8824C9C621003F461A /* ScrollViewSteps.swift */,
+				17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */,
+				6B9ADC5624D88FD300097605 /* SimpleFormSteps.swift */,
+				6B4F7E7E24C71D04003F461A /* TabViewSteps.swift */,
 				25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */,
+				0D0165ED254C5299000A48AD /* TextSteps.swift */,
+				6B4F7E8A24C9C637003F461A /* TouchableSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				6B4F7E8B24C9C638003F461A /* TouchableSteps.swift in Sources */,
 				57A9F3592538E21D00F75396 /* AddChildrenSteps.swift in Sources */,
 				639CA20424B4F0B0009FAC90 /* CCIFeature.m in Sources */,
+				251FDDF725378BA600B2C5EB /* ConditionalActionSteps.swift in Sources */,
 				6B9ADC5724D88FD300097605 /* SimpleFormSteps.swift in Sources */,
 				42D7B4E5253E6C3E00431477 /* ContainerSteps.swift in Sources */,
 				639CA1FE24B4F0B0009FAC90 /* CCIArgument.m in Sources */,
