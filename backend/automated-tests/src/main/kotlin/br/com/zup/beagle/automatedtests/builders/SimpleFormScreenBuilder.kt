@@ -91,7 +91,7 @@ object SimpleFormScreenBuilder {
                 )
             )
         ).applyStyle(
-            Style(backgroundColor = "#000000",
+            Style(backgroundColor = "#fa7f72",
                 size = Size(height = 100.00.unitPercent()))
         )
     )

@@ -34,7 +34,7 @@ data class ConditionValues(val confirmTrue:Boolean = true, val confirmNotTrue:Bo
 object ConditionalScreenBuilder {
     fun build() = Screen(
         child = Container(
-            context = ContextData(id = "conditionalContext", ConditionValues()),
+            context = ContextData(id = "conditionalContext", value = ConditionValues()),
             children = listOf(
                 Text("Conditional Screen"),
                 conditionButton(text = "Condition true", condition = valueOf(true)),
