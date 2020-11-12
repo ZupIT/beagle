@@ -25,10 +25,10 @@ import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
