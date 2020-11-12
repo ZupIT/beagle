@@ -60,7 +60,8 @@ class BeagleSetupRegisteredWidgetGenerator(private val processingEnv: Processing
     private fun validationElement(element: Element) {
         val typeElement = element as TypeElement
         if (!(isValidInheritance(typeElement))) {
-            val errorMessage = "The class $element need to inherit from the class ${WIDGET_VIEW.className} when annotate class with @RegisterWidget."
+            val errorMessage = "The class $element need to inherit from the class ${WIDGET_VIEW.className} " +
+                "when annotate class with @RegisterWidget."
             processingEnv.messager.error(typeElement, errorMessage)
         }
     }
