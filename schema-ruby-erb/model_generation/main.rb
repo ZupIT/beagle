@@ -67,6 +67,7 @@ require_relative 'Models/Action/condition.rb'
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
 require_relative 'Templates/template_helper.rb'
+require_relative 'Templates/kotlin_template_helper.rb'
 
 # This is the main class of Beagle Schema
 class ModelGenerator
@@ -79,64 +80,15 @@ class ModelGenerator
     @erb = nil
     @writer = FileHandler.new
     @components = components
-    @import_manager = Hash.new("")
-    @enum_import_manager = Hash.new("")
     @c = Constants.new
 
     helper = TemplateHelper.new
-
-    components.each do |clazz|
-      component = clazz.new
-      handleInnerTypes(component, helper)
-    end
+    @kotlinHelper = KotlinTemplateHelper.new(components)
   end
 
   # Array of BaseComponents
   # @return [Array<BaseComponent>]
   attr_accessor :objectType
-
-  # @return [Hash]
-  attr_accessor :import_manager
-
-  # @return [Hash]
-  attr_accessor :enum_import_manager
-
-  def defineImport(component, helper)
-    type = component.synthax_type
-    if helper.is_enum(component)
-      @enum_import_manager[type.name] = "#{type.package}.#{type.name}"
-    else
-      @import_manager[type.name] = "#{type.package}.#{type.name}"
-    end
-
-    #TODO refactor list imports
-    for inherit in type.inheritFrom
-        if helper.is_enum(inherit)
-          @enum_import_manager[inherit.synthax_type.name] = "#{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
-        else
-          @import_manager[inherit.synthax_type.name] = "#{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
-        end
-
-        for variable in type.variables
-          if !helper.variable_is_primitive(variable)
-            if helper.variable_is_enum(variable)
-              @enum_import_manager[variable.typeName] = "#{inherit.synthax_type.package}.#{variable.typeName}"
-            else
-              @import_manager[variable.typeName] = "#{inherit.synthax_type.package}.#{variable.typeName}"
-            end
-          end
-        end
-      end
-  end
-
-  def handleInnerTypes(component, helper)
-    defineImport(component, helper)
-    
-    for components in component.synthax_type.sameFileTypes
-      handleInnerTypes(components, helper)
-    end
-    
-  end
 
   # This method is used to trigger the logic for code generation inside the templates
   # @return [String] the result of this method return a string that will be saved in a file

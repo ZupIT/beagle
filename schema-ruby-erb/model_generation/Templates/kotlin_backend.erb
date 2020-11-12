@@ -16,6 +16,7 @@
  */
 <%
   require_relative 'Templates/template_helper.rb'
+  require_relative 'Templates/kotlin_template_helper.rb'
 
   @tab = "    "
   @template_helper = TemplateHelper.new
@@ -32,14 +33,7 @@
 
   def resolveImports(objectType)
     output = ""
-
-    for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager)
-      if !qualifiedName.include? "#{objectType.synthax_type.package}"
-        output += "\nimport #{qualifiedName}"
-      end
-    end
-
-    for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager)
+    for qualifiedName in @kotlinHelper.resolveImports(objectType.synthax_type.variables)
       if !qualifiedName.include? "#{objectType.synthax_type.package}"
         output += "\nimport #{qualifiedName}"
       end
@@ -50,13 +44,7 @@
         output += "\nimport #{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
       end
       
-      for qualifiedName in @template_helper.getImports(inherit.synthax_type.variables, import_manager)
-        if !qualifiedName.include? "#{objectType.synthax_type.package}"
-          output += "\nimport #{qualifiedName}"
-        end
-      end
-
-      for qualifiedName in @template_helper.getImports(inherit.synthax_type.variables, enum_import_manager)
+      for qualifiedName in @kotlinHelper.resolveImports(inherit.synthax_type.variables)
         if !qualifiedName.include? "#{objectType.synthax_type.package}"
           output += "\nimport #{qualifiedName}"
         end
@@ -314,7 +302,7 @@
     if variable.instance_of? Dictionary
       output = dictionary_variable_declaration(variable)
     else
-      output = single_variable_declaration(variable, import_manager)
+      output = single_variable_declaration(variable, @kotlinHelper.import_manager)
     end
 
     default = getVariableDefault(variable)
@@ -331,7 +319,7 @@
     if variable.instance_of? Dictionary
       output = dictionary_variable_declaration(variable)
     else
-      output = single_variable_declaration(variable, import_manager)
+      output = single_variable_declaration(variable, @kotlinHelper.import_manager)
     end
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output

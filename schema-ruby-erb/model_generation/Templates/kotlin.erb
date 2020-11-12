@@ -16,6 +16,7 @@
  */
 <%
   require_relative 'Templates/template_helper.rb'
+  require_relative 'Templates/kotlin_template_helper.rb'
 
   @tab = "    "
   @template_helper = TemplateHelper.new
@@ -37,27 +38,17 @@
   end
 
   def variable_type_declaration(variable, import_manager)
-    #todo variables now have default values!
     output = ""
     if variable.instance_of? Dictionary
       output = dictionary_variable_declaration(variable)
     else
-      output = single_variable_declaration(variable, import_manager)
+      output = single_variable_declaration(variable, @kotlinHelper.import_manager)
     end
     
     output = variable.isBindable ? "BindAttribute<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
     output
-  end
-
-  def getImports(variables, import_manager)
-    
-    variables
-      .select{|variable| !variable.instance_of? Dictionary}
-      .map { | variable| import_manager[variable.typeName] }
-      .uniq.filter { |import| !import.empty? }
-    
   end
 
   def adapt_type_name_to_kotlin_specific(typeName)
@@ -86,12 +77,8 @@
         outputImports += "\nimport br.com.zup.beagle.core.BindAttribute"
       end
 
-      for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, import_manager)
+      for qualifiedName in @kotlinHelper.resolveImports(objectType.synthax_type.variables)
         outputImports += "\nimport #{qualifiedName}Schema"
-      end
-
-      for qualifiedName in @template_helper.getImports(objectType.synthax_type.variables, enum_import_manager)
-        outputImports += "\nimport #{qualifiedName}"
       end
       
     end
@@ -133,7 +120,7 @@
 
     output = "\n#{typeKind} #{objectType.synthax_type.name}Schema {"
     for variable in objectType.synthax_type.variables 
-      output += "\n#{@tab}#{variable.accessor} val #{variable.name}: #{variable_type_declaration(variable, import_manager)}"
+      output += "\n#{@tab}#{variable.accessor} val #{variable.name}: #{variable_type_declaration(variable, @kotlinHelper.import_manager)}"
     end
     output
   end

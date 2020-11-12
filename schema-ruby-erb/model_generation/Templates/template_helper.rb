@@ -139,13 +139,6 @@ class TemplateHelper
         object_type.synthax_type.inheritFrom.include? Widget.new.name
     end
 
-    def getImports(variables, import_manager)
-        variables
-            .select {|variable| !variable.instance_of? Dictionary }
-            .map { |variable| import_manager[variable.typeName] }
-            .uniq.filter { |import| !import.empty? }
-    end
-
     # Given object_type, this functions returns if such an object is a server driven component or not
     #
     # @param object_type [BaseComponent]
