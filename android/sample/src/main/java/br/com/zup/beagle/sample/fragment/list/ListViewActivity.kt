@@ -162,12 +162,12 @@ class ListViewActivity : AppCompatActivity() {
                     Style(
                         size = Size(width = 300.unitReal(), height = 80.unitReal())
                     )
-                ).setId("button")
+                )
             )
-        ).setId("container")
+        )
     ).applyStyle(
         Style(
             backgroundColor = "#CCC"
         )
-    )
+    ).setId(id = "innerList")
 }

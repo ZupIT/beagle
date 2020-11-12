@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.android.compiler
+
+import br.com.zup.beagle.compiler.shared.BeagleClass
 
 val FORM_LOCAL_ACTION_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.action",
@@ -52,10 +54,7 @@ val BEAGLE_SDK = BeagleClass(
     "br.com.zup.beagle.android.setup",
     "BeagleSdk"
 )
-val WIDGET_VIEW = BeagleClass(
-    "br.com.zup.beagle.android.widget",
-    "WidgetView"
-)
+
 val BEAGLE_ACTIVITY = BeagleClass(
     "br.com.zup.beagle.android.view",
     "BeagleActivity"
@@ -89,11 +88,6 @@ val BEAGLE_CUSTOM_ADAPTER_IMPL = BeagleClass(
     "TypeAdapterResolverImpl"
 )
 
-val BEAGLE_CORE_WIDGET = BeagleClass(
-    "br.com.zup.beagle.widget",
-    "Widget"
-)
-
 val BEAGLE_LOGGER = BeagleClass(
     "br.com.zup.beagle.android.logger",
     "BeagleLogger"
@@ -107,9 +101,4 @@ val BEAGLE_IMAGE_DOWNLOADER = BeagleClass(
 val ANDROID_ACTION = BeagleClass(
     packageName = "br.com.zup.beagle.android.action",
     className = "Action"
-)
-
-val ANDROID_OPERATION = BeagleClass(
-    packageName = "br.com.zup.beagle.android.operation",
-    className = "Operation"
 )

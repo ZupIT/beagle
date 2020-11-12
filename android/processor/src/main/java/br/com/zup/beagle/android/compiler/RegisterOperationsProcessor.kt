@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.compiler.ANDROID_OPERATION
-import br.com.zup.beagle.compiler.REGISTERED_OPERATIONS
-import br.com.zup.beagle.compiler.RegisteredOperationGenerator
-import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
+import br.com.zup.beagle.compiler.shared.REGISTERED_OPERATIONS
+import br.com.zup.beagle.compiler.shared.RegisteredOperationGenerator
+import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec

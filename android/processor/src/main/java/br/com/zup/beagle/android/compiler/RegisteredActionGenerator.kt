@@ -14,48 +14,44 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.annotation.RegisterAction
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.RoundEnvironment
 
-const val REGISTERED_WIDGETS = "registeredWidgets"
+const val REGISTERED_ACTIONS = "registeredActions"
 
-class BeagleSetupRegisteredWidgetGenerator {
+class RegisteredActionGenerator {
 
     fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-        val classValues = StringBuilder()
-        val registerWidgetAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterWidget::class.java)
+        val registerAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterAction::class.java)
 
-        registerWidgetAnnotatedClasses.forEachIndexed { index, element ->
-            classValues.append("\t${element}::class.java as Class<WidgetView>")
-            if (index < registerWidgetAnnotatedClasses.size - 1) {
-                classValues.append(",\n")
-            }
+        val classValues = registerAnnotatedClasses.joinToString(",\n") { element ->
+            "\t${element}::class.java as Class<Action>"
         }
 
         return createFuncSpec()
             .addCode("""
-                        |val $REGISTERED_WIDGETS = listOf<Class<WidgetView>>(
+                        |val $REGISTERED_ACTIONS = listOf<Class<Action>>(
                         |   $classValues
                         |)
                     |""".trimMargin())
-            .addStatement("return $REGISTERED_WIDGETS")
+            .addStatement("return $REGISTERED_ACTIONS")
             .build()
     }
 
     fun createFuncSpec(): FunSpec.Builder {
         val listReturnType = List::class.asClassName().parameterizedBy(
             Class::class.asClassName().parameterizedBy(
-                ClassName(WIDGET_VIEW.packageName, WIDGET_VIEW.className)
+                ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className)
             )
         )
 
-        return FunSpec.builder(REGISTERED_WIDGETS)
+        return FunSpec.builder(REGISTERED_ACTIONS)
             .returns(listReturnType)
     }
 }
