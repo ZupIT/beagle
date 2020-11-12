@@ -31,7 +31,6 @@ import br.com.zup.beagle.automatedtests.builders.WebViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.LazyComponentScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ImageRemoteScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ActionScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.PageViewTwoScreenBuilder
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

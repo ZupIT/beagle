@@ -16,49 +16,40 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.automatedtests.constants.BLACK
-import br.com.zup.beagle.automatedtests.constants.LIGHT_GREY
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         child = Container(
-            context = ContextData(id = "PageViewContext", value = 0),
+            context = ContextData(id = "currentPage", value = 0),
             children = listOf(
                 Text("PageView Screen"),
                 Container(children = listOf(
                     PageView(
-                        context = ContextData("currentPage", "@{PageViewContext}"),
+                        context = ContextData("pageViewContext", ""),
                         children = listOf(
                             Text("pageOne"),
                             Text("pageTwo"),
                             Text("pageThree")
                         ),
                         onPageChange = listOf(
-                            SetContext(contextId = "PageViewContext", "@{onPageChange}")
+                            SetContext(contextId = "currentPage", "@{onPageChange}")
                         ),
-                        currentPage = expressionOf("@{PageViewContext}"),
+                        currentPage = expressionOf("@{currentPage}"),
                         showArrow = true
                     )
                 )
@@ -67,30 +58,30 @@ object PageViewScreenBuilder : ScreenBuilder {
                     text = "SetCurrentPageToPageOne",
                     onPress = listOf(
                         SetContext(
-                            contextId = "PageViewContext",
+                            contextId = "currentPage",
                             value = 0
                         ),
-                        Alert(message = "@{PageViewContext}")
+                        Alert(message = "@{currentPage}")
                     )
                 ),
                 Button(
                     text = "SetCurrentPageToPageTwo",
                     onPress = listOf(
                         SetContext(
-                            contextId = "PageViewContext",
+                            contextId = "currentPage",
                             value = 1
                         ),
-                        Alert(message = "@{PageViewContext}")
+                        Alert(message = "@{currentPage}")
                     )
                 ),
                 Button(
                     text = "SetCurrentPageToPageThree",
                     onPress = listOf(
                         SetContext(
-                            contextId = "PageViewContext",
+                            contextId = "currentPage",
                             value = 2
                         ),
-                        Alert(message = "@{PageViewContext}")
+                        Alert(message = "@{currentPage}")
                     )
                 )
             )
