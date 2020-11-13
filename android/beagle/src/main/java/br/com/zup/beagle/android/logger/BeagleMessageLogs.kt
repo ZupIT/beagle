@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("TooManyFunctions")
-
 package br.com.zup.beagle.android.logger
 
 import br.com.zup.beagle.android.networking.RequestData

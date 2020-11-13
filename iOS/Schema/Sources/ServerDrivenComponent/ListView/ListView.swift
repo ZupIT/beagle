@@ -24,7 +24,7 @@ public struct ListView: RawWidget, HasContext, InitiableComponent, AutoInitiable
     public let template: RawComponent
     public let iteratorName: String?
     public let onScrollEnd: [RawAction]?
-    public let scrollThreshold: Int?
+    public let scrollEndThreshold: Int?
     public var widgetProperties: WidgetProperties
     
 // sourcery:inline:auto:ListView.Init
@@ -37,7 +37,7 @@ public struct ListView: RawWidget, HasContext, InitiableComponent, AutoInitiable
         template: RawComponent,
         iteratorName: String? = nil,
         onScrollEnd: [RawAction]? = nil,
-        scrollThreshold: Int? = nil,
+        scrollEndThreshold: Int? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.context = context
@@ -48,7 +48,7 @@ public struct ListView: RawWidget, HasContext, InitiableComponent, AutoInitiable
         self.template = template
         self.iteratorName = iteratorName
         self.onScrollEnd = onScrollEnd
-        self.scrollThreshold = scrollThreshold
+        self.scrollEndThreshold = scrollEndThreshold
         self.widgetProperties = widgetProperties
     }
 // sourcery:end
@@ -109,7 +109,7 @@ extension ListView: Decodable {
         case template
         case iteratorName
         case onScrollEnd
-        case scrollThreshold
+        case scrollEndThreshold
     }
 
     public init(from decoder: Decoder) throws {
@@ -123,7 +123,7 @@ extension ListView: Decodable {
         context = try container.decodeIfPresent(Context.self, forKey: .context)
         onInit = try container.decodeIfPresent(forKey: .onInit)
         onScrollEnd = try container.decodeIfPresent(forKey: .onScrollEnd)
-        scrollThreshold = try container.decodeIfPresent(Int.self, forKey: .scrollThreshold)
+        scrollEndThreshold = try container.decodeIfPresent(Int.self, forKey: .scrollEndThreshold)
         widgetProperties = try WidgetProperties(listFrom: decoder)
         
         if container.contains(.children) {

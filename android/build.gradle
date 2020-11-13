@@ -40,6 +40,7 @@ plugins {
 
 allprojects {
     apply from: "$rootDir/../detekt.gradle"
+
     apply plugin: "br.com.zup.beagle.dependencies"
 
     repositories {

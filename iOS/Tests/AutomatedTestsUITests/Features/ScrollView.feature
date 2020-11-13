@@ -13,25 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-    
-#@scrollview @regression
-#Feature: ScrollView Component Validation
 
-#    As a Beagle developer/user
-#    I'd like to make sure my scrollView component works as expected
-#    In order to guarantee that my application never fails
+@scrollview @regression
+Feature: ScrollView Component Validation
 
+    As a Beagle developer/user
+    I'd like to make sure my scrollView component works as expected
+    In order to guarantee that my application never fails
 
-#    Scenario: ScrollView 01 - scrollView component renders text attribute correctly
-#        Given the app did load scrollview screen
-#        Then scrollview screen should render all text attributes correctly
+    Background:
+        Given the Beagle application did launch with the scrollview screen url
 
-#    Scenario: ScrollView 02 - scrollView component performs vertical scroll correctly
-#        Given the app did load scrollview screen
-#        When I have a vertical scroll configured
-#        Then scrollview screen should perform the scroll action vertically
-
-#    Scenario: ScrollView 03 - scrollView component performs horizontal scroll correctly
-#        Given the app did load scrollview screen
-#        When I have a horizontal scroll configured
-#        Then scrollview screen should perform the scroll action horizontally
+    Scenario Outline: ScrollView 01 - scrollView component should perform the specified scroll orientation correctly
+        When I change the screen orientation to "<orientation>" and I press on "<text>" scrollable text
+        Then the current text "<text>" should be replaced for a large text and It should scroll to the "<buttonTitle>" button for tapping it
+        
+        Examples:
+        |                 text                    |      buttonTitle   |  orientation  |
+        | Click to see the new text in horizontal | horizontalScroll   | horizontal    |
+        | Click to see the new text in vertical   | verticalScroll     | vertical      |

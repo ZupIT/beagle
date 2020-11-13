@@ -18,7 +18,8 @@ package br.com.zup.beagle.automatedTests.cucumber.steps
 
 
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
-import cucumber.api.java.en.*
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
 
 
 class GenericSteps {

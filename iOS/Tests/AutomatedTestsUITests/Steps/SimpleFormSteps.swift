@@ -17,49 +17,73 @@
 import Foundation
 import XCTest
 
+// swiftlint:disable force_unwrapping
 class SimpleFormSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication?
     
     func loadSteps() {
-        
-        let screen = ScreenRobot()
-        
+                
         before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("simpleform") ?? false {
                 let url = "http://localhost:8080/simpleform"
                 self.application = TestUtils.launchBeagleApplication(url: url)
             }
         }
-        
-        Given("^the app did load simpleform screen$") { _, _ -> Void in
+
+        Given(#"^that I'm on the simple form screen$"#) { _, _ -> Void in
             XCTAssertTrue(ScreenElements.SIMPLE_FORM_SCREEN_HEADER.element.exists)
         }
         
-        When("^I click on text field \"([^\\\"]*)\"$") { args, _ -> Void in
-            guard let param = args?[0],
-                let text: ScreenElements = ScreenElements(rawValue: param) else {
-                    return
-            }
-            screen.clickOnText(textOption: text)
-        }
-        
-        When("^insert text \"([^\\\"]*)\"$") { args, _ -> Void in
-            guard let text: String = (args?[0]) else { return }
-            screen.typeTextIntoField(insertText: text)
-        }
-        
-        Then("^all my simple form components should render their respective text attributes correctly$") { _, _ -> Void in
-            XCTAssertTrue(ScreenElements.SIMPLE_FORM_TITLE.element.exists)
-            XCTAssertTrue(ScreenElements.ZIP_FIELD.element.exists)
-            XCTAssertTrue(ScreenElements.STREET_FIELD.element.exists)
+        // Scenario 1
+        Then(#"^checks that the textInput with the placeholder "([^\"]*)" is on the screen$"#) { args, _ -> Void in
+            let placeholder = args![0]
             
+            XCTAssertTrue(self.application!.textFields[placeholder: placeholder]!.exists)
         }
         
-        Then("confirm popup should appear correctly$") { _, _ -> Void in
-            screen.confirmPopupCorrectly()
+        Then(#"^checks that the button with the title "([^\"]*)" is on the screen$"#) { args, _ -> Void in
+            let button = args![0]
+            
+            XCTAssertTrue(self.application!.buttons[button].exists)
+        }
+
+        // Scenario 2
+        When(#"^I click on a textInput with email Type and type in my "([^\"]*)"$"#) { args, _ -> Void in
+            let text = args![0]
+
+            let textField = self.application!.textFields[placeholder: "Type in your email"]!
+            textField.tap()
+            textField.typeText(text)
         }
         
+        When(#"^I click on a textInput with password Type and type in my "([^\"]*)"$"#) { args, _ -> Void in
+            let text = args![0]
+
+            let textField = self.application!.textFields[placeholder: "Type in your password"]!
+            textField.tap()
+            textField.typeText(text)
+        }
+        
+        When(#"^I click on button with title "([^\"]*)""#) { args, _ -> Void in
+            let button = self.application!.buttons[args![0]]
+            button.tap()
+        }
+
+        Then(#"^verify if the email: "([^\"]*)" and the password: "([^\"]*)" is appearing correctly$"#) { args, _ -> Void in
+            let email = args![0]
+            let pass = args![1]
+            
+            XCTAssertTrue(self.application!.textFields[email].exists)
+            XCTAssertTrue(self.application!.textFields[pass].exists)
+
+        }
     }
-    
+}
+
+// MARK: - Helpers
+private extension XCUIElementQuery {
+    subscript(placeholder value: String) -> XCUIElement? {
+        first { $0.placeholderValue == value }
+    }
 }

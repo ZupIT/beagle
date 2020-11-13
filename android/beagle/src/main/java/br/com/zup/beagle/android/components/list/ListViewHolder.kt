@@ -242,10 +242,15 @@ internal class ListViewHolder(
         listItem: ListItem,
         isRecycled: Boolean
     ) {
+        val viewPreviousId = view.id
         view.id = viewId
         listItem.viewIds.add(viewId)
         if (!isRecycled) {
-            listViewModels.contextViewModel.setIdToViewWithContext(view)
+            if (viewPreviousId == View.NO_ID) {
+                listViewModels.contextViewModel.setIdToViewWithContext(view)
+            } else {
+                listViewModels.contextViewModel.onViewIdChanged(viewPreviousId, view.id)
+            }
         }
     }
 
