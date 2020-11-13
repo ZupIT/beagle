@@ -16,20 +16,31 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.automatedtests.constants.BLACK
+import br.com.zup.beagle.automatedtests.constants.LIGHT_GREY
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 
 data class TextValue(
@@ -38,58 +49,36 @@ data class TextValue(
 
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
+        navigationBar = NavigationBar(
+            "Beagle PageView",
+            showBackButton = true
+        ),
         child = Container(
-            context = ContextData(id = "currentPage", value = 0),
             children = listOf(
-                Text("PageView Screen"),
-                Container(children = listOf(
-                    PageView(
-                        context = ContextData(id ="pageViewContext", value = TextValue(value = "pageFour")),
-                        children = listOf(
-                            Text("pageOne"),
-                            Text("pageTwo"),
-                            Text("pageThree"),
-                            Text(expressionOf("@{pageViewContext.value}"))
-                        ),
-                        onPageChange = listOf(
-                            SetContext(contextId = "currentPage", "@{onPageChange}")
-                        ),
-                        currentPage = expressionOf("@{currentPage}"),
-                        showArrow = true
-                    )
-                )
-                ).applyStyle(Style(size = Size(height = UnitValue(40.0, UnitType.REAL)))),
                 Button(
-                    text = "SetCurrentPageToPageOne",
-                    onPress = listOf(
-                        SetContext(
-                            contextId = "currentPage",
-                            value = "pageOne"
-                        ),
-                        Alert(message = "@{currentPage}")
-                    )
+                    "Click to go to page three",
+                    onPress = listOf(SetContext("context", 2))
                 ),
-                Button(
-                    text = "SetCurrentPageToPageTwo",
-                    onPress = listOf(
-                        SetContext(
-                            contextId = "currentPage",
-                            value = "pageTwo"
-                        ),
-                        Alert(message = "@{currentPage}")
-                    )
+                PageView(
+                    children = (1..3).map {
+                        Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
+                            Flex(
+                                alignSelf = AlignSelf.CENTER,
+                                grow = 1.0
+                            )
+                        )
+                    },
+                    onPageChange = listOf(SetContext("context", "@{onPageChange}")),
+                    currentPage = expressionOf("@{context}")
                 ),
-                Button(
-                    text = "SetCurrentPageToPageThree",
-                    onPress = listOf(
-                        SetContext(
-                            contextId = "currentPage",
-                            value = "pageThree"
-                        ),
-                        Alert(message = "@{currentPage}")
-                    )
+                PageIndicator(
+                    numberOfPages = 3,
+                    selectedColor = BLACK,
+                    unselectedColor = LIGHT_GREY,
+                    currentPage = expressionOf("@{context}")
                 )
-            )
-        )
+            ),
+            context = ContextData("context", 0)
+        ).applyFlex(Flex(grow = 1.0)).applyStyle(Style(size = Size(100.00.unitPercent())))
     )
 }
