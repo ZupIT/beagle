@@ -14,21 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+package br.com.zup.beagle.android.networking
 
-import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.setup.BeagleConfig
-import br.com.zup.beagle.android.setup.Cache
-import br.com.zup.beagle.android.setup.Environment
-
-@BeagleComponent
-class AppBeagleConfig : BeagleConfig {
-    override val environment: Environment get() = Environment.DEBUG
-    override val baseUrl: String get() = "http://sample.com"
-    override val isLoggingEnabled: Boolean = false
-    override val cache: Cache = Cache(
-        enabled = true,
-        maxAge = 300,
-        memoryMaximumCapacity = 15
-    )
-}
+interface HttpClient

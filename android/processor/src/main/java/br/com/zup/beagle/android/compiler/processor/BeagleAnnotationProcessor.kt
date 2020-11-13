@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.compiler
+package br.com.zup.beagle.android.compiler.processor
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.annotation.RegisterValidator
+import br.com.zup.beagle.android.compiler.BEAGLE_CONFIG
+import br.com.zup.beagle.android.compiler.BeagleSetupProcessor
+import br.com.zup.beagle.android.compiler.ValidatorHandlerProcessor
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.shared.error
@@ -64,7 +67,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
         annotations: Set<TypeElement>,
         roundEnvironment: RoundEnvironment
     ): Boolean {
-        if (annotations.isEmpty()) return false
+        if (annotations.isEmpty() || roundEnvironment.errorRaised()) return false
 
         val beagleConfigElements = roundEnvironment.getElementsAnnotatedWith(
             BeagleComponent::class.java
@@ -93,6 +96,6 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             }
         }
 
-        return false
+        return true
     }
 }

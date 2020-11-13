@@ -31,7 +31,7 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.TypeElement
 
-class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironment) {
+internal class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironment) {
 
     fun generate(
         basePackageName: String,

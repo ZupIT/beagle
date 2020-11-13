@@ -25,7 +25,7 @@ import javax.annotation.processing.RoundEnvironment
 
 const val REGISTERED_ACTIONS = "registeredActions"
 
-class RegisteredActionGenerator {
+internal class RegisteredActionGenerator {
 
     fun generate(roundEnvironment: RoundEnvironment): FunSpec {
         val registerAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterAction::class.java)

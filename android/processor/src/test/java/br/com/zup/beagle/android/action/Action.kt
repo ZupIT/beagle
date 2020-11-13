@@ -14,20 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+package br.com.zup.beagle.android.action
 
-import android.view.View
-import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.annotation.RegisterAction
-
-@RegisterAction
-data class MyAction(
-    val value: String,
-    val intValue: Int
-) : Action {
-
-    override fun execute(rootView: RootView, origin: View) {
-
-    }
-}
+interface Action

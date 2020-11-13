@@ -34,7 +34,7 @@ import javax.lang.model.type.MirroredTypeException
 
 const val VALIDATOR_HANDLER_IMPL_NAME = "ValidatorHandlerImpl"
 
-class ValidatorHandlerProcessor(private val processingEnv: ProcessingEnvironment) {
+internal class ValidatorHandlerProcessor(private val processingEnv: ProcessingEnvironment) {
 
     fun process(packageName: String, roundEnvironment: RoundEnvironment) {
         val validatorHandlerTypeSpec = TypeSpec.classBuilder(VALIDATOR_HANDLER_IMPL_NAME)

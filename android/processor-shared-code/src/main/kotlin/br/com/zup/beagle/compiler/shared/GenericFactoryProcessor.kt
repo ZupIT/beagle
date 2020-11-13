@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.internal.processor
+package br.com.zup.beagle.compiler.shared
 
-import br.com.zup.beagle.compiler.shared.BeagleClass
-import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-internal class GenericFactoryProcessor<T : Annotation>(
+class GenericFactoryProcessor<T : Annotation>(
     private val processingEnv: ProcessingEnvironment,
     private val className: String,
     private val beagleGeneratorFunction: BeagleGeneratorFunction<T>) {
@@ -32,13 +31,10 @@ internal class GenericFactoryProcessor<T : Annotation>(
     fun process(
         basePackageName: String,
         roundEnvironment: RoundEnvironment,
-        importClass: BeagleClass
+        importClass: BeagleClass,
+        isInternalClass: Boolean
     ) {
-
-        val typeSpec = TypeSpec.objectBuilder(className)
-            .addModifiers(KModifier.INTERNAL)
-            .addFunction(beagleGeneratorFunction.generate(roundEnvironment))
-            .build()
+        val typeSpec = getTypeSpec(roundEnvironment, isInternalClass)
 
         val beagleSetupFile = FileSpec.builder(
             basePackageName,
@@ -49,5 +45,21 @@ internal class GenericFactoryProcessor<T : Annotation>(
             .build()
 
         beagleSetupFile.writeTo(processingEnv.filer)
+    }
+
+    fun createFunction(): FunSpec = beagleGeneratorFunction.createFuncSpec(beagleGeneratorFunction.getFunctionName())
+        .addModifiers(KModifier.OVERRIDE)
+        .addStatement("return $className.${beagleGeneratorFunction.getFunctionName()}()")
+        .build()
+
+    private fun getTypeSpec(roundEnvironment: RoundEnvironment, isInternalClass: Boolean): TypeSpec {
+        val typeSpecBuilder = TypeSpec.objectBuilder(className)
+            .addFunction(beagleGeneratorFunction.generate(roundEnvironment))
+        if (isInternalClass) {
+            typeSpecBuilder.addModifiers(KModifier.INTERNAL)
+        } else {
+            typeSpecBuilder.addModifiers(KModifier.PUBLIC, KModifier.FINAL)
+        }
+        return typeSpecBuilder.build()
     }
 }

@@ -16,7 +16,13 @@
 
 package br.com.zup.beagle.android.compiler
 
+import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
+import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
+import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
+import br.com.zup.beagle.compiler.shared.GenericFactoryProcessor
+import br.com.zup.beagle.compiler.shared.WIDGET_VIEW
 import br.com.zup.beagle.compiler.shared.error
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
@@ -26,10 +32,8 @@ import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-data class BeagleSetupProcessor(
+internal data class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
-    private val registerWidgetProcessorProcessor: RegisterWidgetProcessorProcessor =
-        RegisterWidgetProcessorProcessor(processingEnv),
     private val registerActionProcessorProcessor: RegisterActionProcessorProcessor =
         RegisterActionProcessorProcessor(processingEnv),
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
@@ -38,8 +42,19 @@ data class BeagleSetupProcessor(
         RegisterControllerProcessor(processingEnv),
     private val registerBeagleAdapterProcessor: RegisterBeagleAdapterProcessor =
         RegisterBeagleAdapterProcessor(processingEnv),
-    private val registerOperationsProcessor: RegisterOperationsProcessor = RegisterOperationsProcessor(processingEnv)
 ) {
+
+    private val widgetFactoryProcessor = GenericFactoryProcessor(
+        processingEnv,
+        REGISTERED_WIDGETS_GENERATED,
+        GenerateFunctionWidget(processingEnv)
+    )
+
+    private val operationFactoryProcessor = GenericFactoryProcessor(
+        processingEnv,
+        REGISTERED_OPERATIONS_GENERATED,
+        GenerateFunctionOperation(processingEnv)
+    )
 
     fun process(
         basePackageName: String,
@@ -55,9 +70,9 @@ data class BeagleSetupProcessor(
         val typeSpec = TypeSpec.classBuilder(beagleSetupClassName)
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
-            .addFunction(registerWidgetProcessorProcessor.createRegisteredWidgetsFunction())
+            .addFunction(widgetFactoryProcessor.createFunction())
+            .addFunction(operationFactoryProcessor.createFunction())
             .addFunction(registerActionProcessorProcessor.createRegisteredActionsFunction())
-            .addFunction(registerOperationsProcessor.createRegisteredWidgetsFunction())
 
 
         val beagleSetupFile = addDefaultImports(basePackageName, beagleSetupClassName, beagleConfigClassName)
@@ -66,9 +81,9 @@ data class BeagleSetupProcessor(
 
         var property = properties[propertyIndex]
 
-        registerWidgetProcessorProcessor.process(basePackageName, roundEnvironment)
+        widgetFactoryProcessor.process(basePackageName, roundEnvironment, WIDGET_VIEW, false)
+        operationFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_OPERATION, false)
         registerActionProcessorProcessor.process(basePackageName, roundEnvironment)
-        registerOperationsProcessor.process(basePackageName, roundEnvironment)
         registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
         registerBeagleAdapterProcessor.process(
             BEAGLE_CUSTOM_ADAPTER.packageName,
@@ -122,6 +137,11 @@ data class BeagleSetupProcessor(
             .addImport(BEAGLE_CUSTOM_ADAPTER_IMPL.packageName, BEAGLE_CUSTOM_ADAPTER_IMPL.className)
             .addImport(basePackageName, beagleConfigClassName)
             .addImport(ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className), "")
+            .addAnnotation(
+                AnnotationSpec.builder(Suppress::class.java)
+                    .addMember("%S, %S, %S", "OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST")
+                    .build()
+            )
     }
 
     private fun createBeagleConfigAttribute(beagleConfigClassName: String): PropertySpec {
@@ -130,5 +150,10 @@ data class BeagleSetupProcessor(
             ClassName(BEAGLE_CONFIG.packageName, BEAGLE_CONFIG.className),
             KModifier.OVERRIDE
         ).initializer("$beagleConfigClassName()").build()
+    }
+
+    companion object {
+        internal const val REGISTERED_WIDGETS_GENERATED = "RegisteredWidgets"
+        internal const val REGISTERED_OPERATIONS_GENERATED = "RegisteredOperations"
     }
 }

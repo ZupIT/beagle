@@ -28,7 +28,7 @@ import javax.annotation.processing.RoundEnvironment
 
 const val REGISTERED_ACTIONS_GENERATED = "RegisteredActions"
 
-class RegisterActionProcessorProcessor(
+internal class RegisterActionProcessorProcessor(
     private val processingEnv: ProcessingEnvironment,
     private val registeredActionGenerator: RegisteredActionGenerator =
         RegisteredActionGenerator()

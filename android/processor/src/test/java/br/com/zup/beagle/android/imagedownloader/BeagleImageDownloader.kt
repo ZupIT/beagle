@@ -14,3 +14,6 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.android.imagedownloader
+
+interface BeagleImageDownloader

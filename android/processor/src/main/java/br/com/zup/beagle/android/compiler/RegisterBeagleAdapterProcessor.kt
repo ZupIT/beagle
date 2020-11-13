@@ -45,7 +45,7 @@ const val TYPES_INSTANCE = "ParameterizedTypeFactory.new(\n"
 const val T_GENERIC = "T"
 const val BREAK_LINE = "\n"
 
-class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvironment) {
+internal class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvironment) {
 
     fun process(packageName: String, roundEnvironment: RoundEnvironment) {
         val typeSpec = TypeSpec.classBuilder(BEAGLE_ADAPTER_REFERENCE_GENERATED)

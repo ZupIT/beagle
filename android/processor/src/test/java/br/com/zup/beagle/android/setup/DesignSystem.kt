@@ -14,20 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+package br.com.zup.beagle.android.setup
 
-import androidx.appcompat.widget.Toolbar
-import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ServerDrivenState
-
-@BeagleComponent
-class SampleServerDrivenActivity : BeagleActivity() {
-
-    override fun getServerDrivenContainerId(): Int = 1
-
-    override fun getToolbar(): Toolbar = Toolbar(this)
-
-    override fun onServerDrivenContainerStateChanged(state: ServerDrivenState) {
-    }
-}
+interface DesignSystem

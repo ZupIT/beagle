@@ -34,7 +34,7 @@ import javax.lang.model.type.MirroredTypeException
 
 const val CONTROLLER_REFERENCE_GENERATED = "ControllerReferenceGenerated"
 
-class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironment) {
+internal class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironment) {
 
     var defaultActivityRegistered: String = ""
 
