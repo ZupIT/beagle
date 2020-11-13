@@ -22,6 +22,7 @@ import br.com.zup.beagle.automatedtests.constants.BOOK_DATABASE_CATEGORY
 import br.com.zup.beagle.automatedtests.constants.BOOK_DATABASE_CHARACTERS
 import br.com.zup.beagle.automatedtests.model.Book
 import br.com.zup.beagle.automatedtests.model.Character
+import br.com.zup.beagle.automatedtests.model.CharacterResponse
 import br.com.zup.beagle.automatedtests.model.Genre
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PathVariable
@@ -37,15 +38,8 @@ class ListController {
 
     @RequestMapping(value = [BOOK_DATABASE_CHARACTERS], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
-    fun getCharacters(@RequestParam page: String): List<Character>? {
-        val character1 = Character(1, "Name1", "Book1", "Collection1")
-        val character2 = Character(2, "Name2", "Book2", "Collection2")
-        val character3 = Character(3, "Name3", "Book3", "Collection3")
-        val list: MutableList<Character> = ArrayList()
-        list.add(character1)
-        list.add(character2)
-        list.add(character3)
-        return list
+    fun getCharacters(@RequestParam page: Int): CharacterResponse {
+        return CharacterResponse.createMock(page)
     }
 
     @RequestMapping(value = [BOOK_DATABASE_CATEGORIES], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -64,9 +58,9 @@ class ListController {
     @RequestMapping(value = [BOOK_DATABASE_CATEGORY], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
     fun getCategory(@PathVariable category: String): List<Book>? {
-        val book1 = Book(1, "Title1", "Author1", characters = getCharacters("1"))
-        val book2 = Book(2, "Title2", "Author2", characters = getCharacters("1"))
-        val book3 = Book(3, "Title3", "Author3", characters = getCharacters("1"))
+        val book1 = Book(1, "Title1", "Author1", characters = Character.createMock(1))
+        val book2 = Book(2, "Title2", "Author2", characters = Character.createMock(1))
+        val book3 = Book(3, "Title3", "Author3", characters = Character.createMock(1))
         val list: MutableList<Book> = ArrayList()
         list.add(book1)
         list.add(book2)
