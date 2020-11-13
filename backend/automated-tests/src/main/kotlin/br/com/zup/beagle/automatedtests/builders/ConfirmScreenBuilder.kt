@@ -37,30 +37,24 @@ object ConfirmScreenBuilder {
             children =
             listOf(
                 Text(text = "Confirm Screen"),
-                Button(
-                    text = "JustAMessage",
-                    onPress = listOf(
-                        Confirm(title = null, message = "ConfirmMessage")
-                    )
-                ),
-                Button(
-                    text = "JustAMessageViaExpression",
-                    onPress = listOf(
-                        Confirm(title = null, message = "@{confirmContext.message}")
-                    )),
-                Button(
-                    text = "TitleAndMessage",
-                    onPress = listOf(
-                        Confirm(title = "ConfirmTitle", message = "ConfirmMessage")
-                    )),
-                Button(
-                    text = "TitleAndMessageViaExpression",
-                    onPress = listOf(
-                        Confirm(title = "@{confirmContext.title}", message = "@{confirmContext.message}")
-                    )),
+                createButton("JustAMessage", "null" ,"ConfirmMessage"),
+                createButton("JustAMessageViaExpression", "null" ,
+                    "@{confirmContext.message}"),
+                createButton("TitleAndMessage", "ConfirmTitle" ,
+                    "ConfirmMessage"),
+                createButton("TitleAndMessageViaExpression", "@{confirmContext.title}" ,
+                    "@{confirmContext.message}"),
                 triggerActionConfirm(),
                 customLabelConfirms()
             )
+        )
+    )
+
+    private fun createButton(text: String, titleConfirm: String, confirmMessage: String): Button =
+        Button(
+            text = text,
+            onPress = listOf(
+                Confirm(title = titleConfirm, message = confirmMessage)
         )
     )
 
