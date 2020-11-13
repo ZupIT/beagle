@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D0165EE254C5299000A48AD /* TextSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0165ED254C5299000A48AD /* TextSteps.swift */; };
+		0DB49152255ADE09008365E4 /* SetContextSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB49151255ADE09008365E4 /* SetContextSteps.swift */; };
 		174096E9252B8FB10009C749 /* NavigateSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174096E8252B8FB10009C749 /* NavigateSteps.swift */; };
 		17F6C7BA25364B8800A0ECAA /* SendRequestActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */; };
 		251FDDF725378BA600B2C5EB /* ConditionalActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */; };
@@ -138,6 +139,7 @@
 
 /* Begin PBXFileReference section */
 		0D0165ED254C5299000A48AD /* TextSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSteps.swift; sourceTree = "<group>"; };
+		0DB49151255ADE09008365E4 /* SetContextSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetContextSteps.swift; sourceTree = "<group>"; };
 		174096E8252B8FB10009C749 /* NavigateSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateSteps.swift; sourceTree = "<group>"; };
 		17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestActionSteps.swift; sourceTree = "<group>"; };
 		251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalActionSteps.swift; sourceTree = "<group>"; };
@@ -641,6 +643,8 @@
 				6B4F7E7E24C71D04003F461A /* TabViewSteps.swift */,
 				25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */,
 				0D0165ED254C5299000A48AD /* TextSteps.swift */,
+				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
+				0DB49151255ADE09008365E4 /* SetContextSteps.swift */,
 				6B4F7E8A24C9C637003F461A /* TouchableSteps.swift */,
 			);
 			path = Steps;
@@ -843,6 +847,7 @@
 				FA517077255DB2D10056F5A6 /* ConfirmActionSteps.swift in Sources */,
 				639CA21824B4F0B0009FAC90 /* GHStep.m in Sources */,
 				639CA20924B4F0B0009FAC90 /* GHFeature.m in Sources */,
+				0DB49152255ADE09008365E4 /* SetContextSteps.swift in Sources */,
 				639CA22624B4F0B0009FAC90 /* GHGherkinLineSpan.m in Sources */,
 				6B4F7E8324C7943C003F461A /* PageViewSteps.swift in Sources */,
 				639CA1FF24B4F0B0009FAC90 /* CCIHock.m in Sources */,
@@ -1057,6 +1062,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SZSQ274898;
 				INFOPLIST_FILE = AutomatedTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1075,6 +1081,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SZSQ274898;
 				INFOPLIST_FILE = AutomatedTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (

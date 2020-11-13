@@ -60,4 +60,5 @@ const val CONTAINER_TEST_ENDPOINT = "/container-test"
 const val SEND_REQUEST_ACTION_ENDPOINT = "/send-request"
 
 const val ALERT_SCREEN_ENDPOINT = "/alert"
+const val SET_CONTEXT_SCREEN_ENDPOINT = "/set-context"
 const val CONFIRM_SCREEN_ENDPOINT = "/confirm"

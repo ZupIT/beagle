@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.annotation.RegisterValidator
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.shared.error
+import br.com.zup.beagle.compiler.shared.implementsInterface
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
