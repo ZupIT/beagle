@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.compiler.shared.BEAGLE_CORE_WIDGET
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -122,7 +121,6 @@ data class BeagleSetupProcessor(
             .addImport(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
             .addImport(BEAGLE_CUSTOM_ADAPTER_IMPL.packageName, BEAGLE_CUSTOM_ADAPTER_IMPL.className)
             .addImport(basePackageName, beagleConfigClassName)
-            .addImport(BEAGLE_CORE_WIDGET.packageName, BEAGLE_CORE_WIDGET.className)
             .addImport(ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className), "")
     }
 

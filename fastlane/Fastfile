@@ -47,8 +47,9 @@ end
 platform :android do
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReport")
+    gradle(project_dir: "android", task: "clean detekt lintDebug test jacocoTestReport")
     gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
+    gradle(project_dir: "android", task: "automatedTest:assembleDebug automatedTest:assembleDebugAndroidTest")
     run_codecov(platform: 'android')
   end
 
@@ -108,7 +109,7 @@ platform :ios do
     tag = options[:tag] # 1.0.0[-iOS]
 
     [
-      { path: "BeagleSchema.podspec" }, 
+      { path: "BeagleSchema.podspec" },
       { path: "Beagle.podspec", depends_on_other_beagle_pod: true }
     ]
     .each do |pod|
@@ -125,9 +126,9 @@ def update_podspec(path:, version:, tag:)
 
   version_regex = /\.version = (.*)\n/
   tag_regex = /tag = (.*)\n/
-  
-  has_version_and_tag = version_regex.match(file) && tag_regex.match(file) 
-  if not has_version_and_tag 
+
+  has_version_and_tag = version_regex.match(file) && tag_regex.match(file)
+  if not has_version_and_tag
     UI.user_error!("podspec at #{path} should have version and tag")
   end
 
@@ -139,7 +140,7 @@ def update_podspec(path:, version:, tag:)
 end
 
 ###
-### iOS - END 
+### iOS - END
 ###
 
 desc "Publish new release based on last two tags"
@@ -188,7 +189,8 @@ lane :run_danger do |options|
   danger(
     danger_id: danger_id,
     dangerfile: "danger/#{danger_file_path}/Dangerfile",
-    github_api_token: ENV["GITHUB_TOKEN"],
+    github_api_token: ENV[
+      "GITHUB_TOKEN"],
     verbose: true,
   )
 end

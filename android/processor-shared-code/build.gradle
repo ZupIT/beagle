@@ -17,6 +17,7 @@
 import br.com.zup.beagle.Dependencies
 
 apply plugin: 'kotlin'
+apply from: "$rootDir/../jacoco.gradle"
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
