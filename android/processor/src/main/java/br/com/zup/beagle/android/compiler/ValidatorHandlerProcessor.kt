@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.android.annotation.RegisterValidator
+import br.com.zup.beagle.compiler.shared.implements
 import br.com.zup.beagle.compiler.shared.implementsInterface
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -85,8 +86,8 @@ internal class ValidatorHandlerProcessor(private val processingEnv: ProcessingEn
         registerValidatorAnnotatedClasses.forEachIndexed { index, element ->
             val typeElement = element as TypeElement
             if (!typeElement.implementsInterface(VALIDATOR.toString())) {
-                val errorMessage = "Class annotated with @RegisterValidator " +
-                        "does not implement $VALIDATOR."
+                val errorMessage = "$typeElement Class annotated with @RegisterValidator " +
+                    "does not implement $VALIDATOR."
                 processingEnv.messager.error(typeElement, errorMessage)
             }
 

@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.compiler.ValidatorHandlerProcessor
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.shared.error
-import br.com.zup.beagle.compiler.shared.implementsInterface
+import br.com.zup.beagle.compiler.shared.implements
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
@@ -73,7 +73,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             BeagleComponent::class.java
         ).filter { element ->
             val typeElement = element as TypeElement
-            typeElement.implementsInterface(BEAGLE_CONFIG.toString())
+            typeElement.implements(BEAGLE_CONFIG, processingEnv)
         }
 
         when {

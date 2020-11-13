@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler.shared
+package br.com.zup.beagle.android.compiler.generatefunction
 
-import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.android.compiler.ANDROID_ACTION
+import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
+import br.com.zup.beagle.compiler.shared.error
+import br.com.zup.beagle.compiler.shared.implements
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -25,31 +29,31 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterWidget>(
-        WIDGET_VIEW,
-        REGISTERED_WIDGETS,
-        RegisterWidget::class.java
+class GenerateFunctionAction(private val processingEnv: ProcessingEnvironment) :
+    BeagleGeneratorFunction<RegisterAction>(
+        ANDROID_ACTION,
+        REGISTERED_ACTIONS,
+        RegisterAction::class.java
     ) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        return "\t${element}::class.java as Class<WidgetView>,"
+        return "\t${element}::class.java as Class<Action>,"
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
         val typeElement = element as TypeElement
         if (!isValidInheritance(typeElement)) {
-            val errorMessage = "The class $element need to inherit from the class ${WIDGET_VIEW.className} " +
-                "when annotate class with @RegisterWidget."
+            val errorMessage = "The class $element need to inherit from the class ${ANDROID_ACTION.className} " +
+                "when annotate class with @RegisterAction."
             processingEnv.messager.error(typeElement, errorMessage)
         }
     }
 
-    override fun returnStatementInGenerate(): String = "return $REGISTERED_WIDGETS"
+    override fun returnStatementInGenerate(): String = "return $REGISTERED_ACTIONS"
 
     override fun getCodeFormatted(allCodeMappedWithAnnotation: String): String =
         """
-            |val $REGISTERED_WIDGETS = listOf<Class<WidgetView>>(
+            |val $REGISTERED_ACTIONS = listOf<Class<Action>>(
             |   $allCodeMappedWithAnnotation
             |)
         |""".trimMargin()
@@ -57,7 +61,7 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
     override fun createFuncSpec(name: String): FunSpec.Builder {
         val listReturnType = List::class.asClassName().parameterizedBy(
             Class::class.asClassName().parameterizedBy(
-                ClassName(WIDGET_VIEW.packageName, WIDGET_VIEW.className)
+                ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className)
             )
         )
 
@@ -66,12 +70,10 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
     }
 
     private fun isValidInheritance(typeElement: TypeElement): Boolean {
-        return typeElement.implements(WIDGET_VIEW, processingEnv)
-            || typeElement.implements(BEAGLE_INPUT_WIDGET, processingEnv)
-            || typeElement.implements(BEAGLE_PAGE_INDICATOR, processingEnv)
+        return typeElement.implements(ANDROID_ACTION, processingEnv)
     }
 
     companion object {
-        const val REGISTERED_WIDGETS = "registeredWidgets"
+        const val REGISTERED_ACTIONS = "registeredActions"
     }
 }

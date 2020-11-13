@@ -78,7 +78,7 @@ class GenerateFunctionOperation(private val processingEnv: ProcessingEnvironment
     }
 
     private fun isValidInheritance(typeElement: TypeElement): Boolean =
-        typeElement.implementsInterface(ANDROID_OPERATION.toString())
+        typeElement.implements(ANDROID_OPERATION, processingEnv)
 
     companion object {
         const val REGISTERED_OPERATIONS = "registeredOperations"

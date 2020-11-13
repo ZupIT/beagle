@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.compiler
 
+import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionAction
 import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
@@ -34,8 +35,6 @@ import javax.annotation.processing.RoundEnvironment
 
 internal data class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
-    private val registerActionProcessorProcessor: RegisterActionProcessorProcessor =
-        RegisterActionProcessorProcessor(processingEnv),
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
         BeagleSetupPropertyGenerator(processingEnv),
     private val registerAnnotationProcessor: RegisterControllerProcessor =
@@ -56,6 +55,12 @@ internal data class BeagleSetupProcessor(
         GenerateFunctionOperation(processingEnv)
     )
 
+    private val actionFactoryProcessor = GenericFactoryProcessor(
+        processingEnv,
+        REGISTERED_ACTIONS_GENERATED,
+        GenerateFunctionAction(processingEnv)
+    )
+
     fun process(
         basePackageName: String,
         beagleConfigClassName: String,
@@ -72,7 +77,7 @@ internal data class BeagleSetupProcessor(
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
             .addFunction(widgetFactoryProcessor.createFunction())
             .addFunction(operationFactoryProcessor.createFunction())
-            .addFunction(registerActionProcessorProcessor.createRegisteredActionsFunction())
+            .addFunction(actionFactoryProcessor.createFunction())
 
 
         val beagleSetupFile = addDefaultImports(basePackageName, beagleSetupClassName, beagleConfigClassName)
@@ -83,7 +88,7 @@ internal data class BeagleSetupProcessor(
 
         widgetFactoryProcessor.process(basePackageName, roundEnvironment, WIDGET_VIEW, false)
         operationFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_OPERATION, false)
-        registerActionProcessorProcessor.process(basePackageName, roundEnvironment)
+        actionFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_ACTION, false)
         registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
         registerBeagleAdapterProcessor.process(
             BEAGLE_CUSTOM_ADAPTER.packageName,
@@ -155,5 +160,6 @@ internal data class BeagleSetupProcessor(
     companion object {
         internal const val REGISTERED_WIDGETS_GENERATED = "RegisteredWidgets"
         internal const val REGISTERED_OPERATIONS_GENERATED = "RegisteredOperations"
+        internal const val REGISTERED_ACTIONS_GENERATED = "RegisteredActions"
     }
 }
