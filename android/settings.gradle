@@ -21,7 +21,6 @@ include ":internal-processor"
 include ":android-annotation"
 include ":preview"
 include ":processor-shared-code"
-include ":annotation"
 include ":automated-tests"
 
 rootProject.name = "Beagle"
