@@ -24,7 +24,7 @@ Feature: Confirm Action Validation
     Background:
         Given the Beagle application did launch with the confirm screen url
 
-    Scenario Outline: Scenario Outline: Checks that a confirmation with just a message shows on the screen when
+    Scenario Outline: Confirm 01 - Checks that a confirmation with just a message shows on the screen when
     set HARDCODED and via EXPRESSION
         When I press a confirm button with the <buttonTitle> title
         Then a confirm with the <message> message should appear on the screen
