@@ -15,7 +15,7 @@
 #
 
 @confirm @regression
-Feature: Alert Action Validation
+Feature: Confirm Action Validation
 
     As a Beagle developer/user
     I'd like to make sure my alert actions work as expected
@@ -47,16 +47,16 @@ Feature: Alert Action Validation
 
     Scenario: Confirm 03 - Checks that a the onPressOk method is triggered when the OK button is pressed to
     confirm component.
-        When I press an alert button with the TriggersAnActionWhenConfirmed title
+        When I press a confirm button with the TriggersAnActionWhenConfirmed title
         Then I press the confirmation OK button on the confirm component
-        Then an alert with the Confirm ok clicked message should appear on the screen
+        Then a confirm with the Confirm ok clicked message should appear on the screen
 
     Scenario: Confirm 04 - Checks that a the onPressCancel method is triggered when the Cancel button is pressed to
     confirm component.
-        When I press an alert button with the TriggersAnActionWhenCanceled title
+        When I press a confirm button with the TriggersAnActionWhenCanceled title
         Then I press the confirmation CANCEL button on the confirm component
-        Then an alert with the Confirm cancel clicked message should appear on the screen
+        Then a confirm with the Confirm cancel clicked message should appear on the screen
 
     Scenario: Confirm 05 - Shows a Confirm message with customized text on the LabelOk and LabelCancel button.
-        When I press an alert button with the CustomConfirmLabel title
+        When I press a confirm button with the CustomConfirmLabel title
         Then a confirm with the CustomLabelOk and CustomLabelCancel should appear on the screen

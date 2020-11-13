@@ -87,7 +87,7 @@ object ConfirmScreenBuilder {
                     message = "ConfirmMessage",
                     onPressOk = Alert(message = "Confirm ok clicked")
                 )
-            ),
+            )
         ),
         Button(
             text = "TriggersAnActionWhenCanceled",
@@ -97,7 +97,7 @@ object ConfirmScreenBuilder {
                     message = "CancelMessage",
                     onPressCancel = Alert(message = "Confirm cancel clicked")
                 )
-            ),
+            )
         )
     ))
 }
