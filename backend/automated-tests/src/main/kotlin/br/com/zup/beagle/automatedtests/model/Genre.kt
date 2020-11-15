@@ -16,7 +16,25 @@
 
 package br.com.zup.beagle.automatedtests.model
 
+import java.util.*
+
 data class Genre(
-    val id : Int,
-    val name : String = ""
-)
+    val id: Int,
+    val name: String = ""
+) {
+    companion object {
+        fun createMock(): List<Genre> {
+            val genreList = ArrayList<Genre>()
+            var genre = Genre(1, "Fantasy")
+            genreList.add(genre)
+
+            genre = Genre(2, "Sci-fi")
+            genreList.add(genre)
+
+            genre = Genre(3, "Other")
+            genreList.add(genre)
+
+            return genreList
+        }
+    }
+}

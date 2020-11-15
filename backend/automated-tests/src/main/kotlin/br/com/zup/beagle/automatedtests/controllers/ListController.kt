@@ -45,14 +45,7 @@ class ListController {
     @RequestMapping(value = [BOOK_DATABASE_CATEGORIES], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
     fun getCategories(): List<Genre>? {
-        val genre1 = Genre(1, "Genre1")
-        val genre2 = Genre(2, "Genre2")
-        val genre3 = Genre(3, "Genre3")
-        val list: MutableList<Genre> = ArrayList()
-        list.add(genre1)
-        list.add(genre2)
-        list.add(genre3)
-        return list
+        return Genre.createMock()
     }
 
     @RequestMapping(value = [BOOK_DATABASE_CATEGORY], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
