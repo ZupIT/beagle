@@ -21,7 +21,6 @@ import br.com.zup.beagle.automatedtests.constants.BOOK_DATABASE_CATEGORIES
 import br.com.zup.beagle.automatedtests.constants.BOOK_DATABASE_CATEGORY
 import br.com.zup.beagle.automatedtests.constants.BOOK_DATABASE_CHARACTERS
 import br.com.zup.beagle.automatedtests.model.Book
-import br.com.zup.beagle.automatedtests.model.Character
 import br.com.zup.beagle.automatedtests.model.CharacterResponse
 import br.com.zup.beagle.automatedtests.model.Genre
 import org.springframework.http.MediaType
@@ -50,23 +49,16 @@ class ListController {
 
     @RequestMapping(value = [BOOK_DATABASE_CATEGORY], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
-    fun getCategory(@PathVariable category: String): List<Book>? {
-        val book1 = Book(1, "Title1", "Author1", characters = Character.createMock(1))
-        val book2 = Book(2, "Title2", "Author2", characters = Character.createMock(1))
-        val book3 = Book(3, "Title3", "Author3", characters = Character.createMock(1))
-        val list: MutableList<Book> = ArrayList()
-        list.add(book1)
-        list.add(book2)
-        list.add(book3)
-        return list
+    fun getCategory(@PathVariable category: Int): List<Book>? {
+        return Book.createMockByCategory(category)
     }
 
     @RequestMapping(value = [BOOK_DATABASE_BOOKS], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
     fun getBooks(@RequestParam page: String): List<Book>? {
-        val book1 = Book(1, "Title1", "Author1", collection = "Collection1", bookNumber = 1, genre = 1, rating = 1.1)
-        val book2 = Book(2, "Title2", "Author2", collection = "Collection2", bookNumber = 2, genre = 2, rating = 2.2)
-        val book3 = Book(3, "Title3", "Author3", collection = "Collection3", bookNumber = 3, genre = 3, rating = 3.3)
+        val book1 = Book("Title1", "Author1", collection = "Collection1", bookNumber = 1, genre = 1, rating = 1.1)
+        val book2 = Book("Title2", "Author2", collection = "Collection2", bookNumber = 2, genre = 2, rating = 2.2)
+        val book3 = Book("Title3", "Author3", collection = "Collection3", bookNumber = 3, genre = 3, rating = 3.3)
         val list: MutableList<Book> = ArrayList()
         list.add(book1)
         list.add(book2)

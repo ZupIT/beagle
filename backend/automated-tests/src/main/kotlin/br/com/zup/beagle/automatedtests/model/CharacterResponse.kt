@@ -128,5 +128,112 @@ data class Character(
             }
             return characters
         }
+
+        fun createMock(bookTitle: String): List<String> {
+            val characterList = ArrayList<String>()
+
+            when (bookTitle) {
+                "The Final Empire" -> {
+                    characterList.add("Vin")
+                    characterList.add("Kelsier")
+                    characterList.add("Lord Ruler")
+                    characterList.add("Sazed")
+                    characterList.add("Elend Venture")
+                }
+                "The Alloy of Law" -> {
+                    characterList.add("Waxillium \"Wax\" Ladrian")
+                    characterList.add("Wayne")
+                    characterList.add("Marasi Colms")
+                    characterList.add("Steris Harms")
+                    characterList.add("Miles Dagouter")
+                }
+                "A Game of Thrones" -> {
+                    characterList.add("Eddard \"Ned\" Stark")
+                    characterList.add("Catelyn Stark")
+                    characterList.add("Sansa Stark")
+                    characterList.add("Arya Stark")
+                    characterList.add("Bran Stark")
+                }
+                "Words of Radiance" -> {
+                    characterList.add("Szeth-son-son-Vallano")
+                    characterList.add("Shallan Davar")
+                    characterList.add("Kaladin")
+                    characterList.add("Dalinar Kholin")
+                    characterList.add("Adolin Kholin")
+                }
+                "Shadows Rising" -> {
+                    characterList.add("Talanji")
+                    characterList.add("Zekhan")
+                    characterList.add("Anduin Wrynn")
+                    characterList.add("Turalyon")
+                    characterList.add("Aleria Windrunner")
+                }
+                "Before the Storm" -> {
+                    characterList.add("Anduin Wrynn")
+                    characterList.add("Sylvanas Windrunner")
+                    characterList.add("Grizzek Fizzwrench")
+                    characterList.add("Sapphronetta Flivvers")
+                    characterList.add("Calia Menethil")
+
+                }
+                "Harry Potter and the Philosopher's Stone" -> {
+                    characterList.add("Harry Potter")
+                    characterList.add("Ronald Weasley")
+                    characterList.add("Hermione Granger")
+                    characterList.add("Rúbeo Hagrid")
+                    characterList.add("Dumbledore")
+                }
+                "Starsight" -> {
+                    characterList.add("Spensa Nightshade")
+                    characterList.add("Jorgen Weight")
+                    characterList.add("Admiral Cobb")
+                    characterList.add("M-Bot")
+                    characterList.add("Alanik")
+                }
+                "Heaven's River" -> {
+                    characterList.add("Bob")
+                    characterList.add("Brigit")
+                    characterList.add("Bender")
+                    characterList.add("Howard")
+                }
+                "Leviathan Wakes" -> {
+                    characterList.add("Juliette Andromeda Mao")
+                    characterList.add("James Holden")
+                    characterList.add("Naomi Nagata")
+                    characterList.add("Amos Burton")
+                    characterList.add("Shed Garvey")
+                }
+                "Dune" -> {
+                    characterList.add("Paul Atreides")
+                    characterList.add("Duke Leto Atreides")
+                    characterList.add("Lady Jessica")
+                    characterList.add("Alia Atreides")
+                    characterList.add("Thufir Hawat")
+                }
+                "Dying of the Light" -> {
+                    characterList.add("Dirk t'Larien")
+                    characterList.add("Jaan Vikary")
+                    characterList.add("Garse Janacek")
+                }
+                "The Last Tribe" -> {
+                    characterList.add("Greg Dixon")
+                    characterList.add("John Dixon")
+                    characterList.add("Emily Dixon")
+                    characterList.add("Rebecca")
+                }
+                "The Cuckoo's Cry" -> {
+                    characterList.add("Don Barlow")
+                }
+                "The Handmaid's Tale" -> {
+                    characterList.add("Offred")
+                    characterList.add("The Commander")
+                    characterList.add("Serena Joy")
+                    characterList.add("Ofglen")
+                    characterList.add("Nick")
+                }
+            }
+
+            return characterList
+        }
     }
 }
