@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
+import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.setId
@@ -40,6 +41,7 @@ class GenerateIdManagerTest {
     private val rootView = mockk<RootView>(relaxed = true)
     private val generateIdViewModel = mockk<GenerateIdViewModel>(relaxed = true)
     private val listViewIdViewModel = mockk<ListViewIdViewModel>(relaxed = true)
+    private val onInitViewModel = mockk<OnInitViewModel>(relaxed = true)
     private val view = mockk<BeagleFlexView>()
     private val generatedId = 1
     private lateinit var generateIdManager: GenerateIdManager
@@ -50,8 +52,9 @@ class GenerateIdManagerTest {
         every { View.generateViewId() } returns generatedId
         every { rootView.generateViewModelInstance<GenerateIdViewModel>() } returns generateIdViewModel
         every { rootView.generateViewModelInstance<ListViewIdViewModel>() } returns listViewIdViewModel
+        every { rootView.generateViewModelInstance<OnInitViewModel>() } returns onInitViewModel
 
-        generateIdManager = GenerateIdManager(rootView, generateIdViewModel, listViewIdViewModel)
+        generateIdManager = GenerateIdManager(rootView, generateIdViewModel, listViewIdViewModel, onInitViewModel)
     }
 
     @AfterEach
@@ -84,6 +87,7 @@ class GenerateIdManagerTest {
         // Then
         verify(exactly = 1) { generateIdViewModel.setViewCreated(parentId) }
         verify(exactly = 1) { listViewIdViewModel.prepareToReuseIds(view) }
+        verify(exactly = 1) { onInitViewModel.markToRerun() }
     }
 
     @Test

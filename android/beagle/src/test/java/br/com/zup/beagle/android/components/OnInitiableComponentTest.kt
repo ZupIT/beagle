@@ -17,12 +17,14 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import br.com.zup.beagle.android.action.AsyncActionStatus
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.context.ContextActionExecutor
-import br.com.zup.beagle.android.testutil.getPrivateField
-import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -31,18 +33,16 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.spyk
-import io.mockk.unmockkAll
 import io.mockk.unmockkConstructor
-import io.mockk.unmockkObject
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(InstantExecutorExtension::class)
 class OnInitiableComponentTest {
 
     private val rootView = mockk<RootView>(relaxed = true)
@@ -100,7 +100,43 @@ class OnInitiableComponentTest {
         listenerSlot.captured.onViewAttachedToWindow(origin)
 
         // Then
-        verify(exactly = 1) { onInitViewModel.setOnInitActionStatus(id, true) }
+        verify(exactly = 1) { onInitViewModel.setOnInitCalled(id, true) }
+    }
+
+    @Test
+    fun `GIVEN a initiableWidget with AsyncAction WHEN onViewAttachedToWindow THEN should observe the action`() {
+        // Given
+        val status = mockk<LiveData<AsyncActionStatus>>(relaxed = true)
+        val action = mockk<SendRequest>(relaxed = true)
+        every { action.status } returns status
+        val initiableWidget = Container(children = listOf(), onInit = listOf(action))
+
+        // When
+        initiableWidget.handleOnInit(rootView, origin)
+        listenerSlot.captured.onViewAttachedToWindow(origin)
+
+        // Then
+        verify(exactly = 1) { status.observe(rootView.getLifecycleOwner(), any()) }
+        verify(exactly = 1) { onInitViewModel.setOnInitCalled(id, true) }
+    }
+
+    @Test
+    fun `GIVEN a initiableWidget with AsyncAction WHEN actionStatus is FINISHED THEN should setOnInitFinished true`() {
+        // Given
+        val status = mockk<LiveData<AsyncActionStatus>>(relaxed = true)
+        val action = mockk<SendRequest>(relaxed = true)
+        every { action.status } returns status
+        val observerSlot = slot<Observer<AsyncActionStatus>>()
+        every { status.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        val initiableWidget = Container(children = listOf(), onInit = listOf(action))
+
+        // When
+        initiableWidget.handleOnInit(rootView, origin)
+        listenerSlot.captured.onViewAttachedToWindow(origin)
+        observerSlot.captured.onChanged(AsyncActionStatus.FINISHED)
+
+        // Then
+        verify(exactly = 1) { onInitViewModel.setOnInitFinished(id, true) }
     }
 
     @Test
@@ -129,7 +165,7 @@ class OnInitiableComponentTest {
         initiableWidget.markToRerunOnInit()
 
         // Then
-        verify(exactly = 1) { onInitViewModel.setOnInitActionStatus(id, false) }
+        verify(exactly = 1) { onInitViewModel.setOnInitCalled(id, false) }
     }
 
     @Test
@@ -145,6 +181,6 @@ class OnInitiableComponentTest {
         listenerSlot.captured.onViewAttachedToWindow(origin)
 
         // Then
-        verify(exactly = 2) { action.handleEvent(rootView, origin, action)  }
+        verify(exactly = 2) { action.handleEvent(rootView, origin, action) }
     }
 }

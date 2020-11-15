@@ -553,10 +553,43 @@ class ContextDataManagerTest : BaseTest() {
         val contexts = contextDataManager.getPrivateField<MutableMap<Int, ContextBinding>>("contexts")
 
         // When
-        contextDataManager.onViewIdChanged(oldId, newId)
+        contextDataManager.onViewIdChanged(oldId, newId, viewWithId)
 
         // Then
         assertEquals(contexts[newId], viewWithId.getContextBinding())
+        assertNull(contexts[oldId])
+    }
+
+    @Test
+    fun `GIVEN a view with oldId and context with newId WHEN onViewIdChanged THEN should update new and remove old`() {
+        // Given
+        val oldId = 0
+        val newId = 1
+        val oldContextData = ContextData("old", true)
+        val oldViewWithId = mockk<View>(relaxed = true) {
+            every { id } returns oldId
+            every { getContextBinding() } returns mockk(relaxed = true) {
+                every { context } returns oldContextData
+            }
+        }
+        contextDataManager.addContext(oldViewWithId, oldContextData)
+
+        val newContextData = ContextData("new", true)
+        val newViewWithId = mockk<View>(relaxed = true) {
+            every { id } returns newId
+            every { getContextBinding() } returns mockk(relaxed = true) {
+                every { context } returns newContextData
+            }
+        }
+        contextDataManager.addContext(newViewWithId, newContextData)
+
+        val contexts = contextDataManager.getPrivateField<MutableMap<Int, ContextBinding>>("contexts")
+
+        // When
+        contextDataManager.onViewIdChanged(oldId, newId, newViewWithId)
+
+        // Then
+        assertEquals(contexts[newId], newViewWithId.getContextBinding())
         assertNull(contexts[oldId])
     }
 }

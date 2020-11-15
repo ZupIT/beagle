@@ -22,6 +22,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.components.OnInitiableComponent
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
@@ -81,9 +82,10 @@ class ListViewHolderTest : BaseTest() {
 
         // When
         listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
+        val initiableComponents = listViewHolder.getPrivateField<MutableList<OnInitiableComponent>>("initiableComponents")
 
         // Then
-        assertEquals(template, listViewHolder.initiableComponents[0])
+        assertEquals(template, initiableComponents[0])
     }
 
     @Test
@@ -289,7 +291,7 @@ class ListViewHolderTest : BaseTest() {
         listViewHolder.onBind(null, null, listItem, position, recyclerId)
 
         // Then
-        verify(exactly = 1) { viewModel.onViewIdChanged(bffId, newIdSlot.captured) }
+        verify(exactly = 1) { viewModel.onViewIdChanged(bffId, newIdSlot.captured, itemView) }
     }
 
     @Test
