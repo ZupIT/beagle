@@ -63,7 +63,7 @@ const val VALID_LIST_WIDGETS =
 
 const val INTERNAL_LIST_WIDGET_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.test.beagle
         import br.com.zup.beagle.android.widget.WidgetView
         import java.lang.Class
@@ -85,7 +85,7 @@ const val INTERNAL_LIST_WIDGET_GENERATED_EXPECTED: String =
 
 const val INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.test.beagle
         import br.com.zup.beagle.android.widget.WidgetView
         import java.lang.Class

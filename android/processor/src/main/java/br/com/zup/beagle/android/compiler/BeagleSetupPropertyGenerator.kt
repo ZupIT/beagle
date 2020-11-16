@@ -33,7 +33,6 @@ import javax.lang.model.element.TypeElement
 internal class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironment) {
 
     fun generate(
-        basePackageName: String,
         roundEnvironment: RoundEnvironment
     ): List<PropertySpec> {
         val propertySpecifications: PropertySpecifications? = PropertySpecifications()
@@ -44,10 +43,7 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
             checkIfOtherAttributesExists(typeElement, propertySpecifications)
         }
 
-        return createListOfPropertySpec(
-            basePackageName,
-            propertySpecifications
-        )
+        return createListOfPropertySpec(propertySpecifications)
     }
 
     private fun checkIfHandlersExists(
@@ -92,10 +88,9 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
     }
 
     private fun createListOfPropertySpec(
-        basePackageName: String,
         propertySpecifications: PropertySpecifications?
     ): List<PropertySpec> {
-        return PropertyImplementationManager.manage(basePackageName, propertySpecifications).toMutableList().apply {
+        return PropertyImplementationManager.manage(propertySpecifications).toMutableList().apply {
             add(implementServerDrivenActivityProperty(propertySpecifications?.defaultBeagleActivity))
         }
     }

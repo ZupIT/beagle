@@ -16,16 +16,16 @@
 
 package br.com.zup.beagle.android.compiler.generator
 
-import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED
+import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.REGISTERED_CUSTOM_VALIDATOR_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
-import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_CUSTOM_ADAPTER_GENERATED_EXPECTED
-import br.com.zup.beagle.android.compiler.mocks.INTERNAL_SINGLE_CUSTOM_ADAPTER_GENERATED_EXPECTED
-import br.com.zup.beagle.android.compiler.mocks.INVALID_CUSTOM_ADAPTER
-import br.com.zup.beagle.android.compiler.mocks.INVALID_CUSTOM_ADAPTER_WITH_INHERITANCE
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_CUSTOM_VALIDATOR_GENERATED_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_SINGLE_CUSTOM_VALIDATOR_GENERATED_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INVALID_CUSTOM_VALIDATOR
+import br.com.zup.beagle.android.compiler.mocks.INVALID_CUSTOM_VALIDATOR_WITH_INHERITANCE
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
-import br.com.zup.beagle.android.compiler.mocks.VALID_CUSTOM_ADAPTER
-import br.com.zup.beagle.android.compiler.mocks.VALID_LIST_CUSTOM_ADAPTER
+import br.com.zup.beagle.android.compiler.mocks.VALID_CUSTOM_VALIDATOR
+import br.com.zup.beagle.android.compiler.mocks.VALID_LIST_CUSTOM_VALIDATOR
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
@@ -38,52 +38,53 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class RegisteredCustomAdapterGeneratorTest {
+internal class RegisteredCustomValidatorGeneratorTest {
 
     @TempDir
     lateinit var tempPath: Path
 
     @DisplayName("When register custom adapter")
     @Nested
-    inner class CustomAdapters {
+    inner class CustomValidators {
 
         @Test
-        @DisplayName("Then should create class with valid getAdapter")
-        fun testGenerateSingleAdapterCorrect() {
+        @DisplayName("Then should create class with valid getValidator")
+        fun testGenerateSingleValidatorCorrect() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(FILE_NAME,
-                BEAGLE_CONFIG_IMPORTS + VALID_CUSTOM_ADAPTER + SIMPLE_BEAGLE_CONFIG)
+                BEAGLE_CONFIG_IMPORTS + VALID_CUSTOM_VALIDATOR + SIMPLE_BEAGLE_CONFIG)
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith(REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED)
+                file.name.startsWith(REGISTERED_CUSTOM_VALIDATOR_GENERATED)
             }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_SINGLE_CUSTOM_ADAPTER_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = INTERNAL_SINGLE_CUSTOM_VALIDATOR_GENERATED_EXPECTED
+                .replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
         }
 
         @Test
-        @DisplayName("Then should create class with valid getAdapter")
-        fun testGenerateListOfCustomAdaptersCorrect() {
+        @DisplayName("Then should create class with valid getValidator")
+        fun testGenerateListOfCustomValidatorsCorrect() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(FILE_NAME,
-                BEAGLE_CONFIG_IMPORTS + VALID_LIST_CUSTOM_ADAPTER + SIMPLE_BEAGLE_CONFIG)
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_CUSTOM_VALIDATOR + SIMPLE_BEAGLE_CONFIG)
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith(REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED)
+                file.name.startsWith(REGISTERED_CUSTOM_VALIDATOR_GENERATED)
             }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_LIST_CUSTOM_ADAPTER_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = INTERNAL_LIST_CUSTOM_VALIDATOR_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
@@ -93,14 +94,14 @@ internal class RegisteredCustomAdapterGeneratorTest {
 
     @DisplayName("When register custom adapter")
     @Nested
-    inner class InvalidCustomAdapter {
+    inner class InvalidCustomValidator {
 
         @Test
-        @DisplayName("Then should show error with invalid custom adapter")
+        @DisplayName("Then should show error with invalid custom validator")
         fun testInvalidCustomAdapter() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(FILE_NAME,
-                BEAGLE_CONFIG_IMPORTS + INVALID_CUSTOM_ADAPTER + SIMPLE_BEAGLE_CONFIG)
+                BEAGLE_CONFIG_IMPORTS + INVALID_CUSTOM_VALIDATOR + SIMPLE_BEAGLE_CONFIG)
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -111,11 +112,11 @@ internal class RegisteredCustomAdapterGeneratorTest {
         }
 
         @Test
-        @DisplayName("Then should show error with invalid custom adapter")
-        fun testInvalidCustomAdapterWithInherit() {
+        @DisplayName("Then should show error with invalid custom validator")
+        fun testInvalidCustomValidatorWithInherit() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(FILE_NAME,
-                BEAGLE_CONFIG_IMPORTS + INVALID_CUSTOM_ADAPTER_WITH_INHERITANCE + SIMPLE_BEAGLE_CONFIG)
+                BEAGLE_CONFIG_IMPORTS + INVALID_CUSTOM_VALIDATOR_WITH_INHERITANCE + SIMPLE_BEAGLE_CONFIG)
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -129,7 +130,7 @@ internal class RegisteredCustomAdapterGeneratorTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_INVALID_CUSTOM_ADAPTER_ERROR = "The class br.com.test.beagle.InvalidCustomAdapter need to" +
-            " inherit only from the class BeagleTypeAdapter<T>"
+        private const val MESSAGE_INVALID_CUSTOM_ADAPTER_ERROR = "The class br.com.test.beagle.InvalidCustomValidator" +
+            " need to inherit from the class Validator when annotate class with @RegisterValidator."
     }
 }

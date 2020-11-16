@@ -68,7 +68,8 @@ class GenerateFunctionCustomAdapter(private val processingEnv: ProcessingEnviron
     override fun validationElement(element: Element, annotation: Annotation) {
         val typeElement = element as TypeElement
         if (typeElement.interfaces.size > 1 || typeElement.interfaces.isEmpty()) {
-            processingEnv.messager.error("The class $element need to inherit only from the class $BEAGLE_TYPE_ADAPTER_INTERFACE")
+            processingEnv.messager.error("The class $element need to inherit" +
+                " only from the class $BEAGLE_TYPE_ADAPTER_INTERFACE")
         }
     }
 

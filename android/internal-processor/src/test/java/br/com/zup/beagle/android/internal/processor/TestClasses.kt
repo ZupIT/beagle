@@ -67,7 +67,7 @@ const val VALID_LIST_WIDGETS =
 
 const val INTERNAL_LIST_WIDGET_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.zup.beagle.android.setup
     
         import br.com.zup.beagle.android.widget.WidgetView
@@ -92,7 +92,7 @@ const val INTERNAL_LIST_WIDGET_GENERATED_EXPECTED: String =
 
 const val INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.zup.beagle.android.setup
     
         import br.com.zup.beagle.android.widget.WidgetView
@@ -135,7 +135,7 @@ const val VALID_LIST_OPERATIONS = VALID_OPERATION + VALID_SECOND_OPERATION
 
 const val INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.zup.beagle.android.setup 
         import br.com.zup.beagle.android.operation.Operation
         import kotlin.String 
@@ -158,7 +158,7 @@ const val INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED: String =
 
 const val INTERNAL_LIST_OPERATION_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.zup.beagle.android.setup 
         import br.com.zup.beagle.android.operation.Operation
         import kotlin.String 

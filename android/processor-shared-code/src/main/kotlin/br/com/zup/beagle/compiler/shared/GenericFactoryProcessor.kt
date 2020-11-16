@@ -68,7 +68,8 @@ class GenericFactoryProcessor<T : Annotation>(
 
         fileSpecBuilder.addAnnotation(
             AnnotationSpec.builder(Suppress::class.java)
-                .addMember("%S, %S, %S", "OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST")
+                .addMember("%S, %S, %S, %S", "OverridingDeprecatedMember", "DEPRECATION",
+                    "UNCHECKED_CAST", "UNUSED_EXPRESSION")
                 .build()
         )
 

@@ -55,7 +55,7 @@ const val VALID_LIST_CUSTOM_ADAPTER = VALID_CUSTOM_ADAPTER + VALID_SECOND_CUSTOM
 
 const val INTERNAL_SINGLE_CUSTOM_ADAPTER_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.test.beagle
         import br.com.zup.beagle.android.`data`.serializer.adapter.generic.BeagleTypeAdapter
         import br.com.zup.beagle.android.`data`.serializer.adapter.generic.ParameterizedTypeFactory
@@ -75,7 +75,7 @@ const val INTERNAL_SINGLE_CUSTOM_ADAPTER_GENERATED_EXPECTED: String =
 
 const val INTERNAL_LIST_CUSTOM_ADAPTER_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.test.beagle 
         import br.com.zup.beagle.android.`data`.serializer.adapter.generic.BeagleTypeAdapter
         import br.com.zup.beagle.android.`data`.serializer.adapter.generic.ParameterizedTypeFactory

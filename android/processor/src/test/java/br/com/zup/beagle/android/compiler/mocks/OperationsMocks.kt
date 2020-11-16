@@ -35,7 +35,7 @@ const val VALID_LIST_OPERATIONS = VALID_OPERATION + VALID_SECOND_OPERATION
 
 const val INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.test.beagle
         import br.com.zup.beagle.android.operation.Operation
         import kotlin.String
@@ -55,7 +55,7 @@ const val INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED: String =
 
 const val INTERNAL_LIST_OPERATION_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.test.beagle
         import br.com.zup.beagle.android.operation.Operation
         import kotlin.String
@@ -76,7 +76,6 @@ const val INTERNAL_LIST_OPERATION_GENERATED_EXPECTED: String =
 
 const val INVALID_OPERATION =
     """
-        package br.com.test.beagle
         import br.com.zup.beagle.annotation.RegisterOperation
 
         @RegisterOperation("test")

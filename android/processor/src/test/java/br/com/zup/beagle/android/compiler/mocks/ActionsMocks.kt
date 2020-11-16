@@ -54,7 +54,7 @@ const val VALID_LIST_ACTION = VALID_ACTION + VALID_ACTION_WITH_INHERITANCE_ASYNC
 
 const val INTERNAL_LIST_ACTION_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.test.beagle
         import br.com.zup.beagle.android.action.Action
         import java.lang.Class
@@ -75,7 +75,7 @@ const val INTERNAL_LIST_ACTION_GENERATED_EXPECTED: String =
 
 const val INTERNAL_SINGLE_ACTION_GENERATED_EXPECTED: String =
     """
-        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
         package br.com.test.beagle
         import br.com.zup.beagle.android.action.Action
         import java.lang.Class

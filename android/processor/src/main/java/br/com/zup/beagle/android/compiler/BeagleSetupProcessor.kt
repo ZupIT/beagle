@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionAction
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomAdapter
+import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomValidator
 import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
@@ -39,7 +40,7 @@ internal data class BeagleSetupProcessor(
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
         BeagleSetupPropertyGenerator(processingEnv),
     private val registerAnnotationProcessor: RegisterControllerProcessor =
-        RegisterControllerProcessor(processingEnv)
+        RegisterControllerProcessor(processingEnv),
 ) {
 
     private val widgetFactoryProcessor = GenericFactoryProcessor(
@@ -66,17 +67,20 @@ internal data class BeagleSetupProcessor(
         GenerateFunctionCustomAdapter(processingEnv)
     )
 
+    private val customValidatorFactoryProcessor = GenericFactoryProcessor(
+        processingEnv,
+        REGISTERED_CUSTOM_VALIDATOR_GENERATED,
+        GenerateFunctionCustomValidator(processingEnv)
+    )
+
     fun process(
         basePackageName: String,
         beagleConfigClassName: String,
-        roundEnvironment: RoundEnvironment
+        roundEnvironment: RoundEnvironment,
     ) {
         val beagleSetupClassName = "BeagleSetup"
 
-        val properties = beagleSetupPropertyGenerator.generate(
-            basePackageName,
-            roundEnvironment
-        )
+        val properties = beagleSetupPropertyGenerator.generate(roundEnvironment)
         val typeSpec = TypeSpec.classBuilder(beagleSetupClassName)
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
@@ -91,12 +95,7 @@ internal data class BeagleSetupProcessor(
 
         var property = properties[propertyIndex]
 
-        widgetFactoryProcessor.process(basePackageName, roundEnvironment, WIDGET_VIEW)
-        operationFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_OPERATION)
-        actionFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_ACTION)
-        customAdapterFactoryProcessor.process(basePackageName, roundEnvironment, listOf(BEAGLE_CUSTOM_ADAPTER, BEAGLE_PARAMETERIZED_TYPE_FACTORY),
-            false, BEAGLE_CUSTOM_ADAPTER)
-        registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
+        handleAllProcess(basePackageName, roundEnvironment, property)
 
         val defaultActivity = registerAnnotationProcessor.defaultActivityRegistered
         property = beagleSetupPropertyGenerator.implementServerDrivenActivityProperty(
@@ -116,6 +115,12 @@ internal data class BeagleSetupProcessor(
                 KModifier.OVERRIDE
             ).initializer(REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED)
                 .build())
+            .addProperty(PropertySpec.builder(
+                "validatorHandler",
+                ClassName(VALIDATOR_HANDLER.packageName, VALIDATOR_HANDLER.className),
+                KModifier.OVERRIDE
+            ).initializer(REGISTERED_CUSTOM_VALIDATOR_GENERATED)
+                .build())
         try {
             beagleSetupFile
                 .addType(newTypeSpecBuilder.build())
@@ -127,10 +132,21 @@ internal data class BeagleSetupProcessor(
         }
     }
 
+    private fun handleAllProcess(basePackageName: String, roundEnvironment: RoundEnvironment, property: PropertySpec) {
+        widgetFactoryProcessor.process(basePackageName, roundEnvironment, WIDGET_VIEW)
+        operationFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_OPERATION)
+        actionFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_ACTION)
+        customAdapterFactoryProcessor.process(basePackageName, roundEnvironment,
+            listOf(BEAGLE_CUSTOM_ADAPTER, BEAGLE_PARAMETERIZED_TYPE_FACTORY), false, BEAGLE_CUSTOM_ADAPTER)
+        registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
+        customValidatorFactoryProcessor.process(basePackageName, roundEnvironment,
+            listOf(VALIDATOR_HANDLER, VALIDATOR), false, VALIDATOR_HANDLER)
+    }
+
     private fun addDefaultImports(
         basePackageName: String,
         beagleSetupClassName: String,
-        beagleConfigClassName: String
+        beagleConfigClassName: String,
     ): FileSpec.Builder {
         return FileSpec.builder(
             basePackageName,
@@ -165,5 +181,6 @@ internal data class BeagleSetupProcessor(
         internal const val REGISTERED_OPERATIONS_GENERATED = "RegisteredOperations"
         internal const val REGISTERED_ACTIONS_GENERATED = "RegisteredActions"
         internal const val REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED = "RegisteredCustomTypeAdapter"
+        internal const val REGISTERED_CUSTOM_VALIDATOR_GENERATED = "RegisteredCustomValidator"
     }
 }
