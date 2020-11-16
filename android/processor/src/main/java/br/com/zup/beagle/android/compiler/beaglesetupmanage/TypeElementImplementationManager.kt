@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.compiler.STORE_HANDLER
 import br.com.zup.beagle.android.compiler.URL_BUILDER_HANDLER
 import br.com.zup.beagle.android.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.android.compiler.BEAGLE_IMAGE_DOWNLOADER
-import br.com.zup.beagle.android.compiler.implementsInterface
+import br.com.zup.beagle.compiler.shared.implementsInterface
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
 

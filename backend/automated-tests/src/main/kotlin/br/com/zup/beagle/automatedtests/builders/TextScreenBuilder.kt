@@ -50,7 +50,7 @@ object TextScreenBuilder {
         context = ContextData("textValue", "TextValueViaExpression"),
         children = listOf(
             Text("TextValue"),
-            Text("@{textValue}"),
+            Text("@{textValue}")
         )
     )
 
@@ -75,7 +75,7 @@ object TextScreenBuilder {
                 alignmentLeft = TextAlignment.LEFT,
                 alignmentCenter = TextAlignment.CENTER,
                 alignmentRight = TextAlignment.RIGHT
-            ),
+            )
         ),
         children = listOf(
             Text(text = "TextAlignedLeft", alignment = TextAlignment.LEFT),
@@ -92,7 +92,7 @@ object TextScreenBuilder {
             Text(
                 text = expressionOf("@{textWithAlignment.text}" + "RightViaExpression"),
                 alignment = expressionOf("@{textWithAlignment.alignmentRight}")
-            ),
+            )
         )
     )
 }
