@@ -17,167 +17,154 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.setId
-import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.RequestActionMethod
+import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
 
 object ListViewScreenBuilder {
-     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle ListView",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "ListView",
-                        message = "Is a Layout component that will define a list of views natively. " +
-                            "These views could be any Server Driven Component.",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
-        child = buildListView()
-    )
-
-    private fun buildListView() = ListView(
-        context = ContextData(
-            id = "outsideContext",
-            value = listOf("0 OUTSIDE", "1 OUTSIDE", "2 OUTSIDE", "3 OUTSIDE", "4 OUTSIDE", "5 OUTSIDE",
-                "6 OUTSIDE", "7 OUTSIDE", "8 OUTSIDE", "9 OUTSIDE", "10 OUTSIDE",
-                "11 OUTSIDE", "12 OUTSIDE", "13 OUTSIDE", "14 OUTSIDE", "15 OUTSIDE",
-                "16 OUTSIDE", "17 OUTSIDE", "18 OUTSIDE", "19 OUTSIDE", "20 OUTSIDE")
-        ),
-        dataSource = expressionOf("@{outsideContext}"),
-        direction = ListDirection.VERTICAL,
-        template = Container(
+    fun build() = Screen(
+        child = Container(
             children = listOf(
-                Text(text = expressionOf("@{item}")),
-                list
-            )
-        ).applyStyle(
-            Style(
-                size = Size(width = 100.unitPercent(), height = 600.unitReal())
+                firstListView(),
+                secondListView(),
+                thirdListView()
             )
         )
     )
 
-    data class Person(
-        val name: String,
-        val cpf: Int
-    )
-
-    private val list = ListView(
-        context = ContextData(
-            id = "insideContext",
-            value = listOf(
-                Person(
-                    "John",
-                    0
-                ),
-                Person(
-                    "Carter",
-                    1
-                ),
-                Person(
-                    "Josie",
-                    2
-                ),
-                Person(
-                    "Dimitri",
-                    3
-                ),
-                Person(
-                    "Maria",
-                    4
-                ),
-                Person(
-                    "Max",
-                    5
-                ),
-                Person(
-                    "Kane",
-                    6
-                ),
-                Person(
-                    "Amelia",
-                    7
-                ),
-                Person(
-                    "Jose",
-                    8
-                ),
-                Person(
-                    "Percy",
-                    9
-                ),
-                Person(
-                    "Karen",
-                    10
-                ),
-                Person(
-                    "Sol",
-                    11
-                ),
-                Person(
-                    "Jacques",
-                    12
-                ),
-                Person(
-                    "Stephen",
-                    13
-                ),
-                Person(
-                    "Sullivan",
-                    14
-                ),
-                Person(
-                    "Zoe",
-                    15
+    private fun firstListView() = Container(
+        children = listOf(
+            Container(
+               // context = ContextData(id = "changePage", value = "1/2"),
+                children = listOf(
+                    Button(text = "prev"),
+                    //Text(text = "@{changePage.value}"),
+                    Button(
+                        text = "next",
+//                        onPress = listOf(
+//                            SetContext(contextId = "changePage", value = "2/2")
+//                        ),
+                    )
                 )
-            )
-        ),
-        key = "cpf",
-        dataSource = expressionOf("@{insideContext}"),
-        direction = ListDirection.HORIZONTAL,
-        template = Container(
-            children = listOf(
-                Button(
-                    text = expressionOf("@{item.name} - @{item.cpf}"),
-                    onPress = listOf(
-                        SetContext(
-                            contextId = "insideContext",
-                            path = "[0].name",
-                            value = "Updated John"
-                        )
+            ).applyFlex(Flex(flexDirection = FlexDirection.ROW))
+                .applyStyle(Style(padding = EdgeValue(all = 10.unitReal()))),
+            ListView(
+                direction = ListDirection.HORIZONTAL,
+                iteratorName = "character",
+                context = ContextData(
+                    id = "characterList",
+                    value = SendRequest(
+                        url = "http://localhost:8080/book-database/characters?page=1",
+                        method = RequestActionMethod.GET,
+                    )
+                ),
+                dataSource = expressionOf("@{characterList}"),
+                template = Container(
+                    children = listOf(
+                        Text(text = expressionOf("@{item}"))
                     )
                 ).applyStyle(
                     Style(
-                        size = Size(width = 300.unitReal(), height = 80.unitReal())
+                        size = Size(width = 480.unitReal(), height = 720.unitReal())
                     )
-                ).setId("button")
+                ),
+                onScrollEnd = listOf(
+
+                ),
+                scrollEndThreshold = 100,
             )
-        ).setId("container")
-    ).applyStyle(
-        Style(
-            backgroundColor = "#CCC"
         )
     )
+
+    private fun secondListView() = Container(
+        context = ContextData(id = "category", value = ""),
+        children = listOf(
+            Text(text = "Fantasy"),
+            ListView(
+                direction = ListDirection.VERTICAL,
+                key = "book",
+                context = ContextData(
+                    id = "id",
+                    value = SendRequest(
+                        url = "http://localhost:8080/book-database/categories",
+                        method = RequestActionMethod.GET,
+                    )
+                ),
+                template = Container(
+                    context = ContextData(id = "book", value = ""),
+                    children = listOf(
+                        ListView(
+                            direction = ListDirection.HORIZONTAL,
+                            key = "title",
+                            context = ContextData(id = "tileBook",
+                                value = SendRequest(
+                                    url = "http://localhost:8080/book-database/categories/1",
+                                    method = RequestActionMethod.GET,
+                                )
+                            )
+                        ),
+                        Text("Sci-fi"),
+                        ListView(
+                            direction = ListDirection.VERTICAL,
+                            context = ContextData(
+                                id = "character",
+                                value = SendRequest(
+                                    url = "http://localhost:8080/book-database/categories/1",
+                                    method = RequestActionMethod.GET,
+                                )
+                            )
+                        )
+                    )
+                ),
+                dataSource = expressionOf("@{bookList}"),
+            ).applyStyle(Style(size = Size(height = 307.unitReal())))
+        )
+    )
+
+    private fun thirdListView() = Container(
+        children = listOf(
+            Text("Books List View (infinite scroll)"),
+            ListView(
+                direction = ListDirection.VERTICAL,
+                context = ContextData(id = "firstList", value = ""),
+                key = "characters",
+                dataSource = expressionOf("@{firstLIst}"),
+                template = Container(
+                    children = listOf(
+                        Text(text = expressionOf("@{firstList}"))
+                    )
+                ).applyStyle(
+                    Style(
+                        size = Size(width = 480.unitReal(), height = 720.unitReal())
+                    )
+                ),
+                onScrollEnd = listOf(
+                    SendRequest(
+                        url = "http://localhost:8080/book-database/books?page=1",
+                        method = RequestActionMethod.GET,
+                    )
+                ),
+                scrollEndThreshold = 80,
+                // iteratorName = "",
+                // key =
+            )
+        )
+    )
+
 }
+
