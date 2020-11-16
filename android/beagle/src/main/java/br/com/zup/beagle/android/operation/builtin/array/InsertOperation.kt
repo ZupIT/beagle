@@ -17,39 +17,24 @@
 package br.com.zup.beagle.android.operation.builtin.array
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 import org.json.JSONArray
 
+@RegisterOperation("insert")
 internal class InsertOperation : Operation {
-    override fun operationName(): String = "insert"
 
-    @Suppress("ReturnCount")
-    override fun execute(vararg params: Any?): Any {
-        val array = params[0]
-        val element = params[1] as Any
-        val index = params.getOrNull(2) as? Int
+    override fun execute(vararg params: OperationType?): OperationType {
+        val array = (params[0] as OperationType.TypeJsonArray).value
+        val element = params.getOrNull(1)?.value
+        val index = (params.getOrNull(2) as? OperationType.TypeNumber)?.value?.toInt()
 
-        if (array is Collection<*>) {
-            val list = array.toMutableList()
-            return insertOnList(list, element, index)
-        } else if (array is JSONArray) {
-            return insertOnJSONArray(array, element, index)
-        }
+        val result = insertOnJSONArray(array, element, index)
 
-        return emptyList<Any>()
+        return OperationType.TypeJsonArray(result)
     }
 
-    private fun insertOnList(list: MutableList<Any?>, element: Any, index: Int?): List<Any?> {
-        if (index != null) {
-            list.add(index, element)
-        } else {
-            list.add(element)
-        }
-
-        return list
-    }
-
-
-    private fun insertOnJSONArray(array: JSONArray, element: Any, index: Int?): JSONArray {
+    private fun insertOnJSONArray(array: JSONArray, element: Any?, index: Int?): JSONArray {
         if (index != null) {
             return appendValueToJSONArray(array, element, index)
         } else {
@@ -59,7 +44,7 @@ internal class InsertOperation : Operation {
         return array
     }
 
-    private fun appendValueToJSONArray(array: JSONArray, element: Any, index: Int): JSONArray {
+    private fun appendValueToJSONArray(array: JSONArray, element: Any?, index: Int): JSONArray {
         val newArray = JSONArray()
         for (i in 0 until array.length()) {
             if (i == index) {

@@ -17,26 +17,25 @@
 package br.com.zup.beagle.android.operation.builtin.array
 
 import br.com.zup.beagle.android.operation.Operation
-import org.json.JSONArray
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("contains")
 internal class ContainsOperation : Operation {
-    override fun operationName(): String = "contains"
 
-    @Suppress("ReturnCount")
-    override fun execute(vararg params: Any?): Boolean {
-        val array = params[0]
-        val element = params[1]
+    override fun execute(vararg params: OperationType?): OperationType {
+        val parameterOne = params[0]
+        val elementCompare = params[1]
 
-        if (array is Collection<*>) {
-            return array.contains(element)
-        } else if (array is JSONArray) {
-            for(index in 0 until array.length()) {
-                if (array[index] == element) {
-                    return true
+        if (parameterOne is OperationType.TypeJsonArray) {
+            val array = parameterOne.value
+            for (index in 0 until array.length()) {
+                if (array[index] == elementCompare?.value) {
+                    return OperationType.TypeBoolean(true)
                 }
             }
         }
 
-        return false
+        return OperationType.TypeBoolean(false)
     }
 }

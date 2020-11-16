@@ -17,13 +17,19 @@
 package br.com.zup.beagle.android.operation.builtin.logic
 
 import br.com.zup.beagle.android.operation.Operation
-import br.com.zup.beagle.android.operation.builtin.toListOfBooleans
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("and")
 internal class AndOperation : Operation {
 
-    override fun execute(vararg params: Any?): Boolean {
-        return params.toListOfBooleans().reduce{ boolean1, boolean2 -> boolean1 && boolean2 }
-    }
+    override fun execute(vararg params: OperationType?): OperationType {
+        params.forEach {
+            if (it is OperationType.TypeBoolean && !it.value) return OperationType.TypeBoolean(false)
+        }
 
-    override fun operationName(): String = "and"
+        val paramsIsNotEmpty = !params.isNullOrEmpty()
+
+        return OperationType.TypeBoolean(paramsIsNotEmpty)
+    }
 }

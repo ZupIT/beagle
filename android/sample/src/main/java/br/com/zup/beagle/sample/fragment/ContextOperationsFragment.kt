@@ -31,6 +31,7 @@ import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.ContextData
@@ -71,7 +72,19 @@ class ContextOperationsFragment : Fragment() {
                 Text(text = "The text bellow will show if the counter + 2 is below 5 or not"),
                 Text(expressionOf(
                     "@{condition(lt(sum(counter, 2), 5), 'less then 5', 'greater then 5')}")
-                ).applyStyle(Style(backgroundColor = "#00FF00"))
+                ).applyStyle(Style(backgroundColor = "#00FF00")),
+                Container(
+                    context = ContextData("cpf", ""),
+                    children = listOf(
+                        TextInput(placeholder = "CPF", onChange = listOf(
+                            SetContext(
+                                contextId = "cpf",
+                                value = "@{onChange.value}"
+                            )
+                        )),
+                        Text("@{condition(isValidCpf(cpf), 'cpf is valid', 'cpf is not valid')}")
+                    )
+                )
             )
         )
     )

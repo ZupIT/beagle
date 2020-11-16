@@ -60,7 +60,6 @@ final class ExpressionTests: XCTestCase {
             "@{client[a]}",
             "sum(1, 2)}",
             "@{sum(1,2)",
-            "@{test()}",
             "@{@{2}}"
         ]
         

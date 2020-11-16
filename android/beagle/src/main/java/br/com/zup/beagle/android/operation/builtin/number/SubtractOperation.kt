@@ -17,18 +17,22 @@
 package br.com.zup.beagle.android.operation.builtin.number
 
 import br.com.zup.beagle.android.operation.Operation
-import br.com.zup.beagle.android.operation.builtin.toListOfDoubles
-import br.com.zup.beagle.android.operation.builtin.toListOfInts
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("subtract")
 internal class SubtractOperation : Operation {
 
-    override fun execute(vararg params: Any?): Number {
-        return if (params[0] is Int) {
-            params.toListOfInts().reduce { num1, num2 -> num1 - num2 }
-        } else {
-            params.toListOfDoubles().reduce { num1, num2 -> num1 - num2 }
-        }
-    }
+    override fun execute(vararg params: OperationType?): OperationType {
+        return params.reduce { parameterOne, parameterTwo ->
+            val value1 = (parameterOne as? OperationType.TypeNumber)?.value?.toDouble()
+            val value2 = (parameterTwo as? OperationType.TypeNumber)?.value?.toDouble()
 
-    override fun operationName(): String = "subtract"
+            if (value1 == null || value2 == null) return OperationType.Null
+            val result = value1 - value2
+
+            val isInt = (params[0] as OperationType.TypeNumber).value is Int
+            if (isInt) OperationType.TypeNumber(result.toInt()) else OperationType.TypeNumber(result)
+        } ?: OperationType.Null
+    }
 }

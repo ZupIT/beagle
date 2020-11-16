@@ -179,7 +179,7 @@ extension UIView {
                 result += string
             }
         }
-        return result as? T
+        return transform(.string(result))
     }
     
     // MARK: Get/Set Context
@@ -222,6 +222,8 @@ extension UIView {
     private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
         if T.self is String.Type {
             return dynamicObject.description as? T
+        } else if T.self is DynamicObject.Type {
+            return dynamicObject as? T
         } else {
             let encoder = JSONEncoder()
             let decoder = JSONDecoder()

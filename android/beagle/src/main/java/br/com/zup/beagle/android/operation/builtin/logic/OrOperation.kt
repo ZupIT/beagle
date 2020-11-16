@@ -17,18 +17,19 @@
 package br.com.zup.beagle.android.operation.builtin.logic
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("or")
 internal class OrOperation : Operation {
 
-    override fun execute(vararg params: Any?): Boolean {
+    override fun execute(vararg params: OperationType?): OperationType {
         params.forEach {
-            if (it as? Boolean == true) {
-                return true
+            if (it is OperationType.TypeBoolean && it.value) {
+                return OperationType.TypeBoolean(true)
             }
         }
 
-        return false
+        return OperationType.TypeBoolean(false)
     }
-
-    override fun operationName(): String = "or"
 }

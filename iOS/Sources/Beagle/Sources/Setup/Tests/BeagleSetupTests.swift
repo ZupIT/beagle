@@ -50,7 +50,8 @@ final class BeagleSetupTests: XCTestCase {
         dep.windowManager = WindowManagerDumb()
         dep.opener = URLOpenerDumb()
         dep.globalContext = GlobalContextDummy()
-
+        dep.operationsProvider = OperationsProviderDummy()
+        
         assertSnapshot(matching: dep, as: .dump)
     }
 
@@ -176,6 +177,7 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var windowManager: WindowManager = WindowManagerDumb()
     var opener: URLOpener = URLOpenerDumb()
     var globalContext: GlobalContext = GlobalContextDummy()
+    var operationsProvider: OperationsProvider = OperationsProviderDummy()
 
     var renderer: (BeagleController) -> BeagleRenderer = {
         return BeagleRenderer(controller: $0)
@@ -236,5 +238,16 @@ class GlobalContextDummy: GlobalContext {
     
     func clear(path: String?) {
         // Intentionally unimplemented...
+    }
+}
+
+class OperationsProviderDummy: OperationsProvider {
+    func register(operationId: String, handler: @escaping OperationHandler) {
+        // Intentionally unimplemented...
+    }
+    
+    func evaluate(with operation: Operation, in view: UIView) -> DynamicObject {
+        // Intentionally unimplemented...
+        return nil
     }
 }

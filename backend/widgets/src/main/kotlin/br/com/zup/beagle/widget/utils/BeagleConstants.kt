@@ -20,4 +20,6 @@ object BeagleConstants {
     const val DEPRECATED_PAGE_VIEW =
         "This constructor will be removed in a future version, use the constructor with Bind"
     const val DEPRECATED_TAB_VIEW ="This component will be removed in a future version, use TabBar instead."
+    const val DEPRECATED_LIST_VIEW = "This component was deprecated in version 1.4 " +
+        "and will be removed in a future version"
 }

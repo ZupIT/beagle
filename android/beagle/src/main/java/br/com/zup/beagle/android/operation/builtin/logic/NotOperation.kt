@@ -17,12 +17,20 @@
 package br.com.zup.beagle.android.operation.builtin.logic
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.android.operation.builtin.SafeGetHelper
+import br.com.zup.beagle.annotation.RegisterOperation
 
-internal class NotOperation : Operation {
+@RegisterOperation("not")
+internal class NotOperation : Operation, SafeGetHelper {
 
-    override fun execute(vararg params: Any?): Boolean {
-        return !(params[0] as Boolean)
+    override fun execute(vararg params: OperationType?): OperationType {
+        val value = (params[0] as OperationType.TypeBoolean).value
+
+        val result = safeGet(params, 0)
+
+        val tryGetBoolean = (result as? OperationType.TypeBoolean)?.value
+
+        return if (tryGetBoolean != null) OperationType.TypeBoolean(!value) else OperationType.Null
     }
-
-    override fun operationName(): String = "not"
 }

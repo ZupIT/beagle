@@ -32,7 +32,6 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal var viewFactory = ViewFactory()
@@ -123,7 +122,7 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     action: Action,
     eventName: String,
-    eventValue: Any? = null,
+    eventValue: Any? = null
 ) {
     eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
         ?: handleEvent(rootView, origin, action)
@@ -163,42 +162,28 @@ internal fun <T> internalObserveBindChanges(
  * @property activity <p>is the reference for your activity.
  * Make sure to use this method if you are inside a Activity because of the lifecycle</p>
  */
-fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id.beagle_default_id): View {
-    var screenId: String = ""
-    if (this is IdentifierComponent) {
-        this.id?.let {
-            screenId = it
-        }
-    }
-    return this.toView(ActivityRootView(activity, idView, screenId))
-}
+fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id.beagle_default_id): View =
+    this.toView(ActivityRootView(activity, idView, ""))
 
 /**
  * Transform your Component to a view.
  * @property fragment <p>is the reference for your fragment.
  * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  */
-fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View {
-    var screenId: String = ""
-    if (this is IdentifierComponent) {
-        this.id?.let {
-            screenId = it
-        }
-    }
-    return this.toView(FragmentRootView(fragment, idView, screenId))
-}
+fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View =
+    this.toView(FragmentRootView(fragment, idView, ""))
 
-internal fun ServerDrivenComponent.toView(rootView: RootView): View {
-    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
-    viewModel.createIfNotExisting(rootView.getParentId())
+internal fun ServerDrivenComponent.toView(
+    rootView: RootView,
+    generateIdManager: GenerateIdManager = GenerateIdManager(rootView)
+): View {
+    generateIdManager.createSingleManagerByRootViewId()
     val view = viewFactory.makeBeagleFlexView(rootView).apply {
         id = rootView.getParentId()
         addServerDrivenComponent(this@toView)
     }
-
     view.listenerOnViewDetachedFromWindow = {
-        viewModel.setViewCreated(rootView.getParentId())
+        generateIdManager.onViewDetachedFromWindow(view)
     }
-
     return view
 }

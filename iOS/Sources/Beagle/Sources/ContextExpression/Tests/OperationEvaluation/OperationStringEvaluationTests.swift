@@ -23,7 +23,7 @@ final class OperationStringEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateConcat() {
         // Given
-        let name = Operation.Name.concat
+        let name = "concat"
         let contexts = [Context(id: "context", value: "Lastname")]
         let binding = contexts[0].id
         
@@ -58,7 +58,7 @@ final class OperationStringEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = ["String", "String", "Name", "Lastname", "Name Lastname", nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.capitalize) { evaluatedResults in
+        evaluateOperation("capitalize") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -69,7 +69,7 @@ final class OperationStringEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = ["STRING", "STRING", "NAME", "LASTNAME", "NAME LASTNAME", nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.uppercase) { evaluatedResults in
+        evaluateOperation("uppercase") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -80,7 +80,7 @@ final class OperationStringEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = ["string", "string", "name", "lastname", "name lastname", nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.lowercase) { evaluatedResults in
+        evaluateOperation("lowercase") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -88,7 +88,7 @@ final class OperationStringEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateSubstr() {
         // Given
-        let name = Operation.Name.substr
+        let name = "substr"
         let contexts = [Context(id: "context", value: "some long string")]
         let binding = contexts[0].id
         
@@ -123,11 +123,11 @@ final class OperationStringEvaluationTests: OperationEvaluationTests {
         }
     }
     
-    private func evaluateOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateOperation(_ name: String, completion: ([DynamicObject]) -> Void) {
         // Given
         let contexts = [Context(id: "context1", value: "name"), Context(id: "context2", value: "Lastname")]
         let bindings = contexts.map { $0.id }
-        guard let concat = "\(bindings[0]), ' ', \(bindings[1])".toOperation(name: .concat) else {
+        guard let concat = "\(bindings[0]), ' ', \(bindings[1])".toOperation(name: "concat") else {
             XCTFail("Failed to get operation")
             return
         }

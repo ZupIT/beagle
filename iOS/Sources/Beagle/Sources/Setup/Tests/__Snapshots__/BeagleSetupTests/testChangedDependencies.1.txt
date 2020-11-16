@@ -37,6 +37,7 @@
     - some: NetworkClientDummy
   ▿ opener: URLOpenerDumb
     - hasInvokedTryToOpen: false
+  - operationsProvider: OperationsProviderDummy
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)

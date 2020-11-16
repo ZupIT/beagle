@@ -16,35 +16,48 @@
 
 package br.com.zup.beagle.android.operation
 
-import br.com.zup.beagle.android.operation.builtin.mapOfArrayOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfComparisonOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfLogicOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfNumberOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfOtherOperations
-import br.com.zup.beagle.android.operation.builtin.mapOfStringOperations
+import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.setup.InternalOperationFactory
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal class OperationResolver {
 
-    private val functions = createFunctions()
+    private val functions = createOperations()
 
     fun execute(functionName: String, vararg params: Any?): Any? {
         val function = functions[functionName]
+
+        val paramsMapped = params.map { parameter ->
+            if (parameter == null) {
+                return@map OperationType.Null
+            }
+
+            when (parameter) {
+                is String -> OperationType.TypeString(parameter)
+                is Number -> OperationType.TypeNumber(parameter)
+                is Boolean -> OperationType.TypeBoolean(parameter)
+                is JSONArray -> OperationType.TypeJsonArray(parameter)
+                is JSONObject -> OperationType.TypeJsonObject(parameter)
+                else -> throw BeagleException("type not mapped")
+            }
+        }
 
         if (function == null) {
             BeagleMessageLogs.functionWithNameDoesNotExist(functionName)
         }
 
-        return function?.execute(*params)
+        val result = function?.execute(*paramsMapped.toTypedArray())
+        return result?.value
     }
 
-    private fun createFunctions(): Map<String, Operation> {
+
+    private fun createOperations(): Map<String, Operation> {
         return mutableMapOf<String, Operation>() +
-            mapOfNumberOperations() +
-            mapOfArrayOperations() +
-            mapOfLogicOperations() +
-            mapOfComparisonOperations() +
-            mapOfStringOperations() +
-            mapOfOtherOperations()
+            InternalOperationFactory.registeredOperations() +
+            BeagleEnvironment.beagleSdk.registeredOperations()
     }
+
 }

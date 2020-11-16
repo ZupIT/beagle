@@ -23,10 +23,10 @@ final class OperationOtherEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateIsNull() {
         // Given
-        let name = Operation.Name.isNull
+        let name = "isNull"
         let contexts = [Context(id: "context", value: [1, 2, 3])]
         let binding = contexts[0].id
-        guard let insert = "".toOperation(name: .insert) else {
+        guard let insert = "".toOperation(name: "insert") else {
             XCTFail("Failed to get operation")
             return
         }
@@ -53,7 +53,7 @@ final class OperationOtherEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [true, false, false, true, nil, nil, nil]
         
         // When
-        evaluateOperation(.isEmpty) { evaluatedResults in
+        evaluateOperation("isEmpty") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -64,20 +64,20 @@ final class OperationOtherEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [0, 1, 3, 0, nil, nil, nil]
         
         // When
-        evaluateOperation(.length) { evaluatedResults in
+        evaluateOperation("length") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
     
-    private func evaluateOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateOperation(_ name: String, completion: ([DynamicObject]) -> Void) {
         // Given
         // swiftlint:disable multiline_literal_brackets
         let contexts = [Context(id: "context1", value: [1]),
                         Context(id: "context2", value: ["one": 1, "two": 2, "three": 3])]
         // swiftlint:enable multiline_literal_brackets
         let bindings = contexts.map { $0.id }
-        guard let removeIndex = "\(bindings[0])".toOperation(name: .removeIndex) else {
+        guard let removeIndex = "\(bindings[0])".toOperation(name: "removeIndex") else {
             XCTFail("Failed to get operation")
             return
         }

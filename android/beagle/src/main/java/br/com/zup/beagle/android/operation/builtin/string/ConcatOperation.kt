@@ -17,19 +17,21 @@
 package br.com.zup.beagle.android.operation.builtin.string
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("concat")
 internal class ConcatOperation : Operation {
-    override fun operationName(): String = "concat"
 
-    override fun execute(vararg params: Any?): String {
+    override fun execute(vararg params: OperationType?): OperationType {
         val value = StringBuilder()
 
         params.forEach {
-            if (it != null) {
-                value.append(it)
+            if (it != null && it is OperationType.TypeString && it.value.isNotEmpty()) {
+                value.append(it.value)
             }
         }
-        return value.toString()
+        return OperationType.TypeString(value.toString())
     }
 
 }

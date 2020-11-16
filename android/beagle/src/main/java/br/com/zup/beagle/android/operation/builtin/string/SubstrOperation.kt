@@ -17,21 +17,24 @@
 package br.com.zup.beagle.android.operation.builtin.string
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("substr")
 internal class SubstrOperation : Operation {
-    override fun operationName(): String = "substr"
 
-    override fun execute(vararg params: Any?): String {
-        val text = params[0] as String
-        val start = params[1] as Int
-        val length = params.getOrNull(2) as? Int ?: text.length - start
+    override fun execute(vararg params: OperationType?): OperationType {
+        val text = (params[0] as? OperationType.TypeString)?.value ?: ""
+        val start = (params[1] as? OperationType.TypeNumber)?.value as Int? ?: 0
+        val lengthParameter = (params.getOrNull(2) as? OperationType.TypeNumber)?.value as Int?
+        val length = lengthParameter ?: text.length - start
         val end = start + (length - 1)
 
         if (length == 0) {
-            return ""
+            return OperationType.TypeString("")
         }
 
-        return text.substring(start..end)
+        return OperationType.TypeString(text.substring(start..end))
     }
 
 }

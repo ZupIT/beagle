@@ -17,6 +17,9 @@
 <resources>
     <string name="app_name">beagle-android</string>
     <string name="tv_screen_deeplink">Screen DeepLink</string>
-    <string name="btn_title_come_back">come back</string>
     <string name="title_btn_retry">Try again</string>
+    <string name="deprecated_list">Deprecated List</string>
+    <string name="local_list">List Without onInit</string>
+    <string name="nested_list">List With Nested List</string>
+    <string name="nested_list_with_image">List With Nested Image List</string>
 </resources>

@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.utils
 import android.view.View
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
+import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.IdentifierComponent
@@ -32,8 +33,18 @@ internal const val COMPONENT_NO_ID = "-1"
 
 internal class GenerateIdManager(
     private val rootView: RootView,
-    private val generateIdViewModel: GenerateIdViewModel = rootView.generateViewModelInstance()
+    private val generateIdViewModel: GenerateIdViewModel = rootView.generateViewModelInstance(),
+    private val listViewIdViewModel: ListViewIdViewModel = rootView.generateViewModelInstance()
 ) {
+
+    fun createSingleManagerByRootViewId() {
+        generateIdViewModel.createIfNotExisting(rootView.getParentId())
+    }
+
+    fun onViewDetachedFromWindow(view: View) {
+        generateIdViewModel.setViewCreated(rootView.getParentId())
+        listViewIdViewModel.prepareToReuseIds(view)
+    }
 
     fun manageId(component: ServerDrivenComponent, view: BeagleFlexView) {
         (component as? IdentifierComponent)?.let { identifierComponent ->

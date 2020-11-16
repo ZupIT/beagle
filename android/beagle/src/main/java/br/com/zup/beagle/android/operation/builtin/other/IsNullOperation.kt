@@ -17,12 +17,16 @@
 package br.com.zup.beagle.android.operation.builtin.other
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.android.operation.builtin.SafeGetHelper
+import br.com.zup.beagle.annotation.RegisterOperation
 
-internal class IsNullOperation : Operation {
-    override fun operationName(): String = "isNull"
+@RegisterOperation("isNull")
+internal class IsNullOperation : Operation, SafeGetHelper {
 
-    override fun execute(vararg params: Any?): Boolean {
-        return params.getOrNull(0) == null
+    override fun execute(vararg params: OperationType?): OperationType {
+        val operation = safeGet(params, 0)
+        return OperationType.TypeBoolean(operation == OperationType.Null)
     }
 
 }

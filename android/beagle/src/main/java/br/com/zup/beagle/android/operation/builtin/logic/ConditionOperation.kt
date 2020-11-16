@@ -17,16 +17,19 @@
 package br.com.zup.beagle.android.operation.builtin.logic
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.android.operation.builtin.SafeGetHelper
+import br.com.zup.beagle.annotation.RegisterOperation
 
-internal class ConditionOperation : Operation {
+@RegisterOperation("condition")
+internal class ConditionOperation : Operation, SafeGetHelper {
 
-    override fun execute(vararg params: Any?): Any? {
-        return if (params[0] as Boolean) {
-            params[1]
+    override fun execute(vararg params: OperationType?): OperationType {
+        val value = (params.getOrNull(0) as? OperationType.TypeBoolean)?.value
+        return if (value == true) {
+            safeGet(params, 1)
         } else {
-            params[2]
+            safeGet(params, 2)
         }
     }
-
-    override fun operationName(): String = "condition"
 }

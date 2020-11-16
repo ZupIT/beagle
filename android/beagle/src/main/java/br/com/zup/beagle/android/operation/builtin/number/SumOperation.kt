@@ -17,18 +17,21 @@
 package br.com.zup.beagle.android.operation.builtin.number
 
 import br.com.zup.beagle.android.operation.Operation
-import br.com.zup.beagle.android.operation.builtin.toListOfDoubles
-import br.com.zup.beagle.android.operation.builtin.toListOfInts
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 
+@RegisterOperation("sum")
 internal class SumOperation : Operation {
 
-    override fun execute(vararg params: Any?): Number {
-        return if (params[0] is Int) {
-            params.toListOfInts().sum()
+    override fun execute(vararg params: OperationType?): OperationType {
+        val result = params.sumOf {
+            val number = (it as? OperationType.TypeNumber)?.value ?: 0
+            number.toDouble()
+        }
+        return if ((params[0] as OperationType.TypeNumber).value is Int) {
+            OperationType.TypeNumber(result.toInt())
         } else {
-            params.toListOfDoubles().sum()
+            OperationType.TypeNumber(result)
         }
     }
-
-    override fun operationName(): String = "sum"
 }

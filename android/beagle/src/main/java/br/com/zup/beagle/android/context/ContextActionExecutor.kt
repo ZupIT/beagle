@@ -54,19 +54,17 @@ internal object ContextActionExecutor {
         viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
 
-    fun executeActions(rootView: RootView,
-                       origin: View,
-                       actions: List<Action>?,
-                       analyticsHandleEvent: AnalyticsHandleEvent? = null
+    private fun executeActions(
+        rootView: RootView,
+        origin: View,
+        actions: List<Action>?,
+        analyticsHandleEvent: AnalyticsHandleEvent?
     ) {
-        actions?.forEach { action ->
+        actions?.forEach {  action ->
             if (action is AsyncAction) {
                 val viewModel = rootView.generateViewModelInstance<AsyncActionViewModel>()
                 viewModel.onAsyncActionExecuted(AsyncActionData(origin, action))
                 action.onActionStarted()
-            }
-            if(action is ActionAnalytics){
-                action.execute(rootView, origin, analyticsHandleEvent?.originComponent)
             }
             action.execute(rootView, origin)
         }

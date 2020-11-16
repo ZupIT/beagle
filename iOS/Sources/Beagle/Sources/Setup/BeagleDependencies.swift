@@ -40,6 +40,7 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
     DependencyFormDataStoreHandler,
     DependencyRenderer,
     DependencyGlobalContext,
+    DependencyOperationsProvider,
     DependencyLoggingCondition {
 }
 
@@ -62,6 +63,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var windowManager: WindowManager
     public var opener: URLOpener
     public var globalContext: GlobalContext
+    public var operationsProvider: OperationsProvider
     public var isLoggingEnabled: Bool
     
     public var logger: BeagleLoggerType {
@@ -105,6 +107,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.theme = AppTheme(styles: [:])
         self.isLoggingEnabled = true
         self.logger = BeagleLoggerProxy(logger: logger, dependencies: resolver)
+        self.operationsProvider = OperationsDefault(dependencies: resolver)
 
         self.decoder = BeagleSchema.dependencies.decoder
         self.formDataStoreHandler = FormDataStoreHandler()

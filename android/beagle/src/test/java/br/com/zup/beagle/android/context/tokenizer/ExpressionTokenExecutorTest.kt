@@ -16,16 +16,24 @@
 
 package br.com.zup.beagle.android.context.tokenizer
 
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.testutil.RandomData
 import org.junit.Assert.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 
-class ExpressionTokenExecutorTest {
+class ExpressionTokenExecutorTest : BaseTest() {
 
-    private val expressionTokenExecutor = ExpressionTokenExecutor()
+    private lateinit var expressionTokenExecutor: ExpressionTokenExecutor
     private val tokenParser = TokenParser()
+
+    @BeforeEach
+    override fun setUp() {
+        super.setUp()
+        expressionTokenExecutor = ExpressionTokenExecutor()
+    }
 
     @Test
     fun execute_should_execute_all_functions() {

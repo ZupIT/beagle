@@ -592,22 +592,4 @@ class ActionExtensionsKtTest : BaseTest() {
         // Then
         assertEquals(implicitContextValue, actualValue)
     }
-
-    @Test
-    fun evaluateExpression_should_return_cached_result_if_there_is() {
-        // Given
-        val contextValue = "hello"
-        viewModel.addContext(contextView, ContextData(
-            id = "context",
-            value = contextValue
-        ))
-        val value = "@{context}"
-        every { bindView.getTag(R.id.beagle_context_view_parent) } answers { contextValue }
-
-        // When
-        val actualValue = action.evaluateExpression(rootView, bindView, value)
-
-        // Then
-        assertEquals(contextValue, actualValue)
-    }
 }

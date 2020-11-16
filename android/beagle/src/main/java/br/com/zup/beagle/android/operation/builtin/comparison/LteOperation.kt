@@ -17,19 +17,19 @@
 package br.com.zup.beagle.android.operation.builtin.comparison
 
 import br.com.zup.beagle.android.operation.Operation
+import br.com.zup.beagle.android.operation.OperationType
+import br.com.zup.beagle.annotation.RegisterOperation
 
-internal class LteOperation : Operation {
+@RegisterOperation("lte")
+internal class LteOperation : Operation, ComparisonValidationParameterOperation {
 
-    override fun execute(vararg params: Any?): Boolean {
-        val value1 = params[0]
-        val value2 = params[1]
+    override fun execute(vararg params: OperationType?): OperationType {
+        if (parametersIsNull(params)) return OperationType.Null
 
-        return if (value1 is Int && value2 is Int) {
-            value1 <= value2
-        } else {
-            (value1 as Double) <= (value2 as Double)
-        }
+        val value1 = (params[0] as OperationType.TypeNumber).value.toDouble()
+        val value2 = (params[1] as OperationType.TypeNumber).value.toDouble()
+
+        val result = value1 <= value2
+        return OperationType.TypeBoolean(result)
     }
-
-    override fun operationName(): String = "lte"
 }
