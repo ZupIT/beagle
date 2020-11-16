@@ -53,7 +53,7 @@ internal class ListViewHolder(
     val directNestedImageViews = mutableListOf<ImageView>()
     val directNestedTextViews = mutableListOf<TextView>()
     private val contextComponents = mutableListOf<ContextData>()
-    val initiableComponents = mutableListOf<OnInitiableComponent>()
+    private val initiableComponents = mutableListOf<OnInitiableComponent>()
     var observer: Observer<AsyncActionStatus>? = null
 
     init {
@@ -249,7 +249,7 @@ internal class ListViewHolder(
             if (viewPreviousId == View.NO_ID) {
                 listViewModels.contextViewModel.setIdToViewWithContext(view)
             } else {
-                listViewModels.contextViewModel.onViewIdChanged(viewPreviousId, view.id)
+                listViewModels.contextViewModel.onViewIdChanged(viewPreviousId, view.id, view)
             }
         }
     }
@@ -316,8 +316,7 @@ internal class ListViewHolder(
     }
 
     private fun restoreAdapters(listItem: ListItem) {
-        val temporaryNestedAdapters: LinkedList<ListAdapter> =
-            LinkedList(listItem.directNestedAdapters)
+        val temporaryNestedAdapters: LinkedList<ListAdapter> = LinkedList(listItem.directNestedAdapters)
         directNestedRecyclers.forEach {
             it.swapAdapter(temporaryNestedAdapters.pollFirst(), false)
         }
