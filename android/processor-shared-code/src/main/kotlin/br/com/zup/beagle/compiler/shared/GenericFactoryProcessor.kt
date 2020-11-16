@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.compiler.shared
 
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -26,25 +28,54 @@ import javax.annotation.processing.RoundEnvironment
 class GenericFactoryProcessor<T : Annotation>(
     private val processingEnv: ProcessingEnvironment,
     private val className: String,
-    private val beagleGeneratorFunction: BeagleGeneratorFunction<T>) {
+    private val beagleGeneratorFunction: BeagleGeneratorFunction<T>,
+) {
 
     fun process(
         basePackageName: String,
         roundEnvironment: RoundEnvironment,
         importClass: BeagleClass,
-        isInternalClass: Boolean
+        isInternalClass: Boolean,
     ) {
-        val typeSpec = getTypeSpec(roundEnvironment, isInternalClass)
+        process(basePackageName, roundEnvironment, listOf(importClass), isInternalClass)
+    }
 
-        val beagleSetupFile = FileSpec.builder(
+    fun process(
+        basePackageName: String,
+        roundEnvironment: RoundEnvironment,
+        importClass: BeagleClass,
+    ) {
+        process(basePackageName, roundEnvironment, listOf(importClass))
+    }
+
+    fun process(
+        basePackageName: String,
+        roundEnvironment: RoundEnvironment,
+        importClasses: List<BeagleClass>,
+        isInternalClass: Boolean = false,
+        superInterface: BeagleClass? = null,
+    ) {
+        val typeSpec = getTypeSpec(roundEnvironment, isInternalClass, superInterface)
+
+        val fileSpecBuilder = FileSpec.builder(
             basePackageName,
             className
         )
-            .addImport(importClass.packageName, importClass.className)
-            .addType(typeSpec)
+
+        importClasses.forEach { importClass ->
+            fileSpecBuilder.addImport(importClass.packageName, importClass.className)
+        }
+
+        fileSpecBuilder.addAnnotation(
+            AnnotationSpec.builder(Suppress::class.java)
+                .addMember("%S, %S, %S", "OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST")
+                .build()
+        )
+
+        val fileSpec = fileSpecBuilder.addType(typeSpec)
             .build()
 
-        beagleSetupFile.writeTo(processingEnv.filer)
+        fileSpec.writeTo(processingEnv.filer)
     }
 
     fun createFunction(): FunSpec = beagleGeneratorFunction.createFuncSpec(beagleGeneratorFunction.getFunctionName())
@@ -52,13 +83,25 @@ class GenericFactoryProcessor<T : Annotation>(
         .addStatement("return $className.${beagleGeneratorFunction.getFunctionName()}()")
         .build()
 
-    private fun getTypeSpec(roundEnvironment: RoundEnvironment, isInternalClass: Boolean): TypeSpec {
+    private fun getTypeSpec(
+        roundEnvironment: RoundEnvironment,
+        isInternalClass: Boolean,
+        superInterface: BeagleClass?,
+    ): TypeSpec {
         val typeSpecBuilder = TypeSpec.objectBuilder(className)
             .addFunction(beagleGeneratorFunction.generate(roundEnvironment))
+
         if (isInternalClass) {
             typeSpecBuilder.addModifiers(KModifier.INTERNAL)
         } else {
             typeSpecBuilder.addModifiers(KModifier.PUBLIC, KModifier.FINAL)
+        }
+
+        superInterface?.let {
+            typeSpecBuilder.addSuperinterface(ClassName(
+                superInterface.packageName,
+                superInterface.className
+            ))
         }
         return typeSpecBuilder.build()
     }

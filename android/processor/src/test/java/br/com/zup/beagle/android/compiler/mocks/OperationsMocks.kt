@@ -35,38 +35,42 @@ const val VALID_LIST_OPERATIONS = VALID_OPERATION + VALID_SECOND_OPERATION
 
 const val INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED: String =
     """
-    package br.com.test.beagle
-    import br.com.zup.beagle.android.operation.Operation
-    import kotlin.String
-    import kotlin.collections.Map
-    
-    public final object RegisteredOperations { 
-        public fun registeredOperations() : Map<String,Operation> {
-            val operations = mapOf<String , Operation>(
-                "OperationTestName" to br.com.test.beagle.OperationTest(),
-            )
-            return operations 
+        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        package br.com.test.beagle
+        import br.com.zup.beagle.android.operation.Operation
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.Map
+        
+        public final object RegisteredOperations { 
+            public fun registeredOperations() : Map<String,Operation> {
+                val operations = mapOf<String , Operation>(
+                    "OperationTestName" to br.com.test.beagle.OperationTest(),
+                )
+                return operations 
+            }
         }
-    }
 
     """
 
 const val INTERNAL_LIST_OPERATION_GENERATED_EXPECTED: String =
     """
-    package br.com.test.beagle
-    import br.com.zup.beagle.android.operation.Operation
-    import kotlin.String
-    import kotlin.collections.Map
-    
-    public final object RegisteredOperations { 
-        public fun registeredOperations() : Map<String, Operation> { 
-            val operations = mapOf<String, Operation>(
-                "OperationTwoTestName" to br.com.test.beagle.OperationTwoTest(),
-                "OperationTestName" to br.com.test.beagle.OperationTest(),
-            )
-            return operations 
+        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        package br.com.test.beagle
+        import br.com.zup.beagle.android.operation.Operation
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.Map
+        
+        public final object RegisteredOperations { 
+            public fun registeredOperations() : Map<String, Operation> { 
+                val operations = mapOf<String, Operation>(
+                    "OperationTwoTestName" to br.com.test.beagle.OperationTwoTest(),
+                    "OperationTestName" to br.com.test.beagle.OperationTest(),
+                )
+                return operations 
+            }
         }
-    }
 
     """
 

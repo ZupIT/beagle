@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionAction
+import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomAdapter
 import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
@@ -38,9 +39,7 @@ internal data class BeagleSetupProcessor(
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
         BeagleSetupPropertyGenerator(processingEnv),
     private val registerAnnotationProcessor: RegisterControllerProcessor =
-        RegisterControllerProcessor(processingEnv),
-    private val registerBeagleAdapterProcessor: RegisterBeagleAdapterProcessor =
-        RegisterBeagleAdapterProcessor(processingEnv),
+        RegisterControllerProcessor(processingEnv)
 ) {
 
     private val widgetFactoryProcessor = GenericFactoryProcessor(
@@ -59,6 +58,12 @@ internal data class BeagleSetupProcessor(
         processingEnv,
         REGISTERED_ACTIONS_GENERATED,
         GenerateFunctionAction(processingEnv)
+    )
+
+    private val customAdapterFactoryProcessor = GenericFactoryProcessor(
+        processingEnv,
+        REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED,
+        GenerateFunctionCustomAdapter(processingEnv)
     )
 
     fun process(
@@ -86,13 +91,12 @@ internal data class BeagleSetupProcessor(
 
         var property = properties[propertyIndex]
 
-        widgetFactoryProcessor.process(basePackageName, roundEnvironment, WIDGET_VIEW, false)
-        operationFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_OPERATION, false)
-        actionFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_ACTION, false)
+        widgetFactoryProcessor.process(basePackageName, roundEnvironment, WIDGET_VIEW)
+        operationFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_OPERATION)
+        actionFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_ACTION)
+        customAdapterFactoryProcessor.process(basePackageName, roundEnvironment, listOf(BEAGLE_CUSTOM_ADAPTER, BEAGLE_PARAMETERIZED_TYPE_FACTORY),
+            false, BEAGLE_CUSTOM_ADAPTER)
         registerAnnotationProcessor.process(basePackageName, roundEnvironment, property.initializer.toString())
-        registerBeagleAdapterProcessor.process(
-            BEAGLE_CUSTOM_ADAPTER.packageName,
-            roundEnvironment)
 
         val defaultActivity = registerAnnotationProcessor.defaultActivityRegistered
         property = beagleSetupPropertyGenerator.implementServerDrivenActivityProperty(
@@ -110,7 +114,7 @@ internal data class BeagleSetupProcessor(
                 "typeAdapterResolver",
                 ClassName(BEAGLE_CUSTOM_ADAPTER.packageName, BEAGLE_CUSTOM_ADAPTER.className),
                 KModifier.OVERRIDE
-            ).initializer("${BEAGLE_CUSTOM_ADAPTER_IMPL.className}()")
+            ).initializer(REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED)
                 .build())
         try {
             beagleSetupFile
@@ -139,7 +143,6 @@ internal data class BeagleSetupProcessor(
             .addImport(BEAGLE_LOGGER.packageName, BEAGLE_LOGGER.className)
             .addImport(BEAGLE_IMAGE_DOWNLOADER.packageName, BEAGLE_IMAGE_DOWNLOADER.className)
             .addImport(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
-            .addImport(BEAGLE_CUSTOM_ADAPTER_IMPL.packageName, BEAGLE_CUSTOM_ADAPTER_IMPL.className)
             .addImport(basePackageName, beagleConfigClassName)
             .addImport(ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className), "")
             .addAnnotation(
@@ -161,5 +164,6 @@ internal data class BeagleSetupProcessor(
         internal const val REGISTERED_WIDGETS_GENERATED = "RegisteredWidgets"
         internal const val REGISTERED_OPERATIONS_GENERATED = "RegisteredOperations"
         internal const val REGISTERED_ACTIONS_GENERATED = "RegisteredActions"
+        internal const val REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED = "RegisteredCustomTypeAdapter"
     }
 }

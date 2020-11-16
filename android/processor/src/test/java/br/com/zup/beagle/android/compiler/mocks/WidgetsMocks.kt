@@ -63,39 +63,43 @@ const val VALID_LIST_WIDGETS =
 
 const val INTERNAL_LIST_WIDGET_GENERATED_EXPECTED: String =
     """
-    package br.com.test.beagle
-    import br.com.zup.beagle.android.widget.WidgetView
-    import java.lang.Class
-    import kotlin.collections.List
-    
-    public final object RegisteredWidgets { 
-        public fun registeredWidgets() : List<Class<WidgetView>> {
-            val registeredWidgets = listOf<Class<WidgetView>>(
-                br.com.test.beagle.PageIndicatorTest::class.java as Class<WidgetView>,
-                br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
-                br.com.test.beagle.InputWidgetTest::class.java as Class<WidgetView>,
-                )
-            return registeredWidgets
+        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        package br.com.test.beagle
+        import br.com.zup.beagle.android.widget.WidgetView
+        import java.lang.Class
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredWidgets { 
+            public fun registeredWidgets() : List<Class<WidgetView>> {
+                val registeredWidgets = listOf<Class<WidgetView>>(
+                    br.com.test.beagle.PageIndicatorTest::class.java as Class<WidgetView>,
+                    br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
+                    br.com.test.beagle.InputWidgetTest::class.java as Class<WidgetView>,
+                    )
+                return registeredWidgets
+            }
         }
-    }
 
     """
 
 const val INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED: String =
     """
-    package br.com.test.beagle
-    import br.com.zup.beagle.android.widget.WidgetView
-    import java.lang.Class
-    import kotlin.collections.List
-    
-    public final object RegisteredWidgets {
+        @file:Suppress("OverridingDeprecatedMember","DEPRECATION","UNCHECKED_CAST")
+        package br.com.test.beagle
+        import br.com.zup.beagle.android.widget.WidgetView
+        import java.lang.Class
+        import kotlin.Suppress
+        import kotlin.collections.List
         
-        public fun registeredWidgets() : List<Class<WidgetView>> {
-            val registeredWidgets = listOf<Class<WidgetView>>(
-                br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
-            )
-            return registeredWidgets
+        public final object RegisteredWidgets {
+            
+            public fun registeredWidgets() : List<Class<WidgetView>> {
+                val registeredWidgets = listOf<Class<WidgetView>>(
+                    br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
+                )
+                return registeredWidgets
+            }
         }
-    }
 
     """

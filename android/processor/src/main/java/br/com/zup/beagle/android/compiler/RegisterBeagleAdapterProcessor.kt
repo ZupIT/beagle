@@ -38,12 +38,12 @@ import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.type.WildcardType
 
-const val BEAGLE_ADAPTER_REFERENCE_GENERATED = "TypeAdapterResolverImpl"
-const val JAVA_CLASS = "::class.java"
-const val BEAGLE_TYPE_ADAPTER_INTERFACE = "BeagleTypeAdapter<T>"
-const val TYPES_INSTANCE = "ParameterizedTypeFactory.new(\n"
-const val T_GENERIC = "T"
-const val BREAK_LINE = "\n"
+//const val JAVA_CLASS = "::class.java"
+//const val BEAGLE_TYPE_ADAPTER_INTERFACE = "BeagleTypeAdapter<T>"
+//const val TYPES_INSTANCE = "ParameterizedTypeFactory.new(\n"
+//const val T_GENERIC = "T"
+//const val BREAK_LINE = "\n"
+/*
 
 internal class RegisterBeagleAdapterProcessor (private val processingEnv: ProcessingEnvironment) {
 
@@ -185,12 +185,4 @@ internal class RegisterBeagleAdapterProcessor (private val processingEnv: Proces
     }
 }
 
-private fun DeclaredType.toTypeArguments() : List<TypeMirror> {
-    return try {
-        this.typeArguments
-    } catch (e: Exception) {
-        ArrayList()
-    }
-}
-
-private fun String.removeExtends() = this.replace("? extends ", "")
+*/

@@ -83,9 +83,9 @@ val BEAGLE_CUSTOM_ADAPTER = BeagleClass(
     "TypeAdapterResolver"
 )
 
-val BEAGLE_CUSTOM_ADAPTER_IMPL = BeagleClass(
+val BEAGLE_PARAMETERIZED_TYPE_FACTORY = BeagleClass(
     "br.com.zup.beagle.android.data.serializer.adapter.generic",
-    "TypeAdapterResolverImpl"
+    "ParameterizedTypeFactory"
 )
 
 val BEAGLE_LOGGER = BeagleClass(
