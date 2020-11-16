@@ -60,7 +60,6 @@ val BEAGLE_ACTIVITY = BeagleClass(
     "BeagleActivity"
 )
 
-
 val DEFAULT_BEAGLE_ACTIVITY = BeagleClass(
     "br.com.zup.beagle.android.view",
     "ServerDrivenActivity"
