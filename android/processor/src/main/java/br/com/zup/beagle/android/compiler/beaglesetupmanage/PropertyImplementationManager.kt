@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.compiler.beaglesetupmanage
 
-import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE_GENERATED
+import br.com.zup.beagle.android.compiler.generatefunction.CONTROLLER_REFERENCE_GENERATED
 import br.com.zup.beagle.android.compiler.PropertySpecifications
 import br.com.zup.beagle.android.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.android.compiler.DEEP_LINK_HANDLER

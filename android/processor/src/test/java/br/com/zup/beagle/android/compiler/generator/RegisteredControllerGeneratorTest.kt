@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.compiler.generator
 
-import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE_GENERATED
+import br.com.zup.beagle.android.compiler.generatefunction.CONTROLLER_REFERENCE_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.DEFAULT_IMPORTS

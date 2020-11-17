@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.compiler
+package br.com.zup.beagle.android.compiler.generatefunction
 
 import br.com.zup.beagle.android.annotation.RegisterController
+import br.com.zup.beagle.android.compiler.BEAGLE_ACTIVITY
+import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE
+import br.com.zup.beagle.android.compiler.DEFAULT_BEAGLE_ACTIVITY
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName

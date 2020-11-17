@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionAction
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomAdapter
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomValidator
+import br.com.zup.beagle.android.compiler.generatefunction.RegisterControllerProcessor
 import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
@@ -78,10 +79,9 @@ internal data class BeagleSetupProcessor(
         beagleConfigClassName: String,
         roundEnvironment: RoundEnvironment,
     ) {
-        val beagleSetupClassName = "BeagleSetup"
 
         val properties = beagleSetupPropertyGenerator.generate(roundEnvironment)
-        val typeSpec = TypeSpec.classBuilder(beagleSetupClassName)
+        val typeSpec = TypeSpec.classBuilder(BEAGLE_SETUP_GENERATED)
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
             .addFunction(widgetFactoryProcessor.createFunction())
@@ -89,7 +89,7 @@ internal data class BeagleSetupProcessor(
             .addFunction(actionFactoryProcessor.createFunction())
 
 
-        val beagleSetupFile = addDefaultImports(basePackageName, beagleSetupClassName, beagleConfigClassName)
+        val beagleSetupFile = addDefaultImports(basePackageName, beagleConfigClassName)
 
         val propertyIndex = properties.indexOfFirst { it.name == "serverDrivenActivity" }
 
@@ -145,12 +145,11 @@ internal data class BeagleSetupProcessor(
 
     private fun addDefaultImports(
         basePackageName: String,
-        beagleSetupClassName: String,
         beagleConfigClassName: String,
     ): FileSpec.Builder {
         return FileSpec.builder(
             basePackageName,
-            beagleSetupClassName
+            BEAGLE_SETUP_GENERATED
         ).addImport(BEAGLE_CONFIG.packageName, BEAGLE_CONFIG.className)
             .addImport(BEAGLE_SDK.packageName, BEAGLE_SDK.className)
             .addImport(FORM_LOCAL_ACTION_HANDLER.packageName, FORM_LOCAL_ACTION_HANDLER.className)
@@ -182,5 +181,6 @@ internal data class BeagleSetupProcessor(
         internal const val REGISTERED_ACTIONS_GENERATED = "RegisteredActions"
         internal const val REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED = "RegisteredCustomTypeAdapter"
         internal const val REGISTERED_CUSTOM_VALIDATOR_GENERATED = "RegisteredCustomValidator"
+        internal const val BEAGLE_SETUP_GENERATED = "BeagleSetup"
     }
 }

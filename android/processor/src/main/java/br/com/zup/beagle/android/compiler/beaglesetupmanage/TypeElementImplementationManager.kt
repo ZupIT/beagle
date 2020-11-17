@@ -30,9 +30,10 @@ import javax.lang.model.element.TypeElement
 
 internal object TypeElementImplementationManager {
 
-    fun manage(processingEnv: ProcessingEnvironment,
-                        typeElement: TypeElement,
-                        propertySpecifications: PropertySpecifications?
+    fun manage(
+        processingEnv: ProcessingEnvironment,
+        typeElement: TypeElement,
+        propertySpecifications: PropertySpecifications?,
     ) {
         val manage = GenericTypeElementManagement(
             processingEnv,
@@ -46,7 +47,7 @@ internal object TypeElementImplementationManager {
                     element,
                     FORM_LOCAL_ACTION_HANDLER.className
                 )
-             }
+            }
             typeElement.implements(DEEP_LINK_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.deepLinkHandler
                 propertySpecifications?.deepLinkHandler = manage.manageTypeElement(element, DEEP_LINK_HANDLER.className)
