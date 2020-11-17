@@ -20,7 +20,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.action.AsyncActionStatus
@@ -88,12 +87,9 @@ internal class ListAdapter(
                 val observer: Observer<AsyncActionStatus> = holder.observer
                     ?: Observer<AsyncActionStatus> { actionStatus ->
                         if (actionStatus == AsyncActionStatus.STARTED) {
-                            adapterItems[holder.adapterPosition].completelyInitialized = false
+                            holder.setIsRecyclable(false)
                         } else if (actionStatus == AsyncActionStatus.FINISHED) {
                             if (!holder.isRecyclable) {
-                                if (holder.adapterPosition != DiffUtil.DiffResult.NO_POSITION) {
-                                    adapterItems[holder.adapterPosition].completelyInitialized = true
-                                }
                                 holder.setIsRecyclable(true)
                             }
                         }
@@ -151,20 +147,6 @@ internal class ListAdapter(
         adapterItems[position].isRecycled = isRecycled
         // Handle context, ids and direct nested adapters
         holder.onBind(parentListViewSuffix, key, adapterItems[position], position, recyclerId)
-        // Handle widgets with onInit
-        if (!adapterItems[position].completelyInitialized) {
-            handleInitiableWidgets(holder, isRecycled)
-        }
-    }
-
-    private fun handleInitiableWidgets(holder: ListViewHolder, shouldRerunOnInit: Boolean) {
-        // For each OnInitiableComponent
-        holder.initiableComponents.forEach { widget ->
-            // When the view is recycled we must call onInit again
-            if (shouldRerunOnInit) {
-                widget.markToRerunOnInit()
-            }
-        }
     }
 
     override fun onViewRecycled(holder: ListViewHolder) {
@@ -190,15 +172,6 @@ internal class ListAdapter(
 
     override fun onViewAttachedToWindow(holder: ListViewHolder) {
         super.onViewAttachedToWindow(holder)
-        // For every view, the moment it is displayed, its completely initialized status is checked and updated.
-        if (!adapterItems[holder.adapterPosition].completelyInitialized) {
-            // Marks holders with onInit not to be recycled until they are finished
-            if (holder.initiableComponents.size > 0) {
-                holder.setIsRecyclable(false)
-            } else {
-                adapterItems[holder.adapterPosition].completelyInitialized = true
-            }
-        }
         holder.directNestedTextViews.forEach {
             it.requestLayout()
         }

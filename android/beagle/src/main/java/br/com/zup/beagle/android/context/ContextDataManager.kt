@@ -68,9 +68,15 @@ internal class ContextDataManager(
         }
     }
 
-    fun onViewIdChanged(oldId: Int, newId: Int) {
-        contexts[oldId]?.let { context ->
-            contexts.put(newId, context)
+    fun onViewIdChanged(oldId: Int, newId: Int, view: View) {
+        contexts[oldId]?.let { contextBinding ->
+            if (!contexts.containsKey(newId)) {
+                contexts.put(newId, contextBinding)
+            } else {
+                contexts[newId]?.let {
+                    updateContextAndReference(view, it.context)
+                }
+            }
         }
         contexts.remove(oldId)
     }

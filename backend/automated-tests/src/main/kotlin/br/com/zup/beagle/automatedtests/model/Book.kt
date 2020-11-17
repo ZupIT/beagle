@@ -38,11 +38,11 @@ data class Book(
     )
 
     companion object {
-        fun createMockByCategory(category: Int): List<Book> {
+        fun createMockByCategory(category: String): List<Book> {
             val bookList = ArrayList<Book>()
 
             when (category) {
-                1 -> {
+                "Fantasy" -> {
                     var book = Book(title = "The Final Empire", author = "Brandon Sanderson")
                     bookList.add(book)
 
@@ -64,7 +64,7 @@ data class Book(
                     book = Book(title = "Harry Potter and the Philosopher's Stone", author = "Harry Potter and the Philosopher's Stone")
                     bookList.add(book)
                 }
-                2 -> {
+                "Sci-fi" -> {
                     var book = Book(title = "Starsight", author = "Brandon Sanderson")
                     bookList.add(book)
 
@@ -80,7 +80,7 @@ data class Book(
                     book = Book(title = "Dying of the Light", author = "George R.R. Martin")
                     bookList.add(book)
                 }
-                3 -> {
+                "Other" -> {
                     var book = Book(title = "The Last Tribe", author = "Brad Manuel")
                     bookList.add(book)
 

@@ -50,7 +50,7 @@ class ListController {
 
     @RequestMapping(value = [BOOK_DATABASE_CATEGORY], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
-    fun getCategory(@PathVariable category: Int): List<Book>? {
+    fun getCategory(@PathVariable category: String): List<Book>? {
         return Book.createMockByCategory(category)
     }
 

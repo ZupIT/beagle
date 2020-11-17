@@ -18,13 +18,42 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.lifecycle.ViewModel
 
+internal data class OnInitStatus(
+    var onInitCalled: Boolean = false,
+    var onInitFinished: Boolean = false
+)
+
 internal class OnInitViewModel : ViewModel() {
 
-    private val onInitStatusByComponent: MutableMap<Int, Boolean> = mutableMapOf()
+    private val onInitStatusByViewId: MutableMap<Int, OnInitStatus> = mutableMapOf()
 
-    fun setOnInitActionStatus(onInitiableComponentId: Int, onInitCalled: Boolean) {
-        onInitStatusByComponent[onInitiableComponentId] = onInitCalled
+    fun setOnInitCalled(onInitiableViewId: Int, onInitCalled: Boolean) {
+        val onInitStatus = onInitStatusByViewId[onInitiableViewId]
+        onInitStatus?.let {
+            it.onInitCalled = onInitCalled
+        } ?: run {
+            onInitStatusByViewId[onInitiableViewId] = OnInitStatus(onInitCalled = onInitCalled)
+        }
     }
 
-    fun getOnInitActionStatus(onInitiableComponentId: Int) = onInitStatusByComponent[onInitiableComponentId] ?: false
+    fun setOnInitFinished(onInitiableViewId: Int, onInitFinished: Boolean) {
+        val onInitStatus = onInitStatusByViewId[onInitiableViewId]
+        onInitStatus?.let {
+            it.onInitFinished = onInitFinished
+        } ?: run {
+            onInitStatusByViewId[onInitiableViewId] = OnInitStatus(onInitFinished = onInitFinished)
+        }
+    }
+
+    fun isOnInitCalled(onInitiableViewId: Int) = onInitStatusByViewId[onInitiableViewId]?.onInitCalled ?: false
+
+    fun isOnInitFinished(onInitiableViewId: Int) = onInitStatusByViewId[onInitiableViewId]?.onInitFinished ?: false
+
+    fun markToRerun() {
+        onInitStatusByViewId.values.forEach {
+            if (!it.onInitFinished) {
+                it.onInitCalled = false
+            }
+        }
+    }
 }
