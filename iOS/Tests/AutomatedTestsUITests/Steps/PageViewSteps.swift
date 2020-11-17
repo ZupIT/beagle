@@ -17,12 +17,14 @@
 import Foundation
 import XCTest
 
+// swiftlint:disable implicitly_unwrapped_optional
+// swiftlint:disable force_unwrapping
 class PageViewSteps: CucumberStepsDefinition {
     
-    var application: XCUIApplication?
+    var application: XCUIApplication!
     
     func loadSteps() {
-        
+        // MARK: - Before
         before { scenarioDefinition in
             if scenarioDefinition?.tags.contains("pageview") ?? false {
                 let url = "http://localhost:8080/pageview"
@@ -30,20 +32,48 @@ class PageViewSteps: CucumberStepsDefinition {
             }
         }
         
-        Given("^the app did load pageview screen$") { _, _ -> Void in
+        // MARK: - Given
+        Given(#"^that I'm on the pageview screen$"#) { _, _ -> Void in
             XCTAssertTrue(ScreenElements.PAGEVIEW_SCREEN_HEADER.element.exists)
         }
         
-        Then("^pageview should render correctly$") { _, _ -> Void in
-            XCTAssertTrue(ScreenElements.PAGE_1_TEXT.element.exists)
-            self.application?.swipeLeft()
-            XCTAssertTrue(ScreenElements.PAGE_2_TEXT.element.exists)
-            self.application?.swipeLeft()
-            XCTAssertTrue(ScreenElements.PAGE_3_TEXT.element.exists)
+        // MARK: - When
+        
+        // Scenarios 1 and 3
+        When(#"^I swipe left$"#) { _, _ in
+            self.application.swipeLeft()
+        }
+        
+        // Scenarios 4
+        When(#"^I press a button with the "([^\"]*)" title$"#) { args, _ -> Void in
+            let title = args![0]
+
+            let button = self.application.buttons[title]
+            XCTAssertTrue(button.exists)
+            button.tap()
+        }
+        
+        // MARK: - Then
+        
+        // Scenario 1, 3 ans 5
+        Then(#"^checks that the text "([^\"]*)" is on the screen$"#) { args, _ in
+            let text = args![0]
             
-            self.application?.swipeRight()
-            self.application?.swipeRight()
+            XCTAssertTrue(self.application.staticTexts[text].exists)
+        }
+        
+        // Scenario 3
+        Then(#"^checks that the text "([^\"]*)" is not on the screen$"#) { args, _ in
+            let text = args![0]
             
+            XCTAssertFalse(self.application.staticTexts[text].exists)
+        }
+        
+        // Scenario 4
+        Then(#"^checks that the page with text "([^\"]*)" is not displayed$"#) { args, _ in
+            let text = args![0]
+            
+            XCTAssertFalse(self.application.staticTexts[text].exists)
         }
     }
 }

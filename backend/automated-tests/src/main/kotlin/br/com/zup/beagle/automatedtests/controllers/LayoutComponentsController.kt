@@ -36,8 +36,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class LayoutComponentsController {
-
-
     @GetMapping(SIMPLE_FORM_ENDPOINT)
     fun getSimpleFormScreen() = SimpleFormScreenBuilder.build()
 
@@ -58,5 +56,4 @@ class LayoutComponentsController {
 
     @GetMapping(ACTION_ENDPOINT)
     fun getActionScreen() = ActionScreenBuilder.build()
-
 }
