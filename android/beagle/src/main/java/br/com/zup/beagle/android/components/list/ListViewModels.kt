@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
+import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
@@ -28,5 +29,6 @@ internal data class ListViewModels(
     val asyncActionViewModel: AsyncActionViewModel = rootView.generateViewModelInstance(),
     val contextViewModel: ScreenContextViewModel = rootView.generateViewModelInstance(),
     val listViewIdViewModel: ListViewIdViewModel = rootView.generateViewModelInstance(),
-    val generateIdViewModel: GenerateIdViewModel = rootView.generateViewModelInstance()
+    val generateIdViewModel: GenerateIdViewModel = rootView.generateViewModelInstance(),
+    val onInitViewModel: OnInitViewModel = rootView.generateViewModelInstance()
 )
