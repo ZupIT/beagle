@@ -20,11 +20,14 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.action.Condition
 import br.com.zup.beagle.widget.action.RequestActionMethod
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
@@ -36,12 +39,19 @@ import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
 
+data class BooksResponse(
+    var currentPage: Bind<Int>,
+    var totalPages: Bind<Int>,
+    var result: Any? = null
+)
+
 object ListViewScreenBuilder {
     fun build() = Screen(
         child = Container(
+            context = ContextData(id = "thirdResponse", value = BooksResponse(currentPage = valueOf(0), totalPages = valueOf(3))),
             children = listOf(
-                firstListView(),
-                secondListView(),
+//                firstListView(),
+//                secondListView(),
                 thirdListView()
             )
         )
@@ -138,33 +148,57 @@ object ListViewScreenBuilder {
 
     private fun thirdListView() = Container(
         children = listOf(
-            Text("Books List View (infinite scroll)"),
+            Text("Books List View (infinite scroll)")
+                .applyStyle(
+                    Style(
+                        margin = EdgeValue(
+                            top = 8.unitReal(),
+                            bottom = 8.unitReal(),
+                            left = 8.unitReal()))
+                ),
             ListView(
                 direction = ListDirection.VERTICAL,
-                context = ContextData(id = "firstList", value = ""),
-                key = "characters",
-                dataSource = expressionOf("@{firstLIst}"),
+                dataSource = expressionOf("@{thirdResponse.result}"),
                 template = Container(
                     children = listOf(
-                        Text(text = expressionOf("@{firstList}"))
+                        Text(text = "@{item.title}"),
+                        Text(text = "Author: @{item.author}"),
+                        Text(text = "Collection: @{item.collection}"),
+                        Text(text = "Book Number: @{item.bookNumber}"),
+                        Text(text = "Genre: @{item.genre}"),
+                        Text(text = "Rating: @{item.rating}")
                     )
                 ).applyStyle(
                     Style(
-                        size = Size(width = 480.unitReal(), height = 720.unitReal())
-                    )
+                        margin = EdgeValue(
+                            top = 8.unitReal(),
+                            bottom = 8.unitReal(),
+                            left = 8.unitReal()))
                 ),
+                //TODO Not working
+                //scrollEndThreshold = 80
                 onScrollEnd = listOf(
-                    SendRequest(
-                        url = "http://localhost:8080/book-database/books?page=1",
-                        method = RequestActionMethod.GET,
+                    Condition(
+                        condition = expressionOf("@{gt(thirdResponse.totalPages, thirdResponse.currentPage)}"),
+                        onTrue = listOf(
+                            SendRequest(
+                                url = expressionOf("/book-database/books?page=@{sum(thirdResponse.currentPage, 1)}"),
+                                onSuccess = listOf(
+                                    SetContext(
+                                        contextId = "thirdResponse",
+                                        value = BooksResponse(
+                                            currentPage = expressionOf("@{onSuccess.data.currentPage}"),
+                                            totalPages = expressionOf("@{onSuccess.data.totalPages}"),
+                                            result = "@{onSuccess.data.result}"
+                                        )
+                                    )
+                                )
+                            )
+                        )
                     )
-                ),
-                scrollEndThreshold = 80,
-                // iteratorName = "",
-                // key =
+                )
             )
         )
     )
-
 }
 
