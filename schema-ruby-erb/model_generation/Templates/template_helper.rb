@@ -136,7 +136,7 @@ class TemplateHelper
     # @param object_type [BaseComponent]
     # @return [Bool] indicating wether the object is widget or not
     def is_widget(object_type)
-        object_type.synthax_type.inheritFrom.include? Widget.new.name
+        object_type.synthax_type.inheritFrom.any? { |component| component.synthax_type.name == "Widget" }
     end
 
     # Given object_type, this functions returns if such an object is a server driven component or not
@@ -144,7 +144,7 @@ class TemplateHelper
     # @param object_type [BaseComponent]
     # @return [Bool] indicating wether the object is a server driven component or not
     def is_server_driven_component(object_type)
-        object_type.synthax_type.inheritFrom.include? ServerDrivenComponent.new.name
+        object_type.synthax_type.inheritFrom.any? { |component| component.synthax_type.name == "ServerDrivenComponent" }
     end
 
 end
