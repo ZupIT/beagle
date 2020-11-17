@@ -21,18 +21,13 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Condition
-import br.com.zup.beagle.widget.action.RequestActionMethod
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.context.valueOf
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.core.ListDirection
-import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
@@ -48,158 +43,118 @@ data class BooksResponse(
 object ListViewScreenBuilder {
     fun build() = Screen(
         child = Container(
-            context = ContextData(id = "thirdResponse", value = BooksResponse(currentPage = valueOf(0), totalPages = valueOf(3))),
+            context = ContextData(id = "firstResponse",
+                value = BooksResponse(currentPage = valueOf(0), totalPages = valueOf(2))),
             children = listOf(
-//                firstListView(),
-//                secondListView(),
-                thirdListView()
+                firstListView(),
             )
         )
     )
 
     private fun firstListView() = Container(
+        context = ContextData(id = "changeStatus", value = "status: unread"),
         children = listOf(
+            Text(text = "Characters List View (pagination)").applyStyle(Style(margin = EdgeValue(all = 10.unitReal()))),
             Container(
-               // context = ContextData(id = "changePage", value = "1/2"),
                 children = listOf(
-                    Button(text = "prev"),
-                    //Text(text = "@{changePage.value}"),
-                    Button(
-                        text = "next",
-//                        onPress = listOf(
-//                            SetContext(contextId = "changePage", value = "2/2")
-//                        ),
+                    Button(text = "previous",
+                        onPress = listOf(
+                            createConditionalForPreviousRequest(),
+                        )
+                    ),
+                    Text("@{firstResponse.currentPage}/@{firstResponse.totalPages}")
+                        .applyFlex(flex = Flex(alignSelf = AlignSelf.CENTER)),
+                    Button(text = "next",
+                        onPress = listOf(
+                            createConditionForNextRequest(),
+                        )
                     )
                 )
             ).applyFlex(Flex(flexDirection = FlexDirection.ROW))
                 .applyStyle(Style(padding = EdgeValue(all = 10.unitReal()))),
-            ListView(
-                direction = ListDirection.HORIZONTAL,
-                iteratorName = "character",
-                context = ContextData(
-                    id = "characterList",
-                    value = SendRequest(
-                        url = "http://localhost:8080/book-database/characters?page=1",
-                        method = RequestActionMethod.GET,
-                    )
-                ),
-                dataSource = expressionOf("@{characterList}"),
-                template = Container(
-                    children = listOf(
-                        Text(text = expressionOf("@{item}"))
-                    )
-                ).applyStyle(
-                    Style(
-                        size = Size(width = 480.unitReal(), height = 720.unitReal())
-                    )
-                ),
-                onScrollEnd = listOf(
-
-                ),
-                scrollEndThreshold = 100,
-            )
+            charactersListView(),
+            Container(
+                children = listOf(
+                    Text(text = "@{changeStatus}")
+                )
+            ).applyStyle(style = Style(padding = EdgeValue(all = 10.unitReal())))
         )
     )
 
-    private fun secondListView() = Container(
-        context = ContextData(id = "category", value = ""),
-        children = listOf(
-            Text(text = "Fantasy"),
-            ListView(
-                direction = ListDirection.VERTICAL,
-                key = "book",
-                context = ContextData(
-                    id = "id",
-                    value = SendRequest(
-                        url = "http://localhost:8080/book-database/categories",
-                        method = RequestActionMethod.GET,
-                    )
-                ),
-                template = Container(
-                    context = ContextData(id = "book", value = ""),
-                    children = listOf(
-                        ListView(
-                            direction = ListDirection.HORIZONTAL,
-                            key = "title",
-                            context = ContextData(id = "tileBook",
-                                value = SendRequest(
-                                    url = "http://localhost:8080/book-database/categories/1",
-                                    method = RequestActionMethod.GET,
-                                )
-                            )
-                        ),
-                        Text("Sci-fi"),
-                        ListView(
-                            direction = ListDirection.VERTICAL,
-                            context = ContextData(
-                                id = "character",
-                                value = SendRequest(
-                                    url = "http://localhost:8080/book-database/categories/1",
-                                    method = RequestActionMethod.GET,
-                                )
-                            )
+    private fun charactersListView() = ListView(
+        direction = ListDirection.HORIZONTAL,
+        iteratorName = "character",
+        onInit = listOf(
+            SendRequest(
+                url = "/book-database/characters?page=1",
+                onSuccess = listOf(
+                    SetContext(contextId = "changeStatus", value = "status: unread"),
+                    SetContext(contextId = "firstResponse",
+                        value =
+                        BooksResponse(
+                            currentPage = expressionOf("@{onSuccess.data.currentPage}"),
+                            totalPages = expressionOf("@{onSuccess.data.totalPages}"),
+                            result = "@{onSuccess.data.result}"
                         )
                     )
-                ),
-                dataSource = expressionOf("@{bookList}"),
-            ).applyStyle(Style(size = Size(height = 307.unitReal())))
+                )
+            )
+        ),
+        dataSource = expressionOf("@{firstResponse.result}"),
+        template = Container(
+            children = listOf(
+                Text(text = "Name: @{character.name}"),
+                Text(text = "Book: @{character.book}"),
+                Text(text = "Collection: @{character.collection}"),
+            )
+        ).applyStyle(
+            style = Style(
+                padding = EdgeValue(all = 10.unitReal())
+            )
+        ),
+        onScrollEnd = listOf(
+            SetContext(contextId = "changeStatus", value = "status: readied")
         )
     )
 
-    private fun thirdListView() = Container(
-        children = listOf(
-            Text("Books List View (infinite scroll)")
-                .applyStyle(
-                    Style(
-                        margin = EdgeValue(
-                            top = 8.unitReal(),
-                            bottom = 8.unitReal(),
-                            left = 8.unitReal()))
-                ),
-            ListView(
-                direction = ListDirection.VERTICAL,
-                dataSource = expressionOf("@{thirdResponse.result}"),
-                template = Container(
-                    children = listOf(
-                        Text(text = "@{item.title}"),
-                        Text(text = "Author: @{item.author}"),
-                        Text(text = "Collection: @{item.collection}"),
-                        Text(text = "Book Number: @{item.bookNumber}"),
-                        Text(text = "Genre: @{item.genre}"),
-                        Text(text = "Rating: @{item.rating}")
-                    )
-                ).applyStyle(
-                    Style(
-                        margin = EdgeValue(
-                            top = 8.unitReal(),
-                            bottom = 8.unitReal(),
-                            left = 8.unitReal()))
-                ),
-                //TODO Not working
-                //scrollEndThreshold = 80
-                onScrollEnd = listOf(
-                    Condition(
-                        condition = expressionOf("@{gt(thirdResponse.totalPages, thirdResponse.currentPage)}"),
-                        onTrue = listOf(
-                            SendRequest(
-                                url = expressionOf("/book-database/books?page=@{sum(thirdResponse.currentPage, 1)}"),
-                                onSuccess = listOf(
-                                    SetContext(
-                                        contextId = "thirdResponse",
-                                        value = BooksResponse(
-                                            currentPage = expressionOf("@{onSuccess.data.currentPage}"),
-                                            totalPages = expressionOf("@{onSuccess.data.totalPages}"),
-                                            //TODO Implement union operation
-                                            result = "@{onSuccess.data.result}"
-                                        )
-                                    )
-                                )
+    private fun createConditionalForPreviousRequest() =
+        Condition(
+            condition = expressionOf("@{eq(firstResponse.totalPages, firstResponse.currentPage)}"),
+            onTrue = listOf(
+                SendRequest(
+                    url = "/book-database/characters?page=@{subtract(firstResponse.currentPage, 1)}",
+                    onSuccess = listOf(
+                        SetContext(contextId = "changeStatus", value = "status: unread"),
+                        SetContext(contextId = "firstResponse",
+                            value = BooksResponse(
+                                currentPage = expressionOf("@{onSuccess.data.currentPage}"),
+                                totalPages = expressionOf("@{onSuccess.data.totalPages}"),
+                                result = "@{onSuccess.data.result}"
                             )
                         )
                     )
                 )
             )
         )
-    )
+
+    private fun createConditionForNextRequest() =
+        Condition(
+            condition = expressionOf("@{gt(firstResponse.totalPages, firstResponse.currentPage)}"),
+            onTrue = listOf(
+                SendRequest(
+                    url = "/book-database/characters?page=@{sum(firstResponse.currentPage, 1)}",
+                    onSuccess = listOf(
+                        SetContext(contextId = "changeStatus", value = "status: unread"),
+                        SetContext(contextId = "firstResponse",
+                            value = BooksResponse(
+                                currentPage = expressionOf("@{onSuccess.data.currentPage}"),
+                                totalPages = expressionOf("@{onSuccess.data.totalPages}"),
+                                result = "@{onSuccess.data.result}"
+                            )
+                        )
+                    )
+                )
+            )
+        )
 }
 
