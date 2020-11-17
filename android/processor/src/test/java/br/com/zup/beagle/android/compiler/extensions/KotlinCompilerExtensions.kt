@@ -22,15 +22,15 @@ import javax.annotation.processing.Processor
 import java.nio.file.Path
 
 private fun prepareCompilation(
-    sourceFile: SourceFile,
+    sourceFile: SourceFile? = null,
     processor: Processor,
-    path: Path
+    path: Path,
 ): KotlinCompilation =
     KotlinCompilation()
         .apply {
             annotationProcessors = listOf(processor)
             inheritClassPath = true
-            sources = listOf(sourceFile)
+            sources = if (sourceFile != null) listOf(sourceFile) else emptyList()
             verbose = false
             workingDir = path.toFile()
         }
@@ -38,7 +38,14 @@ private fun prepareCompilation(
 fun compile(
     sourceFile: SourceFile,
     processor: Processor,
-    path: Path
+    path: Path,
 ): KotlinCompilation.Result {
     return prepareCompilation(sourceFile, processor, path).compile()
+}
+
+fun compile(
+    processor: Processor,
+    path: Path,
+): KotlinCompilation.Result {
+    return prepareCompilation(processor = processor, path = path).compile()
 }
