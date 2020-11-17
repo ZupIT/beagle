@@ -36,6 +36,7 @@ import br.com.zup.beagle.automatedtests.builders.ActionNotRegisteredScreenBuilde
 import br.com.zup.beagle.automatedtests.builders.AlertScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.SetContextScreenBuilder
 import br.com.zup.beagle.automatedtests.constants.ALERT_SCREEN_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NO_ACTION_SCREEN_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SET_CONTEXT_SCREEN_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.NO_ACTION_SCREEN_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
@@ -74,11 +75,11 @@ class GeneralController {
     @GetMapping(ALERT_SCREEN_ENDPOINT)
     fun getAlertScreen() = AlertScreenBuilder.build()
 
-    @GetMapping(SET_CONTEXT_SCREEN_ENDPOINT)
-    fun getSetContextScreen() = SetContextScreenBuilder.build()
-
     @GetMapping(NO_ACTION_SCREEN_ENDPOINT)
     fun getActionNotRegisteredScreen() = ActionNotRegisteredScreenBuilder.build()
+
+    @GetMapping(SET_CONTEXT_SCREEN_ENDPOINT)
+    fun getSetContextScreen() = SetContextScreenBuilder.build()
 }
 
 
