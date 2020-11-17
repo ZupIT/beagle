@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
+import br.com.zup.beagle.android.testutil.getPrivateField
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.DisplayName
@@ -31,37 +32,144 @@ class OnInitViewModelTest {
     @Nested
     inner class SetOnInitStatus {
 
-        @DisplayName("Then should set to onInitStatusByComponent id the given value")
+        @DisplayName("Then should set to onInitStatusByViewId id the onInitCalled value")
         @Test
-        fun setOnInitActionStatus() {
+        fun setOnInitCalled() {
             // Given
-            val onInitiableComponentId = 10
+            val onInitiableViewId = 10
             val onInitCalled = true
+            val onInitFinished = false
+            val status = onInitViewModel.getPrivateField<MutableMap<Int, OnInitStatus>>("onInitStatusByViewId")
 
             // When
-            onInitViewModel.setOnInitActionStatus(onInitiableComponentId, onInitCalled)
-            val result = onInitViewModel.getOnInitActionStatus(onInitiableComponentId)
+            onInitViewModel.setOnInitCalled(onInitiableViewId, onInitCalled)
 
             // Then
-            assertEquals(onInitCalled, result)
+            assertEquals(onInitCalled, status[onInitiableViewId]?.onInitCalled)
+            assertEquals(onInitFinished, status[onInitiableViewId]?.onInitFinished)
+        }
+
+        @DisplayName("Then should set to onInitStatusByViewId id the onInitCalled value with previous value")
+        @Test
+        fun setOnInitCalledWithPreviousValue() {
+            // Given
+            val onInitiableViewId = 10
+            val onInitCalled = true
+            val onInitFinished = true
+            val status = onInitViewModel.getPrivateField<MutableMap<Int, OnInitStatus>>("onInitStatusByViewId")
+            status[onInitiableViewId] = OnInitStatus(onInitFinished = onInitFinished)
+
+            // When
+            onInitViewModel.setOnInitCalled(onInitiableViewId, onInitCalled)
+
+            // Then
+            assertEquals(onInitCalled, status[onInitiableViewId]?.onInitCalled)
+            assertEquals(onInitFinished, status[onInitiableViewId]?.onInitFinished)
+        }
+
+        @DisplayName("Then should set to onInitStatusByViewId id the onInitFinished value")
+        @Test
+        fun setOnInitFinished() {
+            // Given
+            val onInitiableViewId = 10
+            val onInitFinished = true
+            val onInitCalled = false
+            val status = onInitViewModel.getPrivateField<MutableMap<Int, OnInitStatus>>("onInitStatusByViewId")
+
+            // When
+            onInitViewModel.setOnInitFinished(onInitiableViewId, onInitFinished)
+
+            // Then
+            assertEquals(onInitFinished, status[onInitiableViewId]?.onInitFinished)
+            assertEquals(onInitCalled, status[onInitiableViewId]?.onInitCalled)
+        }
+
+        @DisplayName("Then should set to onInitStatusByViewId id the onInitFinished value with previous value")
+        @Test
+        fun setOnInitFinishedWithPreviousValue() {
+            // Given
+            val onInitiableViewId = 10
+            val onInitFinished = true
+            val onInitCalled = true
+            val status = onInitViewModel.getPrivateField<MutableMap<Int, OnInitStatus>>("onInitStatusByViewId")
+            status[onInitiableViewId] = OnInitStatus(onInitCalled = onInitCalled)
+
+            // When
+            onInitViewModel.setOnInitFinished(onInitiableViewId, onInitFinished)
+
+            // Then
+            assertEquals(onInitFinished, status[onInitiableViewId]?.onInitFinished)
+            assertEquals(onInitCalled, status[onInitiableViewId]?.onInitCalled)
         }
     }
 
     @DisplayName("When get OnInit action status not found")
     @Nested
-    inner class GetOnInitStatus {
+    inner class GetOnInitCalledStatus {
 
         @DisplayName("Then should return false")
         @Test
-        fun getOnInitActionStatus() {
+        fun isOnInitCalled() {
             // Given
-            val onInitiableComponentId = 10
+            val onInitiableViewId = 10
 
             // When
-            val result = onInitViewModel.getOnInitActionStatus(onInitiableComponentId)
+            val result = onInitViewModel.isOnInitCalled(onInitiableViewId)
 
             // Then
             assertFalse(result)
+        }
+
+        @DisplayName("Then should return false")
+        @Test
+        fun isOnInitFinished() {
+            // Given
+            val onInitiableViewId = 10
+
+            // When
+            val result = onInitViewModel.isOnInitFinished(onInitiableViewId)
+
+            // Then
+            assertFalse(result)
+        }
+    }
+
+    @DisplayName("When onInitFinished is false")
+    @Nested
+    inner class MarkToRerun {
+
+        @DisplayName("Then should set onInitCalled to false")
+        @Test
+        fun markToRerun() {
+            // Given
+            val onInitiableViewId = 10
+            val onInitFinished = false
+            val onInitCalled = false
+            val status = onInitViewModel.getPrivateField<MutableMap<Int, OnInitStatus>>("onInitStatusByViewId")
+            status[onInitiableViewId] = OnInitStatus(onInitCalled = true, onInitFinished = onInitFinished)
+
+            // When
+            onInitViewModel.markToRerun()
+
+            // Then
+            assertEquals(onInitCalled, status[onInitiableViewId]?.onInitCalled)
+        }
+
+        @DisplayName("Then should not set onInitCalled to false if finished")
+        @Test
+        fun markToRerunOnlyForNotFinished() {
+            // Given
+            val onInitiableViewId = 10
+            val onInitFinished = true
+            val onInitCalled = true
+            val status = onInitViewModel.getPrivateField<MutableMap<Int, OnInitStatus>>("onInitStatusByViewId")
+            status[onInitiableViewId] = OnInitStatus(onInitCalled = onInitCalled, onInitFinished = onInitFinished)
+
+            // When
+            onInitViewModel.markToRerun()
+
+            // Then
+            assertEquals(onInitCalled, status[onInitiableViewId]?.onInitCalled)
         }
     }
 }
