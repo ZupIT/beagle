@@ -19,6 +19,7 @@ package br.com.zup.beagle.automatedtests.builders
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.setId
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Condition
 import br.com.zup.beagle.widget.action.RequestActionMethod
@@ -45,13 +46,21 @@ data class BooksResponse(
     var result: Any? = null
 )
 
+data class GenreResponse(
+    var genres: Any? = null
+)
+
+data class CategoryResponse(
+    var category: Any? = null
+)
+
 object ListViewScreenBuilder {
     fun build() = Screen(
         child = Container(
             context = ContextData(id = "thirdResponse", value = BooksResponse(currentPage = valueOf(0), totalPages = valueOf(3))),
             children = listOf(
 //                firstListView(),
-//                secondListView(),
+                secondListView(),
                 thirdListView()
             )
         )
@@ -102,47 +111,69 @@ object ListViewScreenBuilder {
     )
 
     private fun secondListView() = Container(
-        context = ContextData(id = "category", value = ""),
-        children = listOf(
-            Text(text = "Fantasy"),
-            ListView(
-                direction = ListDirection.VERTICAL,
-                key = "book",
-                context = ContextData(
-                    id = "id",
-                    value = SendRequest(
-                        url = "http://localhost:8080/book-database/categories",
-                        method = RequestActionMethod.GET,
-                    )
-                ),
-                template = Container(
-                    context = ContextData(id = "book", value = ""),
-                    children = listOf(
-                        ListView(
-                            direction = ListDirection.HORIZONTAL,
-                            key = "title",
-                            context = ContextData(id = "tileBook",
-                                value = SendRequest(
-                                    url = "http://localhost:8080/book-database/categories/1",
-                                    method = RequestActionMethod.GET,
-                                )
-                            )
-                        ),
-                        Text("Sci-fi"),
-                        ListView(
-                            direction = ListDirection.VERTICAL,
-                            context = ContextData(
-                                id = "character",
-                                value = SendRequest(
-                                    url = "http://localhost:8080/book-database/categories/1",
-                                    method = RequestActionMethod.GET,
-                                )
-                            )
+        context = ContextData(id = "genreResponse", value = GenreResponse()),
+        onInit = listOf(
+            SendRequest(
+                url = "/book-database/categories",
+                onSuccess = listOf(
+                    SetContext(
+                        contextId = "genreResponse",
+                        value = GenreResponse(
+                            genres = "@{onSuccess.data}"
                         )
                     )
+                )
+            )
+        ),
+        children = listOf(
+            Text("Categories List View (nested)")
+                .applyStyle(
+                    Style(
+                        margin = EdgeValue(
+                            top = 8.unitReal(),
+                            bottom = 8.unitReal(),
+                            left = 8.unitReal()))
                 ),
-                dataSource = expressionOf("@{bookList}"),
-            ).applyStyle(Style(size = Size(height = 307.unitReal())))
+            ListView(
+                direction = ListDirection.VERTICAL,
+                dataSource = expressionOf("@{genreResponse.genres}"),
+                template = Container(
+                    context = ContextData(id = "categoryResponse", value = CategoryResponse()),
+                    children = listOf(
+                        Text("@{item.name}"),
+                        ListView(
+                            onInit = listOf(
+                                SendRequest(
+                                    url = expressionOf("/book-database/categories/@{item.name}"),
+                                    onSuccess = listOf(
+                                        SetContext(
+                                            contextId = "categoryResponse",
+                                            value = CategoryResponse(
+                                                category = "@{onSuccess.data}"
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            direction = ListDirection.HORIZONTAL,
+                            dataSource = expressionOf("@{categoryResponse.category}"),
+                            iteratorName = "category",
+                            template = Container(
+                                children = listOf(
+                                    Text(text = "Title: @{category.title}"),
+                                    Text(text = "Author: @{category.author}")
+                                )
+                            )
+                        ).setId("item")
+                    )
+                ).applyStyle(
+                    Style(
+                        margin = EdgeValue(
+                            top = 8.unitReal(),
+                            bottom = 8.unitReal(),
+                            left = 8.unitReal()))
+                )
+            )
         )
     )
 
