@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import br.com.zup.beagle.Dependencies
-
 buildscript {
     repositories {
         jcenter()
@@ -28,8 +25,8 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.3.72" apply false
-    id "io.gitlab.arturbosch.detekt" version "1.14.1" apply false
+    id "org.jetbrains.kotlin.jvm" version "1.4.10" apply false
+    id "io.gitlab.arturbosch.detekt" version "1.14.2" apply false
     id "br.com.zup.beagle.dependencies" apply false
 }
 
@@ -40,10 +37,6 @@ allprojects {
 
     repositories {
         jcenter()
-    }
-
-    dependencies {
-        implementation Dependencies.GeneralLibraries.kotlin
     }
 
     detekt {
