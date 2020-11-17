@@ -18,6 +18,7 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.BLACK
 import br.com.zup.beagle.automatedtests.constants.LIGHT_GREY
+import br.com.zup.beagle.context.contextData
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -60,11 +61,15 @@ object PageViewScreenBuilder : ScreenBuilder {
                     onPress = listOf(SetContext("context", 2))
                 ),
                 PageView(
+                    context = ContextData(
+                      id = "contextValue",
+                      value = "pageViewContext"
+                    ),
                     children = (1..3).map {
-                        Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
-                            Flex(
-                                alignSelf = AlignSelf.CENTER,
-                                grow = 1.0
+                        Container(
+                            children = listOf(
+                                Text("Page $it", alignment = TextAlignment.CENTER),
+                                Text("@{contextValue}", alignment = TextAlignment.CENTER)
                             )
                         )
                     },
