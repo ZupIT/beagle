@@ -20,6 +20,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.setId
+import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Condition
 import br.com.zup.beagle.widget.action.SendRequest
@@ -33,6 +34,7 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ListDirection
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
@@ -99,7 +101,7 @@ object ListViewScreenBuilder {
                 )
             ).applyStyle(style = Style(padding = EdgeValue(all = 10.unitReal())))
         )
-    )
+    ).applyStyle(Style(size = Size(width = 100.unitPercent(),height = 70.unitPercent())))
 
     private fun charactersListView() = ListView(
         direction = ListDirection.HORIZONTAL,
@@ -242,7 +244,7 @@ object ListViewScreenBuilder {
                 )
             )
         )
-    )
+    ).applyStyle(Style(size = Size(width = 100.unitPercent(),height = 70.unitPercent())))
 
     private fun thirdListView() = Container(
         children = listOf(
@@ -298,6 +300,6 @@ object ListViewScreenBuilder {
                 )
             )
         )
-    )
+    ).applyStyle(Style(size = Size(width = 100.unitPercent(),height = 70.unitPercent())))
 }
 
