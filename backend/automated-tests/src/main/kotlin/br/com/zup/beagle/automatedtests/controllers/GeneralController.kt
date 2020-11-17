@@ -36,7 +36,10 @@ import br.com.zup.beagle.automatedtests.builders.ActionNotRegisteredScreenBuilde
 import br.com.zup.beagle.automatedtests.builders.AlertScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.SetContextScreenBuilder
 import br.com.zup.beagle.automatedtests.constants.ALERT_SCREEN_ENDPOINT
+<<<<<<< HEAD
 import br.com.zup.beagle.automatedtests.constants.NO_ACTION_SCREEN_ENDPOINT
+=======
+>>>>>>> af17b1bf824a30092df8de32931b42829e57f318
 import br.com.zup.beagle.automatedtests.constants.SET_CONTEXT_SCREEN_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

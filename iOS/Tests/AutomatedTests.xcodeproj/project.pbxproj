@@ -628,6 +628,7 @@
 			children = (
 				FA51718725641B1E0056F5A6 /* ActionNotRegisteredSteps.swift */,
 				57A9F3582538E21D00F75396 /* AddChildrenSteps.swift */,
+				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
 				6B4F7E7824C659AF003F461A /* ButtonSteps.swift */,
 				251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */,
 				42D7B4E4253E6C3E00431477 /* ContainerSteps.swift */,
