@@ -41,6 +41,7 @@ const val ACCESSIBILITY_ENDPOINT = "/accessibility"
 const val PAGEVIEW_TWO_ENDPOINT = "/pageviewtwo"
 const val KOTLIN_DSL_ENDPOINT = "/kotlindsl"
 const val EXPRESSION_ESCAPING_ENDPOINT = "/expressionescaping"
+const val CONDITIONAL_ENDPOINT = "/conditional"
 
 const val SCREEN_SAFE_AREA_TRUE_ENDPOINT = "/safe-area/true"
 const val SCREEN_SAFE_AREA_FALSE_ENDPOINT = "/safe-area/false"
@@ -60,3 +61,4 @@ const val SEND_REQUEST_ACTION_ENDPOINT = "/send-request"
 
 const val ALERT_SCREEN_ENDPOINT = "/alert"
 const val NO_ACTION_SCREEN_ENDPOINT = "/action-not-registered"
+const val SET_CONTEXT_SCREEN_ENDPOINT = "/set-context"

@@ -116,10 +116,10 @@ class ScreenContextViewModelTest {
         val newId = 1
 
         // When
-        screenContextViewModel.onViewIdChanged(oldId, newId)
+        screenContextViewModel.onViewIdChanged(oldId, newId, view)
 
         // Then
-        verify(exactly = 1) { contextDataManager.onViewIdChanged(oldId, newId) }
+        verify(exactly = 1) { contextDataManager.onViewIdChanged(oldId, newId, view) }
     }
 
     @Test
