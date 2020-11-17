@@ -51,8 +51,8 @@ internal class ScreenContextViewModel(
         contextDataManager.updateContext(originView, setContextInternal)
     }
 
-    fun onViewIdChanged(oldId: Int, newId: Int) {
-        contextDataManager.onViewIdChanged(oldId, newId)
+    fun onViewIdChanged(oldId: Int, newId: Int, view: View) {
+        contextDataManager.onViewIdChanged(oldId, newId, view)
     }
 
     fun <T> addBindingToContext(view: View, bind: Bind.Expression<T>, observer: Observer<T?>) {
