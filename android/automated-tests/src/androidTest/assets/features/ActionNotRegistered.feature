@@ -14,16 +14,16 @@
 # limitations under the License.
 #
 
-@actionregistration @regression
-Feature: Action Not Registered Validation
+@unregisteredaction @regression
+Feature: Unregistered action Validation
 
     As a Beagle developer/user
-    I'd like to make sure my action registration work as expected
+    I'd like to make sure my application does not crash when an unregistered action is triggered
     In order to guarantee that my application never fails
 
     Background:
-        Given the Beagle application did launch with the action not registered screen url
+        Given the Beagle application did launch with the ActionNotRegistered Screen url
 
-    Scenario: Action 01 - The application should not crash when pressing a button with an unregistered action
-        When I press the ClickToCallActionNotRegistered button
-        Then nothing happens and the ActionNotRegistered Screen title still appears on screen
+    Scenario: Unregistered action 01 - The application mustn't crash when an unregistered action is triggered
+        When I click on button ClickToCallActionNotRegistered
+        Then nothing happens and the ActionNotRegistered Screen should still be visible

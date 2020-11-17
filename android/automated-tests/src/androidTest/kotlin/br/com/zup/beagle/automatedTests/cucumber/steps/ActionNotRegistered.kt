@@ -28,37 +28,31 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Rule
 
-const val NO_ACTION_SCREEN_ENDPOINT = "http://10.0.2.2:8080/action-not-registered"
+const val NO_ACTION_BFF_URL = "http://10.0.2.2:8080/action-not-registered"
 
-class ActionNotRegisteredSteps {
+class ActionNotRegistered {
 
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@actionregistration")
+    @Before("@unregisteredaction")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, NO_ACTION_SCREEN_ENDPOINT)
+        TestUtils.startActivity(activityTestRule, NO_ACTION_BFF_URL)
     }
 
-    @After("@actionregistration")
+    @After("@unregisteredaction")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
 
-    @Given("^the Beagle application did launch with the action not registered screen url$")
+    @Given("^the Beagle application did launch with the ActionNotRegistered Screen url$")
     fun checkBaseScreen() {
         ScreenRobot()
             .checkViewContainsText("ActionNotRegistered Screen", true)
     }
 
-    @When("^I press the (.*) button$")
-    fun clickOnButton(string:String) {
-        ScreenRobot()
-            .clickOnText(string)
-    }
-
-    @Then("^nothing happens and the (.*) title still appears on screen$")
-    fun checkScreenStillExists(string:String) {
+    @Then("^nothing happens and the (.*) should still be visible$")
+    fun checkScreenExists(string:String) {
         ScreenRobot()
             .checkViewContainsText(string, true)
     }
