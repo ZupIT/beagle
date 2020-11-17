@@ -28,7 +28,11 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.context.valueOf
-import br.com.zup.beagle.widget.core.*
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexDirection
+import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
