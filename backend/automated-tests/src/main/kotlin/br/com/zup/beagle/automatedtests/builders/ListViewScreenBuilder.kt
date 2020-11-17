@@ -189,6 +189,7 @@ object ListViewScreenBuilder {
                                         value = BooksResponse(
                                             currentPage = expressionOf("@{onSuccess.data.currentPage}"),
                                             totalPages = expressionOf("@{onSuccess.data.totalPages}"),
+                                            //TODO Implement union operation
                                             result = "@{onSuccess.data.result}"
                                         )
                                     )
