@@ -41,10 +41,10 @@ import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
 
-data class BooksResponse(
+data class PageResponse(
     var currentPage: Bind<Int>,
     var totalPages: Bind<Int>,
-    var result: Any? = null
+    var result: Bind<List<Any>>
 )
 
 data class GenreResponse(
@@ -59,11 +59,11 @@ object ListViewScreenBuilder {
     fun build() = Screen(
         child = Container(
             context = ContextData(id = "firstResponse",
-                value = BooksResponse(currentPage = valueOf(0), totalPages = valueOf(2))),
+                value = PageResponse(currentPage = valueOf(0), totalPages = valueOf(2), valueOf(listOf()))),
             children = listOf(
                 firstListView(),
                 Container(
-                    context = ContextData(id = "thirdResponse", value = BooksResponse(currentPage = valueOf(0), totalPages = valueOf(3))),
+                    context = ContextData(id = "thirdResponse", value = PageResponse(currentPage = valueOf(0), totalPages = valueOf(3), result = valueOf(listOf()))),
                     children = listOf(
                         secondListView(),
                         thirdListView()
@@ -113,10 +113,10 @@ object ListViewScreenBuilder {
                     SetContext(contextId = "changeStatus", value = "status: unread"),
                     SetContext(contextId = "firstResponse",
                         value =
-                        BooksResponse(
+                        PageResponse(
                             currentPage = expressionOf("@{onSuccess.data.currentPage}"),
                             totalPages = expressionOf("@{onSuccess.data.totalPages}"),
-                            result = "@{onSuccess.data.result}"
+                            result = expressionOf("@{onSuccess.data.result}")
                         )
                     )
                 )
@@ -148,10 +148,10 @@ object ListViewScreenBuilder {
                     onSuccess = listOf(
                         SetContext(contextId = "changeStatus", value = "status: unread"),
                         SetContext(contextId = "firstResponse",
-                            value = BooksResponse(
+                            value = PageResponse(
                                 currentPage = expressionOf("@{onSuccess.data.currentPage}"),
                                 totalPages = expressionOf("@{onSuccess.data.totalPages}"),
-                                result = "@{onSuccess.data.result}"
+                                result = expressionOf("@{onSuccess.data.result}")
                             )
                         )
                     )
@@ -168,10 +168,10 @@ object ListViewScreenBuilder {
                     onSuccess = listOf(
                         SetContext(contextId = "changeStatus", value = "status: unread"),
                         SetContext(contextId = "firstResponse",
-                            value = BooksResponse(
+                            value = PageResponse(
                                 currentPage = expressionOf("@{onSuccess.data.currentPage}"),
                                 totalPages = expressionOf("@{onSuccess.data.totalPages}"),
-                                result = "@{onSuccess.data.result}"
+                                result = expressionOf("@{onSuccess.data.result}")
                             )
                         )
                     )
@@ -286,11 +286,10 @@ object ListViewScreenBuilder {
                                 onSuccess = listOf(
                                     SetContext(
                                         contextId = "thirdResponse",
-                                        value = BooksResponse(
+                                        value = PageResponse(
                                             currentPage = expressionOf("@{onSuccess.data.currentPage}"),
                                             totalPages = expressionOf("@{onSuccess.data.totalPages}"),
-                                            //TODO Implement union operation
-                                            result = "@{onSuccess.data.result}"
+                                            result = expressionOf("@{union(thirdResponse.result, onSuccess.data.result)}")
                                         )
                                     )
                                 )
