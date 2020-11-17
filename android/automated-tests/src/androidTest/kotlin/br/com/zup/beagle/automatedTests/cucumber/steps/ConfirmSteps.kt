@@ -53,18 +53,17 @@ class ConfirmScreenSteps {
 
     @When("^I press a confirm button with the (.*) title$")
     fun clickOnButton(string:String) {
-        ScreenRobot()
-            .clickOnText(string)
+        ScreenRobot().clickOnText(string)
     }
 
     @Then("^a confirm with the (.*) message should appear on the screen$")
-    fun checkAlertMessage(string:String) {
+    fun checkConfirmMessage(string:String) {
         ScreenRobot()
             .checkViewContainsText(string, true)
     }
 
     @Then("^a confirm with the (.*) and (.*) should appear on the screen$")
-    fun checkAlertMessageAndTitle(string:String, string2:String) {
+    fun checkConfirmMessageAndTitle(string:String, string2:String) {
         ScreenRobot()
             .checkViewContainsText(string, true)
             .checkViewContainsText(string2, true)
@@ -76,7 +75,7 @@ class ConfirmScreenSteps {
     }
 
     @Then("^a confirm with a button with (.*) label should appear$")
-    fun checkAlertConfirmationButtonLabelIsSetWithText(string:String){
+    fun checkConfirmationButtonLabelIsSetWithText(string:String){
         ScreenRobot()
             .checkViewContainsText(string)
     }
