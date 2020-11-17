@@ -87,7 +87,7 @@ internal class UrlBuilderTest {
 
             // THEN
             assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
-            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_LOGGER))
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_URL_BUILDER))
         }
 
     }
@@ -95,7 +95,7 @@ internal class UrlBuilderTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_LOGGER = "UrlBuilder already defined," +
+        private const val MESSAGE_DUPLICATE_URL_BUILDER = "UrlBuilder already defined," +
             " remove one implementation from the application."
     }
 

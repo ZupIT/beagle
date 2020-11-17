@@ -19,10 +19,13 @@ package br.com.zup.beagle.android.compiler.beaglesdk
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
-import br.com.zup.beagle.android.compiler.mocks.LIST_OF_ANALYTICS
+import br.com.zup.beagle.android.compiler.mocks.LIST_OF_DESIGN_SYSTEM
+import br.com.zup.beagle.android.compiler.mocks.LIST_OF_URL_BUILDER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
-import br.com.zup.beagle.android.compiler.mocks.VALID_ANALYTICS
-import br.com.zup.beagle.android.compiler.mocks.VALID_ANALYTICS_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM
+import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER
+import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
@@ -35,21 +38,21 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class AnalyticsTest {
+internal class DesignSystemTest {
 
     @TempDir
     lateinit var tempPath: Path
 
-    @DisplayName("When register analytics")
+    @DisplayName("When register design system")
     @Nested
-    inner class RegisterAnalytics {
+    inner class RegisterDesignSystem {
 
         @Test
-        @DisplayName("Then should add the analytics in beagle sdk")
-        fun testGenerateAnalyticsCorrect() {
+        @DisplayName("Then should add the design system in beagle sdk")
+        fun testGenerateDesignSystemCorrect() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_ANALYTICS + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG)
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -60,7 +63,7 @@ internal class AnalyticsTest {
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = VALID_ANALYTICS_BEAGLE_SDK
+            val fileExpectedInString = VALID_DESIGN_SYSTEM_BEAGLE_SDK
                 .replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
@@ -70,16 +73,16 @@ internal class AnalyticsTest {
     }
 
 
-    @DisplayName("When register analytics")
+    @DisplayName("When register design system")
     @Nested
-    inner class InvalidAnalytics {
+    inner class InvalidDesignSystem {
 
         @Test
-        @DisplayName("Then should show error with duplicate analytics")
+        @DisplayName("Then should show error with duplicate design system")
         fun testDuplicate() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + LIST_OF_ANALYTICS + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + LIST_OF_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG)
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -87,7 +90,7 @@ internal class AnalyticsTest {
 
             // THEN
             assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
-            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_ANALYTICS))
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_DESIGN_SYSTEM))
         }
 
     }
@@ -95,7 +98,7 @@ internal class AnalyticsTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_ANALYTICS = "Analytics already defined," +
+        private const val MESSAGE_DUPLICATE_DESIGN_SYSTEM = "DesignSystem already defined," +
             " remove one implementation from the application."
     }
 
