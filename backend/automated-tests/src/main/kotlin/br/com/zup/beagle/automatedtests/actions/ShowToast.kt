@@ -17,8 +17,6 @@
 package br.com.zup.beagle.automatedtests.actions
 
 import br.com.zup.beagle.annotation.RegisterAction
-import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 
 @RegisterAction
