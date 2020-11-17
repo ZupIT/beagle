@@ -26,7 +26,12 @@ val WIDGET_VIEW = BeagleClass(
     "WidgetView"
 )
 
-val BEAGLE_CORE_WIDGET = BeagleClass(
-    "br.com.zup.beagle.widget",
-    "Widget"
+val BEAGLE_INPUT_WIDGET = BeagleClass(
+    "br.com.zup.beagle.android.components.form",
+    "InputWidget"
+)
+
+val BEAGLE_PAGE_INDICATOR = BeagleClass(
+    "br.com.zup.beagle.android.components.page",
+    "PageIndicatorComponent"
 )

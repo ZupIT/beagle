@@ -18,9 +18,15 @@ import br.com.zup.beagle.Dependencies
 
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'java'
+apply from: "$rootDir/../jacoco.gradle"
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
+
+test {
+    useJUnitPlatform()
+}
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
@@ -31,11 +37,24 @@ dependencies {
     implementation project(Dependencies.Modules.commonAnnotation)
     implementation project(Dependencies.Modules.androidAnnotation)
 
+
     implementation Dependencies.ProcessorLibraries.incap
     kapt Dependencies.ProcessorLibraries.incapPrcessor
 
     implementation Dependencies.ProcessorLibraries.autoService
     kapt Dependencies.ProcessorLibraries.autoService
+
+    /*
+     *
+     * When put the library with testImplementation the test not compile
+     * Issue tracker: https://github.com/tschuchortdev/kotlin-compile-testing/issues/73
+     *
+     */
+    implementation Dependencies.TestLibraries.kotlinCompileTesting
+
+    testImplementation Dependencies.TestLibraries.junitApi
+    testImplementation Dependencies.TestLibraries.junitEngine
+
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
