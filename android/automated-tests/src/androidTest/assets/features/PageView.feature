@@ -47,6 +47,5 @@ Feature: PageView Component Validation
         Then checks that the text Page 3 is on the screen
         Then checks that the page with text Page 1 is not displayed
 
-#    Scenario: PageView 05: Checks the context set on PageView. The context was set on the PageView component
-#        When I swipe left
-#        Then checks that the page with text pageViewContext1 is displayed
+    Scenario: PageView 05: Checks the context set on PageView. The context was set on the PageView component
+        Then checks that the text pageViewContext is on the screen
