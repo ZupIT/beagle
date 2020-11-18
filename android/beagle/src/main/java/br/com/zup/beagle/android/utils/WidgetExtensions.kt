@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal var viewFactory = ViewFactory()
@@ -163,7 +164,7 @@ internal fun <T> internalObserveBindChanges(
  * Make sure to use this method if you are inside a Activity because of the lifecycle</p>
  */
 fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id.beagle_default_id): View =
-    this.toView(ActivityRootView(activity, idView, ""))
+    this.toView(ActivityRootView(activity, idView, this.getServerDrivenIdentifier()))
 
 /**
  * Transform your Component to a view.
@@ -171,7 +172,7 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id
  * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  */
 fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View =
-    this.toView(FragmentRootView(fragment, idView, ""))
+    this.toView(FragmentRootView(fragment, idView, this.getServerDrivenIdentifier()))
 
 internal fun ServerDrivenComponent.toView(
     rootView: RootView,
@@ -187,3 +188,14 @@ internal fun ServerDrivenComponent.toView(
     }
     return view
 }
+
+private fun ServerDrivenComponent.getServerDrivenIdentifier() : String{
+    var identifier = ""
+    if(this is IdentifierComponent){
+        this.id?.let{
+            identifier = it
+        }
+    }
+    return identifier
+}
+

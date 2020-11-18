@@ -18,7 +18,6 @@ package br.com.zup.beagle.analytics2
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.widget.RootView
@@ -31,43 +30,43 @@ import kotlin.reflect.full.memberProperties
 object ActionRecordCreator {
 
     fun createRecord(
-        rootView: RootView,
-        origin: View,
-        actionAnalyticsConfig: ActionAnalyticsConfig,
-        action: ActionAnalytics,
-        analyticsHandleEvent: AnalyticsHandleEvent?
+        dataActionReport: DataActionReport,
+        actionAnalyticsConfig: ActionAnalyticsConfig
+
     ) = object : AnalyticsRecord {
         override val type: String
             get() = "action"
         override val platform: String
             get() = "android"
         override val attributes: HashMap<String, Any>
-            get() = generateAttributes(rootView, origin, actionAnalyticsConfig, action, analyticsHandleEvent)
+            get() = generateAttributes(dataActionReport, actionAnalyticsConfig)
     }
 
-    fun generateAttributes(
-        rootView: RootView,
-        origin: View,
-        actionAnalyticsConfig: ActionAnalyticsConfig,
-        action: ActionAnalytics,
-        analyticsHandleEvent: AnalyticsHandleEvent?
+    private fun generateAttributes(
+        dataActionReport: DataActionReport,
+        actionAnalyticsConfig: ActionAnalyticsConfig
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        hashMap["screen"] = rootView.getScreenId()
-        analyticsHandleEvent?.analyticsValue?.let {
+        hashMap["screen"] = dataActionReport.rootView.getScreenId()
+        dataActionReport.analyticsHandleEvent?.analyticsValue?.let {
             hashMap["event"] = it
         }
         actionAnalyticsConfig.attributes?.let {
-            hashMap.putAll(createAnalyticsConfigAttributesHashMap(it, rootView, origin, action))
+            hashMap.putAll(createAnalyticsConfigAttributesHashMap(
+                it,
+                dataActionReport.rootView,
+                dataActionReport.origin,
+                dataActionReport.action)
+            )
         }
         actionAnalyticsConfig.additionalEntries?.let {
             hashMap.putAll(it)
         }
-        action.type?.let { type ->
+        dataActionReport.action.type?.let { type ->
             hashMap["beagleAction"] = type
         }
-        analyticsHandleEvent?.originComponent?.let {
-            hashMap["component"] = createComponentHashMap(origin, it)
+        dataActionReport.analyticsHandleEvent?.originComponent?.let {
+            hashMap["component"] = createComponentHashMap(dataActionReport.origin, it)
         }
         return hashMap
     }
@@ -101,36 +100,43 @@ object ActionRecordCreator {
         splitAttributesOfAttributes.let { simpleAttribute ->
             for ((position, value) in simpleAttribute.withIndex()) {
                 attributes[position].let { key ->
-                    hashMap[key] = getValue(rootView, origin, value, action)
+                    getValue(rootView, origin, value, action)?.let {
+                        hashMap[key] = it
+                    }
                 }
             }
         }
         return hashMap
     }
 
-    private fun getValue(rootView: RootView, origin: View, attributes: List<String>, action: Action): Any {
+    private fun getValue(rootView: RootView, origin: View, attributes: List<String>, action: Action): Any? {
         var cnt = 0
-        var value: Any = action
+        var value: Any? = action
         do {
             value = getPropertyValue(value, attributes, cnt)
+            if (value == null) {
+                break;
+            }
             cnt++
         } while (cnt < attributes.size)
 
         return evaluateValueIfNecessary(rootView, origin, value, action)
     }
 
-    private fun getPropertyValue(value: Any, attributes: List<String>, cnt: Int): Any {
-        (value::class as KClass<Any>).memberProperties.forEach { property ->
-            if (property.name == attributes[cnt]) {
-                property.get(value)?.let { propertyValue ->
-                    return propertyValue
+    private fun getPropertyValue(value: Any?, attributes: List<String>, cnt: Int): Any? {
+        value?.let {
+            (value::class as KClass<Any>).memberProperties.forEach { property ->
+                if (property.name == attributes[cnt]) {
+                    property.get(value)?.let { propertyValue ->
+                        return propertyValue
+                    }
                 }
             }
         }
-        return value
+        return null
     }
 
-    private fun evaluateValueIfNecessary(rootView: RootView, origin: View, value: Any, action: Action): Any {
+    private fun evaluateValueIfNecessary(rootView: RootView, origin: View, value: Any?, action: Action): Any? {
         if (value is Bind<*>) {
             action.evaluateExpression(rootView, origin, value)?.let {
                 return it

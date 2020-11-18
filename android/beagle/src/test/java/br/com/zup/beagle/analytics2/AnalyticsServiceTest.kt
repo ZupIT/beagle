@@ -17,187 +17,234 @@
 package br.com.zup.beagle.analytics2
 
 import android.view.View
-import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.AddChildren
+import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
-class AnalyticsServiceTest : BaseTest() {
+@DisplayName("Given Analytics Service")
+class AnalyticsServiceTest : CoroutinesTestExtension() {
 
     private lateinit var analyticsProviderImpl: AnalyticsProviderImpl
     private val action: ActionAnalytics = mockk(relaxed = true, relaxUnitFun = true)
-    private lateinit var analyticsService: AnalyticsService
     private val view: View = mockk()
+    protected val rootView = mockk<ActivityRootView>(relaxed = true, relaxUnitFun = true)
 
-    @Test
-    fun `GIVEN an AnalyticsProvider WHEN init SHOULD call startSession and getConfig`() {
-        //GIVEN
-        analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
-
-        //WHEN
-        AnalyticsService(analyticsProviderImpl)
-
-        //THEN
-        assertTrue(analyticsProviderImpl.sessionStarted)
-        assertTrue(analyticsProviderImpl.configCalled)
+    @BeforeEach
+    fun setUp() {
+        every { rootView.activity } returns mockk()
     }
 
-    @Test
-    fun `GIVEN an AnalyticsConfigImpl with enableScreenAnalytics = true  WHEN createScreenRecord SHOULD call createRecord`() {
-        //GIVEN
-        analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
-        analyticsService = AnalyticsService(analyticsProviderImpl)
+    @DisplayName("When init the config")
+    @Nested
+    inner class InitConfig {
 
-        //wHEN
-        analyticsService.createScreenRecord(false, "url")
+        @Test
+        @DisplayName("Then should call start session and get the config")
+        fun testInitialConfigCallCorrectFunctions() = runBlockingTest {
+            //GIVEN
+            val analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
 
-        //THEN
-        assertTrue(analyticsProviderImpl.createRecordCalled)
+            //WHEN
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+
+            //THEN
+            assertTrue(analyticsProviderImpl.sessionStarted)
+            assertTrue(analyticsProviderImpl.configCalled)
+        }
     }
 
-    @Test
-    fun `GIVEN an AnalyticsConfigImpl with enableScreenAnalytics = false  WHEN createScreenRecord SHOULD not call createRecord`() {
-        //GIVEN
-        analyticsProviderImpl = AnalyticsProviderImpl(
-            AnalyticsConfigImpl(enableScreenAnalytics = false, actions = hashMapOf())
-        )
-        analyticsService = AnalyticsService(analyticsProviderImpl)
+    @DisplayName("When create screen record")
+    @Nested
+    inner class ReportScreenIsEnable() {
 
+        @Test
+        @DisplayName("Then should create screen record")
+        fun testCreateScreenRecordEnableScreenAnalyticsIsTrueCallCreateRecord() = runBlockingTest {
+            //GIVEN
+            analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
 
-        //wHEN
-        analyticsService.createScreenRecord(false, "url")
+            //wHEN
+            AnalyticsService.createScreenRecord(false, "url")
 
-        //THEN
-        assertFalse(analyticsProviderImpl.createRecordCalled)
+            //THEN
+            assertTrue(analyticsProviderImpl.createRecordCalled)
+        }
+
+        @Test
+        @DisplayName("Then should create remote screen record")
+        fun testCreateScreenRecordEnableScreenAnalyticsIsTueAndIsNotLocalScreenCallCreateRecord() = runBlockingTest {
+            //GIVEN
+            mockkObject(ScreenReportCreator)
+            every { ScreenReportCreator.createScreenRemoteReport("url") } returns mockk()
+            analyticsProviderImpl = AnalyticsProviderImpl(
+                AnalyticsConfigImpl(actions = hashMapOf())
+            )
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+
+            //wHEN
+            AnalyticsService.createScreenRecord(false, "url")
+
+            //THEN
+            verify(exactly = 1) { ScreenReportCreator.createScreenRemoteReport("url") }
+
+        }
+
+        @Test
+        @DisplayName("Then should create local screen record")
+        fun testCreateScreenRecordEnableScreenAnalyticsIsTueAndIsLocalScreenCallCreateRecord() = runBlockingTest {
+
+            //GIVEN
+            mockkObject(ScreenReportCreator)
+            every { ScreenReportCreator.createScreenLocalReport("screenId") } returns mockk()
+            analyticsProviderImpl = AnalyticsProviderImpl(
+                AnalyticsConfigImpl(actions = hashMapOf())
+            )
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+
+            //wHEN
+            AnalyticsService.createScreenRecord(true, "screenId")
+
+            //THEN
+            verify(exactly = 1) { ScreenReportCreator.createScreenLocalReport("screenId") }
+        }
     }
 
-    @Test
-    fun `GIVEN a isLocalScreen = false  WHEN createScreenRecord SHOULD call ScreenReportCreator createScreenRemoteReport`() {
-        //GIVEN
-        mockkObject(ScreenReportCreator)
-        every { ScreenReportCreator.createScreenRemoteReport("url") } returns mockk()
-        analyticsProviderImpl = AnalyticsProviderImpl(
-            AnalyticsConfigImpl(actions = hashMapOf())
-        )
-        analyticsService = AnalyticsService(analyticsProviderImpl)
+    @DisplayName("When create screen record")
+    @Nested
+    inner class ReportScreenIsNotEnabled() {
 
-        //wHEN
-        analyticsService.createScreenRecord(false, "url")
+        @Test
+        @DisplayName("Then shouldn't create screen report")
+        fun testCreateScreenRecordScreenAnalyticsIsNotEnableNotCallCreateRecord() = runBlockingTest {
+            //GIVEN
+            analyticsProviderImpl = AnalyticsProviderImpl(
+                AnalyticsConfigImpl(enableScreenAnalytics = false, actions = hashMapOf())
+            )
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
 
-        //THEN
-        verify(exactly = 1) { ScreenReportCreator.createScreenRemoteReport("url") }
 
+            //wHEN
+            AnalyticsService.createScreenRecord(false, "url")
+
+            //THEN
+            assertFalse(analyticsProviderImpl.createRecordCalled)
+        }
     }
 
-    @Test
-    fun `GIVEN a isLocalScreen = true  WHEN createScreenRecord SHOULD call ScreenReportCreator createScreenLocalReport`() {
-        //GIVEN
-        mockkObject(ScreenReportCreator)
-        every { ScreenReportCreator.createScreenLocalReport("screenId") } returns mockk()
-        analyticsProviderImpl = AnalyticsProviderImpl(
-            AnalyticsConfigImpl(actions = hashMapOf())
-        )
-        analyticsService = AnalyticsService(analyticsProviderImpl)
+    @DisplayName("When create action record")
+    @Nested
+    inner class ReportAction {
 
-        //wHEN
-        analyticsService.createScreenRecord(true, "screenId")
+        @Test
+        @DisplayName("Then should create record")
+        fun testActionWithAnaActionAnalyticsConfigCallCreateRecord() = runBlockingTest {
+            //GIVEN
+            analyticsProviderImpl = AnalyticsProviderImpl(
+                AnalyticsConfigImpl(actions = hashMapOf())
+            )
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            every { action.analytics?.enable } returns true
+            //WHEN
+            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
 
-        //THEN
-        verify(exactly = 1) { ScreenReportCreator.createScreenLocalReport("screenId") }
+            //THEN
+            assertTrue(analyticsProviderImpl.createRecordCalled)
+        }
+
+        @Test
+        @DisplayName("Then should create record")
+        fun testActionOnAnalyticsConfigCallCreateRecord() = runBlockingTest {
+            //GIVEN
+            val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren")
+            val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf()))
+            analyticsProviderImpl = AnalyticsProviderImpl(
+                analyticsConfig
+            )
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+
+            //WHEN
+            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+
+            //THEN
+            assertTrue(analyticsProviderImpl.createRecordCalled)
+        }
+
+        @Test
+        @DisplayName("Then should create record with right parrameters")
+        fun testActionWithAttributesOnActionAnalyticsConfigCallCreateRecordWithCorrectParameters() = runBlockingTest {
+            //GIVEN
+            mockkObject(ActionRecordCreator)
+            every { ActionRecordCreator.createRecord(any(), any()) } returns mockk()
+
+            val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
+            val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren", analytics = actionAnalyticsConfig)
+            analyticsProviderImpl = AnalyticsProviderImpl(
+                AnalyticsConfigImpl(actions = hashMapOf())
+            )
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+
+            //WHEN
+            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+
+            //THEN
+            verify(exactly = 1) { ActionRecordCreator.createRecord(DataActionReport(rootView, view, action), actionAnalyticsConfig) }
+
+        }
+
+        @Test
+        @DisplayName("Then should create record with right parrameters")
+        fun testActionWithAttributesOnAnalyticsConfigCallCreateRecordWithCorrectParameters() = runBlockingTest {
+            //GIVEN
+            mockkObject(ActionRecordCreator)
+            every { ActionRecordCreator.createRecord(any(), any()) } returns mockk()
+            val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren")
+            val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf("componentId")))
+            analyticsProviderImpl = AnalyticsProviderImpl(
+                analyticsConfig
+            )
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+
+            //WHEN
+            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+
+            //THEN
+            verify(exactly = 1) { ActionRecordCreator.createRecord(DataActionReport(rootView, view, action), ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))) }
+        }
     }
 
-    @Test
-    fun `GIVEN a action with ActionAnalyticsConfig enable WHEN createActionRecord SHOULD  call createRecord`() {
-        //GIVEN
-        analyticsProviderImpl = AnalyticsProviderImpl(
-            AnalyticsConfigImpl(actions = hashMapOf())
-        )
-        analyticsService = AnalyticsService(analyticsProviderImpl)
-        every { action.analytics?.enable } returns true
-        //WHEN
-        analyticsService.createActionRecord(rootView, view, action)
+    @DisplayName("When create action record")
+    @Nested
+    inner class NotReportAction {
+        @Test
+        @DisplayName("Then shouldn't create recort")
+        fun testActionWithActionAnalyticsConfigDisableAndActionOnHashmapDontCallCreateRecord() = runBlockingTest {
+            //GIVEN
+            val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("action" to listOf()))
+            analyticsProviderImpl = AnalyticsProviderImpl(
+                analyticsConfig
+            )
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            every { action.analytics?.enable } returns false
 
-        //THEN
-        assertTrue(analyticsProviderImpl.createRecordCalled)
-    }
+            //WHEN
+            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
 
-    @Test
-    fun `GIVEN a action with ActionAnalyticsConfig disable and action on hashmap WHEN createActionRecord SHOULD not call createRecord`() {
-        //GIVEN
-        val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("action" to listOf()))
-        analyticsProviderImpl = AnalyticsProviderImpl(
-            analyticsConfig
-        )
-        analyticsService = AnalyticsService(analyticsProviderImpl)
-        every { action.analytics?.enable } returns false
-
-        //WHEN
-        analyticsService.createActionRecord(rootView, view, action)
-
-        //THEN
-        assertFalse(analyticsProviderImpl.createRecordCalled)
-    }
-
-    @Test
-    fun `GIVEN a action on analyticsConfig WHEN createActionRecord SHOULD call createRecord`() {
-        //GIVEN
-        val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren")
-        val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf()))
-        analyticsProviderImpl = AnalyticsProviderImpl(
-            analyticsConfig
-        )
-        analyticsService = AnalyticsService(analyticsProviderImpl)
-
-        //WHEN
-        analyticsService.createActionRecord(rootView, view, action)
-
-        //THEN
-        assertTrue(analyticsProviderImpl.createRecordCalled)
-    }
-
-    @Test
-    fun `GIVEN a action on analyticsConfig WHEN createActionRecord SHOULD call ActionRecordCreator createRecord passing an ActionAnalyticsConfig with attributes listed on config and enable = true`() {
-        //GIVEN
-        mockkObject(ActionRecordCreator)
-        every { ActionRecordCreator.createRecord(any(), any(), any(), any(), any()) } returns mockk()
-        val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren")
-        val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf("componentId")))
-        analyticsProviderImpl = AnalyticsProviderImpl(
-            analyticsConfig
-        )
-        analyticsService = AnalyticsService(analyticsProviderImpl)
-
-        //WHEN
-        analyticsService.createActionRecord(rootView, view, action)
-
-        //THEN
-        verify(exactly = 1) { ActionRecordCreator.createRecord(rootView, view, ActionAnalyticsConfig(enable = true, attributes = listOf("componentId")), action, null) }
-    }
-
-    @Test
-    fun `GIVEN a action with ActionAnalyticsConfig WHEN createActionRecord SHOULD call ActionRecordCreator createRecord passing the sameActionAnalyticsConfig`() {
-        //GIVEN
-        mockkObject(ActionRecordCreator)
-        every { ActionRecordCreator.createRecord(any(), any(), any(), any(), any()) } returns mockk()
-
-        val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
-        val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren", analytics = actionAnalyticsConfig)
-        analyticsProviderImpl = AnalyticsProviderImpl(
-            AnalyticsConfigImpl(actions = hashMapOf())
-        )
-        analyticsService = AnalyticsService(analyticsProviderImpl)
-
-        //WHEN
-        analyticsService.createActionRecord(rootView, view, action)
-
-        //THEN
-        verify(exactly = 1) { ActionRecordCreator.createRecord(rootView, view, actionAnalyticsConfig, action, null) }
+            //THEN
+            assertFalse(analyticsProviderImpl.createRecordCalled)
+        }
 
     }
 
@@ -208,8 +255,8 @@ class AnalyticsServiceTest : BaseTest() {
         var createRecordCalled: Boolean = false
 
         override fun getConfig(config: (analyticConfig: AnalyticsConfig) -> Unit) {
-            configCalled = true
             config.invoke(this.config)
+            configCalled = true
         }
 
         override fun startSession(startSession: () -> Unit) {

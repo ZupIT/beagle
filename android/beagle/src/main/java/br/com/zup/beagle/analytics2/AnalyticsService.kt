@@ -16,46 +16,50 @@
 
 package br.com.zup.beagle.analytics2
 
-import android.view.View
 import br.com.zup.beagle.android.action.ActionAnalytics
-import br.com.zup.beagle.android.widget.RootView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-class AnalyticsService(private val analyticsProvider: AnalyticsProvider? = null) {
+object AnalyticsService {
+
+    private var analyticsProvider: AnalyticsProvider? = null
 
     private lateinit var analyticsConfig: AnalyticsConfig
 
-    init {
+    fun initialConfig(analyticsProvider: AnalyticsProvider? = null, coroutineScope: CoroutineScope) {
+        this.analyticsProvider = analyticsProvider
         analyticsProvider?.let { analyticsProvider ->
             analyticsProvider.startSession {
-                analyticsProvider.getConfig { analyticsConfig ->
-                    this.analyticsConfig = analyticsConfig
+                coroutineScope.launch {
+                    async {
+                        analyticsProvider.getConfig { analyticsConfig ->
+                            this@AnalyticsService.analyticsConfig = analyticsConfig
+                        }
+                    }.await()
                 }
             }
         }
     }
 
     fun createActionRecord(
-        rootView: RootView,
-        origin: View,
-        action: ActionAnalytics,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
+        dataActionReport: DataActionReport
     ) {
-        val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(action)
-        if (shouldReport(config)) {
-            reportAction(rootView, origin, action, analyticsHandleEvent, config)
+        if (isAnalyticsConfigInitialized()) {
+            val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport.action)
+            if (shouldReport(config)) {
+                reportAction(dataActionReport, config)
+            }
         }
     }
 
     private fun reportAction(
-        rootView: RootView,
-        origin: View,
-        action: ActionAnalytics,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null,
+        dataActionReport: DataActionReport,
         actionAnalyticsConfig: ActionAnalyticsConfig
     ) {
         try {
             analyticsProvider?.createRecord(
-                ActionRecordCreator.createRecord(rootView, origin, actionAnalyticsConfig, action, analyticsHandleEvent)
+                ActionRecordCreator.createRecord(dataActionReport, actionAnalyticsConfig)
             )
         } catch (e: Exception) {
 

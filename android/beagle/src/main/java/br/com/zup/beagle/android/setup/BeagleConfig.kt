@@ -80,8 +80,5 @@ interface BeagleConfig {
      * Attribute that enables or disables all logs that Beagle generates.
      */
     val isLoggingEnabled: Boolean
-    /**
-     * Attribute that be used to get the config to analytics
-     */
-    val analyticsProvider : AnalyticsProvider?
+
 }
