@@ -20,7 +20,6 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.setId
-import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Condition
 import br.com.zup.beagle.widget.action.SendRequest
@@ -34,9 +33,11 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ListDirection
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
@@ -57,16 +58,21 @@ data class CategoryResponse(
 
 object ListViewScreenBuilder {
     fun build() = Screen(
-        child = Container(
-            context = ContextData(id = "firstResponse",
-                value = PageResponse(currentPage = valueOf(0), totalPages = valueOf(2), valueOf(listOf()))),
+        child = ScrollView(
+            scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
-                firstListView(),
                 Container(
-                    context = ContextData(id = "thirdResponse", value = PageResponse(currentPage = valueOf(0), totalPages = valueOf(3), result = valueOf(listOf()))),
+                    context = ContextData(id = "firstResponse",
+                        value = PageResponse(currentPage = valueOf(0), totalPages = valueOf(2), valueOf(listOf()))),
                     children = listOf(
-                        secondListView(),
-                        thirdListView()
+                        firstListView(),
+                        Container(
+                            context = ContextData(id = "thirdResponse", value = PageResponse(currentPage = valueOf(0), totalPages = valueOf(3), result = valueOf(listOf()))),
+                            children = listOf(
+                                secondListView(),
+                                thirdListView()
+                            )
+                        )
                     )
                 )
             )
@@ -99,7 +105,7 @@ object ListViewScreenBuilder {
                 text = "@{changeStatus}"
             ).applyStyle(style = Style(margin = EdgeValue(all = 10.unitReal())))
         )
-    ).applyStyle(Style(size = Size(width = 100.unitPercent(), height = 70.unitPercent())))
+    )
 
     private fun charactersListView() = ListView(
         direction = ListDirection.HORIZONTAL,
@@ -133,7 +139,7 @@ object ListViewScreenBuilder {
             )
         ),
         onScrollEnd = listOf(
-            SetContext(contextId = "changeStatus", value = "status: readied")
+            SetContext(contextId = "changeStatus", value = "status: readed")
         )
     ).applyStyle(
         Style(
@@ -253,11 +259,11 @@ object ListViewScreenBuilder {
                             )
                         ).setId("category") //TODO Remove bug Android
                             .applyStyle(
-                            Style(
-                                backgroundColor = "#CFCFCF",
-                                margin = EdgeValue(all = 8.unitReal()),
+                                Style(
+                                    backgroundColor = "#CFCFCF",
+                                    margin = EdgeValue(all = 8.unitReal()),
+                                )
                             )
-                        )
                     )
                 ).applyStyle(
                     Style(
@@ -271,7 +277,7 @@ object ListViewScreenBuilder {
                 )
             )
         )
-    ).applyStyle(Style(size = Size(width = 100.unitPercent(), height = 90.unitPercent())))
+    ).applyStyle(Style(size = Size(height = 350.unitReal())))
 
     private fun thirdListView() = Container(
         children = listOf(
@@ -326,6 +332,6 @@ object ListViewScreenBuilder {
                 )
             )
         )
-    ).applyStyle(Style(size = Size(width = 100.unitPercent(), height = 70.unitPercent())))
+    )
 }
 
