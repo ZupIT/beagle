@@ -18,7 +18,6 @@ package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
@@ -47,16 +46,30 @@ class PageViewScreenSteps {
     @Given("^that I'm on the pageview screen$")
     fun checkBaseScreen() {
         ScreenRobot()
-            .checkViewContainsText("PageView Screen", true)
+            .checkViewContainsText("Beagle PageView", true)
+    }
+
+    @When("^I swipe left$")
+    fun swipePageViewToLeft(){
+        ScreenRobot()
+            .swipeLeftOnView()
     }
 
     @Then("^checks that the text (.*) is on the screen$")
-    fun checkRenderingPageViewChildren(string: String) {
+    fun checkThatPageItemIsVisible(string: String) {
         ScreenRobot()
             .checkViewContainsText(string, true)
-            .swipeLeftOnView()
-            .checkViewContainsText(string)
-            .swipeRightOnView()
-            .checkViewContainsText(string)
+    }
+
+    @Then("^checks that the text (.*) is not on the screen$")
+    fun checkThatTextOnPageViewIsNotVisible(string: String) {
+        ScreenRobot()
+            .checkViewDoesNotContainsText(string)
+    }
+
+    @Then("^checks that the page with text (.*) is not displayed$")
+    fun checkPageViewIsNotDisplayed(string:String){
+        ScreenRobot()
+            .checkViewIsNotDisplayed(string)
     }
 }

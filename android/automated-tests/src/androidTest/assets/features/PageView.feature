@@ -24,7 +24,29 @@ Feature: PageView Component Validation
     Background:
         Given that I'm on the pageview screen
 
-    Scenario: PageView 01 - Checking if pageview children components appear on the screen
-        Then checks that the text pageOne is on the screen
-        Then checks that the text pageTwo is on the screen
-        Then checks that the text pageThree is on the screen
+    Scenario: PageView 01 - Check that the child components of the current page view appear
+    on the screen and that they have been configured correctly.
+        Then checks that the text Page 1 is on the screen
+        When I swipe left
+        Then checks that the text Page 2 is on the screen
+        When I swipe left
+        Then checks that the text Page 3 is on the screen
+
+#        Scenario: PageView 02 - Checking if pageview arrow indicator components
+#        appear on the screen
+#            This feature does not apply at Mobiles
+
+    Scenario: PageView 03 - Checks that the onPageChange triggers a list of actions when the page changes.
+        It is configured to set the text from Context0 to Context1 using the SetContext
+        When I swipe left
+        Then checks that the text Context1 is on the screen
+        Then checks that the text Context0 is not on the screen
+
+    Scenario: PageView 04: Checks that the page set in onCurrentPage attribute is displayed.
+        When I click on button Click to go to page three
+        Then checks that the text Page 3 is on the screen
+        Then checks that the page with text Page 1 is not displayed
+
+#    Scenario: PageView 05: Checks the context set on PageView. The context was set on the PageView component
+#        When I swipe left
+#        Then checks that the page with text pageViewContext1 is displayed
