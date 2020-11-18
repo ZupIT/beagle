@@ -60,7 +60,9 @@ const val CONTAINER_TEST_ENDPOINT = "/container-test"
 const val SEND_REQUEST_ACTION_ENDPOINT = "/send-request"
 
 const val ALERT_SCREEN_ENDPOINT = "/alert"
+const val NO_ACTION_SCREEN_ENDPOINT = "/action-not-registered"
 const val SET_CONTEXT_SCREEN_ENDPOINT = "/set-context"
+const val CONFIRM_SCREEN_ENDPOINT = "/confirm"
 
 const val BOOK_DATABASE_CHARACTERS = "/book-database/characters"
 const val BOOK_DATABASE_CATEGORIES = "/book-database/categories"

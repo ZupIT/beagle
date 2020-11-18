@@ -33,7 +33,6 @@ class Dependencies : Plugin<Project> {
         const val internalProcessor = ":internal-processor"
         const val androidAnnotation = ":android-annotation"
         const val preview = ":preview"
-        const val commonAnnotation = ":annotation"
         const val commonProcessorSharedCode = ":processor-shared-code"
     }
 

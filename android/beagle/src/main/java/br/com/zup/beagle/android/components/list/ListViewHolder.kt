@@ -226,6 +226,14 @@ internal class ListViewHolder(
             val subViewId = bindIdToViewModel(view, isRecycled, position, recyclerId)
             setUpdatedIdToViewAndManagers(view, subViewId, listItem, isRecycled)
         }
+
+        // All RecyclerViews MUST have an id
+        directNestedRecyclers
+            .filter { it.id == View.NO_ID }
+            .forEach { innerRecyclerWithoutId ->
+                val subViewId = bindIdToViewModel(innerRecyclerWithoutId, isRecycled, position, recyclerId)
+                setUpdatedIdToViewAndManagers(innerRecyclerWithoutId, subViewId, listItem, isRecycled)
+            }
     }
 
     private fun bindIdToViewModel(view: View, isRecycled: Boolean, position: Int, recyclerId: Int): Int {
@@ -313,6 +321,14 @@ internal class ListViewHolder(
                 viewWithContext.id = savedId
             }
         }
+
+        directNestedRecyclers
+            .filter { it.id == View.NO_ID }
+            .forEach { innerRecyclerWithoutId ->
+                temporaryViewIds.pollFirst()?.let { savedId ->
+                    innerRecyclerWithoutId.id = savedId
+                }
+            }
     }
 
     private fun restoreAdapters(listItem: ListItem) {

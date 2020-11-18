@@ -16,10 +16,18 @@
 
 package br.com.zup.beagle.compiler.shared
 
+import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
-import javax.lang.model.type.TypeKind
-import javax.lang.model.type.TypeMirror
+
+// Not working with generic types
+fun TypeElement.implements(beagleClass: BeagleClass,
+                           processingEnvironment: ProcessingEnvironment): Boolean {
+
+    return processingEnvironment.typeUtils.isAssignable(this.asType(),
+        processingEnvironment.elementUtils.getTypeElement(beagleClass.toString()).asType())
+}
+
 
 fun TypeElement.implementsInterface(interfaceName: String): Boolean {
     for (interfaceTypeMirror in this.interfaces) {
@@ -31,15 +39,3 @@ fun TypeElement.implementsInterface(interfaceName: String): Boolean {
     return false
 }
 
-fun TypeElement.extendsFromClass(className: String): Boolean {
-    var currentClass: TypeMirror = this.superclass
-    while (currentClass.kind != TypeKind.NONE) {
-        val typeMirror = (currentClass as DeclaredType).asElement()
-        if (typeMirror.toString() == className) {
-            return true
-        }
-        currentClass = (typeMirror as TypeElement).superclass
-    }
-
-    return false
-}
