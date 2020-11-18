@@ -335,7 +335,7 @@
 		E535244D23310EA100D1A0C9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Zup IT";
 				TargetAttributes = {
 					93C36E572333C15900B5940B = {
