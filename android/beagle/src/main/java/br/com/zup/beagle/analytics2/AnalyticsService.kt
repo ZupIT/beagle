@@ -57,13 +57,9 @@ object AnalyticsService {
         dataActionReport: DataActionReport,
         actionAnalyticsConfig: ActionAnalyticsConfig
     ) {
-        try {
-            analyticsProvider?.createRecord(
-                ActionRecordCreator.createRecord(dataActionReport, actionAnalyticsConfig)
-            )
-        } catch (e: Exception) {
-
-        }
+        analyticsProvider?.createRecord(
+            ActionRecordCreator.createRecord(dataActionReport, actionAnalyticsConfig)
+        )
     }
 
     private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable

@@ -34,7 +34,10 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextInputType
-import br.com.zup.beagle.widget.core.TextInputType.*
+import br.com.zup.beagle.widget.core.TextInputType.DATE
+import br.com.zup.beagle.widget.core.TextInputType.EMAIL
+import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
+import br.com.zup.beagle.widget.core.TextInputType.NUMBER
 
 private const val VALUE_KEY = "value"
 

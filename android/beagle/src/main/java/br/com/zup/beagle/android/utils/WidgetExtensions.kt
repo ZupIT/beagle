@@ -30,7 +30,6 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -189,10 +188,10 @@ internal fun ServerDrivenComponent.toView(
     return view
 }
 
-private fun ServerDrivenComponent.getServerDrivenIdentifier() : String{
+private fun ServerDrivenComponent.getServerDrivenIdentifier(): String {
     var identifier = ""
-    if(this is IdentifierComponent){
-        this.id?.let{
+    if (this is IdentifierComponent) {
+        this.id?.let {
             identifier = it
         }
     }
