@@ -273,9 +273,12 @@ constructor(
     private fun calculateScrolledPercent(): Float {
         var scrolledPercentage: Float
         with(recyclerView.layoutManager as LinearLayoutManager) {
-            val totalItemCount = itemCount
-            val lastVisible = findLastVisibleItemPosition().toFloat()
-            scrolledPercentage = (lastVisible / totalItemCount) * 100
+            scrolledPercentage = if (itemCount <= 0) {
+                100.0F
+            } else {
+                val lastVisible = findLastVisibleItemPosition().toFloat()
+                (lastVisible / itemCount) * 100
+            }
         }
         return scrolledPercentage
     }
