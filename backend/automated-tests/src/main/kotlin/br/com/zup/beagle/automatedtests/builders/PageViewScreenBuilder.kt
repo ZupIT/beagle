@@ -56,6 +56,7 @@ object PageViewScreenBuilder : ScreenBuilder {
             children = listOf(
                 Text("Beagle PageView").applyStyle(
                     Style(padding = EdgeValue(bottom = 10.unitReal()))),
+                Text("Context"+"@{context}"),
                 Button(
                     "Click to go to page three",
                     onPress = listOf(SetContext("context", 2))
@@ -73,7 +74,9 @@ object PageViewScreenBuilder : ScreenBuilder {
                             )
                         )
                     },
-                    onPageChange = listOf(SetContext("context", "@{onPageChange}")),
+                    onPageChange = listOf(
+                        SetContext("context", "@{onPageChange}")
+                    ),
                     currentPage = expressionOf("@{context}")
                 ),
                 PageIndicator(
