@@ -18,7 +18,6 @@ import br.com.zup.beagle.Dependencies
 
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'java'
 apply from: "$rootDir/../jacoco.gradle"
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -34,7 +33,6 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlinPoet
 
     implementation project(Dependencies.Modules.commonProcessorSharedCode)
-    implementation project(Dependencies.Modules.commonAnnotation)
     implementation project(Dependencies.Modules.androidAnnotation)
 
 

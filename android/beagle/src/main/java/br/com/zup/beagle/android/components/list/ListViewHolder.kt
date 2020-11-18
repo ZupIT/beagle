@@ -53,7 +53,7 @@ internal class ListViewHolder(
     val directNestedImageViews = mutableListOf<ImageView>()
     val directNestedTextViews = mutableListOf<TextView>()
     private val contextComponents = mutableListOf<ContextData>()
-    val initiableComponents = mutableListOf<OnInitiableComponent>()
+    private val initiableComponents = mutableListOf<OnInitiableComponent>()
     var observer: Observer<AsyncActionStatus>? = null
 
     init {
@@ -226,6 +226,14 @@ internal class ListViewHolder(
             val subViewId = bindIdToViewModel(view, isRecycled, position, recyclerId)
             setUpdatedIdToViewAndManagers(view, subViewId, listItem, isRecycled)
         }
+
+        // All RecyclerViews MUST have an id
+        directNestedRecyclers
+            .filter { it.id == View.NO_ID }
+            .forEach { innerRecyclerWithoutId ->
+                val subViewId = bindIdToViewModel(innerRecyclerWithoutId, isRecycled, position, recyclerId)
+                setUpdatedIdToViewAndManagers(innerRecyclerWithoutId, subViewId, listItem, isRecycled)
+            }
     }
 
     private fun bindIdToViewModel(view: View, isRecycled: Boolean, position: Int, recyclerId: Int): Int {
@@ -249,7 +257,7 @@ internal class ListViewHolder(
             if (viewPreviousId == View.NO_ID) {
                 listViewModels.contextViewModel.setIdToViewWithContext(view)
             } else {
-                listViewModels.contextViewModel.onViewIdChanged(viewPreviousId, view.id)
+                listViewModels.contextViewModel.onViewIdChanged(viewPreviousId, view.id, view)
             }
         }
     }
@@ -313,11 +321,18 @@ internal class ListViewHolder(
                 viewWithContext.id = savedId
             }
         }
+
+        directNestedRecyclers
+            .filter { it.id == View.NO_ID }
+            .forEach { innerRecyclerWithoutId ->
+                temporaryViewIds.pollFirst()?.let { savedId ->
+                    innerRecyclerWithoutId.id = savedId
+                }
+            }
     }
 
     private fun restoreAdapters(listItem: ListItem) {
-        val temporaryNestedAdapters: LinkedList<ListAdapter> =
-            LinkedList(listItem.directNestedAdapters)
+        val temporaryNestedAdapters: LinkedList<ListAdapter> = LinkedList(listItem.directNestedAdapters)
         directNestedRecyclers.forEach {
             it.swapAdapter(temporaryNestedAdapters.pollFirst(), false)
         }

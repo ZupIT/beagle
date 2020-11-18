@@ -76,7 +76,6 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
     implementation Dependencies.GeneralLibraries.kotlinReflection
 
-    api project(Dependencies.Modules.commonAnnotation)
     api project(Dependencies.Modules.androidAnnotation)
 
     kapt project(Dependencies.Modules.internalProcessor)

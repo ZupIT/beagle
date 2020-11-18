@@ -35,7 +35,9 @@ class CucumberishInitializer: NSObject {
                     TextInputSteps(),
                     TextSteps(),
                     AlertSteps(),
-                    ConditionalActionSteps(),
+                    ActionNotRegisteredSteps(),
+                    ConfirmActionSteps(),
+                    ConditionalActionSteps()
                     SetContextSteps()
                 ]
             for stepsDefinition in stepsDefinitions {
