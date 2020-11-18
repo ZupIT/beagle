@@ -66,9 +66,9 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
     }
 
     private fun isValidInheritance(typeElement: TypeElement): Boolean {
-        return typeElement.extendsFromClass(WIDGET_VIEW.toString())
-            || typeElement.extendsFromClass(BEAGLE_INPUT_WIDGET.toString())
-            || typeElement.implementsInterface(BEAGLE_PAGE_INDICATOR.toString())
+        return typeElement.implements(WIDGET_VIEW, processingEnv)
+            || typeElement.implements(BEAGLE_INPUT_WIDGET, processingEnv)
+            || typeElement.implements(BEAGLE_PAGE_INDICATOR, processingEnv)
     }
 
     companion object {

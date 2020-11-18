@@ -20,8 +20,7 @@ import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementationManager
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
 import br.com.zup.beagle.compiler.shared.error
-import br.com.zup.beagle.compiler.shared.extendsFromClass
-import br.com.zup.beagle.compiler.shared.implementsInterface
+import br.com.zup.beagle.compiler.shared.implements
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -31,10 +30,9 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.TypeElement
 
-class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironment) {
+internal class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironment) {
 
     fun generate(
-        basePackageName: String,
         roundEnvironment: RoundEnvironment
     ): List<PropertySpec> {
         val propertySpecifications: PropertySpecifications? = PropertySpecifications()
@@ -45,10 +43,7 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
             checkIfOtherAttributesExists(typeElement, propertySpecifications)
         }
 
-        return createListOfPropertySpec(
-            basePackageName,
-            propertySpecifications
-        )
+        return createListOfPropertySpec(propertySpecifications)
     }
 
     private fun checkIfHandlersExists(
@@ -63,21 +58,21 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
         propertySpecifications: PropertySpecifications?
     ) {
         when {
-            typeElement.extendsFromClass(DESIGN_SYSTEM.toString()) -> {
+            typeElement.implements(DESIGN_SYSTEM, processingEnv) -> {
                 if (propertySpecifications?.designSystem == null) {
                     propertySpecifications?.designSystem = typeElement
                 } else {
                     logImplementationErrorMessage(typeElement, "DesignSystem")
                 }
             }
-            typeElement.extendsFromClass(BEAGLE_ACTIVITY.toString()) -> {
+            typeElement.implements(BEAGLE_ACTIVITY, processingEnv) -> {
                 if (propertySpecifications?.defaultBeagleActivity == null) {
                     propertySpecifications?.defaultBeagleActivity = typeElement
                 } else {
                     logImplementationErrorMessage(typeElement, "BeagleActivity")
                 }
             }
-            typeElement.implementsInterface(ANALYTICS.toString()) -> {
+            typeElement.implements(ANALYTICS, processingEnv) -> {
                 if (propertySpecifications?.analytics == null) {
                     propertySpecifications?.analytics = typeElement
                 } else {
@@ -93,10 +88,9 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
     }
 
     private fun createListOfPropertySpec(
-        basePackageName: String,
         propertySpecifications: PropertySpecifications?
     ): List<PropertySpec> {
-        return PropertyImplementationManager.manage(basePackageName, propertySpecifications).toMutableList().apply {
+        return PropertyImplementationManager.manage(propertySpecifications).toMutableList().apply {
             add(implementServerDrivenActivityProperty(propertySpecifications?.defaultBeagleActivity))
         }
     }

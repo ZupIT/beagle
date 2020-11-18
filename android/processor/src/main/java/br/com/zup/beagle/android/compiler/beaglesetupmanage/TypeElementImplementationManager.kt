@@ -24,15 +24,16 @@ import br.com.zup.beagle.android.compiler.STORE_HANDLER
 import br.com.zup.beagle.android.compiler.URL_BUILDER_HANDLER
 import br.com.zup.beagle.android.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.android.compiler.BEAGLE_IMAGE_DOWNLOADER
-import br.com.zup.beagle.compiler.shared.implementsInterface
+import br.com.zup.beagle.compiler.shared.implements
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
 
 internal object TypeElementImplementationManager {
 
-    fun manage(processingEnv: ProcessingEnvironment,
-                        typeElement: TypeElement,
-                        propertySpecifications: PropertySpecifications?
+    fun manage(
+        processingEnv: ProcessingEnvironment,
+        typeElement: TypeElement,
+        propertySpecifications: PropertySpecifications?,
     ) {
         val manage = GenericTypeElementManagement(
             processingEnv,
@@ -40,34 +41,34 @@ internal object TypeElementImplementationManager {
         )
 
         when {
-            typeElement.implementsInterface(FORM_LOCAL_ACTION_HANDLER.toString()) -> {
+            typeElement.implements(FORM_LOCAL_ACTION_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.formLocalActionHandler
                 propertySpecifications?.formLocalActionHandler = manage.manageTypeElement(
                     element,
                     FORM_LOCAL_ACTION_HANDLER.className
                 )
-             }
-            typeElement.implementsInterface(DEEP_LINK_HANDLER.toString()) -> {
+            }
+            typeElement.implements(DEEP_LINK_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.deepLinkHandler
                 propertySpecifications?.deepLinkHandler = manage.manageTypeElement(element, DEEP_LINK_HANDLER.className)
             }
-            typeElement.implementsInterface(HTTP_CLIENT_HANDLER.toString()) -> {
+            typeElement.implements(HTTP_CLIENT_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.httpClient
                 propertySpecifications?.httpClient = manage.manageTypeElement(element, HTTP_CLIENT_HANDLER.className)
             }
-            typeElement.implementsInterface(STORE_HANDLER.toString()) -> {
+            typeElement.implements(STORE_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.storeHandler
                 propertySpecifications?.storeHandler = manage.manageTypeElement(element, STORE_HANDLER.className)
             }
-            typeElement.implementsInterface(URL_BUILDER_HANDLER.toString()) -> {
+            typeElement.implements(URL_BUILDER_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.urlBuilder
                 propertySpecifications?.urlBuilder = manage.manageTypeElement(element, URL_BUILDER_HANDLER.className)
             }
-            typeElement.implementsInterface(BEAGLE_LOGGER.toString()) -> {
+            typeElement.implements(BEAGLE_LOGGER, processingEnv) -> {
                 val element = propertySpecifications?.logger
                 propertySpecifications?.logger = manage.manageTypeElement(element, BEAGLE_LOGGER.className)
             }
-            typeElement.implementsInterface(BEAGLE_IMAGE_DOWNLOADER.toString()) -> {
+            typeElement.implements(BEAGLE_IMAGE_DOWNLOADER, processingEnv) -> {
                 val element = propertySpecifications?.imageDownloader
                 propertySpecifications?.imageDownloader = manage.manageTypeElement(
                     element,

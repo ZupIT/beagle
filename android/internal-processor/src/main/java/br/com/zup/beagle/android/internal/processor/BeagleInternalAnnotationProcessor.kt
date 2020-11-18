@@ -22,6 +22,7 @@ import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
 import br.com.zup.beagle.compiler.shared.WIDGET_VIEW
+import br.com.zup.beagle.compiler.shared.GenericFactoryProcessor
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
@@ -71,10 +72,10 @@ class BeagleInternalAnnotationProcessor : AbstractProcessor() {
     ): Boolean {
         if (annotations.isEmpty() || roundEnvironment.errorRaised()) return false
 
-        internalWidgetFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment, WIDGET_VIEW)
-        internalOperationFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment, ANDROID_OPERATION)
+        internalWidgetFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment, WIDGET_VIEW, true)
+        internalOperationFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment, ANDROID_OPERATION, true)
 
-        return false
+        return true
     }
 
     companion object {
