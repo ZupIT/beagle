@@ -66,14 +66,16 @@ object PageViewScreenBuilder : ScreenBuilder {
                       id = "contextValue",
                       value = "pageViewContext"
                     ),
-                    children = (1..3).map {
+                    children = listOf(
                         Container(
                             children = listOf(
-                                Text("Page $it", alignment = TextAlignment.CENTER),
+                                Text("Page 1", alignment = TextAlignment.CENTER),
                                 Text("@{contextValue}", alignment = TextAlignment.CENTER)
                             )
-                        )
-                    },
+                        ),
+                        Text("Page 2", alignment = TextAlignment.CENTER),
+                        Text("Page 3", alignment = TextAlignment.CENTER)
+                    ),
                     onPageChange = listOf(
                         SetContext("context", "@{onPageChange}")
                     ),
