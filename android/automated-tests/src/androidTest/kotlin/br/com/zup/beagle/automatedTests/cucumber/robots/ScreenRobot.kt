@@ -33,8 +33,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withHint
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withInputType
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
+import br.com.zup.beagle.automatedTests.utils.assertions.RecyclerViewItemCountAssertion
+import br.com.zup.beagle.automatedTests.utils.assertions.RecyclerViewOrientationAssertion
 import br.com.zup.beagle.automatedTests.utils.matcher.MatcherExtension
 import br.com.zup.beagle.widget.core.TextAlignment
 import org.hamcrest.Description
@@ -177,6 +180,14 @@ class ScreenRobot {
 
     fun hideKeyboard() {
         Espresso.closeSoftKeyboard()
+    }
+
+    fun checkListViewItemCount(listViewId: Int, expectedCount: Int) {
+        onView(withId(listViewId)).check(RecyclerViewItemCountAssertion.withItemCount(expectedCount))
+    }
+
+    fun checkListViewOrientation(listViewId: Int, orientation: Int) {
+        onView(withId(listViewId)).check(RecyclerViewOrientationAssertion.withOrientation(orientation))
     }
 
     companion object {

@@ -36,6 +36,7 @@ import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
@@ -58,6 +59,10 @@ data class CategoryResponse(
 
 object ListViewScreenBuilder {
     fun build() = Screen(
+        navigationBar = NavigationBar(
+            title = "Beagle ListView",
+            showBackButton = true
+        ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
@@ -85,7 +90,7 @@ object ListViewScreenBuilder {
             Text(text = "Characters List View (pagination)").applyStyle(Style(margin = EdgeValue(all = 10.unitReal()))),
             Container(
                 children = listOf(
-                    Button(text = "previous",
+                    Button(text = "prev",
                         onPress = listOf(
                             createConditionalForPreviousRequest(),
                         )
@@ -141,6 +146,8 @@ object ListViewScreenBuilder {
         onScrollEnd = listOf(
             SetContext(contextId = "changeStatus", value = "status: readed")
         )
+    ).setId(
+        id = "charactersList"
     ).applyStyle(
         Style(
             margin = EdgeValue(all = 10.unitReal()),
