@@ -29,6 +29,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.PageView
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.TabBar
 import br.com.zup.beagle.widget.ui.TabBarItem
@@ -36,59 +37,36 @@ import br.com.zup.beagle.widget.ui.Text
 
 object TabBarScreenBuilder {
     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle TabBar",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = ImagePath.Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "TabBar",
-                        message = "",
-                        labelOk = "OK"
+        child = Container(
+            context = ContextData(id = "tabSelected", value = 0),
+            children = listOf(
+                Text("TabBar Screen"),
+                TabBar(
+                    items = (1..10).map {
+                        TabBarItem("Tab$it")
+                    },
+                    currentTab = expressionOf("@{tabSelected}"),
+                    onTabSelection = listOf(SetContext(contextId = "tabSelected", value = "@{onTabSelection}"))
+                ),
+                Text("Tab position " + "@{tabSelected}"),
+                createButton("Select tab 4 hardcoded", 3),
+                createButton("Select tab 5 expression", "@{positionViaExpression}"),
+            )
+        )
+    )
+
+    private fun createButton(title: String, value: Any): Container = Container(
+        context = ContextData("positionViaExpression", 4),
+        children = listOf(
+            Button(
+                text = title,
+                onPress = listOf(
+                    SetContext(
+                        contextId = "tabSelected",
+                        value = value
                     )
                 )
             )
-        ),
-        child = Container(
-            listOf(
-                TabBar(
-                    items = listOf(tab1, tab2, tab3, tab4),
-                    onTabSelection = listOf(SetContext("tabBar", "@{onTabSelection}")),
-                    currentTab = expressionOf("@{tabBar}")
-                ),
-                PageView(
-                    children = (1..4).map {
-                        Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
-                            Flex(
-                                alignSelf = AlignSelf.CENTER,
-                                grow = 1.0
-                            )
-                        )
-                    },
-                    onPageChange = listOf(SetContext("tabBar", "@{onPageChange}")),
-                    currentPage = expressionOf("@{tabBar}")
-                )
-            ),
-            context = ContextData(id = "tabBar", value = 0)
-        ).applyFlex(Flex(grow = 1.0))
-    )
-
-    private val tab1 = TabBarItem(
-        title = "Tab 1"
-    )
-
-    private val tab2 = TabBarItem(
-        title = "Tab 2"
-    )
-
-    private val tab3 = TabBarItem(
-        title = "Tab 3"
-    )
-
-    private val tab4 = TabBarItem(
-        title = "Tab 4",
-        icon = ImagePath.Local.justMobile("beagle")
+        )
     )
 }
