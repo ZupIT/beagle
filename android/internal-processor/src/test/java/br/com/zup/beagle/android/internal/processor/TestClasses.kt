@@ -67,47 +67,49 @@ const val VALID_LIST_WIDGETS =
 
 const val INTERNAL_LIST_WIDGET_GENERATED_EXPECTED: String =
     """
-
-    package br.com.zup.beagle.android.setup
-
-    import br.com.zup.beagle.android.widget.WidgetView
-    import java.lang.Class
-    import kotlin.collections.List
-
-    internal object InternalWidgetFactory {
-        
-        public fun registeredWidgets(): List<Class<WidgetView>> {
-            val registeredWidgets = listOf<Class<WidgetView>>(
-                br.com.test.beagle.PageIndicatorTest::class.java as Class<WidgetView>,
-                br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
-                br.com.test.beagle.InputWidgetTest::class.java as Class<WidgetView>,
-            )
-        
-        return registeredWidgets
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+        package br.com.zup.beagle.android.setup
+    
+        import br.com.zup.beagle.android.widget.WidgetView
+        import java.lang.Class
+        import kotlin.Suppress
+        import kotlin.collections.List
+    
+        internal object InternalWidgetFactory {
+            
+            public fun registeredWidgets(): List<Class<WidgetView>> {
+                val registeredWidgets = listOf<Class<WidgetView>>(
+                    br.com.test.beagle.PageIndicatorTest::class.java as Class<WidgetView>,
+                    br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
+                    br.com.test.beagle.InputWidgetTest::class.java as Class<WidgetView>,
+                )
+            
+            return registeredWidgets
+            }
         }
-    }
 
     """
 
 const val INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED: String =
     """
-
-    package br.com.zup.beagle.android.setup
-
-    import br.com.zup.beagle.android.widget.WidgetView
-    import java.lang.Class
-    import kotlin.collections.List
-
-    internal object InternalWidgetFactory {
-        
-        public fun registeredWidgets(): List<Class<WidgetView>> {
-            val registeredWidgets = listOf<Class<WidgetView>>(
-                br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
-            )
-        
-        return registeredWidgets
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+        package br.com.zup.beagle.android.setup
+    
+        import br.com.zup.beagle.android.widget.WidgetView
+        import java.lang.Class
+        import kotlin.Suppress
+        import kotlin.collections.List
+    
+        internal object InternalWidgetFactory {
+            
+            public fun registeredWidgets(): List<Class<WidgetView>> {
+                val registeredWidgets = listOf<Class<WidgetView>>(
+                    br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
+                )
+            
+            return registeredWidgets
+            }
         }
-    }
 
     """
 
@@ -133,44 +135,48 @@ const val VALID_LIST_OPERATIONS = VALID_OPERATION + VALID_SECOND_OPERATION
 
 const val INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED: String =
     """
-    package br.com.zup.beagle.android.setup 
-    import br.com.zup.beagle.android.operation.Operation
-    import kotlin.String 
-    import kotlin.collections.Map
-    
-    internal object InternalOperationFactory {
-    
-        public fun registeredOperations() : Map<String, Operation> {
-            
-            val operations = mapOf<String, Operation>(
-                "OperationTestName" to br.com.test.beagle.OperationTest(),
-                )
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+        package br.com.zup.beagle.android.setup 
+        import br.com.zup.beagle.android.operation.Operation
+        import kotlin.String 
+        import kotlin.Suppress
+        import kotlin.collections.Map
+        
+        internal object InternalOperationFactory {
+        
+            public fun registeredOperations() : Map<String, Operation> {
                 
-            return operations
+                val operations = mapOf<String, Operation>(
+                    "OperationTestName" to br.com.test.beagle.OperationTest(),
+                    )
+                    
+                return operations
+            }
         }
-    }
 
     """
 
 const val INTERNAL_LIST_OPERATION_GENERATED_EXPECTED: String =
     """
-    package br.com.zup.beagle.android.setup 
-    import br.com.zup.beagle.android.operation.Operation
-    import kotlin.String 
-    import kotlin.collections.Map
-    
-    internal object InternalOperationFactory {
-    
-        public fun registeredOperations() : Map<String, Operation> {
-            
-            val operations = mapOf<String, Operation>(
-                "OperationTwoTestName" to br.com.test.beagle.OperationTwoTest(),
-                "OperationTestName" to br.com.test.beagle.OperationTest(),
-                )
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+        package br.com.zup.beagle.android.setup 
+        import br.com.zup.beagle.android.operation.Operation
+        import kotlin.String 
+        import kotlin.Suppress
+        import kotlin.collections.Map
+        
+        internal object InternalOperationFactory {
+        
+            public fun registeredOperations() : Map<String, Operation> {
                 
-            return operations
+                val operations = mapOf<String, Operation>(
+                    "OperationTwoTestName" to br.com.test.beagle.OperationTwoTest(),
+                    "OperationTestName" to br.com.test.beagle.OperationTest(),
+                    )
+                    
+                return operations
+            }
         }
-    }
 
     """
 
