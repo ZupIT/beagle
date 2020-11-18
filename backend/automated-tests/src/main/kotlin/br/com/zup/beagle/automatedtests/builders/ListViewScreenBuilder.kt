@@ -95,13 +95,11 @@ object ListViewScreenBuilder {
             ).applyFlex(Flex(flexDirection = FlexDirection.ROW))
                 .applyStyle(Style(padding = EdgeValue(all = 10.unitReal()))),
             charactersListView(),
-            Container(
-                children = listOf(
-                    Text(text = "@{changeStatus}")
-                )
-            ).applyStyle(style = Style(padding = EdgeValue(all = 10.unitReal())))
+            Text(
+                text = "@{changeStatus}"
+            ).applyStyle(style = Style(margin = EdgeValue(all = 10.unitReal())))
         )
-    ).applyStyle(Style(size = Size(width = 100.unitPercent(),height = 70.unitPercent())))
+    ).applyStyle(Style(size = Size(width = 100.unitPercent(), height = 70.unitPercent())))
 
     private fun charactersListView() = ListView(
         direction = ListDirection.HORIZONTAL,
@@ -136,6 +134,11 @@ object ListViewScreenBuilder {
         ),
         onScrollEnd = listOf(
             SetContext(contextId = "changeStatus", value = "status: readied")
+        )
+    ).applyStyle(
+        Style(
+            margin = EdgeValue(all = 10.unitReal()),
+            backgroundColor = "#EAEAEA"
         )
     )
 
@@ -230,21 +233,45 @@ object ListViewScreenBuilder {
                             template = Container(
                                 children = listOf(
                                     Text(text = "Title: @{category.title}"),
-                                    Text(text = "Author: @{category.author}")
+                                    Text(text = "Author: @{category.author}"),
+                                    Text(text = "Characters:"),
+                                    ListView(
+                                        direction = ListDirection.VERTICAL,
+                                        dataSource = expressionOf("@{category.characters}"),
+                                        iteratorName = "character",
+                                        template = Container(
+                                            children = listOf(
+                                                Text(text = "- @{character}")
+                                            )
+                                        )
+                                    ).setId("character") //TODO Remove bug Android
+                                )
+                            ).applyStyle(
+                                Style(
+                                    padding = EdgeValue(all = 8.unitReal()),
                                 )
                             )
-                        ).setId("item")
+                        ).setId("category") //TODO Remove bug Android
+                            .applyStyle(
+                            Style(
+                                backgroundColor = "#CFCFCF",
+                                margin = EdgeValue(all = 8.unitReal()),
+                            )
+                        )
                     )
                 ).applyStyle(
                     Style(
-                        margin = EdgeValue(
-                            top = 8.unitReal(),
-                            bottom = 8.unitReal(),
-                            left = 8.unitReal()))
+                        margin = EdgeValue(all = 8.unitReal())
+                    )
+                )
+            ).applyStyle(
+                Style(
+                    margin = EdgeValue(all = 10.unitReal()),
+                    backgroundColor = "#EAEAEA"
                 )
             )
         )
-    ).applyStyle(Style(size = Size(width = 100.unitPercent(),height = 70.unitPercent())))
+    ).applyStyle(Style(size = Size(width = 100.unitPercent(), height = 90.unitPercent())))
 
     private fun thirdListView() = Container(
         children = listOf(
@@ -299,6 +326,6 @@ object ListViewScreenBuilder {
                 )
             )
         )
-    ).applyStyle(Style(size = Size(width = 100.unitPercent(),height = 70.unitPercent())))
+    ).applyStyle(Style(size = Size(width = 100.unitPercent(), height = 70.unitPercent())))
 }
 
