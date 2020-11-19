@@ -77,6 +77,7 @@ public struct ListView: RawWidget, HasContext, InitiableComponent, AutoInitiable
         )
     }
 
+    #if swift(<5.3)
     @available(*, deprecated, message: "use the dataSource and template instead of children")
     public init(
         direction: Direction = .vertical,
@@ -85,6 +86,7 @@ public struct ListView: RawWidget, HasContext, InitiableComponent, AutoInitiable
     ) {
         self.init(children: [children()], direction: direction)
     }
+    #endif
 
     @available(*, deprecated, message: "use the dataSource and template instead of children")
     public init(
