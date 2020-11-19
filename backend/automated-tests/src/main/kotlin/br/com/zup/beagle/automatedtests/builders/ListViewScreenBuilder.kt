@@ -143,7 +143,7 @@ object ListViewScreenBuilder {
             )
         ),
         onScrollEnd = listOf(
-            SetContext(contextId = "changeStatus", value = "status: readed")
+            SetContext(contextId = "changeStatus", value = "status: read")
         )
     ).setId(
         id = "charactersList"

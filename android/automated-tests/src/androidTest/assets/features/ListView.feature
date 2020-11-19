@@ -31,7 +31,7 @@ Feature: ListView Component Validation
         Then should render the list of characters with exactly 34 items in the horizontal plane
         And the list of characters should be scrollable only horizontally
         And the page number should be 1/2
-
+        
     Scenario: ListView 02 - Characters ListView: going from page 1 to 2
         When I click the button next
         Then should render the list of characters with exactly 33 items in the horizontal plane
@@ -60,75 +60,76 @@ Feature: ListView Component Validation
             | 8        | Steris Harms            | The Alloy of Law                         | Mistborn Era 2         |
             | 9        | Miles Dagouter          | The Alloy of Law                         | Mistborn Era 2         |
             | 10       | Eddard "Ned" Stark      | A Game of Thrones                        | A Song of Ice and Fire |
-            | 12       | Catelyn Stark           | A Game of Thrones                        | A Song of Ice and Fire |
-            | 13       | Sansa Stark             | A Game of Thrones                        | A Song of Ice and Fire |
-            | 14       | Arya Stark              | A Game of Thrones                        | A Song of Ice and Fire |
-            | 15       | Bran Stark              | A Game of Thrones                        | A Song of Ice and Fire |
-            | 16       | Szeth-son-son-Vallano   | Words of Radiance                        | The Stormlight Archive |
-            | 17       | Shallan Davar           | Words of Radiance                        | The Stormlight Archive |
-            | 18       | Kaladin                 | Words of Radiance                        | The Stormlight Archive |
-            | 19       | Dalinar Kholin          | Words of Radiance                        | The Stormlight Archive |
-            | 20       | Adolin Kholin           | Words of Radiance                        | The Stormlight Archive |
-            | 21       | Talanji                 | Shadows Rising                           | World of Warcraft      |
-            | 22       | Zekhan                  | Shadows Rising                           | World of Warcraft      |
-            | 23       | Anduin Wrynn            | Shadows Rising                           | World of Warcraft      |
-            | 24       | Turalyon                | Shadows Rising                           | World of Warcraft      |
-            | 25       | Aleria Windrunner       | Shadows Rising                           | World of Warcraft      |
-            | 26       | Anduin Wrynn            | Before the Storm                         | World of Warcraft      |
-            | 27       | Sylvanas Windrunner     | Before the Storm                         | World of Warcraft      |
-            | 28       | Grizzek Fizzwrench      | Before the Storm                         | World of Warcraft      |
-            | 29       | Sapphronetta Flivvers   | Before the Storm                         | World of Warcraft      |
-            | 30       | Calia Menethil          | Before the Storm                         | World of Warcraft      |
-            | 31       | Harry Potter            | Harry Potter and the Philosopher's Stone | Harry Potter           |
-            | 32       | Ronald Weasley          | Harry Potter and the Philosopher's Stone | Harry Potter           |
-            | 33       | Hermione Granger        | Harry Potter and the Philosopher's Stone | Harry Potter           |
-#
-#    Scenario Outline: ListView 05 - Characters ListView: page 2 item by item
-#        Given that I'm on page 2 of the list of characters
-#        Then should render character "<name>" of "<book>" in "<collection>" in the list of characters
+            | 11       | Catelyn Stark           | A Game of Thrones                        | A Song of Ice and Fire |
+            | 12       | Sansa Stark             | A Game of Thrones                        | A Song of Ice and Fire |
+            | 13       | Arya Stark              | A Game of Thrones                        | A Song of Ice and Fire |
+            | 14       | Bran Stark              | A Game of Thrones                        | A Song of Ice and Fire |
+            | 15       | Szeth-son-son-Vallano   | Words of Radiance                        | The Stormlight Archive |
+            | 16       | Shallan Davar           | Words of Radiance                        | The Stormlight Archive |
+            | 17       | Kaladin                 | Words of Radiance                        | The Stormlight Archive |
+            | 18       | Dalinar Kholin          | Words of Radiance                        | The Stormlight Archive |
+            | 19       | Adolin Kholin           | Words of Radiance                        | The Stormlight Archive |
+            | 20       | Talanji                 | Shadows Rising                           | World of Warcraft      |
+            | 21       | Zekhan                  | Shadows Rising                           | World of Warcraft      |
+            | 22      | Anduin Wrynn            | Shadows Rising                           | World of Warcraft      |
+            | 23       | Turalyon                | Shadows Rising                           | World of Warcraft      |
+            | 24       | Aleria Windrunner       | Shadows Rising                           | World of Warcraft      |
+            | 25       | Anduin Wrynn            | Before the Storm                         | World of Warcraft      |
+            | 26       | Sylvanas Windrunner     | Before the Storm                         | World of Warcraft      |
+            | 27       | Grizzek Fizzwrench      | Before the Storm                         | World of Warcraft      |
+            | 28       | Sapphronetta Flivvers   | Before the Storm                         | World of Warcraft      |
+            | 29       | Calia Menethil          | Before the Storm                         | World of Warcraft      |
+            | 30       | Harry Potter            | Harry Potter and the Philosopher's Stone | Harry Potter           |
+            | 31       | Ronald Weasley          | Harry Potter and the Philosopher's Stone | Harry Potter           |
+            | 32       | Hermione Granger        | Harry Potter and the Philosopher's Stone | Harry Potter           |
+            | 33       | Rúbeo Hagrid            | Harry Potter and the Philosopher's Stone | Harry Potter           |
+
+    Scenario Outline: ListView 05 - Characters ListView: page 2 item by item
+        When I click the button next
+        Then the page number should be 2/2
+        And should render character <name> of <book> in <collection> at <position> in the list of characters
 #        And the book analytics should have been called with character "<name>" and source "characters-list"
-#
-#        Examples:
-#            | name                    | book                                     | collection             |
-#            | Rúbeo Hagrid            | Harry Potter and the Philosopher's Stone | Harry Potter           |
-#            | Dumbledore              | Harry Potter and the Philosopher's Stone | Harry Potter           |
-#            | Spensa Nightshade       | Starsight                                | Skyward                |
-#            | Jorgen Weight           | Starsight                                | Skyward                |
-#            | Admiral Cobb            | Starsight                                | Skyward                |
-#            | M-Bot                   | Starsight                                | Skyward                |
-#            | Alanik                  | Starsight                                | Skyward                |
-#            | Bob                     | Heaven's River                           | Bobiverse              |
-#            | Brigit                  | Heaven's River                           | Bobiverse              |
-#            | Bender                  | Heaven's River                           | Bobiverse              |
-#            | Howard                  | Heaven's River                           | Bobiverse              |
-#            | Juliette Andromeda Mao  | Leviathan Wakes                          | The Expanse            |
-#            | James Holden            | Leviathan Wakes                          | The Expanse            |
-#            | Naomi Nagata            | Leviathan Wakes                          | The Expanse            |
-#            | Amos Burton             | Leviathan Wakes                          | The Expanse            |
-#            | Shed Garvey             | Leviathan Wakes                          | The Expanse            |
-#            | Paul Atreides           | Dune                                     | Dune                   |
-#            | Duke Leto Atreides      | Dune                                     | Dune                   |
-#            | Lady Jessica            | Dune                                     | Dune                   |
-#            | Alia Atreides           | Dune                                     | Dune                   |
-#            | Thufir Hawat            | Dune                                     | Dune                   |
-#            | Dirk t'Larien           | Dying of the Light                       |                        |
-#            | Jaan Vikary             | Dying of the Light                       |                        |
-#            | Garse Janacek           | Dying of the Light                       |                        |
-#            | Greg Dixon              | The Last Tribe                           |                        |
-#            | John Dixon              | The Last Tribe                           |                        |
-#            | Emily Dixon             | The Last Tribe                           |                        |
-#            | Rebecca                 | The Last Tribe                           |                        |
-#            | Don Barlow              | The Cuckoo's Cry                         |                        |
-#            | Offred                  | The Handmaid's Tale                      | The Handmaid's Tale    |
-#            | The Commander           | The Handmaid's Tale                      | The Handmaid's Tale    |
-#            | Serena Joy              | The Handmaid's Tale                      | The Handmaid's Tale    |
-#            | Ofglen                  | The Handmaid's Tale                      | The Handmaid's Tale    |
-#            | Nick                    | The Handmaid's Tale                      | The Handmaid's Tale    |
-#
-#    Scenario: ListView 06 - Characters ListView: read status
-#        Then the read status of the list of characters is unread
-#        When I scroll the list of characters to 100%
-#        Then the read status of the list of characters is read
+
+        Examples:
+            | position | name                    | book                                     | collection             |
+            | 0        | Dumbledore              | Harry Potter and the Philosopher's Stone | Harry Potter           |
+            | 1        | Spensa Nightshade       | Starsight                                | Skyward                |
+            | 2        | Jorgen Weight           | Starsight                                | Skyward                |
+            | 3        | Admiral Cobb            | Starsight                                | Skyward                |
+            | 4        | M-Bot                   | Starsight                                | Skyward                |
+            | 5        | Alanik                  | Starsight                                | Skyward                |
+            | 6        | Bob                     | Heaven's River                           | Bobiverse              |
+            | 7        | Brigit                  | Heaven's River                           | Bobiverse              |
+            | 8        | Bender                  | Heaven's River                           | Bobiverse              |
+            | 9        | Howard                  | Heaven's River                           | Bobiverse              |
+            | 10       | Juliette Andromeda Mao  | Leviathan Wakes                          | The Expanse            |
+            | 11       | James Holden            | Leviathan Wakes                          | The Expanse            |
+            | 12       | Naomi Nagata            | Leviathan Wakes                          | The Expanse            |
+            | 13       | Amos Burton             | Leviathan Wakes                          | The Expanse            |
+            | 14       | Shed Garvey             | Leviathan Wakes                          | The Expanse            |
+            | 15       | Paul Atreides           | Dune                                     | Dune                   |
+            | 16       | Duke Leto Atreides      | Dune                                     | Dune                   |
+            | 17       | Lady Jessica            | Dune                                     | Dune                   |
+            | 18       | Alia Atreides           | Dune                                     | Dune                   |
+            | 19       | Thufir Hawat            | Dune                                     | Dune                   |
+            | 20       | Dirk t'Larien           | Dying of the Light                       |                        |
+            | 21       | Jaan Vikary             | Dying of the Light                       |                        |
+            | 22       | Garse Janacek           | Dying of the Light                       |                        |
+            | 23       | Greg Dixon              | The Last Tribe                           |                        |
+            | 24       | John Dixon              | The Last Tribe                           |                        |
+            | 25       | Emily Dixon             | The Last Tribe                           |                        |
+            | 26       | Rebecca                 | The Last Tribe                           |                        |
+            | 27       | Don Barlow              | The Cuckoo's Cry                         |                        |
+            | 28       | Offred                  | The Handmaid's Tale                      | The Handmaid's Tale    |
+            | 29       | The Commander           | The Handmaid's Tale                      | The Handmaid's Tale    |
+            | 30       | Serena Joy              | The Handmaid's Tale                      | The Handmaid's Tale    |
+            | 31       | Ofglen                  | The Handmaid's Tale                      | The Handmaid's Tale    |
+            | 32       | Nick                    | The Handmaid's Tale                      | The Handmaid's Tale    |
+
+    Scenario: ListView 06 - Characters ListView: read status
+        When the read status of the list of characters is status: unread
+        And I scroll the list of characters to position 34
+        Then the read status of the list of characters is status: read
 #
 #    Scenario: ListView 07 - Characters ListView: analytics action
 #        When I click the button "next"

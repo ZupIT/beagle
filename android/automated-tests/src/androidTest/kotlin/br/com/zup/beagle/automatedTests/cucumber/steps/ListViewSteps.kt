@@ -58,6 +58,18 @@ class ListViewScreenSteps {
             .clickOnText(buttonText)
     }
 
+    @When("^the read status of the list of characters is (.*)$")
+    fun checkCharactersListReadStatus(expectedText: String){
+        ScreenRobot()
+            .checkViewContainsText(expectedText, true)
+    }
+
+    @When("^I scroll the list of characters to position (.*)$")
+    fun scrollCharactersListToPosition(position: Int){
+        ScreenRobot()
+            .scrollListToPosition(CHARACTERS_LIST_VIEW_ID.toAndroidId(), position)
+    }
+
     @Then("^should render the list of characters with exactly (.*) items in the horizontal plane$")
     fun checkCharactersListItemsCount(expectedItemCount: Int) {
         ScreenRobot()
