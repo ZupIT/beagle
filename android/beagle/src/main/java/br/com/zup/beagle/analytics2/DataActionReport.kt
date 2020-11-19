@@ -25,7 +25,7 @@ data class DataActionReport(
     val origin: View,
     val action: ActionAnalytics,
     val analyticsHandleEvent: AnalyticsHandleEvent? = null
-) : DataReport(){
+) : DataReport{
     override fun report() {
         AnalyticsService.createActionRecord(this)
     }

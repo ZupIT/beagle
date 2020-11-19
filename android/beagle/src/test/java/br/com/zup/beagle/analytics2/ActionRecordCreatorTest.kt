@@ -92,7 +92,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
 
     @DisplayName("When create record")
     @Nested
-    inner class ComponentAttribute() {
+    inner class ComponentAttribute {
 
         @Test
         @DisplayName("Then should return correct value to component key without crash")
@@ -191,7 +191,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
 
     @DisplayName("When create record")
     @Nested
-    inner class ActionAttribute() {
+    inner class ActionAttribute {
         private val url = "/url"
         private val route = Route.Remote(url = "/url")
         private val actionType = "beagle:PushView"
@@ -255,7 +255,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
                     AnalyticsHandleEvent(analyticsValue = "onPress")),
                 ActionAnalyticsConfig(enable = true, attributes = listOf("route.a")),
             )
-
+            print(report)
             //THEN
             commonAsserts(report)
             Assert.assertEquals(null, report.attributes["route.a"])

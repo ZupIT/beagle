@@ -19,7 +19,7 @@ package br.com.zup.beagle.analytics2
 data class DataScreenReport(
     val isLocalScreen: Boolean,
     val screenIdentifier: String
-) : DataReport(){
+) : DataReport{
     override fun report() {
         AnalyticsService.createScreenRecord(this)
     }

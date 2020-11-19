@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.analytics2
 
-abstract class DataReport{
 
-    abstract fun report()
+interface DataReport {
+
+    fun report()
 }

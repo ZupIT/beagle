@@ -21,10 +21,11 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
 object ActionRecordCreator {
@@ -52,11 +53,13 @@ object ActionRecordCreator {
             hashMap["event"] = it
         }
         actionAnalyticsConfig.attributes?.let {
-            hashMap.putAll(createAnalyticsConfigAttributesHashMap(
-                it,
-                dataActionReport.rootView,
-                dataActionReport.origin,
-                dataActionReport.action)
+            hashMap.putAll(
+                createAnalyticsConfigAttributesHashMap(
+                    it,
+                    dataActionReport.rootView,
+                    dataActionReport.origin,
+                    dataActionReport.action
+                )
             )
         }
         actionAnalyticsConfig.additionalEntries?.let {
@@ -73,19 +76,19 @@ object ActionRecordCreator {
 
     private fun createComponentHashMap(origin: View, originComponent: ServerDrivenComponent): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        if (originComponent is IdentifierComponent) {
-            originComponent.id?.let { componentId ->
-                hashMap["id"] = componentId
-            }
+        getComponentId(originComponent)?.let { id ->
+            hashMap["id"] = id
         }
-        if (originComponent is Widget) {
-            originComponent.beagleType?.let { type ->
-                hashMap["type"] = type
-            }
+        getComponentType(originComponent)?.let { type ->
+            hashMap["type"] = type
         }
         hashMap["position"] = hashMapOf("x" to origin.x, "y" to origin.y)
         return hashMap
     }
+
+    private fun getComponentId(originComponent: ServerDrivenComponent) = (originComponent as? IdentifierComponent)?.id
+
+    private fun getComponentType(originComponent: ServerDrivenComponent) = (originComponent as? WidgetView)?.beagleType
 
     private fun createAnalyticsConfigAttributesHashMap(
         attributes: List<String>,
@@ -94,56 +97,54 @@ object ActionRecordCreator {
         action: Action
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        val splitAttributesOfAttributes = attributes.map {
-            it.split(".")
-        }
-        splitAttributesOfAttributes.let { simpleAttribute ->
-            for ((position, value) in simpleAttribute.withIndex()) {
-                attributes[position].let { key ->
-                    getValue(rootView, origin, value, action)?.let {
-                        hashMap[key] = it
-                    }
-                }
+        attributes.forEach { attribute ->
+            getAttributeValue(rootView, origin, attribute, action)?.let { value ->
+                hashMap[attribute] = value
             }
         }
         return hashMap
     }
 
-    private fun getValue(rootView: RootView, origin: View, attributes: List<String>, action: Action): Any? {
-        var cnt = 0
+    private fun getAttributeValue(rootView: RootView, origin: View, attribute: String, action: Action): Any? {
         var value: Any? = action
-        do {
-            value = getPropertyValue(value, attributes, cnt)
-            if (value == null) {
-                break;
+        val composeAttribute = attribute.split('.')
+        for (element in composeAttribute) {
+            value?.let {
+                val result = getValueOnPropertyReflection(it, element) ?: return null
+                value = evaluateValueIfNecessary(rootView, origin, result, action)
             }
-            cnt++
-        } while (cnt < attributes.size)
-
-        return evaluateValueIfNecessary(rootView, origin, value, action)
+            if(value == null)
+                break
+        }
+        return value
     }
 
-    private fun getPropertyValue(value: Any?, attributes: List<String>, cnt: Int): Any? {
-        value?.let {
-            (value::class as KClass<Any>).memberProperties.forEach { property ->
-                if (property.name == attributes[cnt]) {
-                    property.get(value)?.let { propertyValue ->
-                        return propertyValue
-                    }
-                }
+    private fun getValueOnPropertyReflection(value: Any, attribute: String): Any? {
+        (value::class as KClass<Any>).memberProperties.forEach { property ->
+            getValueIfPropertyNameIsEqualsTtoAttribute(property, attribute, value)?.let {
+                return it
             }
         }
         return null
     }
 
-    private fun evaluateValueIfNecessary(rootView: RootView, origin: View, value: Any?, action: Action): Any? {
-        if (value is Bind<*>) {
-            action.evaluateExpression(rootView, origin, value)?.let {
-                return it
+    private fun getValueIfPropertyNameIsEqualsTtoAttribute(
+        property: KProperty1<Any, *>,
+        attribute: String,
+        value: Any
+    ): Any? {
+        if (property.name == attribute) {
+            property.get(value)?.let { propertyValue ->
+                return propertyValue
             }
+        }
+        return null
+    }
+
+    private fun evaluateValueIfNecessary(rootView: RootView, origin: View, value: Any, action: Action): Any? {
+        if (value is Bind<*>) {
+            return action.evaluateExpression(rootView, origin, value)
         }
         return value
     }
-
-
 }
