@@ -45,5 +45,4 @@ class ExampleScreenshotTest: ScreenshotTest {
     fun testButtonUrlLoading() {
         compareScreenshot(activityTestRule.activity)
     }
-
 }
