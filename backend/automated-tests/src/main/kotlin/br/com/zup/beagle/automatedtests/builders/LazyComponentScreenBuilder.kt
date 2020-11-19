@@ -22,6 +22,7 @@ import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
@@ -31,27 +32,12 @@ import br.com.zup.beagle.widget.ui.Text
 
 object LazyComponentScreenBuilder {
     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle LazyComponent",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = ImagePath.Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "Lazy Component",
-                        message = "A widget that implements loading.",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
-        child = LazyComponent(
-            path = PATH_LAZY_COMPONENT_ENDPOINT,
-            initialState = Text("Loading...").applyFlex(
-                flex = Flex(
-                    justifyContent = JustifyContent.CENTER,
-                    alignSelf = AlignSelf.CENTER
+        child = Container(
+            listOf(
+                Text("LazyComponent Screen"),
+                LazyComponent(
+                    path = PATH_LAZY_COMPONENT_ENDPOINT,
+                    initialState = Text("Loading...")
                 )
             )
         )
