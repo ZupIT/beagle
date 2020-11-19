@@ -281,9 +281,10 @@ struct ListViewScreen: DeeplinkScreen {
                     onSuccess: [
                         SetContext(contextId: "moviePage", path: "page", value: "@{onSuccess.data.page}"),
                         SetContext(contextId: "moviePage", path: "total_pages", value: "@{onSuccess.data.total_pages}"),
-                        Append(
-                            array: Binding(context: "moviePage", path: Path(nodes: [.key("results")])),
-                            items: "@{onSuccess.data.results}"
+                        SetContext(
+                            contextId: "moviePage",
+                            path: "results",
+                            value: "@{union(moviePage.results, onSuccess.data.results)}"
                         )
                     ]
                 )
@@ -368,9 +369,10 @@ struct ListViewScreen: DeeplinkScreen {
                             onSuccess: [
                                 SetContext(contextId: "moviePage", path: "page", value: "@{onSuccess.data.page}"),
                                 SetContext(contextId: "moviePage", path: "total_pages", value: "@{onSuccess.data.total_pages}"),
-                                Append(
-                                    array: Binding(context: "moviePage", path: Path(nodes: [.key("results")])),
-                                    items: "@{onSuccess.data.results}"
+                                SetContext(
+                                    contextId: "moviePage",
+                                    path: "results",
+                                    value: "@{union(moviePage.results, onSuccess.data.results)}"
                                 )
                             ]
                         )
@@ -380,27 +382,5 @@ struct ListViewScreen: DeeplinkScreen {
             },
             iteratorName: "category"
         )
-    }
-}
-
-/// This action should be replaced by array operations when available.
-private struct Append: Action {
-    
-    public let array: Binding
-    public let items: DynamicObject
-    
-    func execute(controller: BeagleController, origin: UIView) {
-        guard case .array(let sequenceToAppend) = items.evaluate(with: origin) else {
-            return
-        }
-        var result = [DynamicObject]()
-        let initialValue = DynamicObject.expression(.single(.value(.binding(array)))).evaluate(with: origin)
-        if case .array(let items) = initialValue {
-            result = items
-        }
-        result.append(contentsOf: sequenceToAppend)
-        
-        let setContext = SetContext(contextId: array.context, path: array.path.rawValue, value: .array(result))
-        controller.execute(actions: [setContext], origin: origin)
     }
 }
