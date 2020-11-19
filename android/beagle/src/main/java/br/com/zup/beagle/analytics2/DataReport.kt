@@ -16,18 +16,7 @@
 
 package br.com.zup.beagle.analytics2
 
-import android.view.View
-import br.com.zup.beagle.android.action.ActionAnalytics
-import br.com.zup.beagle.android.widget.RootView
+abstract class DataReport{
 
-data class DataActionReport(
-    val rootView: RootView,
-    val origin: View,
-    val action: ActionAnalytics,
-    val analyticsHandleEvent: AnalyticsHandleEvent? = null
-) : DataReport(){
-    override fun report() {
-        AnalyticsService.createActionRecord(this)
-    }
-
+    abstract fun report()
 }

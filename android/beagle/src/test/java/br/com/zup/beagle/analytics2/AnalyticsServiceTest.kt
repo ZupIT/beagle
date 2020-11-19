@@ -21,10 +21,7 @@ import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.AddChildren
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.verify
+import io.mockk.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -44,6 +41,8 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
     @BeforeEach
     fun setUp() {
         every { rootView.activity } returns mockk()
+        mockkObject(ScreenReportCreator)
+        mockkObject(ActionRecordCreator)
     }
 
     @DisplayName("When init the config")
@@ -63,6 +62,30 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             assertTrue(analyticsProviderImpl.sessionStarted)
             assertTrue(analyticsProviderImpl.configCalled)
         }
+
+        @Test
+        @DisplayName("Then should report the action on queue")
+        fun testInitialConfigCallReportOnQueue() = runBlockingTest {
+            //GIVEN
+            val analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
+            //WHEN
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+
+
+            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+
+            //THEN
+            assertTrue(analyticsProviderImpl.createRecordCalled)
+            verifyOrder{
+                ScreenReportCreator.createScreenRemoteReport("url")
+                ScreenReportCreator.createScreenRemoteReport("url")
+                AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+
+            }
+        }
+
     }
 
     @DisplayName("When create screen record")
@@ -77,7 +100,7 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             AnalyticsService.initialConfig(analyticsProviderImpl, this)
 
             //wHEN
-            AnalyticsService.createScreenRecord(false, "url")
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
 
             //THEN
             assertTrue(analyticsProviderImpl.createRecordCalled)
@@ -95,7 +118,7 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             AnalyticsService.initialConfig(analyticsProviderImpl, this)
 
             //wHEN
-            AnalyticsService.createScreenRecord(false, "url")
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
 
             //THEN
             verify(exactly = 1) { ScreenReportCreator.createScreenRemoteReport("url") }
@@ -115,7 +138,7 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             AnalyticsService.initialConfig(analyticsProviderImpl, this)
 
             //wHEN
-            AnalyticsService.createScreenRecord(true, "screenId")
+            AnalyticsService.createScreenRecord(DataScreenReport(true, "screenId"))
 
             //THEN
             verify(exactly = 1) { ScreenReportCreator.createScreenLocalReport("screenId") }
@@ -137,7 +160,7 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
 
 
             //wHEN
-            AnalyticsService.createScreenRecord(false, "url")
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
 
             //THEN
             assertFalse(analyticsProviderImpl.createRecordCalled)

@@ -20,9 +20,11 @@ import br.com.zup.beagle.android.action.ActionAnalytics
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.util.*
 
 object AnalyticsService {
 
+    private val queue  : Queue<DataReport> = LinkedList()
     private var analyticsProvider: AnalyticsProvider? = null
 
     private lateinit var analyticsConfig: AnalyticsConfig
@@ -37,6 +39,9 @@ object AnalyticsService {
                             this@AnalyticsService.analyticsConfig = analyticsConfig
                         }
                     }.await()
+                    while (!queue.isEmpty()){
+                        queue.remove().report()
+                    }
                 }
             }
         }
@@ -50,6 +55,9 @@ object AnalyticsService {
             if (shouldReport(config)) {
                 reportAction(dataActionReport, config)
             }
+        }
+        else{
+            queue.add(dataActionReport)
         }
     }
 
@@ -80,15 +88,19 @@ object AnalyticsService {
         return ActionAnalyticsConfig(enable = attributeList != null, attributes = attributeList)
     }
 
-    fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
+    fun createScreenRecord(dataScreenReport: DataScreenReport) {
         if (isAnalyticsConfigInitialized()) {
-            reportScreen(isLocalScreen, screenIdentifier)
+            reportScreen(dataScreenReport)
+        }
+        else{
+            queue.add(dataScreenReport)
         }
     }
 
-    private fun reportScreen(isLocalScreen: Boolean, screenIdentifier: String) {
+    private fun reportScreen(dataScreenReport: DataScreenReport) {
         if (shouldReportScreen()) {
-            if (isLocalScreen)
+            val screenIdentifier = dataScreenReport.screenIdentifier
+            if (dataScreenReport.isLocalScreen)
                 analyticsProvider?.createRecord(ScreenReportCreator.createScreenLocalReport(screenIdentifier))
             else
                 analyticsProvider?.createRecord(ScreenReportCreator.createScreenRemoteReport(screenIdentifier))
