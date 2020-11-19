@@ -52,14 +52,20 @@ class ListViewScreenSteps {
             .checkViewContainsText(LISTVIEW_SCREEN_HEADER, true)
     }
 
+    @When("^I click the button (.*)$")
+    fun clickOnButton(buttonText: String) {
+        ScreenRobot()
+            .clickOnText(buttonText)
+    }
+
     @Then("^should render the list of characters with exactly (.*) items in the horizontal plane$")
-    fun checkCharactersListItemsCount(expectedItemCount: Int){
+    fun checkCharactersListItemsCount(expectedItemCount: Int) {
         ScreenRobot()
             .checkListViewItemCount(CHARACTERS_LIST_VIEW_ID.toAndroidId(), expectedItemCount)
     }
 
     @Then("^the list of characters should be scrollable only horizontally$")
-    fun checkCharactersListOrientation(){
+    fun checkCharactersListOrientation() {
         ScreenRobot()
             .checkListViewOrientation(CHARACTERS_LIST_VIEW_ID.toAndroidId(), RecyclerView.HORIZONTAL)
     }
@@ -70,27 +76,37 @@ class ListViewScreenSteps {
             .checkViewContainsText(pageNumberText)
     }
 
-        /*@When("^I have a vertical list configured$")
-        fun checkVerticalListText() {
-            ScreenRobot()
-                .checkViewContainsText(STATIC_LISTVIEW_TEXT_1)
-                .sleep(2)
-        }
+    @Then("^should render character (.*) of (.*) in (.*) at (.*) in the list of characters$")
+    fun checkListViewItemRenderText(name: String, book: String, collection: String, position: Int) {
+        val listId = CHARACTERS_LIST_VIEW_ID.toAndroidId()
+        ScreenRobot()
+            .scrollListToPosition(listId, position)
+            .checkListViewItemContainsText(listId, position, name)
+            .checkListViewItemContainsText(listId, position, book)
+            .checkListViewItemContainsText(listId, position, collection)
+    }
 
-        @Then("^listview screen should render all text attributes correctly$")
-        fun checkListViewScreenTexts() {
-            ScreenRobot()
-                .checkViewContainsText(STATIC_LISTVIEW_TEXT_1)
-                .checkViewContainsText(STATIC_LISTVIEW_TEXT_2)
-                .checkViewContainsText(DYNAMIC_LISTVIEW_TEXT_1)
-        }
+    /*@When("^I have a vertical list configured$")
+    fun checkVerticalListText() {
+        ScreenRobot()
+            .checkViewContainsText(STATIC_LISTVIEW_TEXT_1)
+            .sleep(2)
+    }
 
-        @Then("^listview screen should perform the scroll action vertically$")
-        fun validateVerticalListScroll() {
-            ScreenRobot()
-                .scrollTo(DYNAMIC_LISTVIEW_TEXT_2)
-                .sleep(2)
-        }*/
+    @Then("^listview screen should render all text attributes correctly$")
+    fun checkListViewScreenTexts() {
+        ScreenRobot()
+            .checkViewContainsText(STATIC_LISTVIEW_TEXT_1)
+            .checkViewContainsText(STATIC_LISTVIEW_TEXT_2)
+            .checkViewContainsText(DYNAMIC_LISTVIEW_TEXT_1)
+    }
+
+    @Then("^listview screen should perform the scroll action vertically$")
+    fun validateVerticalListScroll() {
+        ScreenRobot()
+            .scrollTo(DYNAMIC_LISTVIEW_TEXT_2)
+            .sleep(2)
+    }*/
 
 
 }

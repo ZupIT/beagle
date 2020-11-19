@@ -34,60 +34,61 @@ Feature: ListView Component Validation
 #        And button "next" should be enabled
         And the page number should be 1/2
 
-#    Scenario: ListView 02 - Characters ListView: going from page 1 to 2
-#        When I click the button "next"
-#        Then should render the list of characters with exactly 33 items in the horizontal plane
+    Scenario: ListView 02 - Characters ListView: going from page 1 to 2
+        When I click the button next
+        Then should render the list of characters with exactly 33 items in the horizontal plane
 #        And button "prev" should be enabled
-#        And button "next" should be disabled
-#        And the page number should be 2
-#
-#    Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
+#       And button "next" should be disabled
+        And the page number should be 2/2
+
+    Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
 #        Given that i'm on page 2 of the list of characters
-#        When I click the button "prev"
-#        Then should render the list of characters with exactly 33 items in the horizontal plane
+        When I click the button next
+        And I click the button prev
+        Then should render the list of characters with exactly 34 items in the horizontal plane
 #        And button "prev" should be disabled
 #        And button "next" should be enabled
-#        And the page number should be 1
-#
-#    Scenario Outline: ListView 04 - Characters ListView: page 1 item by item
-#        Then should render character "<name>" of "<book>" in "<collection>" in the list of characters
+        And the page number should be 1/2
+
+    Scenario Outline: ListView 04 - Characters ListView: page 1 item by item
+        Then should render character <name> of <book> in <collection> at <position> in the list of characters
 #        And the book analytics should have been called with character "<name>" and source "characters-list"
-#
-#        Examples:
-#            | name                    | book                                     | collection             |
-#            | Vin                     | The Final Empire                         | Mistborn Era 1         |
-#            | Kelsier                 | The Final Empire                         | Mistborn Era 1         |
-#            | Lord Ruler              | The Final Empire                         | Mistborn Era 1         |
-#            | Sazed                   | The Final Empire                         | Mistborn Era 1         |
-#            | Elend Venture           | The Final Empire                         | Mistborn Era 1         |
-#            | Waxillium "Wax" Ladrian | The Alloy of Law                         | Mistborn Era 2         |
-#            | Wayne                   | The Alloy of Law                         | Mistborn Era 2         |
-#            | Marasi Colms            | The Alloy of Law                         | Mistborn Era 2         |
-#            | Steris Harms            | The Alloy of Law                         | Mistborn Era 2         |
-#            | Miles Dagouter          | The Alloy of Law                         | Mistborn Era 2         |
-#            | Eddard "Ned" Stark      | A Game of Thrones                        | A Song of Ice and Fire |
-#            | Catelyn Stark           | A Game of Thrones                        | A Song of Ice and Fire |
-#            | Sansa Stark             | A Game of Thrones                        | A Song of Ice and Fire |
-#            | Arya Stark              | A Game of Thrones                        | A Song of Ice and Fire |
-#            | Bran Stark              | A Game of Thrones                        | A Song of Ice and Fire |
-#            | Szeth-son-son-Vallano   | Words of Radiance                        | The Stormlight Archive |
-#            | Shallan Davar           | Words of Radiance                        | The Stormlight Archive |
-#            | Kaladin                 | Words of Radiance                        | The Stormlight Archive |
-#            | Dalinar Kholin          | Words of Radiance                        | The Stormlight Archive |
-#            | Adolin Kholin           | Words of Radiance                        | The Stormlight Archive |
-#            | Talanji                 | Shadows Rising                           | World of Warcraft      |
-#            | Zekhan                  | Shadows Rising                           | World of Warcraft      |
-#            | Anduin Wrynn            | Shadows Rising                           | World of Warcraft      |
-#            | Turalyon                | Shadows Rising                           | World of Warcraft      |
-#            | Aleria Windrunner       | Shadows Rising                           | World of Warcraft      |
-#            | Anduin Wrynn            | Before the Storm                         | World of Warcraft      |
-#            | Sylvanas Windrunner     | Before the Storm                         | World of Warcraft      |
-#            | Grizzek Fizzwrench      | Before the Storm                         | World of Warcraft      |
-#            | Sapphronetta Flivvers   | Before the Storm                         | World of Warcraft      |
-#            | Calia Menethil          | Before the Storm                         | World of Warcraft      |
-#            | Harry Potter            | Harry Potter and the Philosopher's Stone | Harry Potter           |
-#            | Ronald Weasley          | Harry Potter and the Philosopher's Stone | Harry Potter           |
-#            | Hermione Granger        | Harry Potter and the Philosopher's Stone | Harry Potter           |
+
+        Examples:
+            | position | name                    | book                                     | collection             |
+            | 0        | Vin                     | The Final Empire                         | Mistborn Era 1         |
+            | 1        | Kelsier                 | The Final Empire                         | Mistborn Era 1         |
+            | 2        | Lord Ruler              | The Final Empire                         | Mistborn Era 1         |
+            | 3        | Sazed                   | The Final Empire                         | Mistborn Era 1         |
+            | 4        | Elend Venture           | The Final Empire                         | Mistborn Era 1         |
+            | 5        | Waxillium "Wax" Ladrian | The Alloy of Law                         | Mistborn Era 2         |
+            | 6        | Wayne                   | The Alloy of Law                         | Mistborn Era 2         |
+            | 7        | Marasi Colms            | The Alloy of Law                         | Mistborn Era 2         |
+            | 8        | Steris Harms            | The Alloy of Law                         | Mistborn Era 2         |
+            | 9        | Miles Dagouter          | The Alloy of Law                         | Mistborn Era 2         |
+            | 10       | Eddard "Ned" Stark      | A Game of Thrones                        | A Song of Ice and Fire |
+            | 12       | Catelyn Stark           | A Game of Thrones                        | A Song of Ice and Fire |
+            | 13       | Sansa Stark             | A Game of Thrones                        | A Song of Ice and Fire |
+            | 14       | Arya Stark              | A Game of Thrones                        | A Song of Ice and Fire |
+            | 15       | Bran Stark              | A Game of Thrones                        | A Song of Ice and Fire |
+            | 16       | Szeth-son-son-Vallano   | Words of Radiance                        | The Stormlight Archive |
+            | 17       | Shallan Davar           | Words of Radiance                        | The Stormlight Archive |
+            | 18       | Kaladin                 | Words of Radiance                        | The Stormlight Archive |
+            | 19       | Dalinar Kholin          | Words of Radiance                        | The Stormlight Archive |
+            | 20       | Adolin Kholin           | Words of Radiance                        | The Stormlight Archive |
+            | 21       | Talanji                 | Shadows Rising                           | World of Warcraft      |
+            | 22       | Zekhan                  | Shadows Rising                           | World of Warcraft      |
+            | 23       | Anduin Wrynn            | Shadows Rising                           | World of Warcraft      |
+            | 24       | Turalyon                | Shadows Rising                           | World of Warcraft      |
+            | 25       | Aleria Windrunner       | Shadows Rising                           | World of Warcraft      |
+            | 26       | Anduin Wrynn            | Before the Storm                         | World of Warcraft      |
+            | 27       | Sylvanas Windrunner     | Before the Storm                         | World of Warcraft      |
+            | 28       | Grizzek Fizzwrench      | Before the Storm                         | World of Warcraft      |
+            | 29       | Sapphronetta Flivvers   | Before the Storm                         | World of Warcraft      |
+            | 30       | Calia Menethil          | Before the Storm                         | World of Warcraft      |
+            | 31       | Harry Potter            | Harry Potter and the Philosopher's Stone | Harry Potter           |
+            | 32       | Ronald Weasley          | Harry Potter and the Philosopher's Stone | Harry Potter           |
+            | 33       | Hermione Granger        | Harry Potter and the Philosopher's Stone | Harry Potter           |
 #
 #    Scenario Outline: ListView 05 - Characters ListView: page 2 item by item
 #        Given that I'm on page 2 of the list of characters
