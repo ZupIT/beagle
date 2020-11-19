@@ -114,7 +114,6 @@ object ListViewScreenBuilder {
 
     private fun charactersListView() = ListView(
         direction = ListDirection.HORIZONTAL,
-        iteratorName = "character",
         onInit = listOf(
             SendRequest(
                 url = "/book-database/characters?page=1",
@@ -134,9 +133,9 @@ object ListViewScreenBuilder {
         dataSource = expressionOf("@{firstResponse.result}"),
         template = Container(
             children = listOf(
-                Text(text = "Name: @{character.name}"),
-                Text(text = "Book: @{character.book}"),
-                Text(text = "Collection: @{character.collection}"),
+                Text(text = "Name: @{item.name}"),
+                Text(text = "Book: @{item.book}"),
+                Text(text = "Collection: @{item.collection}"),
             )
         ).applyStyle(
             style = Style(
@@ -242,29 +241,27 @@ object ListViewScreenBuilder {
                             ),
                             direction = ListDirection.HORIZONTAL,
                             dataSource = expressionOf("@{categoryResponse.category}"),
-                            iteratorName = "category",
                             template = Container(
                                 children = listOf(
-                                    Text(text = "Title: @{category.title}"),
-                                    Text(text = "Author: @{category.author}"),
+                                    Text(text = "Title: @{item.title}"),
+                                    Text(text = "Author: @{item.author}"),
                                     Text(text = "Characters:"),
                                     ListView(
                                         direction = ListDirection.VERTICAL,
-                                        dataSource = expressionOf("@{category.characters}"),
-                                        iteratorName = "character",
+                                        dataSource = expressionOf("@{item.characters}"),
                                         template = Container(
                                             children = listOf(
-                                                Text(text = "- @{character}")
+                                                Text(text = "- @{item}")
                                             )
                                         )
-                                    ).setId("character") //TODO Remove bug Android
+                                    ).setId("character")
                                 )
                             ).applyStyle(
                                 Style(
                                     padding = EdgeValue(all = 8.unitReal()),
                                 )
                             )
-                        ).setId("category") //TODO Remove bug Android
+                        ).setId("category")
                             .applyStyle(
                                 Style(
                                     backgroundColor = "#CFCFCF",
@@ -297,6 +294,8 @@ object ListViewScreenBuilder {
                             left = 8.unitReal()))
                 ),
             ListView(
+                useParentScroll = true,
+                scrollEndThreshold = 80,
                 direction = ListDirection.VERTICAL,
                 dataSource = expressionOf("@{thirdResponse.result}"),
                 template = Container(
@@ -315,8 +314,6 @@ object ListViewScreenBuilder {
                             bottom = 8.unitReal(),
                             left = 8.unitReal()))
                 ),
-                //TODO Not working
-                //scrollEndThreshold = 80
                 onScrollEnd = listOf(
                     Condition(
                         condition = expressionOf("@{gt(thirdResponse.totalPages, thirdResponse.currentPage)}"),
