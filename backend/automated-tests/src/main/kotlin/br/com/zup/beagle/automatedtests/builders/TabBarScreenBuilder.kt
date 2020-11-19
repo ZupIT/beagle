@@ -16,19 +16,11 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.TabBar
@@ -50,13 +42,17 @@ object TabBarScreenBuilder {
                 ),
                 Text("Tab position " + "@{tabSelected}"),
                 createButton("Select tab 4 hardcoded", 3),
-                createButton("Select tab 5 expression", "@{positionViaExpression}"),
+                createButton("Select tab 9 expression", "@{positionViaExpression}"),
+                TabBar(listOf(
+                    TabBarItem(title = "image",icon = ImagePath.Local.justMobile("beagle")),
+                    TabBarItem(icon = ImagePath.Local.justMobile("beagle")))
+                ),
             )
         )
     )
 
     private fun createButton(title: String, value: Any): Container = Container(
-        context = ContextData("positionViaExpression", 4),
+        context = ContextData("positionViaExpression", 8),
         children = listOf(
             Button(
                 text = title,
