@@ -30,24 +30,17 @@ Feature: ListView Component Validation
     Scenario: ListView 01 - Characters ListView
         Then should render the list of characters with exactly 34 items in the horizontal plane
         And the list of characters should be scrollable only horizontally
-#        And button "prev" should be disabled
-#        And button "next" should be enabled
         And the page number should be 1/2
 
     Scenario: ListView 02 - Characters ListView: going from page 1 to 2
         When I click the button next
         Then should render the list of characters with exactly 33 items in the horizontal plane
-#        And button "prev" should be enabled
-#       And button "next" should be disabled
         And the page number should be 2/2
 
     Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
-#        Given that i'm on page 2 of the list of characters
         When I click the button next
         And I click the button prev
         Then should render the list of characters with exactly 34 items in the horizontal plane
-#        And button "prev" should be disabled
-#        And button "next" should be enabled
         And the page number should be 1/2
 
     Scenario Outline: ListView 04 - Characters ListView: page 1 item by item
