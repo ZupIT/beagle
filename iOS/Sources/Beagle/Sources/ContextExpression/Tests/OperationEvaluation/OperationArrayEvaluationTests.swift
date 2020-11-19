@@ -114,4 +114,25 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
     }
+    
+    func testEvaluateUnion() {
+        // Given
+        let name = "union"
+        let contexts = [Context(id: "context", value: [1, 2, 3])]
+        let binding = contexts[0].id
+        
+        let simpleOperations = ["\(binding)", "\(binding), \(binding)", "\(binding), 2, \(binding)"].toOperations(name: name)
+        
+        let failingOperations = ["2, 4", "'true', 3.0", ""].toOperations(name: name)
+        
+        let operations = simpleOperations + failingOperations
+        
+        let comparableResults: [DynamicObject] = [[1, 2, 3], [1, 2, 3, 1, 2, 3], [1, 2, 3, 1, 2, 3], [], [], []]
+        
+        // When
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
+    }
 }
