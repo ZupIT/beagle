@@ -32,5 +32,4 @@ class AppBeagleConfig : BeagleConfig {
         maxAge = 300, // Time in seconds that memory cache will live.
         memoryMaximumCapacity = 15 // Memory LRU cache size. It represents number of screens that will be in memory.
     ) // Cache management configuration
-    override val analyticsProvider: AnalyticsProvider? = null
 }

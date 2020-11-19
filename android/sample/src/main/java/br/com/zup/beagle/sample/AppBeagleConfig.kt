@@ -33,6 +33,4 @@ class AppBeagleConfig : BeagleConfig {
         maxAge = 300,
         size = 15
     )
-    override val analyticsProvider: AnalyticsProvider? = null
-
 }
