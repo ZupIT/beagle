@@ -17,12 +17,10 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
@@ -75,10 +73,8 @@ internal typealias ResultListener = (result: FormResult) -> Unit
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormRemoteAction(
     val path: String,
-    val method: FormMethodType,
-    override var analytics: ActionAnalyticsConfig? = null,
-    override val type: String? = null
-) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
+    val method: FormMethodType
+) : Action, AsyncAction by AsyncActionImpl() {
 
     @Transient
     internal lateinit var formsValue: Map<String, String>
@@ -89,7 +85,7 @@ data class FormRemoteAction(
     @Transient
     private val formSubmitter: FormSubmitter = FormSubmitter()
 
-    override fun execute(rootView: RootView, origin: View, originComponent : ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         formSubmitter.submitForm(this, formsValue) {
             resultListener(it)
             onActionFinished()

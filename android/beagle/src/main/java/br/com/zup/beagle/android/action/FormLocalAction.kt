@@ -17,15 +17,12 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * Defines form local actions, that is, that do not make http requests,
@@ -45,15 +42,13 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormLocalAction(
     val name: String,
-    val data: Map<String, String>,
-    override var analytics: ActionAnalyticsConfig? = null,
-    override val type: String? = null
-) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
+    val data: Map<String, String>
+) : Action, AsyncAction by AsyncActionImpl() {
 
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         formLocalActionHandler?.handle(rootView.getContext(), this, object : ActionListener {
 
             override fun onSuccess(action: Action) {
@@ -61,8 +56,7 @@ data class FormLocalAction(
                 handleEvent(
                     rootView,
                     origin,
-                    action,
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onSuccess")
+                    action
                 )
                 onActionFinished()
             }

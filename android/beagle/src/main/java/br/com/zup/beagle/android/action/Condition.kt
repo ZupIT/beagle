@@ -17,15 +17,12 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * Action to resolve condition and call onTrue if return true and onFalse if return is false.
@@ -38,10 +35,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class Condition(
     val condition: Bind<Boolean>,
     val onTrue: List<Action>? = null,
-    val onFalse: List<Action>? = null,
-    override var analytics: ActionAnalyticsConfig? = null,
-    override val type: String? = null
-) : ActionAnalytics() {
+    val onFalse: List<Action>? = null
+) : Action {
 
     constructor(
         condition: Boolean,
@@ -53,7 +48,7 @@ data class Condition(
         onFalse = onFalse
     )
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         val result = runCatching {
             evaluateExpression(rootView, origin, condition)
         }
@@ -63,8 +58,7 @@ data class Condition(
                 handleEvent(
                     rootView,
                     origin,
-                    it,
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+                    it
                 )
             }
             BeagleLoggerProxy.warning("Conditional action. Expected boolean or null. Received: ${condition.value}")
@@ -72,16 +66,14 @@ data class Condition(
             onTrue?.let {
                 handleEvent(rootView,
                     origin,
-                    it,
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onTrue")
+                    it
                 )
             }
         } else {
             onFalse?.let {
                 handleEvent(rootView,
                     origin,
-                    it,
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+                    it
                 )
             }
         }

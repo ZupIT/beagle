@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.context.Bind
@@ -88,10 +87,8 @@ data class SendRequest(
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
-    val onFinish: List<Action>? = null,
-    override var analytics: ActionAnalyticsConfig? = null,
-    override val type: String? = null
-) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
+    val onFinish: List<Action>? = null
+) : Action, AsyncAction by AsyncActionImpl() {
 
     constructor(
         url: String,
@@ -111,12 +108,12 @@ data class SendRequest(
         onFinish
     )
 
-    override fun execute(rootView: RootView, origin: View,  originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
         val setContext = toSendRequestInternal(rootView, origin)
         viewModel.fetch(setContext).observe(rootView.getLifecycleOwner(), { state ->
             onActionFinished()
-            executeActions(rootView, state, origin, originComponent)
+            executeActions(rootView, state, origin)
         })
     }
 

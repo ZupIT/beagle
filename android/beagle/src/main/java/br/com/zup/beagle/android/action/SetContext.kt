@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
@@ -25,7 +24,6 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal data class SetContextInternal(
     val contextId: String,
@@ -44,12 +42,10 @@ data class SetContext(
     val contextId: String,
     @property:ContextDataValue
     val value: Any,
-    val path: String? = null,
-    override var analytics: ActionAnalyticsConfig? = null,
-    override val type: String? = null
-) : ActionAnalytics() {
+    val path: String? = null
+) : Action {
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         try {
             val value = toInternalSetContext(rootView, origin)

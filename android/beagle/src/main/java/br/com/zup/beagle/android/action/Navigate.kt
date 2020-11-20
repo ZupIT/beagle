@@ -17,31 +17,24 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
-sealed class Navigate : ActionAnalytics() {
+sealed class Navigate : Action {
 
     /**
      * Opens one of the browsers available on the device with the passed url.
      * @param url defined route to be shown.
      */
-    data class OpenExternalURL(
-        val url: String,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
-
-    ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    data class OpenExternalURL(val url: String) : Navigate() {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.openExternalURL(rootView.getContext(), url)
         }
     }
@@ -56,11 +49,9 @@ sealed class Navigate : ActionAnalytics() {
     class OpenNativeRoute(
         val route: String,
         val shouldResetApplication: Boolean = false,
-        val data: Map<String, String>? = null,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
+        val data: Map<String, String>? = null
     ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication)
         }
     }
@@ -68,11 +59,8 @@ sealed class Navigate : ActionAnalytics() {
     /**
      * This action closes the current view stack.
      */
-    class PopStack(
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
-    ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    class PopStack : Navigate() {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popStack(rootView.getContext())
         }
     }
@@ -80,11 +68,8 @@ sealed class Navigate : ActionAnalytics() {
     /**
      * Action that closes the current view.
      */
-    class PopView(
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
-    ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    class PopView : Navigate() {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popView(rootView.getContext())
         }
     }
@@ -94,12 +79,8 @@ sealed class Navigate : ActionAnalytics() {
      *
      * @param route route of a screen that it's on the pile.
      */
-    data class PopToView(
-        val route: String,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
-    ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    data class PopToView(val route: String) : Navigate() {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popToView(rootView.getContext(), route)
         }
     }
@@ -112,12 +93,8 @@ sealed class Navigate : ActionAnalytics() {
      * @param route this defines navigation type, it can be a navigation to a remote route in which Beagle will
      * deserialize the content or to a local screen already built.
      */
-    data class PushView(
-        val route: Route,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
-    ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    data class PushView(val route: Route) : Navigate() {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.pushView(rootView.getContext(), route.getSafe(rootView, origin))
         }
     }
@@ -131,13 +108,8 @@ sealed class Navigate : ActionAnalytics() {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
-    data class PushStack(
-        val route: Route,
-        val controllerId: String? = null,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
-    ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    data class PushStack(val route: Route, val controllerId: String? = null) : Navigate() {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.pushStack(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }
     }
@@ -153,11 +125,9 @@ sealed class Navigate : ActionAnalytics() {
      */
     data class ResetApplication(
         val route: Route,
-        val controllerId: String? = null,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
+        val controllerId: String? = null
     ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.resetApplication(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }
     }
@@ -173,11 +143,9 @@ sealed class Navigate : ActionAnalytics() {
      */
     data class ResetStack(
         val route: Route,
-        val controllerId: String? = null,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String? = null
+        val controllerId: String? = null
     ) : Navigate() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+        override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.resetStack(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }
     }
