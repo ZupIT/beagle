@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.analytics2
 
-object ScreenReportCreator {
+object ScreenReportFactory {
 
     fun createScreenLocalReport(screenId : String) = object : AnalyticsRecord {
         override val type: String

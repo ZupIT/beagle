@@ -22,7 +22,6 @@ import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk
@@ -32,7 +31,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a Action Record Creator")
-internal class ActionRecordCreatorTest : BaseTest() {
+internal class ActionRecordFactoryTest : BaseTest() {
 
     private val origin: View = mockk()
     private val serverDrivenComponent: WidgetView = mockk()
@@ -49,7 +48,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
             every { rootView.getScreenId() } returns "/screen"
             every { action.type } returns "type"
             //WHEN
-            val report = ActionRecordCreator.createRecord(
+            val report = ActionRecordFactory.createRecord(
                 DataActionReport(
                     rootView,
                     origin,
@@ -75,7 +74,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
             every { rootView.getScreenId() } returns ""
             every { action.type } returns "type"
             //WHEN
-            val report = ActionRecordCreator.createRecord(
+            val report = ActionRecordFactory.createRecord(
                 DataActionReport(
                     rootView,
                     origin,
@@ -109,7 +108,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
             every { origin.y } returns 400f
 
             //WHEN
-            val report = ActionRecordCreator.createRecord(
+            val report = ActionRecordFactory.createRecord(
                 DataActionReport(
                     rootView,
                     origin,
@@ -142,7 +141,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
             every { origin.y } returns 400f
 
             //WHEN
-            val report = ActionRecordCreator.createRecord(
+            val report = ActionRecordFactory.createRecord(
                 DataActionReport(
                     rootView,
                     origin,
@@ -174,7 +173,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
             every { origin.y } returns 400f
 
             //WHEN
-            val report = ActionRecordCreator.createRecord(
+            val report = ActionRecordFactory.createRecord(
                 DataActionReport(
                     rootView,
                     origin,
@@ -204,7 +203,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
             every { rootView.getScreenId() } returns ""
 
             //WHEN
-            val report = ActionRecordCreator.createRecord(
+            val report = ActionRecordFactory.createRecord(
                 DataActionReport(
                     rootView,
                     origin,
@@ -225,7 +224,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
             every { rootView.getScreenId() } returns ""
 
             //WHEN
-            val report = ActionRecordCreator.createRecord(
+            val report = ActionRecordFactory.createRecord(
                 DataActionReport(
                     rootView,
                     origin,
@@ -247,7 +246,7 @@ internal class ActionRecordCreatorTest : BaseTest() {
             every { rootView.getScreenId() } returns ""
 
             //WHEN
-            val report = ActionRecordCreator.createRecord(
+            val report = ActionRecordFactory.createRecord(
                 DataActionReport(
                     rootView,
                     origin,

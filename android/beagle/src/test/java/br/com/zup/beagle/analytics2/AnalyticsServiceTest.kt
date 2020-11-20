@@ -41,8 +41,8 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
     @BeforeEach
     fun setUp() {
         every { rootView.activity } returns mockk()
-        mockkObject(ScreenReportCreator)
-        mockkObject(ActionRecordCreator)
+        mockkObject(ScreenReportFactory)
+        mockkObject(ActionRecordFactory)
     }
 
     @DisplayName("When init the config")
@@ -79,8 +79,8 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             //THEN
             assertTrue(analyticsProviderImpl.createRecordCalled)
             verifyOrder{
-                ScreenReportCreator.createScreenRemoteReport("url")
-                ScreenReportCreator.createScreenRemoteReport("url")
+                ScreenReportFactory.createScreenRemoteReport("url")
+                ScreenReportFactory.createScreenRemoteReport("url")
                 AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
 
             }
@@ -110,8 +110,8 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
         @DisplayName("Then should create remote screen record")
         fun testCreateScreenRecordEnableScreenAnalyticsIsTueAndIsNotLocalScreenCallCreateRecord() = runBlockingTest {
             //GIVEN
-            mockkObject(ScreenReportCreator)
-            every { ScreenReportCreator.createScreenRemoteReport("url") } returns mockk()
+            mockkObject(ScreenReportFactory)
+            every { ScreenReportFactory.createScreenRemoteReport("url") } returns mockk()
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
@@ -121,7 +121,7 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
 
             //THEN
-            verify(exactly = 1) { ScreenReportCreator.createScreenRemoteReport("url") }
+            verify(exactly = 1) { ScreenReportFactory.createScreenRemoteReport("url") }
 
         }
 
@@ -130,8 +130,8 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
         fun testCreateScreenRecordEnableScreenAnalyticsIsTueAndIsLocalScreenCallCreateRecord() = runBlockingTest {
 
             //GIVEN
-            mockkObject(ScreenReportCreator)
-            every { ScreenReportCreator.createScreenLocalReport("screenId") } returns mockk()
+            mockkObject(ScreenReportFactory)
+            every { ScreenReportFactory.createScreenLocalReport("screenId") } returns mockk()
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
@@ -141,7 +141,7 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             AnalyticsService.createScreenRecord(DataScreenReport(true, "screenId"))
 
             //THEN
-            verify(exactly = 1) { ScreenReportCreator.createScreenLocalReport("screenId") }
+            verify(exactly = 1) { ScreenReportFactory.createScreenLocalReport("screenId") }
         }
     }
 
@@ -209,8 +209,8 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
         @DisplayName("Then should create record with right parrameters")
         fun testActionWithAttributesOnActionAnalyticsConfigCallCreateRecordWithCorrectParameters() = runBlockingTest {
             //GIVEN
-            mockkObject(ActionRecordCreator)
-            every { ActionRecordCreator.createRecord(any(), any()) } returns mockk()
+            mockkObject(ActionRecordFactory)
+            every { ActionRecordFactory.createRecord(any(), any()) } returns mockk()
 
             val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
             val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren", analytics = actionAnalyticsConfig)
@@ -223,7 +223,7 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
 
             //THEN
-            verify(exactly = 1) { ActionRecordCreator.createRecord(DataActionReport(rootView, view, action), actionAnalyticsConfig) }
+            verify(exactly = 1) { ActionRecordFactory.createRecord(DataActionReport(rootView, view, action), actionAnalyticsConfig) }
 
         }
 
@@ -231,8 +231,8 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
         @DisplayName("Then should create record with right parrameters")
         fun testActionWithAttributesOnAnalyticsConfigCallCreateRecordWithCorrectParameters() = runBlockingTest {
             //GIVEN
-            mockkObject(ActionRecordCreator)
-            every { ActionRecordCreator.createRecord(any(), any()) } returns mockk()
+            mockkObject(ActionRecordFactory)
+            every { ActionRecordFactory.createRecord(any(), any()) } returns mockk()
             val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren")
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf("componentId")))
             analyticsProviderImpl = AnalyticsProviderImpl(
@@ -244,7 +244,7 @@ class AnalyticsServiceTest : CoroutinesTestExtension() {
             AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
 
             //THEN
-            verify(exactly = 1) { ActionRecordCreator.createRecord(DataActionReport(rootView, view, action), ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))) }
+            verify(exactly = 1) { ActionRecordFactory.createRecord(DataActionReport(rootView, view, action), ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))) }
         }
     }
 

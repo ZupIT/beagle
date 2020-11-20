@@ -23,5 +23,4 @@ data class DataScreenReport(
     override fun report() {
         AnalyticsService.createScreenRecord(this)
     }
-
 }

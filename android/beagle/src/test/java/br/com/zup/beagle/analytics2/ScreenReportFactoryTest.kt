@@ -20,12 +20,12 @@ import br.com.zup.beagle.android.BaseTest
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 
-internal class ScreenReportCreatorTest : BaseTest(){
+internal class ScreenReportFactoryTest : BaseTest(){
 
     @Test
     fun `WHEN createScreenLocalReport SHOULD create local screen report correctly`(){
         //WHEN
-        val result = ScreenReportCreator.createScreenLocalReport("screenId")
+        val result = ScreenReportFactory.createScreenLocalReport("screenId")
 
         //THEN
         assertEquals("android", result.platform)
@@ -36,7 +36,7 @@ internal class ScreenReportCreatorTest : BaseTest(){
     @Test
     fun `WHEN createScreenRemoteReport SHOULD create remote screen report correctly`(){
         //WHEN
-        val result = ScreenReportCreator.createScreenRemoteReport("url")
+        val result = ScreenReportFactory.createScreenRemoteReport("url")
 
         //THEN
         assertEquals("android", result.platform)

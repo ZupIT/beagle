@@ -29,5 +29,4 @@ data class DataActionReport(
     override fun report() {
         AnalyticsService.createActionRecord(this)
     }
-
 }

@@ -28,7 +28,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
-object ActionRecordCreator {
+object ActionRecordFactory {
 
     fun createRecord(
         dataActionReport: DataActionReport,

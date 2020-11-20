@@ -66,7 +66,7 @@ object AnalyticsService {
         actionAnalyticsConfig: ActionAnalyticsConfig
     ) {
         analyticsProvider?.createRecord(
-            ActionRecordCreator.createRecord(dataActionReport, actionAnalyticsConfig)
+            ActionRecordFactory.createRecord(dataActionReport, actionAnalyticsConfig)
         )
     }
 
@@ -101,9 +101,9 @@ object AnalyticsService {
         if (shouldReportScreen()) {
             val screenIdentifier = dataScreenReport.screenIdentifier
             if (dataScreenReport.isLocalScreen)
-                analyticsProvider?.createRecord(ScreenReportCreator.createScreenLocalReport(screenIdentifier))
+                analyticsProvider?.createRecord(ScreenReportFactory.createScreenLocalReport(screenIdentifier))
             else
-                analyticsProvider?.createRecord(ScreenReportCreator.createScreenRemoteReport(screenIdentifier))
+                analyticsProvider?.createRecord(ScreenReportFactory.createScreenRemoteReport(screenIdentifier))
         }
     }
 
