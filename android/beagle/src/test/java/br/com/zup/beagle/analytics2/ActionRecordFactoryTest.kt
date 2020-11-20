@@ -266,7 +266,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
         }
 
     }
-    private data class TestActionAnalytics(
+    internal data class TestActionAnalytics(
         val route: Route,
         override var analytics: ActionAnalyticsConfig? = null,
         override val type: String?
