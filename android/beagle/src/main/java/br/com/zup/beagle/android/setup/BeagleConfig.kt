@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.setup
 
-import br.com.zup.beagle.analytics2.AnalyticsProvider
 import br.com.zup.beagle.android.utils.CacheDeprecatedConstants
 
 /**
