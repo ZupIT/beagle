@@ -19,8 +19,8 @@ package br.com.zup.beagle.analytics2
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
-import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
@@ -194,7 +194,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
         private val url = "/url"
         private val route = Route.Remote(url = "/url")
         private val actionType = "beagle:PushView"
-        private val action : ActionAnalytics =  Navigate.PushView(route = route, type = actionType)
+        private val action : ActionAnalytics =  TestActionAnalytics(route = route, type = actionType)
 
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
@@ -265,5 +265,13 @@ internal class ActionRecordFactoryTest : BaseTest() {
             Assert.assertEquals(actionType, report.attributes["beagleAction"])
         }
 
+    }
+    private data class TestActionAnalyticsf(
+        val route: Route,
+        override var analytics: ActionAnalyticsConfig? = null,
+        override val type: String?
+    ) : ActionAnalytics() {
+        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+        }
     }
 }

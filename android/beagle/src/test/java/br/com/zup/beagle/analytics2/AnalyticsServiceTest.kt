@@ -194,7 +194,7 @@ class AnalyticsServiceTest {
         @DisplayName("Then should create record")
         fun testActionOnAnalyticsConfigCallCreateRecord() = runBlockingTest {
             //GIVEN
-            val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren")
+            val action: ActionAnalytics = mockk()
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf()))
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
@@ -216,7 +216,7 @@ class AnalyticsServiceTest {
             every { ActionRecordFactory.createRecord(any(), any()) } returns mockk()
 
             val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
-            val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren", analytics = actionAnalyticsConfig)
+            val action: ActionAnalytics = mockk()
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
@@ -236,7 +236,7 @@ class AnalyticsServiceTest {
             //GIVEN
             mockkObject(ActionRecordFactory)
             every { ActionRecordFactory.createRecord(any(), any()) } returns mockk()
-            val action: ActionAnalytics = AddChildren("id", listOf(), type = "custom:AddChildren")
+            val action: ActionAnalytics = mockk()
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf("componentId")))
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
