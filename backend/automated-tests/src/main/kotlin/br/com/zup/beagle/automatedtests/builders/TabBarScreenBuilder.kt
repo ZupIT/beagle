@@ -43,10 +43,19 @@ object TabBarScreenBuilder {
                 Text("Tab position " + "@{tabSelected}"),
                 createButton("Select tab 4 hardcoded", 3),
                 createButton("Select tab 9 expression", "@{positionViaExpression}"),
-                TabBar(listOf(
-                    TabBarItem(title = "image",icon = ImagePath.Local.justMobile("beagle")),
-                    TabBarItem(icon = ImagePath.Local.justMobile("beagle")))
-                ),
+                Container(
+                    context = ContextData(id = "imageIcon", "beagle"),
+                    children = listOf(
+                        TabBar(listOf(
+                            TabBarItem(title = "image", icon = ImagePath.Local.justMobile("@{imageIcon}")),
+                            TabBarItem(icon = ImagePath.Local.justMobile("beagle")))
+                        ),
+                        Button(
+                            text = "ChangeTabIcon",
+                            onPress = listOf(SetContext("imageIcon", "delete"))
+                        )
+                    )
+                )
             )
         )
     )
