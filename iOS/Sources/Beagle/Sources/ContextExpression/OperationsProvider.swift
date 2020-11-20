@@ -119,6 +119,7 @@ extension OperationsProvider {
         register(operationId: "remove", handler: remove())
         register(operationId: "removeIndex", handler: removeIndex())
         register(operationId: "contains", handler: contains())
+        register(operationId: "union", handler: union())
         register(operationId: "isNull", handler: isNull())
         register(operationId: "isEmpty", handler: isEmpty())
         register(operationId: "length", handler: length())
@@ -438,6 +439,18 @@ extension OperationsProvider {
             guard parameters.count == 2, case let .array(array) = parameters[0] else { return nil }
             
             return .bool(array.contains(parameters[1]))
+        }
+    }
+    
+    func union() -> OperationHandler {
+        return { parameters in
+            var result = [DynamicObject]()
+            for parameter in parameters {
+                if case let .array(array) = parameter {
+                    result += array
+                }
+            }
+            return .array(result)
         }
     }
     
