@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
+import com.squareup.moshi.Json
 
 /**
  * Define the view has in the tab view
@@ -37,13 +38,13 @@ import br.com.zup.beagle.core.SingleChildComponent
  *                  If it is left as null or not declared it won't display any icon.
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "TabItem")
 @Deprecated(message = TabViewDeprecatedConstants.TAB_ITEM,
     replaceWith = ReplaceWith(TabViewDeprecatedConstants.TAB_ITEM_REPLACE))
 data class TabItem(
-    val title: String? = null,
-    override val child: ServerDrivenComponent,
-    val icon: ImagePath.Local? = null
+    @Json(name = "title") val title: String? = null,
+    @Json(name = "child") override val child: ServerDrivenComponent,
+    @Json(name = "icon") val icon: ImagePath.Local? = null
 ) : WidgetView(), SingleChildComponent {
 
     @Transient

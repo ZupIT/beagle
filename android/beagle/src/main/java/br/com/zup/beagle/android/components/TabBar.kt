@@ -39,6 +39,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
+import com.squareup.moshi.Json
 
 private val TAB_BAR_HEIGHT = 48.dp()
 
@@ -52,12 +53,12 @@ private val TAB_BAR_HEIGHT = 48.dp()
  * @param onTabSelection define a list of action that will be executed when a tab is selected
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "TabBar")
 data class TabBar(
-    val items: List<TabBarItem>,
-    val styleId: String? = null,
-    val currentTab: Bind<Int>? = null,
-    val onTabSelection: List<Action>? = null
+    @Json(name = "items") val items: List<TabBarItem>,
+    @Json(name = "styleId") val styleId: String? = null,
+    @Json(name = "currentTab") val currentTab: Bind<Int>? = null,
+    @Json(name = "onTabSelection") val onTabSelection: List<Action>? = null
 ) : WidgetView() {
 
     constructor(

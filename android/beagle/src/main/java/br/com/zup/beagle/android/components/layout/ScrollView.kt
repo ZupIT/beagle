@@ -30,6 +30,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
+import com.squareup.moshi.Json
 
 /**
  * Component is a specialized container that will display its components in a Scroll
@@ -39,12 +40,12 @@ import br.com.zup.beagle.widget.core.ScrollAxis
  * @param scrollBarEnabled determine if the Scroll bar is displayed or not. It is displayed by default.
  * @param context define the contextData that be set to scrollView.
  */
-@RegisterWidget
+@RegisterWidget(name = "ScrollView")
 data class ScrollView(
-    override val children: List<ServerDrivenComponent>,
-    val scrollDirection: ScrollAxis? = null,
-    val scrollBarEnabled: Boolean? = null,
-    override val context: ContextData? = null
+    @Json(name = "children") override val children: List<ServerDrivenComponent>,
+    @Json(name = "scrollDirection") val scrollDirection: ScrollAxis? = null,
+    @Json(name = "scrollBarEnabled") val scrollBarEnabled: Boolean? = null,
+    @Json(name = "context") override val context: ContextData? = null
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient

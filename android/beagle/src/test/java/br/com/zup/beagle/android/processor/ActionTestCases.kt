@@ -20,11 +20,12 @@ import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterAction
+import com.squareup.moshi.Json
 
-@RegisterAction
+@RegisterAction(name = "MyAction")
 data class MyAction(
-    val value: String,
-    val intValue: Int
+    @Json(name = "value") val value: String,
+    @Json(name = "intValue") val intValue: Int
 ) : Action {
 
     override fun execute(rootView: RootView, origin: View) {

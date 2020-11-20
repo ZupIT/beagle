@@ -29,11 +29,14 @@ import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
+import br.com.zup.beagle.annotation.DoNotStrip
+import br.com.zup.beagle.annotation.RegisterAction
 
 /**
  * Enum with HTTP methods.
  */
 @SuppressWarnings("UNUSED_PARAMETER")
+@DoNotStrip
 enum class RequestActionMethod {
     /**
      * Request we representation of an resource.
@@ -77,6 +80,7 @@ enum class RequestActionMethod {
  * @param onError  Error action.
  * @param onFinish Finish action.
  */
+@RegisterAction(name = "SendRequest")
 data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),

@@ -42,7 +42,9 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             minifyEnabled true
@@ -62,6 +64,8 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
+
+    implementation Dependencies.MoshiLibraries.moshi
 
     debugImplementation project(Dependencies.Modules.preview)
 

@@ -22,22 +22,25 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.DoNotStrip
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.sample.utils.MaskApplier
+import com.squareup.moshi.Json
 
+@DoNotStrip
 enum class TextFieldInputType {
     NUMBER,
     PASSWORD,
     TEXT
 }
 
-@RegisterWidget
+@RegisterWidget(name = "TextField")
 data class TextField(
-    val description: String = "",
-    val hint: String = "",
-    val color: String = "#000000",
-    val mask: String? = null,
-    val inputType: TextFieldInputType? = null
+    @Json(name = "description") val description: String = "",
+    @Json(name = "hint") val hint: String = "",
+    @Json(name = "color") val color: String = "#000000",
+    @Json(name = "mask") val mask: String? = null,
+    @Json(name = "inputType") val inputType: TextFieldInputType? = null
 ) : InputWidget() {
 
     @Transient

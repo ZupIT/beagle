@@ -16,9 +16,13 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.annotation.DoNotStrip
+
 /**
  * Enum define the scroll roll direction on screen.
  */
+
+@DoNotStrip
 enum class ScrollAxis {
     /**
      * Defines the scroll as vertical.

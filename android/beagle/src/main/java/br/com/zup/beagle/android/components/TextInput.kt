@@ -38,6 +38,7 @@ import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
 import br.com.zup.beagle.widget.core.TextInputType.NUMBER
 import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
+import com.squareup.moshi.Json
 
 private const val VALUE_KEY = "value"
 
@@ -60,18 +61,18 @@ private const val VALUE_KEY = "value"
  * @param onFocus Actions array that this field can trigger when this field is on focus.
  * @param onBlur Action array that this field can trigger when its focus is removed
  */
-@RegisterWidget
+@RegisterWidget(name = "TextInput")
 data class TextInput(
-    val value: Bind<String>? = null,
-    val placeholder: Bind<String>? = null,
-    val disabled: Bind<Boolean>? = null,
-    val readOnly: Bind<Boolean>? = null,
-    val type: Bind<TextInputType>? = null,
-    val hidden: Bind<Boolean>? = null,
-    val styleId: String? = null,
-    val onChange: List<Action>? = null,
-    val onFocus: List<Action>? = null,
-    val onBlur: List<Action>? = null
+    @Json(name = "value") val value: Bind<String>? = null,
+    @Json(name = "placeholder") val placeholder: Bind<String>? = null,
+    @Json(name = "disabled") val disabled: Bind<Boolean>? = null,
+    @Json(name = "readOnly") val readOnly: Bind<Boolean>? = null,
+    @Json(name = "type") val type: Bind<TextInputType>? = null,
+    @Json(name = "hidden") val hidden: Bind<Boolean>? = null,
+    @Json(name = "styleId") val styleId: String? = null,
+    @Json(name = "onChange") val onChange: List<Action>? = null,
+    @Json(name = "onFocus") val onFocus: List<Action>? = null,
+    @Json(name = "onBlur") val onBlur: List<Action>? = null
 ) : InputWidget() {
 
     constructor(

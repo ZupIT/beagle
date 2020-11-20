@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.ImageContentMode
+import com.squareup.moshi.Json
 
 
 /**
@@ -40,10 +41,10 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  * @param path defines where the source of the image is
  * @param mode defines how the declared image will fit the view.
  */
-@RegisterWidget
+@RegisterWidget(name = "Image")
 data class Image constructor(
-    val path: Bind<ImagePath>,
-    val mode: ImageContentMode? = null
+    @Json(name = "path") val path: Bind<ImagePath>,
+    @Json(name = "mode") val mode: ImageContentMode? = null
 ) : WidgetView() {
 
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)

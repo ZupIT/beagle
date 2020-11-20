@@ -21,13 +21,14 @@ import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import com.squareup.moshi.Json
 import io.mockk.mockk
 
-@RegisterWidget
+@RegisterWidget(name = "FieldOnlyWidget")
 data class FieldOnlyWidget(
-    val a: Boolean = true,
-    val b: Long = 123L,
-    val c: String = "Hello"
+    @Json(name = "a") val a: Boolean = true,
+    @Json(name = "b") val b: Long = 123L,
+    @Json(name = "c") val c: String = "Hello"
 ) : WidgetView() {
 
     override fun buildView(rootView: RootView): View {
@@ -35,8 +36,10 @@ data class FieldOnlyWidget(
     }
 }
 
-//@RegisterWidget
-data class CustomInputWidget(val text: String = "") : InputWidget() {
+//@RegisterWidget(name = "CustomInputWidget")
+data class CustomInputWidget(
+    @Json(name = "text") val text: String = ""
+) : InputWidget() {
     override fun onErrorMessage(message: String) {
         return mockk()
     }

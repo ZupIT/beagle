@@ -30,6 +30,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
+import com.squareup.moshi.Json
 
 /**
  *  The container component is a general container that can hold other components inside.
@@ -39,11 +40,11 @@ import br.com.zup.beagle.core.Style
  * @param onInit it is a parameter that allows you to define a list of actions to be performed
  * when the Widget is displayed.
  */
-@RegisterWidget
+@RegisterWidget(name = "Container")
 data class Container(
-    override val children: List<ServerDrivenComponent>,
-    override val context: ContextData? = null,
-    override val onInit: List<Action>? = null
+    @Json(name = "children") override val children: List<ServerDrivenComponent>,
+    @Json(name = "context") override val context: ContextData? = null,
+    @Json(name = "onInit") override val onInit: List<Action>? = null
 ) : WidgetView(), OnInitiableComponent by OnInitiableComponentImpl(onInit), ContextComponent, MultiChildComponent {
 
     @Transient

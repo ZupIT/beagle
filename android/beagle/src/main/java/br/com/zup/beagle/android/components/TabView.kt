@@ -40,6 +40,7 @@ import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
+import com.squareup.moshi.Json
 
 private val TAB_BAR_HEIGHT = 48.dp()
 
@@ -52,13 +53,13 @@ private val TAB_BAR_HEIGHT = 48.dp()
  * @param context define the contextData that be set to tabView.
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "TabView")
 @Deprecated(message = TabViewDeprecatedConstants.TAB_VIEW,
     replaceWith = ReplaceWith(TabViewDeprecatedConstants.TAB_VIEW_REPLACE))
 data class TabView(
-    override val children: List<TabItem>,
-    val styleId: String? = null,
-    override val context: ContextData? = null
+    @Json(name = "children") override val children: List<TabItem>,
+    @Json(name = "styleId") val styleId: String? = null,
+    @Json(name = "context") override val context: ContextData? = null
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient

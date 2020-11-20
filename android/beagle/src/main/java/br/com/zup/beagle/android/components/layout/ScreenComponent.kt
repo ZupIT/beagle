@@ -33,19 +33,20 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
+import com.squareup.moshi.Json
 
-@RegisterWidget
+@RegisterWidget(name = "ScreenComponent")
 internal data class ScreenComponent(
     @Deprecated(
         "It was deprecated in version 1.5.0 and will be removed in a future version. Use field id instead."
     )
-    val identifier: String? = null,
-    val safeArea: SafeArea? = null,
-    val navigationBar: NavigationBar? = null,
-    override val child: ServerDrivenComponent,
-    override val screenAnalyticsEvent: ScreenEvent? = null,
-    override var style: Style? = null,
-    override val context: ContextData? = null
+    @Json(name = "identifier") val identifier: String? = null,
+    @Json(name = "safeArea") val safeArea: SafeArea? = null,
+    @Json(name = "navigationBar") val navigationBar: NavigationBar? = null,
+    @Json(name = "child") override val child: ServerDrivenComponent,
+    @Json(name = "screenAnalyticsEvent") override val screenAnalyticsEvent: ScreenEvent? = null,
+    @Json(name = "style") override var style: Style? = null,
+    @Json(name = "context") override val context: ContextData? = null
 ) : WidgetView(), ScreenAnalytics, ContextComponent, SingleChildComponent {
 
     @Transient

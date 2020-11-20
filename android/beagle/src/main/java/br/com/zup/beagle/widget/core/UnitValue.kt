@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.annotation.DoNotStrip
+
 /**
  * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
  * @property value the numeric measurement value.
@@ -33,6 +35,7 @@ data class UnitValue(
  * @property PERCENT
  * @property AUTO
  */
+@DoNotStrip
 enum class UnitType {
     /**
      * Apply the value based in platform, like android this represent dp.

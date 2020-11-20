@@ -23,6 +23,8 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.DoNotStrip
+import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -33,6 +35,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @property PREPEND
  * @property REPLACE
  */
+
+@DoNotStrip
 enum class Mode {
     /**
      * Adds the view in the end of the children's list.
@@ -59,6 +63,7 @@ enum class Mode {
  * @param mode Defines the placement of where the children will be inserted in the list or if the contents of
  * the list will be replaced.
  */
+@RegisterAction(name = "AddChildren")
 data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,

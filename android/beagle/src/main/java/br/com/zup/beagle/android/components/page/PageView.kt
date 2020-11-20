@@ -36,6 +36,7 @@ import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
+import com.squareup.moshi.Json
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
@@ -46,14 +47,14 @@ import br.com.zup.beagle.widget.core.Flex
  * @param onPageChange List of actions that are performed when you are on the selected page.
  * @param currentPage Integer number that identifies that selected.
  */
-@RegisterWidget
+@RegisterWidget(name = "PageView")
 data class PageView(
-    override val children: List<ServerDrivenComponent>,
+    @Json(name = "children") override val children: List<ServerDrivenComponent>,
     @Deprecated(message = PageViewDeprecatedConstants.PAGE_INDICATOR_PROPERTY)
-    val pageIndicator: PageIndicatorComponent? = null,
-    override val context: ContextData? = null,
-    val onPageChange: List<Action>? = null,
-    val currentPage: Bind<Int>? = null
+    @Json(name = "pageIndicator") val pageIndicator: PageIndicatorComponent? = null,
+    @Json(name = "context") override val context: ContextData? = null,
+    @Json(name = "onPageChange") val onPageChange: List<Action>? = null,
+    @Json(name = "currentPage") val currentPage: Bind<Int>? = null
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     constructor(

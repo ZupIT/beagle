@@ -31,6 +31,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
+import com.squareup.moshi.Json
 
 /**
  * Component will define a submit handler for a SimpleForm.
@@ -42,11 +43,11 @@ import br.com.zup.beagle.core.Style
  * @param onSubmit define the actions you want to execute when action submit form
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "SimpleForm")
 data class SimpleForm(
-    override val context: ContextData? = null,
-    val onSubmit: List<Action>,
-    override val children: List<ServerDrivenComponent>
+    @Json(name = "context") override val context: ContextData? = null,
+    @Json(name = "onSubmit") val onSubmit: List<Action>,
+    @Json(name = "children") override val children: List<ServerDrivenComponent>
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient

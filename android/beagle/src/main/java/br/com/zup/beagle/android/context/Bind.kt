@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.TokenParser
 import br.com.zup.beagle.android.utils.BeagleRegex
 import br.com.zup.beagle.android.utils.getExpressions
+import com.squareup.moshi.Json
 import java.lang.reflect.Type
 
 sealed class Bind<T> {
@@ -29,9 +30,9 @@ sealed class Bind<T> {
     abstract val value: Any
 
     data class Expression<T>(
-        val expressions: List<ExpressionToken>,
-        override val value: String,
-        override val type: Type,
+        @Json(name = "expressions") val expressions: List<ExpressionToken>,
+        @Json(name = "value") override val value: String,
+        @Json(name = "type") override val type: Type,
     ) : Bind<T>() {
         constructor(
             expressions: List<ExpressionToken>,
@@ -40,8 +41,10 @@ sealed class Bind<T> {
         ) : this(expressions, value, type as Type)
     }
 
-    data class Value<T : Any>(override val value: T) : Bind<T>() {
-        override val type: Class<T> = value.javaClass
+    data class Value<T : Any>(
+        @Json(name = "value") override val value: T
+    ) : Bind<T>() {
+        @Json(name = "type") override val type: Class<T> = value.javaClass
     }
 }
 

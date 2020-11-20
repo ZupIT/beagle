@@ -26,10 +26,12 @@ import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.ImagePath
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.utils.toView
@@ -66,21 +68,22 @@ class NavigationFragment : Fragment() {
         identifier = "/navigationbar/step1",
         context = ContextData(id = "step2", value = "/navigationbar/step2"),
         navigationBar = buildNavigationBar("Step 1"),
-        child = Container(
-            children = listOf(
-                buttonPopView,
-                createButton(
-                    text = "PushView (Step 2)",
-                    navigate = Navigate.PushView(Route.Local(screen = buildStep2())),
-                    backgroundColor = LIGHT_RED
-                ),
-                createButton(
-                    text = "PushView (Step 2) with context",
-                    navigate = Navigate.PushView(Route.Remote(url = expressionOf("@{step2}"))),
-                    backgroundColor = LIGHT_RED
-                )
-            )
-        )
+        child = Text(Bind.Value("test"), null, null, null)
+//        Container(
+//            children = listOf(
+//                buttonPopView,
+//                createButton(
+//                    text = "PushView (Step 2)",
+//                    navigate = Navigate.PushView(Route.Local(screen = buildStep2())),
+//                    backgroundColor = LIGHT_RED
+//                ),
+//                createButton(
+//                    text = "PushView (Step 2) with context",
+//                    navigate = Navigate.PushView(Route.Remote(url = expressionOf("@{step2}"))),
+//                    backgroundColor = LIGHT_RED
+//                )
+//            )
+//        )
     )
 
     private fun buildStep2(): Screen = Screen(

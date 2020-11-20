@@ -27,11 +27,12 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.annotation.RegisterWidget
+import com.squareup.moshi.Json
 
-@RegisterWidget
+@RegisterWidget(name = "Input")
 data class Input(
-    val hint: Bind<String>,
-    val onTextChange: List<Action>? = null
+    @Json(name = "hint") val hint: Bind<String>,
+    @Json(name = "onTextChange") val onTextChange: List<Action>? = null
 ) : WidgetView() {
 
     override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {

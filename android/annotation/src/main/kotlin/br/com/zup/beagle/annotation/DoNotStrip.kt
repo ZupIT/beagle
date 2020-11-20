@@ -16,17 +16,16 @@
 
 package br.com.zup.beagle.annotation
 
-/**
- * Annotates a class that register a new widget.
- * # Example: #
- * ```
- *  @RegisterWidget(name = "MyWidget")
- *  class MyWidget : Widget()
- * ```
- *
- */
-@Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class RegisterWidget(
-    val name: String
-)
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
+
+@Target(
+    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.CLASS,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.CONSTRUCTOR)
+@Retention(RetentionPolicy.CLASS)
+annotation class DoNotStrip

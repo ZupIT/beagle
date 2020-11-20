@@ -17,6 +17,7 @@
 package br.com.zup.beagle.core
 
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.annotation.DoNotStrip
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -79,6 +80,8 @@ data class CornerRadius(
  * @property FLEX
  * @property NONE
  */
+
+@DoNotStrip
 enum class Display {
     /**
      * Apply the flex properties.
@@ -97,6 +100,8 @@ enum class Display {
  * @property ABSOLUTE
  * @property RELATIVE
  */
+
+@DoNotStrip
 enum class PositionType {
 
     /**

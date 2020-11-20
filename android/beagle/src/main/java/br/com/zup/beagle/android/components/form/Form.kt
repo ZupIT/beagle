@@ -44,6 +44,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
+import com.squareup.moshi.Json
 
 /**
  *  Component represents a way to compose user inputs and submit  those values to your backend.
@@ -60,14 +61,14 @@ import br.com.zup.beagle.core.SingleChildComponent
  * @see FormSubmit
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "Form")
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class Form(
-    override val child: ServerDrivenComponent,
-    val onSubmit: List<Action>? = null,
-    val group: String? = null,
-    val additionalData: Map<String, String>? = null,
-    val shouldStoreFields: Boolean = false
+    @Json(name = "child") override val child: ServerDrivenComponent,
+    @Json(name = "onSubmit") val onSubmit: List<Action>? = null,
+    @Json(name = "group") val group: String? = null,
+    @Json(name = "additionalData") val additionalData: Map<String, String>? = null,
+    @Json(name = "shouldStoreFields") val shouldStoreFields: Boolean = false
 ) : WidgetView(), SingleChildComponent {
 
     @Transient

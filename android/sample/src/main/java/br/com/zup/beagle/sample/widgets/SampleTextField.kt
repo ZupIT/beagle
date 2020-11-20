@@ -21,9 +21,12 @@ import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
+import com.squareup.moshi.Json
 
-@RegisterWidget
-data class SampleTextField(val placeholder: String = "") : InputWidget() {
+@RegisterWidget(name = "SampleTextField")
+data class SampleTextField(
+    @Json(name = "placeholder") val placeholder: String = ""
+) : InputWidget() {
 
     @Transient
     private lateinit var textFieldView: EditText

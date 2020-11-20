@@ -33,6 +33,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import com.squareup.moshi.Json
 
 /**
  * A WebView widget will define a WebView natively using the server driven information received through Beagle.
@@ -42,9 +43,9 @@ import br.com.zup.beagle.annotation.RegisterWidget
  *              This attribute must be declared and it cannot be null.
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "WebView")
 data class WebView(
-    val url: Bind<String>
+    @Json(name = "url") val url: Bind<String>
 ) : WidgetView() {
 
     constructor(url: String) : this(expressionOrValueOf(url))

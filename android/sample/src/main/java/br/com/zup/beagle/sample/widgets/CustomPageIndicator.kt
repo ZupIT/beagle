@@ -22,11 +22,12 @@ import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.components.page.PageIndicatorOutput
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.sample.components.CustomPageIndicatorView
+import com.squareup.moshi.Json
 
-@RegisterWidget
+@RegisterWidget(name = "CustomPageIndicator")
 data class CustomPageIndicator(
-    val showContinue: Boolean,
-    val showSkip: Boolean
+    @Json(name = "showContinue") val showContinue: Boolean,
+    @Json(name = "showSkip") val showSkip: Boolean
 ) : PageIndicatorComponent {
 
     @Transient

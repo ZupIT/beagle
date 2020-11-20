@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.analytics
 
+import com.squareup.moshi.Json
+
 /**
  * Define click event
  *
@@ -25,7 +27,7 @@ package br.com.zup.beagle.analytics
  *
  */
 data class ClickEvent(
-    val category: String,
-    val label: String? = null,
-    val value: String? = null
+    @Json(name = "category") val category: String,
+    @Json(name = "label") val label: String? = null,
+    @Json(name = "value") val value: String? = null
 )

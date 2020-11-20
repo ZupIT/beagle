@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.data.serializer;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.squareup.moshi.JsonAdapter;
@@ -162,6 +164,7 @@ public final class PolymorphicJsonAdapterFactory<T> implements JsonAdapter.Facto
     public PolymorphicJsonAdapterFactory<T> withSubtype(Class<? extends T> subtype, String label) {
         if (subtype == null) throw new NullPointerException("subtype == null");
         if (label == null) throw new NullPointerException("label == null");
+        Log.e("LABEL", "label = " + label);
         if (labels.contains(label)) {
             throw new IllegalArgumentException("Labels must be unique.");
         }

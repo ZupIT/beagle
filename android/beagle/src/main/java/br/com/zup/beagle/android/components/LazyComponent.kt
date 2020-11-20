@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.squareup.moshi.Json
 
 /**
  *  The LazyComponent is used when an asynchronous BFF request is made.
@@ -35,10 +36,10 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                          request made is being fulfilled.
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "LazyComponent")
 data class LazyComponent(
-    val path: String,
-    val initialState: ServerDrivenComponent
+    @Json(name = "path") val path: String,
+    @Json(name = "initialState") val initialState: ServerDrivenComponent
 ) : WidgetView() {
 
     @Transient

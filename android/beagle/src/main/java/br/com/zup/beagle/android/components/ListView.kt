@@ -27,6 +27,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
+import com.squareup.moshi.Json
 
 /**
  * ListView is a Layout component that will define a list of views natively.
@@ -36,10 +37,10 @@ import br.com.zup.beagle.widget.core.ListDirection
  * @param direction define the list direction.
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "ListView")
 data class ListView(
-    override val children: List<ServerDrivenComponent>,
-    val direction: ListDirection = ListDirection.VERTICAL
+    @Json(name = "children") override val children: List<ServerDrivenComponent>,
+    @Json(name = "direction") val direction: ListDirection = ListDirection.VERTICAL
 ) : WidgetView(), MultiChildComponent {
 
     @Transient

@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.RegisterAction
 
 internal data class SetContextInternal(
     val contextId: String,
@@ -38,6 +39,7 @@ internal data class SetContextInternal(
  * @param value Required. New value to be applied in the context.
  * @param path Specific context point to be changed in the case of arrays and maps <key, value>.
  */
+@RegisterAction(name = "SetContext")
 data class SetContext(
     val contextId: String,
     @property:ContextDataValue

@@ -16,19 +16,23 @@
 
 package br.com.zup.beagle.android.context.tokenizer
 
+import com.facebook.jni.annotations.DoNotStrip
+import com.squareup.moshi.Json
+
 data class ExpressionToken(
-    val value: String,
-    val token: Token
+    @Json(name = "value") val value: String,
+    @Json(name = "token") val token: Token
 )
 
 open class Token(
-    open val value: Any
+    @Json(name = "value") open val value: Any
 )
 
 internal open class TokenValue(
-    value: Any
+    @Json(name = "value") value: Any
 ) : Token(value)
 
+@DoNotStrip
 internal enum class TokenType {
     FUNCTION_START,
     OPEN_BRACKET,
@@ -37,24 +41,24 @@ internal enum class TokenType {
 }
 
 internal open class GenericToken(
-    override val value: String,
-    val type: TokenType
+    @Json(name = "value") override val value: String,
+    @Json(name = "type") val type: TokenType
 ) : Token(value)
 
 internal class TokenBinding(
-    override val value: String
+    @Json(name = "value") override val value: String
 ) : TokenValue(value)
 
 internal class TokenNumber(
-    override val value: Number
+    @Json(name = "value") override val value: Number
 ) : TokenValue(value)
 
 internal class TokenString(
-    override val value: String
+    @Json(name = "value") override val value: String
 ) : TokenValue(value)
 
 internal class TokenBoolean(
-    override val value: Boolean
+    @Json(name = "value") override val value: Boolean
 ) : TokenValue(value)
 
 internal class TokenNull : Token(Any())
@@ -73,6 +77,6 @@ internal class InvalidToken : Token(Any()) {
 }
 
 internal class TokenFunction(
-    val name: String,
-    override val value: List<Token>
+    @Json(name = "name") val name: String,
+    @Json(name = "value") override val value: List<Token>
 ) : Token(value)

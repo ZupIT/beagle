@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.InternalWidgetFactory
+import br.com.zup.beagle.android.utils.createNamespace
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -91,8 +92,4 @@ internal object ComponentJsonAdapterFactory {
         return createNamespace(BEAGLE_NAMESPACE, T::class.java)
     }
 
-    private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        val typeName = clazz.simpleName.toLowerCase(Locale.getDefault())
-        return "$appNamespace:$typeName"
-    }
 }

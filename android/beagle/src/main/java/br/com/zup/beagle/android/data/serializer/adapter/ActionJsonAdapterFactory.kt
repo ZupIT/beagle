@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.utils.ActionJsonAdapterFactoryDeprecatedConstants
+import br.com.zup.beagle.android.utils.createNamespace
 import java.util.Locale
 
 private const val BEAGLE_NAMESPACE = "beagle"
@@ -66,6 +67,6 @@ internal object ActionJsonAdapterFactory {
     }
 
     private inline fun <reified T : Action> createNamespaceFor(): String {
-        return "$BEAGLE_NAMESPACE:${T::class.java.simpleName.toLowerCase(Locale.getDefault())}"
+        return createNamespace(BEAGLE_NAMESPACE, T::class.java)
     }
 }

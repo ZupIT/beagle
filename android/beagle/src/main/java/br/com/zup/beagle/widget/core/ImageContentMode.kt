@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.annotation.DoNotStrip
+
 /**
  *  defines how the image fits the view it's in
  *
@@ -24,6 +26,8 @@ package br.com.zup.beagle.widget.core
  * @property CENTER_CROP
  * @property CENTER
  */
+
+@DoNotStrip
 enum class ImageContentMode {
     /**
      * Compute a scale that will maintain the original aspect ratio,

@@ -21,6 +21,8 @@ import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.DoNotStrip
+import br.com.zup.beagle.annotation.RegisterAction
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
@@ -32,6 +34,7 @@ import br.com.zup.beagle.android.widget.RootView
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@DoNotStrip
 enum class FormMethodType {
     /**
      * The GET method requests a representation of the specified resource.
@@ -71,6 +74,7 @@ internal typealias ResultListener = (result: FormResult) -> Unit
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@RegisterAction(name = "FormRemoteAction")
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType

@@ -21,12 +21,13 @@ import android.widget.TextView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import com.squareup.moshi.Json
 
-@RegisterWidget
+@RegisterWidget(name = "MutableText")
 data class MutableText(
-    val firstText: String = "",
-    val secondText: String = "",
-    val color: String = "#000000"
+    @Json(name = "firstText") val firstText: String = "",
+    @Json(name = "secondText") val secondText: String = "",
+    @Json(name = "color") val color: String = "#000000"
 ): WidgetView() {
 
     override fun buildView(rootView: RootView) = TextView(rootView.getContext()).apply {

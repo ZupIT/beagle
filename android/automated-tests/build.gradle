@@ -94,6 +94,8 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
     androidTestImplementation Dependencies.TestLibraries.testExt
+
+    implementation Dependencies.MoshiLibraries.moshi
 }
 
 def getTestTags() {

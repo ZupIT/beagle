@@ -29,8 +29,10 @@ import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.DoNotStrip
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextAlignment
+import com.squareup.moshi.Json
 
 /**
  * A text widget will define a text view natively using the server driven information received through Beagle.
@@ -43,19 +45,19 @@ import br.com.zup.beagle.widget.core.TextAlignment
  * @param alignment defines the text content alignment inside the text view.
  *
  */
-@RegisterWidget
+@RegisterWidget(name = "Text")
 data class Text(
-    val text: Bind<String>,
-    val styleId: String? = null,
-    val textColor: Bind<String>? = null,
-    val alignment: Bind<TextAlignment>? = null
+    @Json(name = "text") val text: Bind<String>,
+    @Json(name = "styleId") val styleId: String? = null,
+    @Json(name = "textColor") val textColor: Bind<String>? = null,
+    @Json(name = "alignment") val alignment: Bind<TextAlignment>? = null
 ) : WidgetView() {
 
     constructor(
-        text: String,
-        styleId: String? = null,
-        textColor: String? = null,
-        alignment: TextAlignment? = null
+        @Json(name = "text") text: String,
+        @Json(name = "styleId") styleId: String? = null,
+        @Json(name = "textColor") textColor: String? = null,
+        @Json(name = "alignment") alignment: TextAlignment? = null
     ) : this(
         expressionOrValueOf(text),
         styleId,

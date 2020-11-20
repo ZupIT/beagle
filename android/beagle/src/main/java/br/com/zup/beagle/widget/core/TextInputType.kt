@@ -16,9 +16,13 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.annotation.DoNotStrip
+
 /**
  * Enum define text support.
  */
+
+@DoNotStrip
 enum class TextInputType {
     /**
      * Date text support.
