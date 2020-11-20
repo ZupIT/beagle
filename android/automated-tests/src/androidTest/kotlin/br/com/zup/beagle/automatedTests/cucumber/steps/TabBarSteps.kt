@@ -17,15 +17,16 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
+import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
-import cucumber.api.java.en.*
-import cucumber.api.java.en_tx.Thenyall
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
 import org.junit.Rule
 
 const val TAB_BAR_SCREEN_BFF_URL = "http://10.0.2.2:8080/tabbar"
@@ -89,5 +90,19 @@ class TabBarSteps {
     fun checkTabBarRendersTabs(text:String) {
         ScreenRobot()
             .checkViewContainsText(text)
+    }
+
+    @Then("^check tab with text (.*) and beagle icon are on screen$")
+    fun checkTitleAndIconOnTab(title:String){
+
+        ScreenRobot()
+            .checkTabContainsTextAndIcon(title, R.drawable.beagle)
+    }
+
+    @Then("^check tab with beagle icon is on screen$")
+    fun checkTabWithIconOnly(){
+
+        ScreenRobot()
+            .checkTabContainsTextAndIcon(icon = R.drawable.beagle)
     }
 }

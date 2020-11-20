@@ -26,7 +26,7 @@ Feature: TabBar Component Validation
 
 
     Scenario: TabBar 01 - Checks that a TabBar component renders all its TabBarItems
-        in the correct order
+    in the correct order
         Then I click on each tabBarItem and confirm its position
 
     Scenario Outline: TabBar 02 - Checks that a TabPosition is selected when the currentTab
@@ -35,15 +35,21 @@ Feature: TabBar Component Validation
         When I click on button <title>
         Then the tab with text <tab> must be on screen
 
-    Examples:
-        |title|tab|
-    |Select tab 4 hardcoded|Tab4    |
-    |Select tab 9 expression|Tab9    |
+        Examples:
+            | title                   | tab  |
+            | Select tab 4 hardcoded  | Tab4 |
+            | Select tab 9 expression | Tab9 |
 
-Scenario Outline: TabBar 03 - Checks that a list of actions is triggered when a tab is selected.
-    When I click in a tab with text <title>
-    Then the tab position should have its text changed to <position>
+    Scenario Outline: TabBar 03 - Checks that a list of actions is triggered when a tab is selected.
+        When I click in a tab with text <title>
+        Then the tab position should have its text changed to <position>
 
-    Examples:
-        |title|position|
-        |Tab4|Tab position 3|
+        Examples:
+            | title | position       |
+            | Tab4  | Tab position 3 |
+
+    Scenario: TabBar 04 - Checks that a TabBarItem with a ICON is showing the ICON
+        Then check tab with beagle icon is on screen
+
+    Scenario: TabBar 05 - Checks that a TabBarItem with a ICON and a TITLE is showing both elements on screen
+        Then check tab with text image and beagle icon are on screen
