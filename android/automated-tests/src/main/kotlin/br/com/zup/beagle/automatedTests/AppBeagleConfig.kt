@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.automatedTests
 
-import br.com.zup.beagle.analytics2.AnalyticsProvider
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.setup.BeagleConfig
 import br.com.zup.beagle.android.setup.Cache
