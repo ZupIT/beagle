@@ -27,6 +27,11 @@ import br.com.zup.beagle.widget.ui.TabBar
 import br.com.zup.beagle.widget.ui.TabBarItem
 import br.com.zup.beagle.widget.ui.Text
 
+data class TabImage(val mobileImageId: String, val webImageUrl: String)
+
+const val WEB_IMAGE_PATH = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg"
+const val WEB_IMAGE_PATH2 = "PATH"
+
 object TabBarScreenBuilder {
     fun build() = Screen(
         child = Container(
@@ -44,15 +49,33 @@ object TabBarScreenBuilder {
                 createButton("Select tab 4 hardcoded", 3),
                 createButton("Select tab 9 expression", "@{positionViaExpression}"),
                 Container(
-                    context = ContextData(id = "imageIcon", "beagle"),
+                    context = ContextData(
+                        id = "imageIcon",
+                        value = TabImage(
+                            mobileImageId = "beagle",
+                            webImageUrl = WEB_IMAGE_PATH
+                        )),
                     children = listOf(
                         TabBar(listOf(
-                            TabBarItem(title = "image", icon = ImagePath.Local.justMobile("@{imageIcon}")),
-                            TabBarItem(icon = ImagePath.Local.justMobile("beagle")))
+                            TabBarItem(
+                                title = "image",
+                                icon = ImagePath.Local.both(
+                                    mobileId = "@{imageIcon.mobileImageId}",
+                                    webUrl = "@{imageIcon.webImageUrl}")),
+                            TabBarItem(
+                                icon = ImagePath.Local.both(
+                                    mobileId = "beagle", webUrl = WEB_IMAGE_PATH)))
                         ),
                         Button(
                             text = "ChangeTabIcon",
-                            onPress = listOf(SetContext("imageIcon", "delete"))
+                            onPress = listOf(
+                                SetContext(
+                                    contextId = "imageIcon",
+                                    value = TabImage(
+                                        mobileImageId = "delete",
+                                        webImageUrl = WEB_IMAGE_PATH2)
+                                )
+                            )
                         )
                     )
                 )
