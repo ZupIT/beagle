@@ -64,11 +64,7 @@ data class Alert(
             .setPositiveButton(labelOk ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressOk?.let {
-                    handleEvent(
-                        rootView,
-                        origin,
-                        it
-                    )
+                    handleEvent(rootView, origin, it)
                 }
             }
             .show()

@@ -43,7 +43,7 @@ internal class FormValidation(
             val formInput = formInputs?.find {
                 it.name == error.inputName
             }
-            val childInputWidget: InputWidget? = formInput?.child
+            val childInputWidget : InputWidget? = formInput?.child
 
             childInputWidget?.onErrorMessage(error.message)
         }

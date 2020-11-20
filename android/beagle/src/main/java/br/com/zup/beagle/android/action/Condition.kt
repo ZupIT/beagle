@@ -54,28 +54,12 @@ data class Condition(
         }
 
         if (result.getOrNull() != true && result.getOrNull() != false) {
-            onFalse?.let {
-                handleEvent(
-                    rootView,
-                    origin,
-                    it
-                )
-            }
+            onFalse?.let { handleEvent(rootView, origin, it) }
             BeagleLoggerProxy.warning("Conditional action. Expected boolean or null. Received: ${condition.value}")
         } else if (result.getOrNull() == true) {
-            onTrue?.let {
-                handleEvent(rootView,
-                    origin,
-                    it
-                )
-            }
+            onTrue?.let { handleEvent(rootView, origin, it) }
         } else {
-            onFalse?.let {
-                handleEvent(rootView,
-                    origin,
-                    it
-                )
-            }
+            onFalse?.let { handleEvent(rootView, origin, it) }
         }
     }
 }
