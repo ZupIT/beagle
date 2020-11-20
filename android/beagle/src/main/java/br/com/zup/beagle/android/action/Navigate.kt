@@ -108,7 +108,10 @@ sealed class Navigate : Action {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
-    data class PushStack(val route: Route, val controllerId: String? = null) : Navigate() {
+    data class PushStack(
+        val route: Route,
+        val controllerId: String? = null
+    ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.pushStack(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }

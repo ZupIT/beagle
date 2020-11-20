@@ -17,20 +17,18 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.handleEvent
-import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * Enum with HTTP methods.
@@ -120,29 +118,18 @@ data class SendRequest(
     private fun executeActions(
         rootView: RootView,
         state: FetchViewState,
-        origin: View,
-        originComponent: ServerDrivenComponent?
+        origin: View
     ) {
         onFinish?.let {
-            handleEvent(rootView, origin, it,analyticsHandleEvent = AnalyticsHandleEvent(originComponent))
+            handleEvent(rootView, origin, it)
         }
 
         when (state) {
             is FetchViewState.Error -> onError?.let {
-                handleEvent(
-                    rootView,
-                    origin,
-                    it,
-                    ContextData("onError", state.response),
-                    AnalyticsHandleEvent(originComponent))
+                handleEvent(rootView, origin, it, ContextData("onError", state.response))
             }
             is FetchViewState.Success -> onSuccess?.let {
-                handleEvent(
-                    rootView,
-                    origin,
-                    it,
-                    ContextData("onSuccess", state.response),
-                    AnalyticsHandleEvent(originComponent))
+                handleEvent(rootView, origin, it, ContextData("onSuccess", state.response))
             }
         }
     }
