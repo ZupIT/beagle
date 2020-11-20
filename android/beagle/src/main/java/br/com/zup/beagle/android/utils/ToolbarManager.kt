@@ -209,7 +209,6 @@ internal class ToolbarManager {
             }
         }
     }
-
     @Suppress("LongParameterList")
     private fun MenuItem.configMenuItem(
         design: DesignSystem?,
