@@ -26,7 +26,8 @@ import br.com.zup.beagle.widget.core.Flex
  * @return the current widget
  */
 fun <T : Widget> T.setId(id: String) = this.apply { this.id = id }
-fun <T: Widget> T.id(block: () -> String) = this.setId(block.invoke())
+
+fun <T : Widget> T.id(block: () -> String) = this.setId(block.invoke())
 
 /**
  * Apply the layout component.
@@ -55,5 +56,4 @@ fun <T : Widget> T.applyStyle(style: Style) = this.apply {
  *
  * @return the current widget
  */
-fun <T : Widget> T.applyAccessibility(accessibility: Accessibility)
-    = this.apply { this.accessibility = accessibility }
+fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply { this.accessibility = accessibility }
