@@ -24,6 +24,9 @@ import br.com.zup.beagle.automatedTests.cucumber.elements.*
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
+import br.com.zup.beagle.automatedTests.utils.transform.SingleQuoteTransform
+import cucumber.api.Transform
+import cucumber.api.Transformer
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.*
@@ -59,15 +62,29 @@ class ListViewScreenSteps {
     }
 
     @When("^the read status of the list of characters is (.*)$")
-    fun checkCharactersListReadStatus(expectedText: String){
+    fun checkCharactersListReadStatus(expectedText: String) {
         ScreenRobot()
             .checkViewContainsText(expectedText, true)
     }
 
     @When("^I scroll the list of characters to position (.*)$")
-    fun scrollCharactersListToPosition(position: Int){
+    fun scrollCharactersListToPosition(position: Int) {
         ScreenRobot()
             .scrollListToPosition(CHARACTERS_LIST_VIEW_ID.toAndroidId(), position)
+    }
+
+    @Then("^categories listView should have a template with (.*) at (.*)$")
+    fun checkCategoriesListContainsViewWithId(expectedViewId: String, position: Int) {
+        ScreenRobot()
+            .scrollListToPosition(
+                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
+                position
+            )
+            .checkListViewItemContainsViewWithId(
+                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
+                position,
+                expectedViewId.toAndroidId()
+            )
     }
 
     @Then("^should render the list of characters with exactly (.*) items in the horizontal plane$")
@@ -88,14 +105,62 @@ class ListViewScreenSteps {
             .checkViewContainsText(pageNumberText)
     }
 
-    @Then("^should render character (.*) of (.*) in (.*) at (.*) in the list of characters$")
-    fun checkListViewItemRenderText(name: String, book: String, collection: String, position: Int) {
+    @Then("^should render character (.*) in (.*) in (.*) at (.*) in the list of characters$")
+    fun checkListViewItemRenderText(name: String, book: String, @Transform(SingleQuoteTransform::class) collection: String, position: Int) {
         val listId = CHARACTERS_LIST_VIEW_ID.toAndroidId()
         ScreenRobot()
             .scrollListToPosition(listId, position)
             .checkListViewItemContainsText(listId, position, name)
             .checkListViewItemContainsText(listId, position, book)
             .checkListViewItemContainsText(listId, position, collection)
+    }
+
+    @Then("^categories listView at(.*) a books list with (.*) with exactly (.*) items in the horizontal plane$")
+    fun checkCategoryBookListItemsCount(position: Int, booksListId: String, expectedNumberOfBooks: Int) {
+        ScreenRobot()
+            .scrollListToPosition(
+                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
+                position
+            )
+            .checkListViewItemCount(
+                booksListId.toAndroidId(),
+                expectedNumberOfBooks
+            )
+    }
+
+    @Then("^books list with id (.*) should be scrollable only horizontally$")
+    fun checkCategoryBooksListOrientation(booksListId: String) {
+        ScreenRobot()
+            .checkListViewOrientation(booksListId.toAndroidId(), RecyclerView.HORIZONTAL)
+    }
+
+
+    @Then("^categories listView at (.*) should show title (.*)$")
+    fun checkCategoryListItemsTitle(position: Int, title: String) {
+        ScreenRobot()
+            .scrollListToPosition(
+                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
+                position
+            )
+            .checkListViewItemContainsText(
+                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
+                position,
+                title
+            )
+    }
+
+    //TODO: jogar para generic steps
+    @When("^I rotate the screen to landscape$")
+    fun rotateScreenLandscape() {
+        ScreenRobot()
+            .setScreenLandScape()
+    }
+
+    //TODO: jogar para generic steps
+    @When("^I rotate the screen to portrait$")
+    fun rotateScreenPortrait() {
+        ScreenRobot()
+            .setScreenPortrait()
     }
 
     /*@When("^I have a vertical list configured$")

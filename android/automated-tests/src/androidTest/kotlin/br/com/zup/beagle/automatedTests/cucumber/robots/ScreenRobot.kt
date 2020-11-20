@@ -23,6 +23,8 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -40,6 +42,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
+import br.com.zup.beagle.automatedTests.utils.action.OrientationChangeAction
 import br.com.zup.beagle.automatedTests.utils.action.SmoothScrollAction
 import br.com.zup.beagle.automatedTests.utils.assertions.RecyclerViewItemCountAssertion
 import br.com.zup.beagle.automatedTests.utils.assertions.RecyclerViewOrientationAssertion
@@ -210,11 +213,51 @@ class ScreenRobot {
     fun checkListViewItemContainsText(listId: Int, position: Int, expectedText: String): ScreenRobot {
         onView(withId(listId))
             .check { view, _ ->
-                view.post {
-                    matches(atPosition(position, ViewMatchers.hasDescendant(withText(expectedText))))
-                }
+                //view.post {
+                ViewMatchers.assertThat(
+                    "RecyclerView item",
+                    view,
+                    atPosition(position, ViewMatchers.hasDescendant(withText(expectedText))))
             }
+        //}
+
         return this
+    }
+
+    fun checkListViewItemContainsViewWithId(listId: Int, position: Int, expectedViewId: Int): ScreenRobot {
+
+        onView(withId(listId))
+            .check { view, _ ->
+                ViewMatchers.assertThat(
+                    "RecyclerView item template",
+                    view,
+                    atPosition(position, ViewMatchers.hasDescendant(withId(expectedViewId))))
+                //.check(matches(atPosition(position, ViewMatchers.hasDescendant(withId(expectedViewId)))))
+
+                //view.post {
+                //TODO: verificar se necessário separar em uma classe
+                /*   val viewHolder = (view as RecyclerView).findViewHolderForAdapterPosition(position)
+                   ViewMatchers.assertThat(
+                       "RecyclerView item template",
+                       viewHolder?.itemView,
+                       ViewMatchers.hasDescendant(withId(expectedViewId))
+                   )*/
+            }
+        //}
+
+        return this
+    }
+
+    fun setScreenPortrait() {
+        onView(ViewMatchers.isRoot()).perform(OrientationChangeAction.orientationPortrait())
+        //TODO: revisar ao efetuar testes rotacionando a tela
+        Thread.sleep(1000)
+    }
+
+    fun setScreenLandScape() {
+        onView(ViewMatchers.isRoot()).perform(OrientationChangeAction.orientationLandscape())
+        //TODO: revisar ao efetuar testes rotacionando a tela
+        Thread.sleep(1000)
     }
 
     companion object {

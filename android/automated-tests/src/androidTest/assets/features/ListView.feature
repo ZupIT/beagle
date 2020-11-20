@@ -31,7 +31,7 @@ Feature: ListView Component Validation
         Then should render the list of characters with exactly 34 items in the horizontal plane
         And the list of characters should be scrollable only horizontally
         And the page number should be 1/2
-        
+
     Scenario: ListView 02 - Characters ListView: going from page 1 to 2
         When I click the button next
         Then should render the list of characters with exactly 33 items in the horizontal plane
@@ -44,87 +44,84 @@ Feature: ListView Component Validation
         And the page number should be 1/2
 
     Scenario Outline: ListView 04 - Characters ListView: page 1 item by item
-        Then should render character <name> of <book> in <collection> at <position> in the list of characters
+        Then should render character <name> in <book> in <collection> at <position> in the list of characters
 #        And the book analytics should have been called with character "<name>" and source "characters-list"
-
         Examples:
-            | position | name                    | book                                     | collection             |
-            | 0        | Vin                     | The Final Empire                         | Mistborn Era 1         |
-            | 1        | Kelsier                 | The Final Empire                         | Mistborn Era 1         |
-            | 2        | Lord Ruler              | The Final Empire                         | Mistborn Era 1         |
-            | 3        | Sazed                   | The Final Empire                         | Mistborn Era 1         |
-            | 4        | Elend Venture           | The Final Empire                         | Mistborn Era 1         |
-            | 5        | Waxillium "Wax" Ladrian | The Alloy of Law                         | Mistborn Era 2         |
-            | 6        | Wayne                   | The Alloy of Law                         | Mistborn Era 2         |
-            | 7        | Marasi Colms            | The Alloy of Law                         | Mistborn Era 2         |
-            | 8        | Steris Harms            | The Alloy of Law                         | Mistborn Era 2         |
-            | 9        | Miles Dagouter          | The Alloy of Law                         | Mistborn Era 2         |
-            | 10       | Eddard "Ned" Stark      | A Game of Thrones                        | A Song of Ice and Fire |
-            | 11       | Catelyn Stark           | A Game of Thrones                        | A Song of Ice and Fire |
-            | 12       | Sansa Stark             | A Game of Thrones                        | A Song of Ice and Fire |
-            | 13       | Arya Stark              | A Game of Thrones                        | A Song of Ice and Fire |
-            | 14       | Bran Stark              | A Game of Thrones                        | A Song of Ice and Fire |
-            | 15       | Szeth-son-son-Vallano   | Words of Radiance                        | The Stormlight Archive |
-            | 16       | Shallan Davar           | Words of Radiance                        | The Stormlight Archive |
-            | 17       | Kaladin                 | Words of Radiance                        | The Stormlight Archive |
-            | 18       | Dalinar Kholin          | Words of Radiance                        | The Stormlight Archive |
-            | 19       | Adolin Kholin           | Words of Radiance                        | The Stormlight Archive |
-            | 20       | Talanji                 | Shadows Rising                           | World of Warcraft      |
-            | 21       | Zekhan                  | Shadows Rising                           | World of Warcraft      |
-            | 22      | Anduin Wrynn            | Shadows Rising                           | World of Warcraft      |
-            | 23       | Turalyon                | Shadows Rising                           | World of Warcraft      |
-            | 24       | Aleria Windrunner       | Shadows Rising                           | World of Warcraft      |
-            | 25       | Anduin Wrynn            | Before the Storm                         | World of Warcraft      |
-            | 26       | Sylvanas Windrunner     | Before the Storm                         | World of Warcraft      |
-            | 27       | Grizzek Fizzwrench      | Before the Storm                         | World of Warcraft      |
-            | 28       | Sapphronetta Flivvers   | Before the Storm                         | World of Warcraft      |
-            | 29       | Calia Menethil          | Before the Storm                         | World of Warcraft      |
-            | 30       | Harry Potter            | Harry Potter and the Philosopher's Stone | Harry Potter           |
-            | 31       | Ronald Weasley          | Harry Potter and the Philosopher's Stone | Harry Potter           |
-            | 32       | Hermione Granger        | Harry Potter and the Philosopher's Stone | Harry Potter           |
-            | 33       | Rúbeo Hagrid            | Harry Potter and the Philosopher's Stone | Harry Potter           |
+            | position | name                          | book                                           | collection                         |
+            | 0        | Name: Vin                     | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+            | 1        | Name: Kelsier                 | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+            | 2        | Name: Lord Ruler              | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+            | 3        | Name: Sazed                   | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+            | 4        | Name: Elend Venture           | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+            | 6        | Name: Wayne                   | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+            | 7        | Name: Marasi Colms            | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+            | 8        | Name: Steris Harms            | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+            | 9        | Name: Miles Dagouter          | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+            | 11       | Name: Catelyn Stark           | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+            | 12       | Name: Sansa Stark             | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+            | 13       | Name: Arya Stark              | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+            | 14       | Name: Bran Stark              | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+            | 15       | Name: Szeth-son-son-Vallano   | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+            | 16       | Name: Shallan Davar           | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+            | 17       | Name: Kaladin                 | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+            | 18       | Name: Dalinar Kholin          | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+            | 19       | Name: Adolin Kholin           | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+            | 20       | Name: Talanji                 | Book: Shadows Rising                           | Collection: World of Warcraft      |
+            | 21       | Name: Zekhan                  | Book: Shadows Rising                           | Collection: World of Warcraft      |
+            | 22       | Name: Anduin Wrynn            | Book: Shadows Rising                           | Collection: World of Warcraft      |
+            | 23       | Name: Turalyon                | Book: Shadows Rising                           | Collection: World of Warcraft      |
+            | 24       | Name: Aleria Windrunner       | Book: Shadows Rising                           | Collection: World of Warcraft      |
+            | 25       | Name: Anduin Wrynn            | Book: Before the Storm                         | Collection: World of Warcraft      |
+            | 26       | Name: Sylvanas Windrunner     | Book: Before the Storm                         | Collection: World of Warcraft      |
+            | 27       | Name: Grizzek Fizzwrench      | Book: Before the Storm                         | Collection: World of Warcraft      |
+            | 28       | Name: Sapphronetta Flivvers   | Book: Before the Storm                         | Collection: World of Warcraft      |
+            | 29       | Name: Calia Menethil          | Book: Before the Storm                         | Collection: World of Warcraft      |
+            | 30       | Name: Harry Potter            | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
+            | 31       | Name: Ronald Weasley          | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
+            | 32       | Name: Hermione Granger        | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
+            | 33       | Name: Rúbeo Hagrid            | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
 
     Scenario Outline: ListView 05 - Characters ListView: page 2 item by item
         When I click the button next
         Then the page number should be 2/2
-        And should render character <name> of <book> in <collection> at <position> in the list of characters
+        And should render character <name> in <book> in <collection> at <position> in the list of characters
 #        And the book analytics should have been called with character "<name>" and source "characters-list"
 
         Examples:
-            | position | name                    | book                                     | collection             |
-            | 0        | Dumbledore              | Harry Potter and the Philosopher's Stone | Harry Potter           |
-            | 1        | Spensa Nightshade       | Starsight                                | Skyward                |
-            | 2        | Jorgen Weight           | Starsight                                | Skyward                |
-            | 3        | Admiral Cobb            | Starsight                                | Skyward                |
-            | 4        | M-Bot                   | Starsight                                | Skyward                |
-            | 5        | Alanik                  | Starsight                                | Skyward                |
-            | 6        | Bob                     | Heaven's River                           | Bobiverse              |
-            | 7        | Brigit                  | Heaven's River                           | Bobiverse              |
-            | 8        | Bender                  | Heaven's River                           | Bobiverse              |
-            | 9        | Howard                  | Heaven's River                           | Bobiverse              |
-            | 10       | Juliette Andromeda Mao  | Leviathan Wakes                          | The Expanse            |
-            | 11       | James Holden            | Leviathan Wakes                          | The Expanse            |
-            | 12       | Naomi Nagata            | Leviathan Wakes                          | The Expanse            |
-            | 13       | Amos Burton             | Leviathan Wakes                          | The Expanse            |
-            | 14       | Shed Garvey             | Leviathan Wakes                          | The Expanse            |
-            | 15       | Paul Atreides           | Dune                                     | Dune                   |
-            | 16       | Duke Leto Atreides      | Dune                                     | Dune                   |
-            | 17       | Lady Jessica            | Dune                                     | Dune                   |
-            | 18       | Alia Atreides           | Dune                                     | Dune                   |
-            | 19       | Thufir Hawat            | Dune                                     | Dune                   |
-            | 20       | Dirk t'Larien           | Dying of the Light                       |                        |
-            | 21       | Jaan Vikary             | Dying of the Light                       |                        |
-            | 22       | Garse Janacek           | Dying of the Light                       |                        |
-            | 23       | Greg Dixon              | The Last Tribe                           |                        |
-            | 24       | John Dixon              | The Last Tribe                           |                        |
-            | 25       | Emily Dixon             | The Last Tribe                           |                        |
-            | 26       | Rebecca                 | The Last Tribe                           |                        |
-            | 27       | Don Barlow              | The Cuckoo's Cry                         |                        |
-            | 28       | Offred                  | The Handmaid's Tale                      | The Handmaid's Tale    |
-            | 29       | The Commander           | The Handmaid's Tale                      | The Handmaid's Tale    |
-            | 30       | Serena Joy              | The Handmaid's Tale                      | The Handmaid's Tale    |
-            | 31       | Ofglen                  | The Handmaid's Tale                      | The Handmaid's Tale    |
-            | 32       | Nick                    | The Handmaid's Tale                      | The Handmaid's Tale    |
+            | position | name                          | book                                           | collection                         |
+            | 0        | Name: Dumbledore              | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
+            | 1        | Name: Spensa Nightshade       | Book: Starsight                                | Collection: Skyward                |
+            | 2        | Name: Jorgen Weight           | Book: Starsight                                | Collection: Skyward                |
+            | 3        | Name: Admiral Cobb            | Book: Starsight                                | Collection: Skyward                |
+            | 4        | Name: M-Bot                   | Book: Starsight                                | Collection: Skyward                |
+            | 5        | Name: Alanik                  | Book: Starsight                                | Collection: Skyward                |
+            | 6        | Name: Bob                     | Book: Heaven's River                           | Collection: Bobiverse              |
+            | 7        | Name: Brigit                  | Book: Heaven's River                           | Collection: Bobiverse              |
+            | 8        | Name: Bender                  | Book: Heaven's River                           | Collection: Bobiverse              |
+            | 9        | Name: Howard                  | Book: Heaven's River                           | Collection: Bobiverse              |
+            | 10       | Name: Juliette Andromeda Mao  | Book: Leviathan Wakes                          | Collection: The Expanse            |
+            | 11       | Name: James Holden            | Book: Leviathan Wakes                          | Collection: The Expanse            |
+            | 12       | Name: Naomi Nagata            | Book: Leviathan Wakes                          | Collection: The Expanse            |
+            | 13       | Name: Amos Burton             | Book: Leviathan Wakes                          | Collection: The Expanse            |
+            | 14       | Name: Shed Garvey             | Book: Leviathan Wakes                          | Collection: The Expanse            |
+            | 15       | Name: Paul Atreides           | Book: Dune                                     | Collection: Dune                   |
+            | 16       | Name: Duke Leto Atreides      | Book: Dune                                     | Collection: Dune                   |
+            | 17       | Name: Lady Jessica            | Book: Dune                                     | Collection: Dune                   |
+            | 18       | Name: Alia Atreides           | Book: Dune                                     | Collection: Dune                   |
+            | 19       | Name: Thufir Hawat            | Book: Dune                                     | Collection: Dune                   |
+            | 20       | Name: Dirk t'Larien           | Book: Dying of the Light                       | 'Collection: '                     |
+            | 21       | Name: Jaan Vikary             | Book: Dying of the Light                       | 'Collection: '                     |
+            | 22       | Name: Garse Janacek           | Book: Dying of the Light                       | 'Collection: '                     |
+            | 23       | Name: Greg Dixon              | Book: The Last Tribe                           | 'Collection: '                     |
+            | 24       | Name: John Dixon              | Book: The Last Tribe                           | 'Collection: '                     |
+            | 25       | Name: Emily Dixon             | Book: The Last Tribe                           | 'Collection: '                     |
+            | 26       | Name: Rebecca                 | Book: The Last Tribe                           | 'Collection: '                     |
+            | 27       | Name: Don Barlow              | Book: The Cuckoo's Cry                         | 'Collection: '                     |
+            | 28       | Name: Offred                  | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale    |
+            | 29       | Name: The Commander           | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale    |
+            | 30       | Name: Serena Joy              | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale    |
+            | 31       | Name: Ofglen                  | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale    |
+            | 32       | Name: Nick                    | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale    |
 
     Scenario: ListView 06 - Characters ListView: read status
         When the read status of the list of characters is status: unread
@@ -148,18 +145,23 @@ Feature: ListView Component Validation
 #        And should render the list of categories with exactly 3 items in the vertical plane
 #        And every element in the list of categories should have a unique id or no id at all
 #
-#    Scenario Outline: ListView 09 - Categories ListView (nested): categories and number of books
+    Scenario Outline: ListView 09 - Categories ListView (nested): categories and number of books
 #        Then should render "<category>" with a title and a listView
 #        And the parent container in category "<category>" should have id "category:<id>"
 #        And should render the list of books in "<category>" with exactly <numberOfBooks> items in the horizontal plane
 #        And the list of books in "<category>" should be scrollable only horizontally
 #        And the book analytics should have been called with category "<category>" and source "categories-list"
-#
-#        Examples:
-#            | category | numberOfBooks | id      |
-#            | Fantasy  | 7             | fantasy |
-#            | Sci-fi   | 5             | scifi   |
-#            | Other    | 3             | other   |
+
+        Then categories listView at <position> should show title <category>
+        And categories listView should have a template with <id> at <position>
+        And categories listView at <position> a books list with <booksListId> with exactly <numberOfBooks> items in the horizontal plane
+        And books list with id <booksListId> should be scrollable only horizontally
+
+        Examples:
+            | position | category | numberOfBooks | id                 | booksListId           |
+            | 0        | Fantasy  | 7             | category:1         | categoriesBooksList:1 |
+            | 1        | Sci-fi   | 5             | category:2         | categoriesBooksList:2 |
+            | 2        | Other    | 3             | category:3         | categoriesBooksList:3 |
 #
 #    Scenario Outline: ListView 10 - Categories ListView (nested): books and their characters
 #        Then should render "<title>" by "<author>" in "<category>" with the characters "<characters>"

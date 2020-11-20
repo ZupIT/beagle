@@ -80,6 +80,7 @@ const val STATIC_LISTVIEW_TEXT_2 = "Static HORIZONTAL ListView"
 const val DYNAMIC_LISTVIEW_TEXT_1 = "Dynamic VERTICAL ListView"
 const val DYNAMIC_LISTVIEW_TEXT_2 = "Dynamic HORIZONTAL ListView"
 const val CHARACTERS_LIST_VIEW_ID = "charactersList"
+const val CATEGORIES_LIST_VIEW_ID = "categoriesList"
 
 //Touchable Screen
 const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"

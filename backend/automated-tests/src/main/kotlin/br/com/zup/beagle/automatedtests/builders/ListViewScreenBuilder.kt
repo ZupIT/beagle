@@ -219,6 +219,7 @@ object ListViewScreenBuilder {
                             left = 8.unitReal()))
                 ),
             ListView(
+                key = "id",
                 direction = ListDirection.VERTICAL,
                 dataSource = expressionOf("@{genreResponse.genres}"),
                 template = Container(
@@ -261,7 +262,7 @@ object ListViewScreenBuilder {
                                     padding = EdgeValue(all = 8.unitReal()),
                                 )
                             )
-                        ).setId("category")
+                        ).setId(id = "categoriesBooksList")
                             .applyStyle(
                                 Style(
                                     backgroundColor = "#CFCFCF",
@@ -269,17 +270,19 @@ object ListViewScreenBuilder {
                                 )
                             )
                     )
-                ).applyStyle(
+                ).setId("category")
+                    .applyStyle(
+                        Style(
+                            margin = EdgeValue(all = 8.unitReal())
+                        )
+                    )
+            ).setId(id = "categoriesList")
+                .applyStyle(
                     Style(
-                        margin = EdgeValue(all = 8.unitReal())
+                        margin = EdgeValue(all = 10.unitReal()),
+                        backgroundColor = "#EAEAEA"
                     )
                 )
-            ).applyStyle(
-                Style(
-                    margin = EdgeValue(all = 10.unitReal()),
-                    backgroundColor = "#EAEAEA"
-                )
-            )
         )
     ).applyStyle(Style(size = Size(height = 350.unitReal())))
 

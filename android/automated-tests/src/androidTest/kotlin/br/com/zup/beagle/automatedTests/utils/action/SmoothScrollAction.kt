@@ -48,6 +48,7 @@ class SmoothScrollAction(private val position: Int, val onScrollEnd: () -> Unit)
                 }
             })
             recyclerView.smoothScrollToPosition(position)
+            uiController?.loopMainThreadForAtLeast(100)
         } else {
             onScrollEnd.invoke()
         }
