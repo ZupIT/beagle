@@ -31,7 +31,7 @@ sealed class Bind<T> {
     data class Expression<T>(
         val expressions: List<ExpressionToken>,
         override val value: String,
-        override val type: Type
+        override val type: Type,
     ) : Bind<T>() {
         constructor(
             expressions: List<ExpressionToken>,

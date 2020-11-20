@@ -164,7 +164,7 @@ class TabBarTest : BaseComponentTest() {
         val tabMocked = mockk<TabLayout.Tab>()
         every { tabMocked.position } returns 0
         every {
-            tabBar.handleEvent(rootView, tabLayout, onTabSelection, ContextData("onTabSelection", 0), analyticsValue = any())
+            tabBar.handleEvent(rootView, tabLayout, onTabSelection, ContextData("onTabSelection", 0))
         } just Runs
 
         //WHEN
@@ -173,7 +173,7 @@ class TabBarTest : BaseComponentTest() {
 
         //THEN
         verify(exactly = once()) {
-            tabBar.handleEvent(rootView, tabLayout, onTabSelection, ContextData("onTabSelection", 0), "onTabSelection")
+            tabBar.handleEvent(rootView, tabLayout, onTabSelection, ContextData("onTabSelection", 0))
         }
     }
 

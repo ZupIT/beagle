@@ -36,8 +36,8 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
-import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
 import br.com.zup.beagle.widget.core.TextInputType.NUMBER
+import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
 
 private const val VALUE_KEY = "value"
 
@@ -134,8 +134,7 @@ data class TextInput(
                     ContextData(
                         id = "onChange",
                         value = mapOf(VALUE_KEY to newText.toString())
-                    ),
-                    analyticsValue = "onChange"
+                    )
                 )
             }
         }
@@ -156,8 +155,7 @@ data class TextInput(
                         ContextData(
                             id = "onFocus",
                             value = mapOf(VALUE_KEY to text.toString())
-                        ),
-                        "onFocus"
+                        )
                     )
                 }
             } else {
@@ -169,8 +167,7 @@ data class TextInput(
                         ContextData(
                             id = "onBlur",
                             value = mapOf(VALUE_KEY to text.toString())
-                        ),
-                        analyticsValue = "onBlur"
+                        )
                     )
                 }
             }

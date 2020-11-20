@@ -27,13 +27,13 @@ import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.ResultListener
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.Constants.shared
+import br.com.zup.beagle.android.components.utils.hideKeyboard
+import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormValidatorController
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.components.utils.beagleComponent
-import br.com.zup.beagle.android.components.utils.hideKeyboard
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
@@ -218,7 +218,7 @@ data class Form(
                     data = formsValue.plus(newAction.data)
                 )
             }
-            handleEvent(rootView, view, newAction ,analyticsValue = "onSubmit")
+            handleEvent(rootView, view, newAction)
         }
     }
 
@@ -231,10 +231,10 @@ data class Form(
                 if (formResult.action is FormValidation) {
                     formResult.action.formInputs = formInputs
                 }
-                handleEvent(rootView, view, formResult.action, analyticsValue = "onFormResult")
+                handleEvent(rootView, view, formResult.action)
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
-                ServerDrivenState.FormError(formResult.throwable) { handleFormSubmit(rootView, view) }
+                ServerDrivenState.FormError(formResult.throwable){ handleFormSubmit(rootView, view) }
             )
         }
     }
