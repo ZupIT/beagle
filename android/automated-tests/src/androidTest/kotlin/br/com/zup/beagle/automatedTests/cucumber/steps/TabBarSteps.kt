@@ -105,4 +105,13 @@ class TabBarSteps {
         ScreenRobot()
             .checkTabContainsTextAndIcon(icon = R.drawable.beagle)
     }
+
+    @Then("^the tab with text (.*) and beagle icon will change icon to delete icon$")
+    fun checkTabWithIconChanged(title:String){
+
+        ScreenRobot()
+            .checkTabContainsTextAndIcon(title = title, icon = android.R.drawable.ic_delete)
+    }
+
+
 }

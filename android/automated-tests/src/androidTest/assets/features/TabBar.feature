@@ -53,3 +53,8 @@ Feature: TabBar Component Validation
 
     Scenario: TabBar 05 - Checks that a TabBarItem with a ICON and a TITLE is showing both elements on screen
         Then check tab with text image and beagle icon are on screen
+
+    Scenario: TabBar 06 - Checks that an ICON in a TabBarItem could be exchanged for another ICON via EXPRESSION
+        Then check tab with beagle icon is on screen
+        When I click on button ChangeTabIcon
+        Then the tab with text image and beagle icon will change icon to delete icon
