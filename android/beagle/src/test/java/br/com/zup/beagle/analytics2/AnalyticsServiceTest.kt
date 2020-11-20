@@ -81,7 +81,7 @@ class AnalyticsServiceTest {
 
             //THEN
             assertTrue(analyticsProviderImpl.createRecordCalled)
-            verifyOrder{
+            verifyOrder {
                 ScreenReportFactory.createScreenRemoteReport("url")
                 ScreenReportFactory.createScreenRemoteReport("url")
                 AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
@@ -199,6 +199,8 @@ class AnalyticsServiceTest {
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
             )
+            every { action.analytics } returns null
+            every { action.type } returns "custom:AddChildren"
             AnalyticsService.initialConfig(analyticsProviderImpl, this)
 
             //WHEN
@@ -217,6 +219,8 @@ class AnalyticsServiceTest {
 
             val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
             val action: ActionAnalytics = mockk()
+            every { action.analytics } returns actionAnalyticsConfig
+            every { action.type } returns "custom:AddChildren"
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
@@ -237,6 +241,9 @@ class AnalyticsServiceTest {
             mockkObject(ActionRecordFactory)
             every { ActionRecordFactory.createRecord(any(), any()) } returns mockk()
             val action: ActionAnalytics = mockk()
+            every { action.analytics } returns null
+            every { action.type } returns "custom:AddChildren"
+
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf("componentId")))
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
