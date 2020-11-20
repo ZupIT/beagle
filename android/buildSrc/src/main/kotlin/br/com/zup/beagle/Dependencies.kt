@@ -48,7 +48,6 @@ class Dependencies : Plugin<Project> {
         const val targetSdk = 30
         const val buildTools = "30.0.0"
         const val kotlin = "1.4.10"
-        const val kotlinReflection = "1.4.10"
 
         const val kotlinCoroutines = "1.3.9"
 
@@ -109,7 +108,6 @@ class Dependencies : Plugin<Project> {
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
 
         const val kotlinPoet = "com.squareup:kotlinpoet:${Versions.kotlinPoet}"
-        const val kotlinReflection =  "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlinReflection}"
 
         const val soLoader = "com.facebook.soloader:soloader:${Versions.soLoader}"
 
