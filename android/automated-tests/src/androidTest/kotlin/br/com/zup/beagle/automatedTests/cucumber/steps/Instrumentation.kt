@@ -23,7 +23,7 @@ import cucumber.api.android.CucumberInstrumentationCore
 
 @CucumberOptions(
     features = ["features"],
-    tags = ["@regression"],
+    tags = ["@lazyComponent"],
     glue = ["br.com.zup.beagle.automatedTests.cucumber.steps"])
 
 class Instrumentation : MonitoringInstrumentation() {
