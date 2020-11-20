@@ -19,8 +19,6 @@ package br.com.zup.beagle.android.setup
 import android.app.Application
 import androidx.annotation.VisibleForTesting
 import br.com.zup.beagle.analytics.Analytics
-import br.com.zup.beagle.analytics2.AnalyticsProvider
-import br.com.zup.beagle.analytics2.AnalyticsService
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
@@ -40,7 +38,6 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import com.facebook.soloader.SoLoader
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 interface BeagleSdk {
@@ -54,7 +51,6 @@ interface BeagleSdk {
     val storeHandler: StoreHandler?
     val controllerReference: BeagleControllerReference?
     val typeAdapterResolver: TypeAdapterResolver?
-    val analyticsProvider : AnalyticsProvider?
 
     @Deprecated(NewIntentDeprecatedConstants.BEAGLE_ACTIVITY_COMPONENT)
     val serverDrivenActivity: Class<BeagleActivity>
@@ -72,13 +68,7 @@ interface BeagleSdk {
         SoLoader.init(application, false)
         GlobalScope.launch {
             BeagleMoshi.moshi.adapter(ServerDrivenComponent::class.java)
-
         }
-        val scope = MainScope()
-        scope.launch {
-            AnalyticsService.initialConfig(analyticsProvider, this)
-        }
-
     }
 
     companion object {
