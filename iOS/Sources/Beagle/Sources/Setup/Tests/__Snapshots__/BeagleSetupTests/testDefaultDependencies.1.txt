@@ -155,7 +155,7 @@
   ▿ operationsProvider: OperationsDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
-    ▿ operations: 25 key/value pairs
+    ▿ operations: 26 key/value pairs
       ▿ (2 elements)
         - key: "and"
         - value: (Function)
@@ -227,6 +227,9 @@
         - value: (Function)
       ▿ (2 elements)
         - key: "sum"
+        - value: (Function)
+      ▿ (2 elements)
+        - key: "union"
         - value: (Function)
       ▿ (2 elements)
         - key: "uppercase"
