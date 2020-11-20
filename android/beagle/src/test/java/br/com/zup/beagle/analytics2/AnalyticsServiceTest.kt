@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.AddChildren
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import io.mockk.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertFalse
@@ -29,9 +30,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @DisplayName("Given Analytics Service")
-class AnalyticsServiceTest : CoroutinesTestExtension() {
+@ExtendWith(CoroutinesTestExtension::class)
+class AnalyticsServiceTest {
 
     private lateinit var analyticsProviderImpl: AnalyticsProviderImpl
     private val action: ActionAnalytics = mockk(relaxed = true, relaxUnitFun = true)
