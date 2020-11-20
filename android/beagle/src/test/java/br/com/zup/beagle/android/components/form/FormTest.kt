@@ -221,7 +221,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, remoteAction, analyticsValue = "onSubmit") }
+        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, remoteAction) }
     }
 
     @Test
@@ -234,7 +234,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, navigateAction, analyticsValue = "onSubmit") }
+        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, navigateAction) }
     }
 
     @Test
@@ -294,7 +294,7 @@ class FormTest : BaseComponentTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify { form.handleEvent(rootView, formSubmitView, remoteAction, analyticsValue = "onSubmit") }
+        verify { form.handleEvent(rootView, formSubmitView, remoteAction) }
     }
 
     @Test
@@ -446,6 +446,6 @@ class FormTest : BaseComponentTest() {
         (slotFormError.captured as ServerDrivenState.FormError).retry.invoke()
 
         // Then
-        verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>(), analyticsValue = "onSubmit") }
+        verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>()) }
     }
 }
