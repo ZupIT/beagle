@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
