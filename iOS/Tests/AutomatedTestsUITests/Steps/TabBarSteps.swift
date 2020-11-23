@@ -17,6 +17,8 @@
 import Foundation
 import XCTest
 
+// swiftlint:disable implicitly_unwrapped_optional
+// swiftlint:disable force_unwrapping
 class TabBarSteps: CucumberStepsDefinition {
     
     var application: XCUIApplication!
@@ -53,7 +55,7 @@ class TabBarSteps: CucumberStepsDefinition {
         // Scenario 1
         Then(#"^I click on each tabBarItem and confirm its position$"#) { _, _ -> Void in
             for i in 0...9 {
-                let tabTitle = "Tab\(i+1)"
+                let tabTitle = "Tab\(i + 1)"
                 let positionText = "Tab position \(i)"
                 self.application.staticTexts[tabTitle].tap()
                 XCTAssertTrue(self.application.staticTexts[positionText].exists)

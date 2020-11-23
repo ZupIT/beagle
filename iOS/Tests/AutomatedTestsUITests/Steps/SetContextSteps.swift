@@ -19,6 +19,8 @@
 import Foundation
 import XCTest
 
+// swiftlint:disable implicitly_unwrapped_optional
+// swiftlint:disable force_unwrapping
 class SetContextSteps: CucumberStepsDefinition {
     var application: XCUIApplication!
     
@@ -55,7 +57,7 @@ class SetContextSteps: CucumberStepsDefinition {
     }
 }
 
-fileprivate enum SetContextScreenElements: String {
+private enum SetContextScreenElements: String {
     case SET_CONTEXT_TITLE = "SetContext Screen"
     
     var element: XCUIElement {
