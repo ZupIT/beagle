@@ -25,7 +25,7 @@ internal class ScreenReportFactoryTest : BaseTest(){
     @Test
     fun `WHEN createScreenLocalReport SHOULD create local screen report correctly`(){
         //WHEN
-        val result = ScreenReportFactory.createScreenLocalReport("screenId")
+        val result = ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId")
 
         //THEN
         assertEquals("android", result.platform)
@@ -36,7 +36,7 @@ internal class ScreenReportFactoryTest : BaseTest(){
     @Test
     fun `WHEN createScreenRemoteReport SHOULD create remote screen report correctly`(){
         //WHEN
-        val result = ScreenReportFactory.createScreenRemoteReport("url")
+        val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url")
 
         //THEN
         assertEquals("android", result.platform)

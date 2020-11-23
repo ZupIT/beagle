@@ -30,7 +30,7 @@ import kotlin.reflect.full.memberProperties
 
 object ActionRecordFactory {
 
-    fun createRecord(
+    fun generateActionAnalyticsConfig(
         dataActionReport: DataActionReport,
         actionAnalyticsConfig: ActionAnalyticsConfig
 
@@ -54,7 +54,7 @@ object ActionRecordFactory {
         }
         actionAnalyticsConfig.attributes?.let {
             hashMap.putAll(
-                createAnalyticsConfigAttributesHashMap(
+                generateAnalyticsConfigAttributesHashMap(
                     it,
                     dataActionReport.rootView,
                     dataActionReport.origin,
@@ -69,12 +69,12 @@ object ActionRecordFactory {
             hashMap["beagleAction"] = type
         }
         dataActionReport.analyticsHandleEvent?.originComponent?.let {
-            hashMap["component"] = createComponentHashMap(dataActionReport.origin, it)
+            hashMap["component"] = generateComponentHashMap(dataActionReport.origin, it)
         }
         return hashMap
     }
 
-    private fun createComponentHashMap(origin: View, originComponent: ServerDrivenComponent): HashMap<String, Any> {
+    private fun generateComponentHashMap(origin: View, originComponent: ServerDrivenComponent): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
         getComponentId(originComponent)?.let { id ->
             hashMap["id"] = id
@@ -90,7 +90,7 @@ object ActionRecordFactory {
 
     private fun getComponentType(originComponent: ServerDrivenComponent) = (originComponent as? WidgetView)?.beagleType
 
-    private fun createAnalyticsConfigAttributesHashMap(
+    private fun generateAnalyticsConfigAttributesHashMap(
         attributes: List<String>,
         rootView: RootView,
         origin: View,

@@ -24,13 +24,19 @@ import java.util.*
 
 object AnalyticsService {
 
-    private val queue  : Queue<DataReport> = LinkedList()
+    private val queueOfReportsWaitingConfig: Queue<DataReport> = LinkedList()
     private var analyticsProvider: AnalyticsProvider? = null
 
     private lateinit var analyticsConfig: AnalyticsConfig
 
     fun initialConfig(analyticsProvider: AnalyticsProvider? = null, coroutineScope: CoroutineScope) {
         this.analyticsProvider = analyticsProvider
+        startSessionAndGetConfig(coroutineScope)
+
+
+    }
+
+    private fun startSessionAndGetConfig(coroutineScope: CoroutineScope) {
         analyticsProvider?.let { analyticsProvider ->
             analyticsProvider.startSession {
                 coroutineScope.launch {
@@ -39,38 +45,36 @@ object AnalyticsService {
                             this@AnalyticsService.analyticsConfig = analyticsConfig
                         }
                     }.await()
-                    while (!queue.isEmpty()){
-                        queue.remove().report()
-                    }
+                    reportElementsOnQueue()
                 }
             }
         }
     }
 
+    private fun reportElementsOnQueue() {
+        while (queueIsNotEmpty()) {
+            queueOfReportsWaitingConfig.remove().report()
+        }
+    }
+
+    private fun queueIsNotEmpty() = !queueOfReportsWaitingConfig.isEmpty()
+
     fun createActionRecord(
         dataActionReport: DataActionReport
     ) {
         if (isAnalyticsConfigInitialized()) {
-            val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport.action)
-            if (shouldReport(config)) {
-                reportAction(dataActionReport, config)
-            }
-        }
-        else{
-            queue.add(dataActionReport)
+            reportActionIfShould(dataActionReport)
+        } else {
+            queueOfReportsWaitingConfig.add(dataActionReport)
         }
     }
 
-    private fun reportAction(
-        dataActionReport: DataActionReport,
-        actionAnalyticsConfig: ActionAnalyticsConfig
-    ) {
-        analyticsProvider?.createRecord(
-            ActionRecordFactory.createRecord(dataActionReport, actionAnalyticsConfig)
-        )
+    private fun reportActionIfShould(dataActionReport: DataActionReport){
+        val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport.action)
+        if (shouldReport(config)) {
+            reportAction(dataActionReport, config)
+        }
     }
-
-    private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
 
     private fun createAConfigFromActionAnalyticsOrAnalyticsConfig(action: ActionAnalytics): ActionAnalyticsConfig {
         action.analytics?.let { actionAnalytics ->
@@ -88,22 +92,33 @@ object AnalyticsService {
         return ActionAnalyticsConfig(enable = attributeList != null, attributes = attributeList)
     }
 
+    private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
+
+    private fun reportAction(
+        dataActionReport: DataActionReport,
+        actionAnalyticsConfig: ActionAnalyticsConfig
+    ) {
+        analyticsProvider?.createRecord(
+            ActionRecordFactory.generateActionAnalyticsConfig(dataActionReport, actionAnalyticsConfig)
+        )
+    }
+
     fun createScreenRecord(dataScreenReport: DataScreenReport) {
         if (isAnalyticsConfigInitialized()) {
             reportScreen(dataScreenReport)
-        }
-        else{
-            queue.add(dataScreenReport)
+        } else {
+            queueOfReportsWaitingConfig.add(dataScreenReport)
         }
     }
 
     private fun reportScreen(dataScreenReport: DataScreenReport) {
         if (shouldReportScreen()) {
             val screenIdentifier = dataScreenReport.screenIdentifier
-            if (dataScreenReport.isLocalScreen)
-                analyticsProvider?.createRecord(ScreenReportFactory.createScreenLocalReport(screenIdentifier))
-            else
-                analyticsProvider?.createRecord(ScreenReportFactory.createScreenRemoteReport(screenIdentifier))
+            if (dataScreenReport.isLocalScreen) {
+                analyticsProvider?.createRecord(ScreenReportFactory.generateLocalScreenAnalyticsRecord(screenIdentifier))
+            } else {
+                analyticsProvider?.createRecord(ScreenReportFactory.generateRemoteScreenAnalyticsRecord(screenIdentifier))
+            }
         }
     }
 

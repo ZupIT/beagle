@@ -16,11 +16,14 @@
 
 package br.com.zup.beagle.analytics2
 
+typealias analyticsConfig = (analyticConfig: AnalyticsConfig) -> Unit
+typealias startSession = ()-> Unit
+
 interface AnalyticsProvider {
 
-    fun getConfig(config: (analyticConfig: AnalyticsConfig) -> Unit)
+    fun getConfig(config: analyticsConfig)
 
-    fun startSession(startSession: () -> Unit)
+    fun startSession(startSession: startSession)
 
     fun createRecord(record: AnalyticsRecord)
 }

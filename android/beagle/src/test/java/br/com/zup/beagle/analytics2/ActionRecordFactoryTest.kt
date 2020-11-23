@@ -48,7 +48,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { rootView.getScreenId() } returns "/screen"
             every { action.type } returns "type"
             //WHEN
-            val report = ActionRecordFactory.createRecord(
+            val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 DataActionReport(
                     rootView,
                     origin,
@@ -74,7 +74,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { rootView.getScreenId() } returns ""
             every { action.type } returns "type"
             //WHEN
-            val report = ActionRecordFactory.createRecord(
+            val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 DataActionReport(
                     rootView,
                     origin,
@@ -108,7 +108,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { origin.y } returns 400f
 
             //WHEN
-            val report = ActionRecordFactory.createRecord(
+            val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 DataActionReport(
                     rootView,
                     origin,
@@ -141,7 +141,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { origin.y } returns 400f
 
             //WHEN
-            val report = ActionRecordFactory.createRecord(
+            val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 DataActionReport(
                     rootView,
                     origin,
@@ -173,7 +173,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { origin.y } returns 400f
 
             //WHEN
-            val report = ActionRecordFactory.createRecord(
+            val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 DataActionReport(
                     rootView,
                     origin,
@@ -203,7 +203,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { rootView.getScreenId() } returns ""
 
             //WHEN
-            val report = ActionRecordFactory.createRecord(
+            val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 DataActionReport(
                     rootView,
                     origin,
@@ -224,7 +224,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { rootView.getScreenId() } returns ""
 
             //WHEN
-            val report = ActionRecordFactory.createRecord(
+            val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 DataActionReport(
                     rootView,
                     origin,
@@ -246,7 +246,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { rootView.getScreenId() } returns ""
 
             //WHEN
-            val report = ActionRecordFactory.createRecord(
+            val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 DataActionReport(
                     rootView,
                     origin,
