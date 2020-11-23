@@ -21,7 +21,7 @@ apply from: "$rootDir/../jacoco.gradle"
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.GeneralLibraries.kotlinPoet
+    implementation Dependencies.ProcessorLibraries.kotlinPoet
     implementation project(Dependencies.Modules.androidAnnotation)
 }
 
