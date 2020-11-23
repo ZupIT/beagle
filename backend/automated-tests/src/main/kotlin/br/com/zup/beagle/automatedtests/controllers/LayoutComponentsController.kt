@@ -31,7 +31,9 @@ import br.com.zup.beagle.automatedtests.builders.WebViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.LazyComponentScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ImageRemoteScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ActionScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.LazyComponentResultScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.PageViewTwoScreenBuilder
+import br.com.zup.beagle.automatedtests.constants.LAZY_COMPONENT_2_ENDPOINT
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -54,6 +56,9 @@ class LayoutComponentsController {
 
     @GetMapping(LAZY_COMPONENT_ENDPOINT)
     fun getLazyComponentScreen() = LazyComponentScreenBuilder.build()
+
+    @GetMapping(LAZY_COMPONENT_2_ENDPOINT)
+    fun getLazyComponent2ndScreen() = LazyComponentResultScreenBuilder.build()
 
     @GetMapping(IMAGE_REMOTE_ENDPOINT)
     fun getImageRemoteScreen() = ImageRemoteScreenBuilder.build()

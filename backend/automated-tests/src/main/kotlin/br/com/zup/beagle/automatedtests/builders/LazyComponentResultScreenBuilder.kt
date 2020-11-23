@@ -16,28 +16,20 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.automatedtests.constants.LAZY_COMPONENT_2_ENDPOINT
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.lazy.LazyComponent
-import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
-object LazyComponentScreenBuilder {
+object LazyComponentResultScreenBuilder {
     fun build() = Screen(
         child = Container(
             listOf(
-                Text("LazyComponent Screen"),
+                Text("LazyComponent Second Screen"),
                 LazyComponent(
-                    path = LAZY_COMPONENT_2_ENDPOINT,
-                    initialState = Text("Loading...")
-                ),
-                Button(
-                    text = "Call Lazy again",
-                    onPress = listOf(
-
-                    )
-                    )
+                    path = "",
+                    initialState = Text("Loading Again...")
+                )
             )
         )
     )
