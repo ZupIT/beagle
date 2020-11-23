@@ -22,10 +22,15 @@ Feature: Lazy component Validation
     In order to guarantee that my application never fails
 
     Background:
-        Given the Beagle application did launch with the LazyComponent Screen0 url
+        Given the Beagle application did launch with the LazyComponent Screen and initial component Loading
 
     Scenario: LazyComponent 01 - Create LazyComponent component and check if it shows the initial
     component and after making the request it shows the new component.
     The lazy component was created and checked at the "Given" step above.
 
-        Then an screen with a title LazyComponent Screen should appear
+        Then an screen with an element LazyComponent Second Screen should be visible
+
+    Scenario: LazyComponent 02 - Create LazyComponent component and check if it shows the initial component
+    and after making the request with error and check if it only shows the initial component
+
+        Then an screen with an element Loading Again... should be visible
