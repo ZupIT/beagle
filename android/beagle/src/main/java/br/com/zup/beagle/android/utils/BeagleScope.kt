@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
-internal class BeagleScope : CoroutineScope{
+internal class BeagleScope : CoroutineScope {
 
     private val job = Job()
     override val coroutineContext = job + CoroutineDispatchers.IO
