@@ -30,7 +30,7 @@ import br.com.zup.beagle.widget.ui.Text
 data class TabImage(val mobileImageId: String, val webImageUrl: String)
 
 const val WEB_IMAGE_PATH = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg"
-const val WEB_IMAGE_PATH2 = "PATH"
+const val WEB_IMAGE_PATH2 = "https://i.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U"
 
 object TabBarScreenBuilder {
     fun build() = Screen(
