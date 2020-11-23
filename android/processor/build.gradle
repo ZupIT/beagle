@@ -30,7 +30,11 @@ test {
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
 
-    implementation Dependencies.GeneralLibraries.kotlinPoet
+    implementation (Dependencies.ProcessorLibraries.kotlinPoet) {
+        exclude group: "com.squareup.okio", module: "okio"
+    }
+
+    implementation Dependencies.ProcessorLibraries.okio
 
     implementation project(Dependencies.Modules.commonProcessorSharedCode)
     implementation project(Dependencies.Modules.androidAnnotation)
@@ -41,14 +45,7 @@ dependencies {
     implementation Dependencies.ProcessorLibraries.autoService
     kapt Dependencies.ProcessorLibraries.autoService
 
-    /*
- *
- * When put the library with testImplementation the test not compile
- * Issue tracker: https://github.com/tschuchortdev/kotlin-compile-testing/issues/73
- *
- */
-    implementation Dependencies.TestLibraries.kotlinCompileTesting
-
+    testImplementation Dependencies.TestLibraries.kotlinCompileTesting
     testImplementation Dependencies.TestLibraries.junitApi
     testImplementation Dependencies.TestLibraries.junitEngine
 }
