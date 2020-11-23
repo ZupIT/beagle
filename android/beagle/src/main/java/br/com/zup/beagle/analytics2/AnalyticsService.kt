@@ -115,9 +115,13 @@ object AnalyticsService {
         if (shouldReportScreen()) {
             val screenIdentifier = dataScreenReport.screenIdentifier
             if (dataScreenReport.isLocalScreen) {
-                analyticsProvider?.createRecord(ScreenReportFactory.generateLocalScreenAnalyticsRecord(screenIdentifier))
+                analyticsProvider?.createRecord(
+                    ScreenReportFactory.generateLocalScreenAnalyticsRecord(screenIdentifier)
+                )
             } else {
-                analyticsProvider?.createRecord(ScreenReportFactory.generateRemoteScreenAnalyticsRecord(screenIdentifier))
+                analyticsProvider?.createRecord(
+                    ScreenReportFactory.generateRemoteScreenAnalyticsRecord(screenIdentifier)
+                )
             }
         }
     }
