@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
@@ -29,8 +30,8 @@ import br.com.zup.beagle.widget.ui.Text
 
 data class TabImage(val mobileImageId: String, val webImageUrl: String)
 
-const val WEB_IMAGE_PATH = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg"
-const val WEB_IMAGE_PATH2 = "https://i.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U"
+const val IMAGE_PATH = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg"
+const val IMAGE_PATH2 = "https://i.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U"
 
 object TabBarScreenBuilder {
     fun build() = Screen(
@@ -53,7 +54,7 @@ object TabBarScreenBuilder {
                         id = "imageIcon",
                         value = TabImage(
                             mobileImageId = "beagle",
-                            webImageUrl = WEB_IMAGE_PATH
+                            webImageUrl = IMAGE_PATH
                         )),
                     children = listOf(
                         TabBar(listOf(
@@ -64,7 +65,7 @@ object TabBarScreenBuilder {
                                     webUrl = "@{imageIcon.webImageUrl}")),
                             TabBarItem(
                                 icon = ImagePath.Local.both(
-                                    mobileId = "beagle", webUrl = WEB_IMAGE_PATH)))
+                                    mobileId = "beagle", webUrl = IMAGE_PATH)))
                         ),
                         Button(
                             text = "ChangeTabIcon",
@@ -73,8 +74,9 @@ object TabBarScreenBuilder {
                                     contextId = "imageIcon",
                                     value = TabImage(
                                         mobileImageId = "delete",
-                                        webImageUrl = WEB_IMAGE_PATH2)
-                                )
+                                        webImageUrl = IMAGE_PATH2)
+                                ),
+                                Alert(message = "ImageChanged")
                             )
                         )
                     )
