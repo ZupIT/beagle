@@ -48,10 +48,10 @@ Feature: TabBar Component Validation
             | title | position       |
             | Tab4  | Tab position 3 |
 
-    Scenario: TabBar 04 - Checks that a TabBarItem with a ICON is showing the ICON
+    Scenario: TabBar 04 - Checks that a TabBarItem with an ICON is showing the ICON
         Then check tab with beagle icon is on screen
 
-    Scenario: TabBar 05 - Checks that a TabBarItem with a ICON and a TITLE is showing both elements on screen
+    Scenario: TabBar 05 - Checks that a TabBarItem with an ICON and a TITLE is showing both elements on screen
         Then check tab with text image and beagle icon are on screen
 
     Scenario: TabBar 06 - Checks that an ICON in a TabBarItem could be exchanged for another ICON via EXPRESSION
