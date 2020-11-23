@@ -16,7 +16,10 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.automatedtests.constants.GLOBAL_TEXT_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.LAZY_COMPONENT_2_ENDPOINT
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.lazy.LazyComponent
@@ -33,9 +36,11 @@ object LazyComponentScreenBuilder {
                     initialState = Text("Loading...")
                 ),
                 Button(
-                    text = "Call Lazy again",
+                    text = "Call 2nd Lazy screen again",
                     onPress = listOf(
-
+                        Navigate.PushStack(
+                            Route.Remote(LAZY_COMPONENT_2_ENDPOINT)
+                        )
                     )
                     )
             )
