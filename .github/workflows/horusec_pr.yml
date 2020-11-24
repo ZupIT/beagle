@@ -14,9 +14,9 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
     - name: Running Horusec Security
-      #we need to ignore sample, automatedTests and .gradle because they are not being shipped the Beagle sdk
+      #we need to ignore sample, automatedTests, automated-tests and .gradle because they are not being shipped the Beagle sdk
       #The two hash was added because we have False Positive on TextInput.swift, we have an enum called PASSWORD, and UrlBuilderDefault.kt, we have a base64 failure but we don't use the base64 on this code
       run: |
         curl -fsSL https://horusec-cli.s3.amazonaws.com/install.sh | bash
-        horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**" -e="true" -F="f724792634fb01a17e7a3ff52dbabdd28388653aca1d726f1bbc1945eed8c4f3,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92"
+        horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**" -e="true" -F="f724792634fb01a17e7a3ff52dbabdd28388653aca1d726f1bbc1945eed8c4f3,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92"
     

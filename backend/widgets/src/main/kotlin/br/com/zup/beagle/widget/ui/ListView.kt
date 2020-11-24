@@ -43,7 +43,8 @@ data class ListView(
     val onScrollEnd: List<Action>? = null,
     val scrollEndThreshold: Int? = null,
     val iteratorName: String = "item",
-    val key: String? = null
+    val key: String? = null,
+    val useParentScroll: Boolean? = null
 ) : Widget(), ContextComponent {
 
     /**
@@ -86,7 +87,8 @@ data class ListView(
         onScrollEnd: List<Action>? = null,
         scrollEndThreshold: Int? = null,
         iteratorName: String = "item",
-        key: String? = null
+        key: String? = null,
+        useParentScroll: Boolean? = null
     ) : this(
         null,
         direction,
@@ -97,7 +99,8 @@ data class ListView(
         onScrollEnd,
         scrollEndThreshold,
         iteratorName,
-        key
+        key,
+        useParentScroll
     )
 
     companion object
