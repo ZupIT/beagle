@@ -80,3 +80,7 @@ dependencies {
 
 apply from: rootProject.file('../maven-publish.gradle')
 
+tasks.withType(Test) { jacoco.includeNoLocationClasses = true }
+
+
+
