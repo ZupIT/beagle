@@ -41,7 +41,7 @@ Feature: TextInput Validation
 
     Scenario Outline: TextInput 03 - validate disabled field
         When the disabled textInput <textInputDisabled> is visible
-        Then verify if it's <textInputDisabled> disabled
+        Then verify if <textInputDisabled> is disabled
 
         Examples:
             | textInputDisabled                                 |

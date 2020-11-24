@@ -64,7 +64,7 @@ class TextInputScreen {
             .checkViewContainsHint(string)
     }
 
-    @Then("^verify if it's (.*) disabled$")
+    @Then("^verify if (.*) is disabled$")
     fun checkDisabledField(string: String) {
         ScreenRobot()
             .disabledFieldHint(string)
