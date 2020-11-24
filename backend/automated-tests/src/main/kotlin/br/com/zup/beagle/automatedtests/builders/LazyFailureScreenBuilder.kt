@@ -28,7 +28,7 @@ object LazyFailureScreenBuilder {
                 Text("LazyComponent Failure Screen"),
                 LazyComponent(
                     path = "",
-                    Text("Loading to failure")
+                    initialState = Text("Loading to failure")
                 )
             )
         )
