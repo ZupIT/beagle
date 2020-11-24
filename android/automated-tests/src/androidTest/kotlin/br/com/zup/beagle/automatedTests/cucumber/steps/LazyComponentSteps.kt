@@ -45,16 +45,15 @@ class LazyComponentSteps {
         ActivityFinisher.finishOpenActivities()
     }
 
-    @Given("^the Beagle application did launch with the LazyComponent Screen and initial component Loading$")
+    @Given("^the Beagle application did launch with the LazyComponent Screen$")
     fun checkBaseScreen() {
         ScreenRobot()
-            .checkViewContainsText("Loading...",true)
-            .sleep(3)
+            .checkViewContainsText("LazyComponent Screen",true)
     }
 
     @Then("^an screen with an element (.*) should be visible$")
     fun check2ndScreenMessage(text:String) {
         ScreenRobot()
-            .checkViewContainsText(text,true)
+            .checkViewContainsText(text, true)
     }
 }
