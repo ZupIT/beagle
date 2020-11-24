@@ -52,6 +52,9 @@ android {
 
         unitTests.all {
             useJUnitPlatform()
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 }
@@ -80,7 +83,6 @@ dependencies {
 
 apply from: rootProject.file('../maven-publish.gradle')
 
-tasks.withType(Test) { jacoco.includeNoLocationClasses = true }
 
 
 
