@@ -20,13 +20,14 @@ class IdentifierComponent < BaseComponent
 
     def initialize
     	variables = [
-            Field.new(:name => "id", :typeName => TypesToString.string, :isOptional => true, :isMutable => true)
+            Field.new(:name => "id", :typeName => TypesToString.string, :isOptional => true, :isMutable => true, :comment => "use to identifier the current view")
         ]
         synthax_type = BuiltInType.new(
             :type => TypesToString.interface,
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.core",
+            :comment => "Component that hold the identifier",
             :inheritFrom => [
                ServerDrivenComponent.new
             ]

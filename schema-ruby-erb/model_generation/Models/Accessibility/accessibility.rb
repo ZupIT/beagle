@@ -20,13 +20,14 @@ class Accessibility < BaseComponent
 
     def initialize
         variables = [
-            Field.new(:name => "accessible", :typeName => TypesToString.bool, :defaultValue => "true"),
-            Field.new(:name => "accessibilityLabel", :typeName => TypesToString.string, :isOptional => true)
+            Field.new(:name => "accessible", :typeName => TypesToString.bool, :defaultValue => "true", :comment => "that will inform when the accessibilityLabel is available.\nBy default is kept as true and it indicates that the view is an accessibility element."),
+            Field.new(:name => "accessibilityLabel", :typeName => TypesToString.string, :isOptional => true, :comment => "that will hold the textual information to be read by VoiceOver programs.\nBy enabling this, the VoiceOver will read this if a user selects this view,\nthem he will now where he is on the app.")
 
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
+            :comment => "The accessibility will enable a textual information to explain the view content in case a screen reader is used.",
             :package => "br.com.zup.beagle.core"
         )
 

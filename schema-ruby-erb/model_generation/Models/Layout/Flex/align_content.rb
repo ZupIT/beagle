@@ -20,17 +20,18 @@ class AlignContent < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "FLEX_START"),
-            EnumCase.new(:name => "CENTER"),
-            EnumCase.new(:name => "FLEX_END"),
-            EnumCase.new(:name => "SPACE_BETWEEN"),
-            EnumCase.new(:name => "SPACE_AROUND"),
-            EnumCase.new(:name => "STRETCH")
+            EnumCase.new(:name => "FLEX_START", :comment => "Align wrapped lines to the start of the container's cross axis."),
+            EnumCase.new(:name => "CENTER", :comment => "Align wrapped lines in the center of the container's cross axis."),
+            EnumCase.new(:name => "FLEX_END", :comment => "Align wrapped lines to the end of the container's cross axis."),
+            EnumCase.new(:name => "SPACE_BETWEEN", :comment => "Evenly space wrapped lines across the container's main axis,\ndistributing the remaining space between the lines."),
+            EnumCase.new(:name => "SPACE_AROUND", :comment => "Evenly space wrapped lines across the container's main axis, distributing the remaining space around the lines.\nCompared to space-between, using space-around will result in space being\ndistributed to the beginning of the first line and the end of the last line."),
+            EnumCase.new(:name => "STRETCH", :comment => "Stretch wrapped lines to match the height of the container's cross axis.")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :comment => "Describes how to align distribution of lines along the transverse axis of the container.\nFor example, you can use this property to center child lines horizontally\ninside a container with flexDirection defined as a column or vertically inside a container\nwith flexDirection defined as a row."
         )
 
         super(synthax_type)

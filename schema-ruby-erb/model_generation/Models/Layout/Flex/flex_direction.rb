@@ -20,15 +20,16 @@ class FlexDirection < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "COLUMN"),
-            EnumCase.new(:name => "ROW"),
-            EnumCase.new(:name => "COLUMN_REVERSE"),
-            EnumCase.new(:name => "ROW_REVERSE")
+            EnumCase.new(:name => "COLUMN", :comment => "Align children from top to bottom. If wrapping is enabled,\nthen the next line will start to the right of the first item on the top of the container"),
+            EnumCase.new(:name => "ROW", :comment => "Align children from left to right. If wrapping is enabled,\nthen the next line will start under the first item on the left of the container."),
+            EnumCase.new(:name => "COLUMN_REVERSE", :comment => "Align children from bottom to top. If wrapping is enabled,\nthen the next line will start to the right of the first item on the bottom of the container."),
+            EnumCase.new(:name => "ROW_REVERSE", :comment => "Align children from right to left. If wrapping is enabled,\nthen the next line will start under the first item on the right of the container.")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :comment => "controls the direction in which the children of a node are laid out. This is also referred to as the main axis.\nThe cross axis is the axis perpendicular to the main axis, or the axis which the wrapping lines are laid out in."
         )
 
         super(synthax_type)

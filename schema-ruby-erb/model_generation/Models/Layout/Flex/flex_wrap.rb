@@ -20,14 +20,15 @@ class FlexWrap < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "NO_WRAP"),
-            EnumCase.new(:name => "WRAP"),
-            EnumCase.new(:name => "WRAP_REVERSE")
+            EnumCase.new(:name => "NO_WRAP", :comment => "The flex items are laid out in a single line which may cause the flex container to overflow.\nThe cross-start is either equivalent to start or before depending flex-direction value.\nThis is the default value."),
+            EnumCase.new(:name => "WRAP", :comment => "The flex items break into multiple lines.\nThe cross-start is either equivalent to start or\nbefore depending flex-direction value and the cross-end is the opposite of the specified cross-start."),
+            EnumCase.new(:name => "WRAP_REVERSE", :comment => "Behaves the same as wrap but cross-start and cross-end are permuted.")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :comment => "FlexWrap is set on containers and it controls what happens when children overflow\nthe size of the container along the main axis.\nBy default, children are forced into a single line (which can shrink elements).\nIf wrapping is allowed, items are wrapped into multiple lines along the main axis if needed."
         )
 
         super(synthax_type)

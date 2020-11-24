@@ -23,7 +23,7 @@ class Action < BaseComponent
             :name => self.name,
             :variables => [],
             :package => "br.com.zup.beagle.widget.action",
-            :comment => "Markup to define an action to be triggered in response to some event"
+            :comment => "Base of actions\nAction is an interface that allows you to define actions that can be performed by Widgets."
         )
 
         synthax_type.type = TypesToString.interface

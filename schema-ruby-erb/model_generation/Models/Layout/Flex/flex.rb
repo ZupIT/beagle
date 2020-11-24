@@ -39,19 +39,19 @@ class Flex < BaseComponent
                 :name => "flexDirection",
                 :typeName => flex_direction.name,
                 :isOptional => true,
-                :comment => "Controls the direction in which the children of a node are laid out.This is also referred to as the main axis.",
+                :comment => "controls the direction in which the children of a node are laid out.\nThis is also referred to as the main axis",
             ),
             Field.new(
                 :name => "flexWrap",
                 :typeName => flex_wrap.name,
                 :isOptional => true,
-                :comment => "Set on containers and controls what happens when children overflow the size of the container along the main axis.",
+                :comment => "set on containers and controls what happens when children\noverflow the size of the container along the main axis.",
             ),
             Field.new(
                 :name => "justifyContent",
                 :typeName => justify_content.name,
                 :isOptional => true,
-                :comment => "Align children within the main axis of their container.",
+                :comment => "align children within the main axis of their container.",
             ),
             Field.new(
                 :name => "alignItems",
@@ -63,37 +63,37 @@ class Flex < BaseComponent
                 :name => "alignSelf",
                 :typeName => align_self.name,
                 :isOptional => true,
-                :comment => "This property allows to override the behavior of an item defined by the align-items property.",
+                :comment => "Align self has the same options and effect as align items\nbut instead of affecting the children within a container.",
             ),
             Field.new(
                 :name => "alignContent",
                 :typeName => align_content.name,
                 :isOptional => true,
-                :comment => "Align content defines the distribution of lines along the cross-axis.",
+                :comment => "Align content defines the distribution of lines along the cross-axis..",
             ),
             Field.new(
                 :name => "basis",
                 :typeName => UnitValue.new.name,
                 :isOptional => true,
-                :comment => "Is an axis-independent way of providing the default size of an item along the main axis.",
+                :comment => "is an axis-independent way of providing the default size of an item along the main axis.",
             ),
             Field.new(
                 :name => "flex",
                 :typeName => TypesToString.double,
                 :isOptional => true,
-                :comment => "Describes how any space within a container should be distributed among its children along the main axis.",
+                :comment => "TODO.",
             ),
             Field.new(
                 :name => "grow",
                 :typeName => TypesToString.double,
                 :isOptional => true,
-                :comment => "Define the proportion with which an item should grow if necessary.",
+                :comment => "describes how any space within a container should be distributed among its children along the main axis.",
             ),
             Field.new(
                 :name => "shrink",
                 :typeName => TypesToString.double,
                 :isOptional => true,
-                :comment => "Describes how to shrink children along the main axis in the case that the total size of the children overflow the size of the container on the main axis.",
+                :comment => "describes how to shrink children along the main axis in the case that\nthe total size of the children overflow the size of the container on the main axis.",
             ),
         ]
         synthax_type = BuiltInType.new(
@@ -101,7 +101,7 @@ class Flex < BaseComponent
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :sameFileTypes => [size, edgeValue, flex_direction, flex_wrap, justify_content, align_content, align_self, align_items],
-            :comment => "Apply positioning using the flex box concept, with a yoga layout structure."
+            :comment => "The flex is a Layout component that will handle your visual component positioning at the screen.\nInternally Beagle uses a Layout engine called Yoga Layout to position elements on screen.\nIn fact it will use the HTML Flexbox properties applied on the visual components and its children."
         )
 
         super(synthax_type)

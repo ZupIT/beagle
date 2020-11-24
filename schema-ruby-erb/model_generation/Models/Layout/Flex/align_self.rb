@@ -20,17 +20,18 @@ class AlignSelf < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "FLEX_START"),
-            EnumCase.new(:name => "CENTER"),
-            EnumCase.new(:name => "FLEX_END"),
-            EnumCase.new(:name => "BASELINE"),
-            EnumCase.new(:name => "AUTO"),
-            EnumCase.new(:name => "STRETCH")
+            EnumCase.new(:name => "FLEX_START", :comment => "Align wrapped lines to the start of the container's cross axis."),
+            EnumCase.new(:name => "CENTER", :comment => "Align wrapped lines in the center of the container's cross axis."),
+            EnumCase.new(:name => "FLEX_END", :comment => "Align wrapped lines to the end of the container's cross axis."),
+            EnumCase.new(:name => "BASELINE", :comment => "Align children of a container along a common baseline.\nIndividual children can be set to be the reference baseline for their parents."),
+            EnumCase.new(:name => "AUTO", :comment => "Computes to the parent's"),
+            EnumCase.new(:name => "STRETCH", :comment => "Stretch wrapped lines to match the height of the container's cross axis.")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :comment => "Describes how to align the children on the container's cross axis.\nAlign self replaces any parent-defined options with align items.\nFor example, you can use this property to center a child horizontally\ninside a container with flexDirection set to column or vertically inside a container with flexDirection set to row."
         )
 
         super(synthax_type)

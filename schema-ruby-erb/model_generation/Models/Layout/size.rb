@@ -24,45 +24,51 @@ class Size < BaseComponent
             Field.new(
                 :name => "width",
                 :typeName => unit_value,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "The value specifies the view's width"
             ),
             Field.new(
                 :name => "height",
                 :typeName => unit_value,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "The value specifies the view's height"
             ),
             Field.new(
                 :name => "maxWidth",
                 :typeName => unit_value,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "The value specifies the view's max width"
             ),
             Field.new(
                 :name => "maxHeight",
                 :typeName => unit_value,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "The value specifies the view's max height."
             ),
             Field.new(
                 :name => "minWidth",
                 :typeName => unit_value,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "The value specifies the view's min width."
             ),
             Field.new(
                 :name => "minHeight",
                 :typeName => unit_value,
-                :isOptional => true
+                :isOptional => true,
+                :comment => "The value specifies the view's min height."
             ),
             Field.new(
                 :name => "aspectRatio",
                 :typeName => TypesToString.double,
                 :isOptional => true,
-                :comment => "Set a height and width ratio."
+                :comment => "defined as the ratio between the width and the height of a node."
             )
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
-            :comment => "Handles the size of the item"
+            :comment => "Size handles the size of the item",
+            :package => "br.com.zup.beagle.widget.core"
         )
 
         super(synthax_type)

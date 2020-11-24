@@ -131,6 +131,11 @@ class TemplateHelper
     def is_abstract(object_type)
         object_type.synthax_type.type == TypesToString.abstract
     end
+
+    def is_interface_or_enum(object_type)
+         is_interface(object_type) or is_enum(object_type)
+    end
+
     # Given object_type, this functions returns if such an object is widget or not
     #
     # @param object_type [BaseComponent]
@@ -146,5 +151,39 @@ class TemplateHelper
     def is_server_driven_component(object_type)
         object_type.synthax_type.inheritFrom.any? { |component| component.synthax_type.name == "ServerDrivenComponent" }
     end
+
+    def has_variables(object_type)
+        object_type.synthax_type.variables != nil and object_type.synthax_type.variables.size > 0
+    end
+
+    # Documentation
+
+    def objectType_has_documentation(object_type)
+        return object_type.synthax_type.comment != nil
+    end 
+
+    def variables_has_documentation(object_type) 
+        if has_variables(object_type)
+          return object_type.synthax_type.variables.any? { |variable| variable.comment != nil }
+        end
+        
+        return false
+    end
+
+    def inheritFrom_has_documentation(object_type)
+    result = false
+
+    for inherit in object_type.synthax_type.inheritFrom
+      if variables_has_documentation(inherit)
+        return true
+      end
+    end
+
+    result
+    end
+
+    def has_any_documentation(object_type)
+        objectType_has_documentation(object_type) or variables_has_documentation(object_type) or has_inheritFrom_documentation(object_type)
+    end 
 
 end

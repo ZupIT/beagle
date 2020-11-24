@@ -20,12 +20,13 @@ class PositionType < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "ABSOLUTE"),
-            EnumCase.new(:name => "RELATIVE")
+            EnumCase.new(:name => "ABSOLUTE", :comment => "This means an element is positioned according to the normal flow of the layout,\nand then offset relative to that position based on the values of top, right, bottom, and left.\nThe offset does not affect the position of any sibling or parent elements."),
+            EnumCase.new(:name => "RELATIVE", :comment => "When positioned absolutely an element doesn't take part in the normal layout flow.\nIt is instead laid out independent of its siblings.\nThe position is determined based on the top, right, bottom, and left values.")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
+            :comment => "The position type of an element defines how it is positioned within its parent.",
             :package => "br.com.zup.beagle.core"
         )
 

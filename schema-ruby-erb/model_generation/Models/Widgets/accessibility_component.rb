@@ -20,13 +20,14 @@ class AccessibilityComponent < BaseComponent
 
     def initialize
     	variables = [
-            Field.new(:name => "accessibility", :typeName => Accessibility.new.name, :isOptional => true, :isMutable => true)
+            Field.new(:name => "accessibility", :typeName => Accessibility.new.name, :isOptional => true, :isMutable => true, :comment => "attribute will enable a textual information to explain\nthe view content in case a screen reader is use")
         ]
         synthax_type = BuiltInType.new(
             :type => TypesToString.interface,
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.core",
+            :comment => "Component that hold the accessibility",
             :inheritFrom => [
                ServerDrivenComponent.new
             ]

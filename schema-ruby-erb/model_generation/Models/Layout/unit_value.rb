@@ -21,14 +21,14 @@ class UnitValue < BaseComponent
 
     def initialize
         variables = [
-            Field.new(:name => "value", :typeName => TypesToString.double),
-            Field.new(:name => "type", :typeName => UnitType.new.name)
+            Field.new(:name => "value", :typeName => TypesToString.double, :comment => "the numeric measurement value."),
+            Field.new(:name => "type", :typeName => UnitType.new.name, :comment => "the unit of measurement.")
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
-            :comment => "Receive the amount to be applied and the type.",
+            :comment => "Represents measurement values that contain both the numeric magnitude and the unit of measurement.",
             :sameFileTypes => [UnitType.new]
         )
 

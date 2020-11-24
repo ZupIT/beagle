@@ -23,6 +23,7 @@ class ServerDrivenComponent < BaseComponent
             :type => TypesToString.interface,
             :name => self.name,
             :variables => [],
+            :comment => "Base of components",
             :package => "br.com.zup.beagle.core"
         )
 

@@ -20,12 +20,13 @@ class Display < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "FLEX"),
-            EnumCase.new(:name => "NONE")
+            EnumCase.new(:name => "FLEX", :comment => "Apply the flex properties."),
+            EnumCase.new(:name => "NONE", :comment => "No flex properties will be applied to the element.")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
+            :comment => "This defines a flex container;\ninline or block depending on the given value. It enables a flex context for all its direct children.",
             :package => "br.com.zup.beagle.core"
         )
 

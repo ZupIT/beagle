@@ -27,24 +27,25 @@
     output = "package #{objectType.synthax_type.package}\n"
 
     output += resolveImports(objectType)
+    output += @kotlinHelper.resolveDocumentation(objectType, @template_helper)
     output += resolveObject(objectType)
     output
   end
 
   def resolveImports(objectType)
     output = ""
-    for qualifiedName in @kotlinHelper.resolveImports(objectType.synthax_type.variables)
+    for qualifiedName in @kotlinHelper.resolve_imports(objectType.synthax_type.variables)
       if !qualifiedName.include? "#{objectType.synthax_type.package}"
         output += "\nimport #{qualifiedName}"
       end
     end
 
-    for inherit in objectType.synthax_type.inheritFrom
-      if !inherit.synthax_type.package.include? "#{objectType.synthax_type.package}"
-        output += "\nimport #{inherit.synthax_type.package}.#{inherit.synthax_type.name}"
+    for inherited in objectType.synthax_type.inheritFrom
+      if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}"
+        output += "\nimport #{inherited.synthax_type.package}.#{inherited.synthax_type.name}"
       end
       
-      for qualifiedName in @kotlinHelper.resolveImports(inherit.synthax_type.variables)
+      for qualifiedName in @kotlinHelper.resolve_imports(inherited.synthax_type.variables)
         if !qualifiedName.include? "#{objectType.synthax_type.package}"
           output += "\nimport #{qualifiedName}"
         end
@@ -107,8 +108,19 @@
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
 
     output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
-    output += "#{@tab}"
-    output += objectType.synthax_type.variables.map { |enumCase| enumCase.name }.join(",\n#{@tab}")
+
+    counter = 0
+    for field in objectType.synthax_type.variables
+      if field.comment != nil
+        output += "#{@tab}/**\n#{@tab} * #{@kotlinHelper.replace_breakLine_documentation(field.comment, "\n#{@tab} * ")}\n#{@tab} */\n"
+      end
+      output += "#{@tab}#{field.name}"
+      if counter != objectType.synthax_type.variables.size - 1
+        output += ",\n\n"
+      end
+      counter += 1
+    end
+
     output += "\n}"
     output
   end
@@ -128,13 +140,13 @@
       end
     end
 
-    for inherit in objectType.synthax_type.inheritFrom
-      if @template_helper.fetch_built_in_type_declaration(inherit.synthax_type.type) == "interface"
-        for variable in inherit.synthax_type.variables
+    for inherited in objectType.synthax_type.inheritFrom
+      if @template_helper.is_interface(inherited)
+        for variable in inherited.synthax_type.variables
           if !output.include? "{"
             output += "{"
           end
-          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
+          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
           counter += 1
         end
       end
@@ -161,16 +173,16 @@
       end
     end
 
-    for inherit in objectType.synthax_type.inheritFrom
-      if @template_helper.fetch_built_in_type_declaration(inherit.synthax_type.type) == "interface" && inherit.synthax_type.variables.size > 0
+    for inherited in objectType.synthax_type.inheritFrom
+      if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
         if objectType.synthax_type.variables.size == 0
             output += " ("
         else
           output += ","
         end
         counter = 0 
-        for variable in inherit.synthax_type.variables
-          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherit.synthax_type.variables.size - 1 != counter)}"
+        for variable in inherited.synthax_type.variables
+          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter)}"
           counter += 1
         end
       end
@@ -185,16 +197,16 @@
         output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
-      for inherit in objectType.synthax_type.inheritFrom
-        if @template_helper.fetch_built_in_type_declaration(inherit.synthax_type.type) == "interface" && inherit.synthax_type.variables.size > 0
-          if objectType.synthax_type.variables.size == 0
-            output += " ("
-          else
+      for inherited in objectType.synthax_type.inheritFrom
+        if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
+          if @template_helper.has_variables(objectType)
             output += ","
+          else
+            output += " ("
           end
           counter = 0 
-          for variable in inherit.synthax_type.variables
-          output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, inherit.synthax_type.variables.size - 1 != counter)}"
+          for variable in inherited.synthax_type.variables
+          output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, inherited.synthax_type.variables.size - 1 != counter)}"
           counter += 1
           end
         end
@@ -207,16 +219,16 @@
         counter += 1
       end
 
-      for inherit in objectType.synthax_type.inheritFrom
-        if @template_helper.fetch_built_in_type_declaration(inherit.synthax_type.type) == "interface" && inherit.synthax_type.variables.size > 0
-          if objectType.synthax_type.variables.size == 0
-              output += " ("
+      for inherited in objectType.synthax_type.inheritFrom
+        if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
+          if @template_helper.has_variables(objectType)
+              output += ","
           else
-            output += ","
+            output += " ("
           end
           counter = 0
-          for variable in inherit.synthax_type.variables
-          output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, inherit.synthax_type.variables.size - 1 != counter)}"
+          for variable in inherited.synthax_type.variables
+          output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, inherited.synthax_type.variables.size - 1 != counter)}"
           counter += 1
           end
         end
@@ -230,6 +242,7 @@
   def handleInnerTypes(objectTypes, input)
     output = input
     for objectType in objectTypes
+      output += "\n#{@kotlinHelper.resolveDocumentation(objectType, @template_helper)}"
       output += "\n#{resolveObject(objectType)}"
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
@@ -249,8 +262,8 @@
       end
 
       counter = 0 
-      for inherit in objectType.synthax_type.inheritFrom
-        output += inherit.synthax_type.type == TypesToString.abstract ? "#{inherit.name}()" : inherit.name
+      for inherited in objectType.synthax_type.inheritFrom
+        output += inherited.synthax_type.type == TypesToString.abstract ? "#{inherited.name}()" : inherited.name
         if objectType.synthax_type.inheritFrom.size - 1 != counter 
           output += ", "
         end

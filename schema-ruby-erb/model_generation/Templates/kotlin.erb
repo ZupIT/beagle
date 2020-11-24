@@ -63,6 +63,7 @@
     isEnumDeclaration = @template_helper.is_enum(objectType)
 
     output = initImports(objectType)
+    output += @kotlinHelper.resolveDocumentation(objectType, @template_helper)
     output += resolveObjectType(objectType)
 
     output
@@ -77,7 +78,7 @@
         outputImports += "\nimport br.com.zup.beagle.core.BindAttribute"
       end
 
-      for qualifiedName in @kotlinHelper.resolveImports(objectType.synthax_type.variables)
+      for qualifiedName in @kotlinHelper.resolve_imports(objectType.synthax_type.variables)
         outputImports += "\nimport #{qualifiedName}Schema"
       end
       
@@ -128,6 +129,7 @@
   def handleInnerTypes(objectTypes, input)
     output = input
     for objectType in objectTypes
+      output += "\n#{@kotlinHelper.resolveDocumentation(objectType, @template_helper)}"
       output += "\n#{resolveObjectType(objectType)}"
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0

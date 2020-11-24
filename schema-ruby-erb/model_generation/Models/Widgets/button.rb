@@ -23,14 +23,15 @@ class Button < BaseComponent
 
     def initialize
         variables = [
-            Field.new(:name => "text", :typeName => TypesToString.string, :isBindable => true),
-            Field.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true),
-            List.new(:name => "onPress", :typeName => Action.new.name, :isOptional => true)
+            Field.new(:name => "text", :typeName => TypesToString.string, :isBindable => true, :comment => "define the button text content."),
+            Field.new(:name => "styleId", :typeName => TypesToString.string, :isOptional => true, :comment => "reference a native style in your local styles file to be applied on this button."),
+            List.new(:name => "onPress", :typeName => Action.new.name, :isOptional => true, :comment => "attribute to define action when onPress")
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.ui",
+            :comment => "Define a button natively using the server driven information received through Beagle",
             :inheritFrom => [
                Widget.new,
                TouchableAnalytics.new

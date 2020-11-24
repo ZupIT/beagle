@@ -23,6 +23,7 @@ class Widget < BaseComponent
             :type => TypesToString.abstract,
             :name => self.name,
             :package => "br.com.zup.beagle.widget",
+            :comment => "Base of all widgets",
             :inheritFrom => [
                 StyleComponent.new,
                 AccessibilityComponent.new,

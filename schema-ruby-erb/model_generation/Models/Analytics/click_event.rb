@@ -20,14 +20,15 @@ class ClickEvent < BaseComponent
 
     def initialize
         variables = [
-            Field.new(:name => "category", :typeName => TypesToString.string),
-            Field.new(:name => "label", :typeName => TypesToString.string, :isOptional => true),
-            Field.new(:name => "value", :typeName => TypesToString.string, :isOptional => true)
+            Field.new(:name => "category", :typeName => TypesToString.string, :comment => ""),
+            Field.new(:name => "label", :typeName => TypesToString.string, :isOptional => true, :comment => ""),
+            Field.new(:name => "value", :typeName => TypesToString.string, :isOptional => true, :comment => "")
 
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
+            :comment => "Define click event",
             :package => "br.com.zup.beagle.analytics"
         )
 

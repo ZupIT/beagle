@@ -20,13 +20,14 @@ class UnitType < BaseComponent
 
     def initialize
         enum_cases = [
-            EnumCase.new(:name => "REAL"),
-            EnumCase.new(:name => "PERCENT"),
-            EnumCase.new(:name => "AUTO")
+            EnumCase.new(:name => "REAL", :comment => "Apply the value based in platform, like android this represent dp."),
+            EnumCase.new(:name => "PERCENT", :comment => "Apply the value based in percentage."),
+            EnumCase.new(:name => "AUTO", :comment => "TODO.")
         ]
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
+            :comment => "This defines of a unit type;",
             :package => "br.com.zup.beagle.widget.core"
         )
 

@@ -25,19 +25,19 @@ class Style < BaseComponent
                 :name => "backgroundColor",
                 :typeName => TypesToString.string,
                 :isOptional => true,
-                :comment => "Set the view background color. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`."
+                :comment => "Using a String parameter it sets the background color on this visual component.\nIt must be listed as an Hexadecimal color format without the \"#\".\nFor example, for a WHITE background type in \"FFFFFF\"."
             ),
             Field.new(
                 :name => "cornerRadius",
                 :typeName => CornerRadius.new.name,
                 :isOptional => true,
-                :comment => "Sets the corner of your view to make it round."
+                :comment => "Using a Double parameters it sets the corner of your view to make it round."
             ),
             Field.new(
                 :name => "borderColor",
                 :typeName => TypesToString.string,
                 :isOptional => true,
-                :comment => "Sets the color of your view border. Supported formats:  `#RRGGBB[AA]` and `#RGB[A]`."
+                :comment => "Sets the color of your view border. Supported formats:#RRGGBB[AA] and #RGB[A]."
             ),
             Field.new(
                 :name => "borderWidth",
@@ -49,31 +49,31 @@ class Style < BaseComponent
                 :name => "size",
                 :typeName => Size.new.name,
                 :isOptional => true,
-                :comment => "Allows  you to specify the size of the element."
+                :comment => "add size to current view applying the flex."
             ),
             Field.new(
                 :name => "margin",
                 :typeName => edge_value,
                 :isOptional => true,
-                :comment => "Allows you to apply a space to the child element."
+                :comment => "effects the spacing around the outside of a node.\nA node with margin will offset itself from the bounds of its parent\nbut also offset the location of any siblings.\nThe margin of a node contributes to the total size of its parent if the parent is auto sized."
             ),
             Field.new(
                 :name => "padding",
                 :typeName => edge_value,
                 :isOptional => true,
-                :comment => "Allows you to apply a space to the parent element. So when a child is created it starts with padding-defined spacing."
+                :comment => "affects the size of the node it is applied to.\nPadding in Yoga acts as if box-sizing: border-box; was set.\nThat is padding will not add to the total size of an element if it has an explicit size set.\nFor auto sized nodes padding will increase the size of the\nnode as well as offset the location of any children.."
             ),
             Field.new(
                 :name => "position",
                 :typeName => edge_value,
                 :isOptional => true,
-                :comment => "Sets the placement of the component in its parent."
+                :comment => "add padding to position."
             ),
             Field.new(
                 :name => "flex",
                 :typeName => Flex.new.name,
                 :isOptional => true,
-                :comment => "Apply positioning using the flex box concept."
+                :comment => ""
             ),
             Field.new(
                 :name => "positionType",
@@ -86,7 +86,7 @@ class Style < BaseComponent
                 :typeName => Display.new.name,
                 :isOptional => true,
                 :isBindable => true,
-                :comment => "Set the display type of the component, allowing o be flexible or locked."
+                :comment => "enables a flex context for all its direct children."
             )
             
         ]
@@ -94,6 +94,7 @@ class Style < BaseComponent
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.core",
+            :comment => "The style class will enable a few visual options to be changed.",
             :sameFileTypes => [CornerRadius.new, Display.new, PositionType.new]
         )
 
