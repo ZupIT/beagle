@@ -29,6 +29,15 @@ Feature: ScrollView Component Validation
         Then the current text "<text>" should be replaced for a large text and It should scroll to the "<buttonTitle>" button for tapping it
         
         Examples:
-        |                 text                    |      buttonTitle   |  orientation  |
-        | Click to see the new text in horizontal | horizontalScroll   | horizontal    |
-        | Click to see the new text in vertical   | verticalScroll     | vertical      |
+        |                 text                    |      buttonTitle         |  orientation  |
+        | Click to see the new text in horizontal | horizontal scroll        | horizontal    |
+        | Click to see the new text in vertical   | vertical scroll          | vertical      |
+
+    Scenario Outline: ScrollView 02 - the scrollview component should work correctly with another scrollview within
+        When I press on text "Click to see the new text" of scrollview
+        Then the current text "Click to see the new text" should be replaced for a large text and It should scroll to the "<buttonTitle>" button for tapping it
+        
+        Examples:
+        |        buttonTitle          |
+        |   horizontal direction      |
+        |   vertical direction        |

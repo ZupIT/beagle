@@ -17,21 +17,21 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 const val PARAGRAPH = """Lorem ipsum diam luctus mattis arcu accumsan, at curabitur hac in dictum senectus neque,
@@ -58,27 +58,13 @@ const val PARAGRAPH = """Lorem ipsum diam luctus mattis arcu accumsan, at curabi
 
 object ScrollViewScreenBuilder {
     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle ScrollView",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "ScrollView",
-                        message = "This component is a specialized container that will display its " +
-                            "components in a Scroll like view.",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
+                Text("Beagle ScrollView").applyStyle(Style(margin = EdgeValue(all = 10.unitReal()))),
                 getHorizontalScrollView(),
-                getVerticalScrollView()
+                getVerticalScrollView(),
+                scrollviewWithinScrollview()
             )
         )
     )
@@ -86,7 +72,6 @@ object ScrollViewScreenBuilder {
     private fun getHorizontalScrollView() = Container(
         context = ContextData(id = "testScrollHorizontal", value = "Click to see the new text in horizontal"),
         children = listOf(
-            Text("Horizontal ScrollView with scrollBars"),
             ScrollView(
                 children = listOf(
                     Text("Horizontal").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
@@ -109,9 +94,10 @@ object ScrollViewScreenBuilder {
                                             SetContext(contextId = "testScrollViewWithRotation", value = PARAGRAPH)
                                         )
                                     ),
-                                    Button(
-                                        text = "horizontalScroll"
-                                    )
+                                    Button(text = "horizontal scroll")
+                                        .applyStyle(Style(margin = EdgeValue(all = 10.unitReal()),
+                                            size = Size(width = 100.unitReal(), height = 100.unitReal())))
+                                        .applyFlex(flex = Flex(alignSelf = AlignSelf.FLEX_START)),
                                 ),
                                 scrollDirection = ScrollAxis.HORIZONTAL
                             )
@@ -121,14 +107,14 @@ object ScrollViewScreenBuilder {
                 scrollDirection = ScrollAxis.HORIZONTAL
             )
         )
-    ).applyStyle(Style(padding = EdgeValue(bottom = 20.unitReal(), left = 10.unitReal(), right = 10.unitReal())))
+    ).applyStyle(Style(padding = EdgeValue(left = 10.unitReal(), right = 10.unitReal())))
 
     private fun getVerticalScrollView() = Container(
         context = ContextData(id = "testScrollVertical", value = "Click to see the new text in vertical"),
         children = listOf(
             ScrollView(
                 children = listOf(
-                    Text("Vertical"),
+                    Text("Vertical").applyStyle(Style(margin = EdgeValue(bottom = 10.unitReal()))),
                     Touchable(
                         child = Text("@{testScrollVertical}"),
                         onPress = listOf(
@@ -148,16 +134,10 @@ object ScrollViewScreenBuilder {
                                         )
                                     ),
                                     Button(
-                                        text = "verticalScroll"
+                                        text = "vertical scroll"
                                     )
                                 ),
                                 scrollDirection = ScrollAxis.VERTICAL
-                            )
-                        )
-                    ).applyStyle(
-                        Style(
-                            padding = EdgeValue(
-                                bottom = 20.unitReal(), left = 10.unitReal(), right = 10.unitReal()
                             )
                         )
                     )
@@ -167,7 +147,47 @@ object ScrollViewScreenBuilder {
         )
     ).applyStyle(
         Style(
-            padding = EdgeValue(left = 10.unitReal())
+            margin = EdgeValue(left = 10.unitReal())
+        )
+    )
+
+    private fun scrollviewWithinScrollview() = Container(
+        context = ContextData(id = "testScrollWithinScroll", value = "Click to see the new text"),
+        children = listOf(
+            ScrollView(
+                scrollDirection = ScrollAxis.VERTICAL,
+                children = listOf(
+                    Text("Vertical scroll within scroll")
+                        .applyStyle(Style(margin = EdgeValue(top = 10.unitReal()))),
+                    Touchable(
+                        onPress = listOf(SetContext(contextId = "testScrollWithinScroll", value = PARAGRAPH)),
+                        child = Text("@{testScrollWithinScroll}")
+                            .applyStyle(Style(margin = EdgeValue(bottom = 10.unitReal())))),
+                    ScrollView(
+                        children = listOf(
+                            Text("Horizontal scroll within scroll")
+                                .applyStyle(Style(margin = EdgeValue(right = 10.unitReal()))),
+                            Button(text = "step").applyStyle(Style(margin = EdgeValue(all = 10.unitReal()),
+                                size = Size(width = 100.unitReal(), height = 100.unitReal()))),
+                            Text("horizontal $PARAGRAPH"),
+                            Button(text = "horizontal direction")
+                                .applyStyle(Style(margin = EdgeValue(all = 10.unitReal()),
+                                    size = Size(width = 100.unitReal(), height = 100.unitReal())))
+                                .applyFlex(flex = Flex(alignSelf = AlignSelf.BASELINE))
+                        ),
+                        scrollDirection = ScrollAxis.HORIZONTAL
+                    ),
+                    Button(
+                        text = "vertical direction"
+                    ).applyStyle(Style(margin = EdgeValue(all = 10.unitReal())))
+                )
+            )
+        )
+    ).applyStyle(
+        Style(
+            padding = EdgeValue(
+                bottom = 20.unitReal(), left = 10.unitReal(), right = 10.unitReal()
+            )
         )
     )
 
