@@ -22,7 +22,12 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.test.espresso.*
+import androidx.test.espresso.AmbiguousViewMatcherException
+import androidx.test.espresso.NoMatchingRootException
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.ViewInteraction
 import br.com.zup.beagle.widget.core.TextAlignment
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.CoreMatchers.any
