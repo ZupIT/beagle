@@ -35,6 +35,7 @@ android {
         versionName "${Dependencies.Releases.beagleVersionName}"
 
         testInstrumentationRunner Dependencies.GeneralNames.testInstrumentationRunner
+
         consumerProguardFiles Dependencies.GeneralNames.consumerProguard
     }
 
@@ -49,12 +50,10 @@ android {
     }
 
     testOptions {
+        unitTests.returnDefaultValues = true
 
         unitTests.all {
             useJUnitPlatform()
-            jacoco {
-                includeNoLocationClasses = true
-            }
         }
     }
 }
@@ -73,6 +72,7 @@ dependencies {
     testImplementation Dependencies.TestLibraries.robolectric
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.junit4
+    testImplementation Dependencies.TestLibraries.junitVintageEngine
     testImplementation Dependencies.TestLibraries.testRunner
     testImplementation Dependencies.TestLibraries.testExt
     testImplementation Dependencies.TestLibraries.espressoCore
