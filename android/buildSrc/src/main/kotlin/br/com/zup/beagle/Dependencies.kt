@@ -63,6 +63,7 @@ class Dependencies : Plugin<Project> {
         const val soLoader = "0.9.0"
 
         const val junit5 = "5.7.0"
+        const val junit4 = "4.13"
 
         const val yoga = "1.16.0"
 
@@ -80,10 +81,13 @@ class Dependencies : Plugin<Project> {
 
         const val mockk = "1.10.2"
 
-        const val testRunner = "1.2.0"
-        const val testExt = "1.1.1"
-        const val espressoCore = "3.2.0"
+        const val testRunner = "1.3.1-alpha02"
+        const val testExt = "1.1.3-alpha02"
+        const val espressoCore = "3.4.0-alpha02"
         const val archCoreTesting = "2.1.0"
+        const val testRules = "1.3.1-alpha02"
+        const val testCore = "1.3.1-alpha02"
+        const val robolectric = "4.4"
 
         const val incap = "0.3"
 
@@ -142,19 +146,22 @@ class Dependencies : Plugin<Project> {
     }
 
     object TestLibraries {
+        const val junit4 = "junit:junit:${Versions.junit4}"
         const val junitApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
         const val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
+        const val junitVintageEngine = "org.junit.vintage:junit-vintage-engine:${Versions.junit5}"
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
         const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
         const val googleCompileTesting = "com.google.testing.compile:compile-testing:${Versions.googleCompileTesting}"
         const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
         const val testRunner = "androidx.test:runner:${Versions.testRunner}"
         const val testExt = "androidx.test.ext:junit:${Versions.testExt}"
+        const val testCore = "androidx.test:core:${Versions.testCore}"
         const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
-        const val testRules = "androidx.test:rules:${Versions.testExt}"
+        const val testRules = "androidx.test:rules:${Versions.testRules}"
         const val cucumberAndroid = "info.cukes:cucumber-android:${Versions.cucumber}"
         const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${Versions.cucumber}"
-
+        const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
         const val kotlinCompileTesting = "com.github.tschuchortdev:kotlin-compile-testing:${Versions.kotlinCompileTesting}"
     }
 
