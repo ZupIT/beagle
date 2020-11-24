@@ -227,6 +227,7 @@ object ListViewScreenBuilder {
                     children = listOf(
                         Text("@{item.name}"),
                         ListView(
+                            key = "title",
                             onInit = listOf(
                                 SendRequest(
                                     url = expressionOf("/book-database/categories/@{item.name}"),
@@ -252,11 +253,15 @@ object ListViewScreenBuilder {
                                         dataSource = expressionOf("@{item.characters}"),
                                         template = Container(
                                             children = listOf(
-                                                Text(text = "- @{item}")
+                                                Text(text = "- @{item}").setId("character")
                                             )
                                         )
-                                    ).setId("character")
+                                    ).setId(
+                                        id = "bookCharactersList"
+                                    )
                                 )
+                            ).setId(
+                                id = "book"
                             ).applyStyle(
                                 Style(
                                     padding = EdgeValue(all = 8.unitReal()),

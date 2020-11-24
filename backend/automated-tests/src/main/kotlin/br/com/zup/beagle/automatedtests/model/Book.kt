@@ -61,7 +61,7 @@ data class Book(
                     book = Book(title = "Before the Storm", author = "Christie Golden")
                     bookList.add(book)
 
-                    book = Book(title = "Harry Potter and the Philosopher's Stone", author = "Harry Potter and the Philosopher's Stone")
+                    book = Book(title = "Harry Potter and the Philosopher's Stone", author = "J. K. Rowling")
                     bookList.add(book)
                 }
                 "Sci-fi" -> {
