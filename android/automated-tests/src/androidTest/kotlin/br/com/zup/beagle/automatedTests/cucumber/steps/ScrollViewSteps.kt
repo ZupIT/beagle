@@ -111,7 +111,7 @@ class ScrollViewScreenSteps {
             .clickOnText(string)
     }
 
-    @Then("^the text (.*) of horizontal of scrollview rotate should change$")
+    @Then("^the (.*) text of the horizontal scrollview with rotation should change$")
     fun checkNewTextScrollViewRotationHorizontal(string: String) {
         ScreenRobot()
             .checkViewContainsText(PARAGRAPH, true)

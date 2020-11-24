@@ -39,7 +39,7 @@ Feature: ScrollView Component Validation
 
     Scenario Outline: ScrollView 03 - scrollView component should be render the correctly texts in horizontal even if the screen is rotated
         When I press on text to be scrolled and rotated <textScrollViewRotate>
-        Then the text <textScrollViewRotate> of horizontal of scrollview rotate should change
+        Then the <textScrollViewRotate> text of the horizontal scrollview with rotation should change
         And the scrollview rotate should perform horizontally <buttonScrollVertical>
         And even if the screen is rotated the scrollview must be perform horizontally <buttonScrollHorizontal>
 
