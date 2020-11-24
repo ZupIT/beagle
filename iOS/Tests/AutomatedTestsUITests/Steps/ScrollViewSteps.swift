@@ -45,9 +45,15 @@ class ScrollViewSteps: CucumberStepsDefinition {
             self.application.staticTexts[text].tap()
         }
         
+        //Scenario 2
+        When(#"^I press on text "([^\"]*)" of scrollview$"#) { args, _ -> Void in
+            let text = args![0]
+            self.application.staticTexts[text].tap()
+        }
+        
         // MARK: - Then
         
-        // Scenario 1
+        // Scenario 1, 2
         Then(#"^the current text "([^\"]*)" should be replaced for a large text and It should scroll to the "([^\"]*)" button for tapping it$"#) { args, _ -> Void in
             let text = args![0]
             let buttonTitle = args![1]            
