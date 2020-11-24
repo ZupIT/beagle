@@ -66,35 +66,75 @@ Feature: TextInput Validation
             | is a textInput in second plan                 |
             | is a textInput in second plan with expression |
 
-    Scenario Outline: TextInput 06 - validate textInput of type number
-        Then validate that a textInput <textInputTypeNumber> of type number is set
+    Scenario Outline: TextInput 06 - validate date entry when using "date" type
+        Then validate if the text Input component <textInputTypeDate> text with the date type keyboard is shown
+
+        Examples:
+            | textInputTypeDate            |
+            | writing date                 |
+            | writing date with expression |
+
+    Scenario Outline: TextInput 07 - validate textInput of type email
+        Then validate if the text Input component <textInputTypeEmail> text with the e-mail type keyboard is shown
+
+        Examples:
+            | textInputTypeEmail             |
+            | writing e-mail                 |
+            | writing e-mail with expression |
+
+    Scenario Outline: TextInput 08 - validate textInput of type password
+        Then validate if the text Input component <textInputTypePassword> text with the password type keyboard is shown
+
+        Examples:
+            | textInputTypePassword            |
+            | writing password                 |
+            | writing password with expression |
+
+    Scenario Outline: TextInput 09 - validate textInput of type number
+        Then validate if the text Input component <textInputTypeNumber> text with the number type keyboard is shown
+
+        Examples:
+            | textInputTypeNumber            |
+            | writing number                 |
+            | writing number with expression |
+
+    Scenario Outline: TextInput 10 - validate textInput of type text
+        Then validate if the text Input component <textInputTypeText> text with the text type keyboard is shown
+
+        Examples:
+            | textInputTypeText            |
+            | writing text                 |
+            | writing text with expression |
+
+    Scenario Outline: TextInput 11 - validate keyboard with type "number"
+        Then validate keyboard type with type attribute of type number of textInput component <textInputTypeNumber>
 
         Examples:
             | textInputTypeNumber                      |
             | is textInput type number                 |
             | is textInput type number with expression |
 
-    Scenario: TextInput 07 - validate textInput with action onFocus
+    Scenario: TextInput 12 - validate textInput with action onFocus
         When I click the textInput with the placeholder action validation
         Then the textInput with the placeholder "Unordered actions" will change its value to DidOnFocus
 
-    Scenario: TextInput 08 - validate textInput with action onChange
+    Scenario: TextInput 13 - validate textInput with action onChange
         When I click the textInput with the placeholder action validation
         And I type anything on textInput with the placeholder action validation
         Then the textInput with the placeholder "Unordered actions" will change its value to DidOnChange
 
-    Scenario: TextInput 09 - validate textInput with action onBlur
+    Scenario: TextInput 14 - validate textInput with action onBlur
         When I click the textInput with the placeholder action validation
         And I click the textInput with the placeholder is textInput type number
         Then the textInput with the placeholder "Unordered actions" will change its value to DidOnBlur
 
-    Scenario: TextInput 10 - validate the actions of the textInput when they're executed in sequence
+    Scenario: TextInput 15 - validate the actions of the textInput when they're executed in sequence
         When I click the textInput with the placeholder action order
         And I type anything on textInput with the placeholder action order
         And I click the textInput with the placeholder is textInput type number
         Then the textInput with the placeholder "Ordered actions" should have value DidOnFocusDidOnChangeDidOnBlur
 
-    Scenario Outline: TextInput 11 - validate that textInput is hidden
+    Scenario Outline: TextInput 16 - validate that textInput is hidden
         Then The hidden input fields <textInputHidden> should not be visible
 
         Examples:

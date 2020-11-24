@@ -92,10 +92,58 @@ class TextInputScreen {
     @Then("^verify if the text (.*) is in the second plan$")
     fun checkKeyboardFocus(string: String) {
         ScreenRobot()
-            .hintInSecondPlan(string)
+
     }
 
-    @Then("^validate that a textInput (.*) of type number is set$")
+    @Then("^validate if the text Input component (.*) text with the date type keyboard is shown$")
+    fun checkDateWriting(string: String) {
+        ScreenRobot()
+            .checkViewContainsHint(string)
+            .clickOnInputWithHint(string)
+            .typeText(string,"22/04/1500")
+            .checkViewContainsText("22/04/1500")
+    }
+
+    @Then("^validate if the text Input component (.*) text with the e-mail type keyboard is shown$")
+    fun checkEmailWriting(string: String) {
+        ScreenRobot()
+            .scrollToWithHint("writing password")
+            .checkViewContainsHint(string)
+            .clickOnInputWithHint(string)
+            .typeText(string,"test@abc.com")
+            .checkViewContainsText("test@abc.com")
+    }
+    @Then("^validate if the text Input component (.*) text with the password type keyboard is shown$")
+    fun checkPasswordWriting(string: String) {
+        ScreenRobot()
+            .scrollToWithHint("writing text")
+            .checkViewContainsHint(string)
+            .clickOnInputWithHint(string)
+            .typeText(string,"123")
+            .checkViewContainsText("123")
+    }
+
+    @Then("^validate if the text Input component (.*) text with the number type keyboard is shown$")
+    fun checkNumberWriting(string: String) {
+        ScreenRobot()
+            .scrollToWithHint("writing text")
+            .checkViewContainsHint(string)
+            .clickOnInputWithHint(string)
+            .typeText(string,"12345678")
+            .checkViewContainsText("12345678")
+    }
+
+    @Then("^validate if the text Input component (.*) text with the text type keyboard is shown$")
+    fun checkTextWriting(string: String) {
+        ScreenRobot()
+            .scrollToWithHint("Unordered actions")
+            .checkViewContainsHint(string)
+            .clickOnInputWithHint(string)
+            .typeText(string,"This is a test!")
+            .checkViewContainsText("This is a test!")
+    }
+
+    @Then("^validate keyboard type with type attribute of type number of textInput component (.*)$")
     fun validateTextsInputNumberType(string: String) {
         ScreenRobot()
             .checkInputTypeNumber(string)
