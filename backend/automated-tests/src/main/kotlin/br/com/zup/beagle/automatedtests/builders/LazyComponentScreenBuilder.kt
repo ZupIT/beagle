@@ -16,13 +16,12 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.automatedtests.constants.GLOBAL_TEXT_ENDPOINT
-import br.com.zup.beagle.automatedtests.constants.LAZY_COMPONENT_2_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LAZY_FAILURE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LAZY_SUCCESS_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
@@ -31,18 +30,22 @@ object LazyComponentScreenBuilder {
         child = Container(
             listOf(
                 Text("LazyComponent Screen"),
-                LazyComponent(
-                    path = LAZY_COMPONENT_2_ENDPOINT,
-                    initialState = Text("Loading...")
-                ),
                 Button(
-                    text = "Call 2nd Lazy screen again",
+                    text = "Call lazy successful component screen",
                     onPress = listOf(
                         Navigate.PushStack(
-                            Route.Remote(LAZY_COMPONENT_2_ENDPOINT)
+                            Route.Remote(LAZY_SUCCESS_ENDPOINT)
                         )
                     )
+                ),
+                Button(
+                    text = "Call lazy failure component screen",
+                    onPress = listOf(
+                        Navigate.PushStack(
+                            Route.Remote(LAZY_FAILURE_ENDPOINT)
+                        )
                     )
+                )
             )
         )
     )

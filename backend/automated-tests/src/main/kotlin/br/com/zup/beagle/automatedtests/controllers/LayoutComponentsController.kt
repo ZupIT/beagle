@@ -31,16 +31,17 @@ import br.com.zup.beagle.automatedtests.builders.WebViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.LazyComponentScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ImageRemoteScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ActionScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.LazyComponentResultScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.LazyFailureScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.LazySuccessScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.PageViewTwoScreenBuilder
-import br.com.zup.beagle.automatedtests.constants.LAZY_COMPONENT_2_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LAZY_FAILURE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LAZY_SUCCESS_ENDPOINT
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class LayoutComponentsController {
-
 
     @GetMapping(SIMPLE_FORM_ENDPOINT)
     fun getSimpleFormScreen() = SimpleFormScreenBuilder.build()
@@ -57,8 +58,11 @@ class LayoutComponentsController {
     @GetMapping(LAZY_COMPONENT_ENDPOINT)
     fun getLazyComponentScreen() = LazyComponentScreenBuilder.build()
 
-    @GetMapping(LAZY_COMPONENT_2_ENDPOINT)
-    fun getLazyComponent2ndScreen() = LazyComponentResultScreenBuilder.build()
+    @GetMapping(LAZY_SUCCESS_ENDPOINT)
+    fun getLazySuccessScreen() = LazySuccessScreenBuilder.build()
+
+    @GetMapping(LAZY_FAILURE_ENDPOINT)
+    fun getLazyFailureScreen() = LazyFailureScreenBuilder.build()
 
     @GetMapping(IMAGE_REMOTE_ENDPOINT)
     fun getImageRemoteScreen() = ImageRemoteScreenBuilder.build()
@@ -68,5 +72,4 @@ class LayoutComponentsController {
 
     @GetMapping(PAGEVIEW_TWO_ENDPOINT)
     fun getPageViewTwoScreen() = PageViewTwoScreenBuilder.build()
-
 }
