@@ -132,6 +132,9 @@ object ScrollViewScreenBuilder {
                                         onPress = listOf(
                                             SetContext(contextId = "testScrollRotation", value = PARAGRAPH)
                                         )
+                                    ),
+                                    Button(
+                                        text = "vertical scroll"
                                     )
                                 ),
                                 scrollDirection = ScrollAxis.VERTICAL
