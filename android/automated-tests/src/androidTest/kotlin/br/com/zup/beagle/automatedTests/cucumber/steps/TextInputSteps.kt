@@ -95,7 +95,7 @@ class TextInputScreen {
 
     }
 
-    @Then("^validate if the text Input component (.*) text with the date type keyboard is shown$")
+    @Then("^validate if the text Input component (.*) hint with the date type$")
     fun checkDateWriting(string: String) {
         ScreenRobot()
             .checkViewContainsHint(string)
@@ -104,7 +104,7 @@ class TextInputScreen {
             .checkViewContainsText("22/04/1500")
     }
 
-    @Then("^validate if the text Input component (.*) text with the e-mail type keyboard is shown$")
+    @Then("^validate if the text Input component (.*) hint with the e-mail type$")
     fun checkEmailWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("writing password")
@@ -113,7 +113,7 @@ class TextInputScreen {
             .typeText(string,"test@abc.com")
             .checkViewContainsText("test@abc.com")
     }
-    @Then("^validate if the text Input component (.*) text with the password type keyboard is shown$")
+    @Then("^validate if the text Input component (.*) hint with the password type$")
     fun checkPasswordWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("writing text")
@@ -123,7 +123,7 @@ class TextInputScreen {
             .checkViewContainsText("123")
     }
 
-    @Then("^validate if the text Input component (.*) text with the number type keyboard is shown$")
+    @Then("^validate if the text Input component (.*) hint with the number type$")
     fun checkNumberWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("writing text")
@@ -133,7 +133,7 @@ class TextInputScreen {
             .checkViewContainsText("12345678")
     }
 
-    @Then("^validate if the text Input component (.*) text with the text type keyboard is shown$")
+    @Then("^validate if the text Input component (.*) hint with the text type$")
     fun checkTextWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("Unordered actions")
@@ -143,7 +143,7 @@ class TextInputScreen {
             .checkViewContainsText("This is a test!")
     }
 
-    @Then("^validate keyboard type with type attribute of type number of textInput component (.*)$")
+    @Then("^validate attribute of \"type number\" of textInput component (.*)$")
     fun validateTextsInputNumberType(string: String) {
         ScreenRobot()
             .checkInputTypeNumber(string)

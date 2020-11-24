@@ -67,7 +67,7 @@ Feature: TextInput Validation
             | is a textInput in second plan with expression |
 
     Scenario Outline: TextInput 06 - validate date entry when using "date" type
-        Then validate if the text Input component <textInputTypeDate> text with the date type keyboard is shown
+        Then validate if the text Input component <textInputTypeDate> hint with the date type
 
         Examples:
             | textInputTypeDate            |
@@ -75,7 +75,7 @@ Feature: TextInput Validation
             | writing date with expression |
 
     Scenario Outline: TextInput 07 - validate textInput of type email
-        Then validate if the text Input component <textInputTypeEmail> text with the e-mail type keyboard is shown
+        Then validate if the text Input component <textInputTypeEmail> hint with the e-mail type
 
         Examples:
             | textInputTypeEmail             |
@@ -83,7 +83,7 @@ Feature: TextInput Validation
             | writing e-mail with expression |
 
     Scenario Outline: TextInput 08 - validate textInput of type password
-        Then validate if the text Input component <textInputTypePassword> text with the password type keyboard is shown
+        Then validate if the text Input component <textInputTypePassword> hint with the password type
 
         Examples:
             | textInputTypePassword            |
@@ -91,7 +91,7 @@ Feature: TextInput Validation
             | writing password with expression |
 
     Scenario Outline: TextInput 09 - validate textInput of type number
-        Then validate if the text Input component <textInputTypeNumber> text with the number type keyboard is shown
+        Then validate if the text Input component <textInputTypeNumber> hint with the number type
 
         Examples:
             | textInputTypeNumber            |
@@ -99,7 +99,7 @@ Feature: TextInput Validation
             | writing number with expression |
 
     Scenario Outline: TextInput 10 - validate textInput of type text
-        Then validate if the text Input component <textInputTypeText> text with the text type keyboard is shown
+        Then validate if the text Input component <textInputTypeText> hint with the text type
 
         Examples:
             | textInputTypeText            |
@@ -107,7 +107,7 @@ Feature: TextInput Validation
             | writing text with expression |
 
     Scenario Outline: TextInput 11 - validate keyboard with type "number"
-        Then validate keyboard type with type attribute of type number of textInput component <textInputTypeNumber>
+        Then validate attribute of "type number" of textInput component <textInputTypeNumber>
 
         Examples:
             | textInputTypeNumber                      |
