@@ -292,8 +292,9 @@ object ListViewScreenBuilder {
     ).applyStyle(Style(size = Size(height = 350.unitReal())))
 
     private fun thirdListView() = Container(
+        context = ContextData(id = "initialized", value = 0),
         children = listOf(
-            Text("Books List View (infinite scroll)")
+            Text("Books List View (infinite scroll): @{initialized} items initialized")
                 .applyStyle(
                     Style(
                         margin = EdgeValue(
@@ -307,6 +308,12 @@ object ListViewScreenBuilder {
                 direction = ListDirection.VERTICAL,
                 dataSource = expressionOf("@{thirdResponse.result}"),
                 template = Container(
+                    onInit = listOf(
+                        SetContext(
+                            contextId = "initialized",
+                            value = "@{sum(initialized, 1)}"
+                        )
+                    ),
                     children = listOf(
                         Text(text = "@{item.title}"),
                         Text(text = "Author: @{item.author}"),
