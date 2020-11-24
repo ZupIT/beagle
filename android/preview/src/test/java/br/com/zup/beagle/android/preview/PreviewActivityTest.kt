@@ -16,18 +16,26 @@
 
 package br.com.zup.beagle.android.preview
 
-import android.content.Context
-import android.widget.FrameLayout
+import android.app.Application
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.android.setup.BeagleSdk
+import com.facebook.yoga.YogaNode
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
+import io.mockk.verify
+import io.mockk.verifyOrder
+import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.shadows.ShadowToast
-import java.lang.Exception
 
 @RunWith(AndroidJUnit4::class)
 class PreviewActivityTest {
@@ -71,14 +79,22 @@ class PreviewActivityTest {
 
     @Test
     fun `GIVEN a preview Activity WHEN on message called THEN should show screen`() {
-
         // WHEN
+        val application = ApplicationProvider.getApplicationContext() as Application
+        val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
+        val view = View(application)
+        var activity: PreviewActivity? = null
+
+        mockkStatic(YogaNode::class)
+
+        every { YogaNode.create() } returns yogaNode
+        every { yogaNode.data } returns view
+
         BeagleSdk.setInTestMode()
+        MyBeagleSetup().init(application)
 
-        MyBeagleSetup().init(ApplicationProvider.getApplicationContext())
-
+        // GIVEN
         val activityScenario: ActivityScenario<PreviewActivity> = ActivityScenario.launch(PreviewActivity::class.java)
-
         activityScenario.onActivity {
             it.onMessage(
                 """
@@ -92,13 +108,28 @@ class PreviewActivityTest {
                         ]
                     }
                 """)
+
             activityScenario.moveToState(Lifecycle.State.RESUMED)
-            it.findViewById<FrameLayout>(R.id.flPreview)
+            activity = it
         }
 
+        // THEN
+        assertNotNull(activity!!.supportFragmentManager.fragments.first().view)
+    }
+
+    @Test
+    fun `GIVEN a preview Activity WHEN move to state to destroy THEN should call on destroy`() {
+        // WHEN
+        mockkConstructor(BeaglePreview::class)
+
+        val activityScenario: ActivityScenario<PreviewActivity> = ActivityScenario.launch(PreviewActivity::class.java)
+        activityScenario.moveToState(Lifecycle.State.DESTROYED)
 
         // THEN
-        assertEquals(ShadowToast.getTextOfLatestToast().toString(), "Welcome: test")
+        verifyOrder {
+            anyConstructed<BeaglePreview>().closeWebSocket()
+            anyConstructed<BeaglePreview>().doNotReconnect()
+        }
     }
 
 }

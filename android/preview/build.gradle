@@ -75,7 +75,7 @@ dependencies {
     testImplementation Dependencies.TestLibraries.espressoCore
     testImplementation Dependencies.TestLibraries.testCore
     testImplementation Dependencies.TestLibraries.testRules
-    testImplementation "androidx.fragment:fragment-testing:1.2.5"
+    testImplementation Dependencies.GeneralLibraries.yoga
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
