@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.page
+package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.android.widget.ViewConvertable
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-/**
- * Base of page indicator component.
- */
-@Deprecated(message = "This interface was deprecated in version 1.1.0 and will be removed in a future version.")
-interface PageIndicatorComponent : ServerDrivenComponent,
-    ViewConvertable {
-    fun setCount(pages: Int)
-    fun onItemUpdated(newIndex: Int)
-    fun initPageView(pageIndicatorOutput: PageIndicatorOutput)
+internal object BeagleRegex {
+    val EXPRESSION_REGEX = "(\\\\*)\"?@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}\"?".toRegex()
+    val FULL_MATCH_EXPRESSION_SEPARATOR_REGEX = "(?<=\\}\"?)".toRegex()
+    val QUANTITY_OF_SLASHES_REGEX = "(\\\\*)@".toRegex()
 }

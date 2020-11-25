@@ -29,7 +29,6 @@ import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.TabViewDeprecatedConstants
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
@@ -53,12 +52,13 @@ private val TAB_BAR_HEIGHT = 48.dp()
  *
  */
 @RegisterWidget
-@Deprecated(message = TabViewDeprecatedConstants.TAB_VIEW,
-    replaceWith = ReplaceWith(TabViewDeprecatedConstants.TAB_VIEW_REPLACE))
+@Deprecated(message = "It was deprecated in version 1.1.0 and will be removed in a future version. " +
+    "Use TabBar instead.",
+    replaceWith = ReplaceWith("TabBar(items=children, styleId=styleId, currentTab=null, onTabSelection=null)"))
 data class TabView(
     override val children: List<TabItem>,
     val styleId: String? = null,
-    override val context: ContextData? = null
+    override val context: ContextData? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
@@ -161,7 +161,7 @@ data class TabView(
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
-                positionOffsetPixels: Int
+                positionOffsetPixels: Int,
             ) {
             }
 
@@ -175,7 +175,7 @@ data class TabView(
 internal class ContentAdapter(
     private val children: List<TabItem>,
     private val viewFactory: ViewFactory,
-    private val rootView: RootView
+    private val rootView: RootView,
 ) : PagerAdapter() {
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean = view === `object`
