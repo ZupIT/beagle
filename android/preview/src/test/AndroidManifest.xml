@@ -17,9 +17,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.zup.beagle.android.preview">
 
-    <application>
-
-        <activity android:name="br.com.zup.beagle.android.preview.PreviewActivity" />
-
-    </application>
+    <application android:theme="@style/Theme.AppCompat.NoActionBar"/>
 </manifest>

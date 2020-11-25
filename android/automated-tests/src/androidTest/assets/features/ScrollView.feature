@@ -30,27 +30,24 @@ Feature: ScrollView Component Validation
 
     Scenario Outline: ScrollView 02 - scrollView component should be render the correctly texts and perform the scroll horizontal
         When I press on text scroll horizontal <textScrollHorizontal>
-        Then the text should change for the next and the scrollview should perform horizontally <textScrollHorizontal>
+        Then the text <textScrollHorizontal> should change for the next text
+        And the scrollview should perform horizontally going up <buttonScrollVertical>
 
         Examples:
-            | textScrollHorizontal                    |
-            | Click to see the new text in horizontal |
+            | textScrollHorizontal                    | buttonScrollVertical |
+            | Click to see the new text in horizontal | horizontal scroll    |
 
     Scenario Outline: ScrollView 03 - scrollView component should be render the correctly texts in horizontal even if the screen is rotated
         When I press on text to be scrolled and rotated <textScrollViewRotate>
-        Then the text horizontal of scrollview rotate should change
-        And the scrollview rotate should perform horizontally <textScrollViewRotate>
-        And even if the screen is rotated the scrollview must be perform horizontally <textScrollViewRotate>
+        Then the <textScrollViewRotate> text of the horizontal scrollview with rotation should change
+        And the scrollview rotate should perform horizontally <buttonScrollVertical>
+        And even if the screen is rotated the scrollview must be perform horizontally <buttonScrollHorizontal>
 
         Examples:
-            | textScrollViewRotate                                         |
-            | Click to see the text change, rotate and scroll horizontally |
+            | textScrollViewRotate                                         | buttonScrollHorizontal |
+            | Click to see the text change, rotate and scroll horizontally | horizontal scroll      |
 
-    Scenario: ScrollView 04 - scrollView component performs vertical scroll correctly
-        When I have a vertical scroll configured
-        Then scrollview screen should perform the scroll action vertically
-
-    Scenario Outline: ScrollView 05 - scrollView component should be render the correctly texts and perform the scroll vertically
+    Scenario Outline: ScrollView 04 - scrollView component should be render the correctly texts and perform the scroll vertically
         When I press on text scrollview vertical <textScrollVertical>
         Then the text should change
         And the scrollview should perform vertically <textScrollVertical>
@@ -59,14 +56,20 @@ Feature: ScrollView Component Validation
             | textScrollVertical                    |
             | Click to see the new text in vertical |
 
-    Scenario Outline: ScrollView 06 - scrollView component should be render the correctly texts in vertical even if the screen is rotated
+    Scenario Outline: ScrollView 05 - scrollView component should be render the correctly texts in vertical even if the screen is rotated
         When I press on text scrollview to be rotate <textScrollRotate>
         Then the text vertical of scrollview rotate should change
         And the scrollview rotate should perform vertically <textScrollRotate>
-        And even if the screen is rotated the scrollview must be perform vertically <textScrollRotate>
+        And even if the screen is rotated the scrollview must be perform vertically <buttonScrollVertical>
 
         Examples:
-            | textScrollRotate                                           |
-            | Click to see the text change, rotate and scroll vertically |
+            | textScrollRotate                                           | buttonScrollVertical |
+            | Click to see the text change, rotate and scroll vertically | horizontal scroll    |
+
+    Scenario: ScrollView 06 - the scrollview component should work correctly with another scrollview within
+        When I press on text Click to see the new text of scrollview
+        Then the scrollview should be render vertically
+        And the other scrollview should be render horizontally
+
 
 
