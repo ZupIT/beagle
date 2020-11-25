@@ -26,11 +26,9 @@ Feature: Lazy component Validation
 
     Scenario: LazyComponent 01 - Create LazyComponent component and check if it shows the initial
     component and after making the request it shows the new component.
-    The lazy component was created and checked at the "Given" step above.
 
         When I click on button Call lazy successful component screen
-        Then an screen with an element Loading to success should be visible
-        Then an screen with an element Container Screen should be visible
+        Then an screen with an element WebView screen should be visible
 
     Scenario: LazyComponent 02 - Create LazyComponent component and check if it shows the initial component
     and after making the request with error and check if it only shows the initial component
