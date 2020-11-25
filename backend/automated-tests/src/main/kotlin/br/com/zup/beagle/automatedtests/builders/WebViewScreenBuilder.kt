@@ -16,35 +16,44 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.ui.ImagePath
+import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.WebView
 
 object WebViewScreenBuilder {
     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle Web View",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = ImagePath.Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "Web View",
-                        message = "The Web View component is responsible for defining a web view natively " +
-                            "using server driven information",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
         child = Container(
+            context = ContextData(id ="WebViewContext", value = "https://google.com"),
             children = listOf(
-                WebView(url = "https://zup.com.br")
+                Text("WebView screen"),
+
+                Container(children = listOf(
+                    Text("WebViewHardcoded"),
+                    WebView(url = "https://google.com")
+                )).applyStyle(style = Style(
+                    margin = EdgeValue(top = UnitValue(10.0, UnitType.REAL)),
+                    size = Size(height = UnitValue(250.0, UnitType.REAL)))),
+
+                Container(children = listOf(
+                    Text("WebViewExpression"),
+                    WebView(url = "@{WebViewContext}")
+                )).applyStyle(style = Style(
+                    margin = EdgeValue(top = UnitValue(10.0, UnitType.REAL)),
+                    size = Size(height = UnitValue(250.0, UnitType.REAL)))),
+                Button(
+                    text = "ClickToChangePage",
+                    onPress = listOf(SetContext("WebViewContext", "https://git-scm.com"))
+                )
             )
         )
     )
