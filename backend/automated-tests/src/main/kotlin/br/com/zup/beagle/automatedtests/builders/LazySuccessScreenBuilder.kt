@@ -16,12 +16,11 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.automatedtests.constants.CONTAINER_TEST_ENDPOINT
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.ui.Text
-
-const val MOCKED_CONTAINER = "https://run.mocky.io/v3/b71d4999-0138-467e-bd3e-645540c29b9f"
 
 object LazySuccessScreenBuilder {
     fun build() = Screen(
@@ -29,7 +28,7 @@ object LazySuccessScreenBuilder {
             listOf(
                 Text("LazyComponent Success Screen"),
                 LazyComponent(
-                    path = MOCKED_CONTAINER,
+                    path = CONTAINER_TEST_ENDPOINT,
                     initialState = Text("Loading to success")
                 )
             )
