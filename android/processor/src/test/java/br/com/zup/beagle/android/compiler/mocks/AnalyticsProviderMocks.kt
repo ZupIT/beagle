@@ -16,23 +16,24 @@
 
 package br.com.zup.beagle.android.compiler.mocks
 
-const val VALID_HTTP_CLIENT =
+
+const val VALID_ANALYTICS_PROVIDER =
     """
-        import br.com.zup.beagle.android.networking.HttpClient
+        import br.com.zup.beagle.analytics2.AnalyticsProvider
 
         @BeagleComponent
-        class HttpClientTest: HttpClient { }
+        class AnalyticsProviderTest: AnalyticsProvider { }
     """
 
-const val VALID_SECOND_HTTP_CLIENT =
+const val VALID_SECOND_ANALYTICS_PROVIDER =
     """
         @BeagleComponent
-        class HttpClientTestTwo: HttpClient { }
+        class AnalyticsProviderTestTwo: AnalyticsProvider { }
     """
 
-const val LIST_OF_HTTP_CLIENT = VALID_HTTP_CLIENT + VALID_SECOND_HTTP_CLIENT
+const val LIST_OF_ANALYTICS_PROVIDER = VALID_ANALYTICS_PROVIDER + VALID_SECOND_ANALYTICS_PROVIDER
 
-const val VALID_HTTP_CLIENT_BEAGLE_SDK =
+const val VALID_ANALYTICS_PROVIDER_BEAGLE_SDK =
     """
         @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST")
         
@@ -70,7 +71,7 @@ const val VALID_HTTP_CLIENT_BEAGLE_SDK =
             
             public override val deepLinkHandler : DeepLinkHandler? = null
             
-            public override val httpClient : HttpClient = br.com.test.beagle.HttpClientTest()
+            public override val httpClient : HttpClient? = null
 
             public override val designSystem : DesignSystem? = null
 
@@ -80,7 +81,7 @@ const val VALID_HTTP_CLIENT_BEAGLE_SDK =
 
             public override val analytics : Analytics? = null
 
-            public override val analyticsProvider : AnalyticsProvider? = null
+            public override val analyticsProvider : AnalyticsProvider = br.com.test.beagle.AnalyticsProviderTest()
 
             public override val logger : BeagleLogger? = null
 

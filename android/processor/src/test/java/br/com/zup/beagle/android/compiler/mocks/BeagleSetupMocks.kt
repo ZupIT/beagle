@@ -25,6 +25,7 @@ const val COMPLETE_BEAGLE_CUSTOM_CLASS =
         import br.com.zup.beagle.android.annotation.RegisterController
         import br.com.zup.beagle.android.view.BeagleActivity
         import br.com.zup.beagle.analytics.Analytics
+        import br.com.zup.beagle.analytics2.AnalyticsProvider
         import br.com.zup.beagle.annotation.RegisterAction
         import br.com.zup.beagle.android.action.Action
         import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
@@ -49,6 +50,9 @@ const val COMPLETE_BEAGLE_CUSTOM_CLASS =
         
         @BeagleComponent
         class AnalyticsTest: Analytics { }
+        
+        @BeagleComponent
+        class AnalyticsProviderTest: AnalyticsProvider { }
         
         @RegisterAction
         class ActionTest: Action { }
@@ -112,6 +116,7 @@ const val BEAGLE_SETUP_COMPLETE =
         
         import br.com.test.beagle.BeagleConfigImpl
         import br.com.zup.beagle.analytics.Analytics
+        import br.com.zup.beagle.analytics2.AnalyticsProvider
         import br.com.zup.beagle.android.`data`.serializer.adapter.generic.TypeAdapterResolver
         import br.com.zup.beagle.android.action.Action
         import br.com.zup.beagle.android.action.FormLocalActionHandler
@@ -150,7 +155,9 @@ const val BEAGLE_SETUP_COMPLETE =
           public override val urlBuilder: UrlBuilder = br.com.test.beagle.UrlBuilderTest()
         
           public override val analytics: Analytics = br.com.test.beagle.AnalyticsTest()
-        
+
+          public override val analyticsProvider: AnalyticsProvider = br.com.test.beagle.AnalyticsProviderTest()
+
           public override val logger: BeagleLogger = br.com.test.beagle.LoggerTest()
         
           public override val controllerReference: BeagleControllerReference =
