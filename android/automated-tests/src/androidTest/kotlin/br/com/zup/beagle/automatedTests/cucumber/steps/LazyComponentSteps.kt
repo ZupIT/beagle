@@ -25,7 +25,6 @@ import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
-import cucumber.api.java.en.When
 import org.junit.Rule
 
 const val LAZY_COMPONENT_BFF_URL = "http://10.0.2.2:8080/lazycomponent"
