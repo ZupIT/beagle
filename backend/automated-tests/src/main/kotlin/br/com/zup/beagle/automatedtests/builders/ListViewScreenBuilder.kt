@@ -21,6 +21,8 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.setId
 import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.platform.BeaglePlatform
+import br.com.zup.beagle.platform.forPlatform
 import br.com.zup.beagle.widget.action.Condition
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.action.SetContext
@@ -302,47 +304,52 @@ object ListViewScreenBuilder {
                             bottom = 8.unitReal(),
                             left = 8.unitReal()))
                 ),
-            ListView(
-                useParentScroll = true,
-                scrollEndThreshold = 80,
-                direction = ListDirection.VERTICAL,
-                dataSource = expressionOf("@{thirdResponse.result}"),
-                template = Container(
-                    onInit = listOf(
-                        SetContext(
-                            contextId = "initialized",
-                            value = "@{sum(initialized, 1)}"
-                        )
-                    ),
-                    children = listOf(
-                        Text(text = "@{item.title}"),
-                        Text(text = "Author: @{item.author}"),
-                        Text(text = "Collection: @{item.collection}"),
-                        Text(text = "Book Number: @{item.bookNumber}"),
-                        Text(text = "Genre: @{item.genre}"),
-                        Text(text = "Rating: @{item.rating}")
+            createThirdListView(null).forPlatform(BeaglePlatform.WEB),
+            createThirdListView(200).forPlatform(BeaglePlatform.MOBILE),
+        )
+    )
+
+    private fun createThirdListView(listHeight: Int?): ListView {
+        val listView = ListView(
+            useParentScroll = true,
+            scrollEndThreshold = 80,
+            direction = ListDirection.VERTICAL,
+            dataSource = expressionOf("@{thirdResponse.result}"),
+            template = Container(
+                onInit = listOf(
+                    SetContext(
+                        contextId = "initialized",
+                        value = "@{sum(initialized, 1)}"
                     )
-                ).applyStyle(
-                    Style(
-                        margin = EdgeValue(
-                            top = 8.unitReal(),
-                            bottom = 8.unitReal(),
-                            left = 8.unitReal()))
                 ),
-                onScrollEnd = listOf(
-                    Condition(
-                        condition = expressionOf("@{gt(thirdResponse.totalPages, thirdResponse.currentPage)}"),
-                        onTrue = listOf(
-                            SendRequest(
-                                url = expressionOf("/book-database/books?page=@{sum(thirdResponse.currentPage, 1)}"),
-                                onSuccess = listOf(
-                                    SetContext(
-                                        contextId = "thirdResponse",
-                                        value = PageResponse(
-                                            currentPage = expressionOf("@{onSuccess.data.currentPage}"),
-                                            totalPages = expressionOf("@{onSuccess.data.totalPages}"),
-                                            result = expressionOf("@{union(thirdResponse.result, onSuccess.data.result)}")
-                                        )
+                children = listOf(
+                    Text(text = "@{item.title}"),
+                    Text(text = "Author: @{item.author}"),
+                    Text(text = "Collection: @{item.collection}"),
+                    Text(text = "Book Number: @{item.bookNumber}"),
+                    Text(text = "Genre: @{item.genre}"),
+                    Text(text = "Rating: @{item.rating}")
+                )
+            ).applyStyle(
+                Style(
+                    margin = EdgeValue(
+                        top = 8.unitReal(),
+                        bottom = 8.unitReal(),
+                        left = 8.unitReal()))
+            ),
+            onScrollEnd = listOf(
+                Condition(
+                    condition = expressionOf("@{gt(thirdResponse.totalPages, thirdResponse.currentPage)}"),
+                    onTrue = listOf(
+                        SendRequest(
+                            url = expressionOf("/book-database/books?page=@{sum(thirdResponse.currentPage, 1)}"),
+                            onSuccess = listOf(
+                                SetContext(
+                                    contextId = "thirdResponse",
+                                    value = PageResponse(
+                                        currentPage = expressionOf("@{onSuccess.data.currentPage}"),
+                                        totalPages = expressionOf("@{onSuccess.data.totalPages}"),
+                                        result = expressionOf("@{union(thirdResponse.result, onSuccess.data.result)}")
                                     )
                                 )
                             )
@@ -351,6 +358,16 @@ object ListViewScreenBuilder {
                 )
             )
         )
-    )
+
+        listHeight?.let { height ->
+            listView.applyStyle(
+                style = Style(
+                    size = Size(height = height.unitReal())
+                )
+            )
+        }
+
+        return listView
+    }
 }
 
