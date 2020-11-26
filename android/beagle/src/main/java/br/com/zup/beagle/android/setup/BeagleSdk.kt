@@ -32,7 +32,6 @@ import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.store.StoreHandler
-import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -52,7 +51,8 @@ interface BeagleSdk {
     val controllerReference: BeagleControllerReference?
     val typeAdapterResolver: TypeAdapterResolver?
 
-    @Deprecated(NewIntentDeprecatedConstants.BEAGLE_ACTIVITY_COMPONENT)
+    @Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
+        " Use @RegisterController with no arguments to register your default BeagleActivity.")
     val serverDrivenActivity: Class<BeagleActivity>
     val urlBuilder: UrlBuilder?
     val analytics: Analytics?
