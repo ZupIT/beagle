@@ -15,10 +15,13 @@
  */
 package br.com.zup.beagle.automatedTests.utils.matcher
 
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.test.espresso.AmbiguousViewMatcherException
 import androidx.test.espresso.NoMatchingRootException
 import androidx.test.espresso.NoMatchingViewException
@@ -26,6 +29,7 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import br.com.zup.beagle.widget.core.TextAlignment
+import com.google.android.material.tabs.TabLayout
 import org.hamcrest.CoreMatchers.any
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -98,6 +102,26 @@ class MatcherExtension {
 
                 override fun describeTo(description: Description) {
                     description.appendText("textColor is $color ")
+                }
+            }
+        }
+
+        fun tabBarItemWithIconAndTitle(title: String? = null, icon: Int): Matcher<View?>? {
+            return object : TypeSafeMatcher<View>() {
+                override fun matchesSafely(item: View): Boolean {
+                    if (item is TabLayout.TabView) {
+                        return try {
+                            val bitmap: Bitmap = (item.tab?.icon as BitmapDrawable).bitmap
+                            val otherBitmap: Bitmap = (ContextCompat.getDrawable(item.context, icon) as BitmapDrawable).bitmap
+                            bitmap.sameAs(otherBitmap) && item.tab?.text == title
+                        } catch (e:Exception){
+                            false
+                        }
+                    }
+                    return false
+                }
+                override fun describeTo(description: Description) {
+                    description.appendText("tab.icon is $icon and tab.text is $title")
                 }
             }
         }
