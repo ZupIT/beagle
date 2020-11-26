@@ -62,9 +62,6 @@ const val TAB_4 = "TAB 4"
 const val TAB_4_TEXT = "Welcome to Tab 4"
 const val TAB_4_TEXT_2 = "This is Tab4's second text"
 
-//ScrollView Screen
-const val SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
-
 //ListView Screen
 const val LISTVIEW_SCREEN_HEADER = "Beagle ListView"
 const val STATIC_LISTVIEW_TEXT_1 = "Static VERTICAL ListView"
