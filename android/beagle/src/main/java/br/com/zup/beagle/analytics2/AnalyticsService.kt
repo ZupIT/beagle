@@ -16,37 +16,30 @@
 
 package br.com.zup.beagle.analytics2
 
+import android.view.View
 import br.com.zup.beagle.android.action.ActionAnalytics
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import br.com.zup.beagle.android.widget.RootView
 import java.util.*
 
-object AnalyticsService {
+internal object AnalyticsService {
 
     private val queueOfReportsWaitingConfig: Queue<DataReport> = LinkedList()
     private var analyticsProvider: AnalyticsProvider? = null
 
     private lateinit var analyticsConfig: AnalyticsConfig
 
-    fun initialConfig(analyticsProvider: AnalyticsProvider? = null, coroutineScope: CoroutineScope) {
+    fun initialConfig(analyticsProvider: AnalyticsProvider? = null) {
         this.analyticsProvider = analyticsProvider
-        startSessionAndGetConfig(coroutineScope)
-
-
+        startSessionAndGetConfig()
     }
 
-    private fun startSessionAndGetConfig(coroutineScope: CoroutineScope) {
+    private fun startSessionAndGetConfig() {
         analyticsProvider?.let { analyticsProvider ->
             analyticsProvider.startSession {
-                coroutineScope.launch {
-                    async {
-                        analyticsProvider.getConfig { analyticsConfig ->
-                            this@AnalyticsService.analyticsConfig = analyticsConfig
-                        }
-                    }.await()
-                    reportElementsOnQueue()
+                analyticsProvider.getConfig { analyticsConfig ->
+                    this@AnalyticsService.analyticsConfig = analyticsConfig
                 }
+                reportElementsOnQueue()
             }
         }
     }
@@ -60,19 +53,30 @@ object AnalyticsService {
     private fun queueIsNotEmpty() = !queueOfReportsWaitingConfig.isEmpty()
 
     fun createActionRecord(
-        dataActionReport: DataActionReport
+        rootView: RootView,
+        origin: View,
+        action: ActionAnalytics,
+        analyticsHandleEvent: AnalyticsHandleEvent? = null
     ) {
-        if (isAnalyticsConfigInitialized()) {
-            reportActionIfShould(dataActionReport)
-        } else {
-            queueOfReportsWaitingConfig.add(dataActionReport)
+        analyticsProvider?.let {
+            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+                rootView,
+                origin,
+                action,
+                analyticsHandleEvent
+            )
+            if (isAnalyticsConfigInitialized()) {
+                reportActionIfShould(dataActionReport)
+            } else {
+                queueOfReportsWaitingConfig.add(dataActionReport)
+            }
         }
     }
 
-    private fun reportActionIfShould(dataActionReport: DataActionReport){
+    fun reportActionIfShould(dataActionReport: DataActionReport) {
         val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport.action)
         if (shouldReport(config)) {
-            reportAction(dataActionReport, config)
+            analyticsProvider?.createRecord(ActionRecordFactory.generateActionAnalyticsConfig(dataActionReport, config))
         }
     }
 
@@ -94,20 +98,14 @@ object AnalyticsService {
 
     private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
 
-    private fun reportAction(
-        dataActionReport: DataActionReport,
-        actionAnalyticsConfig: ActionAnalyticsConfig
-    ) {
-        analyticsProvider?.createRecord(
-            ActionRecordFactory.generateActionAnalyticsConfig(dataActionReport, actionAnalyticsConfig)
-        )
-    }
-
+    //screen
     fun createScreenRecord(dataScreenReport: DataScreenReport) {
-        if (isAnalyticsConfigInitialized()) {
-            reportScreen(dataScreenReport)
-        } else {
-            queueOfReportsWaitingConfig.add(dataScreenReport)
+        analyticsProvider?.let {
+            if (isAnalyticsConfigInitialized()) {
+                reportScreen(dataScreenReport)
+            } else {
+                queueOfReportsWaitingConfig.add(dataScreenReport)
+            }
         }
     }
 
@@ -129,5 +127,6 @@ object AnalyticsService {
     private fun isAnalyticsConfigInitialized() = this::analyticsConfig.isInitialized
 
     private fun shouldReportScreen() = analyticsConfig.enableScreenAnalytics ?: false
+
 
 }

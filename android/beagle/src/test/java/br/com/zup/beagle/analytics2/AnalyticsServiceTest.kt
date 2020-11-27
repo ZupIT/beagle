@@ -17,36 +17,52 @@
 package br.com.zup.beagle.analytics2
 
 import android.view.View
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
-import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
-import io.mockk.*
-import kotlinx.coroutines.test.runBlockingTest
+import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.ServerDrivenComponent
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
+import io.mockk.verify
+import io.mockk.verifyOrder
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 @DisplayName("Given Analytics Service")
-@ExtendWith(CoroutinesTestExtension::class)
-class AnalyticsServiceTest {
+class AnalyticsServiceTest : BaseTest() {
 
     private lateinit var analyticsProviderImpl: AnalyticsProviderImpl
     private val action: ActionAnalytics = mockk(relaxed = true)
     private val view: View = mockk()
-    protected val rootView = mockk<ActivityRootView>(relaxed = true)
+    private val dataActionReport = DataActionReport(attributes = hashMapOf(), action = action)
 
     @BeforeEach
-    fun setUp() {
+    fun setup() {
         every { rootView.activity } returns mockk()
         mockkObject(ScreenReportFactory)
         mockkObject(ActionRecordFactory)
+        every { ActionRecordFactory.preGenerateActionAnalyticsConfig(any(), any(), any(), any()) } returns dataActionReport
+        every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
+
     }
 
     @AfterEach
-    fun tearDown(){
+    fun teardown() {
         unmockkObject(ScreenReportFactory)
         unmockkObject(ActionRecordFactory)
+    }
+
+    private fun initAnalyticsService() {
+        AnalyticsService.initialConfig(analyticsProviderImpl)
+        analyticsProviderImpl.startSession?.invoke()
     }
 
     @DisplayName("When init the config")
@@ -55,12 +71,12 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then should call start session and get the config")
-        fun testInitialConfigCallCorrectFunctions() = runBlockingTest {
+        fun testInitialConfigCallCorrectFunctions() {
             //GIVEN
             analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
 
             //WHEN
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
 
             //THEN
             assertTrue(analyticsProviderImpl.sessionStarted)
@@ -69,27 +85,41 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then should report the action on queue")
-        fun testInitialConfigCallReportOnQueue() = runBlockingTest {
+        fun testInitialConfigCallReportOnQueue() {
             //GIVEN
             analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
+
             //WHEN
+            AnalyticsService.initialConfig(analyticsProviderImpl)
             AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
             AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
-            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
-
-
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            AnalyticsService.createActionRecord(rootView, view, action)
+            analyticsProviderImpl.startSession?.invoke()
 
             //THEN
             assertTrue(analyticsProviderImpl.createRecordCalled)
             verifyOrder {
                 ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url")
                 ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url")
-                AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
-
+                AnalyticsService.reportActionIfShould(dataActionReport)
             }
         }
 
+        @Test
+        @DisplayName("Then should not report the action on queue")
+        fun testAnalyticsProviderNullInitialConfigNotCallReportOnQueue() {
+            //GIVEN
+            analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
+
+            //WHEN
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createActionRecord(rootView, view, action)
+            initAnalyticsService()
+
+            //THEN
+            assertFalse(analyticsProviderImpl.createRecordCalled)
+        }
     }
 
     @DisplayName("When create screen record")
@@ -98,10 +128,10 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then should create screen record")
-        fun testCreateScreenRecordEnableScreenAnalyticsIsTrueCallCreateRecord() = runBlockingTest {
+        fun testCreateScreenRecordEnableScreenAnalyticsIsTrueCallCreateRecord() {
             //GIVEN
             analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
 
             //wHEN
             AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
@@ -112,13 +142,13 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then should create remote screen record")
-        fun testCreateScreenRecordEnableScreenAnalyticsIsTueAndIsNotLocalScreenCallCreateRecord() = runBlockingTest {
+        fun testCreateScreenRecordEnableScreenAnalyticsIsTueAndIsNotLocalScreenCallCreateRecord() {
             //GIVEN
             every { ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url") } returns mockk()
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
 
             //wHEN
             AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
@@ -130,14 +160,14 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then should create local screen record")
-        fun testCreateScreenRecordEnableScreenAnalyticsIsTueAndIsLocalScreenCallCreateRecord() = runBlockingTest {
+        fun testCreateScreenRecordEnableScreenAnalyticsIsTueAndIsLocalScreenCallCreateRecord() {
 
             //GIVEN
             every { ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId") } returns mockk()
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
 
             //wHEN
             AnalyticsService.createScreenRecord(DataScreenReport(true, "screenId"))
@@ -153,13 +183,12 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then shouldn't create screen report")
-        fun testCreateScreenRecordScreenAnalyticsIsNotEnableNotCallCreateRecord() = runBlockingTest {
+        fun testCreateScreenRecordScreenAnalyticsIsNotEnableNotCallCreateRecord() {
             //GIVEN
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(enableScreenAnalytics = false, actions = hashMapOf())
             )
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
-
+            initAnalyticsService()
 
             //wHEN
             AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
@@ -175,15 +204,15 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then should create record")
-        fun testActionWithAnaActionAnalyticsConfigCallCreateRecord() = runBlockingTest {
+        fun testActionWithAnaActionAnalyticsConfigCallCreateRecord() {
             //GIVEN
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
             every { action.analytics?.enable } returns true
             //WHEN
-            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+            AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
             assertTrue(analyticsProviderImpl.createRecordCalled)
@@ -191,19 +220,18 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then should create record")
-        fun testActionOnAnalyticsConfigCallCreateRecord() = runBlockingTest {
+        fun testActionOnAnalyticsConfigCallCreateRecord() {
             //GIVEN
-            val action: ActionAnalytics = mockk()
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf()))
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
             )
             every { action.analytics } returns null
             every { action.type } returns "custom:AddChildren"
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
 
             //WHEN
-            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+            AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
             assertTrue(analyticsProviderImpl.createRecordCalled)
@@ -211,35 +239,31 @@ class AnalyticsServiceTest {
 
         @Test
         @DisplayName("Then should create record with right parrameters")
-        fun testActionWithAttributesOnActionAnalyticsConfigCallCreateRecordWithCorrectParameters() = runBlockingTest {
+        fun testActionWithAttributesOnActionAnalyticsConfigCallCreateRecordWithCorrectParameters() {
             //GIVEN
-            mockkObject(ActionRecordFactory)
             every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
 
             val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
-            val action: ActionAnalytics = mockk()
             every { action.analytics } returns actionAnalyticsConfig
             every { action.type } returns "custom:AddChildren"
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
 
             //WHEN
-            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+            AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
-            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(DataActionReport(rootView, view, action), actionAnalyticsConfig) }
+//            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(rootView, view, action, actionAnalyticsConfig) }
 
         }
 
         @Test
         @DisplayName("Then should create record with right parrameters")
-        fun testActionWithAttributesOnAnalyticsConfigCallCreateRecordWithCorrectParameters() = runBlockingTest {
+        fun testActionWithAttributesOnAnalyticsConfigCallCreateRecordWithCorrectParameters() {
             //GIVEN
-            mockkObject(ActionRecordFactory)
             every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
-            val action: ActionAnalytics = mockk()
             every { action.analytics } returns null
             every { action.type } returns "custom:AddChildren"
 
@@ -247,13 +271,13 @@ class AnalyticsServiceTest {
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
             )
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
 
             //WHEN
-            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+            AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
-            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(DataActionReport(rootView, view, action), ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))) }
+            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(any(), ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))) }
         }
     }
 
@@ -262,17 +286,17 @@ class AnalyticsServiceTest {
     inner class NotReportAction {
         @Test
         @DisplayName("Then shouldn't create recort")
-        fun testActionWithActionAnalyticsConfigDisableAndActionOnHashmapDontCallCreateRecord() = runBlockingTest {
+        fun testActionWithActionAnalyticsConfigDisableAndActionOnHashmapDontCallCreateRecord() {
             //GIVEN
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("action" to listOf()))
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
             )
-            AnalyticsService.initialConfig(analyticsProviderImpl, this)
+            initAnalyticsService()
             every { action.analytics?.enable } returns false
 
             //WHEN
-            AnalyticsService.createActionRecord(DataActionReport(rootView, view, action))
+            AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
             assertFalse(analyticsProviderImpl.createRecordCalled)
@@ -285,7 +309,7 @@ class AnalyticsServiceTest {
         var sessionStarted: Boolean = false
         var configCalled: Boolean = false
         var createRecordCalled: Boolean = false
-
+        var startSession: (() -> Unit)? = null
         override fun getConfig(config: (analyticConfig: AnalyticsConfig) -> Unit) {
             config.invoke(this.config)
             configCalled = true
@@ -293,7 +317,7 @@ class AnalyticsServiceTest {
 
         override fun startSession(startSession: () -> Unit) {
             sessionStarted = true
-            startSession.invoke()
+            this.startSession = startSession
         }
 
         override fun createRecord(record: AnalyticsRecord) {
@@ -305,4 +329,13 @@ class AnalyticsServiceTest {
         override var enableScreenAnalytics: Boolean? = true,
         override var actions: Map<String, List<String>>
     ) : AnalyticsConfig
+
+    internal data class TestActionAnalytics(
+        val route: Route,
+        override var analytics: ActionAnalyticsConfig? = null,
+        override val type: String?
+    ) : ActionAnalytics() {
+        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+        }
+    }
 }

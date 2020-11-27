@@ -16,17 +16,19 @@
 
 package br.com.zup.beagle.analytics2
 
-import android.view.View
 import br.com.zup.beagle.android.action.ActionAnalytics
-import br.com.zup.beagle.android.widget.RootView
 
-data class DataActionReport(
-    val rootView: RootView,
-    val origin: View,
-    val action: ActionAnalytics,
-    val analyticsHandleEvent: AnalyticsHandleEvent? = null
+internal data class DataActionReport(
+    var originX : Float? = null,
+    var originY : Float? = null,
+    var attributes: HashMap<String, Any>,
+    var id : String? = null,
+    var type : String? = null,
+    var analyticsValue: String? = null,
+    var action : ActionAnalytics,
+    var screenId : String? = null
 ) : DataReport{
     override fun report() {
-        AnalyticsService.createActionRecord(this)
+        AnalyticsService.reportActionIfShould(this)
     }
 }

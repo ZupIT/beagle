@@ -147,4 +147,10 @@ internal object BeagleMessageLogs {
     fun expressionNotSupportInPreFetch() {
         BeagleLoggerProxy.warning("Expression is not support in prefetch")
     }
+
+    fun errorWhileTryingToGetPropertyValue(ex: Throwable) {
+        val errorMessage = "Error while trying to get property value."
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
 }
+

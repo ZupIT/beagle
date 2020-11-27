@@ -17,8 +17,9 @@
 package br.com.zup.beagle.analytics2
 
 import android.view.View
-import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -28,12 +29,86 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
-object ActionRecordFactory {
+internal object ActionRecordFactory {
+
+    fun preGenerateActionAnalyticsConfig(
+        rootView: RootView,
+        origin: View,
+        action: ActionAnalytics,
+        analyticsHandleEvent: AnalyticsHandleEvent? = null
+    ) = DataActionReport(
+        originX = origin.x,
+        originY = origin.y,
+        id = getComponentId(analyticsHandleEvent?.originComponent),
+        type = getComponentType(analyticsHandleEvent?.originComponent),
+        analyticsValue = analyticsHandleEvent?.analyticsValue,
+        attributes = evaluateAllActionAttribute(
+            value = action,
+            rootView = rootView,
+            origin = origin,
+            action = action
+        ),
+        action = action,
+        screenId = rootView.getScreenId()
+    )
+
+
+    private fun getComponentId(originComponent: ServerDrivenComponent?) = (originComponent as? IdentifierComponent)?.id
+
+    private fun getComponentType(originComponent: ServerDrivenComponent?) = (originComponent as? WidgetView)?.beagleType
+
+    private fun evaluateAllActionAttribute(
+        value: Any,
+        name: String? = null,
+        rootView: RootView,
+        origin: View,
+        action: ActionAnalytics
+    ): HashMap<String, Any> {
+        var hashMap = HashMap<String, Any>()
+        (value::class as KClass<Any>).memberProperties.forEach { property ->
+            property.get(value)?.let { it ->
+                try {
+                    val propertyValue = evaluateValueIfNecessary(it, rootView, origin, action)
+                    val keyName = getKeyName(name, property)
+                    hashMap[keyName] = propertyValue
+                    hashMap.putAll(evaluateAllActionAttribute(propertyValue, keyName, rootView, origin, action))
+
+                } catch (e: Exception) {
+                    BeagleMessageLogs.errorWhileTryingToGetPropertyValue(e)
+                }
+
+            }
+        }
+        return hashMap
+    }
+
+    private fun evaluateValueIfNecessary(
+        value: Any,
+        rootView: RootView,
+        origin: View,
+        action: ActionAnalytics
+    ): Any {
+        var propertyValue: Any = value
+        if (propertyValue is Bind<*>) {
+            action.evaluateExpression(rootView, origin, value)?.let {
+                propertyValue = it
+            }
+        }
+        return propertyValue
+    }
+
+    private fun getKeyName(name: String?, property: KProperty1<Any, *>): String {
+        var nameResult: String = ""
+        name?.let {
+            nameResult = "$name."
+        }
+        nameResult += property.name
+        return nameResult
+    }
 
     fun generateActionAnalyticsConfig(
         dataActionReport: DataActionReport,
         actionAnalyticsConfig: ActionAnalyticsConfig
-
     ) = object : AnalyticsRecord {
         override val type: String
             get() = "action"
@@ -48,17 +123,17 @@ object ActionRecordFactory {
         actionAnalyticsConfig: ActionAnalyticsConfig
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        hashMap["screen"] = dataActionReport.rootView.getScreenId()
-        dataActionReport.analyticsHandleEvent?.analyticsValue?.let {
+        dataActionReport.screenId?.let {
+            hashMap["screen"] = it
+        }
+        dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
         actionAnalyticsConfig.attributes?.let {
             hashMap.putAll(
                 generateAnalyticsConfigAttributesHashMap(
                     it,
-                    dataActionReport.rootView,
-                    dataActionReport.origin,
-                    dataActionReport.action
+                    dataActionReport.attributes
                 )
             )
         }
@@ -68,83 +143,38 @@ object ActionRecordFactory {
         dataActionReport.action.type?.let { type ->
             hashMap["beagleAction"] = type
         }
-        dataActionReport.analyticsHandleEvent?.originComponent?.let {
-            hashMap["component"] = generateComponentHashMap(dataActionReport.origin, it)
-        }
+        hashMap["component"] = generateComponentHashMap(dataActionReport)
         return hashMap
     }
 
-    private fun generateComponentHashMap(origin: View, originComponent: ServerDrivenComponent): HashMap<String, Any> {
+    private fun generateComponentHashMap(dataActionReport2: DataActionReport): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        getComponentId(originComponent)?.let { id ->
+        dataActionReport2.id?.let { id ->
             hashMap["id"] = id
         }
-        getComponentType(originComponent)?.let { type ->
+        dataActionReport2.type?.let { type ->
             hashMap["type"] = type
         }
-        hashMap["position"] = hashMapOf("x" to origin.x, "y" to origin.y)
+        dataActionReport2.originX?.let { x ->
+            dataActionReport2.originY?.let { y ->
+                hashMap["position"] = hashMapOf("x" to x, "y" to y)
+            }
+        }
         return hashMap
     }
-
-    private fun getComponentId(originComponent: ServerDrivenComponent) = (originComponent as? IdentifierComponent)?.id
-
-    private fun getComponentType(originComponent: ServerDrivenComponent) = (originComponent as? WidgetView)?.beagleType
 
     private fun generateAnalyticsConfigAttributesHashMap(
         attributes: List<String>,
-        rootView: RootView,
-        origin: View,
-        action: Action
+        attributeEvaluated: HashMap<String, Any>
     ): HashMap<String, Any> {
-        val hashMap: HashMap<String, Any> = HashMap()
-        attributes.forEach { attribute ->
-            getAttributeValue(rootView, origin, attribute, action)?.let { value ->
-                hashMap[attribute] = value
+        var hashMap = HashMap<String, Any>()
+        attributes.forEach { key ->
+            var result = attributeEvaluated[key]
+            result?.let { value ->
+                hashMap[key] = value
             }
         }
         return hashMap
     }
 
-    private fun getAttributeValue(rootView: RootView, origin: View, attribute: String, action: Action): Any? {
-        var value: Any? = action
-        val composeAttribute = attribute.split('.')
-        for (element in composeAttribute) {
-            value?.let {
-                val result = getValueOnPropertyReflection(it, element) ?: return null
-                value = evaluateValueIfNecessary(rootView, origin, result, action)
-            }
-            if(value == null)
-                break
-        }
-        return value
-    }
-
-    private fun getValueOnPropertyReflection(value: Any, attribute: String): Any? {
-        (value::class as KClass<Any>).memberProperties.forEach { property ->
-            getValueIfPropertyNameIsEqualsTtoAttribute(property, attribute, value)?.let {
-                return it
-            }
-        }
-        return null
-    }
-
-    private fun getValueIfPropertyNameIsEqualsTtoAttribute(
-        property: KProperty1<Any, *>,
-        attribute: String,
-        value: Any
-    ): Any? {
-        if (property.name == attribute) {
-            property.get(value)?.let { propertyValue ->
-                return propertyValue
-            }
-        }
-        return null
-    }
-
-    private fun evaluateValueIfNecessary(rootView: RootView, origin: View, value: Any, action: Action): Any? {
-        if (value is Bind<*>) {
-            return action.evaluateExpression(rootView, origin, value)
-        }
-        return value
-    }
 }
