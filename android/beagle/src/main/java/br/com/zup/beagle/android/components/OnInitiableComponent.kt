@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.action.AsyncActionStatus
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.utils.setIsInitiableComponent
 import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
 
@@ -79,6 +80,7 @@ class OnInitiableComponentImpl(override val onInit: List<Action>?) : OnInitiable
         onInitViewModel = rootView.generateViewModelInstance()
         this.origin = origin
         onInit?.let {
+            origin.setIsInitiableComponent(true)
             addListenerToExecuteOnInit(rootView)
         }
     }
