@@ -25,6 +25,7 @@ apply from: rootProject.file('jacoco-android.gradle')
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
     buildToolsVersion Dependencies.Versions.buildTools
+    testOptions.unitTests.includeAndroidResources = true
 
     defaultConfig {
         minSdkVersion Dependencies.Versions.minSdk
@@ -32,6 +33,8 @@ android {
 
         versionCode Dependencies.Releases.versionCode
         versionName "${Dependencies.Releases.beagleVersionName}"
+
+        testInstrumentationRunner Dependencies.GeneralNames.testInstrumentationRunner
 
         consumerProguardFiles Dependencies.GeneralNames.consumerProguard
     }
@@ -47,6 +50,8 @@ android {
     }
 
     testOptions {
+        unitTests.returnDefaultValues = true
+
         unitTests.all {
             useJUnitPlatform()
         }
@@ -63,9 +68,21 @@ dependencies {
 
     // Unit Testing
     testImplementation Dependencies.TestLibraries.junitApi
-    testRuntimeOnly Dependencies.TestLibraries.junitEngine
+    testImplementation Dependencies.TestLibraries.junitEngine
+    testImplementation Dependencies.TestLibraries.robolectric
     testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.junit4
+    testImplementation Dependencies.TestLibraries.junitVintageEngine
+    testImplementation Dependencies.TestLibraries.testRunner
+    testImplementation Dependencies.TestLibraries.testExt
+    testImplementation Dependencies.TestLibraries.espressoCore
+    testImplementation Dependencies.TestLibraries.testCore
+    testImplementation Dependencies.TestLibraries.testRules
+    testImplementation Dependencies.GeneralLibraries.yoga
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
+
+
+
 

@@ -30,7 +30,13 @@ import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.BuilderKotlinDslScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ExpressionEscapingScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.AccessibilityScreenBuilder
+import br.com.zup.beagle.automatedtests.constants.IMAGE_WEB
+import org.springframework.core.io.ClassPathResource
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -59,6 +65,16 @@ class GeneralController {
 
     @GetMapping(ACCESSIBILITY_ENDPOINT)
     fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
+
+    @GetMapping(IMAGE_WEB, produces = [MediaType.IMAGE_JPEG_VALUE])
+    fun getImageWeb(@PathVariable type:String): ResponseEntity<InputStreamResource> {
+
+        val imageFile = ClassPathResource("images/" + if (type == "1") "beagle1.jpg" else "beagle2.jpg")
+        return ResponseEntity
+            .ok()
+            .contentType(MediaType.IMAGE_JPEG)
+            .body(InputStreamResource(imageFile.inputStream))
+    }
 }
 
 

@@ -20,8 +20,6 @@ import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.utils.BeagleRetry
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_ON_STATE_CHANGED
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
@@ -30,7 +28,8 @@ import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
-@Deprecated(DEPRECATED_ON_STATE_CHANGED, replaceWith = ReplaceWith("OnServerStateChanged",
+@Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
+    " Use OnServerStateChanged instead.", replaceWith = ReplaceWith("OnServerStateChanged",
     "br.com.zup.beagle.android.view.custom.OnServerStateChanged"))
 typealias OnStateChanged = (state: BeagleViewState) -> Unit
 
@@ -48,10 +47,11 @@ sealed class BeagleViewState {
 @SuppressLint("ViewConstructor")
 internal class BeagleView(
     private val rootView: RootView,
-    private val viewModel: BeagleViewModel = rootView.generateViewModelInstance()
+    private val viewModel: BeagleViewModel = rootView.generateViewModelInstance(),
 ) : BeagleFlexView(rootView) {
 
-    @Deprecated(DEPRECATED_BEAGLE_VIEW_STATE_CHANGED_LISTENER)
+    @Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
+        " Use serverStateChangedListener instead.")
     var stateChangedListener: OnStateChanged? = null
 
     var serverStateChangedListener: OnServerStateChanged? = null
@@ -73,7 +73,8 @@ internal class BeagleView(
     }
 
     private fun handleResponse(
-        state: ViewState?, view: View?) {
+        state: ViewState?, view: View?,
+    ) {
         when (state) {
             is ViewState.Loading -> handleLoading(state.value)
             is ViewState.Error -> handleError(state.throwable, state.retry)

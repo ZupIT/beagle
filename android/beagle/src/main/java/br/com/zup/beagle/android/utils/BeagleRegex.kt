@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.hiya.jacoco-android'
+package br.com.zup.beagle.android.utils
 
-jacoco {
-    toolVersion = '0.8.5'
-}
-
-jacocoAndroidUnitTestReport {
-
-    csv.enabled false
-    html.enabled true
-    xml.enabled true
-}
-
-tasks.withType(Test) {
-    useJUnitPlatform()
-    jacoco.includeNoLocationClasses = true
+internal object BeagleRegex {
+    val EXPRESSION_REGEX = "(\\\\*)\"?@\\{(([^'\\}]|('([^'\\\\]|\\\\.)*'))*)\\}\"?".toRegex()
+    val FULL_MATCH_EXPRESSION_SEPARATOR_REGEX = "(?<=\\}\"?)".toRegex()
+    val QUANTITY_OF_SLASHES_REGEX = "(\\\\*)@".toRegex()
 }

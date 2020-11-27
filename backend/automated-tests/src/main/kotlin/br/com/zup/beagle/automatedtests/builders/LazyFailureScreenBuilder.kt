@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.hiya.jacoco-android'
+package br.com.zup.beagle.automatedtests.builders
 
-jacoco {
-    toolVersion = '0.8.5'
-}
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.lazy.LazyComponent
+import br.com.zup.beagle.widget.ui.Text
 
-jacocoAndroidUnitTestReport {
-
-    csv.enabled false
-    html.enabled true
-    xml.enabled true
-}
-
-tasks.withType(Test) {
-    useJUnitPlatform()
-    jacoco.includeNoLocationClasses = true
+object LazyFailureScreenBuilder {
+    fun build() = Screen(
+        child = Container(
+            listOf(
+                Text("LazyComponent Failure Screen"),
+                LazyComponent(
+                    path = "",
+                    initialState = Text("Loading to failure")
+                )
+            )
+        )
+    )
 }

@@ -30,7 +30,7 @@ import org.junit.Test
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleScreenshotTest: ScreenshotTest {
+class TabBarTestLayout: ScreenshotTest {
 
     @get:Rule
     var activityTestRule: ActivityTestRule<AppBeagleActivity> = ActivityTestRule(
@@ -38,12 +38,11 @@ class ExampleScreenshotTest: ScreenshotTest {
 
     @Before
     fun setup() {
-        TestUtils.startBeagleActivity(activityTestRule,"http://10.0.2.2:8080/button" )
+        TestUtils.startBeagleActivity(activityTestRule,"http://10.0.2.2:8080/tabbar" )
     }
 
     @Test
     fun testButtonUrlLoading() {
         compareScreenshot(activityTestRule.activity)
     }
-
 }
