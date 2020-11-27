@@ -26,11 +26,14 @@ internal object AnalyticsService {
 
     private val queueOfReportsWaitingConfig: Queue<DataReport> = LinkedList()
     private var analyticsProvider: AnalyticsProvider? = null
-
+    private var queueSize: Int = 0
     private lateinit var analyticsConfig: AnalyticsConfig
 
     fun initialConfig(analyticsProvider: AnalyticsProvider? = null) {
         this.analyticsProvider = analyticsProvider
+        analyticsProvider?.let {
+            queueSize = it.getMaximumItemsInQueue()
+        }
         startSessionAndGetConfig()
     }
 
@@ -99,9 +102,8 @@ internal object AnalyticsService {
 
     private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
 
-    //screen
     fun createScreenRecord(dataScreenReport: DataScreenReport) {
-        analyticsProvider?.let {
+        analyticsProvider?.let { analyticsProvider ->
             if (isAnalyticsConfigInitialized()) {
                 reportScreen(dataScreenReport)
             } else {
@@ -129,16 +131,19 @@ internal object AnalyticsService {
 
     private fun shouldReportScreen() = analyticsConfig.enableScreenAnalytics ?: false
 
-    private fun addReportOnQueue(dataReport: DataReport){
-        analyticsProvider?.let{
-            if(queueOfReportsWaitingConfig.size < it.getMaximumItemsInQueue()){
-                queueOfReportsWaitingConfig.add(dataReport)
-            }
-            else{
-                BeagleMessageLogs.analyticsQueueIsFull(it.getMaximumItemsInQueue())
-                queueOfReportsWaitingConfig.remove()
-                queueOfReportsWaitingConfig.add(dataReport)
-            }
+    private fun addReportOnQueue(dataReport: DataReport) {
+        if (isQueueFull()) {
+            queueOfReportsWaitingConfig.add(dataReport)
+        } else {
+            addItemOnFullQueue(dataReport)
         }
+    }
+
+    private fun isQueueFull() = queueOfReportsWaitingConfig.size < queueSize
+
+    private fun addItemOnFullQueue(dataReport: DataReport) {
+        BeagleMessageLogs.analyticsQueueIsFull(queueSize)
+        queueOfReportsWaitingConfig.remove()
+        queueOfReportsWaitingConfig.add(dataReport)
     }
 }
