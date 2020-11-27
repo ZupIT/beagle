@@ -26,4 +26,6 @@ interface AnalyticsProvider {
     fun startSession(startSession: startSession)
 
     fun createRecord(record: AnalyticsRecord)
+
+    fun getMaximumItemsInQueue() = 100
 }

@@ -26,3 +26,8 @@ jacocoAndroidUnitTestReport {
     html.enabled true
     xml.enabled true
 }
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    jacoco.includeNoLocationClasses = true
+}

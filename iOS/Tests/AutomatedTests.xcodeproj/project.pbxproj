@@ -89,7 +89,7 @@
 		6B4F7E7924C659AF003F461A /* ButtonSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7824C659AF003F461A /* ButtonSteps.swift */; };
 		6B4F7E7B24C65A76003F461A /* ScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7A24C65A76003F461A /* ScreenRobot.swift */; };
 		6B4F7E7D24C65AFE003F461A /* ScreenElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7C24C65AFE003F461A /* ScreenElements.swift */; };
-		6B4F7E7F24C71D04003F461A /* TabViewSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7E24C71D04003F461A /* TabViewSteps.swift */; };
+		6B4F7E7F24C71D04003F461A /* TabBarSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7E24C71D04003F461A /* TabBarSteps.swift */; };
 		6B4F7E8124C728F8003F461A /* ImageSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8024C728F8003F461A /* ImageSteps.swift */; };
 		6B4F7E8324C7943C003F461A /* PageViewSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8224C7943C003F461A /* PageViewSteps.swift */; };
 		6B4F7E8524C9C5F9003F461A /* ListViewSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8424C9C5F9003F461A /* ListViewSteps.swift */; };
@@ -103,6 +103,7 @@
 		F3BF51B925191EAD00B5A35B /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BF51B825191EAD00B5A35B /* TestUtils.swift */; };
 		FA517077255DB2D10056F5A6 /* ConfirmActionSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA517076255DB2D10056F5A6 /* ConfirmActionSteps.swift */; };
 		FA51718825641B1E0056F5A6 /* ActionNotRegisteredSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51718725641B1E0056F5A6 /* ActionNotRegisteredSteps.swift */; };
+		FA5F1936256D4C6A004A492E /* LazyComponentSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5F1935256D4C69004A492E /* LazyComponentSteps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -292,7 +293,7 @@
 		6B4F7E7824C659AF003F461A /* ButtonSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSteps.swift; sourceTree = "<group>"; };
 		6B4F7E7A24C65A76003F461A /* ScreenRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRobot.swift; sourceTree = "<group>"; };
 		6B4F7E7C24C65AFE003F461A /* ScreenElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenElements.swift; sourceTree = "<group>"; };
-		6B4F7E7E24C71D04003F461A /* TabViewSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewSteps.swift; sourceTree = "<group>"; };
+		6B4F7E7E24C71D04003F461A /* TabBarSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarSteps.swift; sourceTree = "<group>"; };
 		6B4F7E8024C728F8003F461A /* ImageSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSteps.swift; sourceTree = "<group>"; };
 		6B4F7E8224C7943C003F461A /* PageViewSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewSteps.swift; sourceTree = "<group>"; };
 		6B4F7E8424C9C5F9003F461A /* ListViewSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewSteps.swift; sourceTree = "<group>"; };
@@ -304,8 +305,9 @@
 		9897E52825013DCE00C74A0D /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		F3BF51B125191A9300B5A35B /* CucumberStepsDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CucumberStepsDefinition.swift; sourceTree = "<group>"; };
 		F3BF51B825191EAD00B5A35B /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
-		FA51718725641B1E0056F5A6 /* ActionNotRegisteredSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionNotRegisteredSteps.swift; sourceTree = "<group>"; };
 		FA517076255DB2D10056F5A6 /* ConfirmActionSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmActionSteps.swift; sourceTree = "<group>"; };
+		FA51718725641B1E0056F5A6 /* ActionNotRegisteredSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionNotRegisteredSteps.swift; sourceTree = "<group>"; };
+		FA5F1935256D4C69004A492E /* LazyComponentSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyComponentSteps.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -630,7 +632,6 @@
 			children = (
 				FA51718725641B1E0056F5A6 /* ActionNotRegisteredSteps.swift */,
 				57A9F3582538E21D00F75396 /* AddChildrenSteps.swift */,
-				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
 				6B4F7E7824C659AF003F461A /* ButtonSteps.swift */,
 				251FDDF625378BA600B2C5EB /* ConditionalActionSteps.swift */,
 				FA517076255DB2D10056F5A6 /* ConfirmActionSteps.swift */,
@@ -643,12 +644,13 @@
 				6B4F7E8824C9C621003F461A /* ScrollViewSteps.swift */,
 				17F6C7B925364B8800A0ECAA /* SendRequestActionSteps.swift */,
 				6B9ADC5624D88FD300097605 /* SimpleFormSteps.swift */,
-				6B4F7E7E24C71D04003F461A /* TabViewSteps.swift */,
+				6B4F7E7E24C71D04003F461A /* TabBarSteps.swift */,
 				25CEAC6C2551E2C000404B21 /* TextInputSteps.swift */,
 				0D0165ED254C5299000A48AD /* TextSteps.swift */,
 				42554D3A25519E6F00B028ED /* AlertSteps.swift */,
 				0DB49151255ADE09008365E4 /* SetContextSteps.swift */,
 				6B4F7E8A24C9C637003F461A /* TouchableSteps.swift */,
+				FA5F1935256D4C69004A492E /* LazyComponentSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -901,6 +903,7 @@
 				639CA22724B4F0B0009FAC90 /* GHTokenMatcher.m in Sources */,
 				639CA20E24B4F0B0009FAC90 /* GHBackground.m in Sources */,
 				639CA21424B4F0B0009FAC90 /* GHGherkinLanguageSetting.m in Sources */,
+				FA5F1936256D4C6A004A492E /* LazyComponentSteps.swift in Sources */,
 				639CA21924B4F0B0009FAC90 /* GHDataTable.m in Sources */,
 				639CA20824B4F0B0009FAC90 /* CCIBackground.m in Sources */,
 				639CA21524B4F0B0009FAC90 /* GHParser+Extensions.m in Sources */,
@@ -912,7 +915,7 @@
 				639CA20B24B4F0B0009FAC90 /* GHAstNode.m in Sources */,
 				639CA21224B4F0B0009FAC90 /* GHNode.m in Sources */,
 				639CA22224B4F0B0009FAC90 /* GHTableRow.m in Sources */,
-				6B4F7E7F24C71D04003F461A /* TabViewSteps.swift in Sources */,
+				6B4F7E7F24C71D04003F461A /* TabBarSteps.swift in Sources */,
 				0D0165EE254C5299000A48AD /* TextSteps.swift in Sources */,
 				639CA22A24B4F0B0009FAC90 /* XCTestCase+RecordFailure.m in Sources */,
 				639CA21B24B4F0B0009FAC90 /* NSString+Trim.m in Sources */,

@@ -71,12 +71,12 @@ class SimpleFormScreenSteps {
             .hideKeyboard()
     }
 
-    @When("^I click on textInput for password with (.*) and insert my (.*)$")
-    fun insertPasswordInTextInput(hint: String, password: String) {
+    @When("^I click on textInput for name with (.*) and insert my (.*)$")
+    fun insertNameInTextInput(hint: String, name: String) {
         ScreenRobot()
             .checkViewContainsHint(hint)
             .clickOnInputWithHint(hint)
-            .typeText(hint, password)
+            .typeText(hint, name)
             .hideKeyboard()
     }
 

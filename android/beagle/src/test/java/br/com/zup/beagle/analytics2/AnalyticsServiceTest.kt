@@ -20,9 +20,12 @@ import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
@@ -49,8 +52,10 @@ class AnalyticsServiceTest : BaseTest() {
         every { rootView.activity } returns mockk()
         mockkObject(ScreenReportFactory)
         mockkObject(ActionRecordFactory)
+        mockkObject(BeagleMessageLogs)
         every { ActionRecordFactory.preGenerateActionAnalyticsConfig(any(), any(), any(), any()) } returns dataActionReport
         every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
+        every { BeagleMessageLogs.analyticsQueueIsFull(any()) } just Runs
 
     }
 
@@ -58,6 +63,7 @@ class AnalyticsServiceTest : BaseTest() {
     fun teardown() {
         unmockkObject(ScreenReportFactory)
         unmockkObject(ActionRecordFactory)
+        unmockkObject(BeagleMessageLogs)
     }
 
     private fun initAnalyticsService() {
@@ -84,7 +90,7 @@ class AnalyticsServiceTest : BaseTest() {
         }
 
         @Test
-        @DisplayName("Then should report the action on queue")
+        @DisplayName("Then should report the items on queue")
         fun testInitialConfigCallReportOnQueue() {
             //GIVEN
             analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
@@ -106,7 +112,7 @@ class AnalyticsServiceTest : BaseTest() {
         }
 
         @Test
-        @DisplayName("Then should not report the action on queue")
+        @DisplayName("Then should not report the items on queue")
         fun testAnalyticsProviderNullInitialConfigNotCallReportOnQueue() {
             //GIVEN
             analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
@@ -119,6 +125,39 @@ class AnalyticsServiceTest : BaseTest() {
 
             //THEN
             assertFalse(analyticsProviderImpl.createRecordCalled)
+        }
+
+        @Test
+        @DisplayName("Then should report the the last five itens on queue")
+        fun testInitialConfigCallReportOnQueueForJustFiveItems() {
+            //GIVEN
+            analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
+
+            //WHEN
+            AnalyticsService.initialConfig(analyticsProviderImpl)
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createActionRecord(rootView, view, action)
+            AnalyticsService.createActionRecord(rootView, view, action)
+            AnalyticsService.createActionRecord(rootView, view, action)
+            AnalyticsService.createActionRecord(rootView, view, action)
+            AnalyticsService.createActionRecord(rootView, view, action)
+            analyticsProviderImpl.startSession?.invoke()
+
+            //THEN
+//            verify(exactly = 0){
+//                AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+//            }
+//            verifyOrder {
+//                AnalyticsService.reportActionIfShould(dataActionReport)
+//                AnalyticsService.reportActionIfShould(dataActionReport)
+//                AnalyticsService.reportActionIfShould(dataActionReport)
+//                AnalyticsService.reportActionIfShould(dataActionReport)
+//                AnalyticsService.reportActionIfShould(dataActionReport)
+//            }
+            verify(exactly = 2){
+                BeagleMessageLogs.analyticsQueueIsFull(5)
+            }
         }
     }
 
@@ -250,12 +289,12 @@ class AnalyticsServiceTest : BaseTest() {
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
             initAnalyticsService()
-
+            var dataReport =  ActionRecordFactory.preGenerateActionAnalyticsConfig(rootView, view, action)
             //WHEN
             AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
-//            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(rootView, view, action, actionAnalyticsConfig) }
+            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(dataReport, actionAnalyticsConfig) }
 
         }
 
@@ -323,6 +362,8 @@ class AnalyticsServiceTest : BaseTest() {
         override fun createRecord(record: AnalyticsRecord) {
             createRecordCalled = true
         }
+
+        override fun getMaximumItemsInQueue() = 5
     }
 
     class AnalyticsConfigImpl(

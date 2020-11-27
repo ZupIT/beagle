@@ -104,6 +104,8 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
     androidTestImplementation Dependencies.TestLibraries.testExt
+
+    implementation Dependencies.GoogleLibraries.materialDesign
 }
 
 def getTestTags() {

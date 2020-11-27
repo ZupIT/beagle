@@ -16,42 +16,35 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.automatedtests.constants.PATH_LAZY_COMPONENT_ENDPOINT
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.automatedtests.constants.LAZY_FAILURE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LAZY_SUCCESS_ENDPOINT
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.lazy.LazyComponent
-import br.com.zup.beagle.widget.ui.ImagePath
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
 object LazyComponentScreenBuilder {
     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle LazyComponent",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = ImagePath.Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "Lazy Component",
-                        message = "A widget that implements loading.",
-                        labelOk = "OK"
+        child = Container(
+            listOf(
+                Text("LazyComponent Screen"),
+                Button(
+                    text = "Call lazy successful component screen",
+                    onPress = listOf(
+                        Navigate.PushStack(
+                            Route.Remote(LAZY_SUCCESS_ENDPOINT)
+                        )
                     )
-                )
-            )
-        ),
-        child = LazyComponent(
-            path = PATH_LAZY_COMPONENT_ENDPOINT,
-            initialState = Text("Loading...").applyFlex(
-                flex = Flex(
-                    justifyContent = JustifyContent.CENTER,
-                    alignSelf = AlignSelf.CENTER
+                ),
+                Button(
+                    text = "Call lazy failure component screen",
+                    onPress = listOf(
+                        Navigate.PushStack(
+                            Route.Remote(LAZY_FAILURE_ENDPOINT)
+                        )
+                    )
                 )
             )
         )

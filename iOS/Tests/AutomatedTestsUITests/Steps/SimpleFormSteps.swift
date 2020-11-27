@@ -57,10 +57,10 @@ class SimpleFormSteps: CucumberStepsDefinition {
             textField.typeText(text)
         }
         
-        When(#"^I click on a textInput with password Type and type in my "([^\"]*)"$"#) { args, _ -> Void in
+        When(#"^I click on a textInput with name Type and type in my "([^\"]*)"$"#) { args, _ -> Void in
             let text = args![0]
 
-            let textField = self.application!.textFields[placeholder: "Type in your password"]!
+            let textField = self.application!.textFields[placeholder: "Type in your name"]!
             textField.tap()
             textField.typeText(text)
         }
@@ -70,12 +70,12 @@ class SimpleFormSteps: CucumberStepsDefinition {
             button.tap()
         }
 
-        Then(#"^verify if the email: "([^\"]*)" and the password: "([^\"]*)" is appearing correctly$"#) { args, _ -> Void in
+        Then(#"^verify if the email: "([^\"]*)" and the name: "([^\"]*)" is appearing correctly$"#) { args, _ -> Void in
             let email = args![0]
-            let pass = args![1]
+            let name = args![1]
             
             XCTAssertTrue(self.application!.textFields[email].exists)
-            XCTAssertTrue(self.application!.textFields[pass].exists)
+            XCTAssertTrue(self.application!.textFields[name].exists)
 
         }
     }

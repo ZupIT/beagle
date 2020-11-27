@@ -18,6 +18,7 @@ package br.com.zup.beagle.analytics2
 
 import android.view.View
 import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
 import java.util.*
 
@@ -68,7 +69,7 @@ internal object AnalyticsService {
             if (isAnalyticsConfigInitialized()) {
                 reportActionIfShould(dataActionReport)
             } else {
-                queueOfReportsWaitingConfig.add(dataActionReport)
+                addReportOnQueue(dataActionReport)
             }
         }
     }
@@ -104,7 +105,7 @@ internal object AnalyticsService {
             if (isAnalyticsConfigInitialized()) {
                 reportScreen(dataScreenReport)
             } else {
-                queueOfReportsWaitingConfig.add(dataScreenReport)
+                addReportOnQueue(dataScreenReport)
             }
         }
     }
@@ -128,5 +129,16 @@ internal object AnalyticsService {
 
     private fun shouldReportScreen() = analyticsConfig.enableScreenAnalytics ?: false
 
-
+    private fun addReportOnQueue(dataReport: DataReport){
+        analyticsProvider?.let{
+            if(queueOfReportsWaitingConfig.size < it.getMaximumItemsInQueue()){
+                queueOfReportsWaitingConfig.add(dataReport)
+            }
+            else{
+                BeagleMessageLogs.analyticsQueueIsFull(it.getMaximumItemsInQueue())
+                queueOfReportsWaitingConfig.remove()
+                queueOfReportsWaitingConfig.add(dataReport)
+            }
+        }
+    }
 }

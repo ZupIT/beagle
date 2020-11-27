@@ -23,7 +23,6 @@ import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_LOADING_VIEW
 import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
@@ -41,7 +40,7 @@ internal var beagleSerializerFactory = BeagleSerializer()
  */
 fun ViewGroup.loadView(
     activity: AppCompatActivity,
-    screenRequest: ScreenRequest
+    screenRequest: ScreenRequest,
 ) {
     loadView(
         viewGroup = this,
@@ -61,7 +60,7 @@ fun ViewGroup.loadView(
  */
 fun ViewGroup.loadView(
     fragment: Fragment,
-    screenRequest: ScreenRequest
+    screenRequest: ScreenRequest,
 ) {
     loadView(
         viewGroup = this,
@@ -84,7 +83,7 @@ fun ViewGroup.loadView(
 fun ViewGroup.loadView(
     activity: AppCompatActivity,
     screenRequest: ScreenRequest,
-    listener: OnServerStateChanged? = null
+    listener: OnServerStateChanged? = null,
 ) {
     loadView(
         this,
@@ -105,7 +104,7 @@ fun ViewGroup.loadView(
 fun ViewGroup.loadView(
     fragment: Fragment,
     screenRequest: ScreenRequest,
-    listener: OnServerStateChanged? = null
+    listener: OnServerStateChanged? = null,
 ) {
     loadView(this,
         FragmentRootView(fragment, this.id, screenRequest.url),
@@ -121,12 +120,13 @@ fun ViewGroup.loadView(
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
-@Deprecated(DEPRECATED_LOADING_VIEW,
+@Deprecated("This method was deprecated in version 1.2.0 and will be removed in a future version." +
+    " Use the method with listener attribute of type ServerDrivenState instead.",
     replaceWith = ReplaceWith("loadView(activity=activity, screenRequest=screenRequest,listener=listener)"))
 fun ViewGroup.loadView(
     activity: AppCompatActivity,
     screenRequest: ScreenRequest,
-    listener: OnStateChanged? = null
+    listener: OnStateChanged? = null,
 ) {
     loadView(this,
         ActivityRootView(activity, this.id, screenRequest.url),
@@ -141,12 +141,13 @@ fun ViewGroup.loadView(
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
-@Deprecated(DEPRECATED_LOADING_VIEW,
+@Deprecated("This method was deprecated in version 1.2.0 and will be removed in a future version." +
+    " Use the method with listener attribute of type ServerDrivenState instead.",
     replaceWith = ReplaceWith("loadView(fragment=fragment, screenRequest=screenRequest,listener=listener)"))
 fun ViewGroup.loadView(
     fragment: Fragment,
     screenRequest: ScreenRequest,
-    listener: OnStateChanged? = null
+    listener: OnStateChanged? = null,
 ) {
     loadView(this,
         FragmentRootView(fragment, this.id, screenRequest.url),
@@ -162,7 +163,7 @@ private fun loadView(
     screenRequest: ScreenRequest,
     listener: OnStateChanged? = null,
     newListener: OnServerStateChanged? = null,
-    generateIdManager: GenerateIdManager = GenerateIdManager(rootView)
+    generateIdManager: GenerateIdManager = GenerateIdManager(rootView),
 ) {
     generateIdManager.createSingleManagerByRootViewId()
     val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
