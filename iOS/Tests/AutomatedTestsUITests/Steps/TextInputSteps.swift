@@ -38,7 +38,7 @@ class TextInputSteps: CucumberStepsDefinition {
 
         // MARK: - When
         
-        // Scenarios 5, 6 and 8
+        // Scenarios 5, 6, 7, 9, 10, 11 and 13
         When(#"^I click in the textInput with the placeholder "([^\"]*)"$"#) { args, _ -> Void in
             let placeholder = args![0]
 
@@ -90,17 +90,85 @@ class TextInputSteps: CucumberStepsDefinition {
             XCTAssertTrue(textField?.exists ?? false)
             XCTAssertEqual(self.application.keyboards.count, 1)
         }
-
+        
         // Scenario 6
+        Then(#"^validate if the text input component "([^\"]*)" with the date type$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            let date = "22/04/1500"
+            let textField = self.application.textFields[placeholder: placeholder]
+
+            XCTAssertTrue(textField?.exists ?? false)
+            XCTAssertEqual(self.application.keyboards.count, 1)
+            textField?.typeText(date)
+            XCTAssertTrue(self.application.textFields[date].exists)
+        }
+        
+        // Scenario 7
+        Then(#"^validate if the text input component "([^\"]*)" with the e-mail type$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            let email = "test@abc.com"
+            let textField = self.application.textFields[placeholder: placeholder]
+
+            XCTAssertTrue(textField?.exists ?? false)
+            XCTAssertEqual(self.application.keyboards.count, 1)
+            textField?.typeText(email)
+            XCTAssertTrue(self.application.textFields[email].exists)
+        }
+        
+        // Scenario 8
+        Then(#"^validate if the text input component "([^\"]*)" with the password type$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            let password = "123password"
+            guard let textField = self.application.secureTextFields[placeholder: placeholder] else {
+                XCTFail("Coudn't find text field")
+                return
+            }
+            
+            self.application.scrollToElement(element: textField)
+            textField.tap()
+
+            XCTAssertTrue(textField.exists)
+            XCTAssertEqual(self.application.keyboards.count, 1)
+            textField.typeText(password)
+            let text = textField.value as? String
+            XCTAssertEqual(text?.count, password.count)
+        }
+        
+        // Scenario 9
+        Then(#"^validate if the text input component "([^\"]*)" with the number type$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            let number = "12345678"
+            let textField = self.application.textFields[placeholder: placeholder]
+
+            XCTAssertTrue(textField?.exists ?? false)
+            XCTAssertEqual(self.application.keyboards.count, 1)
+            textField?.typeText(number)
+            XCTAssertTrue(self.application.textFields[number].exists)
+        }
+        
+        // Scenario 10
+        Then(#"^validate if the text input component "([^\"]*)" with the text type$"#) { args, _ -> Void in
+            let placeholder = args![0]
+            let text = "This is a test!"
+            let textField = self.application.textFields[placeholder: placeholder]
+
+            XCTAssertTrue(textField?.exists ?? false)
+            XCTAssertEqual(self.application.keyboards.count, 1)
+            textField?.typeText(text)
+            XCTAssertTrue(self.application.textFields[text].exists)
+        }
+
+        // Scenario 11
         Then(#"^validate textInput component of type number with text "([^\"]*)"$"#) { args, _ -> Void in
             let placeholder = args![0]
             let textField = self.application.textFields[placeholder: placeholder]
 
             XCTAssertTrue(textField?.exists ?? false)
             XCTAssertEqual(self.application.keyboards.count, 1)
+//            self.application.keys["a"].tap()
         }
 
-        // Scenario 7
+        // Scenario 12
         Then(#"^change to "([^\"]*)" then to "([^\"]*)" then to "([^\"]*)"$"#) { args, _ -> Void in
             let didOnFocus = args![0]
             let didOnChange = args![1]
@@ -115,7 +183,7 @@ class TextInputSteps: CucumberStepsDefinition {
             XCTAssertTrue(self.application.textFields[didOnBlur].exists)
         }
 
-        // Scenario 8
+        // Scenario 13
         Then(#"^change to "([^\"]*)" then to "([^\"]*)" then to "([^\"]*)" in the correct order$"#) { args, _ -> Void in
             let didOnFocus = args![0]
             let didOnChange = args![1]
@@ -133,7 +201,7 @@ class TextInputSteps: CucumberStepsDefinition {
             XCTAssertFalse(self.application.textFields[didOnChange].exists)
         }
 
-        // Scenario 9
+        // Scenario 14
         Then(#"^The hidden input fields "([^\"]*)" should not be visible$"#) { args, _ -> Void in
             let text = args![0]
             let staticText = self.application.staticTexts["There are two hidden input fields above"]
