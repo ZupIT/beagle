@@ -17,30 +17,45 @@
 package br.com.zup.beagle.analytics2
 
 import br.com.zup.beagle.android.BaseTest
-import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
-internal class ScreenReportFactoryTest : BaseTest(){
+@DisplayName("Given Screen Report Factory")
+class ScreenReportFactoryTest : BaseTest(){
 
-    @Test
-    fun `WHEN createScreenLocalReport SHOULD create local screen report correctly`(){
-        //WHEN
-        val result = ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId")
+    @DisplayName("When generateLocalScreenAnalyticsRecord")
+    @Nested
+    inner class LocalScreen{
 
-        //THEN
-        assertEquals("android", result.platform)
-        assertEquals("screen", result.type)
-        assertEquals(hashMapOf("screenId" to "screenId"), result.attributes)
+        @Test
+        @DisplayName("Then should create local screen report correctly")
+        fun testCreateScreenLocalReportShouldCreateLocalScreenReportCorrectly(){
+            //WHEN
+            val result = ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId")
+
+            //THEN
+            assertEquals("android", result.platform)
+            assertEquals("screen", result.type)
+            assertEquals(hashMapOf("screenId" to "screenId"), result.attributes)
+        }
     }
 
-    @Test
-    fun `WHEN createScreenRemoteReport SHOULD create remote screen report correctly`(){
-        //WHEN
-        val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url")
+    @DisplayName("When generateRemoteScreenAnalyticsRecord")
+    @Nested
+    inner class RemoteScreen{
 
-        //THEN
-        assertEquals("android", result.platform)
-        assertEquals("screen", result.type)
-        assertEquals(hashMapOf("url" to "url"), result.attributes)
+        @Test
+        @DisplayName("Then should create remote screen report correctly")
+        fun testCreateScreenRemoteReportShouldCreateRemoteScreenReportCorrectly(){
+            //WHEN
+            val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url")
+
+            //THEN
+            assertEquals("android", result.platform)
+            assertEquals("screen", result.type)
+            assertEquals(hashMapOf("url" to "url"), result.attributes)
+        }
     }
 }
