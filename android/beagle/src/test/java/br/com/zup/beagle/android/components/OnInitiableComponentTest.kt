@@ -109,7 +109,7 @@ class OnInitiableComponentTest {
             initiableWidget.handleOnInit(rootView, origin)
 
             // Then
-            verify(exactly = 1) { origin.setIsInitiableComponent(false) }
+            verify(exactly = 1) { origin.setIsInitiableComponent(true) }
         }
 
         @DisplayName("Then if onInit actions list is empty, it shouldn't tag view as initiable_component")
