@@ -34,9 +34,7 @@ import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
-import br.com.zup.beagle.android.utils.DeprecationMessages.DEPRECATED_STATE_LOADING
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
@@ -47,7 +45,8 @@ sealed class ServerDrivenState {
     class FormError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
     class WebViewError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
 
-    @Deprecated(DEPRECATED_STATE_LOADING)
+    @Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
+        " Use Started and Finished instead.")
     data class Loading(val loading: Boolean) : ServerDrivenState()
 
     /**
@@ -93,7 +92,7 @@ data class ScreenRequest(
     val url: String,
     val method: ScreenMethod = ScreenMethod.GET,
     val headers: Map<String, String> = mapOf(),
-    val body: String? = null
+    val body: String? = null,
 ) : Parcelable
 
 /**
@@ -146,10 +145,11 @@ abstract class BeagleActivity : AppCompatActivity() {
 
     companion object {
         @Deprecated(
-            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            message = "It was deprecated in version 1.2.0 and will be removed in a future version." +
+                " To create a intent of your sub-class of BeagleActivity use Context.newServerDrivenIntent instead.",
             replaceWith = ReplaceWith(
                 "context.newServerDrivenIntent<YourBeagleActivity>(screenJson)",
-                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+                imports = ["br.com.zup.beagle.android.utils.newServerDrivenIntent"]
             )
         )
         fun newIntent(context: Context, screenJson: String): Intent {
@@ -159,10 +159,11 @@ abstract class BeagleActivity : AppCompatActivity() {
         }
 
         @Deprecated(
-            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            message = "It was deprecated in version 1.2.0 and will be removed in a future version." +
+                " To create a intent of your sub-class of BeagleActivity use Context.newServerDrivenIntent instead.",
             replaceWith = ReplaceWith(
                 "context.newServerDrivenIntent<YourBeagleActivity>(screen)",
-                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+                imports = ["br.com.zup.beagle.android.utils.newServerDrivenIntent"]
             )
         )
         fun newIntent(context: Context, screen: Screen): Intent {
@@ -170,10 +171,11 @@ abstract class BeagleActivity : AppCompatActivity() {
         }
 
         @Deprecated(
-            message = NewIntentDeprecatedConstants.DEPRECATED_NEW_INTENT,
+            message = "It was deprecated in version 1.2.0 and will be removed in a future version." +
+                " To create a intent of your sub-class of BeagleActivity use Context.newServerDrivenIntent instead.",
             replaceWith = ReplaceWith(
                 "context.newServerDrivenIntent<YourBeagleActivity>(screenRequest)",
-                imports = [NewIntentDeprecatedConstants.NEW_INTENT_NEW_IMPORT]
+                imports = ["br.com.zup.beagle.android.utils.newServerDrivenIntent"]
             )
         )
         fun newIntent(context: Context, screenRequest: ScreenRequest): Intent {
@@ -183,7 +185,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         internal fun newIntent(
             context: Context,
             screenRequest: ScreenRequest? = null,
-            screen: Screen? = null
+            screen: Screen? = null,
         ): Intent {
             return newIntent(context).apply {
                 screenRequest?.let {
@@ -254,7 +256,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         observeScreenLoadFinish()
     }
 
-    private fun observeScreenLoadFinish(){
+    private fun observeScreenLoadFinish() {
         screenViewModel.screenLoadFinished.observe(
             this,
             Observer {

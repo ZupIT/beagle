@@ -20,10 +20,6 @@ import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi.moshi
-import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.FALLBACK
-import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.SCREEN
-import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.SHOULD_PREFETCH
-import br.com.zup.beagle.android.utils.EventsRelatedToNavigationAction.URL
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
@@ -83,4 +79,11 @@ internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : Js
 
     private fun convertScreen(value: Any?) =
         moshi.adapter(Screen::class.java).fromJsonValue(value)
+
+    companion object {
+        private const val URL: String = "url"
+        private const val SHOULD_PREFETCH = "shouldPrefetch"
+        private const val FALLBACK: String = "fallback"
+        private const val SCREEN: String = "screen"
+    }
 }

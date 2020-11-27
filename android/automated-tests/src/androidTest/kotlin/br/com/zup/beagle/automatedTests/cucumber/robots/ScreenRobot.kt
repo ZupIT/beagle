@@ -50,9 +50,16 @@ class ScreenRobot {
         if (waitForText) {
             WaitHelper.waitForWithElement(onView(withText(text)))
         }
-
         onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
         return this
+    }
+
+    fun checkTabContainsTextAndIcon(title:String? = null, icon:Int, waitForText: Boolean = false ){
+        if (waitForText) {
+            WaitHelper.waitForWithElement(onView(withText(title)))
+        }
+
+        onView(MatcherExtension.tabBarItemWithIconAndTitle(title, icon)).check(matches(isDisplayed()))
     }
 
     fun checkViewTextColor(text: String?, color: String, waitForText: Boolean = false): ScreenRobot {
