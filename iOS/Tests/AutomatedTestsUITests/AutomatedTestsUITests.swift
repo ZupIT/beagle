@@ -37,6 +37,7 @@ class CucumberishInitializer: NSObject {
                     AlertSteps(),
                     ActionNotRegisteredSteps(),
                     ConfirmActionSteps(),
+                    LazyComponentSteps(),
                     ConditionalActionSteps(),
                     SetContextSteps()
                 ]
