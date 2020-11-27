@@ -39,8 +39,6 @@ internal class DataScreenReportTest : BaseTest(){
         fun testReportCallActionReport(){
             //GIVEN
             mockkObject(AnalyticsService)
-            val origin = mockk<View>()
-            val action = mockk<ActionAnalytics>()
             val dataScreenReport = DataScreenReport(isLocalScreen = false, screenIdentifier = "identifier")
 
             //WHEN

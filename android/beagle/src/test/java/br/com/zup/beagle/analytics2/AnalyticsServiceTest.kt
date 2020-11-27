@@ -145,16 +145,16 @@ class AnalyticsServiceTest : BaseTest() {
             analyticsProviderImpl.startSession?.invoke()
 
             //THEN
-//            verify(exactly = 0){
-//                AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
-//            }
-//            verifyOrder {
-//                AnalyticsService.reportActionIfShould(dataActionReport)
-//                AnalyticsService.reportActionIfShould(dataActionReport)
-//                AnalyticsService.reportActionIfShould(dataActionReport)
-//                AnalyticsService.reportActionIfShould(dataActionReport)
-//                AnalyticsService.reportActionIfShould(dataActionReport)
-//            }
+            verify(exactly = 0){
+                AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            }
+            verifyOrder {
+                AnalyticsService.reportActionIfShould(dataActionReport)
+                AnalyticsService.reportActionIfShould(dataActionReport)
+                AnalyticsService.reportActionIfShould(dataActionReport)
+                AnalyticsService.reportActionIfShould(dataActionReport)
+                AnalyticsService.reportActionIfShould(dataActionReport)
+            }
             verify(exactly = 2){
                 BeagleMessageLogs.analyticsQueueIsFull(5)
             }
