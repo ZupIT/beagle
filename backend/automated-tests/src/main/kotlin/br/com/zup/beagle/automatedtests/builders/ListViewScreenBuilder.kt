@@ -357,6 +357,8 @@ object ListViewScreenBuilder {
                     )
                 )
             )
+        ).setId(
+            id = "booksList"
         )
 
         listHeight?.let { height ->

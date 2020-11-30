@@ -119,7 +119,7 @@ data class Book(
                     var book = Book(title = "Before the Storm", author = "Christie Golden", year = 2018, collection = "World of Warcraft", bookNumber = 23, genre = "Fantasy", rating = 4.6)
                     bookList.add(book)
 
-                    book = Book(title = "Harry Potter and the Philosopher's Stone", year = 1997, author = "Harry Potter and the Philosopher's Stone", collection = "Harry Potter", bookNumber = 1, genre = "Fantasy", rating = 4.9)
+                    book = Book(title = "Harry Potter and the Philosopher's Stone", year = 1997, author = "J. K. Rowling", collection = "Harry Potter", bookNumber = 1, genre = "Fantasy", rating = 4.9)
                     bookList.add(book)
 
                     book = Book(title = "Starsight", author = "Brandon Sanderson", year = 2019, collection = "Skyward", bookNumber = 2, genre = "Sci-fi", rating = 4.8)
