@@ -21,74 +21,87 @@
   @tab = "    "
   @template_helper = TemplateHelper.new
   @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
-  @template_helper.defaultDeclarationType = TypesToString.interface
-  
-  def dictionary_variable_declaration(variable) 
-    type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
-    type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
-    type_name = "Map<#{type_of_key}, #{type_of_value}>"
-    type_name
-  end
+  @template_helper.defaultDeclarationType = TypeInterface.new.synthax_type.name
 
   def single_variable_declaration(variable, import_manager)
-    type_name = @template_helper.fetch_type(variable.typeName)
-    type_name = import_manager.has_key?(type_name) ? type_name + "Schema" : type_name
-    type_name = adapt_type_name_to_kotlin_specific(type_name)
+    # TODO validate
+    type_name = @template_helper.fetch_type(variable.typeName.name)
+    if @template_helper.is_server_driven_component(variable.typeName)
+      type_name + "Schema"
+    end
+    # type_name = variable.typeName.synthax_type.is_a?(EnumType) or @template_helper.is_server_driven_component(variable.typeName) ? type_name + "Schema"  : type_name
+    type_name = @kotlinHelper.adapt_type_name_to_kotlin_specific(type_name)
     type_name
   end
 
   def variable_type_declaration(variable, import_manager)
     output = ""
     if variable.instance_of? Dictionary
-      output = dictionary_variable_declaration(variable)
+      output = @kotlinHelper.dictionary_variable_declaration(variable)
     else
       output = single_variable_declaration(variable, @kotlinHelper.import_manager)
     end
     
-    output = variable.isBindable ? "BindAttribute<#{output}>" : output
+    output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
     output
   end
 
-  def adapt_type_name_to_kotlin_specific(typeName)
-    if typeName.eql?("ContextData")
-      "Any"
-    else
-      typeName
-    end
-  end
-
   def fullDeclaration(objectType)
-    isEnumDeclaration = @template_helper.is_enum(objectType)
+    output = "package br.com.zup.beagle.generated.#{objectType.synthax_type.package.gsub("br.com.zup.beagle.", "")}\n"
 
-    output = initImports(objectType)
+    output += resolveImports(objectType)
     output += @kotlinHelper.resolveDocumentation(objectType, @template_helper)
     output += resolveObjectType(objectType)
 
     output
   end
 
-  def initImports(objectType)
-    isEnumDeclaration = @template_helper.is_enum(objectType)
-    outputImports = "package #{objectType.synthax_type.package}\n"
+  def resolveImports(objectType)
+    output = ""
 
-    if !isEnumDeclaration
-      if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
-        outputImports += "\nimport br.com.zup.beagle.core.BindAttribute"
+    for qualifiedName in @kotlinHelper.resolve_imports(objectType.synthax_type.variables, "Schema")
+      if !qualifiedName.include? "#{objectType.synthax_type.package}"
+        output += "\nimport #{qualifiedName.gsub("br.com.zup.beagle.", "br.com.zup.beagle.generated.")}"
       end
+    end
 
-      for qualifiedName in @kotlinHelper.resolve_imports(objectType.synthax_type.variables)
-        outputImports += "\nimport #{qualifiedName}Schema"
+    for inherited in objectType.synthax_type.inheritFrom
+      if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}"
+        output += "\nimport #{inherited.synthax_type.package.gsub("br.com.zup.beagle.", "br.com.zup.beagle.generated.")}.#{inherited.synthax_type.name}"
+        if @template_helper.is_server_driven_component(inherited)
+          output += "Schema"
+        end
       end
       
+      for qualifiedName in @kotlinHelper.resolve_imports(inherited.synthax_type.variables, "Schema")
+        if !qualifiedName.include? "#{objectType.synthax_type.package}"
+          output += "\nimport #{qualifiedName.gsub("br.com.zup.beagle.", "br.com.zup.beagle.generated.")}"
+        end
+      end
     end
 
-    if outputImports.include? "import"
-      outputImports += "\n"
+    output += resolveBindImport(objectType)
+
+    if output.include? "import"
+      output += "\n"
     end
 
-    outputImports
+    output
+  end
+
+  #TODO remove bind import rules
+  def resolveBindImport(objectType)
+    output = ""
+
+    if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
+      if !"br.com.zup.beagle.android.context".include? "#{objectType.synthax_type.package}"
+        output += "\nimport br.com.zup.beagle.android.context.Bind"
+      end
+    end
+
+    output
   end
 
   def resolveObjectType(objectType)
@@ -119,9 +132,13 @@
   def initForCommonObject(objectType)
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
 
-    output = "\n#{typeKind} #{objectType.synthax_type.name}Schema {"
+    output = "\n#{typeKind} #{objectType.synthax_type.name}"
+    if @template_helper.is_server_driven_component(objectType)
+      output += "Schema" 
+    end
+    output += " {"
     for variable in objectType.synthax_type.variables 
-      output += "\n#{@tab}#{variable.accessor} val #{variable.name}: #{variable_type_declaration(variable, @kotlinHelper.import_manager)}"
+      output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)} val #{variable.name}: #{variable_type_declaration(variable, @kotlinHelper.import_manager)}"
     end
     output
   end

@@ -20,10 +20,10 @@ class StyleComponent < BaseComponent
 
     def initialize
     	variables = [
-            Field.new(:name => "style", :typeName => Style.new.name, :isOptional => true, :isMutable => true, :comment => "attribute will enable a few visual options to be changed.")
+            Field.new(:name => "style", :typeName => Style.new, :isOptional => true, :isMutable => true, :comment => "attribute will enable a few visual options to be changed.")
         ]
         synthax_type = BuiltInType.new(
-            :type => TypesToString.interface,
+            :type => TypeInterface.new,
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.core",

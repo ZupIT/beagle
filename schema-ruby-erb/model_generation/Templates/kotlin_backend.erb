@@ -34,7 +34,7 @@
 
   def resolveImports(objectType)
     output = ""
-    for qualifiedName in @kotlinHelper.resolve_imports(objectType.synthax_type.variables)
+    for qualifiedName in @kotlinHelper.resolve_imports(objectType.synthax_type.variables, "")
       if !qualifiedName.include? "#{objectType.synthax_type.package}"
         output += "\nimport #{qualifiedName}"
       end
@@ -45,7 +45,7 @@
         output += "\nimport #{inherited.synthax_type.package}.#{inherited.synthax_type.name}"
       end
       
-      for qualifiedName in @kotlinHelper.resolve_imports(inherited.synthax_type.variables)
+      for qualifiedName in @kotlinHelper.resolve_imports(inherited.synthax_type.variables, "")
         if !qualifiedName.include? "#{objectType.synthax_type.package}"
           output += "\nimport #{qualifiedName}"
         end
@@ -135,7 +135,7 @@
     if objectType.synthax_type.variables.any?
       output += " {"
       for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{handleFieldAccessor(variable)}#{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}#{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
@@ -146,7 +146,7 @@
           if !output.include? "{"
             output += "{"
           end
-          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
+          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}override #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
           counter += 1
         end
       end
@@ -168,7 +168,7 @@
     if objectType.synthax_type.variables.any?
       output += " ("
       for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{handleFieldAccessor(variable)}#{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}#{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
@@ -182,7 +182,7 @@
         end
         counter = 0 
         for variable in inherited.synthax_type.variables
-          output += "\n#{@tab}#{handleFieldAccessor(variable)}override #{handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter)}"
+          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}override #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter)}"
           counter += 1
         end
       end
@@ -263,7 +263,7 @@
 
       counter = 0 
       for inherited in objectType.synthax_type.inheritFrom
-        output += inherited.synthax_type.type == TypesToString.abstract ? "#{inherited.name}()" : inherited.name
+        output += @template_helper.is_abstract(inherited) ? "#{inherited.name}()" : inherited.name
         if objectType.synthax_type.inheritFrom.size - 1 != counter 
           output += ", "
         end
@@ -279,41 +279,15 @@
     output
   end
 
-  def dictionary_variable_declaration(variable) 
-    type_of_key = adapt_type_name_to_kotlin_specific(@template_helper.fetch_type(variable.type_of_key))
-    type_of_value = adapt_type_name_to_kotlin_specific(@template_helper.fetch_type(variable.type_of_value))
-    type_name = "Map<#{type_of_key}, #{type_of_value}>"
-    type_name
-  end
-
   def single_variable_declaration(variable, import_manager)
-    type_name = @template_helper.fetch_type(variable.typeName)
-    type_name = adapt_type_name_to_kotlin_specific(type_name)
+    type_name = @template_helper.fetch_type(variable.typeName.name)
+    type_name = @kotlinHelper.adapt_type_name_to_kotlin_specific(type_name)
     type_name
-  end
-
-  def handleFieldAccessor(variable)
-    output = ""
-    if variable.accessor != "public"
-      output += "#{variable.accessor} "
-    end
-    output
-  end
-
-  def handleFieldMutable(variable)
-    output = ""
-    if variable.isMutable
-      output += "var "
-    else
-      output += "val "
-    end
-    output
   end
 
   def handleTypeNameAndDefault(objectType, variable, shouldAddComma = false)
-
     if variable.instance_of? Dictionary
-      output = dictionary_variable_declaration(variable)
+      output = @kotlinHelper.dictionary_variable_declaration(variable)
     else
       output = single_variable_declaration(variable, @kotlinHelper.import_manager)
     end
@@ -322,7 +296,7 @@
     output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
-    output = !default.empty? && objectType.synthax_type.type != TypesToString.interface ? "#{output} = #{default}" : output
+    output = !default.empty? && !@template_helper.is_interface(objectType) ? "#{output} = #{default}" : output
     output = shouldAddComma ? output + "," : output
     output
   end
@@ -330,7 +304,7 @@
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
     default = getVariableDefault(variable)
     if variable.instance_of? Dictionary
-      output = dictionary_variable_declaration(variable)
+      output = @kotlinHelper.dictionary_variable_declaration(variable)
     else
       output = single_variable_declaration(variable, @kotlinHelper.import_manager)
     end
@@ -350,14 +324,6 @@
 
   def getVariableDefault(variable)
     variable.defaultValue.empty? && variable.isOptional ? "null" : variable.defaultValue
-  end
-
-  def adapt_type_name_to_kotlin_specific(typeName)
-    if typeName.eql?("ContextData")
-      "Any"
-    else
-      typeName
-    end
   end
 
 -%>

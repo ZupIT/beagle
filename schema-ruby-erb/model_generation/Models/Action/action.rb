@@ -20,13 +20,12 @@ class Action < BaseComponent
     #todo finish implementation, and add to be generated on main
     def initialize
         synthax_type = BuiltInType.new(
+            :type => TypeInterface.new,
             :name => self.name,
             :variables => [],
             :package => "br.com.zup.beagle.widget.action",
             :comment => "Base of actions\nAction is an interface that allows you to define actions that can be performed by Widgets."
         )
-
-        synthax_type.type = TypesToString.interface
 
         super(synthax_type)
 

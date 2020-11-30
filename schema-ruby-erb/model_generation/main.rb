@@ -17,6 +17,13 @@ require 'date'
 
 require_relative 'Synthax/Attributes/field.rb'
 require_relative 'Synthax/Types/type.rb'
+require_relative 'Models/Types/string.rb'
+require_relative 'Models/Types/Double.rb'
+require_relative 'Models/Types/boolean.rb'
+require_relative 'Models/Types/integer.rb'
+require_relative 'Models/Types/enum.rb'
+require_relative 'Models/Types/abstract.rb'
+require_relative 'Models/Types/interface.rb'
 
 require_relative 'Models/Layout/corner_radius.rb'
 require_relative 'Models/Layout/display.rb'
@@ -110,7 +117,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("#{@c.templates}kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      suffix = helper.is_enum(@objectType) ? ".kt" : "Schema.kt"
+      suffix = helper.is_server_driven_component(@objectType) ? "Schema.kt" : ".kt"
       @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
     end
   end

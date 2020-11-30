@@ -20,7 +20,7 @@ class ServerDrivenComponent < BaseComponent
 
     def initialize
         synthax_type = BuiltInType.new(
-            :type => TypesToString.interface,
+            :type => TypeInterface.new,
             :name => self.name,
             :variables => [],
             :comment => "Base of components",

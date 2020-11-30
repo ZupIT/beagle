@@ -12,25 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/field.rb'
-require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
+require_relative '../base_component.rb'
 
-class AccessibilityComponent < BaseComponent
+class TypeBoolean < BaseComponent
 
     def initialize
-    	variables = [
-            Field.new(:name => "accessibility", :typeName => Accessibility.new, :isOptional => true, :isMutable => true, :comment => "attribute will enable a textual information to explain\nthe view content in case a screen reader is use")
-        ]
         synthax_type = BuiltInType.new(
-            :type => TypeInterface.new,
-            :name => self.name,
-            :variables => variables,
-            :package => "br.com.zup.beagle.core",
-            :comment => "Component that hold the accessibility",
-            :inheritFrom => [
-               ServerDrivenComponent.new
-            ]
+            :name => "Bool"
         )
 
         super(synthax_type)

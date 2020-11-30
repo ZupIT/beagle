@@ -19,7 +19,7 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 class Size < BaseComponent
 
     def initialize
-        unit_value = UnitValue.new.name
+        unit_value = UnitValue.new
         variables = [
             Field.new(
                 :name => "width",
@@ -59,7 +59,7 @@ class Size < BaseComponent
             ),
             Field.new(
                 :name => "aspectRatio",
-                :typeName => TypesToString.double,
+                :typeName => TypeDouble.new,
                 :isOptional => true,
                 :comment => "defined as the ratio between the width and the height of a node."
             )

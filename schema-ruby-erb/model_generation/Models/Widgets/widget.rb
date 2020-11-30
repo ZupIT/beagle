@@ -20,7 +20,7 @@ class Widget < BaseComponent
     #todo finish implementation, missing accessibility
     def initialize
         synthax_type = BuiltInType.new(
-            :type => TypesToString.abstract,
+            :type => TypeAbstract.new,
             :name => self.name,
             :package => "br.com.zup.beagle.widget",
             :comment => "Base of all widgets",

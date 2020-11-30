@@ -12,8 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../Synthax/Types/type_to_string.rb'
-
 # This is one of the core classes of beagle schema. This is the object that will be processed in the ERB templates.
 # You should NOT use this class directly. Instead, create a class that inherits from this one.
 class BaseComponent
@@ -22,8 +20,6 @@ class BaseComponent
     # @see BaseType
     # @return [BaseType]
     attr_accessor :synthax_type
-    
-    include TypesToString
 
     # Initializer for Base Component
     #

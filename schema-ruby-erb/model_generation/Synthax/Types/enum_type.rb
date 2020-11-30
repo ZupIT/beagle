@@ -20,7 +20,7 @@ class EnumType
 
     def initialize(params = {})
         super
-        @type = TypesToString.enum
+        @type = TypeEnum.new
     end
 
 end

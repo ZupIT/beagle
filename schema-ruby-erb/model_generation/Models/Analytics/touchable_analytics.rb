@@ -20,10 +20,10 @@ class TouchableAnalytics < BaseComponent
 
     def initialize
     	variables = [
-            Field.new(:name => "clickAnalyticsEvent", :typeName => ClickEvent.new.name, :isOptional => true, :comment => "attribute to define click event name")
+            Field.new(:name => "clickAnalyticsEvent", :typeName => ClickEvent.new, :isOptional => true, :comment => "attribute to define click event name")
         ]
         synthax_type = BuiltInType.new(
-            :type => TypesToString.interface,
+            :type => TypeInterface.new,
             :name => self.name,
             :variables => variables,
             :comment => "Component that hold the click analytics",

@@ -25,12 +25,46 @@ class KotlinTemplateHelper
         init_imports(components)
     end
 
-    def resolve_imports(variables)
+    def resolve_imports(variables, sufix)
         variables
             .select {|variable| !variable.instance_of? Dictionary }
-            .map { |variable| @import_manager[variable.typeName] }
+            .map { |variable| @import_manager[variable.typeName.synthax_type.name] + ((@helper.is_server_driven_component(variable.typeName)) ? sufix : "")  }
             .uniq.filter { |import| !import.empty? }
     end
+
+    def dictionary_variable_declaration(variable) 
+        type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
+        type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
+        type_name = "Map<#{type_of_key}, #{type_of_value}>"
+        type_name
+    end
+
+    def adapt_type_name_to_kotlin_specific(typeName)
+        if typeName.eql?("ContextData")
+          "Any"
+        else
+          typeName
+        end
+    end
+
+    def handleFieldAccessor(variable)
+        output = ""
+        if variable.accessor != "public"
+          output += "#{variable.accessor} "
+        end
+        output
+    end
+
+    def handleFieldMutable(variable)
+        output = ""
+        if variable.isMutable
+            output += "var "
+        else
+            output += "val "
+        end
+        output
+    end
+
 
     #Documentation
 

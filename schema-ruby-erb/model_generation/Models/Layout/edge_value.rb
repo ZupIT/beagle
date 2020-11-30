@@ -20,7 +20,7 @@ require_relative 'unit_value.rb'
 class EdgeValue < BaseComponent
 
     def initialize
-        unit_value = UnitValue.new.name
+        unit_value = UnitValue.new
         variables = [
             Field.new(:name => "left",
                 :typeName => unit_value,

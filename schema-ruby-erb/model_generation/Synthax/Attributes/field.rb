@@ -49,7 +49,7 @@ class Field < BaseAttributes
         @isBindable = params.fetch(:isBindable, false)
         @isOptional = params.fetch(:isOptional, false)
         @isMutable = params.fetch(:isMutable, false)
-        @typeName = params.fetch(:typeName, '')
+        @typeName = params.fetch(:typeName, nil)
         @defaultValue = params.fetch(:defaultValue, '')
     end
 

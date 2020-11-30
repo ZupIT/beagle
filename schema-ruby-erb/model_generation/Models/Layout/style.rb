@@ -19,35 +19,35 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 class Style < BaseComponent
 
     def initialize
-        edge_value = EdgeValue.new.name
+        edge_value = EdgeValue.new
         variables = [
             Field.new(
                 :name => "backgroundColor",
-                :typeName => TypesToString.string,
+                :typeName => TypeString.new,
                 :isOptional => true,
                 :comment => "Using a String parameter it sets the background color on this visual component.\nIt must be listed as an Hexadecimal color format without the \"#\".\nFor example, for a WHITE background type in \"FFFFFF\"."
             ),
             Field.new(
                 :name => "cornerRadius",
-                :typeName => CornerRadius.new.name,
+                :typeName => CornerRadius.new,
                 :isOptional => true,
                 :comment => "Using a Double parameters it sets the corner of your view to make it round."
             ),
             Field.new(
                 :name => "borderColor",
-                :typeName => TypesToString.string,
+                :typeName => TypeString.new,
                 :isOptional => true,
                 :comment => "Sets the color of your view border. Supported formats:#RRGGBB[AA] and #RGB[A]."
             ),
             Field.new(
                 :name => "borderWidth",
-                :typeName => TypesToString.double,
+                :typeName => TypeDouble.new,
                 :isOptional => true,
                 :comment => "Sets the width of your view border."
             ),
             Field.new(
                 :name => "size",
-                :typeName => Size.new.name,
+                :typeName => Size.new,
                 :isOptional => true,
                 :comment => "add size to current view applying the flex."
             ),
@@ -71,19 +71,19 @@ class Style < BaseComponent
             ),
             Field.new(
                 :name => "flex",
-                :typeName => Flex.new.name,
+                :typeName => Flex.new,
                 :isOptional => true,
                 :comment => ""
             ),
             Field.new(
                 :name => "positionType",
-                :typeName => PositionType.new.name,
+                :typeName => PositionType.new,
                 :isOptional => true,
                 :comment => "The position type of an element defines how it is positioned within its parent."
             ),
             Field.new(
                 :name => "display",
-                :typeName => Display.new.name,
+                :typeName => Display.new,
                 :isOptional => true,
                 :isBindable => true,
                 :comment => "enables a flex context for all its direct children."

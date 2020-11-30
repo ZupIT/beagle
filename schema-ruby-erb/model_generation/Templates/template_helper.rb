@@ -12,8 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../Synthax/Types/type_to_string'
-
 # This class lists the available supported languages of beagle schema.
 class SupportedLanguages
 
@@ -39,12 +37,13 @@ class BasicType < SupportedLanguages
     def initialize
         super
         @grammar = {
-            TypesToString.string => {@swift => "String", @kotlin => "String"},
-            TypesToString.bool => {@swift => "Bool", @kotlin => "Boolean"},
-            TypesToString.interface => {@swift => "protocol", @kotlin => "interface"},
-            TypesToString.enum => {@swift => "enum", @kotlin => "enum class"},
-            TypesToString.integer => {@swift => "Int", @kotlin => "Int"},
-            TypesToString.abstract => {@swift => "protocol", @kotlin => "abstract class"}
+            TypeString.new.name => {@swift => "String", @kotlin => "String"},
+            TypeBoolean.new.name => {@swift => "Bool", @kotlin => "Boolean"},
+            TypeInterface.new.name => {@swift => "protocol", @kotlin => "interface"},
+            TypeDouble.new.name => {@swift => "Double", @kotlin => "Double"},
+            TypeEnum.new.name => {@swift => "enum", @kotlin => "enum class"},
+            TypeInteger.new.name => {@swift => "Int", @kotlin => "Int"},
+            TypeAbstract.new.name => {@swift => "protocol", @kotlin => "abstract class"}
         }
 
     end
@@ -90,7 +89,7 @@ class TemplateHelper
     # @param key [String] type identifier
     # @return [String] converted string to specified language or the key itself
     def fetch_built_in_type_declaration(key)
-        key == nil ? @defaultDeclarationType : fetch_type(key)
+        (key == nil or key.name == nil) ? @defaultDeclarationType : fetch_type(key.name)
     end
 
     # Adds padding in each line of a given multiline string
@@ -121,15 +120,15 @@ class TemplateHelper
     end
 
     def variable_is_primitive(variable)
-        variable.typeName == TypesToString.string or variable.typeName == TypesToString.integer or variable.typeName == TypesToString.bool or variable.typeName == TypesToString.double
+        variable.typeName.synthax_type.is_a?(TypeString) or variable.typeName.synthax_type.is_a?(TypeInteger) or variable.typeName.synthax_type.is_a?(TypeBoolean) or variable.typeName.synthax_type.is_a?(TypeDouble)
     end
 
     def is_interface(object_type)
-        object_type.synthax_type.type == TypesToString.interface
+        object_type.synthax_type.type.is_a?(TypeInterface)
     end
 
     def is_abstract(object_type)
-        object_type.synthax_type.type == TypesToString.abstract
+        object_type.synthax_type.type.is_a?(TypeAbstract)
     end
 
     def is_interface_or_enum(object_type)
@@ -149,7 +148,15 @@ class TemplateHelper
     # @param object_type [BaseComponent]
     # @return [Bool] indicating wether the object is a server driven component or not
     def is_server_driven_component(object_type)
-        object_type.synthax_type.inheritFrom.any? { |component| component.synthax_type.name == "ServerDrivenComponent" }
+        if object_type.synthax_type.name == "ServerDrivenComponent"
+            return true
+        else
+            for inherit in object_type.synthax_type.inheritFrom
+                return is_server_driven_component(inherit)
+            end
+        end
+
+        return false
     end
 
     def has_variables(object_type)
