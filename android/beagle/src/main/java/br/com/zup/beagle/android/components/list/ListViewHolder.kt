@@ -36,7 +36,7 @@ import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 import org.json.JSONObject
-import java.util.*
+import java.util.LinkedList
 
 internal class ListViewHolder(
     itemView: View,
