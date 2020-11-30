@@ -52,7 +52,7 @@
     output = "package br.com.zup.beagle.generated.#{objectType.synthax_type.package.gsub("br.com.zup.beagle.", "")}\n"
 
     output += resolveImports(objectType)
-    output += @kotlinHelper.resolveDocumentation(objectType, @template_helper)
+    output += @kotlinHelper.resolveDocumentation(objectType)
     output += resolveObjectType(objectType)
 
     output
@@ -61,34 +61,50 @@
   def resolveImports(objectType)
     output = ""
 
-    for qualifiedName in @kotlinHelper.resolve_imports(objectType.synthax_type.variables, "Schema")
-      if !qualifiedName.include? "#{objectType.synthax_type.package}"
-        output += "\nimport #{qualifiedName.gsub("br.com.zup.beagle.", "br.com.zup.beagle.generated.")}"
+    for variable in objectType.synthax_type.variables
+      if !@template_helper.variable_is_primitive(variable)
+        qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
+        if @template_helper.is_server_driven_component(variable.type)
+          qualifiedName += "Schema"
+        end
+        if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+          output += "import #{qualifiedName}\n"
+        end
       end
     end
 
-    for inherited in objectType.synthax_type.inheritFrom
-      if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}"
-        output += "\nimport #{inherited.synthax_type.package.gsub("br.com.zup.beagle.", "br.com.zup.beagle.generated.")}.#{inherited.synthax_type.name}"
-        if @template_helper.is_server_driven_component(inherited)
-          output += "Schema"
+    if !@template_helper.is_server_driven_component(objectType)
+      for inherited in objectType.synthax_type.inheritFrom
+        if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}"
+          output += "import #{inherited.synthax_type.package}.#{inherited.synthax_type.name}\n"
+          if @template_helper.is_server_driven_component(inherited)
+            output += "Schema"
+          end
         end
-      end
-      
-      for qualifiedName in @kotlinHelper.resolve_imports(inherited.synthax_type.variables, "Schema")
-        if !qualifiedName.include? "#{objectType.synthax_type.package}"
-          output += "\nimport #{qualifiedName.gsub("br.com.zup.beagle.", "br.com.zup.beagle.generated.")}"
-        end
+        
+        for variable in inherited.synthax_type.variables
+          if !@template_helper.variable_is_primitive(variable)
+              qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
+            if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+              output += "import #{qualifiedName}\n"
+              if @template_helper.is_server_driven_component(inherited)
+                output += "Schema"
+              end
+            end
+          end
+        end 
       end
     end
+
+    output = output.gsub('br.com.zup.beagle.', 'br.com.zup.beagle.generated.')
 
     output += resolveBindImport(objectType)
 
     if output.include? "import"
-      output += "\n"
+      "\n" + output + "\n"
+    else
+      output + "\n"
     end
-
-    output
   end
 
   #TODO remove bind import rules
@@ -97,11 +113,15 @@
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
       if !"br.com.zup.beagle.android.context".include? "#{objectType.synthax_type.package}"
-        output += "\nimport br.com.zup.beagle.android.context.Bind"
+        output += "import br.com.zup.beagle.android.context.Bind\n"
       end
     end
 
-    output
+    if output.include? "import"
+      "\n" + output
+    else
+      output
+    end
   end
 
   def resolveObjectType(objectType)
@@ -146,7 +166,7 @@
   def handleInnerTypes(objectTypes, input)
     output = input
     for objectType in objectTypes
-      output += "\n#{@kotlinHelper.resolveDocumentation(objectType, @template_helper)}"
+      output += "\n#{@kotlinHelper.resolveDocumentation(objectType)}"
       output += "\n#{resolveObjectType(objectType)}"
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0

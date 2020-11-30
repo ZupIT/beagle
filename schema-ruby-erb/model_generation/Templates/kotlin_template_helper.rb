@@ -20,16 +20,6 @@ class KotlinTemplateHelper
 
     def initialize(components)
         @helper = TemplateHelper.new
-        @import_manager = Hash.new("")
-
-        init_imports(components)
-    end
-
-    def resolve_imports(variables, sufix)
-        variables
-            .select {|variable| !variable.instance_of? Dictionary }
-            .map { |variable| @import_manager[variable.type.synthax_type.name] + ((@helper.is_server_driven_component(variable.type)) ? sufix : "")  }
-            .uniq.filter { |import| !import.empty? }
     end
 
     def dictionary_variable_declaration(variable) 
@@ -65,28 +55,27 @@ class KotlinTemplateHelper
         output
     end
 
-
     #Documentation
 
-    def resolveDocumentation(objectType, template_helper)
+    def resolveDocumentation(objectType)
     output = ""
 
-    if template_helper.has_any_documentation(objectType)
-      output += "\n/**\n"
+    if @helper.has_any_documentation(objectType)
+      output += "/**\n"
     end
 
-    if template_helper.objectType_has_documentation(objectType)
+    if @helper.objectType_has_documentation(objectType)
       output += " * #{replace_breakLine_documentation(objectType.synthax_type.comment, "\n * ")}\n"
     end
 
-    if template_helper.variables_has_documentation(objectType) or template_helper.inheritFrom_has_documentation(objectType)
+    if @helper.variables_has_documentation(objectType) or @helper.inheritFrom_has_documentation(objectType)
       output += " *\n"
     end
 
     for variable in objectType.synthax_type.variables
       if variable.comment != nil
         output += " * "
-        if template_helper.is_interface_or_enum(objectType)
+        if @helper.is_interface_or_enum(objectType)
           output += "@property "
         else
           output += "@param " 
@@ -94,8 +83,8 @@ class KotlinTemplateHelper
 
         output += "#{variable.name}"
 
-        if !template_helper.is_enum(objectType)
-          output += " #{replace_breakLine_documentation(variable.comment, "\n * #{generate_scape_documentation(variable, template_helper.is_interface(objectType))}")}\n"
+        if !@helper.is_enum(objectType)
+          output += " #{replace_breakLine_documentation(variable.comment, "\n * #{generate_scape_documentation(variable, @helper.is_interface(objectType))}")}\n"
         else
           output += "\n"
         end
@@ -106,14 +95,14 @@ class KotlinTemplateHelper
         for variable in inherited.synthax_type.variables
           if variable.comment != nil
             output += " * "
-            if template_helper.is_interface_or_enum(inherited)
+            if @helper.is_interface_or_enum(inherited)
               output += "@property "
             else
               output += "@param " 
             end
 
             output += "#{variable.name}"
-            if !template_helper.is_enum(inherited)
+            if !@helper.is_enum(inherited)
               output += " #{replace_breakLine_documentation(variable.comment, "\n * ")}\n"
             else
               output += "\n"
@@ -122,7 +111,7 @@ class KotlinTemplateHelper
         end
     end
 
-    if template_helper.has_any_documentation(objectType)
+    if @helper.has_any_documentation(objectType)
       output += " *\n */"
     end
 
@@ -147,38 +136,4 @@ class KotlinTemplateHelper
     def replace_breakLine_documentation(comment, replace)
         comment.gsub("\n", replace)
     end
-    
-    private
-    def init_imports(components) 
-        components.each do |clazz|
-          component = clazz.new
-          handle_inner_imports(component)
-        end
-    end
-
-    private
-    def handle_inner_imports(component)
-        define_import(component)
-        
-        for components in component.synthax_type.sameFileTypes
-          handle_inner_imports(components)
-        end
-    end
-
-    private
-    def define_import(component) 
-        type = component.synthax_type
-        @import_manager[type.name] = "#{type.package}.#{type.name}"
-
-        for inherited in type.inheritFrom
-            @import_manager[inherited.synthax_type.name] = "#{inherited.synthax_type.package}.#{inherited.synthax_type.name}"
-
-            for variable in type.variables
-              if !@helper.variable_is_primitive(variable)
-                @import_manager[variable.type] = "#{inherited.synthax_type.package}.#{variable.type}"
-              end
-            end
-        end
-    end
-
 end

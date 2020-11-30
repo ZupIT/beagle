@@ -120,7 +120,7 @@ class TemplateHelper
     end
 
     def variable_is_primitive(variable)
-        variable.type.synthax_type.is_a?(TypeString) or variable.type.synthax_type.is_a?(TypeInteger) or variable.type.synthax_type.is_a?(TypeBoolean) or variable.type.synthax_type.is_a?(TypeDouble)
+        variable.type.is_a?(TypeString) or variable.type.is_a?(TypeInteger) or variable.type.is_a?(TypeBoolean) or variable.type.is_a?(TypeDouble)
     end
 
     def is_interface(object_type)

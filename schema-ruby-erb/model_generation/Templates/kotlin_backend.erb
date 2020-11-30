@@ -27,38 +27,45 @@
     output = "package #{objectType.synthax_type.package}\n"
 
     output += resolveImports(objectType)
-    output += @kotlinHelper.resolveDocumentation(objectType, @template_helper)
+    output += @kotlinHelper.resolveDocumentation(objectType)
     output += resolveObject(objectType)
     output
   end
 
   def resolveImports(objectType)
     output = ""
-    for qualifiedName in @kotlinHelper.resolve_imports(objectType.synthax_type.variables, "")
-      if !qualifiedName.include? "#{objectType.synthax_type.package}"
-        output += "\nimport #{qualifiedName}"
+    for variable in objectType.synthax_type.variables
+      if !@template_helper.variable_is_primitive(variable)
+        qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
+        if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+          output += "import #{qualifiedName}\n"
+        end
       end
     end
 
     for inherited in objectType.synthax_type.inheritFrom
       if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}"
-        output += "\nimport #{inherited.synthax_type.package}.#{inherited.synthax_type.name}"
+        output += "import #{inherited.synthax_type.package}.#{inherited.synthax_type.name}\n"
       end
       
-      for qualifiedName in @kotlinHelper.resolve_imports(inherited.synthax_type.variables, "")
-        if !qualifiedName.include? "#{objectType.synthax_type.package}"
-          output += "\nimport #{qualifiedName}"
+      for variable in inherited.synthax_type.variables
+        if !@template_helper.variable_is_primitive(variable)
+            qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
+          if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+            output += "import #{qualifiedName}\n"
+          end
         end
-      end
+      end 
     end
 
     output += resolveBindImport(objectType)
 
     if output.include? "import"
-      output += "\n"
+      "\n" + output + "\n"
+    else
+      output + "\n"
     end
 
-    output
   end
 
   #TODO remove bind import rules
@@ -67,23 +74,28 @@
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
       if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
-        output += "\nimport br.com.zup.beagle.widget.context.Bind"
+        output += "import br.com.zup.beagle.widget.context.Bind\n"
       end
     end
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional } and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
       if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
-        output += "\nimport br.com.zup.beagle.widget.context.valueOf"
+        output += "import br.com.zup.beagle.widget.context.valueOf\n"
       end
     end
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional } and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
       if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
-        output += "\nimport br.com.zup.beagle.widget.context.valueOfNullable"
+        output += "import br.com.zup.beagle.widget.context.valueOfNullable\n"
       end
     end
 
-    output
+    if output.include? "import"
+      "\n" + output
+    else
+      output
+    end
+
   end
 
   def resolveObject(objectType)
@@ -99,7 +111,7 @@
       end
     end
 
-    output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+    output += handleInnerTypes(objectType.synthax_type.sameFileTypes)
 
     output
   end
@@ -239,11 +251,11 @@
     output
   end
 
-  def handleInnerTypes(objectTypes, input)
-    output = input
+  def handleInnerTypes(objectTypes)
+    output = ""
     for objectType in objectTypes
-      output += "\n#{@kotlinHelper.resolveDocumentation(objectType, @template_helper)}"
-      output += "\n#{resolveObject(objectType)}"
+      output += "\n\n#{@kotlinHelper.resolveDocumentation(objectType)}"
+      output += "#{resolveObject(objectType)}"
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
         handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
