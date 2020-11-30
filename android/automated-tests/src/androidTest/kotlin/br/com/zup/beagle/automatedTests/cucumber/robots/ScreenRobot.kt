@@ -44,10 +44,12 @@ import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
 import br.com.zup.beagle.automatedTests.utils.action.OrientationChangeAction
 import br.com.zup.beagle.automatedTests.utils.action.SmoothScrollAction
+import br.com.zup.beagle.automatedTests.utils.action.SmoothScrollPercentAction
 import br.com.zup.beagle.automatedTests.utils.assertions.RecyclerViewItemCountAssertion
 import br.com.zup.beagle.automatedTests.utils.assertions.RecyclerViewOrientationAssertion
 import br.com.zup.beagle.automatedTests.utils.matcher.MatcherExtension
 import br.com.zup.beagle.widget.core.TextAlignment
+import cucumber.api.java.en.When
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -213,6 +215,12 @@ class ScreenRobot {
         return this
     }
 
+    fun scrollListByPercent(listId: Int, scrollPercent: Int): ScreenRobot {
+        onView(withId(listId))
+            .perform(SmoothScrollPercentAction(scrollPercent))
+        return this
+    }
+
     fun checkListViewItemContainsText(listId: Int, position: Int, expectedText: String): ScreenRobot {
         onView(withId(listId))
             .check { view, _ ->
@@ -235,6 +243,18 @@ class ScreenRobot {
             }
 
         return this
+    }
+
+    fun setScreenPortrait() {
+        onView(ViewMatchers.isRoot())
+            .perform(OrientationChangeAction.orientationPortrait())
+        Thread.sleep(1000)
+    }
+
+    fun setScreenLandScape() {
+        onView(ViewMatchers.isRoot())
+            .perform(OrientationChangeAction.orientationLandscape())
+        Thread.sleep(1000)
     }
 
     companion object {

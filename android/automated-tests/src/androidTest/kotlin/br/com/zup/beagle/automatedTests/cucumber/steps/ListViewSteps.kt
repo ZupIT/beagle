@@ -148,42 +148,4 @@ class ListViewScreenSteps {
                 title
             )
     }
-
-    //TODO: jogar para generic steps
-    @When("^I rotate the screen to landscape$")
-    fun rotateScreenLandscape() {
-        ScreenRobot()
-            .setScreenLandScape()
-    }
-
-    //TODO: jogar para generic steps
-    @When("^I rotate the screen to portrait$")
-    fun rotateScreenPortrait() {
-        ScreenRobot()
-            .setScreenPortrait()
-    }
-
-    /*@When("^I have a vertical list configured$")
-    fun checkVerticalListText() {
-        ScreenRobot()
-            .checkViewContainsText(STATIC_LISTVIEW_TEXT_1)
-            .sleep(2)
-    }
-
-    @Then("^listview screen should render all text attributes correctly$")
-    fun checkListViewScreenTexts() {
-        ScreenRobot()
-            .checkViewContainsText(STATIC_LISTVIEW_TEXT_1)
-            .checkViewContainsText(STATIC_LISTVIEW_TEXT_2)
-            .checkViewContainsText(DYNAMIC_LISTVIEW_TEXT_1)
-    }
-
-    @Then("^listview screen should perform the scroll action vertically$")
-    fun validateVerticalListScroll() {
-        ScreenRobot()
-            .scrollTo(DYNAMIC_LISTVIEW_TEXT_2)
-            .sleep(2)
-    }*/
-
-
 }

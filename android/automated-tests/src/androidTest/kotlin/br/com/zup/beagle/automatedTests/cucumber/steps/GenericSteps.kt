@@ -18,6 +18,7 @@ package br.com.zup.beagle.automatedTests.cucumber.steps
 
 
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.action.OrientationChangeAction
@@ -63,16 +64,14 @@ class GenericSteps {
 
     @When("I change the device orientation to portrait")
     fun setScreenPortrait() {
-        Espresso.onView(ViewMatchers.isRoot())
-            .perform(OrientationChangeAction.orientationPortrait())
-        Thread.sleep(1000)
+        ScreenRobot()
+            .setScreenPortrait()
     }
 
     @When("I change the device orientation to landscape")
     fun setScreenLandScape() {
-        Espresso.onView(ViewMatchers.isRoot())
-            .perform(OrientationChangeAction.orientationLandscape())
-        Thread.sleep(1000)
+        ScreenRobot()
+            .setScreenLandScape()
     }
 
 }
