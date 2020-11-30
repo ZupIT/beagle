@@ -42,9 +42,9 @@ internal object ComponentJsonAdapterFactory {
         )
 
         factory = registerBaseSubTypes(factory)
-        factory = registerUIClass(factory)
-        factory = registerWidgets(factory, BEAGLE_NAMESPACE, InternalWidgetFactory.registeredWidgets())
-        factory = registerWidgets(factory, CUSTOM_NAMESPACE, BeagleEnvironment.beagleSdk.registeredWidgets())
+//        factory = registerUIClass(factory)
+//        factory = registerWidgets(factory, BEAGLE_NAMESPACE, InternalWidgetFactory.registeredWidgets())
+//        factory = registerWidgets(factory, CUSTOM_NAMESPACE, BeagleEnvironment.beagleSdk.registeredWidgets())
         factory = registerUndefinedWidget(factory)
 
         return factory

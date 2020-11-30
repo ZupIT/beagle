@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.components.form.observer.StateChangeable
 import br.com.zup.beagle.android.components.form.observer.WidgetState
 import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.widget.Widget
+import com.squareup.moshi.JsonClass
 
 /**
  * <p>It could be an EditText view in Android, a Radio button in HTML,

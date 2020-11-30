@@ -22,8 +22,10 @@ import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.TokenParser
 import br.com.zup.beagle.android.utils.BeagleRegex
 import br.com.zup.beagle.android.utils.getExpressions
+import com.squareup.moshi.JsonClass
 import java.lang.reflect.Type
 
+//@JsonClass(generateAdapter = false)
 sealed class Bind<T> {
     abstract val type: Type
     abstract val value: Any

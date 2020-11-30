@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.annotation
 
+import com.squareup.moshi.JsonClass
+
 /**
  * Annotates a class that register a new widget.
  * # Example: #
@@ -27,4 +29,5 @@ package br.com.zup.beagle.annotation
  */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
+@JsonClass(generateAdapter = false)
 annotation class RegisterWidget

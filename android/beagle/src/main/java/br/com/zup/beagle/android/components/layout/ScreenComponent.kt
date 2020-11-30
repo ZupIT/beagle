@@ -33,6 +33,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonQualifier
 
 @RegisterWidget
 internal data class ScreenComponent(

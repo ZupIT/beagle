@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.annotation
 
+import com.squareup.moshi.JsonQualifier
+
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
+@JsonQualifier
 annotation class RegisterAction
