@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.components.utils.applyBackgroundFromWindowBackg
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.widget.UndefinedWidget
 
@@ -36,30 +37,50 @@ internal class BeagleFragment : Fragment() {
         val json = arguments?.getString(JSON_SCREEN_KEY) ?: beagleSerializer.serializeComponent(UndefinedWidget())
         beagleSerializer.deserializeComponent(json)
     }
-
     private val screenViewModel by lazy { ViewModelProvider(requireActivity()).get(BeagleScreenViewModel::class.java) }
+    private val analyticsViewModel by lazy { ViewModelProvider(requireActivity()).get(AnalyticsViewModel::class.java) }
+
 
     companion object {
 
         @JvmStatic
-        fun newInstance(component: ServerDrivenComponent) = newInstance(
-            beagleSerializer.serializeComponent(component)
-        )
+        fun newInstance(component: ServerDrivenComponent, isLocalScreen: Boolean, screenIdentifier: String?) =
+            newInstance(
+                json = beagleSerializer.serializeComponent(component),
+                isLocalScreen = isLocalScreen,
+                screenIdentifier = screenIdentifier
+            )
+
 
         @JvmStatic
-        fun newInstance(json: String): BeagleFragment = BeagleFragment().apply {
+        fun newInstance(
+            json: String,
+            isLocalScreen: Boolean,
+            screenIdentifier: String?
+        ): BeagleFragment = BeagleFragment().apply {
             val bundle = Bundle()
             bundle.putString(JSON_SCREEN_KEY, json)
+            bundle.putString(SCREEN_IDENTIFIER_KEY, screenIdentifier)
+            bundle.putBoolean(IS_LOCAL_SCREEN_KEY, isLocalScreen)
             arguments = bundle
         }
 
         private val beagleSerializer: BeagleSerializer = BeagleSerializer()
         private const val JSON_SCREEN_KEY = "JSON_SCREEN_KEY"
+        private const val SCREEN_IDENTIFIER_KEY = "SCREEN_IDENTIFIER_KEY"
+        private const val IS_LOCAL_SCREEN_KEY = "IS_LOCAL_SCREEN_KEY"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         screenViewModel.onScreenLoadFinished()
+        var isLocalScreen = savedInstanceState?.getBoolean(IS_LOCAL_SCREEN_KEY)
+        var screenIdentifier = savedInstanceState?.getString(SCREEN_IDENTIFIER_KEY)
+        isLocalScreen?.let { isLocalScreen ->
+            screenIdentifier?.let { screenIdentifier ->
+                analyticsViewModel.createScreenReport(isLocalScreen, screenIdentifier)
+            }
+        }
     }
 
     override fun onCreateView(

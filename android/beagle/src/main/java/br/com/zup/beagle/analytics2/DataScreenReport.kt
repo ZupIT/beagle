@@ -21,6 +21,6 @@ data class DataScreenReport(
     val screenIdentifier: String
 ) : DataReport{
     override fun report() {
-        AnalyticsService.createScreenRecord(this)
+        AnalyticsService.reportScreen(this)
     }
 }

@@ -22,6 +22,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.list.ListAdapter
 import br.com.zup.beagle.android.components.list.ListViewModels
@@ -29,6 +30,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
@@ -250,7 +252,12 @@ constructor(
         onScrollEnd?.let {
             if (canCallOnScrollEnd()) {
                 it.forEach { action ->
-                    action.execute(rootView, recyclerView)
+                    action.handleEvent(
+                        rootView = rootView,
+                        origin = recyclerView,
+                        action = action,
+                        analyticsHandleEvent = AnalyticsHandleEvent(this@ListView, "onScrollEnd")
+                    )
                 }
                 canScrollEnd = false
             }

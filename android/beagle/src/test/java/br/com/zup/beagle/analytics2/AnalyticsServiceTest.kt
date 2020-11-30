@@ -97,8 +97,8 @@ class AnalyticsServiceTest : BaseTest() {
 
             //WHEN
             AnalyticsService.initialConfig(analyticsProviderImpl)
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(false, "url")
+            AnalyticsService.createScreenRecord(false, "url")
             AnalyticsService.createActionRecord(rootView, view, action)
             analyticsProviderImpl.startSession?.invoke()
 
@@ -118,8 +118,8 @@ class AnalyticsServiceTest : BaseTest() {
             analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
 
             //WHEN
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(false, "url")
+            AnalyticsService.createScreenRecord(false, "url")
             AnalyticsService.createActionRecord(rootView, view, action)
             initAnalyticsService()
 
@@ -135,8 +135,8 @@ class AnalyticsServiceTest : BaseTest() {
 
             //WHEN
             AnalyticsService.initialConfig(analyticsProviderImpl)
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(false, "url")
+            AnalyticsService.createScreenRecord(false, "url")
             AnalyticsService.createActionRecord(rootView, view, action)
             AnalyticsService.createActionRecord(rootView, view, action)
             AnalyticsService.createActionRecord(rootView, view, action)
@@ -146,7 +146,7 @@ class AnalyticsServiceTest : BaseTest() {
 
             //THEN
             verify(exactly = 0){
-                AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+                AnalyticsService.createScreenRecord(false, "url")
             }
             verifyOrder {
                 AnalyticsService.reportActionIfShould(dataActionReport)
@@ -173,7 +173,7 @@ class AnalyticsServiceTest : BaseTest() {
             initAnalyticsService()
 
             //wHEN
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(false, "url")
 
             //THEN
             assertTrue(analyticsProviderImpl.createRecordCalled)
@@ -190,7 +190,7 @@ class AnalyticsServiceTest : BaseTest() {
             initAnalyticsService()
 
             //wHEN
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(false, "url")
 
             //THEN
             verify(exactly = 1) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url") }
@@ -209,7 +209,7 @@ class AnalyticsServiceTest : BaseTest() {
             initAnalyticsService()
 
             //wHEN
-            AnalyticsService.createScreenRecord(DataScreenReport(true, "screenId"))
+            AnalyticsService.createScreenRecord(true, "screenId")
 
             //THEN
             verify(exactly = 1) { ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId") }
@@ -230,7 +230,7 @@ class AnalyticsServiceTest : BaseTest() {
             initAnalyticsService()
 
             //wHEN
-            AnalyticsService.createScreenRecord(DataScreenReport(false, "url"))
+            AnalyticsService.createScreenRecord(false, "url")
 
             //THEN
             assertFalse(analyticsProviderImpl.createRecordCalled)

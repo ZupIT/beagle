@@ -102,8 +102,9 @@ internal object AnalyticsService {
 
     private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
 
-    fun createScreenRecord(dataScreenReport: DataScreenReport) {
+    fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
         analyticsProvider?.let { analyticsProvider ->
+            val dataScreenReport = DataScreenReport(isLocalScreen, screenIdentifier)
             if (isAnalyticsConfigInitialized()) {
                 reportScreen(dataScreenReport)
             } else {
@@ -112,7 +113,7 @@ internal object AnalyticsService {
         }
     }
 
-    private fun reportScreen(dataScreenReport: DataScreenReport) {
+    fun reportScreen(dataScreenReport: DataScreenReport) {
         if (shouldReportScreen()) {
             val screenIdentifier = dataScreenReport.screenIdentifier
             if (dataScreenReport.isLocalScreen) {

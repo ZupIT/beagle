@@ -45,7 +45,7 @@ internal class DataScreenReportTest : BaseTest(){
             dataScreenReport.report()
 
             //THEN
-            verify(exactly = 1) { AnalyticsService.createScreenRecord(dataScreenReport) }
+            verify(exactly = 1) { AnalyticsService.reportScreen(dataScreenReport) }
         }
     }
 }
