@@ -65,7 +65,7 @@ class ScreenRobot {
         return this
     }
 
-    fun checkTabContainsTextAndIcon(title:String? = null, icon:Int, waitForText: Boolean = false ){
+    fun checkTabContainsTextAndIcon(title: String? = null, icon: Int, waitForText: Boolean = false) {
         if (waitForText) {
             WaitHelper.waitForWithElement(onView(withText(title)))
         }
@@ -198,73 +198,43 @@ class ScreenRobot {
     }
 
     fun checkListViewItemCount(listViewId: Int, expectedCount: Int) {
-        onView(withId(listViewId)).check(RecyclerViewItemCountAssertion.withItemCount(expectedCount))
+        onView(withId(listViewId))
+            .check(RecyclerViewItemCountAssertion.withItemCount(expectedCount))
     }
 
     fun checkListViewOrientation(listViewId: Int, orientation: Int) {
-        onView(withId(listViewId)).check(RecyclerViewOrientationAssertion.withOrientation(orientation))
+        onView(withId(listViewId))
+            .check(RecyclerViewOrientationAssertion.withOrientation(orientation))
     }
 
     fun scrollListToPosition(listId: Int, position: Int): ScreenRobot {
-        var isScrolling = true
-        onView(withId(listId)).perform(SmoothScrollAction(position) {
-            isScrolling = false
-        })
-        while (isScrolling) {
-            //TODO: refatorar
-            Thread.sleep(0)
-        }
+        onView(withId(listId))
+            .perform(SmoothScrollAction(position))
         return this
     }
 
     fun checkListViewItemContainsText(listId: Int, position: Int, expectedText: String): ScreenRobot {
         onView(withId(listId))
             .check { view, _ ->
-                //view.post {
                 ViewMatchers.assertThat(
                     "RecyclerView item",
                     view,
                     atPosition(position, ViewMatchers.hasDescendant(withText(expectedText))))
             }
-        //}
 
         return this
     }
 
     fun checkListViewItemContainsViewWithId(listId: Int, position: Int, expectedViewId: Int): ScreenRobot {
-
         onView(withId(listId))
             .check { view, _ ->
                 ViewMatchers.assertThat(
                     "RecyclerView item template",
                     view,
                     atPosition(position, ViewMatchers.hasDescendant(withId(expectedViewId))))
-                //.check(matches(atPosition(position, ViewMatchers.hasDescendant(withId(expectedViewId)))))
-
-                //view.post {
-                //TODO: verificar se necessário separar em uma classe
-                /*   val viewHolder = (view as RecyclerView).findViewHolderForAdapterPosition(position)
-                   ViewMatchers.assertThat(
-                       "RecyclerView item template",
-                       viewHolder?.itemView,
-                       ViewMatchers.hasDescendant(withId(expectedViewId))
-                   )*/
             }
-        //}
 
         return this
-    }
-
-    fun setScreenPortrait() {
-        onView(ViewMatchers.isRoot()).perform(OrientationChangeAction.orientationPortrait())
-        //TODO: revisar ao efetuar testes rotacionando a tela
-        Thread.sleep(1000)
-    }
-
-    fun setScreenLandScape() {
-        onView(ViewMatchers.isRoot()).perform(OrientationChangeAction.orientationLandscape())
-        //TODO: revisar ao efetuar testes rotacionando a tela
-        Thread.sleep(1000)
     }
 
     companion object {
@@ -284,7 +254,6 @@ class ScreenRobot {
             }
         }
 
-        //TODO: refatorar
         fun atPosition(position: Int, @NonNull itemMatcher: Matcher<View?>): Matcher<View?>? {
             return object : BoundedMatcher<View?, RecyclerView>(RecyclerView::class.java) {
                 override fun describeTo(description: Description) {

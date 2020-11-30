@@ -17,15 +17,15 @@
 package br.com.zup.beagle.automatedTests.utils.action
 
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
+import kotlin.math.roundToInt
 
-class SmoothScrollAction(private val position: Int) : ViewAction {
+class SmoothScrollPercentAction(private val scrollPercent: Int) : ViewAction {
     override fun getConstraints(): Matcher<View> {
         return Matchers.allOf(ViewMatchers.isAssignableFrom(RecyclerView::class.java), ViewMatchers.isDisplayed())
     }
@@ -46,7 +46,15 @@ class SmoothScrollAction(private val position: Int) : ViewAction {
                 }
             }
         })
-        recyclerView.smoothScrollToPosition(position)
+
+        val offset = recyclerView.computeVerticalScrollOffset()
+        val extent = recyclerView.computeVerticalScrollExtent()
+        val range = recyclerView.computeVerticalScrollRange()
+        val scrollHeight = (range - extent).toFloat()
+
+        val distanceToScroll = ((scrollPercent * scrollHeight) / 100).roundToInt()
+
+        recyclerView.smoothScrollBy(0, (distanceToScroll - offset))
 
         while (isScrolling) {
             uiController?.loopMainThreadForAtLeast(10)

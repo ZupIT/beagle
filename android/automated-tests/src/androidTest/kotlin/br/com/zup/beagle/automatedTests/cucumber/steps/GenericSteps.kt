@@ -17,7 +17,10 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.matcher.ViewMatchers
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
+import br.com.zup.beagle.automatedTests.utils.action.OrientationChangeAction
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 
@@ -56,6 +59,20 @@ class GenericSteps {
     fun hideKeyboard() {
         ScreenRobot()
             .hideKeyboard()
+    }
+
+    @When("I change the device orientation to portrait")
+    fun setScreenPortrait() {
+        Espresso.onView(ViewMatchers.isRoot())
+            .perform(OrientationChangeAction.orientationPortrait())
+        Thread.sleep(1000)
+    }
+
+    @When("I change the device orientation to landscape")
+    fun setScreenLandScape() {
+        Espresso.onView(ViewMatchers.isRoot())
+            .perform(OrientationChangeAction.orientationLandscape())
+        Thread.sleep(1000)
     }
 
 }
