@@ -24,9 +24,6 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.hasExpression
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
-import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
-import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.widget.RootView
 
 internal var contextActionExecutor = ContextActionExecutor
@@ -43,7 +40,7 @@ fun Action.handleEvent(
     rootView: RootView,
     origin: View,
     actions: List<Action>,
-    context: ContextData? = null
+    context: ContextData? = null,
 ) {
     contextActionExecutor.executeActions(rootView, origin, this, actions, context)
 }
@@ -57,13 +54,15 @@ fun Action.handleEvent(
  * @property eventValue is the value that the eventName name has created,
  * this could be a primitive or a object that will be serialized to JSON
  */
-@Deprecated(HANDLE_EVENT_DEPRECATED_MESSAGE, ReplaceWith(HANDLE_EVENT_ACTIONS_POINTER))
+@Deprecated("It was deprecated in version 1.1.0 and will be removed in a future version." +
+    " Use handleEvent without eventName and eventValue or with ContextData for create a implicit context.",
+    ReplaceWith("handleEvent(rootView, origin, actions)"))
 fun Action.handleEvent(
     rootView: RootView,
     origin: View,
     actions: List<Action>,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
 ) {
     eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
         ?: handleEvent(rootView, origin, actions)
@@ -81,7 +80,7 @@ fun Action.handleEvent(
     rootView: RootView,
     origin: View,
     action: Action,
-    context: ContextData? = null
+    context: ContextData? = null,
 ) {
     contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
 }
@@ -95,13 +94,15 @@ fun Action.handleEvent(
  * @property eventValue is the value that the eventName name has created,
  * this could be a primitive or a object that will be serialized to JSON
  */
-@Deprecated(HANDLE_EVENT_DEPRECATED_MESSAGE, ReplaceWith(HANDLE_EVENT_POINTER))
+@Deprecated("It was deprecated in version 1.1.0 and will be removed in a future version." +
+    " Use handleEvent without eventName and eventValue or with ContextData for create a implicit context.",
+    ReplaceWith("handleEvent(rootView, origin, action)"))
 fun Action.handleEvent(
     rootView: RootView,
     origin: View,
     action: Action,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
 ) {
     eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
         ?: handleEvent(rootView, origin, action)
@@ -116,7 +117,7 @@ fun Action.handleEvent(
 fun <T> Action.evaluateExpression(
     rootView: RootView,
     origin: View,
-    bind: Bind<T>
+    bind: Bind<T>,
 ): T? {
     return bind.evaluateForAction(rootView, origin, this)
 }

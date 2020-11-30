@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.utils.getContextBinding
+import br.com.zup.beagle.android.utils.isInitiableComponent
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -82,18 +83,19 @@ class ListViewHolderTest : BaseTest() {
     @Nested
     inner class Init {
 
-        @DisplayName("Then should add template with onInit to initiableComponents")
+        @DisplayName("Then should add view with onInit to viewsWithOnInit")
         @Test
-        fun initiableComponents() {
+        fun viewsWithOnInit() {
             // Given
-            val template = Container(children = listOf(), onInit = listOf(Navigate.PopView()))
+            val expectedViewsWithIdList = listOf(itemView)
+            every { itemView.isInitiableComponent() } returns true
 
             // When
             listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
-            val initiableComponents = listViewHolder.getPrivateField<MutableList<OnInitiableComponent>>("initiableComponents")
+            val viewsWithOnInit = listViewHolder.getPrivateField<MutableList<View>>("viewsWithOnInit")
 
             // Then
-            assertEquals(template, initiableComponents[0])
+            assertEquals(expectedViewsWithIdList, viewsWithOnInit)
         }
 
         @DisplayName("Then should add view with id to viewsWithId")

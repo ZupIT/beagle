@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.utils.setIsInitiableComponent
 import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
 import io.mockk.Runs
@@ -68,13 +69,13 @@ class OnInitiableComponentTest {
         unmockkConstructor(ViewModelProvider::class)
     }
 
-    @DisplayName("When handleOnInit")
+    @DisplayName("When handleOnInit is called")
     @Nested
     inner class HandleOnInit {
 
-        @DisplayName("Then shouldn't call addOnAttachStateChangeListener without onInit")
+        @DisplayName("Then shouldn't call addOnAttachStateChangeListener with empty onInit actions list")
         @Test
-        fun handleEmptyOnInit() {
+        fun handleOnInitCallWithEmptyOnInitActionsList() {
             // Given
             val initiableWidget = Container(children = listOf())
 
@@ -85,9 +86,9 @@ class OnInitiableComponentTest {
             verify(exactly = 0) { origin.addOnAttachStateChangeListener(any()) }
         }
 
-        @DisplayName("Then should call addOnAttachStateChangeListener")
+        @DisplayName("Then should call addOnAttachStateChangeListener with at least one onInit action")
         @Test
-        fun handleOnInit() {
+        fun handleOnInitCallWithAtLeastOneOnInitAction() {
             // Given
             val initiableWidget = Container(children = listOf(), onInit = listOf(Navigate.PopView()))
 
@@ -96,6 +97,32 @@ class OnInitiableComponentTest {
 
             // Then
             verify(exactly = 1) { origin.addOnAttachStateChangeListener(listenerSlot.captured) }
+        }
+
+        @DisplayName("Then if onInit has at least one action, it should tag view as initiable_component")
+        @Test
+        fun checkIfViewIsTaggedAsInitiableComponent() {
+            // Given
+            val initiableWidget = Container(children = listOf(), onInit = listOf(Navigate.PopView()))
+
+            // When
+            initiableWidget.handleOnInit(rootView, origin)
+
+            // Then
+            verify(exactly = 1) { origin.setIsInitiableComponent(true) }
+        }
+
+        @DisplayName("Then if onInit actions list is empty, it shouldn't tag view as initiable_component")
+        @Test
+        fun checkIfViewIsNotTaggedAsInitiableComponent() {
+            // Given
+            val initiableWidget = Container(children = listOf())
+
+            // When
+            initiableWidget.handleOnInit(rootView, origin)
+
+            // Then
+            verify(exactly = 0) { origin.setIsInitiableComponent(any()) }
         }
     }
 
