@@ -144,15 +144,6 @@ class ScreenRobot {
         return this
     }
 
-    fun checkComponentsPageView(text: String?): ScreenRobot {
-        onView(allOf(withText(text))).check(matches(isDisplayed()))
-            .perform(ViewActions.swipeLeft())
-            .check(matches(isDisplayed()))
-            .perform(ViewActions.swipeLeft())
-            .check(matches(isDisplayed()))
-        return this
-    }
-
     fun typeIntoTextField(position1: Int, position2: Int, text: String?): ScreenRobot {
         onView(childAtPosition(childAtPosition(withClassName(
             Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
