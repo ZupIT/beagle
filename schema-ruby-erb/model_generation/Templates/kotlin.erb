@@ -25,11 +25,11 @@
 
   def single_variable_declaration(variable, import_manager)
     # TODO validate
-    type_name = @template_helper.fetch_type(variable.typeName.name)
-    if @template_helper.is_server_driven_component(variable.typeName)
+    type_name = @template_helper.fetch_type(variable.type.name)
+    if @template_helper.is_server_driven_component(variable.type)
       type_name + "Schema"
     end
-    # type_name = variable.typeName.synthax_type.is_a?(EnumType) or @template_helper.is_server_driven_component(variable.typeName) ? type_name + "Schema"  : type_name
+    # type_name = variable.type.synthax_type.is_a?(EnumType) or @template_helper.is_server_driven_component(variable.type) ? type_name + "Schema"  : type_name
     type_name = @kotlinHelper.adapt_type_name_to_kotlin_specific(type_name)
     type_name
   end

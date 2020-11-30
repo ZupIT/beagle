@@ -23,43 +23,43 @@ class EdgeValue < BaseComponent
         unit_value = UnitValue.new
         variables = [
             Field.new(:name => "left",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "specify the offset the left edge of the item should have from\nit’s closest sibling (item) or parent (container)."
             ),
             Field.new(
                 :name => "top",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "specify the offset the top edge of the item should have from\nit’s closest sibling (item) or parent (container)."
             ),
             Field.new(
                 :name => "right",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "specify the offset the right edge of the item should have from\nit’s closest sibling (item) or parent (container)."
             ),
             Field.new(
                 :name => "bottom",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "specify the offset the bottom edge of the item should have from\nit’s closest sibling (item) or parent (container)."
             ),
             Field.new(
                 :name => "horizontal",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "specify the offset the horizontal edge of the item should have from\nit’s closest sibling (item) or parent (container)."
             ),
             Field.new(
                 :name => "vertical",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "specify the offset the vertical edge of the item should have from\nit’s closest sibling (item) or parent (container)."
             ),
             Field.new(
                 :name => "all",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "specify the offset the all edge of the item should have from\nit’s closest sibling (item) or parent (container)."
             )

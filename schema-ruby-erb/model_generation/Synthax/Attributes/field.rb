@@ -41,7 +41,7 @@ class Field < BaseAttributes
 
       # The type to be displayed on the generated code. Default is empty string
     # @return [String]
-    attr_accessor :typeName
+    attr_accessor :type
 
     def initialize(params = {})
         super
@@ -49,7 +49,7 @@ class Field < BaseAttributes
         @isBindable = params.fetch(:isBindable, false)
         @isOptional = params.fetch(:isOptional, false)
         @isMutable = params.fetch(:isMutable, false)
-        @typeName = params.fetch(:typeName, nil)
+        @type = params.fetch(:type, nil)
         @defaultValue = params.fetch(:defaultValue, '')
     end
 

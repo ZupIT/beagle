@@ -20,7 +20,7 @@ class IdentifierComponent < BaseComponent
 
     def initialize
     	variables = [
-            Field.new(:name => "id", :typeName => TypeString.new, :isOptional => true, :isMutable => true, :comment => "use to identifier the current view")
+            Field.new(:name => "id", :type => TypeString.new, :isOptional => true, :isMutable => true, :comment => "use to identifier the current view")
         ]
         synthax_type = BuiltInType.new(
             :type => TypeInterface.new,

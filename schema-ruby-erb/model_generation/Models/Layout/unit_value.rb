@@ -21,8 +21,8 @@ class UnitValue < BaseComponent
 
     def initialize
         variables = [
-            Field.new(:name => "value", :typeName => TypeDouble.new, :comment => "the numeric measurement value."),
-            Field.new(:name => "type", :typeName => UnitType.new, :comment => "the unit of measurement.")
+            Field.new(:name => "value", :type => TypeDouble.new, :comment => "the numeric measurement value."),
+            Field.new(:name => "type", :type => UnitType.new, :comment => "the unit of measurement.")
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,

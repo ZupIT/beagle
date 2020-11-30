@@ -280,7 +280,7 @@
   end
 
   def single_variable_declaration(variable, import_manager)
-    type_name = @template_helper.fetch_type(variable.typeName.name)
+    type_name = @template_helper.fetch_type(variable.type.name)
     type_name = @kotlinHelper.adapt_type_name_to_kotlin_specific(type_name)
     type_name
   end

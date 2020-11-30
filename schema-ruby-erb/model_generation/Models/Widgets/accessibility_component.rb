@@ -20,7 +20,7 @@ class AccessibilityComponent < BaseComponent
 
     def initialize
     	variables = [
-            Field.new(:name => "accessibility", :typeName => Accessibility.new, :isOptional => true, :isMutable => true, :comment => "attribute will enable a textual information to explain\nthe view content in case a screen reader is use")
+            Field.new(:name => "accessibility", :type => Accessibility.new, :isOptional => true, :isMutable => true, :comment => "attribute will enable a textual information to explain\nthe view content in case a screen reader is use")
         ]
         synthax_type = BuiltInType.new(
             :type => TypeInterface.new,

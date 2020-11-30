@@ -28,7 +28,7 @@ class KotlinTemplateHelper
     def resolve_imports(variables, sufix)
         variables
             .select {|variable| !variable.instance_of? Dictionary }
-            .map { |variable| @import_manager[variable.typeName.synthax_type.name] + ((@helper.is_server_driven_component(variable.typeName)) ? sufix : "")  }
+            .map { |variable| @import_manager[variable.type.synthax_type.name] + ((@helper.is_server_driven_component(variable.type)) ? sufix : "")  }
             .uniq.filter { |import| !import.empty? }
     end
 
@@ -175,7 +175,7 @@ class KotlinTemplateHelper
 
             for variable in type.variables
               if !@helper.variable_is_primitive(variable)
-                @import_manager[variable.typeName] = "#{inherited.synthax_type.package}.#{variable.typeName}"
+                @import_manager[variable.type] = "#{inherited.synthax_type.package}.#{variable.type}"
               end
             end
         end

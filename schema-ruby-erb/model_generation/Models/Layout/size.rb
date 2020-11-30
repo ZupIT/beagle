@@ -23,43 +23,43 @@ class Size < BaseComponent
         variables = [
             Field.new(
                 :name => "width",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "The value specifies the view's width"
             ),
             Field.new(
                 :name => "height",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "The value specifies the view's height"
             ),
             Field.new(
                 :name => "maxWidth",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "The value specifies the view's max width"
             ),
             Field.new(
                 :name => "maxHeight",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "The value specifies the view's max height."
             ),
             Field.new(
                 :name => "minWidth",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "The value specifies the view's min width."
             ),
             Field.new(
                 :name => "minHeight",
-                :typeName => unit_value,
+                :type => unit_value,
                 :isOptional => true,
                 :comment => "The value specifies the view's min height."
             ),
             Field.new(
                 :name => "aspectRatio",
-                :typeName => TypeDouble.new,
+                :type => TypeDouble.new,
                 :isOptional => true,
                 :comment => "defined as the ratio between the width and the height of a node."
             )
