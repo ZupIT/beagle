@@ -23,12 +23,12 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.AsyncActionStatus
-import br.com.zup.beagle.android.components.OnInitiableComponent
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.COMPONENT_NO_ID
 import br.com.zup.beagle.android.utils.getContextData
+import br.com.zup.beagle.android.utils.isInitiableComponent
 import br.com.zup.beagle.android.utils.safeGet
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.core.IdentifierComponent
@@ -49,24 +49,19 @@ internal class ListViewHolder(
 
     private val viewsWithId = mutableMapOf<String, View>()
     private val viewsWithContext = mutableListOf<View>()
+    private val viewsWithOnInit = mutableListOf<View>()
     private val directNestedRecyclers = mutableListOf<RecyclerView>()
     val directNestedImageViews = mutableListOf<ImageView>()
     val directNestedTextViews = mutableListOf<TextView>()
     private val contextComponents = mutableListOf<ContextData>()
-    private val initiableComponents = mutableListOf<OnInitiableComponent>()
     var observer: Observer<AsyncActionStatus>? = null
 
     init {
-        initializeViewsWithIdAndOnInit(template)
-        initializeViewsWithContextAndRecyclers(itemView)
+        extractViewInfoFromHolderTemplate(template)
+        extractViewInfoFromHolderItemView(itemView)
     }
 
-    private fun initializeViewsWithIdAndOnInit(component: ServerDrivenComponent) {
-        (component as? OnInitiableComponent)?.let {
-            component.onInit?.let {
-                initiableComponents.add(component)
-            }
-        }
+    private fun extractViewInfoFromHolderTemplate(component: ServerDrivenComponent) {
         (component as? IdentifierComponent)?.let {
             component.id?.let { id ->
                 if (id != COMPONENT_NO_ID) {
@@ -75,15 +70,18 @@ internal class ListViewHolder(
             }
         }
         if (component is SingleChildComponent) {
-            initializeViewsWithIdAndOnInit(component.child)
+            extractViewInfoFromHolderTemplate(component.child)
         } else if (component is MultiChildComponent) {
             component.children.forEach { child ->
-                initializeViewsWithIdAndOnInit(child)
+                extractViewInfoFromHolderTemplate(child)
             }
         }
     }
 
-    private fun initializeViewsWithContextAndRecyclers(view: View) {
+    private fun extractViewInfoFromHolderItemView(view: View) {
+        if (view.isInitiableComponent()) {
+            viewsWithOnInit.add(view)
+        }
         if (view.getContextData() != null) {
             viewsWithContext.add(view)
         }
@@ -102,7 +100,7 @@ internal class ListViewHolder(
         val count = view.childCount
         for (i in 0 until count) {
             val child = view.getChildAt(i)
-            initializeViewsWithContextAndRecyclers(child)
+            extractViewInfoFromHolderItemView(child)
         }
     }
 
@@ -234,6 +232,13 @@ internal class ListViewHolder(
                 val subViewId = bindIdToViewModel(innerRecyclerWithoutId, isRecycled, position, recyclerId)
                 setUpdatedIdToViewAndManagers(innerRecyclerWithoutId, subViewId, listItem, isRecycled)
             }
+
+        val viewsWithOnInitAndWithoutIdAndContext =
+            viewsWithOnInit.filterNot { viewsWithId.contains(it) || viewsWithContext.contains(it) }
+        viewsWithOnInitAndWithoutIdAndContext.forEach { view ->
+            val subViewId = bindIdToViewModel(view, isRecycled, position, recyclerId)
+            setUpdatedIdToViewAndManagers(view, subViewId, listItem, isRecycled)
+        }
     }
 
     private fun bindIdToViewModel(view: View, isRecycled: Boolean, position: Int, recyclerId: Int): Int {
@@ -329,6 +334,14 @@ internal class ListViewHolder(
                     innerRecyclerWithoutId.id = savedId
                 }
             }
+
+        val viewsWithOnInitAndWithoutIdAndContext =
+            viewsWithOnInit.filterNot { viewsWithId.contains(it) || viewsWithContext.contains(it) }
+        viewsWithOnInitAndWithoutIdAndContext.forEach { viewWithOnInit ->
+            temporaryViewIds.pollFirst()?.let { savedId ->
+                viewWithOnInit.id = savedId
+            }
+        }
     }
 
     private fun restoreAdapters(listItem: ListItem) {
