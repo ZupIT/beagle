@@ -16,14 +16,16 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
+import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.rule.ActivityTestRule
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ActivityScenario.launch
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.elements.LISTVIEW_SCREEN_HEADER
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
-import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
-import br.com.zup.beagle.automatedTests.utils.TestUtils
 import br.com.zup.beagle.automatedTests.utils.transform.SingleQuoteTransform
 import cucumber.api.Transform
 import cucumber.api.java.After
@@ -37,18 +39,23 @@ const val LIST_VIEW_SCREEN_BFF_URL = "http://10.0.2.2:8080/listview"
 
 class ListViewScreenSteps {
 
-    @Rule
-    val activityTestRule = ActivityTestRule(MainActivity::class.java)
+    val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        .putExtra(MainActivity.BFF_URL_KEY, LIST_VIEW_SCREEN_BFF_URL)
+
+    lateinit var scenario: ActivityScenario<MainActivity>
+
+    @get:Rule
+    val activityTestRule = ActivityScenarioRule<MainActivity>(intent)
 
 
     @Before("@listView")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, LIST_VIEW_SCREEN_BFF_URL)
+        scenario = launch(intent)
     }
 
     @After("@listView")
     fun tearDown() {
-        ActivityFinisher.finishOpenActivities()
+        scenario.close()
     }
 
     @Given("^that I'm on the listView screen$")
