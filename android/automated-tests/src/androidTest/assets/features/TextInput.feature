@@ -67,39 +67,39 @@ Feature: TextInput Validation
             | is a textInput in second plan with expression |
 
     Scenario Outline: TextInput 06 - validate date entry when using "date" type
-        Then validate if the text Input component <textInputTypeDate> hint with the date type
+        Then validate that the value of the text input component <textInputTypeDate> of type "data" is shown correctly
 
         Examples:
             | textInputTypeDate            |
             | writing date                 |
             | writing date with expression |
 
-    Scenario Outline: TextInput 07 - validate textInput of type email
-        Then validate if the text Input component <textInputTypeEmail> hint with the e-mail type
+    Scenario Outline: TextInput 07 - validate date entry when using "email" type
+        Then validate that the value of the text input component <textInputTypeEmail> of type "email" is shown correctly
 
         Examples:
             | textInputTypeEmail             |
             | writing e-mail                 |
             | writing e-mail with expression |
 
-    Scenario Outline: TextInput 08 - validate textInput of type password
-        Then validate if the text Input component <textInputTypePassword> hint with the password type
+    Scenario Outline: TextInput 08 - validate date entry when using "password" type
+        Then validate that the value of the text input component <textInputTypePassword> of type "password" is shown correctly
 
         Examples:
             | textInputTypePassword            |
             | writing password                 |
             | writing password with expression |
 
-    Scenario Outline: TextInput 09 - validate textInput of type number
-        Then validate if the text Input component <textInputTypeNumber> hint with the number type
+    Scenario Outline: TextInput 09 - validate date entry when using "number" type
+        Then validate that the value of the text input component <textInputTypeNumber> of type "number" is shown correctly
 
         Examples:
             | textInputTypeNumber            |
             | writing number                 |
             | writing number with expression |
 
-    Scenario Outline: TextInput 10 - validate textInput of type text
-        Then validate if the text Input component <textInputTypeText> hint with the text type
+    Scenario Outline: TextInput 10 - validate date entry when using "text" type
+        Then validate that the value of the text input component <textInputTypeText> of type "text" is shown correctly
 
         Examples:
             | textInputTypeText            |

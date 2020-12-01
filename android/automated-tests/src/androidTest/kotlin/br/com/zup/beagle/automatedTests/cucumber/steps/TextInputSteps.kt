@@ -95,7 +95,7 @@ class TextInputScreen {
 
     }
 
-    @Then("^validate if the text Input component (.*) hint with the date type$")
+    @Then("^validate that the value of the text input component (.*) of type \"data\" is shown correctly$")
     fun checkDateWriting(string: String) {
         ScreenRobot()
             .checkViewContainsHint(string)
@@ -104,7 +104,7 @@ class TextInputScreen {
             .checkViewContainsText("22/04/1500")
     }
 
-    @Then("^validate if the text Input component (.*) hint with the e-mail type$")
+    @Then("^validate that the value of the text input component (.*) of type \"email\" is shown correctly$")
     fun checkEmailWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("writing password")
@@ -113,7 +113,7 @@ class TextInputScreen {
             .typeText(string,"test@abc.com")
             .checkViewContainsText("test@abc.com")
     }
-    @Then("^validate if the text Input component (.*) hint with the password type$")
+    @Then("^validate that the value of the text input component (.*) of type \"password\" is shown correctly$")
     fun checkPasswordWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("writing text")
@@ -123,7 +123,7 @@ class TextInputScreen {
             .checkViewContainsText("123")
     }
 
-    @Then("^validate if the text Input component (.*) hint with the number type$")
+    @Then("^validate that the value of the text input component (.*) of type \"number\" is shown correctly$")
     fun checkNumberWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("writing text")
@@ -133,7 +133,7 @@ class TextInputScreen {
             .checkViewContainsText("12345678")
     }
 
-    @Then("^validate if the text Input component (.*) hint with the text type$")
+    @Then("^validate that the value of the text input component (.*) of type \"text\" is shown correctly$")
     fun checkTextWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("Unordered actions")
