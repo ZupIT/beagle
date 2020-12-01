@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.page
+package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.android.widget.ViewConvertable
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.lazy.LazyComponent
+import br.com.zup.beagle.widget.ui.Text
 
-/**
- * Base of page indicator component.
- */
-@Deprecated(message = "This interface was deprecated in version 1.1.0 and will be removed in a future version.")
-interface PageIndicatorComponent : ServerDrivenComponent,
-    ViewConvertable {
-    fun setCount(pages: Int)
-    fun onItemUpdated(newIndex: Int)
-    fun initPageView(pageIndicatorOutput: PageIndicatorOutput)
+object LazyFailureScreenBuilder {
+    fun build() = Screen(
+        child = Container(
+            listOf(
+                Text("LazyComponent Failure Screen"),
+                LazyComponent(
+                    path = "",
+                    initialState = Text("Loading to failure")
+                )
+            )
+        )
+    )
 }

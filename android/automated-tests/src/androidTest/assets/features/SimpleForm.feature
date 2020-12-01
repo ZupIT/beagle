@@ -27,18 +27,18 @@ Feature: SimpleForm Component Validation
 
     Scenario: SimpleForm 01 - Checking if simpleForm children components appear on the screen
         Then checks that the textInput with the place holder Type in your email is on the screen
-        Then checks that the textInput with the place holder Type in your password is on the screen
+        Then checks that the textInput with the place holder Type in your name is on the screen
         Then checks that the button with the title Click to Submit is on the screen
 
     Scenario Outline: SimpleForm 02 - Verification of the operation of the onSubmit attribute
         When I click on textInput for email with Type in your email and insert my <email>
-        When I click on textInput for password with Type in your password and insert my <password>
+        When I click on textInput for name with Type in your name and insert my <name>
         When I click to Click to Submit
-        Then verify if the email: <email> and the password: <password> is appear correctly
+        Then verify if the email: <email> and the name: <name> is appear correctly
 
         Examples:
-            | email                | password |
-            | teste@simpleform.com | 123      |
+            | email                | name     |
+            | teste@simpleform.com | joao     |
 
 
 
