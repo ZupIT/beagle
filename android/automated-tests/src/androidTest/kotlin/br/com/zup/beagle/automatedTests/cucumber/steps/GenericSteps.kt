@@ -17,11 +17,8 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers
+import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
-import br.com.zup.beagle.automatedTests.utils.action.OrientationChangeAction
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 
@@ -37,6 +34,14 @@ class GenericSteps {
     @When("^Scroll to (.*)$")
     fun scrollTo(string1: String?) {
         ScreenRobot().scrollTo(string1)
+    }
+
+    @When("^I scroll to view with id (.*)$")
+    fun scrollToViewWithId(viewId: String) {
+        ScreenRobot()
+            .scrollTo(
+                viewId.toAndroidId()
+            )
     }
 
     @Then("^The Text should show (.*)$")

@@ -35,21 +35,31 @@ class SmoothScrollAction(private val position: Int) : ViewAction {
     override fun perform(uiController: UiController?, view: View?) {
         val recyclerView = view as RecyclerView
         var isScrolling = true
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                when (newState) {
-                    RecyclerView.SCROLL_STATE_IDLE -> {
-                        isScrolling = false
-                        recyclerView.removeOnScrollListener(this)
+
+        if (canScroll(recyclerView, position)) {
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    when (newState) {
+                        RecyclerView.SCROLL_STATE_IDLE -> {
+                            isScrolling = false
+                            recyclerView.removeOnScrollListener(this)
+                        }
                     }
                 }
-            }
-        })
-        recyclerView.smoothScrollToPosition(position)
+            })
+            recyclerView.smoothScrollToPosition(position)
 
-        while (isScrolling) {
-            uiController?.loopMainThreadForAtLeast(10)
+            while (isScrolling) {
+                uiController?.loopMainThreadForAtLeast(10)
+            }
         }
+    }
+
+    private fun canScroll(recyclerView: RecyclerView, position: Int): Boolean {
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+
+        return layoutManager.findFirstCompletelyVisibleItemPosition() > position ||
+            layoutManager.findLastCompletelyVisibleItemPosition() < position
     }
 }

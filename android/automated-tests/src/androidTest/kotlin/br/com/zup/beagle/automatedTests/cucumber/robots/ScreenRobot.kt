@@ -23,8 +23,6 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -39,7 +37,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withHint
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withInputType
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
 import br.com.zup.beagle.automatedTests.utils.action.OrientationChangeAction
@@ -49,7 +46,6 @@ import br.com.zup.beagle.automatedTests.utils.assertions.RecyclerViewItemCountAs
 import br.com.zup.beagle.automatedTests.utils.assertions.RecyclerViewOrientationAssertion
 import br.com.zup.beagle.automatedTests.utils.matcher.MatcherExtension
 import br.com.zup.beagle.widget.core.TextAlignment
-import cucumber.api.java.en.When
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -176,6 +172,11 @@ class ScreenRobot {
 
     fun scrollTo(text: String?): ScreenRobot {
         onView(withText(text)).perform(scrollTo()).check(matches(isDisplayed()))
+        return this
+    }
+
+    fun scrollTo(viewId: Int): ScreenRobot {
+        onView(withId(viewId)).perform(scrollTo()).check(matches(isDisplayed()))
         return this
     }
 

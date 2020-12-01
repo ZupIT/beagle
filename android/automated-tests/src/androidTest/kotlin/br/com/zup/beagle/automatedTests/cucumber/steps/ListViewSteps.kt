@@ -20,31 +20,33 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.*
+import br.com.zup.beagle.automatedTests.cucumber.elements.LISTVIEW_SCREEN_HEADER
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import br.com.zup.beagle.automatedTests.utils.transform.SingleQuoteTransform
 import cucumber.api.Transform
-import cucumber.api.Transformer
 import cucumber.api.java.After
 import cucumber.api.java.Before
-import cucumber.api.java.en.*
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
 import org.junit.Rule
 
-val LIST_VIEW_SCREEN_BFF_URL = "http://10.0.2.2:8080/listview"
+const val LIST_VIEW_SCREEN_BFF_URL = "http://10.0.2.2:8080/listview"
 
 class ListViewScreenSteps {
 
     @Rule
-    var activityTestRule = ActivityTestRule(MainActivity::class.java)
+    val activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@listview")
+
+    @Before("@listView")
     fun setup() {
         TestUtils.startActivity(activityTestRule, LIST_VIEW_SCREEN_BFF_URL)
     }
 
-    @After("@listview")
+    @After("@listView")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
@@ -52,100 +54,87 @@ class ListViewScreenSteps {
     @Given("^that I'm on the listView screen$")
     fun checkListViewScreen() {
         ScreenRobot()
-            .checkViewContainsText(LISTVIEW_SCREEN_HEADER, true)
-    }
-
-    @When("^I click the button (.*)$")
-    fun clickOnButton(buttonText: String) {
-        ScreenRobot()
-            .clickOnText(buttonText)
-    }
-
-    @When("^the read status of the list of characters is (.*)$")
-    fun checkCharactersListReadStatus(expectedText: String) {
-        ScreenRobot()
-            .checkViewContainsText(expectedText, true)
-    }
-
-    @When("^I scroll the list of characters to position (.*)$")
-    fun scrollCharactersListToPosition(position: Int) {
-        ScreenRobot()
-            .scrollListToPosition(CHARACTERS_LIST_VIEW_ID.toAndroidId(), position)
-    }
-
-    @Then("^categories listView should have a template with (.*) at (.*)$")
-    fun checkCategoriesListContainsViewWithId(expectedViewId: String, position: Int) {
-        ScreenRobot()
-            .scrollListToPosition(
-                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
-                position
-            )
-            .checkListViewItemContainsViewWithId(
-                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
-                position,
-                expectedViewId.toAndroidId()
+            .checkViewContainsText(
+                LISTVIEW_SCREEN_HEADER,
+                true,
             )
     }
 
-    @Then("^should render the list of characters with exactly (.*) items in the horizontal plane$")
-    fun checkCharactersListItemsCount(expectedItemCount: Int) {
+    @Then("^listView with id (.*) should have exactly (.*) items$")
+    fun checkListViewItemsCount(listViewId: String, expectedItemCount: Int) {
         ScreenRobot()
-            .checkListViewItemCount(CHARACTERS_LIST_VIEW_ID.toAndroidId(), expectedItemCount)
-    }
-
-    @Then("^the list of characters should be scrollable only horizontally$")
-    fun checkCharactersListOrientation() {
-        ScreenRobot()
-            .checkListViewOrientation(CHARACTERS_LIST_VIEW_ID.toAndroidId(), RecyclerView.HORIZONTAL)
-    }
-
-    @Then("^the page number should be (.*)$")
-    fun checkListViewScreenTexts(pageNumberText: String) {
-        ScreenRobot()
-            .checkViewContainsText(pageNumberText)
-    }
-
-    @Then("^should render character (.*) in (.*) in (.*) at (.*) in the list of characters$")
-    fun checkListViewItemRenderText(name: String, book: String, @Transform(SingleQuoteTransform::class) collection: String, position: Int) {
-        val listId = CHARACTERS_LIST_VIEW_ID.toAndroidId()
-        ScreenRobot()
-            .scrollListToPosition(listId, position)
-            .checkListViewItemContainsText(listId, position, name)
-            .checkListViewItemContainsText(listId, position, book)
-            .checkListViewItemContainsText(listId, position, collection)
-    }
-
-    @Then("^categories listView at(.*) a books list with (.*) with exactly (.*) items in the horizontal plane$")
-    fun checkCategoryBookListItemsCount(position: Int, booksListId: String, expectedNumberOfBooks: Int) {
-        ScreenRobot()
-            .scrollListToPosition(
-                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
-                position
-            )
             .checkListViewItemCount(
-                booksListId.toAndroidId(),
-                expectedNumberOfBooks
+                listViewId.toAndroidId(),
+                expectedItemCount,
             )
     }
 
-    @Then("^books list with id (.*) should be scrollable only horizontally$")
-    fun checkCategoryBooksListOrientation(booksListId: String) {
+    @Then("^listView with id (.*) should be in vertical orientation$")
+    fun checkListViewIsVertical(listViewId: String) {
         ScreenRobot()
-            .checkListViewOrientation(booksListId.toAndroidId(), RecyclerView.HORIZONTAL)
+            .checkListViewOrientation(
+                listViewId.toAndroidId(),
+                RecyclerView.VERTICAL,
+            )
     }
 
+    @Then("^listView with id (.*) should be in horizontal orientation$")
+    fun checkListViewIsHorizontal(listViewId: String) {
+        ScreenRobot()
+            .checkListViewOrientation(
+                listViewId.toAndroidId(),
+                RecyclerView.HORIZONTAL,
+            )
+    }
 
-    @Then("^categories listView at (.*) should show title (.*)$")
-    fun checkCategoryListItemsTitle(position: Int, title: String) {
+    @When("^I scroll listView with id (.*) to position (.*)$")
+    fun scrollListViewToPosition(listViewId: String, position: Int) {
         ScreenRobot()
             .scrollListToPosition(
-                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
-                position
-            )
-            .checkListViewItemContainsText(
-                CATEGORIES_LIST_VIEW_ID.toAndroidId(),
+                listViewId.toAndroidId(),
                 position,
-                title
+            )
+    }
+
+    @When("^I scroll listView with id (.*) to (.*) percent$")
+    fun scrollListViewByPercent(listViewId: String, scrollPercent: Int) {
+        ScreenRobot()
+            .scrollListByPercent(
+                listViewId.toAndroidId(),
+                scrollPercent,
+            )
+    }
+
+    @Then("^screen should show text: (.*)$")
+    fun checkScreenDisplaysText(expectedText: String) {
+        ScreenRobot()
+            .checkViewContainsText(
+                expectedText,
+                true,
+            )
+    }
+
+    @Then("^listView with id (.*) at position (.*) should show text: (.*)$")
+    fun checkListViewItemContainsText(
+        listViewId: String,
+        listViewPosition: Int,
+        @Transform(SingleQuoteTransform::class) expectedText: String,
+    ) {
+        ScreenRobot()
+            .checkListViewItemContainsText(
+                listViewId.toAndroidId(),
+                listViewPosition,
+                expectedText,
+            )
+    }
+
+    @Then("^listView with id (.*) at position (.*) should have a view with id (.*)$")
+    fun checkListViewItemContainsViewWithId(listViewId: String, listViewPosition: Int, expectedViewId: String) {
+        ScreenRobot()
+            .checkListViewItemContainsViewWithId(
+                listViewId.toAndroidId(),
+                listViewPosition,
+                expectedViewId.toAndroidId(),
             )
     }
 }
