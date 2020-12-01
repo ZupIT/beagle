@@ -16,7 +16,10 @@
 
 package br.com.zup.beagle.core
 
+import androidx.annotation.Keep
+
 /**
  * Base of components
  */
+
 interface ServerDrivenComponent

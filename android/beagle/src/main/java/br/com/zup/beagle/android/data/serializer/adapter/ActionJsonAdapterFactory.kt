@@ -30,9 +30,8 @@ import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
+import br.com.zup.beagle.android.data.serializer.generateNameSpaceToDefaultAction
 import java.util.Locale
-
-private const val BEAGLE_NAMESPACE = "beagle"
 
 @Deprecated(message = "It was deprecated in version 1.0.0 and will be removed in a future version. " +
     "Use AndroidActionJsonAdapterFactory instead.",
@@ -62,10 +61,9 @@ internal object ActionJsonAdapterFactory {
             .withSubtype(SubmitForm::class.java, createNamespaceFor<SubmitForm>())
             .withSubtype(AddChildren::class.java, createNamespaceFor<AddChildren>())
             .withSubtype(Condition::class.java, createNamespaceFor<Condition>())
-
     }
 
     private inline fun <reified T : Action> createNamespaceFor(): String {
-        return "$BEAGLE_NAMESPACE:${T::class.java.simpleName.toLowerCase(Locale.getDefault())}"
+        return generateNameSpaceToDefaultAction(T::class.java)
     }
 }

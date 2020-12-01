@@ -32,6 +32,7 @@
         android:theme="@style/AppTheme.NoToolbar"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
+        android:debuggable="true"
         tools:targetApi="m">
         <activity android:name=".activities.DeepLinkActivity">
             <intent-filter>

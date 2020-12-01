@@ -26,6 +26,7 @@ import br.com.zup.beagle.core.StyleComponent
  * Base of all widgets
  *
  */
+
 abstract class Widget : StyleComponent, AccessibilityComponent,
     IdentifierComponent {
 
