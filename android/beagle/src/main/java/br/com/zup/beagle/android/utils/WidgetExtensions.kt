@@ -44,7 +44,7 @@ fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     actions: List<Action>,
-    context: ContextData? = null
+    context: ContextData? = null,
 ) {
     contextActionExecutor.executeActions(rootView, origin, this, actions, context)
 }
@@ -66,7 +66,7 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     actions: List<Action>,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
 ) {
     eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
         ?: handleEvent(rootView, origin, actions)
@@ -84,7 +84,7 @@ fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     action: Action,
-    context: ContextData? = null
+    context: ContextData? = null,
 ) {
     contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
 }
@@ -106,7 +106,7 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     action: Action,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
 ) {
     eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
         ?: handleEvent(rootView, origin, action)
@@ -124,7 +124,7 @@ fun <T> ServerDrivenComponent.observeBindChanges(
     rootView: RootView,
     view: View,
     bind: Bind<T>,
-    observes: Observer<T?>
+    observes: Observer<T?>,
 ) {
     internalObserveBindChanges(rootView, view, bind, observes)
 }
@@ -133,7 +133,7 @@ internal fun <T> internalObserveBindChanges(
     rootView: RootView,
     view: View,
     bind: Bind<T>,
-    observes: Observer<T?>
+    observes: Observer<T?>,
 ) {
     val value = bind.observe(rootView, view, observes)
     if (bind is Bind.Value) {
