@@ -70,11 +70,16 @@ object TextInputScreenBuilder {
                         textInputDisabled(),
                         textInputReadOnly(),
                         textInputSecondPlan(),
-                        textInputWritingDate(),
-                        textInputWritingEmail(),
-                        textInputWritingPassword(),
-                        textInputWritingNumber(),
-                        textInputWritingText(),
+                        textInputWritingTexts("writing date",
+                            "writing date with expression", TextInputType.DATE),
+                        textInputWritingTexts("writing e-mail",
+                            "writing e-mail with expression", TextInputType.EMAIL),
+                        textInputWritingTexts("writing password",
+                            "writing password with expression", TextInputType.PASSWORD),
+                        textInputWritingTexts("writing number",
+                            "writing number with expression", TextInputType.NUMBER),
+                        textInputWritingTexts("writing text",
+                            "writing text with expression", TextInputType.TEXT),
                         textInputTypeNumber(),
                         textInputActions(),
                         textInputHidden()
@@ -152,90 +157,25 @@ object TextInputScreenBuilder {
         )
     )
 
-    private fun textInputWritingDate() = Container(
-        listOf(
-            TextInput(placeholder = "writing date", type = TextInputType.DATE),
-            Container(
-                context = ContextData(
-                    id = "isDateExpression",
-                    value = TextInputType(placeholder = "writing date with expression",
-                        textInputType = TextInputType.DATE)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isDateExpression.placeholder}"),
-                        type = expressionOf("@{isDateExpression.textInputType}"))
+    private fun textInputWritingTexts(
+        placeholder: String, placeholderWithContext: String, textInputType: TextInputType): Container {
+        return Container(
+            listOf(
+                TextInput(placeholder = placeholder, type = textInputType),
+                Container(
+                    context = ContextData(
+                        id = "context",
+                        value = TextInputType(placeholder = placeholderWithContext,
+                            textInputType = textInputType)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{context.placeholder}"),
+                            type = expressionOf("@{context.textInputType}"))
+                        )
+                    )
                 )
             )
-        )
-    )
-
-    private fun textInputWritingEmail() = Container(
-        listOf(
-            TextInput(placeholder = "writing e-mail", type = TextInputType.EMAIL),
-            Container(
-                context = ContextData(
-                    id = "isEmailExpression",
-                    value = TextInputType(placeholder = "writing e-mail with expression",
-                        textInputType = TextInputType.EMAIL)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isEmailExpression.placeholder}"),
-                        type = expressionOf("@{isEmailExpression.textInputType}"))
-                )
-            )
-        )
-    )
-
-    private fun textInputWritingPassword() = Container(
-        listOf(
-            TextInput(placeholder = "writing password", type = TextInputType.PASSWORD),
-            Container(
-                context = ContextData(
-                    id = "isPasswordExpression",
-                    value = TextInputType(placeholder = "writing password with expression",
-                        textInputType = TextInputType.PASSWORD)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isPasswordExpression.placeholder}"),
-                        type = expressionOf("@{isPasswordExpression.textInputType}"))
-                )
-            )
-        )
-    )
-
-    private fun textInputWritingNumber() = Container(
-        listOf(
-            TextInput(placeholder = "writing number", type = TextInputType.NUMBER),
-            Container(
-                context = ContextData(
-                    id = "isNumberExpression",
-                    value = TextInputType(placeholder = "writing number with expression",
-                        textInputType = TextInputType.NUMBER)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isNumberExpression.placeholder}"),
-                        type = expressionOf("@{isNumberExpression.textInputType}"))
-                )
-            )
-        )
-    )
-
-    private fun textInputWritingText() = Container(
-        listOf(
-            TextInput(placeholder = "writing text", type = TextInputType.TEXT),
-            Container(
-                context = ContextData(
-                    id = "isTextExpression",
-                    value = TextInputType(placeholder = "writing text with expression",
-                        textInputType = TextInputType.TEXT)
-                ),
-                children = listOf(
-                    TextInput(placeholder = expressionOf("@{isTextExpression.placeholder}"),
-                        type = expressionOf("@{isTextExpression.textInputType}"))
-                )
-            )
-        )
-    )
+        }
 
     private fun textInputSecondPlan() = Container(
         context = ContextData(id = "isTextInputInSecondPlan", value = "is a textInput in second plan with expression"),
