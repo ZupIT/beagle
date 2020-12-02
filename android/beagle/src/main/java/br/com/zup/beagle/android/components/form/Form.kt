@@ -60,7 +60,7 @@ import br.com.zup.beagle.core.SingleChildComponent
  * @see FormSubmit
  *
  */
-@RegisterWidget
+@RegisterWidget("form")
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class Form(
     override val child: ServerDrivenComponent,

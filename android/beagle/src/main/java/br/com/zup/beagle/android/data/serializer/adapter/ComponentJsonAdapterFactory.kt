@@ -62,9 +62,9 @@ internal object ComponentJsonAdapterFactory {
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory
-            .withSubtype(Touchable::class.java, createNameSpaceToDefaultWidget<Touchable>())
-            .withSubtype(FormInput::class.java, createNameSpaceToDefaultWidget<FormInput>())
-            .withSubtype(FormSubmit::class.java, createNameSpaceToDefaultWidget<FormSubmit>())
+            .withSubtype(Touchable::class.java, createNameSpaceToDefaultWidget<Touchable>("touchable"))
+            .withSubtype(FormInput::class.java, createNameSpaceToDefaultWidget<FormInput>("formInput"))
+            .withSubtype(FormSubmit::class.java, createNameSpaceToDefaultWidget<FormSubmit>("formSubmit"))
     }
 
     private fun registerWidgets(
@@ -90,7 +90,7 @@ internal object ComponentJsonAdapterFactory {
         return factory.withDefaultValue(UndefinedWidget())
     }
 
-    private inline fun <reified T : ServerDrivenComponent> createNameSpaceToDefaultWidget(): String {
-        return generateNameSpaceToDefaultWidget(T::class.java)
+    private inline fun <reified T : ServerDrivenComponent> createNameSpaceToDefaultWidget(name: String = ""): String {
+        return generateNameSpaceToDefaultWidget(T::class.java, name)
     }
 }

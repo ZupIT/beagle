@@ -42,7 +42,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
  *              This attribute must be declared and it cannot be null.
  *
  */
-@RegisterWidget
+@RegisterWidget("webView")
 data class WebView(
     val url: Bind<String>
 ) : WidgetView() {

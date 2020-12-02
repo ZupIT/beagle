@@ -23,7 +23,6 @@ import com.squareup.moshi.JsonClass
 /**
  * Base of page indicator component.
  */
-@JsonClass(generateAdapter = false)
 @Deprecated(message = "This interface was deprecated in version 1.1.0 and will be removed in a future version.")
 interface PageIndicatorComponent : ServerDrivenComponent,
     ViewConvertable {

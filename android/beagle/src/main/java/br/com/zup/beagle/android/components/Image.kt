@@ -40,7 +40,7 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  * @param path defines where the source of the image is
  * @param mode defines how the declared image will fit the view.
  */
-@RegisterWidget
+@RegisterWidget("image")
 data class Image constructor(
     val path: Bind<ImagePath>,
     val mode: ImageContentMode? = null

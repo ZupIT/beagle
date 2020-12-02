@@ -52,7 +52,7 @@ private val TAB_BAR_HEIGHT = 48.dp()
  * @param onTabSelection define a list of action that will be executed when a tab is selected
  *
  */
-@RegisterWidget
+@RegisterWidget("tabBar")
 data class TabBar(
     val items: List<TabBarItem>,
     val styleId: String? = null,

@@ -22,8 +22,8 @@ import java.util.Locale
 
 private const val BEAGLE_NAMESPACE = "beagle"
 
-internal fun generateNameSpaceToDefaultAction(clazz: Class<*>): String {
-    var typeName = ""
+internal fun generateNameSpaceToDefaultAction(clazz: Class<*>, name: String = ""): String {
+    var typeName = name
     clazz.getAnnotation(RegisterAction::class.java)?.let {
         typeName = it.name
     }
@@ -39,8 +39,8 @@ internal fun generateNameSpaceToAction(appNameSpace: String, clazz: Class<*>): S
 }
 
 
-internal fun generateNameSpaceToDefaultWidget(clazz: Class<*>): String {
-    var typeName = ""
+internal fun generateNameSpaceToDefaultWidget(clazz: Class<*>, name: String = ""): String {
+    var typeName = name
     clazz.getAnnotation(RegisterWidget::class.java)?.let {
         typeName = it.name
     }

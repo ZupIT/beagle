@@ -39,7 +39,7 @@ import br.com.zup.beagle.widget.core.ScrollAxis
  * @param scrollBarEnabled determine if the Scroll bar is displayed or not. It is displayed by default.
  * @param context define the contextData that be set to scrollView.
  */
-@RegisterWidget
+@RegisterWidget("scrollview")
 data class ScrollView(
     override val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,

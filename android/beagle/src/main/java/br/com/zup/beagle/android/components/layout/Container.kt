@@ -39,7 +39,7 @@ import br.com.zup.beagle.core.Style
  * @param onInit it is a parameter that allows you to define a list of actions to be performed
  * when the Widget is displayed.
  */
-@RegisterWidget
+@RegisterWidget("container")
 data class Container(
     override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,

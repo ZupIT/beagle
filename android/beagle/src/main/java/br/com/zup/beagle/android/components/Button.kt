@@ -40,7 +40,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
  * @param clickAnalyticsEvent attribute to define click event name
  *
  */
-@RegisterWidget
+@RegisterWidget("button")
 data class Button(
     val text: Bind<String>,
     val styleId: String? = null,

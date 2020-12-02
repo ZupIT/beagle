@@ -60,7 +60,7 @@ private const val VALUE_KEY = "value"
  * @param onFocus Actions array that this field can trigger when this field is on focus.
  * @param onBlur Action array that this field can trigger when its focus is removed
  */
-@RegisterWidget
+@RegisterWidget("textInput")
 data class TextInput(
     val value: Bind<String>? = null,
     val placeholder: Bind<String>? = null,

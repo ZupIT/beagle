@@ -43,7 +43,7 @@ import br.com.zup.beagle.widget.core.TextAlignment
  * @param alignment defines the text content alignment inside the text view.
  *
  */
-@RegisterWidget
+@RegisterWidget("text")
 data class Text(
     val text: Bind<String>,
     val styleId: String? = null,

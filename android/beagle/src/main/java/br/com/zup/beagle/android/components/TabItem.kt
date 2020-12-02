@@ -36,7 +36,7 @@ import br.com.zup.beagle.core.SingleChildComponent
  *                  If it is left as null or not declared it won't display any icon.
  *
  */
-@RegisterWidget
+@RegisterWidget("tabItem")
 @Deprecated(message = "It was deprecated in version 1.1.0 and will be removed in a future version. " +
     "Use TabBarItem instead.",
     replaceWith = ReplaceWith("TabBarItem(title, icon)"))

@@ -38,7 +38,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
-@RegisterWidget
+@RegisterWidget("listView")
 data class ListView
 
 /**

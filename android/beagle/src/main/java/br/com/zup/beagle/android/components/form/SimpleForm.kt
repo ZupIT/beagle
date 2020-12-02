@@ -42,7 +42,7 @@ import br.com.zup.beagle.core.Style
  * @param onSubmit define the actions you want to execute when action submit form
  *
  */
-@RegisterWidget
+@RegisterWidget("simpleForm")
 data class SimpleForm(
     override val context: ContextData? = null,
     val onSubmit: List<Action>,

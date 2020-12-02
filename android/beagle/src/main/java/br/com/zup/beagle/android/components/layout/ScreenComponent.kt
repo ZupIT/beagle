@@ -33,10 +33,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonQualifier
 
-@RegisterWidget
+@RegisterWidget("screenComponent")
 internal data class ScreenComponent(
     @Deprecated(
         "It was deprecated in version 1.5.0 and will be removed in a future version. Use field id instead."

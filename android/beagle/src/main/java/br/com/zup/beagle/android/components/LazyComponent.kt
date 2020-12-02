@@ -35,7 +35,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                          request made is being fulfilled.
  *
  */
-@RegisterWidget
+@RegisterWidget("lazyComponent")
 data class LazyComponent(
     val path: String,
     val initialState: ServerDrivenComponent
