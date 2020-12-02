@@ -192,7 +192,7 @@ fun ViewGroup.renderScreen(
     screenId : String = "",
     isLocalScreen : Boolean = false
 ) {
-    this.renderScreen(ActivityRootView(activity, this.id,screenId), screenJson, isLocalScreen)
+    this.renderScreen(ActivityRootView(activity, this.id,screenId), screenJson)
 }
 
 /**
@@ -207,17 +207,17 @@ fun ViewGroup.renderScreen(
     screenId : String = "",
     isLocalScreen : Boolean = false
 ) {
-    this.renderScreen(FragmentRootView(fragment, this.id,screenId), screenJson, isLocalScreen)
+    this.renderScreen(FragmentRootView(fragment, this.id,screenId), screenJson)
 }
 
-internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String, isLocalScreen : Boolean) {
+internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String) {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     viewModel.clearContexts()
     val component = beagleSerializerFactory.deserializeComponent(screenJson)
     (rootView.getContext() as AppCompatActivity)
         .supportFragmentManager
         .beginTransaction()
-        .replace(this.id, BeagleFragment.newInstance(component, isLocalScreen, rootView.getScreenId()))
+        .replace(this.id, BeagleFragment.newInstance(component))
         .addToBackStack(null)
         .commit()
 }

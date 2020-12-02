@@ -20,7 +20,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.R
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
@@ -45,17 +44,9 @@ fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     actions: List<Action>,
-    context: ContextData? = null,
-    analyticsValue: String? = null
+    context: ContextData? = null
 ) {
-    contextActionExecutor.executeActions(
-        rootView,
-        origin,
-        this,
-        actions,
-        context,
-        AnalyticsHandleEvent(this, analyticsValue)
-    )
+    contextActionExecutor.executeActions(rootView, origin, this, actions, context)
 }
 
 /**
@@ -93,17 +84,9 @@ fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     action: Action,
-    context: ContextData? = null,
-    analyticsValue: String? = null
+    context: ContextData? = null
 ) {
-    contextActionExecutor.executeActions(
-        rootView,
-        origin,
-        this,
-        listOf(action),
-        context,
-        AnalyticsHandleEvent(this, analyticsValue)
-    )
+    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
 }
 
 /**
