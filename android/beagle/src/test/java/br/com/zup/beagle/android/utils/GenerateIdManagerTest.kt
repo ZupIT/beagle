@@ -127,6 +127,7 @@ class GenerateIdManagerTest {
         fun notGenerateViewIdWithId() {
             // Given
             val component = Container(listOf()).setId("stub")
+            every { view.isAutoGenerateIdEnabled() } returns true
 
             // When
             generateIdManager.manageId(component, view)
