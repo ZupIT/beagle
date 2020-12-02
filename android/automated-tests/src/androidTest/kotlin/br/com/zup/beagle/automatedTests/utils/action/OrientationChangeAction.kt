@@ -39,8 +39,6 @@ class OrientationChangeAction(private val orientation: Int) : ViewAction {
     override fun getConstraints(): Matcher<View> = ViewMatchers.isRoot()
 
     override fun perform(uiController: UiController, view: View) {
-        uiController.loopMainThreadForAtLeast(100)
-        uiController.loopMainThreadUntilIdle()
         var activity = getActivity(view.context)
         if (activity == null && view is ViewGroup) {
             val c = view.childCount

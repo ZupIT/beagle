@@ -144,4 +144,14 @@ class ListViewScreenSteps {
                 expectedViewId.toAndroidId(),
             )
     }
+
+    @Then("^I click on view with id (.*) at position (.*) of listView with id (.*)$")
+    fun clickOnTextInsideListViewItem(viewId: String, position: Int, listViewId: String) {
+        ScreenRobot()
+            .clickOnTextInsideListViewItem(
+                listViewId.toAndroidId(),
+                position,
+                viewId.toAndroidId(),
+            )
+    }
 }

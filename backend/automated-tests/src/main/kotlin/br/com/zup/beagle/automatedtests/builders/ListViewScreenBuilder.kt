@@ -246,6 +246,10 @@ object ListViewScreenBuilder {
                             direction = ListDirection.HORIZONTAL,
                             dataSource = expressionOf("@{categoryResponse.category}"),
                             template = Container(
+                                context = ContextData(
+                                    id = "cartStatus",
+                                    value = "BUY",
+                                ),
                                 children = listOf(
                                     Text(text = "Title: @{item.title}"),
                                     Text(text = "Author: @{item.author}"),
@@ -260,6 +264,17 @@ object ListViewScreenBuilder {
                                         )
                                     ).setId(
                                         id = "bookCharactersList"
+                                    ),
+                                    Button(
+                                        text = "@{cartStatus}",
+                                        onPress = listOf(
+                                            SetContext(
+                                                contextId = "cartStatus",
+                                                value = "REMOVE"
+                                            )
+                                        )
+                                    ).setId(
+                                        id = "cartButton"
                                     )
                                 )
                             ).setId(

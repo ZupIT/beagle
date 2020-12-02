@@ -23,11 +23,14 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -249,13 +252,36 @@ class ScreenRobot {
     fun setScreenPortrait() {
         onView(ViewMatchers.isRoot())
             .perform(OrientationChangeAction.orientationPortrait())
-        Thread.sleep(1000)
     }
 
     fun setScreenLandScape() {
         onView(ViewMatchers.isRoot())
             .perform(OrientationChangeAction.orientationLandscape())
-        Thread.sleep(1000)
+    }
+
+    fun clickOnTextInsideListViewItem(
+        listViewId: Int,
+        position: Int,
+        viewId: Int,
+    ) {
+        onView(withId(listViewId)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(position, object : ViewAction {
+                override fun getConstraints(): Matcher<View> {
+                    return allOf()
+                }
+
+                override fun getDescription(): String {
+                    return ""
+                }
+
+                override fun perform(uiController: UiController?, view: View?) {
+                    view?.findViewById<View>(viewId)?.let {
+                        it.performClick()
+                    }
+                }
+
+            })
+        )
     }
 
     companion object {
