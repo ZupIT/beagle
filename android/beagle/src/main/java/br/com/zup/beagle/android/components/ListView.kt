@@ -227,7 +227,9 @@ constructor(
             canScrollEnd = true
             val adapter = recyclerView.adapter as ListAdapter
             adapter.setList(value, recyclerView.id)
-            checkIfNeedToCallScrollEnd(rootView)
+            if (value?.isEmpty() == true) {
+                executeScrollEndActions()
+            }
         }
     }
 
@@ -249,11 +251,17 @@ constructor(
     private fun checkIfNeedToCallScrollEnd(rootView: RootView) {
         onScrollEnd?.let {
             if (canCallOnScrollEnd()) {
-                it.forEach { action ->
-                    action.execute(rootView, recyclerView)
-                }
-                canScrollEnd = false
+                executeScrollEndActions()
             }
+        }
+    }
+
+    private fun executeScrollEndActions() {
+        onScrollEnd?.let {
+            it.forEach { action ->
+                action.execute(rootView, recyclerView)
+            }
+            canScrollEnd = false
         }
     }
 
@@ -271,15 +279,17 @@ constructor(
     }
 
     private fun calculateScrolledPercent(): Float {
-        var scrolledPercentage: Float
-        with(recyclerView.layoutManager as LinearLayoutManager) {
-            scrolledPercentage = if (itemCount <= 0) {
-                100.0F
-            } else {
-                val lastVisible = findLastVisibleItemPosition().toFloat()
-                (lastVisible / itemCount) * 100
-            }
+        val offset = recyclerView.computeVerticalScrollOffset()
+        val extent = recyclerView.computeVerticalScrollExtent()
+        val range = recyclerView.computeVerticalScrollRange()
+
+        if (range - extent <= 0.0) {
+            return 100f
         }
-        return scrolledPercentage
+
+        val percentage = 100.0f * offset / (range - extent).toFloat()
+
+        return percentage
     }
+
 }
