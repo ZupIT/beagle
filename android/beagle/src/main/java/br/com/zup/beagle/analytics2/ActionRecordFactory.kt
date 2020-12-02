@@ -17,12 +17,13 @@
 package br.com.zup.beagle.analytics2
 
 import android.view.View
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlin.reflect.KClass
@@ -49,13 +50,32 @@ internal object ActionRecordFactory {
             action = action
         ),
         action = action,
-        screenId = rootView.getScreenId()
+        screenId = rootView.getScreenId(),
+        actionType = getActionType(action)
     )
-
 
     private fun getComponentId(originComponent: ServerDrivenComponent?) = (originComponent as? IdentifierComponent)?.id
 
-    private fun getComponentType(originComponent: ServerDrivenComponent?) = (originComponent as? WidgetView)?.beagleType
+    private fun getComponentType(component: ServerDrivenComponent?): String? {
+        var type: String? = null
+        component?.let {
+            type = createComponentType(it)
+        }
+        return type
+    }
+
+    private fun createComponentType(component: ServerDrivenComponent): String =
+        if (isCustomWidget(component)) "custom:" + component::class.simpleName
+        else "beagle:" + component::class.simpleName
+
+    private fun isCustomWidget(component: ServerDrivenComponent): Boolean =
+        BeagleEnvironment.beagleSdk.registeredWidgets().contains(component::class.java)
+
+    private fun getActionType(action: Action): String =
+        if (isCustomAction(action)) "custom:" + action::class.simpleName else "beagle:" + action::class.simpleName
+
+    private fun isCustomAction(action: Action): Boolean =
+        BeagleEnvironment.beagleSdk.registeredActions().contains(action::class.java)
 
     private fun evaluateAllActionAttribute(
         value: Any,
@@ -64,17 +84,18 @@ internal object ActionRecordFactory {
         origin: View,
         action: ActionAnalytics
     ): HashMap<String, Any> {
-        var hashMap = HashMap<String, Any>()
+        val hashMap = HashMap<String, Any>()
         (value::class as KClass<Any>).memberProperties.forEach { property ->
             property.get(value)?.let { it ->
+                val keyName = getKeyName(name, property)
+                val propertyValue = evaluateValueIfNecessary(it, rootView, origin, action)
+                hashMap[keyName] = propertyValue
                 try {
-                    val propertyValue = evaluateValueIfNecessary(it, rootView, origin, action)
-                    val keyName = getKeyName(name, property)
-                    hashMap[keyName] = propertyValue
-                    hashMap.putAll(evaluateAllActionAttribute(propertyValue, keyName, rootView, origin, action))
+                    var result = evaluateAllActionAttribute(propertyValue, keyName, rootView, origin, action)
+                    hashMap.putAll(result)
 
                 } catch (e: Exception) {
-                    BeagleMessageLogs.errorWhileTryingToGetPropertyValue(e)
+                    BeagleMessageLogs.canNotGetPropertyValue(keyName)
                 }
 
             }
@@ -123,9 +144,7 @@ internal object ActionRecordFactory {
         actionAnalyticsConfig: ActionAnalyticsConfig
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        dataActionReport.screenId?.let {
-            hashMap["screen"] = it
-        }
+        setScreenIdAttribute(dataActionReport.screenId, hashMap)
         dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
@@ -140,23 +159,27 @@ internal object ActionRecordFactory {
         actionAnalyticsConfig.additionalEntries?.let {
             hashMap.putAll(it)
         }
-        dataActionReport.action.type?.let { type ->
-            hashMap["beagleAction"] = type
-        }
+        hashMap["beagleAction"] = dataActionReport.actionType
         hashMap["component"] = generateComponentHashMap(dataActionReport)
         return hashMap
     }
 
-    private fun generateComponentHashMap(dataActionReport2: DataActionReport): HashMap<String, Any> {
+    private fun setScreenIdAttribute(screenId : String?, hashMap : HashMap<String, Any>) {
+        if (screenId != null && screenId.isNotEmpty() ){
+            hashMap["screen"] = screenId
+        }
+    }
+
+    private fun generateComponentHashMap(dataActionReport: DataActionReport): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        dataActionReport2.id?.let { id ->
+        dataActionReport.id?.let { id ->
             hashMap["id"] = id
         }
-        dataActionReport2.type?.let { type ->
+        dataActionReport.type?.let { type ->
             hashMap["type"] = type
         }
-        dataActionReport2.originX?.let { x ->
-            dataActionReport2.originY?.let { y ->
+        dataActionReport.originX?.let { x ->
+            dataActionReport.originY?.let { y ->
                 hashMap["position"] = hashMapOf("x" to x, "y" to y)
             }
         }
@@ -176,5 +199,6 @@ internal object ActionRecordFactory {
         }
         return hashMap
     }
+
 
 }

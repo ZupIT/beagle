@@ -20,25 +20,19 @@ import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.Runs
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.unmockkObject
-import org.hamcrest.CoreMatchers.any
 import org.junit.Assert
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.ArgumentMatchers.any
 
 @DisplayName("Given a Action Record Creator")
 internal class ActionRecordFactoryTest : BaseTest() {
@@ -53,7 +47,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
 
     @DisplayName("When create record")
     @Nested
-    inner class ScreenKeyAttribute() {
+    inner class ScreenKeyAttribute {
 
         @Test
         @DisplayName("Then should return hash map with rootview screenId")
@@ -61,7 +55,6 @@ internal class ActionRecordFactoryTest : BaseTest() {
             //GIVEN
             val action: ActionAnalytics = mockk()
             every { rootView.getScreenId() } returns "/screen"
-            every { action.type } returns "type"
             every { action.analytics } returns null
             //WHEN
             val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
@@ -81,7 +74,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
 
     @DisplayName("When create record")
     @Nested
-    inner class PlatformAndTypeKey() {
+    inner class PlatformAndTypeKey {
 
         @Test
         @DisplayName("Then should return platform as android and type as action")
@@ -89,7 +82,6 @@ internal class ActionRecordFactoryTest : BaseTest() {
             //GIVEN
             val action: ActionAnalytics = mockk()
             every { rootView.getScreenId() } returns ""
-            every { action.type } returns "type"
             every { action.analytics } returns null
 
             //WHEN
@@ -118,12 +110,12 @@ internal class ActionRecordFactoryTest : BaseTest() {
         fun testOriginComponentAsServerDrivenComponent() {
             //GIVEN
             val action: ActionAnalytics = mockk()
-            val originComponent: ServerDrivenComponent = mockk()
+            val originComponent: WidgetView = Text("test")
             val componentReport = hashMapOf<String, Any>(
-                "position" to hashMapOf("x" to 300f, "y" to 400f)
+                "position" to hashMapOf("x" to 300f, "y" to 400f),
+                "type" to "beagle:Text"
             )
             every { rootView.getScreenId() } returns ""
-            every { action.type } returns "type"
             every { origin.x } returns 300f
             every { origin.y } returns 400f
             every { action.analytics } returns null
@@ -149,16 +141,15 @@ internal class ActionRecordFactoryTest : BaseTest() {
         fun testOriginComponentAsWidgetViewWithAnId() {
             //GIVEN
             val action: ActionAnalytics = mockk()
-            val originComponent: WidgetView = mockk()
+            val originComponent: WidgetView = Text("test")
+            originComponent.id = "text-id"
             val componentReport = hashMapOf<String, Any>(
                 "type" to "beagle:button",
-                "id" to "btn-next",
-                "position" to hashMapOf("x" to 300f, "y" to 400f)
+                "id" to "text-id",
+                "position" to hashMapOf("x" to 300f, "y" to 400f),
+                "type" to "beagle:Text"
             )
-            every { originComponent.id } returns "btn-next"
-            every { originComponent.beagleType } returns "beagle:button"
             every { rootView.getScreenId() } returns ""
-            every { action.type } returns "type"
             every { origin.x } returns 300f
             every { origin.y } returns 400f
             every { action.analytics } returns null
@@ -184,15 +175,13 @@ internal class ActionRecordFactoryTest : BaseTest() {
         fun testOriginComponentAsWidgetViewWithoutId() {
             //GIVEN
             val action: ActionAnalytics = mockk()
-            val originComponent: WidgetView = mockk()
+            val originComponent: WidgetView = Text("test")
             val componentReport = hashMapOf<String, Any>(
-                "type" to "beagle:button",
+                "type" to "beagle:Text",
                 "position" to hashMapOf("x" to 300f, "y" to 400f)
             )
-            every { originComponent.id } returns null
-            every { originComponent.beagleType } returns "beagle:button"
+            originComponent.id = null
             every { rootView.getScreenId() } returns ""
-            every { action.type } returns "type"
             every { origin.x } returns 300f
             every { origin.y } returns 400f
             every { action.analytics } returns null
@@ -219,8 +208,8 @@ internal class ActionRecordFactoryTest : BaseTest() {
     inner class ActionAttribute {
         private val url = "/url"
         private val route = Route.Remote(url = "/url")
-        private val actionType = "beagle:PushView"
-        private val action: ActionAnalytics = TestActionAnalytics(route = route, type = actionType)
+        private val actionType = "beagle:TestActionAnalytics"
+        private val action: ActionAnalytics = TestActionAnalytics(route = route)
 
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
@@ -304,8 +293,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
     inner class PreGenerateActionAnalyticsConfig {
         private val url = "/url"
         private val route = Route.Remote(url = url)
-        private val actionType = "beagle:PushView"
-        private val action: ActionAnalytics = TestActionAnalytics(route = route, type = actionType)
+        private val action: ActionAnalytics = TestActionAnalytics(route = route)
 
         @DisplayName("Then should create correct data action report")
         @Test
@@ -316,18 +304,18 @@ internal class ActionRecordFactoryTest : BaseTest() {
                 originX = 300f,
                 originY = 400f,
                 attributes = hashMapOf(
-                    "type.length" to 15,
                     "route.url.length" to 4,
                     "route.shouldPrefetch" to false,
                     "route" to route,
                     "route.url" to url,
-                    "type" to "beagle:PushView"
+                    "list" to listOf<ServerDrivenComponent>()
                 ),
                 id = null,
                 type = null,
                 analyticsValue = "onPress",
                 action = action,
-                screenId = ""
+                screenId = "",
+                actionType = "beagle:TestActionAnalytics"
             )
             //WHEN
             val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
@@ -340,51 +328,12 @@ internal class ActionRecordFactoryTest : BaseTest() {
             //THEN
             Assert.assertEquals(expectedDataReport, dataActionReport)
         }
-
-        @DisplayName("Then should report without crash")
-        @Test
-        fun testPreGenerateActionAnalyticsConfigCreateCorrectDataActionReportAndLogError() {
-            //GIVEN
-            val action: ActionAnalytics = mockk(relaxed = true)
-            every { rootView.getScreenId() } returns ""
-            every { action.analytics } returns null
-            every { action.type } returns "beagle:action"
-            val expectedDataReport = DataActionReport(
-                originX = 300f,
-                originY = 400f,
-                attributes = hashMapOf(
-                    "type.length" to 13,
-                    "type" to "beagle:action"
-                ),
-                id = null,
-                type = null,
-                analyticsValue = "onPress",
-                action = action,
-                screenId = ""
-            )
-
-
-            //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
-                rootView,
-                origin,
-                action,
-                AnalyticsHandleEvent(analyticsValue = "onPress")
-            )
-
-            //THEN
-            Assert.assertEquals(expectedDataReport, dataActionReport)
-            assertThrows<Exception>{
-                 BeagleMessageLogs.errorWhileTryingToGetPropertyValue(any())
-            }
-        }
-
     }
 
     internal data class TestActionAnalytics(
         val route: Route,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String?
+        var list: List<ServerDrivenComponent> = listOf(),
+        override var analytics: ActionAnalyticsConfig? = null
     ) : ActionAnalytics() {
         override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
         }

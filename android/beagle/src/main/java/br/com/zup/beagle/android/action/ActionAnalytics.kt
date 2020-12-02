@@ -24,7 +24,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 abstract class ActionAnalytics : Action {
 
     abstract var analytics: ActionAnalyticsConfig?
-    abstract val type: String?
 
     abstract fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent? = null)
 

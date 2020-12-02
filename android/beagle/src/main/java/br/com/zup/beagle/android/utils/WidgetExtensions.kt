@@ -163,16 +163,24 @@ internal fun <T> internalObserveBindChanges(
  * @property activity <p>is the reference for your activity.
  * Make sure to use this method if you are inside a Activity because of the lifecycle</p>
  */
-fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id.beagle_default_id): View =
-    this.toView(ActivityRootView(activity, idView, this.getServerDrivenIdentifier()))
+fun ServerDrivenComponent.toView(
+    activity: AppCompatActivity,
+    idView: Int = R.id.beagle_default_id,
+    screenIdentifier: String? = null
+): View =
+    this.toView(ActivityRootView(activity, idView, this.getServerDrivenIdentifier(screenIdentifier)))
 
 /**
  * Transform your Component to a view.
  * @property fragment <p>is the reference for your fragment.
  * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  */
-fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View =
-    this.toView(FragmentRootView(fragment, idView, this.getServerDrivenIdentifier()))
+fun ServerDrivenComponent.toView(
+    fragment: Fragment,
+    idView: Int = R.id.beagle_default_id,
+    screenIdentifier: String? = null
+): View =
+    this.toView(FragmentRootView(fragment, idView, this.getServerDrivenIdentifier(screenIdentifier)))
 
 internal fun ServerDrivenComponent.toView(
     rootView: RootView,
@@ -189,7 +197,10 @@ internal fun ServerDrivenComponent.toView(
     return view
 }
 
-private fun ServerDrivenComponent.getServerDrivenIdentifier(): String {
+private fun ServerDrivenComponent.getServerDrivenIdentifier(screenIdentifier: String?): String {
+    screenIdentifier?.let {
+        return it
+    }
     var identifier = ""
     if (this is IdentifierComponent) {
         this.id?.let {

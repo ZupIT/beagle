@@ -186,8 +186,13 @@ private fun loadView(
  * Make sure to use this method if you are inside a Activity because of the lifecycle
  * @property screenJson that represents your component
  */
-fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String, screenId : String = "") {
-    this.renderScreen(ActivityRootView(activity, this.id,screenId), screenJson)
+fun ViewGroup.renderScreen(
+    activity: AppCompatActivity,
+    screenJson: String,
+    screenId : String = "",
+    isLocalScreen : Boolean = false
+) {
+    this.renderScreen(ActivityRootView(activity, this.id,screenId), screenJson, isLocalScreen)
 }
 
 /**
@@ -196,18 +201,23 @@ fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String, scre
  * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  * @property screenJson that represents your component
  */
-fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String, screenId : String = "") {
-    this.renderScreen(FragmentRootView(fragment, this.id,screenId), screenJson)
+fun ViewGroup.renderScreen(
+    fragment: Fragment,
+    screenJson: String,
+    screenId : String = "",
+    isLocalScreen : Boolean = false
+) {
+    this.renderScreen(FragmentRootView(fragment, this.id,screenId), screenJson, isLocalScreen)
 }
 
-internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String) {
+internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String, isLocalScreen : Boolean) {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     viewModel.clearContexts()
     val component = beagleSerializerFactory.deserializeComponent(screenJson)
     (rootView.getContext() as AppCompatActivity)
         .supportFragmentManager
         .beginTransaction()
-        .replace(this.id, BeagleFragment.newInstance(component))
+        .replace(this.id, BeagleFragment.newInstance(component, isLocalScreen, rootView.getScreenId()))
         .addToBackStack(null)
         .commit()
 }

@@ -43,7 +43,8 @@ internal class DataActionReportTest : BaseTest() {
             val action = mockk<ActionAnalytics>()
             val dataActionReport = DataActionReport(
                 attributes = hashMapOf(),
-                action = action
+                action = action,
+                actionType = ""
             )
             every { AnalyticsService.reportActionIfShould(dataActionReport) } just Runs
 

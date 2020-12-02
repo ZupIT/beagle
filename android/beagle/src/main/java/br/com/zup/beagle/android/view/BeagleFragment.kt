@@ -37,6 +37,8 @@ internal class BeagleFragment : Fragment() {
         val json = arguments?.getString(JSON_SCREEN_KEY) ?: beagleSerializer.serializeComponent(UndefinedWidget())
         beagleSerializer.deserializeComponent(json)
     }
+    private val isLocalScreen : Boolean? by lazy{arguments?.getBoolean(IS_LOCAL_SCREEN_KEY)}
+    private val screenIdentifier : String? by lazy { arguments?.getString(SCREEN_IDENTIFIER_KEY) }
     private val screenViewModel by lazy { ViewModelProvider(requireActivity()).get(BeagleScreenViewModel::class.java) }
     private val analyticsViewModel by lazy { ViewModelProvider(requireActivity()).get(AnalyticsViewModel::class.java) }
 
@@ -74,8 +76,7 @@ internal class BeagleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         screenViewModel.onScreenLoadFinished()
-        var isLocalScreen = savedInstanceState?.getBoolean(IS_LOCAL_SCREEN_KEY)
-        var screenIdentifier = savedInstanceState?.getString(SCREEN_IDENTIFIER_KEY)
+
         isLocalScreen?.let { isLocalScreen ->
             screenIdentifier?.let { screenIdentifier ->
                 analyticsViewModel.createScreenReport(isLocalScreen, screenIdentifier)
@@ -91,7 +92,7 @@ internal class BeagleFragment : Fragment() {
         return context?.let {
             FrameLayout(it).apply {
                 applyBackgroundFromWindowBackgroundTheme(it)
-                addView(screen.toView(this@BeagleFragment))
+                addView(screen.toView(this@BeagleFragment, screenIdentifier = screenIdentifier))
             }
         }
     }

@@ -28,7 +28,6 @@ import br.com.zup.beagle.core.StyleComponent
  */
 abstract class Widget : StyleComponent, AccessibilityComponent,
     IdentifierComponent {
-    val beagleType : String? = null
     override var id: String? = null
     override var style: Style? = null
     override var accessibility: Accessibility? = null

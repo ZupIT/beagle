@@ -18,9 +18,11 @@ package br.com.zup.beagle.analytics2
 
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
@@ -45,7 +47,7 @@ class AnalyticsServiceTest : BaseTest() {
     private lateinit var analyticsProviderImpl: AnalyticsProviderImpl
     private val action: ActionAnalytics = mockk(relaxed = true)
     private val view: View = mockk()
-    private val dataActionReport = DataActionReport(attributes = hashMapOf(), action = action)
+    private val dataActionReport = DataActionReport(attributes = hashMapOf(), action = action, actionType = "custom:AddChildren")
 
     @BeforeEach
     fun setup() {
@@ -128,7 +130,7 @@ class AnalyticsServiceTest : BaseTest() {
         }
 
         @Test
-        @DisplayName("Then should report the the last five itens on queue")
+        @DisplayName("Then should report the the last five items on queue")
         fun testInitialConfigCallReportOnQueueForJustFiveItems() {
             //GIVEN
             analyticsProviderImpl = AnalyticsProviderImpl(AnalyticsConfigImpl(actions = hashMapOf()))
@@ -163,7 +165,7 @@ class AnalyticsServiceTest : BaseTest() {
 
     @DisplayName("When create screen record")
     @Nested
-    inner class ReportScreenIsEnable() {
+    inner class ReportScreenIsEnable {
 
         @Test
         @DisplayName("Then should create screen record")
@@ -218,7 +220,7 @@ class AnalyticsServiceTest : BaseTest() {
 
     @DisplayName("When create screen record")
     @Nested
-    inner class ReportScreenIsNotEnabled() {
+    inner class ReportScreenIsNotEnabled {
 
         @Test
         @DisplayName("Then shouldn't create screen report")
@@ -266,7 +268,6 @@ class AnalyticsServiceTest : BaseTest() {
                 analyticsConfig
             )
             every { action.analytics } returns null
-            every { action.type } returns "custom:AddChildren"
             initAnalyticsService()
 
             //WHEN
@@ -277,34 +278,31 @@ class AnalyticsServiceTest : BaseTest() {
         }
 
         @Test
-        @DisplayName("Then should create record with right parrameters")
+        @DisplayName("Then should create record with right parameters")
         fun testActionWithAttributesOnActionAnalyticsConfigCallCreateRecordWithCorrectParameters() {
             //GIVEN
             every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
 
             val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
             every { action.analytics } returns actionAnalyticsConfig
-            every { action.type } returns "custom:AddChildren"
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
             initAnalyticsService()
-            var dataReport =  ActionRecordFactory.preGenerateActionAnalyticsConfig(rootView, view, action)
             //WHEN
             AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
-            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(dataReport, actionAnalyticsConfig) }
+            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(dataActionReport, actionAnalyticsConfig) }
 
         }
 
         @Test
-        @DisplayName("Then should create record with right parrameters")
+        @DisplayName("Then should create record with right parameters")
         fun testActionWithAttributesOnAnalyticsConfigCallCreateRecordWithCorrectParameters() {
             //GIVEN
             every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
             every { action.analytics } returns null
-            every { action.type } returns "custom:AddChildren"
 
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf("componentId")))
             analyticsProviderImpl = AnalyticsProviderImpl(
@@ -370,13 +368,4 @@ class AnalyticsServiceTest : BaseTest() {
         override var enableScreenAnalytics: Boolean? = true,
         override var actions: Map<String, List<String>>
     ) : AnalyticsConfig
-
-    internal data class TestActionAnalytics(
-        val route: Route,
-        override var analytics: ActionAnalyticsConfig? = null,
-        override val type: String?
-    ) : ActionAnalytics() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
-        }
-    }
 }

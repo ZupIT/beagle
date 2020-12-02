@@ -26,7 +26,8 @@ internal data class DataActionReport(
     var type : String? = null,
     var analyticsValue: String? = null,
     var action : ActionAnalytics,
-    var screenId : String? = null
+    var screenId : String? = null,
+    var actionType : String
 ) : DataReport{
     override fun report() {
         AnalyticsService.reportActionIfShould(this)

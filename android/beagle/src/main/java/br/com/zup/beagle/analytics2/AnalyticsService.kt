@@ -78,24 +78,26 @@ internal object AnalyticsService {
     }
 
     fun reportActionIfShould(dataActionReport: DataActionReport) {
-        val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport.action)
+        val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport)
         if (shouldReport(config)) {
             analyticsProvider?.createRecord(ActionRecordFactory.generateActionAnalyticsConfig(dataActionReport, config))
         }
     }
 
-    private fun createAConfigFromActionAnalyticsOrAnalyticsConfig(action: ActionAnalytics): ActionAnalyticsConfig {
-        action.analytics?.let { actionAnalytics ->
+    private fun createAConfigFromActionAnalyticsOrAnalyticsConfig(
+        dataActionReport: DataActionReport
+    ): ActionAnalyticsConfig {
+        dataActionReport.action.analytics?.let { actionAnalytics ->
             return ActionAnalyticsConfig(
                 enable = actionAnalytics.enable,
                 attributes = actionAnalytics.attributes,
                 additionalEntries = actionAnalytics.additionalEntries)
         }
-        return actionAnalyticsFromConfig(action)
+        return actionAnalyticsFromConfig(dataActionReport)
     }
 
-    private fun actionAnalyticsFromConfig(action: ActionAnalytics): ActionAnalyticsConfig {
-        val key = action.type
+    private fun actionAnalyticsFromConfig(dataActionReport: DataActionReport): ActionAnalyticsConfig {
+        val key = dataActionReport.actionType
         val attributeList = analyticsConfig.actions[key]
         return ActionAnalyticsConfig(enable = attributeList != null, attributes = attributeList)
     }
