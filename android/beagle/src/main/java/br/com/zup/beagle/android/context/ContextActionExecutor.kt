@@ -79,22 +79,13 @@ internal object ContextActionExecutor {
         analyticsHandleEvent: AnalyticsHandleEvent? = null
     ) {
         if (action is ActionAnalytics) {
-            reportActionAnalytics(rootView, origin, action, analyticsHandleEvent)
+            rootView.generateViewModelInstance<AnalyticsViewModel>().createActionReport(
+                rootView,
+                origin,
+                action,
+                analyticsHandleEvent
+            )
         }
-    }
-
-    private fun reportActionAnalytics(
-        rootView: RootView,
-        origin: View,
-        action: ActionAnalytics,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
-    ) {
-        rootView.generateViewModelInstance<AnalyticsViewModel>().createActionReport(
-            rootView,
-            origin,
-            action,
-            analyticsHandleEvent
-        )
     }
 }
 
