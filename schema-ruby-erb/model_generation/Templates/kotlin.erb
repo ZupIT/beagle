@@ -23,10 +23,10 @@
   @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
   @template_helper.defaultDeclarationType = TypeInterface.new.synthax_type.name
 
-  def single_variable_declaration(variable, import_manager)
+  def single_variable_declaration(variable)
     # TODO validate
     type_name = @template_helper.fetch_type(variable.type.name)
-    if @template_helper.is_server_driven_component(variable.type)
+    if @template_helper.is_widget(variable.type)
       type_name + "Schema"
     end
     # type_name = variable.type.synthax_type.is_a?(EnumType) or @template_helper.is_server_driven_component(variable.type) ? type_name + "Schema"  : type_name
@@ -34,17 +34,36 @@
     type_name
   end
 
-  def variable_type_declaration(variable, import_manager)
-    output = ""
+  def handleTypeName(objectType, variable, shouldAddComma = false)
     if variable.instance_of? Dictionary
       output = @kotlinHelper.dictionary_variable_declaration(variable)
     else
-      output = single_variable_declaration(variable, @kotlinHelper.import_manager)
+      output = single_variable_declaration(variable)
     end
-    
+
     output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
+    output
+  end
+
+  def getVariableDefault(variable)
+    variable.defaultValue.empty? && variable.isOptional ? "null" : variable.defaultValue
+  end
+
+  def handleTypeNameAndDefault(objectType, variable, shouldAddComma = false)
+    if variable.instance_of? Dictionary
+      output = @kotlinHelper.dictionary_variable_declaration(variable)
+    else
+      output = single_variable_declaration(variable)
+    end
+
+    default = getVariableDefault(variable)
+    output = variable.isBindable ? "Bind<#{output}>" : output
+    output = variable.class == List ? "List<#{output}>" : output
+    output = variable.isOptional ? output + "?" : output
+    output = !default.empty? && !@template_helper.is_interface(objectType) ? "#{output} = #{default}" : output
+    output = shouldAddComma ? output + "," : output
     output
   end
 
@@ -64,7 +83,7 @@
     for variable in objectType.synthax_type.variables
       if !@template_helper.variable_is_primitive(variable)
         qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
-        if @template_helper.is_server_driven_component(variable.type)
+        if @template_helper.is_widget(variable.type)
           qualifiedName += "Schema"
         end
         if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
@@ -72,28 +91,25 @@
         end
       end
     end
+    
+    for inherited in objectType.synthax_type.inheritFrom
+      if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}" and (@template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType) or @template_helper.is_enum(objectType))
+        output += "import #{inherited.synthax_type.package}.#{inherited.synthax_type.name}\n"
+      end
 
-    if !@template_helper.is_server_driven_component(objectType)
-      for inherited in objectType.synthax_type.inheritFrom
-        if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}"
-          output += "import #{inherited.synthax_type.package}.#{inherited.synthax_type.name}\n"
-          if @template_helper.is_server_driven_component(inherited)
-            output += "Schema"
+      for variable in inherited.synthax_type.variables
+        if !@template_helper.variable_is_primitive(variable)
+            qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
+            puts "#{qualifiedName}"
+          if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+            output += "import #{qualifiedName}"
+            if @template_helper.is_widget(variable.type)
+              output += "Schema"
+            end
+            output += "\n"
           end
         end
-        
-        for variable in inherited.synthax_type.variables
-          if !@template_helper.variable_is_primitive(variable)
-              qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
-            if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
-              output += "import #{qualifiedName}\n"
-              if @template_helper.is_server_driven_component(inherited)
-                output += "Schema"
-              end
-            end
-          end
-        end 
-      end
+      end 
     end
 
     output = output.gsub('br.com.zup.beagle.', 'br.com.zup.beagle.generated.')
@@ -131,11 +147,78 @@
     if isEnumDeclaration
       output += initForEnum(objectType)
     else
-      output += initForCommonObject(objectType)
+      if @template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType)
+        output += initInterfaceOrAbstract(objectType)
+      else
+        output += initCommonClass(objectType)
+      end
     end
-    output += "\n}"
+
+    if output.include? "{"
+      output += "\n}"
+    end
 
     output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
+
+    output
+  end
+
+  def initInterfaceOrAbstract(objectType)
+    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    
+    output = "\n#{typeKind} #{objectType.synthax_type.name}"
+    if @template_helper.is_widget(objectType)
+      output += "Schema" 
+    end
+    output += getSuperClasses(objectType)
+
+    counter = 0 
+    if objectType.synthax_type.variables.any?
+      output += " {"
+      for variable in objectType.synthax_type.variables
+        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}#{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+    end
+
+    for inherited in objectType.synthax_type.inheritFrom
+      if @template_helper.is_interface(inherited)
+        for variable in inherited.synthax_type.variables
+          if !output.include? "{"
+            output += "{"
+          end
+          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}override #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
+          counter += 1
+        end
+      end
+    end
+    
+    output
+  end
+
+  def getSuperClasses(objectType)
+    output = ""
+    if objectType.synthax_type.inheritFrom.size > 0
+      if @template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType)
+        output += " : "
+      else
+        output += "\n) : "
+      end
+
+      counter = 0 
+      for inherited in objectType.synthax_type.inheritFrom
+        output += @template_helper.is_abstract(inherited) ? "#{inherited.name}()" : inherited.name
+        if objectType.synthax_type.inheritFrom.size - 1 != counter 
+          output += ", "
+        end
+        counter += 1
+      end
+      output += " "
+    else
+      if !@template_helper.is_interface(objectType)
+        output += "\n)"
+      end
+    end
 
     output
   end
@@ -149,17 +232,35 @@
     output
   end
 
-  def initForCommonObject(objectType)
+  def initCommonClass(objectType)
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
 
     output = "\n#{typeKind} #{objectType.synthax_type.name}"
-    if @template_helper.is_server_driven_component(objectType)
+    if @template_helper.is_widget(objectType)
       output += "Schema" 
     end
-    output += " {"
-    for variable in objectType.synthax_type.variables 
-      output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)} val #{variable.name}: #{variable_type_declaration(variable, @kotlinHelper.import_manager)}"
+
+    counter = 0 
+    if objectType.synthax_type.variables.any?
+      output += " {"
+      for variable in objectType.synthax_type.variables 
+        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)} #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeName(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+      end
     end
+
+    for inherited in objectType.synthax_type.inheritFrom
+      if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
+        if !output.include? "{"
+            output += " {"
+        end
+        counter = 0 
+        for variable in inherited.synthax_type.variables
+          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)} #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeName(objectType, variable, inherited.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+        end
+      end
+    end
+
     output
   end
 

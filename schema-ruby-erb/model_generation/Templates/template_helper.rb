@@ -159,6 +159,18 @@ class TemplateHelper
         return false
     end
 
+    def is_widget(object_type)
+        if object_type.synthax_type.name == "Widget"
+            return true
+        else
+            for inherit in object_type.synthax_type.inheritFrom
+                return is_widget(inherit)
+            end
+        end
+
+        return false
+    end
+
     def has_variables(object_type)
         object_type.synthax_type.variables != nil and object_type.synthax_type.variables.size > 0
     end

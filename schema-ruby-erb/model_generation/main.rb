@@ -89,7 +89,7 @@ class ModelGenerator
     @components = components
     @c = Constants.new
 
-    helper = TemplateHelper.new
+    @helper = TemplateHelper.new
     @kotlinHelper = KotlinTemplateHelper.new(components)
   end
 
@@ -113,18 +113,33 @@ class ModelGenerator
 
   # Generates models for kotlin
   def generate_kotlin
-    helper = TemplateHelper.new
+    ready_to_prod = [
+      Button.new.name,
+      Action.new.name,
+      Widget.new.name,
+      IdentifierComponent.new.name,
+      ServerDrivenComponent.new.name,
+      TouchableAnalytics.new.name,
+      StyleComponent.new.name,
+      AccessibilityComponent.new.name,
+      ClickEvent.new.name,
+      Flex.new.name,
+      Style.new.name,
+      UnitValue.new.name,
+      Accessibility.new.name
+    ]
     @erb = ERB.new(File.read("#{@c.templates}kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      suffix = helper.is_server_driven_component(@objectType) ? "Schema.kt" : ".kt"
-      @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
+      if ready_to_prod.include? @objectType.name
+        suffix = @helper.is_server_driven_component(@objectType) ? "Schema.kt" : ".kt"
+        @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
+      end
     end
   end
 
   # Generates models for kotlin backend
   def generate_kotlin_backend
-    helper = TemplateHelper.new
     ready_to_widgets = [
       Button.new.name,
       Action.new.name

@@ -291,7 +291,7 @@
     output
   end
 
-  def single_variable_declaration(variable, import_manager)
+  def single_variable_declaration(variable)
     type_name = @template_helper.fetch_type(variable.type.name)
     type_name = @kotlinHelper.adapt_type_name_to_kotlin_specific(type_name)
     type_name
@@ -301,7 +301,7 @@
     if variable.instance_of? Dictionary
       output = @kotlinHelper.dictionary_variable_declaration(variable)
     else
-      output = single_variable_declaration(variable, @kotlinHelper.import_manager)
+      output = single_variable_declaration(variable)
     end
 
     default = getVariableDefault(variable)
@@ -318,7 +318,7 @@
     if variable.instance_of? Dictionary
       output = @kotlinHelper.dictionary_variable_declaration(variable)
     else
-      output = single_variable_declaration(variable, @kotlinHelper.import_manager)
+      output = single_variable_declaration(variable)
     end
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output

@@ -15,9 +15,6 @@
 # This class lists the available supported kotlin template of beagle schema.
 class KotlinTemplateHelper
 
-    # @return [Hash]
-    attr_accessor :import_manager
-
     def initialize(components)
         @helper = TemplateHelper.new
     end
