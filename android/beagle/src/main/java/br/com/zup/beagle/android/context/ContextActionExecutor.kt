@@ -17,12 +17,9 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -35,14 +32,13 @@ internal object ContextActionExecutor {
         origin: View,
         sender: Any,
         actions: List<Action>,
-        context: ContextData? = null,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
+        context: ContextData? = null
     ) {
         if (context != null) {
             createImplicitContextForActions(rootView, sender, context, actions)
         }
 
-        executeActions(rootView, origin, actions, analyticsHandleEvent)
+        executeActions(rootView, origin, actions)
     }
 
     private fun createImplicitContextForActions(
@@ -55,36 +51,14 @@ internal object ContextActionExecutor {
         viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
 
-    private fun executeActions(
-        rootView: RootView,
-        origin: View,
-        actions: List<Action>?,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
-    ) {
-        actions?.forEach { action ->
+    private fun executeActions(rootView: RootView, origin: View, actions: List<Action>?) {
+        actions?.forEach {  action ->
             if (action is AsyncAction) {
                 val viewModel = rootView.generateViewModelInstance<AsyncActionViewModel>()
                 viewModel.onAsyncActionExecuted(AsyncActionData(origin, action))
                 action.onActionStarted()
             }
             action.execute(rootView, origin)
-            reportActionIfIsActionAnalytics(rootView, origin, action, analyticsHandleEvent)
-        }
-    }
-
-    private fun reportActionIfIsActionAnalytics(
-        rootView: RootView,
-        origin: View,
-        action: Action,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
-    ) {
-        if (action is ActionAnalytics) {
-            rootView.generateViewModelInstance<AnalyticsViewModel>().createActionReport(
-                rootView,
-                origin,
-                action,
-                analyticsHandleEvent
-            )
         }
     }
 }
