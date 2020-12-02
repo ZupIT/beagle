@@ -171,11 +171,11 @@ object TextInputScreenBuilder {
                     children = listOf(
                         TextInput(placeholder = expressionOf("@{context.placeholder}"),
                             type = expressionOf("@{context.textInputType}"))
-                        )
                     )
                 )
             )
-        }
+        )
+    }
 
     private fun textInputSecondPlan() = Container(
         context = ContextData(id = "isTextInputInSecondPlan", value = "is a textInput in second plan with expression"),
