@@ -144,6 +144,7 @@ Feature: ListView Component Validation
         And listView with id categoriesList should have exactly 3 items
 
     Scenario Outline: ListView 08 - Categories ListView (nested): categories and number of books
+        When I scroll listView with id categoriesList to position <position>
         Then listView with id categoriesList at position <position> should show text: <category>
         And listView with id categoriesList at position <position> should have a view with id <id>
         And listView with id categoriesList at position <position> should have a view with id <booksListId>
@@ -153,10 +154,12 @@ Feature: ListView Component Validation
         Examples:
             | position | category | numberOfBooks | id         | booksListId           |
             | 0        | Fantasy  | 7             | category:1 | categoriesBooksList:1 |
-            | 1        | Sci-fi   | 5             | category:2 | categoriesBooksList:3 |
+            | 1        | Sci-fi   | 5             | category:2 | categoriesBooksList:2 |
             | 2        | Other    | 3             | category:3 | categoriesBooksList:3 |
 
     Scenario Outline: ListView 09 - Categories ListView (nested): books and their characters
+        When I scroll listView with id categoriesList to position <categoryListPosition>
+        And I scroll listView with id categoriesBooksList:<categoryId> to position <bookListPosition>
         Then listView with id categoriesList at position <categoryListPosition> should show text: <category>
         And listView with id categoriesBooksList:<categoryId> at position <bookListPosition> should show text: Title: <title>
         And listView with id categoriesBooksList:<categoryId> at position <bookListPosition> should show text: Author: <author>
@@ -322,7 +325,7 @@ Feature: ListView Component Validation
             | 13       | Genre: Other   | The Cuckoo's Cry                         | Author: Caroline Overington | 'Collection: '                     | 'Book Number: '   | Rating: 4.3 |
             | 14       | Genre: Other   | The Handmaid's Tale                      | Author: Margaret Atwood     | Collection: The Handmaid's Tale    | Book Number: 1.0  | Rating: 4.6 |
 
-    Scenario Outline: ListView 20 - Characters ListView: renders all items correctly after screen rotation
+    Scenario Outline: ListView 19 - Characters ListView: renders all items correctly after screen rotation
         When I scroll listView with id charactersList to position 33
         And I change the device orientation to landscape
         And I scroll listView with id charactersList to position 0
@@ -367,32 +370,32 @@ Feature: ListView Component Validation
             | 32       | Name: Hermione Granger      | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
             | 33       | Name: Rúbeo Hagrid          | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
 
-    Scenario Outline: ListView 20 - Books ListView: evaluates context correctly
-        When I scroll listView with id categoriesList to position <categoriesListPosition>
-        And I scroll listView with id categoriesBooksList:<categoryId> to position 6
-        And I change the device orientation to landscape
-        And I scroll to view with id categoriesList
-        And I scroll listView with id categoriesList to position <categoriesListPosition>
-        And I scroll listView with id categoriesBooksList:<categoryId> to position 0
-        And I click on view with id cartButton:<categoryId>:<bookTitle> at position 0 of listView with id categoriesBooksList:<categoryId>
-        And I change the device orientation to portrait
-        And I scroll listView with id categoriesBooksList:<categoryId> to position <booksListPosition>
-        Then listView with id categoriesBooksList:<categoryId> at position <booksListPosition> should show text: <buttonText>
+   Scenario Outline: ListView 20 - Books ListView: evaluates context correctly
+       When I scroll listView with id categoriesList to position <categoriesListPosition>
+       And I scroll listView with id categoriesBooksList:<categoryId> to position 6
+       And I change the device orientation to landscape
+       And I scroll to view with id categoriesList
+       And I scroll listView with id categoriesList to position <categoriesListPosition>
+       And I scroll listView with id categoriesBooksList:<categoryId> to position 0
+       And I click on view with id cartButton:<categoryId>:<bookTitle> at position 0 of listView with id categoriesBooksList:<categoryId>
+       And I change the device orientation to portrait
+       And I scroll listView with id categoriesBooksList:<categoryId> to position <booksListPosition>
+       Then listView with id categoriesBooksList:<categoryId> at position <booksListPosition> should show text: <buttonText>
 
-        Examples:
-            |categoriesListPosition | categoryId | booksListPosition | bookTitle        | buttonText |
-            | 0                     | 1          | 0                 | The Final Empire | REMOVE     |
-            | 0                     | 1          | 1                 | The Final Empire | BUY        |
-            | 0                     | 1          | 2                 | The Final Empire | BUY        |
-            | 0                     | 1          | 3                 | The Final Empire | BUY        |
-            | 0                     | 1          | 4                 | The Final Empire | BUY        |
-            | 0                     | 1          | 5                 | The Final Empire | BUY        |
-            | 0                     | 1          | 6                 | The Final Empire | BUY        |
-            | 1                     | 2          | 0                 | Starsight        | REMOVE     |
-            | 1                     | 2          | 1                 | Starsight        | BUY        |
-            | 1                     | 2          | 2                 | Starsight        | BUY        |
-            | 1                     | 2          | 3                 | Starsight        | BUY        |
-            | 1                     | 2          | 4                 | Starsight        | BUY        |
-            | 2                     | 3          | 0                 | The Last Tribe   | REMOVE     |
-            | 2                     | 3          | 1                 | The Last Tribe   | BUY        |
-            | 2                     | 3          | 2                 | The Last Tribe   | BUY        |
+       Examples:
+           |categoriesListPosition | categoryId | booksListPosition | bookTitle        | buttonText |
+           | 0                     | 1          | 0                 | The Final Empire | REMOVE     |
+           | 0                     | 1          | 1                 | The Final Empire | BUY        |
+           | 0                     | 1          | 2                 | The Final Empire | BUY        |
+           | 0                     | 1          | 3                 | The Final Empire | BUY        |
+           | 0                     | 1          | 4                 | The Final Empire | BUY        |
+           | 0                     | 1          | 5                 | The Final Empire | BUY        |
+           | 0                     | 1          | 6                 | The Final Empire | BUY        |
+           | 1                     | 2          | 0                 | Starsight        | REMOVE     |
+           | 1                     | 2          | 1                 | Starsight        | BUY        |
+           | 1                     | 2          | 2                 | Starsight        | BUY        |
+           | 1                     | 2          | 3                 | Starsight        | BUY        |
+           | 1                     | 2          | 4                 | Starsight        | BUY        |
+           | 2                     | 3          | 0                 | The Last Tribe   | REMOVE     |
+           | 2                     | 3          | 1                 | The Last Tribe   | BUY        |
+           | 2                     | 3          | 2                 | The Last Tribe   | BUY        |
