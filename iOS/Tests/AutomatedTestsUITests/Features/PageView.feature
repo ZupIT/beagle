@@ -31,19 +31,16 @@ Feature: PageView Component Validation
         When I swipe left
         Then checks that the text "Page 3" is on the screen
 
-#   Scenario: PageView 02 - Checking if pageview arrow indicator components appear on the screen
-#       This feature does not apply for mobile
-
-    Scenario: PageView 03 - Checks that the onPageChange triggers a list of actions when the page changes.
+    Scenario: PageView 02 - Checks that the onPageChange triggers a list of actions when the page changes.
         It is configured to set the text from Context0 to Context1 using the SetContext
         When I swipe left
         Then checks that the text "Context1" is on the screen
         Then checks that the text "Context0" is not on the screen
 
-    Scenario: PageView 04: Checks that the page set in onCurrentPage attribute is displayed.
+    Scenario: PageView 03: Checks that the page set in onCurrentPage attribute is displayed.
         When I press a button with the "Click to go to page three" title
         Then checks that the text "Page 3" is on the screen
         Then checks that the page with text "Page 1" is not displayed
 
-    Scenario: PageView 05: Checks the context set on PageView. The context was set on the PageView component
+    Scenario: PageView 04: Checks the context set on PageView. The context was set on the PageView component
         Then checks that the text "pageViewContext" is on the screen

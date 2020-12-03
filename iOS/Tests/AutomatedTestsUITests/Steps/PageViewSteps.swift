@@ -39,12 +39,12 @@ class PageViewSteps: CucumberStepsDefinition {
         
         // MARK: - When
         
-        // Scenarios 1 and 3
+        // Scenarios 1 and 2
         When(#"^I swipe left$"#) { _, _ in
             self.application.swipeLeft()
         }
         
-        // Scenarios 4
+        // Scenarios 3
         When(#"^I press a button with the "([^\"]*)" title$"#) { args, _ -> Void in
             let title = args![0]
 
@@ -55,21 +55,21 @@ class PageViewSteps: CucumberStepsDefinition {
         
         // MARK: - Then
         
-        // Scenario 1, 3 ans 5
+        // Scenario 1, 2 ans 4
         Then(#"^checks that the text "([^\"]*)" is on the screen$"#) { args, _ in
             let text = args![0]
             
             XCTAssertTrue(self.application.staticTexts[text].exists)
         }
         
-        // Scenario 3
+        // Scenario 2
         Then(#"^checks that the text "([^\"]*)" is not on the screen$"#) { args, _ in
             let text = args![0]
             
             XCTAssertFalse(self.application.staticTexts[text].exists)
         }
         
-        // Scenario 4
+        // Scenario 3
         Then(#"^checks that the page with text "([^\"]*)" is not displayed$"#) { args, _ in
             let text = args![0]
             
