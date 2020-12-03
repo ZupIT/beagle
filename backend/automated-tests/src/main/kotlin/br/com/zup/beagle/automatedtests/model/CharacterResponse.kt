@@ -16,13 +16,10 @@
 
 package br.com.zup.beagle.automatedtests.model
 
-import java.util.*
-
-
 data class CharacterResponse(
     val currentPage: Int,
     val totalPages: Int,
-    val result: ArrayList<Character>
+    val result: List<Character>
 ) {
     companion object {
         fun createMock(page: Int): CharacterResponse {
@@ -32,105 +29,22 @@ data class CharacterResponse(
 }
 
 data class Character(
-    var name: String = "",
-    var book: String = "",
-    var collection: String? = null) {
+    val name: String = "",
+    val book: String = "",
+    val collection: String? = null) {
 
     companion object {
-        fun createMock(page: Int): ArrayList<Character> {
-            val characters = ArrayList<Character>()
-            when (page) {
-                1 -> {
-                    characters.add(Character("Vin", "The Final Empire", "Mistborn Era 1"))
-                    characters.add(Character("Kelsier", "The Final Empire", "Mistborn Era 1"))
-                    characters.add(Character("Lord Ruler", "The Final Empire", "Mistborn Era 1"))
-                    characters.add(Character("Sazed", "The Final Empire", "Mistborn Era 1"))
-                    characters.add(Character("Elend Venture", "The Final Empire", "Mistborn Era 1"))
 
-                    characters.add(Character("Waxillium \"Wax\" Ladrian", "The Alloy of Law", "Mistborn Era 2"))
-                    characters.add(Character("Wayne", "The Alloy of Law", "Mistborn Era 2"))
-                    characters.add(Character("Marasi Colms", "The Alloy of Law", "Mistborn Era 2"))
-                    characters.add(Character("Steris Harms", "The Alloy of Law", "Mistborn Era 2"))
-                    characters.add(Character("Miles Dagouter", "The Alloy of Law", "Mistborn Era 2"))
-
-                    characters.add(Character("Eddard \"Ned\" Stark", "A Game of Thrones", "A Song of Ice and Fire"))
-                    characters.add(Character("Catelyn Stark", "A Game of Thrones", "A Song of Ice and Fire"))
-                    characters.add(Character("Sansa Stark", "A Game of Thrones", "A Song of Ice and Fire"))
-                    characters.add(Character("Arya Stark", "A Game of Thrones", "A Song of Ice and Fire"))
-                    characters.add(Character("Bran Stark", "A Game of Thrones", "A Song of Ice and Fire"))
-
-                    characters.add(Character("Szeth-son-son-Vallano", "Words of Radiance", "The Stormlight Archive"))
-                    characters.add(Character("Shallan Davar", "Words of Radiance", "The Stormlight Archive"))
-                    characters.add(Character("Kaladin", "Words of Radiance", "The Stormlight Archive"))
-                    characters.add(Character("Dalinar Kholin", "Words of Radiance", "The Stormlight Archive"))
-                    characters.add(Character("Adolin Kholin", "Words of Radiance", "The Stormlight Archive"))
-
-                    characters.add(Character("Talanji", "Shadows Rising", "World of Warcraft"))
-                    characters.add(Character("Zekhan", "Shadows Rising", "World of Warcraft"))
-                    characters.add(Character("Anduin Wrynn", "Shadows Rising", "World of Warcraft"))
-                    characters.add(Character("Turalyon", "Shadows Rising", "World of Warcraft"))
-                    characters.add(Character("Aleria Windrunner", "Shadows Rising", "World of Warcraft"))
-
-                    characters.add(Character("Anduin Wrynn", "Before the Storm", "World of Warcraft"))
-                    characters.add(Character("Sylvanas Windrunner", "Before the Storm", "World of Warcraft"))
-                    characters.add(Character("Grizzek Fizzwrench", "Before the Storm", "World of Warcraft"))
-                    characters.add(Character("Sapphronetta Flivvers", "Before the Storm", "World of Warcraft"))
-                    characters.add(Character("Calia Menethil", "Before the Storm", "World of Warcraft"))
-
-                    characters.add(Character("Harry Potter", "Harry Potter and the Philosopher's Stone", "Harry Potter"))
-                    characters.add(Character("Ronald Weasley", "Harry Potter and the Philosopher's Stone", "Harry Potter"))
-                    characters.add(Character("Hermione Granger", "Harry Potter and the Philosopher's Stone", "Harry Potter"))
-                    characters.add(Character("Rúbeo Hagrid", "Harry Potter and the Philosopher's Stone", "Harry Potter"))
-                }
-                2 -> {
-                    characters.add(Character("Dumbledore", "Harry Potter and the Philosopher's Stone", "Harry Potter"))
-
-                    characters.add(Character("Spensa Nightshade", "Starsight", "Skyward"))
-                    characters.add(Character("Jorgen Weight", "Starsight", "Skyward"))
-                    characters.add(Character("Admiral Cobb", "Starsight", "Skyward"))
-                    characters.add(Character("M-Bot", "Starsight", "Skyward"))
-                    characters.add(Character("Alanik", "Starsight", "Skyward"))
-
-                    characters.add(Character("Bob", "Heaven's River", "Bobiverse"))
-                    characters.add(Character("Brigit", "Heaven's River", "Bobiverse"))
-                    characters.add(Character("Bender", "Heaven's River", "Bobiverse"))
-                    characters.add(Character("Howard", "Heaven's River", "Bobiverse"))
-
-                    characters.add(Character("Juliette Andromeda Mao", "Leviathan Wakes", "The Expanse"))
-                    characters.add(Character("James Holden", "Leviathan Wakes", "The Expanse"))
-                    characters.add(Character("Naomi Nagata", "Leviathan Wakes", "The Expanse"))
-                    characters.add(Character("Amos Burton", "Leviathan Wakes", "The Expanse"))
-                    characters.add(Character("Shed Garvey", "Leviathan Wakes", "The Expanse"))
-
-                    characters.add(Character("Paul Atreides", "Dune", "Dune"))
-                    characters.add(Character("Duke Leto Atreides", "Dune", "Dune"))
-                    characters.add(Character("Lady Jessica", "Dune", "Dune"))
-                    characters.add(Character("Alia Atreides", "Dune", "Dune"))
-                    characters.add(Character("Thufir Hawat", "Dune", "Dune"))
-
-                    characters.add(Character("Dirk t'Larien", "Dying of the Light"))
-                    characters.add(Character("Jaan Vikary", "Dying of the Light"))
-                    characters.add(Character("Garse Janacek", "Dying of the Light"))
-
-                    characters.add(Character("Greg Dixon", "The Last Tribe"))
-                    characters.add(Character("John Dixon", "The Last Tribe"))
-                    characters.add(Character("Emily Dixon", "The Last Tribe"))
-                    characters.add(Character("Rebecca", "The Last Tribe"))
-
-                    characters.add(Character("Don Barlow", "The Cuckoo's Cry"))
-
-                    characters.add(Character("Offred", "The Handmaid's Tale", "The Handmaid's Tale"))
-                    characters.add(Character("The Commander", "The Handmaid's Tale", "The Handmaid's Tale"))
-                    characters.add(Character("Serena Joy", "The Handmaid's Tale", "The Handmaid's Tale"))
-                    characters.add(Character("Ofglen", "The Handmaid's Tale", "The Handmaid's Tale"))
-                    characters.add(Character("Nick", "The Handmaid's Tale", "The Handmaid's Tale"))
-                }
+        fun createMock(page: Int): List<Character> {
+            return when (page) {
+                1 -> charactersPage1
+                else -> charactersPage2
             }
-            return characters
         }
 
         fun createMock(bookTitle: String): List<String> {
-            val characterList = ArrayList<String>()
+            val characterList = getCharactersByBook(bookTitle)
+            /*val characterList = ArrayList<String>()
 
             when (bookTitle) {
                 "The Final Empire" -> {
@@ -231,9 +145,364 @@ data class Character(
                     characterList.add("Ofglen")
                     characterList.add("Nick")
                 }
-            }
+            }*/
 
             return characterList
         }
+
+        private fun getCharactersByBook(bookTitle: String): List<String> {
+            val characters = mutableListOf<String>()
+
+            characters.addAll(charactersPage1.filter { it.book == bookTitle }.map { it.name })
+            characters.addAll(charactersPage2.filter { it.book == bookTitle }.map { it.name })
+
+            return characters
+        }
+
+        private val charactersPage1 = listOf(
+            Character(
+                name = "Vin",
+                book = "The Final Empire",
+                collection = "Mistborn Era 1",
+            ),
+            Character(
+                name = "Kelsier",
+                book = "The Final Empire",
+                collection = "Mistborn Era 1",
+            ),
+            Character(
+                name = "Lord Ruler",
+                book = "The Final Empire",
+                collection = "Mistborn Era 1",
+            ),
+            Character(
+                name = "Sazed",
+                book = "The Final Empire",
+                collection = "Mistborn Era 1",
+            ),
+            Character(
+                name = "Elend Venture",
+                book = "The Final Empire",
+                collection = "Mistborn Era 1",
+            ),
+            Character(
+                name = "Waxillium \"Wax\" Ladrian",
+                book = "The Alloy of Law",
+                collection = "Mistborn Era 2",
+            ),
+            Character(
+                name = "Wayne",
+                book = "The Alloy of Law",
+                collection = "Mistborn Era 2",
+            ),
+            Character(
+                name = "Marasi Colms",
+                book = "The Alloy of Law",
+                collection = "Mistborn Era 2",
+            ),
+            Character(
+                name = "Steris Harms",
+                book = "The Alloy of Law",
+                collection = "Mistborn Era 2",
+            ),
+            Character(
+                name = "Miles Dagouter",
+                book = "The Alloy of Law",
+                collection = "Mistborn Era 2",
+            ),
+
+            Character(
+                name = "Eddard \"Ned\" Stark",
+                book = "A Game of Thrones",
+                collection = "A Song of Ice and Fire",
+            ),
+            Character(
+                name = "Catelyn Stark",
+                book = "A Game of Thrones",
+                collection = "A Song of Ice and Fire",
+            ),
+            Character(
+                name = "Sansa Stark",
+                book = "A Game of Thrones",
+                collection = "A Song of Ice and Fire",
+            ),
+            Character(
+                name = "Arya Stark",
+                book = "A Game of Thrones",
+                collection = "A Song of Ice and Fire",
+            ),
+            Character(
+                name = "Bran Stark",
+                book = "A Game of Thrones",
+                collection = "A Song of Ice and Fire",
+            ),
+
+            Character(
+                name = "Szeth-son-son-Vallano",
+                book = "Words of Radiance",
+                collection = "The Stormlight Archive",
+            ),
+            Character(
+                name = "Shallan Davar",
+                book = "Words of Radiance",
+                collection = "The Stormlight Archive",
+            ),
+            Character(
+                name = "Kaladin",
+                book = "Words of Radiance",
+                collection = "The Stormlight Archive",
+            ),
+            Character(
+                name = "Dalinar Kholin",
+                book = "Words of Radiance",
+                collection = "The Stormlight Archive",
+            ),
+            Character(
+                name = "Adolin Kholin",
+                book = "Words of Radiance",
+                collection = "The Stormlight Archive",
+            ),
+
+            Character(
+                name = "Talanji",
+                book = "Shadows Rising",
+                collection = "World of Warcraft",
+            ),
+            Character(
+                name = "Zekhan",
+                book = "Shadows Rising",
+                collection = "World of Warcraft",
+            ),
+            Character(
+                name = "Anduin Wrynn",
+                book = "Shadows Rising",
+                collection = "World of Warcraft",
+            ),
+            Character(
+                name = "Turalyon",
+                book = "Shadows Rising",
+                collection = "World of Warcraft",
+            ),
+            Character(
+                name = "Aleria Windrunner",
+                book = "Shadows Rising",
+                collection = "World of Warcraft",
+            ),
+
+            Character(
+                name = "Anduin Wrynn",
+                book = "Before the Storm",
+                collection = "World of Warcraft",
+            ),
+            Character(
+                name = "Sylvanas Windrunner",
+                book = "Before the Storm",
+                collection = "World of Warcraft",
+            ),
+            Character(
+                name = "Grizzek Fizzwrench",
+                book = "Before the Storm",
+                collection = "World of Warcraft",
+            ),
+            Character(
+                name = "Sapphronetta Flivvers",
+                book = "Before the Storm",
+                collection = "World of Warcraft",
+            ),
+            Character(
+                name = "Calia Menethil",
+                book = "Before the Storm",
+                collection = "World of Warcraft",
+            ),
+
+            Character(
+                name = "Harry Potter",
+                book = "Harry Potter and the Philosopher's Stone",
+                collection = "Harry Potter",
+            ),
+            Character(
+                name = "Ronald Weasley",
+                book = "Harry Potter and the Philosopher's Stone",
+                collection = "Harry Potter",
+            ),
+            Character(
+                name = "Hermione Granger",
+                book = "Harry Potter and the Philosopher's Stone",
+                collection = "Harry Potter",
+            ),
+            Character(
+                name = "Rúbeo Hagrid",
+                book = "Harry Potter and the Philosopher's Stone",
+                collection = "Harry Potter",
+            ),
+        )
+
+        private val charactersPage2 = listOf(
+            Character(
+                name = "Dumbledore",
+                book = "Harry Potter and the Philosopher's Stone",
+                collection = "Harry Potter",
+            ),
+            Character(
+                name = "Spensa Nightshade",
+                book = "Starsight",
+                collection = "Skyward",
+            ),
+            Character(
+                name = "Jorgen Weight",
+                book = "Starsight",
+                collection = "Skyward",
+            ),
+            Character(
+                name = "Admiral Cobb",
+                book = "Starsight",
+                collection = "Skyward",
+            ),
+            Character(
+                name = "M-Bot",
+                book = "Starsight",
+                collection = "Skyward",
+            ),
+            Character(
+                name = "Alanik",
+                book = "Starsight",
+                collection = "Skyward",
+            ),
+            Character(
+                name = "Bob",
+                book = "Heaven's River",
+                collection = "Bobiverse",
+            ),
+            Character(
+                name = "Brigit",
+                book = "Heaven's River",
+                collection = "Bobiverse",
+            ),
+            Character(
+                name = "Bender",
+                book = "Heaven's River",
+                collection = "Bobiverse",
+            ),
+            Character(
+                name = "Howard",
+                book = "Heaven's River",
+                collection = "Bobiverse",
+            ),
+            Character(
+                name = "Juliette Andromeda Mao",
+                book = "Leviathan Wakes",
+                collection = "The Expanse",
+            ),
+            Character(
+                name = "James Holden",
+                book = "Leviathan Wakes",
+                collection = "The Expanse",
+            ),
+            Character(
+                name = "Naomi Nagata",
+                book = "Leviathan Wakes",
+                collection = "The Expanse",
+            ),
+            Character(
+                name = "Amos Burton",
+                book = "Leviathan Wakes",
+                collection = "The Expanse",
+            ),
+            Character(
+                name = "Shed Garvey",
+                book = "Leviathan Wakes",
+                collection = "The Expanse",
+            ),
+            Character(
+                name = "Paul Atreides",
+                book = "Dune",
+                collection = "Dune",
+            ),
+            Character(
+                name = "Duke Leto Atreides",
+                book = "Dune",
+                collection = "Dune",
+            ),
+            Character(
+                name = "Lady Jessica",
+                book = "Dune",
+                collection = "Dune",
+            ),
+            Character(
+                name = "Alia Atreides",
+                book = "Dune",
+                collection = "Dune",
+            ),
+            Character(
+                name = "Thufir Hawat",
+                book = "Dune",
+                collection = "Dune",
+            ),
+            Character(
+                name = "Dirk t'Larien",
+                book = "Dying of the Light",
+                collection = "",
+            ),
+            Character(
+                name = "Jaan Vikary",
+                book = "Dying of the Light",
+                collection = "",
+            ),
+            Character(
+                name = "Garse Janacek",
+                book = "Dying of the Light",
+                collection = "",
+            ),
+            Character(
+                name = "Greg Dixon",
+                book = "The Last Tribe",
+                collection = "",
+            ),
+            Character(
+                name = "John Dixon",
+                book = "The Last Tribe",
+                collection = "",
+            ),
+            Character(
+                name = "Emily Dixon",
+                book = "The Last Tribe",
+                collection = "",
+            ),
+            Character(
+                name = "Rebecca",
+                book = "The Last Tribe",
+                collection = "",
+            ),
+            Character(
+                name = "Don Barlow",
+                book = "The Cuckoo's Cry",
+                collection = "",
+            ),
+            Character(
+                name = "Offred",
+                book = "The Handmaid's Tale",
+                collection = "The Handmaid's Tale",
+            ),
+            Character(
+                name = "The Commander",
+                book = "The Handmaid's Tale",
+                collection = "The Handmaid's Tale",
+            ),
+            Character(
+                name = "Serena Joy",
+                book = "The Handmaid's Tale",
+                collection = "The Handmaid's Tale",
+            ),
+            Character(
+                name = "Ofglen",
+                book = "The Handmaid's Tale",
+                collection = "The Handmaid's Tale",
+            ),
+            Character(
+                name = "Nick",
+                book = "The Handmaid's Tale",
+                collection = "The Handmaid's Tale",
+            ),
+        )
     }
 }

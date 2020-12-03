@@ -36,25 +36,41 @@ import java.util.*
 @RestController
 class ListController {
 
-    @RequestMapping(value = [BOOK_DATABASE_CHARACTERS], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @RequestMapping(
+        value = [BOOK_DATABASE_CHARACTERS],
+        method = [RequestMethod.GET],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     @ResponseBody
     fun getCharacters(@RequestParam page: Int): CharacterResponse {
         return CharacterResponse.createMock(page)
     }
 
-    @RequestMapping(value = [BOOK_DATABASE_CATEGORIES], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @RequestMapping(
+        value = [BOOK_DATABASE_CATEGORIES],
+        method = [RequestMethod.GET],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     @ResponseBody
     fun getCategories(): List<Genre>? {
         return Genre.createMock()
     }
 
-    @RequestMapping(value = [BOOK_DATABASE_CATEGORY], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @RequestMapping(
+        value = [BOOK_DATABASE_CATEGORY],
+        method = [RequestMethod.GET],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     @ResponseBody
     fun getCategory(@PathVariable category: String): List<Book>? {
         return Book.createMockByCategory(category)
     }
 
-    @RequestMapping(value = [BOOK_DATABASE_BOOKS], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @RequestMapping(
+        value = [BOOK_DATABASE_BOOKS],
+        method = [RequestMethod.GET],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     @ResponseBody
     fun getBooks(@RequestParam page: Int): BookResponse {
         return BookResponse.createMock(page)

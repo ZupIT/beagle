@@ -70,14 +70,26 @@ object ListViewScreenBuilder {
             children = listOf(
                 Container(
                     context = ContextData(id = "firstResponse",
-                        value = PageResponse(currentPage = valueOf(0), totalPages = valueOf(2), valueOf(listOf()))),
+                        value = PageResponse(
+                            currentPage = valueOf(0),
+                            totalPages = valueOf(2),
+                            valueOf(listOf())
+                        )
+                    ),
                     children = listOf(
                         firstListView(),
                         Container(
-                            context = ContextData(id = "thirdResponse", value = PageResponse(currentPage = valueOf(0), totalPages = valueOf(3), result = valueOf(listOf()))),
+                            context = ContextData(
+                                id = "thirdResponse",
+                                value = PageResponse(
+                                    currentPage = valueOf(0),
+                                    totalPages = valueOf(3),
+                                    result = valueOf(listOf()),
+                                ),
+                            ),
                             children = listOf(
                                 secondListView(),
-                                thirdListView()
+                                thirdListView(),
                             )
                         )
                     )
@@ -220,93 +232,104 @@ object ListViewScreenBuilder {
                             bottom = 8.unitReal(),
                             left = 8.unitReal()))
                 ),
-            ListView(
-                key = "id",
-                direction = ListDirection.VERTICAL,
-                dataSource = expressionOf("@{genreResponse.genres}"),
-                template = Container(
-                    context = ContextData(id = "categoryResponse", value = CategoryResponse()),
-                    children = listOf(
-                        Text("@{item.name}"),
-                        ListView(
-                            key = "title",
-                            onInit = listOf(
-                                SendRequest(
-                                    url = expressionOf("/book-database/categories/@{item.name}"),
-                                    onSuccess = listOf(
-                                        SetContext(
-                                            contextId = "categoryResponse",
-                                            value = CategoryResponse(
-                                                category = "@{onSuccess.data}"
-                                            )
-                                        )
-                                    )
-                                )
-                            ),
-                            direction = ListDirection.HORIZONTAL,
-                            dataSource = expressionOf("@{categoryResponse.category}"),
-                            template = Container(
-                                context = ContextData(
-                                    id = "cartStatus",
-                                    value = "BUY",
-                                ),
-                                children = listOf(
-                                    Text(text = "Title: @{item.title}"),
-                                    Text(text = "Author: @{item.author}"),
-                                    Text(text = "Characters:"),
-                                    ListView(
-                                        direction = ListDirection.VERTICAL,
-                                        dataSource = expressionOf("@{item.characters}"),
-                                        template = Container(
-                                            children = listOf(
-                                                Text(text = "- @{item}").setId("character")
-                                            )
-                                        )
-                                    ).setId(
-                                        id = "bookCharactersList"
-                                    ),
-                                    Button(
-                                        text = "@{cartStatus}",
-                                        onPress = listOf(
-                                            SetContext(
-                                                contextId = "cartStatus",
-                                                value = "REMOVE"
-                                            )
-                                        )
-                                    ).setId(
-                                        id = "cartButton"
-                                    )
-                                )
-                            ).setId(
-                                id = "book"
-                            ).applyStyle(
-                                Style(
-                                    padding = EdgeValue(all = 8.unitReal()),
-                                )
-                            )
-                        ).setId(id = "categoriesBooksList")
-                            .applyStyle(
-                                Style(
-                                    backgroundColor = "#CFCFCF",
-                                    margin = EdgeValue(all = 8.unitReal()),
-                                )
-                            )
-                    )
-                ).setId("category")
-                    .applyStyle(
-                        Style(
-                            margin = EdgeValue(all = 8.unitReal())
-                        )
-                    )
-            ).setId(id = "categoriesList")
-                .applyStyle(
-                    Style(
-                        margin = EdgeValue(all = 10.unitReal()),
-                        backgroundColor = "#EAEAEA"
-                    )
-                )
+            categoriesListView()
         )
     ).applyStyle(Style(size = Size(height = 350.unitReal())))
+
+    private fun categoriesListView(): ListView {
+        return ListView(
+            key = "id",
+            direction = ListDirection.VERTICAL,
+            dataSource = expressionOf("@{genreResponse.genres}"),
+            template = Container(
+                context = ContextData(id = "categoryResponse", value = CategoryResponse()),
+                children = listOf(
+                    Text("@{item.name}"),
+                    categoriesBooksListView(),
+                )
+            ).setId(
+                id = "category"
+            ).applyStyle(
+                Style(
+                    margin = EdgeValue(all = 8.unitReal())
+                )
+            )
+        ).setId(
+            id = "categoriesList"
+        ).applyStyle(
+            Style(
+                margin = EdgeValue(all = 10.unitReal()),
+                backgroundColor = "#EAEAEA"
+            )
+        )
+    }
+
+    private fun categoriesBooksListView(): ListView {
+        return ListView(
+            key = "title",
+            onInit = listOf(
+                SendRequest(
+                    url = expressionOf("/book-database/categories/@{item.name}"),
+                    onSuccess = listOf(
+                        SetContext(
+                            contextId = "categoryResponse",
+                            value = CategoryResponse(
+                                category = "@{onSuccess.data}"
+                            )
+                        )
+                    )
+                )
+            ),
+            direction = ListDirection.HORIZONTAL,
+            dataSource = expressionOf("@{categoryResponse.category}"),
+            template = Container(
+                context = ContextData(
+                    id = "cartStatus",
+                    value = "BUY",
+                ),
+                children = listOf(
+                    Text(text = "Title: @{item.title}"),
+                    Text(text = "Author: @{item.author}"),
+                    Text(text = "Characters:"),
+                    bookCharactersListView(),
+                    Button(
+                        text = "@{cartStatus}",
+                        onPress = listOf(
+                            SetContext(
+                                contextId = "cartStatus",
+                                value = "REMOVE"
+                            )
+                        )
+                    ).setId(id = "cartButton")
+                )
+            ).setId(id = "book")
+                .applyStyle(
+                    style = Style(
+                        padding = EdgeValue(all = 8.unitReal()),
+                    )
+                )
+        ).setId(id = "categoriesBooksList")
+            .applyStyle(
+                style = Style(
+                    backgroundColor = "#CFCFCF",
+                    margin = EdgeValue(all = 8.unitReal()),
+                )
+            )
+    }
+
+    private fun bookCharactersListView(): ListView {
+        return ListView(
+            direction = ListDirection.VERTICAL,
+            dataSource = expressionOf("@{item.characters}"),
+            template = Container(
+                children = listOf(
+                    Text(text = "- @{item}").setId("character")
+                )
+            )
+        ).setId(
+            id = "bookCharactersList"
+        )
+    }
 
     private fun thirdListView() = Container(
         context = ContextData(id = "initialized", value = 0),
@@ -372,9 +395,7 @@ object ListViewScreenBuilder {
                     )
                 )
             )
-        ).setId(
-            id = "booksList"
-        )
+        ).setId(id = "booksList")
 
         listHeight?.let { height ->
             listView.applyStyle(
