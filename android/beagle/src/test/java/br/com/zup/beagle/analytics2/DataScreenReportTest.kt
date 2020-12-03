@@ -19,6 +19,9 @@ package br.com.zup.beagle.analytics2
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -28,18 +31,19 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given DataScreenReport")
-internal class DataScreenReportTest : BaseTest(){
+internal class DataScreenReportTest : BaseTest() {
 
     @DisplayName("When report")
     @Nested
-    inner class Report{
+    inner class Report {
 
         @Test
         @DisplayName("Then should call AnalyticsService.createActionRecord")
-        fun testReportCallActionReport(){
+        fun testReportCallActionReport() {
             //GIVEN
             mockkObject(AnalyticsService)
             val dataScreenReport = DataScreenReport(isLocalScreen = false, screenIdentifier = "identifier")
+            every { AnalyticsService.reportScreen(dataScreenReport) } just Runs
 
             //WHEN
             dataScreenReport.report()
