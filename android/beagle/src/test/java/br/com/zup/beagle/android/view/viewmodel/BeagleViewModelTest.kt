@@ -94,7 +94,7 @@ class BeagleViewModelTest : BaseTest() {
         // Then
         coVerifyOrder {
             observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.DoRender(screenRequest.url, component, false))
+            observer.onChanged(ViewState.DoRender(screenRequest.url, component))
             observer.onChanged(ViewState.Loading(false))
         }
     }
@@ -135,7 +135,7 @@ class BeagleViewModelTest : BaseTest() {
             observer.onChanged(any<ViewState.Error>())
             observer.onChanged(ViewState.Loading(false))
             observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.DoRender(screenRequest.url, component, false))
+            observer.onChanged(ViewState.DoRender(screenRequest.url, component))
             observer.onChanged(ViewState.Loading(false))
         }
     }
@@ -149,7 +149,7 @@ class BeagleViewModelTest : BaseTest() {
         beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
 
         //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(null, component, true)) }
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(null, component)) }
     }
 
     @Test
@@ -164,7 +164,7 @@ class BeagleViewModelTest : BaseTest() {
         beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
 
         //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(id, component, true)) }
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(id, component)) }
     }
 
     @Test
@@ -177,7 +177,7 @@ class BeagleViewModelTest : BaseTest() {
         beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
 
         //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(screenRequest.url, component, false)) }
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(screenRequest.url, component)) }
     }
 
     @Test
@@ -191,7 +191,7 @@ class BeagleViewModelTest : BaseTest() {
         beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
 
         //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender("test", component, false)) }
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender("test", component)) }
     }
 
     @Test
@@ -209,7 +209,7 @@ class BeagleViewModelTest : BaseTest() {
         beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
 
         //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(identifier, component, true)) }
+        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(identifier, component)) }
 
     }
 
