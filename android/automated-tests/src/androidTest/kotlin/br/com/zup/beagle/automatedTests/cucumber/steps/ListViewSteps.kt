@@ -35,7 +35,7 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Rule
 
-const val LIST_VIEW_SCREEN_BFF_URL = "http://10.0.2.2:8080/listview"
+const val LIST_VIEW_SCREEN_BFF_URL = "/listview"
 
 class ListViewScreenSteps {
 
