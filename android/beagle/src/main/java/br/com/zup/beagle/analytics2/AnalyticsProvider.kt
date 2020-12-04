@@ -19,13 +19,33 @@ package br.com.zup.beagle.analytics2
 typealias analyticsConfig = (analyticConfig: AnalyticsConfig) -> Unit
 typealias startSession = ()-> Unit
 
+/**
+ * This interface is used to start the configuration of analytics, without this the analytics will not be reported.
+*/
 interface AnalyticsProvider {
 
+    /**
+     * This function is called to get the AnalyticsConfig.
+     * @attribute config is a function that need to be invoked passing yours AnalyticConfig on parameter
+    */
     fun getConfig(config: analyticsConfig)
 
+    /**
+     * This function is called when Beagle is initialized.
+     * @attribute startSession is a function that need to be invoked when session is started to get the config.
+    */
     fun startSession(startSession: startSession)
 
+    /**
+     * This function is called to record the reports.
+     * @attribute record is an AnalyticsRecord generated when a screen is loaded or a action is executed
+     * according the config passing on getConfig function.
+    */
     fun createRecord(record: AnalyticsRecord)
 
+    /**
+     *@return an Int to control the maximum iitems that will be on the queue of reports while the config
+     * was not provided.
+    */
     fun getMaximumItemsInQueue() = 100
 }

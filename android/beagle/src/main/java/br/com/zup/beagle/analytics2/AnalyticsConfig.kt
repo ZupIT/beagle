@@ -16,9 +16,20 @@
 
 package br.com.zup.beagle.analytics2
 
+/**
+ * This interface is used to create the analytics recording according to rendering process and actions execute
+ */
 interface AnalyticsConfig {
-
+    /**
+     * This attribute enable the analytics to create a report when a screen is loaded.
+     * To not create analytics when a screen is loaded, set this attribute as false
+    */
     var enableScreenAnalytics : Boolean?
 
+    /**
+     * This attribute is a map of actions allowed to create analytics actions record.
+     * In this map, each key is an action name following the _beagleAction_ value on the JSON provided to create our
+     * screen. The value for each key is a list of attributes that you would like to be reported.
+    */
     var actions : Map<String, List<String>>
 }

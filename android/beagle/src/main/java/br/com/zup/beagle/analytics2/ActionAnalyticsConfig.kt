@@ -16,6 +16,14 @@
 
 package br.com.zup.beagle.analytics2
 
+/**
+ * This class is used to config the report of an action directly on an action.
+ * @param enable is a Boolean, if this param is true, the action will be reported, else, the action will not
+ * be reported.
+ * @param attributes is a List of String to indicate what attributes of the action will be reported.
+ * @param additionalEntries is a Map of String to Any, on this param can be passed additional values to be reported
+ * with the action.
+*/
 data class ActionAnalyticsConfig(
     var enable: Boolean = false,
     var attributes: List<String>? = null,

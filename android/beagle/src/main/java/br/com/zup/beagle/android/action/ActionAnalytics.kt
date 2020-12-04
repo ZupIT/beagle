@@ -21,10 +21,24 @@ import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * This abstract class represents an Action Analytics on Beagle
+*/
 abstract class ActionAnalytics : Action {
 
+    /**
+     * This attribute is an ActionAnalyticsConfig.
+     * When this attribute is not null, this ActionAnalyticsConfig will override the AnalyticsConfig provided on
+     * AnalyticsProvider.
+    */
     abstract var analytics: ActionAnalyticsConfig?
 
+    /**
+     * Method executed when the function is triggered
+     * @property rootView component that holds context, lifeCycleOwner and ViewModelStoreOwner
+     * @property origin view that triggered the action
+     * @property originComponent ServerDrivenComponent where the action was executed.
+    */
     abstract fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent? = null)
 
     override fun execute(rootView: RootView, origin: View) {

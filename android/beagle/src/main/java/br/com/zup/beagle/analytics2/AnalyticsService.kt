@@ -33,16 +33,14 @@ internal object AnalyticsService {
         this.analyticsProvider = analyticsProvider
         analyticsProvider?.let {
             queueSize = it.getMaximumItemsInQueue()
+            startSessionAndGetConfig(it)
         }
-        startSessionAndGetConfig()
     }
 
-    private fun startSessionAndGetConfig() {
-        analyticsProvider?.let { analyticsProvider ->
-            analyticsProvider.startSession {
-                analyticsProvider.getConfig { analyticsConfig ->
-                    this@AnalyticsService.analyticsConfig = analyticsConfig
-                }
+    private fun startSessionAndGetConfig(analyticsProvider: AnalyticsProvider) {
+        analyticsProvider.startSession {
+            analyticsProvider.getConfig { analyticsConfig ->
+                this@AnalyticsService.analyticsConfig = analyticsConfig
                 reportElementsOnQueue()
             }
         }
@@ -135,14 +133,14 @@ internal object AnalyticsService {
     private fun shouldReportScreen() = analyticsConfig.enableScreenAnalytics ?: false
 
     private fun addReportOnQueue(dataReport: DataReport) {
-        if (isQueueFull()) {
+        if (isNotQueueFull()) {
             queueOfReportsWaitingConfig.add(dataReport)
         } else {
             addItemOnFullQueue(dataReport)
         }
     }
 
-    private fun isQueueFull() = queueOfReportsWaitingConfig.size < queueSize
+    private fun isNotQueueFull() = queueOfReportsWaitingConfig.size < queueSize
 
     private fun addItemOnFullQueue(dataReport: DataReport) {
         BeagleMessageLogs.analyticsQueueIsFull(queueSize)

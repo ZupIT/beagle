@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.analytics2
 
-data class DataScreenReport(
+internal data class DataScreenReport(
     val isLocalScreen: Boolean,
     val screenIdentifier: String
 ) : DataReport{
