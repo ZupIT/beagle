@@ -234,7 +234,7 @@ internal class ListViewHolder(
             }
 
         val viewsWithOnInitAndWithoutIdAndContext =
-            viewsWithOnInit.filterNot { viewsWithId.contains(it) || viewsWithContext.contains(it) }
+            viewsWithOnInit.filterNot { viewsWithId.containsValue(it) || viewsWithContext.contains(it) }
         viewsWithOnInitAndWithoutIdAndContext.forEach { view ->
             val subViewId = bindIdToViewModel(view, isRecycled, position, recyclerId)
             setUpdatedIdToViewAndManagers(view, subViewId, listItem, isRecycled)
@@ -336,7 +336,7 @@ internal class ListViewHolder(
             }
 
         val viewsWithOnInitAndWithoutIdAndContext =
-            viewsWithOnInit.filterNot { viewsWithId.contains(it) || viewsWithContext.contains(it) }
+            viewsWithOnInit.filterNot { viewsWithId.containsValue(it) || viewsWithContext.contains(it) }
         viewsWithOnInitAndWithoutIdAndContext.forEach { viewWithOnInit ->
             temporaryViewIds.pollFirst()?.let { savedId ->
                 viewWithOnInit.id = savedId
