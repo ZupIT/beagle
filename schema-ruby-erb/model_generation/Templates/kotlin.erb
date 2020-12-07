@@ -77,11 +77,11 @@
     output
   end
 
-  def resolveImports(objectType)
+  def resolveVariablesImports(objectType)
     output = ""
 
     for variable in objectType.synthax_type.variables
-      if !@template_helper.variable_is_primitive(variable)
+      if !@template_helper.variable_is_primitive(variable) and !variable.type.is_a? (Action)
         qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
         if @template_helper.is_widget(variable.type)
           qualifiedName += "Schema"
@@ -98,9 +98,8 @@
       end
 
       for variable in inherited.synthax_type.variables
-        if !@template_helper.variable_is_primitive(variable)
+        if !@template_helper.variable_is_primitive(variable) and !variable.type.is_a? (Action)
             qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
-            puts "#{qualifiedName}"
           if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
             output += "import #{qualifiedName}"
             if @template_helper.is_widget(variable.type)
@@ -114,6 +113,12 @@
 
     output = output.gsub('br.com.zup.beagle.', 'br.com.zup.beagle.generated.')
 
+    output
+  end
+
+  def resolveImports(objectType)
+    output = resolveActionImport(objectType)
+    output += resolveVariablesImports(objectType)
     output += resolveBindImport(objectType)
 
     if output.include? "import"
@@ -140,6 +145,23 @@
     end
   end
 
+  #TODO remove bind import rules
+  def resolveActionImport(objectType)
+    output = ""
+
+    if objectType.synthax_type.variables.any? { |variable| variable.type.is_a? (Action) }
+      if !"br.com.zup.beagle.android".include? "#{objectType.synthax_type.package}"
+        output += "import br.com.zup.beagle.android.action.Action\n"
+      end
+    end
+
+    if output.include? "import"
+      "\n" + output
+    else
+      output
+    end
+  end
+
   def resolveObjectType(objectType)
     output = ""
     isEnumDeclaration = @template_helper.is_enum(objectType)
@@ -150,7 +172,12 @@
       if @template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType)
         output += initInterfaceOrAbstract(objectType)
       else
-        output += initCommonClass(objectType)
+        if @template_helper.is_server_driven_component(objectType)
+          output += initCommonClass(objectType)
+        else
+          output += initDataClass(objectType)
+        end
+        
       end
     end
 
@@ -193,6 +220,86 @@
       end
     end
     
+    output
+  end
+
+  def initDataClass(objectType)
+    typeKind = "data class"
+    
+    output = "\n#{typeKind} #{objectType.synthax_type.name}"
+
+    counter = 0 
+    if objectType.synthax_type.variables.any?
+      output += " ("
+      for variable in objectType.synthax_type.variables
+        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}#{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+    end
+
+    for inherited in objectType.synthax_type.inheritFrom
+      if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
+        if objectType.synthax_type.variables.size == 0
+            output += " ("
+        else
+          output += ","
+        end
+        counter = 0 
+        for variable in inherited.synthax_type.variables
+          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}override #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+        end
+      end
+    end
+    
+    output += getSuperClasses(objectType)
+
+    if objectType.synthax_type.variables.any?(&:isBindable) and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
+      output += "{\n#{@tab}constructor ("
+      counter = 0 
+      for variable in objectType.synthax_type.variables
+        output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+      for inherited in objectType.synthax_type.inheritFrom
+        if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
+          if @template_helper.has_variables(objectType)
+            output += ","
+          else
+            output += " ("
+          end
+          counter = 0 
+          for variable in inherited.synthax_type.variables
+          output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, inherited.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+          end
+        end
+      end
+      output += "\n#{@tab}) : this ("
+
+      counter = 0
+      for variable in objectType.synthax_type.variables
+        output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+
+      for inherited in objectType.synthax_type.inheritFrom
+        if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
+          if @template_helper.has_variables(objectType)
+              output += ","
+          else
+            output += " ("
+          end
+          counter = 0
+          for variable in inherited.synthax_type.variables
+          output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, inherited.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+          end
+        end
+      end
+      output += "\n#{@tab})\n}"
+    end
+
     output
   end
 
