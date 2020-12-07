@@ -23,9 +23,7 @@ import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.net.URL
 
-internal class ImageDownloader(
-    private val beagleBitmapFactory: BeagleBitmapFactory = BeagleBitmapFactory()
-) {
+internal class ImageDownloader() {
 
     suspend fun getRemoteImage(url: String, contentWidth: Int, contentHeight: Int) : Bitmap? {
         val cacheId = LruImageCache.generateBitmapId(url, contentWidth, contentHeight)
@@ -44,8 +42,7 @@ internal class ImageDownloader(
 
     private fun downloadBitmap(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
         val inputStream: InputStream = URL(url).openStream()
-        val bitmap = BitmapFactory.decodeStream(inputStream)
 
-        return beagleBitmapFactory.getBitmap(bitmap, contentWidth, contentHeight)
+        return BitmapFactory.decodeStream(inputStream)
     }
 }
