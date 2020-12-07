@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.imagedownloader
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
