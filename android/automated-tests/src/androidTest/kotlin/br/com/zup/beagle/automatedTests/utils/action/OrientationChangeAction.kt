@@ -49,7 +49,7 @@ class OrientationChangeAction(private val orientation: Int) : ViewAction {
             }
         }
         activity?.requestedOrientation = orientation
-        uiController.loopMainThreadForAtLeast(100)
+        uiController.loopMainThreadUntilIdle()
     }
 
     private fun getActivity(context: Context): Activity? {
