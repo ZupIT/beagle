@@ -94,6 +94,11 @@ class ScreenRobot {
         return this
     }
 
+    fun checkViewIsDisplayed(text: String?): ScreenRobot {
+        onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
+        return this
+    }
+
     fun typeText(hint: String, text: String): ScreenRobot {
         onView(withHint(hint)).perform(ViewActions.typeText((text)))
         return this
