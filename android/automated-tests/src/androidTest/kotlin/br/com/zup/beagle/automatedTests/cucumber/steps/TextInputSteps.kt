@@ -100,7 +100,7 @@ class TextInputScreen {
         ScreenRobot()
             .checkViewContainsHint(string)
             .clickOnInputWithHint(string)
-            .typeText(string,"22/04/1500")
+            .typeTextInTheFieldWithPlaceholder(string, "22/04/1500")
             .checkViewContainsText("22/04/1500")
     }
 
@@ -110,16 +110,17 @@ class TextInputScreen {
             .scrollToWithHint("writing password")
             .checkViewContainsHint(string)
             .clickOnInputWithHint(string)
-            .typeText(string,"test@abc.com")
+            .typeTextInTheFieldWithPlaceholder(string, "test@abc.com")
             .checkViewContainsText("test@abc.com")
     }
+
     @Then("^validate that the value of the text input component (.*) of type \"password\" is shown correctly$")
     fun checkPasswordWriting(string: String) {
         ScreenRobot()
             .scrollToWithHint("writing text")
             .checkViewContainsHint(string)
             .clickOnInputWithHint(string)
-            .typeText(string,"123")
+            .typeTextInTheFieldWithPlaceholder(string, "123")
             .checkViewContainsText("123")
     }
 
@@ -129,7 +130,7 @@ class TextInputScreen {
             .scrollToWithHint("writing text")
             .checkViewContainsHint(string)
             .clickOnInputWithHint(string)
-            .typeText(string,"12345678")
+            .typeTextInTheFieldWithPlaceholder(string, "12345678")
             .checkViewContainsText("12345678")
     }
 
@@ -139,7 +140,7 @@ class TextInputScreen {
             .scrollToWithHint("Unordered actions")
             .checkViewContainsHint(string)
             .clickOnInputWithHint(string)
-            .typeText(string,"This is a test!")
+            .typeTextInTheFieldWithPlaceholder(string, "This is a test!")
             .checkViewContainsText("This is a test!")
     }
 
@@ -171,7 +172,7 @@ class TextInputScreen {
     @And("^I type anything on textInput with the placeholder (.*)$")
     fun triggersOnChangeMethodAndCheckChanges(string: String) {
         ScreenRobot()
-            .typeText(string, "a")
+            .typeTextInTheFieldWithPlaceholder(string, "a")
     }
 
     @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
@@ -181,7 +182,7 @@ class TextInputScreen {
             .checkViewContainsHint(string)
             .clickOnInputWithHint(string)
             .checkViewContainsText(string2)
-            .typeText(string, "a")
+            .typeTextInTheFieldWithPlaceholder(string, "a")
             .checkViewContainsText(string3)
     }
 

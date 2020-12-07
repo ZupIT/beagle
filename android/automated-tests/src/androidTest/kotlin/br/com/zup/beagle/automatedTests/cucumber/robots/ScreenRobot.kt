@@ -99,7 +99,7 @@ class ScreenRobot {
         return this
     }
 
-    fun typeText(hint: String, text: String): ScreenRobot {
+    fun typeTextInTheFieldWithPlaceholder(hint: String, text: String): ScreenRobot {
         onView(withHint(hint)).perform(ViewActions.typeText((text)))
         return this
     }
