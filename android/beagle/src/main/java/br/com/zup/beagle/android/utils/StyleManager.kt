@@ -41,9 +41,9 @@ class StyleManager(
         if (view.background == null) {
             view.applyViewBackgroundAndCorner(Color.TRANSPARENT, component)
         } else when (component) {
-            is Text -> applyStyleId(view, component)
-            is Button -> applyStyleId(view, component)
-            is TabView -> applyStyleId(view, component)
+//            is Text -> applyStyleId(view, component)
+//            is Button -> applyStyleId(view, component)
+//            is TabView -> applyStyleId(view, component)
             else -> {
                 val colorInt = fetchDrawableColor(view.background)
                 view.applyViewBackgroundAndCorner(colorInt, component)

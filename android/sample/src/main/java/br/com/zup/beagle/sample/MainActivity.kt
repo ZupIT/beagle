@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
             R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>("""
                 {
-                  "_beagleComponent_" : "beagle:undefinedWidget",
+                  "_beagleComponent_" : "beagle:undefinedWidget"
                 }
                 
             """.trimIndent()))

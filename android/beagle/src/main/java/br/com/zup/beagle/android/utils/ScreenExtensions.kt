@@ -30,7 +30,6 @@ internal fun Screen.toComponent() = ScreenComponent(
     safeArea = this.safeArea,
     navigationBar = this.navigationBar,
     child = this.child,
-    style = this.style,
     screenAnalyticsEvent = this.screenAnalyticsEvent,
     context = this.context
 )

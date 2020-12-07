@@ -49,6 +49,7 @@ internal class BeagleSerializer(
             return beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json) ?:
                 throw NullPointerException()
         } catch (ex: Exception) {
+            ex.printStackTrace()
             BeagleMessageLogs.logDeserializationError(json, ex)
             throw makeBeagleDeserializationException(json, ex.message)
         }

@@ -28,13 +28,12 @@ import com.squareup.moshi.Json
  *
  */
 
-abstract class Widget : StyleComponent, AccessibilityComponent,
-    IdentifierComponent {
+abstract class Widget : IdentifierComponent {
 
     @Json(name = "id")
     override var id: String? = null
-    @Json(name = "style")
-    override var style: Style? = null
-    @Json(name = "accessibility")
-    override var accessibility: Accessibility? = null
+
+//    override var style: Style? = null
+//
+//    override var accessibility: Accessibility? = null
 }
