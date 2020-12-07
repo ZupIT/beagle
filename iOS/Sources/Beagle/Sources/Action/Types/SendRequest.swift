@@ -45,7 +45,7 @@ extension SendRequest: AsyncAction {
 
                 DispatchQueue.main.async {
                     controller.execute(actions: self.onSuccess, with: "onSuccess", and: value, origin: origin)
-                    controller.execute(actions: self.onFinish, origin: origin)
+                    controller.execute(actions: self.onFinish, event: "onFinish", origin: origin)
                 }
                 
             case .failure(let error):
@@ -68,7 +68,7 @@ extension SendRequest: AsyncAction {
     private func executeError(value: DynamicObject, controller: BeagleController, origin: UIView) {
         DispatchQueue.main.async {
             controller.execute(actions: self.onError, with: "onError", and: value, origin: origin)
-            controller.execute(actions: self.onFinish, origin: origin)
+            controller.execute(actions: self.onFinish, event: "onFinish", origin: origin)
         }
     }
 }

@@ -24,6 +24,7 @@ extension AddChildren {
         case componentId
         case value
         case mode
+        case analytics
     }
 
     public init(from decoder: Decoder) throws {
@@ -32,6 +33,7 @@ extension AddChildren {
         componentId = try container.decode(String.self, forKey: .componentId)
         value = try container.decode(forKey: .value)
         mode = try container.decodeIfPresent(Mode.self, forKey: .mode) ?? .append
+        analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
     }
 }
 
@@ -43,6 +45,7 @@ extension Alert {
         case message
         case onPressOk
         case labelOk
+        case analytics
     }
 
     public init(from decoder: Decoder) throws {
@@ -52,6 +55,7 @@ extension Alert {
         message = try container.decode(Expression<String>.self, forKey: .message)
         onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
         labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+        analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
     }
 }
 
@@ -83,6 +87,7 @@ extension Condition {
         case condition
         case onTrue
         case onFalse
+        case analytics
     }
 
     public init(from decoder: Decoder) throws {
@@ -91,6 +96,7 @@ extension Condition {
         condition = try container.decode(Expression<Bool>.self, forKey: .condition)
         onTrue = try container.decodeIfPresent(forKey: .onTrue)
         onFalse = try container.decodeIfPresent(forKey: .onFalse)
+        analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
     }
 }
 
@@ -104,6 +110,7 @@ extension Confirm {
         case onPressCancel
         case labelOk
         case labelCancel
+        case analytics
     }
 
     public init(from decoder: Decoder) throws {
@@ -115,6 +122,7 @@ extension Confirm {
         onPressCancel = try container.decodeIfPresent(forKey: .onPressCancel)
         labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
         labelCancel = try container.decodeIfPresent(String.self, forKey: .labelCancel)
+        analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
     }
 }
 
@@ -326,6 +334,7 @@ extension SendRequest {
         case onSuccess
         case onError
         case onFinish
+        case analytics
     }
 
     public init(from decoder: Decoder) throws {
@@ -338,6 +347,7 @@ extension SendRequest {
         onSuccess = try container.decodeIfPresent(forKey: .onSuccess)
         onError = try container.decodeIfPresent(forKey: .onError)
         onFinish = try container.decodeIfPresent(forKey: .onFinish)
+        analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
     }
 }
 

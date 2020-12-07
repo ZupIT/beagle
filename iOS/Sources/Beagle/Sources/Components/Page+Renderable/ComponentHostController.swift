@@ -42,8 +42,8 @@ class ComponentHostController: BeagleController {
         renderer.controller.addOnInit(onInit, in: view)
     }
     
-    func execute(actions: [RawAction]?, origin: UIView) {
-        renderer.controller.execute(actions: actions, origin: origin)
+    func execute(actions: [RawAction]?, event: String?, origin: UIView) {
+        renderer.controller.execute(actions: actions, event: event, origin: origin)
     }
 
     func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {

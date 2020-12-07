@@ -56,6 +56,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var repository: Repository
     public var imageDownloader: ImageDownloader
     public var analytics: Analytics?
+    public var analyticsProvider: AnalyticsProvider?
     public var navigation: BeagleNavigation
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?

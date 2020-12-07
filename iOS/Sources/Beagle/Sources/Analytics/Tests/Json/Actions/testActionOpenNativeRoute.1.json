@@ -1,0 +1,17 @@
+{
+    "_beagleAction_": "beagle:openNativeRoute",
+    "analytics": {
+        "attributes": [
+            "data.number",
+            "route",
+            "shouldResetApplication"
+        ],
+        "enable": true
+    },
+    "data": {
+        "name": "John Doe",
+        "number": "Ten"
+    },
+    "route": "native-route?q=@{context.query}",
+    "shouldResetApplication": false
+}

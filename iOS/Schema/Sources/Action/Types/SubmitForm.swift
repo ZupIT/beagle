@@ -16,6 +16,14 @@
  */
 
 import Foundation
-public struct SubmitForm: RawAction {
-    public init() {}
+public struct SubmitForm: RawAction, AutoInitiable {
+    public let analytics: ActionAnalyticsConfig?
+
+// sourcery:inline:auto:SubmitForm.Init
+    public init(
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.analytics = analytics
+    }
+// sourcery:end
 }

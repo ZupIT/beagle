@@ -21,8 +21,9 @@ public struct AddChildren: RawAction, AutoInitiableAndDecodable {
     public let componentId: String
     public let value: [RawComponent]
     public var mode: Mode = .append
+    public let analytics: ActionAnalyticsConfig?
     
-    public enum Mode: String, Decodable {
+    public enum Mode: String, Codable {
         case append = "APPEND"
         case prepend = "PREPEND"
         case replace = "REPLACE"
@@ -32,11 +33,13 @@ public struct AddChildren: RawAction, AutoInitiableAndDecodable {
     public init(
         componentId: String,
         value: [RawComponent],
-        mode: Mode = .append
+        mode: Mode = .append,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.componentId = componentId
         self.value = value
         self.mode = mode
+        self.analytics = analytics
     }
 // sourcery:end
 }

@@ -20,7 +20,7 @@ import BeagleSchema
 extension Screen {
    public func toView(renderer: BeagleRenderer) -> UIView {
         return renderer.render(ScreenComponent(
-            identifier: id,
+            identifier: identifier,
             style: style,
             safeArea: safeArea,
             navigationBar: navigationBar,

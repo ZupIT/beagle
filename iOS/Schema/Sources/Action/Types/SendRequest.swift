@@ -19,7 +19,7 @@ import UIKit
 
 public struct SendRequest: RawAction, AutoInitiableAndDecodable {
     
-    public enum HTTPMethod: String, Decodable {
+    public enum HTTPMethod: String, Codable {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
@@ -34,6 +34,7 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
     public let onSuccess: [RawAction]?
     public let onError: [RawAction]?
     public var onFinish: [RawAction]?
+    public let analytics: ActionAnalyticsConfig?
     
 // sourcery:inline:auto:SendRequest.Init
     public init(
@@ -43,7 +44,8 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
         headers: Expression<[String: String]>? = nil,
         onSuccess: [RawAction]? = nil,
         onError: [RawAction]? = nil,
-        onFinish: [RawAction]? = nil
+        onFinish: [RawAction]? = nil,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.url = url
         self.method = method
@@ -52,6 +54,7 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
         self.onSuccess = onSuccess
         self.onError = onError
         self.onFinish = onFinish
+        self.analytics = analytics
     }
 // sourcery:end
     
@@ -63,7 +66,8 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
         headers: [String: String]? = nil,
         onSuccess: [RawAction]? = nil,
         onError: [RawAction]? = nil,
-        onFinish: [RawAction]? = nil
+        onFinish: [RawAction]? = nil,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.url = url
         self.method = .value(method ?? .get)
@@ -72,5 +76,6 @@ public struct SendRequest: RawAction, AutoInitiableAndDecodable {
         self.onSuccess = onSuccess
         self.onError = onError
         self.onFinish = onFinish
+        self.analytics = analytics
     }
 }

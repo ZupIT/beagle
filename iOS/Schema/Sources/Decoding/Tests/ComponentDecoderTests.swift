@@ -145,6 +145,7 @@ public final class ComponentDecoderTests: XCTestCase {
     }
 
     private class TestAction: RawAction {
+        var analytics: ActionAnalyticsConfig? { return nil }
         let value: Int
     }
 }

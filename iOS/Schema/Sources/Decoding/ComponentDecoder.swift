@@ -27,8 +27,12 @@ public protocol ComponentDecoding {
     
     func componentType(forType type: String) -> Decodable.Type?
     func actionType(forType type: String) -> Decodable.Type?
+    
     func decodeComponent(from data: Data) throws -> RawComponent
     func decodeAction(from data: Data) throws -> RawAction
+    
+    func nameForComponent(ofType type: RawComponent.Type) -> String?
+    func nameForAction(ofType type: RawAction.Type) -> String?
 }
 
 public enum ComponentDecodingError: Error {
@@ -89,6 +93,14 @@ final public class ComponentDecoder: ComponentDecoding {
     
     public func decodeAction(from data: Data) throws -> RawAction {
         return try decodeAndLog(from: data)
+    }
+    
+    public func nameForComponent(ofType type: RawComponent.Type) -> String? {
+        return componentDecoders.first { $0.value == type }?.key
+    }
+    
+    public func nameForAction(ofType type: RawAction.Type) -> String? {
+        return actionDecoders.first { $0.value == type }?.key
     }
     
     // MARK: - Private Functions

@@ -15,6 +15,7 @@
  */
 
 public struct SetContext: RawAction {
+    public let analytics: ActionAnalyticsConfig?
     public let contextId: String
     public let path: Path?
     public let value: DynamicObject
@@ -22,10 +23,27 @@ public struct SetContext: RawAction {
     public init(
         contextId: String,
         path: String? = nil,
-        value: DynamicObject
+        value: DynamicObject,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.contextId = contextId
         self.path = path.flatMap { Path(rawValue: $0) }
         self.value = value
+        self.analytics = analytics
+    }
+}
+
+extension SetContext: CustomReflectable {
+    public var customMirror: Mirror {
+        return Mirror(
+            self,
+            children: [
+                "contextId": contextId,
+                "path": path?.rawValue as Any,
+                "value": value,
+                "analytics": analytics as Any
+            ],
+            displayStyle: .struct
+        )
     }
 }

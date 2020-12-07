@@ -21,14 +21,14 @@ import BeagleSchema
 extension Condition: Action {
     public func execute(controller: BeagleController, origin: UIView) {
         guard let evaluetedCondition = condition.evaluate(with: origin) else {
-            controller.execute(actions: onFalse, origin: origin)
+            controller.execute(actions: onFalse, event: "onFalse", origin: origin)
             return
         }
         
         if evaluetedCondition, let onTrue = self.onTrue {
-            controller.execute(actions: onTrue, origin: origin)
+            controller.execute(actions: onTrue, event: "onTrue", origin: origin)
         } else if !evaluetedCondition, let onFalse = self.onFalse {
-            controller.execute(actions: onFalse, origin: origin)
+            controller.execute(actions: onFalse, event: "onFalse", origin: origin)
         }
     }
 }

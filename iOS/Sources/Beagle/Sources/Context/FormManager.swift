@@ -90,15 +90,16 @@ class FormManager {
     }
 
     private func submitAction(_ action: RawAction, inputs: [String: String], origin: UIView, group: String?) {
+        let event = "onSubmit"
         switch action {
         case let action as FormRemoteAction:
             let newAction = SubmitRemoteFormAction(remote: action, inputs: inputs, group: group)
-            controller.execute(actions: [newAction], origin: origin)
+            controller.execute(actions: [newAction], event: event, origin: origin)
         case let action as FormLocalAction:
             let newAction = FormLocalAction(name: action.name, data: inputs.merging(action.data) { a, _ in return a })
-            controller.execute(actions: [newAction], origin: origin)
+            controller.execute(actions: [newAction], event: event, origin: origin)
         default:
-            controller.execute(actions: [action], origin: origin)
+            controller.execute(actions: [action], event: event, origin: origin)
         }
     }
     
@@ -155,6 +156,10 @@ private struct SubmitRemoteFormAction: Action {
     let inputs: [String: String]
     let group: String?
     
+    var analytics: ActionAnalyticsConfig? {
+        return nil
+    }
+    
     func execute(controller: BeagleController, origin: UIView) {
         controller.serverDrivenState = .started
         let data = Request.FormData(
@@ -167,7 +172,7 @@ private struct SubmitRemoteFormAction: Action {
             case .success(let action):
                 controller.serverDrivenState = .success
                 controller.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: self.group)
-                controller.execute(actions: [action], origin: origin)
+                controller.execute(actions: [action], event: "onSuccess", origin: origin)
             case .failure(let error):
                 controller.serverDrivenState = .error(
                     .submitForm(error),

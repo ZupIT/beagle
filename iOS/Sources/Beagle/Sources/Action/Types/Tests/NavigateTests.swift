@@ -26,8 +26,8 @@ class NavigateTests: XCTestCase {
         let arrayWithNullNewPaths: [Navigate] = [
             .openExternalURL(""),
             .openNativeRoute(.init(route: "")),
-            .popStack,
-            .popView,
+            .popStack(),
+            .popView(),
             .popToView("")
         ]
         

@@ -28,7 +28,9 @@ class TouchableTests: XCTestCase {
             - type: "custom:beagleschematestscomponent"
           - clickAnalyticsEvent: Optional<AnalyticsClick>.none
           ▿ onPress: 1 element
-            - Navigate.popView
+            ▿ Navigate
+              - _beagleAction_: "beagle:popview"
+              - analytics: Optional<ActionAnalyticsConfig>.none
         """)
     }
 

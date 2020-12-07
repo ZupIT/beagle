@@ -4,7 +4,8 @@
       - clickAnalyticsEvent: Optional<AnalyticsClick>.none
       ▿ onPress: Optional<Array<RawAction>>
         ▿ some: 1 element
-          - SubmitForm
+          ▿ SubmitForm
+            - analytics: Optional<ActionAnalyticsConfig>.none
       - styleId: Optional<String>.none
       ▿ text: Expression<String>
         - value: "Dados"
@@ -19,6 +20,7 @@
   ▿ onSubmit: Optional<Array<RawAction>>
     ▿ some: 1 element
       ▿ Confirm
+        - analytics: Optional<ActionAnalyticsConfig>.none
         - labelCancel: Optional<String>.none
         - labelOk: Optional<String>.none
         ▿ message: Expression<String>

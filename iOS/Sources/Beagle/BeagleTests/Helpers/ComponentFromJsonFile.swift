@@ -45,7 +45,7 @@ func componentFromJsonFile<W: ServerDrivenComponent>(
 }
 
 // TODO: Make decoding process generic
-func actionFromJsonFile<W: Action>(
+func actionFromJsonFile<W: RawAction>(
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()
 ) throws -> W {

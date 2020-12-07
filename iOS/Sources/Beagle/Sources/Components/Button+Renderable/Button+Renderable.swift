@@ -77,7 +77,7 @@ extension Button: Widget {
         }
         
         @objc func triggerTouchUpInsideActions() {
-            controller?.execute(actions: onPress, origin: self)
+            controller?.execute(actions: onPress, event: "onPress", origin: self)
             
             if let click = clickAnalyticsEvent {
                 controller?.dependencies.analytics?.trackEventOnClick(click)

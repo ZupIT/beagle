@@ -33,11 +33,11 @@ Found a key duplication when merging form data:
 
 cantPopToAlreadyCurrentScreen(identifier: "identifier")
 
-didReceiveAction(BeagleSchema.Navigate.pushView(BeagleSchema.Route.remote(BeagleSchema.Route.NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil))))
+didReceiveAction(BeagleSchema.Navigate(_beagleAction_: "beagle:pushview", analytics: nil, route: BeagleSchema.Route(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil)))
 
-didReceiveAction(BeagleSchema.Navigate.openNativeRoute(BeagleSchema.Navigate.OpenNativeRoute(route: "path", data: nil, shouldResetApplication: false)))
+didReceiveAction(BeagleSchema.Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: "path", data: nil, shouldResetApplication: false))
 
-didReceiveAction(BeagleSchema.Navigate.openNativeRoute(BeagleSchema.Navigate.OpenNativeRoute(route: "path", data: Optional(["key": "value"]), shouldResetApplication: false)))
+didReceiveAction(BeagleSchema.Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: "path", data: Optional(["key": "value"]), shouldResetApplication: false))
 
 errorTryingToPopScreenOnNavigatorWithJustOneScreen
 

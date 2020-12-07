@@ -163,6 +163,8 @@ final class ComponentDecodingStub: ComponentDecoding {
     func register<A>(action type: A.Type, named typeName: String) where A: BeagleSchema.RawAction {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
+    func nameForComponent(ofType type: RawComponent.Type) -> String? { return nil }
+    func nameForAction(ofType type: RawAction.Type) -> String? { return nil }
     
     var componentToReturnOnDecode: BeagleSchema.RawComponent?
     var errorToThrowOnDecode: Error?

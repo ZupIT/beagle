@@ -150,14 +150,14 @@ class BeagleControllerSpy: BeagleController {
     private(set) var lastImplicitContext: Context?
     
     func addOnInit(_ onInit: [RawAction], in view: UIView) {
-        execute(actions: onInit, origin: view)
+        execute(actions: onInit, event: "onInit", origin: view)
     }
     
     func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
         // Intentionally unimplemented...
     }
     
-    func execute(actions: [RawAction]?, origin: UIView) {
+    func execute(actions: [RawAction]?, event: String?, origin: UIView) {
         didCalledExecute = true
         expectation?.fulfill()
     }

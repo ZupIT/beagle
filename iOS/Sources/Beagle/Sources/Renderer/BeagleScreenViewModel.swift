@@ -99,6 +99,7 @@ class BeagleScreenViewModel {
             screenAppearEventIsPending = false
             dependencies.analytics?.trackEventOnScreenAppeared(event)
         }
+        AnalyticsService.shared?.createRecord(screen: screenType)
     }
     
     public func trackEventOnScreenDisappeared() {

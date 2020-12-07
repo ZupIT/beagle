@@ -32,7 +32,7 @@ extension RawComponent {
             ?? SafeArea(top: true, leading: true, bottom: true, trailing: true)
 
         return Screen(
-            id: screen?.identifier,
+            identifier: screen?.identifier,
             style: screen?.style,
             safeArea: safeArea,
             navigationBar: screen?.navigationBar,
