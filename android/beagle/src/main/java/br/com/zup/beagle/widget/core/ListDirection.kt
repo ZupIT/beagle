@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.android.annotation.BeagleEnum
+
 /**
  * The direction attribute will define the list direction.
  *
@@ -23,6 +25,7 @@ package br.com.zup.beagle.widget.core
  * @property HORIZONTAL
  *
  */
+@BeagleEnum
 enum class ListDirection {
     /**
      * Items list are displayed in vertical direction like LINES.

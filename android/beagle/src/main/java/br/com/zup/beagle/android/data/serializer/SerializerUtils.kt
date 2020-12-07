@@ -45,6 +45,7 @@ internal fun generateNameSpaceToDefaultWidget(clazz: Class<*>, name: String = ""
     clazz.getAnnotation(RegisterWidget::class.java)?.let {
         typeName = it.name
     }
+    Log.v("uzias", clazz.toString())
     Log.v("uzias", typeName)
     return createNamespace(BEAGLE_NAMESPACE, clazz, typeName)
 }

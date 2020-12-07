@@ -32,4 +32,12 @@
 -keep class com.facebook.jni.**{*;}
 -keep class com.facebook.fbjni.**{*;}
 
+# Enum field names are used by the integrated EnumJsonAdapter.
+# values() is synthesized by the Kotlin compiler and is used by EnumJsonAdapter indirectly
+# Annotate enums with @JsonClass(generateAdapter = false) to use them with Moshi.
+-keepclassmembers @br.com.zup.beagle.android.annotation.BeagleEnum class * extends java.lang.Enum {
+    <fields>;
+    **[] values();
+}
+
 

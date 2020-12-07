@@ -21,6 +21,7 @@ import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
+import com.squareup.moshi.Json
 
 /**
  * Base of all widgets
@@ -30,7 +31,10 @@ import br.com.zup.beagle.core.StyleComponent
 abstract class Widget : StyleComponent, AccessibilityComponent,
     IdentifierComponent {
 
+    @Json(name = "id")
     override var id: String? = null
+    @Json(name = "style")
     override var style: Style? = null
+    @Json(name = "accessibility")
     override var accessibility: Accessibility? = null
 }

@@ -16,9 +16,12 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.android.annotation.BeagleEnum
+
 /**
  * Enum define text support.
  */
+@BeagleEnum
 enum class TextInputType {
     /**
      * Date text support.

@@ -14,35 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.android.annotation
 
-import br.com.zup.beagle.android.annotation.BeagleEnum
-
-/**
- * Defines the text content alignment inside the text view
- *
- * @property LEFT
- * @property CENTER
- * @property RIGHT
- *
- */
-@BeagleEnum
-enum class TextAlignment {
-    /**
-     * Text content is LEFT aligned inside the text view.
-     *
-     */
-    LEFT,
-
-    /**
-     * Text content is CENTER aligned inside the text view.
-     *
-     */
-    CENTER,
-
-    /**
-     * Text content is RIGHT aligned inside the text view.
-     *
-     */
-    RIGHT
-}
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class BeagleEnum

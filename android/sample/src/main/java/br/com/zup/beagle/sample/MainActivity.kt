@@ -69,7 +69,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.listView -> goToFragment(ListViewFragment.newInstance())
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
-            R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)))
+            R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>("""
+                {
+                  "_beagleComponent_" : "beagle:undefinedWidget",
+                }
+                
+            """.trimIndent()))
         }
     }
 

@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.android.annotation.BeagleEnum
+
 /**
  *  defines how the image fits the view it's in
  *
@@ -24,6 +26,7 @@ package br.com.zup.beagle.widget.core
  * @property CENTER_CROP
  * @property CENTER
  */
+@BeagleEnum
 enum class ImageContentMode {
     /**
      * Compute a scale that will maintain the original aspect ratio,

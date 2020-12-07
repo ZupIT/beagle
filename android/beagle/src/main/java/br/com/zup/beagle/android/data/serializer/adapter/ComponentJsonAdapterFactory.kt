@@ -81,7 +81,7 @@ internal object ComponentJsonAdapterFactory {
 //            newFactory = newFactory.withSubtype(it, nameSpace)
 //        }
 
-        createNameSpaceToDefaultWidget<UndefinedWidget>();
+        newFactory = newFactory.withSubtype(UndefinedWidget::class.java, createNameSpaceToDefaultWidget<UndefinedWidget>())
 
         return newFactory
     }

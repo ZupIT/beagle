@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.android.annotation.BeagleEnum
+
 /**
  *
  * The flex is a Layout component that will handle your visual component positioning at the screen.
@@ -123,6 +125,7 @@ data class EdgeValue(
  * @property COLUMN_REVERSE
  * @property ROW_REVERSE
  */
+@BeagleEnum
 enum class FlexDirection {
     /**
      * Align children from top to bottom. If wrapping is enabled,
@@ -159,6 +162,7 @@ enum class FlexDirection {
  * @property WRAP
  * @property WRAP_REVERSE
  */
+@BeagleEnum
 enum class FlexWrap {
     /**
      *  The flex items are laid out in a single line which may cause the flex container to overflow.
@@ -194,6 +198,8 @@ enum class FlexWrap {
  *
  *
  */
+
+@BeagleEnum
 enum class JustifyContent {
     /**
      * Align children of a container to the start of the container's main axis.
@@ -245,6 +251,8 @@ enum class JustifyContent {
  * @property SPACE_AROUND
  * @property STRETCH
  */
+
+@BeagleEnum
 enum class AlignContent {
     /**
      * Align wrapped lines to the start of the container's cross axis.
@@ -293,6 +301,8 @@ enum class AlignContent {
  * @property AUTO
  * @property STRETCH
  */
+
+@BeagleEnum
 enum class AlignSelf {
     /**
      * Align wrapped lines to the start of the container's cross axis.
@@ -337,6 +347,8 @@ enum class AlignSelf {
  * @property BASELINE
  * @property STRETCH
  */
+
+@BeagleEnum
 enum class AlignItems {
     /**
      * Align wrapped lines to the start of the container's cross axis.
