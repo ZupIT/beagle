@@ -548,7 +548,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Zup IT";
 				TargetAttributes = {
 					932925AD2327E0E400A61F01 = {
