@@ -66,7 +66,7 @@ Feature: TextInput Validation
 
     Scenario Outline: TextInput 06 - validate date entry when using "date" type
         When I click in the textInput with the placeholder "<textInputTypeDate>"
-        Then validate if the text input component "<textInputTypeDate>" with the date type
+        Then validate if the text input component "<textInputTypeDate>" displays date type
 
         Examples:
             | textInputTypeDate            |
@@ -75,7 +75,7 @@ Feature: TextInput Validation
             
     Scenario Outline: TextInput 07 - validate textInput of type email
         When I click in the textInput with the placeholder "<textInputTypeEmail>"
-        Then validate if the text input component "<textInputTypeEmail>" with the e-mail type
+        Then validate if the text input component "<textInputTypeEmail>" displays e-mail type
 
         Examples:
             | textInputTypeEmail             |
@@ -83,7 +83,7 @@ Feature: TextInput Validation
             | writing e-mail with expression |
 
     Scenario Outline: TextInput 08 - validate textInput of type password
-        Then validate if the text input component "<textInputTypePassword>" with the password type
+        Then validate if the text input component "<textInputTypePassword>" displays password type
 
         Examples:
             | textInputTypePassword            |
@@ -92,7 +92,7 @@ Feature: TextInput Validation
 
     Scenario Outline: TextInput 09 - validate textInput of type number
         When I click in the textInput with the placeholder "<textInputTypeNumber>"
-        Then validate if the text input component "<textInputTypeNumber>" with the number type
+        Then validate if the text input component "<textInputTypeNumber>" displays number type
 
         Examples:
             | textInputTypeNumber            |
@@ -101,7 +101,7 @@ Feature: TextInput Validation
 
     Scenario Outline: TextInput 10 - validate textInput of type text
         When I click in the textInput with the placeholder "<textInputTypeText>"
-        Then validate if the text input component "<textInputTypeText>" with the text type
+        Then validate if the text input component "<textInputTypeText>" displays text type
 
         Examples:
             | textInputTypeText            |
