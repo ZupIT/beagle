@@ -92,7 +92,7 @@ class TextInputSteps: CucumberStepsDefinition {
         }
         
         // Scenario 6
-        Then(#"^validate if the text input component "([^\"]*)" with the date type$"#) { args, _ -> Void in
+        Then(#"^validate if the text input component "([^\"]*)" displays date type$"#) { args, _ -> Void in
             let placeholder = args![0]
             let date = "22/04/1500"
             let textField = self.application.textFields[placeholder: placeholder]
@@ -104,7 +104,7 @@ class TextInputSteps: CucumberStepsDefinition {
         }
         
         // Scenario 7
-        Then(#"^validate if the text input component "([^\"]*)" with the e-mail type$"#) { args, _ -> Void in
+        Then(#"^validate if the text input component "([^\"]*)" displays e-mail type$"#) { args, _ -> Void in
             let placeholder = args![0]
             let email = "test@abc.com"
             let textField = self.application.textFields[placeholder: placeholder]
@@ -116,7 +116,7 @@ class TextInputSteps: CucumberStepsDefinition {
         }
         
         // Scenario 8
-        Then(#"^validate if the text input component "([^\"]*)" with the password type$"#) { args, _ -> Void in
+        Then(#"^validate if the text input component "([^\"]*)" displays password type$"#) { args, _ -> Void in
             let placeholder = args![0]
             let password = "123password"
             guard let textField = self.application.secureTextFields[placeholder: placeholder] else {
@@ -135,7 +135,7 @@ class TextInputSteps: CucumberStepsDefinition {
         }
         
         // Scenario 9
-        Then(#"^validate if the text input component "([^\"]*)" with the number type$"#) { args, _ -> Void in
+        Then(#"^validate if the text input component "([^\"]*)" displays number type$"#) { args, _ -> Void in
             let placeholder = args![0]
             let number = "12345678"
             let textField = self.application.textFields[placeholder: placeholder]
@@ -147,7 +147,7 @@ class TextInputSteps: CucumberStepsDefinition {
         }
         
         // Scenario 10
-        Then(#"^validate if the text input component "([^\"]*)" with the text type$"#) { args, _ -> Void in
+        Then(#"^validate if the text input component "([^\"]*)" displays text type$"#) { args, _ -> Void in
             let placeholder = args![0]
             let text = "This is a test!"
             let textField = self.application.textFields[placeholder: placeholder]
