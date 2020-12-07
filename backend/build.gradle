@@ -43,14 +43,6 @@ allprojects {
         config = files("$rootDir/../config/detekt-default-config.yml")
     }
 
-    tasks.withType(PublishToMavenRepository) {
-        onlyIf {
-            Arrays.asList("backend", "framework", "starter").any {
-                publication.artifactId.contains(it)
-            }
-        }
-    }
-
     compileKotlin {
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_1_8

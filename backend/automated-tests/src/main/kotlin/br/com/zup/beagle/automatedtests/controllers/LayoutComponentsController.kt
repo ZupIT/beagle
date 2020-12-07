@@ -19,7 +19,6 @@ package br.com.zup.beagle.automatedtests.controllers
 import br.com.zup.beagle.automatedtests.constants.ACTION_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.IMAGE_REMOTE_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.LAZY_COMPONENT_ENDPOINT
-import br.com.zup.beagle.automatedtests.constants.PAGEVIEW_TWO_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SIMPLE_FORM_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.TAB_BAR_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.TEXT_INPUT_ENDPOINT
@@ -33,7 +32,6 @@ import br.com.zup.beagle.automatedtests.builders.ImageRemoteScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ActionScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.LazyFailureScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.LazySuccessScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.PageViewTwoScreenBuilder
 import br.com.zup.beagle.automatedtests.constants.LAZY_FAILURE_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.LAZY_SUCCESS_ENDPOINT
 
@@ -69,7 +67,4 @@ class LayoutComponentsController {
 
     @GetMapping(ACTION_ENDPOINT)
     fun getActionScreen() = ActionScreenBuilder.build()
-
-    @GetMapping(PAGEVIEW_TWO_ENDPOINT)
-    fun getPageViewTwoScreen() = PageViewTwoScreenBuilder.build()
 }
