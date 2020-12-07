@@ -36,9 +36,9 @@ import br.com.zup.beagle.widget.ui.TextInput
 
 data class User(
     val email: String,
-    val password: String,
+    val name: String,
     val placeholderEmail: String,
-    val placeholderPassword: String
+    val placeholderName: String
 )
 
 object SimpleFormScreenBuilder {
@@ -48,8 +48,8 @@ object SimpleFormScreenBuilder {
                 Text(text = "SimpleForm", textColor = "#ffffff"),
                 SimpleForm(
                     context = ContextData(id = "user", value = User(
-                        email = "", password = "",
-                        placeholderEmail = "Type in your email", placeholderPassword = "Type in your password")
+                        email = "", name = "",
+                        placeholderEmail = "Type in your email", placeholderName = "Type in your name")
                     ),
                     children = listOf(
                         TextInput(
@@ -64,12 +64,12 @@ object SimpleFormScreenBuilder {
                             )
                         ),
                         TextInput(
-                            value = expressionOf("@{user.password}"),
-                            placeholder = expressionOf("@{user.placeholderPassword}"),
+                            value = expressionOf("@{user.name}"),
+                            placeholder = expressionOf("@{user.placeholderName}"),
                             onChange = listOf(
                                 SetContext(
                                     contextId = "user",
-                                    path = "password",
+                                    path = "name",
                                     value = "@{onChange.value}"
                                 )
                             )
@@ -85,7 +85,7 @@ object SimpleFormScreenBuilder {
                     onSubmit = listOf(
                         Alert(
                             title = "Registered data",
-                            message = "the email: " + "@{user.email} " + "and the password: " + "@{user.password}"
+                            message = "the email: " + "@{user.email} " + "and the name: " + "@{user.name}"
                         )
                     )
                 )

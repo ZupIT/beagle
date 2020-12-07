@@ -18,8 +18,10 @@ package br.com.zup.beagle.android.utils
 
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextBinding
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -28,40 +30,53 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtendWith
 
-class ViewExtensionsKtTest : BaseTest() {
+@DisplayName("Given a View")
+class OnInitiableComponentTest : BaseTest() {
 
     private val view: View = mockk()
 
     private val contextData = ContextData("contextId", "stub")
 
-    @Test
-    fun `GIVEN a contextBinding WHEN setContextData THEN should use bindings`() {
-        // Given
-        val contextBinding = mockk<ContextBinding>(relaxed = true)
-        val bindingSlot = slot<ContextBinding>()
-        every { view.getContextBinding() } returns contextBinding
-        every { view.setContextBinding(capture(bindingSlot)) } just Runs
+    @DisplayName("When setContextData is called")
+    @Nested
+    inner class SetContextData {
 
-        // When
-        view.setContextData(contextData)
+        @DisplayName("Then should set bindings")
+        @Test
+        fun checkIfContextBindingWasSet() {
+            // Given
+            val contextBinding = mockk<ContextBinding>(relaxed = true)
+            val bindingSlot = slot<ContextBinding>()
+            every { view.getContextBinding() } returns contextBinding
+            every { view.setContextBinding(capture(bindingSlot)) } just Runs
 
-        // Then
-        assertEquals(bindingSlot.captured.context, contextData)
-        assertEquals(bindingSlot.captured.bindings, contextBinding.bindings)
-    }
+            // When
+            view.setContextData(contextData)
 
-    @Test
-    fun `GIVEN an empty contextBinding WHEN setContextData THEN should not set bindings`() {
-        // Given
-        val bindingSlot = slot<ContextBinding>()
-        every { view.getContextBinding() } returns null
-        every { view.setContextBinding(capture(bindingSlot)) } just Runs
+            // Then
+            assertEquals(bindingSlot.captured.context, contextData)
+            assertEquals(bindingSlot.captured.bindings, contextBinding.bindings)
+        }
 
-        // When
-        view.setContextData(contextData)
+        @DisplayName("Then should not set bindings")
+        @Test
+        fun checkIfContextBindingWasNotSet() {
+            // Given
+            val expectedBindings = mutableSetOf<Bind<*>>()
+            val bindingSlot = slot<ContextBinding>()
+            every { view.getContextBinding() } returns null
+            every { view.setContextBinding(capture(bindingSlot)) } just Runs
 
-        // Then
-        assertEquals(bindingSlot.captured.context, contextData)
+            // When
+            view.setContextData(contextData)
+
+            // Then
+            assertEquals(bindingSlot.captured.context, contextData)
+            assertEquals(bindingSlot.captured.bindings, expectedBindings)
+        }
     }
 }

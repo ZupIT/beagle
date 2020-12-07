@@ -51,12 +51,12 @@ internal class GenerateIdManager(
 
     fun manageId(component: ServerDrivenComponent, view: BeagleFlexView) {
         (component as? IdentifierComponent)?.let { identifierComponent ->
-            if (identifierComponent.id.isNullOrEmpty()) {
-                if (view.isAutoGenerateIdEnabled()) {
+            if (view.isAutoGenerateIdEnabled()) {
+                if (identifierComponent.id.isNullOrEmpty()) {
                     setComponentId(component)
-                } else {
-                    markEachNestedComponentAsNoIdIfNeeded(component)
                 }
+            } else {
+                markEachNestedComponentAsNoIdIfNeeded(component)
             }
         }
     }
