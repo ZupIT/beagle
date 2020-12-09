@@ -16,14 +16,14 @@
 
 package br.com.zup.beagle.android.components.list
 
-import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.AsyncActionData
-import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.utils.setIsAutoGenerateIdEnabled
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
@@ -36,16 +36,13 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
-import io.mockk.spyk
 import io.mockk.verify
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import junit.framework.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
-@ExtendWith(InstantExecutorExtension::class)
+@RunWith(AndroidJUnit4::class)
 class ListAdapterTest : BaseTest() {
 
     private val orientation = RecyclerView.VERTICAL
@@ -55,18 +52,20 @@ class ListAdapterTest : BaseTest() {
     private val generatedId = 10
     private val list = listOf("stub 1", "stub 2")
     private val viewFactory = mockk<ViewFactory>(relaxed = true)
-    private val beagleFlexView = mockk<BeagleFlexView>(relaxed = true)
+    private val viewHolderItemView = mockk<BeagleFlexView>(relaxed = true)
     private val listViewModels = mockk<ListViewModels>()
-    private val asyncActionViewModel = mockk<AsyncActionViewModel>()
+    private val asyncActionViewModel = mockk<AsyncActionViewModel>(relaxed = true)
     private val contextViewModel = mockk<ScreenContextViewModel>()
     private val listViewIdViewModel = mockk<ListViewIdViewModel>()
     private val generateIdViewModel = mockk<GenerateIdViewModel>()
     private val observerSlot = slot<Observer<AsyncActionData>>()
-    private val autoGenerateIdEnabledSlot = slot<Boolean>()
+    private val viewGroupMock = mockk<ViewGroup>()
+    private val viewTypeMock = 0
+    private val liveDataMock = mockk<LiveData<AsyncActionData>>(relaxed = true)
 
     private lateinit var listAdapter: ListAdapter
 
-    @BeforeEach
+    @Before
     override fun setUp() {
         super.setUp()
         every { listViewModels.rootView } returns rootView
@@ -74,13 +73,14 @@ class ListAdapterTest : BaseTest() {
         every { listViewModels.contextViewModel } returns contextViewModel
         every { listViewModels.listViewIdViewModel } returns listViewIdViewModel
         every { listViewModels.generateIdViewModel } returns generateIdViewModel
-        every { asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        every { liveDataMock.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        every { asyncActionViewModel.asyncActionExecuted } returns liveDataMock
+        //every { asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
         every { listViewIdViewModel.createSingleManagerByListViewId(any(), any()) } just Runs
         every { generateIdViewModel.getViewId(rootView.getParentId()) } returns generatedId
-        every { viewFactory.makeBeagleFlexView(rootView) } returns beagleFlexView
-        every { beagleFlexView.setIsAutoGenerateIdEnabled(capture(autoGenerateIdEnabledSlot)) } just Runs
+        every { viewFactory.makeBeagleFlexView(rootView) } returns viewHolderItemView
 
-        listAdapter = spyk(
+        listAdapter =
             ListAdapter(
                 orientation,
                 template,
@@ -89,89 +89,124 @@ class ListAdapterTest : BaseTest() {
                 viewFactory,
                 listViewModels
             )
+
+//        every { listAdapter.notifyDataSetChanged() } just Runs
+    }
+
+
+    @Test
+    fun `Given a ListAdapter When ListAdapter is initialized Then it should register to observe all async actions executed`() {
+        verify { asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), any()) }
+    }
+
+    @Test
+    fun `Given a ListAdapter When call onCreateViewHolder Then should create an itemView with autoGenerateIdEnabled false`() {
+        val expectedAutoGenerateIdEnabled = false
+        val autoGenerateIdEnabledSlot = slot<Boolean>()
+        every { viewHolderItemView.setIsAutoGenerateIdEnabled(capture(autoGenerateIdEnabledSlot)) } just Runs
+
+        listAdapter.onCreateViewHolder(viewGroupMock, viewTypeMock)
+
+        assertEquals(expectedAutoGenerateIdEnabled, autoGenerateIdEnabledSlot.captured)
+    }
+
+    @Test
+    fun `Given a ListAdapter with vertical orientation When call onCreateViewHolder Then should call setHeightAutoAndDirtyAllViews for the created itemView`() {
+        listAdapter.onCreateViewHolder(viewGroupMock, viewTypeMock)
+
+        verify { viewHolderItemView.setHeightAutoAndDirtyAllViews() }
+    }
+
+    @Test
+    fun `Given a ListAdapter with vertical orientation When call onCreateViewHolder Then should set the correct layout params to view holder itemView`(){
+
+        val expectedLayoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        every { listAdapter.notifyDataSetChanged() } just Runs
+        val layoutParamsSlot = slot<ViewGroup.LayoutParams>()
+        every { viewHolderItemView.layoutParams = capture(layoutParamsSlot) } just Runs
+
+        listAdapter.onCreateViewHolder(viewGroupMock, viewTypeMock)
+
+        assertEquals(expectedLayoutParams.height, layoutParamsSlot.captured.height)
+        assertEquals(expectedLayoutParams.width, layoutParamsSlot.captured.width)
     }
 
     @Test
-    fun `GIVEN a listAdapter WHEN getItemViewType THEN should return 0`() {
-        // Given
-        val position = 1
+    fun `Given a ListAdapter with horizontal orientation When call onCreateViewHolder Then should call setWidthAutoAndDirtyAllViews for the created itemView`() {
 
-        // When
-        val actual = listAdapter.getItemViewType(position)
-
-        // Then
-        assertEquals(0, actual)
-    }
-
-    @Test
-    fun `GIVEN a listAdapter WHEN init THEN should observe asyncActions`() {
-        // Then
-        verify { asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), observerSlot.captured) }
-    }
-
-    @Test
-    fun `GIVEN a listAdapter WHEN onCreateViewHolder THEN should create a ListViewHolder`() {
-        // Given
-        val parent = mockk<ViewGroup>()
-        val viewType = 0
-
-        // When
-        val viewHolder = listAdapter.onCreateViewHolder(parent, viewType)
-
-        // Then
-        assertFalse(autoGenerateIdEnabledSlot.captured)
-        assertTrue { viewHolder.itemView is BeagleFlexView }
-        verify { beagleFlexView.setHeightAutoAndDirtyAllViews() }
-    }
-
-    @Test
-    fun `GIVEN a listAdapter with horizontal recycler WHEN onCreateViewHolder THEN should setWidthAutoAndDirtyAllViews`() {
-        // Given
-        val parent = mockk<ViewGroup>()
-        val viewType = 0
-
-        listAdapter = spyk(
-            ListAdapter(
-                RecyclerView.HORIZONTAL,
-                template,
-                iteratorName,
-                key,
-                viewFactory,
-                listViewModels
-            )
+        val subject = ListAdapter(
+            RecyclerView.HORIZONTAL,
+            template,
+            iteratorName,
+            key,
+            viewFactory,
+            listViewModels
         )
 
-        // When
-        val viewHolder = listAdapter.onCreateViewHolder(parent, viewType)
-        val itemView = viewHolder.itemView
+        subject.onCreateViewHolder(viewGroupMock, viewTypeMock)
 
-        // Then
-        verify { (itemView as BeagleFlexView).setWidthAutoAndDirtyAllViews() }
-        verify(exactly = 1) { beagleFlexView.addServerDrivenComponent(any(), false) }
+        verify { viewHolderItemView.setWidthAutoAndDirtyAllViews() }
     }
 
     @Test
-    fun `GIVEN a loaded listAdapter WHEN onBindViewHolder THEN should call onBind from viewHolder`() {
-        // Given
-        val viewHolder = mockk<ListViewHolder>(relaxed = true)
-        val parentListViewSuffix = "parent"
-        val position = 0
-        val recyclerId = 10
-        val listItemSlot = slot<ListItem>()
-        listAdapter.setParentSuffix(parentListViewSuffix)
-        listAdapter.setList(list, recyclerId)
+    fun `Given a ListAdapter with horizontal orientationWhen call onCreateViewHolder Then should set the correct layout params to view holder itemView`(){
+        val subject = ListAdapter(
+            RecyclerView.HORIZONTAL,
+            template,
+            iteratorName,
+            key,
+            viewFactory,
+            listViewModels
+        )
+        val expectedLayoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        val layoutParamsSlot = slot<ViewGroup.LayoutParams>()
+        every { viewHolderItemView.layoutParams = capture(layoutParamsSlot) } just Runs
 
-        // When
-        listAdapter.onBindViewHolder(viewHolder, position)
+        subject.onCreateViewHolder(viewGroupMock, viewTypeMock)
 
-        // Then
-        verify(exactly = 1) { viewHolder.onBind(parentListViewSuffix, key, capture(listItemSlot), position, recyclerId) }
-        assertEquals(list[0], listItemSlot.captured.data)
-        assertFalse(listItemSlot.captured.isRecycled)
+        assertEquals(expectedLayoutParams.height, layoutParamsSlot.captured.height)
+        assertEquals(expectedLayoutParams.width, layoutParamsSlot.captured.width)
     }
 
+    @Test
+    fun `Given a ListAdapter When call onBindViewHolder Then should call viewHolder onBind`() {
+
+        val viewHolderMock = mockk<ListViewHolder>(relaxed = true)
+        val positionMock = 0
+        val parentListViewSuffixMock = "parent"
+        val recyclerIdMock = 10
+        val listItemMock = ListItem(data = list[positionMock])
+        listAdapter.setParentSuffix(parentListViewSuffixMock)
+        listAdapter.setList(list, recyclerIdMock)
+
+        listAdapter.onBindViewHolder(viewHolderMock, positionMock)
+
+        verify(exactly = 1) { viewHolderMock.onBind(parentListViewSuffixMock, key, listItemMock, positionMock, recyclerIdMock) }
+    }
+
+    @Test
+    fun `Given a ListAdapter When call onViewRecycled Then should call viewHolder onViewRecycled`() {
+        val viewHolderMock = mockk<ListViewHolder>(relaxed = true)
+
+        listAdapter.onViewRecycled(viewHolderMock)
+
+        verify(exactly = 1) { viewHolderMock.onViewRecycled() }
+    }
+
+    @Test
+    fun `Given a ListAdapter When call onViewAttachedToWindow Then should call viewHolder onViewAttachedToWindow`() {
+        val viewHolderMock = mockk<ListViewHolder>(relaxed = true)
+
+        listAdapter.onViewAttachedToWindow(viewHolderMock)
+
+        verify(exactly = 1) { viewHolderMock.onViewAttachedToWindow() }
+    }
+/*
     @Test
     fun `GIVEN a loaded listAdapter WHEN getItemCount THEN should use list and recyclerId`() {
         // Given
@@ -210,4 +245,6 @@ class ListAdapterTest : BaseTest() {
         verify(exactly = 1) { generateIdViewModel.getViewId(rootView.getParentId()) }
         verify(exactly = 1) { listViewIdViewModel.createSingleManagerByListViewId(generatedId, true) }
     }
+    */
+
 }

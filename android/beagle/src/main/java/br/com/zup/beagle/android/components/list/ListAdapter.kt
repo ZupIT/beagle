@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.components.list
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.AsyncAction
@@ -35,7 +34,7 @@ internal class ListAdapter(
     val iteratorName: String,
     val key: String? = null,
     val viewFactory: ViewFactory,
-    val listViewModels: ListViewModels
+    val listViewModels: ListViewModels,
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
     // Recyclerview id for post config changes id management
@@ -52,15 +51,13 @@ internal class ListAdapter(
     // Struct that holds all data of each item
     private var adapterItems = listOf<ListItem>()
 
-    // Struct to manage recycled ViewHolders
-    private val recycledViewHolders = mutableListOf<ListViewHolder>()
-
     // Struct to manage created ViewHolders
     private val createdViewHolders = mutableListOf<ListViewHolder>()
 
     // Each access generate a new instance of the template to avoid reference conflict
     private val templateJson = serializer.serializeComponent(template)
 
+    //TODO: Tested
     init {
         listViewModels.asyncActionViewModel.asyncActionExecuted.observe(
             listViewModels.rootView.getLifecycleOwner(), {
@@ -105,6 +102,7 @@ internal class ListAdapter(
         parentListViewSuffix = itemSuffix
     }
 
+    //TODO: Tested
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val newTemplate = serializer.deserializeComponent(templateJson)
         val view = generateView(newTemplate)
@@ -142,39 +140,17 @@ internal class ListAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        // Checks and stores holder recycling status
-        val isRecycled = recycledViewHolders.contains(holder)
-        adapterItems[position].isRecycled = isRecycled
-        // Handle context, ids and direct nested adapters
         holder.onBind(parentListViewSuffix, key, adapterItems[position], position, recyclerId)
     }
 
     override fun onViewRecycled(holder: ListViewHolder) {
         super.onViewRecycled(holder)
-        recycledViewHolders.add(holder)
-        // Removes the ids of each view previously set to receive new ones
-        clearIds(holder.itemView)
-        // Iterate over the ImageViews inside each holder and release the downloaded resources
-        // before the new image is set
-        holder.directNestedImageViews.forEach {
-            it.setImageDrawable(null)
-        }
-    }
-
-    private fun clearIds(view: View) {
-        view.id = View.NO_ID
-        if (view is ViewGroup) {
-            view.children.forEach {
-                clearIds(it)
-            }
-        }
+        holder.onViewRecycled()
     }
 
     override fun onViewAttachedToWindow(holder: ListViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.directNestedTextViews.forEach {
-            it.requestLayout()
-        }
+        holder.onViewAttachedToWindow()
     }
 
     fun setList(list: List<Any>?, recyclerId: Int) {
@@ -182,6 +158,7 @@ internal class ListAdapter(
             if (list != listItems) {
                 clearAdapterContent()
                 setRecyclerId(recyclerId)
+                //listViewModels.listViewIdViewModel.createSingleManagerByListViewId(recyclerId, listItems.isEmpty())
                 listItems = list
                 adapterItems = list.map { ListItem(data = it.normalizeContextValue()) }
                 notifyDataSetChanged()
@@ -191,7 +168,6 @@ internal class ListAdapter(
 
     private fun clearAdapterContent() {
         adapterItems = emptyList()
-        recycledViewHolders.clear()
         createdViewHolders.clear()
     }
 
@@ -212,4 +188,8 @@ internal class ListAdapter(
     }
 
     override fun getItemCount() = adapterItems.size
+
+    /*fun setRecyclerId(recyclerId: Int){
+        this.recyclerId = recyclerId
+    }*/
 }

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -28,9 +29,11 @@ import br.com.zup.beagle.android.components.list.ListViewModels
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.utils.GenerateIdManager
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -127,7 +130,7 @@ constructor(
     private var canScrollEnd = true
 
     @Transient
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: BeagleRecyclerView
 
     @Transient
     private lateinit var rootView: RootView
@@ -159,7 +162,7 @@ constructor(
 
     private fun buildNewListView(): View {
         listViewIdViewModel = rootView.generateViewModelInstance()
-        recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
+        recyclerView = viewFactory.makeBeagleRecyclerView(rootView.getContext())
 
         val orientation = listDirectionToRecyclerViewOrientation()
         setupRecyclerView(orientation)
@@ -203,6 +206,14 @@ constructor(
         RecyclerView.VERTICAL
     } else {
         RecyclerView.HORIZONTAL
+    }
+
+    // TODO: sobrescrever todos os construtores
+    class BeagleRecyclerView(context: Context) : RecyclerView(context) {
+        /*override fun setId(id: Int) {
+            super.setId(id)
+            (adapter as ListAdapter)?.setRecyclerId(id)
+        }*/
     }
 
     private fun setupRecyclerView(orientation: Int) {

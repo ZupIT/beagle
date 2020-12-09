@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.AsyncActionStatus
@@ -51,10 +52,11 @@ internal class ListViewHolder(
     private val viewsWithContext = mutableListOf<View>()
     private val viewsWithOnInit = mutableListOf<View>()
     private val directNestedRecyclers = mutableListOf<RecyclerView>()
-    val directNestedImageViews = mutableListOf<ImageView>()
-    val directNestedTextViews = mutableListOf<TextView>()
+    private val directNestedImageViews = mutableListOf<ImageView>()
+    private val directNestedTextViews = mutableListOf<TextView>()
     private val contextComponents = mutableListOf<ContextData>()
     var observer: Observer<AsyncActionStatus>? = null
+    private var isRecycled = false
 
     init {
         extractViewInfoFromHolderTemplate(template)
@@ -115,7 +117,7 @@ internal class ListViewHolder(
         // Clear references to context components
         contextComponents.clear()
         // We check if its holder has been recycled and update its references
-        val newTemplate = if (listItem.isRecycled) {
+        val newTemplate = if (isRecycled) {
             serializer.deserializeComponent(jsonTemplate)
         } else {
             template
@@ -127,9 +129,9 @@ internal class ListViewHolder(
             // Generates an suffix identifier based on the parent's suffix, key and item position
             generateItemSuffix(parentListViewSuffix, key, listItem, position)
             // Since the context needs unique id references for each view, we update them here
-            updateIdToEachSubView(listItem, listItem.isRecycled, position, recyclerId)
+            updateIdToEachSubView(listItem, isRecycled, position, recyclerId)
             // If the holder is being recycled
-            if (listItem.isRecycled) {
+            if (isRecycled) {
                 // We set the template's default contexts for each view with context
                 setDefaultContextToEachContextView()
                 // For each RecyclerView nested directly when recycled, we generate a new adapter
@@ -225,20 +227,23 @@ internal class ListViewHolder(
             setUpdatedIdToViewAndManagers(view, subViewId, listItem, isRecycled)
         }
 
-        // All RecyclerViews MUST have an id
-        directNestedRecyclers
-            .filter { it.id == View.NO_ID }
-            .forEach { innerRecyclerWithoutId ->
-                val subViewId = bindIdToViewModel(innerRecyclerWithoutId, isRecycled, position, recyclerId)
-                setUpdatedIdToViewAndManagers(innerRecyclerWithoutId, subViewId, listItem, isRecycled)
-            }
-
         val viewsWithOnInitAndWithoutIdAndContext =
             viewsWithOnInit.filterNot { viewsWithId.containsValue(it) || viewsWithContext.contains(it) }
         viewsWithOnInitAndWithoutIdAndContext.forEach { view ->
             val subViewId = bindIdToViewModel(view, isRecycled, position, recyclerId)
             setUpdatedIdToViewAndManagers(view, subViewId, listItem, isRecycled)
         }
+
+        directNestedRecyclers
+            .filterNot {
+                viewsWithId.containsValue(it) ||
+                    viewsWithContext.contains(it) ||
+                    viewsWithOnInit.contains(it)
+            }
+            .forEach { innerRecyclerWithoutId ->
+                val subViewId = bindIdToViewModel(innerRecyclerWithoutId, isRecycled, position, recyclerId)
+                setUpdatedIdToViewAndManagers(innerRecyclerWithoutId, subViewId, listItem, isRecycled)
+            }
     }
 
     private fun bindIdToViewModel(view: View, isRecycled: Boolean, position: Int, recyclerId: Int): Int {
@@ -327,14 +332,6 @@ internal class ListViewHolder(
             }
         }
 
-        directNestedRecyclers
-            .filter { it.id == View.NO_ID }
-            .forEach { innerRecyclerWithoutId ->
-                temporaryViewIds.pollFirst()?.let { savedId ->
-                    innerRecyclerWithoutId.id = savedId
-                }
-            }
-
         val viewsWithOnInitAndWithoutIdAndContext =
             viewsWithOnInit.filterNot { viewsWithId.containsValue(it) || viewsWithContext.contains(it) }
         viewsWithOnInitAndWithoutIdAndContext.forEach { viewWithOnInit ->
@@ -342,6 +339,18 @@ internal class ListViewHolder(
                 viewWithOnInit.id = savedId
             }
         }
+
+        directNestedRecyclers
+            .filterNot {
+                viewsWithId.containsValue(it) ||
+                    viewsWithContext.contains(it) ||
+                    viewsWithOnInit.contains(it)
+            }
+            .forEach { innerRecyclerWithoutId ->
+                temporaryViewIds.pollFirst()?.let { savedId ->
+                    innerRecyclerWithoutId.id = savedId
+                }
+            }
     }
 
     private fun restoreAdapters(listItem: ListItem) {
@@ -363,5 +372,32 @@ internal class ListViewHolder(
             contextData = ContextData(id = iteratorName, value = listItem.data),
             shouldOverrideExistingContext = true
         )
+    }
+
+    fun onViewRecycled() {
+        isRecycled = true
+        clearIds(itemView)
+        clearNestedImageDrawables()
+    }
+
+    private fun clearIds(view: View) {
+        view.id = View.NO_ID
+        if (view is ViewGroup) {
+            view.children.forEach {
+                clearIds(it)
+            }
+        }
+    }
+
+    private fun clearNestedImageDrawables() {
+        directNestedImageViews.forEach {
+            it.setImageDrawable(null)
+        }
+    }
+
+    fun onViewAttachedToWindow() {
+        directNestedTextViews.forEach {
+            it.requestLayout()
+        }
     }
 }

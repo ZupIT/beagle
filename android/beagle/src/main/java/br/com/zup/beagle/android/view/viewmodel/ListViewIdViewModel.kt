@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.view.viewmodel
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.utils.toAndroidId
 import java.util.LinkedList
@@ -92,6 +93,18 @@ internal class ListViewIdViewModel : ViewModel() {
         ?: throw BeagleException(
             "The list id $recyclerViewId which this view in position $position belongs to, was not found"
         )
+
+    /*private fun retrieveManager(recyclerViewId: Int, position: Int): LocalListView{
+        return internalIdsByListId[recyclerViewId]  ?: run {
+            addNewManager(recyclerViewId)
+        }
+    }
+
+    private fun addNewManager(recyclerViewId: Int): LocalListView{
+        val newLocalView = LocalListView()
+        internalIdsByListId[recyclerViewId] = newLocalView
+        return newLocalView
+    }*/
 
     private fun generateNewViewId(localListView: LocalListView, position: Int): Int {
         val id = View.generateViewId()
