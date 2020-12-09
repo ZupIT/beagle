@@ -16,13 +16,11 @@
 
 package br.com.zup.beagle.android.components.list
 
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.Navigate
-import br.com.zup.beagle.android.components.OnInitiableComponent
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer

@@ -28,6 +28,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
+import java.io.File
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
@@ -46,6 +47,7 @@ internal class BeagleSetupTest {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
                 FILE_NAME, COMPLETE_BEAGLE_CUSTOM_CLASS)
+
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)

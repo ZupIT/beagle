@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.view
 
-import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -25,11 +24,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import br.com.zup.beagle.android.components.utils.applyBackgroundFromWindowBackgroundTheme
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.widget.UndefinedWidget
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal class BeagleFragment : Fragment() {
 
