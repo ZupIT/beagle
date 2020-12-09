@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.sample
 
+import android.os.Bundle
+import android.os.PersistableBundle
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenActivity
@@ -39,7 +41,12 @@ import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
 import br.com.zup.beagle.sample.fragment.list.ListViewFragment
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        setContentView(R.layout.activity_main)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_navigation_drawer, menu)

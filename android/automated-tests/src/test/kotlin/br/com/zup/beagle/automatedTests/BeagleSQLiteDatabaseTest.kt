@@ -27,7 +27,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import org.junit.Assert.*
-import org.mockito.Mockito.spy
 
 class BeagleSQLiteDatabaseTest {
 
@@ -68,7 +67,7 @@ class BeagleSQLiteDatabaseTest {
     @Test
     fun onUpgrade_should_drop_existing_tables_and_create_again() {
         // Given
-        val spyDatabase = spy(beagleSQLiteDatabase)
+        val spyDatabase = spyk(beagleSQLiteDatabase)
 
         // When
         spyDatabase.onUpgrade(sqLiteDatabase, 1, 1)

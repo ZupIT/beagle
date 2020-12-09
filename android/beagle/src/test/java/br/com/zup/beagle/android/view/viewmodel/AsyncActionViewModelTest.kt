@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.Observer
+import android.arch.lifecycle.Observer
 import br.com.zup.beagle.android.context.AsyncActionData
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import io.mockk.Runs

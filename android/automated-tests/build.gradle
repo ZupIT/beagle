@@ -41,7 +41,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner Dependencies.GeneralNames.testInstrumentationRunner
 
         if (project.ext.has("screenshotTests")) {
             testApplicationId "br.com.zup.beagle.automatedTests"
@@ -84,28 +84,23 @@ android {
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.AndroidxLibraries.coreKtx
-    implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
+    implementation Dependencies.AndroidSupport.design
+    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
+
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
 
     testImplementation Dependencies.TestLibraries.junitApi
     testRuntimeOnly Dependencies.TestLibraries.junitEngine
-    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
     testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.archCoreTesting
-    testImplementation Dependencies.GeneralLibraries.jsonObject
 
     androidTestImplementation Dependencies.TestLibraries.cucumberAndroid
     androidTestImplementation Dependencies.TestLibraries.cucumberPicocontainer
     androidTestImplementation Dependencies.TestLibraries.espressoCore
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
-
-    implementation Dependencies.GoogleLibraries.materialDesign
 }
 
 def getTestTags() {

@@ -111,7 +111,7 @@ data class SendRequest(
         val setContext = toSendRequestInternal(rootView, origin)
         viewModel.fetch(setContext).observe(rootView.getLifecycleOwner(), { state ->
             onActionFinished()
-            executeActions(rootView, state, origin)
+            state?.let { executeActions(rootView, it, origin) }
         })
     }
 

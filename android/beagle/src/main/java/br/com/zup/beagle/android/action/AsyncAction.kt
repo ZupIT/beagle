@@ -16,8 +16,9 @@
 
 package br.com.zup.beagle.android.action
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+
 
 /**
  * Status of asynchronous actions

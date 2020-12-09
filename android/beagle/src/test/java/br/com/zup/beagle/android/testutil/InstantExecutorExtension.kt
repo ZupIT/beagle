@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.testutil
 
-import androidx.arch.core.executor.ArchTaskExecutor
-import androidx.arch.core.executor.TaskExecutor
+import android.arch.core.executor.ArchTaskExecutor
+import android.arch.core.executor.TaskExecutor
 import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext

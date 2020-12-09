@@ -17,25 +17,14 @@
 package br.com.zup.beagle.android.utils
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.context.ContextDataManager
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import io.mockk.Runs
 import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
 
 class StringExtensionsKtTest{
 

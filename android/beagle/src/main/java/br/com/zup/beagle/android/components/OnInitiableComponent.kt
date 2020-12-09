@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.components
 
+import android.arch.lifecycle.Observer
 import android.view.View
-import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.action.AsyncActionStatus

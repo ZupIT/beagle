@@ -1,21 +1,8 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import android.util.Log
-import android.widget.Toast
-import androidx.test.rule.ActivityTestRule
-import br.com.zup.beagle.automatedTests.R
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_DEFAULT
 import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_SCREEN_HEADER
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_VIA_EXPRESSION
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_WITH_ALIGNMENT_CENTER
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_WITH_ALIGNMENT_CENTER_VIA_EXPRESSION
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_WITH_ALIGNMENT_LEFT
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_WITH_ALIGNMENT_LEFT_VIA_EXPRESSION
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_WITH_ALIGNMENT_RIGHT
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_WITH_ALIGNMENT_RIGHT_VIA_EXPRESSION
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_WITH_TEXT_COLOR
-import br.com.zup.beagle.automatedTests.cucumber.elements.TEXT_WITH_TEXT_COLOR_VIA_EXPRESSION
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils

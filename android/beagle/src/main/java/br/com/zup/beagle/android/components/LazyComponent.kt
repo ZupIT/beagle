@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import androidx.core.view.get
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -47,7 +46,7 @@ data class LazyComponent(
     override fun buildView(rootView: RootView): View {
         return viewFactory.makeBeagleView(rootView).apply {
             addServerDrivenComponent(initialState)
-            updateView(path, this[0])
+            updateView(path, this.getChildAt(0))
         }
     }
 }

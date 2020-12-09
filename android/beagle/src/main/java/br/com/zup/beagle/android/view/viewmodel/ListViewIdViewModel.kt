@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
+import android.arch.lifecycle.ViewModel
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.utils.toAndroidId
 import java.util.LinkedList

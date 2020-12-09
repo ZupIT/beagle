@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModel
 
 internal data class OnInitStatus(
     var onInitCalled: Boolean = false,

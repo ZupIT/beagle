@@ -16,11 +16,10 @@
 
 package br.com.zup.beagle.android.components.list
 
+import android.arch.lifecycle.Observer
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.action.AsyncActionStatus
 import br.com.zup.beagle.android.context.normalizeContextValue
@@ -63,8 +62,8 @@ internal class ListAdapter(
 
     init {
         listViewModels.asyncActionViewModel.asyncActionExecuted.observe(
-            listViewModels.rootView.getLifecycleOwner(), {
-            manageIfInsideRecyclerView(it.origin, it.asyncAction)
+            listViewModels.rootView.getLifecycleOwner(), Observer{
+            it?.apply { manageIfInsideRecyclerView(this.origin, this.asyncAction) }
         })
     }
 
@@ -164,8 +163,9 @@ internal class ListAdapter(
     private fun clearIds(view: View) {
         view.id = View.NO_ID
         if (view is ViewGroup) {
-            view.children.forEach {
-                clearIds(it)
+            for (i: Int in 0 until view.childCount) {
+                val childView = view.getChildAt(i)
+                clearIds(childView)
             }
         }
     }

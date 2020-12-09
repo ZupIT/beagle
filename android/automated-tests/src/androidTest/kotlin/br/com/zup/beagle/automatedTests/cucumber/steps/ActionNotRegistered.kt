@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import androidx.test.rule.ActivityTestRule
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
@@ -25,7 +25,6 @@ import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
-import cucumber.api.java.en.When
 import org.junit.Rule
 
 const val NO_ACTION_BFF_URL = "http://10.0.2.2:8080/action-not-registered"

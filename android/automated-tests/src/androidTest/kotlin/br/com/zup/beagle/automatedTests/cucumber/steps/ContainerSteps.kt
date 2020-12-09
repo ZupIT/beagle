@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import android.util.Log
-import androidx.test.rule.ActivityTestRule
-import br.com.zup.beagle.android.utils.toAndroidId
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher

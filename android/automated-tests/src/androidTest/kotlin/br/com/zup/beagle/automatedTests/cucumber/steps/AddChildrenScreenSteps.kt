@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.PositionAssertions.isCompletelyAbove
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.rule.ActivityTestRule
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.assertion.PositionAssertions.isCompletelyAbove
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot

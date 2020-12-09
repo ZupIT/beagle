@@ -20,6 +20,8 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -59,12 +61,23 @@ object TextInputBuilder: ScreenBuilder {
     )
 
     private fun createTextInput(text: String, styleId: String? = null) = Container(
-        listOf(
-            Text(text).applyStyle(styleTextInput),
+        children = listOf(
+            Text("@{text}").applyStyle(styleTextInput),
             TextInput(
                 placeholder = "Your text",
-                styleId = styleId
+                value = "@{text}",
+                styleId = styleId,
+                onChange = listOf(
+                    SetContext(
+                        contextId = "text",
+                        value = "@{onChange.value}"
+                    )
+                )
             ).applyStyle(styleTextInput)
+        ),
+        context = ContextData(
+            id = "text",
+            value = ""
         )
     )
 }

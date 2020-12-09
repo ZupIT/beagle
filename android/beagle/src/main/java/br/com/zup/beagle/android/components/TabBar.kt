@@ -18,9 +18,10 @@ package br.com.zup.beagle.android.components
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
@@ -38,7 +39,6 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
-import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
 

@@ -56,11 +56,9 @@ android {
 }
 
 dependencies {
-    implementation Dependencies.AndroidxLibraries.appcompat
-
     implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
+    implementation Dependencies.AndroidSupport.design
 
     debugImplementation project(Dependencies.Modules.preview)
 

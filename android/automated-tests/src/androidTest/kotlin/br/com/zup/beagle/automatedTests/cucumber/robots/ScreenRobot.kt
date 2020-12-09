@@ -19,20 +19,13 @@ package br.com.zup.beagle.automatedTests.cucumber.robots
 import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.pressBack
-import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isEnabled
-import androidx.test.espresso.matcher.ViewMatchers.withClassName
-import androidx.test.espresso.matcher.ViewMatchers.withHint
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withInputType
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.espresso.Espresso
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.action.ViewActions.pressBack
+import android.support.test.espresso.assertion.ViewAssertions.doesNotExist
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.*
 import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
 import br.com.zup.beagle.automatedTests.utils.matcher.MatcherExtension
@@ -43,6 +36,7 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.hamcrest.TypeSafeMatcher
+import kotlin.jvm.Throws
 
 class ScreenRobot {
 
@@ -141,7 +135,7 @@ class ScreenRobot {
 
     fun typeIntoTextField(position1: Int, position2: Int, text: String?): ScreenRobot {
         onView(childAtPosition(childAtPosition(withClassName(
-            Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
+            Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(ViewActions.scrollTo(), ViewActions.replaceText(text))
         Espresso.closeSoftKeyboard()
         return this
     }
@@ -162,12 +156,12 @@ class ScreenRobot {
     }
 
     fun scrollTo(text: String?): ScreenRobot {
-        onView(withText(text)).perform(scrollTo()).check(matches(isDisplayed()))
+        onView(withText(text)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()))
         return this
     }
 
     fun scrollToWithHint(text: String?): ScreenRobot {
-        onView(withHint(text)).perform(scrollTo()).check(matches(isDisplayed()))
+        onView(withHint(text)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()))
         return this
     }
 

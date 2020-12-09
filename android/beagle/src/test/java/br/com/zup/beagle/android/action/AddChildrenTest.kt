@@ -16,12 +16,11 @@
 
 package br.com.zup.beagle.android.action
 
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
-import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.utils.viewFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView

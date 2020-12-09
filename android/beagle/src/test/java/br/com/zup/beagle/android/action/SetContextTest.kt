@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.action
 
+import android.arch.lifecycle.ViewModelProvider
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.testutil.RandomData
