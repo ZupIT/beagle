@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.imagedownloader
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
@@ -35,7 +34,6 @@ internal class DefaultImageDownloader : BeagleImageDownloader {
 
     override fun download(url: String, imageView: ImageView, rootView: RootView) {
         imageView.post {
-            if (allSizesGreaterThanZero(imageView)) {
                 rootView.getLifecycleOwner().lifecycleScope.launch(CoroutineDispatchers.IO) {
                     val bitmap = try {
                         imageDownloader.getRemoteImage(url.formatUrl() ?: url, imageView.width, imageView.height)
@@ -48,9 +46,6 @@ internal class DefaultImageDownloader : BeagleImageDownloader {
                         setImage(imageView, bitmap)
                     }
                 }
-            } else {
-                BeagleLoggerProxy.error("Your view has width or height with size 0, the image will no be rendered")
-            }
         }
     }
 
@@ -59,9 +54,6 @@ internal class DefaultImageDownloader : BeagleImageDownloader {
             view.context?.let {
                 view.setImageDrawable(BitmapDrawable(it.resources, bitmap))
             }
-
         }
     }
-
-    private fun allSizesGreaterThanZero(view: View) = view.width > 0 && view.height > 0
 }
