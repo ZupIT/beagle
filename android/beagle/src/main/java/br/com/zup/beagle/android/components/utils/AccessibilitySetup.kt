@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.utils
 
+import android.util.Log
 import android.view.View
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -29,6 +30,7 @@ class AccessibilitySetup {
             }
 
             accessibilityComponent.accessibility?.accessibilityLabel?.let { accessibilityLabel ->
+                Log.v("uzias ac", accessibilityLabel)
                 view.contentDescription = accessibilityLabel
             }
         }

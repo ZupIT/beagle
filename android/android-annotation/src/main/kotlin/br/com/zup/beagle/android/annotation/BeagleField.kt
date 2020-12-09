@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics
+package br.com.zup.beagle.android.annotation
 
-
-/**
- * Define click event
- *
- * @param category
- * @param label
- * @param value
- *
- */
-data class ClickEvent(
-    val category: String,
-    val label: String? = null,
-    val value: String? = null
+@Target(AnnotationTarget.FIELD)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class BeagleField(
+    val name: String = ""
 )
