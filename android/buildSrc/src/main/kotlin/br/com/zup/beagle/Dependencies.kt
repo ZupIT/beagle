@@ -83,7 +83,7 @@ class Dependencies : Plugin<Project> {
 
         const val testRunner = "1.3.1-alpha02"
         const val testExt = "1.1.3-alpha02"
-        const val espressoCore = "3.4.0-alpha02"
+        const val espresso = "3.4.0-alpha02"
         const val archCoreTesting = "2.1.0"
         const val testRules = "1.3.1-alpha02"
         const val testCore = "1.3.1-alpha02"
@@ -157,7 +157,8 @@ class Dependencies : Plugin<Project> {
         const val testRunner = "androidx.test:runner:${Versions.testRunner}"
         const val testExt = "androidx.test.ext:junit:${Versions.testExt}"
         const val testCore = "androidx.test:core:${Versions.testCore}"
-        const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
+        const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+        const val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
         const val testRules = "androidx.test:rules:${Versions.testRules}"
         const val cucumberAndroid = "info.cukes:cucumber-android:${Versions.cucumber}"
         const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${Versions.cucumber}"

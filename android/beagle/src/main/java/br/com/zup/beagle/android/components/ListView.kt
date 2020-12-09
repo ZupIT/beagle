@@ -255,7 +255,6 @@ constructor(
                     listViewIdViewModel.markHasCompletelyLoaded(recyclerView.id)
                 }
             }
-
         })
     }
 
