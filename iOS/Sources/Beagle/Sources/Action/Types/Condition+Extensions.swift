@@ -18,11 +18,14 @@ import UIKit
 
 extension Condition {
     public func execute(controller: BeagleController, origin: UIView) {
-        guard let evaluetedCondition = condition.evaluate(with: origin) else { return }
+        guard let evaluatedCondition = condition.evaluate(with: origin) else {
+            controller.execute(actions: onFalse, origin: origin)
+            return
+        }
         
-        if evaluetedCondition, let onTrue = self.onTrue {
+        if evaluatedCondition, let onTrue = self.onTrue {
             controller.execute(actions: onTrue, origin: origin)
-        } else if !evaluetedCondition, let onFalse = self.onFalse {
+        } else if !evaluatedCondition, let onFalse = self.onFalse {
             controller.execute(actions: onFalse, origin: origin)
         }
     }

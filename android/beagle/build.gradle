@@ -57,6 +57,12 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
 }
 
 dependencies {
@@ -69,7 +75,6 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
-    api project(Dependencies.Modules.commonAnnotation)
     api project(Dependencies.Modules.androidAnnotation)
 
     kapt project(Dependencies.Modules.internalProcessor)

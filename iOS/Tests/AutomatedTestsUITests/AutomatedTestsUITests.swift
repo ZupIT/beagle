@@ -23,7 +23,7 @@ class CucumberishInitializer: NSObject {
             let stepsDefinitions: [CucumberStepsDefinition] =
                 [
                     ButtonSteps(),
-                    TabViewSteps(),
+                    TabBarSteps(),
                     ImageSteps(),
                     PageViewSteps(),
                     SimpleFormSteps(),
@@ -34,7 +34,12 @@ class CucumberishInitializer: NSObject {
                     AddChildrenSteps(),
                     TextInputSteps(),
                     TextSteps(),
-                    AlertSteps()
+                    AlertSteps(),
+                    ActionNotRegisteredSteps(),
+                    ConfirmActionSteps(),
+                    LazyComponentSteps(),
+                    ConditionalActionSteps(),
+                    SetContextSteps()
                 ]
             for stepsDefinition in stepsDefinitions {
                 stepsDefinition.loadSteps()

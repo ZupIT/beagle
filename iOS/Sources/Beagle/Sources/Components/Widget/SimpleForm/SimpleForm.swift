@@ -45,6 +45,7 @@ public struct SimpleForm: ServerDrivenComponent, HasContext, AutoInitiableAndDec
         self.init(context: context, onSubmit: onSubmit, children: children(), widgetProperties: widgetProperties)
     }
     
+    #if swift(<5.3)
     public init(
         context: Context? = nil,
         onSubmit: [Action]? = nil,
@@ -54,4 +55,5 @@ public struct SimpleForm: ServerDrivenComponent, HasContext, AutoInitiableAndDec
     ) {
         self.init(context: context, onSubmit: onSubmit, children: [children()], widgetProperties: widgetProperties)
     }
+    #endif
 }

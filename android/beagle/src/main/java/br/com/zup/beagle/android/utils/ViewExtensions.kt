@@ -96,3 +96,11 @@ internal fun View.setIsAutoGenerateIdEnabled(autoGenerateId: Boolean) {
 internal fun View.isAutoGenerateIdEnabled(): Boolean {
     return getTag(R.id.beagle_auto_generate_id_enabled) as? Boolean ?: true
 }
+
+internal fun View.setIsInitiableComponent(isInitiableComponent: Boolean) {
+    setTag(R.id.initiable_component, isInitiableComponent)
+}
+
+internal fun View.isInitiableComponent(): Boolean {
+    return getTag(R.id.initiable_component) as? Boolean ?: false
+}

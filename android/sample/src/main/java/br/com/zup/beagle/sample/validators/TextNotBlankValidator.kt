@@ -17,12 +17,11 @@
 package br.com.zup.beagle.sample.validators
 
 import br.com.zup.beagle.android.annotation.RegisterValidator
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.components.form.core.Validator
 
 @RegisterValidator("text-is-not-blank")
-class TextNotBlankValidator : Validator<String, ServerDrivenComponent> {
-    override fun isValid(input: String, widget: ServerDrivenComponent): Boolean {
+class TextNotBlankValidator : Validator<String, String> {
+    override fun isValid(input: String, widget: String): Boolean {
         return !input.isBlank()
     }
 }

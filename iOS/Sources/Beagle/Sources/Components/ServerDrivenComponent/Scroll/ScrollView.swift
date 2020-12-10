@@ -37,6 +37,7 @@ public struct ScrollView: ServerDrivenComponent, AutoInitiableAndDecodable, HasC
     }
 // sourcery:end
     
+    #if swift(<5.3)
     public init(
         scrollBarEnabled: Bool? = nil,
         scrollDirection: ScrollAxis? = nil,
@@ -46,6 +47,7 @@ public struct ScrollView: ServerDrivenComponent, AutoInitiableAndDecodable, HasC
     ) {
         self.init(children: [children()], scrollDirection: scrollDirection, scrollBarEnabled: scrollBarEnabled, context: context)
     }
+    #endif
     
     public init(
         scrollBarEnabled: Bool? = nil,

@@ -62,23 +62,8 @@ const val TAB_4 = "TAB 4"
 const val TAB_4_TEXT = "Welcome to Tab 4"
 const val TAB_4_TEXT_2 = "This is Tab4's second text"
 
-//PageView Screen
-const val PAGEVIEW_SCREEN_HEADER = "Beagle PageView"
-const val PAGE_1_TEXT = "Page 1"
-const val PAGE_2_TEXT = "Page 2"
-const val PAGE_3_TEXT = "Page 3"
-
-//ScrollView Screen
-const val SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
-const val SCROLLVIEW_TEXT_1 = "Vertical ScrollView"
-const val SCROLLVIEW_TEXT_2 = "Horizontal ScrollView with scrollBars"
-
 //ListView Screen
 const val LISTVIEW_SCREEN_HEADER = "Beagle ListView"
-const val STATIC_LISTVIEW_TEXT_1 = "Static VERTICAL ListView"
-const val STATIC_LISTVIEW_TEXT_2 = "Static HORIZONTAL ListView"
-const val DYNAMIC_LISTVIEW_TEXT_1 = "Dynamic VERTICAL ListView"
-const val DYNAMIC_LISTVIEW_TEXT_2 = "Dynamic HORIZONTAL ListView"
 
 //Touchable Screen
 const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"
@@ -86,14 +71,3 @@ const val TOUCHABLE_TEXT_1 = "Text with Touchable"
 const val TOUCHABLE_TEXT_2 = "Click here!"
 const val TOUCHABLE_TEXT_3 = "Image with Touchable"
 const val TOUCHABLE_TEXT_4 = "NetworkImage with Touchable"
-
-//Simpleform Screen
-const val SIMPLE_FORM_SCREEN_HEADER = "Beagle Context"
-const val SIMPLE_FORM_TITLE = "Fill the form"
-const val ZIP_FIELD = "ZIP"
-const val STREET_FIELD = "Street"
-const val SEND_BUTTON = "Enviar"
-
-//Confirm Popup
-const val OK_BUTTON = "OK"
-const val CANCEL_BUTTON = "Cancel"
