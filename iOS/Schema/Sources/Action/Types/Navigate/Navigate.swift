@@ -24,7 +24,7 @@ public enum Navigate: RawAction {
     case openNativeRoute(OpenNativeRoute, analytics: ActionAnalyticsConfig? = nil)
 
     /// Resets the application's root navigation stack with a new navigation stack that has `Route` as the first view
-    case resetApplication(Route, analytics: ActionAnalyticsConfig? = nil)
+    case resetApplication(Route, controllerId: String? = nil, analytics: ActionAnalyticsConfig? = nil)
     
     /// Resets the views stack to create a new flow with the passed route.
     case resetStack(Route, analytics: ActionAnalyticsConfig? = nil)
@@ -71,7 +71,7 @@ public enum Navigate: RawAction {
         switch self {
         case .openExternalURL(_, analytics: let analytics),
              .openNativeRoute(_, analytics: let analytics),
-             .resetApplication(_, analytics: let analytics),
+             .resetApplication(_, _, analytics: let analytics),
              .resetStack(_, analytics: let analytics),
              .pushStack(_, _, analytics: let analytics),
              .popStack(analytics: let analytics),
@@ -149,7 +149,11 @@ extension Navigate: Decodable, CustomReflectable {
         case "beagle:opennativeroute":
             self = .openNativeRoute(try .init(from: decoder), analytics: analytics)
         case "beagle:resetapplication":
-            self = .resetApplication(try container.decode(Route.self, forKey: .route), analytics: analytics)
+            self = .resetApplication(
+                try container.decode(Route.self, forKey: .route),
+                controllerId: try container.decodeIfPresent(String.self, forKey: .controllerId),
+                analytics: analytics
+            )
         case "beagle:resetstack":
             self = .resetStack(try container.decode(Route.self, forKey: .route), analytics: analytics)
         case "beagle:pushstack":
@@ -185,11 +189,12 @@ extension Navigate: Decodable, CustomReflectable {
                 (label: CodingKeys._beagleAction_.stringValue, value: "beagle:opennativeroute"),
                 (label: CodingKeys.analytics.stringValue, value: analytics as Any)
             ] + Mirror(reflecting: nativeRoute).children
-        case let .resetApplication(route, analytics: analytics):
+        case let .resetApplication(route, controllerId: controllerId, analytics: analytics):
             children = [
                 (label: CodingKeys._beagleAction_.stringValue, value: "beagle:resetapplication"),
                 (label: CodingKeys.analytics.stringValue, value: analytics as Any),
-                (label: CodingKeys.route.stringValue, value: route)
+                (label: CodingKeys.route.stringValue, value: route),
+                (label: CodingKeys.controllerId.stringValue, value: controllerId as Any)
             ]
         case let .resetStack(route, analytics: analytics):
             children = [

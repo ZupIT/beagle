@@ -4,11 +4,11 @@
 
   Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: "path", data: Optional(["data": "value"]), shouldResetApplication: false)  -->  NULL 
 
-  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: BeagleSchema.Route(screen: BeagleSchema.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)))  -->  NULL 
+  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: BeagleSchema.Route(screen: BeagleSchema.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)), controllerId: nil)  -->  NULL 
 
-  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: BeagleSchema.Route(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil))  -->  NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: BeagleSchema.Route(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil), controllerId: nil)  -->  NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
 
-  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: BeagleSchema.Route(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil))  -->  NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: BeagleSchema.Route(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil), controllerId: nil)  -->  NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
 
   Navigate(_beagleAction_: "beagle:resetstack", analytics: nil, route: BeagleSchema.Route(screen: BeagleSchema.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)))  -->  NULL 
 

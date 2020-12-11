@@ -9,6 +9,7 @@
       },
       "type" : "custom:analyticstestcomponent"
     },
+    "controllerId" : "controller ID - local",
     "platform" : "ios",
     "route" : {
       "screen" : {

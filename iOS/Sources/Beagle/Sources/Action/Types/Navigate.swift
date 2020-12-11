@@ -27,7 +27,7 @@ extension Navigate: Action {
 extension Navigate {
     var newPath: Route.NewPath? {
         switch self {
-        case let .resetApplication(route, _),
+        case let .resetApplication(route, _, _),
              let .resetStack(route, _),
              let .pushStack(route, _, _),
              let .pushView(route, _):

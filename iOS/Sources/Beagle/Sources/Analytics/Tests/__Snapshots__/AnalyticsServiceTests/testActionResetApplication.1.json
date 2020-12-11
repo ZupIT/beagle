@@ -9,6 +9,7 @@
       },
       "type" : "custom:analyticstestcomponent"
     },
+    "controllerId" : "controller ID - remote",
     "platform" : "ios",
     "route" : {
       "fallback" : {
