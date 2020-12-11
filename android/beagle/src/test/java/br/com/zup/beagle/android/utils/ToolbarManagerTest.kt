@@ -261,8 +261,10 @@ class ToolbarManagerTest : BaseTest() {
         toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
 
         // THEN
-        verify(exactly = once()) { toolbarTextManagerMock.generateTitle(context, navigationBar, textAppearanceMock) }
-        verify(exactly = once()) { toolbar.addView(textViewMock) }
-        verify(exactly = once()) { toolbarTextManagerMock.centerTitle(toolbar, textViewMock) }
+        verify(exactly = once()) {
+            toolbarTextManagerMock.generateTitle(context, navigationBar, textAppearanceMock)
+            toolbar.addView(textViewMock)
+            toolbarTextManagerMock.centerTitle(toolbar, textViewMock)
+        }
     }
 }
