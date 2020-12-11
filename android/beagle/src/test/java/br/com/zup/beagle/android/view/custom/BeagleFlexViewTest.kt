@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.view.custom
 
 import android.view.View
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
+import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.utils.GenerateIdManager
@@ -37,7 +38,7 @@ import org.junit.jupiter.api.Test
 
 class BeagleFlexViewTest {
 
-    private val rootViewMock = mockk<RootView>(relaxed = true, relaxUnitFun = true)
+    private val rootViewMock = mockk<FragmentRootView>(relaxed = true, relaxUnitFun = true)
     private val flexMapperMock = mockk<FlexMapper>(relaxUnitFun = true, relaxed = true)
     private val styleMock = mockk<Style>()
     private val viewRendererFactoryMock = mockk<ViewRendererFactory>()

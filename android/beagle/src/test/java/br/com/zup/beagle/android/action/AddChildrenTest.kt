@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.action
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
+import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.utils.viewFactory
@@ -35,7 +36,7 @@ class AddChildrenTest {
 
     private val serverDrivenComponent = mockk<ServerDrivenComponent>(relaxed = true)
     private val value = listOf(serverDrivenComponent)
-    private val rootView = mockk<RootView>(relaxed = true)
+    private val rootView = mockk<ActivityRootView>(relaxed = true)
     private val origin = mockk<View>(relaxed = true)
     private val viewGroup = mockk<ViewGroup>(relaxed = true)
     private val context = mockk<AppCompatActivity>(relaxed = true)

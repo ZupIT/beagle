@@ -92,8 +92,7 @@ dependencies {
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
 
-    testImplementation Dependencies.TestLibraries.junitApi
-    testRuntimeOnly Dependencies.TestLibraries.junitEngine
+    testImplementation Dependencies.TestLibraries.junit4
     testImplementation Dependencies.TestLibraries.mockk
 
     androidTestImplementation Dependencies.TestLibraries.cucumberAndroid

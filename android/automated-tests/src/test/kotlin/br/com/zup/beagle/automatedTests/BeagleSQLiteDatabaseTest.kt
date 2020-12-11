@@ -23,10 +23,9 @@ import br.com.zup.beagle.automatedTests.config.BeagleSQLiteDatabase
 import br.com.zup.beagle.automatedTests.config.ScreenEntry
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
-import org.junit.Assert.*
+import junit.framework.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
 
 class BeagleSQLiteDatabaseTest {
 
@@ -39,7 +38,7 @@ class BeagleSQLiteDatabaseTest {
 
     private lateinit var beagleSQLiteDatabase: BeagleSQLiteDatabase
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
 

@@ -25,11 +25,11 @@ import br.com.zup.beagle.automatedTests.config.DatabaseLocalStore
 import br.com.zup.beagle.automatedTests.config.ScreenEntry
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
-import org.junit.Assert.*
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNull
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 
 private const val DATA_KEY = "data_key"
 
@@ -46,7 +46,7 @@ class DatabaseLocalStoreTest {
 
     private lateinit var databaseLocalStore: DatabaseLocalStore
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -62,7 +62,7 @@ class DatabaseLocalStoreTest {
         every { cursor.close() } just Runs
     }
 
-    @AfterEach
+    @After
     fun tearDown() {
         unmockkAll()
     }

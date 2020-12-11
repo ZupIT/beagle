@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.action.AsyncActionStatus
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.setIsInitiableComponent
@@ -49,7 +50,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(InstantExecutorExtension::class)
 class OnInitiableComponentTest {
 
-    private val rootView = mockk<RootView>(relaxed = true)
+    private val rootView = mockk<FragmentRootView>(relaxed = true)
     private val onInitViewModel = spyk(OnInitViewModel())
     private val origin = mockk<View>(relaxed = true)
     private val listenerSlot = slot<View.OnAttachStateChangeListener>()

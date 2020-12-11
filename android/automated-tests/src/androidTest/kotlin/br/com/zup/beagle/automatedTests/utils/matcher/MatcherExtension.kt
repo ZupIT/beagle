@@ -104,17 +104,25 @@ class MatcherExtension {
         fun tabBarItemWithIconAndTitle(title: String? = null, icon: Int): Matcher<View?>? {
             return object : TypeSafeMatcher<View>() {
                 override fun matchesSafely(item: View): Boolean {
-                    if (item is TabLayout.Tab) {
-                        return try {
-                            val bitmap: Bitmap = (item.icon as BitmapDrawable).bitmap
-                            val otherBitmap: Bitmap = (ContextCompat.getDrawable(item.context, icon) as BitmapDrawable).bitmap
-                            bitmap.sameAs(otherBitmap) && item.text == title
-                        } catch (e:Exception){
-                            false
+                    if (item is TabLayout) {
+                        for (i: Int in 0 until item.tabCount) {
+                            val tabItem = item.getTabAt(i)
+                            return try {
+                                val bitmap: Bitmap = (tabItem?.icon as BitmapDrawable).bitmap
+                                val otherBitmap: Bitmap = (ContextCompat.getDrawable(item.context, icon) as BitmapDrawable).bitmap
+                                if(title == null){
+                                    bitmap.sameAs(otherBitmap)
+                                } else {
+                                    bitmap.sameAs(otherBitmap) && tabItem.text == title
+                                }
+                            } catch (e: Exception) {
+                                false
+                            }
                         }
                     }
                     return false
                 }
+
                 override fun describeTo(description: Description) {
                     description.appendText("tab.icon is $icon and tab.text is $title")
                 }

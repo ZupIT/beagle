@@ -75,6 +75,7 @@ class AbstractViewRendererTest : BaseTest() {
         // Given
         val viewId = RandomData.int()
         val view = mockk<View>()
+        val rootView = mockk<FragmentRootView>(relaxed = true)
         every { viewRenderer.buildView(any()) } returns view
         every { generateIdViewModel.getViewId(rootView.getParentId()) } returns viewId
         every { view.id } returns View.NO_ID
@@ -85,7 +86,7 @@ class AbstractViewRendererTest : BaseTest() {
 
         // Then
         verifySequence {
-            rootView.getViewModelStoreOwner()
+            rootView.fragment
             componentStylization.apply(view, component)
             contextViewRenderer.handleComponent(view, contextViewModel, component)
         }
