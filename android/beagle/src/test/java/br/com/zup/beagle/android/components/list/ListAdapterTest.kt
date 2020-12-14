@@ -18,23 +18,14 @@ package br.com.zup.beagle.android.components.list
 
 import android.view.ViewGroup
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.action.AsyncActionImpl
 import br.com.zup.beagle.android.action.AsyncActionStatus
-import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.AsyncActionData
-import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.setIsAutoGenerateIdEnabled
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
@@ -48,7 +39,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.slot
-import io.mockk.spyk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -74,73 +64,6 @@ class ListAdapterTest : BaseTest() {
     private val asyncActionDataSlot = slot<AsyncActionData>()
     private val asyncActionStatusObserverSlot = slot<Observer<AsyncActionStatus>>()
     private val asyncActionStatusSlot = slot<AsyncActionStatus>()
-    //val lifecycleOwner = mockk<LifecycleOwner>(relaxed = true)
-    //val lifecycle = mockk<LifecycleRegistry>(relaxed = true)
-    /*private val orientation = RecyclerView.VERTICAL
-    private val template = Container(children = listOf())
-    private val iteratorName = "iteratorName"
-    private val key = "id"
-    private val generatedId = 10
-    private val list = listOf("stub 1", "stub 2")
-    private val viewFactory = mockk<ViewFactory>(relaxed = true)
-    private val viewHolderItemView = mockk<BeagleFlexView>(relaxed = true)
-
-    private lateinit var listViewModels: ListViewModels
-    //private val listViewModels = mockk<ListViewModels>()
-    private val asyncActionViewModel = AsyncActionViewModel()
-    private val contextViewModel = mockk<ScreenContextViewModel>()
-    private val listViewIdViewModel = mockk<ListViewIdViewModel>()
-    private val generateIdViewModel = mockk<GenerateIdViewModel>()
-    private val liveDataMock = mockk<MutableLiveData<AsyncActionData>>()
-    private val observerSlot = slot<LifecycleEventObserver>()
-    private val viewGroupMock = mockk<ViewGroup>(relaxed = true)
-    private val viewTypeMock = 0
-    private val recyclerViewMock = mockk<RecyclerView>(relaxed = true)
-    val lifecycleOwner = mockk<LifecycleOwner>(relaxed = true)
-    val lifecycle = mockk<LifecycleRegistry>(relaxed = true)
-
-    private lateinit var listAdapter: ListAdapter
-
-    @Before
-    override fun setUp() {
-        super.setUp()
-
-        every { lifecycle.currentState } returns Lifecycle.State.RESUMED
-        every { lifecycle.addObserver(capture(observerSlot)) } just Runs
-        every { lifecycle.handleLifecycleEvent(any()) } answers {
-            observerSlot.captured.onStateChanged(lifecycleOwner, Lifecycle.Event.ON_RESUME)
-        }
-        every { lifecycleOwner.lifecycle } returns lifecycle
-        every { rootView.getLifecycleOwner() } returns lifecycleOwner
-        every { rootView.getParentId() } returns 1
-        listViewModels = ListViewModels(rootView)
-        //every { listViewModels.rootView.getLifecycleOwner() } returns lifecycleOwner
-        //every { listViewModels.rootView } returns rootView
-//        every { asyncActionViewModel.asyncActionExecuted } returns liveDataMock
-//        every { listViewModels.asyncActionViewModel } returns asyncActionViewModel
-//        every { listViewModels.contextViewModel } returns contextViewModel
-//        every { listViewModels.listViewIdViewModel } returns listViewIdViewModel
-//        every { listViewModels.generateIdViewModel } returns generateIdViewModel
-        // every { liveDataMock.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
-        //every { asyncActionViewModel.asyncActionExecuted.observe(any(), any()) } just Runs
-        every { listViewIdViewModel.createSingleManagerByListViewId(any(), any()) } just Runs
-        every { generateIdViewModel.getViewId(rootView.getParentId()) } returns generatedId
-        every { viewHolderItemView.parent } returns recyclerViewMock
-        every { viewFactory.makeBeagleFlexView(rootView) } returns viewHolderItemView
-
-        listAdapter =
-            ListAdapter(
-                orientation,
-                template,
-                iteratorName,
-                key,
-                viewFactory,
-                listViewModels
-            )
-
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    }*/
-
     private val orientation = RecyclerView.VERTICAL
     private val template = Container(children = listOf())
     private val iteratorName = "iteratorName"
@@ -148,14 +71,12 @@ class ListAdapterTest : BaseTest() {
     private val generatedId = 10
     private val list = listOf("stub 1", "stub 2")
     private val viewFactory = mockk<ViewFactory>(relaxed = true)
-    //private val beagleFlexView = mockk<BeagleFlexView>(relaxed = true)
     private val listViewModels = mockk<ListViewModels>()
     private val asyncActionViewModel = mockk<AsyncActionViewModel>()
     private val contextViewModel = mockk<ScreenContextViewModel>()
     private val listViewIdViewModel = mockk<ListViewIdViewModel>()
     private val generateIdViewModel = mockk<GenerateIdViewModel>()
     private val observerSlot = slot<Observer<AsyncActionData>>()
-    private val autoGenerateIdEnabledSlot = slot<Boolean>()
 
     private lateinit var listAdapter: ListAdapter
 
@@ -169,20 +90,10 @@ class ListAdapterTest : BaseTest() {
         every { asyncActionViewModel.onAsyncActionExecuted(capture(asyncActionDataSlot)) } answers {
             observerSlot.captured.onChanged(asyncActionDataSlot.captured)
         }
-        every {asyncActionMock.status.observe(any(), capture(asyncActionStatusObserverSlot))} just Runs
-
-        every { asyncActionMock.status.value = capture(asyncActionStatusSlot)} answers {
+        every { asyncActionMock.status.observe(any(), capture(asyncActionStatusObserverSlot)) } just Runs
+        every { asyncActionMock.status.value = capture(asyncActionStatusSlot) } answers {
             asyncActionStatusObserverSlot.captured.onChanged(asyncActionStatusSlot.captured)
         }
-        /*every { lifecycle.currentState } returns Lifecycle.State.RESUMED
-        every { lifecycle.addObserver(capture(observerSlot)) } just Runs
-        every { lifecycle.handleLifecycleEvent(any()) } answers {
-            observerSlot.captured.onStateChanged(lifecycleOwner, Lifecycle.Event.ON_RESUME)
-        }
-        every { lifecycleOwner.lifecycle } returns lifecycle
-        every { rootView.getLifecycleOwner() } returns lifecycleOwner*/
-
-
         every { listViewModels.rootView } returns rootView
         every { listViewModels.asyncActionViewModel } returns asyncActionViewModel
         every { listViewModels.contextViewModel } returns contextViewModel
@@ -191,17 +102,15 @@ class ListAdapterTest : BaseTest() {
         every { asyncActionViewModel.asyncActionExecuted.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
         every { listViewIdViewModel.createSingleManagerByListViewId(any(), any()) } just Runs
         every { generateIdViewModel.getViewId(rootView.getParentId()) } returns generatedId
-        //every { viewFactory.makeBeagleFlexView(rootView) } returns beagleFlexView
-        //every { beagleFlexView.setIsAutoGenerateIdEnabled(capture(autoGenerateIdEnabledSlot)) } just Runs
 
         listAdapter = ListAdapter(
-                orientation,
-                template,
-                iteratorName,
-                key,
-                viewFactory,
-                listViewModels
-            )
+            orientation,
+            template,
+            iteratorName,
+            key,
+            viewFactory,
+            listViewModels
+        )
     }
 
 
