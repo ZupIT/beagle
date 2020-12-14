@@ -17,6 +17,7 @@
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
 
+import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -33,6 +34,14 @@ class GenericSteps {
     @When("^Scroll to (.*)$")
     fun scrollTo(string1: String?) {
         ScreenRobot().scrollTo(string1)
+    }
+
+    @When("^I scroll to view with id (.*)$")
+    fun scrollToViewWithId(viewId: String) {
+        ScreenRobot()
+            .scrollTo(
+                viewId.toAndroidId()
+            )
     }
 
     @Then("^The Text should show (.*)$")
@@ -56,6 +65,18 @@ class GenericSteps {
     fun hideKeyboard() {
         ScreenRobot()
             .hideKeyboard()
+    }
+
+    @When("I change the device orientation to portrait")
+    fun setScreenPortrait() {
+        ScreenRobot()
+            .setScreenPortrait()
+    }
+
+    @When("I change the device orientation to landscape")
+    fun setScreenLandScape() {
+        ScreenRobot()
+            .setScreenLandScape()
     }
 
 }

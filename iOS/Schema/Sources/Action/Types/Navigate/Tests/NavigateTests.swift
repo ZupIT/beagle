@@ -61,12 +61,14 @@ final class NavigateTests: XCTestCase {
 
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          ▿ resetApplication: Route
-            ▿ remote: NewPath
-              - fallback: Optional<Screen>.none
-              - shouldPrefetch: false
-              ▿ url: Expression<String>
-                - value: "schema://path"
+          ▿ resetApplication: (2 elements)
+            ▿ .0: Route
+              ▿ remote: NewPath
+                - fallback: Optional<Screen>.none
+                - shouldPrefetch: false
+                ▿ url: Expression<String>
+                  - value: "schema://path"
+            - controllerId: Optional<String>.none
         """)
     }
     

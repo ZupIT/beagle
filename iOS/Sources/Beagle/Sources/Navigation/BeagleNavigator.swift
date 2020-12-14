@@ -66,8 +66,15 @@ class BeagleNavigator: BeagleNavigation {
             openExternalURL(path: url, controller: controller)
         case let .openNativeRoute(nativeRoute):
             openNativeRoute(controller: controller, animated: animated, nativeRoute: nativeRoute)
-        case let .resetApplication(route):
-            navigate(route: route, controller: controller, animated: animated, origin: origin, transition: resetApplication(origin:destination:animated:))
+        case let .resetApplication(route, controllerId):
+            navigate(
+                route: route,
+                controller: controller,
+                animated: animated,
+                origin: origin
+            ) { [weak self] origin, destination, animated in
+                self?.resetApplication(origin: origin, destination: destination, controllerId: controllerId, animated: animated)
+            }
         case let .resetStack(route):
             navigate(route: route, controller: controller, animated: animated, origin: origin, transition: resetStack(origin:destination:animated:))
         case let .pushView(route):
@@ -155,8 +162,10 @@ class BeagleNavigator: BeagleNavigation {
         }
     }
     
-    private func resetApplication(origin: BeagleController, destination: UIViewController, animated: Bool) {
-        origin.dependencies.windowManager.window?.replace(rootViewController: destination, animated: animated, completion: nil)
+    private func resetApplication(origin: BeagleController, destination: UIViewController, controllerId: String?, animated: Bool) {
+        let navigation = navigationController(forId: controllerId)
+        navigation.viewControllers = [destination]
+        origin.dependencies.windowManager.window?.replace(rootViewController: navigation, animated: animated, completion: nil)
     }
     
     private func resetStack(origin: BeagleController, destination: UIViewController, animated: Bool) {
