@@ -29,19 +29,15 @@ import br.com.zup.beagle.android.components.list.ListViewModels
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.utils.GenerateIdManager
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.observeBindChanges
-import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
-import java.util.*
 
 @RegisterWidget
 data class ListView
@@ -244,7 +240,7 @@ constructor(
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 // listen if reach max and notify the ViewModel
-                checkIfNeedToCallScrollEnd(rootView)
+                checkIfNeedToCallScrollEnd()
                 if (cannotScrollDirectionally()) {
                     listViewIdViewModel.markHasCompletelyLoaded(recyclerView.id)
                 }
@@ -252,7 +248,7 @@ constructor(
         })
     }
 
-    private fun checkIfNeedToCallScrollEnd(rootView: RootView) {
+    private fun checkIfNeedToCallScrollEnd() {
         onScrollEnd?.let {
             if (canCallOnScrollEnd()) {
                 executeScrollEndActions()
@@ -298,7 +294,7 @@ constructor(
 
 }
 
-class BeagleRecyclerView(context: Context): RecyclerView(context){
+class BeagleRecyclerView(context: Context) : RecyclerView(context) {
     override fun setId(id: Int) {
         super.setId(id)
         (adapter as ListAdapter?)?.setRecyclerId(id)
