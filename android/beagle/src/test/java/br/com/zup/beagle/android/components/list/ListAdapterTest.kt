@@ -16,10 +16,13 @@
 
 package br.com.zup.beagle.android.components.list
 
+import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.AsyncActionImpl
@@ -340,5 +343,85 @@ class ListAdapterTest : BaseTest() {
         verify(exactly = 1) {
             holder.setIsRecyclable(false)
         }
+
+        verify(exactly = 1) {
+            holder.setIsRecyclable(true)
+        }
+    }
+
+    @Test
+    fun `Given a ListAdapter When a view that is not inside a RecyclerView executes an async action Then holder should not observe that action`() {
+        val viewGroup = LinearLayout(ApplicationProvider.getApplicationContext())
+        val view = View(ApplicationProvider.getApplicationContext())
+        viewGroup.addView(view)
+        val asyncActionMock = mockk<AsyncActionImpl>(relaxed = true)
+        val asyncActionDataMock = AsyncActionData(
+            view, asyncActionMock
+        )
+        val holderObserverSlot = slot<Observer<AsyncActionStatus>>()
+        val holder = listAdapter.onCreateViewHolder(viewGroupMock, viewTypeMock)
+        every { holder.observer = capture(holderObserverSlot) } just Runs
+
+        asyncActionViewModel.onAsyncActionExecuted(asyncActionDataMock)
+
+        verify(exactly = 0) { holder.observer = capture(holderObserverSlot) }
+    }
+
+    @Test
+    fun `Given a ListAdapter When a view with a null parent executes an async action Then holder should not observe that action`() {
+        val viewMock = mockk<View>(relaxed = true)
+        val asyncActionMock = mockk<AsyncActionImpl>(relaxed = true)
+        val asyncActionDataMock = AsyncActionData(
+            viewMock, asyncActionMock
+        )
+        val holderObserverSlot = slot<Observer<AsyncActionStatus>>()
+        val holder = listAdapter.onCreateViewHolder(viewGroupMock, viewTypeMock)
+        every { holder.observer = capture(holderObserverSlot) } just Runs
+        every { viewMock.parent } returns null
+
+        asyncActionViewModel.onAsyncActionExecuted(asyncActionDataMock)
+
+        verify(exactly = 0) { holder.observer = capture(holderObserverSlot) }
+    }
+
+    @Test
+    fun `Given a ListAdapter When a view executes an async action and there is no ViewHolder created for the adapter Then action must not be observed`() {
+        val asyncActionMock = mockk<AsyncActionImpl>(relaxed = true)
+        val asyncActionDataMock = AsyncActionData(
+            viewHolderItemView, asyncActionMock
+        )
+
+        asyncActionViewModel.onAsyncActionExecuted(asyncActionDataMock)
+
+        verify(exactly = 0) { asyncActionMock.status.observe(any(), any()) }
+    }
+
+    @Test
+    fun `Given a ListAdapter When a view executes an async action and that view is not related to adapter ViewHolders Then action must not be observed`() {
+        val viewMock = mockk<View>(relaxed = true)
+        val asyncActionMock = mockk<AsyncActionImpl>(relaxed = true)
+        val asyncActionDataMock = AsyncActionData(
+            viewMock, asyncActionMock
+        )
+        every { viewMock.id } returns 999
+        every { viewMock.parent } returns recyclerViewMock
+
+        listAdapter.onCreateViewHolder(viewGroupMock, viewTypeMock)
+
+        asyncActionViewModel.onAsyncActionExecuted(asyncActionDataMock)
+
+        verify(exactly = 0) { asyncActionMock.status.observe(any(), any()) }
+    }
+
+    @Test
+    fun `Given a ListAdapter When call clone Then cloned adapter should have exactly the same properties of source adapter`() {
+        val adapterCopy = listAdapter.clone()
+
+        assertEquals(listAdapter.orientation, adapterCopy.orientation)
+        assertEquals(listAdapter.template, adapterCopy.template)
+        assertEquals(listAdapter.iteratorName, adapterCopy.iteratorName)
+        assertEquals(listAdapter.key, adapterCopy.key)
+        assertEquals(listAdapter.viewFactory, adapterCopy.viewFactory)
+        assertEquals(listAdapter.listViewModels, adapterCopy.listViewModels)
     }
 }

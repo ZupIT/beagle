@@ -172,7 +172,7 @@ internal class ListAdapter(
         createdViewHolders.clear()
     }
 
-    private fun notifyListViewIdViewModel(adapterPreviouslyEmpty: Boolean){
+    private fun notifyListViewIdViewModel(adapterPreviouslyEmpty: Boolean) {
         listViewModels
             .listViewIdViewModel
             .createSingleManagerByListViewId(getRecyclerId(), adapterPreviouslyEmpty)
@@ -187,7 +187,7 @@ internal class ListAdapter(
     override fun getItemCount() = adapterItems.size
 
     fun setRecyclerId(id: Int) {
-        if(id != View.NO_ID) {
+        if (id != View.NO_ID) {
             recyclerId = id
         }
     }
@@ -208,5 +208,16 @@ internal class ListAdapter(
             )
 
         return recyclerId
+    }
+
+    fun clone(): ListAdapter {
+        return ListAdapter(
+            this.orientation,
+            this.template,
+            this.iteratorName,
+            this.key,
+            this.viewFactory,
+            this.listViewModels
+        )
     }
 }

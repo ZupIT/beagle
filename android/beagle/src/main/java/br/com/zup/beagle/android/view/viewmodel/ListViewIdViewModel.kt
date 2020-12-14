@@ -21,7 +21,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.utils.toAndroidId
-import java.util.*
+import java.util.LinkedList
 
 internal const val NO_ID_RECYCLER = "RecyclerView Id can't be -1"
 
