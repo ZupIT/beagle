@@ -24,9 +24,11 @@ helpFunction()
         for other supported languages
         
     OPTIONS
-        -a                        Generates code for all the supported languages
+        -w                        Generates code for all the supported languages
         -s                        Generates code in swift
-        -k                        Generates code in kotlin
+        -k                       Generates code in kotlin (Backend and Android)
+        -b                       Generates code in kotlin Backend
+        -a                       Generates code in kotlin Android
         -t                        Generates code in type script
         -h                        Show help
         
@@ -55,13 +57,15 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
-while getopts sktha flag
+while getopts skthabw flag
 do
     case "${flag}" in
         s) ruby $full_path/main.rb "$full_path" "swift";;
+        b) ruby $full_path/main.rb "$full_path" "kotlinBackend";;
+        a) ruby $full_path/main.rb "$full_path" "kotlinAndroid";;
         k) ruby $full_path/main.rb "$full_path" "kotlin";;
         t) ruby $full_path/main.rb "$full_path" "ts";;
-        a) ruby $full_path/main.rb "$full_path" "all";;
+        w) ruby $full_path/main.rb "$full_path" "all";;
         h) helpFunction;;
         ?) echo "Invalid options. Use -h to get more info";;
     esac
