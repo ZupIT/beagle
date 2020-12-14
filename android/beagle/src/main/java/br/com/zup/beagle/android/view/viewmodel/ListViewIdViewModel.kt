@@ -32,28 +32,12 @@ internal class ListViewIdViewModel : ViewModel() {
 
     fun createSingleManagerByListViewId(recyclerViewId: Int, previouslyEmpty: Boolean = true) {
         require(recyclerViewId != View.NO_ID) { NO_ID_RECYCLER }
-        val listViewManager = internalIdsByListId[recyclerViewId]?.run {
+        internalIdsByListId[recyclerViewId]?.run {
             completelyLoaded = false
             val shouldReuse = !previouslyEmpty || reused
             if (shouldReuse) {
                 markToReuse(this)
             }
-        }
-        if (listViewManager == null) {
-            internalIdsByListId[recyclerViewId] = LocalListView()
-        }
-    }
-
-    fun setViewId(recyclerViewId: Int, position: Int, viewId: Int): Int {
-        require(recyclerViewId != View.NO_ID) { NO_ID_RECYCLER }
-        val listViewManager = retrieveManager(recyclerViewId, position)
-        return if (listViewManager.reused) {
-            pollOrGenerateANewId(recyclerViewId, position) {
-                generateNewViewId(listViewManager, position)
-            }
-        } else {
-            addIdToLocalListView(listViewManager, position, viewId)
-            viewId
         }
     }
 
@@ -89,12 +73,7 @@ internal class ListViewIdViewModel : ViewModel() {
         }
     }
 
-    private fun retrieveManager(recyclerViewId: Int, position: Int) = internalIdsByListId[recyclerViewId]
-        ?: throw BeagleException(
-            "The list id $recyclerViewId which this view in position $position belongs to, was not found"
-        )
-
-    /*private fun retrieveManager(recyclerViewId: Int, position: Int): LocalListView{
+    private fun retrieveManager(recyclerViewId: Int, position: Int): LocalListView{
         return internalIdsByListId[recyclerViewId]  ?: run {
             addNewManager(recyclerViewId)
         }
@@ -104,7 +83,7 @@ internal class ListViewIdViewModel : ViewModel() {
         val newLocalView = LocalListView()
         internalIdsByListId[recyclerViewId] = newLocalView
         return newLocalView
-    }*/
+    }
 
     private fun generateNewViewId(localListView: LocalListView, position: Int): Int {
         val id = View.generateViewId()

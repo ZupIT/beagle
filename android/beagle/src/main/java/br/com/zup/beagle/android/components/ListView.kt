@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.GenerateIdManager
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.observeBindChanges
+import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
@@ -40,6 +41,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
+import java.util.*
 
 @RegisterWidget
 data class ListView
@@ -208,14 +210,6 @@ constructor(
         RecyclerView.HORIZONTAL
     }
 
-    // TODO: sobrescrever todos os construtores
-    class BeagleRecyclerView(context: Context) : RecyclerView(context) {
-        /*override fun setId(id: Int) {
-            super.setId(id)
-            (adapter as ListAdapter)?.setRecyclerId(id)
-        }*/
-    }
-
     private fun setupRecyclerView(orientation: Int) {
         val contextAdapter = ListAdapter(
             orientation,
@@ -237,7 +231,7 @@ constructor(
         observeBindChanges(rootView, recyclerView, dataSource!!) { value ->
             canScrollEnd = true
             val adapter = recyclerView.adapter as ListAdapter
-            adapter.setList(value, recyclerView.id)
+            adapter.setList(value)
             if (value?.isEmpty() == true) {
                 executeScrollEndActions()
             }
@@ -302,4 +296,11 @@ constructor(
         return percentage
     }
 
+}
+
+class BeagleRecyclerView(context: Context): RecyclerView(context){
+    override fun setId(id: Int) {
+        super.setId(id)
+        (adapter as ListAdapter?)?.setRecyclerId(id)
+    }
 }

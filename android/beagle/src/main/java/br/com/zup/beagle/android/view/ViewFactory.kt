@@ -28,6 +28,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zup.beagle.android.components.BeagleRecyclerView
 import br.com.zup.beagle.android.components.ListView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
@@ -81,5 +82,5 @@ internal class ViewFactory {
 
     fun makeRecyclerView(context: Context) = RecyclerView(context)
 
-    fun makeBeagleRecyclerView(context: Context) = ListView.BeagleRecyclerView(context)
+    fun makeBeagleRecyclerView(context: Context) = BeagleRecyclerView(context)
 }

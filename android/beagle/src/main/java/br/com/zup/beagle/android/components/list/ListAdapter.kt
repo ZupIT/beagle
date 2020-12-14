@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.action.AsyncActionStatus
+import br.com.zup.beagle.android.context.AsyncActionData
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.setIsAutoGenerateIdEnabled
@@ -57,12 +58,14 @@ internal class ListAdapter(
     // Each access generate a new instance of the template to avoid reference conflict
     private val templateJson = serializer.serializeComponent(template)
 
-    //TODO: Tested
+    private val observer = Observer<AsyncActionData> {
+        manageIfInsideRecyclerView(it.origin, it.asyncAction)
+    }
+
     init {
         listViewModels.asyncActionViewModel.asyncActionExecuted.observe(
-            listViewModels.rootView.getLifecycleOwner(), {
-            manageIfInsideRecyclerView(it.origin, it.asyncAction)
-        })
+            listViewModels.rootView.getLifecycleOwner(), observer
+        )
     }
 
     private fun manageIfInsideRecyclerView(origin: View, asyncAction: AsyncAction) {
@@ -102,7 +105,6 @@ internal class ListAdapter(
         parentListViewSuffix = itemSuffix
     }
 
-    //TODO: Tested
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val newTemplate = serializer.deserializeComponent(templateJson)
         val view = generateView(newTemplate)
@@ -153,12 +155,11 @@ internal class ListAdapter(
         holder.onViewAttachedToWindow()
     }
 
-    fun setList(list: List<Any>?, recyclerId: Int) {
+    fun setList(list: List<Any>?) {
         list?.let {
             if (list != listItems) {
                 clearAdapterContent()
-                setRecyclerId(recyclerId)
-                //listViewModels.listViewIdViewModel.createSingleManagerByListViewId(recyclerId, listItems.isEmpty())
+                notifyListViewIdViewModel(listItems.isEmpty())
                 listItems = list
                 adapterItems = list.map { ListItem(data = it.normalizeContextValue()) }
                 notifyDataSetChanged()
@@ -171,14 +172,10 @@ internal class ListAdapter(
         createdViewHolders.clear()
     }
 
-    private fun setRecyclerId(incomingRecyclerId: Int) {
-        val recyclerIdToUse = when {
-            incomingRecyclerId != View.NO_ID -> incomingRecyclerId
-            recyclerId != View.NO_ID -> recyclerId
-            else -> listViewModels.generateIdViewModel.getViewId(listViewModels.rootView.getParentId())
-        }
-        listViewModels.listViewIdViewModel.createSingleManagerByListViewId(recyclerIdToUse, listItems.isEmpty())
-        recyclerId = recyclerIdToUse
+    private fun notifyListViewIdViewModel(adapterPreviouslyEmpty: Boolean){
+        listViewModels
+            .listViewIdViewModel
+            .createSingleManagerByListViewId(getRecyclerId(), adapterPreviouslyEmpty)
     }
 
     private fun clearList() {
@@ -189,7 +186,27 @@ internal class ListAdapter(
 
     override fun getItemCount() = adapterItems.size
 
-    /*fun setRecyclerId(recyclerId: Int){
-        this.recyclerId = recyclerId
-    }*/
+    fun setRecyclerId(id: Int) {
+        if(id != View.NO_ID) {
+            recyclerId = id
+        }
+    }
+
+    private fun getRecyclerId(): Int {
+        return recyclerId.takeIf {
+            it != View.NO_ID
+        } ?: createTempId()
+    }
+
+    private fun createTempId(): Int {
+        recyclerId = listViewModels
+            .generateIdViewModel
+            .getViewId(
+                listViewModels
+                    .rootView
+                    .getParentId()
+            )
+
+        return recyclerId
+    }
 }

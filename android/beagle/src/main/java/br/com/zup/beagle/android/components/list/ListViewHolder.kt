@@ -247,11 +247,7 @@ internal class ListViewHolder(
     }
 
     private fun bindIdToViewModel(view: View, isRecycled: Boolean, position: Int, recyclerId: Int): Int {
-        return if (view.id != View.NO_ID && !isRecycled) {
-            listViewModels.listViewIdViewModel.setViewId(recyclerId, position, view.id)
-        } else {
-            listViewModels.listViewIdViewModel.getViewId(recyclerId, position)
-        }
+        return listViewModels.listViewIdViewModel.getViewId(recyclerId, position)
     }
 
     private fun setUpdatedIdToViewAndManagers(
