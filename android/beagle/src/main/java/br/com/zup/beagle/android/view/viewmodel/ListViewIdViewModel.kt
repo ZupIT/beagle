@@ -32,12 +32,15 @@ internal class ListViewIdViewModel : ViewModel() {
 
     fun createSingleManagerByListViewId(recyclerViewId: Int, previouslyEmpty: Boolean = true) {
         require(recyclerViewId != View.NO_ID) { NO_ID_RECYCLER }
-        internalIdsByListId[recyclerViewId]?.run {
+        val listViewManager = internalIdsByListId[recyclerViewId]?.run {
             completelyLoaded = false
             val shouldReuse = !previouslyEmpty || reused
             if (shouldReuse) {
                 markToReuse(this)
             }
+        }
+        if (listViewManager == null) {
+            internalIdsByListId[recyclerViewId] = LocalListView()
         }
     }
 
@@ -73,17 +76,10 @@ internal class ListViewIdViewModel : ViewModel() {
         }
     }
 
-    private fun retrieveManager(recyclerViewId: Int, position: Int): LocalListView{
-        return internalIdsByListId[recyclerViewId]  ?: run {
-            addNewManager(recyclerViewId)
-        }
-    }
-
-    private fun addNewManager(recyclerViewId: Int): LocalListView{
-        val newLocalView = LocalListView()
-        internalIdsByListId[recyclerViewId] = newLocalView
-        return newLocalView
-    }
+    private fun retrieveManager(recyclerViewId: Int, position: Int) = internalIdsByListId[recyclerViewId]
+        ?: throw BeagleException(
+            "The list id $recyclerViewId which this view in position $position belongs to, was not found"
+        )
 
     private fun generateNewViewId(localListView: LocalListView, position: Int): Int {
         val id = View.generateViewId()
