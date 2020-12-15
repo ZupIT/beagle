@@ -33,13 +33,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isEnabled
-import androidx.test.espresso.matcher.ViewMatchers.withClassName
-import androidx.test.espresso.matcher.ViewMatchers.withHint
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withInputType
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import br.com.zup.beagle.automatedTests.R
 import br.com.zup.beagle.automatedTests.utils.WaitHelper
 import br.com.zup.beagle.automatedTests.utils.action.OrientationChangeAction
@@ -133,6 +127,16 @@ class ScreenRobot {
     fun clickOnInputWithHint(hint: String?): ScreenRobot {
         onView(Matchers.allOf(withHint(hint), isDisplayed())).perform(ViewActions.click())
         return this
+    }
+
+    fun validateValuesTextInput(scrollToWithHint: String, checkAndClickOnPlaceholder: String,
+                                typeTextAndCheckInTheFieldWithPlaceholder: String) {
+        ScreenRobot()
+            .scrollToWithHint(scrollToWithHint)
+            .checkViewContainsHint(checkAndClickOnPlaceholder)
+            .clickOnInputWithHint(checkAndClickOnPlaceholder)
+            .typeTextInTheFieldWithPlaceholder(checkAndClickOnPlaceholder, typeTextAndCheckInTheFieldWithPlaceholder)
+            .checkViewContainsText(typeTextAndCheckInTheFieldWithPlaceholder)
     }
 
     fun disabledFieldHint(text: String): ScreenRobot {
