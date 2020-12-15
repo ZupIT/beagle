@@ -24,8 +24,6 @@ public var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
     }
 }
 
-
-
 // MARK: - Public Functions
 
 /// Register a custom component
