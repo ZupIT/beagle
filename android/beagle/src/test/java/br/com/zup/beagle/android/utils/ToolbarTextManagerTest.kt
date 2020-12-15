@@ -40,7 +40,7 @@ class ToolbarTextManagerTest {
     private val textAppearanceMock = 1
 
     @Test
-    fun `Given a title when I call the title generator then check if the id passed corresponds to the standard id of the textView`() {
+    fun `Given a toolbar text manager When call generate title Then layout should set correct id`() {
         // GIVEN
         every { navigationBarMock.title } returns "title"
 
@@ -52,7 +52,7 @@ class ToolbarTextManagerTest {
     }
 
     @Test
-    fun `Given a title when it is called or title manager, check if the layout passed corresponds to the layout defined for textView`() {
+    fun `Given a toolbar text manager When call generate title Then should set correct layout`() {
         // GIVEN
         every { navigationBarMock.title } returns "title"
 
@@ -66,7 +66,7 @@ class ToolbarTextManagerTest {
     }
 
     @Test
-    fun `Given a title when you are called or title manager, check if the title passed corresponds to the title defined for the textView`() {
+    fun `Given a toolbar text manager When call generate title Then layout should set correct title`() {
         //  GIVEN
         every { navigationBarMock.title } returns "title"
 

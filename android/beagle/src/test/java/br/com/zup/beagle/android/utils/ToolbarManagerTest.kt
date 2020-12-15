@@ -39,15 +39,12 @@ import br.com.zup.beagle.android.utils.ToolbarTextManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import io.mockk.*
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 
-@DisplayName("Given a toolbar")
-class ToolbarManagerTest : BaseTest() {
+@DisplayName("Given a ToolbarManager")
+internal class ToolbarManagerTest : BaseTest() {
 
     private var toolbarTextManagerMock = mockk<ToolbarTextManager>()
     private var screenComponent = mockk<ScreenComponent>()
@@ -238,34 +235,39 @@ class ToolbarManagerTest : BaseTest() {
         verify(exactly = once()) { menuItem.icon = icon }
     }
 
-    @Test
-    @DisplayName("should be call the configureToolbar method to generate the title")
-    fun `verifyCallTheGenerateTitle`() {
-        // GIVEN
-        every { toolbar.findViewById<TextView>(any()) } returns textView
-        every { navigationBar.title } returns title
-        every { beagleSdk.designSystem } returns designSystemMock
-        every { designSystemMock.toolbarStyle(style) } returns styleInt
-        every { navigationBar.styleId } returns style
-        every { context.getToolbar() } returns toolbar
-        every { typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false) } returns true
-        every {
-            typedArray.getResourceId(R.styleable.BeagleToolbarStyle_titleTextAppearance, 0)
-        } returns textAppearanceMock
-        every {
-            toolbarTextManagerMock.generateTitle(context, navigationBar, textAppearanceMock)
-        } returns textViewMock
-        every { toolbar.addView(textViewMock) } just runs
-        every { toolbarTextManagerMock.centerTitle(toolbar, textViewMock) } just runs
+    @DisplayName("When configure a toolbar")
+    @Nested
+    inner class ConfigureToolbar {
 
-        // WHEN
-        toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
+        @Test
+        @DisplayName("Then should check the title settings")
+        fun verifyCallTheGenerateTitle() {
+            // GIVEN
+            every { toolbar.findViewById<TextView>(any()) } returns textView
+            every { navigationBar.title } returns title
+            every { beagleSdk.designSystem } returns designSystemMock
+            every { designSystemMock.toolbarStyle(style) } returns styleInt
+            every { navigationBar.styleId } returns style
+            every { context.getToolbar() } returns toolbar
+            every { typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false) } returns true
+            every {
+                typedArray.getResourceId(R.styleable.BeagleToolbarStyle_titleTextAppearance, 0)
+            } returns textAppearanceMock
+            every {
+                toolbarTextManagerMock.generateTitle(context, navigationBar, textAppearanceMock)
+            } returns textViewMock
+            every { toolbar.addView(textViewMock) } just runs
+            every { toolbarTextManagerMock.centerTitle(toolbar, textViewMock) } just runs
 
-        // THEN
-        verify(exactly = once()) {
-            toolbarTextManagerMock.generateTitle(context, navigationBar, textAppearanceMock)
-            toolbar.addView(textViewMock)
-            toolbarTextManagerMock.centerTitle(toolbar, textViewMock)
+            // WHEN
+            toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
+
+            // THEN
+            verify(exactly = once()) {
+                toolbarTextManagerMock.generateTitle(context, navigationBar, textAppearanceMock)
+                toolbar.addView(textViewMock)
+                toolbarTextManagerMock.centerTitle(toolbar, textViewMock)
+            }
         }
     }
 }

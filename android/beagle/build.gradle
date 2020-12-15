@@ -97,17 +97,18 @@ dependencies {
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.archCoreTesting
     testImplementation Dependencies.GeneralLibraries.jsonObject
+
     testImplementation Dependencies.TestLibraries.junitApi
     testImplementation Dependencies.TestLibraries.junitEngine
-    testImplementation Dependencies.TestLibraries.robolectric
-    testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.junit4
     testImplementation Dependencies.TestLibraries.junitVintageEngine
+
     testImplementation Dependencies.TestLibraries.testRunner
     testImplementation Dependencies.TestLibraries.testExt
     testImplementation Dependencies.TestLibraries.espressoCore
     testImplementation Dependencies.TestLibraries.testCore
     testImplementation Dependencies.TestLibraries.testRules
+    testImplementation Dependencies.TestLibraries.robolectric
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
