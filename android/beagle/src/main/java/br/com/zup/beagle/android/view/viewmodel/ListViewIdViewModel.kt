@@ -43,19 +43,6 @@ internal class ListViewIdViewModel : ViewModel() {
         }
     }
 
-    fun setViewId(recyclerViewId: Int, position: Int, viewId: Int): Int {
-        require(recyclerViewId != View.NO_ID) { NO_ID_RECYCLER }
-        val listViewManager = retrieveManager(recyclerViewId, position)
-        return if (listViewManager.reused) {
-            pollOrGenerateANewId(recyclerViewId, position) {
-                generateNewViewId(listViewManager, position)
-            }
-        } else {
-            addIdToLocalListView(listViewManager, position, viewId)
-            viewId
-        }
-    }
-
     fun getViewId(recyclerViewId: Int, position: Int): Int {
         require(recyclerViewId != View.NO_ID) { NO_ID_RECYCLER }
         val listViewManager = retrieveManager(recyclerViewId, position)

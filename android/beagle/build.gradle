@@ -61,6 +61,7 @@ android {
         unitTests.all {
             useJUnitPlatform()
         }
+        unitTests.includeAndroidResources = true
     }
 
 }
@@ -92,6 +93,10 @@ dependencies {
     // Unit Testing
     testImplementation Dependencies.TestLibraries.junitApi
     testRuntimeOnly Dependencies.TestLibraries.junitEngine
+    testImplementation Dependencies.TestLibraries.robolectric
+    testImplementation Dependencies.TestLibraries.junit4
+    testImplementation Dependencies.TestLibraries.testRunner
+    testImplementation Dependencies.TestLibraries.testExt
 
     testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
     testImplementation Dependencies.TestLibraries.mockk
