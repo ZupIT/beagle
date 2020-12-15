@@ -34,7 +34,7 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 class ToolbarTextManagerTest {
 
-    private val toolbarTextManager = ToolbarTextManager()
+    private val toolbarTextManager = ToolbarTextManager
     val application = ApplicationProvider.getApplicationContext() as Application
     private val navigationBarMock = mockk<NavigationBar>()
     private val textAppearanceMock = 1

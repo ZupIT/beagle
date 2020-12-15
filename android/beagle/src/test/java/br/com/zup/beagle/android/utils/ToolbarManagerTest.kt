@@ -239,7 +239,8 @@ class ToolbarManagerTest : BaseTest() {
     }
 
     @Test
-    fun `should be call the configureToolbar method to generate the title`() {
+    @DisplayName("should be call the configureToolbar method to generate the title")
+    fun `verifyCallTheGenerateTitle`() {
         // GIVEN
         every { toolbar.findViewById<TextView>(any()) } returns textView
         every { navigationBar.title } returns title

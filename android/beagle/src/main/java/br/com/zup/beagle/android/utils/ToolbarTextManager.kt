@@ -27,11 +27,9 @@ import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 
-internal class ToolbarTextManager {
+private const val TEXT_APPEARANCE_ZERO = 0
 
-    companion object {
-        private const val TEXT_APPEARANCE_ZERO = 0
-    }
+object ToolbarTextManager {
 
     fun generateTitle(
         context: Context,

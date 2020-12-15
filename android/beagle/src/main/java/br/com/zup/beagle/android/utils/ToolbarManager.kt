@@ -38,7 +38,7 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 
-internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager = ToolbarTextManager()) {
+internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager = ToolbarTextManager) {
 
     companion object {
         private const val CONTENT_INSET_ZERO = 0
