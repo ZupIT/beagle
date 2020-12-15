@@ -18,16 +18,16 @@ import Foundation
 
 public struct AnalyticsRecord {
     
-    public enum `Type`: String, Codable {
+    public enum RecordType: String, Codable {
         case screen
         case action
     }
     
-    public let type: Type
+    public let type: RecordType
     public let platform: String
     public let values: [String: Any]
     
-    public init(type: Type, platform: String = "ios", values: [String: Any] = [:]) {
+    public init(type: RecordType, platform: String = "ios", values: [String: Any] = [:]) {
         self.type = type
         self.platform = platform
         self.values = values

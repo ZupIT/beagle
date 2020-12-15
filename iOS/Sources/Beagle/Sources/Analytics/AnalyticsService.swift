@@ -163,7 +163,7 @@ class AnalyticsService {
         let attributes = action.analytics?.attributes ?? config.actions[name]
         for attribute in attributes ?? [] {
             if let path = Path(rawValue: attribute), !path.nodes.isEmpty,
-               let attributeValue = value(from: action, at: path, origin: origin) {
+               let attributeValue = try? value(from: action, at: path, origin: origin) {
                 values = object(values, setting: attributeValue, at: path)
             }
         }
@@ -184,37 +184,48 @@ class AnalyticsService {
         return config.actions[name] != nil
     }
     
-    private func value(from action: RawAction, at path: Path, origin: UIView) -> Any? {
+    private func value(from action: RawAction, at path: Path, origin: UIView) throws -> Any? {
         var value: Any = action
         for node in path.nodes {
             switch node {
             case .index(let index):
-                let children = Mirror(reflecting: value).children
-                let (start, end) = (children.startIndex, children.endIndex)
-                guard let childIndex = children.index(start, offsetBy: index, limitedBy: end),
-                      start..<end ~= childIndex  else { return nil }
-                value = unwrap(children[childIndex].value)
+                value = try valueAt(index, in: value)
             case .key(let name):
-                if let dictionary = value as? [String: Any] {
-                    guard let nodeValue = dictionary[name] else { return nil }
-                    value = nodeValue
-                } else {
-                    guard let descendant = Mirror(reflecting: value).descendant(name) else { return nil }
-                    value = unwrap(descendant)
-                }
+                value = try valueAt(name, in: value)
             }
             
             if let evaluable = value as? ContextEvaluable {
                 value = evaluable.evaluateWith(contextProvider: origin)
             }
             if let dynamicObject = value as? DynamicObject {
-                guard let any = dynamicObject.asAny() else {
-                    return nil
-                }
+                guard let any = dynamicObject.asAny() else { return nil }
                 value = any
             }
         }
         return value
+    }
+    
+    private func valueAt(_ index: Int, in value: Any) throws -> Any {
+        let children = Mirror(reflecting: value).children
+        let (start, end) = (children.startIndex, children.endIndex)
+        guard let childIndex = children.index(start, offsetBy: index, limitedBy: end),
+              start..<end ~= childIndex  else {
+            throw EvaluationError.indexOutOfBounds(index)
+        }
+        return unwrap(children[childIndex].value)
+    }
+    
+    private func valueAt(_ name: String, in value: Any) throws -> Any {
+        if let dictionary = value as? [String: Any] {
+            guard let nodeValue = dictionary[name] else {
+                throw EvaluationError.keyNotFound(name)
+            }
+            return nodeValue
+        }
+        guard let descendant = Mirror(reflecting: value).descendant(name) else {
+            throw EvaluationError.keyNotFound(name)
+        }
+        return unwrap(descendant)
     }
     
     private func object(_ original: [String: Any], setting value: Any, at path: Path) -> [String: Any] {
@@ -242,9 +253,16 @@ class AnalyticsService {
     
     private func unwrap(_ object: Any) -> Any {
         // swiftlint:disable syntactic_sugar
-        if case Optional<Any>.some(let unwraped) = object { return unwraped }
+        if case Optional<Any>.some(let unwraped) = object {
+            return unwraped
+        }
         // swiftlint:enable syntactic_sugar
         return object
+    }
+    
+    private enum EvaluationError: Error {
+        case indexOutOfBounds(Int)
+        case keyNotFound(String)
     }
 }
 

@@ -391,9 +391,13 @@ private class AnalyticsProviderStub: AnalyticsProvider {
     
     var maximumItemsInQueue: Int?
     
-    var getConfig: (@escaping (Result<AnalyticsConfig, Error>) -> Void) -> Void = { _ in }
+    var getConfig: (@escaping (Result<AnalyticsConfig, Error>) -> Void) -> Void = { _ in
+        // Intentionally unimplemented...
+    }
     
-    var startSession: (@escaping (Result<Void, Error>) -> Void) -> Void = { _ in }
+    var startSession: (@escaping (Result<Void, Error>) -> Void) -> Void = { _ in
+        // Intentionally unimplemented...
+    }
     
     func createRecord(_ record: AnalyticsRecord) {
         records.append(record)
