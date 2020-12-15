@@ -136,9 +136,6 @@ class ModelGenerator
         @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
       end
     end
-
-    puts "Kotlin Android models generated!"
-
   end
 
   # Generates models for kotlin backend
@@ -177,8 +174,6 @@ class ModelGenerator
 
       @writer.write(path, @objectType.name + ".kt", to_s)
     end
-
-    puts "Kotlin Backend models generated!"
   end
   
   # Generates models for swift
@@ -285,8 +280,10 @@ if __FILE__ == $0
     generator.generate_kotlin_backend
   when "kotlinAndroid"
     generator.generate_kotlin
+    puts "Kotlin Android #{message}"
   when "kotlinBackend"
     generator.generate_kotlin_backend
+    puts "Kotlin Backend #{message}"
   when "all"
     generator.generate
     puts "All language #{message}"

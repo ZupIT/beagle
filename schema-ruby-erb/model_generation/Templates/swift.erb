@@ -16,7 +16,7 @@
  */
 <%
   require_relative 'Synthax/Types/enum_type.rb'
-  require_relative 'Synthax/Types/type_to_string.rb'
+  
   require_relative 'Synthax/Attributes/list.rb'
   require_relative 'Synthax/Attributes/dictionary.rb'
   require_relative 'Templates/template_helper.rb'
@@ -39,7 +39,7 @@
   end
 
   def single_variable_declaration(variable)
-    type_name = @template_helper.fetch_type(variable.typeName)
+    type_name = @template_helper.fetch_type(variable.type.name)
     type_name = adaptTypeNameToSwiftSpecific(type_name)
     type_name
   end
@@ -99,27 +99,29 @@
     end
     output = "\n"
     for variable in objectType.synthax_type.variables
-      output += variable.comment != nil ? "#{@tab}/// #{variable.comment}\n" : ""
+      commentReplaced = variable.comment.gsub("\n", "\n#{@tab}/// ")
+      output += variable.comment != nil ? "#{@tab}/// #{commentReplaced}\n" : ""
       output += "#{@tab}#{variable.accessor} var #{variable.name}: #{variable_type_declaration(variable)}\n"
     end
     for inherit in objectType.synthax_type.inheritFrom
       for variable in inherit.synthax_type.variables
-        output += variable.comment != nil ? "#{@tab}/// #{variable.comment}\n" : ""
+        commentReplaced = variable.comment.gsub("\n", "\n#{@tab}/// ")
+        output += variable.comment != nil ? "#{@tab}/// #{commentReplaced}\n" : ""
         output += "#{@tab}#{variable.accessor} var #{variable.name}: #{variable_type_declaration(variable)}\n"
       end
     end
-    output += "\n"
 
     output
   end
 
   def initForCommonObject(objectType)
+    output = "\n"
     if objectType.synthax_type.variables.length == 0 || 
-      objectType.synthax_type.type == TypesToString.interface ||
-      objectType.synthax_type.type == TypesToString.abstract
+      @template_helper.is_interface(objectType) ||
+      @template_helper.is_abstract(objectType)
       return ""
     end
-    output = "#{@tab}#{objectType.synthax_type.accessor} init(\n"
+    output += "#{@tab}#{objectType.synthax_type.accessor} init(\n"
     counter = 0
     for variable in objectType.synthax_type.variables
       output += "#{counter > 0 ? ",\n" : ""}#{@doubleTab}#{variable.name}: #{handleTypeNameForInitMethod(variable)}"
@@ -153,7 +155,8 @@
   def fullDeclaration(objectType)
     isEnumDeclaration = @template_helper.is_enum(objectType)
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
-    output = objectType.synthax_type.comment != nil ? "/// #{objectType.synthax_type.comment}\n" : ""
+    commentReplaced = objectType.synthax_type.comment.gsub("\n", "\n/// ")
+    output = objectType.synthax_type.comment != nil ? "/// #{commentReplaced}\n" : ""
     typeName = adaptTypeNameToSwiftSpecific(objectType.synthax_type.name)
     output += "#{objectType.synthax_type.accessor} #{typeKind} #{typeName}#{handleInheritance(objectType.synthax_type)} {\n"
     if isEnumDeclaration
@@ -188,34 +191,16 @@
   def preRun(object_type)
     if @template_helper.is_widget(object_type)
       object_type.synthax_type.variables.append(
-        Field.new(:name => "widgetProperties", :typeName => "WidgetProperties", :defaultValue => "WidgetProperties()")
+        Field.new(:name => "widgetProperties", :type => SwiftCustom.new("WidgetProperties"), :defaultValue => "WidgetProperties()", :comment => "")
       )
       object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoDecodable"))
     elsif @template_helper.is_server_driven_component(object_type)
       object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoDecodable"))
-    elsif [Alert.new.name, AddChildren.new.name, Confirm.new.name, SendRequest.new.name, Condition.new.name].include? object_type.synthax_type.name
-      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoDecodable"))
-    elsif ![Screen.new.name].include? object_type.synthax_type.name
-      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("Decodable"))
-    end
-  
-    if [UnitValue.new.name, SafeArea.new.name].include? object_type.synthax_type.name
-      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("Equatable"))
-    end
-
-    if [Flex.new.name, EdgeValue.new.name, Size.new.name, Style.new.name].include? object_type.synthax_type.name
-      object_type.synthax_type.type = "class"
-      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoEquatable"))
     end
 
     if [CornerRadius.new.name].include? object_type.synthax_type.name
       object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoEquatable"))
     end
-
-    if [Alignment.new.name].include? object_type.synthax_type.name
-      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("CaseIterable"))
-    end
-
   end
 
   ## CAUTION: the following methods will be deleted
@@ -226,6 +211,8 @@
       "HasContext"
     elsif typeName.eql?("ContextData")
       "DynamicObject"
+    elsif typeName.eql?(SwiftCustom.new("WidgetProperties").name)
+      "WidgetProperties"
     else
       typeName
     end
@@ -234,7 +221,7 @@
   class SwiftCustom < BaseComponent
     def initialize(name)
       synthax_type = BuiltInType.new(
-        :type => TypesToString.interface,
+        :type => TypeInterface.new,
         :name => name
       )
       super(synthax_type)
