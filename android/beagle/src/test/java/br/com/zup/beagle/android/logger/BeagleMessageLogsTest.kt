@@ -22,11 +22,10 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
-import org.junit.jupiter.api.AfterEach
 import org.junit.Assert.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
+@DisplayName("Given a Bleagle Message Logs")
 class BeagleMessageLogsTest {
 
     private val beagleLoggerInfoSlot = slot<String>()
@@ -225,5 +224,46 @@ class BeagleMessageLogsTest {
         verify(exactly = 1) {  BeagleLoggerProxy.error("Error while trying to evaluate binding.", exception) }
     }
 
+    @DisplayName("When analyticsQueueIsFull")
+    @Nested
+    inner class AnalyticsQueueIsFull{
+
+        @DisplayName("Then Should call BeagleLogger warning")
+        @Test
+        fun testAnalyticsQueueIsFull(){
+            //given
+            val expectedMessage = "10 analytics records are queued and waiting for the initial configuration " +
+                "of the AnalyticsProvider to conclude. This is probably an error within your analytics provider. Why " +
+                "are getConfig() and startSession() not done yet? From now on, some analytics records will be lost. " +
+                "If you need to increase the maximum number of items the queue can support, implement " +
+                "getMaximumItemsInQueue() in your AnalyticsProvider."
+
+            //when
+            BeagleMessageLogs.analyticsQueueIsFull(10)
+
+            //then
+            verify(exactly = 1) { BeagleLoggerProxy.warning(expectedMessage) }
+        }
+    }
+
+    @DisplayName("When can not get property value")
+    @Nested
+    inner class CanNotGetPropertyValue{
+
+        @DisplayName("Then should call BeagleLoggerProxy warning")
+        @Test
+        fun testCanNotGetPropertyValue(){
+            //given
+            val propertyName = "property"
+            val expectedMessage = "Can not get some attributes of property $propertyName."
+
+            //when
+            BeagleMessageLogs.canNotGetPropertyValue(propertyName)
+
+            //then
+            verify(exactly = 1) { BeagleLoggerProxy.warning(expectedMessage) }
+
+        }
+    }
 
 }
