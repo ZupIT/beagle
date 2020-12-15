@@ -38,10 +38,23 @@ import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.utils.ToolbarTextManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
-import io.mockk.*
-import org.junit.jupiter.api.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.runs
+import io.mockk.slot
+import io.mockk.spyk
+import io.mockk.unmockkAll
+import io.mockk.verify
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 @DisplayName("Given a ToolbarManager")
 internal class ToolbarManagerTest : BaseTest() {
