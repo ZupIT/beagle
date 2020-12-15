@@ -24,13 +24,52 @@ Feature: ScrollView Component Validation
     Background:
         Given that I'm on the scrollview screen
 
-    Scenario: ScrollView 01 - scrollView component renders text attribute correctly
-        Then scrollview screen should render all text attributes correctly
-
-    Scenario: ScrollView 02 - scrollView component performs vertical scroll correctly
-        When I have a vertical scroll configured
-        Then scrollview screen should perform the scroll action vertically
-
-    Scenario: ScrollView 03 - scrollView component performs horizontal scroll correctly
+    Scenario: ScrollView 01 - scrollView component performs horizontal scroll correctly
         When I have a horizontal scroll configured
         Then scrollview screen should perform the scroll action horizontally
+
+    Scenario Outline: ScrollView 02 - scrollView component should be render the correctly texts and perform the scroll horizontal
+        When I press on text scroll horizontal <textScrollHorizontal>
+        Then the text <textScrollHorizontal> should change for the next text
+        And the scrollview should perform horizontally going up <buttonScrollVertical>
+
+        Examples:
+            | textScrollHorizontal                    | buttonScrollVertical |
+            | Click to see the new text in horizontal | horizontal scroll    |
+
+    Scenario Outline: ScrollView 03 - scrollView component should be render the correctly texts in horizontal even if the screen is rotated
+        When I press on text to be scrolled and rotated <textScrollViewRotate>
+        Then the <textScrollViewRotate> text of the horizontal scrollview with rotation should change
+        And the scrollview rotate should perform horizontally <buttonScrollVertical>
+        And even if the screen is rotated the scrollview must be perform horizontally <buttonScrollHorizontal>
+
+        Examples:
+            | textScrollViewRotate                                         | buttonScrollHorizontal |
+            | Click to see the text change, rotate and scroll horizontally | horizontal scroll      |
+
+    Scenario Outline: ScrollView 04 - scrollView component should be render the correctly texts and perform the scroll vertically
+        When I press on text scrollview vertical <textScrollVertical>
+        Then the text should change
+        And the scrollview should perform vertically <textScrollVertical>
+
+        Examples:
+            | textScrollVertical                    |
+            | Click to see the new text in vertical |
+
+    Scenario Outline: ScrollView 05 - scrollView component should be render the correctly texts in vertical even if the screen is rotated
+        When I press on text scrollview to be rotate <textScrollRotate>
+        Then the text vertical of scrollview rotate should change
+        And the scrollview rotate should perform vertically <textScrollRotate>
+        And even if the screen is rotated the scrollview must be perform vertically <buttonScrollVertical>
+
+        Examples:
+            | textScrollRotate                                           | buttonScrollVertical |
+            | Click to see the text change, rotate and scroll vertically | horizontal scroll    |
+
+    Scenario: ScrollView 06 - the scrollview component should work correctly with another scrollview within
+        When I press on text Click to see the new text of scrollview
+        Then the scrollview should be render vertically
+        And the other scrollview should be render horizontally
+
+
+

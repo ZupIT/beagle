@@ -58,12 +58,14 @@ public struct BeagleRenderer {
     private func setupView(_ view: UIView, of component: BeagleSchema.RawComponent) {
         view.beagle.setupView(of: component)
         
-        if let c = component as? IdentifiableComponent {
-            view.beagle.setup(id: c.id)
+        if let id = (component as? IdentifiableComponent)?.id {
+            controller.setIdentifier(id, in: view)
         }
-        
         if let context = (component as? HasContext)?.context {
-            view.setContext(context)
+            controller.setContext(context, in: view)
+        }
+        if let onInit = (component as? InitiableComponent)?.onInit {
+            controller.addOnInit(onInit, in: view)
         }
         
         if let style = (component as? StyleComponent)?.style {

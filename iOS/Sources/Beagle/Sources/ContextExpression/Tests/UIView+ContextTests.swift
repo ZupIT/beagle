@@ -72,8 +72,9 @@ final class UIViewContextTests: XCTestCase {
         XCTAssertEqual(leaf.getContext(with: middleId)?.value, middleContext)
         XCTAssertNil(leaf.getContext(with: "unknown"))
 
-        XCTAssertEqual(middle.contextMap[rootId]?.value, rootContext)
-        XCTAssertEqual(leaf.contextMap[middleId]?.value, middleContext)
+        // Cache disabled
+        XCTAssertNil(middle.contextMap[rootId]?.value)
+        XCTAssertNil(leaf.contextMap[middleId]?.value)
     }
     
     func testEvaluate() {

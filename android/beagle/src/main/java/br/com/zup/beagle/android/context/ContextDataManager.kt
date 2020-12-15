@@ -68,6 +68,19 @@ internal class ContextDataManager(
         }
     }
 
+    fun onViewIdChanged(oldId: Int, newId: Int, view: View) {
+        contexts[oldId]?.let { contextBinding ->
+            if (!contexts.containsKey(newId)) {
+                contexts.put(newId, contextBinding)
+            } else {
+                contexts[newId]?.let {
+                    updateContextAndReference(view, it.context)
+                }
+            }
+        }
+        contexts.remove(oldId)
+    }
+
     fun addContext(view: View, context: ContextData, shouldOverrideExistingContext: Boolean = false) {
         if (context.id == globalContext.context.id) {
             BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()
@@ -103,7 +116,7 @@ internal class ContextDataManager(
 
     fun restoreContext(view: View) {
         contexts[view.id]?.let {
-            view.setContextData(it.context)
+            view.setContextBinding(it)
         }
     }
 

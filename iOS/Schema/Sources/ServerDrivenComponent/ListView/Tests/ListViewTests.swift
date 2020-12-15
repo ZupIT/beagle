@@ -25,14 +25,72 @@ class ListViewTests: XCTestCase {
         let component: ListView = try componentFromJsonFile(fileName: "listViewComponent")
         _assertInlineSnapshot(matching: component, as: .dump, with: """
         ▿ ListView
-          ▿ children: 3 elements
-            ▿ UnknownComponent
-              - type: "custom:beagleschematestscomponent"
-            ▿ UnknownComponent
-              - type: "custom:beagleschematestscomponent"
-            ▿ UnknownComponent
-              - type: "custom:beagleschematestscomponent"
-          - direction: Direction.vertical
+          - context: Optional<Context>.none
+          ▿ dataSource: Expression<Array<DynamicObject>>
+            ▿ value: 1 element
+              - 
+          ▿ direction: Optional<Direction>
+            - some: Direction.vertical
+          ▿ iteratorName: Optional<String>
+            - some: "\(component.iteratorName ?? "")"
+          - key: Optional<String>.none
+          - onInit: Optional<Array<RawAction>>.none
+          - onScrollEnd: Optional<Array<RawAction>>.none
+          - scrollEndThreshold: Optional<Int>.none
+          ▿ template: Container
+            ▿ children: 3 elements
+              ▿ UnknownComponent
+                - type: "custom:beagleschematestscomponent"
+              ▿ UnknownComponent
+                - type: "custom:beagleschematestscomponent"
+              ▿ UnknownComponent
+                - type: "custom:beagleschematestscomponent"
+            - context: Optional<Context>.none
+            - onInit: Optional<Array<RawAction>>.none
+            ▿ widgetProperties: WidgetProperties
+              - accessibility: Optional<Accessibility>.none
+              - id: Optional<String>.none
+              ▿ style: Optional<Style>
+                ▿ some: Style
+                  - backgroundColor: Optional<String>.none
+                  - borderColor: Optional<String>.none
+                  - borderWidth: Optional<Double>.none
+                  - cornerRadius: Optional<CornerRadius>.none
+                  - display: Optional<Expression<Display>>.none
+                  ▿ flex: Optional<Flex>
+                    ▿ some: Flex
+                      - alignContent: Optional<AlignContent>.none
+                      - alignItems: Optional<AlignItems>.none
+                      - alignSelf: Optional<AlignSelf>.none
+                      - basis: Optional<UnitValue>.none
+                      - flex: Optional<Double>.none
+                      ▿ flexDirection: Optional<FlexDirection>
+                        - some: FlexDirection.column
+                      - flexWrap: Optional<Wrap>.none
+                      - grow: Optional<Double>.none
+                      - justifyContent: Optional<JustifyContent>.none
+                      - shrink: Optional<Double>.none
+                  - margin: Optional<EdgeValue>.none
+                  - padding: Optional<EdgeValue>.none
+                  - position: Optional<EdgeValue>.none
+                  - positionType: Optional<PositionType>.none
+                  - size: Optional<Size>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - id: Optional<String>.none
+            ▿ style: Optional<Style>
+              ▿ some: Style
+                - backgroundColor: Optional<String>.none
+                - borderColor: Optional<String>.none
+                - borderWidth: Optional<Double>.none
+                - cornerRadius: Optional<CornerRadius>.none
+                - display: Optional<Expression<Display>>.none
+                - flex: Optional<Flex>.none
+                - margin: Optional<EdgeValue>.none
+                - padding: Optional<EdgeValue>.none
+                - position: Optional<EdgeValue>.none
+                - positionType: Optional<PositionType>.none
+                - size: Optional<Size>.none
         """)
     }
 

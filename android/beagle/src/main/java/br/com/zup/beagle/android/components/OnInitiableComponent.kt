@@ -17,8 +17,14 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
+import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.context.ContextActionExecutor
+import br.com.zup.beagle.android.action.AsyncAction
+import br.com.zup.beagle.android.action.AsyncActionStatus
+import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.utils.setIsInitiableComponent
+import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
 
 /**
@@ -40,31 +46,54 @@ interface OnInitiableComponent {
     /**
      * Method responsible for releasing the execution of all actions present in the onInit property
      * regardless of whether they have already been executed.
+     * It is rarely appropriate to use this method.
      */
     fun markToRerunOnInit()
 }
 
 /**
  * Class that implements onInitiableComponent behavior
- * @property onInitCalled tells if onInit actions has been called
+ * @property onInitViewModel manages the onInit called status
+ * @property origin represents the view that triggered the action
+ * @property observer listens to the FINISHED status of the async actions present on onInit informing the ViewModel
  */
 class OnInitiableComponentImpl(override val onInit: List<Action>?) : OnInitiableComponent {
 
     @Transient
-    private var onInitCalled = false
+    private lateinit var onInitViewModel: OnInitViewModel
 
-    override fun handleOnInit(rootView: RootView, origin: View) {
-        onInit?.let {
-            addListenerToExecuteOnInit(rootView, origin)
+    @Transient
+    private lateinit var origin: View
+
+    @Transient
+    private val observer = Observer<AsyncActionStatus> { actionStatus ->
+        if (actionStatus == AsyncActionStatus.FINISHED) {
+            onInitViewModel.setOnInitFinished(origin.id, true)
         }
     }
 
-    private fun addListenerToExecuteOnInit(rootView: RootView, origin: View) {
+    /**
+     * Execute the actions present in the onInit property as soon as the component is attached to window.
+     * Call this method preferably from the component's buildView method.
+     */
+    override fun handleOnInit(rootView: RootView, origin: View) {
+        onInitViewModel = rootView.generateViewModelInstance()
+        this.origin = origin
+        onInit?.let {
+            origin.setIsInitiableComponent(true)
+            addListenerToExecuteOnInit(rootView)
+        }
+    }
+
+    private fun addListenerToExecuteOnInit(rootView: RootView) {
         origin.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
-                if (!onInitCalled) {
-                    ContextActionExecutor.executeActions(rootView, origin, onInit)
-                    onInitCalled = true
+                if (!onInitViewModel.isOnInitCalled(origin.id)) {
+                    onInit?.forEach { action ->
+                        (action as? AsyncAction)?.status?.observe(rootView.getLifecycleOwner(), observer)
+                        action.handleEvent(rootView, origin, action)
+                    }
+                    onInitViewModel.setOnInitCalled(origin.id, true)
                 }
             }
 
@@ -73,10 +102,10 @@ class OnInitiableComponentImpl(override val onInit: List<Action>?) : OnInitiable
     }
 
     /**
-     * Method responsible for releasing the execution of all actions present in the onInit property
-     * regardless of whether they have already been executed.
+     * Method responsible for marking the onInitCalled status of all actions in a view as false.
+     * It is rarely appropriate to use this method.
      */
     override fun markToRerunOnInit() {
-        onInitCalled = false
+        onInitViewModel.setOnInitCalled(origin.id, false)
     }
 }

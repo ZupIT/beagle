@@ -155,7 +155,7 @@
 		7623CF7524254C9600688C4B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Zup IT";
 				TargetAttributes = {
 					7623CF7D24254C9600688C4B = {
@@ -414,7 +414,7 @@
 			repositoryURL = "https://github.com/daltoniam/Starscream.git";
 			requirement = {
 				kind = exactVersion;
-				version = 4.0.3;
+				version = 4.0.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

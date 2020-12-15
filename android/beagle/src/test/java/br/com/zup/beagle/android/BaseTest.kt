@@ -47,6 +47,7 @@ abstract class BaseTest {
         every { beagleSdk.config.cache.size } returns 15
         every { beagleSdk.registeredWidgets() } returns listOf()
         every { beagleSdk.registeredActions() } returns listOf()
+        every { beagleSdk.registeredOperations() } returns mapOf()
     }
 
     @AfterEach

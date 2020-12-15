@@ -25,11 +25,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
-import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
-import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
-import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -47,7 +43,7 @@ fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     actions: List<Action>,
-    context: ContextData? = null
+    context: ContextData? = null,
 ) {
     contextActionExecutor.executeActions(rootView, origin, this, actions, context)
 }
@@ -61,13 +57,15 @@ fun ServerDrivenComponent.handleEvent(
  * @property eventValue is the value that the eventName name has created,
  * this could be a primitive or a object that will be serialized to JSON
  */
-@Deprecated(HANDLE_EVENT_DEPRECATED_MESSAGE, ReplaceWith(HANDLE_EVENT_ACTIONS_POINTER))
+@Deprecated("It was deprecated in version 1.1.0 and will be removed in a future version." +
+    " Use handleEvent without eventName and eventValue or with ContextData for create a implicit context.",
+    ReplaceWith("handleEvent(rootView, origin, actions)"))
 fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     actions: List<Action>,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
 ) {
     eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
         ?: handleEvent(rootView, origin, actions)
@@ -85,7 +83,7 @@ fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     action: Action,
-    context: ContextData? = null
+    context: ContextData? = null,
 ) {
     contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
 }
@@ -99,13 +97,15 @@ fun ServerDrivenComponent.handleEvent(
  * @property eventValue is the value that the eventName name has created,
  * this could be a primitive or a object that will be serialized to JSON
  */
-@Deprecated(HANDLE_EVENT_DEPRECATED_MESSAGE, ReplaceWith(HANDLE_EVENT_POINTER))
+@Deprecated("It was deprecated in version 1.1.0 and will be removed in a future version." +
+    " Use handleEvent without eventName and eventValue or with ContextData for create a implicit context.",
+    ReplaceWith("handleEvent(rootView, origin, action)"))
 fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
     action: Action,
     eventName: String,
-    eventValue: Any? = null
+    eventValue: Any? = null,
 ) {
     eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
         ?: handleEvent(rootView, origin, action)
@@ -123,7 +123,7 @@ fun <T> ServerDrivenComponent.observeBindChanges(
     rootView: RootView,
     view: View,
     bind: Bind<T>,
-    observes: Observer<T?>
+    observes: Observer<T?>,
 ) {
     internalObserveBindChanges(rootView, view, bind, observes)
 }
@@ -132,7 +132,7 @@ internal fun <T> internalObserveBindChanges(
     rootView: RootView,
     view: View,
     bind: Bind<T>,
-    observes: Observer<T?>
+    observes: Observer<T?>,
 ) {
     val value = bind.observe(rootView, view, observes)
     if (bind is Bind.Value) {
@@ -156,18 +156,17 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity, idView: Int = R.id
 fun ServerDrivenComponent.toView(fragment: Fragment, idView: Int = R.id.beagle_default_id): View =
     this.toView(FragmentRootView(fragment, idView))
 
-
-internal fun ServerDrivenComponent.toView(rootView: RootView): View {
-    val viewModel = rootView.generateViewModelInstance<GenerateIdViewModel>()
-    viewModel.createIfNotExisting(rootView.getParentId())
+internal fun ServerDrivenComponent.toView(
+    rootView: RootView,
+    generateIdManager: GenerateIdManager = GenerateIdManager(rootView),
+): View {
+    generateIdManager.createSingleManagerByRootViewId()
     val view = viewFactory.makeBeagleFlexView(rootView).apply {
         id = rootView.getParentId()
         addServerDrivenComponent(this@toView)
     }
-
     view.listenerOnViewDetachedFromWindow = {
-        viewModel.setViewCreated(rootView.getParentId())
+        generateIdManager.onViewDetachedFromWindow(view)
     }
-
     return view
 }

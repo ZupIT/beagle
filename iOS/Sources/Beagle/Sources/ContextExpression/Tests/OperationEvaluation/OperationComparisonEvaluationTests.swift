@@ -26,7 +26,7 @@ final class OperationComparisonEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [false, false, true, true, false, false, false, nil, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.gt) { evaluatedResults in
+        evaluateOperation("gt") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -37,7 +37,7 @@ final class OperationComparisonEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [true, false, true, true, false, false, true, nil, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.gte) { evaluatedResults in
+        evaluateOperation("gte") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -48,7 +48,7 @@ final class OperationComparisonEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [false, true, false, false, true, true, false, nil, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.lt) { evaluatedResults in
+        evaluateOperation("lt") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -59,7 +59,7 @@ final class OperationComparisonEvaluationTests: OperationEvaluationTests {
         let comparableResults: [DynamicObject] = [true, true, false, false, true, true, true, nil, nil, nil, nil, nil]
         
         // When
-        evaluateOperation(.lte) { evaluatedResults in
+        evaluateOperation("lte") { evaluatedResults in
             // Then
             XCTAssertEqual(evaluatedResults, comparableResults)
         }
@@ -67,7 +67,7 @@ final class OperationComparisonEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateEq() {
         // Given
-        let name = Operation.Name.eq
+        let name = "eq"
         let contexts = [Context(id: "context", value: true)]
         let binding = contexts[0].id
         
@@ -88,13 +88,13 @@ final class OperationComparisonEvaluationTests: OperationEvaluationTests {
         }
     }
     
-    private func evaluateOperation(_ name: Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateOperation(_ name: String, completion: ([DynamicObject]) -> Void) {
         // Given
         let contexts = [Context(id: "context1", value: 2), Context(id: "context2", value: 2.5)]
         let bindings = contexts.map { $0.id }
         
-        let sums = ["10, 4", "12.5, 5.5"].toOperations(name: .sum)
-        guard let subtract = "28, \(sums[0].rawValue)".toOperation(name: .subtract) else {
+        let sums = ["10, 4", "12.5, 5.5"].toOperations(name: "sum")
+        guard let subtract = "28, \(sums[0].rawValue)".toOperation(name: "subtract") else {
             XCTFail("Failed to get operation")
             return
         }

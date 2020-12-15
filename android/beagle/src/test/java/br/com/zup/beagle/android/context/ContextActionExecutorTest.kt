@@ -20,6 +20,7 @@ import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AsyncAction
+import br.com.zup.beagle.android.action.BaseAsyncActionTest
 import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
@@ -42,7 +43,7 @@ data class PersonTest(val name: String)
 
 private const val NAME = "name"
 
-class ContextActionExecutorTest : BaseTest() {
+class ContextActionExecutorTest : BaseAsyncActionTest() {
 
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val sender = mockk<Action>()
@@ -145,20 +146,22 @@ class ContextActionExecutorTest : BaseTest() {
     @Test
     fun `GIVEN an AsyncAction WHEN executed THEN should call onActionStarted and onAsyncActionExecuted`() {
         // Given
+        val context = null
         val asyncActionViewModel = mockk<AsyncActionViewModel>()
         prepareViewModelMock(asyncActionViewModel)
         val asyncActionSlot = slot<AsyncActionData>()
-        val asyncAction = mockk<SendRequest>(relaxed = true)
+        val asyncAction = SendRequest("http://www.test.com")
+        asyncAction.status.observeForever(observer)
         every { asyncActionViewModel.onAsyncActionExecuted(capture(asyncActionSlot)) } just Runs
 
         // When
-        contextActionExecutor.executeActions(rootView, view, listOf(asyncAction))
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(asyncAction), context)
 
         // Then
         assertEquals(asyncActionSlot.captured.asyncAction, asyncAction)
         assertEquals(asyncActionSlot.captured.origin, view)
         verify(exactly = 1) { asyncActionViewModel.onAsyncActionExecuted(asyncActionSlot.captured) }
         verify(exactly = 1) { asyncAction.onActionStarted() }
-        verify(exactly = 1) { asyncAction.execute(rootView, view) }
+        assert(onActionStartedWasCalled())
     }
 }

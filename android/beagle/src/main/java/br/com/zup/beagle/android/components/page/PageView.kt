@@ -26,7 +26,6 @@ import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.utils.PageViewDeprecatedConstants
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
@@ -49,26 +48,26 @@ import br.com.zup.beagle.widget.core.Flex
 @RegisterWidget
 data class PageView(
     override val children: List<ServerDrivenComponent>,
-    @Deprecated(message = PageViewDeprecatedConstants.PAGE_INDICATOR_PROPERTY)
+    @Deprecated(message = "This property was deprecated in version 1.1.0 and will be removed in a future version.")
     val pageIndicator: PageIndicatorComponent? = null,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
-    val currentPage: Bind<Int>? = null
+    val currentPage: Bind<Int>? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     constructor(
         children: List<ServerDrivenComponent>,
         context: ContextData? = null,
         onPageChange: List<Action>? = null,
-        currentPage: Int
+        currentPage: Int,
     ) : this(children, null, context, onPageChange, valueOfNullable(currentPage))
 
-    @Deprecated(message = PageViewDeprecatedConstants.CONSTRUCTOR_WITH_PAGE_INDICATOR,
-        replaceWith = ReplaceWith(PageViewDeprecatedConstants.CONSTRUCTOR_WITH_PAGE_INDICATOR_REPLACE))
+    @Deprecated(message = "This constructor was deprecated in version 1.1.0 and will be removed in a future version.",
+        replaceWith = ReplaceWith("PageView(children, context, onPageChange=null, currentPage=null)"))
     constructor(
         children: List<ServerDrivenComponent>,
         pageIndicator: PageIndicatorComponent? = null,
-        context: ContextData? = null
+        context: ContextData? = null,
     ) : this(
         children,
         pageIndicator,
@@ -81,7 +80,7 @@ data class PageView(
         children: List<ServerDrivenComponent>,
         context: ContextData? = null,
         onPageChange: List<Action>? = null,
-        currentPage: Bind<Int>? = null
+        currentPage: Bind<Int>? = null,
     ) : this(
         children,
         null,
@@ -129,7 +128,7 @@ data class PageView(
     private fun setupPageIndicator(
         pages: Int,
         viewPager: BeaglePageView,
-        pageIndicator: PageIndicatorComponent?
+        pageIndicator: PageIndicatorComponent?,
     ) {
         pageIndicator?.initPageView(viewPager)
         pageIndicator?.setCount(pages)
@@ -139,7 +138,7 @@ data class PageView(
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
-                positionOffsetPixels: Int
+                positionOffsetPixels: Int,
             ) {
             }
 
@@ -153,7 +152,7 @@ data class PageView(
 internal class PageViewAdapter(
     private val rootView: RootView,
     private val children: List<ServerDrivenComponent>,
-    private val viewFactory: ViewFactory
+    private val viewFactory: ViewFactory,
 ) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {

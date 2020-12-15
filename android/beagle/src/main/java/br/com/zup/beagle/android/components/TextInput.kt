@@ -204,12 +204,12 @@ data class TextInput(
     }
 
     private fun EditText.setInputType(textInputType: TextInputType) {
-        this.inputType = when (textInputType) {
-            DATE -> InputType.TYPE_CLASS_DATETIME
-            EMAIL -> InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-            PASSWORD -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            NUMBER -> InputType.TYPE_CLASS_NUMBER
-            else -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        when (textInputType) {
+            DATE -> setRawInputType(InputType.TYPE_CLASS_DATETIME)
+            EMAIL -> setRawInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
+            PASSWORD -> inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            NUMBER -> setRawInputType(InputType.TYPE_CLASS_NUMBER)
+            else -> setRawInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
         }
     }
 }

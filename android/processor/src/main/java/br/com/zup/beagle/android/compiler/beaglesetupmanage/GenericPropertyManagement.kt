@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.compiler.beaglesetupmanage
 
-import br.com.zup.beagle.compiler.BeagleClass
+import br.com.zup.beagle.compiler.shared.BeagleClass
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec

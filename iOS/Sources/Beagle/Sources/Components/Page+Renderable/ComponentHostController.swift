@@ -38,6 +38,10 @@ class ComponentHostController: BeagleController {
         return renderer.controller.screen
     }
 
+    func addOnInit(_ onInit: [RawAction], in view: UIView) {
+        renderer.controller.addOnInit(onInit, in: view)
+    }
+    
     func execute(actions: [RawAction]?, origin: UIView) {
         renderer.controller.execute(actions: actions, origin: origin)
     }

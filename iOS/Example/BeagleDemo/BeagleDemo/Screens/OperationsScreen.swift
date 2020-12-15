@@ -94,7 +94,7 @@ let operationsWebSampleScreen: Screen = {
                 onPress: [
                     SetContext(
                         contextId: "counter",
-                        value: "@{subtract(counter, 1)}"
+                        value: "@{SUBTRACT(counter, 1)}"
                     )
                 ]
             )

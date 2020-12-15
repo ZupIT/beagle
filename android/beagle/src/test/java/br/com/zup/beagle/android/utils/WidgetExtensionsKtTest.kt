@@ -36,7 +36,10 @@ import io.mockk.verifySequence
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 
+@DisplayName("Given a widget extension")
 class WidgetExtensionsKtTest : BaseTest() {
 
     private val component = mockk<ServerDrivenComponent>()
@@ -54,66 +57,85 @@ class WidgetExtensionsKtTest : BaseTest() {
         every { anyConstructed<ViewModelProvider>().get(contextViewModel::class.java) } returns contextViewModel
     }
 
-    @Test
-    fun observeBindChanges_should_evaluate_binding_from_context_and_implicit_context() {
-        // Given
-        val value = RandomData.string()
-        val bind = expressionOf<String>("Hello @{context}")
-        contextViewModel.addContext(view, ContextData(
-            id = "context",
-            value = value
-        ))
+    @DisplayName("When observeBindChanges")
+    @Nested
+    inner class ObserveBindChanges {
 
-        // When Then
-        component.observeBindChanges(rootView, view, bind) { evaluated ->
+        @DisplayName("Then should evaluate  binding from context and implicit context")
+        @Test
+        fun testObserveBindChangesShouldEvaluateBindingFromContextAndImplicitContext() {
+            // Given
+            val value = RandomData.string()
+            val bind = expressionOf<String>("Hello @{context}")
+            contextViewModel.addContext(view, ContextData(
+                id = "context",
+                value = value
+            ))
+
+            // When Then
+            component.observeBindChanges(rootView, view, bind) { evaluated ->
+                // Then
+                val expected = "Hello $value"
+                assertEquals(expected, evaluated)
+            }
+
+            contextViewModel.linkBindingToContextAndEvaluateThem(view)
+        }
+
+    }
+
+    @DisplayName("When toView")
+    @Nested
+    inner class ToView {
+
+        @DisplayName("Then should call some funs on sequence")
+        @Test
+        fun testToViewShouldCallSomeFunOnSequence() {
+            // Given
+            val beagleFlexView = mockk<BeagleFlexView>(relaxed = true, relaxUnitFun = true)
+
+            every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
+            every { rootView.getContext() } returns mockk()
+
+            // When
+            val actual = component.toView(rootView)
+
             // Then
-            val expected = "Hello $value"
-            assertEquals(expected, evaluated)
-        }
+            verifySequence {
+                generateIdViewModel.createIfNotExisting(0)
+                beagleFlexView.id = 0
+                beagleFlexView.addServerDrivenComponent(component)
+                beagleFlexView.listenerOnViewDetachedFromWindow = any()
+            }
 
-        contextViewModel.linkBindingToContextAndEvaluateThem(view)
+            assertEquals(beagleFlexView, actual)
+        }
     }
 
-    @Test
-    fun toView() {
-        // Given
-        val beagleFlexView = mockk<BeagleFlexView>(relaxed = true, relaxUnitFun = true)
+    @DisplayName("When toComponent")
+    @Nested
+    inner class ToComponent {
 
-        every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
-        every { rootView.getContext() } returns mockk()
+        @DisplayName("Then should create screen widget")
+        @Test
+        fun testToComponentShouldCreateScreenWidget() {
+            // Given
+            val navigationBar = mockk<NavigationBar>()
+            val child = mockk<ServerDrivenComponent>()
+            val style = mockk<Style>()
+            val screen = Screen(
+                navigationBar = navigationBar,
+                child = child,
+                style = style
+            )
 
-        // When
-        val actual = component.toView(rootView)
+            // When
+            val actual = screen.toComponent()
 
-        // Then
-        verifySequence {
-            generateIdViewModel.createIfNotExisting(0)
-            beagleFlexView.id = 0
-            beagleFlexView.addServerDrivenComponent(component)
-            beagleFlexView.listenerOnViewDetachedFromWindow = any()
+            // Then
+            assertEquals(navigationBar, actual.navigationBar)
+            assertEquals(child, actual.child)
+            assertEquals(style, actual.style)
         }
-
-        assertEquals(beagleFlexView, actual)
-    }
-
-    @Test
-    fun toComponent_should_create_a_ScreenWidget() {
-        // Given
-        val navigationBar = mockk<NavigationBar>()
-        val child = mockk<ServerDrivenComponent>()
-        val style = mockk<Style>()
-        val screen = Screen(
-            navigationBar = navigationBar,
-            child = child,
-            style = style
-        )
-
-        // When
-        val actual = screen.toComponent()
-
-        // Then
-        assertEquals(navigationBar, actual.navigationBar)
-        assertEquals(child, actual.child)
-        assertEquals(style, actual.style)
     }
 }

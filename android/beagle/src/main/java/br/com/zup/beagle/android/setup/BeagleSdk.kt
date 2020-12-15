@@ -30,13 +30,14 @@ import br.com.zup.beagle.android.navigation.BeagleControllerReference
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
+import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.store.StoreHandler
-import br.com.zup.beagle.android.utils.NewIntentDeprecatedConstants
+import br.com.zup.beagle.android.utils.BeagleScope
+import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import com.facebook.soloader.SoLoader
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 interface BeagleSdk {
@@ -51,7 +52,8 @@ interface BeagleSdk {
     val controllerReference: BeagleControllerReference?
     val typeAdapterResolver: TypeAdapterResolver?
 
-    @Deprecated(NewIntentDeprecatedConstants.BEAGLE_ACTIVITY_COMPONENT)
+    @Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
+        " Use @RegisterController with no arguments to register your default BeagleActivity.")
     val serverDrivenActivity: Class<BeagleActivity>
     val urlBuilder: UrlBuilder?
     val analytics: Analytics?
@@ -59,12 +61,13 @@ interface BeagleSdk {
 
     fun registeredWidgets(): List<Class<WidgetView>>
     fun registeredActions(): List<Class<Action>>
+    fun registeredOperations(): Map<String, Operation>
 
     fun init(application: Application) {
         BeagleEnvironment.beagleSdk = this
         BeagleEnvironment.application = application
         SoLoader.init(application, false)
-        GlobalScope.launch {
+        BeagleScope().launch(CoroutineDispatchers.Default) {
             BeagleMoshi.moshi.adapter(ServerDrivenComponent::class.java)
         }
     }

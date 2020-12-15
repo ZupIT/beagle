@@ -19,111 +19,95 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.android.utils.viewFactory
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
-import io.mockk.impl.annotations.MockK
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class AddChildrenTest {
 
-    private lateinit var value: List<ServerDrivenComponent>
-
-    @MockK(relaxed = true, relaxUnitFun = true)
-    private lateinit var serverDrivenComponent: ServerDrivenComponent
-
-    @MockK(relaxed = true, relaxUnitFun = true)
-    private lateinit var rootView: RootView
-
-    @MockK(relaxed = true, relaxUnitFun = true)
-    private lateinit var origin: View
-
-    @MockK(relaxed = true, relaxUnitFun = true)
-    private lateinit var viewGroup: ViewGroup
-
-    @MockK(relaxed = true, relaxUnitFun = true)
-    private lateinit var context: AppCompatActivity
-
-    @MockK(relaxed = true, relaxUnitFun = true)
-    private lateinit var view: View
-
+    private val serverDrivenComponent = mockk<ServerDrivenComponent>(relaxed = true)
+    private val value = listOf(serverDrivenComponent)
+    private val rootView = mockk<RootView>(relaxed = true)
+    private val origin = mockk<View>(relaxed = true)
+    private val viewGroup = mockk<ViewGroup>(relaxed = true)
+    private val context = mockk<AppCompatActivity>(relaxed = true)
+    private val view = mockk<BeagleFlexView>(relaxed = true)
+    private val beagleSdk = mockk<BeagleSdk>(relaxed = true)
     private val id = "id"
+    private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
 
     @BeforeEach
-    fun setup() {
-        MockKAnnotations.init(this)
+    fun setUp() {
+        mockkObject(BeagleEnvironment)
+        viewFactory = viewFactoryMock
+        every { BeagleEnvironment.beagleSdk } returns beagleSdk
+        every { beagleSdk.logger } returns mockk(relaxed = true)
         every { rootView.getContext() } returns context
         every { context.findViewById<ViewGroup>(any()) } returns viewGroup
-        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
-        every { serverDrivenComponent.toView(rootView) } returns view
-        every { viewGroup.addView(any()) } just runs
-        value = listOf(serverDrivenComponent)
+        every { viewFactory.makeBeagleFlexView(rootView) } returns view
+        every { viewGroup.addView(any()) } just Runs
+    }
+
+    @AfterEach
+    fun tearDown() {
+        unmockkObject(BeagleEnvironment)
     }
 
     @Test
     fun addChildren_with_no_mode_should_append() {
         //GIVEN
-        val action = AddChildren(
-            id,
-            value
-        )
+        val action = AddChildren(id, value)
 
         //WHEN
         action.execute(rootView, origin)
 
         //THEN
-        verify(exactly = once()) { viewGroup.addView(view) }
+        verify(exactly = 1) { viewGroup.addView(view) }
     }
 
     @Test
     fun addChildren_with_append_mode_should_call_view_group_add_view() {
         //GIVEN
-        val action = AddChildren(
-            id,
-            value,
-            Mode.APPEND
-        )
+        val action = AddChildren(id, value, Mode.APPEND)
 
         //WHEN
         action.execute(rootView, origin)
 
         //THEN
-        verify(exactly = once()) { viewGroup.addView(view) }
+        verify(exactly = 1) { viewGroup.addView(view) }
     }
 
     @Test
     fun addChildren_with_replace_mode_should_call_view_group_remove_all_views_than_add_view() {
         //GIVEN
-        val action = AddChildren(
-            id,
-            value,
-            Mode.REPLACE
-        )
+        val action = AddChildren(id, value, Mode.REPLACE)
 
         //WHEN
         action.execute(rootView, origin)
 
         //THEN
-        verify(exactly = once()) { viewGroup.removeAllViews() }
-        verify(exactly = once()) { viewGroup.addView(view) }
+        verify(exactly = 1) { viewGroup.removeAllViews() }
+        verify(exactly = 1) { viewGroup.addView(view) }
     }
 
     @Test
     fun addChildren_with_prepend_mode_should_call_view_group_add_view_index_zero() {
         //GIVEN
-        val action = AddChildren(
-            id,
-            value,
-            Mode.PREPEND
-        )
+        val action = AddChildren(id, value, Mode.PREPEND)
 
         //WHEN
         action.execute(rootView, origin)
 
         //THEN
-        verify(exactly = once()) { viewGroup.addView(view, 0) }
+        verify(exactly = 1) { viewGroup.addView(view, 0) }
     }
 }

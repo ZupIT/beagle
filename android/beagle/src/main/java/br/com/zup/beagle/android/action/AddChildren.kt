@@ -85,15 +85,9 @@ data class AddChildren(
 
     private fun addValueToView(view: ViewGroup, viewList: List<View>) {
         when (mode) {
-            Mode.APPEND -> {
-                appendListOnViewGroupChildren(view, viewList)
-            }
-            Mode.PREPEND -> {
-                prependValue(view, viewList)
-            }
-            Mode.REPLACE -> {
-                replaceValue(view, viewList)
-            }
+            Mode.APPEND -> appendListOnViewGroupChildren(view, viewList)
+            Mode.PREPEND -> prependValue(view, viewList)
+            Mode.REPLACE -> replaceValue(view, viewList)
         }
     }
 
@@ -114,5 +108,4 @@ data class AddChildren(
             viewGroup.addView(it)
         }
     }
-
 }

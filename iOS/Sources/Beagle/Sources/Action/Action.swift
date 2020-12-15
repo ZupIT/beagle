@@ -21,6 +21,10 @@ public protocol Action: RawAction {
     func execute(controller: BeagleController, origin: UIView)
 }
 
+public protocol AsyncAction: Action {
+    var onFinish: [RawAction]? { get set }
+}
+
 extension UnknownAction: Action {
     public func execute(controller: BeagleController, origin: UIView) {
         controller.dependencies.logger.log(Log.decode(.decodingError(type: "error trying to execute unknown action")))

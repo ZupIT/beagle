@@ -95,9 +95,22 @@ fun makeNetworkImageJson() = """
 fun makeListViewJson() = """
     {
         "_beagleComponent_": "beagle:listView",
-        "children": [${makeButtonJson()}],
-        "remoteDataSource": "/dataSource",
-        "loadingState": ${makeContainerJson()}
+        "context": {
+            "id": "context",
+            "value": {
+                "categories": [
+                    "stub 1",
+                    "stub 2",
+                    "stub 3"
+                ]
+            }
+        },
+        "dataSource": "@{context.categories}",
+        "iteratorName": "category",
+        "template": {
+            "_beagleComponent_": "beagle:text",
+            "text": "@{category}"
+        }
     }
 """
 

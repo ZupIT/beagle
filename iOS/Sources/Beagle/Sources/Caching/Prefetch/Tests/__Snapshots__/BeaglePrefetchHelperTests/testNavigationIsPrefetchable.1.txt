@@ -4,11 +4,11 @@
 
   openNativeRoute(BeagleSchema.Navigate.OpenNativeRoute(route: "path", data: Optional(["data": "value"]), shouldResetApplication: false))  -->  NULL 
 
-  resetApplication(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)))  -->  NULL 
+  resetApplication(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)), controllerId: nil)  -->  NULL 
 
-  resetApplication(BeagleSchema.Route.remote(BeagleSchema.Route.NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil)))  -->  NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
+  resetApplication(BeagleSchema.Route.remote(BeagleSchema.Route.NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil)), controllerId: nil)  -->  NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
 
-  resetApplication(BeagleSchema.Route.remote(BeagleSchema.Route.NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil)))  -->  NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
+  resetApplication(BeagleSchema.Route.remote(BeagleSchema.Route.NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil)), controllerId: nil)  -->  NewPath(url: BeagleSchema.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
 
   resetStack(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)))  -->  NULL 
 

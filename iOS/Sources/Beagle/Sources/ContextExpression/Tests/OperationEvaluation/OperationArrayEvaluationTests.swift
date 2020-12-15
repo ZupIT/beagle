@@ -23,7 +23,7 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateInsert() {
         // Given
-        let name = Operation.Name.insert
+        let name = "insert"
         let contexts = [Context(id: "context", value: [1, 2, 3])]
         let binding = contexts[0].id
         
@@ -46,7 +46,7 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateRemove() {
         // Given
-        let name = Operation.Name.remove
+        let name = "remove"
         let contexts = [Context(id: "context", value: [1, 2, 3.0, 3.0])]
         let binding = contexts[0].id
         
@@ -69,7 +69,7 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateRemoveIndex() {
         // Given
-        let name = Operation.Name.removeIndex
+        let name = "removeIndex"
         let contexts = [Context(id: "context", value: [1, 2, 3.0, 3.0])]
         let binding = contexts[0].id
         
@@ -92,10 +92,10 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
     
     func testEvaluateContains() {
         // Given
-        let name = Operation.Name.contains
+        let name = "contains"
         let contexts = [Context(id: "context", value: [1, 2, 3])]
         let binding = contexts[0].id
-        guard let insert = "\(binding), 4, 2".toOperation(name: .insert) else {
+        guard let insert = "\(binding), 4, 2".toOperation(name: "insert") else {
             XCTFail("Failed to get operation")
             return
         }
@@ -107,6 +107,27 @@ final class OperationArrayEvaluationTests: OperationEvaluationTests {
         let operations = successfulOperations + failingOperations
         
         let comparableResults: [DynamicObject] = [true, false, true, nil, nil, nil]
+        
+        // When
+        evaluateOperations(operations, contexts: contexts) { evaluatedResults in
+            // Then
+            XCTAssertEqual(evaluatedResults, comparableResults)
+        }
+    }
+    
+    func testEvaluateUnion() {
+        // Given
+        let name = "union"
+        let contexts = [Context(id: "context", value: [1, 2, 3])]
+        let binding = contexts[0].id
+        
+        let simpleOperations = ["\(binding)", "\(binding), \(binding)", "\(binding), 2, \(binding)"].toOperations(name: name)
+        
+        let failingOperations = ["2, 4", "'true', 3.0", ""].toOperations(name: name)
+        
+        let operations = simpleOperations + failingOperations
+        
+        let comparableResults: [DynamicObject] = [[1, 2, 3], [1, 2, 3, 1, 2, 3], [1, 2, 3, 1, 2, 3], [], [], []]
         
         // When
         evaluateOperations(operations, contexts: contexts) { evaluatedResults in

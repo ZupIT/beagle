@@ -1,10 +1,19 @@
 //
-//  AddChildrenSteps.swift
-//  AutomatedTestsUITests
-//
-//  Created by Victor on 15/10/20.
-//  Copyright © 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA. All rights reserved.
-//
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import Foundation
 import XCTest
@@ -24,7 +33,6 @@ class AddChildrenSteps: CucumberStepsDefinition {
             }
         }
         
-                
         Given("^that I'm on the addChildren Screen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.ADD_CHILDREN_HEADER.element.exists)
         }
@@ -43,17 +51,14 @@ class AddChildrenSteps: CucumberStepsDefinition {
             XCTAssertTrue(ScreenElements.TEXT_ADDED.element.exists)
         }
         
-        
         Then("^A Text need to be added before the already exist one$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TEXT_FIXED.element.exists)
         }
-        
         
         Then("^A Text need to replace the already exist one$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TEXT_ADDED.element.exists)
             XCTAssertFalse(ScreenElements.TEXT_FIXED.element.exists)
         }
-        
         
         Then("^Nothing should happen$") { _, _ -> Void in
             XCTAssertTrue(ScreenElements.TEXT_FIXED.element.exists)

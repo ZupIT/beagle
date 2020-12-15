@@ -19,31 +19,6 @@ import XCTest
 import BeagleSchema
 
 final class ListViewInitTests: XCTestCase {
-
-    private let listWithOneRow = ListView(children: [
-        Text("text")
-    ])
-
-    func test_initWithRowBuilder_shouldReturnExpectedInstance() {
-        // Given / When
-        let component = listWithOneRow
-        // Then
-        XCTAssert(component.children.count == 1)
-        XCTAssert(component.children[safe: 0] is Text)
-    }
-    
-    func test_initWithRowsBuilder_shouldReturnExpectedInstance() {
-        // Given / When
-        let component = ListView(children: [
-            Text("text"),
-            Button(text: "text")
-        ])
-
-        // Then
-        XCTAssert(component.children.count == 2)
-        XCTAssert(component.children[safe: 0] is Text)
-        XCTAssert(component.children[safe: 1] is Button)
-    }
     
     func test_toUIKit_shouldConvertDirectionProperly() {
         // Given
@@ -51,7 +26,7 @@ final class ListViewInitTests: XCTestCase {
         let directionsToConvert: [ListView.Direction] = [.horizontal, .vertical]
         
         // When
-        let converted = directionsToConvert.map { $0.toUIKit() }
+        let converted = directionsToConvert.map { $0.scrollDirection }
         
         // Then
         XCTAssert(expectedConversions == converted)

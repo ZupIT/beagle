@@ -27,17 +27,17 @@ const val ACTION_CLICK_HEADER = "Action Click"
 const val ACTION_CLICK_TEXT = "You clicked right"
 
 //Text Screen
-const val TEXT_SCREEN_HEADER = "Beagle Text"
-const val TEXT_DEFAULT = "hello world"
-const val TEXT_VIA_EXPRESSION = "hello world via expression"
-const val TEXT_WITH_TEXT_COLOR = "hello world with textColor"
-const val TEXT_WITH_TEXT_COLOR_VIA_EXPRESSION = "hello world with textColor via expression"
-const val TEXT_WITH_ALIGNMENT_LEFT = "hello world with textAlignment LEFT"
-const val TEXT_WITH_ALIGNMENT_CENTER = "hello world with textAlignment CENTER"
-const val TEXT_WITH_ALIGNMENT_RIGHT = "hello world with textAlignment RIGHT"
-const val TEXT_WITH_ALIGNMENT_LEFT_VIA_EXPRESSION = "hello world with textAlignment LEFT via expression"
-const val TEXT_WITH_ALIGNMENT_CENTER_VIA_EXPRESSION = "hello world with textAlignment CENTER via expression"
-const val TEXT_WITH_ALIGNMENT_RIGHT_VIA_EXPRESSION = "hello world with textAlignment RIGHT via expression"
+const val TEXT_SCREEN_HEADER = "TextScreen"
+const val TEXT_DEFAULT = "TextValue"
+const val TEXT_VIA_EXPRESSION = "TextValueViaExpression"
+const val TEXT_WITH_TEXT_COLOR = "TextWithColor"
+const val TEXT_WITH_TEXT_COLOR_VIA_EXPRESSION = "TextWithColorViaExpression"
+const val TEXT_WITH_ALIGNMENT_LEFT = "TextAlignedLeft"
+const val TEXT_WITH_ALIGNMENT_CENTER = "TextAlignedCenter"
+const val TEXT_WITH_ALIGNMENT_RIGHT = "TextAlignedRight"
+const val TEXT_WITH_ALIGNMENT_LEFT_VIA_EXPRESSION = "TextAlignedLeftViaExpression"
+const val TEXT_WITH_ALIGNMENT_CENTER_VIA_EXPRESSION = "TextAlignedCenterViaExpression"
+const val TEXT_WITH_ALIGNMENT_RIGHT_VIA_EXPRESSION = "TextAlignedRightViaExpression"
 
 //Image Screen
 const val IMAGE_SCREEN_HEADER = "Beagle Image"
@@ -62,23 +62,8 @@ const val TAB_4 = "TAB 4"
 const val TAB_4_TEXT = "Welcome to Tab 4"
 const val TAB_4_TEXT_2 = "This is Tab4's second text"
 
-//PageView Screen
-const val PAGEVIEW_SCREEN_HEADER = "Beagle PageView"
-const val PAGE_1_TEXT = "Page 1"
-const val PAGE_2_TEXT = "Page 2"
-const val PAGE_3_TEXT = "Page 3"
-
-//ScrollView Screen
-const val SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
-const val SCROLLVIEW_TEXT_1 = "Vertical ScrollView"
-const val SCROLLVIEW_TEXT_2 = "Horizontal ScrollView with scrollBars"
-
 //ListView Screen
 const val LISTVIEW_SCREEN_HEADER = "Beagle ListView"
-const val STATIC_LISTVIEW_TEXT_1 = "Static VERTICAL ListView"
-const val STATIC_LISTVIEW_TEXT_2 = "Static HORIZONTAL ListView"
-const val DYNAMIC_LISTVIEW_TEXT_1 = "Dynamic VERTICAL ListView"
-const val DYNAMIC_LISTVIEW_TEXT_2 = "Dynamic HORIZONTAL ListView"
 
 //Touchable Screen
 const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"
@@ -86,14 +71,3 @@ const val TOUCHABLE_TEXT_1 = "Text with Touchable"
 const val TOUCHABLE_TEXT_2 = "Click here!"
 const val TOUCHABLE_TEXT_3 = "Image with Touchable"
 const val TOUCHABLE_TEXT_4 = "NetworkImage with Touchable"
-
-//Simpleform Screen
-const val SIMPLE_FORM_SCREEN_HEADER = "Beagle Context"
-const val SIMPLE_FORM_TITLE = "Fill the form"
-const val ZIP_FIELD = "ZIP"
-const val STREET_FIELD = "Street"
-const val SEND_BUTTON = "Enviar"
-
-//Confirm Popup
-const val OK_BUTTON = "OK"
-const val CANCEL_BUTTON = "Cancel"

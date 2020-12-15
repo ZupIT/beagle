@@ -19,7 +19,6 @@ package br.com.zup.beagle.automatedtests.controllers
 import br.com.zup.beagle.automatedtests.constants.ACTION_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.IMAGE_REMOTE_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.LAZY_COMPONENT_ENDPOINT
-import br.com.zup.beagle.automatedtests.constants.PAGEVIEW_TWO_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SIMPLE_FORM_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.TAB_BAR_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.TEXT_INPUT_ENDPOINT
@@ -31,7 +30,10 @@ import br.com.zup.beagle.automatedtests.builders.WebViewScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.LazyComponentScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ImageRemoteScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ActionScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.PageViewTwoScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.LazyFailureScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.LazySuccessScreenBuilder
+import br.com.zup.beagle.automatedtests.constants.LAZY_FAILURE_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.LAZY_SUCCESS_ENDPOINT
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -39,9 +41,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class LayoutComponentsController {
 
-
     @GetMapping(SIMPLE_FORM_ENDPOINT)
-    fun getSimpleFormScreen() = SimpleFormScreenBuilder
+    fun getSimpleFormScreen() = SimpleFormScreenBuilder.build()
 
     @GetMapping(TEXT_INPUT_ENDPOINT)
     fun getTextInputScreen() = TextInputScreenBuilder.build()
@@ -55,13 +56,15 @@ class LayoutComponentsController {
     @GetMapping(LAZY_COMPONENT_ENDPOINT)
     fun getLazyComponentScreen() = LazyComponentScreenBuilder.build()
 
+    @GetMapping(LAZY_SUCCESS_ENDPOINT)
+    fun getLazySuccessScreen() = LazySuccessScreenBuilder.build()
+
+    @GetMapping(LAZY_FAILURE_ENDPOINT)
+    fun getLazyFailureScreen() = LazyFailureScreenBuilder.build()
+
     @GetMapping(IMAGE_REMOTE_ENDPOINT)
     fun getImageRemoteScreen() = ImageRemoteScreenBuilder.build()
 
     @GetMapping(ACTION_ENDPOINT)
     fun getActionScreen() = ActionScreenBuilder.build()
-
-    @GetMapping(PAGEVIEW_TWO_ENDPOINT)
-    fun getPageViewTwoScreen() = PageViewTwoScreenBuilder.build()
-
 }

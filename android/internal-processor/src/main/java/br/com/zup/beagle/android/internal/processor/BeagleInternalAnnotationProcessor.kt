@@ -16,7 +16,13 @@
 
 package br.com.zup.beagle.android.internal.processor
 
+import br.com.zup.beagle.annotation.RegisterOperation
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
+import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
+import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
+import br.com.zup.beagle.compiler.shared.WIDGET_VIEW
+import br.com.zup.beagle.compiler.shared.GenericFactoryProcessor
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
@@ -35,24 +41,45 @@ const val BEAGLE_PACKAGE_INTERNAL = "br.com.zup.beagle.android.setup"
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 class BeagleInternalAnnotationProcessor : AbstractProcessor() {
-    private lateinit var internalWidgetFactoryProcessor: InternalWidgetFactoryProcessor
+
+    private lateinit var internalWidgetFactoryProcessor: GenericFactoryProcessor<RegisterWidget>
+    private lateinit var internalOperationFactoryProcessor: GenericFactoryProcessor<RegisterOperation>
 
     override fun getSupportedAnnotationTypes(): Set<String> {
         return TreeSet(listOf(
-            RegisterWidget::class.java.canonicalName))
+            RegisterWidget::class.java.canonicalName,
+            RegisterOperation::class.java.canonicalName))
     }
 
     override fun init(processingEnvironment: ProcessingEnvironment) {
         super.init(processingEnvironment)
-        internalWidgetFactoryProcessor = InternalWidgetFactoryProcessor(processingEnvironment)
+        internalWidgetFactoryProcessor = GenericFactoryProcessor(
+            processingEnvironment,
+            CLASS_NAME_WIDGET,
+            GenerateFunctionWidget(processingEnvironment)
+        )
+
+        internalOperationFactoryProcessor = GenericFactoryProcessor(
+            processingEnvironment,
+            CLASS_NAME_OPERATION,
+            GenerateFunctionOperation(processingEnvironment)
+        )
     }
 
     override fun process(
         annotations: Set<TypeElement>,
         roundEnvironment: RoundEnvironment
     ): Boolean {
-        if (annotations.isEmpty()) return false
-        internalWidgetFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment)
-        return false
+        if (annotations.isEmpty() || roundEnvironment.errorRaised()) return false
+
+        internalWidgetFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment, WIDGET_VIEW, true)
+        internalOperationFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment, ANDROID_OPERATION, true)
+
+        return true
+    }
+
+    companion object {
+        const val CLASS_NAME_OPERATION = "InternalOperationFactory"
+        const val CLASS_NAME_WIDGET = "InternalWidgetFactory"
     }
 }

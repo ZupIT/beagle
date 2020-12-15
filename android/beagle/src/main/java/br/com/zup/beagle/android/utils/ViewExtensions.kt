@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("TooManyFunctions")
-
 package br.com.zup.beagle.android.utils
 
 import android.view.View
@@ -41,22 +39,14 @@ internal fun View.findParentContextWithId(contextId: String): View? {
 internal fun View.getAllParentContexts(): MutableList<ContextBinding> {
     val contexts = mutableListOf<ContextBinding>()
 
-    getParentContextBinding()?.let {
-        contexts.addAll(it)
-    }
-
-    if (contexts.isEmpty()) {
-        var parentView: View? = getParentContextData()
-        do {
-            val contextBinding = parentView?.getContextBinding()
-            if (contextBinding != null) {
-                contexts.add(contextBinding)
-            }
-            parentView = (parentView?.parent as? ViewGroup)?.getParentContextData()
-        } while (parentView != null)
-
-        setParentContextBinding(contexts)
-    }
+    var parentView: View? = getParentContextData()
+    do {
+        val contextBinding = parentView?.getContextBinding()
+        if (contextBinding != null) {
+            contexts.add(contextBinding)
+        }
+        parentView = (parentView?.parent as? ViewGroup)?.getParentContextData()
+    } while (parentView != null)
 
     return contexts
 }
@@ -99,18 +89,18 @@ internal fun View.getContextBinding(): ContextBinding? {
     return getTag(R.id.beagle_context_view) as? ContextBinding
 }
 
-internal fun View.setParentContextBinding(contextBinding: List<ContextBinding>) {
-    setTag(R.id.beagle_context_view_parent, contextBinding)
-}
-
-internal fun View.getParentContextBinding(): List<ContextBinding>? {
-    return getTag(R.id.beagle_context_view_parent) as? List<ContextBinding>
-}
-
 internal fun View.setIsAutoGenerateIdEnabled(autoGenerateId: Boolean) {
     setTag(R.id.beagle_auto_generate_id_enabled, autoGenerateId)
 }
 
 internal fun View.isAutoGenerateIdEnabled(): Boolean {
     return getTag(R.id.beagle_auto_generate_id_enabled) as? Boolean ?: true
+}
+
+internal fun View.setIsInitiableComponent(isInitiableComponent: Boolean) {
+    setTag(R.id.initiable_component, isInitiableComponent)
+}
+
+internal fun View.isInitiableComponent(): Boolean {
+    return getTag(R.id.initiable_component) as? Boolean ?: false
 }

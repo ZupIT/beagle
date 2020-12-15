@@ -24,7 +24,7 @@ public enum Navigate: RawAction {
     case openNativeRoute(OpenNativeRoute)
 
     /// Resets the application's root navigation stack with a new navigation stack that has `Route` as the first view
-    case resetApplication(Route)
+    case resetApplication(Route, controllerId: String? = nil)
     
     /// Resets the views stack to create a new flow with the passed route.
     case resetStack(Route)

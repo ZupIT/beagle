@@ -437,14 +437,14 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<String>("result: @{insert(context, 4, 2)}")
         val contextData = ContextData(
             id = "context",
-            value = listOf(1, 2, 3)
+            value = listOf(1, 2, 3).normalizeContextValue()
         )
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
 
         // Then
-        assertEquals("result: [1, 2, 4, 3]", value)
+        assertEquals("result: [1,2,4,3]", value)
     }
 
     @Test
@@ -453,14 +453,14 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<String>("result: @{remove(context, 2)}")
         val contextData = ContextData(
             id = "context",
-            value = listOf(1, 2, 3)
+            value = listOf(1, 2, 3).normalizeContextValue()
         )
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
 
         // Then
-        assertEquals("result: [1, 3]", value)
+        assertEquals("result: [1,3]", value)
     }
 
     @Test
@@ -469,14 +469,14 @@ internal class ContextDataEvaluationTest : BaseTest() {
         val bind = expressionOf<String>("result: @{removeIndex(context, 0)}")
         val contextData = ContextData(
             id = "context",
-            value = listOf(1, 2, 3)
+            value = JSONArray(listOf(1, 2, 3))
         )
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(contextData), bind)
 
         // Then
-        assertEquals("result: [2, 3]", value)
+        assertEquals("result: [2,3]", value)
     }
 
     @Test
