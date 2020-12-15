@@ -24,5 +24,4 @@ internal data class ListItem(
     var itemSuffix: String = "",
     var firstTimeBinding: Boolean = true,
     val directNestedAdapters: LinkedList<ListAdapter> = LinkedList(),
-    var isRecycled: Boolean = false
 )

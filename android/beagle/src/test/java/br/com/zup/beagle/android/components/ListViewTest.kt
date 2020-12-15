@@ -48,6 +48,7 @@ class ListViewTest : BaseComponentTest() {
     )
 
     private val recyclerView: RecyclerView = mockk(relaxed = true)
+    private val beagleRecyclerView: BeagleRecyclerView = mockk(relaxed = true)
     private val layoutManagerSlot = slot<LinearLayoutManager>()
     private val deprecatedAdapterSlot = slot<ListView.ListViewRecyclerAdapter>()
     private val adapterSlot = slot<ListAdapter>()
@@ -76,6 +77,7 @@ class ListViewTest : BaseComponentTest() {
 
         every { beagleFlexView.addView(any()) } just Runs
         every { anyConstructed<ViewFactory>().makeRecyclerView(rootView.getContext()) } returns recyclerView
+        every { anyConstructed<ViewFactory>().makeBeagleRecyclerView(rootView.getContext()) } returns beagleRecyclerView
         every { recyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
         every { recyclerView.adapter = any() } just Runs
     }
@@ -128,7 +130,7 @@ class ListViewTest : BaseComponentTest() {
     @Test
     fun `GIVEN a listView WHEN buildView THEN should create an adapter with attributes from list`() {
         // Given
-        every { recyclerView.adapter = capture(adapterSlot) } just Runs
+        every { beagleRecyclerView.adapter = capture(adapterSlot) } just Runs
 
         // When
         listView.buildView(rootView)
@@ -143,17 +145,19 @@ class ListViewTest : BaseComponentTest() {
     fun `GIVEN a listView WHEN buildView THEN should observeBindChanges`() {
         // Given
         val scrollSlot = slot<RecyclerView.OnScrollListener>()
-        every { recyclerView.addOnScrollListener(capture(scrollSlot)) } just Runs
-        every { recyclerView.adapter = capture(adapterSlot) } just Runs
+        val layoutManagerSlot = slot<LinearLayoutManager>()
+        every { beagleRecyclerView.addOnScrollListener(capture(scrollSlot)) } just Runs
+        every { beagleRecyclerView.adapter = capture(adapterSlot) } just Runs
+        every { beagleRecyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
 
         // When
         listView.buildView(rootView)
-        every { recyclerView.layoutManager } returns layoutManagerSlot.captured
-        scrollSlot.captured.onScrolled(recyclerView, 0, 0)
+        every { beagleRecyclerView.layoutManager } returns layoutManagerSlot.captured
+        scrollSlot.captured.onScrolled(beagleRecyclerView, 0, 0)
 
         // Then
         onScrollEnd.forEach {
-            verify(exactly = 1) { it.execute(rootView, recyclerView) }
+            verify(exactly = 1) { it.execute(rootView, beagleRecyclerView) }
         }
     }
 }

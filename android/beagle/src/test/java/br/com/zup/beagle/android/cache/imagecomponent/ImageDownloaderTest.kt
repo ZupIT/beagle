@@ -55,24 +55,6 @@ internal class ImageDownloaderTest {
     }
 
     @Test
-    fun `GIVEN url and ImageViewSize WHEN download image bitmap THEN resize and save on cache`() = runBlocking {
-        // Given
-        val widthAndHeight = 715
-        every { bitmap.width } returns widthAndHeight
-        every { bitmap.height } returns widthAndHeight
-        val bitmapId = LruImageCache.generateBitmapId(url, contentWidth, contentHeight)
-
-        // When
-        val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
-
-        // Then
-        verify(exactly = 1) { LruImageCache.put(bitmapId, bitmap) }
-        verify(exactly = 1) { LruImageCache.get(bitmapId) }
-        assertEquals(contentWidth, bitmap?.width)
-        assertEquals(contentHeight, bitmap?.height)
-    }
-
-    @Test
     fun `GIVEN url and ImageViewSize WHEN download image bitmap THEN keep size and save on cache`() = runBlocking {
         // Given
         every { bitmap.width } returns contentWidth
