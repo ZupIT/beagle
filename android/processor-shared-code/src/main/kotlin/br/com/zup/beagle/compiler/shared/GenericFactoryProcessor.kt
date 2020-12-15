@@ -80,6 +80,7 @@ class GenericFactoryProcessor<T : Annotation>(
     }
 
     fun createFunction(): FunSpec = beagleGeneratorFunction.createFuncSpec(beagleGeneratorFunction.getFunctionName())
+        .addModifiers(KModifier.PUBLIC)
         .addModifiers(KModifier.OVERRIDE)
         .addStatement("return $className.${beagleGeneratorFunction.getFunctionName()}()")
         .build()
