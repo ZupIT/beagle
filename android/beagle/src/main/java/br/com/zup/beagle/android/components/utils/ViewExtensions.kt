@@ -18,10 +18,10 @@ package br.com.zup.beagle.android.components.utils
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp

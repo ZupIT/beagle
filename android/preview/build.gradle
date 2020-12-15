@@ -59,8 +59,8 @@ android {
 }
 
 dependencies {
-    implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.AndroidSupport.design
     implementation Dependencies.GeneralLibraries.webSocket
     implementation Dependencies.GeneralLibraries.simpleLogger
 
@@ -74,9 +74,7 @@ dependencies {
     testImplementation Dependencies.TestLibraries.junit4
     testImplementation Dependencies.TestLibraries.junitVintageEngine
     testImplementation Dependencies.TestLibraries.testRunner
-    testImplementation Dependencies.TestLibraries.testExt
     testImplementation Dependencies.TestLibraries.espressoCore
-    testImplementation Dependencies.TestLibraries.testCore
     testImplementation Dependencies.TestLibraries.testRules
     testImplementation Dependencies.GeneralLibraries.yoga
 }

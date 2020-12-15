@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.fragment.list
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.ListView

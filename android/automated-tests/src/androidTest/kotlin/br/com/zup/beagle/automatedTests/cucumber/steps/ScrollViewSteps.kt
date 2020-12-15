@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
-import androidx.test.rule.ActivityTestRule
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.matcher.ViewMatchers.isRoot
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher

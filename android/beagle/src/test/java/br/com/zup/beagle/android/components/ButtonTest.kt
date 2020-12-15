@@ -17,8 +17,8 @@
 package br.com.zup.beagle.android.components
 
 import android.content.Context
+import android.support.v7.widget.AppCompatButton
 import android.view.View
-import androidx.appcompat.widget.AppCompatButton
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action

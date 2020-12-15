@@ -19,6 +19,10 @@ package br.com.zup.beagle.android.utils
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.widget.TextViewCompat
+import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -27,11 +31,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
-import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
@@ -130,7 +129,11 @@ internal class ToolbarManager {
     ) {
         toolbar.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             val idealX = ((toolbar.width - titleTextView.width) / 2).toFloat()
-            val lastToolbarView = toolbar.children.find {
+            val toolbarChildren: MutableList<View> = mutableListOf()
+            for (i: Int in 0 until toolbar.childCount) {
+                toolbarChildren.add(toolbar.getChildAt(i))
+            }
+            val lastToolbarView = toolbarChildren.find {
                 it.right == toolbar.width
             }
             val lastToolbarViewStart = lastToolbarView?.left ?: 0
@@ -247,7 +250,10 @@ internal class ToolbarManager {
 
     private fun setupNavigationIcon(context: Context, toolbar: Toolbar) {
         if (toolbar.navigationIcon == null) {
-            toolbar.navigationIcon = getDrawableFromAttribute(context, androidx.appcompat.R.attr.homeAsUpIndicator)
+            toolbar.navigationIcon = getDrawableFromAttribute(
+                context,
+                android.support.v7.appcompat.R.attr.homeAsUpIndicator
+            )
         }
     }
 }

@@ -17,9 +17,9 @@
 package br.com.zup.beagle.android.view.custom
 
 import android.content.Context
+import android.support.design.widget.TabLayout
 import android.util.AttributeSet
 import android.view.ViewGroup
-import com.google.android.material.tabs.TabLayout
 
 internal class BeagleTabLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int

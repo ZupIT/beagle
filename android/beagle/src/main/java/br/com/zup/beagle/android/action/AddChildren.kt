@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.action
 
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.toView

@@ -16,16 +16,13 @@
 
 package br.com.zup.beagle.automatedTests.cucumber.steps
 
-import android.util.Log
-import androidx.test.rule.ActivityTestRule
-import br.com.zup.beagle.android.utils.toAndroidId
+import android.support.test.rule.ActivityTestRule
 import br.com.zup.beagle.automatedTests.activity.MainActivity
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.ActivityFinisher
 import br.com.zup.beagle.automatedTests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
-import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When

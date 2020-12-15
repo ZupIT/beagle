@@ -144,8 +144,8 @@ Feature: Navigation Action Validation
 
         Examples:
             | title                   | tryAgain  |
-            | ResetStackSameSDA       | TRY AGAIN |
-            | ResetApplicationSameSDA | TRY AGAIN |
+            | ResetStackSameSDA       | Try again |
+            | ResetApplicationSameSDA | Try again |
 
     Scenario Outline: Navigation 11 - 'PopToView' Must not open a new page since the route is invalid
     The expected behaviour is to remain on the same page.

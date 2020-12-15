@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import kotlin.jvm.Throws
 
 private const val EXCEPTION_MESSAGE = "Unexpected error when trying to serialize json="
 

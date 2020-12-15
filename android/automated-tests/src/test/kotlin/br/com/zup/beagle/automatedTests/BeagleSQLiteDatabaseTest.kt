@@ -23,11 +23,9 @@ import br.com.zup.beagle.automatedTests.config.BeagleSQLiteDatabase
 import br.com.zup.beagle.automatedTests.config.ScreenEntry
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
-import org.junit.Assert.*
-import org.mockito.Mockito.spy
+import junit.framework.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
 
 class BeagleSQLiteDatabaseTest {
 
@@ -40,7 +38,7 @@ class BeagleSQLiteDatabaseTest {
 
     private lateinit var beagleSQLiteDatabase: BeagleSQLiteDatabase
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -68,7 +66,7 @@ class BeagleSQLiteDatabaseTest {
     @Test
     fun onUpgrade_should_drop_existing_tables_and_create_again() {
         // Given
-        val spyDatabase = spy(beagleSQLiteDatabase)
+        val spyDatabase = spyk(beagleSQLiteDatabase)
 
         // When
         spyDatabase.onUpgrade(sqLiteDatabase, 1, 1)

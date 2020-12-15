@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.setup
 
 import android.app.Application
-import androidx.annotation.VisibleForTesting
+import android.support.annotation.VisibleForTesting
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler

@@ -22,9 +22,9 @@ import br.com.zup.beagle.automatedTests.config.MemoryLocalStore
 import br.com.zup.beagle.automatedTests.config.StoreHandlerDefault
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
+import junit.framework.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
 
 class StoreHandlerDefaultTest {
 
@@ -35,7 +35,7 @@ class StoreHandlerDefaultTest {
 
     private lateinit var storeHandlerDefault: StoreHandlerDefault
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
 

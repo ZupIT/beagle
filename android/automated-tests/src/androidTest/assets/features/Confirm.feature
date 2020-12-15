@@ -54,7 +54,7 @@ Feature: Confirm Action Validation
     Scenario: Confirm 04 - Checks that a the onPressCancel method is triggered when the Cancel button is pressed to
     confirm component.
         When I press a confirm button with the TriggersAnActionWhenCanceled title
-        Then I press the confirmation CANCEL button on the confirm component
+        Then I press the confirmation Cancel button on the confirm component
         Then a confirm with the Confirm cancel clicked message should appear on the screen
 
     Scenario: Confirm 05 - Shows a Confirm message with customized text on the LabelOk and LabelCancel button.

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.Observer
+import android.arch.lifecycle.Observer
 import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException

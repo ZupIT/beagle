@@ -25,17 +25,15 @@ import br.com.zup.beagle.automatedTests.config.BeagleSQLiteDatabase
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import junit.framework.Assert.*
+import org.junit.Before
+import org.junit.Test
 
 class BeagleSetupTest {
 
     private lateinit var beagleSetup: BeagleSetup
 
-    @BeforeEach
+    @Before
     fun setUp() {
         mockkConstructor(BeagleSQLiteDatabase::class)
 

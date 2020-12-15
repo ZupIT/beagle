@@ -16,8 +16,9 @@
 
 package br.com.zup.beagle.android.setup
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StyleRes
+import android.support.annotation.DrawableRes
+import android.support.annotation.StyleRes
+
 
 open class DesignSystem {
     @DrawableRes

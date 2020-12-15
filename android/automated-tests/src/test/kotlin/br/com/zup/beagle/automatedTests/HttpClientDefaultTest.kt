@@ -32,21 +32,19 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
+import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 import java.io.EOFException
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.fail
 import java.net.UnknownServiceException
 
 private val BYTE_ARRAY_DATA = byteArrayOf()
@@ -72,7 +70,7 @@ class HttpClientDefaultTest {
 
     private lateinit var urlRequestDispatchingDefault: HttpClientDefault
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
@@ -94,7 +92,7 @@ class HttpClientDefaultTest {
         every { inputStream.readBytes() } returns BYTE_ARRAY_DATA
     }
 
-    @AfterEach
+    @After
     fun tearDown() {
         unmockkAll()
     }

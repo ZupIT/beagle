@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.android.components.list
 
+import android.arch.lifecycle.Observer
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.AsyncActionData

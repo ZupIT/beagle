@@ -81,7 +81,7 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="DesignSystem.Text.Default" parent="Widget.AppCompat.TextView">
+    <style name="DesignSystem.Text.Default" parent="android:Widget.TextView">
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textSize">12sp</item>
     </style>
