@@ -116,7 +116,7 @@ internal class ContextDataManager(
 
     fun restoreContext(view: View) {
         contexts[view.id]?.let {
-            view.setContextData(it.context)
+            view.setContextBinding(it)
         }
     }
 
