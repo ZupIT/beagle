@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.imagedownloader
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
 import br.com.zup.beagle.android.data.formatUrl
@@ -34,7 +33,6 @@ internal class DefaultImageDownloader : BeagleImageDownloader, CoroutineScope() 
 
     override fun download(url: String, imageView: ImageView, rootView: RootView) {
         imageView.post {
-            if (allSizesGreaterThanZero(imageView)) {
                 launch(CoroutineDispatchers.IO) {
                     val bitmap = try {
                         imageDownloader.getRemoteImage(url.formatUrl() ?: url, imageView.width, imageView.height)
@@ -47,9 +45,6 @@ internal class DefaultImageDownloader : BeagleImageDownloader, CoroutineScope() 
                         setImage(imageView, bitmap)
                     }
                 }
-            } else {
-                BeagleLoggerProxy.error("Your view has width or height with size 0, the image will no be rendered")
-            }
         }
     }
 
@@ -58,9 +53,6 @@ internal class DefaultImageDownloader : BeagleImageDownloader, CoroutineScope() 
             view.context?.let {
                 view.setImageDrawable(BitmapDrawable(it.resources, bitmap))
             }
-
         }
     }
-
-    private fun allSizesGreaterThanZero(view: View) = view.width > 0 && view.height > 0
 }
