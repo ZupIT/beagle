@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -127,7 +128,7 @@ constructor(
     private var canScrollEnd = true
 
     @Transient
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: BeagleRecyclerView
 
     @Transient
     private lateinit var rootView: RootView
@@ -159,7 +160,7 @@ constructor(
 
     private fun buildNewListView(): View {
         listViewIdViewModel = rootView.generateViewModelInstance()
-        recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
+        recyclerView = viewFactory.makeBeagleRecyclerView(rootView.getContext())
 
         val orientation = listDirectionToRecyclerViewOrientation()
         setupRecyclerView(orientation)
@@ -226,7 +227,7 @@ constructor(
         observeBindChanges(rootView, recyclerView, dataSource!!) { value ->
             canScrollEnd = true
             val adapter = recyclerView.adapter as ListAdapter
-            adapter.setList(value, recyclerView.id)
+            adapter.setList(value)
             if (value?.isEmpty() == true) {
                 executeScrollEndActions()
             }
@@ -239,16 +240,15 @@ constructor(
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 // listen if reach max and notify the ViewModel
-                checkIfNeedToCallScrollEnd(rootView)
+                checkIfNeedToCallScrollEnd()
                 if (cannotScrollDirectionally()) {
                     listViewIdViewModel.markHasCompletelyLoaded(recyclerView.id)
                 }
             }
-
         })
     }
 
-    private fun checkIfNeedToCallScrollEnd(rootView: RootView) {
+    private fun checkIfNeedToCallScrollEnd() {
         onScrollEnd?.let {
             if (canCallOnScrollEnd()) {
                 executeScrollEndActions()
@@ -292,4 +292,11 @@ constructor(
         return percentage
     }
 
+}
+
+class BeagleRecyclerView(context: Context) : RecyclerView(context) {
+    override fun setId(id: Int) {
+        super.setId(id)
+        (adapter as ListAdapter?)?.setRecyclerId(id)
+    }
 }

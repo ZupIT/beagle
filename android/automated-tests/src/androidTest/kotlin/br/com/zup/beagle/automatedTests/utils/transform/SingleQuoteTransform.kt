@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.cache.imagecomponent
+package br.com.zup.beagle.automatedTests.utils.transform
 
-import android.graphics.Bitmap
+import cucumber.api.Transformer
 
-internal class BeagleBitmapFactory {
-
-    fun getBitmap(bitmap: Bitmap, contentWidth: Int, contentHeight: Int) : Bitmap {
-        if (bitmap.width > contentWidth && bitmap.height > contentHeight) {
-            return Bitmap.createScaledBitmap(
-                bitmap,
-                contentWidth,
-                contentHeight,
-                true
-            )
+class SingleQuoteTransform : Transformer<String>() {
+    override fun transform(value: String?): String {
+        value?.let {
+            if (it.matches(Regex("'(.*?)'"))) {
+                val match = Regex("'(.*?)'").find(it)!!
+                val (text) = match.destructured
+                return text
+            }
         }
-
-        return bitmap
+        return value ?: ""
     }
+
 }

@@ -78,6 +78,8 @@ android {
         unitTests.all {
             useJUnitPlatform()
         }
+
+        animationsDisabled = true
     }
 }
 
@@ -101,6 +103,7 @@ dependencies {
     androidTestImplementation Dependencies.TestLibraries.cucumberAndroid
     androidTestImplementation Dependencies.TestLibraries.cucumberPicocontainer
     androidTestImplementation Dependencies.TestLibraries.espressoCore
+    androidTestImplementation Dependencies.TestLibraries.espressoContrib
     androidTestImplementation Dependencies.TestLibraries.testRules
     androidTestImplementation Dependencies.TestLibraries.testRunner
     androidTestImplementation Dependencies.TestLibraries.testExt

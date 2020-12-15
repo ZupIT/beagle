@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.list
+package br.com.zup.beagle.automatedtests.model
 
-import java.util.LinkedList
+import java.util.*
 
-internal data class ListItem(
-    var viewIds: LinkedList<Int> = LinkedList(),
-    val data: Any,
-    var itemSuffix: String = "",
-    var firstTimeBinding: Boolean = true,
-    val directNestedAdapters: LinkedList<ListAdapter> = LinkedList(),
-)
+data class Genre(
+    val id: Int,
+    val name: String = ""
+) {
+    companion object {
+        fun createMock(): List<Genre> {
+            val genreList = ArrayList<Genre>()
+            var genre = Genre(1, "Fantasy")
+            genreList.add(genre)
+
+            genre = Genre(2, "Sci-fi")
+            genreList.add(genre)
+
+            genre = Genre(3, "Other")
+            genreList.add(genre)
+
+            return genreList
+        }
+    }
+}

@@ -64,10 +64,6 @@ const val TAB_4_TEXT_2 = "This is Tab4's second text"
 
 //ListView Screen
 const val LISTVIEW_SCREEN_HEADER = "Beagle ListView"
-const val STATIC_LISTVIEW_TEXT_1 = "Static VERTICAL ListView"
-const val STATIC_LISTVIEW_TEXT_2 = "Static HORIZONTAL ListView"
-const val DYNAMIC_LISTVIEW_TEXT_1 = "Dynamic VERTICAL ListView"
-const val DYNAMIC_LISTVIEW_TEXT_2 = "Dynamic HORIZONTAL ListView"
 
 //Touchable Screen
 const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"

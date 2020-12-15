@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.list
+package br.com.zup.beagle.android.utils
 
-import java.util.LinkedList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
-internal data class ListItem(
-    var viewIds: LinkedList<Int> = LinkedList(),
-    val data: Any,
-    var itemSuffix: String = "",
-    var firstTimeBinding: Boolean = true,
-    val directNestedAdapters: LinkedList<ListAdapter> = LinkedList(),
-)
+internal class BeagleScope : CoroutineScope {
+
+    private val job = SupervisorJob()
+    override val coroutineContext = job + CoroutineDispatchers.Main
+}
