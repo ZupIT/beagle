@@ -20,7 +20,11 @@ import android.view.View
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.annotation.ContextDataValue
-import br.com.zup.beagle.android.context.*
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.normalizeContextValue
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent
