@@ -165,7 +165,7 @@
     isEnumDeclaration = @template_helper.is_enum(objectType)
 
     if isEnumDeclaration
-      output += initForEnum(objectType)
+      output += initEnum(objectType)
     else
       if @template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType)
         output += initInterfaceOrAbstract(objectType)
@@ -328,12 +328,23 @@
     output
   end
 
-  def initForEnum(objectType)
+  def initEnum(objectType)
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
 
     output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
-    output += "#{@tab}"
-    output += objectType.synthax_type.variables.map { |enumCase| enumCase.name.upcase }.join(",\n#{@tab}")
+
+    counter = 0
+    for field in objectType.synthax_type.variables
+      if field.comment != nil
+        output += "#{@tab}/**\n#{@tab} * #{@kotlinHelper.replace_breakLine_documentation(field.comment, "\n#{@tab} * ")}\n#{@tab} */\n"
+      end
+      output += "#{@tab}#{field.name}"
+      if counter != objectType.synthax_type.variables.size - 1
+        output += ",\n\n"
+      end
+      counter += 1
+    end
+    
     output
   end
 
