@@ -165,7 +165,6 @@ class TextInputSteps: CucumberStepsDefinition {
 
             XCTAssertTrue(textField?.exists ?? false)
             XCTAssertEqual(self.application.keyboards.count, 1)
-//            self.application.keys["a"].tap()
         }
 
         // Scenario 12
