@@ -36,7 +36,7 @@ extension Image {
         case .local(let mobileId):
             let expression: Expression<String> = "\(mobileId)"
             renderer.observe(expression, andUpdateManyIn: image) { mobileId in
-                guard let mobileId = mobileId else { return }
+                guard let mobileId = mobileId, !mobileId.isEmpty else { return }
                 self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
             }
         case .remote(let remote):

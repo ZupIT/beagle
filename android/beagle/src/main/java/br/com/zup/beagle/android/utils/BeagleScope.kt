@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.cache.imagecomponent
+package br.com.zup.beagle.android.utils
 
-import android.graphics.Bitmap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
-internal class BeagleBitmapFactory {
+internal class BeagleScope : CoroutineScope {
 
-    fun getBitmap(bitmap: Bitmap, contentWidth: Int, contentHeight: Int) : Bitmap {
-        if (bitmap.width > contentWidth && bitmap.height > contentHeight) {
-            return Bitmap.createScaledBitmap(
-                bitmap,
-                contentWidth,
-                contentHeight,
-                true
-            )
-        }
-
-        return bitmap
-    }
+    private val job = SupervisorJob()
+    override val coroutineContext = job + CoroutineDispatchers.Main
 }
