@@ -1,0 +1,20 @@
+▿ TabBar
+  - currentTab: Optional<Expression<Int>>.none
+  ▿ items: 3 elements
+    ▿ TabBarItem
+      ▿ icon: Optional<String>
+        - some: "beagle"
+      ▿ title: Optional<String>
+        - some: "tab 1"
+    ▿ TabBarItem
+      ▿ icon: Optional<String>
+        - some: "beagle"
+      ▿ title: Optional<String>
+        - some: "tab 2"
+    ▿ TabBarItem
+      ▿ icon: Optional<String>
+        - some: "beagle"
+      ▿ title: Optional<String>
+        - some: "tab 3"
+  - onTabSelection: Optional<Array<Action>>.none
+  - styleId: Optional<String>.none

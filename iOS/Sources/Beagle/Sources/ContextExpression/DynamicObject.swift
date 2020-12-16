@@ -14,161 +14,151 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-import Foundation
-import UIKit
-
-extension DynamicObject {
-    public func evaluate(with view: UIView) -> DynamicObject {
-        switch self {
-        case .empty, .bool, .int, .double, .string:
-            return self
-            
-        case let .array(array):
-            return .array(array.map { $0.evaluate(with: view) })
-        case let .dictionary(dictionary):
-            return .dictionary(dictionary.mapValues { $0.evaluate(with: view) })
-        case let .expression(expression):
-            let dynamicObject: DynamicObject? = view.evaluate(for: expression)
-            return dynamicObject ?? .empty
-        }
-    }
+public enum DynamicObject: Equatable, Hashable {
+    case empty
+    case bool(Bool)
+    case int(Int)
+    case double(Double)
+    case string(String)
+    case array([DynamicObject])
+    case dictionary([String: DynamicObject])
+    case expression(ContextExpression)
+}
     
-    @available(*, deprecated, message: "use evaluate(with view: UIView) instead")
-    public func get(with view: UIView) -> DynamicObject {
-        return evaluate(with: view)
-    }
-}
-
-// MARK: ExpressibleByLiteral
-
-extension DynamicObject: ExpressibleByNilLiteral {
-    public init(nilLiteral: Void) {
-        self = .empty
-    }
-}
-
-extension DynamicObject: ExpressibleByBooleanLiteral {
-    public init(booleanLiteral value: Bool) {
-        self = .bool(value)
-    }
-}
-
-extension DynamicObject: ExpressibleByIntegerLiteral {
-    public init(integerLiteral value: Int) {
-        self = .int(value)
-    }
-}
-
-extension DynamicObject: ExpressibleByFloatLiteral {
-    public init(floatLiteral value: Double) {
-        self = .double(value)
-    }
-}
-
-extension DynamicObject: ExpressibleByStringLiteral {
-    public init(stringLiteral value: String) {
-        if let expression = SingleExpression(rawValue: value) {
-            self = .expression(.single(expression))
-        } else if let expression = MultipleExpression(rawValue: value) {
-            self = .expression(.multiple(expression))
-        } else {
-            self = .string(value.escapeExpressions())
-        }
-    }
-}
-
-extension DynamicObject: ExpressibleByStringInterpolation {}
-
-extension DynamicObject: ExpressibleByArrayLiteral {
-    public init(arrayLiteral elements: DynamicObject...) {
-        self = .array(elements)
-    }
-}
-
-extension DynamicObject: ExpressibleByDictionaryLiteral {
-    public init(dictionaryLiteral elements: (String, DynamicObject)...) {
-        var dictionary: [String: DynamicObject] = [:]
-        elements.forEach { dictionary[$0.0] = $0.1 }
-        self = .dictionary(dictionary)
-    }
-}
-
-// MARK: Evaluate Path
-
-extension DynamicObject {
+extension DynamicObject: CustomStringConvertible {
     
-    subscript(path: Path) -> DynamicObject {
-        var nodes = path.nodes[...]
-        return Self.evaluate(&nodes, self)
+    public var description: String {
+        return self.toString()
     }
-    
-    private static func evaluate(_ expression: inout ArraySlice<Path.Node>, _ model: DynamicObject) -> DynamicObject {
-        guard let first = expression.first else {
-            return model
-        }
-        switch first {
-        case let .key(key):
-            guard case let .dictionary(dictionary) = model, let value = dictionary[key] else {
-                return nil
-            }
-            expression.removeFirst()
-            return evaluate(&expression, value)
-
-        case let .index(index):
-            guard case let .array(array) = model, let value = array[safe: index] else {
-                return nil
-            }
-            expression.removeFirst()
-            return evaluate(&expression, value)
-        }
-    }
-}
-
-// MARK: Set value with Path
-
-extension DynamicObject {
-    func set(_ value: DynamicObject, with path: Path) -> DynamicObject {
-        return set(value, with: path.nodes[...])
-    }
-    
-    private func set(_ value: DynamicObject, with path: ArraySlice<Path.Node>) -> DynamicObject {
-        guard let node = path.first else { return value }
-        let newPath = path.dropFirst()
         
-        switch node {
-        case let .key(key):
-            if case var .dictionary(dictionary) = self {
-                if let old = dictionary[key] {
-                    dictionary[key] = old.set(value, with: newPath)
-                    return .dictionary(dictionary)
-                }
-                dictionary[key] = DynamicObject.empty.set(value, with: newPath)
-                return .dictionary(dictionary)
+    public func asAny() -> Any? {
+        switch self {
+        case .empty:
+            return nil
+        case let .bool(bool):
+            return bool
+        case let .int(int):
+            return int
+        case let .double(double):
+            return double
+        case let .string(string):
+            return string
+        case let .array(array):
+            return array.map { $0.asAny() }
+        case let .dictionary(dictionary):
+            return dictionary.mapValues { $0.asAny() }
+        case let .expression(expression):
+            switch expression {
+            case let .single(expression):
+                return expression.rawValue
+            case let .multiple(expression):
+                return expression.rawValue
             }
-            return .dictionary([key: DynamicObject.empty.set(value, with: newPath)])
-        case let .index(index):
-            if case var .array(array) = self {
-                if let old = array[safe: index] {
-                    array[index] = old.set(value, with: newPath)
-                    return .array(array)
-                }
-                var newArray = dynamicArray(count: index + 1, with: array)
-                newArray[index] = DynamicObject.empty.set(value, with: newPath)
-                return .array(newArray)
-            }
-            var newArray = dynamicArray(count: index + 1)
-            newArray[index] = DynamicObject.empty.set(value, with: newPath)
-            return .array(newArray)
         }
     }
     
-    private func dynamicArray(count: Int, with array: [DynamicObject]? = nil) -> [DynamicObject] {
-        var result: [DynamicObject] = .init(repeating: .empty, count: count)
-        guard let array = array, array.count < count else { return result }
-        for (index, element) in array.enumerated() {
-            result[index] = element
+    private func toString() -> String {
+        switch self {
+        case .empty:
+            return ""
+        case let .bool(bool):
+            return "\(bool)"
+        case let .int(int):
+            return "\(int)"
+        case let .double(double):
+            return "\(double)"
+        case let .string(string):
+            return string
+        case let .array(array):
+            return "\(array)"
+        case let .dictionary(dictionary):
+            return "\(dictionary)"
+        case let .expression(.multiple(multipleExpression)):
+            return multipleExpression.rawValue
+        case let .expression(.single(singleExpression)):
+            return singleExpression.rawValue
         }
-        return result
+    }
+    
+    public func isEqualIgnoringAssociatedValues(_ anotherObject: DynamicObject) -> Bool {
+        switch (self, anotherObject) {
+        case (.empty, .empty):
+            return true
+        case (.bool, .bool):
+            return true
+        case (.int, .int):
+            return true
+        case (.double, .double):
+            return true
+        case (.string, .string):
+            return true
+        case (.array, .array):
+            return true
+        case (.dictionary, .dictionary):
+            return true
+        case (.expression, .expression):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+// MARK: Codable
+
+extension DynamicObject: Decodable {
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if container.decodeNil() {
+            self = .empty
+        } else if let bool = try? container.decode(Bool.self) {
+            self = .bool(bool)
+        } else if let int = try? container.decode(Int.self) {
+            self = .int(int)
+        } else if let double = try? container.decode(Double.self) {
+            self = .double(double)
+        } else if let expression = try? container.decode(ContextExpression.self) {
+            self = .expression(expression)
+        } else if let string = try? container.decode(String.self) {
+            self = .string(string.escapeExpressions())
+        } else if let array = try? container.decode([DynamicObject].self) {
+            self = .array(array)
+        } else if let dictionary = try? container.decode([String: DynamicObject].self) {
+            self = .dictionary(dictionary)
+        } else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "DynamicObject value cannot be decoded")
+        }
+    }
+}
+
+extension DynamicObject: Encodable {
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+
+        switch self {
+        case .empty:
+            try container.encodeNil()
+        case let .bool(bool):
+            try container.encode(bool)
+        case let .int(int):
+            try container.encode(int)
+        case let .double(double):
+            try container.encode(double)
+        case let .string(string):
+            try container.encode(string)
+        case let .array(array):
+            try container.encode(array)
+        case let .dictionary(dictionary):
+            try container.encode(dictionary)
+        case let .expression(expression):
+            switch expression {
+            case let .single(expression):
+                try container.encode(expression.rawValue)
+            case let .multiple(expression):
+                try container.encode(expression.rawValue)
+            }
+        }
     }
 }

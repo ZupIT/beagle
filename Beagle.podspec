@@ -78,9 +78,8 @@ Pod::Spec.new do |spec|
     # make sure to declare YogaKit on your Podfile as:
     # pod 'YogaKit', :git => 'git@github.com:lucasaraujo/yoga.git'
     # We need this because we fixed an issue in the original repository and our PR was not merged yet.
-    beagle.frameworks = 'Foundation', 'CoreData'
+    beagle.frameworks = 'Foundation'
     beagle.dependency 'YogaKit'
-    beagle.dependency 'BeagleSchema', "#{spec.version}"
   end
 
   # ――― Beagle Preview ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
