@@ -17,10 +17,9 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.extensions.once
@@ -29,20 +28,13 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 import br.com.zup.beagle.android.view.viewmodel.Response
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.verify
-import io.mockk.verifyOrder
+import br.com.zup.beagle.core.ServerDrivenComponent
+import io.mockk.*
 import org.json.JSONObject
-import org.junit.Rule
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 data class DataTest(val email: String, val password: String)
 
@@ -54,6 +46,7 @@ class SendRequestTest : BaseAsyncActionTest() {
     private val responseData: Response = mockk()
     private val view: View = mockk()
     private val contextDataSlot = slot<ContextData>()
+    private val originComponent : ServerDrivenComponent = mockk()
 
     @BeforeEach
     override fun setUp() {
@@ -76,14 +69,25 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view)
+        requestAction.execute(rootView, view, originComponent)
         val result = FetchViewState.Success(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
-            requestAction.handleEvent(rootView, view, listOf(onSuccessAction), any<ContextData>())
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+            )
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onSuccessAction),
+                any<ContextData>(),
+                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+            )
         }
 
         assertEquals("onSuccess", contextDataSlot.captured.id)
@@ -99,14 +103,25 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view)
+        requestAction.execute(rootView, view, originComponent)
         val result = FetchViewState.Error(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
-            requestAction.handleEvent(rootView, view, listOf(onErrorAction), any<ContextData>())
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+            )
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onErrorAction),
+                any<ContextData>(),
+                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+            )
         }
 
         assertEquals("onError", contextDataSlot.captured.id)
@@ -121,13 +136,18 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view)
+        requestAction.execute(rootView, view, originComponent)
         val result = FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+            )
         }
     }
 
@@ -144,7 +164,7 @@ class SendRequestTest : BaseAsyncActionTest() {
 
         // Then
         verify(exactly = 0) {
-            requestAction.handleEvent(any(), any(), any<List<Action>>())
+            requestAction.handleEvent(any(), any(), any<List<Action>>(), analyticsHandleEvent = any())
         }
     }
 
@@ -171,13 +191,18 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = null, onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view)
+        requestAction.execute(rootView, view, originComponent)
         val result = FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+            )
         }
     }
 
@@ -189,13 +214,18 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = null, onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view)
+        requestAction.execute(rootView, view, originComponent)
         val result = FetchViewState.Error(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+            )
         }
     }
 
@@ -213,8 +243,8 @@ class SendRequestTest : BaseAsyncActionTest() {
             data = data
         ).apply {
             every { evaluateExpression(rootView, view, any<Any>()) } returns ""
-            every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
-            every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot), analyticsHandleEvent = any()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), analyticsHandleEvent = any()) } just Runs
         }
     }
 

@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -41,11 +42,14 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 
 private val DEFAULT_TEXT = Bind.Value("Hello")
 private const val DEFAULT_STYLE = "DummyStyle"
 private val BUTTON_STYLE = RandomData.int()
 
+@DisplayName("Given a Button")
 class ButtonTest : BaseComponentTest() {
 
     private val analytics: Analytics = mockk(relaxed = true)
@@ -143,5 +147,27 @@ class ButtonTest : BaseComponentTest() {
 
         // Then
         verify(exactly = 0) { analytics.trackEventOnClick(any()) }
+    }
+
+    @DisplayName("When clicked")
+    @Nested
+    inner class ButtonClick(){
+
+        @DisplayName("Then sould handle event")
+        @Test
+        fun testButtonCLickShouldCallHandleEvent() {
+            // GIVEN
+            val action : Action = mockk()
+            val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
+            every { buttonComponent.handleEvent(rootView, view, listOf(action), analyticsValue = "onPress") } just Runs
+            buttonComponent.copy(onPress = listOf(action))
+            // When
+            val buttonView = buttonComponent.buildView(rootView)
+            verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
+            onClickListenerSlot.captured.onClick(view)
+
+            // Then
+            verify(exactly = 0) { buttonComponent.handleEvent(rootView, view, listOf(action), analyticsValue = "OnPress") }
+        }
     }
 }

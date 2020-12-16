@@ -116,7 +116,7 @@ class FormTest : BaseComponentTest() {
 
         form = Form(onSubmit = listOf(mockk(relaxed = true)), child = mockk())
 
-        every { form.handleEvent(any(), any(), any<Action>()) } just Runs
+        every { form.handleEvent(any(), any(), any<Action>(), analyticsValue = any()) } just Runs
     }
 
     @Test
@@ -221,7 +221,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, remoteAction) }
+        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, remoteAction, analyticsValue = "onSubmit") }
     }
 
     @Test
@@ -234,7 +234,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, navigateAction) }
+        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, navigateAction, analyticsValue = "onSubmit") }
     }
 
     @Test
@@ -294,7 +294,7 @@ class FormTest : BaseComponentTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify { form.handleEvent(rootView, formSubmitView, remoteAction) }
+        verify { form.handleEvent(rootView, formSubmitView, remoteAction, analyticsValue = "onSubmit") }
     }
 
     @Test
@@ -446,6 +446,6 @@ class FormTest : BaseComponentTest() {
         (slotFormError.captured as ServerDrivenState.FormError).retry.invoke()
 
         // Then
-        verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>()) }
+        verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>(), analyticsValue = "onSubmit") }
     }
 }

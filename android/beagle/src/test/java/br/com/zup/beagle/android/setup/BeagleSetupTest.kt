@@ -39,7 +39,7 @@ class BeagleSetupTest {
         @Test
         fun testInitShouldCallAnalyticsServiceInit(){
             //given
-//            BeagleSdk.setInTestMode()
+            BeagleSdk.setInTestMode()
             mockkObject(AnalyticsService)
             every { AnalyticsService.initialConfig(any()) } just Runs
             //when

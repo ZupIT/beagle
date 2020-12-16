@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import android.view.View
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextActionExecutor
@@ -41,8 +42,9 @@ fun Action.handleEvent(
     origin: View,
     actions: List<Action>,
     context: ContextData? = null,
+    analyticsHandleEvent: AnalyticsHandleEvent? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, actions, context)
+    contextActionExecutor.executeActions(rootView, origin, this, actions, context, analyticsHandleEvent)
 }
 
 /**
@@ -81,8 +83,9 @@ fun Action.handleEvent(
     origin: View,
     action: Action,
     context: ContextData? = null,
+    analyticsHandleEvent : AnalyticsHandleEvent? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
+    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context, analyticsHandleEvent)
 }
 
 /**

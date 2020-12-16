@@ -17,32 +17,32 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.AsyncAction
+import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.BaseAsyncActionTest
 import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.slot
-import io.mockk.verify
-import io.mockk.verifySequence
+import br.com.zup.beagle.core.ServerDrivenComponent
+import io.mockk.*
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 data class PersonTest(val name: String)
 
 private const val NAME = "name"
 
+@DisplayName("Given a Context Action Executor")
 class ContextActionExecutorTest : BaseAsyncActionTest() {
 
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
@@ -163,5 +163,38 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
         verify(exactly = 1) { asyncActionViewModel.onAsyncActionExecuted(asyncActionSlot.captured) }
         verify(exactly = 1) { asyncAction.onActionStarted() }
         assert(onActionStartedWasCalled())
+    }
+
+    @DisplayName("When execute Actions")
+    @Nested
+    inner class ExecuteActions() {
+
+        @DisplayName("Then should report the actions if it's action analytics")
+        @Test
+        fun testExecuteActionsReportAction() {
+            // Given
+            val eventId = "onChange"
+            val analyticsViewModel = mockk<AnalyticsViewModel>()
+            val value = PersonTest(name = NAME)
+            val originComponent = mockk<ServerDrivenComponent>()
+            val analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onChange")
+            val actionAnalytics = mockk<ActionAnalytics>()
+            every { actionAnalytics.execute(any(), view, analyticsHandleEvent.originComponent) } just Runs
+            every { rootView.generateViewModelInstance<AnalyticsViewModel>() } returns analyticsViewModel
+            every { analyticsViewModel.createActionReport(rootView, any(), any(), any()) } just Runs
+            // When
+            contextActionExecutor.executeActions(
+                rootView,
+                view,
+                sender,
+                listOf(action, actionAnalytics),
+                ContextData(eventId, value),
+                analyticsHandleEvent
+            )
+
+            // Then
+            verify(exactly = 1) { action.execute(rootView, view) }
+            verify(exactly = 1) { analyticsViewModel.createActionReport(rootView, view, actionAnalytics, analyticsHandleEvent) }
+        }
     }
 }

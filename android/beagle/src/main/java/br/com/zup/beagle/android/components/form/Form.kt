@@ -218,7 +218,7 @@ data class Form(
                     data = formsValue.plus(newAction.data)
                 )
             }
-            handleEvent(rootView, view, newAction)
+            handleEvent(rootView, view, newAction, analyticsValue = "onSubmit")
         }
     }
 
@@ -231,7 +231,7 @@ data class Form(
                 if (formResult.action is FormValidation) {
                     formResult.action.formInputs = formInputs
                 }
-                handleEvent(rootView, view, formResult.action)
+                handleEvent(rootView, view, formResult.action, analyticsValue = "onSuccess")
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.FormError(formResult.throwable){ handleFormSubmit(rootView, view) }
