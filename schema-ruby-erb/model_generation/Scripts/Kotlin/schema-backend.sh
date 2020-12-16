@@ -11,6 +11,6 @@ function copyGeneratedSchema() {
     echo "Schema: generated in $2"
 }
 
-bash 'schema-ruby-erb/model_generation/schema.sh' -b
-copyGeneratedSchema 'schema-ruby-erb/model_generation/Generated/KotlinBackend/kotlin-core' 'backend/kotlin-core/src/main/kotlin'
-copyGeneratedSchema 'schema-ruby-erb/model_generation/Generated/KotlinBackend/widgets' 'backend/widgets/src/main/kotlin'
+bash '../schema-ruby-erb/model_generation/schema.sh' -b
+copyGeneratedSchema '../schema-ruby-erb/model_generation/Generated/KotlinBackend/kotlin-core' '../backend/kotlin-core/src/main/kotlin'
+copyGeneratedSchema '../schema-ruby-erb/model_generation/Generated/KotlinBackend/widgets' '../backend/widgets/src/main/kotlin'

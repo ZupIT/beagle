@@ -16,6 +16,7 @@
 
 import br.com.zup.beagle.Dependencies
 
+apply from: rootProject.file('schema.gradle')
 apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
