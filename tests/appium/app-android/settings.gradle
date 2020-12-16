@@ -1,0 +1,8 @@
+
+include ":beagle"
+include ":processor"
+include ":internal-processor"
+include ":android-annotation"
+include ":processor-shared-code"
+include ":app"
+rootProject.name = "Appium App"
