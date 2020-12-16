@@ -68,7 +68,7 @@ class Size < BaseComponent
             :name => self.name,
             :variables => variables,
             :comment => "Size handles the size of the item",
-            :package => "br.com.zup.beagle.widget.core"
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core")
         )
 
         super(synthax_type)

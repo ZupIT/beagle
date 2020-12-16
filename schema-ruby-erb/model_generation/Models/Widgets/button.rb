@@ -30,7 +30,7 @@ class Button < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.ui",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.ui"),
             :comment => "Define a button natively using the server driven information received through Beagle",
             :inheritFrom => [
                Widget.new,

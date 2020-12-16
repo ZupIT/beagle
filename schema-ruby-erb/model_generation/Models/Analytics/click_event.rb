@@ -29,7 +29,7 @@ class ClickEvent < BaseComponent
             :name => self.name,
             :variables => variables,
             :comment => "Define click event",
-            :package => "br.com.zup.beagle.analytics"
+            :package => Package.new(:backend => "br.com.zup.beagle.analytics", :android => "br.com.zup.beagle.analytics")
         )
 
         super(synthax_type)

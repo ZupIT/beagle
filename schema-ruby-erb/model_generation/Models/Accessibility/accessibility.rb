@@ -28,7 +28,7 @@ class Accessibility < BaseComponent
             :name => self.name,
             :variables => variables,
             :comment => "The accessibility will enable a textual information to explain the view content in case a screen reader is used.",
-            :package => "br.com.zup.beagle.core"
+            :package => Package.new(:backend => "br.com.zup.beagle.core", :android => "br.com.zup.beagle.core")
         )
 
         super(synthax_type)

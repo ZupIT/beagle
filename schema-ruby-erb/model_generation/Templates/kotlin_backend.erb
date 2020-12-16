@@ -24,7 +24,7 @@
   @template_helper.defaultDeclarationType = "data class"
 
   def fullDeclaration(objectType)
-    output = "package #{objectType.synthax_type.package}\n"
+    output = "package #{objectType.synthax_type.package.backend}\n"
 
     output += resolveImports(objectType)
     output += @kotlinHelper.resolveDocumentation(objectType)
@@ -36,22 +36,22 @@
     output = ""
     for variable in objectType.synthax_type.variables
       if !@template_helper.variable_is_primitive(variable)
-        qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
-        if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+        qualifiedName = "#{variable.type.synthax_type.package.backend}.#{variable.type.synthax_type.name}"
+        if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package.backend}"
           output += "import #{qualifiedName}\n"
         end
       end
     end
 
     for inherited in objectType.synthax_type.inheritFrom
-      if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}"
-        output += "import #{inherited.synthax_type.package}.#{inherited.synthax_type.name}\n"
+      if !inherited.synthax_type.package.backend.include? "#{objectType.synthax_type.package.backend}"
+        output += "import #{inherited.synthax_type.package.backend}.#{inherited.synthax_type.name}\n"
       end
       
       for variable in inherited.synthax_type.variables
         if !@template_helper.variable_is_primitive(variable)
-            qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
-          if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+            qualifiedName = "#{variable.type.synthax_type.package.backend}.#{variable.type.synthax_type.name}"
+          if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package.backend}"
             output += "import #{qualifiedName}\n"
           end
         end
@@ -73,19 +73,19 @@
     output = ""
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
-      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
+      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package.backend}"
         output += "import br.com.zup.beagle.widget.context.Bind\n"
       end
     end
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional } and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
-      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
+      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package.backend}"
         output += "import br.com.zup.beagle.widget.context.valueOf\n"
       end
     end
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional } and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
-      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.package}"
+      if !"br.com.zup.beagle.widget.context".include? "#{objectType.synthax_type.packag.backend}"
         output += "import br.com.zup.beagle.widget.context.valueOfNullable\n"
       end
     end

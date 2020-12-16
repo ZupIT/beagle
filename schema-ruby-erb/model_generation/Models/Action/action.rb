@@ -23,7 +23,7 @@ class Action < BaseComponent
             :type => TypeInterface.new,
             :name => self.name,
             :variables => [],
-            :package => "br.com.zup.beagle.widget.action",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.action", :android => "br.com.zup.beagle.android.action"),
             :comment => "Base of actions\nAction is an interface that allows you to define actions that can be performed by Widgets."
         )
 

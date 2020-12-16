@@ -30,7 +30,7 @@ class JustifyContent < BaseComponent
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core"),
             :comment => "Describes how to align children within the main axis of their container.\nFor example, you can use this property to center a child horizontally within a container with flexDirection\nset to row or vertically within a container with flexDirection set to column."
         )
     

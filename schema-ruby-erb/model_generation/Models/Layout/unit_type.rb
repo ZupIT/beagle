@@ -28,7 +28,7 @@ class UnitType < BaseComponent
             :name => self.name,
             :variables => enum_cases,
             :comment => "This defines of a unit type;",
-            :package => "br.com.zup.beagle.widget.core"
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core")
         )
 
         super(synthax_type)

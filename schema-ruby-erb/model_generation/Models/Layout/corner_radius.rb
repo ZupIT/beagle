@@ -26,7 +26,7 @@ class CornerRadius < BaseComponent
             :name => self.name,
             :variables => variables,
             :comment => "The corner radius change the appearance of view",
-            :package => "br.com.zup.beagle.core"
+            :package => Package.new(:backend => "br.com.zup.beagle.core", :android => "br.com.zup.beagle.core")
         )
 
         super(synthax_type)

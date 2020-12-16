@@ -27,7 +27,7 @@ class PositionType < BaseComponent
             :name => self.name,
             :variables => enum_cases,
             :comment => "The position type of an element defines how it is positioned within its parent.",
-            :package => "br.com.zup.beagle.core"
+            :package => Package.new(:backend => "br.com.zup.beagle.core", :android => "br.com.zup.beagle.core")
         )
 
         super(synthax_type)

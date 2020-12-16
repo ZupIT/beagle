@@ -26,7 +26,7 @@
   def single_variable_declaration(variable)
     # TODO validate
     type_name = @template_helper.fetch_type(variable.type.name)
-    if @template_helper.is_widget(variable.type)
+    if @template_helper.inheritFrom_widget(variable.type)
       type_name + "Schema"
     end
     # type_name = variable.type.synthax_type.is_a?(EnumType) or @template_helper.is_server_driven_component(variable.type) ? type_name + "Schema"  : type_name
@@ -68,7 +68,7 @@
   end
 
   def fullDeclaration(objectType)
-    output = "package br.com.zup.beagle.generated.#{objectType.synthax_type.package.gsub("br.com.zup.beagle.", "")}\n"
+    output = "package #{objectType.synthax_type.package.android}\n"
 
     output += resolveImports(objectType)
     output += @kotlinHelper.resolveDocumentation(objectType)
@@ -82,27 +82,27 @@
 
     for variable in objectType.synthax_type.variables
       if !@template_helper.variable_is_primitive(variable) and !variable.type.is_a? (Action)
-        qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
-        if @template_helper.is_widget(variable.type)
+        qualifiedName = "#{variable.type.synthax_type.package.android}.#{variable.type.synthax_type.name}"
+        if @template_helper.inheritFrom_widget(variable.type)
           qualifiedName += "Schema"
         end
-        if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+        if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package.android}"
           output += "import #{qualifiedName}\n"
         end
       end
     end
     
     for inherited in objectType.synthax_type.inheritFrom
-      if !inherited.synthax_type.package.include? "#{objectType.synthax_type.package}" and (@template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType) or @template_helper.is_enum(objectType))
-        output += "import #{inherited.synthax_type.package}.#{inherited.synthax_type.name}\n"
+      if !inherited.synthax_type.package.android.include? "#{objectType.synthax_type.package.android}" and (@template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType) or @template_helper.is_enum(objectType))
+        output += "import #{inherited.synthax_type.package.android}.#{inherited.synthax_type.name}\n"
       end
 
       for variable in inherited.synthax_type.variables
         if !@template_helper.variable_is_primitive(variable) and !variable.type.is_a? (Action)
-            qualifiedName = "#{variable.type.synthax_type.package}.#{variable.type.synthax_type.name}"
-          if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package}"
+            qualifiedName = "#{variable.type.synthax_type.package.android}.#{variable.type.synthax_type.name}"
+          if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package.android}"
             output += "import #{qualifiedName}"
-            if @template_helper.is_widget(variable.type)
+            if @template_helper.inheritFrom_widget(variable.type)
               output += "Schema"
             end
             output += "\n"
@@ -110,8 +110,6 @@
         end
       end 
     end
-
-    output = output.gsub('br.com.zup.beagle.', 'br.com.zup.beagle.generated.')
 
     output
   end
@@ -133,7 +131,7 @@
     output = ""
 
     if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
-      if !"br.com.zup.beagle.android.context".include? "#{objectType.synthax_type.package}"
+      if !"br.com.zup.beagle.android.context".include? "#{objectType.synthax_type.package.android}"
         output += "import br.com.zup.beagle.android.context.Bind\n"
       end
     end
@@ -150,7 +148,7 @@
     output = ""
 
     if objectType.synthax_type.variables.any? { |variable| variable.type.is_a? (Action) }
-      if !"br.com.zup.beagle.android".include? "#{objectType.synthax_type.package}"
+      if !"br.com.zup.beagle.android".include? "#{objectType.synthax_type.package.android}"
         output += "import br.com.zup.beagle.android.action.Action\n"
       end
     end
@@ -194,7 +192,7 @@
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
     
     output = "\n#{typeKind} #{objectType.synthax_type.name}"
-    if @template_helper.is_widget(objectType)
+    if @template_helper.inheritFrom_widget(objectType)
       output += "Schema" 
     end
     output += getSuperClasses(objectType)
@@ -343,7 +341,7 @@
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
 
     output = "\n#{typeKind} #{objectType.synthax_type.name}"
-    if @template_helper.is_widget(objectType)
+    if @template_helper.inheritFrom_widget(objectType)
       output += "Schema" 
     end
 

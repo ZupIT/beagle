@@ -12,23 +12,21 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative '../../Synthax/Attributes/field.rb'
-require_relative '../base_component.rb'
+# Use this class when you attempt to generate a list
+class Package
 
-class ServerDrivenComponent < BaseComponent
+	# Package defined for Backend
+    # @return [String] 
+    attr_accessor :backend
 
-    def initialize
-        synthax_type = BuiltInType.new(
-            :type => TypeInterface.new,
-            :name => self.name,
-            :variables => [],
-            :comment => "Base of components",
-            :package => Package.new(:backend => "br.com.zup.beagle.core", :android => "br.com.zup.beagle.core")
-        )
+    # Package defined for Android
+    # @return [Bool] 
+    attr_accessor :android
 
-        super(synthax_type)
-
+    
+    def initialize(params = {})
+        @backend = params.fetch(:backend, 'br.com.zup.beagle.generated')
+        @android = params.fetch(:android, 'br.com.zup.beagle.generated')
     end
 
 end

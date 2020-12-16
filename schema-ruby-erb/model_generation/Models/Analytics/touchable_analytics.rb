@@ -27,7 +27,7 @@ class TouchableAnalytics < BaseComponent
             :name => self.name,
             :variables => variables,
             :comment => "Component that hold the click analytics",
-            :package => "br.com.zup.beagle.analytics"
+            :package => Package.new(:backend => "br.com.zup.beagle.analytics", :android => "br.com.zup.beagle.analytics")
         )
 
         super(synthax_type)

@@ -135,12 +135,16 @@ class TemplateHelper
          is_interface(object_type) or is_enum(object_type)
     end
 
-    # Given object_type, this functions returns if such an object is widget or not
-    #
-    # @param object_type [BaseComponent]
-    # @return [Bool] indicating wether the object is widget or not
-    def is_widget(object_type)
-        object_type.synthax_type.inheritFrom.any? { |component| component.synthax_type.name == "Widget" }
+    def inheritFrom_widget(object_type)
+        if object_type.synthax_type.name == "Widget"
+            return false
+        else
+            for inherit in object_type.synthax_type.inheritFrom
+                return is_widget(inherit)
+            end
+        end
+
+        return false
     end
 
     # Given object_type, this functions returns if such an object is a server driven component or not

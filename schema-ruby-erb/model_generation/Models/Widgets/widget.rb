@@ -22,7 +22,7 @@ class Widget < BaseComponent
         synthax_type = BuiltInType.new(
             :type => TypeAbstract.new,
             :name => self.name,
-            :package => "br.com.zup.beagle.widget",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget", :android => "br.com.zup.beagle.widget"),
             :comment => "Base of all widgets",
             :inheritFrom => [
                 StyleComponent.new,

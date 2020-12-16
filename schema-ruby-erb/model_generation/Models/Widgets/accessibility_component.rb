@@ -26,7 +26,7 @@ class AccessibilityComponent < BaseComponent
             :type => TypeInterface.new,
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.core", :android => "br.com.zup.beagle.core"),
             :comment => "Component that hold the accessibility",
             :inheritFrom => [
                ServerDrivenComponent.new

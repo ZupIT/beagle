@@ -99,7 +99,7 @@ class Flex < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core"),
             :sameFileTypes => [size, edgeValue, flex_direction, flex_wrap, justify_content, align_content, align_self, align_items],
             :comment => "The flex is a Layout component that will handle your visual component positioning at the screen.\nInternally Beagle uses a Layout engine called Yoga Layout to position elements on screen.\nIn fact it will use the HTML Flexbox properties applied on the visual components and its children."
         )

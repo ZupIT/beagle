@@ -27,7 +27,7 @@ class UnitValue < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core"),
             :comment => "Represents measurement values that contain both the numeric magnitude and the unit of measurement.",
             :sameFileTypes => [UnitType.new]
         )

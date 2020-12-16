@@ -29,7 +29,7 @@ class AlignItems < BaseComponent
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core"),
             :comment => "Describes how to align the children on the cross axis of the container.\nFor example, you can use this property to center a child horizontally\ninside a container with flexDirection set to column or vertically inside a container with flexDirection set to row."
         )
 

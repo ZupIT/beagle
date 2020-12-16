@@ -27,7 +27,7 @@ class Display < BaseComponent
             :name => self.name,
             :variables => enum_cases,
             :comment => "This defines a flex container;\ninline or block depending on the given value. It enables a flex context for all its direct children.",
-            :package => "br.com.zup.beagle.core"
+            :package => Package.new(:backend => "br.com.zup.beagle.core", :android => "br.com.zup.beagle.core")
         )
 
         super(synthax_type)

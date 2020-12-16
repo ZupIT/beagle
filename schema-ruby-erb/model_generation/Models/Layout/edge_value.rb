@@ -67,7 +67,7 @@ class EdgeValue < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core"),
             :comment => "specify the offset the edge of the item should have from it’s closest sibling (item) or parent (container)"
         )
 

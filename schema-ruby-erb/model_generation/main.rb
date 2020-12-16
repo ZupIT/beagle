@@ -16,6 +16,7 @@ require 'erb'
 require 'date'
 
 require_relative 'Synthax/Attributes/field.rb'
+require_relative 'Synthax/Attributes/package.rb'
 require_relative 'Synthax/Types/type.rb'
 require_relative 'Models/Types/string.rb'
 require_relative 'Models/Types/Double.rb'
@@ -106,13 +107,13 @@ class ModelGenerator
   # Generates models for all the supported languages
   def generate
     generate_swift
-    generate_kotlin
+    generate_kotlin_android
     generate_kotlin_backend
     generate_ts
   end
 
-  # Generates models for kotlin
-  def generate_kotlin
+  # Generates models for kotlin Android
+  def generate_kotlin_android
     ready_to_prod = [
       Button.new.name,
       Action.new.name,
@@ -128,14 +129,17 @@ class ModelGenerator
       UnitValue.new.name,
       Accessibility.new.name
     ]
-    @erb = ERB.new(File.read("#{@c.templates}kotlin.erb"), nil, '-')
+    @erb = ERB.new(File.read("#{@c.templates}kotlin_android.erb"), nil, '-')
     for component in @components
       @objectType = component.new
       if ready_to_prod.include? @objectType.name
-        suffix = @helper.is_widget(@objectType) ? "Schema.kt" : ".kt"
+        suffix = @helper.inheritFrom_widget(@objectType) ? "Schema.kt" : ".kt"
         @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
       end
     end
+
+    puts "Kotlin Android models generated!"
+
   end
 
   # Generates models for kotlin backend
@@ -174,6 +178,8 @@ class ModelGenerator
 
       @writer.write(path, @objectType.name + ".kt", to_s)
     end
+
+    puts "Kotlin Backend models generated!"
   end
   
   # Generates models for swift
@@ -276,14 +282,12 @@ if __FILE__ == $0
     generator.generate_ts
     puts "Type Script #{message}"
   when "kotlin"
-    generator.generate_kotlin
+    generator.generate_kotlin_android
     generator.generate_kotlin_backend
   when "kotlinAndroid"
-    generator.generate_kotlin
-    puts "Kotlin Android #{message}"
+    generator.generate_kotlin_android
   when "kotlinBackend"
     generator.generate_kotlin_backend
-    puts "Kotlin Backend #{message}"
   when "all"
     generator.generate
     puts "All language #{message}"

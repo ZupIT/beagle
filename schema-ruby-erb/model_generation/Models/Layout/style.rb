@@ -93,7 +93,7 @@ class Style < BaseComponent
         synthax_type = BuiltInType.new(
             :name => self.name,
             :variables => variables,
-            :package => "br.com.zup.beagle.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.core", :android => "br.com.zup.beagle.core"),
             :comment => "The style class will enable a few visual options to be changed.",
             :sameFileTypes => [CornerRadius.new, Display.new, PositionType.new]
         )

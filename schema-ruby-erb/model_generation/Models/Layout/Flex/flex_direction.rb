@@ -28,7 +28,7 @@ class FlexDirection < BaseComponent
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core"),
             :comment => "controls the direction in which the children of a node are laid out. This is also referred to as the main axis.\nThe cross axis is the axis perpendicular to the main axis, or the axis which the wrapping lines are laid out in."
         )
 

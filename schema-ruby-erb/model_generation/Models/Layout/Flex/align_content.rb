@@ -30,7 +30,7 @@ class AlignContent < BaseComponent
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core"),
             :comment => "Describes how to align distribution of lines along the transverse axis of the container.\nFor example, you can use this property to center child lines horizontally\ninside a container with flexDirection defined as a column or vertically inside a container\nwith flexDirection defined as a row."
         )
 

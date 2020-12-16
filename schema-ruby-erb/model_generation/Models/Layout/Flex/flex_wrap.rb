@@ -27,7 +27,7 @@ class FlexWrap < BaseComponent
         synthax_type = EnumType.new(
             :name => self.name,
             :variables => enum_cases,
-            :package => "br.com.zup.beagle.widget.core",
+            :package => Package.new(:backend => "br.com.zup.beagle.widget.core", :android => "br.com.zup.beagle.widget.core"),
             :comment => "FlexWrap is set on containers and it controls what happens when children overflow\nthe size of the container along the main axis.\nBy default, children are forced into a single line (which can shrink elements).\nIf wrapping is allowed, items are wrapped into multiple lines along the main axis if needed."
         )
 
