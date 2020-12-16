@@ -32,6 +32,7 @@ extension Button {
         renderer.observe(disabled, andUpdateManyIn: button) {
             if let disabled = $0 {
                 button.isEnabled = !disabled
+                button.setTitleColor(disabled ? .systemGray : .systemBlue, for: .normal)
             }
         }
         

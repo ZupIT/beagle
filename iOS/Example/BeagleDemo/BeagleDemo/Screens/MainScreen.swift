@@ -62,6 +62,10 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.init(route: .imageEndpoint))]
                 )
                 Button(
+                    text: "Disabled Button",
+                    disabled: true
+                )
+                Button(
                     text: "Form",
                     onPress: [Navigate.openNativeRoute(.init(route: .formEndpoint))]
                 )
