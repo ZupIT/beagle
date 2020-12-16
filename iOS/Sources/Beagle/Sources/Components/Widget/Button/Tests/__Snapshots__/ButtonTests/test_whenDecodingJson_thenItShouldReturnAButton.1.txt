@@ -1,5 +1,8 @@
 ▿ Button
   - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+  ▿ disabled: Optional<Expression<Bool>>
+    ▿ some: Expression<Bool>
+      - value: true
   ▿ onPress: Optional<Array<Action>>
     ▿ some: 1 element
       - Navigate.popStack

@@ -29,6 +29,12 @@ extension Button {
             button.setTitle($0, for: .normal)
         }
         
+        renderer.observe(disabled, andUpdateManyIn: button) {
+            if let disabled = $0 {
+                button.isEnabled = !disabled
+            }
+        }
+        
         let preFetchHelper = renderer.controller.dependencies.preFetchHelper
         onPress?
             .compactMap { ($0 as? Navigate)?.newPath }
