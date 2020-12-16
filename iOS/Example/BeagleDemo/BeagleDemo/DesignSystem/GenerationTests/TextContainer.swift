@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-import Foundation
-import Beagle
-import BeagleSchema
 import UIKit
+import Beagle
 
 public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 

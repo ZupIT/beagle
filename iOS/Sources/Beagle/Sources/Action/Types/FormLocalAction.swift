@@ -14,27 +14,19 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-import UIKit
+/// An action to handle form submit locally
+public struct FormLocalAction: Action, AutoInitiable {
+    
+    public let name: String
+    public let data: [String: String]
 
-extension FormLocalAction: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        controller.dependencies.localFormHandler?.handle(action: self, controller: controller) {
-            [weak controller] result in guard let controller = controller else { return }
-            switch result {
-            case .start:
-                controller.serverDrivenState = .started
-            case .error(let error):
-                controller.serverDrivenState = .finished
-                controller.serverDrivenState = .error(
-                    .action(error),
-                    self.closureToRetrySameAction(controller: controller, origin: origin)
-                )
-            case .success(let action):
-                controller.serverDrivenState = .finished
-                controller.serverDrivenState = .success
-                action.execute(controller: controller, origin: origin)
-            }
-        }
+// sourcery:inline:auto:FormLocalAction.Init
+    public init(
+        name: String,
+        data: [String: String]
+    ) {
+        self.name = name
+        self.data = data
     }
+// sourcery:end
 }
