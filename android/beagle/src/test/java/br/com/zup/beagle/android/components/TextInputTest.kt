@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components
 
 import android.content.Context
+import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
@@ -35,6 +36,8 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.verify
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -49,8 +52,8 @@ const val HIDDEN = true
 const val STYLE_ID = "Style"
 val TYPE = TextInputType.NUMBER
 
-@DisplayName("Given Text Input")
-class TextInputTest : BaseComponentTest() {
+@DisplayName("Given a TextInput")
+internal class TextInputTest : BaseComponentTest() {
 
     private val editText: EditText = mockk(relaxed = true, relaxUnitFun = true)
     private val styleManager: StyleManager = mockk(relaxed = true)
@@ -90,27 +93,93 @@ class TextInputTest : BaseComponentTest() {
     )
 
     @Test
-    fun `build should return a EditText instance`() {
+    @DisplayName("Then should build a textView")
+    fun buildEditTextInstance() {
         // When
         val view = textInput.buildView(rootView)
 
         // Then
         assertTrue(view is EditText)
+        verify(exactly = once()) {
+            editText.setText(VALUE)
+            editText.hint = PLACE_HOLDER
+            editText.isEnabled = READ_ONLY
+            editText.isEnabled = DISABLED
+            editText.visibility = View.INVISIBLE
+            editText.isFocusable = true
+            editText.isFocusableInTouchMode = true
+        }
     }
 
     @Test
-    fun `verify setData when values is delivered`() {
+    @DisplayName("Then should get the value set for the text input component")
+    fun getValueOfTextInput() {
+        // Given
+        textInput.buildView(rootView)
+
+        // When
+        val textInputValue = textInput.getValue()
+
+        // Then
+        assertEquals(textInputValue, editText.text.toString())
+    }
+
+    @Test
+    @DisplayName("Then check if error message is set")
+    fun checkErrorMessage() {
+        // Given
+        textInput.buildView(rootView)
+
+        // When
+        textInput.onErrorMessage("Error")
+
+        // Then
+        verify(exactly = once()) { editText.error = "Error" }
+    }
+
+//    @Test
+//    @DisplayName("Then check if the text is changed")
+//    fun checkSetUpOnTextChange() {
+//    }
+
+    @Test
+    @DisplayName("Then check if text change was removed")
+    fun checkRemovedTextChange() {
         // When
         textInput.buildView(rootView)
 
         // Then
-        verify(exactly = once()) { editText.setText(VALUE) }
-        verify(exactly = once()) { editText.hint = PLACE_HOLDER }
-        verify(exactly = once()) { editText.isEnabled = READ_ONLY }
-        verify(exactly = once()) { editText.isEnabled = DISABLED }
-        verify(exactly = once()) { editText.visibility = View.INVISIBLE }
-        verify(exactly = once()) { editText.isFocusable = true }
-        verify(exactly = once()) { editText.isFocusableInTouchMode = true }
+        verify(exactly = once()) { editText.removeTextChangedListener(textWatcher) }
+    }
+
+    @Test
+    @DisplayName("Then verify setData when values is delivered")
+    fun verifySetDataValue() {
+        // When
+        textInput.buildView(rootView)
+
+        // Then
+        verify(exactly = once()) {
+            editText.setText(VALUE)
+            editText.hint = PLACE_HOLDER
+            editText.isEnabled = READ_ONLY
+            editText.isEnabled = DISABLED
+            editText.visibility = View.INVISIBLE
+            editText.isFocusable = true
+            editText.isFocusableInTouchMode = true
+        }
+    }
+
+    @Test
+    @DisplayName("Then verify set enabled config of text input")
+    fun verifyEnabledConfig() {
+        // When
+        textInput.buildView(rootView)
+
+        // Then
+        verify(exactly = once()) {
+            editText.isEnabled = true
+        }
     }
 
     @DisplayName("When passing input type")
