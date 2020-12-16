@@ -66,15 +66,15 @@ Feature: TextInput Validation
             | is a textInput in second plan                 |
             | is a textInput in second plan with expression |
 
-    Scenario Outline: TextInput 06 - validate date entry when using "date" type
-        Then validate that the value of the text input component <textInputType.DATE> of type "data" is shown correctly
+    Scenario Outline: TextInput 06 - validate data entry when using "date" type
+        Then validate that the value of the text input component <textInputType.DATE> of type "date" is shown correctly
 
         Examples:
             | textInputType.DATE           |
             | writing date                 |
             | writing date with expression |
 
-    Scenario Outline: TextInput 07 - validate date entry when using "email" type
+    Scenario Outline: TextInput 07 - validate data entry when using "email" type
         Then validate that the value of the text input component <textInputType.EMAIL> of type "email" is shown correctly
 
         Examples:
@@ -82,7 +82,7 @@ Feature: TextInput Validation
             | writing e-mail                 |
             | writing e-mail with expression |
 
-    Scenario Outline: TextInput 08 - validate date entry when using "password" type
+    Scenario Outline: TextInput 08 - validate data entry when using "password" type
         Then validate that the value of the text input component <textInputType.PASSWORD> of type "password" is shown correctly
 
         Examples:
@@ -90,7 +90,7 @@ Feature: TextInput Validation
             | writing password                 |
             | writing password with expression |
 
-    Scenario Outline: TextInput 09 - validate date entry when using "number" type
+    Scenario Outline: TextInput 09 - validate data entry when using "number" type
         Then validate that the value of the text input component <textInputType.NUMBER> of type "number" is shown correctly
 
         Examples:
@@ -98,7 +98,7 @@ Feature: TextInput Validation
             | writing number                 |
             | writing number with expression |
 
-    Scenario Outline: TextInput 10 - validate date entry when using "text" type
+    Scenario Outline: TextInput 10 - validate data entry when using "text" type
         Then validate that the value of the text input component <textInputType.TEXT> of type "text" is shown correctly
 
         Examples:

@@ -95,7 +95,7 @@ class TextInputScreen {
 
     }
 
-    @Then("^validate that the value of the text input component (.*) of type \"data\" is shown correctly$")
+    @Then("^validate that the value of the text input component (.*) of type \"date\" is shown correctly$")
     fun checkDateWriting(string: String) {
         ScreenRobot()
             .checkViewContainsHint(string)
