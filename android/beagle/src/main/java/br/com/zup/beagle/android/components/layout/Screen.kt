@@ -123,7 +123,7 @@ data class Screen private constructor(
     val style: Style? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override val context: ContextData? = null,
-    override val id: String? = null
+    override var id: String? = null
 ) : ScreenAnalytics, ContextComponent, SingleChildComponent, IdentifierComponent {
 
     @Deprecated(
