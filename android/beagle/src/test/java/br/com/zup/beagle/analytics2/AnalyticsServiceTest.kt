@@ -43,11 +43,11 @@ import org.junit.jupiter.api.Test
 
 @DisplayName("Given Analytics Service")
 class AnalyticsServiceTest : BaseTest() {
-
+    private val ACTION_TYPE = "custom:AddChildren"
     private lateinit var analyticsProviderImpl: AnalyticsProviderImpl
     private val action: ActionAnalytics = mockk(relaxed = true)
     private val view: View = mockk()
-    private val dataActionReport = DataActionReport(attributes = hashMapOf(), action = action, actionType = "custom:AddChildren")
+    private val dataActionReport = DataActionReport(attributes = hashMapOf(), action = action, actionType = ACTION_TYPE)
 
     @BeforeEach
     fun setup() {
@@ -263,7 +263,7 @@ class AnalyticsServiceTest : BaseTest() {
         @DisplayName("Then should create record")
         fun testActionOnAnalyticsConfigCallCreateRecord() {
             //GIVEN
-            val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf()))
+            val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf(ACTION_TYPE to listOf()))
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
             )
@@ -304,7 +304,7 @@ class AnalyticsServiceTest : BaseTest() {
             every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
             every { action.analytics } returns null
 
-            val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf("custom:AddChildren" to listOf("componentId")))
+            val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf(ACTION_TYPE to listOf("componentId")))
             analyticsProviderImpl = AnalyticsProviderImpl(
                 analyticsConfig
             )

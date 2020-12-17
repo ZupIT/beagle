@@ -36,6 +36,8 @@ import org.junit.jupiter.api.Test
 internal class ActionRecordFactoryTest : BaseTest() {
 
     private val origin: View = mockk()
+    private val ROUTE_URL_CONSTANT = "route.url"
+    private val ROUTE_SHOULD_PREFETCH_CONSTANT = "route.shouldPrefetch"
 
     @BeforeEach
     fun setup() {
@@ -224,13 +226,13 @@ internal class ActionRecordFactoryTest : BaseTest() {
             )
             val report = ActionRecordFactory.generateActionAnalyticsConfig(
                 dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf("route.url", "route.shouldPrefetch"))
+                ActionAnalyticsConfig(enable = true, attributes = listOf(ROUTE_URL_CONSTANT, ROUTE_SHOULD_PREFETCH_CONSTANT))
             )
 
             //THEN
             commonAsserts(report)
-            Assert.assertEquals(url, report.attributes["route.url"])
-            Assert.assertEquals(false, report.attributes["route.shouldPrefetch"])
+            Assert.assertEquals(url, report.attributes[ROUTE_URL_CONSTANT])
+            Assert.assertEquals(false, report.attributes[ROUTE_SHOULD_PREFETCH_CONSTANT])
         }
 
         @Test
@@ -277,9 +279,9 @@ internal class ActionRecordFactoryTest : BaseTest() {
                 originY = 400f,
                 attributes = hashMapOf(
                     "route.url.length" to 4,
-                    "route.shouldPrefetch" to false,
+                    ROUTE_SHOULD_PREFETCH_CONSTANT to false,
                     "route" to route,
-                    "route.url" to url,
+                    ROUTE_URL_CONSTANT to url,
                     "list" to listOf<ServerDrivenComponent>()
                 ),
                 id = null,
@@ -308,6 +310,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
         override var analytics: ActionAnalyticsConfig? = null
     ) : ActionAnalytics() {
         override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+            //this class will be removed when the action become actionAnalytics
         }
     }
 }

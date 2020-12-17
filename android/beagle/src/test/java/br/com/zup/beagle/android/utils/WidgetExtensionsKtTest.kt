@@ -121,10 +121,7 @@ class WidgetExtensionsKtTest : BaseTest() {
         @Test
         fun testToViewShouldGetScreenIdentifierFromParameterFirst() {
             //given
-            mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
-            val slot = slot<RootView>()
-            every { widgetComponent.toView(capture(slot), any()) } returns mockk()
-            every { widgetComponent.id } returns "componentId"
+            val slot = commonMock()
             val screenId = "screenId"
 
             //when
@@ -138,11 +135,8 @@ class WidgetExtensionsKtTest : BaseTest() {
         @Test
         fun testToViewWithIdOnComponent() {
             //given
-            mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
-            val slot = slot<RootView>()
+            val slot = commonMock()
             val componentId = "componentId"
-            every { widgetComponent.toView(capture(slot), any()) } returns mockk()
-            every { widgetComponent.id } returns componentId
 
             //when
             widgetComponent.toView(activity = activity, screenIdentifier = null)
