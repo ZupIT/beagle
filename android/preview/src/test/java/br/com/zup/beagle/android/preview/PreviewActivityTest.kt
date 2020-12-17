@@ -55,10 +55,16 @@ class PreviewActivityTest {
         activityScenario.close()
     }
 
+    private fun doOnActivity(block: (PreviewActivity) -> Unit){
+        activityScenario.onActivity {
+            block.invoke(it)
+        }
+    }
+
     @Test
     fun `GIVEN a preview Activity WHEN on error called THEN should show correct toast message`() {
         // WHEN
-        activityScenario.onActivity {
+        doOnActivity {
             it.onError(null)
         }
 
@@ -69,7 +75,7 @@ class PreviewActivityTest {
     @Test
     fun `GIVEN a preview Activity WHEN on close called THEN should show correct toast message`() {
         // WHEN
-        activityScenario.onActivity {
+        doOnActivity {
             it.onClose(null)
         }
 
@@ -81,7 +87,7 @@ class PreviewActivityTest {
     fun `GIVEN a preview Activity WHEN on message called THEN should show correct toast message`() {
 
         // WHEN
-        activityScenario.onActivity {
+        doOnActivity {
             it.onMessage("Welcome: test")
         }
 
@@ -99,7 +105,7 @@ class PreviewActivityTest {
         MyBeagleSetup().init(application)
 
         // GIVEN
-        activityScenario.onActivity {
+        doOnActivity {
             it.onMessage(
                 """
                     {
