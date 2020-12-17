@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.cucumber.steps
+import UIKit
 
-import io.cucumber.junit.Cucumber
-import io.cucumber.junit.CucumberOptions
-import org.junit.runner.RunWith
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    var window: UIWindow?
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        BeagleConfig.config()
+     
+        let screen = UINavigationController(rootViewController: MainViewController())
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = screen
+        window?.makeKeyAndVisible()
 
-/**
- * Used for debugging since cucumber task in gradle.build won't hit breakpoints.
- * Must be in the steps folder
- */
-@RunWith(Cucumber::class)
-@CucumberOptions(
-    tags = "@button and not @inProgress",
-    features = ["src/test/resources/features"],
-    plugin = ["br.com.zup.beagle.setup.SuiteSetupPlugin"]
-)
-class Runner {
+        return true
+    }
 }
+

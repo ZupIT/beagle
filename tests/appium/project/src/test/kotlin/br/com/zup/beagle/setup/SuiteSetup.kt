@@ -120,12 +120,12 @@ object SuiteSetup {
         } else {
             capabilities.setCapability("noReset", true)
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13.4")
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13.5")
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 11")
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
             capabilities.setCapability(
                 MobileCapabilityType.APP,
-                "/Users/luisgustavooliveirasilva/Library/Developer/Xcode/DerivedData/Beagle-gnqdhkpaxlbwgnbcpaltnxvwyeum/Build/Products/Debug-iphonesimulator/AutomatedTests.app"
+                "/Users/luisgustavooliveirasilva/Library/Developer/Xcode/DerivedData/Beagle-gnqdhkpaxlbwgnbcpaltnxvwyeum/Build/Products/Debug-iphonesimulator/AppiumApp.app"
             )
             capabilities.setCapability("waitForQuiescence", false)
 

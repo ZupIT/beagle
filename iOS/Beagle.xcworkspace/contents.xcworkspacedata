@@ -3,6 +3,13 @@
    version = "1.0">
    <Group
       location = "container:"
+      name = "AppiumApp">
+      <FileRef
+         location = "group:../tests/appium/app-ios/AppiumApp/AppiumApp.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "Core">
       <FileRef
          location = "group:Sources/Beagle/Beagle.xcodeproj">
