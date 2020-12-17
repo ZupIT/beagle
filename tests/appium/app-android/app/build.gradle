@@ -20,8 +20,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//apply plugin: 'shot'
-//apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
     compileOptions {
@@ -40,77 +38,31 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-//        if (project.ext.has("screenshotTests")) {
-//            testApplicationId "br.com.zup.beagle.appiumApp"
-//            testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
-//        } else {
-//            testApplicationId "br.com.zup.beagle.appiumApp.cucumber.steps"
-//            testInstrumentationRunner "br.com.zup.beagle.appiumApp.cucumber.steps.Instrumentation"
-//        }
-//        buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
     }
 
     sourceSets {
-        // androidTest.java.srcDirs += "src/androidTest/kotlin"
         debug.java.srcDirs += "src/debug/kotlin"
         main.java.srcDirs += "src/main/kotlin"
         test.java.srcDirs += "src/test/kotlin"
-
-//        androidTest {
-//            assets.srcDirs = ['src/androidTest/assets']
-//        }
     }
 
     buildTypes {
-//        debug {
-//            testCoverageEnabled true
-//        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-//    testOptions {
-//        unitTests.all {
-//            useJUnitPlatform()
-//        }
-//
-//        animationsDisabled = true
-//    }
 }
 
 
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.AndroidxLibraries.coreKtx
-    implementation Dependencies.AndroidxLibraries.appcompat
-    implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
 
-//    testImplementation Dependencies.TestLibraries.junitApi
-//    testRuntimeOnly Dependencies.TestLibraries.junitEngine
-//    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
-//    testImplementation Dependencies.TestLibraries.mockk
-//    testImplementation Dependencies.TestLibraries.archCoreTesting
-//    testImplementation Dependencies.GeneralLibraries.jsonObject
-
-    // androidTestImplementation Dependencies.TestLibraries.cucumberAndroid
-    // androidTestImplementation Dependencies.TestLibraries.cucumberPicocontainer
-    androidTestImplementation Dependencies.TestLibraries.espressoCore
-    androidTestImplementation Dependencies.TestLibraries.espressoContrib
-    androidTestImplementation Dependencies.TestLibraries.testRules
-    androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
-
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.AndroidxLibraries.coreKtx
+    implementation Dependencies.AndroidxLibraries.appcompat
+    implementation Dependencies.GeneralLibraries.kotlinCoroutines
     implementation Dependencies.GoogleLibraries.materialDesign
 }
-
-//def getTestTags() {
-//    return project.hasProperty("tags") ? project.getProperties().get("tags") : ""
-//}
