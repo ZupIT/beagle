@@ -57,7 +57,12 @@ data class FormLocalAction(
 
             override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
-                handleEvent(rootView, origin, action, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onSuccess"))
+                handleEvent(
+                    rootView,
+                    origin,
+                    action,
+                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onSuccess")
+                )
                 onActionFinished()
             }
 
