@@ -55,16 +55,10 @@ class PreviewActivityTest {
         activityScenario.close()
     }
 
-    private fun doOnActivity(block: (PreviewActivity) -> Unit){
-        activityScenario.onActivity {
-            block.invoke(it)
-        }
-    }
-
     @Test
     fun `GIVEN a preview Activity WHEN on error called THEN should show correct toast message`() {
         // WHEN
-        doOnActivity {
+        activityScenario.onActivity {
             it.onError(null)
         }
 
@@ -75,7 +69,7 @@ class PreviewActivityTest {
     @Test
     fun `GIVEN a preview Activity WHEN on close called THEN should show correct toast message`() {
         // WHEN
-        doOnActivity {
+        activityScenario.onActivity {
             it.onClose(null)
         }
 
@@ -87,7 +81,7 @@ class PreviewActivityTest {
     fun `GIVEN a preview Activity WHEN on message called THEN should show correct toast message`() {
 
         // WHEN
-        doOnActivity {
+        activityScenario.onActivity {
             it.onMessage("Welcome: test")
         }
 
@@ -105,7 +99,7 @@ class PreviewActivityTest {
         MyBeagleSetup().init(application)
 
         // GIVEN
-        doOnActivity {
+        activityScenario.onActivity {
             it.onMessage(
                 """
                     {
@@ -117,10 +111,6 @@ class PreviewActivityTest {
                        "child":{
                           "_beagleComponent_":"beagle:container",
                           "children":[
-                             {
-                                "_beagleComponent_":"beagle:text",
-                                "text":"Counter: @{sum(2, 1)}"
-                             },
                              {
                                 "_beagleComponent_":"beagle:text",
                                 "text":"Counter: @{counter}",
@@ -137,52 +127,6 @@ class PreviewActivityTest {
                                       "value":"@{sum(counter, 1)}"
                                    }
                                 ]
-                             },
-                             {
-                                "_beagleComponent_":"beagle:button",
-                                "text":"decrement",
-                                "onPress":[
-                                   {
-                                      "_beagleAction_":"beagle:setContext",
-                                      "contextId":"counter",
-                                      "value":"@{subtract(counter, 1)}"
-                                   }
-                                ]
-                             },
-                             {
-                                "_beagleComponent_":"beagle:text",
-                                "text":"The text bellow will show if the counter + 2 is below 5 or not"
-                             },
-                             {
-                                "_beagleComponent_":"beagle:text",
-                                "text":"@{condition(lt(sum(counter, 2), 5), 'less then 5', 'greater then 5')}",
-                                "style":{
-                                   "backgroundColor":"#00FF00"
-                                }
-                             },
-                             {
-                                "_beagleComponent_":"beagle:container",
-                                "children":[
-                                   {
-                                      "_beagleComponent_":"beagle:textInput",
-                                      "placeholder":"CPF",
-                                      "onChange":[
-                                         {
-                                            "_beagleAction_":"beagle:setContext",
-                                            "contextId":"cpf",
-                                            "value":"@{onChange.value}"
-                                         }
-                                      ]
-                                   },
-                                   {
-                                      "_beagleComponent_":"beagle:text",
-                                      "text":"@{condition(isValidCpf(cpf), 'cpf is valid', 'cpf is not valid')}"
-                                   }
-                                ],
-                                "context":{
-                                   "id":"cpf",
-                                   "value":""
-                                }
                              }
                           ],
                           "context":{
@@ -191,7 +135,7 @@ class PreviewActivityTest {
                           }
                        }
                     }
-                """)
+                """.trimIndent())
 
             activityScenario.moveToState(Lifecycle.State.RESUMED)
             activity = it
