@@ -27,8 +27,10 @@ import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.test.rules.BeagleComponentsRule
 import io.mockk.mockkConstructor
 import io.mockk.verifyOrder
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,10 +42,22 @@ class PreviewActivityTest {
     @get:Rule
     val beagleComponentsRule = BeagleComponentsRule()
 
+    lateinit var activityScenario: ActivityScenario<PreviewActivity>
+
+    @Before
+    fun setUp() {
+        mockkConstructor(BeaglePreview::class)
+        activityScenario = ActivityScenario.launch(PreviewActivity::class.java)
+    }
+
+    @After
+    fun tearDown() {
+        activityScenario.close()
+    }
+
     @Test
     fun `GIVEN a preview Activity WHEN on error called THEN should show correct toast message`() {
         // WHEN
-        val activityScenario: ActivityScenario<PreviewActivity> = ActivityScenario.launch(PreviewActivity::class.java)
         activityScenario.onActivity {
             it.onError(null)
         }
@@ -55,7 +69,6 @@ class PreviewActivityTest {
     @Test
     fun `GIVEN a preview Activity WHEN on close called THEN should show correct toast message`() {
         // WHEN
-        val activityScenario: ActivityScenario<PreviewActivity> = ActivityScenario.launch(PreviewActivity::class.java)
         activityScenario.onActivity {
             it.onClose(null)
         }
@@ -68,7 +81,6 @@ class PreviewActivityTest {
     fun `GIVEN a preview Activity WHEN on message called THEN should show correct toast message`() {
 
         // WHEN
-        val activityScenario: ActivityScenario<PreviewActivity> = ActivityScenario.launch(PreviewActivity::class.java)
         activityScenario.onActivity {
             it.onMessage("Welcome: test")
         }
@@ -82,12 +94,11 @@ class PreviewActivityTest {
         // WHEN
         val application = ApplicationProvider.getApplicationContext() as Application
         var activity: PreviewActivity? = null
+        var textComponent: TextView? = null
+        var incrementButton: Button? = null
         MyBeagleSetup().init(application)
 
         // GIVEN
-        val activityScenario: ActivityScenario<PreviewActivity> = ActivityScenario.launch(PreviewActivity::class.java)
-        var textComponent: TextView? = null
-        var incrementButton: Button? = null
         activityScenario.onActivity {
             it.onMessage(
                 """
@@ -195,9 +206,6 @@ class PreviewActivityTest {
     @Test
     fun `GIVEN a preview Activity WHEN move to state to destroy THEN should call on destroy`() {
         // WHEN
-        mockkConstructor(BeaglePreview::class)
-
-        val activityScenario: ActivityScenario<PreviewActivity> = ActivityScenario.launch(PreviewActivity::class.java)
         activityScenario.moveToState(Lifecycle.State.DESTROYED)
 
         // THEN
