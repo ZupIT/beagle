@@ -70,6 +70,16 @@ object TextInputScreenBuilder {
                         textInputDisabled(),
                         textInputReadOnly(),
                         textInputSecondPlan(),
+                        textInputWritingTexts("writing date",
+                            "writing date with expression", TextInputType.DATE),
+                        textInputWritingTexts("writing e-mail",
+                            "writing e-mail with expression", TextInputType.EMAIL),
+                        textInputWritingTexts("writing password",
+                            "writing password with expression", TextInputType.PASSWORD),
+                        textInputWritingTexts("writing number",
+                            "writing number with expression", TextInputType.NUMBER),
+                        textInputWritingTexts("writing text",
+                            "writing text with expression", TextInputType.TEXT),
                         textInputTypeNumber(),
                         textInputActions(),
                         textInputHidden()
@@ -146,6 +156,26 @@ object TextInputScreenBuilder {
             )
         )
     )
+
+    private fun textInputWritingTexts(
+        placeholder: String, placeholderWithContext: String, textInputType: TextInputType): Container {
+        return Container(
+            listOf(
+                TextInput(placeholder = placeholder, type = textInputType),
+                Container(
+                    context = ContextData(
+                        id = "context",
+                        value = TextInputType(placeholder = placeholderWithContext,
+                            textInputType = textInputType)
+                    ),
+                    children = listOf(
+                        TextInput(placeholder = expressionOf("@{context.placeholder}"),
+                            type = expressionOf("@{context.textInputType}"))
+                    )
+                )
+            )
+        )
+    }
 
     private fun textInputSecondPlan() = Container(
         context = ContextData(id = "isTextInputInSecondPlan", value = "is a textInput in second plan with expression"),

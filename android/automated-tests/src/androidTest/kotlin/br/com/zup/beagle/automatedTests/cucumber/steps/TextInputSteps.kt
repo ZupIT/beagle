@@ -64,7 +64,7 @@ class TextInputScreen {
             .checkViewContainsHint(string)
     }
 
-    @Then("^verify if it's (.*) disabled$")
+    @Then("^verify if (.*) is disabled$")
     fun checkDisabledField(string: String) {
         ScreenRobot()
             .disabledFieldHint(string)
@@ -92,10 +92,59 @@ class TextInputScreen {
     @Then("^verify if the text (.*) is in the second plan$")
     fun checkKeyboardFocus(string: String) {
         ScreenRobot()
-            .hintInSecondPlan(string)
+
     }
 
-    @Then("^validate that a textInput (.*) of type number is set$")
+    @Then("^validate that the value of the text input component (.*) of type \"date\" is shown correctly$")
+    fun checkDateWriting(string: String) {
+        ScreenRobot()
+            .checkViewContainsHint(string)
+            .clickOnInputWithHint(string)
+            .typeTextInTheFieldWithPlaceholder(string, "22/04/1500")
+            .checkViewContainsText("22/04/1500")
+    }
+
+    @Then("^validate that the value of the text input component (.*) of type \"email\" is shown correctly$")
+    fun checkEmailWriting(string: String) {
+        ScreenRobot()
+            .validateValuesTextInput(
+                scrollToWithHint = "writing password",
+                checkAndClickOnPlaceholder = string,
+                typeTextAndCheckInTheFieldWithPlaceholder = "test@abc.com"
+            )
+    }
+
+    @Then("^validate that the value of the text input component (.*) of type \"password\" is shown correctly$")
+    fun checkPasswordWriting(string: String) {
+        ScreenRobot()
+            .validateValuesTextInput(
+                scrollToWithHint = "writing text",
+                checkAndClickOnPlaceholder = string,
+                typeTextAndCheckInTheFieldWithPlaceholder = "123"
+            )
+    }
+
+    @Then("^validate that the value of the text input component (.*) of type \"number\" is shown correctly$")
+    fun checkNumberWriting(string: String) {
+        ScreenRobot()
+            .validateValuesTextInput(
+                scrollToWithHint = "writing text",
+                checkAndClickOnPlaceholder = string,
+                typeTextAndCheckInTheFieldWithPlaceholder = "12345678",
+            )
+    }
+
+    @Then("^validate that the value of the text input component (.*) of type \"text\" is shown correctly$")
+    fun checkTextWriting(string: String) {
+        ScreenRobot()
+            .validateValuesTextInput(
+                scrollToWithHint = "Unordered actions",
+                checkAndClickOnPlaceholder = string,
+                typeTextAndCheckInTheFieldWithPlaceholder = "This is a test!",
+            )
+    }
+
+    @Then("^validate attribute of \"type number\" of textInput component (.*)$")
     fun validateTextsInputNumberType(string: String) {
         ScreenRobot()
             .checkInputTypeNumber(string)
@@ -123,7 +172,7 @@ class TextInputScreen {
     @And("^I type anything on textInput with the placeholder (.*)$")
     fun triggersOnChangeMethodAndCheckChanges(string: String) {
         ScreenRobot()
-            .typeText(string, "a")
+            .typeTextInTheFieldWithPlaceholder(string, "a")
     }
 
     @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
@@ -133,7 +182,7 @@ class TextInputScreen {
             .checkViewContainsHint(string)
             .clickOnInputWithHint(string)
             .checkViewContainsText(string2)
-            .typeText(string, "a")
+            .typeTextInTheFieldWithPlaceholder(string, "a")
             .checkViewContainsText(string3)
     }
 

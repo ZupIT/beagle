@@ -106,16 +106,8 @@ platform :ios do
   lane :release_pods do |options|
     version = options[:version] # 1.0.0
     tag = options[:tag] # 1.0.0[-iOS]
-
-    [
-      { path: "BeagleSchema.podspec" },
-      { path: "Beagle.podspec", depends_on_other_beagle_pod: true }
-    ]
-    .each do |pod|
-      update_podspec(path: pod[:path], version: version, tag: tag)
-
-      pod_push(path: pod[:path], allow_warnings: true, synchronous: pod[:depends_on_other_beagle_pod])
-    end
+    update_podspec(path: "Beagle.podspec", version: version, tag: tag)
+    pod_push(path: "Beagle.podspec", allow_warnings: true)
   end
 end
 
