@@ -21,7 +21,6 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -32,7 +31,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 @DisplayName("Given a Action Record Creator")
 internal class ActionRecordFactoryTest : BaseTest() {
@@ -105,32 +103,26 @@ internal class ActionRecordFactoryTest : BaseTest() {
     @Nested
     inner class ComponentAttribute {
 
-        @Test
-        @DisplayName("Then should return correct value to component key without crash")
-        fun testOriginComponentAsServerDrivenComponent() {
-            //GIVEN
-            val action: ActionAnalytics = mockk()
-            val originComponent: WidgetView = Text("test")
-            val componentReport = hashMapOf<String, Any>(
-                "position" to hashMapOf("x" to 300f, "y" to 400f),
-                "type" to "beagle:Text"
-            )
+        private val action: ActionAnalytics = mockk()
+        private val originComponent: WidgetView = Text("test")
+
+        @BeforeEach
+        fun setup() {
             every { rootView.getScreenId() } returns ""
             every { origin.x } returns 300f
             every { origin.y } returns 400f
             every { action.analytics } returns null
+        }
 
+        @Test
+        @DisplayName("Then should return correct value to component key without crash")
+        fun testOriginComponentAsServerDrivenComponent() {
+            //GIVEN
+            val componentReport = generateComponentReport()
+            val dataActionReport = generateDataActionReport()
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
-                rootView,
-                origin,
-                action,
-                AnalyticsHandleEvent(originComponent = originComponent)
-            )
-            val report = ActionRecordFactory.generateActionAnalyticsConfig(
-                dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf())
-            )
+
+            val report = reportDataAction(dataActionReport)
 
             //THEN
             Assert.assertEquals(componentReport, report.attributes["component"])
@@ -140,31 +132,14 @@ internal class ActionRecordFactoryTest : BaseTest() {
         @DisplayName("Then should return correct value to component key without crash")
         fun testOriginComponentAsWidgetViewWithAnId() {
             //GIVEN
-            val action: ActionAnalytics = mockk()
-            val originComponent: WidgetView = Text("test")
             originComponent.id = "text-id"
-            val componentReport = hashMapOf<String, Any>(
-                "type" to "beagle:button",
-                "id" to "text-id",
-                "position" to hashMapOf("x" to 300f, "y" to 400f),
-                "type" to "beagle:Text"
-            )
-            every { rootView.getScreenId() } returns ""
-            every { origin.x } returns 300f
-            every { origin.y } returns 400f
-            every { action.analytics } returns null
+            val componentReport = hashMapOf<String, Any>("type" to "beagle:button", "id" to "text-id")
+            val componentReportAux = generateComponentReport()
+            componentReport.putAll(componentReportAux)
+            val dataActionReport = generateDataActionReport()
 
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
-                rootView,
-                origin,
-                action,
-                AnalyticsHandleEvent(originComponent = originComponent)
-            )
-            val report = ActionRecordFactory.generateActionAnalyticsConfig(
-                dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf())
-            )
+            val report = reportDataAction(dataActionReport)
 
             //THEN
             Assert.assertEquals(componentReport, report.attributes["component"])
@@ -174,33 +149,34 @@ internal class ActionRecordFactoryTest : BaseTest() {
         @DisplayName("Then should return correct value to component key without crash")
         fun testOriginComponentAsWidgetViewWithoutId() {
             //GIVEN
-            val action: ActionAnalytics = mockk()
-            val originComponent: WidgetView = Text("test")
-            val componentReport = hashMapOf<String, Any>(
-                "type" to "beagle:Text",
-                "position" to hashMapOf("x" to 300f, "y" to 400f)
-            )
+            val componentReport = generateComponentReport()
             originComponent.id = null
-            every { rootView.getScreenId() } returns ""
-            every { origin.x } returns 300f
-            every { origin.y } returns 400f
-            every { action.analytics } returns null
+            val dataActionReport = generateDataActionReport()
 
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
-                rootView,
-                origin,
-                action,
-                AnalyticsHandleEvent(originComponent = originComponent)
-            )
-            val report = ActionRecordFactory.generateActionAnalyticsConfig(
-                dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf())
-            )
+            val report = reportDataAction(dataActionReport)
 
             //THEN
             Assert.assertEquals(componentReport, report.attributes["component"])
         }
+
+        private fun generateComponentReport() = hashMapOf<String, Any>(
+            "position" to hashMapOf("x" to 300f, "y" to 400f),
+            "type" to "beagle:Text"
+        )
+
+        private fun generateDataActionReport() = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+            rootView,
+            origin,
+            action,
+            AnalyticsHandleEvent(originComponent = originComponent)
+        )
+
+        private fun reportDataAction(
+            dataActionReport: DataActionReport) = ActionRecordFactory.generateActionAnalyticsConfig(
+            dataActionReport,
+            ActionAnalyticsConfig(enable = true, attributes = listOf())
+        )
     }
 
     @DisplayName("When create record")
@@ -211,12 +187,14 @@ internal class ActionRecordFactoryTest : BaseTest() {
         private val actionType = "beagle:TestActionAnalytics"
         private val action: ActionAnalytics = TestActionAnalytics(route = route)
 
+        @BeforeEach
+        fun setup(){
+            every { rootView.getScreenId() } returns ""
+
+        }
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testSimpleActionAttribute() {
-            //GIVEN
-            every { rootView.getScreenId() } returns ""
-
             //WHEN
             val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
                 rootView,
@@ -237,9 +215,6 @@ internal class ActionRecordFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testComposeActionAttribute() {
-            //GIVEN
-            every { rootView.getScreenId() } returns ""
-
             //WHEN
             val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
                 rootView,
@@ -261,9 +236,6 @@ internal class ActionRecordFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testWrongComposeActionAttribute() {
-            //GIVEN
-            every { rootView.getScreenId() } returns ""
-
             //WHEN
             val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
                 rootView,
