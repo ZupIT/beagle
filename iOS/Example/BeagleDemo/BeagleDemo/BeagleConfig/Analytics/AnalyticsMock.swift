@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import Foundation
 import Beagle
-import BeagleSchema
 
 class AnalyticsMock: Analytics {
     func trackEventOnScreenAppeared(_ event: AnalyticsScreen) {

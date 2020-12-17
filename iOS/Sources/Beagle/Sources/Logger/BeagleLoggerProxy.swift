@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -32,10 +31,5 @@ internal class BeagleLoggerProxy: BeagleLoggerType {
             logger?.log(log)
         }
     }
-    
-    func logDecodingError(type: String) {
-        if dependencies.isLoggingEnabled {
-            logger?.logDecodingError(type: type)
-        }
-    }
+
 }

@@ -20,5 +20,5 @@ jobs:
         HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ secrets.HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
       run: |
         curl -fsSL https://horusec.io/bin/install.sh | bash
-        horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**" -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -n "beagle" -e "true" -u "https://api-horusec.zup.com.br"  -G "true" -F "f724792634fb01a17e7a3ff52dbabdd28388653aca1d726f1bbc1945eed8c4f3,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92"
+        horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**,**/iOS/Libraries/**,**/iOS/Tests/**" -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -n "beagle" -e "true" -u "https://api-horusec.zup.com.br"  -G "true" -F "ba3a605f761ba4d5755128a8d87be8b9fd6e47b4ff3c0d0feba86bfe937e581e,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92"
     

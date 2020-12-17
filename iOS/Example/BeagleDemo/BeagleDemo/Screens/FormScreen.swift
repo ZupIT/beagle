@@ -16,7 +16,6 @@
 
 import UIKit
 import Beagle
-import BeagleSchema
 
 struct FormScreen: DeeplinkScreen {
     static var textValidatorName: String { return "text-is-not-blank" }
@@ -33,17 +32,17 @@ struct FormScreen: DeeplinkScreen {
     
     func screenController() -> UIViewController {
         let styleHorizontalMargin = Style().margin(EdgeValue().all(10))
-        let form = Deprecated.Form(
+        let form = Form(
             onSubmit: [FormRemoteAction(path: .textFormEndpoint, method: .post)],
             child: Container(widgetProperties: .init(style: Style(padding: EdgeValue().all(10)))) {
-                    Deprecated.FormInput(
+                    FormInput(
                         name: "optional-field",
                         child: TextInput(
                             placeholder: .value("Optional field"),
                             widgetProperties: .init(style: styleHorizontalMargin)
                         )
                     )
-                    Deprecated.FormInput(
+                    FormInput(
                         name: "required-field",
                         required: true,
                         validator: FormScreen.textValidatorName,
@@ -52,7 +51,7 @@ struct FormScreen: DeeplinkScreen {
                             widgetProperties: .init(style: styleHorizontalMargin)
                         )
                     )
-                    Deprecated.FormInput(
+                    FormInput(
                         name: "another-required-field",
                         required: true,
                         validator: FormScreen.textValidatorName,
@@ -63,7 +62,7 @@ struct FormScreen: DeeplinkScreen {
                         )
                     )
                     Container(children: [], widgetProperties: .init(style: Style(flex: Flex(grow: 1))))
-                    Deprecated.FormSubmit(
+                    FormSubmit(
                         child: Button(text: "Submit Form", styleId: .formSubmitStyle, widgetProperties: .init(style: styleHorizontalMargin)),
                         enabled: false
                     )
