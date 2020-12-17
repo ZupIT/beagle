@@ -133,8 +133,7 @@ class ModelGenerator
     for component in @components
       @objectType = component.new
       if ready_to_prod.include? @objectType.name
-        suffix = @helper.inheritFrom_widget(@objectType) ? "Schema.kt" : ".kt"
-        @writer.write(@c.kotlin_path, @objectType.name + suffix, to_s)
+        @writer.write(@c.kotlin_path, @objectType.name + ".kt", to_s)
       end
     end
 

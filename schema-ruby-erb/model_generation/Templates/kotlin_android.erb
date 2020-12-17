@@ -24,12 +24,7 @@
   @template_helper.defaultDeclarationType = TypeInterface.new.synthax_type.name
 
   def single_variable_declaration(variable)
-    # TODO validate
     type_name = @template_helper.fetch_type(variable.type.name)
-    if @template_helper.inheritFrom_widget(variable.type)
-      type_name + "Schema"
-    end
-    # type_name = variable.type.synthax_type.is_a?(EnumType) or @template_helper.is_server_driven_component(variable.type) ? type_name + "Schema"  : type_name
     type_name = @kotlinHelper.adapt_type_name_to_kotlin_specific(type_name)
     type_name
   end
@@ -83,9 +78,6 @@
     for variable in objectType.synthax_type.variables
       if !@template_helper.variable_is_primitive(variable) and !variable.type.is_a? (Action)
         qualifiedName = "#{variable.type.synthax_type.package.android}.#{variable.type.synthax_type.name}"
-        if @template_helper.inheritFrom_widget(variable.type)
-          qualifiedName += "Schema"
-        end
         if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package.android}"
           output += "import #{qualifiedName}\n"
         end
@@ -102,9 +94,6 @@
             qualifiedName = "#{variable.type.synthax_type.package.android}.#{variable.type.synthax_type.name}"
           if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package.android}"
             output += "import #{qualifiedName}"
-            if @template_helper.inheritFrom_widget(variable.type)
-              output += "Schema"
-            end
             output += "\n"
           end
         end
@@ -192,9 +181,6 @@
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
     
     output = "\n#{typeKind} #{objectType.synthax_type.name}"
-    if @template_helper.inheritFrom_widget(objectType)
-      output += "Schema" 
-    end
     output += getSuperClasses(objectType)
 
     counter = 0 
@@ -352,10 +338,7 @@
     typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
 
     output = "\n#{typeKind} #{objectType.synthax_type.name}"
-    if @template_helper.inheritFrom_widget(objectType)
-      output += "Schema" 
-    end
-
+    
     counter = 0 
     if objectType.synthax_type.variables.any?
       output += " {"
