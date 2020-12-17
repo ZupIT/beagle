@@ -67,7 +67,7 @@ class SimpleFormScreenSteps {
         ScreenRobot()
             .checkViewContainsHint(hint)
             .clickOnInputWithHint(hint)
-            .typeText(hint, email)
+            .typeTextInTheFieldWithPlaceholder(hint, email)
             .hideKeyboard()
     }
 
@@ -76,7 +76,7 @@ class SimpleFormScreenSteps {
         ScreenRobot()
             .checkViewContainsHint(hint)
             .clickOnInputWithHint(hint)
-            .typeText(hint, name)
+            .typeTextInTheFieldWithPlaceholder(hint, name)
             .hideKeyboard()
     }
 
