@@ -104,6 +104,7 @@ class TextInputScreenSteps : AbstractStep() {
         /*ScreenRobot()
             .checkInputTypeNumber(string)
             */
+        swipeUp()
         Assert.assertTrue(isTextFieldNumeric(string))
     }
 
