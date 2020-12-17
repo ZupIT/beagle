@@ -18,7 +18,7 @@ import br.com.zup.beagle.Dependencies
 
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
-apply from: "$rootDir/../jacoco.gradle"
+apply from: "/../../jacoco.gradle"
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -50,4 +50,4 @@ dependencies {
     testImplementation Dependencies.TestLibraries.junitEngine
 }
 
-apply from: rootProject.file('../maven-publish.gradle')
+apply from: new File('/../../maven-publish.gradle')

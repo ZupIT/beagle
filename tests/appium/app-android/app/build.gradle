@@ -20,8 +20,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'shot'
-apply plugin: 'de.mannodermaus.android-junit5'
+//apply plugin: 'shot'
+//apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
     compileOptions {
@@ -65,22 +65,22 @@ android {
     }
 
     buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
+//        debug {
+//            testCoverageEnabled true
+//        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-    testOptions {
-        unitTests.all {
-            useJUnitPlatform()
-        }
-
-        animationsDisabled = true
-    }
+//    testOptions {
+//        unitTests.all {
+//            useJUnitPlatform()
+//        }
+//
+//        animationsDisabled = true
+//    }
 }
 
 
@@ -93,12 +93,12 @@ dependencies {
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
 
-    testImplementation Dependencies.TestLibraries.junitApi
-    testRuntimeOnly Dependencies.TestLibraries.junitEngine
-    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.archCoreTesting
-    testImplementation Dependencies.GeneralLibraries.jsonObject
+//    testImplementation Dependencies.TestLibraries.junitApi
+//    testRuntimeOnly Dependencies.TestLibraries.junitEngine
+//    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
+//    testImplementation Dependencies.TestLibraries.mockk
+//    testImplementation Dependencies.TestLibraries.archCoreTesting
+//    testImplementation Dependencies.GeneralLibraries.jsonObject
 
     // androidTestImplementation Dependencies.TestLibraries.cucumberAndroid
     // androidTestImplementation Dependencies.TestLibraries.cucumberPicocontainer
