@@ -17,26 +17,28 @@
 package br.com.zup.beagle.android.preview
 
 import android.app.Application
-import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import br.com.zup.beagle.android.setup.BeagleSdk
-import com.facebook.yoga.YogaNode
-import io.mockk.every
-import io.mockk.mockk
+import br.com.zup.beagle.android.utils.toAndroidId
+import br.com.zup.beagle.test.rules.BeagleComponentsRule
 import io.mockk.mockkConstructor
-import io.mockk.mockkStatic
 import io.mockk.verifyOrder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.shadows.ShadowToast
 
 @RunWith(AndroidJUnit4::class)
 class PreviewActivityTest {
+
+    @get:Rule
+    val beagleComponentsRule = BeagleComponentsRule()
 
     @Test
     fun `GIVEN a preview Activity WHEN on error called THEN should show correct toast message`() {
@@ -79,40 +81,115 @@ class PreviewActivityTest {
     fun `GIVEN a preview Activity WHEN on message called THEN should show screen`() {
         // WHEN
         val application = ApplicationProvider.getApplicationContext() as Application
-        val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
-        val view = View(application)
         var activity: PreviewActivity? = null
-
-        mockkStatic(YogaNode::class)
-
-        every { YogaNode.create() } returns yogaNode
-        every { yogaNode.data } returns view
-
-        BeagleSdk.setInTestMode()
         MyBeagleSetup().init(application)
 
         // GIVEN
         val activityScenario: ActivityScenario<PreviewActivity> = ActivityScenario.launch(PreviewActivity::class.java)
+        var textComponent: TextView? = null
+        var incrementButton: Button? = null
         activityScenario.onActivity {
             it.onMessage(
                 """
                     {
-                        "_beagleComponent_": "beagle:container",
-                        "children": [
-                            {
-                                "_beagleComponent_": "beagle:text",
-                                "text": "Simple text"
-                            }
-                        ]
+                       "_beagleComponent_":"beagle:screenComponent",
+                       "navigationBar":{
+                          "title":"Choose a Component",
+                          "showBackButton":true
+                       },
+                       "child":{
+                          "_beagleComponent_":"beagle:container",
+                          "children":[
+                             {
+                                "_beagleComponent_":"beagle:text",
+                                "text":"Counter: @{sum(2, 1)}"
+                             },
+                             {
+                                "_beagleComponent_":"beagle:text",
+                                "text":"Counter: @{counter}",
+                                 "id": "textComponent"
+                             },
+                             {
+                                "_beagleComponent_":"beagle:button",
+                                "text":"increment",
+                                "id": "incrementButton",
+                                "onPress":[
+                                   {
+                                      "_beagleAction_":"beagle:setContext",
+                                      "contextId":"counter",
+                                      "value":"@{sum(counter, 1)}"
+                                   }
+                                ]
+                             },
+                             {
+                                "_beagleComponent_":"beagle:button",
+                                "text":"decrement",
+                                "onPress":[
+                                   {
+                                      "_beagleAction_":"beagle:setContext",
+                                      "contextId":"counter",
+                                      "value":"@{subtract(counter, 1)}"
+                                   }
+                                ]
+                             },
+                             {
+                                "_beagleComponent_":"beagle:text",
+                                "text":"The text bellow will show if the counter + 2 is below 5 or not"
+                             },
+                             {
+                                "_beagleComponent_":"beagle:text",
+                                "text":"@{condition(lt(sum(counter, 2), 5), 'less then 5', 'greater then 5')}",
+                                "style":{
+                                   "backgroundColor":"#00FF00"
+                                }
+                             },
+                             {
+                                "_beagleComponent_":"beagle:container",
+                                "children":[
+                                   {
+                                      "_beagleComponent_":"beagle:textInput",
+                                      "placeholder":"CPF",
+                                      "onChange":[
+                                         {
+                                            "_beagleAction_":"beagle:setContext",
+                                            "contextId":"cpf",
+                                            "value":"@{onChange.value}"
+                                         }
+                                      ]
+                                   },
+                                   {
+                                      "_beagleComponent_":"beagle:text",
+                                      "text":"@{condition(isValidCpf(cpf), 'cpf is valid', 'cpf is not valid')}"
+                                   }
+                                ],
+                                "context":{
+                                   "id":"cpf",
+                                   "value":""
+                                }
+                             }
+                          ],
+                          "context":{
+                             "id":"counter",
+                             "value":2
+                          }
+                       }
                     }
                 """)
 
             activityScenario.moveToState(Lifecycle.State.RESUMED)
             activity = it
+            textComponent = it.findViewById("textComponent".toAndroidId())
+            incrementButton = it.findViewById("incrementButton".toAndroidId())
         }
+
+        incrementButton?.performClick()
 
         // THEN
         assertNotNull(activity!!.supportFragmentManager.fragments.first().view)
+        assertNotNull(textComponent)
+        assertEquals("Counter: 3", textComponent?.text)
+        assertNotNull(incrementButton)
+        assertEquals("increment", incrementButton?.text)
     }
 
     @Test

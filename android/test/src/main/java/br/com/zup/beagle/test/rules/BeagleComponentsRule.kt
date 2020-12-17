@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-include ":sample"
-include ":beagle"
-include ":processor"
-include ":internal-processor"
-include ":android-annotation"
-include ":preview"
-include ":processor-shared-code"
-include ":automated-tests"
-include ':test'
+package br.com.zup.beagle.test.rules
 
+import org.junit.rules.TestRule
+import org.junit.runner.Description
+import org.junit.runners.model.Statement
 
-rootProject.name = "Beagle"
+class BeagleComponentsRule : TestRule {
+    override fun apply(base: Statement?, description: Description?): Statement {
+        return BeagleComponentsStatement(base)
+    }
+}
