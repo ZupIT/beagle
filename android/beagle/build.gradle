@@ -111,4 +111,4 @@ dependencies {
     testImplementation Dependencies.TestLibraries.robolectric
 }
 
-apply from: new File('/../../maven-publish.gradle')
+apply from: new File('./../../maven-publish.gradle')
