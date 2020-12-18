@@ -22,10 +22,6 @@ import org.gradle.api.Project
 class Dependencies : Plugin<Project> {
     override fun apply(project: Project) {}
 
-//    object ApplicationId {
-//        const val id = "br.com.zup.beagle.sample"
-//    }
-
     object Modules {
         const val androidSample = ":sample"
         const val core = ":beagle"

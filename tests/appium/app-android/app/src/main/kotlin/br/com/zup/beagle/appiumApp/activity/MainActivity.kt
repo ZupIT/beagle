@@ -26,28 +26,13 @@ import br.com.zup.beagle.appiumApp.R
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        const val BFF_URL_KEY = "bffUrl"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        /*
-        val url = bffUrl()
-        if (url != null) {
-            val intent = this.newServerDrivenIntent<AppBeagleActivity>(ScreenRequest(url))
-            startActivity(intent)
-            finish()
-        }*/
     }
-
-    fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/navigate-actions"
 
     fun sendBffRequest(button: View) {
         val urlTextElement = findViewById<View>(R.id.TextBffUrl) as EditText
-        //startActivity(urlTextElement.text.toString())
-
         val intent = this.newServerDrivenIntent<AppBeagleActivity>(ScreenRequest(urlTextElement.text.toString()))
         startActivity(intent)
         finish()
