@@ -15,7 +15,7 @@ This project uses [Appium](http://appium.io/) and [Cucumber](https://cucumber.io
 
 - Android SDK and Tools. Variable [ANDROID_SDK_ROOT](https://developer.android.com/studio/command-line/variables) must be configured
 - Load Android emulator with Beagle's [Appium Android app](../app-android/README.MD). In case the emulator is already set with 
-the app, it's possible to run the emulator with the command ``$ANDROID_SDK_ROOT\emulator\emulator.exe -avd DEVICE-NAME`` where 
+the app, it's possible to run the emulator with the command ``$ANDROID_SDK_ROOT\emulator\emulator -avd DEVICE-NAME`` where 
 ``DEVICE-NAME`` is something like ``Pixel_3a_API_30_x86``. 
 
  
@@ -28,7 +28,7 @@ the app, it's possible to run the emulator with the command ``$ANDROID_SDK_ROOT\
 
 ### Running
 
-To compile and run the whole test suite, just execute the command ``gradle cucumber -Dplatform=android`` (or ios)
+To compile and run the whole test suite, execute the command ``gradlew cucumber -Dplatform=android`` (or ios)
 
 ### Debugging
 
@@ -36,8 +36,8 @@ Debugging is possible running Cucumber as a JUnit runner. This method is recomme
 problems during debugging a gradle task.
 Refer to ``br.com.zup.beagle.cucumber.steps.Runner`` as the official runner. Right click on it 
 and select "Run Runner" (using IntelliJ IDEA). This first run will fail because some params were 
-missing. Edit the run plan and add the following to the 'Arguments' section: -Dplatform=android (or ios).
-Now, just run \ debug the plan 
+missing. Edit the run plan and add the following to the 'Arguments' section: ``-Dplatform=android`` (or ios).
+Now, run \ debug the plan again. 
 
 ### Screenshots on error
 
@@ -74,7 +74,7 @@ or style changes. The following steps describe how to implement such tests:
 implementation class. After the image was successfully registered in the ``screenshots-database`` folder, remove the method 
 from the step implementation class.
 2. In the step that is responsible to compare the current screenshot with the registered image, call the method 
-``Assert.assertTrue(compareCurrentScreenWithDatabase(IMAGE-NAME))``.  
+``Assert.assertTrue(compareCurrentScreenWithDatabase('IMAGE-NAME'))``.  
 
 ### Utils 
 
