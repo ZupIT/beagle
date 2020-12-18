@@ -1,4 +1,3 @@
-// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -19,157 +18,36 @@
   require_relative 'Templates/kotlin_template_helper.rb'
 
   @tab = "    "
-  @template_helper = TemplateHelper.new
-  @template_helper.languageIdentifier = SupportedLanguages.new.kotlin
-  @template_helper.defaultDeclarationType = TypeInterface.new.synthax_type.name
-
-  def single_variable_declaration(variable)
-    type_name = @template_helper.fetch_type(variable.type.name)
-    type_name = @kotlinHelper.adapt_type_name_to_kotlin_specific(type_name)
-    type_name
-  end
-
-  def handleTypeName(objectType, variable, shouldAddComma = false)
-    if variable.instance_of? Dictionary
-      output = @kotlinHelper.dictionary_variable_declaration(variable)
-    else
-      output = single_variable_declaration(variable)
-    end
-
-    output = variable.isBindable ? "Bind<#{output}>" : output
-    output = variable.class == List ? "List<#{output}>" : output
-    output = variable.isOptional ? output + "?" : output
-    output
-  end
-
-  def getVariableDefault(variable)
-    variable.defaultValue.empty? && variable.isOptional ? "null" : variable.defaultValue
-  end
-
-  def handleTypeNameAndDefault(objectType, variable, shouldAddComma = false)
-    if variable.instance_of? Dictionary
-      output = @kotlinHelper.dictionary_variable_declaration(variable)
-    else
-      output = single_variable_declaration(variable)
-    end
-
-    default = getVariableDefault(variable)
-    output = variable.isBindable ? "Bind<#{output}>" : output
-    output = variable.class == List ? "List<#{output}>" : output
-    output = variable.isOptional ? output + "?" : output
-    output = !default.empty? && !@template_helper.is_interface(objectType) ? "#{output} = #{default}" : output
-    output = shouldAddComma ? output + "," : output
-    output
-  end
+  @helper.languageIdentifier = SupportedLanguages.new.kotlin
+  @helper.defaultDeclarationType = TypeInterface.new
 
   def fullDeclaration(objectType)
+    @helper.fill_type(objectType)
+
     output = "package #{objectType.synthax_type.package.android}\n"
 
-    output += resolveImports(objectType)
+    output += @kotlinHelper.resolveImports(objectType)
     output += @kotlinHelper.resolveDocumentation(objectType)
     output += resolveObjectType(objectType)
 
     output
   end
 
-  def resolveVariablesImports(objectType)
-    output = ""
-
-    for variable in objectType.synthax_type.variables
-      if !@template_helper.variable_is_primitive(variable) and !variable.type.is_a? (Action)
-        qualifiedName = "#{variable.type.synthax_type.package.android}.#{variable.type.synthax_type.name}"
-        if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package.android}"
-          output += "import #{qualifiedName}\n"
-        end
-      end
-    end
-    
-    for inherited in objectType.synthax_type.inheritFrom
-      if !inherited.synthax_type.package.android.include? "#{objectType.synthax_type.package.android}" and (@template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType) or @template_helper.is_enum(objectType))
-        output += "import #{inherited.synthax_type.package.android}.#{inherited.synthax_type.name}\n"
-      end
-
-      for variable in inherited.synthax_type.variables
-        if !@template_helper.variable_is_primitive(variable) and !variable.type.is_a? (Action)
-            qualifiedName = "#{variable.type.synthax_type.package.android}.#{variable.type.synthax_type.name}"
-          if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{objectType.synthax_type.package.android}"
-            output += "import #{qualifiedName}"
-            output += "\n"
-          end
-        end
-      end 
-    end
-
-    output
-  end
-
-  def resolveImports(objectType)
-    output = resolveActionImport(objectType)
-    output += resolveVariablesImports(objectType)
-    output += resolveBindImport(objectType)
-
-    if output.include? "import"
-      "\n" + output + "\n"
-    else
-      output + "\n"
-    end
-  end
-
-  #TODO remove bind import rules
-  def resolveBindImport(objectType)
-    output = ""
-
-    if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
-      if !"br.com.zup.beagle.android.context".include? "#{objectType.synthax_type.package.android}"
-        output += "import br.com.zup.beagle.android.context.Bind\n"
-      end
-    end
-
-    if output.include? "import"
-      "\n" + output
-    else
-      output
-    end
-  end
-
-  #TODO remove bind import rules
-  def resolveActionImport(objectType)
-    output = ""
-
-    if objectType.synthax_type.variables.any? { |variable| variable.type.is_a? (Action) }
-      if !"br.com.zup.beagle.android".include? "#{objectType.synthax_type.package.android}"
-        output += "import br.com.zup.beagle.android.action.Action\n"
-      end
-    end
-
-    if output.include? "import"
-      "\n" + output
-    else
-      output
-    end
-  end
-
   def resolveObjectType(objectType)
     output = ""
-    isEnumDeclaration = @template_helper.is_enum(objectType)
 
-    if isEnumDeclaration
-      output += initEnum(objectType)
+    if @helper.inheritFrom_widget(objectType)
+      output += initCommonClass(objectType)
     else
-      if @template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType)
-        output += initInterfaceOrAbstract(objectType)
+      if @helper.is_enum(objectType)
+        output += @kotlinHelper.initEnum(objectType)
       else
-        if @template_helper.is_server_driven_component(objectType)
-          output += initCommonClass(objectType)
+        if @helper.is_interface(objectType) or @helper.is_abstract(objectType)
+          output += @kotlinHelper.initInterfaceOrAbstract(objectType)
         else
           output += initDataClass(objectType)
         end
-        
       end
-    end
-
-    if output.include? "{"
-      output += "\n}"
     end
 
     output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
@@ -177,33 +55,16 @@
     output
   end
 
-  def initInterfaceOrAbstract(objectType)
-    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
-    
-    output = "\n#{typeKind} #{objectType.synthax_type.name}"
-    output += getSuperClasses(objectType)
-
-    counter = 0 
-    if objectType.synthax_type.variables.any?
-      output += " {"
-      for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}#{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
+  def handleTypeName(objectType, variable, shouldAddComma = false)
+    if variable.instance_of? Dictionary
+      output = @kotlinHelper.dictionary_variable_declaration(variable)
+    else
+      output = @kotlinHelper.single_variable_declaration(variable)
     end
 
-    for inherited in objectType.synthax_type.inheritFrom
-      if @template_helper.is_interface(inherited)
-        for variable in inherited.synthax_type.variables
-          if !output.include? "{"
-            output += "{"
-          end
-          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}override #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter && !@template_helper.is_abstract(objectType))}"
-          counter += 1
-        end
-      end
-    end
-    
+    output = variable.isBindable ? "Bind<#{output}>" : output
+    output = variable.class == List ? "List<#{output}>" : output
+    output = variable.isOptional ? output + "?" : output
     output
   end
 
@@ -216,13 +77,13 @@
     if objectType.synthax_type.variables.any?
       output += " ("
       for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}#{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}#{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{@kotlinHelper.handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
 
     for inherited in objectType.synthax_type.inheritFrom
-      if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
+      if @helper.is_interface(inherited) && @helper.has_variables(inherited)
         if objectType.synthax_type.variables.size == 0
             output += " ("
         else
@@ -230,112 +91,19 @@
         end
         counter = 0 
         for variable in inherited.synthax_type.variables
-          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}override #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter)}"
+          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}override #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{@kotlinHelper.handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter)}"
           counter += 1
         end
       end
     end
     
-    output += getSuperClasses(objectType)
+    output += @kotlinHelper.getSuperClasses(objectType)
 
-    if objectType.synthax_type.variables.any?(&:isBindable) and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
-      output += "{\n#{@tab}constructor ("
-      counter = 0 
-      for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-      for inherited in objectType.synthax_type.inheritFrom
-        if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
-          if @template_helper.has_variables(objectType)
-            output += ","
-          else
-            output += " ("
-          end
-          counter = 0 
-          for variable in inherited.synthax_type.variables
-          output += "\n#{@tab}#{@tab}#{variable.name}: #{handleTypeNameForInitMethod(variable, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
-          end
-        end
-      end
-      output += "\n#{@tab}) : this ("
-
-      counter = 0
-      for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-
-      for inherited in objectType.synthax_type.inheritFrom
-        if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
-          if @template_helper.has_variables(objectType)
-              output += ","
-          else
-            output += " ("
-          end
-          counter = 0
-          for variable in inherited.synthax_type.variables
-          output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
-          end
-        end
-      end
-      output += "\n#{@tab})\n}"
-    end
-
-    output
-  end
-
-  def getSuperClasses(objectType)
-    output = ""
-    if objectType.synthax_type.inheritFrom.size > 0
-      if @template_helper.is_interface(objectType) or @template_helper.is_abstract(objectType)
-        output += " : "
-      else
-        output += "\n) : "
-      end
-
-      counter = 0 
-      for inherited in objectType.synthax_type.inheritFrom
-        output += @template_helper.is_abstract(inherited) ? "#{inherited.name}()" : inherited.name
-        if objectType.synthax_type.inheritFrom.size - 1 != counter 
-          output += ", "
-        end
-        counter += 1
-      end
-      output += " "
-    else
-      if !@template_helper.is_interface(objectType)
-        output += "\n)"
-      end
-    end
-
-    output
-  end
-
-  def initEnum(objectType)
-    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
-
-    output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
-
-    counter = 0
-    for field in objectType.synthax_type.variables
-      if field.comment != nil
-        output += "#{@tab}/**\n#{@tab} * #{@kotlinHelper.replace_breakLine_documentation(field.comment, "\n#{@tab} * ")}\n#{@tab} */\n"
-      end
-      output += "#{@tab}#{field.name}"
-      if counter != objectType.synthax_type.variables.size - 1
-        output += ",\n\n"
-      end
-      counter += 1
-    end
-    
     output
   end
 
   def initCommonClass(objectType)
-    typeKind = @template_helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    typeKind = @helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
 
     output = "\n#{typeKind} #{objectType.synthax_type.name}"
     
@@ -348,7 +116,7 @@
     end
 
     for inherited in objectType.synthax_type.inheritFrom
-      if @template_helper.is_interface(inherited) && @template_helper.has_variables(inherited)
+      if @helper.is_interface(inherited) && @helper.has_variables(inherited)
         if !output.include? "{"
             output += " {"
         end
@@ -358,6 +126,10 @@
           counter += 1
         end
       end
+    end
+
+    if output.include? "{"
+      output += "\n}"
     end
 
     output

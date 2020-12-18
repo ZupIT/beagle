@@ -19,7 +19,7 @@
   require_relative 'Templates/template_helper.rb'
 
   @templateHelper = TemplateHelper.new
-  @template_helper.defaultDeclarationType = "interface"
+  @template_helper.defaultDeclarationType = TypeInterface.new
   @template_helper.languageIdentifier = SupportedLanguages.new.typeScript
   
   def handleTypeNameWithName(variable)

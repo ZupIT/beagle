@@ -25,6 +25,8 @@ require_relative 'Models/Types/integer.rb'
 require_relative 'Models/Types/enum.rb'
 require_relative 'Models/Types/abstract.rb'
 require_relative 'Models/Types/interface.rb'
+require_relative 'Models/Types/struct.rb'
+require_relative 'Models/Types/data_class.rb'
 
 require_relative 'Models/Layout/corner_radius.rb'
 require_relative 'Models/Layout/display.rb'
@@ -91,7 +93,7 @@ class ModelGenerator
     @c = Constants.new
 
     @helper = TemplateHelper.new
-    @kotlinHelper = KotlinTemplateHelper.new(components)
+    @kotlinHelper = KotlinTemplateHelper.new(components, @helper)
   end
 
   # Array of BaseComponents

@@ -29,7 +29,7 @@
   @doubleTab = @tab + @tab
   @template_helper = TemplateHelper.new
   @template_helper.languageIdentifier = SupportedLanguages.new.swift
-  @template_helper.defaultDeclarationType = "struct"
+  @template_helper.defaultDeclarationType = TypeStruct.new
 
   def dictionary_variable_declaration(variable) 
     type_of_key = adaptTypeNameToSwiftSpecific(variable.type_of_key)

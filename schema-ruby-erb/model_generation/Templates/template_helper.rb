@@ -37,13 +37,14 @@ class BasicType < SupportedLanguages
     def initialize
         super
         @grammar = {
-            TypeString.new.name => {@swift => "String", @kotlin => "String"},
-            TypeBoolean.new.name => {@swift => "Bool", @kotlin => "Boolean"},
-            TypeInterface.new.name => {@swift => "protocol", @kotlin => "interface"},
-            TypeDouble.new.name => {@swift => "Double", @kotlin => "Double"},
-            TypeEnum.new.name => {@swift => "enum", @kotlin => "enum class"},
-            TypeInteger.new.name => {@swift => "Int", @kotlin => "Int"},
-            TypeAbstract.new.name => {@swift => "protocol", @kotlin => "abstract class"}
+            TypeString.new.name => {@swift => "String", @kotlin => "String", @kotlinBackend => "String"},
+            TypeBoolean.new.name => {@swift => "Bool", @kotlin => "Boolean", @kotlinBackend => "Boolean"},
+            TypeInterface.new.name => {@swift => "protocol", @kotlin => "interface", @kotlinBackend => "interface"},
+            TypeDouble.new.name => {@swift => "Double", @kotlin => "Double", @kotlinBackend => "Double"},
+            TypeEnum.new.name => {@swift => "enum", @kotlin => "enum class", @kotlinBackend => "enum class"},
+            TypeInteger.new.name => {@swift => "Int", @kotlin => "Int", @kotlinBackend => "Int"},
+            TypeAbstract.new.name => {@swift => "protocol", @kotlin => "abstract class", @kotlinBackend => "abstract class"},
+            TypeDataClass.new.name => {@kotlin => "data class", @kotlinBackend => "data class"}
         }
 
     end
@@ -60,14 +61,14 @@ class TemplateHelper
 
     # The default declaration type for your models.
     #   E.g.: swift uses struct
-    # @return [String]
+    # @return [Type]
     attr_accessor :defaultDeclarationType
 
     # Initialize method for TemplateHelper. You should definitely assign new values to defaultDeclarativeType and
     # languageIdentifier
     # @return [Bool] indicating wether the object is widget or not
     def initialize
-        @defaultDeclarationType = ''
+        @defaultDeclarationType = nil
         @languageIdentifier = ''
         @types = BasicType.new
     end
@@ -89,7 +90,13 @@ class TemplateHelper
     # @param key [String] type identifier
     # @return [String] converted string to specified language or the key itself
     def fetch_built_in_type_declaration(key)
-        (key == nil or key.name == nil) ? @defaultDeclarationType : fetch_type(key.name)
+        (key == nil or key.name == nil) ? @defaultDeclarationType.synthax_type.name : fetch_type(key.name)
+    end
+
+    def fill_type(object_type)
+        if inheritFrom_widget(object_type)
+            object_type.synthax_type.type = @defaultDeclarationType 
+        end
     end
 
     # Adds padding in each line of a given multiline string
