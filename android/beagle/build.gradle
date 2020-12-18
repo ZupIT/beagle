@@ -27,6 +27,7 @@ apply from: rootProject.file('schema.gradle')
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
     buildToolsVersion Dependencies.Versions.buildTools
+    testOptions.unitTests.includeAndroidResources = true
 
     defaultConfig {
         minSdkVersion Dependencies.Versions.minSdk
@@ -59,6 +60,8 @@ android {
     }
 
     testOptions {
+        unitTests.returnDefaultValues = true
+
         unitTests.all {
             useJUnitPlatform()
         }
@@ -91,13 +94,22 @@ dependencies {
     implementation Dependencies.MoshiLibraries.adapters
 
     // Unit Testing
-    testImplementation Dependencies.TestLibraries.junitApi
-    testRuntimeOnly Dependencies.TestLibraries.junitEngine
-
     testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.archCoreTesting
     testImplementation Dependencies.GeneralLibraries.jsonObject
+
+    testImplementation Dependencies.TestLibraries.junitApi
+    testImplementation Dependencies.TestLibraries.junitEngine
+    testImplementation Dependencies.TestLibraries.junit4
+    testImplementation Dependencies.TestLibraries.junitVintageEngine
+
+    testImplementation Dependencies.TestLibraries.testRunner
+    testImplementation Dependencies.TestLibraries.testExt
+    testImplementation Dependencies.TestLibraries.espressoCore
+    testImplementation Dependencies.TestLibraries.testCore
+    testImplementation Dependencies.TestLibraries.testRules
+    testImplementation Dependencies.TestLibraries.robolectric
 }
 
 apply from: rootProject.file('../maven-publish.gradle')

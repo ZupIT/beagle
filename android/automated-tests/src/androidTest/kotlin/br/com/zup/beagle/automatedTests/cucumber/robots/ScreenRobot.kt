@@ -111,7 +111,7 @@ class ScreenRobot {
         return this
     }
 
-    fun typeText(hint: String, text: String): ScreenRobot {
+    fun typeTextInTheFieldWithPlaceholder(hint: String, text: String): ScreenRobot {
         onView(withHint(hint)).perform(ViewActions.typeText((text)))
         return this
     }
@@ -133,6 +133,16 @@ class ScreenRobot {
     fun clickOnInputWithHint(hint: String?): ScreenRobot {
         onView(Matchers.allOf(withHint(hint), isDisplayed())).perform(ViewActions.click())
         return this
+    }
+
+    fun validateValuesTextInput(scrollToWithHint: String, checkAndClickOnPlaceholder: String,
+                                typeTextAndCheckInTheFieldWithPlaceholder: String) {
+        ScreenRobot()
+            .scrollToWithHint(scrollToWithHint)
+            .checkViewContainsHint(checkAndClickOnPlaceholder)
+            .clickOnInputWithHint(checkAndClickOnPlaceholder)
+            .typeTextInTheFieldWithPlaceholder(checkAndClickOnPlaceholder, typeTextAndCheckInTheFieldWithPlaceholder)
+            .checkViewContainsText(typeTextAndCheckInTheFieldWithPlaceholder)
     }
 
     fun disabledFieldHint(text: String): ScreenRobot {

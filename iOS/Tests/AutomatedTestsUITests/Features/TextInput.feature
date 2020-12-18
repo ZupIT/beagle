@@ -27,64 +27,108 @@ Feature: TextInput Validation
         Then I must check if the textInput value "<textInputValue>" appears on the screen
 
         Examples:
-        |      textInputValue       |
-        | TextInput test            |
-        | TextInput with expression |
+            |      textInputValue       |
+            | TextInput test            |
+            | TextInput with expression |
 
     Scenario Outline: TextInput 02 - validate placeholder field if filled
         Then I must check if the textInput placeholder "<textInputPlaceholder>" appears on the screen
 
         Examples:
-        |        textInputPlaceholder           |
-        | TextInput placeholder                 |
-        | TextInput placeholder with expression |
+            |        textInputPlaceholder           |
+            | TextInput placeholder                 |
+            | TextInput placeholder with expression |
 
     Scenario Outline: TextInput 03 - validate disabled field
         Then verify if the field with the placeholder "<textInputDisabled>" is disabled
 
         Examples:
-        |             textInputDisabled                     |
-        | Standard text with disabled field                 |
-        | Standard text with disabled field with expression |
+            |             textInputDisabled                     |
+            | Standard text with disabled field                 |
+            | Standard text with disabled field with expression |
 
     Scenario Outline: TextInput 04 - validate readOnly field
         Then verify if the field with the value "<textInputReadOnly>" is read only
 
         Examples:
-        |       textInputReadOnly      |
-        | is Read Only                 |
-        | is Read Only with expression |
+            |       textInputReadOnly      |
+            | is Read Only                 |
+            | is Read Only with expression |
 
     Scenario Outline: TextInput 05 - validate keyboard appears on Focus
         When I click in the textInput with the placeholder "<textInputSecondPlan>"
         Then verify if the textInput "<textInputSecondPlan>" is the first responder
 
         Examples:
-        |            textInputSecondPlan                |
-        | is a textInput in second plan                 |
-        | is a textInput in second plan with expression |
+            |            textInputSecondPlan                |
+            | is a textInput in second plan                 |
+            | is a textInput in second plan with expression |
 
-    Scenario Outline: TextInput 06 - validate textInput of type number
+    Scenario Outline: TextInput 06 - validate date entry when using "date" type
+        When I click in the textInput with the placeholder "<textInputTypeDate>"
+        Then validate if the text input component "<textInputTypeDate>" displays date type
+
+        Examples:
+            | textInputTypeDate            |
+            | writing date                 |
+            | writing date with expression |
+            
+    Scenario Outline: TextInput 07 - validate textInput of type email
+        When I click in the textInput with the placeholder "<textInputTypeEmail>"
+        Then validate if the text input component "<textInputTypeEmail>" displays e-mail type
+
+        Examples:
+            | textInputTypeEmail             |
+            | writing e-mail                 |
+            | writing e-mail with expression |
+
+    Scenario Outline: TextInput 08 - validate textInput of type password
+        Then validate if the text input component "<textInputTypePassword>" displays password type
+
+        Examples:
+            | textInputTypePassword            |
+            | writing password                 |
+            | writing password with expression |
+
+    Scenario Outline: TextInput 09 - validate textInput of type number
+        When I click in the textInput with the placeholder "<textInputTypeNumber>"
+        Then validate if the text input component "<textInputTypeNumber>" displays number type
+
+        Examples:
+            | textInputTypeNumber            |
+            | writing number                 |
+            | writing number with expression |
+
+    Scenario Outline: TextInput 10 - validate textInput of type text
+        When I click in the textInput with the placeholder "<textInputTypeText>"
+        Then validate if the text input component "<textInputTypeText>" displays text type
+
+        Examples:
+            | textInputTypeText            |
+            | writing text                 |
+            | writing text with expression |
+            
+    Scenario Outline: TextInput 11 - validate textInput of type number
         When I click in the textInput with the placeholder "<textInputTypeNumber>"
         Then validate textInput component of type number with text "<textInputTypeNumber>"
 
         Examples:
-        |          textInputTypeNumber             |
-        | is textInput type number                 |
-        | is textInput type number with expression |
+            |          textInputTypeNumber             |
+            | is textInput type number                 |
+            | is textInput type number with expression |
 
-    Scenario: TextInput 07 - validate textInput with actions of onChange, onFocus and onBlur
+    Scenario: TextInput 12 - validate textInput with actions of onChange, onFocus and onBlur
         When I click in the textInput with the placeholder "action validation"
         Then change to "DidOnFocus" then to "DidOnChange" then to "DidOnBlur"
 
-    Scenario: TextInput 08 - validate textInput with actions of onChange, onFocus and onBlur
+    Scenario: TextInput 13 - validate textInput with actions of onChange, onFocus and onBlur
         When I click in the textInput with the placeholder "action order"
         Then change to "DidOnFocus" then to "DidOnFocusDidOnChange" then to "DidOnFocusDidOnChangeDidOnBlur" in the correct order
 
-    Scenario Outline: TextInput 09 - validate that textInput is hidden
+    Scenario Outline: TextInput 14 - validate that textInput is hidden
         Then The hidden input fields "<textInputHidden>" should not be visible
 
         Examples:
-        |          textInputHidden            |
-        | this text is hidden                 |
-        | this text is hidden with expression |
+            |          textInputHidden            |
+            | this text is hidden                 |
+            | this text is hidden with expression |
