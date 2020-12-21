@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
@@ -45,8 +46,9 @@ internal data class ScreenComponent(
     override val child: ServerDrivenComponent,
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override var style: Style? = null,
-    override val context: ContextData? = null
-) : WidgetView(), ScreenAnalytics, ContextComponent, SingleChildComponent {
+    override val context: ContextData? = null,
+    override var id: String? = null
+) : WidgetView(), ScreenAnalytics, ContextComponent, SingleChildComponent, IdentifierComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

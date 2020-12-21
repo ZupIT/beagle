@@ -32,5 +32,10 @@ internal fun Screen.toComponent() = ScreenComponent(
     child = this.child,
     style = this.style,
     screenAnalyticsEvent = this.screenAnalyticsEvent,
-    context = this.context
+    context = this.context,
+    id = this.id
 )
+
+private fun getScreenIdentifier() {
+
+}
