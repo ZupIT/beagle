@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,16 +15,11 @@
  * limitations under the License.
  */
 <%
-  require_relative 'Templates/template_helper.rb'
-  require_relative 'Templates/kotlin_template_helper.rb'
 
-  @tab = "    "
   @helper.languageIdentifier = SupportedLanguages.new.kotlinBackend
   @helper.defaultDeclarationType = TypeDataClass.new
 
   def fullDeclaration(objectType)
-    @helper.fill_type(objectType)
-    
     output = "package #{objectType.synthax_type.package.backend}\n"
 
     output += @kotlinHelper.resolveImports(objectType)
@@ -35,98 +31,8 @@
 
   def resolveObject(objectType)
     output = ""
-    
-    if @helper.is_enum(objectType)
-      output += @kotlinHelper.initEnum(objectType)
-    else 
-      if @helper.is_interface(objectType) or @helper.is_abstract(objectType)
-        output += @kotlinHelper.initInterfaceOrAbstract(objectType)
-      else
-        output += initCommonClass(objectType)
-      end
-    end
-
+    output += @kotlinHelper.resolveKotlinObject(objectType)
     output += handleInnerTypes(objectType.synthax_type.sameFileTypes)
-
-    output
-  end
-
-  def initCommonClass(objectType)
-    typeKind = @helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
-    
-    output = "\n#{typeKind} #{objectType.synthax_type.name}"
-
-    counter = 0 
-    if objectType.synthax_type.variables.any?
-      output += " ("
-      for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}#{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{@kotlinHelper.handleTypeNameAndDefault(objectType, variable, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-    end
-
-    for inherited in objectType.synthax_type.inheritFrom
-      if @helper.is_interface(inherited) && @helper.has_variables(inherited)
-        if objectType.synthax_type.variables.size == 0
-            output += " ("
-        else
-          output += ","
-        end
-        counter = 0 
-        for variable in inherited.synthax_type.variables
-          output += "\n#{@tab}#{@kotlinHelper.handleFieldAccessor(variable)}override #{@kotlinHelper.handleFieldMutable(variable)}#{variable.name}: #{@kotlinHelper.handleTypeNameAndDefault(objectType, variable, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
-        end
-      end
-    end
-    
-    output += @kotlinHelper.getSuperClasses(objectType)
-
-    if objectType.synthax_type.variables.any?(&:isBindable) and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
-      output += "{\n#{@tab}constructor ("
-      counter = 0 
-      for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@tab}#{variable.name}: #{@kotlinHelper.handleTypeNameForInitMethod(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-      for inherited in objectType.synthax_type.inheritFrom
-        if @helper.is_interface(inherited) && @helper.has_variables(inherited)
-          if @helper.has_variables(objectType)
-            output += ","
-          else
-            output += " ("
-          end
-          counter = 0 
-          for variable in inherited.synthax_type.variables
-          output += "\n#{@tab}#{@tab}#{variable.name}: #{@kotlinHelper.handleTypeNameForInitMethod(variable, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
-          end
-        end
-      end
-      output += "\n#{@tab}) : this ("
-
-      counter = 0
-      for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-
-      for inherited in objectType.synthax_type.inheritFrom
-        if @helper.is_interface(inherited) && @helper.has_variables(inherited)
-          if @helper.has_variables(objectType)
-              output += ","
-          else
-            output += " ("
-          end
-          counter = 0
-          for variable in inherited.synthax_type.variables
-          output += "\n#{@tab}#{@tab}#{handleVariableAssignementInsideConstructor(variable, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
-          end
-        end
-      end
-      output += "\n#{@tab})\n}"
-    end
 
     output
   end
@@ -141,13 +47,6 @@
         handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
       end
     end
-    output
-  end
-
-  def handleVariableAssignementInsideConstructor(variable, shouldAddComma = false)
-    bind_helper = variable.isOptional ? "valueOfNullable" : "valueOf"
-    output = variable.isBindable ? "#{bind_helper}(#{variable.name})" : variable.name
-    output = shouldAddComma ? output + "," : output
     output
   end
 

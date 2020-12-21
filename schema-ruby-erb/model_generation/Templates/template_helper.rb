@@ -93,12 +93,6 @@ class TemplateHelper
         (key == nil or key.name == nil) ? @defaultDeclarationType.synthax_type.name : fetch_type(key.name)
     end
 
-    def fill_type(object_type)
-        if inheritFrom_widget(object_type)
-            object_type.synthax_type.type = @defaultDeclarationType 
-        end
-    end
-
     # Adds padding in each line of a given multiline string
     #
     # @param padding [String] string with empty spaces. Preferably a padding that is considered the default padding in your language

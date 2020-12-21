@@ -94,6 +94,7 @@ class ModelGenerator
 
     @helper = TemplateHelper.new
     @kotlinHelper = KotlinTemplateHelper.new(components, @helper)
+    @tab = "    "
   end
 
   # Array of BaseComponents
