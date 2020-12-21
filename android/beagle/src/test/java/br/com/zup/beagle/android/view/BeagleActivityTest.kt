@@ -17,13 +17,14 @@
 package br.com.zup.beagle.android.view
 
 import android.app.Application
+import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.MyBeagleSetup
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen
@@ -31,22 +32,23 @@ import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
+import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
+import com.facebook.yoga.YogaNode
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.mockkObject
-import io.mockk.unmockkAll
-import io.mockk.verify
+import io.mockk.mockkStatic
+import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -55,69 +57,83 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 @ExperimentalCoroutinesApi
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
-class BeagleActivityTest {
+class BeagleActivityTest : BaseTest() {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val beagleFragment: BeagleFragment = mockk()
     private val component = Text("Test component")
-    private val url = "/url"
     private val componentRequester: ComponentRequester = mockk()
     private lateinit var beagleViewModel: BeagleScreenViewModel
     private var activity: ServerDrivenActivity? = null
+    private val analyticsViewModel = mockk<AnalyticsViewModel>()
+    private val localScreenSlot = slot<Boolean>()
+    private val screenIdentifierSlot = slot<String>()
 
-    @BeforeEach
+    @Before
     fun setup() {
-        mockkObject(BeagleFragment)
-        every { BeagleFragment.newInstance(component = component, any(), any()) } returns beagleFragment
-        beagleViewModel = BeagleScreenViewModel(ioDispatcher = TestCoroutineDispatcher(), componentRequester)
-        mockkConstructor(ViewModelProvider::class)
-        every { anyConstructed<ViewModelProvider>().get(beagleViewModel::class.java) } returns beagleViewModel
-        coEvery { componentRequester.fetchComponent(any()) } returns component
-        BeagleSdk.setInTestMode()
+        coEvery { componentRequester.fetchComponent(ScreenRequest("/url")) } returns component
+        prepareVIewModels()
         val application = ApplicationProvider.getApplicationContext() as Application
+        mockYoga(application)
+        BeagleSdk.setInTestMode()
         MyBeagleSetup().init(application)
         val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
         activityScenario.onActivity {
             activityScenario.moveToState(Lifecycle.State.RESUMED)
             activity = it
         }
-
     }
 
-    @AfterEach
-    fun tearDown() {
-        unmockkAll()
+    private fun prepareVIewModels() {
+        beagleViewModel = BeagleScreenViewModel(ioDispatcher = TestCoroutineDispatcher(), componentRequester)
+        prepareViewModelMock(beagleViewModel)
+    }
+
+    private fun mockYoga(application: Application) {
+        val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
+        val view = View(application)
+        mockkStatic(YogaNode::class)
+
+        every { YogaNode.create() } returns yogaNode
+        every { yogaNode.data } returns view
     }
 
     @Test
-    fun `GIVEN a screen request WHEN navigate to THEN should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
+    fun `Given a screen request When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
+        val url = "/url"
         val screenRequest = ScreenRequest(url)
+        prepareViewModelMock(analyticsViewModel)
+        every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
 
         //When
         activity?.navigateTo(screenRequest, null)
 
-        // THEN
-        verify(exactly = 1) { BeagleFragment.newInstance(component = component, false, screenRequest.url) }
-        assertThrows<NullPointerException> { print("teste") }
-
+        //Then
+        assertEquals(false, localScreenSlot.captured)
+        assertEquals(url, screenIdentifierSlot.captured)
     }
 
+
     @Test
-    fun `GIVEN a screen WHEN navigate to THEN should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
+    fun `Given a screen When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
         val screenRequest = ScreenRequest("")
         val screenId = "myScreen"
         val screen = Screen(id = screenId, child = component)
 
+
+        prepareViewModelMock(analyticsViewModel)
+        every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
+
+
         //When
         activity?.navigateTo(screenRequest, screen)
 
         // THEN
-        verify(exactly = 1) { BeagleFragment.newInstance(component = screen, false, screenId) }
-
+        assertEquals(true, localScreenSlot.captured)
+        assertEquals(screenId, screenIdentifierSlot.captured)
     }
 
 }
