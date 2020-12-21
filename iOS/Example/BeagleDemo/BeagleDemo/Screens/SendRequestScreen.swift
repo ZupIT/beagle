@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,10 +14,8 @@
  * limitations under the License.
  */
 
-import Foundation
-import Beagle
-import BeagleSchema
 import UIKit
+import Beagle
 
 let sendRequestDeclarativeScreen: Screen = {
     let containerStyle = Style().size(Size().width(100%).height(50%)).flex(Flex().alignItems(.center).justifyContent(.spaceEvenly))

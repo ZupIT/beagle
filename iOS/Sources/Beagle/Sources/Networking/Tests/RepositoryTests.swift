@@ -16,7 +16,6 @@
 
 import XCTest
 @testable import Beagle
-import BeagleSchema
 
 final class RepositoryTests: XCTestCase {
 
@@ -157,26 +156,26 @@ final class RepositoryTests: XCTestCase {
 // MARK: - Testing Helpers
 
 final class ComponentDecodingStub: ComponentDecoding {
-    func register<T>(component type: T.Type) where T: RawComponent {}
-    func register<A>(action type: A.Type) where A: RawAction {}
-    func register<T>(component type: T.Type, named typeName: String) where T: BeagleSchema.RawComponent {}
-    func register<A>(action type: A.Type, named typeName: String) where A: BeagleSchema.RawAction {}
+    func register<T>(component type: T.Type) where T: ServerDrivenComponent {}
+    func register<A>(action type: A.Type) where A: Action {}
+    func register<T>(component type: T.Type, named typeName: String) where T: ServerDrivenComponent {}
+    func register<A>(action type: A.Type, named typeName: String) where A: Action {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
-    func nameForComponent(ofType type: RawComponent.Type) -> String? { return nil }
-    func nameForAction(ofType type: RawAction.Type) -> String? { return nil }
+    func nameForComponent(ofType type: ServerDrivenComponent.Type) -> String? { return nil }
+    func nameForAction(ofType type: Action.Type) -> String? { return nil }
     
-    var componentToReturnOnDecode: BeagleSchema.RawComponent?
+    var componentToReturnOnDecode: ServerDrivenComponent?
     var errorToThrowOnDecode: Error?
     
-    func decodeComponent(from data: Data) throws -> BeagleSchema.RawComponent {
+    func decodeComponent(from data: Data) throws -> ServerDrivenComponent {
         if let error = errorToThrowOnDecode {
             throw error
         }
         return ComponentDummy()
     }
 
-    func decodeAction(from data: Data) throws -> RawAction {
+    func decodeAction(from data: Data) throws -> Action {
         if let error = errorToThrowOnDecode {
             throw error
         }
@@ -187,7 +186,7 @@ final class ComponentDecodingStub: ComponentDecoding {
 final class RepositoryStub: Repository {
 
     var componentResult: Result<ServerDrivenComponent, Request.Error>?
-    var formResult: Result<RawAction, Request.Error>?
+    var formResult: Result<Action, Request.Error>?
 
     private(set) var didCallDispatch = false
     private(set) var token = Token()
@@ -203,7 +202,7 @@ final class RepositoryStub: Repository {
 
     init(
         componentResult: Result<ServerDrivenComponent, Request.Error>? = nil,
-        formResult: Result<RawAction, Request.Error>? = nil
+        formResult: Result<Action, Request.Error>? = nil
     ) {
         self.componentResult = componentResult
         self.formResult = formResult
@@ -226,7 +225,7 @@ final class RepositoryStub: Repository {
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         data: Request.FormData,
-        completion: @escaping (Result<RawAction, Request.Error>) -> Void
+        completion: @escaping (Result<Action, Request.Error>) -> Void
     ) -> RequestToken? {
         didCallDispatch = true
         formData = data

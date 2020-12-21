@@ -15,8 +15,6 @@
  */
 
 @testable import Beagle
-import Foundation
-import BeagleSchema
 
 enum ComponentFromJsonError: Error {
     case wrongUrlPath
@@ -45,24 +43,38 @@ func componentFromJsonFile<W: ServerDrivenComponent>(
 }
 
 // TODO: Make decoding process generic
-func actionFromJsonFile<W: RawAction>(
-    fileName: String,
-    decoder: ComponentDecoding = ComponentDecoder()
+func actionFromJsonFile<W: Action>(
+    fileName: String
 ) throws -> W {
-    guard let url = Bundle(for: ScreenComponentTests.self).url(
+    guard let url = Bundle(for: ComponentDecoderTests.self).url(
         forResource: fileName,
         withExtension: ".json"
     ) else {
         throw ComponentFromJsonError.wrongUrlPath
     }
 
-    let json = try Data(contentsOf: url)
-    let action = try decoder.decodeAction(from: json)
+    let data = try Data(contentsOf: url)
+    return try actionFromData(data)
+}
 
-    guard let typed = action as? W else {
-        throw ComponentFromJsonError.couldNotMatchComponentType
+func actionFromString<A: Action>(
+    _ string: String
+) throws -> A {
+    guard let data = string.data(using: .utf8) else {
+        throw ComponentFromJsonError.wrongUrlPath
     }
 
+    return try actionFromData(data)
+}
+
+func actionFromData<A: Action>(
+    _ data: Data,
+    decoder: ComponentDecoding = ComponentDecoder()
+) throws -> A {
+    let action = try decoder.decodeAction(from: data)
+    guard let typed = action as? A else {
+        throw ComponentFromJsonError.couldNotMatchComponentType
+    }
     return typed
 }
 

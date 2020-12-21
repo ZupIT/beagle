@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,18 +14,36 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-import UIKit
+public struct SetContext: Action {
+    public let contextId: String
+    public let path: Path?
+    public let value: DynamicObject
+    public let analytics: ActionAnalyticsConfig?
 
-extension SetContext: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        let valueEvaluated = value.evaluate(with: origin)
-        let contextObserver = origin.getContext(with: contextId)
+    public init(
+        contextId: String,
+        path: String? = nil,
+        value: DynamicObject,
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.contextId = contextId
+        self.path = path.flatMap { Path(rawValue: $0) }
+        self.value = value
+        self.analytics = analytics
+    }
+}
 
-        if let contextValue = contextObserver?.value.value, let path = path {
-            contextObserver?.value = Context(id: contextId, value: contextValue.set(valueEvaluated, with: path))
-        } else {
-            contextObserver?.value = Context(id: contextId, value: valueEvaluated)
-        }
+extension SetContext: CustomReflectable {
+    public var customMirror: Mirror {
+        return Mirror(
+            self,
+            children: [
+                "contextId": contextId,
+                "path": path?.rawValue as Any,
+                "value": value,
+                "analytics": analytics as Any
+            ],
+            displayStyle: .struct
+        )
     }
 }

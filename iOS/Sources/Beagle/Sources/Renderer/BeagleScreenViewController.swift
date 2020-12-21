@@ -15,7 +15,6 @@
  */
 
 import UIKit
-import BeagleSchema
 
 public typealias BeagleController = UIViewController & BeagleControllerProtocol
 
@@ -28,11 +27,11 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     func setIdentifier(_ id: String?, in view: UIView)
     func setContext(_ context: Context, in view: UIView)
     
-    func addOnInit(_ onInit: [RawAction], in view: UIView)
+    func addOnInit(_ onInit: [Action], in view: UIView)
     func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void)
     
-    func execute(actions: [RawAction]?, event: String?, origin: UIView)
-    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView)
+    func execute(actions: [Action]?, event: String?, origin: UIView)
+    func execute(actions: [Action]?, with contextId: String, and contextValue: DynamicObject, origin: UIView)
     
     func setNeedsLayout(component: UIView)
 }
@@ -52,7 +51,7 @@ public class BeagleScreenViewController: BeagleController {
     
     let bindings = Bindings()
     
-    private var onInit: [(UIView, [RawAction])] = []
+    private var onInit: [(UIView, [Action])] = []
     
     private var navigationControllerId: String?
     
@@ -74,7 +73,7 @@ public class BeagleScreenViewController: BeagleController {
         }
     }
     
-    public convenience init(_ component: RawComponent, controllerId: String? = nil) {
+    public convenience init(_ component: ServerDrivenComponent, controllerId: String? = nil) {
         self.init(.declarative(component.toScreen()), controllerId: controllerId)
         self.navigationControllerId = controllerId
     }
@@ -115,7 +114,7 @@ public class BeagleScreenViewController: BeagleController {
         return viewModel.screen
     }
     
-    public func addOnInit(_ onInit: [RawAction], in view: UIView) {
+    public func addOnInit(_ onInit: [Action], in view: UIView) {
         self.onInit.append((view, onInit))
     }
     
@@ -123,14 +122,14 @@ public class BeagleScreenViewController: BeagleController {
         bindings.add(self, expression, view, update)
     }
     
-    public func execute(actions: [RawAction]?, event: String?, origin: UIView) {
+    public func execute(actions: [Action]?, event: String?, origin: UIView) {
         actions?.forEach {
             AnalyticsService.shared?.createRecord(action: $0, origin: origin, event: event, controller: self)
-            ($0 as? Action)?.execute(controller: self, origin: origin)
+            $0.execute(controller: self, origin: origin)
         }
     }
     
-    public func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
+    public func execute(actions: [Action]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         guard let actions = actions else { return }
         let context = Context(id: contextId, value: contextValue)
         origin.setContext(context)

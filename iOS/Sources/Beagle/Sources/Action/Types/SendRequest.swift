@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,88 +14,65 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-import UIKit
-
-extension SendRequest: AsyncAction {
+public struct SendRequest: Action, AutoInitiableAndDecodable {
     
-    public func execute(controller: BeagleController, origin: UIView) {
-        let methodValue = method?.evaluate(with: origin)
-        let headersValue = headers?.evaluate(with: origin)
-
-        let requestData = Request.RequestData(
-            method: methodValue?.rawValue,
-            headers: headersValue,
-            body: data?.evaluate(with: origin).asAny()
-        )
-
-        let dispatcher = RequestDispatcher(dependencies: controller.dependencies)
-        dispatcher.dispatchRequest(
-            path: url.evaluate(with: origin) ?? "",
-            type: .rawRequest(requestData),
-            additionalData: nil
-        ) { result in
-            switch result {
-            case .success(let response):
-                
-                let data = response.getDynamicObject()
-                let statusCode = response.statusCode()
-                let value: DynamicObject = ["data": data, "status": .int(statusCode), "statusText": "success"]
-
-                DispatchQueue.main.async {
-                    controller.execute(actions: self.onSuccess, with: "onSuccess", and: value, origin: origin)
-                    controller.execute(actions: self.onFinish, event: "onFinish", origin: origin)
-                }
-                
-            case .failure(let error):
-                guard case .networkError(let error) = error else {
-                    self.executeError(value: .empty, controller: controller, origin: origin)
-                    return
-                }
-
-                let data = error.getDynamicObject()
-                let statusCode = error.statusCode()
-                let statusText = error.localizedDescription
-                let message = error.localizedDescription
-                
-                let value: DynamicObject = [ "data": data, "status": .int(statusCode), "statusText": .string(statusText), "message": .string(message) ]
-                self.executeError(value: value, controller: controller, origin: origin)
-            }
-        }
-    }
-
-    private func executeError(value: DynamicObject, controller: BeagleController, origin: UIView) {
-        DispatchQueue.main.async {
-            controller.execute(actions: self.onError, with: "onError", and: value, origin: origin)
-            controller.execute(actions: self.onFinish, event: "onFinish", origin: origin)
-        }
-    }
-}
-
-private extension NetworkResponse {
-    
-    func statusCode() -> Int {
-        return (response as? HTTPURLResponse)?.statusCode ?? 0
+    public enum HTTPMethod: String, Codable {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case patch = "PATCH"
+        case delete = "DELETE"
     }
     
-    func getDynamicObject() -> DynamicObject {
-        return _makeDynamicObject(with: data)
-    }
-}
-
-private extension NetworkError {
+    public let url: Expression<String>
+    public let method: Expression<SendRequest.HTTPMethod>?
+    public let data: DynamicObject?
+    public let headers: Expression<[String: String]>?
+    public let onSuccess: [Action]?
+    public let onError: [Action]?
+    public var onFinish: [Action]?
+    public let analytics: ActionAnalyticsConfig?
     
-    func statusCode() -> Int {
-        return (response as? HTTPURLResponse)?.statusCode ?? 0
+// sourcery:inline:auto:SendRequest.Init
+    public init(
+        url: Expression<String>,
+        method: Expression<SendRequest.HTTPMethod>? = nil,
+        data: DynamicObject? = nil,
+        headers: Expression<[String: String]>? = nil,
+        onSuccess: [Action]? = nil,
+        onError: [Action]? = nil,
+        onFinish: [Action]? = nil,
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.url = url
+        self.method = method
+        self.data = data
+        self.headers = headers
+        self.onSuccess = onSuccess
+        self.onError = onError
+        self.onFinish = onFinish
+        self.analytics = analytics
     }
+// sourcery:end
     
-    func getDynamicObject() -> DynamicObject {
-        return _makeDynamicObject(with: data ?? Data())
+    @available(*, deprecated, message: "Since version 1.3, we allow expressions in the parameters method and headers, please consider using the new method for initialization instead.")
+    public init(
+        url: Expression<String>,
+        method: SendRequest.HTTPMethod? = nil,
+        data: DynamicObject? = nil,
+        headers: [String: String]? = nil,
+        onSuccess: [Action]? = nil,
+        onError: [Action]? = nil,
+        onFinish: [Action]? = nil,
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.url = url
+        self.method = .value(method ?? .get)
+        self.data = data
+        self.headers = .value(headers ?? ["": ""])
+        self.onSuccess = onSuccess
+        self.onError = onError
+        self.onFinish = onFinish
+        self.analytics = analytics
     }
-}
-
-private func _makeDynamicObject(with data: Data) -> DynamicObject {
-    let decoder = JSONDecoder()
-    let result = try? decoder.decode(DynamicObject.self, from: data)
-    return result ?? .empty
 }

@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,19 +14,14 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-import UIKit
+public struct SubmitForm: Action, AutoInitiable {
+    public let analytics: ActionAnalyticsConfig?
 
-extension SubmitForm: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        var view: UIView? = origin
-        while view != nil {
-            if let simpleForm = view?.beagleFormElement as? SimpleForm {
-                controller.execute(actions: simpleForm.onSubmit, event: "onSubmit", origin: origin)
-                break
-            }
-            view = view?.superview
-        }
+// sourcery:inline:auto:SubmitForm.Init
+    public init(
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.analytics = analytics
     }
+// sourcery:end
 }

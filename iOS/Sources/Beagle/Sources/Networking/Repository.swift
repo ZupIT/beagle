@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-
 public protocol Repository {
 
     @discardableResult
@@ -32,7 +29,7 @@ public protocol Repository {
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         data: Request.FormData,
-        completion: @escaping (Result<RawAction, Request.Error>) -> Void
+        completion: @escaping (Result<Action, Request.Error>) -> Void
     ) -> RequestToken?
 
     @available(*, deprecated, message: "It was deprecated in version 1.3 and will be removed in a future version. Please use fetchImage from ImageDownloader instead.")
@@ -55,7 +52,7 @@ public struct RepositoryDefault: Repository {
     // MARK: Dependencies
 
     public typealias Dependencies =
-        BeagleSchema.DependencyDecoder
+        DependencyDecoder
         & DependencyNetworkClient
         & DependencyCacheManager
         & DependencyUrlBuilder
@@ -105,7 +102,7 @@ public struct RepositoryDefault: Repository {
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         data: Request.FormData,
-        completion: @escaping (Result<RawAction>) -> Void
+        completion: @escaping (Result<Action>) -> Void
     ) -> RequestToken? {
         return dispatcher.dispatchRequest(path: url, type: .submitForm(data), additionalData: additionalData) {  result in
             let mapped = result
@@ -147,19 +144,15 @@ public struct RepositoryDefault: Repository {
         return decoded
     }
 
-    //TODO: change loadFromTextError inside guard let to give a more proper error
     private func decodeComponent(from data: Data) -> Result<ServerDrivenComponent> {
         do {
-            guard let component = try dependencies.decoder.decodeComponent(from: data) as? ServerDrivenComponent else {
-                return .failure(.loadFromTextError)
-            }
-            return .success(component)
+            return .success(try dependencies.decoder.decodeComponent(from: data))
         } catch {
             return .failure(.decoding(error))
         }
     }
 
-    private func handleForm(_ data: Data) -> Result<RawAction> {
+    private func handleForm(_ data: Data) -> Result<Action> {
         do {
             let action = try dependencies.decoder.decodeAction(from: data)
             return .success(action)

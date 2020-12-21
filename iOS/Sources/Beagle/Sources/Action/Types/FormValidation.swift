@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,22 +14,36 @@
  * limitations under the License.
  */
 
-import BeagleSchema
-import UIKit
-
-extension FormValidation: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        origin.gestureRecognizers?
-            .compactMap { $0 as? SubmitFormGestureRecognizer }
-            .forEach { validateInputs($0.formInputViews()) }
-    }
+/// Types of transitions between screens
+public struct FieldError: Codable, AutoInitiable {
     
-    private func validateInputs(_ views: [UIView]) {
-        for error in errors {
-            let errorListener = views.first { view in
-                (view.beagleFormElement as? Deprecated.FormInput)?.name == error.inputName
-            } as? ValidationErrorListener
-            errorListener?.onValidationError(message: error.message)
-        }
+    public let inputName: String
+    public let message: String
+
+// sourcery:inline:auto:FieldError.Init
+    public init(
+        inputName: String,
+        message: String
+    ) {
+        self.inputName = inputName
+        self.message = message
     }
+// sourcery:end
+}
+
+/// Action to represent a form validation error
+public struct FormValidation: Action, AutoInitiable {
+    
+    public let errors: [FieldError]
+    public let analytics: ActionAnalyticsConfig?
+    
+// sourcery:inline:auto:FormValidation.Init
+    public init(
+        errors: [FieldError],
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.errors = errors
+        self.analytics = analytics
+    }
+// sourcery:end
 }

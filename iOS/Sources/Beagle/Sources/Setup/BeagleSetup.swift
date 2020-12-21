@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-
 public var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
     didSet {
-        BeagleSchema.dependencies = dependencies
         AnalyticsService.shared = AnalyticsService(provider: dependencies.analyticsProvider)
     }
 }

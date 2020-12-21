@@ -1,0 +1,47 @@
+▿ Form
+  ▿ additionalData: Optional<Dictionary<String, String>>
+    ▿ some: 2 key/value pairs
+      ▿ (2 elements)
+        - key: "age"
+        - value: "21"
+      ▿ (2 elements)
+        - key: "id"
+        - value: "11111"
+  ▿ child: Container
+    ▿ children: 3 elements
+      ▿ FormInput
+        ▿ child: UnknownComponent
+          - type: "custom:beagleschematestscomponent"
+        - errorMessage: Optional<String>.none
+        - name: "optional-field"
+        - required: Optional<Bool>.none
+        - validator: Optional<String>.none
+      ▿ FormInput
+        ▿ child: UnknownComponent
+          - type: "custom:unknown"
+        - errorMessage: Optional<String>.none
+        - name: "another-required-field"
+        ▿ required: Optional<Bool>
+          - some: true
+        ▿ validator: Optional<String>
+          - some: "text-is-not-blank"
+      ▿ FormSubmit
+        ▿ child: UnknownComponent
+          - type: "custom:beagleschematestscomponent"
+        ▿ enabled: Optional<Bool>
+          - some: false
+    - context: Optional<Context>.none
+    - onInit: Optional<Array<Action>>.none
+    ▿ widgetProperties: WidgetProperties
+      - accessibility: Optional<Accessibility>.none
+      - id: Optional<String>.none
+      - style: Optional<Style>.none
+  ▿ group: Optional<String>
+    - some: "group"
+  ▿ onSubmit: Optional<Array<Action>>
+    ▿ some: 1 element
+      ▿ FormRemoteAction
+        - analytics: Optional<ActionAnalyticsConfig>.none
+        - method: Method.post
+        - path: "/sample/form"
+  - shouldStoreFields: true

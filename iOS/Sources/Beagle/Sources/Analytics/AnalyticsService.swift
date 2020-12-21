@@ -15,7 +15,6 @@
  */
 
 import UIKit
-import BeagleSchema
 
 class AnalyticsService {
     
@@ -61,7 +60,7 @@ class AnalyticsService {
         createRecord { self.sendScreenRecord(screen) }
     }
     
-    func createRecord(action: RawAction, origin: UIView, event: String?, controller: BeagleControllerProtocol) {
+    func createRecord(action: Action, origin: UIView, event: String?, controller: BeagleControllerProtocol) {
         createRecord { self.sendActionRecord(action, event: event, origin: origin, controller: controller) }
     }
     
@@ -113,7 +112,7 @@ class AnalyticsService {
     
     // MARK: - Action
     
-    private func sendActionRecord(_ action: RawAction, event: String?, origin: UIView, controller: BeagleControllerProtocol) {
+    private func sendActionRecord(_ action: Action, event: String?, origin: UIView, controller: BeagleControllerProtocol) {
         guard case .success(let config) = configResult else { return }
         
         let reflectionName = Mirror(reflecting: action).descendant("_beagleAction_") as? String
@@ -159,7 +158,7 @@ class AnalyticsService {
         }
     }
     
-    private func setValues(of action: RawAction, named name: String, config: AnalyticsConfig, origin: UIView, in values: inout [String: Any]) {
+    private func setValues(of action: Action, named name: String, config: AnalyticsConfig, origin: UIView, in values: inout [String: Any]) {
         let attributes = action.analytics?.attributes ?? config.actions[name]
         for attribute in attributes ?? [] {
             if let path = Path(rawValue: attribute), !path.nodes.isEmpty,
@@ -177,14 +176,14 @@ class AnalyticsService {
         values.merge(additionalEntries) { _, new in new }
     }
     
-    private func shouldGenerateAnalytics(action: RawAction, name: String, config: AnalyticsConfig) -> Bool {
+    private func shouldGenerateAnalytics(action: Action, name: String, config: AnalyticsConfig) -> Bool {
         if let enable = action.analytics?.enable {
             return enable
         }
         return config.actions[name] != nil
     }
     
-    private func value(from action: RawAction, at path: Path, origin: UIView) throws -> Any? {
+    private func value(from action: Action, at path: Path, origin: UIView) throws -> Any? {
         var value: Any = action
         for node in path.nodes {
             switch node {

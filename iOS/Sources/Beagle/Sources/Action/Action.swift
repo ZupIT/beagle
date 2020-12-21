@@ -14,18 +14,46 @@
  * limitations under the License.
  */
 
-import BeagleSchema
 import UIKit
 
-public protocol Action: RawAction {
+/// Markup to define an action to be triggered in response to some event
+public protocol Action: Decodable {
+    var analytics: ActionAnalyticsConfig? { get }
+    
     func execute(controller: BeagleController, origin: UIView)
 }
 
 public protocol AsyncAction: Action {
-    var onFinish: [RawAction]? { get set }
+    var onFinish: [Action]? { get set }
 }
 
-extension UnknownAction: Action {
+public struct ActionAnalyticsConfig: Codable, AutoInitiable {
+    public let enable: Bool?
+    public let attributes: [String]?
+    public let additionalEntries: [String: DynamicObject]?
+
+// sourcery:inline:auto:ActionAnalyticsConfig.Init
+    public init(
+        enable: Bool? = nil,
+        attributes: [String]? = nil,
+        additionalEntries: [String: DynamicObject]? = nil
+    ) {
+        self.enable = enable
+        self.attributes = attributes
+        self.additionalEntries = additionalEntries
+    }
+// sourcery:end
+}
+
+/// Defines a representation of an unknown Action
+public struct UnknownAction: Action {
+    public let type: String
+    public var analytics: ActionAnalyticsConfig? { return nil }
+    
+    public init(type: String) {
+        self.type = type
+    }
+    
     public func execute(controller: BeagleController, origin: UIView) {
         controller.dependencies.logger.log(Log.decode(.decodingError(type: "error trying to execute unknown action")))
     }

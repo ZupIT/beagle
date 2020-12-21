@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,31 +14,34 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
+/// Action that represents confirm
+public struct Confirm: Action, AutoInitiableAndDecodable {
+    
+    public let title: Expression<String>?
+    public let message: Expression<String>
+    public let onPressOk: Action?
+    public let onPressCancel: Action?
+    public let labelOk: String?
+    public let labelCancel: String?
+    public let analytics: ActionAnalyticsConfig?
 
-extension Confirm: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        alertController.title = title?.evaluate(with: origin)
-        alertController.message = message.evaluate(with: origin)
-               
-        let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
-            [weak controller] _ in guard let controller = controller else { return }
-            if let onPressOk = self.onPressOk {
-                controller.execute(actions: [onPressOk], event: "onPressOk", origin: origin)
-            }
-        }
-        
-        let onPressCancelAction = UIAlertAction(title: labelCancel ?? "Cancel", style: .default) {
-            [weak controller] _ in guard let controller = controller else { return }
-            if let onPressCancel = self.onPressCancel {
-                controller.execute(actions: [onPressCancel], event: "onPressCancel", origin: origin)
-            }
-        }
-        
-        alertController.addAction(onPressOkAction)
-        alertController.addAction(onPressCancelAction)
-        controller.present(alertController, animated: true)
+// sourcery:inline:auto:Confirm.Init
+    public init(
+        title: Expression<String>? = nil,
+        message: Expression<String>,
+        onPressOk: Action? = nil,
+        onPressCancel: Action? = nil,
+        labelOk: String? = nil,
+        labelCancel: String? = nil,
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.title = title
+        self.message = message
+        self.onPressOk = onPressOk
+        self.onPressCancel = onPressCancel
+        self.labelOk = labelOk
+        self.labelCancel = labelCancel
+        self.analytics = analytics
     }
+// sourcery:end
 }

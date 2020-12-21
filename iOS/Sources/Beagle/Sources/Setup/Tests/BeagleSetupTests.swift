@@ -15,17 +15,11 @@
  */
 
 import XCTest
-@testable import Beagle
 import SnapshotTesting
-import BeagleSchema
+@testable import Beagle
 
 final class BeagleSetupTests: XCTestCase {
     // swiftlint:disable discouraged_direct_init
-
-    override func setUp() {
-        super.setUp()
-        BeagleSchema.dependencies = DefaultDependencies()
-    }
 
     func testDefaultDependencies() {
         let dependencies = BeagleDependencies()
@@ -53,23 +47,6 @@ final class BeagleSetupTests: XCTestCase {
         dep.operationsProvider = OperationsProviderDummy()
         
         assertSnapshot(matching: dep, as: .dump)
-    }
-
-    func test_whenChangingGlobalDependency_itShouldUpdateAllLibs() {
-        // Given
-        let old = Beagle.dependencies
-        let new = BeagleDependencies()
-
-        // When
-        Beagle.dependencies = new
-
-        // Then
-        XCTAssert(BeagleSchema.dependencies as AnyObject === new)
-        XCTAssert(BeagleSchema.dependencies.decoder as AnyObject === new.decoder as AnyObject)
-        XCTAssert(BeagleSchema.dependencies.schemaLogger as AnyObject? === new.logger as AnyObject)
-
-        // Teardown
-        Beagle.dependencies = old
     }
 
     func test_ifChangingDependency_othersShouldUseNewInstance() {
@@ -103,16 +80,16 @@ final class FormDataStoreHandlerDummy: FormDataStoreHandling {
 }
 
 final class ComponentDecodingDummy: ComponentDecoding {
-    func register<T>(component type: T.Type) where T: RawComponent {}
-    func register<A>(action type: A.Type) where A: RawAction {}
-    func register<T>(component type: T.Type, named typeName: String) where T: BeagleSchema.RawComponent {}
-    func register<A>(action type: A.Type, named typeName: String) where A: BeagleSchema.RawAction {}
+    func register<T>(component type: T.Type) where T: ServerDrivenComponent {}
+    func register<A>(action type: A.Type) where A: Action {}
+    func register<T>(component type: T.Type, named typeName: String) where T: ServerDrivenComponent {}
+    func register<A>(action type: A.Type, named typeName: String) where A: Action {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
-    func decodeComponent(from data: Data) throws -> BeagleSchema.RawComponent { return ComponentDummy() }
-    func decodeAction(from data: Data) throws -> RawAction { return ActionDummy() }
-    func nameForComponent(ofType type: RawComponent.Type) -> String? { return nil }
-    func nameForAction(ofType type: RawAction.Type) -> String? { return nil }
+    func decodeComponent(from data: Data) throws -> ServerDrivenComponent { return ComponentDummy() }
+    func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
+    func nameForComponent(ofType type: ServerDrivenComponent.Type) -> String? { return nil }
+    func nameForAction(ofType type: Action.Type) -> String? { return nil }
 }
 
 final class CacheManagerDummy: CacheManagerProtocol {
@@ -173,7 +150,6 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var logger: BeagleLoggerType = BeagleLoggerDumb()
     var formDataStoreHandler: FormDataStoreHandling = FormDataStoreHandlerDummy()
     var navigationControllerType = BeagleNavigationController.self
-    var schemaLogger: SchemaLogger?
     var urlBuilder: UrlBuilderProtocol = UrlBuilder()
     var networkClient: NetworkClient? = NetworkClientDummy()
     var deepLinkHandler: DeepLinkScreenManaging?

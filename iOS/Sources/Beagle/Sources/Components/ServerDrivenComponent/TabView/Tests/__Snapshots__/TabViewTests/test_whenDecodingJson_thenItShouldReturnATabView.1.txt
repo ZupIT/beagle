@@ -1,0 +1,49 @@
+▿ TabView
+  ▿ children: 1 element
+    ▿ TabItem
+      ▿ child: Container
+        ▿ children: 3 elements
+          ▿ UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+          ▿ UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+          ▿ UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+        - context: Optional<Context>.none
+        - onInit: Optional<Array<Action>>.none
+        ▿ widgetProperties: WidgetProperties
+          - accessibility: Optional<Accessibility>.none
+          - id: Optional<String>.none
+          ▿ style: Optional<Style>
+            ▿ some: Style
+              - backgroundColor: Optional<String>.none
+              - borderColor: Optional<String>.none
+              - borderWidth: Optional<Double>.none
+              - cornerRadius: Optional<CornerRadius>.none
+              - display: Optional<Expression<Display>>.none
+              ▿ flex: Optional<Flex>
+                ▿ some: Flex
+                  - alignContent: Optional<AlignContent>.none
+                  - alignItems: Optional<AlignItems>.none
+                  - alignSelf: Optional<AlignSelf>.none
+                  - basis: Optional<UnitValue>.none
+                  - flex: Optional<Double>.none
+                  ▿ flexDirection: Optional<FlexDirection>
+                    - some: FlexDirection.column
+                  ▿ flexWrap: Optional<Wrap>
+                    - some: Wrap.noWrap
+                  - grow: Optional<Double>.none
+                  ▿ justifyContent: Optional<JustifyContent>
+                    - some: JustifyContent.spaceAround
+                  - shrink: Optional<Double>.none
+              - margin: Optional<EdgeValue>.none
+              - padding: Optional<EdgeValue>.none
+              - position: Optional<EdgeValue>.none
+              - positionType: Optional<PositionType>.none
+              - size: Optional<Size>.none
+      ▿ icon: Optional<String>
+        - some: "mobileId"
+      ▿ title: Optional<String>
+        - some: "tab 1"
+  - context: Optional<Context>.none
+  - styleId: Optional<String>.none

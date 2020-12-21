@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,22 +14,28 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
+/// Action to represent a alert
+public struct Alert: Action, AutoInitiableAndDecodable {
+    
+    public let title: Expression<String>?
+    public let message: Expression<String>
+    public let onPressOk: Action?
+    public let labelOk: String?
+    public let analytics: ActionAnalyticsConfig?
 
-extension Alert: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        alertController.title = title?.evaluate(with: origin)
-        alertController.message = message.evaluate(with: origin)
-
-        let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
-            [weak controller] _ in guard let controller = controller else { return }
-            if let onPressOk = self.onPressOk {
-                controller.execute(actions: [onPressOk], event: "onPressOk", origin: origin)
-            }
-        }
-        alertController.addAction(onPressOkAction)
-        controller.present(alertController, animated: true)
+// sourcery:inline:auto:Alert.Init
+    public init(
+        title: Expression<String>? = nil,
+        message: Expression<String>,
+        onPressOk: Action? = nil,
+        labelOk: String? = nil,
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.title = title
+        self.message = message
+        self.onPressOk = onPressOk
+        self.labelOk = labelOk
+        self.analytics = analytics
     }
+// sourcery:end
 }

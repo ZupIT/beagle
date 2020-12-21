@@ -15,7 +15,6 @@
  */
 
 import XCTest
-import BeagleSchema
 import SnapshotTesting
 @testable import Beagle
 
@@ -310,7 +309,7 @@ class AnalyticsServiceTests: XCTestCase {
         assertSnapshot(matching: records, as: .json)
     }
     
-    private func recordsForAction<A: RawAction>(_: A.Type, fileName: String) throws -> [AnalyticsRecord] {
+    private func recordsForAction<A: Action>(_: A.Type, fileName: String) throws -> [AnalyticsRecord] {
         let action: A = try actionFromJsonFile(fileName: fileName)
         let (service, provider) = analyticsServiceAndProviderStub(
             config: .success(.init()),
@@ -405,10 +404,14 @@ private class AnalyticsProviderStub: AnalyticsProvider {
     
 }
 
-private struct AnalyticsTestAction: RawAction {
+private struct AnalyticsTestAction: Action {
     var _beagleAction_: String
     var values = [String: String]()
     var analytics: ActionAnalyticsConfig?
+    
+    func execute(controller: BeagleController, origin: UIView) {
+        // Intentionally unimplemented...
+    }
 }
 
 private struct AnalyticsTestComponent: ServerDrivenComponent, IdentifiableComponent {

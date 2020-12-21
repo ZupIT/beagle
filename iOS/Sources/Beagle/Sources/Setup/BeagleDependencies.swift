@@ -15,9 +15,8 @@
  */
 
 import UIKit
-import BeagleSchema
 
-public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
+public protocol BeagleDependenciesProtocol: DependencyDecoder,
     DependencyAnalyticsExecutor,
     DependencyUrlBuilder,
     DependencyNetworkClient,
@@ -46,6 +45,7 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
 
+    public var decoder: ComponentDecoding
     public var urlBuilder: UrlBuilderProtocol
     public var networkClient: NetworkClient?
     public var appBundle: Bundle
@@ -72,11 +72,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
             logger = BeagleLoggerProxy(logger: logger, dependencies: self)
         }
     }
-    
-    // MARK: BeagleSchema
-
-    public var decoder: ComponentDecoding
-    public var schemaLogger: SchemaLogger? { return logger }
 
     // MARK: Builders
 
@@ -110,7 +105,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.logger = BeagleLoggerProxy(logger: logger, dependencies: resolver)
         self.operationsProvider = OperationsDefault(dependencies: resolver)
 
-        self.decoder = BeagleSchema.dependencies.decoder
+        self.decoder = ComponentDecoder()
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
         self.navigation = BeagleNavigator()
@@ -137,15 +132,13 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     DependencyRepository,
     DependencyWindowManager,
     DependencyURLOpener,
-    DependencyLoggingCondition,
-    BeagleSchema.DependencyLogger {
+    DependencyLoggingCondition {
         
     var container: () -> BeagleDependenciesProtocol = {
         fatalError("You should set this closure to get the dependencies container")
     }
 
     var decoder: ComponentDecoding { return container().decoder }
-    var schemaLogger: SchemaLogger? { return container().logger }
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
     var networkClient: NetworkClient? { return container().networkClient }
     var navigation: BeagleNavigation { return container().navigation }

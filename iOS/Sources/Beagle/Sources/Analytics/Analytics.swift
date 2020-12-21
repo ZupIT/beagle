@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
-
 // MARK: - Dependency Protocol
 public protocol DependencyAnalyticsExecutor {
     var analytics: Analytics? { get }

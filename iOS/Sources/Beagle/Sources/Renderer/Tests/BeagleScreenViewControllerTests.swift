@@ -15,10 +15,8 @@
  */
 
 import XCTest
-@testable import Beagle
-@testable import BeagleSchema
 import SnapshotTesting
-import BeagleSchema
+@testable import Beagle
 
 final class BeagleScreenViewControllerTests: XCTestCase {
     
@@ -435,8 +433,10 @@ struct SimpleComponent {
     )
 }
 
-struct ComponentStub: RawComponent {
-    // Intentionally unimplemented...
+struct ComponentStub: ServerDrivenComponent {
+    func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
 }
 
 class BeagleNavigationStub: BeagleNavigationController {
@@ -469,7 +469,7 @@ class BeagleControllerStub: BeagleController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addOnInit(_ onInit: [RawAction], in view: UIView) {
+    func addOnInit(_ onInit: [Action], in view: UIView) {
         // Intentionally unimplemented...
     }
     
@@ -477,13 +477,13 @@ class BeagleControllerStub: BeagleController {
         // Intentionally unimplemented...
     }
     
-    func execute(actions: [RawAction]?, event: String?, origin: UIView) {
+    func execute(actions: [Action]?, event: String?, origin: UIView) {
         actions?.forEach {
-            ($0 as? Action)?.execute(controller: self, origin: origin)
+            $0.execute(controller: self, origin: origin)
         }
     }
     
-    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
+    func execute(actions: [Action]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         execute(actions: actions, event: contextId, origin: origin)
     }
 }
