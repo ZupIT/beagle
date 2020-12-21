@@ -19,38 +19,38 @@
   @helper.languageIdentifier = SupportedLanguages.new.kotlin
   @helper.defaultDeclarationType = TypeInterface.new
 
-  def fullDeclaration(objectType)
+  def full_declaration(objectType)
     output = "package #{objectType.synthax_type.package.android}\n"
 
-    output += @kotlinHelper.resolveImports(objectType)
-    output += @kotlinHelper.resolveDocumentation(objectType)
-    output += resolveObject(objectType)
+    output += @kotlinHelper.resolve_imports(objectType)
+    output += @kotlinHelper.resolve_documentation(objectType)
+    output += resolve_object(objectType)
 
     output
   end
 
-  def resolveObject(objectType)
+  def resolve_object(objectType)
     output = ""
 
     if @helper.inheritFrom_widget(objectType)
-      output += @kotlinHelper.initInterface(objectType)
+      output += @kotlinHelper.init_interface(objectType)
     else
-      output += @kotlinHelper.resolveKotlinObject(objectType)
+      output += @kotlinHelper.resolve_kotlin_object(objectType)
     end
 
-    output += handleInnerTypes(objectType.synthax_type.sameFileTypes)
+    output += handle_inner_types(objectType.synthax_type.sameFileTypes)
 
     output
   end
 
-  def handleInnerTypes(objectTypes)
+  def handle_inner_types(objectTypes)
     output = ""
     for objectType in objectTypes
-      output += "\n#{@kotlinHelper.resolveDocumentation(objectType)}"
-      output += "\n#{resolveObject(objectType)}"
+      output += "\n#{@kotlinHelper.resolve_documentation(objectType)}"
+      output += "\n#{resolve_object(objectType)}"
       possibleNestedTypes = objectType.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
-        handleInnerTypes(objectType.synthax_type.sameFileTypes)
+        handle_inner_types(objectType.synthax_type.sameFileTypes)
       end
     end
     output
@@ -58,5 +58,5 @@
 
 -%>
 <%=
-fullDeclaration(objectType) 
+full_declaration(objectType) 
 %>
