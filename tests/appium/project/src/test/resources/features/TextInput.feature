@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-@textinput @android @ios
+@textinput @regression
 Feature: TextInput Validation
 
     As a Beagle developer/user
@@ -41,7 +41,7 @@ Feature: TextInput Validation
 
     Scenario Outline: TextInput 03 - validate disabled field
         When the disabled textInput <textInputDisabled> is visible
-        Then verify if its <textInputDisabled> is disabled
+        Then verify if <textInputDisabled> is disabled
 
         Examples:
             | textInputDisabled                                 |
@@ -66,35 +66,75 @@ Feature: TextInput Validation
             | is a textInput in second plan                 |
             | is a textInput in second plan with expression |
 
-    Scenario Outline: TextInput 06 - validate textInput of type number
-        Then validate that a textInput <textInputTypeNumber> of type number is set
+    Scenario Outline: TextInput 06 - validate data entry when using "date" type
+        Then validate that the value of the text input component <textInputType.DATE> of type "date" is shown correctly
 
         Examples:
-            | textInputTypeNumber                      |
+            | textInputType.DATE           |
+            | writing date                 |
+            | writing date with expression |
+
+    Scenario Outline: TextInput 07 - validate data entry when using "email" type
+        Then validate that the value of the text input component <textInputType.EMAIL> of type "email" is shown correctly
+
+        Examples:
+            | textInputType.EMAIL            |
+            | writing e-mail                 |
+            | writing e-mail with expression |
+
+    Scenario Outline: TextInput 08 - validate data entry when using "password" type
+        Then validate that the value of the text input component <textInputType.PASSWORD> of type "password" is shown correctly
+
+        Examples:
+            | textInputType.PASSWORD           |
+            | writing password                 |
+            | writing password with expression |
+
+    Scenario Outline: TextInput 09 - validate data entry when using "number" type
+        Then validate that the value of the text input component <textInputType.NUMBER> of type "number" is shown correctly
+
+        Examples:
+            | textInputType.NUMBER           |
+            | writing number                 |
+            | writing number with expression |
+
+    Scenario Outline: TextInput 10 - validate data entry when using "text" type
+        Then validate that the value of the text input component <textInputType.TEXT> of type "text" is shown correctly
+
+        Examples:
+            | textInputType.TEXT           |
+            | writing text                 |
+            | writing text with expression |
+
+    Scenario Outline: TextInput 11 - validate keyboard with type "number"
+        Then validate attribute of "type number" of textInput component <textInputType.NUMBER>
+
+        Examples:
+            | textInputType.NUMBER                     |
             | is textInput type number                 |
             | is textInput type number with expression |
 
-    Scenario: TextInput 07 - validate textInput with action onFocus
+    Scenario: TextInput 12 - validate textInput with action onFocus
         When I click the textInput with the placeholder action validation
         Then the textInput with the placeholder "Unordered actions" will change its value to DidOnFocus
 
-    Scenario: TextInput 08 - validate textInput with action onChange
+    Scenario: TextInput 13 - validate textInput with action onChange
         When I click the textInput with the placeholder action validation
         And I type anything on textInput with the placeholder action validation
         Then the textInput with the placeholder "Unordered actions" will change its value to DidOnChange
 
-    Scenario: TextInput 09 - validate textInput with action onBlur
+    Scenario: TextInput 14 - validate textInput with action onBlur
         When I click the textInput with the placeholder action validation
         And I click the textInput with the placeholder is textInput type number
         Then the textInput with the placeholder "Unordered actions" will change its value to DidOnBlur
 
-    Scenario: TextInput 10 - validate the actions of the textInput when they're executed in sequence
+    Scenario: TextInput 15 - validate the actions of the textInput when they're executed in sequence
         When I click the textInput with the placeholder action order
         And I type anything on textInput with the placeholder action order
         And I click the textInput with the placeholder is textInput type number
         Then the textInput with the placeholder "Ordered actions" should have value DidOnFocusDidOnChangeDidOnBlur
 
-    Scenario Outline: TextInput 11 - validate that textInput is hidden
+    Scenario Outline: TextInput 16 - validate that textInput is hidden
         Then The hidden input fields <textInputHidden> should not be visible
 
         Examples:

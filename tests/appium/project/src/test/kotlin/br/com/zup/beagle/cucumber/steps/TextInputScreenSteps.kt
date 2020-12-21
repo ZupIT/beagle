@@ -33,64 +33,46 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the textInput on screen$")
     fun checkBaseScreen() {
-        // ScreenRobot().checkViewContainsText("Beagle Text Input", true)
         waitForElementWithValueToBeClickable("Beagle Text Input", false, false)
     }
 
     @Then("^I must check if the textInput value (.*) appears on the screen$")
     fun checkTextInput(string: String) {
-        // ScreenRobot().checkViewContainsText(string, true)
         waitForElementWithValueToBeClickable(string, false, false)
     }
 
     @Then("^I must check if the textInput placeholder (.*) appears on the screen$")
     fun checkTextInputPlaceholder(string: String) {
-        // ScreenRobot().checkViewContainsHint(string, true)
         waitForElementWithValueToBeClickable(string, false, false)
     }
 
     @When("^the disabled textInput (.*) is visible$")
     fun checkIfTextInputIsDisabled(string: String) {
-        // ScreenRobot().checkViewContainsHint(string)
         waitForElementWithValueToBeDisabled(string, false, false)
     }
 
-    @Then("^verify if its (.*) is disabled$")
+    @Then("^verify if (.*) is disabled$")
     fun checkDisabledField(string: String) {
-        // ScreenRobot().disabledFieldHint(string)
         waitForElementWithValueToBeDisabled(string, false, false)
-
-
     }
 
     @When("^the value (.*) of the readOnly field is on the screen$")
     fun checkIfTextInputIsReadOnly(string: String) {
-        // ScreenRobot().checkViewContainsText(string)
         waitForElementWithValueToBeDisabled(string, false, false)
     }
 
     @Then("^verify if the field with the value (.*) is read only$")
     fun checkReadOnlyField(string: String) {
-        // ScreenRobot().disabledFieldText(string)
         waitForElementWithValueToBeDisabled(string, false, false)
     }
 
     @When("^I click in the textInput with the placeholder (.*)$")
     fun checkTextInputInSecondPlan(string: String) {
-        /*
-        ScreenRobot()
-            .checkViewContainsHint(string)
-            .clickOnInputWithHint(string)
-            */
         waitForElementWithValueToBeClickable(string, false, false).click()
     }
 
     @Then("^verify if the text (.*) is in the second plan$")
     fun checkKeyboardFocus(string: String) {
-        /*
-        ScreenRobot()
-            .hintInSecondPlan(string)
-            */
         val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
         Assert.assertTrue(string.equals(mobileElement.text))
         mobileElement.sendKeys("a")
@@ -99,51 +81,96 @@ class TextInputScreenSteps : AbstractStep() {
         Assert.assertTrue(string.equals(mobileElement.text))
     }
 
-    @Then("^validate that a textInput (.*) of type number is set$")
+    @Then("^validate that the value of the text input component (.*) of type \"date\" is shown correctly$")
+    fun checkDateWriting(string: String) {
+        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        mobileElement.sendKeys("22/04/1500")
+        waitForElementWithValueToBeClickable("22/04/1500", false, false)
+    }
+
+    @Then("^validate that the value of the text input component (.*) of type \"email\" is shown correctly$")
+    fun checkEmailWriting(string: String) {
+        swipeDown()
+        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        mobileElement.sendKeys("test@abc.com")
+        waitForElementWithValueToBeClickable("test@abc.com", false, false)
+    }
+
+    @Then("^validate that the value of the text input component (.*) of type \"password\" is shown correctly$")
+    fun checkPasswordWriting(string: String) {
+        swipeUp()
+        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        mobileElement.sendKeys("123")
+        Assert.assertTrue("123" != mobileElement.text) // validates text is in password format
+        Assert.assertTrue(mobileElement.text.length == 3)
+        Assert.assertTrue(string != mobileElement.text)
+    }
+
+    @Then("^validate that the value of the text input component (.*) of type \"number\" is shown correctly$")
+    fun checkNumberWriting(string: String) {
+        swipeUp()
+        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        mobileElement.sendKeys("12345678")
+        waitForElementWithValueToBeClickable("12345678", false, false)
+    }
+
+    @Then("^validate that the value of the text input component (.*) of type \"text\" is shown correctly$")
+    fun checkTextWriting(string: String) {
+        swipeUp()
+        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        mobileElement.sendKeys("This is a test!")
+        waitForElementWithValueToBeClickable("This is a test!", false, false)
+    }
+
+    @Then("^validate attribute of \"type number\" of textInput component (.*)$")
     fun validateTextsInputNumberType(string: String) {
-        /*ScreenRobot()
-            .checkInputTypeNumber(string)
-            */
         swipeUp()
         Assert.assertTrue(isTextFieldNumeric(string))
     }
 
     @And("^I click the textInput with the placeholder (.*)$")
     fun textInputWithActionOfOnFocusAndOnFocus(string: String) {
-        /*ScreenRobot()
-            .scrollToWithHint(string)
-            .clickOnInputWithHint(string)*/
         swipeUp()
         waitForElementWithValueToBeClickable(string, false, false).click()
     }
 
     @Then("^the textInput with the placeholder \"Ordered actions\" should have value (.*)$")
     fun checkOrderedActions(string: String) {
-        // ScreenRobot().checkViewContainsText(string)
         waitForElementWithValueToBeDisabled(string, false, false)
     }
 
     @Then("^the textInput with the placeholder \"Unordered actions\" will change its value to (.*)$")
     fun textInputWithActionOfOnBlur(string: String) {
-        // ScreenRobot().checkViewContainsText(string)
         waitForElementWithValueToBeDisabled(string, false, false)
 
     }
 
     @And("^I type anything on textInput with the placeholder (.*)$")
     fun triggersOnChangeMethodAndCheckChanges(string: String) {
-        // ScreenRobot().typeText(string, "a")
         waitForElementWithValueToBeClickable(string, false, false).sendKeys("a")
+    }
+
+    @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
+    fun textInoutWithActionOfOnFocusAndOnChange(string: String, string2: String, string3: String) {
+        swipeDown()
+        //.scrollToWithHint(string)
+        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        waitForElementWithValueToBeClickable(string2, false, false)
+        mobileElement.sendKeys("a")
+        waitForElementWithValueToBeClickable(string3, false, false)
+    }
+
+    @Then("^the text (.*) should be appear in the correctly order$")
+    fun textInoutWithActionOfOnBlurCorrectlyOrder(string: String) {
+        val mobileElement = waitForElementWithValueToBeClickable("is textInput type number", false, false)
+        waitForElementWithValueToBeClickable(string, false, false)
+        Assert.assertFalse("DidOnFocus" == mobileElement.text)
+        Assert.assertFalse("DidOnFocusDidOnChange" == mobileElement.text)
     }
 
     @Then("^The hidden input fields (.*) should not be visible$")
     fun checkInputTextIsHidden(string: String) {
-        /* ScreenRobot()
-            .scrollTo("There are two hidden input fields above")
-            .checkViewIsNotDisplayed(string)
-            */
         swipeUp()
-        waitForElementWithValueToBeClickable("There are two hidden input fields above", false, false)
         waitForElementWithValueToBeInvisible(string, false, false)
     }
 }
