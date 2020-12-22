@@ -35,6 +35,7 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -57,6 +58,7 @@ class BeagleFragmentTest : BaseTest() {
             }
             }"""
     private val url = "/url"
+
     @Before
     fun setup() {
         val application = ApplicationProvider.getApplicationContext() as Application
@@ -67,6 +69,10 @@ class BeagleFragmentTest : BaseTest() {
         every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
     }
 
+    @After
+    fun teardown() {
+        BeagleSdk.deinitForTest()
+    }
 
     private fun mockYoga(application: Application) {
         val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)

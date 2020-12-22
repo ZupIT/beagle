@@ -45,6 +45,7 @@ import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -84,6 +85,11 @@ class BeagleActivityTest : BaseTest() {
             activityScenario.moveToState(Lifecycle.State.RESUMED)
             activity = it
         }
+    }
+
+    @After
+    fun teardown(){
+        BeagleSdk.deinitForTest()
     }
 
     private fun mockYoga(application: Application) {

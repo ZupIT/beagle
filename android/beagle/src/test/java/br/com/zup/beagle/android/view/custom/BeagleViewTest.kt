@@ -23,11 +23,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.runner.screenshot.Screenshot.capture
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.MyBeagleSetup
 import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.view.ApplicationTest
@@ -43,11 +41,11 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 
@@ -83,6 +81,11 @@ internal class BeagleViewTest : BaseTest() {
             val rootView = ActivityRootView(it, 10, "")
             beagleView = BeagleView(rootView, viewModel)
         }
+    }
+
+    @After
+    fun teardown(){
+        BeagleSdk.deinitForTest()
     }
 
     private fun mockYoga(application: Application) {
