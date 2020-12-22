@@ -90,6 +90,23 @@ abstract class AbstractStep {
     }
 
     /**
+     * Waits for an element to be present on the screen
+     */
+    protected fun waitForElementWithValueToBePresent(
+            elementValue: String,
+            likeSearch: Boolean,
+            ignoreCase: Boolean
+    ): MobileElement {
+        val xpath: By = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
+        return AppiumUtil.waitForElementToBePresent(
+                getDriver(),
+                xpath,
+                DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+        )
+
+    }
+
+    /**
      * Waits for an element to be visible and disabled (not clickable)
      */
     protected fun waitForElementWithTextToBeDisabled(elementText: String, likeSearch: Boolean, ignoreCase: Boolean) {

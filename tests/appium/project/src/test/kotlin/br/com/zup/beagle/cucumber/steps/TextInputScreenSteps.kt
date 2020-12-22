@@ -129,20 +129,19 @@ class TextInputScreenSteps : AbstractStep() {
     }
 
     @And("^I click the textInput with the placeholder (.*)$")
-    fun textInputWithActionOfOnFocusAndOnFocus(string: String) {
+    fun textInputWithActionOfOnFocus(string: String) {
         swipeUp()
         waitForElementWithValueToBeClickable(string, false, false).click()
     }
 
     @Then("^the textInput with the placeholder \"Ordered actions\" should have value (.*)$")
     fun checkOrderedActions(string: String) {
-        waitForElementWithValueToBeDisabled(string, false, false)
+        waitForElementWithValueToBePresent(string, false, false)
     }
 
     @Then("^the textInput with the placeholder \"Unordered actions\" will change its value to (.*)$")
     fun textInputWithActionOfOnBlur(string: String) {
-        waitForElementWithValueToBeDisabled(string, false, false)
-
+        waitForElementWithValueToBePresent(string, false, false)
     }
 
     @And("^I type anything on textInput with the placeholder (.*)$")
