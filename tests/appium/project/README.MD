@@ -14,15 +14,15 @@ This project uses [Appium](http://appium.io/) and [Cucumber](https://cucumber.io
 ### Android
 
 - Android SDK and Tools. Variable [ANDROID_SDK_ROOT](https://developer.android.com/studio/command-line/variables) must be configured
-- Load Android emulator with Beagle's [Appium Android app](../app-android/README.MD). In case the emulator is already set with 
-the app, it's possible to run the emulator with the command ``$ANDROID_SDK_ROOT\emulator\emulator -avd DEVICE-NAME`` where 
-``DEVICE-NAME`` is something like ``Pixel_3a_API_30_x86``. 
+- Load the Android emulator with Beagle's [Appium Android app](./../app-android). Once the app is installed, use the following command to open 
+  the emulator without opening Android Studio: ``$ANDROID_SDK_ROOT\emulator\emulator -avd DEVICE-NAME`` where ``DEVICE-NAME`` is something 
+  like ``Pixel_3a_API_30_x86``. 
 
  
 ### iOS (in progress...)
 
 - Install iOS emulator
-- Load iOS emulator with Beagle's [Appium iOS app](../app-ios/README.MD)
+- Load iOS emulator with Beagle's [Appium iOS app](./../app-ios)
   
 ## Execution
 
