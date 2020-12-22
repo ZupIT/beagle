@@ -84,7 +84,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_js:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_js
       url: "https://pub.dartlang.org"
