@@ -15,13 +15,10 @@
  *  limitations under the License.
  */
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:sample/main.dart';
+import 'package:beagle_core/model/beagle_action.dart';
 
-void main() {
-  testWidgets('Showing a correct text', (WidgetTester tester) async {
-    await tester.pumpWidget(const BeagleSampleApp());
+abstract class ActionHandler {
+  void handleAction(BeagleAction action);
 
-    expect(find.text('Beagle Simple Text'), findsOneWidget);
-  });
+  List<String> getActionKeys();
 }

@@ -1,0 +1,28 @@
+PODS:
+  - beagle_core_js (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - flutter_js (0.1.0):
+    - Flutter
+
+DEPENDENCIES:
+  - beagle_core_js (from `.symlinks/plugins/beagle_core_js/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_js (from `.symlinks/plugins/flutter_js/ios`)
+
+EXTERNAL SOURCES:
+  beagle_core_js:
+    :path: ".symlinks/plugins/beagle_core_js/ios"
+  Flutter:
+    :path: Flutter
+  flutter_js:
+    :path: ".symlinks/plugins/flutter_js/ios"
+
+SPEC CHECKSUMS:
+  beagle_core_js: f7d1484c0472257268e9d8dc55fc48ae3354a395
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_js: 95929d4e146e8ceb1c8e1889d8c2065c5d840076
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.0
