@@ -15,11 +15,13 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_core/model/beagle_ui_element.dart';
-import 'package:flutter/widgets.dart';
+import 'package:beagle/model/network_strategy.dart';
+import 'package:flutter_js/extensions/xhr.dart';
 
-abstract class ComponentBuilder {
-  Widget buildComponent(BeagleUIElement element, List<Widget> children);
+class NetworkOptions {
+  NetworkOptions({this.method, this.headers, this.strategy});
 
-  List<String> getComponentKeys();
+  HttpMethod method;
+  Map<String, String> headers;
+  NetworkStrategy strategy;
 }

@@ -15,10 +15,10 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_core/action/beagle_alert.dart';
-import 'package:beagle_core/beagle_initializer.dart';
-import 'package:beagle_core/interface/beagle_view.dart';
-import 'package:beagle_core/model/beagle_ui_element.dart';
+import 'package:beagle/action/beagle_alert.dart';
+import 'package:beagle/beagle_initializer.dart';
+import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:flutter/material.dart';
 
 class BeagleRemoteView extends StatefulWidget {
