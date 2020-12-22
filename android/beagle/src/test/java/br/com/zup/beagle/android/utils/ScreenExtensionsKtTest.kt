@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.SafeArea
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.core.Style
 import org.junit.Assert.assertEquals
@@ -63,12 +64,7 @@ internal class ScreenExtensionsKtTest {
             val screenComponent = screen.toComponent()
 
             //then
-            assertEquals(safeArea, screenComponent.safeArea)
-            assertEquals(navigationBar, screenComponent.navigationBar)
-            assertEquals(child, screenComponent.child)
-            assertEquals(style, screenComponent.style)
-            assertEquals(screenAnalyticsEvent, screenComponent.screenAnalyticsEvent)
-            assertEquals(context, screenComponent.context)
+            commonAssert(screenComponent)
             assertEquals(id, screenComponent.id)
             assertEquals(null, screenComponent.identifier)
         }
@@ -91,14 +87,18 @@ internal class ScreenExtensionsKtTest {
             val screenComponent = screen.toComponent()
 
             //then
+            commonAssert(screenComponent)
+            assertEquals(identifier, screenComponent.identifier)
+            assertEquals(null, screenComponent.id)
+        }
+
+        private fun commonAssert(screenComponent : ScreenComponent){
             assertEquals(safeArea, screenComponent.safeArea)
             assertEquals(navigationBar, screenComponent.navigationBar)
             assertEquals(child, screenComponent.child)
             assertEquals(style, screenComponent.style)
             assertEquals(screenAnalyticsEvent, screenComponent.screenAnalyticsEvent)
             assertEquals(context, screenComponent.context)
-            assertEquals(identifier, screenComponent.identifier)
-            assertEquals(null, screenComponent.id)
         }
     }
 }
