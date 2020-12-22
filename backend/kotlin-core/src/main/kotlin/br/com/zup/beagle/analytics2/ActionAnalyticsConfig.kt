@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.action
+package br.com.zup.beagle.analytics2
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-
-/**
- * The setContext class is responsible for changing the value of a context.
- *
- * @param contextId Required. Wait context id.
- * @param value Required. New value to be applied in the context.
- * @param path Specific context point to be changed in the case of arrays and maps <key, value>.
- */
-data class SetContext(
-    val contextId: String,
-    val value: Any,
-    val path: String? = null,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics()
+data class ActionAnalyticsConfig(
+    var enable: Boolean = false,
+    var attributes: List<String>? = null,
+    var additionalEntries: Map<String, Any>? = null
+)

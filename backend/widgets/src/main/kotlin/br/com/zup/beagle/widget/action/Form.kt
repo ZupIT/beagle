@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
  *
@@ -63,8 +65,9 @@ enum class FormMethodType {
  */
 data class FormRemoteAction(
     val path: String,
-    val method: FormMethodType
-) : Action
+    val method: FormMethodType,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics()
 
 /**
  * Defines form local actions, that is, that do not make http requests,
@@ -84,8 +87,9 @@ data class FormRemoteAction(
 @Deprecated("use SimpleForm and SubmitForm instead")
 data class FormLocalAction(
     val name: String,
-    val data: Map<String, String>
-) : Action
+    val data: Map<String, String>,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics()
 
 /**
  * Configures the error messages returned by a service external to the application.
@@ -97,8 +101,9 @@ data class FormLocalAction(
  */
 @Deprecated("use SimpleForm and SubmitForm instead")
 data class FormValidation(
-    val errors: List<FieldError>
-) : Action
+    val errors: List<FieldError>,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics()
 
 /**
  * class to define error.

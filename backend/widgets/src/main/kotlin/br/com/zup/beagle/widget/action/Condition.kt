@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 
@@ -30,15 +31,18 @@ import br.com.zup.beagle.widget.context.valueOf
 data class Condition(
     val condition: Bind<Boolean>,
     val onTrue: List<Action>? = null,
-    val onFalse: List<Action>? = null
-): Action {
+    val onFalse: List<Action>? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics() {
     constructor(
         condition: Boolean,
         onTrue: List<Action>? = null,
-        onFalse: List<Action>? = null
+        onFalse: List<Action>? = null,
+        analytics: ActionAnalyticsConfig? = null
     ) : this(
         condition = valueOf(condition),
         onTrue = onTrue,
-        onFalse = onFalse
+        onFalse = onFalse,
+        analytics = analytics
     )
 }

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
@@ -34,17 +35,20 @@ data class Alert(
     val title: Bind<String>? = null,
     val message: Bind<String>,
     val onPressOk: Action? = null,
-    val labelOk: String? = null
-) : Action {
+    val labelOk: String? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics() {
     constructor(
         title: String? = null,
         message: String,
         onPressOk: Action? = null,
-        labelOk: String? = null
+        labelOk: String? = null,
+        analytics: ActionAnalyticsConfig? = null
     ) : this(
         title = valueOfNullable(title),
         message = valueOf(message),
         onPressOk = onPressOk,
-        labelOk = labelOk
+        labelOk = labelOk,
+        analytics = analytics
     )
 }
