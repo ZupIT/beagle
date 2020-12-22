@@ -17,10 +17,6 @@
 package br.com.zup.beagle.widget.action
 
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.widget.action.FormMethodType.DELETE
-import br.com.zup.beagle.widget.action.FormMethodType.GET
-import br.com.zup.beagle.widget.action.FormMethodType.POST
-import br.com.zup.beagle.widget.action.FormMethodType.PUT
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
