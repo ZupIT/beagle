@@ -25,13 +25,15 @@ fun Screen.toView(activity: AppCompatActivity) = this.toComponent().toView(activ
 
 fun Screen.toView(fragment: Fragment) = this.toComponent().toView(fragment)
 
-internal fun Screen.toComponent() = ScreenComponent(
-    identifier = this.identifier,
-    safeArea = this.safeArea,
-    navigationBar = this.navigationBar,
-    child = this.child,
-    style = this.style,
-    screenAnalyticsEvent = this.screenAnalyticsEvent,
-    context = this.context,
-    id = this.id
-)
+internal fun Screen.toComponent(): ScreenComponent {
+    val id = this.id
+    return ScreenComponent(
+        identifier = this.identifier,
+        safeArea = this.safeArea,
+        navigationBar = this.navigationBar,
+        child = this.child,
+        style = this.style,
+        screenAnalyticsEvent = this.screenAnalyticsEvent,
+        context = this.context
+    ).apply { this.id = id }
+}
