@@ -1,3 +1,5 @@
+import br.com.zup.beagle.Dependencies
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,16 +18,15 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'de.mannodermaus.android-junit5'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 apply from: rootProject.file('jacoco-android.gradle')
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
     buildToolsVersion Dependencies.Versions.buildTools
-    testOptions.unitTests.includeAndroidResources = true
 
     defaultConfig {
         minSdkVersion Dependencies.Versions.minSdk
@@ -35,55 +36,32 @@ android {
         versionName "${Dependencies.Releases.beagleVersionName}"
 
         testInstrumentationRunner Dependencies.GeneralNames.testInstrumentationRunner
-
         consumerProguardFiles Dependencies.GeneralNames.consumerProguard
     }
 
     buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-
-        unitTests.all {
-            useJUnitPlatform()
-        }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation Dependencies.AndroidxLibraries.appcompat
+
     implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.GeneralLibraries.webSocket
-    implementation Dependencies.GeneralLibraries.simpleLogger
-
-    implementation project(Dependencies.Modules.core)
-
-    // Unit Testing
-    testImplementation project(Dependencies.Modules.test)
-    testImplementation Dependencies.TestLibraries.junitApi
-    testImplementation Dependencies.TestLibraries.junitEngine
-    testImplementation Dependencies.TestLibraries.robolectric
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.junit4
-    testImplementation Dependencies.TestLibraries.junitVintageEngine
-    testImplementation Dependencies.TestLibraries.testRunner
-    testImplementation Dependencies.TestLibraries.testExt
-    testImplementation Dependencies.TestLibraries.espressoCore
-    testImplementation Dependencies.TestLibraries.testCore
-    testImplementation Dependencies.TestLibraries.testRules
-    testImplementation Dependencies.GeneralLibraries.yoga
+    implementation Dependencies.GeneralLibraries.yoga
+    implementation Dependencies.GeneralLibraries.soLoader
+    implementation Dependencies.TestLibraries.junit4
+    implementation Dependencies.TestLibraries.mockk
+    implementation Dependencies.TestLibraries.testExt
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
-
-
-
-
