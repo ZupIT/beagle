@@ -16,7 +16,6 @@
 
 import UIKit
 import Beagle
-import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
     init() {
@@ -61,6 +60,10 @@ struct MainScreen: DeeplinkScreen {
                 Button(
                     text: "Image",
                     onPress: [Navigate.openNativeRoute(.init(route: .imageEndpoint))]
+                )
+                Button(
+                    text: "Disabled Button",
+                    disabled: true
                 )
                 Button(
                     text: "Form",

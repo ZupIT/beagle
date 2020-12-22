@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleSchema
-
 public protocol DependencyPreFetching {
     var preFetchHelper: BeaglePrefetchHelping { get }
 }

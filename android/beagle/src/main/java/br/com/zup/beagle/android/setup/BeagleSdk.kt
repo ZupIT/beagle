@@ -32,11 +32,12 @@ import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.store.StoreHandler
+import br.com.zup.beagle.android.utils.BeagleScope
+import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import com.facebook.soloader.SoLoader
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 interface BeagleSdk {
@@ -66,7 +67,7 @@ interface BeagleSdk {
         BeagleEnvironment.beagleSdk = this
         BeagleEnvironment.application = application
         SoLoader.init(application, false)
-        GlobalScope.launch {
+        BeagleScope().launch(CoroutineDispatchers.Default) {
             BeagleMoshi.moshi.adapter(ServerDrivenComponent::class.java)
         }
     }

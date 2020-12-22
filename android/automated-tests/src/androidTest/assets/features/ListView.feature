@@ -370,7 +370,7 @@ Feature: ListView Component Validation
             | 32       | Name: Hermione Granger      | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
             | 33       | Name: Rúbeo Hagrid          | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
 
-   Scenario Outline: ListView 20 - Books ListView: evaluates context correctly
+   Scenario Outline: ListView 20 - Books ListView: evaluates context correctly after screen rotation
        When I scroll listView with id categoriesList to position <categoriesListPosition>
        And I scroll listView with id categoriesBooksList:<categoryId> to position 6
        And I change the device orientation to landscape
@@ -399,3 +399,11 @@ Feature: ListView Component Validation
            | 2                     | 3          | 0                 | The Last Tribe   | REMOVE     |
            | 2                     | 3          | 1                 | The Last Tribe   | BUY        |
            | 2                     | 3          | 2                 | The Last Tribe   | BUY        |
+
+    Scenario: ListView 21 - Books ListView: evaluates context correctly
+        When I scroll listView with id categoriesBooksList:1 to position 6
+        And I scroll listView with id categoriesBooksList:1 to position 0
+        And I click on view with id cartButton:1:The Final Empire at position 0 of listView with id categoriesBooksList:1
+        And I scroll listView with id categoriesBooksList:1 to position 6
+        And I scroll listView with id categoriesBooksList:1 to position 0
+        Then listView with id categoriesBooksList:1 at position 0 should show text: REMOVE

@@ -17,7 +17,7 @@
 
 extension Variable {
 	
-	static var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]", "RawAction", "[RawAction]"]
+	static var beagleProtocolTypes = ["Action", "[Action]", "ServerDrivenComponent", "[ServerDrivenComponent]"]
 	
 	var rawUppercasedVariableName: String {
 		"raw" + name.prefix(1).uppercased() + name.dropFirst()
@@ -51,7 +51,6 @@ extension Variable {
 	}
 }
 
-let rawComponent = "RawComponent"
 var identation: String { "    " }
 
 func capitalizedName(for variable: Variable) -> String {
@@ -79,7 +78,6 @@ func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMeth
 
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
     let isCoreBeagleProtocolType = Variable.beagleProtocolTypes.contains(variable.unwrappedTypeName)
-        || variable.unwrappedTypeName == "RawAction"
     return isCoreBeagleProtocolType || variable.inheritsFromAnyCoreBeagleProtocolType() != nil
 }
 
@@ -150,7 +148,7 @@ func importBeagleString(_ arguments: Dictionary<String,AnyObject>? ) -> String {
             return ""
         }
     }
-    return "\nimport BeagleSchema\nimport Beagle\n"
+    return "\nimport Beagle\n"
 }
 
 func containerDeclaration(generatedCodingKeys: [String]) -> String {

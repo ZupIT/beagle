@@ -15,7 +15,6 @@
  */
 
 import XCTest
-import BeagleSchema
 @testable import Beagle
 
 final class FormValidationTests: XCTestCase {

@@ -16,7 +16,6 @@
 
 import UIKit
 import Beagle
-import BeagleSchema
 
 struct ListViewScreen: DeeplinkScreen {
     
@@ -111,7 +110,7 @@ struct ListViewScreen: DeeplinkScreen {
     
     func simpleListScreen(
         context: Context?,
-        onInit: [RawAction]?,
+        onInit: [Action]?,
         dataSource: Expression<[DynamicObject]>,
         title: String
     ) -> Screen {
