@@ -9,10 +9,9 @@ environment:
   flutter: ">=1.22.5"
 
 dependencies:
-  beagle_core_js:
-    path: ../beagle_core_js
   flutter:
     sdk: flutter
+  flutter_js: 0.2.2+0
 
 dev_dependencies:
   flutter_test:
@@ -24,6 +23,16 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  # This section identifies this Flutter project as a plugin project.
+  # The 'pluginClass' and Android 'package' identifiers should not ordinarily
+  # be modified. They are used by the tooling to maintain consistency when
+  # adding or updating assets for this project.
+  plugin:
+    platforms:
+      android:
+        package: br.com.zup.beagle.beagle
+        pluginClass: BeaglePlugin
+
   assets:
     - assets/js/beagle.js
   #
