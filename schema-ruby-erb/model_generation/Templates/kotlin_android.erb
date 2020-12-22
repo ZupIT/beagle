@@ -20,7 +20,7 @@
   @helper.defaultDeclarationType = TypeInterface.new
 
   def full_declaration(objectType)
-    output = "package #{objectType.synthax_type.package.android}\n"
+    output = @kotlinHelper.resolve_package(objectType)
 
     output += @kotlinHelper.resolve_imports(objectType)
     output += @kotlinHelper.resolve_documentation(objectType)
@@ -45,6 +45,7 @@
 
   def handle_inner_types(objectTypes)
     output = ""
+
     for objectType in objectTypes
       output += "\n#{@kotlinHelper.resolve_documentation(objectType)}"
       output += "\n#{resolve_object(objectType)}"
@@ -53,6 +54,7 @@
         handle_inner_types(objectType.synthax_type.sameFileTypes)
       end
     end
+    
     output
   end
 

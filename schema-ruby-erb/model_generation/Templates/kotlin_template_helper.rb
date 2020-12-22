@@ -15,47 +15,59 @@
 # This class lists the available supported kotlin template of beagle schema.
 class KotlinTemplateHelper
 
-    def initialize(components, helper)
-        @helper = helper
-        @tab = "    "
+  def initialize(components, helper)
+    @helper = helper
+    @tab = "    "
+  end
+
+  def resolve_package(objectType)
+    "package #{handle_package(objectType)}\n"
+  end
+
+  def handle_package(objectType)
+    (is_backend()) ? objectType.synthax_type.package.backend : objectType.synthax_type.package.android
+  end
+
+  def dictionary_variable_declaration(variable) 
+    type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
+    type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
+    type_name = "Map<#{type_of_key}, #{type_of_value}>"
+    type_name
+  end
+
+  def adapt_type_name_to_kotlin_specific(typeName)
+    if typeName.eql?("ContextData")
+      "Any"
+    else
+      typeName
+    end
+  end
+
+  def handle_field_accessor(variable)
+    output = ""
+
+    if variable.accessor != "public"
+      output += "#{variable.accessor} "
     end
 
-    def dictionary_variable_declaration(variable) 
-        type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
-        type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
-        type_name = "Map<#{type_of_key}, #{type_of_value}>"
-        type_name
+    output
+  end
+
+  def handle_field_mutator(variable)
+    output = ""
+
+    if variable.isMutable
+        output += "var "
+    else
+        output += "val "
     end
 
-    def adapt_type_name_to_kotlin_specific(typeName)
-        if typeName.eql?("ContextData")
-          "Any"
-        else
-          typeName
-        end
-    end
+    output
+  end
 
-    def handle_field_accessor(variable)
-        output = ""
-        if variable.accessor != "public"
-          output += "#{variable.accessor} "
-        end
-        output
-    end
+  #Documentation
 
-    def handle_field_mutator(variable)
-        output = ""
-        if variable.isMutable
-            output += "var "
-        else
-            output += "val "
-        end
-        output
-    end
-
-    #Documentation
-
-    def resolve_documentation(objectType)
+  def resolve_documentation(objectType)
     output = ""
 
     if @helper.has_any_documentation(objectType)
@@ -114,40 +126,36 @@ class KotlinTemplateHelper
     end
 
     output
+  end
+
+  def is_backend()
+    @helper.languageIdentifier == "ktBackend"
+  end
+
+  def generate_scape_documentation(variable, is_property)
+    output = ""
+    scape = ""
+    if is_property
+      scape = "@property "
+    else
+      scape = "@param "
     end
 
-    def is_backend()
-      @helper.languageIdentifier == "ktBackend"
+    for i in 0.."#{scape}#{variable.name}".length
+      output += " "
     end
+    output
+  end
 
-    def handle_package(object)
-      (is_backend()) ? object.synthax_type.package.backend : object.synthax_type.package.android
-    end
+  def replace_breakLine_documentation(comment, replace)
+      comment.gsub("\n", replace)
+  end
 
-    def generate_scape_documentation(variable, is_property)
-      output = ""
-      scape = ""
-      if is_property
-        scape = "@property "
-      else
-        scape = "@param "
-      end
+  def is_widget_android(objectType)
+    @helper.inheritFrom_widget(objectType) and !is_backend()
+  end
 
-      for i in 0.."#{scape}#{variable.name}".length
-        output += " "
-      end
-      output
-    end
-
-    def replace_breakLine_documentation(comment, replace)
-        comment.gsub("\n", replace)
-    end
-
-    def is_widget_android(objectType)
-      @helper.inheritFrom_widget(objectType) and !is_backend()
-    end
-
-    def resolve_variables_imports(objectType)
+  def resolve_variables_imports(objectType)
     output = ""
 
     for variable in objectType.synthax_type.variables
@@ -174,12 +182,14 @@ class KotlinTemplateHelper
         end
       end 
     end
-
     output
-    end
+  end
 
   def resolve_imports(objectType)
-    output = resolve_variables_imports(objectType)
+    output = ""
+
+    output += resolve_variables_imports(objectType)
+
     output += resolve_bind_import(objectType)
 
     if output.include? "import"
@@ -216,11 +226,7 @@ class KotlinTemplateHelper
       end
     end
 
-    if output.include? "import"
-      "\n" + output
-    else
-      output
-    end
+    output
   end
 
   def init_enum(objectType)
@@ -307,8 +313,9 @@ class KotlinTemplateHelper
     output
   end
 
-    def resolve_super_classes(objectType)
+  def resolve_super_classes(objectType)
     output = ""
+    
     if objectType.synthax_type.inheritFrom.size > 0
       output += " : "
       counter = 0 
@@ -462,6 +469,7 @@ class KotlinTemplateHelper
 
   def resolve_kotlin_object(objectType) 
     output = ""
+
     if @helper.is_enum(objectType)
       output += init_enum(objectType)
     else 
@@ -475,6 +483,7 @@ class KotlinTemplateHelper
         end
       end
     end
+
     output
   end
 

@@ -20,7 +20,7 @@
   @helper.defaultDeclarationType = TypeDataClass.new
 
   def full_declaration(objectType)
-    output = "package #{objectType.synthax_type.package.backend}\n"
+    output = @kotlinHelper.resolve_package(objectType)
 
     output += @kotlinHelper.resolve_imports(objectType)
     output += @kotlinHelper.resolve_documentation(objectType)
@@ -39,6 +39,7 @@
 
   def handle_inner_types(objectTypes)
     output = ""
+
     for objectType in objectTypes
       output += "\n\n#{@kotlinHelper.resolve_documentation(objectType)}"
       output += "#{resolve_object(objectType)}"
@@ -47,6 +48,7 @@
         handle_inner_types(objectType.synthax_type.sameFileTypes, output)
       end
     end
+    
     output
   end
 
