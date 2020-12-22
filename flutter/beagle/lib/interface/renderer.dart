@@ -15,8 +15,8 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_core/model/beagle_ui_element.dart';
-import 'package:beagle_core/model/tree_update_mode.dart';
+import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/model/tree_update_mode.dart';
 
 abstract class Renderer {
   void doPartialRender(

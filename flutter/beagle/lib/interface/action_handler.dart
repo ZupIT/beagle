@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_core/model/beagle_action.dart';
+import 'package:beagle/model/beagle_action.dart';
 
 abstract class ActionHandler {
   void handleAction(BeagleAction action);

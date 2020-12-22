@@ -15,9 +15,9 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_core/interface/renderer.dart';
-import 'package:beagle_core/model/beagle_ui_element.dart';
-import 'package:beagle_core/model/network_options.dart';
+import 'package:beagle/interface/renderer.dart';
+import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/model/network_options.dart';
 
 typedef ViewUpdateListener = void Function(BeagleUIElement tree);
 typedef ViewErrorListener = void Function(List<String> errors);

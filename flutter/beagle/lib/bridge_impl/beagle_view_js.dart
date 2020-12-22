@@ -15,11 +15,11 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_core/bridge_impl/beagle_js_engine.dart';
-import 'package:beagle_core/interface/beagle_view.dart';
-import 'package:beagle_core/interface/renderer.dart';
-import 'package:beagle_core/model/beagle_ui_element.dart';
-import 'package:beagle_core/model/network_options.dart';
+import 'package:beagle/bridge_impl/beagle_js_engine.dart';
+import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/interface/renderer.dart';
+import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/model/network_options.dart';
 
 class BeagleViewJS implements BeagleView {
   BeagleViewJS(

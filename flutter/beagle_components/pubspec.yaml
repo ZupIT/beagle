@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  beagle_core:
-    path: '../beagle_core'
+  beagle:
+    path: '../beagle'
 
 dev_dependencies:
   flutter_test:

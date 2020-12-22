@@ -15,13 +15,13 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_core/interface/action_handler.dart';
-import 'package:beagle_core/interface/beagle_view.dart';
-import 'package:beagle_core/interface/component_builder.dart';
-import 'package:beagle_core/interface/http_client.dart';
-import 'package:beagle_core/interface/storage.dart';
-import 'package:beagle_core/model/network_options.dart';
-import 'package:beagle_core/model/network_strategy.dart';
+import 'package:beagle/interface/action_handler.dart';
+import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/interface/component_builder.dart';
+import 'package:beagle/interface/http_client.dart';
+import 'package:beagle/interface/storage.dart';
+import 'package:beagle/model/network_options.dart';
+import 'package:beagle/model/network_strategy.dart';
 
 abstract class BeagleService {
   String baseUrl;

@@ -16,9 +16,9 @@
  */
 
 import 'dart:async';
-import 'package:beagle_core/interface/http_client.dart';
-import 'package:beagle_core/model/request.dart';
-import 'package:beagle_core/model/response.dart';
+import 'package:beagle/interface/http_client.dart';
+import 'package:beagle/model/request.dart';
+import 'package:beagle/model/response.dart';
 import 'package:flutter_js/extensions/xhr.dart';
 import 'package:http/http.dart' as http;
 

@@ -17,33 +17,6 @@
 
 library beagle;
 
-import 'package:beagle_core/beagle_core.dart' as core;
-import 'package:beagle_core/interface/action_handler.dart';
-import 'package:beagle_core/interface/component_builder.dart';
-import 'package:beagle_core/interface/http_client.dart';
-import 'package:beagle_core/interface/storage.dart';
-import 'package:beagle_core/model/network_strategy.dart';
-
-export 'package:beagle_core/beagle_remote_view.dart';
-
-class BeagleInitializer {
-  static Future<void> start({
-    String baseUrl,
-    HttpClient httpClient,
-    ComponentBuilder componentBuilder,
-    Storage storage,
-    bool useBeagleHeaders,
-    ActionHandler actionHandler,
-    NetworkStrategy strategy,
-  }) async {
-    return core.BeagleInitializer.start(
-      baseUrl: baseUrl,
-      httpClient: httpClient,
-      componentBuilder: componentBuilder,
-      storage: storage,
-      useBeagleHeaders: useBeagleHeaders ?? true,
-      actionHandler: actionHandler,
-      strategy: strategy,
-    );
-  }
-}
+export 'package:beagle/beagle_initializer.dart';
+export 'package:beagle/beagle_remote_view.dart';
+export 'package:beagle/model/beagle_ui_element.dart';

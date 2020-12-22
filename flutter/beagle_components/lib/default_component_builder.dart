@@ -16,8 +16,8 @@
  */
 
 import 'package:beagle_components/beagle_text_input.dart';
-import 'package:beagle_core/interface/component_builder.dart';
-import 'package:beagle_core/model/beagle_ui_element.dart';
+import 'package:beagle/interface/component_builder.dart';
+import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:flutter/material.dart';
 
 typedef ComponentBuildFunction = Widget Function(

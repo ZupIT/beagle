@@ -15,9 +15,9 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_core/action/beagle_alert.dart';
-import 'package:beagle_core/interface/action_handler.dart';
-import 'package:beagle_core/model/beagle_action.dart';
+import 'package:beagle/action/beagle_alert.dart';
+import 'package:beagle/interface/action_handler.dart';
+import 'package:beagle/model/beagle_action.dart';
 import 'package:flutter/foundation.dart';
 
 typedef ActionHandlerFunction = void Function(BeagleAction action);

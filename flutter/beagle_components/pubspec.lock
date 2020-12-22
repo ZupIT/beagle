@@ -8,10 +8,10 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0-nullsafety.1"
-  beagle_core:
+  beagle:
     dependency: "direct main"
     description:
-      path: "../beagle_core"
+      path: "../beagle"
       relative: true
     source: path
     version: "1.0.0"

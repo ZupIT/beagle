@@ -17,11 +17,11 @@
 
 import 'dart:convert';
 
-import 'package:beagle_core/interface/beagle_view.dart';
-import 'package:beagle_core/model/beagle_action.dart';
-import 'package:beagle_core/model/beagle_ui_element.dart';
-import 'package:beagle_core/model/request.dart';
-import 'package:beagle_core/model/response.dart';
+import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/model/beagle_action.dart';
+import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/model/request.dart';
+import 'package:beagle/model/response.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_js/extensions/xhr.dart';
@@ -151,7 +151,8 @@ class BeagleJSEngine {
     if (js == null) {
       js = getJavascriptRuntime(forceJavascriptCoreOnAndroid: true, xhr: false);
       _setupMessages();
-      final beagleJS = await rootBundle.loadString('assets/js/beagle.js');
+      final beagleJS =
+          await rootBundle.loadString('packages/beagle/assets/js/beagle.js');
       js.evaluate('var window = global = globalThis;');
       final bundleResult = await js.evaluateAsync(beagleJS);
       debugPrint('Initialization result: $bundleResult');
