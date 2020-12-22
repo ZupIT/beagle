@@ -18,9 +18,6 @@ package br.com.zup.beagle.widget.action
 
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.action.Mode.APPEND
-import br.com.zup.beagle.widget.action.Mode.PREPEND
-import br.com.zup.beagle.widget.action.Mode.REPLACE
 
 /**
  * Defines the placement of where the children will be inserted in the list or if the contents
