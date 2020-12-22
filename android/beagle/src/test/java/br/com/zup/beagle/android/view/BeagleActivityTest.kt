@@ -73,7 +73,8 @@ class BeagleActivityTest : BaseTest() {
     @Before
     fun setup() {
         coEvery { componentRequester.fetchComponent(ScreenRequest("/url")) } returns component
-        prepareVIewModels()
+        beagleViewModel = BeagleScreenViewModel(ioDispatcher = TestCoroutineDispatcher(), componentRequester)
+        prepareViewModelMock(beagleViewModel)
         val application = ApplicationProvider.getApplicationContext() as Application
         mockYoga(application)
         BeagleSdk.setInTestMode()
@@ -83,11 +84,6 @@ class BeagleActivityTest : BaseTest() {
             activityScenario.moveToState(Lifecycle.State.RESUMED)
             activity = it
         }
-    }
-
-    private fun prepareVIewModels() {
-        beagleViewModel = BeagleScreenViewModel(ioDispatcher = TestCoroutineDispatcher(), componentRequester)
-        prepareViewModelMock(beagleViewModel)
     }
 
     private fun mockYoga(application: Application) {
