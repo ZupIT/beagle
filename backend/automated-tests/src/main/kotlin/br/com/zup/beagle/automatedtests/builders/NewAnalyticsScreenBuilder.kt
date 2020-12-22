@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.layout.Container
@@ -29,39 +30,54 @@ object NewAnalyticsScreenBuilder {
                 Button(
                     text = "Alert with no specific analytics configuration",
                     onPress = listOf(
-                        Alert(message = "AlertMessage")
+                        Alert(
+                            analytics = ActionAnalyticsConfig (
+                                attributes = listOf("message")
+                            ),
+                            message = "AlertMessage"
+                        )
                     )
                 ),
-//                Button(
-//                    text = "Confirm with no specific analytics configuration",
-//                    onPress = listOf(
-//                        Alert(message = "AlertMessage")
-//                    )
-//                ),
-//                Button(
-//                    text = "Alert with specific analytics configuration",
-//                    onPress = listOf(
-//                        Alert(message = "AlertMessage")
-//                    )
-//                ),
                 Button(
-                    text = "Confirm with specific analytics configuration",
+                    text = "Confirm with analytics local configuration",
                     onPress = listOf(
-                        Confirm(title = "Confirm Title",
+                        Confirm(
+                            analytics = ActionAnalyticsConfig (
+                                attributes = listOf("title","message")
+                            ),
+                            title = "Confirm Title",
                             message = "Confirm Message",
-                            onPressOk = Alert(
-                                title = "Ok",
-                                message = "Confirmed"),
-                            onPressCancel = Alert(
-                                title = "Cancel",
-                                message = "Cancelled"),
+                            labelOk = "Accept",
+                            labelCancel = "Deny"
+                        )
+                    )
+                ),
+                Button(
+                    text = "Alert with remote analytics configuration",
+                    onPress = listOf(
+                        Alert(
+                            analytics = ActionAnalyticsConfig (
+                                enable = true,
+                                attributes = listOf("message")
+                            ),
+                            message = "AlertMessage"
+                        )
+                    )
+                ),
+                Button(
+                    text = "Confirm with disabled analytics configuration",
+                    onPress = listOf(
+                        Confirm(
+                            analytics = ActionAnalyticsConfig (
+                                enable = false
+                            ),
+                            title = "Confirm Title",
+                            message = "Confirm Message",
                             labelOk = "Accept",
                             labelCancel = "Deny"
                         )
                     )
                 )
-
-
             )
         )
     )
