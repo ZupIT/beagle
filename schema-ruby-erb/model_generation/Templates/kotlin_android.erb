@@ -16,8 +16,8 @@
  */
 <%
 
-  @helper.languageIdentifier = SupportedLanguages.new.kotlin
-  @helper.defaultDeclarationType = TypeInterface.new
+  @kotlinHelper.languageIdentifier = SupportedLanguages.new.kotlin
+  @kotlinHelper.defaultDeclarationType = TypeInterface.new
 
   def full_declaration(objectType)
     output = @kotlinHelper.resolve_package(objectType)
@@ -32,7 +32,7 @@
   def resolve_object(objectType)
     output = ""
 
-    if @helper.inheritFrom_widget(objectType)
+    if @kotlinHelper.inheritFrom_widget(objectType)
       output += @kotlinHelper.init_interface(objectType)
     else
       output += @kotlinHelper.resolve_kotlin_object(objectType)

@@ -16,8 +16,8 @@
  */
 <%
 
-  @helper.languageIdentifier = SupportedLanguages.new.kotlinBackend
-  @helper.defaultDeclarationType = TypeDataClass.new
+  @kotlinHelper.languageIdentifier = SupportedLanguages.new.kotlinBackend
+  @kotlinHelper.defaultDeclarationType = TypeDataClass.new
 
   def full_declaration(objectType)
     output = @kotlinHelper.resolve_package(objectType)

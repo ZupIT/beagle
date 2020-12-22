@@ -13,19 +13,220 @@
 #  limitations under the License.
 
 # This class lists the available supported kotlin template of beagle schema.
-class KotlinTemplateHelper
+class KotlinTemplateHelper < TemplateHelper
 
-  def initialize(components, helper)
-    @helper = helper
-    @tab = "    "
+  TAB = "    "
+  
+  def initialize
+    super
   end
 
-  def resolve_package(objectType)
-    "package #{handle_package(objectType)}\n"
+  # Given object_type, this functions returns if it is generating for the backend
+  #
+  # @return [Bool] generating for the backend or not
+  def is_backend()
+      languageIdentifier == @kotlinBackend
   end
 
-  def handle_package(objectType)
-    (is_backend()) ? objectType.synthax_type.package.backend : objectType.synthax_type.package.android
+  def is_interface(object_type)
+    super(object_type) or is_widget_android(object_type)
+  end
+
+  # Given object_type, this functions returns if it is android widget
+  #
+  # @param object_type [BaseComponent]
+  # @return [Bool] it is android widget or not
+  def is_widget_android(object_type)
+      inheritFrom_widget(object_type) and !is_backend()
+  end 
+
+  # Given object_type, this functions returns the package
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] package for kotlin template
+  def resolve_package(object_type)
+    "package #{handle_package(object_type)}\n"
+  end
+
+  # Handle package in kotlin
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] package for kotlin Backend or Android template
+  def handle_package(object_type)
+    (is_backend()) ? object_type.synthax_type.package.backend : object_type.synthax_type.package.android
+  end
+
+  # Given output and object_type, this functions returns if output already contains package of the objectType
+  #
+  # @param output [String]
+  # @param object_type [BaseComponent]
+  # @return [Bool] output already contains package
+  def already_contains_import(output, object_type)
+    output.include? "#{handle_package(object_type)}"
+  end
+
+  # Given object_type, this functions returns the imports
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] imports for kotlin template
+  def resolve_imports(object_type)
+    output = ""
+
+    output += resolve_variables_imports(object_type)
+    output += resolve_bind_import(object_type)
+
+    if output.include? "import"
+      "\n" + output + "\n"
+    else
+      output + "\n"
+    end
+  end
+
+  # Handle import in kotlin
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] import for kotlin
+  def handle_import(object_type)
+    "import #{handle_package(object_type)}.#{object_type.synthax_type.name}\n"
+  end
+
+  # Given object_type, this functions returns imports of variables
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] import of variables
+  def resolve_variables_imports(object_type)
+    output = ""
+
+    #Local fields
+    for variable in object_type.synthax_type.variables
+      if !variable_is_primitive(variable)
+        qualified_name = handle_import(variable.type)
+        if !output.include? "#{qualified_name}" and !already_contains_import(qualified_name, object_type)
+          output += qualified_name
+        end
+      end
+    end
+    
+     #Inherited fields
+    for inherited in object_type.synthax_type.inheritFrom
+      if !handle_package(inherited).include? "#{handle_package(object_type)}" and !(is_widget_android(object_type) and is_widget(inherited))
+        output += handle_import(inherited)
+      end
+
+      for variable in inherited.synthax_type.variables
+        if !variable_is_primitive(variable) and !is_widget_android(object_type)
+            qualified_name = handle_import(variable.type)
+          if !output.include? "#{qualified_name}" and !already_contains_import(qualified_name, object_type)
+            output += qualified_name
+          end
+        end
+      end 
+    end
+    
+    output
+  end
+
+  # Given object_type, this functions returns imports of Bind
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] bind import for kotlin Backend or Android template
+  def resolve_bind_import(object_type)
+    output = ""
+
+    bind_package = (is_backend()) ? "br.com.zup.beagle.widget.context" : "br.com.zup.beagle.android.context"
+
+    if object_type.synthax_type.variables.any? { |variable| variable.isBindable }
+      if !bind_package.include? "#{handle_package(object_type)}"
+        output += "import " + bind_package + ".Bind\n"
+      end
+    end
+
+    # valueOf and valueOfNullable only in backend
+    if is_backend()
+      if object_type.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional } and object_type.synthax_type.variables.any? { |v| v.isOptional == false}
+        if !already_contains_import(bind_package, object_type)
+          output += "import br.com.zup.beagle.widget.context.valueOf\n"
+        end
+      end
+
+      if object_type.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional } and object_type.synthax_type.variables.any? { |v| v.isOptional == false}
+        if !already_contains_import(bind_package, object_type)
+          output += "import br.com.zup.beagle.widget.context.valueOfNullable\n"
+        end
+      end
+    end
+
+    output
+  end
+
+  # Given object_type, this functions returns documentation of variables
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] documentation of variables for template
+  def resolve_variables_documentation(object_type)
+    output = ""
+
+    for variable in object_type.synthax_type.variables
+      if variable.comment != nil
+        output += " * #{handle_field_type_documentation(object_type)} #{variable.name}"
+
+        if !is_enum(object_type)
+          output += " #{replace_breakLine_documentation(variable.comment, "\n * #{generate_scape_documentation(variable, is_interface_or_abstract(object_type))}")}\n"
+        else
+          output += "\n"
+        end
+      end
+    end
+
+    output
+  end
+
+  # Given object_type, this functions returns documentation in kotlin
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] documentation for template
+  def resolve_documentation(object_type)
+    output = ""
+
+    if has_any_documentation(object_type)
+      output += "/**\n"
+    end
+
+    if object_has_documentation(object_type)
+      output += " * #{replace_breakLine_documentation(object_type.synthax_type.comment, "\n * ")}\n"
+    end
+
+    if variables_has_documentation(object_type) or inheritFrom_has_documentation(object_type)
+      output += " *\n"
+    end
+
+    output += resolve_variables_documentation(object_type)
+
+    for inherited in object_type.synthax_type.inheritFrom
+      output += resolve_variables_documentation(inherited)
+    end
+
+    if has_any_documentation(object_type)
+      output += " *\n */"
+    end
+
+    output
+  end
+
+  # Handle field type for documentation
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] field type for documentation
+  def handle_field_type_documentation(object_type)
+    output = ""
+
+    if is_interface_or_enum(object_type)
+      output += "@property"
+    else
+      output += "@param" 
+    end
+
+    output
   end
 
   def dictionary_variable_declaration(variable) 
@@ -65,73 +266,6 @@ class KotlinTemplateHelper
     output
   end
 
-  #Documentation
-
-  def resolve_documentation(objectType)
-    output = ""
-
-    if @helper.has_any_documentation(objectType)
-      output += "/**\n"
-    end
-
-    if @helper.objectType_has_documentation(objectType)
-      output += " * #{replace_breakLine_documentation(objectType.synthax_type.comment, "\n * ")}\n"
-    end
-
-    if @helper.variables_has_documentation(objectType) or @helper.inheritFrom_has_documentation(objectType)
-      output += " *\n"
-    end
-
-    for variable in objectType.synthax_type.variables
-      if variable.comment != nil
-        output += " * "
-        if @helper.is_interface_or_enum(objectType) or is_widget_android(objectType)
-          output += "@property "
-        else
-          output += "@param " 
-        end
-
-        output += "#{variable.name}"
-
-        if !@helper.is_enum(objectType)
-          output += " #{replace_breakLine_documentation(variable.comment, "\n * #{generate_scape_documentation(variable, (@helper.is_interface(objectType) or @helper.is_abstract(objectType)))}")}\n"
-        else
-          output += "\n"
-        end
-      end
-    end
-
-    for inherited in objectType.synthax_type.inheritFrom
-      for variable in inherited.synthax_type.variables
-        if variable.comment != nil
-          output += " * "
-          if @helper.is_interface_or_enum(inherited)
-            output += "@property "
-          else
-            output += "@param " 
-          end
-
-          output += "#{variable.name}"
-          if !@helper.is_enum(inherited)
-            output += " #{replace_breakLine_documentation(variable.comment, "\n * #{generate_scape_documentation(variable, (@helper.is_interface(objectType) or @helper.is_abstract(objectType)))}")}\n"
-          else
-            output += "\n"
-          end
-        end
-      end
-    end
-
-    if @helper.has_any_documentation(objectType)
-      output += " *\n */"
-    end
-
-    output
-  end
-
-  def is_backend()
-    @helper.languageIdentifier == "ktBackend"
-  end
-
   def generate_scape_documentation(variable, is_property)
     output = ""
     scape = ""
@@ -151,95 +285,17 @@ class KotlinTemplateHelper
       comment.gsub("\n", replace)
   end
 
-  def is_widget_android(objectType)
-    @helper.inheritFrom_widget(objectType) and !is_backend()
-  end
-
-  def resolve_variables_imports(objectType)
-    output = ""
-
-    for variable in objectType.synthax_type.variables
-      if !@helper.variable_is_primitive(variable)
-        qualifiedName = "#{handle_package(variable.type)}.#{variable.type.synthax_type.name}"
-        if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{handle_package(objectType)}"
-          output += "import #{qualifiedName}\n"
-        end
-      end
-    end
-    
-    for inherited in objectType.synthax_type.inheritFrom
-      if !handle_package(inherited).include? "#{handle_package(objectType)}" and !(is_widget_android(objectType) and @helper.is_widget(inherited))
-        output += "import #{handle_package(inherited)}.#{inherited.synthax_type.name}\n"
-      end
-
-      for variable in inherited.synthax_type.variables
-        if !@helper.variable_is_primitive(variable) and !(is_widget_android(objectType) and @helper.is_interface(inherited))
-            qualifiedName = "#{handle_package(variable.type)}.#{variable.type.synthax_type.name}"
-          if !output.include? "#{qualifiedName}\n" and !qualifiedName.include? "#{handle_package(objectType)}"
-            output += "import #{qualifiedName}"
-            output += "\n"
-          end
-        end
-      end 
-    end
-    output
-  end
-
-  def resolve_imports(objectType)
-    output = ""
-
-    output += resolve_variables_imports(objectType)
-
-    output += resolve_bind_import(objectType)
-
-    if output.include? "import"
-      "\n" + output + "\n"
-    else
-      output + "\n"
-    end
-  end
-
-  #TODO remove bind import rules
-  def resolve_bind_import(objectType)
-    output = ""
-
-    bindPackage = (is_backend()) ? "br.com.zup.beagle.widget.context" : "br.com.zup.beagle.android.context"
-
-    if objectType.synthax_type.variables.any? { |variable| variable.isBindable }
-      if !bindPackage.include? "#{handle_package(objectType)}"
-        output += "import " + bindPackage + ".Bind\n"
-      end
-    end
-
-    # valueOf and valueOfNullable only in backend
-    if is_backend()
-      if objectType.synthax_type.variables.any? { |variable| variable.isBindable && !variable.isOptional } and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
-        if !bindPackage.include? "#{objectType.synthax_type.package.backend}"
-          output += "import br.com.zup.beagle.widget.context.valueOf\n"
-        end
-      end
-
-      if objectType.synthax_type.variables.any? { |variable| variable.isBindable && variable.isOptional } and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
-        if !bindPackage.include? "#{objectType.synthax_type.packag.backend}"
-          output += "import br.com.zup.beagle.widget.context.valueOfNullable\n"
-        end
-      end
-    end
-
-    output
-  end
-
   def init_enum(objectType)
-    typeKind = @helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    typeKind = fetch_built_in_type_declaration(objectType.synthax_type.type)
 
     output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
 
     counter = 0
     for field in objectType.synthax_type.variables
       if field.comment != nil
-        output += "#{@tab}/**\n#{@tab} * #{replace_breakLine_documentation(field.comment, "\n#{@tab} * ")}\n#{@tab} */\n"
+        output += "#{TAB}/**\n#{TAB} * #{replace_breakLine_documentation(field.comment, "\n#{TAB} * ")}\n#{TAB} */\n"
       end
-      output += "#{@tab}#{field.name}"
+      output += "#{TAB}#{field.name}"
       if counter != objectType.synthax_type.variables.size - 1
         output += ",\n\n"
       end
@@ -251,13 +307,13 @@ class KotlinTemplateHelper
   end
 
   def single_variable_declaration(variable)
-    type_name = @helper.fetch_type(variable.type.name)
+    type_name = fetch_type(variable.type.name)
     type_name = adapt_type_name_to_kotlin_specific(type_name)
     type_name
   end
 
   def init_interface(objectType)
-    typeKind = @helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    typeKind = fetch_built_in_type_declaration(objectType.synthax_type.type)
     
     output = "\n#{typeKind} #{objectType.synthax_type.name}"
 
@@ -267,7 +323,7 @@ class KotlinTemplateHelper
     if objectType.synthax_type.variables.any?
       output += " {"
       for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, @helper.is_abstract(objectType), objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, is_abstract(objectType), objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
@@ -280,7 +336,7 @@ class KotlinTemplateHelper
   end
 
   def init_abstract(objectType)
-    typeKind = @helper.fetch_built_in_type_declaration(objectType.synthax_type.type)
+    typeKind = fetch_built_in_type_declaration(objectType.synthax_type.type)
     
     output = "\n#{typeKind} #{objectType.synthax_type.name}"
     output += resolve_super_classes(objectType)
@@ -289,18 +345,18 @@ class KotlinTemplateHelper
     if objectType.synthax_type.variables.any?
       output += " {"
       for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, @helper.is_abstract(objectType), objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, is_abstract(objectType), objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
 
     for inherited in objectType.synthax_type.inheritFrom
-      if @helper.is_interface(inherited)
+      if is_interface(inherited)
         for variable in inherited.synthax_type.variables
           if !output.include? "{"
             output += "{"
           end
-          output += "\n#{@tab}#{handle_field_accessor(variable)} override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, @helper.is_abstract(objectType), inherited.synthax_type.variables.size - 1 != counter && !@helper.is_abstract(objectType))}"
+          output += "\n#{TAB}#{handle_field_accessor(variable)} override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, is_abstract(objectType), inherited.synthax_type.variables.size - 1 != counter && !is_abstract(objectType))}"
           counter += 1
         end
       end
@@ -321,10 +377,10 @@ class KotlinTemplateHelper
       counter = 0 
       for inherited in objectType.synthax_type.inheritFrom
         superClass = ""
-        if @helper.is_interface(objectType) or is_widget_android(objectType)
-          superClass += @helper.is_abstract(inherited) ? "" : inherited.name
+        if is_interface(objectType)
+          superClass += is_abstract(inherited) ? "" : inherited.name
         else
-          superClass += @helper.is_abstract(inherited) ? "#{inherited.name}()" : inherited.name
+          superClass += is_abstract(inherited) ? "#{inherited.name}()" : inherited.name
         end
         
         if superClass != "" and objectType.synthax_type.inheritFrom.size - 1 != counter 
@@ -352,7 +408,7 @@ class KotlinTemplateHelper
 
     if defaultValue
       default = handle_default_variable(variable)
-      output = !default.empty? && !@helper.is_interface(objectType) ? "#{output} = #{default}" : output
+      output = !default.empty? && !is_interface(objectType) ? "#{output} = #{default}" : output
       output = shouldAddComma ? output + "," : output
     end
     
@@ -386,13 +442,13 @@ class KotlinTemplateHelper
     if objectType.synthax_type.variables.any?
       output += " ("
       for variable in objectType.synthax_type.variables
-        output += "\n#{@tab}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, true, objectType.synthax_type.variables.size - 1 != counter)}"
+        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, true, objectType.synthax_type.variables.size - 1 != counter)}"
         counter += 1
       end
     end
 
     for inherited in objectType.synthax_type.inheritFrom
-      if @helper.is_interface(inherited) && @helper.has_variables(inherited)
+      if is_interface(inherited) && has_variables(inherited)
         if objectType.synthax_type.variables.size == 0
             output += " ("
         else
@@ -400,7 +456,7 @@ class KotlinTemplateHelper
         end
         counter = 0 
         for variable in inherited.synthax_type.variables
-          output += "\n#{@tab}#{handle_field_accessor(variable)}override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, true, inherited.synthax_type.variables.size - 1 != counter)}"
+          output += "\n#{TAB}#{handle_field_accessor(variable)}override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, true, inherited.synthax_type.variables.size - 1 != counter)}"
           counter += 1
         end
       end
@@ -411,49 +467,49 @@ class KotlinTemplateHelper
 
     if withContructor
       if objectType.synthax_type.variables.any?(&:isBindable) and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
-        output += "{\n#{@tab}constructor ("
+        output += "{\n#{TAB}constructor ("
         counter = 0 
         for variable in objectType.synthax_type.variables
-          output += "\n#{@tab}#{@tab}#{variable.name}: #{handle_type_name_init_method(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+          output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, objectType.synthax_type.variables.size - 1 != counter)}"
           counter += 1
         end
         for inherited in objectType.synthax_type.inheritFrom
-          if @helper.is_interface(inherited) && @helper.has_variables(inherited)
-            if @helper.has_variables(objectType)
+          if is_interface(inherited) && has_variables(inherited)
+            if has_variables(objectType)
               output += ","
             else
               output += " ("
             end
             counter = 0 
             for variable in inherited.synthax_type.variables
-            output += "\n#{@tab}#{@tab}#{variable.name}: #{handle_type_name_init_method(variable, inherited.synthax_type.variables.size - 1 != counter)}"
+            output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, inherited.synthax_type.variables.size - 1 != counter)}"
             counter += 1
             end
           end
         end
-        output += "\n#{@tab}) : this ("
+        output += "\n#{TAB}) : this ("
 
         counter = 0
         for variable in objectType.synthax_type.variables
-          output += "\n#{@tab}#{@tab}#{handle_variable_with_bind(variable, objectType.synthax_type.variables.size - 1 != counter)}"
+          output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, objectType.synthax_type.variables.size - 1 != counter)}"
           counter += 1
         end
 
         for inherited in objectType.synthax_type.inheritFrom
-          if @helper.is_interface(inherited) && @helper.has_variables(inherited)
-            if @helper.has_variables(objectType)
+          if is_interface(inherited) && has_variables(inherited)
+            if has_variables(objectType)
                 output += ","
             else
               output += " ("
             end
             counter = 0
             for variable in inherited.synthax_type.variables
-            output += "\n#{@tab}#{@tab}#{handle_variable_with_bind(variable, inherited.synthax_type.variables.size - 1 != counter)}"
+            output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, inherited.synthax_type.variables.size - 1 != counter)}"
             counter += 1
             end
           end
         end
-        output += "\n#{@tab})\n}"
+        output += "\n#{TAB})\n}"
       end
     end
 
@@ -470,13 +526,13 @@ class KotlinTemplateHelper
   def resolve_kotlin_object(objectType) 
     output = ""
 
-    if @helper.is_enum(objectType)
+    if is_enum(objectType)
       output += init_enum(objectType)
     else 
-      if @helper.is_interface(objectType)
+      if is_interface(objectType)
         output += init_interface(objectType)
       else
-        if @helper.is_abstract(objectType)
+        if is_abstract(objectType)
           output += init_abstract(objectType)
         else
           output += init_data_class(objectType, is_backend())

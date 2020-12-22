@@ -93,7 +93,7 @@ class ModelGenerator
     @c = Constants.new
 
     @helper = TemplateHelper.new
-    @kotlinHelper = KotlinTemplateHelper.new(components, @helper)
+    @kotlinHelper = KotlinTemplateHelper.new
     @tab = "    "
   end
 

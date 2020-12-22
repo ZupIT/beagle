@@ -53,7 +53,7 @@ end
 
 # This class is a helper with common methods that might be useful on the creation of different 
 # language templates. You don't necessarily have to use this, but it will be of a great help if you do.
-class TemplateHelper
+class TemplateHelper < SupportedLanguages
     
     # The identifier of of the language you want to generate. They are define in SupportedLanguages
     # @return [String]
@@ -68,6 +68,7 @@ class TemplateHelper
     # languageIdentifier
     # @return [Bool] indicating wether the object is widget or not
     def initialize
+        super
         @defaultDeclarationType = nil
         @languageIdentifier = ''
         @types = BasicType.new
@@ -108,6 +109,22 @@ class TemplateHelper
         output
     end
 
+    # Given object_type, this functions returns if such an object has any documentation
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object has any documentation
+    def has_any_documentation(object_type)
+        object_has_documentation(object_type) or variables_has_documentation(object_type) or has_inheritFrom_documentation(object_type)
+    end
+
+    # Check if it is a primitive variable
+    #
+    # @param variable [BaseComponent]
+    # @return [Boolean] is a primitive variable or not
+    def variable_is_primitive(variable)
+        variable.type.is_a?(TypeString) or variable.type.is_a?(TypeInteger) or variable.type.is_a?(TypeBoolean) or variable.type.is_a?(TypeDouble)
+    end
+
     # Given object_type, this functions returns if such an object is enum or not
     #
     # @param object_type [BaseComponent]
@@ -116,22 +133,42 @@ class TemplateHelper
         object_type.synthax_type.class == EnumType
     end
 
+    # Given variable, this functions returns if such an variable is enum or not
+    #
+    # @param variable [BaseComponent]
+    # @return [Bool] indicating wether the variable is enum or not
     def variable_is_enum(variable)
         variable.class == EnumCase
     end
 
-    def variable_is_primitive(variable)
-        variable.type.is_a?(TypeString) or variable.type.is_a?(TypeInteger) or variable.type.is_a?(TypeBoolean) or variable.type.is_a?(TypeDouble)
-    end
-
+    # Given object_type, this functions returns if such an object is interface or not
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is interface or not
     def is_interface(object_type)
         object_type.synthax_type.type.is_a?(TypeInterface)
     end
 
+    # Given object_type, this functions returns if such an object is abstract or not
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is abstract or not
     def is_abstract(object_type)
         object_type.synthax_type.type.is_a?(TypeAbstract)
     end
 
+    # Given object_type, this functions returns if such an object is enum or abstract
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is enum or abstract
+    def is_interface_or_abstract(object_type)
+         is_interface(object_type) or is_abstract(object_type)
+    end
+
+    # Given object_type, this functions returns if such an object is interface or enum
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is interface or enum
     def is_interface_or_enum(object_type)
          is_interface(object_type) or is_enum(object_type)
     end
@@ -182,7 +219,7 @@ class TemplateHelper
 
     # Documentation
 
-    def objectType_has_documentation(object_type)
+    def object_has_documentation(object_type)
         return object_type.synthax_type.comment != nil
     end 
 
@@ -205,9 +242,5 @@ class TemplateHelper
 
     result
     end
-
-    def has_any_documentation(object_type)
-        objectType_has_documentation(object_type) or variables_has_documentation(object_type) or has_inheritFrom_documentation(object_type)
-    end 
 
 end
