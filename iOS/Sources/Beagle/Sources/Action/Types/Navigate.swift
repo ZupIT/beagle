@@ -132,7 +132,10 @@ extension Navigate: Decodable {
         case "beagle:opennativeroute":
             self = .openNativeRoute(try .init(from: decoder))
         case "beagle:resetapplication":
-            self = .resetApplication(try container.decode(Route.self, forKey: .route))
+            self = .resetApplication(
+                try container.decode(Route.self, forKey: .route),
+                controllerId: try container.decodeIfPresent(String.self, forKey: .controllerId)
+            )
         case "beagle:resetstack":
             self = .resetStack(try container.decode(Route.self, forKey: .route))
         case "beagle:pushstack":
