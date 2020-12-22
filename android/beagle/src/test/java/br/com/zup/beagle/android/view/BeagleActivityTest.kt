@@ -117,7 +117,7 @@ class BeagleActivityTest : BaseTest() {
 
 
     @Test
-    fun `Given a screen When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
+    fun `Given a screen with id When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
         val screenRequest = ScreenRequest("")
         val screenId = "myScreen"
@@ -134,6 +134,26 @@ class BeagleActivityTest : BaseTest() {
         // THEN
         assertEquals(true, localScreenSlot.captured)
         assertEquals(screenId, screenIdentifierSlot.captured)
+    }
+
+    @Test
+    fun `Given a screen with identifier When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
+        // Given
+        val screenRequest = ScreenRequest("")
+        val screenIdentifier = "myScreen"
+        val screen = Screen(identifier = screenIdentifier, child = component)
+
+
+        prepareViewModelMock(analyticsViewModel)
+        every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
+
+
+        //When
+        activity?.navigateTo(screenRequest, screen)
+
+        // THEN
+        assertEquals(true, localScreenSlot.captured)
+        assertEquals(screenIdentifier, screenIdentifierSlot.captured)
     }
 
 }

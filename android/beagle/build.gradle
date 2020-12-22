@@ -102,6 +102,7 @@ dependencies {
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.archCoreTesting
     testImplementation Dependencies.GeneralLibraries.jsonObject
+    testImplementation Dependencies.TestLibraries.fragment
 }
 
 apply from: rootProject.file('../maven-publish.gradle')

@@ -88,6 +88,7 @@ class Dependencies : Plugin<Project> {
         const val testRules = "1.3.1-alpha02"
         const val testCore = "1.3.1-alpha02"
         const val robolectric = "4.3"
+        const val fragmentTest = "1.2.5"
 
         const val incap = "0.3"
 
@@ -164,6 +165,7 @@ class Dependencies : Plugin<Project> {
         const val cucumberPicocontainer = "info.cukes:cucumber-picocontainer:${Versions.cucumber}"
         const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
         const val kotlinCompileTesting = "com.github.tschuchortdev:kotlin-compile-testing:${Versions.kotlinCompileTesting}"
+        const val fragment = "androidx.fragment:fragment-testing:${Versions.fragmentTest}"
     }
 
 }

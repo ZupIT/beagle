@@ -38,7 +38,7 @@ internal class BeagleFragment : Fragment() {
         beagleSerializer.deserializeComponent(json)
     }
     private val isLocalScreen by lazy {
-        arguments?.getBoolean(IS_LOCAL_SCREEN_KEY)
+        arguments?.getString(IS_LOCAL_SCREEN_KEY)
     }
     private val screenIdentifier by lazy {
         arguments?.getString(SCREEN_IDENTIFIER_KEY)
@@ -69,7 +69,7 @@ internal class BeagleFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString(JSON_SCREEN_KEY, json)
             isLocalScreen?.let{
-                bundle.putBoolean(IS_LOCAL_SCREEN_KEY, isLocalScreen)
+                bundle.putString(IS_LOCAL_SCREEN_KEY, isLocalScreen.toString())
             }
             bundle.putString(SCREEN_IDENTIFIER_KEY, screenIdentifier)
             arguments = bundle
@@ -87,7 +87,7 @@ internal class BeagleFragment : Fragment() {
         screenViewModel.onScreenLoadFinished()
         isLocalScreen?.let { isLocalScreen ->
             screenIdentifier?.let { screenIdentifier ->
-                analyticsViewModel.createScreenReport(isLocalScreen, screenIdentifier)
+                analyticsViewModel.createScreenReport(isLocalScreen.toBoolean(), screenIdentifier)
             }
         }
     }
