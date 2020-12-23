@@ -17,28 +17,18 @@
 package br.com.zup.beagle.android.view
 
 //import androidx.fragment.app.testing.launchFragmentInContainer
-import android.app.Application
-import android.view.View
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseSoLoaderTest
-import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.MyBeagleSetup
-import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
-import com.facebook.yoga.YogaNode
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -75,14 +65,7 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
     }
 
     @Test
-    fun `Given  a bundle with local screen and screen identifier When BeagleFragment is resumed Then should report screen`() {
-        //Given
-        val fragmentArgs = bundleOf(
-            "JSON_SCREEN_KEY" to json,
-            "IS_LOCAL_SCREEN_KEY" to "false",
-            "SCREEN_IDENTIFIER_KEY" to url
-        )
-
+    fun `Given  a BeagleFragment with local screen and screen identifier When BeagleFragment is resumed Then should report screen`() {
         //When
         activity?.supportFragmentManager?.beginTransaction()?.replace(
             R.id.server_driven_container, BeagleFragment.newInstance(json, false, url)
@@ -94,13 +77,7 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
     }
 
     @Test
-    fun `Given  a bundle without local screen When BeagleFragment is resumed Then should not report screen`() {
-        //Given
-        val fragmentArgs = bundleOf(
-            "JSON_SCREEN_KEY" to json,
-            "SCREEN_IDENTIFIER_KEY" to url
-        )
-
+    fun `Given  a BeagleFragment without local screen When BeagleFragment is resumed Then should not report screen`() {
         //When
         activity?.supportFragmentManager?.beginTransaction()?.replace(
             R.id.server_driven_container,
@@ -113,13 +90,7 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
     }
 
     @Test
-    fun `Given  a bundle without screen identifier When BeagleFragment is resumed Then should not report screen`() {
-        //Given
-        val fragmentArgs = bundleOf(
-            "JSON_SCREEN_KEY" to json,
-            "IS_LOCAL_SCREEN_KEY" to "false"
-        )
-
+    fun `Given  a BeagleFragment without screen identifier When BeagleFragment is resumed Then should not report screen`() {
         //When
         activity?.supportFragmentManager?.beginTransaction()?.replace(
             R.id.server_driven_container,
@@ -132,14 +103,12 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
     }
 
     @Test
-    fun `Given  a bundle without local screen and screen identifier When BeagleFragment is resumed Then should not report screen`() {
-        //Given
-        val fragmentArgs = bundleOf(
-            "JSON_SCREEN_KEY" to json
-        )
-
+    fun `Given  a BeagleFragment without local screen and screen identifier When BeagleFragment is resumed Then should not report screen`() {
         //When
-
+        activity?.supportFragmentManager?.beginTransaction()?.replace(
+            R.id.server_driven_container,
+            BeagleFragment.newInstance(json)
+        )?.commit()
 
         //Then
         assertEquals(false, localScreenSlot.isCaptured)

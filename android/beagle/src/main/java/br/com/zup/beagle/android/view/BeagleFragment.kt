@@ -24,12 +24,12 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.components.utils.applyBackgroundFromWindowBackgroundTheme
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.widget.UndefinedWidget
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal class BeagleFragment : Fragment() {
 
@@ -52,8 +52,8 @@ internal class BeagleFragment : Fragment() {
         @JvmStatic
         fun newInstance(
             component: ServerDrivenComponent,
-            isLocalScreen: Boolean?,
-            screenIdentifier: String?
+            isLocalScreen: Boolean? = null,
+            screenIdentifier: String? = null
         ) = newInstance(
             beagleSerializer.serializeComponent(component),
             isLocalScreen,
@@ -63,12 +63,12 @@ internal class BeagleFragment : Fragment() {
         @JvmStatic
         fun newInstance(
             json: String,
-            isLocalScreen: Boolean?,
-            screenIdentifier: String?
+            isLocalScreen: Boolean? = null,
+            screenIdentifier: String? = null
         ): BeagleFragment = BeagleFragment().apply {
             val bundle = Bundle()
             bundle.putString(JSON_SCREEN_KEY, json)
-            isLocalScreen?.let{
+            isLocalScreen?.let {
                 bundle.putString(IS_LOCAL_SCREEN_KEY, isLocalScreen.toString())
             }
             bundle.putString(SCREEN_IDENTIFIER_KEY, screenIdentifier)
