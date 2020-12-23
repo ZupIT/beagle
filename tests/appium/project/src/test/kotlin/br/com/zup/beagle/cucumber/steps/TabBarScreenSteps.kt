@@ -34,42 +34,26 @@ class TabBarScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the tabBar screen$")
     fun checkTabBarScreen() {
-        // ScreenRobot().checkViewContainsText(TAB_BAR_SCREEN_HEADER, true)
         waitForElementWithTextToBeClickable(TAB_BAR_SCREEN_HEADER, false, true)
     }
 
     @When("I click on a tab with text (.*)$")
     fun clickOnTab(text: String) {
-        // ScreenRobot().clickOnText(text)
         waitForElementWithTextToBeClickable(text, false, true).click()
     }
 
     @Then("^a tabBarItem with text (.*) should exist$")
     fun checksTabItemsExists(text: String) {
-        // ScreenRobot().checkViewContainsText(text)
         waitForElementWithTextToBeClickable(text, false, true)
     }
 
     @Then("^the tab position should have its text changed to (.*)$")
     fun checksSetContextResult(text: String) {
-        // ScreenRobot().checkViewContainsText(text)
         waitForElementWithTextToBeClickable(text, false, true)
     }
 
     @Then("^I click on each tabBarItem and confirm its position$")
     fun clickOnText() {
-        /*ScreenRobot()
-            .clickOnText("Tab1").checkViewContainsText("Tab position 0")
-            .clickOnText("Tab2").checkViewContainsText("Tab position 1")
-            .clickOnText("Tab3").checkViewContainsText("Tab position 2")
-            .clickOnText("Tab4").checkViewContainsText("Tab position 3")
-            .clickOnText("Tab5").checkViewContainsText("Tab position 4")
-            .clickOnText("Tab6").checkViewContainsText("Tab position 5")
-            .clickOnText("Tab7").checkViewContainsText("Tab position 6")
-            .clickOnText("Tab8").checkViewContainsText("Tab position 7")
-            .clickOnText("Tab9").checkViewContainsText("Tab position 8")
-            .clickOnText("Tab10").checkViewContainsText("Tab position 9")
-         */
         for (i in 1..10) {
             waitForElementWithTextToBeClickable("Tab$i", false, true).click()
             waitForElementWithTextToBeClickable("Tab position " + (i - 1), false, true)
@@ -78,7 +62,6 @@ class TabBarScreenSteps : AbstractStep() {
 
     @Then("^the tab with text (.*) must be on screen$")
     fun checkTabBarRendersTabs(text: String) {
-        // ScreenRobot().checkViewContainsText(text)
         waitForElementWithTextToBeClickable(text, false, true)
     }
 }

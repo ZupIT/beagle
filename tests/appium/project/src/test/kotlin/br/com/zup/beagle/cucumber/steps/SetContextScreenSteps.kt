@@ -31,19 +31,16 @@ class SetContextScreenSteps: AbstractStep() {
 
     @Given("^the Beagle application did launch with the SetContext screen url$")
     fun checkBaseScreen() {
-        // ScreenRobot().checkViewContainsText("SetContext Screen", true)
         waitForElementWithTextToBeClickable("SetContext Screen", false,false)
     }
 
     @When("^I press a SetContext button with the (.*) title$")
     fun clickOnButton(string:String) {
-        // ScreenRobot().clickOnText(string)
         waitForElementWithTextToBeClickable(string, false, false).click()
     }
 
     @Then("^a text with the (.*) message should appear on the screen$")
     fun checkAlertMessage(string:String) {
-        // ScreenRobot().checkViewContainsText(string, true)
         waitForElementWithTextToBeClickable(string, false,false)
     }
 }

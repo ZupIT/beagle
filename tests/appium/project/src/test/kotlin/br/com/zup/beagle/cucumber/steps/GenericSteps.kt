@@ -27,37 +27,31 @@ class GenericSteps : AbstractStep() {
 
     @When("^I click on button (.*)$")
     fun clickOnButton(string1: String) {
-        //ScreenRobot().clickOnText(string1)
         waitForElementWithTextToBeClickable(string1, false, true).click()
     }
 
     @When("^Scroll to (.*)$")
     fun scrollTo(string1: String) {
-        //ScreenRobot().scrollTo(string1)
         scrollDownToElementWithText(string1, false, true).click()
     }
 
     @Then("^The Text should show (.*)$")
     fun textShouldShow(string1: String) {
-        //ScreenRobot().checkViewContainsText(string1)
         waitForElementWithTextToBeClickable(string1, false, true)
     }
 
     @When("^I click on text (.*)$")
     fun clickOnText(string1: String) {
-        //ScreenRobot().clickOnText(string1)
         waitForElementWithTextToBeClickable(string1, false, true).click()
     }
 
     @When("^I click on input with hint (.*)$")
     fun clickOnInputWithHint(hint: String) {
-        //ScreenRobot().clickOnInputWithHint(hint)
         waitForElementWithTextToBeClickable(hint, false, true)
     }
 
     @When("hide keyboard")
     fun hideKeyboardStep() {
-        //ScreenRobot().hideKeyboard()
         hideKeyboard()
     }
 }
