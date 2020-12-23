@@ -152,7 +152,8 @@
 			children = (
 				5C2963C2258BB542000194EE /* ViewLayoutHelper.swift */,
 			);
-			path = Common;
+			name = Common;
+			path = ../../../../../iOS/Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

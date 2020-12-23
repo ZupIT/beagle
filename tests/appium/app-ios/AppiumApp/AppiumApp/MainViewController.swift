@@ -55,13 +55,13 @@ class MainViewController: UIViewController {
         goButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         goButton.setTitle("GO", for: .normal)
         goButton.translatesAutoresizingMaskIntoConstraints = false
-        goButton.addTarget(self, action:#selector(goButtonClicked), for: .touchUpInside)
+        goButton.addTarget(self, action: #selector(goButtonClicked), for: .touchUpInside)
         return goButton
     }()
 
     @objc func goButtonClicked() {
         let url = textField.text ?? ""
-        let viewController =  Beagle.screen(.remote(.init(url: url)), controllerId: "CustomBeagleNavigation")
+        let viewController = Beagle.screen(.remote(.init(url: url)), controllerId: "CustomBeagleNavigation")
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -116,6 +116,5 @@ extension MainViewController: ViewLayoutHelper {
     func setupAdditionalConfiguration() {
         view.backgroundColor = .white
     }
-    
     
 }
