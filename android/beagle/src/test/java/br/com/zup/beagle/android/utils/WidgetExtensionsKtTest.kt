@@ -116,7 +116,6 @@ class WidgetExtensionsKtTest : BaseTest() {
         }
 
 
-        //ServerDrivenComponent.toView fragment and activtiy
         @DisplayName("Then assert the identifier is getting right")
         @Test
         fun testToViewShouldGetScreenIdentifierFromParameterFirst() {

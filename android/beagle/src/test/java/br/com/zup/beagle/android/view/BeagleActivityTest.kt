@@ -88,7 +88,7 @@ class BeagleActivityTest : BaseTest() {
     }
 
     @After
-    fun teardown(){
+    fun teardown() {
         BeagleSdk.deinitForTest()
     }
 

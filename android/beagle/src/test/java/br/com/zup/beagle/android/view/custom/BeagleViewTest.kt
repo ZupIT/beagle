@@ -41,6 +41,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -84,8 +85,9 @@ internal class BeagleViewTest : BaseTest() {
     }
 
     @After
-    fun teardown(){
+    fun teardown() {
         BeagleSdk.deinitForTest()
+        unmockkAll()
     }
 
     private fun mockYoga(application: Application) {

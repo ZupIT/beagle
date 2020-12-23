@@ -16,13 +16,15 @@
 
 package br.com.zup.beagle.android.view
 
+//import androidx.fragment.app.testing.launchFragmentInContainer
 import android.app.Application
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.Lifecycle
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.MyBeagleSetup
 import br.com.zup.beagle.android.setup.BeagleSdk
@@ -58,6 +60,7 @@ class BeagleFragmentTest : BaseTest() {
             }
             }"""
     private val url = "/url"
+    private var activity: ServerDrivenActivity? = null
 
     @Before
     fun setup() {
@@ -67,6 +70,11 @@ class BeagleFragmentTest : BaseTest() {
         MyBeagleSetup().init(application)
         prepareViewModelMock(analyticsViewModel)
         every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
+        val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
+        activityScenario.onActivity {
+            activityScenario.moveToState(Lifecycle.State.RESUMED)
+            activity = it
+        }
     }
 
     @After
@@ -91,12 +99,11 @@ class BeagleFragmentTest : BaseTest() {
             "IS_LOCAL_SCREEN_KEY" to "false",
             "SCREEN_IDENTIFIER_KEY" to url
         )
-        val scenario = launchFragmentInContainer<BeagleFragment>(fragmentArgs)
 
         //When
-        scenario.onFragment {
-            scenario.moveToState(Lifecycle.State.RESUMED)
-        }
+        activity?.supportFragmentManager?.beginTransaction()?.replace(
+            R.id.server_driven_container, BeagleFragment.newInstance(json, false, url)
+        )?.commit()
 
         //Then
         assertEquals(false, localScreenSlot.captured)
@@ -110,12 +117,12 @@ class BeagleFragmentTest : BaseTest() {
             "JSON_SCREEN_KEY" to json,
             "SCREEN_IDENTIFIER_KEY" to url
         )
-        val scenario = launchFragmentInContainer<BeagleFragment>(fragmentArgs)
 
         //When
-        scenario.onFragment {
-            scenario.moveToState(Lifecycle.State.RESUMED)
-        }
+        activity?.supportFragmentManager?.beginTransaction()?.replace(
+            R.id.server_driven_container,
+            BeagleFragment.newInstance(json, null, url)
+        )?.commit()
 
         //Then
         assertEquals(false, localScreenSlot.isCaptured)
@@ -129,12 +136,12 @@ class BeagleFragmentTest : BaseTest() {
             "JSON_SCREEN_KEY" to json,
             "IS_LOCAL_SCREEN_KEY" to "false"
         )
-        val scenario = launchFragmentInContainer<BeagleFragment>(fragmentArgs)
 
         //When
-        scenario.onFragment {
-            scenario.moveToState(Lifecycle.State.RESUMED)
-        }
+        activity?.supportFragmentManager?.beginTransaction()?.replace(
+            R.id.server_driven_container,
+            BeagleFragment.newInstance(json, false, null)
+        )?.commit()
 
         //then
         assertEquals(false, localScreenSlot.isCaptured)
@@ -147,12 +154,9 @@ class BeagleFragmentTest : BaseTest() {
         val fragmentArgs = bundleOf(
             "JSON_SCREEN_KEY" to json
         )
-        val scenario = launchFragmentInContainer<BeagleFragment>(fragmentArgs)
 
         //When
-        scenario.onFragment {
-            scenario.moveToState(Lifecycle.State.RESUMED)
-        }
+
 
         //Then
         assertEquals(false, localScreenSlot.isCaptured)
