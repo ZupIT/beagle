@@ -48,7 +48,7 @@ object NewAnalyticsScreenBuilder {
                             title = "Confirm Title",
                             message = "Confirm Message",
                             labelOk = "Accept",
-                            labelCancel = "Deny"
+                            labelCancel = "cancel"
                         )
                     )
                 ),
@@ -74,7 +74,7 @@ object NewAnalyticsScreenBuilder {
                             title = "Confirm Title",
                             message = "Confirm Message",
                             labelOk = "Accept",
-                            labelCancel = "Deny"
+                            labelCancel = "cancel"
                         )
                     )
                 )
