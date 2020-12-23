@@ -34,6 +34,7 @@ class Dependencies : Plugin<Project> {
         const val androidAnnotation = ":android-annotation"
         const val preview = ":preview"
         const val commonProcessorSharedCode = ":processor-shared-code"
+        const val test = ":test"
     }
 
     object Releases {

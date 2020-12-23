@@ -55,20 +55,21 @@ flags:
     paths:
       - android/
       - common/
-      - schema/kotlin/
     carryforward: true
   backend:
     paths:
       - backend/
       - common/
-      - schema/kotlin/
     carryforward: true
   flutter:
     paths:
       - flutter/
     carryforward: true
 ignore:
- - "iOS/Sources/BeagleUI/**/Tests/"
- - "iOS/Sources/BeagleUI/**/*Test*.swift"
- - "iOS/Sources/BeagleUI/**/*Tests*.swift"
- - "iOS/Libraries/"
+  - "iOS/Example"
+  - "iOS/Libraries"
+  - "iOS/Test"
+  - "iOS/Tests"
+  - "iOS/Sources/Beagle/BeagleTests"
+  - "iOS/Sources/Beagle/**/*Test*.swift"
+  - "iOS/Sources/Beagle/**/*Tests*.swift"  

@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-import Foundation
-@testable import BeagleSchema
+import Beagle
 @testable import BeagleDemo
-@testable import Beagle
 
 enum ComponentFromJsonError: Error {
     case wrongUrlPath
     case couldNotMatchComponentType
 }
 
-func componentFromJsonFile<W: RawComponent>(
+func componentFromJsonFile<W: ServerDrivenComponent>(
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()
 ) throws -> W {
@@ -46,8 +44,7 @@ func componentFromJsonFile<W: RawComponent>(
     return typed
 }
 
-// TODO: Make decoding process generic
-func actionFromJsonFile<W: RawAction>(
+func actionFromJsonFile<W: Action>(
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()
 ) throws -> W {
@@ -87,7 +84,7 @@ func jsonFromFile(
 
 /// This method was only created due to some problems with Swift Type Inference.
 /// So when you pass the type as a parameter, swift can infer the correct type.
-func componentFromJsonFile<W: RawComponent>(
+func componentFromJsonFile<W: ServerDrivenComponent>(
     componentType: W.Type,
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()

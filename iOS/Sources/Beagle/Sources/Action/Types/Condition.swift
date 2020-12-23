@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,20 +14,23 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
+/// Action to represent a condition
+public struct Condition: Action, AutoInitiableAndDecodable {
+    
+    public let condition: Expression<Bool>
+    public let onTrue: [Action]?
+    public let onFalse: [Action]?
 
-extension Condition: Action {
-    public func execute(controller: BeagleController, origin: UIView) {
-        guard let evaluetedCondition = condition.evaluate(with: origin) else {
-            controller.execute(actions: onFalse, origin: origin)
-            return
-        }
-        
-        if evaluetedCondition, let onTrue = self.onTrue {
-            controller.execute(actions: onTrue, origin: origin)
-        } else if !evaluetedCondition, let onFalse = self.onFalse {
-            controller.execute(actions: onFalse, origin: origin)
-        }
+// sourcery:inline:auto:Condition.Init
+    public init(
+        condition: Expression<Bool>,
+        onTrue: [Action]? = nil,
+        onFalse: [Action]? = nil
+    ) {
+        self.condition = condition
+        self.onTrue = onTrue
+        self.onFalse = onFalse
     }
+// sourcery:end
+
 }

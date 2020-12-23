@@ -82,8 +82,6 @@
 		639CA24124B51B40009FAC90 /* BeagleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639CA24024B51B40009FAC90 /* BeagleConfig.swift */; };
 		63ED0EFC24B785960086E433 /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF624B782EB0086E433 /* Beagle.framework */; };
 		63ED0EFD24B785960086E433 /* Beagle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF624B782EB0086E433 /* Beagle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		63ED0EFF24B785A00086E433 /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF824B782EB0086E433 /* BeagleSchema.framework */; };
-		63ED0F0024B785A00086E433 /* BeagleSchema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF824B782EB0086E433 /* BeagleSchema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		63ED0F0124B785A10086E433 /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EFA24B782EB0086E433 /* YogaKit.framework */; };
 		63ED0F0224B785A10086E433 /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EFA24B782EB0086E433 /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6B4F7E7924C659AF003F461A /* ButtonSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7824C659AF003F461A /* ButtonSteps.swift */; };
@@ -131,7 +129,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				63ED0EFD24B785960086E433 /* Beagle.framework in Embed Frameworks */,
-				63ED0F0024B785A00086E433 /* BeagleSchema.framework in Embed Frameworks */,
 				63ED0F0224B785A10086E433 /* YogaKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -278,17 +275,8 @@
 		639CA23024B4F128009FAC90 /* CucumberishInit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CucumberishInit.m; sourceTree = "<group>"; };
 		639CA23224B4F171009FAC90 /* bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bridging-header.h"; sourceTree = "<group>"; };
 		639CA23324B4F3C7009FAC90 /* MainScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
-		639CA23624B4F450009FAC90 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		639CA23824B4F450009FAC90 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		639CA23A24B51ADF009FAC90 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		639CA23C24B51ADF009FAC90 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		639CA23E24B51ADF009FAC90 /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		639CA24024B51B40009FAC90 /* BeagleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleConfig.swift; sourceTree = "<group>"; };
-		63ED0EF024B782690086E433 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		63ED0EF224B782690086E433 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		63ED0EF424B782690086E433 /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63ED0EF624B782EB0086E433 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		63ED0EF824B782EB0086E433 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63ED0EFA24B782EB0086E433 /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B4F7E7824C659AF003F461A /* ButtonSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSteps.swift; sourceTree = "<group>"; };
 		6B4F7E7A24C65A76003F461A /* ScreenRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRobot.swift; sourceTree = "<group>"; };
@@ -316,7 +304,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				63ED0EFC24B785960086E433 /* Beagle.framework in Frameworks */,
-				63ED0EFF24B785A00086E433 /* BeagleSchema.framework in Frameworks */,
 				63ED0F0124B785A10086E433 /* YogaKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -597,16 +584,7 @@
 			isa = PBXGroup;
 			children = (
 				63ED0EF624B782EB0086E433 /* Beagle.framework */,
-				63ED0EF824B782EB0086E433 /* BeagleSchema.framework */,
 				63ED0EFA24B782EB0086E433 /* YogaKit.framework */,
-				63ED0EF024B782690086E433 /* Beagle.framework */,
-				63ED0EF224B782690086E433 /* BeagleSchema.framework */,
-				63ED0EF424B782690086E433 /* YogaKit.framework */,
-				639CA23A24B51ADF009FAC90 /* Beagle.framework */,
-				639CA23C24B51ADF009FAC90 /* BeagleSchema.framework */,
-				639CA23E24B51ADF009FAC90 /* YogaKit.framework */,
-				639CA23624B4F450009FAC90 /* Beagle.framework */,
-				639CA23824B4F450009FAC90 /* BeagleSchema.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

@@ -67,6 +67,7 @@ dependencies {
     implementation project(Dependencies.Modules.core)
 
     // Unit Testing
+    testImplementation project(Dependencies.Modules.test)
     testImplementation Dependencies.TestLibraries.junitApi
     testImplementation Dependencies.TestLibraries.junitEngine
     testImplementation Dependencies.TestLibraries.robolectric

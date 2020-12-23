@@ -19,19 +19,14 @@ package br.com.zup.beagle.android.utils
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.text.TextUtils
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
-import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
@@ -43,7 +38,13 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 
-internal class ToolbarManager {
+internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager = ToolbarTextManager) {
+
+    companion object {
+        private const val CONTENT_INSET_ZERO = 0
+        private const val CONTENT_INSET_LEFT_ZERO = 0
+        private const val CONTENT_INSET_RIGHT_ZERO = 0
+    }
 
     fun configureNavigationBarForScreen(
         context: BeagleActivity,
@@ -104,10 +105,12 @@ internal class ToolbarManager {
             )
             removePreviousToolbarTitle(toolbar)
             if (typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false)) {
-                val titleTextView = generateCenterTitle(context, navigationBar, textAppearance, toolbar)
+                val titleTextView = toolbarTextManager.generateTitle(context, navigationBar, textAppearance)
                 toolbar.addView(titleTextView)
-                centerTitle(toolbar, titleTextView)
-                toolbar.title = ""
+                toolbarTextManager.centerTitle(toolbar, titleTextView)
+                toolbar.title = "title"
+                toolbar.contentInsetStartWithNavigation = CONTENT_INSET_ZERO
+                toolbar.setContentInsetsAbsolute(CONTENT_INSET_LEFT_ZERO, CONTENT_INSET_RIGHT_ZERO)
             } else {
                 toolbar.title = navigationBar.title
                 if (textAppearance != 0) {
@@ -124,52 +127,9 @@ internal class ToolbarManager {
         }
     }
 
-    private fun centerTitle(
-        toolbar: Toolbar,
-        titleTextView: TextView
-    ) {
-        toolbar.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-            val idealX = ((toolbar.width - titleTextView.width) / 2).toFloat()
-            val lastToolbarView = toolbar.children.find {
-                it.right == toolbar.width
-            }
-            val lastToolbarViewStart = lastToolbarView?.left ?: 0
-            if (idealX + titleTextView.width > lastToolbarViewStart) {
-                val idealXAdjusted = idealX - (idealX + titleTextView.width - lastToolbarViewStart)
-                titleTextView.x = idealXAdjusted
-            } else {
-                titleTextView.x = idealX
-            }
-        }
-    }
-
     private fun removePreviousToolbarTitle(toolbar: Toolbar) {
         val centeredTitle = toolbar.findViewById<TextView>(R.id.beagle_toolbar_text)
         toolbar.removeView(centeredTitle)
-    }
-
-    private fun generateCenterTitle(
-        context: Context,
-        navigationBar: NavigationBar,
-        textAppearance: Int,
-        toolbar: Toolbar
-    ) = TextView(context).apply {
-        id = R.id.beagle_toolbar_text
-        val params = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        ).apply {
-            gravity = Gravity.CENTER
-            maxLines = 1
-            ellipsize = TextUtils.TruncateAt.END
-        }
-        layoutParams = params
-        text = navigationBar.title
-        if (textAppearance != 0) {
-            TextViewCompat.setTextAppearance(this, textAppearance)
-        }
-        toolbar.contentInsetStartWithNavigation = 0
-        toolbar.setContentInsetsAbsolute(0, 0)
     }
 
     private fun configToolbarItems(
