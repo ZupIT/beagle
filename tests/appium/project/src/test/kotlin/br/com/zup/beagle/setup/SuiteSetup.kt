@@ -60,7 +60,14 @@ object SuiteSetup {
         //startAppiumServer()
 
         if (platform == null) {
+
             platform = System.getProperty("platform") // command-line argument
+
+            if (platform == null || platform == "")
+                throw Exception("Missing param: platform")
+
+            if (!"android".equals(platform, true) && !"ios".equals(platform, true))
+                throw Exception("Invalid platform param: $platform. Platform must be android or ios")
         }
 
         println("#### Initializing suite setup with platform $platform...")
