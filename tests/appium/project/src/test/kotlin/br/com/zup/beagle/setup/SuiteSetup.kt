@@ -97,12 +97,13 @@ object SuiteSetup {
             capabilities.setCapability("allowTestPackages", true)
 
             /**
-             * Android driver strategy: UiAutomator2 or Espresso
+             * Android driver strategy: UiAutomator2 (default and stable) or Espresso
              */
-
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2")
 
-            // Espresso driver config. It is mandatory to set the app capability when using Espresso driver
+            /**
+             * Espresso driver config. It is mandatory to set the app capability when using Espresso driver
+             */
             //capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Espresso")
             //capabilities.setCapability("forceEspressoRebuild", true)
             //capabilities.setCapability(MobileCapabilityType.APP, "C:\\workspaces\\beagle\\android\\automated-tests\\build\\outputs\\apk\\debug\\automated-tests-debug.apk");
@@ -116,24 +117,34 @@ object SuiteSetup {
             capabilities.setCapability("appActivity", ".activity.MainActivity")
 
             driver = AndroidDriver<MobileElement>(/*service?.url*/URL(APPIUM_URL), capabilities)
-            //driver?.launchApp()
+
         } else {
+
             capabilities.setCapability("noReset", true)
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13.5")
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 11")
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
-            capabilities.setCapability(
-                MobileCapabilityType.APP,
-                "/Users/luisgustavooliveirasilva/Library/Developer/Xcode/DerivedData/Beagle-gnqdhkpaxlbwgnbcpaltnxvwyeum/Build/Products/Debug-iphonesimulator/AppiumApp.app"
-            )
+
+            /**
+             * The required .app file is usually at
+             * ~/Library/Developer/Xcode/DerivedData/APP-RANDOM-CODE/Build/Products/Debug-iphonesimulator/AppiumApp.app
+             *
+             * TODO: remove hardcoded AppiumApp.app path by:
+             *  - passing the path by runtime param (just like -Dplatform param for example)
+             *  - and the new param usage and requirement in the documentation
+             */
+            capabilities.setCapability(MobileCapabilityType.APP,
+                "COMPLETE-PATH/AppiumApp.app")
+
             capabilities.setCapability("waitForQuiescence", false)
 
             driver = IOSDriver<MobileElement>(URL(APPIUM_URL), capabilities)
         }
     }
 
-    // Too slow on iOS
+
+    @Deprecated("Too slow on iOS. Use restartApp instead")
     fun resetApp() {
         try {
             driver?.resetApp();

@@ -26,6 +26,10 @@ import org.junit.runner.RunWith
  */
 @RunWith(Cucumber::class)
 @CucumberOptions(
+    /**
+     * running all tests on Android: "@android and not @inProgress"
+     * running all tests on iOS: "@ios and not @inProgress"
+     */
     tags = "@textinput and not @inProgress",
     features = ["src/test/resources/features"],
     plugin = ["br.com.zup.beagle.setup.SuiteSetupPlugin"]
