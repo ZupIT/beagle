@@ -29,7 +29,6 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
