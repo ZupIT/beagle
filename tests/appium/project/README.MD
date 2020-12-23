@@ -129,3 +129,5 @@ however Espresso and Appium have different approaches and application scope. App
 Black Box fashion, not having access to the app source code. Appium simulates a real user testing the app. 
 Espresso on the other hand is a White Box test framework because it runs and has access to the app source code. Espresso 
 only works with Android platform.
+
+All these limitations, however, can be solved by screenshot testing.
