@@ -54,7 +54,7 @@ task cucumber() {
             // gradlew cucumber -Dplatform=CHOSEN-PLATFORM
             systemProperty "platform", System.getProperty("platform")
             // gradlew cucumber -Dcucumber.options="-tags @tagname"
-            //systemProperty "cucumber.options", System.getProperty("cucumber.options")
+            // systemProperty "cucumber.options", System.getProperty("cucumber.options")
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = [/*'--plugin','pretty', */
@@ -67,7 +67,7 @@ task cucumber() {
     }
 }
 
-
+// necessary when running by Runner.kt class
 test {
     systemProperty "platform", System.getProperty("platform")
 }

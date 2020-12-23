@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.cucumber.steps
+package br.com.zup.beagle.test.rules
 
-import io.cucumber.junit.Cucumber
-import io.cucumber.junit.CucumberOptions
-import org.junit.runner.RunWith
+import org.junit.rules.TestRule
+import org.junit.runner.Description
+import org.junit.runners.model.Statement
 
-/**
- * Used for debugging since cucumber task in gradle.build won't hit breakpoints.
- * Must be in the steps folder
- */
-@RunWith(Cucumber::class)
-@CucumberOptions(
-    /**
-     * running all tests on Android: "@android and not @inProgress"
-     * running all tests on iOS: "@ios and not @inProgress"
-     */
-    tags = "@textinput and not @inProgress",
-    features = ["src/test/resources/features"],
-    plugin = ["br.com.zup.beagle.setup.SuiteSetupPlugin"]
-)
-class Runner {
+class BeagleComponentsRule : TestRule {
+    override fun apply(base: Statement?, description: Description?): Statement {
+        return BeagleComponentsStatement(base)
+    }
 }

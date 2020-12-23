@@ -13,16 +13,19 @@ This project uses [Appium](http://appium.io/) and [Cucumber](https://cucumber.io
 
 ### Android
 
-- Android SDK and Tools. Variable [ANDROID_SDK_ROOT](https://developer.android.com/studio/command-line/variables) must be configured
-- Load Android emulator with Beagle's [Appium Android app](../app-android/README.MD). In case the emulator is already set with 
-the app, it's possible to run the emulator with the command ``$ANDROID_SDK_ROOT\emulator\emulator -avd DEVICE-NAME`` where 
-``DEVICE-NAME`` is something like ``Pixel_3a_API_30_x86``. 
+- Android SDK and tools. Variable [ANDROID_SDK_ROOT](https://developer.android.com/studio/command-line/variables) must be configured
+- Load the Android emulator with Beagle's [Appium Android app](./../app-android). Once the app is installed, use the following command to open 
+  the emulator without opening Android Studio: ``$ANDROID_SDK_ROOT\emulator\emulator -avd DEVICE-NAME`` where ``DEVICE-NAME`` is something 
+  like ``Pixel_3a_API_30_x86``. 
 
  
-### iOS (in progress...)
+### iOS
 
-- Install iOS emulator
-- Load iOS emulator with Beagle's [Appium iOS app](../app-ios/README.MD)
+- Xcode and tools
+- Generate the ``AppiumApp.app`` file by building the [Appium iOS app](./../app-ios) project. The .app file usually 
+is located at ``~/Library/Developer/Xcode/DerivedData/{APP-RANDOM-CODE}/Build/Products/Debug-iphonesimulator/``
+- In ``SuiteSetup.kt`` class, refer to the .app file path in the ``MobileCapabilityType.APP`` capability under iOS 
+section
   
 ## Execution
 
@@ -30,14 +33,20 @@ the app, it's possible to run the emulator with the command ``$ANDROID_SDK_ROOT\
 
 To compile and run the whole test suite, execute the command ``gradlew cucumber -Dplatform=android`` (or ios)
 
+It's also possible to run the ``Runner.kt`` class to run all or single tests. Refer to the Debugging section for more details
+on this runner class.
+
 ### Debugging
 
 Debugging is possible running Cucumber as a JUnit runner. This method is recommended to avoid breakpoint skipping 
 problems during debugging a gradle task.
 Refer to ``br.com.zup.beagle.cucumber.steps.Runner`` as the official runner. Right click on it 
-and select "Run Runner" (using IntelliJ IDEA). This first run will fail because some params were 
+and select "Run Runner" (using IntelliJ IDEA). This first run will fail because some params are 
 missing. Edit the run plan and add the following to the 'Arguments' section: ``-Dplatform=android`` (or ios).
 Now, run \ debug the plan again. 
+
+To run all tests, use the tag of the mobile platform. For example, to run all Android tests use the following tags 
+``@android and not @inProgress`` 
 
 ### Screenshots on error
 
@@ -49,7 +58,7 @@ in ``build/screenshots`` folder. This folder is always cleaned at the project st
 ### Cucumber features
 
 Features (*.feature files) are located at ``src/test/resources/features``. For now, it is mandatory that they declare 
-the ``@android`` and ``@ios`` tags.
+the ``@android`` and ``@ios`` tags. If a feature is not completed yet, it should be tagged as in progress (@inProgress)
 
 ### Step implementation
 
@@ -120,3 +129,5 @@ however Espresso and Appium have different approaches and application scope. App
 Black Box fashion, not having access to the app source code. Appium simulates a real user testing the app. 
 Espresso on the other hand is a White Box test framework because it runs and has access to the app source code. Espresso 
 only works with Android platform.
+
+All these limitations, however, can be solved by screenshot testing.

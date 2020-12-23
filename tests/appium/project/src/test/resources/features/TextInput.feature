@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-@textinput @regression
+@textinput @android @ios
 Feature: TextInput Validation
 
     As a Beagle developer/user
