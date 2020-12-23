@@ -25,6 +25,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.BaseSoLoaderTest
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.MyBeagleSetup
 import br.com.zup.beagle.android.setup.BeagleSdk
@@ -47,7 +48,7 @@ import org.robolectric.annotation.Config
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
 @ExperimentalCoroutinesApi
-class BeagleFragmentTest : BaseTest() {
+class BeagleFragmentTest : BaseSoLoaderTest() {
 
     private val analyticsViewModel = mockk<AnalyticsViewModel>()
     private val localScreenSlot = slot<Boolean>()
@@ -63,11 +64,7 @@ class BeagleFragmentTest : BaseTest() {
     private var activity: ServerDrivenActivity? = null
 
     @Before
-    fun setup() {
-        val application = ApplicationProvider.getApplicationContext() as Application
-        mockYoga(application)
-        BeagleSdk.setInTestMode()
-        MyBeagleSetup().init(application)
+    fun mockBeforeTest() {
         prepareViewModelMock(analyticsViewModel)
         every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
         val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
@@ -75,20 +72,6 @@ class BeagleFragmentTest : BaseTest() {
             activityScenario.moveToState(Lifecycle.State.RESUMED)
             activity = it
         }
-    }
-
-    @After
-    fun teardown() {
-        BeagleSdk.deinitForTest()
-    }
-
-    private fun mockYoga(application: Application) {
-        val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
-        val view = View(application)
-        mockkStatic(YogaNode::class)
-
-        every { YogaNode.create() } returns yogaNode
-        every { yogaNode.data } returns view
     }
 
     @Test
