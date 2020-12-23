@@ -20,6 +20,7 @@ public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
     public let text: Expression<String>
     public let styleId: String?
     public let onPress: [Action]?
+    public let disabled: Expression<Bool>?
     public var clickAnalyticsEvent: AnalyticsClick?
     public var widgetProperties: WidgetProperties
 
@@ -28,12 +29,14 @@ public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
         text: Expression<String>,
         styleId: String? = nil,
         onPress: [Action]? = nil,
+        disabled: Expression<Bool>? = nil,
         clickAnalyticsEvent: AnalyticsClick? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.styleId = styleId
         self.onPress = onPress
+        self.disabled = disabled
         self.clickAnalyticsEvent = clickAnalyticsEvent
         self.widgetProperties = widgetProperties
     }

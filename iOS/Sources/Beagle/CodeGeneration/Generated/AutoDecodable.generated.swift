@@ -66,6 +66,7 @@ extension Button {
         case text
         case styleId
         case onPress
+        case disabled
         case clickAnalyticsEvent
     }
 
@@ -75,6 +76,7 @@ extension Button {
         text = try container.decode(Expression<String>.self, forKey: .text)
         styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         onPress = try container.decodeIfPresent(forKey: .onPress)
+        disabled = try container.decodeIfPresent(Expression<Bool>.self, forKey: .disabled)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
     }
