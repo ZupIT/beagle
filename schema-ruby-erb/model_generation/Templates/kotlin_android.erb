@@ -19,39 +19,39 @@
   @kotlinHelper.languageIdentifier = SupportedLanguages.new.kotlin
   @kotlinHelper.defaultDeclarationType = TypeInterface.new
 
-  def full_declaration(objectType)
-    output = @kotlinHelper.resolve_package(objectType)
+  def full_declaration(object_type)
+    output = @kotlinHelper.resolve_package(object_type)
 
-    output += @kotlinHelper.resolve_imports(objectType)
-    output += @kotlinHelper.resolve_documentation(objectType)
-    output += resolve_object(objectType)
+    output += @kotlinHelper.resolve_imports(object_type)
+    output += @kotlinHelper.resolve_documentation(object_type)
+    output += resolve_object(object_type)
 
     output
   end
 
-  def resolve_object(objectType)
+  def resolve_object(object_type)
     output = ""
 
-    if @kotlinHelper.inheritFrom_widget(objectType)
-      output += @kotlinHelper.init_interface(objectType)
+    if @kotlinHelper.inheritFrom_widget(object_type)
+      output += @kotlinHelper.init_interface(object_type)
     else
-      output += @kotlinHelper.resolve_kotlin_object(objectType)
+      output += @kotlinHelper.resolve_kotlin_object(object_type)
     end
 
-    output += handle_inner_types(objectType.synthax_type.sameFileTypes)
+    output += handle_inner_types(object_type.synthax_type.sameFileTypes)
 
     output
   end
 
-  def handle_inner_types(objectTypes)
+  def handle_inner_types(object_types)
     output = ""
 
-    for objectType in objectTypes
-      output += "\n#{@kotlinHelper.resolve_documentation(objectType)}"
-      output += "\n#{resolve_object(objectType)}"
-      possibleNestedTypes = objectType.synthax_type.sameFileTypes
+    for object_type in object_types
+      output += "\n#{@kotlinHelper.resolve_documentation(object_type)}"
+      output += "\n#{resolve_object(object_type)}"
+      possibleNestedTypes = object_type.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
-        handle_inner_types(objectType.synthax_type.sameFileTypes)
+        handle_inner_types(object_type.synthax_type.sameFileTypes)
       end
     end
     

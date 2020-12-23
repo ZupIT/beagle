@@ -19,33 +19,33 @@
   @kotlinHelper.languageIdentifier = SupportedLanguages.new.kotlinBackend
   @kotlinHelper.defaultDeclarationType = TypeDataClass.new
 
-  def full_declaration(objectType)
-    output = @kotlinHelper.resolve_package(objectType)
-
-    output += @kotlinHelper.resolve_imports(objectType)
-    output += @kotlinHelper.resolve_documentation(objectType)
-    output += resolve_object(objectType)
-
-    output
-  end
-
-  def resolve_object(objectType)
-    output = ""
-    output += @kotlinHelper.resolve_kotlin_object(objectType)
-    output += handle_inner_types(objectType.synthax_type.sameFileTypes)
+  def full_declaration(object_type)
+    output = @kotlinHelper.resolve_package(object_type)
+    
+    output += @kotlinHelper.resolve_imports(object_type)
+    output += @kotlinHelper.resolve_documentation(object_type)
+    output += resolve_object(object_type)
 
     output
   end
 
-  def handle_inner_types(objectTypes)
+  def resolve_object(object_type)
+    output = ""
+    output += @kotlinHelper.resolve_kotlin_object(object_type)
+    output += handle_inner_types(object_type.synthax_type.sameFileTypes)
+
+    output
+  end
+
+  def handle_inner_types(object_types)
     output = ""
 
-    for objectType in objectTypes
-      output += "\n\n#{@kotlinHelper.resolve_documentation(objectType)}"
-      output += "#{resolve_object(objectType)}"
-      possibleNestedTypes = objectType.synthax_type.sameFileTypes
+    for object_type in object_types
+      output += "\n\n#{@kotlinHelper.resolve_documentation(object_type)}"
+      output += "#{resolve_object(object_type)}"
+      possibleNestedTypes = object_type.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
-        handle_inner_types(objectType.synthax_type.sameFileTypes, output)
+        handle_inner_types(object_type.synthax_type.sameFileTypes, output)
       end
     end
     
