@@ -30,14 +30,14 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
-    compileSdkVersion 30
+    compileSdkVersion Dependencies.Versions.compileSdk
 
     defaultConfig {
         applicationId "br.com.zup.beagle.appiumApp"
-        minSdkVersion 19
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion Dependencies.Versions.targetSdk
+        targetSdkVersion Dependencies.Versions.compileSdk
+        versionCode Dependencies.Releases.versionCode
+        versionName "${Dependencies.Releases.beagleVersionName}"
     }
 
     sourceSets {
