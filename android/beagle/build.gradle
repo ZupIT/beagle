@@ -109,7 +109,6 @@ dependencies {
     testImplementation Dependencies.TestLibraries.testCore
     testImplementation Dependencies.TestLibraries.testRules
     testImplementation Dependencies.TestLibraries.robolectric
-    testImplementation Dependencies.TestLibraries.fragment
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
