@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.expressionOrValueOfNullable
@@ -24,6 +25,7 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * This action will show dialogues natively, such as an error alert indicating alternative flows, business system
@@ -39,8 +41,9 @@ data class Alert(
     val title: Bind<String>? = null,
     val message: Bind<String>,
     val onPressOk: Action? = null,
-    val labelOk: String? = null
-) : Action {
+    val labelOk: String? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics() {
 
     constructor(
         title: String? = null,
@@ -57,7 +60,7 @@ data class Alert(
     @Transient
     internal var viewFactory: ViewFactory = ViewFactory()
 
-    override fun execute(rootView: RootView, origin: View) {
+    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
         viewFactory.makeAlertDialogBuilder(rootView.getContext())
             .setTitle(title?.let { evaluateExpression(rootView, origin, it) } ?: "")
             .setMessage(evaluateExpression(rootView, origin, message))
