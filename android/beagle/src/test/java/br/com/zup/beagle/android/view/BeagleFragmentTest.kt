@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.view
 
-//import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
