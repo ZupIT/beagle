@@ -22,13 +22,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
-  beagle_core_js:
-    dependency: transitive
-    description:
-      path: "../beagle_core_js"
-      relative: true
-    source: path
-    version: "1.0.0"
   boolean_selector:
     dependency: transitive
     description:
