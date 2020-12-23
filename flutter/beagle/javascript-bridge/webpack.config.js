@@ -15,7 +15,7 @@ module.exports = {
     extensions: [ '.ts', '.js' ],
   },
   optimization: {
-    minimize: false
+    minimize: true
   },
   output: {
     filename: 'beagle.js',
