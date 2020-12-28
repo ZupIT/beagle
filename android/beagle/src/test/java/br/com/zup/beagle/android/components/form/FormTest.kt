@@ -251,7 +251,7 @@ class FormTest : BaseComponentTest() {
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
         verifyOrder {
-            navigateAction.execute(rootView, formSubmitView)
+            navigateAction.execute(rootView, formSubmitView, form)
             formResult.action.execute(rootView, formSubmitView)
         }
     }

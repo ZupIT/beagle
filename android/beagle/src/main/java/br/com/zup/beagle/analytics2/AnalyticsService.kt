@@ -61,7 +61,7 @@ internal object AnalyticsService {
         analyticsHandleEvent: AnalyticsHandleEvent? = null
     ) {
         analyticsProvider?.let {
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
                 action,
@@ -78,7 +78,7 @@ internal object AnalyticsService {
     fun reportActionIfShould(dataActionReport: DataActionReport) {
         val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport)
         if (shouldReport(config)) {
-            analyticsProvider?.createRecord(ActionRecordFactory.generateActionAnalyticsConfig(dataActionReport, config))
+            analyticsProvider?.createRecord(ActionReportFactory.generateActionAnalyticsConfig(dataActionReport, config))
         }
     }
 

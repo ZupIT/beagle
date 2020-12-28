@@ -20,6 +20,9 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
+import br.com.zup.beagle.analytics2.AnalyticsService
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AsyncActionStatus
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.SendRequest
@@ -27,6 +30,7 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.setIsInitiableComponent
+import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
 import io.mockk.Runs
@@ -34,6 +38,8 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
+import io.mockk.mockkObject
+import io.mockk.runs
 import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.unmockkConstructor
@@ -166,8 +172,10 @@ class OnInitiableComponentTest {
         @Test
         fun onViewAttachedToWindowExecute() {
             // Given
-            val action = Navigate.PopView()
+            val action = mockk<Action>()
+            every { action.execute(rootView, origin) } just Runs
             val initiableWidget = Container(children = listOf(), onInit = listOf(action))
+
 
             // When
             initiableWidget.handleOnInit(rootView, origin)
@@ -222,7 +230,8 @@ class OnInitiableComponentTest {
         @Test
         fun markToRerunOnInitAgain() {
             // Given
-            val action = Navigate.PopView()
+            val action = mockk<Action>()
+            every { action.execute(rootView, origin) } just Runs
             val initiableWidget = Container(children = listOf(), onInit = listOf(action))
 
             // When
