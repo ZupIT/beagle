@@ -6,7 +6,8 @@
         - some: "mocked label"
       ▿ value: Optional<String>
         - some: "mocked value"
-  ▿ onPress: Optional<Array<RawAction>>
+  - disabled: Optional<Expression<Bool>>.none
+  ▿ onPress: Optional<Array<Action>>
     ▿ some: 1 element
       - Navigate.popStack
   - styleId: Optional<String>.none

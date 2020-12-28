@@ -1,0 +1,30 @@
+▿ Button
+  - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+  ▿ disabled: Optional<Expression<Bool>>
+    ▿ some: Expression<Bool>
+      - value: true
+  ▿ onPress: Optional<Array<Action>>
+    ▿ some: 1 element
+      - Navigate.popStack
+  - styleId: Optional<String>.none
+  ▿ text: Expression<String>
+    - value: "button"
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    - id: Optional<String>.none
+    ▿ style: Optional<Style>
+      ▿ some: Style
+        ▿ backgroundColor: Optional<String>
+          - some: "#800000FF"
+        - borderColor: Optional<String>.none
+        - borderWidth: Optional<Double>.none
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0
+        - display: Optional<Expression<Display>>.none
+        - flex: Optional<Flex>.none
+        - margin: Optional<EdgeValue>.none
+        - padding: Optional<EdgeValue>.none
+        - position: Optional<EdgeValue>.none
+        - positionType: Optional<PositionType>.none
+        - size: Optional<Size>.none

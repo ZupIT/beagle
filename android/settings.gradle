@@ -22,5 +22,7 @@ include ":android-annotation"
 include ":preview"
 include ":processor-shared-code"
 include ":automated-tests"
+include ':test'
+
 
 rootProject.name = "Beagle"

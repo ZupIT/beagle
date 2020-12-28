@@ -16,7 +16,6 @@
 
 import UIKit
 import Beagle
-import BeagleSchema
 
 // Conforming to AutoEquatable is optional.
 struct DSCollection: Widget, AutoInitiableAndDecodable, AutoEquatable {

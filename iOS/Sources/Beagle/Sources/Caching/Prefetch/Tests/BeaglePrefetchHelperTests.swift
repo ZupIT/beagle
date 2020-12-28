@@ -15,9 +15,8 @@
  */
 
 import XCTest
-@testable import Beagle
 import SnapshotTesting
-import BeagleSchema
+@testable import Beagle
 
 final class BeaglePrefetchHelperTests: XCTestCase {
 
@@ -144,7 +143,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
     private func decodeComponent(from data: Data) -> ServerDrivenComponent? {
         do {
             let component = try decoder.decodeComponent(from: data)
-            return component as? ServerDrivenComponent
+            return component
         } catch {
             return nil
         }
