@@ -32,7 +32,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Action Record Creator")
+@DisplayName("Given a Action Report Factory")
 internal class ActionReportFactoryTest : BaseTest() {
 
     private val origin: View = mockk()
@@ -164,7 +164,7 @@ internal class ActionReportFactoryTest : BaseTest() {
 
         private fun generateComponentReport() = hashMapOf<String, Any>(
             "position" to hashMapOf("x" to 300f, "y" to 400f),
-            "type" to "beagle:Text"
+            "type" to "beagle:text"
         )
 
         private fun generateDataActionReport() = ActionReportFactory.preGenerateActionAnalyticsConfig(
@@ -186,7 +186,7 @@ internal class ActionReportFactoryTest : BaseTest() {
     inner class ActionAttribute {
         private val url = "/url"
         private val route = Route.Remote(url = "/url")
-        private val actionType = "beagle:TestActionAnalytics"
+        private val actionType = "beagle:testActionAnalytics"
         private val action: ActionAnalytics = TestActionAnalytics(route = route)
 
         @BeforeEach
@@ -289,7 +289,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 analyticsValue = "onPress",
                 action = action,
                 screenId = "",
-                actionType = "beagle:TestActionAnalytics"
+                actionType = "beagle:testActionAnalytics"
             )
             //WHEN
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
