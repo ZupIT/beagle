@@ -1,5 +1,6 @@
 name: beagle_components
-description: Beagle is an open source framework for cross-platform development using the concept of Server-Driven UI.
+description: Beagle Components is a set of tools and components to be used with the Beagle package
+  wich is an open source framework for cross-platform development using the concept of Server-Driven UI.
 version: 1.0.0
 author: Zup
 homepage: https://usebeagle.io/
