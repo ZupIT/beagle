@@ -28,6 +28,10 @@ class KotlinTemplateHelper < TemplateHelper
       languageIdentifier == @kotlinBackend
   end
 
+  # Given object_type, this functions returns if such an object is interface or not
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is interface or not
   def is_interface(object_type)
     super(object_type) or is_widget_android(object_type)
   end
@@ -229,6 +233,80 @@ class KotlinTemplateHelper < TemplateHelper
     output
   end
 
+  # Handle name and type of class
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] name and type of class
+  def handle_name_and_type(object_type)
+    "\n#{fetch_built_in_type_declaration(object_type.synthax_type.type)} #{object_type.synthax_type.name}"
+  end
+
+  # Given object_type, this functions returns a generated interface
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] generated interface
+  def init_interface(object_type)
+    output = handle_name_and_type(object_type)
+    output += resolve_super_classes(object_type)
+
+    counter = 0 
+    if object_type.synthax_type.variables.any?
+      output += " {"
+      for variable in object_type.synthax_type.variables
+        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, is_abstract(object_type), object_type.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+    end
+
+    if contains_declared_fields(output)
+      output += "\n}"
+    end
+    
+    output
+  end
+
+  # Given output, this functions returns if such an output has declared fields
+  #
+  # @param output [String]
+  # @return [Bool] has declared fields
+  def contains_declared_fields(output)
+    output.include? "val" or output.include? "var"
+  end
+
+  # Given object_type, this functions returns its super classes
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] its super classes
+  def resolve_super_classes(object_type)
+    output = ""
+    
+    if object_type.synthax_type.inheritFrom.size > 0
+      output += " : "
+      
+      counter = 0 
+      for inherited in object_type.synthax_type.inheritFrom
+        super_class = ""
+
+        if is_interface(object_type)
+          super_class += is_abstract(inherited) ? "" : inherited.name
+        else
+          super_class += is_abstract(inherited) ? "#{inherited.name}()" : inherited.name
+        end
+        
+        if super_class != "" and object_type.synthax_type.inheritFrom.size - 1 != counter 
+          super_class += ", "
+        end
+
+        output += super_class
+        counter += 1
+      end
+
+      output += " "
+    end
+
+    output
+  end
+
   def dictionary_variable_declaration(variable) 
     type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
     type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
@@ -286,9 +364,7 @@ class KotlinTemplateHelper < TemplateHelper
   end
 
   def init_enum(objectType)
-    typeKind = fetch_built_in_type_declaration(objectType.synthax_type.type)
-
-    output = "\n#{typeKind} #{objectType.synthax_type.name} {\n"
+    output = "#{handle_name_and_type(objectType)} {\n"
 
     counter = 0
     for field in objectType.synthax_type.variables
@@ -312,33 +388,8 @@ class KotlinTemplateHelper < TemplateHelper
     type_name
   end
 
-  def init_interface(objectType)
-    typeKind = fetch_built_in_type_declaration(objectType.synthax_type.type)
-    
-    output = "\n#{typeKind} #{objectType.synthax_type.name}"
-
-    output += resolve_super_classes(objectType)
-
-    counter = 0 
-    if objectType.synthax_type.variables.any?
-      output += " {"
-      for variable in objectType.synthax_type.variables
-        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, is_abstract(objectType), objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-    end
-
-    if output.include? "val" or output.include? "var"
-      output += "\n}"
-    end
-    
-    output
-  end
-
   def init_abstract(objectType)
-    typeKind = fetch_built_in_type_declaration(objectType.synthax_type.type)
-    
-    output = "\n#{typeKind} #{objectType.synthax_type.name}"
+    output = handle_name_and_type(objectType)
     output += resolve_super_classes(objectType)
 
     counter = 0 
@@ -362,36 +413,10 @@ class KotlinTemplateHelper < TemplateHelper
       end
     end
 
-    if output.include? "val" or output.include? "var"
+    if contains_declared_fields(output)
       output += "\n}"
     end
     
-    output
-  end
-
-  def resolve_super_classes(objectType)
-    output = ""
-    
-    if objectType.synthax_type.inheritFrom.size > 0
-      output += " : "
-      counter = 0 
-      for inherited in objectType.synthax_type.inheritFrom
-        superClass = ""
-        if is_interface(objectType)
-          superClass += is_abstract(inherited) ? "" : inherited.name
-        else
-          superClass += is_abstract(inherited) ? "#{inherited.name}()" : inherited.name
-        end
-        
-        if superClass != "" and objectType.synthax_type.inheritFrom.size - 1 != counter 
-          superClass += ", "
-        end
-        output += superClass
-        counter += 1
-      end
-      output += " "
-    end
-
     output
   end
 

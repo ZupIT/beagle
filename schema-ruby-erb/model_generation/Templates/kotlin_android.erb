@@ -32,6 +32,7 @@
   def resolve_object(object_type)
     output = ""
 
+    # Android widgets are generated interfaces
     if @kotlinHelper.inheritFrom_widget(object_type)
       output += @kotlinHelper.init_interface(object_type)
     else

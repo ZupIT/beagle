@@ -173,6 +173,10 @@ class TemplateHelper < SupportedLanguages
          is_interface(object_type) or is_enum(object_type)
     end
 
+    # Given object_type, this functions returns if such an object inherits from a widget
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object inherits from a widget or no
     def inheritFrom_widget(object_type)
         if object_type.synthax_type.name == "Widget"
             return false
@@ -201,6 +205,10 @@ class TemplateHelper < SupportedLanguages
         return false
     end
 
+    # Given object_type, this functions returns if such an object is a widget or inherits from a widget
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object is a widget or inherits from a widget
     def is_widget(object_type)
         if object_type.synthax_type.name == "Widget"
             return true
@@ -213,16 +221,26 @@ class TemplateHelper < SupportedLanguages
         return false
     end
 
+    # Given object_type, this function returns if that object contains fields
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object contains fields
     def has_variables(object_type)
         object_type.synthax_type.variables != nil and object_type.synthax_type.variables.size > 0
     end
 
-    # Documentation
-
+    # Given object_type, this function returns if that object contains documentation
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object contains documentation
     def object_has_documentation(object_type)
         return object_type.synthax_type.comment != nil
     end 
 
+    # Given object_type, this function returns if that object contains documentation in its variables
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object contains documentation in its variables
     def variables_has_documentation(object_type) 
         if has_variables(object_type)
           return object_type.synthax_type.variables.any? { |variable| variable.comment != nil }
@@ -231,6 +249,10 @@ class TemplateHelper < SupportedLanguages
         return false
     end
 
+    # Given object_type, this function returns if that object contains documentation in its inherited
+    #
+    # @param object_type [BaseComponent]
+    # @return [Bool] indicating wether the object contains documentation in its inherited
     def inheritFrom_has_documentation(object_type)
     result = false
 
