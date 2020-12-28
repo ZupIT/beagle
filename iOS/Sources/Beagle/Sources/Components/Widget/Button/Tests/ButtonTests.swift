@@ -57,6 +57,29 @@ final class ButtonTests: XCTestCase {
         XCTAssertEqual(button?.titleLabel?.text, buttonTitle, "Build View not returning UIButton")
     }
     
+    func testSetButtonDisabledDefault() {
+        //Given
+        let component = Button(text: "")
+        
+        //When
+        let button = renderer.render(component) as? UIButton
+        
+        // Then
+        XCTAssertEqual(button?.isEnabled, true, "Build View not returning UIButton")
+    }
+    
+    func testSetButtonDisabled() {
+        //Given
+        let buttonDisabled = true
+        let component = Button(text: "", disabled: .value(buttonDisabled))
+        
+        //When
+        let button = renderer.render(component) as? UIButton
+        
+        // Then
+        XCTAssertEqual(button?.isEnabled, !buttonDisabled, "Build View not returning UIButton")
+    }
+    
     func testApplyButtonStyle() {
         // Given
         let theme = ThemeSpy()
