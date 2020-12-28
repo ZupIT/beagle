@@ -18,11 +18,9 @@ task schema {
     def bashSchema = "../schema-ruby-erb/model_generation/schema.sh -b".execute()
     bashSchema.waitForProcessOutput(System.out, System.err)
 
-    //todo check result failure
-//    println(bashSchema.exitValue())
-//    if (bashSchema.exitValue() != 0) {
-//        throw new GradleScriptException("Schema failure", null)
-//    }
+    if (bashSchema.exitValue() != 0) {
+        throw new GradleScriptException("Schema script failed. Please see log.", null)
+    }
 }
 
 build.dependsOn schema
