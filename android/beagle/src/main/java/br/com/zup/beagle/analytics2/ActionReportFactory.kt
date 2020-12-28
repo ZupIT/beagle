@@ -30,7 +30,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
-internal object ActionRecordFactory {
+internal object ActionReportFactory {
 
     fun preGenerateActionAnalyticsConfig(
         rootView: RootView,

@@ -18,13 +18,8 @@ package br.com.zup.beagle.analytics2
 
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionAnalytics
-import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -53,10 +48,10 @@ class AnalyticsServiceTest : BaseTest() {
     fun setup() {
         every { rootView.activity } returns mockk()
         mockkObject(ScreenReportFactory)
-        mockkObject(ActionRecordFactory)
+        mockkObject(ActionReportFactory)
         mockkObject(BeagleMessageLogs)
-        every { ActionRecordFactory.preGenerateActionAnalyticsConfig(any(), any(), any(), any()) } returns dataActionReport
-        every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
+        every { ActionReportFactory.preGenerateActionAnalyticsConfig(any(), any(), any(), any()) } returns dataActionReport
+        every { ActionReportFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
         every { BeagleMessageLogs.analyticsQueueIsFull(any()) } just Runs
 
     }
@@ -64,7 +59,7 @@ class AnalyticsServiceTest : BaseTest() {
     @AfterEach
     fun teardown() {
         unmockkObject(ScreenReportFactory)
-        unmockkObject(ActionRecordFactory)
+        unmockkObject(ActionReportFactory)
         unmockkObject(BeagleMessageLogs)
     }
 
@@ -281,7 +276,7 @@ class AnalyticsServiceTest : BaseTest() {
         @DisplayName("Then should create record with right parameters")
         fun testActionWithAttributesOnActionAnalyticsConfigCallCreateRecordWithCorrectParameters() {
             //GIVEN
-            every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
+            every { ActionReportFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
 
             val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
             every { action.analytics } returns actionAnalyticsConfig
@@ -293,7 +288,7 @@ class AnalyticsServiceTest : BaseTest() {
             AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
-            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(dataActionReport, actionAnalyticsConfig) }
+            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport, actionAnalyticsConfig) }
 
         }
 
@@ -301,7 +296,7 @@ class AnalyticsServiceTest : BaseTest() {
         @DisplayName("Then should create record with right parameters")
         fun testActionWithAttributesOnAnalyticsConfigCallCreateRecordWithCorrectParameters() {
             //GIVEN
-            every { ActionRecordFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
+            every { ActionReportFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
             every { action.analytics } returns null
 
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf(ACTION_TYPE to listOf("componentId")))
@@ -314,7 +309,7 @@ class AnalyticsServiceTest : BaseTest() {
             AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
-            verify(exactly = 1) { ActionRecordFactory.generateActionAnalyticsConfig(any(), ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))) }
+            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(any(), ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))) }
         }
     }
 

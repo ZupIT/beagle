@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a Action Record Creator")
-internal class ActionRecordFactoryTest : BaseTest() {
+internal class ActionReportFactoryTest : BaseTest() {
 
     private val origin: View = mockk()
     private val ROUTE_URL_CONSTANT = "route.url"
@@ -57,12 +57,12 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { rootView.getScreenId() } returns "/screen"
             every { action.analytics } returns null
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
                 action
             )
-            val report = ActionRecordFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
                 ActionAnalyticsConfig(enable = true, attributes = listOf())
             )
@@ -85,12 +85,12 @@ internal class ActionRecordFactoryTest : BaseTest() {
             every { action.analytics } returns null
 
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
                 action
             )
-            val report = ActionRecordFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
                 ActionAnalyticsConfig(enable = true, attributes = listOf())
             )
@@ -167,7 +167,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
             "type" to "beagle:Text"
         )
 
-        private fun generateDataActionReport() = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+        private fun generateDataActionReport() = ActionReportFactory.preGenerateActionAnalyticsConfig(
             rootView,
             origin,
             action,
@@ -175,7 +175,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
         )
 
         private fun reportDataAction(
-            dataActionReport: DataActionReport) = ActionRecordFactory.generateActionAnalyticsConfig(
+            dataActionReport: DataActionReport) = ActionReportFactory.generateActionAnalyticsConfig(
             dataActionReport,
             ActionAnalyticsConfig(enable = true, attributes = listOf())
         )
@@ -198,13 +198,13 @@ internal class ActionRecordFactoryTest : BaseTest() {
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testSimpleActionAttribute() {
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
                 action,
                 AnalyticsHandleEvent(analyticsValue = "onPress")
             )
-            val report = ActionRecordFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
                 ActionAnalyticsConfig(enable = true, attributes = listOf("route"))
             )
@@ -218,13 +218,13 @@ internal class ActionRecordFactoryTest : BaseTest() {
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testComposeActionAttribute() {
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
                 action,
                 AnalyticsHandleEvent(analyticsValue = "onPress")
             )
-            val report = ActionRecordFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
                 ActionAnalyticsConfig(enable = true, attributes = listOf(ROUTE_URL_CONSTANT, ROUTE_SHOULD_PREFETCH_CONSTANT))
             )
@@ -239,13 +239,13 @@ internal class ActionRecordFactoryTest : BaseTest() {
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testWrongComposeActionAttribute() {
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
                 action,
                 AnalyticsHandleEvent(analyticsValue = "onPress")
             )
-            val report = ActionRecordFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
                 ActionAnalyticsConfig(enable = true, attributes = listOf("route.a"))
             )
@@ -292,7 +292,7 @@ internal class ActionRecordFactoryTest : BaseTest() {
                 actionType = "beagle:TestActionAnalytics"
             )
             //WHEN
-            val dataActionReport = ActionRecordFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
                 action,
