@@ -15,10 +15,10 @@ module.exports = {
     extensions: [ '.ts', '.js' ],
   },
   optimization: {
-    minimize: false
+    minimize: true
   },
   output: {
     filename: 'beagle.js',
-    path: path.resolve(__dirname, '../assets/js'),
+    path: path.resolve(__dirname, '../beagle/assets/js'),
   },
 };

@@ -39,21 +39,25 @@ class BeagleJSEngine {
   static Map<String, List<ViewUpdateListener>> viewUpdateListenerMap = {};
   static Map<String, List<ViewErrorListener>> viewErrorListenerMap = {};
 
-  static dynamic _deserializeJSFunctions(dynamic value) {
+  static dynamic _deserializeJsFunctions(dynamic value, [String viewId]) {
     if (value.runtimeType.toString() == 'String' &&
         value.toString().startsWith('__beagleFn:')) {
       return ([Map<String, dynamic> argumentsMap]) {
         final args = argumentsMap == null
             ? "'$value'"
             : "'$value', ${json.encode(argumentsMap)}";
-        final result = js.evaluate('global.beagle.call($args)');
+        final jsMethod =
+            viewId == null ? 'call(' : "callViewFunction('$viewId', ";
+        final result = js.evaluate('global.beagle.$jsMethod$args)');
         debugPrint('dynamic function result: $result');
       };
     }
 
     if (value.runtimeType.toString() == 'List<dynamic>') {
       // ignore: avoid_as
-      return (value as List<dynamic>).map(_deserializeJSFunctions).toList();
+      return (value as List<dynamic>)
+          .map((item) => _deserializeJsFunctions(item, viewId))
+          .toList();
     }
 
     if (value.runtimeType.toString() ==
@@ -65,7 +69,7 @@ class BeagleJSEngine {
 
       // ignore: cascade_invocations, avoid_function_literals_in_foreach_calls
       keys.forEach((key) {
-        result[key] = _deserializeJSFunctions(map[key]);
+        result[key] = _deserializeJsFunctions(map[key], viewId);
       });
       return result;
     }
@@ -113,7 +117,7 @@ class BeagleJSEngine {
   static void _setupActionMessages() {
     js.onMessage('action', (dynamic args) {
       debugPrint('Received action: $args');
-      final action = BeagleAction(_deserializeJSFunctions(args));
+      final action = BeagleAction(_deserializeJsFunctions(args));
 
       if (actionListener == null) {
         debugPrint('ERROR: no listener found for actions.');
@@ -135,7 +139,8 @@ class BeagleJSEngine {
         return;
       }
 
-      final result = BeagleUIElement(_deserializeJSFunctions(args['tree']));
+      final deserialized = _deserializeJsFunctions(args['tree'], viewId);
+      final result = BeagleUIElement(deserialized);
       // ignore: avoid_function_literals_in_foreach_calls
       viewUpdateListenerMap[viewId].forEach((listener) => listener(result));
     });
