@@ -8,7 +8,7 @@
     "build": "webpack"
   },
   "dependencies": {
-    "@zup-it/beagle-web": "^1.5.0",
+    "@zup-it/beagle-web": "^1.6.0-alpha.1",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
