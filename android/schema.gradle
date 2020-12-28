@@ -15,7 +15,7 @@
  */
 
 task schema {
-    def bashSchema = "../schema-ruby-erb/model_generation/Scripts/Kotlin/schema-android.sh".execute()
+    def bashSchema = "../schema-ruby-erb/model_generation/schema.sh -a".execute()
     bashSchema.waitForProcessOutput(System.out, System.err)
 
     //todo check result failure

@@ -117,27 +117,10 @@ class ModelGenerator
 
   # Generates models for kotlin Android
   def generate_kotlin_android
-    ready_to_prod = [
-      Button.new.name,
-      Action.new.name,
-      Widget.new.name,
-      IdentifierComponent.new.name,
-      ServerDrivenComponent.new.name,
-      TouchableAnalytics.new.name,
-      StyleComponent.new.name,
-      AccessibilityComponent.new.name,
-      ClickEvent.new.name,
-      Flex.new.name,
-      Style.new.name,
-      UnitValue.new.name,
-      Accessibility.new.name
-    ]
     @erb = ERB.new(File.read("#{@c.templates}kotlin_android.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      if ready_to_prod.include? @objectType.name
-        @writer.write(@c.kotlin_path, @objectType.name + ".kt", to_s)
-      end
+      @writer.write(@c.kotlin_android_path + @objectType.synthax_type.package.android.gsub(".", "/") + "/", @objectType.name + ".kt", to_s)
     end
 
     puts "Kotlin Android models generated!"
@@ -146,37 +129,21 @@ class ModelGenerator
 
   # Generates models for kotlin backend
   def generate_kotlin_backend
-    ready_to_widgets = [
+    to_widgets = [
       Button.new.name,
       Action.new.name
-    ]
-
-    ready_to_core = [
-      Widget.new.name,
-      IdentifierComponent.new.name,
-      ServerDrivenComponent.new.name,
-      TouchableAnalytics.new.name,
-      StyleComponent.new.name,
-      AccessibilityComponent.new.name,
-      ClickEvent.new.name,
-      Flex.new.name,
-      Style.new.name,
-      UnitValue.new.name,
-      Accessibility.new.name
     ]
     
     @erb = ERB.new(File.read("#{@c.templates}kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      path = @c.kotlin_backend_path
+      path = @c.kotlin_core_backend_path
 
-      if ready_to_widgets.include? @objectType.name
-        path += "/widgets/"
-      else
-        if ready_to_core.include? @objectType.name
-        path += "/kotlin-core/"
-        end
+      if to_widgets.include? @objectType.name
+        path = @c.kotlin_widgets_backend_path
       end
+
+      path += @objectType.synthax_type.package.backend.gsub(".", "/") + "/"
 
       @writer.write(path, @objectType.name + ".kt", to_s)
     end

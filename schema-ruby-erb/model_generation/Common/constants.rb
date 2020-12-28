@@ -17,13 +17,14 @@ class Constants
     def initialize
         generated_path = "Generated/"
         @swift_path = generated_path + "Swift/"
-        @kotlin_path = generated_path + "Kotlin/"
-        @kotlin_backend_path = generated_path + "KotlinBackend/"
+        @kotlin_android_path = "../../android/beagle/src/main/java/"
+        @kotlin_core_backend_path = "../../backend/kotlin-core/src/main/kotlin/"
+        @kotlin_widgets_backend_path = "../../backend/widgets/src/main/kotlin/"
         @ts_path = generated_path + "Ts/"
         @templates = "Templates/"
     end
 
-    attr_accessor :swift_path, :kotlin_path, :kotlin_backend_path, :ts_path, :templates
+    attr_accessor :swift_path, :kotlin_android_path, :kotlin_core_backend_path, :kotlin_widgets_backend_path, :ts_path, :templates
 end
 
 
