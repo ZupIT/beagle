@@ -21,13 +21,6 @@ class KotlinTemplateHelper < TemplateHelper
     super
   end
 
-  # Given object_type, this functions returns if it is generating for the backend
-  #
-  # @return [Bool] generating for the backend or not
-  def is_backend()
-      languageIdentifier == @kotlinBackend
-  end
-
   # Given object_type, this functions returns if such an object is interface or not
     #
     # @param object_type [BaseComponent]
@@ -42,40 +35,6 @@ class KotlinTemplateHelper < TemplateHelper
   # @return [Bool] it is android widget or not
   def is_widget_android(object_type)
       inheritFrom_widget(object_type) and !is_backend()
-  end 
-
-  # Given object_type, this functions returns the package
-  #
-  # @param object_type [BaseComponent]
-  # @return [String] package for kotlin template
-  def resolve_package(object_type)
-    "package #{handle_package(object_type)}\n"
-  end
-
-  # Handle package in kotlin
-  #
-  # @param object_type [BaseComponent]
-  # @return [String] package for kotlin Backend or Android template
-  def handle_package(object_type)
-    (is_backend()) ? object_type.synthax_type.package.backend : object_type.synthax_type.package.android
-  end
-
-  # Replace breakLine for kotlin documentation
-  #
-  # @param comment [String]
-  # @param replace [String]
-  # @return [String] new comment for kotlin documentation
-  def replace_breakLine_documentation(comment, replace)
-      comment.gsub("\n", replace)
-  end
-
-  # Given output and object_type, this functions returns if output already contains package of the objectType
-  #
-  # @param output [String]
-  # @param object_type [BaseComponent]
-  # @return [Bool] output already contains package
-  def already_contains_import(output, object_type)
-    output.include? "#{handle_package(object_type)}"
   end
 
   # Given object_type, this functions returns the imports
@@ -510,35 +469,69 @@ class KotlinTemplateHelper < TemplateHelper
     output
   end
 
-  def dictionary_variable_declaration(variable) 
-    type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
-    type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
-    type_name = "Map<#{type_of_key}, #{type_of_value}>"
-    type_name
+  # Given object_type, this functions returns if it is generating for the backend
+  #
+  # @return [Bool] generating for the backend or not
+  def is_backend()
+      languageIdentifier == @kotlinBackend
   end
 
-  def adapt_type_name_to_kotlin_specific(typeName)
-    if typeName.eql?("ContextData")
-      "Any"
-    else
-      typeName
-    end
+  # Given object_type, this functions returns the package
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] package for kotlin template
+  def resolve_package(object_type)
+    "package #{handle_package(object_type)}\n"
   end
 
-  def handle_field_accessor(variable)
+  # Handle package in kotlin
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] package for kotlin Backend or Android template
+  def handle_package(object_type)
+    (is_backend()) ? object_type.synthax_type.package.backend : object_type.synthax_type.package.android
+  end
+
+  # Replace breakLine for kotlin documentation
+  #
+  # @param comment [String]
+  # @param replace [String]
+  # @return [String] new comment for kotlin documentation
+  def replace_breakLine_documentation(comment, replace)
+      comment.gsub("\n", replace)
+  end
+
+  # Given output and object_type, this functions returns if output already contains package of the objectType
+  #
+  # @param output [String]
+  # @param object_type [BaseComponent]
+  # @return [Bool] output already contains package
+  def already_contains_import(output, object_type)
+    output.include? "#{handle_package(object_type)}"
+  end
+
+  # Handle field accessor
+  #
+  # @param field [Field]
+  # @return [String] field accessor
+  def handle_field_accessor(field)
     output = ""
 
-    if variable.accessor != "public"
-      output += "#{variable.accessor} "
+    if field.accessor != "public"
+      output += "#{field.accessor} "
     end
 
     output
   end
 
-  def handle_field_mutator(variable)
+  # Handle field mutator
+  #
+  # @param field [Field]
+  # @return [String] field mutator
+  def handle_field_mutator(field)
     output = ""
 
-    if variable.isMutable
+    if field.isMutable
         output += "var "
     else
         output += "val "
@@ -547,6 +540,11 @@ class KotlinTemplateHelper < TemplateHelper
     output
   end
 
+  # Given variable, this functions returns a scape in kotlin documentation
+  #
+  # @param variable [Field]
+  # @param is_property [Bool]
+  # @return [Bool] a scape in kotlin documentation
   def generate_scape_documentation(variable, is_property)
     output = ""
     scape = ""
@@ -562,54 +560,98 @@ class KotlinTemplateHelper < TemplateHelper
     output
   end
 
-  def single_variable_declaration(variable)
-    type_name = fetch_type(variable.type.name)
-    type_name = adapt_type_name_to_kotlin_specific(type_name)
+   def dictionary_variable_declaration(variable) 
+    type_of_key = handle_type(variable.type_of_key)
+    type_of_value = handle_type(variable.type_of_value)
+    type_name = "Map<#{type_of_key}, #{type_of_value}>"
     type_name
   end
 
-  def handle_type_name(objectType, variable, defaultValue, shouldAddComma = false)
+  # Handle type to kotlin
+  #
+  # @param type [String]
+  # @return [String] type to kotlin
+  def handle_type(type)
+    if type.eql?("ContextData")
+      "Any"
+    else
+      type
+    end
+  end
+
+  # Handle single field
+  #
+  # @param field [String]
+  # @return [String] single field
+  def single_field_declaration(field)
+    type_name = fetch_type(field.type.name)
+    type_name = handle_type(type_name)
+    type_name
+  end
+
+  # Handle type and name
+  #
+  # @param object_type [String]
+  # @param variable [Field]
+  # @param default_value [String]
+  # @param should_add_comma [Bool]
+  # @return [String] type and name
+  def handle_type_name(object_type, variable, default_value, should_add_comma = false)
     if variable.instance_of? Dictionary
       output = dictionary_variable_declaration(variable)
     else
-      output = single_variable_declaration(variable)
+      output = single_field_declaration(variable)
     end
 
     output = variable.isBindable ? "Bind<#{output}>" : output
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
 
-    if defaultValue
+    if default_value
       default = handle_default_variable(variable)
-      output = !default.empty? && !is_interface(objectType) ? "#{output} = #{default}" : output
-      output = shouldAddComma ? output + "," : output
+      output = !default.empty? && !is_interface(object_type) ? "#{output} = #{default}" : output
+      output = should_add_comma ? output + "," : output
     end
     
     output
   end
 
-   def handle_default_variable(variable)
-    variable.defaultValue.empty? && variable.isOptional ? "null" : variable.defaultValue
+  # Handle default value
+  #
+  # @param field [Field]
+  # @return [String] default value
+  def handle_default_variable(field)
+    field.defaultValue.empty? && field.isOptional ? "null" : field.defaultValue
   end
 
-  def handle_type_name_init_method(variable, shouldAddComma = false)
+  # Handle type and name for init method
+  #
+  # @param variable [Field]
+  # @param should_add_comma [Bool]
+  # @return [String] type and name for init method
+  def handle_type_name_init_method(variable, should_add_comma = false)
     default = handle_default_variable(variable)
     if variable.instance_of? Dictionary
       output = dictionary_variable_declaration(variable)
     else
-      output = single_variable_declaration(variable)
+      output = single_field_declaration(variable)
     end
     output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
     output = !default.empty? ? "#{output} = #{default}" : output
-    output = shouldAddComma ?  output + "," : output
+    output = should_add_comma ?  output + "," : output
     output
   end
 
-  def handle_variable_with_bind(variable, shouldAddComma = false)
+  # Handle variable with Bind
+  #
+  # @param variable [Field]
+  # @param should_add_comma [Bool]
+  # @return [String] variable with Bind
+  def handle_variable_with_bind(variable, should_add_comma = false)
     bind_helper = variable.isOptional ? "valueOfNullable" : "valueOf"
     output = variable.isBindable ? "#{bind_helper}(#{variable.name})" : variable.name
-    output = shouldAddComma ? output + "," : output
+    output = should_add_comma ? output + "," : output
     output
   end
 
