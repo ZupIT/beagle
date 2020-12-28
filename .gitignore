@@ -64,6 +64,7 @@ flutter/**/.packages
 flutter/**/.pub-cache/
 flutter/**/.pub/
 flutter/**/build/
+flutter/**/pubspec.lock
 flutter_analyze_report.txt
 coverage/
 lcov.info
