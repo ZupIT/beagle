@@ -17,8 +17,11 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Confirm
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
@@ -34,6 +37,7 @@ object NewAnalyticsScreenBuilder {
                             analytics = ActionAnalyticsConfig (
                                 attributes = listOf("message")
                             ),
+                            title = "Alert Title",
                             message = "AlertMessage"
                         )
                     )
@@ -43,6 +47,7 @@ object NewAnalyticsScreenBuilder {
                     onPress = listOf(
                         Confirm(
                             analytics = ActionAnalyticsConfig (
+                                enable = true,
                                 attributes = listOf("title","message")
                             ),
                             title = "Confirm Title",
@@ -60,6 +65,7 @@ object NewAnalyticsScreenBuilder {
                                 enable = true,
                                 attributes = listOf("message")
                             ),
+                            title = "Alert Title",
                             message = "AlertMessage"
                         )
                     )
@@ -76,6 +82,12 @@ object NewAnalyticsScreenBuilder {
                             labelOk = "Accept",
                             labelCancel = "cancel"
                         )
+                    )
+                ),
+                Button(
+                    text = "navigateToPage2",
+                    onPress = listOf(
+                        Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true))
                     )
                 )
             )
