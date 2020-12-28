@@ -65,14 +65,18 @@ internal object ActionReportFactory {
     }
 
     private fun createComponentType(component: ServerDrivenComponent): String =
-        if (isCustomWidget(component)) "custom:" + component::class.simpleName
-        else "beagle:" + component::class.simpleName
+        if (isCustomWidget(component)) "custom:" + putFirstCharacterAsLower(component::class.simpleName)
+        else "beagle:" + putFirstCharacterAsLower(component::class.simpleName)
 
     private fun isCustomWidget(component: ServerDrivenComponent): Boolean =
         BeagleEnvironment.beagleSdk.registeredWidgets().contains(component::class.java)
 
     private fun getActionType(action: Action): String =
-        if (isCustomAction(action)) "custom:" + action::class.simpleName else "beagle:" + action::class.simpleName
+        if (isCustomAction(action)) "custom:" + putFirstCharacterAsLower(action::class.simpleName)
+        else "beagle:" + putFirstCharacterAsLower(action::class.simpleName)
+
+    private fun putFirstCharacterAsLower(string: String?) =
+        string?.get(0)?.toLowerCase()?.plus(string.substring(1))
 
     private fun isCustomAction(action: Action): Boolean =
         BeagleEnvironment.beagleSdk.registeredActions().contains(action::class.java)
@@ -91,7 +95,7 @@ internal object ActionReportFactory {
                 val propertyValue = evaluateValueIfNecessary(it, rootView, origin, action)
                 hashMap[keyName] = propertyValue
                 try {
-                    var result = evaluateAllActionAttribute(propertyValue, keyName, rootView, origin, action)
+                    val result = evaluateAllActionAttribute(propertyValue, keyName, rootView, origin, action)
                     hashMap.putAll(result)
 
                 } catch (e: Exception) {
@@ -119,7 +123,7 @@ internal object ActionReportFactory {
     }
 
     private fun getKeyName(name: String?, property: KProperty1<Any, *>): String {
-        var nameResult: String = ""
+        var nameResult = ""
         name?.let {
             nameResult = "$name."
         }
@@ -164,8 +168,8 @@ internal object ActionReportFactory {
         return hashMap
     }
 
-    private fun setScreenIdAttribute(screenId : String?, hashMap : HashMap<String, Any>) {
-        if (screenId != null && screenId.isNotEmpty() ){
+    private fun setScreenIdAttribute(screenId: String?, hashMap: HashMap<String, Any>) {
+        if (screenId != null && screenId.isNotEmpty()) {
             hashMap["screen"] = screenId
         }
     }
@@ -190,9 +194,9 @@ internal object ActionReportFactory {
         attributes: List<String>,
         attributeEvaluated: HashMap<String, Any>
     ): HashMap<String, Any> {
-        var hashMap = HashMap<String, Any>()
+        val hashMap = HashMap<String, Any>()
         attributes.forEach { key ->
-            var result = attributeEvaluated[key]
+            val result = attributeEvaluated[key]
             result?.let { value ->
                 hashMap[key] = value
             }

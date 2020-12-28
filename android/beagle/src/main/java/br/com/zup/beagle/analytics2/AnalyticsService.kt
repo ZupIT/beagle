@@ -96,14 +96,14 @@ internal object AnalyticsService {
 
     private fun actionAnalyticsFromConfig(dataActionReport: DataActionReport): ActionAnalyticsConfig {
         val key = dataActionReport.actionType
-        val attributeList = analyticsConfig.actions[key]
+        val attributeList = analyticsConfig.actions?.get(key)
         return ActionAnalyticsConfig(enable = attributeList != null, attributes = attributeList)
     }
 
     private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
 
     fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
-        analyticsProvider?.let { analyticsProvider ->
+        analyticsProvider?.let {
             val dataScreenReport = DataScreenReport(isLocalScreen, screenIdentifier)
             if (isAnalyticsConfigInitialized()) {
                 reportScreen(dataScreenReport)

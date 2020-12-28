@@ -31,5 +31,5 @@ interface AnalyticsConfig {
      * In this map, each key is an action name following the _beagleAction_ value on the JSON provided to create our
      * screen. The value for each key is a list of attributes that you would like to be reported.
     */
-    var actions : Map<String, List<String>>
+    var actions : Map<String, List<String>>?
 }

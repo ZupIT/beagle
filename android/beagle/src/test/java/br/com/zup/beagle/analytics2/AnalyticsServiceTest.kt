@@ -361,6 +361,6 @@ class AnalyticsServiceTest : BaseTest() {
 
     class AnalyticsConfigImpl(
         override var enableScreenAnalytics: Boolean? = true,
-        override var actions: Map<String, List<String>>
+        override var actions: Map<String, List<String>>?
     ) : AnalyticsConfig
 }
