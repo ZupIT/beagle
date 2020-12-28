@@ -60,6 +60,15 @@ class KotlinTemplateHelper < TemplateHelper
     (is_backend()) ? object_type.synthax_type.package.backend : object_type.synthax_type.package.android
   end
 
+  # Replace breakLine for kotlin documentation
+  #
+  # @param comment [String]
+  # @param replace [String]
+  # @return [String] new comment for kotlin documentation
+  def replace_breakLine_documentation(comment, replace)
+      comment.gsub("\n", replace)
+  end
+
   # Given output and object_type, this functions returns if output already contains package of the objectType
   #
   # @param output [String]
@@ -241,6 +250,30 @@ class KotlinTemplateHelper < TemplateHelper
     "\n#{fetch_built_in_type_declaration(object_type.synthax_type.type)} #{object_type.synthax_type.name}"
   end
 
+  # Given object_type, this functions returns a generated kotlin object
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] generated kotlin object
+  def resolve_kotlin_object(object_type) 
+    output = ""
+
+    if is_enum(object_type)
+      output += init_enum(object_type)
+    else 
+      if is_interface(object_type)
+        output += init_interface(object_type)
+      else
+        if is_abstract(object_type)
+          output += init_abstract(object_type)
+        else
+          output += init_data_class(object_type, is_backend())
+        end
+      end
+    end
+
+    output
+  end
+
   # Given object_type, this functions returns a generated interface
   #
   # @param object_type [BaseComponent]
@@ -307,6 +340,176 @@ class KotlinTemplateHelper < TemplateHelper
     output
   end
 
+  # Given object_type, this functions returns a generated enum
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] generated enum
+  def init_enum(object_type)
+    output = "#{handle_name_and_type(object_type)} {\n"
+
+    counter = 0
+    for field in object_type.synthax_type.variables
+      if field.comment != nil
+        output += "#{TAB}/**\n#{TAB} * #{replace_breakLine_documentation(field.comment, "\n#{TAB} * ")}\n#{TAB} */\n"
+      end
+
+      output += "#{TAB}#{field.name}"
+
+      if counter != object_type.synthax_type.variables.size - 1
+        output += ",\n\n"
+      end
+
+      counter += 1
+    end
+
+    output += "\n}"
+    output
+  end
+
+  # Given object_type, this functions returns a generated abstract
+  #
+  # @param object_type [BaseComponent]
+  # @return [String] generated abstract
+  def init_abstract(object_type)
+    output = handle_name_and_type(object_type)
+    output += resolve_super_classes(object_type)
+
+    counter = 0 
+    if object_type.synthax_type.variables.any?
+      output += " {"
+      
+      for variable in object_type.synthax_type.variables
+        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, is_abstract(object_type), object_type.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+    end
+
+    counter = 0
+    for inherited in object_type.synthax_type.inheritFrom
+      if is_interface(inherited)
+        for variable in inherited.synthax_type.variables
+          if !output.include? "{"
+            output += "{"
+          end
+
+          output += "\n#{TAB}#{handle_field_accessor(variable)} override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, is_abstract(object_type), inherited.synthax_type.variables.size - 1 != counter && !is_abstract(object_type))}"
+          counter += 1
+        end
+      end
+    end
+
+    if contains_declared_fields(output)
+      output += "\n}"
+    end
+    
+    output
+  end
+
+  # Given object_type, this functions returns a generated data class
+  #
+  # @param object_type [BaseComponent]
+  # @return [String]  generated data class
+  def init_data_class(object_type, withContructor = true)
+    object_type.synthax_type.type = TypeDataClass.new
+    output = handle_name_and_type(object_type)
+
+    counter = 0 
+    if object_type.synthax_type.variables.any?
+      output += " ("
+      for variable in object_type.synthax_type.variables
+        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, true, object_type.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+    end
+
+    for inherited in object_type.synthax_type.inheritFrom
+      if is_interface(inherited) && has_variables(inherited)
+        if object_type.synthax_type.variables.size == 0
+            output += " ("
+        else
+          output += ","
+        end
+
+        counter = 0 
+        for variable in inherited.synthax_type.variables
+          output += "\n#{TAB}#{handle_field_accessor(variable)}override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, true, inherited.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+        end
+      end
+    end
+    
+    output += "\n)"
+    output += resolve_super_classes(object_type)
+
+    if withContructor
+      output += init_contructor(object_type)
+    end
+
+    output
+  end
+
+  # Given object_type, this functions returns a generated contructor for data class
+  #
+  # @param object_type [BaseComponent]
+  # @return [String]  generated contructor for data class
+  def init_contructor(object_type)
+    output  = ""
+
+    if object_type.synthax_type.variables.any?(&:isBindable) and object_type.synthax_type.variables.any? { |v| v.isOptional == false}
+      output += "{\n#{TAB}constructor ("
+
+      counter = 0 
+      for variable in object_type.synthax_type.variables
+        output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, object_type.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+
+      for inherited in object_type.synthax_type.inheritFrom
+        if is_interface(inherited) && has_variables(inherited)
+          if has_variables(object_type)
+            output += ","
+          else
+            output += " ("
+          end
+
+          counter = 0 
+          for variable in inherited.synthax_type.variables
+          output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, inherited.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+          end
+        end
+      end
+
+      output += "\n#{TAB}) : this ("
+
+      counter = 0
+      for variable in object_type.synthax_type.variables
+        output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, object_type.synthax_type.variables.size - 1 != counter)}"
+        counter += 1
+      end
+
+      for inherited in object_type.synthax_type.inheritFrom
+        if is_interface(inherited) && has_variables(inherited)
+          if has_variables(object_type)
+              output += ","
+          else
+            output += " ("
+          end
+
+          counter = 0
+          for variable in inherited.synthax_type.variables
+          output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, inherited.synthax_type.variables.size - 1 != counter)}"
+          counter += 1
+          end
+        end
+      end
+
+      output += "\n#{TAB})\n}"
+    end
+
+    output
+  end
+
   def dictionary_variable_declaration(variable) 
     type_of_key = adapt_type_name_to_kotlin_specific(variable.type_of_key)
     type_of_value = adapt_type_name_to_kotlin_specific(variable.type_of_value)
@@ -359,65 +562,10 @@ class KotlinTemplateHelper < TemplateHelper
     output
   end
 
-  def replace_breakLine_documentation(comment, replace)
-      comment.gsub("\n", replace)
-  end
-
-  def init_enum(objectType)
-    output = "#{handle_name_and_type(objectType)} {\n"
-
-    counter = 0
-    for field in objectType.synthax_type.variables
-      if field.comment != nil
-        output += "#{TAB}/**\n#{TAB} * #{replace_breakLine_documentation(field.comment, "\n#{TAB} * ")}\n#{TAB} */\n"
-      end
-      output += "#{TAB}#{field.name}"
-      if counter != objectType.synthax_type.variables.size - 1
-        output += ",\n\n"
-      end
-      counter += 1
-    end
-
-    output += "\n}"
-    output
-  end
-
   def single_variable_declaration(variable)
     type_name = fetch_type(variable.type.name)
     type_name = adapt_type_name_to_kotlin_specific(type_name)
     type_name
-  end
-
-  def init_abstract(objectType)
-    output = handle_name_and_type(objectType)
-    output += resolve_super_classes(objectType)
-
-    counter = 0 
-    if objectType.synthax_type.variables.any?
-      output += " {"
-      for variable in objectType.synthax_type.variables
-        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, is_abstract(objectType), objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-    end
-
-    for inherited in objectType.synthax_type.inheritFrom
-      if is_interface(inherited)
-        for variable in inherited.synthax_type.variables
-          if !output.include? "{"
-            output += "{"
-          end
-          output += "\n#{TAB}#{handle_field_accessor(variable)} override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, is_abstract(objectType), inherited.synthax_type.variables.size - 1 != counter && !is_abstract(objectType))}"
-          counter += 1
-        end
-      end
-    end
-
-    if contains_declared_fields(output)
-      output += "\n}"
-    end
-    
-    output
   end
 
   def handle_type_name(objectType, variable, defaultValue, shouldAddComma = false)
@@ -458,113 +606,10 @@ class KotlinTemplateHelper < TemplateHelper
     output
   end
 
-  def init_data_class(objectType, withContructor = true)
-    typeKind = "data class"
-    
-    output = "\n#{typeKind} #{objectType.synthax_type.name}"
-
-    counter = 0 
-    if objectType.synthax_type.variables.any?
-      output += " ("
-      for variable in objectType.synthax_type.variables
-        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, true, objectType.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
-      end
-    end
-
-    for inherited in objectType.synthax_type.inheritFrom
-      if is_interface(inherited) && has_variables(inherited)
-        if objectType.synthax_type.variables.size == 0
-            output += " ("
-        else
-          output += ","
-        end
-        counter = 0 
-        for variable in inherited.synthax_type.variables
-          output += "\n#{TAB}#{handle_field_accessor(variable)}override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(objectType, variable, true, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
-        end
-      end
-    end
-    
-    output += "\n)"
-    output += resolve_super_classes(objectType)
-
-    if withContructor
-      if objectType.synthax_type.variables.any?(&:isBindable) and objectType.synthax_type.variables.any? { |v| v.isOptional == false}
-        output += "{\n#{TAB}constructor ("
-        counter = 0 
-        for variable in objectType.synthax_type.variables
-          output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
-        end
-        for inherited in objectType.synthax_type.inheritFrom
-          if is_interface(inherited) && has_variables(inherited)
-            if has_variables(objectType)
-              output += ","
-            else
-              output += " ("
-            end
-            counter = 0 
-            for variable in inherited.synthax_type.variables
-            output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, inherited.synthax_type.variables.size - 1 != counter)}"
-            counter += 1
-            end
-          end
-        end
-        output += "\n#{TAB}) : this ("
-
-        counter = 0
-        for variable in objectType.synthax_type.variables
-          output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, objectType.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
-        end
-
-        for inherited in objectType.synthax_type.inheritFrom
-          if is_interface(inherited) && has_variables(inherited)
-            if has_variables(objectType)
-                output += ","
-            else
-              output += " ("
-            end
-            counter = 0
-            for variable in inherited.synthax_type.variables
-            output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, inherited.synthax_type.variables.size - 1 != counter)}"
-            counter += 1
-            end
-          end
-        end
-        output += "\n#{TAB})\n}"
-      end
-    end
-
-    output
-  end
-
   def handle_variable_with_bind(variable, shouldAddComma = false)
     bind_helper = variable.isOptional ? "valueOfNullable" : "valueOf"
     output = variable.isBindable ? "#{bind_helper}(#{variable.name})" : variable.name
     output = shouldAddComma ? output + "," : output
-    output
-  end
-
-  def resolve_kotlin_object(objectType) 
-    output = ""
-
-    if is_enum(objectType)
-      output += init_enum(objectType)
-    else 
-      if is_interface(objectType)
-        output += init_interface(objectType)
-      else
-        if is_abstract(objectType)
-          output += init_abstract(objectType)
-        else
-          output += init_data_class(objectType, is_backend())
-        end
-      end
-    end
-
     output
   end
 
