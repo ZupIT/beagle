@@ -17,6 +17,8 @@
 
 import 'package:flutter/widgets.dart';
 
+import 'package:beagle/model/beagle_style.dart';
+
 class DataContext {
   DataContext(this.id, this.value);
 
@@ -70,5 +72,11 @@ class BeagleUIElement {
     return properties.containsKey(attributeName)
         ? properties[attributeName]
         : defaultValue;
+  }
+
+  BeagleStyle getStyle() {
+    return properties.containsKey('style')
+        ? BeagleStyle.fromMap(properties['style'])
+        : null;
   }
 }
