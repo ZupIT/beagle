@@ -25,7 +25,8 @@ class Button < BaseComponent
         variables = [
             Field.new(:name => "text", :type => TypeString.new, :isBindable => true, :comment => "define the button text content."),
             Field.new(:name => "styleId", :type => TypeString.new, :isOptional => true, :comment => "reference a native style in your local styles file to be applied on this button."),
-            List.new(:name => "onPress", :type => Action.new, :isOptional => true, :comment => "attribute to define action when onPress")
+            List.new(:name => "onPress", :type => Action.new, :isOptional => true, :comment => "attribute to define action when onPress"),
+            Field.new(:name => "disabled", :type => TypeBoolean.new, :isOptional => true, :isBindable => true, :comment => "attribute to set disabled")
         ]
         synthax_type = BuiltInType.new(
             :name => self.name,
