@@ -1,7 +1,8 @@
 import { BeagleService, BeagleView, BeagleUIElement } from '@zup-it/beagle-web'
 import get from 'lodash/get'
 
-interface JsBridgeBeagleView extends BeagleView {
+export interface JsBridgeBeagleView extends BeagleView {
+  id: string,
   executeFunction: (functionId: string, argumentsMap: Record<string, any>) => void,
 }
 
@@ -32,7 +33,7 @@ function serializeFunctions(value: any, path = '__beagleFn:'): any {
 
 export function createBeagleView(service: BeagleService, route: string) {
   const view = service.createView() as JsBridgeBeagleView
-  const id = `${nextViewId++}`
+  view.id = `${nextViewId++}`
   let currentTree: BeagleUIElement | null = null
 
   view.subscribe((tree) => {
@@ -40,8 +41,7 @@ export function createBeagleView(service: BeagleService, route: string) {
 
     sendMessage(
       'beagleView.update',
-      // id,
-      JSON.stringify({ id, tree: serializeFunctions(tree) }),
+      JSON.stringify({ id: view.id, tree: serializeFunctions(tree) }),
     )
   })
   
@@ -52,14 +52,14 @@ export function createBeagleView(service: BeagleService, route: string) {
     const path = functionId.replace(/__beagleFn:\.?/, '')
     const fn = get(currentTree, path)
     if (typeof fn !== 'function') {
-      console.log(`No function with path "${path}" for view with id "${id}" was found.`)
+      console.log(`No function with path "${path}" for view with id "${view.id}" was found.`)
       return
     }
     fn(argumentsMap)
   }
   console.log(`js: route: ${route}`)
-  map[id] = view
-  return id
+  map[view.id] = view
+  return view.id
 }
 
 export function getView(id: string) {

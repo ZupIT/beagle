@@ -15,10 +15,15 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/model/beagle_action.dart';
+import 'package:beagle/action/beagle_alert.dart';
+import 'package:beagle/interface/beagle_service.dart';
 
-abstract class ActionHandler {
-  void handleAction(BeagleAction action);
-
-  List<String> getActionKeys();
-}
+final Map<String, ActionHandler> defaultActions = {
+  'beagle:alert': ({action, view, element}) {
+    BeagleAlert.showAlertDialog(
+      message: action.getAttributeValue('message'),
+      onPressOk: action.getAttributeValue('onPressOk', () {}),
+      title: action.getAttributeValue('title', 'Alert'),
+    );
+  }
+};

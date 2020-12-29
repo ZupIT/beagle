@@ -16,9 +16,7 @@
  */
 
 import 'package:beagle/bridge_impl/beagle_service_js.dart';
-import 'package:beagle/interface/action_handler.dart';
 import 'package:beagle/interface/beagle_service.dart';
-import 'package:beagle/interface/component_builder.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/model/network_strategy.dart';
@@ -30,18 +28,18 @@ class BeagleInitializer {
   static Future<void> start(
       {String baseUrl,
       HttpClient httpClient,
-      ComponentBuilder componentBuilder,
+      Map<String, ComponentBuilder> components,
       Storage storage,
       bool useBeagleHeaders,
-      ActionHandler actionHandler,
+      Map<String, ActionHandler> actions,
       NetworkStrategy strategy}) async {
     service = BeagleServiceJS(
       baseUrl: baseUrl,
       httpClient: httpClient,
-      componentBuilder: componentBuilder,
+      components: components,
       storage: storage,
       useBeagleHeaders: useBeagleHeaders ?? true,
-      actionHandler: actionHandler,
+      actions: actions,
       strategy: strategy,
     );
 

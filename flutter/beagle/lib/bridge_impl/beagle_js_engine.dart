@@ -17,6 +17,7 @@
 
 import 'dart:convert';
 
+import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_action.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
@@ -28,7 +29,8 @@ import 'package:flutter_js/extensions/xhr.dart';
 import 'package:flutter_js/flutter_js.dart';
 
 typedef RemoveListener = void Function();
-typedef ActionListener = void Function(BeagleAction action);
+typedef ActionListener = void Function(
+    {BeagleAction action, BeagleView view, BeagleUIElement element});
 typedef HttpListener = void Function(String requestId, Request request);
 
 // ignore: avoid_classes_with_only_static_members
@@ -39,7 +41,7 @@ class BeagleJSEngine {
   static Map<String, List<ViewUpdateListener>> viewUpdateListenerMap = {};
   static Map<String, List<ViewErrorListener>> viewErrorListenerMap = {};
 
-  static dynamic _deserializeJsFunctions(dynamic value, [String viewId]) {
+  static dynamic deserializeJsFunctions(dynamic value, [String viewId]) {
     if (value.runtimeType.toString() == 'String' &&
         value.toString().startsWith('__beagleFn:')) {
       return ([Map<String, dynamic> argumentsMap]) {
@@ -56,7 +58,7 @@ class BeagleJSEngine {
     if (value.runtimeType.toString() == 'List<dynamic>') {
       // ignore: avoid_as
       return (value as List<dynamic>)
-          .map((item) => _deserializeJsFunctions(item, viewId))
+          .map((item) => deserializeJsFunctions(item, viewId))
           .toList();
     }
 
@@ -69,7 +71,7 @@ class BeagleJSEngine {
 
       // ignore: cascade_invocations, avoid_function_literals_in_foreach_calls
       keys.forEach((key) {
-        result[key] = _deserializeJsFunctions(map[key], viewId);
+        result[key] = deserializeJsFunctions(map[key], viewId);
       });
       return result;
     }
@@ -117,14 +119,17 @@ class BeagleJSEngine {
   static void _setupActionMessages() {
     js.onMessage('action', (dynamic args) {
       debugPrint('Received action: $args');
-      final action = BeagleAction(_deserializeJsFunctions(args));
+      final action = BeagleAction(deserializeJsFunctions(args['action']));
 
       if (actionListener == null) {
         debugPrint('ERROR: no listener found for actions.');
         return;
       }
 
-      actionListener(action);
+      actionListener(
+          action: action,
+          view: BeagleViewJS.views[args['viewId']],
+          element: BeagleUIElement(args['element']));
     });
   }
 
@@ -139,7 +144,7 @@ class BeagleJSEngine {
         return;
       }
 
-      final deserialized = _deserializeJsFunctions(args['tree'], viewId);
+      final deserialized = deserializeJsFunctions(args['tree'], viewId);
       final result = BeagleUIElement(deserialized);
       // ignore: avoid_function_literals_in_foreach_calls
       viewUpdateListenerMap[viewId].forEach((listener) => listener(result));

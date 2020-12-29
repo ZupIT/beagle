@@ -15,21 +15,27 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/interface/action_handler.dart';
+import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_view.dart';
-import 'package:beagle/interface/component_builder.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/storage.dart';
+import 'package:beagle/model/beagle_action.dart';
 import 'package:beagle/model/network_options.dart';
 import 'package:beagle/model/network_strategy.dart';
+import 'package:flutter/widgets.dart';
+
+typedef ComponentBuilder = Widget Function(
+    BeagleUIElement element, List<Widget> children);
+typedef ActionHandler = void Function(
+    {BeagleAction action, BeagleView view, BeagleUIElement element});
 
 abstract class BeagleService {
   String baseUrl;
   HttpClient httpClient;
-  ComponentBuilder componentBuilder;
+  Map<String, ComponentBuilder> components;
   Storage storage;
   bool useBeagleHeaders;
-  ActionHandler actionHandler;
+  Map<String, ActionHandler> actions;
   NetworkStrategy strategy;
 
   // todo:

@@ -16,11 +16,12 @@
  */
 
 import 'package:beagle/beagle.dart';
+import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/material.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/2fc247ae93dcaeda5079757014b361b8c30dea36';
+    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/43e6c861138c33cc51f2b0f5f4928beacd1ad085';
 
 void main() {
   runApp(const BeagleSampleApp());
@@ -35,10 +36,17 @@ class BeagleSampleApp extends StatefulWidget {
 
 class _BeagleSampleApp extends State<BeagleSampleApp> {
   bool isBeagleReady = false;
+  Map<String, ActionHandler> myCustomActions = {
+    'custom:log': ({action, view, element}) {
+      debugPrint(action.getAttributeValue('message'));
+    }
+  };
 
   Future<void> startBeagle() async {
     await BeagleInitializer.start(
-        baseUrl: BASE_URL, componentBuilder: DefaultComponentBuilder());
+        baseUrl: BASE_URL,
+        components: defaultComponents,
+        actions: myCustomActions);
     setState(() {
       isBeagleReady = true;
     });
@@ -80,7 +88,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
           padding: const EdgeInsets.all(16),
           child: Center(
             child: isBeagleReady
-                ? const BeagleRemoteView(route: '/address.json')
+                ? const BeagleRemoteView(route: '/button-alert.json')
                 : const Text('Not ready yet!'),
           ),
         ),
