@@ -34,18 +34,11 @@ class ImageScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the image screen$")
     fun checkImageScreen() {
-        //ScreenRobot().checkViewContainsText(IMAGE_SCREEN_HEADER, true)
         waitForElementWithTextToBeClickable(IMAGE_SCREEN_HEADER, false, false)
     }
 
     @Then("^image screen should render all image attributes correctly$")
     fun checkImageScreenTexts() {
-        /*
-        ScreenRobot()
-            .checkViewContainsText(IMAGE_TEXT_1)
-            .checkViewContainsText(IMAGE_TEXT_2)
-            .scrollViewDown()
-        */
         waitForElementWithTextToBeClickable(IMAGE_TEXT_1, false, false)
         waitForElementWithTextToBeClickable(IMAGE_TEXT_2, false, false)
 

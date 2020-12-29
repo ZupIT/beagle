@@ -26,25 +26,21 @@ class ConditionalScreenSteps : AbstractStep() {
 
     @Before("@conditional")
     fun setup() {
-        // TestUtils.startActivity(activityTestRule, CONDITIONAL_SCREEN_BFF_URL)
         loadBffScreenFromMainScreen()
     }
 
     @Given("^the Beagle application did launch with the conditional screen url$")
     fun checkBaseScreen() {
-        // ScreenRobot().checkViewContainsText("Conditional Screen", true)
         waitForElementWithTextToBeClickable("Conditional Screen", false, false)
     }
 
     @When("^I click in a conditional button with (.*) title$")
     fun clickOnButton(string: String) {
-        // ScreenRobot().clickOnText(string)
         waitForElementWithTextToBeClickable(string, false, false).click()
     }
 
     @Then("^an Alert action should pop up with a (.*) message$")
     fun checkGlobalTextScreen(string2: String) {
-        // ScreenRobot().checkViewContainsText(string2, true)
         waitForElementWithTextToBeClickable(string2, false, false)
     }
 

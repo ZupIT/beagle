@@ -25,19 +25,16 @@ class ActionNotRegisteredScreenSteps : AbstractStep() {
 
     @Before("@unregisteredaction")
     fun setup() {
-        //TestUtils.startActivity(activityTestRule, ALERT_BFF_URL)
         loadBffScreenFromMainScreen()
     }
 
     @Given("^the Beagle application did launch with the ActionNotRegistered Screen url$")
     fun checkBaseScreen() {
-        // ScreenRobot().checkViewContainsText("ActionNotRegistered Screen", true)
         waitForElementWithTextToBeClickable("ActionNotRegistered Screen", false, false)
     }
 
     @Then("^nothing happens and the (.*) should still be visible$")
     fun checkScreenExists(string: String) {
-        // ScreenRobot().checkViewContainsText(string, true)
         waitForElementWithTextToBeClickable(string, false, false)
     }
 }

@@ -38,57 +38,33 @@ class TouchScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the touchable screen$")
     fun checkImageScreen() {
-        // ScreenRobot().checkViewContainsText(TOUCHABLE_SCREEN_HEADER, true)
         waitForElementWithTextToBeClickable(TOUCHABLE_SCREEN_HEADER, false, false)
     }
 
     @And("^I have a text with touchable configured$")
     fun checkTextWithTouchable() {
-        /*
-        ScreenRobot()
-            .checkViewContainsText(TOUCHABLE_TEXT_1)
-            .checkViewContainsText(TOUCHABLE_TEXT_2)
-            .sleep(2)
-
-         */
-
         waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_1, false, false)
         waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_2, false, false)
     }
 
     @And("^I have an image with touchable configured$")
     fun checkImageWithTouchable() {
-        /*
-        ScreenRobot()
-            .checkViewContainsText(TOUCHABLE_TEXT_3)
-            .sleep(2)*/
         waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_3, false, false)
     }
 
     @When("^I click on touchable text (.*)$")
     fun clickOnTouchableText(string1: String) {
-        // ScreenRobot().clickOnText(string1)
         waitForElementWithTextToBeClickable(string1, false, false).click()
     }
 
     @When("^I click on touchable image$")
     fun clickOnTouchableImage() {
-        // ScreenRobot().clickOnTouchableImage()
         waitForImageElementToBeVisible(0).click()
 
     }
 
     @Then("^touchable screen should render all text attributes correctly$")
     fun checkTouchableScreenTexts() {
-        /*
-        ScreenRobot()
-            .checkViewContainsText(TOUCHABLE_TEXT_1)
-            .checkViewContainsText(TOUCHABLE_TEXT_2)
-            .checkViewContainsText(TOUCHABLE_TEXT_3)
-            .checkViewContainsText(TOUCHABLE_TEXT_4)
-            .scrollViewDown()
-
-         */
         waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_1, false, false)
         waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_2, false, false)
         waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_3, false, false)

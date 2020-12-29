@@ -30,13 +30,11 @@ class LazyComponentScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the LazyComponent Screen$")
     fun checkBaseScreen() {
-        // ScreenRobot().checkViewContainsText("LazyComponent Screen",true)
         waitForElementWithTextToBeClickable("LazyComponent Screen", false, false)
     }
 
     @Then("^an screen with an element (.*) should be visible$")
     fun check2ndScreenMessage(text: String) {
-        // ScreenRobot().checkViewContainsText(text, true)
         waitForElementWithTextToBeClickable(text, false, false)
     }
 }

@@ -332,15 +332,15 @@ abstract class AbstractStep {
 
     private fun getAppScreenShot(): File {
         if (SuiteSetup.isAndroid()) {
-            return AppiumUtil.getAppScreenshot(getDriver(), getBaseElementXpath())
+            return AppiumUtil.getAppScreenshot(getDriver(), getAndroidBaseElementXpath())
         } else {
             return AppiumUtil.getIosAppScreenshot(getDriver())
         }
 
     }
 
-    // TODO: verify if base elements are always the same and not Beagle \ bff related. In this case, move this method to AppiumUtil
-    private fun getBaseElementXpath(): By {
+    // currently, only Android has an element that is present in all screens
+    private fun getAndroidBaseElementXpath(): By {
         return if (SuiteSetup.isAndroid()) By.id("android:id/content") else By.id("")
     }
 

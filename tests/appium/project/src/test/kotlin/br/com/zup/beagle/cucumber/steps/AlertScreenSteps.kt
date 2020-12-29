@@ -28,46 +28,37 @@ class AlertScreenSteps : AbstractStep() {
 
     @Before("@alert")
     fun setup() {
-        //TestUtils.startActivity(activityTestRule, ALERT_BFF_URL)
         loadBffScreenFromMainScreen()
     }
 
     @Given("^the Beagle application did launch with the alert screen url$")
     fun checkBaseScreen() {
-        //ScreenRobot().checkViewContainsText("Alert Screen", true)
         waitForElementWithTextToBeClickable("Alert Screen", false, false)
     }
 
     @When("^I press an alert button with the (.*) title$")
     fun clickOnButton(string: String) {
-        //ScreenRobot().clickOnText(string)
         waitForElementWithTextToBeClickable(string, false, false).click()
     }
 
     @Then("^an alert with the (.*) message should appear on the screen$")
     fun checkAlertMessage(string: String) {
-        //ScreenRobot().checkViewContainsText(string, true)
         waitForElementWithTextToBeClickable(string, false, false)
     }
 
     @Then("^an alert with the (.*) and (.*) should appear on the screen$")
     fun checkAlertMessageAndTitle(string: String, string2: String) {
-        //ScreenRobot()
-        //  .checkViewContainsText(string, true)
-        // .checkViewContainsText(string2, true)
         waitForElementWithTextToBeClickable(string, false, false)
         waitForElementWithTextToBeClickable(string2, false, false)
     }
 
     @Then("^I press the confirmation (.*) button on the alert$")
     fun clickOnTheConfirmationActionButtonWithText(string: String) {
-        //ScreenRobot().clickOnText(string)
         waitForElementWithTextToBeClickable(string, false, true).click()
     }
 
     @Then("^an alert with a confirmation button with (.*) label should appear$")
     fun checkAlertConfirmationButtonLabelIsSetWithText(string: String) {
-        //ScreenRobot().checkViewContainsText(string)
         waitForElementWithTextToBeClickable(string, false, true)
     }
 }

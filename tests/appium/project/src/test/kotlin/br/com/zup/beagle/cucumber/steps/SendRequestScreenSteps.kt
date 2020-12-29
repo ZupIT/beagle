@@ -31,31 +31,26 @@ class SendRequestScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the send request screen url$")
     fun checkTitleScreen() {
-        // ScreenRobot().checkViewContainsText("Send Request Screen", true)
         waitForElementWithTextToBeClickable("Send Request Screen", false, false)
     }
 
     @When("^I press the (.*) button$")
     fun clickOnButtonSendRequestSuccess(string: String) {
-        // ScreenRobot().clickOnText(string).sleep(2)
         waitForElementWithTextToBeClickable(string, false, false).click()
     }
 
     @Then("^the screen should show some alert with (.*) title$")
     fun verifyAlertTitle(string: String) {
-        // ScreenRobot().checkViewContainsText(string, true).sleep(2)
         waitForElementWithTextToBeClickable(string, false, false)
     }
 
     @When("^I click on sendRequestError button (.*)")
     fun clickOnButtonSendRequestError(string: String) {
-        // ScreenRobot().clickOnText(string).sleep(2)
         waitForElementWithTextToBeClickable(string, false, false).click()
     }
 
     @Then("^the pressed button changes it's (.*) title to didFinish$")
     fun verifyChangeTitle(string: String) {
-        // ScreenRobot().checkViewDoesNotContainsText(string).sleep(2)
         waitForElementWithTextToBeInvisible(string, false, false)
     }
 }

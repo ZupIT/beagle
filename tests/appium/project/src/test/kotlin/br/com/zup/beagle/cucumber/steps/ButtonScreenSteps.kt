@@ -40,23 +40,16 @@ class ButtonScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
-        //ScreenRobot().checkViewContainsText(BUTTON_SCREEN_HEADER, true)
         waitForElementWithTextToBeClickable(BUTTON_SCREEN_HEADER, false, false)
     }
 
     @When("I click on a component with a valid style attribute configured$")
     fun clickOnButtonWithStyle() {
-        //ScreenRobot().clickOnText(BUTTON_WITH_STYLE_TEXT).sleep(2)
         waitForElementWithTextToBeClickable(BUTTON_WITH_STYLE_TEXT, false, false).click()
     }
 
     @Then("all my button components should render their respective text attributes correctly$")
     fun renderTextAttributeCorrectly() {
-        /*ScreenRobot()
-            .checkViewContainsText(BUTTON_DEFAULT_TEXT)
-            .checkViewContainsText(BUTTON_WITH_STYLE_TEXT)
-            .checkViewContainsText(BUTTON_WITH_APPEARANCE_TEXT)
-            .sleep(2)*/
         waitForElementWithTextToBeClickable(BUTTON_DEFAULT_TEXT, false, false)
         waitForElementWithTextToBeClickable(BUTTON_WITH_STYLE_TEXT, false, false)
         waitForElementWithTextToBeClickable(BUTTON_WITH_APPEARANCE_TEXT, false, false)
@@ -64,10 +57,6 @@ class ButtonScreenSteps : AbstractStep() {
 
     @Then("component should render the action attribute correctly$")
     fun renderActionAttributeCorrectly() {
-        /*ScreenRobot()
-            .checkViewContainsText(ACTION_CLICK_HEADER)
-            .checkViewContainsText(ACTION_CLICK_TEXT)
-            .sleep(2)*/
         waitForElementWithTextToBeClickable(ACTION_CLICK_HEADER, false, false)
         waitForElementWithTextToBeClickable(ACTION_CLICK_TEXT, false, false)
     }

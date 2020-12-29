@@ -26,49 +26,37 @@ class ConfirmScreenSteps : AbstractStep() {
 
     @Before("@confirm")
     fun setup() {
-        //TestUtils.startActivity(activityTestRule, ALERT_BFF_URL)
         loadBffScreenFromMainScreen()
     }
 
     @Given("^the Beagle application did launch with the confirm screen url$")
     fun checkBaseScreen() {
-        // ScreenRobot().checkViewContainsText("Confirm Screen", true)
         waitForElementWithTextToBeClickable("Confirm Screen", false, false)
     }
 
     @When("^I press a confirm button with the (.*) title$")
     fun clickOnButton(string: String) {
-        // ScreenRobot().clickOnText(string)
         waitForElementWithTextToBeClickable(string, false, false).click()
     }
 
     @Then("^a confirm with the (.*) message should appear on the screen$")
     fun checkConfirmMessage(string: String) {
-        // ScreenRobot().checkViewContainsText(string, true)
         waitForElementWithTextToBeClickable(string, false, false)
     }
 
     @Then("^a confirm with the (.*) and (.*) should appear on the screen$")
     fun checkConfirmMessageAndTitle(string: String, string2: String) {
-        /*
-        ScreenRobot()
-            .checkViewContainsText(string, true)
-            .checkViewContainsText(string2, true)
-
-         */
         waitForElementWithTextToBeClickable(string, false, true)
         waitForElementWithTextToBeClickable(string2, false, true)
     }
 
     @Then("^I press the confirmation (.*) button on the confirm component$")
     fun clickOnTheConfirmationActionButtonWithText(string: String) {
-        // ScreenRobot().clickOnText(string)
         waitForElementWithTextToBeClickable(string, false, true).click()
     }
 
     @Then("^a confirm with a button with (.*) label should appear$")
     fun checkConfirmationButtonLabelIsSetWithText(string: String) {
-        // ScreenRobot().checkViewContainsText(string)
         waitForElementWithTextToBeClickable(string, false, false)
     }
 }

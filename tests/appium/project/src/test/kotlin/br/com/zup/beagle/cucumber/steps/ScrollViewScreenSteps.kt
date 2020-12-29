@@ -56,148 +56,93 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the scrollview screen$")
     fun checkScrollViewScreen() {
-        // ScreenRobot().checkViewContainsText(SCROLLVIEW_SCREEN_HEADER, true)
         waitForElementWithTextToBeClickable(SCROLLVIEW_SCREEN_HEADER, false, false)
     }
 
     @When("^I have a horizontal scroll configured$")
     fun checkHorizontalScrollText() {
-        // ScreenRobot().checkViewContainsText("Horizontal", true)
         waitForElementWithTextToBeClickable("Horizontal", false, false)
     }
 
     @Then("^scrollview screen should perform the scroll action horizontally$")
     fun validateHorizontalScroll() {
-        // ScreenRobot().scrollTo("Horizontal")
         scrollDownToElementWithText("Horizontal", false, false)
     }
 
     @When("^I press on text scroll horizontal (.*)$")
     fun checkIfTextOneLineScrollViewHorizontal(string: String) {
-        /*
-        ScreenRobot()
-            .scrollTo(string)
-            .checkViewContainsText(string, true)
-            .clickOnText(string)
-
-         */
         scrollDownToElementWithText(string, false, false).click()
     }
 
     @Then("^the text should change for the next and the scrollview should perform horizontally (.*)$")
     fun checkNewTextScrollViewHorizontal(string: String) {
-        /*
-        ScreenRobot()
-            .checkViewContainsText(PARAGRAPH)
-            .checkViewDoesNotContainsText(string)
-
-         */
         waitForElementWithTextToBeClickable(PARAGRAPH, false, false)
         waitForElementWithTextToBeInvisible(string, false, false)
     }
 
     @When("^I press on text to be scrolled and rotated (.*)$")
     fun checkIfTextOneLineScrollViewWithRotationHorizontal(string: String) {
-        /*
-        ScreenRobot()
-            .scrollTo(string)
-            .checkViewContainsText(string, true)
-            .clickOnText(string)
-
-         */
         scrollDownToElementWithText(string, false, false).click()
     }
 
     @Then("^the text horizontal of scrollview rotate should change$")
     fun checkNewTextScrollViewRotationHorizontal() {
-        // ScreenRobot().checkViewContainsText(PARAGRAPH)
         waitForElementWithTextToBeClickable(PARAGRAPH, false, false)
     }
 
     @And("^the scrollview rotate should perform horizontally (.*)$")
     fun checkScrollViewHorizontallyRotation(string: String) {
-        // ScreenRobot().checkViewDoesNotContainsText(string)
         waitForElementWithTextToBeInvisible(string, false, false)
     }
 
     @And("^even if the screen is rotated the scrollview must be perform horizontally (.*)$")
     fun checkScrollViewRotationHorizontal(string: String) {
-        /*
-        onView(isRoot()).perform(orientationLandscape())
-        ScreenRobot()
-            .checkViewDoesNotContainsText(string)
-
-         */
         rotateToLandscapePosition()
         waitForElementWithTextToBeInvisible(string, false, false)
     }
 
     @When("^I have a vertical scroll configured$")
     fun checkVerticalScrollText() {
-        // ScreenRobot().checkViewContainsText("Vertical", true)
         waitForElementWithTextToBeClickable("Vertical", false, false)
     }
 
     @Then("^scrollview screen should perform the scroll action vertically$")
     fun validateVerticalScroll() {
-        // ScreenRobot().scrollTo("Vertical")
         scrollDownToElementWithText("Vertical", false, false)
     }
 
     @When("^I press on text scrollview vertical (.*)$")
     fun checkIfTextOneLineScrollViewVertical(string: String) {
-        /*
-        ScreenRobot()
-            .checkViewContainsText(string, true)
-            .clickOnText(string)
-
-         */
         waitForElementWithTextToBeClickable(string, false, false).click()
     }
 
     @Then("^the text should change$")
     fun checkNewTextScrollViewVertical() {
-        // ScreenRobot().checkViewContainsText(PARAGRAPH)
         waitForElementWithTextToBeClickable(PARAGRAPH, false, false)
     }
 
     @And("^the scrollview should perform vertically (.*)$")
     fun checkScrollViewVertical(string: String) {
-        // ScreenRobot().checkViewDoesNotContainsText(string)
         waitForElementWithTextToBeInvisible(string, false, false)
     }
 
     @When("^I press on text scrollview to be rotate (.*)$")
     fun checkIfTextOneLineScrollViewWithRotationVertical(string: String) {
-        /*
-        ScreenRobot()
-            .checkViewContainsText(string, true)
-            .clickOnText(string)
-
-         */
         waitForElementWithTextToBeClickable(string, false, false).click()
     }
 
     @Then("^the text vertical of scrollview rotate should change$")
     fun checkNewTextScrollViewRotationVertical() {
-        // ScreenRobot().checkViewContainsText(PARAGRAPH)
         waitForElementWithTextToBeClickable(PARAGRAPH, false, false)
     }
 
     @And("^the scrollview rotate should perform vertically (.*)$")
     fun checkScrollViewVerticallyRotation(string: String) {
-        // ScreenRobot().checkViewDoesNotContainsText(string)
         waitForElementWithTextToBeInvisible(string, false, false)
     }
 
     @And("^even if the screen is rotated the scrollview must be perform vertically (.*)$")
     fun checkScrollViewRotationVertical(string: String) {
-        /*
-        onView(isRoot()).perform(orientationLandscape())
-        ScreenRobot()
-            .checkViewDoesNotContainsText(string)
-
-         */
         rotateToLandscapePosition()
         waitForElementWithTextToBeInvisible(string, false, false)
     }

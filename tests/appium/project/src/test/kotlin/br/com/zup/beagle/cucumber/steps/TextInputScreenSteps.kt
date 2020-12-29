@@ -152,7 +152,6 @@ class TextInputScreenSteps : AbstractStep() {
     @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
     fun textInoutWithActionOfOnFocusAndOnChange(string: String, string2: String, string3: String) {
         swipeDown()
-        //.scrollToWithHint(string)
         val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
         waitForElementWithValueToBeClickable(string2, false, false)
         mobileElement.sendKeys("a")
