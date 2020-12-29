@@ -58,55 +58,57 @@ object ButtonScreenBuilder {
                     )
                 )
             ),
-            child = Container(
-                children = listOf(
-                    createButton(
-                        text = "Button",
-                        style = Style(
-                            margin = EdgeValue(
-                                top = 15.unitReal()
-                            ),
-                            flex = Flex(alignContent = alignContent)
-                        )
-                    ),
-
-                    createButton(
-                        text = "Button with style",
-                        styleId = "DesignSystem.Button.ScreenButton",
-                        style = Style(
-                            margin = EdgeValue(
-                                top = 15.unitReal()
-                            )
-                        )
-                    ),
-
-                    buttonWithAppearanceAndStyle(text = "Button with Appearance").applyStyle(
-                        style = Style(
-                            margin = EdgeValue(
-                                top = 15.unitReal()
-                            )
-                        )
-                    ),
-
-                    buttonWithAppearanceAndStyle(
-                        text = "Button with Appearance and style",
-                        styleId = BUTTON_STYLE_APPEARANCE
-                    ).applyStyle(
-                        Style(
-                            margin = EdgeValue(
-                                top = marginTop
-                            ))
-                    ),
-                    Button(
-                        text = "Disabled Button",
-                        styleId = "DesignSystem.Button.ScreenButton",
-                        onPress = listOf(Alert(message = "This button must be disabled")),
-                        disabled = true
-                    )
-                )
-            )
+            child = createContainer(alignContent, marginTop)
         )
     }
+
+    private fun createContainer(alignContent: AlignContent, marginTop: UnitValue) = Container(
+        children = listOf(
+            createButton(
+                text = "Button",
+                style = Style(
+                    margin = EdgeValue(
+                        top = 15.unitReal()
+                    ),
+                    flex = Flex(alignContent = alignContent)
+                )
+            ),
+
+            createButton(
+                text = "Button with style",
+                styleId = "DesignSystem.Button.ScreenButton",
+                style = Style(
+                    margin = EdgeValue(
+                        top = 15.unitReal()
+                    )
+                )
+            ),
+
+            buttonWithAppearanceAndStyle(text = "Button with Appearance").applyStyle(
+                style = Style(
+                    margin = EdgeValue(
+                        top = 15.unitReal()
+                    )
+                )
+            ),
+
+            buttonWithAppearanceAndStyle(
+                text = "Button with Appearance and style",
+                styleId = BUTTON_STYLE_APPEARANCE
+            ).applyStyle(
+                Style(
+                    margin = EdgeValue(
+                        top = marginTop
+                    ))
+            ),
+            Button(
+                text = "Disabled Button",
+                styleId = "DesignSystem.Button.ScreenButton",
+                onPress = listOf(Alert(message = "This button must be disabled")),
+                disabled = true
+            )
+        )
+    )
 
     fun buildButtonAlignCenter() = createButtonScreen(alignContent = AlignContent.CENTER, marginTop = 10.unitReal())
 
