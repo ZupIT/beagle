@@ -1,3 +1,4 @@
+import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/route.dart';
 
 typedef NavigationListener = void Function(Route route);
@@ -13,8 +14,8 @@ abstract class BeagleNavigator {
   /// controller is nothing more than a set of options to perform the navigation.
   ///
   /// Returns a function that, when called, unsubscribes the listener from the Navigator
-  // todo: add the navigation controller as second parameter to the listener
-  void subscribe(NavigationListener listener);
+  /// todo: add the navigation controller as second parameter to the listener
+  RemoveListener subscribe(NavigationListener listener);
 
   /// Creates and navigates to a new navigation stack where the first route is the parameter
   /// [route].
@@ -71,11 +72,8 @@ abstract class BeagleNavigator {
   Future<void> resetApplication(Route route, [String controllerId]);
 
   /// Verifies if the navigation history is empty, i.e. if there are no registered routes.
-  ///
-  /// Returns true for an empty navigation history, false otherwise.
   bool isEmpty();
 
-  /// gets the current route
   /// Returns the current route or null if the navigator has not loaded its first route yet.
-  Route getCurrentRoute();
+  T getCurrentRoute<T extends Route>();
 }

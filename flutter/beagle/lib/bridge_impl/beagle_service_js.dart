@@ -57,7 +57,8 @@ class BeagleServiceJS implements BeagleService {
   @override
   Future<void> start() async {
     httpClient ??= DefaultHttpClient();
-    actions = {...defaultActions, ...actions};
+    actions =
+        actions == null ? defaultActions : {...defaultActions, ...actions};
 
     await BeagleJSEngine.start();
 

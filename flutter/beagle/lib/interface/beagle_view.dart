@@ -17,11 +17,11 @@
 
 import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/renderer.dart';
+import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 
 typedef ViewUpdateListener = void Function(BeagleUIElement tree);
 typedef ViewErrorListener = void Function(List<String> errors);
-typedef RemoveListener = void Function();
 
 abstract class BeagleView {
   RemoveListener subscribe(ViewUpdateListener listener);

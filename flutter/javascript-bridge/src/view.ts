@@ -44,6 +44,11 @@ export function createBeagleView(service: BeagleService) {
       JSON.stringify({ id: view.id, tree: serializeFunctions(tree) }),
     )
   })
+
+  view.getNavigator().subscribe(route => sendMessage(
+    'beagleNavigator',
+    JSON.stringify({ viewId: view.id, route }),
+  ))
   
   view.executeFunction = (functionId: string, argumentsMap: Record<string, any>) => {
     if (!currentTree) return

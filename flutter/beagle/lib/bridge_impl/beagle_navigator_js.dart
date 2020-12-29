@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:beagle/beagle.dart';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/beagle_navigator.dart';
+import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/route.dart';
-import 'package:flutter/widgets.dart' as widget;
 
 class BeagleNavigatorJS extends BeagleNavigator {
-  BeagleNavigatorJS(this.viewId);
+  BeagleNavigatorJS(this._viewId);
 
-  final String viewId;
+  final String _viewId;
 
-  String _routeToJson(Route route) {
+  static String routeToJson(Route route) {
     var map = <String, dynamic>{};
 
     if (route is LocalView) {
@@ -29,18 +29,7 @@ class BeagleNavigatorJS extends BeagleNavigator {
     return jsonEncode(map);
   }
 
-  @override
-  Route getCurrentRoute() {
-    final result = BeagleJSEngine.js
-        .evaluate(
-            "global.beagle.getViewById('$viewId').getNavigator().getCurrentRoute()")
-        .rawResult;
-    if (result == null) {
-      return null;
-    }
-    // ignore: avoid_as
-    final routeMap = result as Map<String, dynamic>;
-
+  static Route mapToRoute(Map<String, dynamic> routeMap) {
     if (routeMap.containsKey('url')) {
       final fallback = routeMap.containsKey('fallback')
           ? BeagleUIElement(routeMap['fallback'])
@@ -60,59 +49,88 @@ class BeagleNavigatorJS extends BeagleNavigator {
   }
 
   @override
+  T getCurrentRoute<T extends Route>() {
+    final result = BeagleJSEngine.js
+        .evaluate(
+            "global.beagle.getViewById('$_viewId').getNavigator().getCurrentRoute()")
+        .rawResult;
+
+    if (result == null) {
+      return null;
+    }
+
+    return mapToRoute(result);
+  }
+
+  @override
   bool isEmpty() {
     return BeagleJSEngine.js
         .evaluate(
-            "global.beagle.getViewById('$viewId').getNavigator().isEmpty()")
+            "global.beagle.getViewById('$_viewId').getNavigator().isEmpty()")
         .rawResult;
   }
 
   @override
   Future<void> popStack() {
-    // TODO: implement popStack
-    throw UnimplementedError();
+    final result = BeagleJSEngine.js.evaluate(
+        "global.beagle.getViewById('$_viewId').getNavigator().popStack()");
+    return BeagleJSEngine.promiseToFuture(result);
   }
 
   @override
   Future<void> popToView(String routeIdentifier) {
-    // TODO: implement popToView
-    throw UnimplementedError();
+    final result = BeagleJSEngine.js.evaluate(
+        "global.beagle.getViewById('$_viewId').getNavigator().popToView('$routeIdentifier')");
+    return BeagleJSEngine.promiseToFuture(result);
   }
 
   @override
   Future<void> popView() {
-    // TODO: implement popView
-    throw UnimplementedError();
+    final result = BeagleJSEngine.js.evaluate(
+        "global.beagle.getViewById('$_viewId').getNavigator().popView()");
+    return BeagleJSEngine.promiseToFuture(result);
   }
 
   @override
   Future<void> pushStack(Route route, [String controllerId]) {
-    // TODO: implement pushStack
-    throw UnimplementedError();
+    final routeJson = routeToJson(route);
+    final args =
+        controllerId == null ? routeJson : "$routeJson, '$controllerId'";
+    final result = BeagleJSEngine.js.evaluate(
+        "global.beagle.getViewById('$_viewId').getNavigator().pushStack($args)");
+    return BeagleJSEngine.promiseToFuture(result);
   }
 
   @override
-  Future<void> pushView(Route route) async {
-    final routeJson = _routeToJson(route);
+  Future<void> pushView(Route route) {
+    final routeJson = routeToJson(route);
     final result = BeagleJSEngine.js.evaluate(
-        "global.beagle.getViewById('$viewId').getNavigator().pushView($routeJson)");
-    await BeagleJSEngine.promiseToFuture(result);
+        "global.beagle.getViewById('$_viewId').getNavigator().pushView($routeJson)");
+    return BeagleJSEngine.promiseToFuture(result);
   }
 
   @override
   Future<void> resetApplication(Route route, [String controllerId]) {
-    // TODO: implement resetApplication
-    throw UnimplementedError();
+    final routeJson = routeToJson(route);
+    final args =
+        controllerId == null ? routeJson : "$routeJson, '$controllerId'";
+    final result = BeagleJSEngine.js.evaluate(
+        "global.beagle.getViewById('$_viewId').getNavigator().resetApplication($args)");
+    return BeagleJSEngine.promiseToFuture(result);
   }
 
   @override
   Future<void> resetStack(Route route, [String controllerId]) {
-    // TODO: implement resetStack
-    throw UnimplementedError();
+    final routeJson = routeToJson(route);
+    final args =
+        controllerId == null ? routeJson : "$routeJson, '$controllerId'";
+    final result = BeagleJSEngine.js.evaluate(
+        "global.beagle.getViewById('$_viewId').getNavigator().resetStack($args)");
+    return BeagleJSEngine.promiseToFuture(result);
   }
 
   @override
-  void subscribe(listener) {
-    // TODO: implement subscribe
+  RemoveListener subscribe(NavigationListener listener) {
+    return BeagleJSEngine.onNavigate(_viewId, listener);
   }
 }

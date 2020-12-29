@@ -22,10 +22,14 @@ import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
 import 'package:flutter/material.dart';
 
+typedef OnCreateViewListener = void Function(BeagleView view);
+
 class BeagleRemoteView extends StatefulWidget {
-  const BeagleRemoteView({Key key, this.route}) : super(key: key);
+  const BeagleRemoteView({Key key, this.route, this.onCreateView})
+      : super(key: key);
 
   final String route;
+  final OnCreateViewListener onCreateView;
 
   @override
   _BeagleRemoteView createState() => _BeagleRemoteView();
@@ -39,7 +43,9 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
   void initState() {
     super.initState();
     _view = BeagleInitializer.service.createView();
-    // ignore: cascade_invocations
+    if (widget.onCreateView != null) {
+      widget.onCreateView(_view);
+    }
     _view.subscribe((tree) {
       setState(() {
         currentTree = tree;
