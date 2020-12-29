@@ -1,4 +1,4 @@
- /*
+/*
  *  
  *  Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *  
@@ -16,3 +16,7 @@
  */
 
 library beagle;
+
+export 'package:beagle/beagle_initializer.dart';
+export 'package:beagle/beagle_remote_view.dart';
+export 'package:beagle/model/beagle_ui_element.dart';
