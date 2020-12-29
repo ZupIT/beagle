@@ -33,7 +33,7 @@ android {
     compileSdkVersion Dependencies.Versions.compileSdk
 
     defaultConfig {
-        applicationId "br.com.zup.beagle.appiumApp"
+        applicationId "br.com.zup.beagle.appiumapp"
         minSdkVersion Dependencies.Versions.targetSdk
         targetSdkVersion Dependencies.Versions.compileSdk
         versionCode Dependencies.Releases.versionCode

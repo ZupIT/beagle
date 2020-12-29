@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.appiumApp.config
+package br.com.zup.beagle.appiumapp.config
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.exception.BeagleApiException

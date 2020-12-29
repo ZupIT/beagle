@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.appiumApp.activity
+package br.com.zup.beagle.appiumapp.activity
 
 import android.content.Context
 import android.content.Intent
@@ -29,7 +29,7 @@ import br.com.zup.beagle.android.utils.newServerDrivenIntent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
-import br.com.zup.beagle.appiumApp.R
+import br.com.zup.beagle.appiumapp.R
 
 @RegisterController("otherController")
 class AppBeagleActivity : BeagleActivity() {

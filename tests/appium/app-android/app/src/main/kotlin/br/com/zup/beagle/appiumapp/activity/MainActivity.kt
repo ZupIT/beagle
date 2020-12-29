@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.appiumApp.activity
+package br.com.zup.beagle.appiumapp.activity
 
 import android.os.Bundle
 import android.view.View
@@ -22,7 +22,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
 import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.appiumApp.R
+import br.com.zup.beagle.appiumapp.R
 
 class MainActivity : AppCompatActivity() {
 

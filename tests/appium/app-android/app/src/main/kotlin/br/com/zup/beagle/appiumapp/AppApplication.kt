@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.appiumApp.config
+package br.com.zup.beagle.appiumapp
 
-internal object BeagleMessageLogs {
+import android.app.Application
 
-    fun logDataNotInsertedOnDatabase(key: String, value: String) {
-        BeagleLoggerDefault().warning(
-            "Error when trying to insert key=$key with value=$value on Beagle default database."
-        )
+class AppApplication : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        APPLICATION = this
+        BeagleSetup().init(this)
     }
+
+    companion object {
+        var APPLICATION: Application? = null
+    }
+
 }

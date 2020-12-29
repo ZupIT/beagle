@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.appiumApp
+package br.com.zup.beagle.appiumapp
 
 import android.content.Context
 import br.com.zup.beagle.android.action.ActionListener

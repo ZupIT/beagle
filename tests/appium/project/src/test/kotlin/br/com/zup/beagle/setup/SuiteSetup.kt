@@ -120,7 +120,7 @@ object SuiteSetup {
              * MobileCapabilityType.APP capability is not required for Android if you specify appPackage and appActivity
              * In this case, the Android image already contains the app
              */
-            capabilities.setCapability("appPackage", "br.com.zup.beagle.appiumApp")
+            capabilities.setCapability("appPackage", "br.com.zup.beagle.appiumapp")
             capabilities.setCapability("appActivity", ".activity.MainActivity")
 
             driver = AndroidDriver<MobileElement>(/*service?.url*/URL(APPIUM_URL), capabilities)

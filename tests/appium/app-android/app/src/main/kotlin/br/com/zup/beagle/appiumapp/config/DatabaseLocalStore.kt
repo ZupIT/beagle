@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.appiumApp.config
+package br.com.zup.beagle.appiumapp.config
 
 import android.content.ContentValues
 import android.content.Context
@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import br.com.zup.beagle.android.store.LocalStore
-import br.com.zup.beagle.appiumApp.AppApplication
+import br.com.zup.beagle.appiumapp.AppApplication
 
 internal object ScreenEntry : BaseColumns {
     const val TABLE_NAME = "KeyValueCache"

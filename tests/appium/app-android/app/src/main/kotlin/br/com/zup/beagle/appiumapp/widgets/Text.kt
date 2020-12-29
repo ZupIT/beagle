@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.appiumApp.widgets
+package br.com.zup.beagle.appiumapp.widgets
 
 import android.graphics.Color
 import android.widget.TextView

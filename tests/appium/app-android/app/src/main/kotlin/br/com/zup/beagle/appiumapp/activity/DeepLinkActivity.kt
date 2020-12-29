@@ -1,9 +1,9 @@
-package br.com.zup.beagle.appiumApp.activity
+package br.com.zup.beagle.appiumapp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import br.com.zup.beagle.appiumApp.R
+import br.com.zup.beagle.appiumapp.R
 
 class DeepLinkActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

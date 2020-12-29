@@ -1,4 +1,4 @@
-package br.com.zup.beagle.appiumApp
+package br.com.zup.beagle.appiumapp
 
 import android.content.Intent
 import br.com.zup.beagle.android.annotation.BeagleComponent

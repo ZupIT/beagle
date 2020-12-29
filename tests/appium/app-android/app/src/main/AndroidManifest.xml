@@ -15,13 +15,12 @@
       ~ limitations under the License.
       -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.zup.beagle.appiumApp"
-    android:sharedUserId="br.com.zup.beagle.automated_tests.uid">
+    package="br.com.zup.beagle.appiumapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="br.com.zup.beagle.appiumApp.AppApplication"
+        android:name=".AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -29,21 +28,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="br.com.zup.beagle.appiumApp.activity.DeepLinkActivity">
+        <activity android:name="br.com.zup.beagle.appiumapp.activity.DeepLinkActivity">
             <intent-filter>
                 <action android:name="screen-deep-link" />
                 <category android:name="android.intent.category.DEFAULT" />
 
             </intent-filter>
         </activity>
-        <activity android:name="br.com.zup.beagle.appiumApp.activity.MainActivity">
+        <activity android:name="br.com.zup.beagle.appiumapp.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="br.com.zup.beagle.appiumApp.activity.AppBeagleActivity" />
+        <activity android:name="br.com.zup.beagle.appiumapp.activity.AppBeagleActivity" />
     </application>
 
 </manifest>
