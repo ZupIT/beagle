@@ -144,4 +144,37 @@ class ButtonTest : BaseComponentTest() {
         // Then
         verify(exactly = 0) { analytics.trackEventOnClick(any()) }
     }
+
+    @Test
+    fun should_isEnabled_when_disable_null() {
+        // When
+        buttonComponent.buildView(rootView)
+
+        // Then
+        verify(exactly = 0) { button.isEnabled = any() }
+    }
+
+    @Test
+    fun should_isEnabled_when_disable_false() {
+        // Given
+        buttonComponent = buttonComponent.copy(disabled = Bind.Value(false))
+
+        // When
+        buttonComponent.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { button.isEnabled = true }
+    }
+
+    @Test
+    fun should_not_isEnabled_when_disable_true() {
+        // Given
+        buttonComponent = buttonComponent.copy(disabled = Bind.Value(true))
+
+        // When
+        buttonComponent.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { button.isEnabled = false }
+    }
 }
