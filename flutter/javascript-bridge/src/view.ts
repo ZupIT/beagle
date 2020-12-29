@@ -31,7 +31,7 @@ function serializeFunctions(value: any, path = '__beagleFn:'): any {
   return value
 }
 
-export function createBeagleView(service: BeagleService, route: string) {
+export function createBeagleView(service: BeagleService) {
   const view = service.createView() as JsBridgeBeagleView
   view.id = `${nextViewId++}`
   let currentTree: BeagleUIElement | null = null
@@ -45,8 +45,6 @@ export function createBeagleView(service: BeagleService, route: string) {
     )
   })
   
-  view.getNavigator().pushView({ url: route })
-
   view.executeFunction = (functionId: string, argumentsMap: Record<string, any>) => {
     if (!currentTree) return
     const path = functionId.replace(/__beagleFn:\.?/, '')
@@ -57,7 +55,7 @@ export function createBeagleView(service: BeagleService, route: string) {
     }
     fn(argumentsMap)
   }
-  console.log(`js: route: ${route}`)
+  
   map[view.id] = view
   return view.id
 }

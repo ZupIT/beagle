@@ -80,9 +80,7 @@ class BeagleServiceJS implements BeagleService {
 
   @override
   BeagleView createView(
-      {String route,
-      NetworkOptions networkOptions,
-      String initialControllerId}) {
-    return BeagleViewJS(route: route);
+      {NetworkOptions networkOptions, String initialControllerId}) {
+    return BeagleViewJS();
   }
 }

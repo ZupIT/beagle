@@ -157,9 +157,15 @@ class BeagleJSEngine {
     _setupBeagleViewMessages();
   }
 
+  static Future<JsEvalResult> promiseToFuture(JsEvalResult result) {
+    return js.handlePromise(result);
+  }
+
   static Future<void> start() async {
     if (js == null) {
       js = getJavascriptRuntime(forceJavascriptCoreOnAndroid: true, xhr: false);
+      // ignore: cascade_invocations
+      js.enableHandlePromises();
       _setupMessages();
       final beagleJS =
           await rootBundle.loadString('packages/beagle/assets/js/beagle.js');
@@ -177,8 +183,8 @@ class BeagleJSEngine {
   }
 
   // todo: increment this to pass more configurations
-  static String createBeagleView(String route) {
-    final result = js.evaluate("global.beagle.createBeagleView('$route')");
+  static String createBeagleView() {
+    final result = js.evaluate('global.beagle.createBeagleView()');
     final id = result.stringResult;
     debugPrint('created beagle view with id $id');
     return id;

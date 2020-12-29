@@ -19,6 +19,7 @@ import 'package:beagle/action/beagle_alert.dart';
 import 'package:beagle/beagle_initializer.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/model/route.dart';
 import 'package:flutter/material.dart';
 
 class BeagleRemoteView extends StatefulWidget {
@@ -37,13 +38,16 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
   @override
   void initState() {
     super.initState();
-    _view = BeagleInitializer.service.createView(route: widget.route);
+    _view = BeagleInitializer.service.createView();
     // ignore: cascade_invocations
     _view.subscribe((tree) {
       setState(() {
         currentTree = tree;
       });
     });
+    if (widget.route != null && widget.route.isNotEmpty) {
+      _view.getNavigator().pushView(RemoteView(widget.route));
+    }
   }
 
   Widget buildViewFromTree(BeagleUIElement tree) {
