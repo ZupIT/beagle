@@ -29,9 +29,11 @@ class BeagleViewJS implements BeagleView {
       // ignore: avoid_unused_constructor_parameters
       String initialControllerId}) {
     _id = BeagleJSEngine.createBeagleView(route);
+    BeagleViewJS.views[_id] = this;
   }
 
   String _id;
+  static Map<String, BeagleViewJS> views = {};
 
   @override
   void Function() addErrorListener(ViewErrorListener listener) {

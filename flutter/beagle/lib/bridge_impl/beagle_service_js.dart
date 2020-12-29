@@ -17,26 +17,25 @@
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
-import 'package:beagle/default/default_action_handler.dart';
+import 'package:beagle/default/default_actions.dart';
 import 'package:beagle/default/default_http_client.dart';
-import 'package:beagle/interface/action_handler.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
-import 'package:beagle/interface/component_builder.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/model/network_options.dart';
 import 'package:beagle/model/network_strategy.dart';
 import 'package:beagle/model/request.dart';
+import 'package:flutter/widgets.dart';
 
 class BeagleServiceJS implements BeagleService {
   BeagleServiceJS({
     this.baseUrl,
     this.httpClient,
-    this.componentBuilder,
+    this.components,
     this.storage,
     this.useBeagleHeaders,
-    this.actionHandler,
+    this.actions,
     this.strategy,
   });
 
@@ -45,31 +44,38 @@ class BeagleServiceJS implements BeagleService {
   @override
   HttpClient httpClient;
   @override
-  ComponentBuilder componentBuilder;
+  Map<String, ComponentBuilder> components;
   @override
   Storage storage;
   @override
   bool useBeagleHeaders;
   @override
-  ActionHandler actionHandler;
+  Map<String, ActionHandler> actions;
   @override
   NetworkStrategy strategy;
 
   @override
   Future<void> start() async {
     httpClient ??= DefaultHttpClient();
-    actionHandler ??= DefaultActionHandler();
+    actions = {...defaultActions, ...actions};
 
     await BeagleJSEngine.start();
 
-    BeagleJSEngine.createBeagleService(baseUrl, actionHandler.getActionKeys());
+    BeagleJSEngine.createBeagleService(baseUrl, actions.keys.toList());
 
     BeagleJSEngine.onHttpRequest((String id, Request request) async {
       final response = await httpClient.sendRequest(request);
       BeagleJSEngine.respondHttpRequest(id, response);
     });
 
-    BeagleJSEngine.onAction(actionHandler.handleAction);
+    BeagleJSEngine.onAction(({action, view, element}) {
+      final handler = actions[action.getType()];
+      if (handler == null) {
+        debugPrint("Can't find handler for action ${action.getType()}");
+        return;
+      }
+      handler(action: action, view: view, element: element);
+    });
   }
 
   @override

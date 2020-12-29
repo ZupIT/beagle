@@ -48,8 +48,12 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
 
   Widget buildViewFromTree(BeagleUIElement tree) {
     final widgetChildren = tree.getChildren().map(buildViewFromTree).toList();
-    return BeagleInitializer.service.componentBuilder
-        .buildComponent(tree, widgetChildren);
+    final builder = BeagleInitializer.service.components[tree.getType()];
+    if (builder == null) {
+      debugPrint("Can't find builder for component ${tree.getType()}");
+      return Container();
+    }
+    return builder(tree, widgetChildren);
   }
 
   @override

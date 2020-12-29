@@ -1,5 +1,5 @@
 import createBeagleService, { BeagleService, logger } from '@zup-it/beagle-web'
-import { customActions } from './action'
+import { createCustomActionMap } from './action'
 import { createBeagleView, getView } from './view'
 import { storage } from './storage'
 import { callFunction } from './function'
@@ -11,7 +11,7 @@ window.beagle = (() => {
 
   const api = {
     // todo: handle actions different than "beagle:alert"
-    start: (baseUrl: string, actions: String[]) => {
+    start: (baseUrl: string, actions: string[]) => {
       console.log(`js: baseUrl: ${baseUrl}`)
       service = createBeagleService({
         baseUrl,
@@ -19,7 +19,7 @@ window.beagle = (() => {
         disableCssTransformation: true,
         fetchData: httpClient.fetch,
         customStorage: storage,
-        customActions,
+        customActions: createCustomActionMap(actions),
       })
 
       logger.setCustomLogFunction((_, ...messages) => {

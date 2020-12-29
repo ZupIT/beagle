@@ -17,4 +17,4 @@
 
 library beagle_components;
 
-export 'package:beagle_components/default_component_builder.dart';
+export 'package:beagle_components/default_components.dart';
