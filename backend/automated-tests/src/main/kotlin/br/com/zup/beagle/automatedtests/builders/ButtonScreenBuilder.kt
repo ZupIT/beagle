@@ -96,6 +96,12 @@ object ButtonScreenBuilder {
                             margin = EdgeValue(
                                 top = marginTop
                             ))
+                    ),
+                    Button(
+                        text = "Disabled Button",
+                        styleId = "DesignSystem.Button.ScreenButton",
+                        onPress = listOf(Alert(message = "This button must be disabled")),
+                        disabled = true
                     )
                 )
             )
