@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.toAndroidId
+import br.com.zup.beagle.android.widget.WidgetView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -31,11 +32,11 @@ import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verifyOrder
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 @DisplayName("Given a ComponentPropertyAssigner")
 class ComponentPropertyAssignerTest : BaseTest() {
@@ -87,11 +88,11 @@ class ComponentPropertyAssignerTest : BaseTest() {
 
     @DisplayName("When apply")
     @Nested
-    inner class Apply{
+    inner class Apply {
 
         @DisplayName("Then should set beagle_component_id tag")
         @Test
-        fun testApplyShouldSetBeagleComponentTag(){
+        fun testApplyShouldSetBeagleComponentTag() {
             // Given
             val widgetId = "123"
             val slotId = slot<String>()
@@ -107,5 +108,47 @@ class ComponentPropertyAssignerTest : BaseTest() {
             // Then
             assertEquals(widgetId, slotId.captured)
         }
+
+        @DisplayName("Then should set beagle_component_type tag")
+        @Test
+        fun testComponentRegisteredWhenApplyShouldSetBeagleComponentType() {
+            // Given
+            val widgetId = "123"
+            val slotId = slot<String>()
+            every { beagleSdk.registeredWidgets() } returns listOf(Text::class.java) as List<Class<WidgetView>>
+
+            every { view.setTag(R.id.beagle_component_type, capture(slotId)) } just Runs
+            every { view.id = any() } just Runs
+            every { widget.id } returns widgetId
+            every { view.setTag(R.id.beagle_component_id, any()) } just Runs
+            every { view.applyStyle(widget) } just Runs
+
+            // When
+            componentPropertyAssigner.apply(view, widget)
+
+            // Then
+            assertEquals("custom:text", slotId.captured)
+        }
+    }
+
+    @DisplayName("Then should set beagle_component_type tag")
+    @Test
+    fun testComponentNotRegisteredWhenApplyShouldSetBeagleComponentType() {
+        // Given
+        val widgetId = "123"
+        val slotId = slot<String>()
+
+        every { view.setTag(R.id.beagle_component_type, capture(slotId)) } just Runs
+        every { view.id = any() } just Runs
+        every { widget.id } returns widgetId
+        every { view.setTag(R.id.beagle_component_id, any()) } just Runs
+        every { view.applyStyle(widget) } just Runs
+
+        // When
+        componentPropertyAssigner.apply(view, widget)
+
+        // Then
+        assertEquals("beagle:text", slotId.captured)
     }
 }
+
