@@ -17,6 +17,7 @@
 
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
+import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,11 @@ class BeagleSampleApp extends StatefulWidget {
 
 class _BeagleSampleApp extends State<BeagleSampleApp> {
   bool isBeagleReady = false;
+  Map<String, ComponentBuilder> myCustomComponents = {
+    'custom:loading': (element, children) {
+      return Text('My custom loading.', key: element.getKey());
+    }
+  };
   Map<String, ActionHandler> myCustomActions = {
     'custom:log': ({action, view, element}) {
       debugPrint(action.getAttributeValue('message'));
@@ -45,8 +51,12 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
   Future<void> startBeagle() async {
     await BeagleInitializer.start(
         baseUrl: BASE_URL,
-        components: defaultComponents,
-        actions: myCustomActions);
+        components: {...defaultComponents, ...myCustomComponents},
+        actions: myCustomActions,
+        navigationControllers: {
+          'general': NavigationController(
+              isDefault: true, loadingComponent: 'custom:loading'),
+        });
     setState(() {
       isBeagleReady = true;
     });

@@ -1,25 +1,36 @@
-import createBeagleService, { BeagleService, logger } from '@zup-it/beagle-web'
+import createBeagleService, {
+  BeagleService,
+  logger,
+  NavigationController,
+  Strategy,
+} from '@zup-it/beagle-web'
 import { createCustomActionMap } from './action'
 import { createBeagleView, getView } from './view'
 import { storage } from './storage'
 import { callFunction } from './function'
 import { httpClient, respondHttpRequest } from './http-client'
 
+interface StartParams {
+  baseUrl: string,
+  actionKeys: string[],
+  navigationControllers: Record<string, NavigationController>,
+  useBeagleHeaders: boolean,
+  strategy: Strategy,
+}
+
 // @ts-ignore
 window.beagle = (() => {
   let service: BeagleService
 
   const api = {
-    // todo: handle actions different than "beagle:alert"
-    start: (baseUrl: string, actions: string[]) => {
-      console.log(`js: baseUrl: ${baseUrl}`)
+    start: ({ actionKeys, ...other }: StartParams) => {
       service = createBeagleService({
-        baseUrl,
         components: {},
         disableCssTransformation: true,
         fetchData: httpClient.fetch,
         customStorage: storage,
-        customActions: createCustomActionMap(actions),
+        customActions: createCustomActionMap(actionKeys),
+        ...other,
       })
 
       logger.setCustomLogFunction((_, ...messages) => {
