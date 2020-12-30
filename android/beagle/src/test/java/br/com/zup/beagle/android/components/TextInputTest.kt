@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components
 
 import android.content.Context
-import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
@@ -36,7 +35,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.verify
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -88,8 +86,8 @@ internal class TextInputTest : BaseComponentTest() {
         readOnly = READ_ONLY,
         disabled = DISABLED,
         hidden = HIDDEN,
-        type = type,
-        styleId = STYLE_ID
+        styleId = STYLE_ID,
+        type = type
     )
 
     @Test
@@ -137,21 +135,6 @@ internal class TextInputTest : BaseComponentTest() {
         verify(exactly = once()) { editText.error = "Error" }
     }
 
-//    @Test
-//    @DisplayName("Then check if the text is changed")
-//    fun checkSetUpOnTextChange() {
-//    }
-
-    @Test
-    @DisplayName("Then check if text change was removed")
-    fun checkRemovedTextChange() {
-        // When
-        textInput.buildView(rootView)
-
-        // Then
-        verify(exactly = once()) { editText.removeTextChangedListener(textWatcher) }
-    }
-
     @Test
     @DisplayName("Then verify setData when values is delivered")
     fun verifySetDataValue() {
@@ -180,6 +163,16 @@ internal class TextInputTest : BaseComponentTest() {
         verify(exactly = once()) {
             editText.isEnabled = true
         }
+    }
+
+    @Test
+    @DisplayName("Then check if the text was removed")
+    fun `Given a textInput Then check if text change was removed`() {
+        // Given
+        textInput.buildView(rootView)
+
+        // Then
+        verify(exactly = once()) { editText.removeTextChangedListener(textWatcher) }
     }
 
     @DisplayName("When passing input type")
