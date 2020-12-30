@@ -113,7 +113,6 @@ dependencies {
 
 apply from: rootProject.file('../maven-publish.gradle')
 
-apply plugin: 'org.jetbrains.dokka'
 /**
  *  https://github.com/cotechde/dokka-hugo-plugin
  *  To run this task by ./gradlew dokkaHugo
