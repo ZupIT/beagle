@@ -16,10 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
-import android.view.View
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * This abstract class represents an Action Analytics on Beagle

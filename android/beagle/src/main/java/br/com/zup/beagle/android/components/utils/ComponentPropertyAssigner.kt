@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.components.utils
 
 import android.view.View
 import br.com.zup.beagle.R
-import br.com.zup.beagle.analytics2.ActionReportFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.putFirstCharacterOnLowerCase
 import br.com.zup.beagle.android.utils.toAndroidId
