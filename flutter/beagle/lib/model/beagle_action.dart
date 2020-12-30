@@ -15,13 +15,16 @@
  *  limitations under the License.
  */
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:sample/main.dart';
+class BeagleAction {
+  BeagleAction(this.properties);
 
-void main() {
-  testWidgets('Showing a correct text', (WidgetTester tester) async {
-    await tester.pumpWidget(const BeagleSampleApp());
+  Map<String, dynamic> properties;
 
-    expect(find.text('Beagle Simple Text'), findsOneWidget);
-  });
+  String getType() {
+    return properties['_beagleAction_'].toString();
+  }
+
+  dynamic getAttributeValue(String name, [dynamic defaultValue]) {
+    return properties.containsKey(name) ? properties[name] : defaultValue;
+  }
 }
