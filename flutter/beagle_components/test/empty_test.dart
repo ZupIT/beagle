@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+import 'package:flutter_test/flutter_test.dart';
 
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-data class AnalyticsHandleEvent(
-    val originComponent: ServerDrivenComponent? = null,
-    val analyticsValue: String? = null
-)
+void main() {
+  test('Counter value should be incremented', () {
+    expect(1, 1);
+  });
+}

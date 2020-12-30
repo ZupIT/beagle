@@ -18,14 +18,12 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * Action to resolve condition and call onTrue if return true and onFalse if return is false.
@@ -52,7 +50,7 @@ data class Condition(
         onFalse = onFalse
     )
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         val result = runCatching {
             evaluateExpression(rootView, origin, condition)
         }
@@ -63,7 +61,7 @@ data class Condition(
                     rootView,
                     origin,
                     it,
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse"))
+                    analyticsValue = "onFalse")
             }
             BeagleLoggerProxy.warning("Conditional action. Expected boolean or null. Received: ${condition.value}")
         } else if (result.getOrNull() == true) {
@@ -72,7 +70,7 @@ data class Condition(
                     rootView,
                     origin,
                     it,
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onTrue"))
+                    analyticsValue = "onTrue")
             }
         } else {
             onFalse?.let {
@@ -80,7 +78,7 @@ data class Condition(
                     rootView,
                     origin,
                     it,
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse"))
+                    analyticsValue = "onFalse")
             }
         }
     }

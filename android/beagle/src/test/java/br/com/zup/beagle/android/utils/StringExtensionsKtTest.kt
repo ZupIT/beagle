@@ -36,7 +36,10 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 
+@DisplayName("Given a StringExtension")
 class StringExtensionsKtTest{
 
     private val colorSlot = slot<String>()
@@ -200,5 +203,30 @@ class StringExtensionsKtTest{
         assertEquals(2, expressions.size)
         assertEquals("exp1", expressions[0])
         assertEquals("exp2", expressions[1])
+    }
+
+    @DisplayName("When putFirstCharacterOnLowerCase")
+    @Nested
+    inner class PutFirstCharacterOnLowerCase{
+
+        @DisplayName("Then should put the first character on lower case")
+        @Test
+        fun testFirstCharacterAlreadyInLowerCase(){
+            val string = "charactersonlowercase"
+
+            val result = string.putFirstCharacterOnLowerCase()
+
+            assertEquals(string, result)
+        }
+
+        @DisplayName("Then should put the first character on lower case")
+        @Test
+        fun testFirstCharacterNotInLowerCase(){
+            val string = "CHARACTERSONUPPERCASE"
+
+            val result = string.putFirstCharacterOnLowerCase()
+
+            assertEquals("cHARACTERSONUPPERCASE", result)
+        }
     }
 }

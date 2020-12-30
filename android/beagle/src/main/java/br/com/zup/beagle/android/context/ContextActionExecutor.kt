@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.AsyncAction
@@ -36,13 +35,13 @@ internal object ContextActionExecutor {
         sender: Any,
         actions: List<Action>,
         context: ContextData? = null,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
+        analyticsValue: String? = null
     ) {
         if (context != null) {
             createImplicitContextForActions(rootView, sender, context, actions)
         }
 
-        executeActions(rootView, origin, actions, analyticsHandleEvent)
+        executeActions(rootView, origin, actions, analyticsValue)
     }
 
     private fun createImplicitContextForActions(
@@ -59,7 +58,7 @@ internal object ContextActionExecutor {
         rootView: RootView,
         origin: View,
         actions: List<Action>?,
-        analyticsHandleEvent: AnalyticsHandleEvent?
+        analyticsValue: String?
     ) {
         actions?.forEach { action ->
             if (action is AsyncAction) {
@@ -67,7 +66,7 @@ internal object ContextActionExecutor {
                 viewModel.onAsyncActionExecuted(AsyncActionData(origin, action))
                 action.onActionStarted()
             }
-            executeAction(action, rootView, origin, analyticsHandleEvent)
+            executeAction(action, rootView, origin, analyticsValue)
         }
     }
 
@@ -75,34 +74,20 @@ internal object ContextActionExecutor {
         action: Action,
         rootView: RootView,
         origin: View,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
+        analyticsValue: String? = null
     ) {
+        action.execute(rootView, origin)
+
         if (action is ActionAnalytics) {
-            reportActionAnalytics(
-                action,
+            rootView.generateViewModelInstance<AnalyticsViewModel>().createActionReport(
                 rootView,
                 origin,
-                analyticsHandleEvent
+                action,
+                analyticsValue
             )
-        } else {
-            action.execute(rootView, origin)
         }
     }
 
-    private fun reportActionAnalytics(
-        action: ActionAnalytics,
-        rootView: RootView,
-        origin: View,
-        analyticsHandleEvent: AnalyticsHandleEvent?
-    ) {
-        action.execute(rootView, origin, analyticsHandleEvent?.originComponent)
-        rootView.generateViewModelInstance<AnalyticsViewModel>().createActionReport(
-            rootView,
-            origin,
-            action,
-            analyticsHandleEvent
-        )
-    }
 }
 
 internal data class AsyncActionData(

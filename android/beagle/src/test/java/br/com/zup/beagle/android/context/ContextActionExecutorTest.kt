@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.BaseAsyncActionTest
@@ -176,10 +175,9 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
             val eventId = "onChange"
             val analyticsViewModel = mockk<AnalyticsViewModel>()
             val value = PersonTest(name = NAME)
-            val originComponent = mockk<ServerDrivenComponent>()
-            val analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onChange")
+            val analyticsValue = "onChange"
             val actionAnalytics = mockk<ActionAnalytics>()
-            every { actionAnalytics.execute(any(), view, analyticsHandleEvent.originComponent) } just Runs
+            every { actionAnalytics.execute(any(), view) } just Runs
             every { rootView.generateViewModelInstance<AnalyticsViewModel>() } returns analyticsViewModel
             every { analyticsViewModel.createActionReport(rootView, any(), any(), any()) } just Runs
             // When
@@ -189,12 +187,12 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
                 sender,
                 listOf(action, actionAnalytics),
                 ContextData(eventId, value),
-                analyticsHandleEvent
+                analyticsValue
             )
 
             // Then
             verify(exactly = 1) { action.execute(rootView, view) }
-            verify(exactly = 1) { analyticsViewModel.createActionReport(rootView, view, actionAnalytics, analyticsHandleEvent) }
+            verify(exactly = 1) { analyticsViewModel.createActionReport(rootView, view, actionAnalytics, analyticsValue) }
         }
     }
 }

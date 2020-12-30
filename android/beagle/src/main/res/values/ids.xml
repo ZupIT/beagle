@@ -22,4 +22,6 @@
     <item name="beagle_default_id" type="id" />
     <item name="beagle_auto_generate_id_enabled" type="id" />
     <item name="initiable_component" type="id" />
+    <item name="beagle_component_id" type="id" />
+    <item name="beagle_component_type" type="id" />
 </resources>

@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.view.viewmodel
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.analytics2.AnalyticsService
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.widget.RootView
@@ -32,14 +31,14 @@ internal class AnalyticsViewModel : ViewModel() {
         rootView: RootView,
         origin: View,
         action: ActionAnalytics,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
+        analyticsValue : String?
     ) {
         viewModelScope.launch(Dispatchers.Default) {
             AnalyticsService.createActionRecord(
                 rootView,
                 origin,
                 action,
-                analyticsHandleEvent
+                analyticsValue
             )
         }
     }

@@ -18,14 +18,12 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * Defines form local actions, that is, that do not make http requests,
@@ -52,7 +50,7 @@ data class FormLocalAction(
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         formLocalActionHandler?.handle(rootView.getContext(), this, object : ActionListener {
 
             override fun onSuccess(action: Action) {
@@ -61,7 +59,7 @@ data class FormLocalAction(
                     rootView,
                     origin,
                     action,
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onSuccess")
+                    analyticsValue = "onSuccess"
                 )
                 onActionFinished()
             }

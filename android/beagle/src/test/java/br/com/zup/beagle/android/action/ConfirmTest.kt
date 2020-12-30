@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.action
 import android.content.DialogInterface
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.handleEvent
@@ -148,14 +147,13 @@ class ConfirmTest {
             onPressOk = onPressOk
         )
         every { dialogBox.dismiss() } just Runs
-        val originComponent : ServerDrivenComponent = mockk()
         // When
         action.viewFactory = viewFactory
-        action.execute(rootView, view, originComponent)
+        action.execute(rootView, view)
         listenerOkSlot.captured.onClick(dialogBox, 0)
 
         // Then
-        verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onPressOk")) }
+        verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk, analyticsValue = "onPressOk") }
     }
 
     @Test
@@ -170,13 +168,12 @@ class ConfirmTest {
             onPressCancel = onPressCancel
         )
         every { dialogBox.dismiss() } just Runs
-        val originComponent : ServerDrivenComponent = mockk()
         // When
         action.viewFactory = viewFactory
-        action.execute(rootView, view, originComponent)
+        action.execute(rootView, view)
         listenerCancelSlot.captured.onClick(dialogBox, 0)
 
         // Then
-        verify(exactly = once()) { action.handleEvent(rootView, view, onPressCancel, analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onPressCancel")) }
+        verify(exactly = once()) { action.handleEvent(rootView, view, onPressCancel, analyticsValue = "onPressCancel") }
     }
 }

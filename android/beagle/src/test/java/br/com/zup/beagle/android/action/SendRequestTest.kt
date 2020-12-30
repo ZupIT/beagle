@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.extensions.once
@@ -46,7 +45,6 @@ class SendRequestTest : BaseAsyncActionTest() {
     private val responseData: Response = mockk()
     private val view: View = mockk()
     private val contextDataSlot = slot<ContextData>()
-    private val originComponent : ServerDrivenComponent = mockk()
 
     @BeforeEach
     override fun setUp() {
@@ -69,7 +67,7 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view, originComponent)
+        requestAction.execute(rootView, view)
         val result = FetchViewState.Success(responseData)
         observerSlot.captured.onChanged(result)
 
@@ -79,14 +77,14 @@ class SendRequestTest : BaseAsyncActionTest() {
                 rootView,
                 view,
                 listOf(onFinishAction),
-                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+                analyticsValue = "onFinish"
             )
             requestAction.handleEvent(
                 rootView,
                 view,
                 listOf(onSuccessAction),
                 any<ContextData>(),
-                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+                analyticsValue = "onFalse"
             )
         }
 
@@ -103,7 +101,7 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view, originComponent)
+        requestAction.execute(rootView, view)
         val result = FetchViewState.Error(responseData)
         observerSlot.captured.onChanged(result)
 
@@ -113,14 +111,14 @@ class SendRequestTest : BaseAsyncActionTest() {
                 rootView,
                 view,
                 listOf(onFinishAction),
-                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+                analyticsValue = "onFinish"
             )
             requestAction.handleEvent(
                 rootView,
                 view,
                 listOf(onErrorAction),
                 any<ContextData>(),
-                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+                analyticsValue = "onFalse"
             )
         }
 
@@ -136,7 +134,7 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view, originComponent)
+        requestAction.execute(rootView, view)
         val result = FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
@@ -146,7 +144,7 @@ class SendRequestTest : BaseAsyncActionTest() {
                 rootView,
                 view,
                 listOf(onFinishAction),
-                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+                analyticsValue = "onFinish"
             )
         }
     }
@@ -164,7 +162,7 @@ class SendRequestTest : BaseAsyncActionTest() {
 
         // Then
         verify(exactly = 0) {
-            requestAction.handleEvent(any(), any(), any<List<Action>>(), analyticsHandleEvent = any())
+            requestAction.handleEvent(any(), any(), any<List<Action>>(), analyticsValue = any())
         }
     }
 
@@ -191,7 +189,7 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = null, onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view, originComponent)
+        requestAction.execute(rootView, view)
         val result = FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
@@ -201,7 +199,7 @@ class SendRequestTest : BaseAsyncActionTest() {
                 rootView,
                 view,
                 listOf(onFinishAction),
-                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+                analyticsValue = "onFinish"
             )
         }
     }
@@ -214,7 +212,7 @@ class SendRequestTest : BaseAsyncActionTest() {
             onError = null, onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView, view, originComponent)
+        requestAction.execute(rootView, view)
         val result = FetchViewState.Error(mockk())
         observerSlot.captured.onChanged(result)
 
@@ -224,7 +222,7 @@ class SendRequestTest : BaseAsyncActionTest() {
                 rootView,
                 view,
                 listOf(onFinishAction),
-                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+                analyticsValue = "onFinish"
             )
         }
     }
@@ -243,8 +241,8 @@ class SendRequestTest : BaseAsyncActionTest() {
             data = data
         ).apply {
             every { evaluateExpression(rootView, view, any<Any>()) } returns ""
-            every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot), analyticsHandleEvent = any()) } just Runs
-            every { handleEvent(rootView, view, any<List<Action>>(), analyticsHandleEvent = any()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot), analyticsValue = any()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), analyticsValue = any()) } just Runs
         }
     }
 

@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.engine.renderer
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.components.utils.ComponentStylization
+import br.com.zup.beagle.android.components.utils.ComponentPropertyAssigner
 import br.com.zup.beagle.android.context.ContextComponentHandler
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
@@ -38,9 +38,9 @@ import org.junit.jupiter.api.Test
 
 private open class AbstractViewRenderer(
     override val component: Widget,
-    componentStylization: ComponentStylization<Widget>,
+    componentPropertyAssigner: ComponentPropertyAssigner<Widget>,
     contextComponentHandler: ContextComponentHandler
-) : ViewRenderer<Widget>(componentStylization, contextComponentHandler) {
+) : ViewRenderer<Widget>(componentPropertyAssigner, contextComponentHandler) {
     override fun buildView(rootView: RootView): View {
         return mockk()
     }
@@ -51,7 +51,7 @@ class AbstractViewRendererTest : BaseTest() {
     private val contextViewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val generateIdViewModel = mockk<GenerateIdViewModel>()
     private val component = mockk<Widget>(relaxed = true)
-    private val componentStylization = mockk<ComponentStylization<Widget>>(relaxed = true)
+    private val componentStylization = mockk<ComponentPropertyAssigner<Widget>>(relaxed = true)
     private val contextViewRenderer = mockk<ContextComponentHandler>(relaxed = true)
 
     private lateinit var viewRenderer: AbstractViewRenderer

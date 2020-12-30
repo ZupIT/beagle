@@ -18,18 +18,14 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import android.view.View
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.analytics2.AnalyticsService
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.widget.RootView
 import io.mockk.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.api.Assertions.assertEquals
 
 
 @ExtendWith(CoroutinesTestExtension::class)
@@ -40,7 +36,7 @@ internal class AnalyticsViewModelTest {
     var rootView: RootView = mockk()
     var origin: View = mockk()
     var action: ActionAnalytics = mockk()
-    var analyticsHandleEvent: AnalyticsHandleEvent = mockk()
+    var analyticsValue: String = "any"
 
     @BeforeEach
     fun setUp() {
@@ -60,14 +56,14 @@ internal class AnalyticsViewModelTest {
         @Test
         fun testCreateActionReportShouldCallCorrectFun() = runBlockingTest {
             //given
-            every { AnalyticsService.createActionRecord(rootView, origin, action, analyticsHandleEvent) } just Runs
+            every { AnalyticsService.createActionRecord(rootView, origin, action, analyticsValue) } just Runs
 
             //when
-            analyticsViewModel.createActionReport(rootView, origin, action, analyticsHandleEvent)
+            analyticsViewModel.createActionReport(rootView, origin, action, analyticsValue)
 
             //then
             verify(exactly = 1) {
-                AnalyticsService.createActionRecord(rootView, origin, action, analyticsHandleEvent)
+                AnalyticsService.createActionRecord(rootView, origin, action, analyticsValue)
             }
         }
     }
