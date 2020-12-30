@@ -22,7 +22,6 @@ import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * Configures the error messages returned by a service external to the application.
@@ -41,7 +40,7 @@ internal class FormValidation(
     @Transient
     var formInputs: List<FormInput>? = null
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         errors.forEach { error ->
             val formInput = formInputs?.find {
                 it.name == error.inputName

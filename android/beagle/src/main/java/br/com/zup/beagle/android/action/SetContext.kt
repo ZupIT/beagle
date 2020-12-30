@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal data class SetContextInternal(
     val contextId: String,
@@ -48,7 +47,7 @@ data class SetContext(
     override var analytics: ActionAnalyticsConfig? = null
 ) : ActionAnalytics() {
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         try {
             val value = toInternalSetContext(rootView, origin)

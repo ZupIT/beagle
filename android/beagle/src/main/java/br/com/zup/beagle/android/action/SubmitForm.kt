@@ -24,14 +24,13 @@ import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * SubmitForm and a specific action of the SimpleForm component when executing it calls SimpleForm's onSubmit attribute.
  */
 class SubmitForm(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics() {
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         var currentView: ViewParent? = origin.parent
 
         var foundSimpleForm = false
