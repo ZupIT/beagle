@@ -23,5 +23,5 @@ public protocol DependencyAnalyticsExecutor {
 public protocol Analytics {
     func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
     func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
-    func trackEventOnClick(_ event: AnalyticsClick)
+    func trackEventOnClick(_ event: ClickEvent)
 }

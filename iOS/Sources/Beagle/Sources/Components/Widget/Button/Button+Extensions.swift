@@ -55,12 +55,12 @@ extension Button {
         }
         
         private var onPress: [Action]?
-        private var clickAnalyticsEvent: AnalyticsClick?
+        private var clickAnalyticsEvent: ClickEvent?
         private weak var controller: BeagleController?
         
         required init(
             onPress: [Action]?,
-            clickAnalyticsEvent: AnalyticsClick? = nil,
+            clickAnalyticsEvent: ClickEvent? = nil,
             controller: BeagleController
         ) {
             super.init(frame: .zero)

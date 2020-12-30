@@ -93,21 +93,35 @@
     result
   end
 
+  # TODO: refactor this with more methods
   def declarePropertiesForCommonObject(objectType)
     if objectType.synthax_type.variables.length == 0 
       return ""
     end
     output = "\n"
     for variable in objectType.synthax_type.variables
-      commentReplaced = variable.comment.gsub("\n", "\n#{@tab}/// ")
-      output += variable.comment != nil ? "#{@tab}/// #{commentReplaced}\n" : ""
-      output += "#{@tab}#{variable.accessor} var #{variable.name}: #{variable_type_declaration(variable)}\n"
+      if variable.comment != nil
+        commentReplaced = variable.comment.gsub("\n", "\n#{@tab}/// ")
+        output += "#{@tab}/// #{commentReplaced}\n"
+      end
+      # mutableKey = variable.isMutable || @template_helper.is_interface_or_abstract(objectType) ? "var" : "let"
+      variable_accessor = !@template_helper.is_interface_or_abstract(objectType) ? "#{variable.accessor} " : ""
+      output += "#{@tab}#{variable_accessor}var #{variable.name}: #{variable_type_declaration(variable)}"
+      if @template_helper.is_interface_or_abstract(objectType)
+        output += " { get #{variable.isMutable ? "set " : ""}}"
+      end
+      output += "\n"
     end
+
     for inherit in objectType.synthax_type.inheritFrom
       for variable in inherit.synthax_type.variables
-        commentReplaced = variable.comment.gsub("\n", "\n#{@tab}/// ")
-        output += variable.comment != nil ? "#{@tab}/// #{commentReplaced}\n" : ""
-        output += "#{@tab}#{variable.accessor} var #{variable.name}: #{variable_type_declaration(variable)}\n"
+        if variable.comment != nil
+          commentReplaced = variable.comment.gsub("\n", "\n#{@tab}/// ")
+          output += "#{@tab}/// #{commentReplaced}\n"
+        end
+        # mutableKey = variable.isMutable || @template_helper.is_interface_or_abstract(objectType) ? "var" : "let"
+        variable_accessor = !@template_helper.is_interface_or_abstract(objectType) ? "#{variable.accessor} " : ""
+        output += "#{@tab}#{variable_accessor}var #{variable.name}: #{variable_type_declaration(variable)}\n"
       end
     end
 
@@ -217,7 +231,7 @@
     if @template_helper.is_widget(object_type) &&
       !@template_helper.is_interface_or_abstract(object_type)
       object_type.synthax_type.variables.append(
-        Field.new(:name => "widgetProperties", :type => SwiftCustom.new("WidgetProperties"), :defaultValue => "WidgetProperties()", :comment => "")
+        Field.new(:name => "widgetProperties", :type => SwiftCustom.new("WidgetProperties"), :defaultValue => "WidgetProperties()")
       )
     end
 
@@ -247,6 +261,11 @@
       object_type.name.eql?(UnitValue.new.name)
 
       object_type.synthax_type.inheritFrom.append(SwiftCustom.new("Equatable"))
+    end
+
+    if object_type.name.eql?(ClickEvent.new.name)
+      object_type.synthax_type.inheritFrom.pop
+      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AnalyticsEvent"))
     end
   end
 

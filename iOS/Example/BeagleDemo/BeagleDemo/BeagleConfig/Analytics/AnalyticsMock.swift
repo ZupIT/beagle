@@ -25,7 +25,7 @@ class AnalyticsMock: Analytics {
         print("Simulating track event on screen disappeared with screenName = \(event.screenName)")
     }
     
-    func trackEventOnClick(_ event: AnalyticsClick) {
+    func trackEventOnClick(_ event: ClickEvent) {
         print("Simulating track event on button touch with:\ncategory = \(event.category)\nlabel = \(event.label ?? "empty")\nvalue = \(event.value ?? "empty")")
     }
 }

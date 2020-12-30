@@ -42,13 +42,13 @@ public struct NavigationBar: Decodable, AutoInitiable {
 // sourcery:end
 }
 
-public struct NavigationBarItem: Decodable, AccessibilityComponent, IdentifiableComponent {
+public struct NavigationBarItem: Decodable {
     
-    public let id: String?
+    public var id: String?
     public let image: StringOrExpression?
     public let text: String
     public let action: Action
-    public let accessibility: Accessibility?
+    public var accessibility: Accessibility?
 
     public init(
         id: String? = nil,

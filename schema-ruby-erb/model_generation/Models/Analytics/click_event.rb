@@ -20,9 +20,9 @@ class ClickEvent < BaseComponent
 
     def initialize
         variables = [
-            Field.new(:name => "category", :type => TypeString.new, :comment => ""),
-            Field.new(:name => "label", :type => TypeString.new, :isOptional => true, :comment => ""),
-            Field.new(:name => "value", :type => TypeString.new, :isOptional => true, :comment => "")
+            Field.new(:name => "category", :type => TypeString.new),
+            Field.new(:name => "label", :type => TypeString.new, :isOptional => true),
+            Field.new(:name => "value", :type => TypeString.new, :isOptional => true)
 
         ]
         synthax_type = BuiltInType.new(

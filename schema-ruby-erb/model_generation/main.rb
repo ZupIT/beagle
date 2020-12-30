@@ -154,14 +154,14 @@ class ModelGenerator
   # Generates models for swift
   def generate_swift
     ready_to_prod = [
-      # Button.new.name,
+      Button.new.name,
       # Widget.new.name,
-      # IdentifierComponent.new.name,
+      IdentifierComponent.new.name,
       # ServerDrivenComponent.new.name,
-      # TouchableAnalytics.new.name,
-      # StyleComponent.new.name,
-      # AccessibilityComponent.new.name,
-      # ClickEvent.new.name,
+      TouchableAnalytics.new.name,
+      StyleComponent.new.name,
+      AccessibilityComponent.new.name,
+      ClickEvent.new.name,
       Flex.new.name,
       Style.new.name,
       UnitValue.new.name,

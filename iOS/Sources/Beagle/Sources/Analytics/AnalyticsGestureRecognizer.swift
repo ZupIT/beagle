@@ -43,5 +43,5 @@ final class EventsGestureRecognizer: UITapGestureRecognizer {
 
 public enum Event {
     case action(Action)
-    case analytics(AnalyticsClick)
+    case analytics(ClickEvent)
 }

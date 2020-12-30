@@ -26,13 +26,13 @@ class AnalyticsTests: XCTestCase {
     private let label = "label"
     private let value = "value"
     private let nameOfScreen = "name of screen"
-    private var justClick: AnalyticsClick!
-    private var clickWithDescription: AnalyticsClick!
+    private var justClick: ClickEvent!
+    private var clickWithDescription: ClickEvent!
     
     override func setUp() {
         super.setUp()
-        self.justClick = AnalyticsClick(category: category)
-        self.clickWithDescription = AnalyticsClick(category: anotherCategory, label: label, value: value)
+        self.justClick = ClickEvent(category: category)
+        self.clickWithDescription = ClickEvent(category: anotherCategory, label: label, value: value)
     }
     
     func testBuildOfAnalyticsObjects() {
@@ -97,7 +97,7 @@ final class AnalyticsExecutorSpy: Analytics {
 
     private(set) var analyticsScreenAppearedEvent: AnalyticsScreen?
     private(set) var analyticsScreenDisappearedEvent: AnalyticsScreen?
-    private(set) var analyticsClickEvent: AnalyticsClick?
+    private(set) var analyticsClickEvent: ClickEvent?
     
     func trackEventOnScreenAppeared(_ event: AnalyticsScreen) {
         didTrackEventOnScreenAppeared = true
@@ -109,14 +109,14 @@ final class AnalyticsExecutorSpy: Analytics {
         analyticsScreenDisappearedEvent = event
     }
     
-    func trackEventOnClick(_ event: AnalyticsClick) {
+    func trackEventOnClick(_ event: ClickEvent) {
         didTrackEventOnClick = true
         analyticsClickEvent = event
     }
 }
 
-extension AnalyticsClick: Equatable {
-    public static func == (lhs: AnalyticsClick, rhs: AnalyticsClick) -> Bool {
+extension ClickEvent: Equatable {
+    public static func == (lhs: ClickEvent, rhs: ClickEvent) -> Bool {
         return lhs.category == rhs.category &&
             lhs.label == rhs.label &&
             lhs.value == rhs.value

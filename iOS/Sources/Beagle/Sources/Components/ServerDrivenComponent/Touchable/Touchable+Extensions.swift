@@ -20,7 +20,7 @@ extension Touchable {
     
     public init(
         onPress: [Action],
-        clickAnalyticsEvent: AnalyticsClick? = nil,
+        clickAnalyticsEvent: ClickEvent? = nil,
         renderableChild: ServerDrivenComponent
     ) {
         self = Touchable(onPress: onPress, clickAnalyticsEvent: clickAnalyticsEvent, child: renderableChild)

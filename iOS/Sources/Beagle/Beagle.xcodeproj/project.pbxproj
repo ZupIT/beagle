@@ -90,7 +90,6 @@
 		9398CA59255325730003A010 /* ExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA57255325720003A010 /* ExpressionTests.swift */; };
 		9398CA5A255325730003A010 /* PathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA58255325730003A010 /* PathTests.swift */; };
 		9398CA5C255328D60003A010 /* LazyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA5B255328D60003A010 /* LazyComponent.swift */; };
-		9398CA5E2553294E0003A010 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA5D2553294E0003A010 /* Button.swift */; };
 		9398CA60255329D70003A010 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA5F255329D70003A010 /* Container.swift */; };
 		9398CA6225532A150003A010 /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA6125532A150003A010 /* ScrollView.swift */; };
 		9398CA6E25532BA40003A010 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA6D25532BA40003A010 /* Form.swift */; };
@@ -149,6 +148,12 @@
 		93AA96ED259CBE3800462865 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96EB259CBE3700462865 /* Style.swift */; };
 		93AA96EE259CBE3800462865 /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96EC259CBE3700462865 /* UnitValue.swift */; };
 		93AA96F1259CC93B00462865 /* UnitValue+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96F0259CC93B00462865 /* UnitValue+Extensions.swift */; };
+		93AA96F3259D023F00462865 /* ClickEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96F2259D023F00462865 /* ClickEvent.swift */; };
+		93AA96F5259D031900462865 /* TouchableAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96F4259D031900462865 /* TouchableAnalytics.swift */; };
+		93AA96F7259D04F500462865 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96F6259D04F500462865 /* Button.swift */; };
+		93AA96FB259D17F900462865 /* AccessibilityComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96F8259D17F900462865 /* AccessibilityComponent.swift */; };
+		93AA96FC259D17F900462865 /* IdentifierComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96F9259D17F900462865 /* IdentifierComponent.swift */; };
+		93AA96FD259D17F900462865 /* StyleComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96FA259D17F900462865 /* StyleComponent.swift */; };
 		93ADB87923FAD31D005B7CD2 /* ComposeComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ADB87823FAD31D005B7CD2 /* ComposeComponentTests.swift */; };
 		93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9743F23A2833600B0D1CF /* NetworkClient.swift */; };
 		93B9746E23A287A800B0D1CF /* NSErrorExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */; };
@@ -417,7 +422,6 @@
 		9398CA57255325720003A010 /* ExpressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionTests.swift; sourceTree = "<group>"; };
 		9398CA58255325730003A010 /* PathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTests.swift; sourceTree = "<group>"; };
 		9398CA5B255328D60003A010 /* LazyComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyComponent.swift; sourceTree = "<group>"; };
-		9398CA5D2553294E0003A010 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		9398CA5F255329D70003A010 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		9398CA6125532A150003A010 /* ScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		9398CA6D25532BA40003A010 /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
@@ -486,6 +490,12 @@
 		93AA96EB259CBE3700462865 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		93AA96EC259CBE3700462865 /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
 		93AA96F0259CC93B00462865 /* UnitValue+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UnitValue+Extensions.swift"; sourceTree = "<group>"; };
+		93AA96F2259D023F00462865 /* ClickEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClickEvent.swift; sourceTree = "<group>"; };
+		93AA96F4259D031900462865 /* TouchableAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchableAnalytics.swift; sourceTree = "<group>"; };
+		93AA96F6259D04F500462865 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		93AA96F8259D17F900462865 /* AccessibilityComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityComponent.swift; sourceTree = "<group>"; };
+		93AA96F9259D17F900462865 /* IdentifierComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierComponent.swift; sourceTree = "<group>"; };
+		93AA96FA259D17F900462865 /* StyleComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleComponent.swift; sourceTree = "<group>"; };
 		93ADB87823FAD31D005B7CD2 /* ComposeComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeComponentTests.swift; sourceTree = "<group>"; };
 		93B9743F23A2833600B0D1CF /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSErrorExtensionTests.swift; sourceTree = "<group>"; };
@@ -1241,8 +1251,14 @@
 			isa = PBXGroup;
 			children = (
 				93AA96E7259CBDC400462865 /* Accessibility.swift */,
+				93AA96F8259D17F900462865 /* AccessibilityComponent.swift */,
+				93AA96F6259D04F500462865 /* Button.swift */,
+				93AA96F2259D023F00462865 /* ClickEvent.swift */,
 				93AA96E8259CBDC400462865 /* Flex.swift */,
+				93AA96F9259D17F900462865 /* IdentifierComponent.swift */,
 				93AA96EB259CBE3700462865 /* Style.swift */,
+				93AA96FA259D17F900462865 /* StyleComponent.swift */,
+				93AA96F4259D031900462865 /* TouchableAnalytics.swift */,
 				93AA96EC259CBE3700462865 /* UnitValue.swift */,
 			);
 			path = SchemaGenerated;
@@ -1521,7 +1537,6 @@
 		C08D4E6A2485939900AAAC0A /* Button */ = {
 			isa = PBXGroup;
 			children = (
-				9398CA5D2553294E0003A010 /* Button.swift */,
 				C08D4E6B2485939900AAAC0A /* Button+Extensions.swift */,
 				C08D4E6C2485939900AAAC0A /* Tests */,
 			);
@@ -2240,6 +2255,7 @@
 				9398CA3125531E9D0003A010 /* SubmitForm.swift in Sources */,
 				9398CA8C2553349B0003A010 /* ImageContentMode.swift in Sources */,
 				9398CA4125531F5B0003A010 /* ComponentDecoder.swift in Sources */,
+				93AA96F5259D031900462865 /* TouchableAnalytics.swift in Sources */,
 				983E8C8C2396C7FA0018C6CA /* TabViewUIComponent.swift in Sources */,
 				C08D4EFE248AC5C800AAAC0A /* SafeArea+Extensions.swift in Sources */,
 				C08D4EA92486B74500AAAC0A /* FormDataStoreHandler.swift in Sources */,
@@ -2290,9 +2306,11 @@
 				C0479F57243272460040E30C /* AnalyticsGestureRecognizer.swift in Sources */,
 				A0D608D82448DF8700F7D851 /* ScreenType.swift in Sources */,
 				C08D4DE5248559FA00AAAC0A /* PageView+Extensions.swift in Sources */,
+				93AA96F7259D04F500462865 /* Button.swift in Sources */,
 				A0EF0AC2238B0CEC0019BE83 /* SubmitFormGestureRecognizer.swift in Sources */,
 				931B6E302375BA7400DE73FD /* Theme.swift in Sources */,
 				9398CA3825531E9D0003A010 /* SendRequest.swift in Sources */,
+				93AA96F3259D023F00462865 /* ClickEvent.swift in Sources */,
 				93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */,
 				A05C74D62497F524009DBB66 /* Navigate+Extensions.swift in Sources */,
 				A05C74D02497F2BF009DBB66 /* FormLocalAction+Extensions.swift in Sources */,
@@ -2311,9 +2329,11 @@
 				938B13CE2497FBF900AA8E3B /* CollectionExtension.swift in Sources */,
 				9380222A249A989300FA8519 /* FormSubmit+Extensions.swift in Sources */,
 				9398CA55255325190003A010 /* Path.swift in Sources */,
+				93AA96FB259D17F900462865 /* AccessibilityComponent.swift in Sources */,
 				C08D4DE12485598400AAAC0A /* ListView+Extensions.swift in Sources */,
 				C08D4E1924857AD700AAAC0A /* ScrollView+Extensions.swift in Sources */,
 				981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */,
+				93AA96FC259D17F900462865 /* IdentifierComponent.swift in Sources */,
 				E531D6C1235A3230007EEBA7 /* NSErrorExtension.swift in Sources */,
 				A05C74D22497F430009DBB66 /* FormValidation+Extensions.swift in Sources */,
 				7CC2D9B424C614FB0059D5F9 /* TabBar+Extensions.swift in Sources */,
@@ -2354,12 +2374,12 @@
 				935278F62499728400AB9D1F /* DynamicObject+Extensions.swift in Sources */,
 				6EB3368A24A52C1B000A9D17 /* SimpleForm+Extensions.swift in Sources */,
 				9398CA4E255325190003A010 /* Operation.swift in Sources */,
-				9398CA5E2553294E0003A010 /* Button.swift in Sources */,
 				9398CA6225532A150003A010 /* ScrollView.swift in Sources */,
 				9398CAB2255427C10003A010 /* AutoDecodable.generated.swift in Sources */,
 				9398CA9E255338AD0003A010 /* Events.swift in Sources */,
 				9398CA7D25532ECD0003A010 /* NavigationBar.swift in Sources */,
 				C08D4E2024857B5100AAAC0A /* ScreenComponent+Extensions.swift in Sources */,
+				93AA96FD259D17F900462865 /* StyleComponent.swift in Sources */,
 				9327116523F1C9D100778B56 /* Widget.swift in Sources */,
 				C08D4E2C24857BC200AAAC0A /* StyleViewConfigurator.swift in Sources */,
 				9398CB10255591310003A010 /* RepresentableByParsableString.swift in Sources */,

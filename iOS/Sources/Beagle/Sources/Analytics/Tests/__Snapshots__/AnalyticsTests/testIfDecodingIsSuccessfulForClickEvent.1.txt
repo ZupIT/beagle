@@ -1,6 +1,6 @@
 ▿ Button
-  ▿ clickAnalyticsEvent: Optional<AnalyticsClick>
-    ▿ some: AnalyticsClick
+  ▿ clickAnalyticsEvent: Optional<ClickEvent>
+    ▿ some: ClickEvent
       - category: "mocked category"
       ▿ label: Optional<String>
         - some: "mocked label"

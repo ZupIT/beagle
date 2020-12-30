@@ -16,7 +16,7 @@
 
 // MARK: - Widget
 
-public protocol Widget: ServerDrivenComponent, HasWidgetProperties {
+public protocol Widget: StyleComponent, AccessibilityComponent, IdentifierComponent {
     var widgetProperties: WidgetProperties { get set }
 }
 
@@ -39,31 +39,31 @@ public extension Widget {
     }
 }
 
-public protocol HasWidgetProperties: StyleComponent, AccessibilityComponent, IdentifiableComponent { }
+//public protocol HasWidgetProperties: StyleComponent, AccessibilityComponent, IdentifierComponent { }
 
 public protocol HasContext {
     var context: Context? { get }
 }
 
-public protocol StyleComponent {
-    var style: Style? { get }
-}
-
-public protocol AccessibilityComponent {
-    var accessibility: Accessibility? { get }
-}
-
-public protocol IdentifiableComponent {
-    /// string that uniquely identifies a component
-    var id: String? { get }
-}
+//public protocol StyleComponent {
+//    var style: Style? { get }
+//}
+//
+//public protocol AccessibilityComponent {
+//    var accessibility: Accessibility? { get }
+//}
+//
+//public protocol IdentifierComponent {
+//    /// string that uniquely identifies a component
+//    var id: String? { get }
+//}
 
 public protocol InitiableComponent {
     var onInit: [Action]? { get }
 }
 
 /// Properties that all widgets have and are important to Beagle.
-public struct WidgetProperties: HasWidgetProperties, AutoDecodable, Equatable, AutoInitiable {
+public struct WidgetProperties: Decodable, Equatable, AutoInitiable {
 
     public var id: String?
     public var style: Style?

@@ -73,8 +73,8 @@ extension Button {
         styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         onPress = try container.decodeIfPresent(forKey: .onPress)
         disabled = try container.decodeIfPresent(Expression<Bool>.self, forKey: .disabled)
-        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
+        clickAnalyticsEvent = try container.decodeIfPresent(ClickEvent.self, forKey: .clickAnalyticsEvent)
     }
 }
 
@@ -449,7 +449,7 @@ extension Touchable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         onPress = try container.decode(forKey: .onPress)
-        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
+        clickAnalyticsEvent = try container.decodeIfPresent(ClickEvent.self, forKey: .clickAnalyticsEvent)
         child = try container.decode(forKey: .child)
     }
 }
@@ -466,23 +466,5 @@ extension WebView {
 
         url = try container.decode(Expression<String>.self, forKey: .url)
         widgetProperties = try WidgetProperties(from: decoder)
-    }
-}
-
-// MARK: WidgetProperties Decodable
-extension WidgetProperties {
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case style
-        case accessibility
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        id = try container.decodeIfPresent(String.self, forKey: .id)
-        style = try container.decodeIfPresent(Style.self, forKey: .style)
-        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
 }

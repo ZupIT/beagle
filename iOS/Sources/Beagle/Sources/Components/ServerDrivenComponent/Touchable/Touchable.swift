@@ -16,16 +16,16 @@
 
 import Foundation
 
-public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiableAndDecodable {
+public struct Touchable: ServerDrivenComponent, TouchableAnalytics, AutoInitiableAndDecodable {
     // MARK: - Public Properties
     public let onPress: [Action]
-    public let clickAnalyticsEvent: AnalyticsClick?
+    public let clickAnalyticsEvent: ClickEvent?
     public let child: ServerDrivenComponent
 
 // sourcery:inline:auto:Touchable.Init
     public init(
         onPress: [Action],
-        clickAnalyticsEvent: AnalyticsClick? = nil,
+        clickAnalyticsEvent: ClickEvent? = nil,
         child: ServerDrivenComponent
     ) {
         self.onPress = onPress
@@ -36,7 +36,7 @@ public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiabl
     
     public init(
         onPress: [Action],
-        clickAnalyticsEvent: AnalyticsClick? = nil,
+        clickAnalyticsEvent: ClickEvent? = nil,
         @ChildBuilder
         _ child: () -> ServerDrivenComponent
     ) {

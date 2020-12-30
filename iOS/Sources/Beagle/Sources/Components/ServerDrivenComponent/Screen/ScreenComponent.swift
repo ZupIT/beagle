@@ -17,7 +17,7 @@
 struct ScreenComponent: ServerDrivenComponent, StyleComponent, HasContext, AutoInitiableAndDecodable {
     
     let identifier: String?
-    let style: Style?
+    var style: Style?
     let safeArea: SafeArea?
     let navigationBar: NavigationBar?
     let screenAnalyticsEvent: AnalyticsScreen?

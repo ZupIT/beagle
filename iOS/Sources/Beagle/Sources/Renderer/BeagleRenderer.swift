@@ -45,7 +45,7 @@ public struct BeagleRenderer {
     private func setupView(_ view: UIView, of component: ServerDrivenComponent) {
         view.beagle.setupView(of: component)
         
-        if let id = (component as? IdentifiableComponent)?.id {
+        if let id = (component as? IdentifierComponent)?.id {
             controller.setIdentifier(id, in: view)
         }
         if let context = (component as? HasContext)?.context {

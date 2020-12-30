@@ -26,7 +26,7 @@ final class TouchableTests: XCTestCase {
         ▿ Touchable
           ▿ child: UnknownComponent
             - type: "custom:beagleschematestscomponent"
-          - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+          - clickAnalyticsEvent: Optional<ClickEvent>.none
           ▿ onPress: 1 element
             - Navigate.popView
         """)
@@ -71,7 +71,7 @@ final class TouchableTests: XCTestCase {
         controller.dependencies = dependencies
         
         let action = ActionSpy()
-        let analyticsAction = AnalyticsClick(category: "some category")
+        let analyticsAction = ClickEvent(category: "some category")
         let touchable = Touchable(onPress: [action], clickAnalyticsEvent: analyticsAction, child: Text("mocked text"))
         let view = touchable.toView(renderer: BeagleRenderer(controller: controller))
         

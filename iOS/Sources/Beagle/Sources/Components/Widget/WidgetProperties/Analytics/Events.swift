@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-import Foundation
-
 // MARK: - Events
-public protocol ClickedOnComponent {
-    var clickAnalyticsEvent: AnalyticsClick? { get }
-}
 
 public protocol ScreenEvent {
     var screenAnalyticsEvent: AnalyticsScreen? { get }
