@@ -1,6 +1,9 @@
 # Check https://dart-lang.github.io/linter/lints/ for lint rules documentation
 # Update from http://dart-lang.github.io/linter/lints/options/options.html
 
+include: package:pedantic/analysis_options.yaml
+
+
 analyzer:
   errors:
     missing_required_param: error
@@ -18,7 +21,7 @@ linter:
     # - always_put_required_named_parameters_first # not crucial and we do it all around
     - always_require_non_null_named_parameters
     # - always_specify_types # we use type inference
-    # - always_use_package_imports #TODO use when available
+    - always_use_package_imports
     - annotate_overrides
     # - avoid_annotating_with_dynamic # we want to be explicit with dynamic
     - avoid_as
