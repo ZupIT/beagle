@@ -17,6 +17,7 @@
 package br.com.zup.beagle.analytics2
 
 import android.view.View
+import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.Route
@@ -43,6 +44,8 @@ internal class ActionReportFactoryTest : BaseTest() {
     fun setup() {
         every { origin.x } returns 300f
         every { origin.y } returns 400f
+        every { origin.getTag(R.id.beagle_component_type) } returns "beagle:text"
+        every { origin.getTag(R.id.beagle_component_id) } returns null
     }
 
     @DisplayName("When create record")
@@ -56,6 +59,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val action: ActionAnalytics = mockk()
             every { rootView.getScreenId() } returns "/screen"
             every { action.analytics } returns null
+
             //WHEN
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
@@ -122,6 +126,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             //GIVEN
             val componentReport = generateComponentReport()
             val dataActionReport = generateDataActionReport()
+
             //WHEN
 
             val report = reportDataAction(dataActionReport)
@@ -134,7 +139,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @DisplayName("Then should return correct value to component key without crash")
         fun testOriginComponentAsWidgetViewWithAnId() {
             //GIVEN
-            originComponent.id = "text-id"
+            every { origin.getTag(R.id.beagle_component_id) } returns "text-id"
             val componentReport = hashMapOf<String, Any>("type" to "beagle:button", "id" to "text-id")
             val componentReportAux = generateComponentReport()
             componentReport.putAll(componentReportAux)
@@ -171,7 +176,6 @@ internal class ActionReportFactoryTest : BaseTest() {
             rootView,
             origin,
             action,
-            AnalyticsHandleEvent(originComponent = originComponent)
         )
 
         private fun reportDataAction(
@@ -202,7 +206,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 rootView,
                 origin,
                 action,
-                AnalyticsHandleEvent(analyticsValue = "onPress")
+                analyticsValue = "onPress"
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
@@ -222,7 +226,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 rootView,
                 origin,
                 action,
-                AnalyticsHandleEvent(analyticsValue = "onPress")
+                analyticsValue = "onPress"
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
@@ -243,7 +247,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 rootView,
                 origin,
                 action,
-                AnalyticsHandleEvent(analyticsValue = "onPress")
+                analyticsValue = "onPress"
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
@@ -274,6 +278,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         fun testPreGenerateActionAnalyticsConfigCreateCorrectDataActionReport() {
             //GIVEN
             every { rootView.getScreenId() } returns ""
+            every { origin.getTag(R.id.beagle_component_type) } returns null
             val expectedDataReport = DataActionReport(
                 originX = 300f,
                 originY = 400f,
@@ -296,7 +301,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 rootView,
                 origin,
                 action,
-                AnalyticsHandleEvent(analyticsValue = "onPress")
+                analyticsValue = "onPress"
             )
 
             //THEN
@@ -309,7 +314,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         var list: List<ServerDrivenComponent> = listOf(),
         override var analytics: ActionAnalyticsConfig? = null
     ) : ActionAnalytics() {
-        override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+        override fun execute(rootView: RootView, origin: View) {
             //this class will be removed when the action become actionAnalytics
         }
     }

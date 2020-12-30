@@ -17,12 +17,10 @@
 package br.com.zup.beagle.android.components.utils
 
 import android.view.View
+import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.StyleManager
-import br.com.zup.beagle.android.utils.dp
-import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.utils.toAndroidId
 import io.mockk.Runs
 import io.mockk.every
@@ -32,14 +30,15 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.slot
-import io.mockk.verify
 import io.mockk.verifyOrder
-import io.mockk.verifySequence
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 
-class ComponentStylizationTest : BaseTest() {
+@DisplayName("Given a ComponentPropertyAssigner")
+class ComponentPropertyAssignerTest : BaseTest() {
 
     @RelaxedMockK
     private lateinit var accessibilitySetup: AccessibilitySetup
@@ -54,7 +53,7 @@ class ComponentStylizationTest : BaseTest() {
     private lateinit var styleManager: StyleManager
 
     @InjectMockKs
-    private lateinit var componentStylization: ComponentStylization<Text>
+    private lateinit var componentPropertyAssigner: ComponentPropertyAssigner<Text>
 
     @BeforeEach
     override fun setUp() {
@@ -72,15 +71,41 @@ class ComponentStylizationTest : BaseTest() {
         every { widget.id } returns widgetId
         every { view.id = capture(slotId) } just Runs
         every { view.applyStyle(widget) } just Runs
+        every { view.setTag(R.id.beagle_component_id, any()) } just Runs
+        every { view.setTag(R.id.beagle_component_type, any()) } just Runs
 
         // WHEN
-        componentStylization.apply(view, widget)
+        componentPropertyAssigner.apply(view, widget)
 
         // THEN
         assertEquals(widgetId.toAndroidId(), slotId.captured)
         verifyOrder {
             view.applyStyle(widget)
             accessibilitySetup.applyAccessibility(view, widget)
+        }
+    }
+
+    @DisplayName("When apply")
+    @Nested
+    inner class Apply{
+
+        @DisplayName("Then should set beagle_component_id tag")
+        @Test
+        fun testApplyShouldSetBeagleComponentTag(){
+            // Given
+            val widgetId = "123"
+            val slotId = slot<String>()
+            every { view.setTag(R.id.beagle_component_id, capture(slotId)) } just Runs
+            every { view.id = any() } just Runs
+            every { widget.id } returns widgetId
+            every { view.setTag(R.id.beagle_component_type, any()) } just Runs
+            every { view.applyStyle(widget) } just Runs
+
+            // When
+            componentPropertyAssigner.apply(view, widget)
+
+            // Then
+            assertEquals(widgetId, slotId.captured)
         }
     }
 }

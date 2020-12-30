@@ -58,14 +58,14 @@ internal object AnalyticsService {
         rootView: RootView,
         origin: View,
         action: ActionAnalytics,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
+        analyticsValue: String? = null
     ) {
         analyticsProvider?.let {
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
                 action,
-                analyticsHandleEvent
+                analyticsValue
             )
             if (isAnalyticsConfigInitialized()) {
                 reportActionIfShould(dataActionReport)

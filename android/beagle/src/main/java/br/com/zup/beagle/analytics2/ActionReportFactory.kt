@@ -17,6 +17,7 @@
 package br.com.zup.beagle.analytics2
 
 import android.view.View
+import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.context.Bind
@@ -24,8 +25,6 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.IdentifierComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
@@ -36,13 +35,13 @@ internal object ActionReportFactory {
         rootView: RootView,
         origin: View,
         action: ActionAnalytics,
-        analyticsHandleEvent: AnalyticsHandleEvent? = null
+        analyticsValue: String? = null
     ) = DataActionReport(
         originX = origin.x,
         originY = origin.y,
-        id = getComponentId(analyticsHandleEvent?.originComponent),
-        type = getComponentType(analyticsHandleEvent?.originComponent),
-        analyticsValue = analyticsHandleEvent?.analyticsValue,
+        id = origin.getTag(R.id.beagle_component_id)?.toString(),
+        type = origin.getTag(R.id.beagle_component_type)?.toString(),
+        analyticsValue = analyticsValue,
         attributes = evaluateAllActionAttribute(
             value = action,
             rootView = rootView,
@@ -53,23 +52,6 @@ internal object ActionReportFactory {
         screenId = rootView.getScreenId(),
         actionType = getActionType(action)
     )
-
-    private fun getComponentId(originComponent: ServerDrivenComponent?) = (originComponent as? IdentifierComponent)?.id
-
-    private fun getComponentType(component: ServerDrivenComponent?): String? {
-        var type: String? = null
-        component?.let {
-            type = createComponentType(it)
-        }
-        return type
-    }
-
-    private fun createComponentType(component: ServerDrivenComponent): String =
-        if (isCustomWidget(component)) "custom:" + putFirstCharacterAsLower(component::class.simpleName)
-        else "beagle:" + putFirstCharacterAsLower(component::class.simpleName)
-
-    private fun isCustomWidget(component: ServerDrivenComponent): Boolean =
-        BeagleEnvironment.beagleSdk.registeredWidgets().contains(component::class.java)
 
     private fun getActionType(action: Action): String =
         if (isCustomAction(action)) "custom:" + putFirstCharacterAsLower(action::class.simpleName)

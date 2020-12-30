@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.analytics2.AnalyticsHandleEvent
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
@@ -110,12 +109,12 @@ data class SendRequest(
         onFinish
     )
 
-    override fun execute(rootView: RootView, origin: View, originComponent: ServerDrivenComponent?) {
+    override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
         val setContext = toSendRequestInternal(rootView, origin)
         viewModel.fetch(setContext).observe(rootView.getLifecycleOwner(), { state ->
             onActionFinished()
-            executeActions(rootView, state, origin, originComponent)
+            executeActions(rootView, state, origin)
         })
     }
 
@@ -123,14 +122,13 @@ data class SendRequest(
         rootView: RootView,
         state: FetchViewState,
         origin: View,
-        originComponent: ServerDrivenComponent?
     ) {
         onFinish?.let {
             handleEvent(
                 rootView,
                 origin,
                 it,
-                analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFinish")
+                analyticsValue = "onFinish"
             )
         }
 
@@ -141,7 +139,7 @@ data class SendRequest(
                     origin,
                     it,
                     ContextData("onError", state.response),
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+                    analyticsValue = "onFalse"
                 )
             }
             is FetchViewState.Success -> onSuccess?.let {
@@ -150,7 +148,7 @@ data class SendRequest(
                     origin,
                     it,
                     ContextData("onSuccess", state.response),
-                    analyticsHandleEvent = AnalyticsHandleEvent(originComponent, "onFalse")
+                    analyticsValue = "onFalse"
                 )
             }
         }
