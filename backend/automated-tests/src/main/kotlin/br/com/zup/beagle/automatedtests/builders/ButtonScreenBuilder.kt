@@ -27,6 +27,9 @@ import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -42,6 +45,7 @@ object ButtonScreenBuilder {
 
     private fun createButtonScreen(alignContent: AlignContent, marginTop: UnitValue): Screen {
         return Screen(
+            context = ContextData(id = "disabled", value = true),
             navigationBar = NavigationBar(
                 title = "Beagle Button",
                 showBackButton = true,
@@ -106,6 +110,12 @@ object ButtonScreenBuilder {
                 styleId = "DesignSystem.Button.ScreenButton",
                 onPress = listOf(Alert(message = "This button must be disabled")),
                 disabled = true
+            ),
+            Button(
+                text = valueOf("Disabled Button by context") ,
+                styleId = "DesignSystem.Button.ScreenButton",
+                onPress = listOf(Alert(message = "This button must be disabled")),
+                disabled = expressionOf("@{disabled}")
             )
         )
     )

@@ -37,6 +37,11 @@ Feature: Button Component Validation
             |Button with style                |
             |Button with Appearance           |
 
-    Scenario: Button 03 - Button component is disabled
-        When I click on button Disabled Button
+    Scenario Outline: Button 03 - Button component is disabled
+        When I click on button <buttonText>
         Then the alert with message This button must be disabled should not appear
+
+        Examples:
+            |buttonText                  |
+            | Disabled Button            |
+            | Disabled Button by context |
