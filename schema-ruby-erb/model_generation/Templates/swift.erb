@@ -169,6 +169,9 @@
     output = handleInnerTypes(objectType.synthax_type.sameFileTypes, output)
 
     output += "\n}\n"
+
+    output = handleSameFileTypes(objectType.synthax_type.sameFileTypes, output)
+
     output
 
   end
@@ -176,6 +179,11 @@
   def handleInnerTypes(objectTypes, input, paddingMultiplier = 1)
     output = input
     for objectType in objectTypes
+      # Ignoring Size, EdgeValue and CornerRadius for handling as same file type
+      next if objectType.name.eql?(Size.new.name) || 
+        objectType.name.eql?(EdgeValue.new.name) || 
+        objectType.name.eql?(CornerRadius.new.name)
+        
       preRun(objectType)
       aux = "\n#{fullDeclaration(objectType)}"
       output += @template_helper.add_padding(@tab, paddingMultiplier, aux)
@@ -187,19 +195,58 @@
     output
   end
 
+  def handleSameFileTypes(objectTypes, input)
+    output = input
+    for objectType in objectTypes
+      # Used only in for EdgeValue, Size and CornerRadius
+      if objectType.name.eql?(Size.new.name) || 
+        objectType.name.eql?(EdgeValue.new.name) || 
+        objectType.name.eql?(CornerRadius.new.name)
+
+        preRun(objectType)
+        output += "\n#{fullDeclaration(objectType)}"
+      end
+    end
+    output
+  end
+
   # Everything that is inside this method indicates something that need to be done only for swift
   def preRun(object_type)
-    if @template_helper.is_widget(object_type)
+
+    # General rules
+    if @template_helper.is_widget(object_type) &&
+      !@template_helper.is_interface_or_abstract(object_type)
       object_type.synthax_type.variables.append(
         Field.new(:name => "widgetProperties", :type => SwiftCustom.new("WidgetProperties"), :defaultValue => "WidgetProperties()", :comment => "")
       )
-      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoDecodable"))
-    elsif @template_helper.is_server_driven_component(object_type)
-      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoDecodable"))
     end
 
-    if [CornerRadius.new.name].include? object_type.synthax_type.name
+    if @template_helper.is_enum(object_type)
+      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("String"))
+    end
+
+    if @template_helper.is_server_driven_component(object_type) && 
+      !@template_helper.is_interface_or_abstract(object_type)
+      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoDecodable"))
+    elsif !@template_helper.is_interface_or_abstract(object_type)
+      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("Decodable"))
+    end
+
+    # Especific Rules
+    if object_type.name.eql?(Style.new.name) || 
+      object_type.name.eql?(Flex.new.name) || 
+      object_type.name.eql?(Size.new.name) || 
+      object_type.name.eql?(EdgeValue.new.name) 
+
+      object_type.synthax_type.type = BuiltInType.new(:name => "class")
       object_type.synthax_type.inheritFrom.append(SwiftCustom.new("AutoEquatable"))
+    end
+
+    if object_type.name.eql?(Accessibility.new.name) ||
+      object_type.name.eql?(CornerRadius.new.name) ||
+      object_type.name.eql?(UnitValue.new.name)
+
+      object_type.synthax_type.inheritFrom.append(SwiftCustom.new("Equatable"))
     end
   end
 

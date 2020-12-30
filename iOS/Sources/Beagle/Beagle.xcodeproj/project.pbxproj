@@ -111,14 +111,8 @@
 		9398CA8F255334E20003A010 /* SimpleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA8E255334E20003A010 /* SimpleForm.swift */; };
 		9398CA91255334EE0003A010 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA90255334EE0003A010 /* Text.swift */; };
 		9398CA93255335430003A010 /* TextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA92255335430003A010 /* TextInput.swift */; };
-		9398CA9A255338A50003A010 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA99255338A50003A010 /* Accessibility.swift */; };
 		9398CA9D255338AD0003A010 /* AnalyticsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA9B255338AD0003A010 /* AnalyticsModels.swift */; };
 		9398CA9E255338AD0003A010 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA9C255338AD0003A010 /* Events.swift */; };
-		9398CAA3255338B80003A010 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CA9F255338B80003A010 /* Size.swift */; };
-		9398CAA4255338B80003A010 /* Flex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CAA0255338B80003A010 /* Flex.swift */; };
-		9398CAA5255338B80003A010 /* EdgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CAA1255338B80003A010 /* EdgeValue.swift */; };
-		9398CAA6255338B80003A010 /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CAA2255338B80003A010 /* UnitValue.swift */; };
-		9398CAA8255338C00003A010 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CAA7255338C00003A010 /* Style.swift */; };
 		9398CAAA255346840003A010 /* AccessibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4E5A2485939800AAAC0A /* AccessibilityTests.swift */; };
 		9398CAAC255351DE0003A010 /* FunctionBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CAAB255351DE0003A010 /* FunctionBuilders.swift */; };
 		9398CAB2255427C10003A010 /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CAB0255427C10003A010 /* AutoDecodable.generated.swift */; };
@@ -150,6 +144,11 @@
 		9398CB10255591310003A010 /* RepresentableByParsableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CB0F255591310003A010 /* RepresentableByParsableString.swift */; };
 		93A2EE1C24EC4BB00085B3CF /* AddChildren+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1B24EC4BB00085B3CF /* AddChildren+Extensions.swift */; };
 		93A2EE2024EC71EA0085B3CF /* AddChildrenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1F24EC71EA0085B3CF /* AddChildrenTests.swift */; };
+		93AA96E9259CBDC400462865 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96E7259CBDC400462865 /* Accessibility.swift */; };
+		93AA96EA259CBDC400462865 /* Flex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96E8259CBDC400462865 /* Flex.swift */; };
+		93AA96ED259CBE3800462865 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96EB259CBE3700462865 /* Style.swift */; };
+		93AA96EE259CBE3800462865 /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96EC259CBE3700462865 /* UnitValue.swift */; };
+		93AA96F1259CC93B00462865 /* UnitValue+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA96F0259CC93B00462865 /* UnitValue+Extensions.swift */; };
 		93ADB87923FAD31D005B7CD2 /* ComposeComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ADB87823FAD31D005B7CD2 /* ComposeComponentTests.swift */; };
 		93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9743F23A2833600B0D1CF /* NetworkClient.swift */; };
 		93B9746E23A287A800B0D1CF /* NSErrorExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */; };
@@ -439,14 +438,8 @@
 		9398CA8E255334E20003A010 /* SimpleForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleForm.swift; sourceTree = "<group>"; };
 		9398CA90255334EE0003A010 /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		9398CA92255335430003A010 /* TextInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInput.swift; sourceTree = "<group>"; };
-		9398CA99255338A50003A010 /* Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		9398CA9B255338AD0003A010 /* AnalyticsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsModels.swift; sourceTree = "<group>"; };
 		9398CA9C255338AD0003A010 /* Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
-		9398CA9F255338B80003A010 /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
-		9398CAA0255338B80003A010 /* Flex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flex.swift; sourceTree = "<group>"; };
-		9398CAA1255338B80003A010 /* EdgeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeValue.swift; sourceTree = "<group>"; };
-		9398CAA2255338B80003A010 /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
-		9398CAA7255338C00003A010 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		9398CAAB255351DE0003A010 /* FunctionBuilders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionBuilders.swift; sourceTree = "<group>"; };
 		9398CAB0255427C10003A010 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
 		9398CAB1255427C10003A010 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
@@ -488,6 +481,11 @@
 		9398CB15255594DE0003A010 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		93A2EE1B24EC4BB00085B3CF /* AddChildren+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddChildren+Extensions.swift"; sourceTree = "<group>"; };
 		93A2EE1F24EC71EA0085B3CF /* AddChildrenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildrenTests.swift; sourceTree = "<group>"; };
+		93AA96E7259CBDC400462865 /* Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
+		93AA96E8259CBDC400462865 /* Flex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flex.swift; sourceTree = "<group>"; };
+		93AA96EB259CBE3700462865 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		93AA96EC259CBE3700462865 /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
+		93AA96F0259CC93B00462865 /* UnitValue+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UnitValue+Extensions.swift"; sourceTree = "<group>"; };
 		93ADB87823FAD31D005B7CD2 /* ComposeComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeComponentTests.swift; sourceTree = "<group>"; };
 		93B9743F23A2833600B0D1CF /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSErrorExtensionTests.swift; sourceTree = "<group>"; };
@@ -916,30 +914,10 @@
 				C08D4E1824857AC300AAAC0A /* YogaTranslator.swift */,
 				9398CA982553386B0003A010 /* Accessibility */,
 				9398CA97255338680003A010 /* Analytics */,
-				9398CA96255338650003A010 /* Flex */,
-				9398CA95255338610003A010 /* Style */,
+				93AA96EF259CC89100462865 /* Flex */,
 				9398CAEC2554A8920003A010 /* Tests */,
 			);
 			path = WidgetProperties;
-			sourceTree = "<group>";
-		};
-		9398CA95255338610003A010 /* Style */ = {
-			isa = PBXGroup;
-			children = (
-				9398CAA7255338C00003A010 /* Style.swift */,
-			);
-			path = Style;
-			sourceTree = "<group>";
-		};
-		9398CA96255338650003A010 /* Flex */ = {
-			isa = PBXGroup;
-			children = (
-				9398CAA1255338B80003A010 /* EdgeValue.swift */,
-				9398CAA0255338B80003A010 /* Flex.swift */,
-				9398CA9F255338B80003A010 /* Size.swift */,
-				9398CAA2255338B80003A010 /* UnitValue.swift */,
-			);
-			path = Flex;
 			sourceTree = "<group>";
 		};
 		9398CA97255338680003A010 /* Analytics */ = {
@@ -954,7 +932,6 @@
 		9398CA982553386B0003A010 /* Accessibility */ = {
 			isa = PBXGroup;
 			children = (
-				9398CA99255338A50003A010 /* Accessibility.swift */,
 				C08D4E5A2485939800AAAC0A /* AccessibilityTests.swift */,
 			);
 			path = Accessibility;
@@ -1253,10 +1230,30 @@
 				C829CE9A23B12D4E001B7225 /* Navigation */,
 				93B9741C23A281B200B0D1CF /* Networking */,
 				C829CEA723B15C59001B7225 /* Renderer */,
+				93AA96E6259CBD6700462865 /* SchemaGenerated */,
 				E5CB5D892354E481009783A7 /* Setup */,
 				931B6E0C2374A9BB00DE73FD /* Theme */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		93AA96E6259CBD6700462865 /* SchemaGenerated */ = {
+			isa = PBXGroup;
+			children = (
+				93AA96E7259CBDC400462865 /* Accessibility.swift */,
+				93AA96E8259CBDC400462865 /* Flex.swift */,
+				93AA96EB259CBE3700462865 /* Style.swift */,
+				93AA96EC259CBE3700462865 /* UnitValue.swift */,
+			);
+			path = SchemaGenerated;
+			sourceTree = "<group>";
+		};
+		93AA96EF259CC89100462865 /* Flex */ = {
+			isa = PBXGroup;
+			children = (
+				93AA96F0259CC93B00462865 /* UnitValue+Extensions.swift */,
+			);
+			path = Flex;
 			sourceTree = "<group>";
 		};
 		93B9741C23A281B200B0D1CF /* Networking */ = {
@@ -1619,10 +1616,10 @@
 		C0D6753224572D84009F0E94 /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
-				C0E12CC624804F83001C5A0C /* sourceryScript.sh */,
-				C0CE9487248038100029B35F /* SourceryProtocols.swift */,
-				C0E12CC824804F90001C5A0C /* Templates */,
 				C8A2F6EB2464C019002198B1 /* Generated */,
+				C0CE9487248038100029B35F /* SourceryProtocols.swift */,
+				C0E12CC624804F83001C5A0C /* sourceryScript.sh */,
+				C0E12CC824804F90001C5A0C /* Templates */,
 			);
 			path = CodeGeneration;
 			sourceTree = "<group>";
@@ -2038,6 +2035,7 @@
 			buildConfigurationList = 932925E32327E11000A61F01 /* Build configuration list for PBXNativeTarget "Beagle" */;
 			buildPhases = (
 				932925CA2327E11000A61F01 /* Headers */,
+				93AA96CE259A500C00462865 /* Run Beagle Schema */,
 				C0F0168B245B0FB00041A30C /* Sourcery Run Script */,
 				932925CB2327E11000A61F01 /* Sources */,
 				932925CC2327E11000A61F01 /* Frameworks */,
@@ -2167,6 +2165,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		93AA96CE259A500C00462865 /* Run Beagle Schema */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Beagle Schema";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Execute schema generation sources for swift\n$(git rev-parse --show-toplevel)/schema-ruby-erb/model_generation/schema.sh -s\n";
+		};
 		C0F0168B245B0FB00041A30C /* Sourcery Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2215,6 +2231,7 @@
 				9398CA8425532F400003A010 /* TabView.swift in Sources */,
 				25C762A62510FFF500AB4D33 /* Condition+Extensions.swift in Sources */,
 				9398CA3225531E9D0003A010 /* Condition.swift in Sources */,
+				93AA96F1259CC93B00462865 /* UnitValue+Extensions.swift in Sources */,
 				C08D4E452485804400AAAC0A /* OnStateUpdatable.swift in Sources */,
 				7685B045249A8880007EDED0 /* SendRequest+Extensions.swift in Sources */,
 				C85D9BA1238701E60075B6C0 /* PageViewUIComponent.swift in Sources */,
@@ -2232,16 +2249,15 @@
 				9398CA3625531E9D0003A010 /* FormValidation.swift in Sources */,
 				9398CA6E25532BA40003A010 /* Form.swift in Sources */,
 				988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */,
+				93AA96E9259CBDC400462865 /* Accessibility.swift in Sources */,
 				E531D6BA2359FEE1007EEBA7 /* UIView+Loading.swift in Sources */,
 				9398CA3325531E9D0003A010 /* Confirm.swift in Sources */,
 				C8311A6924099A8700E95C15 /* WidgetStateObservable.swift in Sources */,
 				57A8097F243CF44A0034D180 /* CacheReference.swift in Sources */,
 				C08D4E3324857C7700AAAC0A /* UIWindow+Extension.swift in Sources */,
-				9398CA9A255338A50003A010 /* Accessibility.swift in Sources */,
 				9398CA7C25532ECD0003A010 /* SafeArea.swift in Sources */,
 				93A2EE1C24EC4BB00085B3CF /* AddChildren+Extensions.swift in Sources */,
 				A068234E2384320000CEE57A /* Validator.swift in Sources */,
-				9398CAA5255338B80003A010 /* EdgeValue.swift in Sources */,
 				9398CA91255334EE0003A010 /* Text.swift in Sources */,
 				9398CA89255332E20003A010 /* Touchable.swift in Sources */,
 				C89E80A52397FFD500C2D0ED /* PageIndicatorUI.swift in Sources */,
@@ -2260,13 +2276,13 @@
 				9398CA53255325190003A010 /* Expression.swift in Sources */,
 				9398CAAC255351DE0003A010 /* FunctionBuilders.swift in Sources */,
 				9398CA7125532BC00003A010 /* FormInput.swift in Sources */,
-				9398CAA6255338B80003A010 /* UnitValue.swift in Sources */,
 				C08D4E882485944B00AAAC0A /* Text+Extensions.swift in Sources */,
 				A057D59324C7169E001F6835 /* ComponentHostController.swift in Sources */,
 				E5A6F4CB2358F621008906F8 /* Repository.swift in Sources */,
 				9398CA3525531E9D0003A010 /* FormRemoteAction.swift in Sources */,
 				E52236C423745CBB00E555BB /* NSObjectExtension.swift in Sources */,
 				A020A4D124FFDDC200B3DF55 /* ListViewController.swift in Sources */,
+				93AA96EA259CBDC400462865 /* Flex.swift in Sources */,
 				C048EBDB242BD78500A24075 /* Analytics.swift in Sources */,
 				A068234C238430C500CEE57A /* ValidatorProvider.swift in Sources */,
 				C85688BB2433C4A400DD8B60 /* BeagleMessageLogs.swift in Sources */,
@@ -2305,11 +2321,11 @@
 				A024CF0F24991E42009BB92D /* UIView+Style.swift in Sources */,
 				C08D4E1F24857B4E00AAAC0A /* NavigationBar+UIKit.swift in Sources */,
 				9398CAF3255579D60003A010 /* Deprecated.swift in Sources */,
-				9398CAA4255338B80003A010 /* Flex.swift in Sources */,
 				A04B19FA23ECA3F7007B4279 /* Screen+Renderable.swift in Sources */,
 				983E8C8E2396C81C0018C6CA /* TabBarItemUIComponent.swift in Sources */,
 				C08D4E9A248594EA00AAAC0A /* Image+Extensions.swift in Sources */,
 				7CFE3A752412E3B50087F664 /* StyleBuildersExtension.swift in Sources */,
+				93AA96ED259CBE3800462865 /* Style.swift in Sources */,
 				C08D4E9B248594ED00AAAC0A /* ImageContentMode+Extensions.swift in Sources */,
 				9398CAB825543B640003A010 /* PageIndicator.swift in Sources */,
 				9398CA8F255334E20003A010 /* SimpleForm.swift in Sources */,
@@ -2318,8 +2334,6 @@
 				98B7D95623DB2722002622AC /* Observable.swift in Sources */,
 				A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */,
 				9398CA7625532E1F0003A010 /* ListView.swift in Sources */,
-				9398CAA8255338C00003A010 /* Style.swift in Sources */,
-				9398CAA3255338B80003A010 /* Size.swift in Sources */,
 				C8ECF2CD24BD1D9800525CF5 /* NetworkCache.swift in Sources */,
 				C08D4E8C2485946300AAAC0A /* WebViewUIComponent.swift in Sources */,
 				E52236C223745A7F00E555BB /* ListViewCell.swift in Sources */,
@@ -2335,6 +2349,7 @@
 				9398CA8D2553349B0003A010 /* Image.swift in Sources */,
 				E5CB5DAB23550012009783A7 /* BeagleSetup.swift in Sources */,
 				C08D4EA82486B72300AAAC0A /* FormManager.swift in Sources */,
+				93AA96EE259CBE3800462865 /* UnitValue.swift in Sources */,
 				9398CA60255329D70003A010 /* Container.swift in Sources */,
 				935278F62499728400AB9D1F /* DynamicObject+Extensions.swift in Sources */,
 				6EB3368A24A52C1B000A9D17 /* SimpleForm+Extensions.swift in Sources */,

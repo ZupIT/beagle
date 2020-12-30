@@ -14,30 +14,8 @@
  * limitations under the License.
  */
 
-/// Receive the amount to be applied and the type.
-public struct UnitValue: Decodable, Equatable {
-    
+extension UnitValue {
     // MARK: - Constants
     public static let zero = UnitValue(value: 0.0, type: .real)
     public static let auto = UnitValue(value: 0.0, type: .auto)
-    
-    // MARK: - Public Properties
-    public let value: Double
-    public let type: UnitType
-    
-    // MARK: - Initialization
-    
-    public init(
-        value: Double,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-    
-}
-public enum UnitType: String, Decodable {
-    case auto = "AUTO"
-    case real = "REAL"
-    case percent = "PERCENT"
 }

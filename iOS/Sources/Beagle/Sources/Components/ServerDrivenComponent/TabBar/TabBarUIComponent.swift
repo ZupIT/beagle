@@ -176,8 +176,8 @@ private extension TabBarUIComponent {
             Style(
                 size: Size().height(3).width(.init(value: Double(selectedItem.bounds.width), type: .real)),
                 position: EdgeValue(left: UnitValue(value: Double(selectedItem.frame.origin.x), type: .real)),
-                positionType: .absolute,
-                flex: Flex().alignSelf(.flexEnd)
+                flex: Flex().alignSelf(.flexEnd),
+                positionType: .absolute
             )
         )
     }

@@ -17,14 +17,6 @@
 * limitations under the License.
 */
 
-// MARK: CornerRadius Equatable
-
-extension CornerRadius: Equatable {
-     public static func == (lhs: CornerRadius, rhs: CornerRadius) -> Bool {
-        guard lhs.radius == rhs.radius else { return false }
-        return true
-    }
-}
 // MARK: EdgeValue Equatable
 
 extension EdgeValue: Equatable {
@@ -82,9 +74,9 @@ extension Style: Equatable {
         guard lhs.margin == rhs.margin else { return false }
         guard lhs.padding == rhs.padding else { return false }
         guard lhs.position == rhs.position else { return false }
+        guard lhs.flex == rhs.flex else { return false }
         guard lhs.positionType == rhs.positionType else { return false }
         guard lhs.display == rhs.display else { return false }
-        guard lhs.flex == rhs.flex else { return false }
         return true
     }
 }

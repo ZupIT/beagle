@@ -25,7 +25,7 @@ class AccessibilityTest: XCTestCase {
     
     func testIfAttributesWereAppliedToNavigationItem() {
         //given
-        let accessibility = Accessibility(accessibilityLabel: label, accessible: true)
+        let accessibility = Accessibility(accessible: true, accessibilityLabel: label)
         let navigationItem = UINavigationItem()
 
         //when
@@ -38,7 +38,7 @@ class AccessibilityTest: XCTestCase {
 
     func testIfAttributesWereAppliedToBarButtonItem() {
         //given
-        let accessibility = Accessibility(accessibilityLabel: label, accessible: true)
+        let accessibility = Accessibility(accessible: true, accessibilityLabel: label)
         let barButtonItem = UIBarButtonItem()
 
         //when
@@ -51,7 +51,7 @@ class AccessibilityTest: XCTestCase {
     
     func testIfAttributesWereAppliedToView() {
         //given
-        let accessibility = Accessibility(accessibilityLabel: label, accessible: true)
+        let accessibility = Accessibility(accessible: true, accessibilityLabel: label)
         
         //when
         configurator.setup(accessibility: accessibility)

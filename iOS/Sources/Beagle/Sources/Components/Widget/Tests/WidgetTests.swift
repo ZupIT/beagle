@@ -31,7 +31,7 @@ final class WidgetTests: XCTestCase {
         var text: Text = try componentFromJsonFile(fileName: "widgetWithAllAttributes")
         let newStyle = Style(backgroundColor: nil, cornerRadius: .init(radius: -9999.0))
         let newId = "newID"
-        let newAccessibility = Accessibility(accessibilityLabel: "new label", accessible: false)
+        let newAccessibility = Accessibility(accessible: false, accessibilityLabel: "new label")
         
         // when
         text.style = newStyle

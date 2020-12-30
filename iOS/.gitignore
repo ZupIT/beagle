@@ -71,3 +71,7 @@ iOSInjectionProject/
 # Git .orig files
 #
 *.orig
+
+# Schema Generated sources
+#
+Sources/Beagle/Sources/SchemaGenerated

@@ -23,7 +23,7 @@ class ViewConfiguratorTests: XCTestCase {
         // Given
         let view = UIView()
         let style = Style().borderColor("#000000").borderWidth(2).backgroundColor("#FFFFFF").cornerRadius(.init(radius: 4))
-        let accessibility = Accessibility(accessibilityLabel: "accessibilityLabel", accessible: true)
+        let accessibility = Accessibility(accessible: true, accessibilityLabel: "accessibilityLabel")
         let component = Text("text", widgetProperties: .init(style: style, accessibility: accessibility))
         let viewConfigurator = ViewConfigurator(view: view)
         
