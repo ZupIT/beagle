@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.expressionOrValueOfNullable
@@ -39,8 +40,9 @@ data class Alert(
     val title: Bind<String>? = null,
     val message: Bind<String>,
     val onPressOk: Action? = null,
-    val labelOk: String? = null
-) : Action {
+    val labelOk: String? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics() {
 
     constructor(
         title: String? = null,

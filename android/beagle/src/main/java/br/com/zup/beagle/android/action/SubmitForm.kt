@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -27,7 +28,7 @@ import br.com.zup.beagle.android.widget.RootView
 /**
  * SubmitForm and a specific action of the SimpleForm component when executing it calls SimpleForm's onSubmit attribute.
  */
-class SubmitForm : Action {
+class SubmitForm(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics() {
 
     override fun execute(rootView: RootView, origin: View) {
         var currentView: ViewParent? = origin.parent
