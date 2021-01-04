@@ -17,7 +17,7 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NEW_ANALYTICS_NAVIGATE_ENDPOINT
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.action.Navigate
@@ -92,7 +92,7 @@ object NewAnalyticsScreenBuilder {
                 Button(
                     text = "navigateToPage2",
                     onPress = listOf(
-                        Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true))
+                        Navigate.PushView(Route.Remote(NEW_ANALYTICS_NAVIGATE_ENDPOINT, true))
                     )
                 )
             )
