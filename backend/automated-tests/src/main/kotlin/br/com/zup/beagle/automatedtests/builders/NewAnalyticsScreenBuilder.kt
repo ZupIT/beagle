@@ -38,7 +38,12 @@ object NewAnalyticsScreenBuilder {
                                 attributes = listOf("message")
                             ),
                             title = "Alert Title",
-                            message = "AlertMessage"
+                            message = "AlertMessage",
+                            onPressOk = Navigate.OpenNativeRoute(
+                                analytics = ActionAnalyticsConfig(false),
+                                route = "screen-analytics-link",
+                                shouldResetApplication = true
+                            )
                         )
                     )
                 ),
