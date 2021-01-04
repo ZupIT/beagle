@@ -17,10 +17,8 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.extensions.once
@@ -29,20 +27,13 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 import br.com.zup.beagle.android.view.viewmodel.Response
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.verify
-import io.mockk.verifyOrder
+import br.com.zup.beagle.core.ServerDrivenComponent
+import io.mockk.*
 import org.json.JSONObject
-import org.junit.Rule
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 data class DataTest(val email: String, val password: String)
 
@@ -82,8 +73,19 @@ class SendRequestTest : BaseAsyncActionTest() {
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
-            requestAction.handleEvent(rootView, view, listOf(onSuccessAction), any<ContextData>())
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsValue = "onFinish"
+            )
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onSuccessAction),
+                any<ContextData>(),
+                analyticsValue = "onFalse"
+            )
         }
 
         assertEquals("onSuccess", contextDataSlot.captured.id)
@@ -105,8 +107,19 @@ class SendRequestTest : BaseAsyncActionTest() {
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
-            requestAction.handleEvent(rootView, view, listOf(onErrorAction), any<ContextData>())
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsValue = "onFinish"
+            )
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onErrorAction),
+                any<ContextData>(),
+                analyticsValue = "onFalse"
+            )
         }
 
         assertEquals("onError", contextDataSlot.captured.id)
@@ -127,7 +140,12 @@ class SendRequestTest : BaseAsyncActionTest() {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsValue = "onFinish"
+            )
         }
     }
 
@@ -144,7 +162,7 @@ class SendRequestTest : BaseAsyncActionTest() {
 
         // Then
         verify(exactly = 0) {
-            requestAction.handleEvent(any(), any(), any<List<Action>>())
+            requestAction.handleEvent(any(), any(), any<List<Action>>(), analyticsValue = any())
         }
     }
 
@@ -177,7 +195,12 @@ class SendRequestTest : BaseAsyncActionTest() {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsValue = "onFinish"
+            )
         }
     }
 
@@ -195,7 +218,12 @@ class SendRequestTest : BaseAsyncActionTest() {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(
+                rootView,
+                view,
+                listOf(onFinishAction),
+                analyticsValue = "onFinish"
+            )
         }
     }
 
@@ -213,8 +241,8 @@ class SendRequestTest : BaseAsyncActionTest() {
             data = data
         ).apply {
             every { evaluateExpression(rootView, view, any<Any>()) } returns ""
-            every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
-            every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot), analyticsValue = any()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), analyticsValue = any()) } just Runs
         }
     }
 

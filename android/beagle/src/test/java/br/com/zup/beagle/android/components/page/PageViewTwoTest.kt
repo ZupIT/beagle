@@ -178,7 +178,7 @@ class PageViewTwoTest : BaseComponentTest() {
 
         // THEN
         verify(exactly = once()) {
-            pageView.handleEvent(rootView, beaglePageView, onPageChange, ContextData("onPageChange", 1))
+            pageView.handleEvent(rootView, beaglePageView, onPageChange, ContextData("onPageChange", 1), "onPageChange")
         }
     }
 
@@ -220,7 +220,8 @@ class PageViewTwoTest : BaseComponentTest() {
                 rootView,
                 beaglePageView,
                 onPageChange,
-                ContextData("onPageChange", 1)
+                ContextData("onPageChange", 1),
+                "onPageChange"
             )
         } just Runs
     }

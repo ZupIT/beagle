@@ -134,7 +134,8 @@ data class TextInput(
                     ContextData(
                         id = "onChange",
                         value = mapOf(VALUE_KEY to newText.toString())
-                    )
+                    ),
+                    "onChange"
                 )
             }
         }
@@ -155,7 +156,8 @@ data class TextInput(
                         ContextData(
                             id = "onFocus",
                             value = mapOf(VALUE_KEY to text.toString())
-                        )
+                        ),
+                        "onFocus"
                     )
                 }
             } else {
@@ -167,7 +169,8 @@ data class TextInput(
                         ContextData(
                             id = "onBlur",
                             value = mapOf(VALUE_KEY to text.toString())
-                        )
+                        ),
+                        "onBlur"
                     )
                 }
             }

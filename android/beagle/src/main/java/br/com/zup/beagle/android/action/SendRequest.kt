@@ -17,18 +17,19 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.annotation.ContextDataValue
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.handleEvent
-import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
+import br.com.zup.beagle.android.widget.RootView
 
 /**
  * Enum with HTTP methods.
@@ -85,8 +86,9 @@ data class SendRequest(
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
-    val onFinish: List<Action>? = null
-) : Action, AsyncAction by AsyncActionImpl() {
+    val onFinish: List<Action>? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
 
     constructor(
         url: String,
@@ -118,18 +120,35 @@ data class SendRequest(
     private fun executeActions(
         rootView: RootView,
         state: FetchViewState,
-        origin: View
+        origin: View,
     ) {
         onFinish?.let {
-            handleEvent(rootView, origin, it)
+            handleEvent(
+                rootView,
+                origin,
+                it,
+                analyticsValue = "onFinish"
+            )
         }
 
         when (state) {
             is FetchViewState.Error -> onError?.let {
-                handleEvent(rootView, origin, it, ContextData("onError", state.response))
+                handleEvent(
+                    rootView,
+                    origin,
+                    it,
+                    ContextData("onError", state.response),
+                    analyticsValue = "onFalse"
+                )
             }
             is FetchViewState.Success -> onSuccess?.let {
-                handleEvent(rootView, origin, it, ContextData("onSuccess", state.response))
+                handleEvent(
+                    rootView,
+                    origin,
+                    it,
+                    ContextData("onSuccess", state.response),
+                    analyticsValue = "onFalse"
+                )
             }
         }
     }

@@ -14,21 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.utils
+package br.com.zup.beagle.analytics2
 
-import android.view.View
-import br.com.zup.beagle.android.utils.toAndroidId
-import br.com.zup.beagle.core.IdentifierComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
 
-class ComponentStylization<T : ServerDrivenComponent>(
-    private val accessibilitySetup: AccessibilitySetup = AccessibilitySetup()
-) {
-    fun apply(view: View, component: T) {
-        view.applyStyle(component)
-        (component as? IdentifierComponent)?.id?.let {
-            view.id = it.toAndroidId()
-        }
-        accessibilitySetup.applyAccessibility(view, component)
-    }
+internal interface DataReport {
+
+    fun report()
 }

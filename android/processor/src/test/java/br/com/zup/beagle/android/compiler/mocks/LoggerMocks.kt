@@ -41,6 +41,7 @@ const val VALID_LOGGER_BEAGLE_SDK =
         
         import br.com.test.beagle.BeagleConfigImpl
         import br.com.zup.beagle.analytics.Analytics
+        import br.com.zup.beagle.analytics2.AnalyticsProvider
         import br.com.zup.beagle.android.`data`.serializer.adapter.generic.TypeAdapterResolver
         import br.com.zup.beagle.android.action.Action
         import br.com.zup.beagle.android.action.FormLocalActionHandler
@@ -80,7 +81,9 @@ const val VALID_LOGGER_BEAGLE_SDK =
 
             public override val analytics : Analytics? = null
 
-            public override val logger : BeagleLogger = br.com.test.beagle.LoggerTest()
+           public override val analyticsProvider : AnalyticsProvider? = null
+           
+           public override val logger : BeagleLogger = br.com.test.beagle.LoggerTest()
 
             public override val controllerReference : BeagleControllerReference = ControllerReferenceGenerated()
 

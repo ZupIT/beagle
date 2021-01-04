@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.expressionOrValueOfNullable
@@ -43,8 +44,9 @@ data class Confirm(
     val onPressOk: Action? = null,
     val onPressCancel: Action? = null,
     val labelOk: String? = null,
-    val labelCancel: String? = null
-) : Action {
+    val labelCancel: String? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics() {
 
     constructor(
         title: String? = null,
@@ -73,14 +75,24 @@ data class Confirm(
                 ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressOk?.let {
-                    handleEvent(rootView, origin, it)
+                    handleEvent(
+                        rootView,
+                        origin,
+                        it,
+                        analyticsValue = "onPressOk"
+                    )
                 }
             }
             .setNegativeButton(labelCancel
                 ?: rootView.getContext().getString(android.R.string.cancel)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressCancel?.let {
-                    handleEvent(rootView, origin, it)
+                    handleEvent(
+                        rootView,
+                        origin,
+                        it,
+                        analyticsValue = "onPressCancel"
+                    )
                 }
             }
             .show()

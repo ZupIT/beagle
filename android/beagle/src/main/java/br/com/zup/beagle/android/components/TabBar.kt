@@ -136,7 +136,13 @@ data class TabBar(
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 onTabSelection?.let {
                     tab?.let { tab ->
-                        handleEvent(rootView, tabBar, it, ContextData("onTabSelection", value = tab.position))
+                        handleEvent(
+                            rootView,
+                            tabBar,
+                            it,
+                            ContextData("onTabSelection", value = tab.position),
+                            "onTabSelected"
+                        )
                     }
                 }
             }

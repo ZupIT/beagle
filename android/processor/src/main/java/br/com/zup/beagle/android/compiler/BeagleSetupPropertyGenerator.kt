@@ -79,6 +79,13 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
                     logImplementationErrorMessage(typeElement, "Analytics")
                 }
             }
+            typeElement.implements(ANALYTICS_PROVIDER, processingEnv) -> {
+                if (propertySpecifications?.analyticsProvider == null) {
+                    propertySpecifications?.analyticsProvider = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "AnalyticsProvider")
+                }
+            }
         }
     }
 
@@ -121,6 +128,7 @@ internal data class PropertySpecifications(
     var urlBuilder: TypeElement? = null,
     var storeHandler: TypeElement? = null,
     var analytics: TypeElement? = null,
+    var analyticsProvider : TypeElement? = null,
     var logger: TypeElement? = null,
     var imageDownloader: TypeElement? = null
 )

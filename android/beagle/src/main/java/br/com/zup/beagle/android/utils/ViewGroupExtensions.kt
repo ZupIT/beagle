@@ -44,7 +44,7 @@ fun ViewGroup.loadView(
 ) {
     loadView(
         viewGroup = this,
-        rootView = ActivityRootView(activity, this.id),
+        rootView = ActivityRootView(activity, this.id, screenRequest.url),
         screenRequest = screenRequest,
         listener = null,
         newListener = object : OnServerStateChanged {
@@ -64,7 +64,7 @@ fun ViewGroup.loadView(
 ) {
     loadView(
         viewGroup = this,
-        rootView = FragmentRootView(fragment, this.id),
+        rootView = FragmentRootView(fragment, this.id, screenRequest.url),
         screenRequest = screenRequest,
         listener = null,
         newListener = object : OnServerStateChanged {
@@ -85,7 +85,13 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null,
 ) {
-    loadView(this, ActivityRootView(activity, this.id), screenRequest, null, listener)
+    loadView(
+        this,
+        ActivityRootView(activity, this.id, screenRequest.url),
+        screenRequest,
+        null,
+        listener
+    )
 }
 
 /**
@@ -100,7 +106,12 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnServerStateChanged? = null,
 ) {
-    loadView(this, FragmentRootView(fragment, this.id), screenRequest, null, listener)
+    loadView(this,
+        FragmentRootView(fragment, this.id, screenRequest.url),
+        screenRequest,
+        null,
+        listener
+    )
 }
 
 /**
@@ -117,7 +128,11 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnStateChanged? = null,
 ) {
-    loadView(this, ActivityRootView(activity, this.id), screenRequest, listener)
+    loadView(this,
+        ActivityRootView(activity, this.id, screenRequest.url),
+        screenRequest,
+        listener
+    )
 }
 
 /**
@@ -134,7 +149,11 @@ fun ViewGroup.loadView(
     screenRequest: ScreenRequest,
     listener: OnStateChanged? = null,
 ) {
-    loadView(this, FragmentRootView(fragment, this.id), screenRequest, listener)
+    loadView(this,
+        FragmentRootView(fragment, this.id, screenRequest.url),
+        screenRequest,
+        listener
+    )
 }
 
 @Suppress("LongParameterList")
@@ -166,29 +185,50 @@ private fun loadView(
  * @property activity that is parent of this view.
  * Make sure to use this method if you are inside a Activity because of the lifecycle
  * @property screenJson that represents your component
+ * @property screenId that represents an screen identifier to create the analytics when the screen is created
+ * @property isLocalScreen that indicated if your screen is local or not to create the analytics when
+ * the screen is created
  */
-fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
-    this.renderScreen(ActivityRootView(activity, this.id), screenJson)
+fun ViewGroup.renderScreen(
+    activity: AppCompatActivity,
+    screenJson: String,
+    screenId: String = "",
+    isLocalScreen: Boolean? = null
+) {
+    this.renderScreen(ActivityRootView(activity, this.id, screenId), screenJson, isLocalScreen)
 }
 
 /**
  * Render a ServerDrivenComponent into this ViewGroup
  * @property fragment <p>that is parent of this view.
- * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
+ * Make sure to use this method if you are inside a Fragment bec
+ * ause of the lifecycle</p>
  * @property screenJson that represents your component
+ * @property screenId that represents an screen identifier to create the analytics when the screen is created
+ * @property isLocalScreen that indicated if your screen is local or not to create the analytics when
+ * the screen is created
  */
-fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
-    this.renderScreen(FragmentRootView(fragment, this.id), screenJson)
+fun ViewGroup.renderScreen(
+    fragment: Fragment,
+    screenJson: String,
+    screenId: String = "",
+    isLocalScreen: Boolean? = null
+) {
+    this.renderScreen(FragmentRootView(fragment, this.id, screenId), screenJson, isLocalScreen)
 }
 
-internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String) {
+internal fun ViewGroup.renderScreen(
+    rootView: RootView,
+    screenJson: String,
+    isLocalScreen: Boolean?,
+) {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     viewModel.clearContexts()
     val component = beagleSerializerFactory.deserializeComponent(screenJson)
     (rootView.getContext() as AppCompatActivity)
         .supportFragmentManager
         .beginTransaction()
-        .replace(this.id, BeagleFragment.newInstance(component))
+        .replace(this.id, BeagleFragment.newInstance(component, isLocalScreen, rootView.getScreenId()))
         .addToBackStack(null)
         .commit()
 }

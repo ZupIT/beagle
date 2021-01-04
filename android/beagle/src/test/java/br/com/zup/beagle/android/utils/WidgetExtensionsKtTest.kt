@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
@@ -28,25 +29,28 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verifySequence
-import org.junit.jupiter.api.Test
+import br.com.zup.beagle.widget.Widget
+import io.mockk.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 @DisplayName("Given a widget extension")
 class WidgetExtensionsKtTest : BaseTest() {
 
     private val component = mockk<ServerDrivenComponent>()
+    private val widgetComponent = mockk<Widget>()
+
     private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
     private val view = createViewForContext()
     private val generateIdViewModel: GenerateIdViewModel = mockk(relaxed = true)
     private val contextViewModel: ScreenContextViewModel = mockk(relaxed = true)
+    private val activity: AppCompatActivity = mockk(relaxed = true)
 
     @BeforeEach
     override fun setUp() {
@@ -109,6 +113,43 @@ class WidgetExtensionsKtTest : BaseTest() {
             }
 
             assertEquals(beagleFlexView, actual)
+        }
+
+
+        @DisplayName("Then assert the identifier is getting right")
+        @Test
+        fun testToViewShouldGetScreenIdentifierFromParameterFirst() {
+            //given
+            val slot = commonMock()
+            val screenId = "screenId"
+
+            //when
+            widgetComponent.toView(activity = activity, screenIdentifier = screenId)
+
+            //then
+            assertEquals(screenId, slot.captured.getScreenId())
+        }
+
+        @DisplayName("Then assert the identifier is getting right")
+        @Test
+        fun testToViewWithIdOnComponent() {
+            //given
+            val slot = commonMock()
+            val componentId = "componentId"
+
+            //when
+            widgetComponent.toView(activity = activity, screenIdentifier = null)
+
+            //then
+            assertEquals(componentId, slot.captured.getScreenId())
+        }
+
+        private fun commonMock(): CapturingSlot<RootView> {
+            mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
+            val slot = slot<RootView>()
+            every { widgetComponent.toView(capture(slot), any()) } returns mockk()
+            every { widgetComponent.id } returns "componentId"
+            return slot
         }
     }
 

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
@@ -35,8 +36,9 @@ import br.com.zup.beagle.android.widget.RootView
 data class Condition(
     val condition: Bind<Boolean>,
     val onTrue: List<Action>? = null,
-    val onFalse: List<Action>? = null
-) : Action {
+    val onFalse: List<Action>? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics() {
 
     constructor(
         condition: Boolean,
@@ -54,12 +56,30 @@ data class Condition(
         }
 
         if (result.getOrNull() != true && result.getOrNull() != false) {
-            onFalse?.let { handleEvent(rootView, origin, it) }
+            onFalse?.let {
+                handleEvent(
+                    rootView,
+                    origin,
+                    it,
+                    analyticsValue = "onFalse")
+            }
             BeagleLoggerProxy.warning("Conditional action. Expected boolean or null. Received: ${condition.value}")
         } else if (result.getOrNull() == true) {
-            onTrue?.let { handleEvent(rootView, origin, it) }
+            onTrue?.let {
+                handleEvent(
+                    rootView,
+                    origin,
+                    it,
+                    analyticsValue = "onTrue")
+            }
         } else {
-            onFalse?.let { handleEvent(rootView, origin, it) }
+            onFalse?.let {
+                handleEvent(
+                    rootView,
+                    origin,
+                    it,
+                    analyticsValue = "onFalse")
+            }
         }
     }
 }

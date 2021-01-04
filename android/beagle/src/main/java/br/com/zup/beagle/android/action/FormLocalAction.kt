@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
@@ -42,8 +43,9 @@ import br.com.zup.beagle.android.widget.RootView
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormLocalAction(
     val name: String,
-    val data: Map<String, String>
-) : Action, AsyncAction by AsyncActionImpl() {
+    val data: Map<String, String>,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
 
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler
@@ -53,7 +55,12 @@ data class FormLocalAction(
 
             override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
-                handleEvent(rootView, origin, action)
+                handleEvent(
+                    rootView,
+                    origin,
+                    action,
+                    analyticsValue = "onSuccess"
+                )
                 onActionFinished()
             }
 

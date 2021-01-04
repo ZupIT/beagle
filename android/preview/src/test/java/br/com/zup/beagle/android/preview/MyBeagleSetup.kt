@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.preview
 
 import br.com.zup.beagle.analytics.Analytics
+import br.com.zup.beagle.analytics2.AnalyticsProvider
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
@@ -73,6 +74,8 @@ class MyBeagleSetup : BeagleSdk {
     override val urlBuilder: UrlBuilder? = null
 
     override val analytics: Analytics? = null
+
+    override val analyticsProvider: AnalyticsProvider? = null
 
     override val logger: BeagleLogger? = null
 

@@ -18,8 +18,10 @@ package br.com.zup.beagle.android.context
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -32,13 +34,14 @@ internal object ContextActionExecutor {
         origin: View,
         sender: Any,
         actions: List<Action>,
-        context: ContextData? = null
+        context: ContextData? = null,
+        analyticsValue: String? = null
     ) {
         if (context != null) {
             createImplicitContextForActions(rootView, sender, context, actions)
         }
 
-        executeActions(rootView, origin, actions)
+        executeActions(rootView, origin, actions, analyticsValue)
     }
 
     private fun createImplicitContextForActions(
@@ -51,16 +54,40 @@ internal object ContextActionExecutor {
         viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
 
-    private fun executeActions(rootView: RootView, origin: View, actions: List<Action>?) {
-        actions?.forEach {  action ->
+    private fun executeActions(
+        rootView: RootView,
+        origin: View,
+        actions: List<Action>?,
+        analyticsValue: String?
+    ) {
+        actions?.forEach { action ->
             if (action is AsyncAction) {
                 val viewModel = rootView.generateViewModelInstance<AsyncActionViewModel>()
                 viewModel.onAsyncActionExecuted(AsyncActionData(origin, action))
                 action.onActionStarted()
             }
-            action.execute(rootView, origin)
+            executeAction(action, rootView, origin, analyticsValue)
         }
     }
+
+    private fun executeAction(
+        action: Action,
+        rootView: RootView,
+        origin: View,
+        analyticsValue: String? = null
+    ) {
+        action.execute(rootView, origin)
+
+        if (action is ActionAnalytics) {
+            rootView.generateViewModelInstance<AnalyticsViewModel>().createActionReport(
+                rootView,
+                origin,
+                action,
+                analyticsValue
+            )
+        }
+    }
+
 }
 
 internal data class AsyncActionData(

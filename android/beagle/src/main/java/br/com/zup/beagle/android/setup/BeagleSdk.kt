@@ -19,6 +19,8 @@ package br.com.zup.beagle.android.setup
 import android.app.Application
 import androidx.annotation.VisibleForTesting
 import br.com.zup.beagle.analytics.Analytics
+import br.com.zup.beagle.analytics2.AnalyticsProvider
+import br.com.zup.beagle.analytics2.AnalyticsService
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
@@ -51,6 +53,7 @@ interface BeagleSdk {
     val storeHandler: StoreHandler?
     val controllerReference: BeagleControllerReference?
     val typeAdapterResolver: TypeAdapterResolver?
+    val analyticsProvider : AnalyticsProvider?
 
     @Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
         " Use @RegisterController with no arguments to register your default BeagleActivity.")
@@ -70,6 +73,7 @@ interface BeagleSdk {
         BeagleScope().launch(CoroutineDispatchers.Default) {
             BeagleMoshi.moshi.adapter(ServerDrivenComponent::class.java)
         }
+        AnalyticsService.initialConfig(analyticsProvider)
     }
 
     companion object {

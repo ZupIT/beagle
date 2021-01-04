@@ -33,9 +33,9 @@ platform :flutter do
 
   desc "Pull Request verification"
   lane :pull_request_verification do
-    sh "cd .. && fastlane/flutter/tests.sh"
+    sh "cd #{ENV['PWD']} && fastlane/flutter/tests.sh"
     run_codecov(platform: 'flutter')
-    sh "cd .. && flutter analyze > flutter_analyze_report.txt || true"
+    sh "cd #{ENV['PWD']}/flutter && flutter analyze > flutter_analyze_report.txt || true"
   end
 
 end
@@ -105,9 +105,9 @@ platform :ios do
   desc "Release Pods"
   lane :release_pods do |options|
     version = options[:version] # 1.0.0
-    tag = options[:tag] # 1.0.0[-iOS]
-    update_podspec(path: "Beagle.podspec", version: version, tag: tag)
-    pod_push(path: "Beagle.podspec", allow_warnings: true)
+     tag = options[:tag] # 1.0.0[-iOS]
+     update_podspec(path: "Beagle.podspec", version: version, tag: tag)
+     pod_push(path: "Beagle.podspec", allow_warnings: true)
   end
 end
 

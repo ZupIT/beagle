@@ -33,35 +33,33 @@ import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.loadView
+import br.com.zup.beagle.android.utils.renderScreen
 import br.com.zup.beagle.android.utils.toAndroidColor
+import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleView
 import br.com.zup.beagle.android.view.custom.OnLoadCompleted
+import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.verify
-import io.mockk.verifyOrder
-import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 private val URL = RandomData.httpUrl()
 private val screenRequest = ScreenRequest(URL)
 
+@DisplayName("Given a View Extension")
 class ViewExtensionsKtTest : BaseTest() {
 
     @RelaxedMockK
@@ -87,6 +85,9 @@ class ViewExtensionsKtTest : BaseTest() {
 
     @MockK
     private lateinit var onStateChanged: OnStateChanged
+
+    @MockK
+    private lateinit var onServerStateChanged: OnServerStateChanged
 
     @RelaxedMockK
     private lateinit var inputMethodManager: InputMethodManager
@@ -121,6 +122,7 @@ class ViewExtensionsKtTest : BaseTest() {
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
         every { imageView.scaleType = any() } just Runs
         every { imageView.setImageResource(any()) } just Runs
+
     }
 
     @Test
@@ -305,7 +307,7 @@ class ViewExtensionsKtTest : BaseTest() {
         every { styleWidget.style } returns style
         every { resultWidth.dp() } returns resultWidth
         every { defaultColor.toAndroidColor() } returns resultColor
-        every {  anyConstructed<GradientDrawable>().setStroke(resultWidth, resultColor) } just Runs
+        every { anyConstructed<GradientDrawable>().setStroke(resultWidth, resultColor) } just Runs
 
         // When
         viewGroup.applyStroke(styleWidget)
@@ -313,6 +315,138 @@ class ViewExtensionsKtTest : BaseTest() {
         // Then
         verify(exactly = 1) {
             anyConstructed<GradientDrawable>().setStroke(resultWidth, resultColor)
+        }
+    }
+
+    @DisplayName("When load view")
+    @Nested
+    inner class LoadView {
+
+        @DisplayName("Then should create the rootView with right parameters")
+        @Test
+        fun testDeprecatedLoadViewWithActivity() {
+            //given
+            val slot = commonGiven()
+
+            //when
+            viewGroup.loadView(activity, screenRequest, onStateChanged)
+
+            //then
+            assertEquals(screenRequest.url, slot.captured.getScreenId())
+        }
+
+        @DisplayName("Then should create the rootView with right parameters")
+        @Test
+        fun testLoadViewWithActivity() {
+            //given
+            val slot = commonGiven()
+
+            //when
+            viewGroup.loadView(activity, screenRequest)
+
+            //then
+            assertEquals(screenRequest.url, slot.captured.getScreenId())
+        }
+
+        @DisplayName("Then should create the rootView with right parameters")
+        @Test
+        fun testLoadViewWithActivityAndOnServerStateChanged() {
+            //given
+            val slot = commonGiven()
+
+            //when
+            viewGroup.loadView(activity, screenRequest, onServerStateChanged)
+
+            //then
+            assertEquals(screenRequest.url, slot.captured.getScreenId())
+        }
+
+        @DisplayName("Then should create the rootView with right parameters")
+        @Test
+        fun testDeprecatedLoadViewWithFragment() {
+            //given
+            val slot = commonGiven()
+
+            //when
+            viewGroup.loadView(fragment, screenRequest, onStateChanged)
+
+            //then
+            assertEquals(screenRequest.url, slot.captured.getScreenId())
+        }
+
+        @DisplayName("Then should create the rootView with right parameters")
+        @Test
+        fun testLoadViewWithFragment() {
+            //given
+            val slot = commonGiven()
+
+            //when
+            viewGroup.loadView(fragment, screenRequest)
+
+            //then
+            assertEquals(screenRequest.url, slot.captured.getScreenId())
+        }
+
+        @DisplayName("Then should create the rootView with right parameters")
+        @Test
+        fun testLoadViewWithFragmentAndOnServerStateChanged() {
+            //given
+            val slot = commonGiven()
+
+            //when
+            viewGroup.loadView(fragment, screenRequest, onServerStateChanged)
+
+            //then
+            assertEquals(screenRequest.url, slot.captured.getScreenId())
+        }
+
+        private fun commonGiven(): CapturingSlot<RootView> {
+            val slot = slot<RootView>()
+            every { viewFactory.makeBeagleView(capture(slot)) } returns beagleView
+            return slot
+        }
+    }
+
+    @DisplayName("When render screen")
+    @Nested
+    inner class RenderScreen() {
+        private val json = """{
+                "_beagleComponent_" : "beagle:screenComponent",
+                "child" : {
+                "_beagleComponent_" : "beagle:text",
+                "text" : "hello"
+            }
+            }"""
+
+        @DisplayName("Then should create the rootView with right parameters")
+        @Test
+        fun testRenderScreenWithActivity() {
+            //given
+            val beagleFragment: BeagleFragment = mockk()
+
+            mockkObject(BeagleFragment)
+            every { BeagleFragment.newInstance(component = any(), any(), any()) } returns beagleFragment
+
+            //then
+            viewGroup.renderScreen(activity, json, "screenId", false)
+
+            //when
+            verify(exactly = 1) { BeagleFragment.newInstance(component = any(), false, "screenId") }
+        }
+
+        @DisplayName("Then should create the rootView with right parameters")
+        @Test
+        fun testRenderScreenWithFragment() {
+            //given
+            val beagleFragment: BeagleFragment = mockk()
+            mockkObject(BeagleFragment)
+            every { BeagleFragment.newInstance(component = any(), any(), any()) } returns beagleFragment
+            every { fragment.requireContext() } returns activity
+            //then
+            viewGroup.renderScreen(fragment, json, "screenId", false)
+
+            //when
+            verify(exactly = 1) { BeagleFragment.newInstance(component = any(), false, "screenId") }
         }
     }
 }
