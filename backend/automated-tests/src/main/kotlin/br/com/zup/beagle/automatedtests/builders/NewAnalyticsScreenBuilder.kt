@@ -28,8 +28,6 @@ import br.com.zup.beagle.widget.ui.Button
 
 object NewAnalyticsScreenBuilder {
 
-    private val NATIVE_ROUTE_CONSTATNT = "screen-analytics-link"
-
     fun build() = Screen(
         child = Container(
             listOf(
@@ -103,7 +101,7 @@ object NewAnalyticsScreenBuilder {
 
     private fun nativeNavigation() = Navigate.OpenNativeRoute(
         analytics = ActionAnalyticsConfig(false),
-        route = NATIVE_ROUTE_CONSTATNT,
+        route = "screen-analytics-link",
         shouldResetApplication = true
     )
 }
