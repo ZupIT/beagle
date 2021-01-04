@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -55,5 +56,6 @@ enum class Mode {
 data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
-    var mode: Mode? = Mode.APPEND
-) : Action
+    var mode: Mode? = Mode.APPEND,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics()

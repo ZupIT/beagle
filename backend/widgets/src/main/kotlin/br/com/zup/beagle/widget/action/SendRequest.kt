@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.widget.context.Bind
 
 /**
@@ -36,8 +37,9 @@ data class SendRequest(
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
-    val onFinish: List<Action>? = null
-) : Action {
+    val onFinish: List<Action>? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics() {
     constructor(
         url: String,
         method: RequestActionMethod = RequestActionMethod.GET,
@@ -45,7 +47,8 @@ data class SendRequest(
         data: Any? = null,
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
-        onFinish: List<Action>? = null
+        onFinish: List<Action>? = null,
+        analytics: ActionAnalyticsConfig? = null
     ) : this(
         url = Bind.Value(url),
         method = Bind.Value(method),
@@ -53,7 +56,8 @@ data class SendRequest(
         data = data,
         onSuccess = onSuccess,
         onError = onError,
-        onFinish = onFinish
+        onFinish = onFinish,
+        analytics = analytics
     )
 }
 
