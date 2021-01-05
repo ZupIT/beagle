@@ -90,89 +90,94 @@ internal class TextInputTest : BaseComponentTest() {
         type = type
     )
 
-    @Test
-    @DisplayName("Then should build a textView")
-    fun buildEditTextInstance() {
-        // When
-        val view = textInput.buildView(rootView)
+    @DisplayName("When set the configurations for TextInput")
+    @Nested
+    inner class TextInputConfigurations {
 
-        // Then
-        assertTrue(view is EditText)
-        verify(exactly = once()) {
-            editText.setText(VALUE)
-            editText.hint = PLACE_HOLDER
-            editText.isEnabled = READ_ONLY
-            editText.isEnabled = DISABLED
-            editText.visibility = View.INVISIBLE
-            editText.isFocusable = true
-            editText.isFocusableInTouchMode = true
+        @Test
+        @DisplayName("Then should build a textView")
+        fun buildEditTextInstance() {
+            // When
+            val view = textInput.buildView(rootView)
+
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = once()) {
+                editText.setText(VALUE)
+                editText.hint = PLACE_HOLDER
+                editText.isEnabled = READ_ONLY
+                editText.isEnabled = DISABLED
+                editText.visibility = View.INVISIBLE
+                editText.isFocusable = true
+                editText.isFocusableInTouchMode = true
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then should get the value set for the text input component")
-    fun getValueOfTextInput() {
-        // Given
-        textInput.buildView(rootView)
+        @Test
+        @DisplayName("Then should get the value set for the text input component")
+        fun getValueOfTextInput() {
+            // Given
+            textInput.buildView(rootView)
 
-        // When
-        val textInputValue = textInput.getValue()
+            // When
+            val textInputValue = textInput.getValue()
 
-        // Then
-        assertEquals(textInputValue, editText.text.toString())
-    }
-
-    @Test
-    @DisplayName("Then check if error message is set")
-    fun checkErrorMessage() {
-        // Given
-        textInput.buildView(rootView)
-
-        // When
-        textInput.onErrorMessage("Error")
-
-        // Then
-        verify(exactly = once()) { editText.error = "Error" }
-    }
-
-    @Test
-    @DisplayName("Then verify setData when values is delivered")
-    fun verifySetDataValue() {
-        // When
-        textInput.buildView(rootView)
-
-        // Then
-        verify(exactly = once()) {
-            editText.setText(VALUE)
-            editText.hint = PLACE_HOLDER
-            editText.isEnabled = READ_ONLY
-            editText.isEnabled = DISABLED
-            editText.visibility = View.INVISIBLE
-            editText.isFocusable = true
-            editText.isFocusableInTouchMode = true
+            // Then
+            assertEquals(textInputValue, editText.text.toString())
         }
-    }
 
-    @Test
-    @DisplayName("Then verify set enabled config of text input")
-    fun verifyEnabledConfig() {
-        // When
-        textInput.buildView(rootView)
+        @Test
+        @DisplayName("Then check if error message is set")
+        fun checkErrorMessage() {
+            // Given
+            textInput.buildView(rootView)
 
-        // Then
-        verify(exactly = once()) {
-            editText.isEnabled = true
+            // When
+            textInput.onErrorMessage("Error")
+
+            // Then
+            verify(exactly = once()) { editText.error = "Error" }
         }
-    }
 
-    @Test
-    @DisplayName("Then check if the text was removed")
-    fun `Given a textInput Then check if text change was removed`() {
-        // Given
-        textInput.buildView(rootView)
+        @Test
+        @DisplayName("Then verify setData when values is delivered")
+        fun verifySetDataValue() {
+            // When
+            textInput.buildView(rootView)
 
-        // Then
-        verify(exactly = once()) { editText.removeTextChangedListener(textWatcher) }
+            // Then
+            verify(exactly = once()) {
+                editText.setText(VALUE)
+                editText.hint = PLACE_HOLDER
+                editText.isEnabled = READ_ONLY
+                editText.isEnabled = DISABLED
+                editText.visibility = View.INVISIBLE
+                editText.isFocusable = true
+                editText.isFocusableInTouchMode = true
+            }
+        }
+
+        @Test
+        @DisplayName("Then verify set enabled config of text input")
+        fun verifyEnabledConfig() {
+            // When
+            textInput.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) {
+                editText.isEnabled = true
+            }
+        }
+
+        @Test
+        @DisplayName("Then check if the text was removed")
+        fun `Given a textInput Then check if text change was removed`() {
+            // Given
+            textInput.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) { editText.removeTextChangedListener(textWatcher) }
+        }
     }
 
     @DisplayName("When passing input type")
