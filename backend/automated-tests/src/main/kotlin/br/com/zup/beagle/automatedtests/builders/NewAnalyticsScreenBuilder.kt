@@ -25,11 +25,13 @@ import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.Text
 
 object NewAnalyticsScreenBuilder {
     fun build() = Screen(
         child = Container(
             listOf(
+                Text("Analytics 2.0"),
                 Button(
                     text = "Alert with no specific analytics configuration",
                     onPress = listOf(

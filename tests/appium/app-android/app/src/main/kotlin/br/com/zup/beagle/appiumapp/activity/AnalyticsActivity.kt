@@ -11,17 +11,17 @@ import br.com.zup.beagle.appiumapp.config.analytics2.RecordService
 import br.com.zup.beagle.appiumapp.config.analytics2.ReportListener
 import kotlinx.android.synthetic.main.activity_analytics.*
 
-class AnalyticsActivity  : AppCompatActivity(){
+class AnalyticsActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContentView(R.layout.activity_app_beagle)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_analytics)
         RecordService.setListener(object : ReportListener{
             override fun onReport(report: AnalyticsRecord) {
                 analytics_text.text = report.toString()
+
             }
         })
-        analytics_frame.loadView(this, ScreenRequest("/analytics2.0"))
     }
 
 }
