@@ -122,3 +122,13 @@ task dokkaHugo(type: org.jetbrains.dokka.gradle.DokkaTask) {
         dokkaHugoPlugin 'com.github.cotechde:dokka-hugo-plugin:master-SNAPSHOT'
     }
 }
+
+/**
+ *  https://github.com/cotechde/dokka-hugo-plugin
+ *  To run this task by ./gradlew dokkaHugo
+ */
+task dokkaHugo(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    dependencies {
+        dokkaHugoPlugin 'com.github.cotechde:dokka-hugo-plugin:master-SNAPSHOT'
+    }
+}
