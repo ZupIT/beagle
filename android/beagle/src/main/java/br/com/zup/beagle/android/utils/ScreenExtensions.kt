@@ -32,4 +32,6 @@ internal fun Screen.toComponent() = ScreenComponent(
     child = this.child,
     screenAnalyticsEvent = this.screenAnalyticsEvent,
     context = this.context
-)
+).apply {
+    id = this@toComponent.id
+}
