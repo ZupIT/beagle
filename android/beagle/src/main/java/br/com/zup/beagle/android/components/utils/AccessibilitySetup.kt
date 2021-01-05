@@ -30,7 +30,6 @@ class AccessibilitySetup {
             }
 
             accessibilityComponent.accessibility?.accessibilityLabel?.let { accessibilityLabel ->
-                Log.v("uzias ac", accessibilityLabel)
                 view.contentDescription = accessibilityLabel
             }
         }

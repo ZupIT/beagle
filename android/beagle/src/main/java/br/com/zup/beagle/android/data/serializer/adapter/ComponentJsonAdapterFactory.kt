@@ -42,9 +42,9 @@ internal object ComponentJsonAdapterFactory {
         )
 
         factory = registerBaseSubTypes(factory)
-//        factory = registerUIClass(factory)
+        factory = registerUIClass(factory)
         factory = registerWidgets(factory, true, InternalWidgetFactory.registeredWidgets())
-//        factory = registerWidgets(factory, false, BeagleEnvironment.beagleSdk.registeredWidgets())
+        factory = registerWidgets(factory, false, BeagleEnvironment.beagleSdk.registeredWidgets())
         factory = registerUndefinedWidget(factory)
 
         return factory
@@ -54,8 +54,8 @@ internal object ComponentJsonAdapterFactory {
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return  factory .withBaseSubType(Widget::class.java)
-//        factory.withBaseSubType(PageIndicatorComponent::class.java)
-//            .withBaseSubType(InputWidget::class.java)
+        factory.withBaseSubType(PageIndicatorComponent::class.java)
+            .withBaseSubType(InputWidget::class.java)
 
     }
 
@@ -75,12 +75,12 @@ internal object ComponentJsonAdapterFactory {
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         var newFactory = factory
 
-//        widgets.forEach {
-//            val nameSpace = if (isDefault) generateNameSpaceToDefaultWidget(it)
-//            else generateNameSpaceToWidget(CUSTOM_NAMESPACE, it)
-//
-//            newFactory = newFactory.withSubtype(it, nameSpace)
-//        }
+        widgets.forEach {
+            val nameSpace = if (isDefault) generateNameSpaceToDefaultWidget(it)
+            else generateNameSpaceToWidget(CUSTOM_NAMESPACE, it)
+
+            newFactory = newFactory.withSubtype(it, nameSpace)
+        }
 
         newFactory = newFactory.withSubtype(UndefinedWidget::class.java, createNameSpaceToDefaultWidget<UndefinedWidget>())
 

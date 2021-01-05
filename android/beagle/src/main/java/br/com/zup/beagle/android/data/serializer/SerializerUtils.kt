@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import android.util.Log
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
 import java.util.Locale
@@ -45,8 +44,6 @@ internal fun generateNameSpaceToDefaultWidget(clazz: Class<*>, name: String = ""
     clazz.getAnnotation(RegisterWidget::class.java)?.let {
         typeName = it.name
     }
-    Log.v("uzias", clazz.toString())
-    Log.v("uzias", typeName)
     return createNamespace(BEAGLE_NAMESPACE, clazz, typeName)
 }
 
@@ -60,7 +57,7 @@ internal fun generateNameSpaceToWidget(appNameSpace: String, clazz: Class<*>): S
 
 
 internal fun createNamespace(appNameSpace: String, clazz: Class<*>, name: String): String {
-    val typeName = if (name.isEmpty()) clazz.simpleName.toLowerCase(Locale.getDefault()) else name
+    val typeName = if (name.isEmpty()) clazz.simpleName else name
 
-    return "$appNameSpace:$typeName"
+    return "$appNameSpace:${typeName.toLowerCase(Locale.getDefault())}"
 }

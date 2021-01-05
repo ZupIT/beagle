@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import android.util.Log
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.exception.BeagleException
@@ -30,12 +29,10 @@ internal class BeagleSerializer(
 
     @Throws(BeagleException::class)
     fun serializeComponent(component: ServerDrivenComponent): String {
-        Log.v("uzias", component::class.java.toString())
         try {
             return beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component) ?:
             throw NullPointerException()
         } catch (ex: Exception) {
-            ex.printStackTrace()
             val message = """
             Did you miss to serialize for Component ${component::class.java.simpleName}
         """.trimIndent()
@@ -49,7 +46,6 @@ internal class BeagleSerializer(
             return beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json) ?:
                 throw NullPointerException()
         } catch (ex: Exception) {
-            ex.printStackTrace()
             BeagleMessageLogs.logDeserializationError(json, ex)
             throw makeBeagleDeserializationException(json, ex.message)
         }
