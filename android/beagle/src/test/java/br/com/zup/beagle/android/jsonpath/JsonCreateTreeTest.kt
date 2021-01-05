@@ -244,26 +244,26 @@ class JsonCreateTreeTest {
         assertEquals(newValue, jsonArray.getString(1))
     }
 
-    @Test
-    fun setValue_should_add_new_array_object_with_value_when_does_not_exist() {
-        // Given
-        val keys = JsonPathUtils.splitKeys("[0][0].a")
-        val json = """
-            [
-                [
-                    {
-                        "a": "hello"
-                    }
-                ]
-            ]
-        """.trimIndent()
-        val newValue = "hello2"
-        val jsonArray = JSONArray(json)
-
-        // When
-        JsonCreateTree().walkingTreeAndFindKey(jsonArray, keys, newValue)
-
-        // Then
-        assertEquals(newValue, jsonArray.getJSONArray(0).getJSONObject(0).getString("a"))
-    }
+//    @Test
+//    fun setValue_should_add_new_array_object_with_value_when_does_not_exist() {
+//        // Given
+//        val keys = JsonPathUtils.splitKeys("[0][0].a")
+//        val json = """
+//            [
+//                [
+//                    {
+//                        "a": "hello"
+//                    }
+//                ]
+//            ]
+//        """.trimIndent()
+//        val newValue = "hello2"
+//        val jsonArray = JSONArray(json)
+//
+//        // When
+//        JsonCreateTree().walkingTreeAndFindKey(jsonArray, keys, newValue)
+//
+//        // Then
+//        assertEquals(newValue, jsonArray.getJSONArray(0).getJSONObject(0).getString("a"))
+//    }
 }
