@@ -45,7 +45,7 @@ internal object ActionJsonAdapterFactory {
             .withSubtype(FormRemoteAction::class.java, createNamespaceFor<FormRemoteAction>("formRemoteAction"))
             .withSubtype(FormLocalAction::class.java, createNamespaceFor<FormLocalAction>("formLocalAction"))
             .withSubtype(FormValidation::class.java, createNamespaceFor<FormValidation>("formValidation"))
-            .withSubtype(Alert::class.java, createNamespaceFor<Alert>("Alert"))
+            .withSubtype(Alert::class.java, createNamespaceFor<Alert>("alert"))
             .withSubtype(Confirm::class.java, createNamespaceFor<Confirm>("confirm"))
             .withSubtype(Navigate.OpenExternalURL::class.java, createNamespaceFor<Navigate.OpenExternalURL>("openExternalURL"))
             .withSubtype(Navigate.OpenNativeRoute::class.java, createNamespaceFor<Navigate.OpenNativeRoute>("openNativeRoute"))

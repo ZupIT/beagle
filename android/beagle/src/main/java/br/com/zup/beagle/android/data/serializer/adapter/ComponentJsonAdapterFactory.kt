@@ -53,10 +53,9 @@ internal object ComponentJsonAdapterFactory {
     private fun registerBaseSubTypes(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return  factory .withBaseSubType(Widget::class.java)
-        factory.withBaseSubType(PageIndicatorComponent::class.java)
+        return factory.withBaseSubType(PageIndicatorComponent::class.java)
             .withBaseSubType(InputWidget::class.java)
-
+            .withBaseSubType(Widget::class.java)
     }
 
     private fun registerUIClass(
@@ -81,8 +80,6 @@ internal object ComponentJsonAdapterFactory {
 
             newFactory = newFactory.withSubtype(it, nameSpace)
         }
-
-        newFactory = newFactory.withSubtype(UndefinedWidget::class.java, createNameSpaceToDefaultWidget<UndefinedWidget>())
 
         return newFactory
     }
