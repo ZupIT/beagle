@@ -71,5 +71,6 @@ class PageViewScreenSteps {
     fun checkPageViewIsNotDisplayed(string:String){
         ScreenRobot()
             .checkViewIsNotDisplayed(string)
+        // comment
     }
 }
