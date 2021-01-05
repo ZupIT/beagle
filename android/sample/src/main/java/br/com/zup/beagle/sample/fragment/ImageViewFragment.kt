@@ -28,11 +28,7 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
 
 class ImageViewFragment : Fragment() {
     override fun onCreateView(
@@ -46,10 +42,6 @@ class ImageViewFragment : Fragment() {
                         path = ImagePath.Remote(
                             "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png",
                             placeholder = ImagePath.Local("imageBeagle")
-                        )
-                    ).applyStyle(
-                        Style(
-                            size = Size(width = 100.unitReal(), height = 100.unitReal())
                         )
                     ),
                     Text(text = "Test!!!").applyStyle(

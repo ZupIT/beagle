@@ -72,7 +72,8 @@ data class Image constructor(
         return imageView
     }
 
-    private fun getImageView(rootView: RootView) = viewFactory.makeImageView(rootView.getContext(), 0.0).apply {
+    private fun getImageView(rootView: RootView) = viewFactory.makeImageView(rootView.getContext(),
+        style?.cornerRadius?.radius ?: 0.0).apply {
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
     }
 
