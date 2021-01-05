@@ -42,7 +42,7 @@ internal object ComponentJsonAdapterFactory {
         )
 
         factory = registerBaseSubTypes(factory)
-        factory = registerUIClass(factory)
+//        factory = registerUIClass(factory)
         factory = registerWidgets(factory, true, InternalWidgetFactory.registeredWidgets())
 //        factory = registerWidgets(factory, false, BeagleEnvironment.beagleSdk.registeredWidgets())
         factory = registerUndefinedWidget(factory)
@@ -53,9 +53,10 @@ internal object ComponentJsonAdapterFactory {
     private fun registerBaseSubTypes(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withBaseSubType(PageIndicatorComponent::class.java)
-            .withBaseSubType(InputWidget::class.java)
-            .withBaseSubType(Widget::class.java)
+        return  factory .withBaseSubType(Widget::class.java)
+//        factory.withBaseSubType(PageIndicatorComponent::class.java)
+//            .withBaseSubType(InputWidget::class.java)
+
     }
 
     private fun registerUIClass(

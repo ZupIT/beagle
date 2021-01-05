@@ -16,8 +16,11 @@
 
 package br.com.zup.beagle.android.annotation
 
+import com.squareup.moshi.JsonQualifier
+
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
+@JsonQualifier
 annotation class BeagleField(
     val name: String = ""
 )

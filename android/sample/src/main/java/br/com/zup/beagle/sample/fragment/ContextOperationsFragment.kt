@@ -44,7 +44,7 @@ class ContextOperationsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val declarative = screen()
 
@@ -75,14 +75,10 @@ class ContextOperationsFragment : Fragment() {
                 ).applyStyle(Style(backgroundColor = "#00FF00")),
                 Container(
                     context = ContextData("cpf", ""),
-                    children = listOf(
-                        TextInput(placeholder = "CPF", onChange = listOf(
-                            SetContext(
-                                contextId = "cpf",
-                                value = "@{onChange.value}"
-                            )
-                        )),
-                        Text("@{condition(isValidCpf(cpf), 'cpf is valid', 'cpf is not valid')}")
+                    children = listOf(Text(text = "uzias"))
+                ).applyStyle(
+                    Style(
+                        display = expressionOf("@{condition(true, 'NONE', 'FLEX')}")
                     )
                 )
             )

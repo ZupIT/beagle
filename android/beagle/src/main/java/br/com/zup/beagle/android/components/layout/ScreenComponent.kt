@@ -44,6 +44,7 @@ internal data class ScreenComponent(
     val navigationBar: NavigationBar? = null,
     override val child: ServerDrivenComponent,
     override val screenAnalyticsEvent: ScreenEvent? = null,
+    override var style: Style? = null,
     override val context: ContextData? = null
 ) : WidgetView(), ScreenAnalytics, ContextComponent, SingleChildComponent {
 

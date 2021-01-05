@@ -36,16 +36,11 @@ internal class BeagleFieldAdapterFactory : JsonAdapter.Factory {
         annotations: MutableSet<out Annotation>,
         moshi: Moshi
     ): JsonAdapter<*>? {
-        return Types.nextAnnotations(annotations, BeagleField::class.java)?.let {
-            val adapter: JsonAdapter<Any> = moshi.adapter(type)
-            AnyToJsonObjectAdapter(
-                adapter
-            )
-        }
+        return null
     }
 }
 
-internal class AnyToJsonObjectAdapter(
+internal class AnyToJsonObjectAdapterD(
     private val adapter: JsonAdapter<Any>
 ) : JsonAdapter<Any>() {
 

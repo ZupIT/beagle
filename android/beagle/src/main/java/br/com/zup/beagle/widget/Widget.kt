@@ -22,21 +22,19 @@ import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
-import com.squareup.moshi.Json
 
 /**
  * Base of all widgets
  *
  */
-
-abstract class Widget : AccessibilityComponent,
+abstract class Widget : StyleComponent, AccessibilityComponent,
     IdentifierComponent {
 
-    @Json(name = "id")
+    @BeagleField("id")
     override var id: String? = null
 
-//    override var style: Style? = null
-//
+    override var style: Style? = null
+
     @BeagleField("accessibility")
     override var accessibility: Accessibility? = null
 }
