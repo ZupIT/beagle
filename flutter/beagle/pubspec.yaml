@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_js: 0.2.2+0
+  shared_preferences: 0.5.12+4
 
 dev_dependencies:
   flutter_test:

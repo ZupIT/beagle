@@ -9,6 +9,7 @@ import { createBeagleView, getView } from './view'
 import { storage } from './storage'
 import { callFunction } from './function'
 import { httpClient, respondHttpRequest } from './http-client'
+import { resolvePromise, rejectPromise } from './promise'
 
 interface StartParams {
   baseUrl: string,
@@ -49,6 +50,10 @@ window.beagle = (() => {
     },
     getViewById: getView,
     getService: () => service,
+    promise: {
+      resolve: resolvePromise,
+      reject: rejectPromise, 
+    },
   }
 
   return api
