@@ -32,7 +32,13 @@ import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -195,8 +201,7 @@ internal class TextInputTest : BaseComponentTest() {
         fun checkCallOnBlur() {
             val valueWithContext = ContextData(
                 id = "onBlur",
-                value = mapOf(VALUE_KEY to editText.text.toString())
-            )
+                value = mapOf(VALUE_KEY to editText.text.toString()))
 
             // When
             val view = textInput.buildView(rootView)

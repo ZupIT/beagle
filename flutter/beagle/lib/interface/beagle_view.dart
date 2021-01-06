@@ -15,24 +15,15 @@
  *  limitations under the License.
  */
 
+import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/renderer.dart';
+import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
-import 'package:beagle/model/network_options.dart';
 
 typedef ViewUpdateListener = void Function(BeagleUIElement tree);
 typedef ViewErrorListener = void Function(List<String> errors);
-typedef RemoveListener = void Function();
 
 abstract class BeagleView {
-  BeagleView(
-      {
-      // ignore: avoid_unused_constructor_parameters
-      String route,
-      // ignore: avoid_unused_constructor_parameters
-      NetworkOptions networkOptions,
-      // ignore: avoid_unused_constructor_parameters
-      String initialControllerId});
-
   RemoveListener subscribe(ViewUpdateListener listener);
 
   RemoveListener addErrorListener(ViewErrorListener listener);
@@ -41,8 +32,7 @@ abstract class BeagleView {
 
   BeagleUIElement getTree();
 
-  // todo: change to Navigator
-  void getNavigator();
+  BeagleNavigator getNavigator();
 
   void destroy();
 }
