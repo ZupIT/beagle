@@ -33,4 +33,6 @@ internal fun Screen.toComponent() = ScreenComponent(
     style = this.style,
     screenAnalyticsEvent = this.screenAnalyticsEvent,
     context = this.context
-)
+).apply {
+    id = this@toComponent.id
+}

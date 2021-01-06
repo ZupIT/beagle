@@ -1,0 +1,28 @@
+name: beagle_components
+description: Beagle Components is a set of tools and components to be used with the Beagle package
+  wich is an open source framework for cross-platform development using the concept of Server-Driven UI.
+version: 1.0.0
+author: Zup
+homepage: https://usebeagle.io/
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.22.5"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  beagle:
+    path: '../beagle'
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pedantic: ^1.9.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
