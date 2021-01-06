@@ -51,7 +51,5 @@ abstract class BeagleService {
   Future<void> start();
 
   BeagleView createView(
-      {String route,
-      NetworkOptions networkOptions,
-      String initialControllerId});
+      {NetworkOptions networkOptions, String initialControllerId});
 }
