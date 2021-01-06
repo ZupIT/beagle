@@ -16,9 +16,12 @@ class AnalyticsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics)
-        RecordService.setListener(object : ReportListener{
+        RecordService.setListener(object : ReportListener {
             override fun onReport(report: AnalyticsRecord) {
-                analytics_text.text = report.toString()
+                val text = "platform:" + report.platform + "," +
+                        report.attributes + "," +
+                        "type:" + report.type
+                analytics_text.text = text
 
             }
         })

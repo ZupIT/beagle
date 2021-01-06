@@ -74,7 +74,9 @@ object NewAnalyticsScreenBuilder {
                             onPressOk = nativeNavigation()
                         )
                     )
-                ),
+                ).apply {
+                    id = "_beagle_6"
+                },
                 Button(
                     text = "Confirm with disabled analytics configuration",
                     onPress = listOf(

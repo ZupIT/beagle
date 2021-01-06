@@ -4,5 +4,10 @@ import br.com.zup.beagle.analytics2.AnalyticsConfig
 
 class AnalyticsConfigImpl(
     override var enableScreenAnalytics: Boolean? = true,
-    override var actions: Map<String, List<String>>? = hashMapOf("beagle:alert" to listOf("title"), "beagle:confirm" to listOf("title"))
+    override var actions: Map<String, List<String>>? = hashMapOf(
+        "beagle:confirm" to listOf(
+            "title",
+            "message"
+        )
+    )
 ) : AnalyticsConfig
