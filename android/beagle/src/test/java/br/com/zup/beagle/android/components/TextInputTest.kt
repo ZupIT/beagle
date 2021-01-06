@@ -22,19 +22,17 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.TextViewCompat
+import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.verify
+import io.mockk.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -42,17 +40,20 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-const val VALUE = "Text Value"
+const val VALUE_KEY = "value"
 const val PLACE_HOLDER = "Text Hint"
 const val READ_ONLY = true
 const val DISABLED = false
 const val HIDDEN = true
 const val STYLE_ID = "Style"
+const val ERROR = "Error"
 val TYPE = TextInputType.NUMBER
 
 @DisplayName("Given a TextInput")
 internal class TextInputTest : BaseComponentTest() {
 
+    private val focusCapture = slot<View.OnFocusChangeListener>()
+    private val textWatcherCapture = slot<TextWatcher>()
     private val editText: EditText = mockk(relaxed = true, relaxUnitFun = true)
     private val styleManager: StyleManager = mockk(relaxed = true)
     private val context: Context = mockk()
@@ -78,16 +79,25 @@ internal class TextInputTest : BaseComponentTest() {
         textInput = callTextInput(TYPE)
 
         textInput.setPrivateField("textWatcher", textWatcher)
+
+        every { editText.addTextChangedListener(capture(textWatcherCapture)) } just Runs
+
+        every { editText.onFocusChangeListener = capture(focusCapture) } just Runs
+
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
     }
 
     private fun callTextInput(type: TextInputType) = TextInput(
-        value = VALUE,
+        value = VALUE_KEY,
         placeholder = PLACE_HOLDER,
         readOnly = READ_ONLY,
         disabled = DISABLED,
         hidden = HIDDEN,
         styleId = STYLE_ID,
-        type = type
+        type = type,
+        onChange = listOf(SetContext(contextId = "textInputValue", value = "a")),
+        onFocus = listOf(SetContext(contextId = "textInputValue", value = "b")),
+        onBlur = listOf(SetContext(contextId = "textInputValue", value = "c"))
     )
 
     @DisplayName("When set the configurations for TextInput")
@@ -103,7 +113,7 @@ internal class TextInputTest : BaseComponentTest() {
             // Then
             assertTrue(view is EditText)
             verify(exactly = once()) {
-                editText.setText(VALUE)
+                editText.setText(VALUE_KEY)
                 editText.hint = PLACE_HOLDER
                 editText.isEnabled = READ_ONLY
                 editText.isEnabled = DISABLED
@@ -133,27 +143,70 @@ internal class TextInputTest : BaseComponentTest() {
             textInput.buildView(rootView)
 
             // When
-            textInput.onErrorMessage("Error")
+            textInput.onErrorMessage(ERROR)
 
             // Then
-            verify(exactly = once()) { editText.error = "Error" }
+            verify(exactly = once()) { editText.error = ERROR }
         }
 
         @Test
-        @DisplayName("Then verify setData when values is delivered")
-        fun verifySetDataValue() {
+        @DisplayName("Then check if setUpOnTextChange is set calling onChange")
+        fun checkCallOnChange() {
+            val newValue = "newValue"
+
+            val valueWithContext = ContextData(
+                id = "onChange",
+                value = mapOf(VALUE_KEY to newValue))
+
             // When
-            textInput.buildView(rootView)
+            val view = textInput.buildView(rootView)
+
+            textWatcherCapture.captured.onTextChanged(newValue, 0, 0, 0)
 
             // Then
-            verify(exactly = once()) {
-                editText.setText(VALUE)
-                editText.hint = PLACE_HOLDER
-                editText.isEnabled = READ_ONLY
-                editText.isEnabled = DISABLED
-                editText.visibility = View.INVISIBLE
-                editText.isFocusable = true
-                editText.isFocusableInTouchMode = true
+            assertTrue(view is EditText)
+            verify {
+                textInput.notifyChanges()
+                textInput.handleEvent(rootView, view, textInput.onChange!!, valueWithContext)
+            }
+        }
+
+        @Test
+        @DisplayName("Then check if setUpOnFocusChange is set calling onFocus")
+        fun checkCallOnFocus() {
+            val valueWithContext = ContextData(
+                id = "onFocus",
+                value = mapOf(VALUE_KEY to editText.text.toString()))
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            focusCapture.captured.onFocusChange(view, true)
+
+            // Then
+            assertTrue(view is EditText)
+            verify {
+                textInput.handleEvent(rootView, view, textInput.onFocus!!, valueWithContext)
+            }
+        }
+
+        @Test
+        @DisplayName("Then check if setUpOnFocusChange is set calling onBlur")
+        fun checkCallOnBlur() {
+            val valueWithContext = ContextData(
+                id = "onBlur",
+                value = mapOf(VALUE_KEY to editText.text.toString())
+            )
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            focusCapture.captured.onFocusChange(view, false)
+
+            // Then
+            assertTrue(view is EditText)
+            verify {
+                textInput.handleEvent(rootView, view, textInput.onBlur!!, valueWithContext)
             }
         }
 
