@@ -9,30 +9,30 @@ import io.cucumber.java.en.When
 class AnalyticsScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = "/analytics2.0"
-    private val positionRegex = """position:{"x":([0-9][0-9]*)(\.?)([0-9]?),"y":([0-9][0-9]*)(\.?)([0-9]?)))}"""
+    private val positionRegex = """position={x=([0-9][0-9]*)(\.?)([0-9]?),y=([0-9][0-9]*)(\.?)([0-9]?)}"""
 
     private val recordHashMap = hashMapOf<String, List<String>>(
         "Analytics 02" to listOf(
             """type:action""",
-            """event:onPress""",
-            """type:beagle:button""",
-            """id:_beagle_5""",
+            """event=onPress""",
+            """type=beagle:button""",
+            """id=_beagle_5""",
             positionRegex,
-            """beagleAction:beagle:confirm""",
-            """title:Confirm Title""",
-            """message:Confirm Message""",
-            """url:/analytics2.0""",
+            """beagleAction=beagle:confirm""",
+            """title=Confirm Title""",
+            """message=Confirm Message""",
+//            """screen=/analytics2.0""",
             platformCheck()
         ),
         "Analytics 03" to listOf(
             """type:action""",
-            """event:onPress""",
-            """type:beagle:button""",
-            """id:_beagle_6""",
+            """event=onPress""",
+            """type=beagle:button""",
+            """id=_beagle_6""",
             positionRegex,
-            """beagleAction:beagle:alert""",
-            """message:AlertMessage""",
-            """url:/analytics2.0""",
+            """beagleAction=beagle:alert""",
+            """message=AlertMessage""",
+//            """screen=/analytics2.0""",
             platformCheck()
         ),
         "Analytics 05" to listOf(
@@ -65,7 +65,7 @@ class AnalyticsScreenSteps : AbstractStep() {
     @Then("^no analytics record should be created$")
     fun checkNoAnalyticsGenerated() {
         waitForElementWithTextToBeClickable("Analytics 2.0 native", false, false)
-        waitForElementWithTextToBeInvisible("type", false, false)
+        waitForElementWithTextToBeInvisible("type", true, false)
     }
 
     @Then("^an analytics record should be created for (.*)$")
