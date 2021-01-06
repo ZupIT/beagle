@@ -9,33 +9,36 @@ import io.cucumber.java.en.When
 class AnalyticsScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = "/analytics2.0"
+    private val positionRegex = """position:{"x":([0-9][0-9]*)(\.?)([0-9]?),"y":([0-9][0-9]*)(\.?)([0-9]?)))}"""
+
     private val recordHashMap = hashMapOf<String, List<String>>(
         "Analytics 02" to listOf(
-            "type:action",
-            "event:onPress",
-            "type:beagle:button",
-            "id:_beagle_5",
-            "position:{\"x\":8,\"y\":44}",
-            "beagleAction:beagle:confirm",
-            "title:Confirm Title",
-            "message:Confirm Message",
-            "url:/analytics2.0",
+            """type:action""",
+            """event:onPress""",
+            """type:beagle:button""",
+            """id:_beagle_5""",
+            positionRegex,
+            """beagleAction:beagle:confirm""",
+            """title:Confirm Title""",
+            """message:Confirm Message""",
+            """url:/analytics2.0""",
             platformCheck()
         ),
         "Analytics 03" to listOf(
-            "type:action",
-            "event:onPress",
-            "type:beagle:button",
-            "id:_beagle_6",
-            "position:{\"x\":8,\"y\":80}",
-            "beagleAction:beagle:alert",
-            "message:AlertMessage",
-            "url:/analytics2.0",
+            """type:action""",
+            """event:onPress""",
+            """type:beagle:button""",
+            """id:_beagle_6""",
+            positionRegex,
+            """beagleAction:beagle:alert""",
+            """message:AlertMessage""",
+            """url:/analytics2.0""",
             platformCheck()
         ),
         "Analytics 05" to listOf(
-            "type:screen",
-            "url:analytics2.0-navigate"
+            """type:screen""",
+            """url=/analytics2.0-navigate""",
+            platformCheck()
         )
     )
 
@@ -68,17 +71,21 @@ class AnalyticsScreenSteps : AbstractStep() {
     @Then("^an analytics record should be created for (.*)$")
     fun checkAnalyticsGenerated(string: String) {
         waitForElementWithTextToBeClickable("Analytics 2.0 native", false, false)
+        val text = waitForElementWithTextToBeClickable("type:", true, false).text
+
         val analytics = recordHashMap[string]
         analytics?.forEach {
-            waitForElementWithTextToBeClickable(it, true, false)
+            val regex = "(.*)" + it + "(.*)"
+            if (!text.matches(regex.toRegex()))
+                throw Exception("Record doesn't match")
         }
     }
 
     private fun platformCheck(): String {
         if (SuiteSetup.isAndroid()) {
-            return "platform:android"
+            return """platform:android"""
         }
-        return "platform:ios"
+        return """platform:ios"""
     }
 
 }
