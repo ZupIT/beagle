@@ -49,11 +49,6 @@ class AnalyticsScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable("Analytics 2.0", false, false)
     }
 
-    @When("^I press the button with title (.*)$")
-    fun clickOnButton(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
-
     @Then("^an alert dialog should appear on the screen$")
     fun checkAlertDialog() {
         waitForElementWithTextToBeClickable("AlertMessage", false, false)

@@ -24,30 +24,30 @@ Feature: Analytics validation
     Given the Beagle application did launch with the Analytics screen url
 
   Scenario: Analytics 01 - Action with no remote analytics config and not declared in the local config (should not create record)
-    When I press the button with title Alert with no specific analytics configuration
+    When I click on text Alert with no specific analytics configuration
     Then an alert dialog should appear on the screen
-    When I press the OK button
+    When I click on text OK
     Then no analytics record should be created
 
   Scenario: Analytics 02 - Action with no remote analytics config and declared in the local config (should create record with params in config)
-    When I press the button with title Confirm with analytics local configuration
+    When I click on text Confirm with analytics local configuration
     Then a confirm dialog should appear on the screen
-    When I press the ACCEPT button
+    When I click on text ACCEPT
     Then an analytics record should be created for Analytics 02
 
   Scenario: Analytics 03 - Action with remote analytics config and not declared in the local config (should create record with params from remote config)
-    When I press the button with title Alert with remote analytics configuration
+    When I click on text Alert with remote analytics configuration
     Then an alert dialog should appear on the screen
-    When I press the OK button
+    When I click on text OK
     Then an analytics record should be created for Analytics 03
 
   Scenario: Analytics 04 - Action with analytics disabled in the remote config (should not create record)
-    When I press the button with title Confirm with disabled analytics configuration
+    When I click on text Confirm with disabled analytics configuration
     Then a confirm dialog should appear on the screen
-    When I press the ACCEPT button
+    When I click on text ACCEPT
     Then no analytics record should be created
 
   Scenario: Analytics 05 - View loaded, screen analytics enabled in the config (should create record)
-    When I press the button with title navigateToPage2
-    When I press the button with title navigate to local screen
+    When I click on text navigateToPage2
+    When I click on text navigate to local screen
     Then an analytics record should be created for Analytics 05
