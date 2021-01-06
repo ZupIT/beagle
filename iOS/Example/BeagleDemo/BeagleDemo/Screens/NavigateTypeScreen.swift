@@ -48,7 +48,7 @@ struct NavigateStep1Screen: DeeplinkScreen {
     var step1Screen: Screen =
         Screen(navigationBar: NavigationBar(title: "Step 1")) {
             Container {
-                createButton(text: "PopView", action: Navigate.popView, backgroundColor: .blueButton)
+                createButton(text: "PopView", action: Navigate.popView(), backgroundColor: .blueButton)
                 createButton(text: "PushView (Step 2)", action: Navigate.openNativeRoute(.init(route: .navigateStep2Endpoint)), backgroundColor: .salmonButton)
                 createButton(text: "Navigate With Context", action: Navigate.pushView(.declarative(screen)), backgroundColor: .brownButton)
             }
@@ -66,7 +66,7 @@ struct NavigateStep2Screen: DeeplinkScreen {
     private var step2Screen: Screen =
         Screen(navigationBar: NavigationBar(title: "Step 2")) {
             Container {
-                createButton(text: "PopView", action: Navigate.popView, backgroundColor: .blueButton)
+                createButton(text: "PopView", action: Navigate.popView(), backgroundColor: .blueButton)
                 createButton(text: "PushView (Step 3)", action: Navigate.pushView(.declarative(step3Screen)), backgroundColor: .salmonButton)
                 createButton(text: "PushStack", action: Navigate.pushStack(.declarative(presentView)), backgroundColor: .lightOrangeButton)
                 createButton(text: "Custom PushStack",
@@ -78,7 +78,7 @@ struct NavigateStep2Screen: DeeplinkScreen {
     static var step3Screen: Screen =
         Screen(navigationBar: NavigationBar(title: "Step 3")) {
             Container {
-                createButton(text: "PopView", action: Navigate.popView, backgroundColor: .blueButton)
+                createButton(text: "PopView", action: Navigate.popView(), backgroundColor: .blueButton)
                 createButton(text: "ResetStack (Step 1)", action: Navigate.resetStack(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .brownButton)
                 createButton(text: "ResetApplication (Step 1)", action: Navigate.resetApplication(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .salmonButton)
                 createButton(text: "PushView (Step 1)", action: Navigate.pushView(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .redButton)
@@ -89,7 +89,7 @@ struct NavigateStep2Screen: DeeplinkScreen {
         Screen(navigationBar: NavigationBar(title: "Present")) {
             Container {
                 createButton(text: "PushView (Step 1)", action: Navigate.pushView(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .salmonButton)
-                createButton(text: "PopStack", action: Navigate.popStack, backgroundColor: .greenWaterButton)
+                createButton(text: "PopStack", action: Navigate.popStack(), backgroundColor: .greenWaterButton)
             }
         }
 }

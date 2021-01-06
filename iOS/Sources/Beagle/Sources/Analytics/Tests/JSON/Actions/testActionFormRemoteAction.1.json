@@ -1,0 +1,12 @@
+{
+    "_beagleAction_": "beagle:formRemoteAction",
+    "analytics": {
+        "attributes": [
+            "method",
+            "path"
+        ],
+        "enable": true
+    },
+    "method": "DELETE",
+    "path": "\/friends\/troll"
+}

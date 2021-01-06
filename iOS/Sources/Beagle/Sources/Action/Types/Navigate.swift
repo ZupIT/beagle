@@ -18,32 +18,32 @@
 public enum Navigate: Action {
     
     /// Opens up an available browser on the device and navigates to a specified URL as String.
-    case openExternalURL(String)
+    case openExternalURL(String, analytics: ActionAnalyticsConfig? = nil)
     
-  /// Opens a screen that is defined completely local in your app (does not depend on Beagle) which will be retrieved using `DeeplinkScreenManager`.
-    case openNativeRoute(OpenNativeRoute)
+    /// Opens a screen that is defined completely local in your app (does not depend on Beagle) which will be retrieved using `DeeplinkScreenManager`.
+    case openNativeRoute(OpenNativeRoute, analytics: ActionAnalyticsConfig? = nil)
 
     /// Resets the application's root navigation stack with a new navigation stack that has `Route` as the first view
-    case resetApplication(Route, controllerId: String? = nil)
+    case resetApplication(Route, controllerId: String? = nil, analytics: ActionAnalyticsConfig? = nil)
     
     /// Resets the views stack to create a new flow with the passed route.
-    case resetStack(Route)
+    case resetStack(Route, analytics: ActionAnalyticsConfig? = nil)
     
     /// Presents a new screen that comes from a specified route starting a new flow.
     /// You can specify a controllerId, describing the id of navigation controller used for the new flow.
-    case pushStack(Route, controllerId: String? = nil)
+    case pushStack(Route, controllerId: String? = nil, analytics: ActionAnalyticsConfig? = nil)
     
     /// Unstacks the current view stack.
-    case popStack
+    case popStack(analytics: ActionAnalyticsConfig? = nil)
 
     /// Opens a new screen for the given route and stacks that at the top of the hierarchy.
-    case pushView(Route)
+    case pushView(Route, analytics: ActionAnalyticsConfig? = nil)
     
     /// Dismisses the current view.
-    case popView
+    case popView(analytics: ActionAnalyticsConfig? = nil)
     
     /// Returns the stack of screens in the application flow for a given screen in a route specified as String.
-    case popToView(String)
+    case popToView(String, analytics: ActionAnalyticsConfig? = nil)
     
     public struct OpenNativeRoute {
         
@@ -64,6 +64,21 @@ public enum Navigate: Action {
             self.route = route
             self.data = data
             self.shouldResetApplication = shouldResetApplication
+        }
+    }
+    
+    public var analytics: ActionAnalyticsConfig? {
+        switch self {
+        case .openExternalURL(_, analytics: let analytics),
+             .openNativeRoute(_, analytics: let analytics),
+             .resetApplication(_, _, analytics: let analytics),
+             .resetStack(_, analytics: let analytics),
+             .pushStack(_, _, analytics: let analytics),
+             .popStack(analytics: let analytics),
+             .pushView(_, analytics: let analytics),
+             .popView(analytics: let analytics),
+             .popToView(_, analytics: let analytics):
+            return analytics
         }
     }
 }
@@ -114,10 +129,11 @@ extension Route {
 
 extension Navigate.OpenNativeRoute: Decodable {}
 
-extension Navigate: Decodable {
+extension Navigate: Decodable, CustomReflectable {
     
     enum CodingKeys: CodingKey {
         case _beagleAction_
+        case analytics
         case route
         case url
         case controllerId
@@ -126,38 +142,103 @@ extension Navigate: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(String.self, forKey: ._beagleAction_)
+        let analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
         switch type.lowercased() {
         case "beagle:openexternalurl":
-            self = .openExternalURL(try container.decode(String.self, forKey: .url))
+            self = .openExternalURL(try container.decode(String.self, forKey: .url), analytics: analytics)
         case "beagle:opennativeroute":
-            self = .openNativeRoute(try .init(from: decoder))
+            self = .openNativeRoute(try .init(from: decoder), analytics: analytics)
         case "beagle:resetapplication":
             self = .resetApplication(
                 try container.decode(Route.self, forKey: .route),
-                controllerId: try container.decodeIfPresent(String.self, forKey: .controllerId)
+                controllerId: try container.decodeIfPresent(String.self, forKey: .controllerId),
+                analytics: analytics
             )
         case "beagle:resetstack":
-            self = .resetStack(try container.decode(Route.self, forKey: .route))
+            self = .resetStack(try container.decode(Route.self, forKey: .route), analytics: analytics)
         case "beagle:pushstack":
-            self = .pushStack(try container.decode(Route.self, forKey: .route),
-                              controllerId: try container.decodeIfPresent(String.self, forKey: .controllerId))
+            self = .pushStack(
+                try container.decode(Route.self, forKey: .route),
+                controllerId: try container.decodeIfPresent(String.self, forKey: .controllerId),
+                analytics: analytics
+            )
         case "beagle:popstack":
-            self = .popStack
+            self = .popStack(analytics: analytics)
         case "beagle:pushview":
-            self = .pushView(try container.decode(Route.self, forKey: .route))
+            self = .pushView(try container.decode(Route.self, forKey: .route), analytics: analytics)
         case "beagle:popview":
-            self = .popView
+            self = .popView(analytics: analytics)
         case "beagle:poptoview":
-            self = .popToView(try container.decode(String.self, forKey: .route))
+            self = .popToView(try container.decode(String.self, forKey: .route), analytics: analytics)
         default:
             throw DecodingError.dataCorruptedError(forKey: ._beagleAction_,
                                                    in: container,
                                                    debugDescription: "Can't decode '\(type)'")
         }
     }
+
+    public var customMirror: Mirror {
+        let children: [Mirror.Child]
+        switch self {
+        case let .openExternalURL(url, analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:openexternalurl"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any),
+                (label: CodingKeys.url.stringValue, value: url)
+            ]
+        case let .openNativeRoute(nativeRoute, analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:opennativeroute"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any)
+            ] + Mirror(reflecting: nativeRoute).children
+        case let .resetApplication(route, controllerId: controllerId, analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:resetapplication"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any),
+                (label: CodingKeys.route.stringValue, value: route),
+                (label: CodingKeys.controllerId.stringValue, value: controllerId as Any)
+            ]
+        case let .resetStack(route, analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:resetstack"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any),
+                (label: CodingKeys.route.stringValue, value: route)
+            ]
+        case let .pushStack(route, controllerId: controllerId, analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:pushstack"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any),
+                (label: CodingKeys.route.stringValue, value: route),
+                (label: CodingKeys.controllerId.stringValue, value: controllerId as Any)
+            ]
+        case let .popStack(analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:popstack"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any)
+            ]
+        case let .pushView(route, analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:pushview"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any),
+                (label: CodingKeys.route.stringValue, value: route)
+            ]
+        case let .popView(analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:popview"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any)
+            ]
+        case let .popToView(route, analytics: analytics):
+            children = [
+                (label: CodingKeys._beagleAction_.stringValue, value: "beagle:poptoview"),
+                (label: CodingKeys.analytics.stringValue, value: analytics as Any),
+                (label: CodingKeys.route.stringValue, value: route)
+            ]
+        }
+        return Mirror(self, children: children, displayStyle: .struct)
+    }
 }
 
-extension Route: Decodable {
+extension Route: Decodable, CustomReflectable {
     
     enum CodingKeys: CodingKey {
         case type
@@ -174,6 +255,23 @@ extension Route: Decodable {
         } else {
             let newPath: Route.NewPath = try .init(from: decoder)
             self = .remote(newPath)
+        }
+    }
+
+    public var customMirror: Mirror {
+        switch self {
+        case .remote(let newPath):
+            return Mirror(
+                self,
+                children: Mirror(reflecting: newPath).children,
+                displayStyle: .struct
+            )
+        case .declarative(let screen):
+            return Mirror(
+                self,
+                children: [CodingKeys.screen.stringValue: screen],
+                displayStyle: .struct
+            )
         }
     }
 }

@@ -1,0 +1,10 @@
+{
+    "_beagleAction_": "beagle:popToView",
+    "analytics": {
+        "attributes": [
+            "route"
+        ],
+        "enable": true
+    },
+    "route": "route-to-pop-to"
+}
