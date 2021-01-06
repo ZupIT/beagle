@@ -47,7 +47,9 @@ abstract class BeagleService {
   /// `custom:`.
   Map<String, ComponentBuilder> components;
 
-  /// TODO: The custom storage. By default, uses the browser's `localStorage`.
+  /// The persistent storage to store everything Beagle needs across multiple executions of the
+  /// application. e.g. caching views. When not specified the DefaultStorage is used. The Default
+  /// Storage uses the lib "SharedPreferences" to persist data.
   Storage storage;
 
   /// Wether or not to send specific beagle headers in the requests to fetch a view. Default is
