@@ -26,7 +26,7 @@ window.beagle = (() => {
         console.log(messages.join(' '))
       })
     },
-    createBeagleView: (route: string) => createBeagleView(service, route),
+    createBeagleView: () => createBeagleView(service),
     httpClient: { respond: respondHttpRequest },
     call: (id: string, argumentsMap?: Record<string, any>) => {
       console.log(`js: called function with id ${id} and argument map: ${JSON.stringify(argumentsMap)}`)
@@ -36,6 +36,7 @@ window.beagle = (() => {
       const view = getView(viewId)
       if (view) view.executeFunction(functionId, argumentsMap)
     },
+    getViewById: getView,
   }
 
   return api

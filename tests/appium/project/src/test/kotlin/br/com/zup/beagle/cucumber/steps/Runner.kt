@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com  .zup.beagle.cucumber.steps
+package br.com.zup.beagle.cucumber.steps
 
 import io.cucumber.junit.Cucumber
 import io.cucumber.junit.CucumberOptions
