@@ -17,8 +17,11 @@
 
 import 'dart:convert';
 
+import 'package:beagle/bridge_impl/beagle_navigator_js.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
+import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/beagle_action.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/request.dart';
@@ -28,7 +31,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_js/extensions/xhr.dart';
 import 'package:flutter_js/flutter_js.dart';
 
-typedef RemoveListener = void Function();
 typedef ActionListener = void Function(
     {BeagleAction action, BeagleView view, BeagleUIElement element});
 typedef HttpListener = void Function(String requestId, Request request);
@@ -40,6 +42,7 @@ class BeagleJSEngine {
   static ActionListener actionListener;
   static Map<String, List<ViewUpdateListener>> viewUpdateListenerMap = {};
   static Map<String, List<ViewErrorListener>> viewErrorListenerMap = {};
+  static Map<String, List<NavigationListener>> navigationListenerMap = {};
 
   static dynamic deserializeJsFunctions(dynamic value, [String viewId]) {
     if (value.runtimeType.toString() == 'String' &&
@@ -146,8 +149,26 @@ class BeagleJSEngine {
 
       final deserialized = deserializeJsFunctions(args['tree'], viewId);
       final result = BeagleUIElement(deserialized);
-      // ignore: avoid_function_literals_in_foreach_calls
-      viewUpdateListenerMap[viewId].forEach((listener) => listener(result));
+
+      for (final listener in viewUpdateListenerMap[viewId]) {
+        listener(result);
+      }
+    });
+  }
+
+  static void _setupBeagleNavigatorMessages() {
+    js.onMessage('beagleNavigator', (dynamic args) {
+      final viewId = args['viewId'];
+      final route = BeagleNavigatorJS.mapToRoute(args['route']);
+
+      if (!navigationListenerMap.containsKey(viewId) ||
+          navigationListenerMap[viewId].isEmpty) {
+        return;
+      }
+
+      for (final listener in navigationListenerMap[viewId]) {
+        listener(route);
+      }
     });
   }
 
@@ -155,11 +176,18 @@ class BeagleJSEngine {
     _setupHttpMessages();
     _setupActionMessages();
     _setupBeagleViewMessages();
+    _setupBeagleNavigatorMessages();
+  }
+
+  static Future<JsEvalResult> promiseToFuture(JsEvalResult result) {
+    return js.handlePromise(result);
   }
 
   static Future<void> start() async {
     if (js == null) {
       js = getJavascriptRuntime(forceJavascriptCoreOnAndroid: true, xhr: false);
+      // ignore: cascade_invocations
+      js.enableHandlePromises();
       _setupMessages();
       final beagleJS =
           await rootBundle.loadString('packages/beagle/assets/js/beagle.js');
@@ -177,8 +205,8 @@ class BeagleJSEngine {
   }
 
   // todo: increment this to pass more configurations
-  static String createBeagleView(String route) {
-    final result = js.evaluate("global.beagle.createBeagleView('$route')");
+  static String createBeagleView() {
+    final result = js.evaluate('global.beagle.createBeagleView()');
     final id = result.stringResult;
     debugPrint('created beagle view with id $id');
     return id;
@@ -209,6 +237,14 @@ class BeagleJSEngine {
     viewErrorListenerMap[viewId].add(listener);
     return () {
       viewErrorListenerMap[viewId].remove(listener);
+    };
+  }
+
+  static RemoveListener onNavigate(String viewId, NavigationListener listener) {
+    navigationListenerMap[viewId] = navigationListenerMap[viewId] ?? [];
+    navigationListenerMap[viewId].add(listener);
+    return () {
+      navigationListenerMap[viewId].remove(listener);
     };
   }
 
