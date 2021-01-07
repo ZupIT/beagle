@@ -116,7 +116,7 @@ class BeagleJSEngine {
           ? (args['headers'] as Map<String, dynamic>).cast<String, String>()
           : null;
       final String body = args['body'];
-      final req = Request(url, method, headers, body);
+      final req = Request(url, method: method, headers: headers, body: body);
       httpListener(id, req);
     });
   }

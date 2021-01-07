@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
   beagle:
     path: '../beagle'
+  after_layout: ^1.0.7+2
 
 dev_dependencies:
   flutter_test:

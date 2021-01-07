@@ -17,7 +17,9 @@
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
+import 'package:beagle/bridge_impl/global_context_js.dart';
 import 'package:beagle/default/default_storage.dart';
+import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/global_context.dart';
@@ -28,8 +30,6 @@ import 'package:beagle/model/network_options.dart';
 import 'package:beagle/model/network_strategy.dart';
 import 'package:beagle/model/request.dart';
 import 'package:flutter/widgets.dart';
-
-import 'global_context_js.dart';
 
 class BeagleServiceJS implements BeagleService {
   BeagleServiceJS({
@@ -61,6 +61,8 @@ class BeagleServiceJS implements BeagleService {
   Map<String, NavigationController> navigationControllers;
   @override
   GlobalContext globalContext;
+  @override
+  UrlBuilder urlBuilder;
 
   Map<String, dynamic> getNavigationControllersAsMap() {
     if (navigationControllers == null) {
@@ -119,6 +121,7 @@ class BeagleServiceJS implements BeagleService {
     });
 
     globalContext = GlobalContextJS();
+    urlBuilder = UrlBuilder(baseUrl);
   }
 
   @override
