@@ -1,6 +1,6 @@
 #!/bin/bash
 
-AVD_NAME='test-image-for-appium-tests'
+AVD_NAME='Pixel_3a_API_30_x86'
 AVD_IMAGE='system-images;android-30;google_apis;x86'
 APP_ANDROID_DIR=tests/appium/app-android
 APP_ANDROID_APK_FILE=$APP_ANDROID_DIR/app/build/outputs/apk/debug/app-debug.apk
