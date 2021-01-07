@@ -60,7 +60,9 @@ object NewAnalyticsScreenBuilder {
                             onPressOk = nativeNavigation()
                         )
                     )
-                ),
+                ).apply {
+                    id = "_beagle_5"
+                },
                 Button(
                     text = "Alert with remote analytics configuration",
                     onPress = listOf(

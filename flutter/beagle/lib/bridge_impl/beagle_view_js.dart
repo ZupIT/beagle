@@ -16,6 +16,8 @@
  */
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
+import 'package:beagle/bridge_impl/beagle_navigator_js.dart';
+import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
@@ -23,16 +25,18 @@ import 'package:beagle/model/network_options.dart';
 
 class BeagleViewJS implements BeagleView {
   BeagleViewJS(
-      {String route,
+      {
       // ignore: avoid_unused_constructor_parameters
       NetworkOptions networkOptions,
       // ignore: avoid_unused_constructor_parameters
       String initialControllerId}) {
-    _id = BeagleJSEngine.createBeagleView(route);
+    _id = BeagleJSEngine.createBeagleView();
     BeagleViewJS.views[_id] = this;
+    navigator = BeagleNavigatorJS(_id);
   }
 
   String _id;
+  BeagleNavigatorJS navigator;
   static Map<String, BeagleViewJS> views = {};
 
   @override
@@ -46,9 +50,8 @@ class BeagleViewJS implements BeagleView {
   }
 
   @override
-  void getNavigator() {
-    // TODO: implement getNavigator
-    throw UnimplementedError();
+  BeagleNavigator getNavigator() {
+    return navigator;
   }
 
   @override
