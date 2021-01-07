@@ -17,7 +17,7 @@
 import br.com.zup.beagle.Dependencies
 
 apply plugin: 'kotlin'
-apply from: "$rootDir/../jacoco.gradle"
+apply from: "./../../jacoco.gradle"
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
@@ -25,4 +25,4 @@ dependencies {
     implementation project(Dependencies.Modules.androidAnnotation)
 }
 
- apply from: rootProject.file('../maven-publish.gradle')
+apply from: new File('./../../maven-publish.gradle')
