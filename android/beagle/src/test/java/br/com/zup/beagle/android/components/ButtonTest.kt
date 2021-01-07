@@ -151,9 +151,9 @@ class ButtonTest : BaseComponentTest() {
 
     @DisplayName("When clicked")
     @Nested
-    inner class ButtonClick(){
+    inner class ButtonClick{
 
-        @DisplayName("Then sould handle event")
+        @DisplayName("Then it should call handle event")
         @Test
         fun testButtonCLickShouldCallHandleEvent() {
             // GIVEN
