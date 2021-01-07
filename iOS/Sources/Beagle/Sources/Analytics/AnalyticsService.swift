@@ -122,14 +122,8 @@ class AnalyticsService {
         var values = [String: Any]()
         setValues(of: action, named: name, config: config, origin: origin, in: &values)
         
-        switch controller.screenType {
-        case .remote(let remote):
-            values["screen"] = remote.url
-        case .declarative(let screen):
-            if let screenId = screen.identifier {
-                values["screen"] = screenId
-            }
-        case .declarativeText: ()
+        if let screen = screenURL(from: controller) {
+            values["screen"] = screen
         }
         
         values["beagleAction"] = name
@@ -181,6 +175,27 @@ class AnalyticsService {
             return enable
         }
         return config.actions[name] != nil
+    }
+    
+    func screenURL(from controller: BeagleControllerProtocol) -> String? {
+        switch controller.screenType {
+        case .remote(let remote):
+            let urlBuilder = controller.dependencies.urlBuilder
+            if let baseUrl = urlBuilder.baseUrl, let url = urlBuilder.build(path: remote.url) {
+                let urlString = url.absoluteString
+                let baseString = baseUrl.absoluteString
+                if urlString.hasPrefix(baseString) {
+                    let offset = baseString.count - (baseString.last == "/" ? 1 : 0)
+                    let start = urlString.index(urlString.startIndex, offsetBy: offset)
+                    return String(urlString[start...])
+                }
+            }
+            return remote.url
+        case .declarative(let screen):
+            return screen.identifier
+        case .declarativeText:
+            return nil
+        }
     }
     
     private func value(from action: Action, at path: Path, origin: UIView) throws -> Any? {
