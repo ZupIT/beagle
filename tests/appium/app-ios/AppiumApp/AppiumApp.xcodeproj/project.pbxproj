@@ -22,6 +22,9 @@
 		5C2963BE258BB457000194EE /* NetworkClientDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963BA258BB457000194EE /* NetworkClientDefault.swift */; };
 		5C2963C0258BB513000194EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963BF258BB513000194EE /* MainViewController.swift */; };
 		5C2963C3258BB542000194EE /* ViewLayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963C2258BB542000194EE /* ViewLayoutHelper.swift */; };
+		A0F9DF1D25A628B5004F8B55 /* DeepLinkScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F9DF1C25A628B5004F8B55 /* DeepLinkScreenManager.swift */; };
+		A0F9DF2C25A62DEF004F8B55 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F9DF2B25A62DEF004F8B55 /* AnalyticsViewController.swift */; };
+		A0F9DF2F25A636E3004F8B55 /* LocalAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F9DF2E25A636E2004F8B55 /* LocalAnalyticsProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,6 +58,9 @@
 		5C2963BA258BB457000194EE /* NetworkClientDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClientDefault.swift; sourceTree = "<group>"; };
 		5C2963BF258BB513000194EE /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		5C2963C2258BB542000194EE /* ViewLayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLayoutHelper.swift; sourceTree = "<group>"; };
+		A0F9DF1C25A628B5004F8B55 /* DeepLinkScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkScreenManager.swift; sourceTree = "<group>"; };
+		A0F9DF2B25A62DEF004F8B55 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
+		A0F9DF2E25A636E2004F8B55 /* LocalAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAnalyticsProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +103,7 @@
 				5C29639D258BB016000194EE /* LaunchScreen.storyboard */,
 				5C2963A0258BB016000194EE /* Info.plist */,
 				5C2963BF258BB513000194EE /* MainViewController.swift */,
+				A0F9DF2B25A62DEF004F8B55 /* AnalyticsViewController.swift */,
 			);
 			path = AppiumApp;
 			sourceTree = "<group>";
@@ -126,6 +133,8 @@
 				5C2963AF258BB38C000194EE /* CustomNavigationController */,
 				5C2963B6258BB457000194EE /* Logger */,
 				5C2963B8258BB457000194EE /* Network */,
+				A0F9DF1B25A62895004F8B55 /* DeepLink */,
+				A0F9DF2D25A636A3004F8B55 /* Analytics */,
 			);
 			path = BeagleConfig;
 			sourceTree = "<group>";
@@ -154,6 +163,22 @@
 			);
 			name = Common;
 			path = ../../../../../iOS/Common;
+			sourceTree = "<group>";
+		};
+		A0F9DF1B25A62895004F8B55 /* DeepLink */ = {
+			isa = PBXGroup;
+			children = (
+				A0F9DF1C25A628B5004F8B55 /* DeepLinkScreenManager.swift */,
+			);
+			path = DeepLink;
+			sourceTree = "<group>";
+		};
+		A0F9DF2D25A636A3004F8B55 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				A0F9DF2E25A636E2004F8B55 /* LocalAnalyticsProvider.swift */,
+			);
+			path = Analytics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,12 +252,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C2963B1258BB3BD000194EE /* CustomNavigationController.swift in Sources */,
+				A0F9DF1D25A628B5004F8B55 /* DeepLinkScreenManager.swift in Sources */,
 				5C2963BE258BB457000194EE /* NetworkClientDefault.swift in Sources */,
 				5C2963BD258BB457000194EE /* HttpRequestBuilder.swift in Sources */,
 				5C2963C3258BB542000194EE /* ViewLayoutHelper.swift in Sources */,
 				5C2963B3258BB3D8000194EE /* ErrorView.swift in Sources */,
 				5C2963BC258BB457000194EE /* BeagleLoggerDefault.swift in Sources */,
+				A0F9DF2C25A62DEF004F8B55 /* AnalyticsViewController.swift in Sources */,
 				5C296393258BB014000194EE /* AppDelegate.swift in Sources */,
+				A0F9DF2F25A636E3004F8B55 /* LocalAnalyticsProvider.swift in Sources */,
 				5C2963BB258BB457000194EE /* BeagleConfig.swift in Sources */,
 				5C2963C0258BB513000194EE /* MainViewController.swift in Sources */,
 			);

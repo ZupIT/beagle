@@ -9,7 +9,7 @@ import io.cucumber.java.en.When
 class AnalyticsScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = "/analytics2.0"
-    private val positionRegex = Regex("position=\\{x=([0-9][0-9]*)(.?)([0-9]?), y=([0-9][0-9]*)(.?)([0-9]?)\\}")
+    private val positionRegex = Regex("position=\\{x=([0-9][0-9]*)(.?)([0-9]?),\\s*y=([0-9][0-9]*)(.?)([0-9]?)\\}")
 
     private val recordHashMap = hashMapOf<String, List<Regex>>(
         "Analytics 02" to listOf(
