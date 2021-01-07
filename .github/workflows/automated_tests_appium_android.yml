@@ -78,7 +78,7 @@ jobs:
             -   name: Install and run Appium server
                 run: bash fastlane/automatedTests/run_appium_server.sh
             
-            -   name: Test Appium on Android
+            -   name: Run Appium tests on Android
                 run: bash fastlane/automatedTests/run_appium_android_automation.sh
                 env:
                     ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
