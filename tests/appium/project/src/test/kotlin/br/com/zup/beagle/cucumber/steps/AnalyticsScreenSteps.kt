@@ -8,7 +8,7 @@ import io.cucumber.java.en.When
 
 class AnalyticsScreenSteps : AbstractStep() {
 
-    override var bffRelativeUrlPath = "/analytics2.0"
+    override var bffRelativeUrlPath = "/analytics2"
     private val positionRegex = Regex("position=\\{x=([0-9][0-9]*)(.?)([0-9]?), y=([0-9][0-9]*)(.?)([0-9]?)\\}")
 
     private val recordHashMap = hashMapOf<String, List<Regex>>(
@@ -21,7 +21,7 @@ class AnalyticsScreenSteps : AbstractStep() {
             Regex("beagleAction=beagle:confirm"),
             Regex("title=Confirm Title"),
             Regex("message=Confirm Message"),
-            Regex("screen=/analytics2.0"),
+            Regex("screen=/analytics2"),
             platformCheck()
         ),
         "Analytics 03" to listOf(
@@ -32,12 +32,12 @@ class AnalyticsScreenSteps : AbstractStep() {
             positionRegex,
             Regex("beagleAction=beagle:alert"),
             Regex("message=AlertMessage"),
-            Regex("screen=/analytics2.0"),
+            Regex("screen=/analytics2"),
             platformCheck()
         ),
         "Analytics 05" to listOf(
             Regex("type:screen"),
-            Regex("url=/analytics2.0-navigate"),
+            Regex("url=/analytics2-navigate"),
             platformCheck()
         )
     )
@@ -50,16 +50,6 @@ class AnalyticsScreenSteps : AbstractStep() {
     @Given("^the Beagle application did launch with the Analytics screen url$")
     fun checkBaseScreen() {
         waitForElementWithTextToBeClickable("Analytics 2.0", false, false)
-    }
-
-    @Then("^an alert dialog should appear on the screen$")
-    fun checkAlertDialog() {
-        waitForElementWithTextToBeClickable("AlertMessage", false, false)
-    }
-
-    @Then("^a confirm dialog should appear on the screen$")
-    fun checkConfirmDialog() {
-        waitForElementWithTextToBeClickable("Confirm Message", false, false)
     }
 
     @Then("^no analytics record should be created$")

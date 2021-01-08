@@ -54,4 +54,9 @@ class GenericSteps : AbstractStep() {
     fun hideKeyboardStep() {
         hideKeyboard()
     }
+
+    @Then("^a dialog should appear on the screen with text (.*)$")
+    fun checkDialog(string : String){
+        waitForElementWithTextToBeClickable(string, true, true)
+    }
 }
