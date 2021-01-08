@@ -15,7 +15,6 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/action/beagle_alert.dart';
 import 'package:beagle/beagle_initializer.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
@@ -67,9 +66,6 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BeagleAlert(
-        child:
-            currentTree == null ? Container() : buildViewFromTree(currentTree));
-  }
+  Widget build(BuildContext context) =>
+      currentTree == null ? Container() : buildViewFromTree(currentTree);
 }

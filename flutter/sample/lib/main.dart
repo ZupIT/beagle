@@ -22,7 +22,8 @@ import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/material.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/3d1371fa96d4db0d5cc8d87c1ab409f52262d049';
+    // 'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/3d1371fa96d4db0d5cc8d87c1ab409f52262d049';
+    'http://10.0.0.2:8080';
 
 void main() {
   runApp(const BeagleSampleApp());
@@ -69,25 +70,12 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
     startBeagle();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Beagle Sample',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: JSCounter(),
@@ -95,14 +83,10 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
         appBar: AppBar(
           title: const Text('Beagle Sample'),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Center(
-            child: isBeagleReady
-                ? const BeagleRemoteView(route: '/global.json')
-                : const Text('Not ready yet!'),
-          ),
-        ),
+        body: isBeagleReady
+            // ? const BeagleRemoteView(route: '/global.json')
+            ? const BeagleRemoteView(route: '/button')
+            : const Text('Not ready yet!'),
       ),
     );
   }

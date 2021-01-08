@@ -15,9 +15,10 @@
  *  limitations under the License.
  */
 
-import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle_components/beagle_container.dart';
+import 'package:beagle_components/beagle_text_input.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -28,7 +29,13 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:text': (BeagleUIElement element, List<Widget> children) =>
       Text(element.getAttributeValue('text'), key: element.getKey()),
   'beagle:container': (BeagleUIElement element, List<Widget> children) =>
-      Container(key: element.getKey(), child: Column(children: children)),
+      BeagleContainer(
+        key: element.getKey(),
+        context: element.getContext(),
+        onInit: element.getAttributeValue('onInit'),
+        style: element.getStyle(),
+        children: children,
+      ),
   'beagle:textInput': (BeagleUIElement element, List<Widget> children) =>
       BeagleTextInput(
         key: element.getKey(),
