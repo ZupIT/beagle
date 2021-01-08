@@ -86,7 +86,7 @@ object TextInputScreenBuilder {
                     )
                 ).applyStyle(Style(
                     size = Size(height = 100.0.unitPercent()),
-                    backgroundColor = "#000000",
+                    backgroundColor = "#82E0AA",
                     padding = EdgeValue(left = 5.unitReal(), bottom = 5.unitReal())))
             )
         )
