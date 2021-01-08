@@ -22,7 +22,7 @@ import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/material.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/43e6c861138c33cc51f2b0f5f4928beacd1ad085';
+    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/3d1371fa96d4db0d5cc8d87c1ab409f52262d049';
 
 void main() {
   runApp(const BeagleSampleApp());
@@ -57,6 +57,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
           'general': NavigationController(
               isDefault: true, loadingComponent: 'custom:loading'),
         });
+    BeagleInitializer.getService().globalContext.set(5, 'counter');
     setState(() {
       isBeagleReady = true;
     });
@@ -98,7 +99,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
           padding: const EdgeInsets.all(16),
           child: Center(
             child: isBeagleReady
-                ? const BeagleRemoteView(route: '/button-alert.json')
+                ? const BeagleRemoteView(route: '/global.json')
                 : const Text('Not ready yet!'),
           ),
         ),

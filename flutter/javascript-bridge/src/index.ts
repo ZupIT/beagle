@@ -48,6 +48,7 @@ window.beagle = (() => {
       if (view) view.executeFunction(functionId, argumentsMap)
     },
     getViewById: getView,
+    getService: () => service,
   }
 
   return api

@@ -17,8 +17,10 @@
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
+import 'package:beagle/bridge_impl/global_context_js.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/interface/global_context.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
@@ -55,6 +57,8 @@ class BeagleServiceJS implements BeagleService {
   NetworkStrategy strategy;
   @override
   Map<String, NavigationController> navigationControllers;
+  @override
+  GlobalContext globalContext;
 
   Map<String, dynamic> getNavigationControllersAsMap() {
     if (navigationControllers == null) {
@@ -110,6 +114,8 @@ class BeagleServiceJS implements BeagleService {
       }
       handler(action: action, view: view, element: element);
     });
+
+    globalContext = GlobalContextJS();
   }
 
   @override
