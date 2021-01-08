@@ -198,9 +198,23 @@ class BeagleJSEngine {
   }
 
   // todo: increment this to pass more configurations
-  static void createBeagleService(String baseUrl, List<String> actionKeys) {
-    final actionArray = json.encode(actionKeys);
-    final result = js.evaluate("global.beagle.start('$baseUrl', $actionArray)");
+  static void createBeagleService({
+    String baseUrl,
+    Map<String, dynamic> navigationControllers,
+    List<String> actionKeys,
+    bool useBeagleHeaders,
+    String strategy,
+  }) {
+    final params = {
+      'baseUrl': baseUrl,
+      'actionKeys': actionKeys,
+      'useBeagleHeaders': useBeagleHeaders,
+      'strategy': strategy,
+    };
+    if (navigationControllers != null) {
+      params['navigationControllers'] = navigationControllers;
+    }
+    final result = js.evaluate('global.beagle.start(${json.encode(params)})');
     debugPrint('Beagle service result: $result');
   }
 
