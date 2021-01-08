@@ -96,6 +96,8 @@ final class ListViewUIComponent: UIView {
         collection.register(ListViewCell.self, forCellWithReuseIdentifier: "ListViewCell")
         collection.dataSource = self
         collection.delegate = self
+        collection.showsHorizontalScrollIndicator = model.scrollIndicatorEnabled
+        collection.showsVerticalScrollIndicator = model.scrollIndicatorEnabled
         
         let parentController = listController.renderer.controller
         parentController.addChild(listController)
@@ -216,6 +218,7 @@ extension ListViewUIComponent {
         var iteratorName: String
         var onScrollEnd: [Action]?
         var scrollEndThreshold: CGFloat
+        var scrollIndicatorEnabled: Bool
     }
 }
 

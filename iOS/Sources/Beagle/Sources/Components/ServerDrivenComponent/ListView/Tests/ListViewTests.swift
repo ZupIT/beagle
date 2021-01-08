@@ -55,14 +55,15 @@ final class ListViewTests: XCTestCase {
     
     func createListView(
         direction: ListView.Direction,
-        contextValue: DynamicObject,
+        contextValue: DynamicObject? = nil,
         onInit: [Action]? = nil,
-        onScrollEnd: [Action]? = nil
+        onScrollEnd: [Action]? = nil,
+        scrollIndicatorEnabled: Bool? = nil
     ) -> ListView {
         return ListView(
             context: Context(
                 id: "initialContext",
-                value: contextValue
+                value: contextValue ?? ""
             ),
             onInit: onInit,
             dataSource: Expression("@{initialContext}"),
@@ -86,6 +87,7 @@ final class ListViewTests: XCTestCase {
                 )
             ),
             onScrollEnd: onScrollEnd,
+            scrollIndicatorEnabled: scrollIndicatorEnabled,
             widgetProperties: WidgetProperties(
                 style: Style(
                     backgroundColor: "#206a5d",
@@ -157,6 +159,46 @@ final class ListViewTests: XCTestCase {
         
         // Then
         assertSnapshotImage(view, size: imageSize)
+    }
+    
+    // MARK: - Testing scrollIndicatorEnabled
+    
+    private func getCollectionView(direction: ListView.Direction, scrollIndicatorEnabled: Bool? = nil) throws -> UICollectionView {
+        let component = createListView(
+            direction: .horizontal,
+            scrollIndicatorEnabled: scrollIndicatorEnabled
+        )
+        
+        let view = component.toView(renderer: controller.renderer)
+        let listView = try XCTUnwrap(view as? ListViewUIComponent)
+        let collection = listView.listController.collectionView
+        
+        return collection
+    }
+    
+    func testHorizontalScrollIndicator() throws {
+        // Given
+        let collectionScrollIndicatorEnabled = try getCollectionView(direction: .horizontal, scrollIndicatorEnabled: true)
+        
+        let collectionScrollIndicatorDisabled = try getCollectionView(direction: .horizontal)
+        
+        // Then
+        XCTAssertEqual(collectionScrollIndicatorEnabled.showsHorizontalScrollIndicator, true)
+        
+        XCTAssertEqual(collectionScrollIndicatorDisabled.showsHorizontalScrollIndicator, false)
+    }
+    
+    func testVerticalScrollIndicator() throws {
+        // Given
+        let collectionScrollIndicatorEnabled = try getCollectionView(direction: .vertical, scrollIndicatorEnabled: true)
+        
+        let collectionScrollIndicatorDisabled = try getCollectionView(direction: .vertical)
+        
+        // Then
+        XCTAssertEqual(collectionScrollIndicatorEnabled.showsVerticalScrollIndicator, true)
+        
+        XCTAssertEqual(collectionScrollIndicatorDisabled.showsHorizontalScrollIndicator, false)
+
     }
     
     // MARK: - Testing Execute Action onScrollEnd
