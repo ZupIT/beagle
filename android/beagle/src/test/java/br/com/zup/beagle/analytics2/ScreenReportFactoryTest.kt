@@ -17,21 +17,22 @@
 package br.com.zup.beagle.analytics2
 
 import br.com.zup.beagle.android.BaseTest
+import io.mockk.every
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given Screen Report Factory")
-class ScreenReportFactoryTest : BaseTest(){
+class ScreenReportFactoryTest : BaseTest() {
 
     @DisplayName("When generateLocalScreenAnalyticsRecord")
     @Nested
-    inner class LocalScreen{
+    inner class LocalScreen {
 
         @Test
         @DisplayName("Then should create local screen report correctly")
-        fun testCreateScreenLocalReportShouldCreateLocalScreenReportCorrectly(){
+        fun testCreateScreenLocalReportShouldCreateLocalScreenReportCorrectly() {
             //WHEN
             val result = ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId")
 
@@ -44,15 +45,31 @@ class ScreenReportFactoryTest : BaseTest(){
 
     @DisplayName("When generateRemoteScreenAnalyticsRecord")
     @Nested
-    inner class RemoteScreen{
+    inner class RemoteScreen {
 
         @Test
         @DisplayName("Then should create remote screen report correctly")
-        fun testCreateScreenRemoteReportShouldCreateRemoteScreenReportCorrectly(){
-            //WHEN
+        fun testCreateScreenRemoteReportShouldCreateRemoteScreenReportCorrectly() {
+            //When
             val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url")
 
-            //THEN
+            //Then
+            assertEquals("android", result.platform)
+            assertEquals("screen", result.type)
+            assertEquals(hashMapOf("url" to "url"), result.attributes)
+        }
+
+        @Test
+        @DisplayName("Then should create remote screen report correctly")
+        fun testCreateScreenRemoteReportWithBaseUrlOnUrlShouldCreateRemoteScreenReportCorrectly() {
+            //Given
+            val baseUrl = "https://baseUrl.com.br/"
+            every { beagleSdk.config.baseUrl } returns baseUrl
+
+            //When
+            val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord(baseUrl + "url")
+
+            //Then
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
             assertEquals(hashMapOf("url" to "url"), result.attributes)

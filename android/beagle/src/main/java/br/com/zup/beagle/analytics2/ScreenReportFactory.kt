@@ -16,12 +16,14 @@
 
 package br.com.zup.beagle.analytics2
 
+import br.com.zup.beagle.android.utils.removeBaseUrl
+
 internal object ScreenReportFactory {
 
     private const val TYPE_ANALYTICS = "screen"
     private const val PLATFORM_ANALYTICS = "android"
 
-    fun generateLocalScreenAnalyticsRecord(screenId : String) = object : AnalyticsRecord {
+    fun generateLocalScreenAnalyticsRecord(screenId: String) = object : AnalyticsRecord {
         override val type: String
             get() = TYPE_ANALYTICS
         override val platform: String
@@ -30,12 +32,12 @@ internal object ScreenReportFactory {
             get() = hashMapOf("screenId" to screenId)
     }
 
-    fun generateRemoteScreenAnalyticsRecord(url : String) = object : AnalyticsRecord {
+    fun generateRemoteScreenAnalyticsRecord(url: String) = object : AnalyticsRecord {
         override val type: String
             get() = TYPE_ANALYTICS
         override val platform: String
             get() = PLATFORM_ANALYTICS
         override val attributes: HashMap<String, Any>
-            get() = hashMapOf("url" to url)
+            get() = hashMapOf("url" to url.removeBaseUrl())
     }
 }
