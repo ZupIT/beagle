@@ -95,7 +95,7 @@ object NewAnalyticsScreenBuilder {
                     )
                 ),
                 Button(
-                    text = "navigateToPage2",
+                    text = "navigateToPage",
                     onPress = listOf(
                         Navigate.PushView(Route.Remote(NEW_ANALYTICS_NAVIGATE_ENDPOINT, true))
                     )
