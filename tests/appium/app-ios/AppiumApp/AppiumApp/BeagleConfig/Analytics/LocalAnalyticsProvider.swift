@@ -35,7 +35,7 @@ class LocalAnalyticsProvider: AnalyticsProvider {
     var maximumItemsInQueue: Int?
     
     func createRecord(_ record: AnalyticsRecord) {
-        if record.type == .screen && (record.values["url"] as? String ?? "").hasSuffix("/analytics2.0") {
+        if record.type == .screen && (record.values["url"] as? String ?? "").hasSuffix("/analytics2") {
             return
         }
         lastRecord = record
