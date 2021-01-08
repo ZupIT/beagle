@@ -64,7 +64,7 @@ public extension Expression {
     func evaluate(with view: UIView?) -> T? {
         switch self {
         case let .expression(expression):
-            return view?.evaluate(for: expression)
+            return view?.evaluate(for: expression).transform()
         case let .value(value):
             return value
         }

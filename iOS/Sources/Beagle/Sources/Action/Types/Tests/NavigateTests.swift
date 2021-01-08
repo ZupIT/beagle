@@ -30,7 +30,9 @@ class NavigateTests: XCTestCase {
         
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          - openExternalURL: "schema://domain/path"
+          - _beagleAction_: "beagle:openexternalurl"
+          - analytics: Optional<ActionAnalyticsConfig>.none
+          - url: "schema://domain/path"
         """)
     }
     
@@ -38,14 +40,15 @@ class NavigateTests: XCTestCase {
         let action: Navigate = try actionFromJsonFile(fileName: "opennativeroute")
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          ▿ openNativeRoute: OpenNativeRoute
-            ▿ data: Optional<Dictionary<String, String>>
-              ▿ some: 1 key/value pair
-                ▿ (2 elements)
-                  - key: "a"
-                  - value: "value a"
-            - route: "deeplink"
-            - shouldResetApplication: true
+          - _beagleAction_: "beagle:opennativeroute"
+          - analytics: Optional<ActionAnalyticsConfig>.none
+          ▿ data: Optional<Dictionary<String, String>>
+            ▿ some: 1 key/value pair
+              ▿ (2 elements)
+                - key: "a"
+                - value: "value a"
+          - route: "deeplink"
+          - shouldResetApplication: true
         """)
     }
     
@@ -62,15 +65,15 @@ class NavigateTests: XCTestCase {
 
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          ▿ resetApplication: (2 elements)
-            ▿ .0: Route
-              ▿ remote: NewPath
-                - fallback: Optional<Screen>.none
-                - shouldPrefetch: false
-                ▿ url: Expression<String>
-                  - value: "schema://path"
-            ▿ controllerId: Optional<String>
-              - some: "my-controller-id"
+          - _beagleAction_: "beagle:resetapplication"
+          - analytics: Optional<ActionAnalyticsConfig>.none
+          ▿ controllerId: Optional<String>
+            - some: "my-controller-id"
+          ▿ route: Route
+            - fallback: Optional<Screen>.none
+            - shouldPrefetch: false
+            ▿ url: Expression<String>
+              - value: "schema://path"
         """)
     }
     
@@ -86,12 +89,13 @@ class NavigateTests: XCTestCase {
         
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          ▿ resetStack: Route
-            ▿ remote: NewPath
-              - fallback: Optional<Screen>.none
-              - shouldPrefetch: false
-              ▿ url: Expression<String>
-                - value: "schema://path"
+          - _beagleAction_: "beagle:resetstack"
+          - analytics: Optional<ActionAnalyticsConfig>.none
+          ▿ route: Route
+            - fallback: Optional<Screen>.none
+            - shouldPrefetch: false
+            ▿ url: Expression<String>
+              - value: "schema://path"
         """)
     }
     
@@ -125,15 +129,15 @@ class NavigateTests: XCTestCase {
 
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          ▿ pushStack: (2 elements)
-            ▿ .0: Route
-              ▿ remote: NewPath
-                - fallback: Optional<Screen>.none
-                - shouldPrefetch: false
-                ▿ url: Expression<String>
-                  - value: "schema://path"
-            ▿ controllerId: Optional<String>
-              - some: "customid"
+          - _beagleAction_: "beagle:pushstack"
+          - analytics: Optional<ActionAnalyticsConfig>.none
+          ▿ controllerId: Optional<String>
+            - some: "customid"
+          ▿ route: Route
+            - fallback: Optional<Screen>.none
+            - shouldPrefetch: false
+            ▿ url: Expression<String>
+              - value: "schema://path"
         """)
     }
     
@@ -145,7 +149,9 @@ class NavigateTests: XCTestCase {
         """)
 
         _assertInlineSnapshot(matching: action, as: .dump, with: """
-        - Navigate.popStack
+        ▿ Navigate
+          - _beagleAction_: "beagle:popstack"
+          - analytics: Optional<ActionAnalyticsConfig>.none
         """)
     }
     
@@ -175,7 +181,9 @@ class NavigateTests: XCTestCase {
         """)
 
         _assertInlineSnapshot(matching: action, as: .dump, with: """
-        - Navigate.popView
+        ▿ Navigate
+          - _beagleAction_: "beagle:popview"
+          - analytics: Optional<ActionAnalyticsConfig>.none
         """)
     }
     
@@ -189,7 +197,9 @@ class NavigateTests: XCTestCase {
 
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          - popToView: "viewId"
+          - _beagleAction_: "beagle:poptoview"
+          - analytics: Optional<ActionAnalyticsConfig>.none
+          - route: "viewId"
         """)
     }
 
@@ -198,8 +208,8 @@ class NavigateTests: XCTestCase {
         let arrayWithNullNewPaths: [Navigate] = [
             .openExternalURL(""),
             .openNativeRoute(.init(route: "")),
-            .popStack,
-            .popView,
+            .popStack(),
+            .popView(),
             .popToView("")
         ]
         

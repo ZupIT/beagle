@@ -9,7 +9,7 @@ import io.cucumber.java.en.When
 class AnalyticsScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = "/analytics2"
-    private val positionRegex = Regex("position=\\{x=([0-9][0-9]*)(.?)([0-9]?), y=([0-9][0-9]*)(.?)([0-9]?)\\}")
+    private val positionRegex = Regex("position=\\{x=([0-9][0-9]*)(.?)([0-9]?),\\s*y=([0-9][0-9]*)(.?)([0-9]?)\\}")
 
     private val recordHashMap = hashMapOf<String, List<Regex>>(
         "Analytics 02" to listOf(
@@ -50,6 +50,16 @@ class AnalyticsScreenSteps : AbstractStep() {
     @Given("^the Beagle application did launch with the Analytics screen url$")
     fun checkBaseScreen() {
         waitForElementWithTextToBeClickable("Analytics 2.0", false, false)
+    }
+
+    @Then("^an alert dialog should appear on the screen$")
+    fun checkAlertDialog() {
+        waitForElementWithTextToBeClickable("AlertMessage", false, false)
+    }
+
+    @Then("^a confirm dialog should appear on the screen$")
+    fun checkConfirmDialog() {
+        waitForElementWithTextToBeClickable("Confirm Message", false, false)
     }
 
     @Then("^no analytics record should be created$")

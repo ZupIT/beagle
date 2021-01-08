@@ -1,0 +1,14 @@
+{
+    "_beagleAction_": "beagle:sendRequest",
+    "analytics": {
+        "attributes": [
+            "headers.platform",
+            "method",
+            "url"
+        ],
+        "enable": true
+    },
+    "headers": "@{context.headers}",
+    "method": "@{context.method}",
+    "url": "\/search?q=@{context.query}"
+}
