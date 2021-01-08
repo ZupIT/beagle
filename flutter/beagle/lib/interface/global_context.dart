@@ -1,6 +1,3 @@
-typedef Decoder<T> = T Function(dynamic value);
-typedef Encoder<T> = dynamic Function(T value);
-
 abstract class GlobalContext {
   /// Gets a value in the global context according to the [path] passed as parameter. The [path] is
   /// optional, if not passed, the entire global context is returned. If no value is found for the
