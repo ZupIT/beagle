@@ -112,9 +112,9 @@ data class TextInput(
         styleManagerFactory.getInputTextStyle(styleId)
     ).apply {
         textInputView = this
-        setData(this@TextInput, rootView, this)
-        setUpOnTextChange(rootView, this)
-        if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView, this)
+        setData(this@TextInput, rootView)
+        setUpOnTextChange(rootView)
+        if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView)
     }
 
     override fun getValue(): Any = textInputView.text.toString()
@@ -123,13 +123,13 @@ data class TextInput(
         textInputView.error = message
     }
 
-    private fun setUpOnTextChange(rootView: RootView, editText: EditText) {
-        textWatcher = editText.doOnTextChanged { newText, _, _, _ ->
+    private fun EditText.setUpOnTextChange(rootView: RootView) {
+        textWatcher = doOnTextChanged { newText, _, _, _ ->
             notifyChanges()
             onChange?.let {
                 this@TextInput.handleEvent(
                     rootView,
-                    editText,
+                    this,
                     onChange,
                     ContextData(
                         id = "onChange",
@@ -144,8 +144,8 @@ data class TextInput(
         removeTextChangedListener(textWatcher)
     }
 
-    private fun setUpOnFocusChange(rootView: RootView, editText: EditText) {
-        editText.setOnFocusChangeListener { view, hasFocus ->
+    private fun EditText.setUpOnFocusChange(rootView: RootView) {
+        setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 onFocus?.let {
                     this@TextInput.handleEvent(
@@ -154,7 +154,7 @@ data class TextInput(
                         onFocus,
                         ContextData(
                             id = "onFocus",
-                            value = mapOf(VALUE_KEY to editText.text.toString())
+                            value = mapOf(VALUE_KEY to this.text.toString())
                         )
                     )
                 }
@@ -166,7 +166,7 @@ data class TextInput(
                         onBlur,
                         ContextData(
                             id = "onBlur",
-                            value = mapOf(VALUE_KEY to editText.text.toString())
+                            value = mapOf(VALUE_KEY to this.text.toString())
                         )
                     )
                 }
@@ -174,12 +174,12 @@ data class TextInput(
         }
     }
 
-    private fun EditText.setData(textInput: TextInput, rootView: RootView, editText: EditText) {
+    private fun EditText.setData(textInput: TextInput, rootView: RootView) {
         isFocusable = true
         isFocusableInTouchMode = true
         textInput.placeholder?.let { bind -> observeBindChanges(rootView, this, bind) { it?.let { hint = it } } }
         textInput.value?.let { bind ->
-            observeBindChanges(rootView, this, bind) { it?.let { setValue(it, rootView, editText) } }
+            observeBindChanges(rootView, this, bind) { it?.let { setValue(it, rootView) } }
         }
         textInput.readOnly?.let { bind -> observeBindChanges(rootView, this, bind) { setEnabledConfig(it) } }
         textInput.disabled?.let { bind -> observeBindChanges(rootView, this, bind) { setEnabledConfig(it) } }
@@ -195,12 +195,12 @@ data class TextInput(
         isEnabled?.let { this.isEnabled = !it }
     }
 
-    private fun EditText.setValue(text: String, rootView: RootView, editText: EditText) {
+    private fun EditText.setValue(text: String, rootView: RootView) {
         if (text == this.text.toString()) return
         removeOnTextChange()
         setText(text)
         setSelection(text.length)
-        setUpOnTextChange(rootView, editText)
+        setUpOnTextChange(rootView)
     }
 
     private fun EditText.setInputType(textInputType: TextInputType) {

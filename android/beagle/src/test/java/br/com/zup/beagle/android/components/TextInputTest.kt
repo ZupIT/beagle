@@ -229,7 +229,7 @@ internal class TextInputTest : BaseComponentTest() {
 
         @Test
         @DisplayName("Then check if the text was removed")
-        fun `Given a textInput Then check if text change was removed`() {
+        fun verifyTextRemoval() {
             // Given
             textInput.buildView(rootView)
 
