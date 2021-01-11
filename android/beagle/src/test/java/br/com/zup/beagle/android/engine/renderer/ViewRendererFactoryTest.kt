@@ -38,11 +38,11 @@ class ViewRendererFactoryTest : BaseTest() {
         component = Text(TEXT)
     }
 
-    @DisplayName("When to pass the component")
+    @DisplayName("When a component is requested")
     @Nested
     inner class ComponentConversion {
 
-        @DisplayName("Then the component should be return correctly")
+        @DisplayName("Then the component should be rendered correctly")
         @Test
         fun checkComponentCreation() {
             // When
