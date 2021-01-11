@@ -17,11 +17,11 @@
 
 import 'dart:convert';
 
-import 'package:after_layout/after_layout.dart';
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/request.dart';
 import 'package:beagle/model/tree_update_mode.dart';
+import 'package:beagle_components/after_layout.dart';
 import 'package:flutter/material.dart';
 
 class BeagleLazyComponent extends StatefulWidget {
@@ -65,7 +65,6 @@ class _BeagleLazyComponent extends State<BeagleLazyComponent>
         debugPrint(
             'BeagleLazyComponent: connection error: ${result.status} ${result.body}');
       }
-      // ignore: empty_catches
     } catch (err) {
       debugPrint('BeagleLazyComponent: error: $err');
     }
