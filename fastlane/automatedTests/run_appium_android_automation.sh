@@ -69,7 +69,7 @@ image.sysdir.1=system-images/android-30/google_apis/x86/
 vm.heapSize=512" > $AVD_CONFIG_FILE
 
 echo "##### Starting emulator with AVD ..."
-nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-window
+nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-window 2>&1 &
 
 echo "##### Waiting for device to boot"
 "$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell <<ENDSCRIPT
