@@ -46,11 +46,10 @@ class ViewRendererFactoryTest : BaseTest() {
         @Test
         fun checkComponentCreation() {
             // When
-            val result = viewRendererFactory.make(component)
+            val actual = viewRendererFactory.make(component)
 
-            //Then
-            Assert.assertEquals(result.component, component as ViewConvertable)
+            // Then
+            Assert.assertEquals(component as ViewConvertable, actual.component)
         }
     }
-
 }
