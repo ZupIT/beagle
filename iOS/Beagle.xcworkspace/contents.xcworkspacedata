@@ -3,6 +3,20 @@
    version = "1.0">
    <Group
       location = "container:"
+      name = "AppiumApp">
+      <Group
+         location = "group:Common"
+         name = "Common">
+         <FileRef
+            location = "group:Common/ViewLayoutHelper.swift">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:../tests/appium/app-ios/AppiumApp/AppiumApp.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "Core">
       <FileRef
          location = "group:Sources/Beagle/Beagle.xcodeproj">
