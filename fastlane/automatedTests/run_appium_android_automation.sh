@@ -27,7 +27,7 @@ trap cleanup EXIT
 
 echo "##### Generating .apk from project $APP_ANDROID_DIR ..."
 chmod +x $APP_ANDROID_DIR/gradlew
-$APP_ANDROID_DIR/gradlew assembleDebug
+$APP_ANDROID_DIR/gradlew -p $APP_ANDROID_DIR assembleDebug  
 checkFileExists $APP_ANDROID_APK_FILE
 
 echo "##### Installing / updating image $AVD_IMAGE ..."
@@ -92,6 +92,7 @@ echo "##### Installing the .apk file in the emulator ..."
 $ANDROID_SDK_ROOT/platform-tools/adb install $APP_ANDROID_APK_FILE
 
 echo "#### Starting Appium tests ..."
-$APPIUM_PROJECT_DIR/gradlew cucumber -Dplatform=android 
+chmod +x $APPIUM_PROJECT_DIR/gradlew
+$APPIUM_PROJECT_DIR/gradlew -p $APPIUM_PROJECT_DIR cucumber -Dplatform=android 
 
 echo "Finish!"
