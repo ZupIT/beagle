@@ -26,6 +26,7 @@ trap exit SIGHUP SIGINT
 trap cleanup EXIT
 
 echo "##### Generating .apk from project $APP_ANDROID_DIR ..."
+chmod +x $APP_ANDROID_DIR/gradlew
 $APP_ANDROID_DIR/gradlew assembleDebug
 checkFileExists $APP_ANDROID_APK_FILE
 
