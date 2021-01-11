@@ -5,13 +5,13 @@
       - 
   ▿ direction: Optional<Direction>
     - some: Direction.vertical
+  - isScrollIndicatorVisible: Optional<Bool>.none
   ▿ iteratorName: Optional<String>
     - some: "main"
   - key: Optional<String>.none
   - onInit: Optional<Array<Action>>.none
   - onScrollEnd: Optional<Array<Action>>.none
   - scrollEndThreshold: Optional<Int>.none
-  - scrollIndicatorEnabled: Optional<Bool>.none
   ▿ template: Container
     ▿ children: 3 elements
       ▿ UnknownComponent

@@ -58,7 +58,7 @@ final class ListViewTests: XCTestCase {
         contextValue: DynamicObject? = nil,
         onInit: [Action]? = nil,
         onScrollEnd: [Action]? = nil,
-        scrollIndicatorEnabled: Bool? = nil
+        isScrollIndicatorVisible: Bool? = nil
     ) -> ListView {
         return ListView(
             context: Context(
@@ -87,7 +87,7 @@ final class ListViewTests: XCTestCase {
                 )
             ),
             onScrollEnd: onScrollEnd,
-            scrollIndicatorEnabled: scrollIndicatorEnabled,
+            isScrollIndicatorVisible: isScrollIndicatorVisible,
             widgetProperties: WidgetProperties(
                 style: Style(
                     backgroundColor: "#206a5d",
@@ -163,10 +163,10 @@ final class ListViewTests: XCTestCase {
     
     // MARK: - Testing scrollIndicatorEnabled
     
-    private func getCollectionView(direction: ListView.Direction, scrollIndicatorEnabled: Bool? = nil) throws -> UICollectionView {
+    private func getCollectionView(direction: ListView.Direction, isScrollIndicatorVisible: Bool? = nil) throws -> UICollectionView {
         let component = createListView(
             direction: .horizontal,
-            scrollIndicatorEnabled: scrollIndicatorEnabled
+            isScrollIndicatorVisible: isScrollIndicatorVisible
         )
         
         let view = component.toView(renderer: controller.renderer)
@@ -178,7 +178,7 @@ final class ListViewTests: XCTestCase {
     
     func testHorizontalScrollIndicator() throws {
         // Given
-        let collectionScrollIndicatorEnabled = try getCollectionView(direction: .horizontal, scrollIndicatorEnabled: true)
+        let collectionScrollIndicatorEnabled = try getCollectionView(direction: .horizontal, isScrollIndicatorVisible: true)
         
         let collectionScrollIndicatorDisabled = try getCollectionView(direction: .horizontal)
         
@@ -190,7 +190,7 @@ final class ListViewTests: XCTestCase {
     
     func testVerticalScrollIndicator() throws {
         // Given
-        let collectionScrollIndicatorEnabled = try getCollectionView(direction: .vertical, scrollIndicatorEnabled: true)
+        let collectionScrollIndicatorEnabled = try getCollectionView(direction: .vertical, isScrollIndicatorVisible: true)
         
         let collectionScrollIndicatorDisabled = try getCollectionView(direction: .vertical)
         
