@@ -16,89 +16,151 @@
 
 import 'package:beagle/model/beagle_style.dart' as beagle;
 import 'package:beagle/utils/color.dart';
+import 'package:beagle/utils/flex.dart';
 import 'package:flutter/widgets.dart';
 
 extension ApplyStyle on Widget {
-  Widget applyStyle(beagle.BeagleStyle style) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          final container = Container(
-            width: !_hasAspectRatio(style) && style?.size?.width != null
-                ? _pickRealOrPercent(style?.size?.width, constraints.maxWidth)
-                : null,
-            height: style?.size?.height != null
-                ? _pickRealOrPercent(style?.size?.height, constraints.maxHeight)
-                : null,
-            margin: mapEdgeValue(style.margin, constraints.maxWidth),
-            padding: mapEdgeValue(style.padding, constraints.maxWidth),
-            constraints: BoxConstraints(
-              minWidth: style?.size?.minWidth != null
-                  ? _pickRealOrPercent(style?.size?.minWidth, constraints.maxWidth)
-                  : 0.0,
-              maxWidth: style?.size?.maxWidth != null
-                  ? _pickRealOrPercent(style?.size?.maxWidth, constraints.maxWidth)
-                  : double.infinity,
-              minHeight: style?.size?.minHeight != null
-                  ? _pickRealOrPercent(
-                  style?.size?.minHeight, constraints.maxHeight)
-                  : 0.0,
-              maxHeight: style?.size?.maxHeight != null
-                  ? _pickRealOrPercent(
-                  style?.size?.maxHeight, constraints.maxHeight)
-                  : double.infinity,
-            ),
-            decoration: BoxDecoration(
-              color: style?.backgroundColor != null
-                  ? HexColor(style.backgroundColor)
-                  : null,
-              border: (style?.borderColor != null && style?.borderWidth != null)
-                  ? Border.all(
-                color: HexColor(style.borderColor),
-                width: style.borderWidth.toDouble(),
-              )
-                  : null,
-              borderRadius: BorderRadius.circular(
-                  style?.cornerRadius?.radius?.toDouble() ?? 0.0),
-            ),
-            child: _hasAspectRatio(style)
-                ? AspectRatio(
-                aspectRatio: style.size.aspectRatio.toDouble(), child: this)
-                : this,
-          );
-          return _buildCurrent(style, container, constraints);
-        });
+  Widget applyStyle({beagle.BeagleStyle style}) {
+    return style != null ? _buildWidget(style, this) : this;
   }
 }
 
-Widget _buildCurrent(
-    beagle.BeagleStyle style, Widget container, BoxConstraints constraints) {
-  return _hasPosition(style)
-      ? Positioned(
-      left: _getLeft(style.position, constraints.maxWidth),
-      top: _getTop(style.position, constraints.maxHeight),
-      right: _getRight(style.position, constraints.maxWidth),
-      bottom: _getBottom(style.position, constraints.maxHeight),
-      child: container)
-      : container;
+Widget _buildWidget(
+  beagle.BeagleStyle style,
+  Widget widget,
+) =>
+    // todo implement PositionType.ABSOLUTE attribute behavior
+    _isAbsolute(style)
+        ? Expanded(
+            child: Stack(
+              children: [
+                Positioned.fill(child: _buildLayoutBuilder(style, widget))
+              ],
+            ),
+          )
+        : _buildLayoutBuilder(style, widget);
+
+bool _isAbsolute(beagle.BeagleStyle style) =>
+    style.positionType == beagle.FlexPosition.ABSOLUTE;
+
+LayoutBuilder _buildLayoutBuilder(beagle.BeagleStyle style, Widget widget) {
+  return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+    final container = Container(
+      width: _mapWidth(style, constraints),
+      height: _mapHeight(style, constraints),
+      margin: _mapEdgeValue(style.margin, constraints.maxWidth),
+      padding: _mapEdgeValue(style.padding, constraints.maxWidth),
+      constraints: _mapConstraints(style, constraints),
+      decoration: _mapDecoration(style),
+      child: _mapChild(style, widget),
+    );
+    return _buildCurrent(style, container, constraints);
+  });
 }
 
-bool _hasPosition(beagle.BeagleStyle style) => style.position != null;
+num _mapWidth(
+  beagle.BeagleStyle style,
+  BoxConstraints constraints,
+) =>
+    !_hasAspectRatio(style) && style?.size?.width != null
+        ? _pickRealOrPercent(style?.size?.width, constraints.maxWidth)
+        : null;
 
 bool _hasAspectRatio(beagle.BeagleStyle style) =>
     style.size != null && style.size.aspectRatio != null;
 
-Widget applyFlex(Widget child, {beagle.Flex flex}) {
-  return child;
+num _mapHeight(
+  beagle.BeagleStyle style,
+  BoxConstraints constraints,
+) =>
+    style?.size?.height != null
+        ? _pickRealOrPercent(style?.size?.height, constraints.maxHeight)
+        : null;
+
+BoxConstraints _mapConstraints(
+  beagle.BeagleStyle style,
+  BoxConstraints constraints,
+) =>
+    BoxConstraints(
+      minWidth: style?.size?.minWidth != null
+          ? _pickRealOrPercent(style?.size?.minWidth, constraints.maxWidth)
+          : 0.0,
+      maxWidth: style?.size?.maxWidth != null
+          ? _pickRealOrPercent(style?.size?.maxWidth, constraints.maxWidth)
+          : double.infinity,
+      minHeight: style?.size?.minHeight != null
+          ? _pickRealOrPercent(style?.size?.minHeight, constraints.maxHeight)
+          : 0.0,
+      maxHeight: style?.size?.maxHeight != null
+          ? _pickRealOrPercent(style?.size?.maxHeight, constraints.maxHeight)
+          : double.infinity,
+    );
+
+BoxDecoration _mapDecoration(
+  beagle.BeagleStyle style,
+) =>
+    BoxDecoration(
+      color: style?.backgroundColor != null
+          ? HexColor(style.backgroundColor)
+          : null,
+      border: (style?.borderColor != null && style?.borderWidth != null)
+          ? Border.all(
+              color: HexColor(style.borderColor),
+              width: style.borderWidth.toDouble(),
+            )
+          : null,
+      borderRadius:
+          BorderRadius.circular(style?.cornerRadius?.radius?.toDouble() ?? 0.0),
+    );
+
+Widget _mapChild(beagle.BeagleStyle style, Widget widget) {
+  final child = style?.flex != null ? applyFlex(style.flex, widget) : widget;
+  return _hasAspectRatio(style)
+      ? AspectRatio(
+          aspectRatio: style.size.aspectRatio.toDouble(),
+          child: child,
+        )
+      : child;
 }
 
-EdgeInsets mapEdgeValue(beagle.EdgeValue edgeValue, double maxWidth) {
+Widget _buildCurrent(
+  beagle.BeagleStyle style,
+  Widget container,
+  BoxConstraints constraints,
+) {
+  var current = container;
+  // todo implement Position attribute behavior
+  current = _hasPosition(style)
+      ? Padding(
+          padding: EdgeInsets.only(
+            left: _getLeft(style.position, constraints.maxWidth),
+            top: _getTop(style.position, constraints.maxHeight),
+            right: _getRight(style.position, constraints.maxWidth),
+            bottom: _getBottom(style.position, constraints.maxHeight),
+          ),
+          child: current,
+        )
+      : current;
+  current = _isDisplayNone(style)
+      ? Visibility(visible: false, child: current)
+      : current;
+  return current;
+}
+
+bool _isDisplayNone(beagle.BeagleStyle style) =>
+    !(style.display != null && style.display == beagle.FlexDisplay.FLEX);
+
+bool _hasPosition(beagle.BeagleStyle style) => style.position != null;
+
+EdgeInsets _mapEdgeValue(beagle.EdgeValue edgeValue, double maxWidth) {
   if (edgeValue != null) {
     if (edgeValue.all != null) {
       return edgeValue.all.type == beagle.UnitType.REAL
           ? EdgeInsets.all(_getAll(edgeValue))
           : EdgeInsets.symmetric(
-          vertical: _getAll(edgeValue) * maxWidth,
-          horizontal: _getAll(edgeValue) * maxWidth);
+              vertical: _getAll(edgeValue) * maxWidth,
+              horizontal: _getAll(edgeValue) * maxWidth);
     } else {
       return EdgeInsets.fromLTRB(
         _getLeft(edgeValue, maxWidth),

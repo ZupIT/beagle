@@ -22,8 +22,8 @@ import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/material.dart';
 
 const BASE_URL =
-    // 'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/3d1371fa96d4db0d5cc8d87c1ab409f52262d049';
-    'http://10.0.0.2:8080';
+// 'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/3d1371fa96d4db0d5cc8d87c1ab409f52262d049';
+    'http://10.0.2.2:8080';
 
 void main() {
   runApp(const BeagleSampleApp());
@@ -40,7 +40,8 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
   bool isBeagleReady = false;
   Map<String, ComponentBuilder> myCustomComponents = {
     'custom:loading': (element, children) {
-      return Text('My custom loading.', key: element.getKey());
+      return Center(
+          key: element.getKey(), child: const Text('My custom loading.'));
     }
   };
   Map<String, ActionHandler> myCustomActions = {
@@ -58,7 +59,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
           'general': NavigationController(
               isDefault: true, loadingComponent: 'custom:loading'),
         });
-    BeagleInitializer.getService().globalContext.set(5, 'counter');
+    // BeagleInitializer.getService().globalContext.set(5, 'counter');
     setState(() {
       isBeagleReady = true;
     });
@@ -86,7 +87,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
         body: isBeagleReady
             // ? const BeagleRemoteView(route: '/global.json')
             ? const BeagleRemoteView(route: '/button')
-            : const Text('Not ready yet!'),
+            : const Center(child: Text('Not ready yet!')),
       ),
     );
   }

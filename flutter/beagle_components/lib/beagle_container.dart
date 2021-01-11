@@ -16,6 +16,7 @@
 
 import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/utils/flex.dart';
 import 'package:flutter/widgets.dart';
 
 class BeagleContainer extends StatefulWidget {
@@ -46,44 +47,7 @@ class _BeagleContainerState extends State<BeagleContainer> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Widget childContainer;
-
-    //todo check if any child is positionType.ABSOLUTE and remove it
-    if (widget.style != null && widget.style.flex != null) {
-      switch (widget.style.flex.flexDirection) {
-        case FlexDirection.COLUMN:
-          childContainer = Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: widget.children);
-          break;
-        case FlexDirection.ROW:
-          childContainer = Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: widget.children);
-          break;
-        case FlexDirection.COLUMN_REVERSE:
-          childContainer = Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            verticalDirection: VerticalDirection.up,
-            children: widget.children,
-          );
-          break;
-        case FlexDirection.ROW_REVERSE:
-          childContainer = Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: widget.children,
-          );
-          break;
-      }
-      return childContainer;
-    } else {
-      return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: widget.children);
-    }
-  }
+  Widget build(BuildContext context) =>
+      // todo this will be extracted to work with other components
+      applyFlexDirection(widget.children, flex: widget.style?.flex);
 }
