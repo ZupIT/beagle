@@ -45,6 +45,7 @@ Widget applyFlexDirection(List<Widget> children, {beagle.Flex flex}) {
         );
         break;
       case beagle.FlexDirection.ROW_REVERSE:
+        // todo implement row reverse behavior
         childContainer = Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -55,7 +56,8 @@ Widget applyFlexDirection(List<Widget> children, {beagle.Flex flex}) {
     return childContainer;
   } else {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: children,
     );
   }
