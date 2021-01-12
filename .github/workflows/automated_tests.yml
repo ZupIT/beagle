@@ -5,10 +5,7 @@ on: workflow_dispatch
 jobs:
     run-automated-tests:
         name: Run automated tests
-        runs-on: macos-latest
-        env:
-            CACHE_PATH: ${{ runner.os }}-build
-            CACHE_GRADLE_PATH: ${{ CACHE_PATH }}-gradle-cache
+        runs-on: macos-latest 
 
         steps:
             -   uses: actions/checkout@v2
@@ -18,8 +15,8 @@ jobs:
                 uses: actions/cache@v2
                 with:
                     path: ~/.gem
-                    key: ${{ CACHE_PATH }}-fastlane-cache-${{ hashFiles('Gemfile.lock') }}
-                    restore-keys: ${{ CACHE_PATH }}-fastlane-cache-
+                    key: ${{ runner.os }}-build-fastlane-cache-${{ hashFiles('Gemfile.lock') }}
+                    restore-keys: ${{ runner.os }}-build-fastlane-cache
 
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
@@ -29,8 +26,8 @@ jobs:
                 uses: actions/cache@v2
                 with:
                     path: ~/.gradle
-                    key: ${{ CACHE_GRADLE_PATH }}-${{ hashFiles('backend/buildSrc/**', 'android/buildSrc/**') }}
-                    restore-keys: ${{ CACHE_GRADLE_PATH }}
+                    key: ${{ runner.os }}-build-gradle-cache-${{ hashFiles('backend/buildSrc/**', 'android/buildSrc/**') }}
+                    restore-keys: ${{ runner.os }}-build-gradle-cache
                     
             -   name: Start backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
@@ -43,7 +40,7 @@ jobs:
                         /Users/runner/Library/Android/sdk/platforms
                         /Users/runner/Library/Android/sdk/system-images
                         ~/.android
-                    key: ${{ CACHE_PATH }}-android-cache-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
+                    key: ${{ runner.os }}-build-android-cache-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
             
             -   name: Test Android
                 run: bash fastlane/automatedTests/run_android_automation.sh
