@@ -2,14 +2,14 @@ name: Beagle Automated Tests
 
 on: workflow_dispatch
 
-env:
-    CACHE_PATH: ${{ runner.os }}-build
-    CACHE_GRADLE_PATH: ${{ CACHE_PATH }}-gradle-cache
-
 jobs:
     run-automated-tests:
         name: Run automated tests
         runs-on: macos-latest
+        env:
+            CACHE_PATH: ${{ runner.os }}-build
+            CACHE_GRADLE_PATH: ${{ CACHE_PATH }}-gradle-cache
+
         steps:
             -   uses: actions/checkout@v2
 
