@@ -38,10 +38,10 @@ echo "##### Checking if AVD was created correctly ..."
 checkFileExists $AVD_CONFIG_FILE
 
 echo "##### Configuring AVD settings ..."
-echo "AvdId=Pixel_3a_API_30_x86
+echo "AvdId=$AVD_NAME
 PlayStore.enabled=false
 abi.type=x86
-avd.ini.displayname=Pixel_3a_API_30_x86
+avd.ini.displayname=$AVD_NAME
 avd.ini.encoding=UTF-8
 disk.dataPartition.size=800M
 fastboot.forceChosenSnapshotBoot=no
@@ -90,8 +90,21 @@ echo "Booted."
 exit
 ENDSCRIPT
 
-echo "#### Waiting 30 secs for us to be really booted"
+echo "#### Waiting 30 secs for us to be really booted ..."
 sleep 30
 
 echo "##### Installing the .apk file in the emulator ..."
 $ANDROID_SDK_ROOT/platform-tools/adb install $APP_ANDROID_APK_FILE
+
+echo "#### Waiting 30 secs for the app to be installed ..."
+sleep 30
+
+echo "#### Checking if the .apk was installed in the emulator ... "
+OUTPUT=`$ANDROID_SDK_ROOT/platform-tools/adb shell pm list packages`
+if echo "$OUTPUT" | grep -q "package:br.com.zup.beagle.appiumapp"; then
+    echo "OK!"
+else 
+	echo "ERROR: app not installed! (package not found: br.com.zup.beagle.appiumapp)"
+	exit 1
+fi
+

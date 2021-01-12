@@ -120,10 +120,18 @@ object SuiteSetup {
              * MobileCapabilityType.APP capability is not required for Android if you specify appPackage and appActivity
              * In this case, the Android image already contains the app
              */
-            capabilities.setCapability("appPackage", "br.com.zup.beagle.appiumapp")
-            capabilities.setCapability("appActivity", ".activity.MainActivity")
+            val appPackage = "br.com.zup.beagle.appiumapp"
+            val appActivity = ".activity.MainActivity"
+            capabilities.setCapability("appPackage", appPackage)
+            capabilities.setCapability("appActivity", appActivity)
 
             driver = AndroidDriver<MobileElement>(/*service?.url*/URL(APPIUM_URL), capabilities)
+
+            if (!appPackage.equals((driver as AndroidDriver<MobileElement>).currentPackage) ||
+                !appActivity.equals((driver as AndroidDriver<MobileElement>).currentActivity())
+            ) {
+                throw Exception("Error loading the app and activity!")
+            }
 
         } else {
 
@@ -141,8 +149,10 @@ object SuiteSetup {
              *  - passing the path by runtime param (just like -Dplatform param for example)
              *  - and the new param usage and requirement in the documentation
              */
-            capabilities.setCapability(MobileCapabilityType.APP,
-                "COMPLETE-PATH/AppiumApp.app")
+            capabilities.setCapability(
+                MobileCapabilityType.APP,
+                "COMPLETE-PATH/AppiumApp.app"
+            )
 
             capabilities.setCapability("waitForQuiescence", false)
 
