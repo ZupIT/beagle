@@ -83,16 +83,16 @@ void main() {
 
     test(
         'GIVEN a FlexDirection.ROW_REVERSE WHEN applyFlexDirection THEN should '
-            'return a row with mainAxisSize end and '
-            'crossAxisAlignment end', () {
+            'return a row with textDirection rtl and '
+            'crossAxisAlignment start', () {
       const children = <Widget>[];
       final flex = beagle.Flex(flexDirection: beagle.FlexDirection.ROW_REVERSE);
 
       final Row result = applyFlexDirection(children, flex: flex);
 
       expect(result, isA<Row>());
-      expect(result.mainAxisAlignment, MainAxisAlignment.end);
-      expect(result.crossAxisAlignment, CrossAxisAlignment.end);
+      expect(result.textDirection, TextDirection.rtl);
+      expect(result.crossAxisAlignment, CrossAxisAlignment.start);
       expect(result.children, children);
     });
   });
