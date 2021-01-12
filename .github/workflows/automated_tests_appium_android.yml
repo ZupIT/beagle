@@ -14,7 +14,7 @@ on:
 
 jobs:
     run-automated-tests:
-        name: Run automated tests
+        name: Run Appium Android tests
         runs-on: macos-latest
         steps:
             -   uses: actions/checkout@v2
@@ -48,24 +48,24 @@ jobs:
             -   name: Wait server starts
                 run: sleep 30
 
-            -   name: Cache android gradle dependencies
+            -   name: Cache Appium app-android gradle dependencies
                 uses: actions/cache@v2
                 env:
                     gradle-cache-key: android-tests-gradle-cache
                     gradle-path: ~/.gradle
                 with:
                     path: ${{ env.gradle-path }}
-                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('android/buildSrc/**') }}
+                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
                     restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             
-            -   name: Cache android platform
+            -   name: Cache android platforms
                 uses: actions/cache@v2
                 env:
                     android-platform-cache-key: android-platform-cache
                     android-platform-path: /Users/runner/Library/Android/sdk/platforms
                 with:
                     path: ${{ env.android-platform-path }}
-                    key: ${{ runner.os }}-build-${{ env.android-platform-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
+                    key: ${{ runner.os }}-build-${{ env.android-platform-cache-key }}-${{ hashFiles('fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh') }}
             
             -   name: Cache android system-images
                 uses: actions/cache@v2
@@ -74,22 +74,27 @@ jobs:
                     android-system-images-path: /Users/runner/Library/Android/sdk/system-images
                 with:
                     path: ${{ env.android-system-images-path }}
-                    key: ${{ runner.os }}-build-${{ env.android-system-images-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
+                    key: ${{ runner.os }}-build-${{ env.android-system-images-cache-key }}-${{ hashFiles('fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh') }}
             
-            -   name: Cache android avd
+            -   name: Cache android avds
                 uses: actions/cache@v2
                 env:
                     android-avd-cache-key: android-avd-cache
                     android-avd-path: ~/.android
                 with:
                     path: ${{ env.android-avd-path }}
-                    key: ${{ runner.os }}-build-${{ env.android-avd-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
+                    key: ${{ runner.os }}-build-${{ env.android-avd-cache-key }}-${{ hashFiles('fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh') }}
             
-            -   name: Install and run Appium server
-                run: bash fastlane/automatedTests/run_appium_server.sh
+            -   name: Config and run Appium server
+                run: bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
+
+            -   name: Config and run Android emulator
+                run: bash fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh
+                env:
+                    ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
             
             -   name: Run Appium tests on Android
-                run: bash fastlane/automatedTests/run_appium_android_automation.sh
+                run: bash fastlane/automatedTests/appium/android/run_appium_android_tests.sh
                 env:
                     ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
 

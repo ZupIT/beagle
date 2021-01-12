@@ -1,29 +1,21 @@
 #!/bin/bash
 
-AVD_NAME='Pixel_3a_API_30_x86'
+AVD_NAME='AVD_TEST'
 AVD_IMAGE='system-images;android-30;google_apis;x86'
 APP_ANDROID_DIR=tests/appium/app-android
 APP_ANDROID_APK_FILE=$APP_ANDROID_DIR/app/build/outputs/apk/debug/app-debug.apk
 AVD_CONFIG_FILE=~/.android/avd/$AVD_NAME.avd/config.ini
-APPIUM_PROJECT_DIR=tests/appium/project
-
-function cleanup() {
-    "$ANDROID_SDK_ROOT"/platform-tools/adb devices | grep emulator | cut -f1 | while read -r line; do
-        "$ANDROID_SDK_ROOT"/platform-tools/adb -s "$line" emu kill
-    done
-}
 
 function checkFileExists(){
 	if [ -f "$1" ]; then
 		echo "file $1 exists!"
 	else 
-		echo "ERROR: file $1 does not exist!"
+		echo "ERROR: file $1 not found!"
 		exit 1
 	fi
 }
 
-trap exit SIGHUP SIGINT
-trap cleanup EXIT
+# trap exit SIGHUP SIGINT
 
 echo "##### Generating .apk from project $APP_ANDROID_DIR ..."
 chmod +x $APP_ANDROID_DIR/gradlew
@@ -49,23 +41,36 @@ echo "##### Configuring AVD settings ..."
 echo "AvdId=AVD_TEST
 PlayStore.enabled=false
 abi.type=x86
-avd.ini.displayname=AVD_TEST
+avd.ini.displayname=AVD TEST
 avd.ini.encoding=UTF-8
-disk.dataPartition.size=6G
+disk.dataPartition.size=800M
 fastboot.forceChosenSnapshotBoot=no
 fastboot.forceColdBoot=no
 fastboot.forceFastBoot=yes
+hw.camera.back=none
+hw.camera.front=none
 hw.cpu.arch=x86
+hw.cpu.ncore=2
+hw.dPad=no
 hw.gpu.enabled=yes
-hw.gpu.mode=software
+hw.gpu.mode=auto
 hw.initialOrientation=Portrait
-hw.keyboard=no
+hw.keyboard=yes
 hw.lcd.density=440
 hw.lcd.height=2220
 hw.lcd.width=1080
 hw.mainKeys=no
 hw.ramSize=1536
+hw.sdCard=no
+hw.sensors.orientation=yes
+hw.sensors.proximity=yes
+hw.trackBall=no
 image.sysdir.1=system-images/android-30/google_apis/x86/
+runtime.network.latency=none
+runtime.network.speed=full
+showDeviceFrame=no
+tag.display=Google APIs
+tag.id=google_apis
 vm.heapSize=512" > $AVD_CONFIG_FILE
 
 echo "##### Starting emulator with AVD ..."
@@ -90,9 +95,3 @@ sleep 30
 
 echo "##### Installing the .apk file in the emulator ..."
 $ANDROID_SDK_ROOT/platform-tools/adb install $APP_ANDROID_APK_FILE
-
-echo "#### Starting Appium tests ..."
-chmod +x $APPIUM_PROJECT_DIR/gradlew
-$APPIUM_PROJECT_DIR/gradlew -p $APPIUM_PROJECT_DIR cucumber -Dplatform=android 
-
-echo "Finish!"
