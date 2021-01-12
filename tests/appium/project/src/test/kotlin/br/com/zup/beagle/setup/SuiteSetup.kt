@@ -83,11 +83,14 @@ object SuiteSetup {
 
         if (isAndroid()) {
 
+            capabilities.setCapability("ignoreHiddenApiPolicyError", true)
+
             /**
              * Reset strategies
              * http://appium.io/docs/en/writing-running-appium/other/reset-strategies/index.html
              */
             capabilities.setCapability("noReset", true)
+            capabilities.setCapability("fullReset", false)
 
             /**
              * Device & platform
