@@ -1,6 +1,6 @@
 #!/bin/bash
 
-AVD_NAME='AVD_TEST'
+AVD_NAME='Pixel_3a_API_30_x86'
 AVD_IMAGE='system-images;android-30;google_apis;x86'
 APP_ANDROID_DIR=tests/appium/app-android
 APP_ANDROID_APK_FILE=$APP_ANDROID_DIR/app/build/outputs/apk/debug/app-debug.apk
@@ -38,10 +38,10 @@ echo "##### Checking if AVD was created correctly ..."
 checkFileExists $AVD_CONFIG_FILE
 
 echo "##### Configuring AVD settings ..."
-echo "AvdId=AVD_TEST
+echo "AvdId=Pixel_3a_API_30_x86
 PlayStore.enabled=false
 abi.type=x86
-avd.ini.displayname=AVD TEST
+avd.ini.displayname=Pixel_3a_API_30_x86
 avd.ini.encoding=UTF-8
 disk.dataPartition.size=800M
 fastboot.forceChosenSnapshotBoot=no
