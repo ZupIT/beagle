@@ -20,23 +20,15 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.widget.ViewConvertable
 import org.junit.Assert
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-private const val TEXT = "test"
-private lateinit var component: Text
-private val viewRendererFactory = ViewRendererFactory()
-
 @DisplayName("Given a ViewRendererFactory")
 class ViewRendererFactoryTest : BaseTest() {
 
-    @BeforeEach
-    override fun setUp() {
-        super.setUp()
-        component = Text(TEXT)
-    }
+    private val component = Text("")
+    private val viewRendererFactory = ViewRendererFactory()
 
     @DisplayName("When a component is requested")
     @Nested
