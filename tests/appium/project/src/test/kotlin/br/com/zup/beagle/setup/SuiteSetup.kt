@@ -84,6 +84,7 @@ object SuiteSetup {
         if (isAndroid()) {
 
             capabilities.setCapability("ignoreHiddenApiPolicyError", true)
+            capabilities.setCapability("disableWindowAnimation", true)
 
             /**
              * Reset strategies
