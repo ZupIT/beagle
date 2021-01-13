@@ -97,6 +97,14 @@ jobs:
                 run: bash fastlane/automatedTests/appium/android/run_appium_android_tests.sh
                 env:
                     ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
+                uses: actions/download-artifact@v2
+                with:
+                    path: tests/appium/project/build/screenshots/
+                    
+#            -   name: Expose test screenshot files
+#                uses: actions/download-artifact@v2
+#                with:
+#                    path: tests/appium/project/build/screenshots/
 
             -   name: Cleanup
                 run: bundle exec fastlane automated_tests cleanup
