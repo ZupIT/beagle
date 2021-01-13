@@ -27,9 +27,9 @@ void main() {
   });
 
   test('GIVEN #6F32 WHEN hexColor is called THEN consider #2266FF33', () {
-    const colorRGB = '#6F32';
+    const colorRGBA = '#6F32';
 
-    final result = HexColor(colorRGB);
+    final result = HexColor(colorRGBA);
 
     expect(result.value, 0x2266FF33);
   });
@@ -43,9 +43,9 @@ void main() {
   });
 
   test('GIVEN #ABC12330 WHEN hexColor is called THEN consider #30ABC123', () {
-    const colorRGB = '#ABC12330';
+    const colorRGBA = '#ABC12330';
 
-    final result = HexColor(colorRGB);
+    final result = HexColor(colorRGBA);
 
     expect(result.value, 0x30ABC123);
   });
