@@ -22,11 +22,14 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.TextViewCompat
+import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
 import io.mockk.Runs
@@ -34,24 +37,29 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.slot
 import io.mockk.verify
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-const val VALUE = "Text Value"
+const val VALUE_KEY = "value"
 const val PLACE_HOLDER = "Text Hint"
 const val READ_ONLY = true
 const val DISABLED = false
 const val HIDDEN = true
 const val STYLE_ID = "Style"
+const val ERROR = "Error"
 val TYPE = TextInputType.NUMBER
 
-@DisplayName("Given Text Input")
-class TextInputTest : BaseComponentTest() {
+@DisplayName("Given a TextInput")
+internal class TextInputTest : BaseComponentTest() {
 
+    private val focusCapture = slot<View.OnFocusChangeListener>()
+    private val textWatcherCapture = slot<TextWatcher>()
     private val editText: EditText = mockk(relaxed = true, relaxUnitFun = true)
     private val styleManager: StyleManager = mockk(relaxed = true)
     private val context: Context = mockk()
@@ -77,40 +85,157 @@ class TextInputTest : BaseComponentTest() {
         textInput = callTextInput(TYPE)
 
         textInput.setPrivateField("textWatcher", textWatcher)
+
+        every { editText.addTextChangedListener(capture(textWatcherCapture)) } just Runs
+
+        every { editText.onFocusChangeListener = capture(focusCapture) } just Runs
+
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
     }
 
     private fun callTextInput(type: TextInputType) = TextInput(
-        value = VALUE,
+        value = VALUE_KEY,
         placeholder = PLACE_HOLDER,
         readOnly = READ_ONLY,
         disabled = DISABLED,
         hidden = HIDDEN,
+        styleId = STYLE_ID,
         type = type,
-        styleId = STYLE_ID
+        onChange = listOf(SetContext(contextId = "textInputValue", value = "a")),
+        onFocus = listOf(SetContext(contextId = "textInputValue", value = "b")),
+        onBlur = listOf(SetContext(contextId = "textInputValue", value = "c"))
     )
 
-    @Test
-    fun `build should return a EditText instance`() {
-        // When
-        val view = textInput.buildView(rootView)
+    @DisplayName("When set the configurations for TextInput")
+    @Nested
+    inner class TextInputConfigurations {
 
-        // Then
-        assertTrue(view is EditText)
-    }
+        @Test
+        @DisplayName("Then should build a textView")
+        fun buildEditTextInstance() {
+            // When
+            val view = textInput.buildView(rootView)
 
-    @Test
-    fun `verify setData when values is delivered`() {
-        // When
-        textInput.buildView(rootView)
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = once()) {
+                editText.setText(VALUE_KEY)
+                editText.hint = PLACE_HOLDER
+                editText.isEnabled = READ_ONLY
+                editText.isEnabled = DISABLED
+                editText.visibility = View.INVISIBLE
+                editText.isFocusable = true
+                editText.isFocusableInTouchMode = true
+            }
+        }
 
-        // Then
-        verify(exactly = once()) { editText.setText(VALUE) }
-        verify(exactly = once()) { editText.hint = PLACE_HOLDER }
-        verify(exactly = once()) { editText.isEnabled = READ_ONLY }
-        verify(exactly = once()) { editText.isEnabled = DISABLED }
-        verify(exactly = once()) { editText.visibility = View.INVISIBLE }
-        verify(exactly = once()) { editText.isFocusable = true }
-        verify(exactly = once()) { editText.isFocusableInTouchMode = true }
+        @Test
+        @DisplayName("Then should get the value set for the text input component")
+        fun getValueOfTextInput() {
+            // Given
+            textInput.buildView(rootView)
+
+            // When
+            val textInputValue = textInput.getValue()
+
+            // Then
+            assertEquals(textInputValue, editText.text.toString())
+        }
+
+        @Test
+        @DisplayName("Then check if error message is set")
+        fun checkErrorMessage() {
+            // Given
+            textInput.buildView(rootView)
+
+            // When
+            textInput.onErrorMessage(ERROR)
+
+            // Then
+            verify(exactly = once()) { editText.error = ERROR }
+        }
+
+        @Test
+        @DisplayName("Then check if setUpOnTextChange is set calling onChange")
+        fun checkCallOnChange() {
+            val newValue = "newValue"
+
+            val valueWithContext = ContextData(
+                id = "onChange",
+                value = mapOf(VALUE_KEY to newValue))
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            textWatcherCapture.captured.onTextChanged(newValue, 0, 0, 0)
+
+            // Then
+            assertTrue(view is EditText)
+            verify {
+                textInput.notifyChanges()
+                textInput.handleEvent(rootView, view, textInput.onChange!!, valueWithContext)
+            }
+        }
+
+        @Test
+        @DisplayName("Then check if setUpOnFocusChange is set calling onFocus")
+        fun checkCallOnFocus() {
+            val valueWithContext = ContextData(
+                id = "onFocus",
+                value = mapOf(VALUE_KEY to editText.text.toString()))
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            focusCapture.captured.onFocusChange(view, true)
+
+            // Then
+            assertTrue(view is EditText)
+            verify {
+                textInput.handleEvent(rootView, view, textInput.onFocus!!, valueWithContext)
+            }
+        }
+
+        @Test
+        @DisplayName("Then check if setUpOnFocusChange is set calling onBlur")
+        fun checkCallOnBlur() {
+            val valueWithContext = ContextData(
+                id = "onBlur",
+                value = mapOf(VALUE_KEY to editText.text.toString()))
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            focusCapture.captured.onFocusChange(view, false)
+
+            // Then
+            assertTrue(view is EditText)
+            verify {
+                textInput.handleEvent(rootView, view, textInput.onBlur!!, valueWithContext)
+            }
+        }
+
+        @Test
+        @DisplayName("Then verify set enabled config of text input")
+        fun verifyEnabledConfig() {
+            // When
+            textInput.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) {
+                editText.isEnabled = true
+            }
+        }
+
+        @Test
+        @DisplayName("Then check if the text was removed")
+        fun verifyTextRemoval() {
+            // Given
+            textInput.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) { editText.removeTextChangedListener(textWatcher) }
+        }
     }
 
     @DisplayName("When passing input type")
