@@ -98,10 +98,11 @@ jobs:
                 env:
                     ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
 
-            -   name: Expose test screenshot files
+            -   name: Expose failed test screenshot files
                 if: always()
-                uses: actions/download-artifact@v2
+                uses: actions/upload-artifact@v2
                 with:
+                    name: failed_tests_screenshots
                     path: tests/appium/project/build/screenshots/
 
             -   name: Cleanup
