@@ -24,15 +24,24 @@ typedef ViewUpdateListener = void Function(BeagleUIElement tree);
 typedef ViewErrorListener = void Function(List<String> errors);
 
 abstract class BeagleView {
+  /// Subscribes [listener] to every change to the beagle tree. This method returns a function that,
+  /// when called, undoes the subscription (removes the listener).
   RemoveListener subscribe(ViewUpdateListener listener);
 
+  /// Subscribes [listener] to every error in the fetch and rendering process of a view. This method
+  /// returns a function that, when called, undoes the subscription (removes the listener).
   RemoveListener addErrorListener(ViewErrorListener listener);
 
+  /// Gets the renderer of the current BeagleView. Can be used to control the rendering directly.
   Renderer getRenderer();
 
+  /// Gets a copy of the currently rendered tree.
   BeagleUIElement getTree();
 
+  /// Gets the navigator of the Beagle View.
   BeagleNavigator getNavigator();
 
+  /// Destroys the current view. Should be used when the BeagleView won't be used anymore. Avoids
+  /// memory leaks and calls to objects that don't exist any longer.
   void destroy();
 }
