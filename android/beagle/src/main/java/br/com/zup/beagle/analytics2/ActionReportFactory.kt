@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.utils.putFirstCharacterOnLowerCase
 import br.com.zup.beagle.android.widget.RootView
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -54,11 +55,8 @@ internal object ActionReportFactory {
     )
 
     private fun getActionType(action: Action): String =
-        if (isCustomAction(action)) "custom:" + putFirstCharacterAsLower(action::class.simpleName)
-        else "beagle:" + putFirstCharacterAsLower(action::class.simpleName)
-
-    private fun putFirstCharacterAsLower(string: String?) =
-        string?.get(0)?.toLowerCase()?.plus(string.substring(1))
+        if (isCustomAction(action)) "custom:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
+        else "beagle:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
 
     private fun isCustomAction(action: Action): Boolean =
         BeagleEnvironment.beagleSdk.registeredActions().contains(action::class.java)
