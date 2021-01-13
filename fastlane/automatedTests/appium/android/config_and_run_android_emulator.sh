@@ -38,44 +38,10 @@ echo "##### Checking if AVD was created correctly ..."
 checkFileExists $AVD_CONFIG_FILE
 
 echo "##### Configuring AVD settings ..."
-echo "AvdId=$AVD_NAME
-PlayStore.enabled=false
-abi.type=x86
-avd.ini.displayname=$AVD_NAME
-avd.ini.encoding=UTF-8
-fastboot.forceChosenSnapshotBoot=no
-fastboot.forceColdBoot=no
-fastboot.forceFastBoot=yes
-hw.camera.back=none
-hw.camera.front=none
-hw.gps=no
-hw.battery=no
-hw.accelerometer=no
-hw.audioInput=no
-hw.audioOutput=no
-hw.cpu.arch=x86
-hw.cpu.ncore=2
-hw.dPad=no
-hw.gpu.enabled=no
-hw.gpu.mode=auto
-hw.initialOrientation=Portrait
-hw.keyboard=yes
+echo "hw.keyboard=yes
 hw.lcd.density=440
 hw.lcd.height=2220
-hw.lcd.width=1080
-hw.mainKeys=no
-hw.ramSize=1536
-hw.sdCard=no
-hw.sensors.orientation=yes
-hw.sensors.proximity=yes
-hw.trackBall=no
-image.sysdir.1=system-images/android-30/google_apis/x86/
-runtime.network.latency=none
-runtime.network.speed=full
-showDeviceFrame=no
-tag.display=Google APIs
-tag.id=google_apis
-vm.heapSize=512" > $AVD_CONFIG_FILE
+hw.lcd.width=1080" >> $AVD_CONFIG_FILE
 
 echo "##### Starting emulator with AVD ..."
 nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-window 2>&1 &
@@ -111,4 +77,7 @@ else
 	echo "ERROR: app not installed! (package not found: br.com.zup.beagle.appiumapp)"
 	exit 1
 fi
+
+echo "#### AVD settings: "
+type $AVD_CONFIG_FILE
 
