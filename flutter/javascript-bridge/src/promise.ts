@@ -16,9 +16,11 @@ export function unregisterPromise(id: string){
 export function resolvePromise(id: string, value: any) {
   if (!map[id]) throw new Error(`Can't resolve promise with id ${id}. It doesn't exist.`)
   map[id].resolve(value)
+  delete map[id]
 }
 
 export function rejectPromise(id: string, value: any) {
   if (!map[id]) throw new Error(`Can't reject promise with id ${id}. It doesn't exist.`)
   map[id].reject(value)
+  delete map[id]
 }

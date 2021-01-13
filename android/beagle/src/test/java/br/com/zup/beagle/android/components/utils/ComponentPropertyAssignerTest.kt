@@ -134,7 +134,10 @@ class ComponentPropertyAssignerTest : BaseTest() {
             val widgetId = "123"
             val slotId = slot<Int>()
 
+
+            // Then
             every { widget.id } returns widgetId
+            assertEquals("beagle:text", slotId.captured)
             every { view.id = capture(slotId) } just Runs
             every { view.applyStyle(widget) } just Runs
             every { view.setTag(R.id.beagle_component_id, any()) } just Runs
