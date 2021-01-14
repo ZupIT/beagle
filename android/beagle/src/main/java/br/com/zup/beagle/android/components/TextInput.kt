@@ -146,7 +146,7 @@ data class TextInput(
     }
 
     private fun EditText.setUpOnFocusChange(rootView: RootView) {
-        this.setOnFocusChangeListener { view, hasFocus ->
+        setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 onFocus?.let {
                     this@TextInput.handleEvent(
@@ -155,7 +155,7 @@ data class TextInput(
                         onFocus,
                         ContextData(
                             id = "onFocus",
-                            value = mapOf(VALUE_KEY to text.toString())
+                            value = mapOf(VALUE_KEY to this.text.toString())
                         ),
                         "onFocus"
                     )
@@ -168,7 +168,7 @@ data class TextInput(
                         onBlur,
                         ContextData(
                             id = "onBlur",
-                            value = mapOf(VALUE_KEY to text.toString())
+                            value = mapOf(VALUE_KEY to this.text.toString())
                         ),
                         "onBlur"
                     )

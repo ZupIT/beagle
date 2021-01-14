@@ -6,7 +6,7 @@ import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/route.dart';
 
-class BeagleNavigatorJS extends BeagleNavigator {
+class BeagleNavigatorJS implements BeagleNavigator {
   BeagleNavigatorJS(this._viewId);
 
   final String _viewId;
