@@ -15,7 +15,7 @@ on:
 jobs:
     run-automated-tests:
         name: Run Appium Android tests
-        runs-on: macos-latest
+        runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
 

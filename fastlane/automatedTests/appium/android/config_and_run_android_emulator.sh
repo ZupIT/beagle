@@ -26,6 +26,9 @@ echo "##### Installing / updating image $AVD_IMAGE ..."
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager "$AVD_IMAGE"
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager --update
 
+echo "##### Emulator version:"
+$ANDROID_SDK_ROOT/emulator/emulator -version
+
 if "$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep -q "$AVD_NAME"; then
     echo "##### Using avd from cache"
 else
@@ -50,7 +53,7 @@ echo "##### Checking if a hypervisor is installed"
 "$ANDROID_SDK_ROOT"/emulator/emulator -accel-check
 
 echo "##### Starting emulator with AVD ..."
-nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-window -gpu on -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim 2>&1 &
+nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-window -no-snapshot -noaudio -no-boot-anim 2>&1 &
 
 echo "##### Waiting for device to boot"
 "$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell <<ENDSCRIPT
