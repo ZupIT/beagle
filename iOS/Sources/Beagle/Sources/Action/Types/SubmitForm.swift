@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-public struct SubmitForm: Action {
-    public init() {
-        // Intentionally unimplemented...
+public struct SubmitForm: Action, AutoInitiable {
+    public let analytics: ActionAnalyticsConfig?
+
+// sourcery:inline:auto:SubmitForm.Init
+    public init(
+        analytics: ActionAnalyticsConfig? = nil
+    ) {
+        self.analytics = analytics
     }
+// sourcery:end
 }

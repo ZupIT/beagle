@@ -1,0 +1,34 @@
+{
+    "_beagleAction_": "beagle:formValidation",
+    "analytics": {
+        "attributes": [
+            "errors[4].message",
+            "errors[2]",
+            "errors[-2]",
+            "errors[4].inputName"
+        ],
+        "enable": true
+    },
+    "errors": [
+        {
+            "inputName": "inputName0",
+            "message": "error for inputName0"
+        },
+        {
+            "inputName": "inputName1",
+            "message": "error for inputName1"
+        },
+        {
+            "inputName": "inputName2",
+            "message": "error for inputName2"
+        },
+        {
+            "inputName": "inputName3",
+            "message": "error for inputName3"
+        },
+        {
+            "inputName": "inputName4",
+            "message": "error for inputName4"
+        }
+    ]
+}

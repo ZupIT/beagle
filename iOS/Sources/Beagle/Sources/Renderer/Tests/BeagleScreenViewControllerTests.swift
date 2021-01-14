@@ -477,13 +477,13 @@ class BeagleControllerStub: BeagleController {
         // Intentionally unimplemented...
     }
     
-    func execute(actions: [Action]?, origin: UIView) {
+    func execute(actions: [Action]?, event: String?, origin: UIView) {
         actions?.forEach {
             $0.execute(controller: self, origin: origin)
         }
     }
     
     func execute(actions: [Action]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
-        execute(actions: actions, origin: origin)
+        execute(actions: actions, event: contextId, origin: origin)
     }
 }

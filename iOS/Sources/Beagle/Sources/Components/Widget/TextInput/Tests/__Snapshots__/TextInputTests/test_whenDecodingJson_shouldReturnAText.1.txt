@@ -5,8 +5,9 @@
   ▿ onChange: Optional<Array<Action>>
     ▿ some: 1 element
       ▿ SetContext
+        - analytics: Optional<ActionAnalyticsConfig>.none
         - contextId: "myContext"
-        - path: Optional<Path>.none
+        - path: Optional<String>.none
         - value: 2
   - onFocus: Optional<Array<Action>>.none
   ▿ placeholder: Optional<Expression<String>>
