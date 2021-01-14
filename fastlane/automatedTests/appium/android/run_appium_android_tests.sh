@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 APPIUM_PROJECT_DIR=tests/appium/project
 

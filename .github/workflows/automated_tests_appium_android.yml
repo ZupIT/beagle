@@ -91,12 +91,12 @@ jobs:
             -   name: Config and run Android emulator
                 run: bash fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh
                 env:
-                    ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
+                    ANDROID_SDK_ROOT: /Users/runner/Android/sdk #/Users/runner/Library/Android/sdk
             
             -   name: Run Appium tests on Android
                 run: bash fastlane/automatedTests/appium/android/run_appium_android_tests.sh
                 env:
-                    ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
+                    ANDROID_SDK_ROOT: /Users/runner/Android/sdk #/Users/runner/Library/Android/sdk
 
             -   name: Expose failed test screenshot files
                 if: failure()

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 AVD_NAME='Pixel_3a_API_30_x86'
 AVD_IMAGE='system-images;android-30;google_apis;x86'
