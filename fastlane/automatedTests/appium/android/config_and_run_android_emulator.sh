@@ -44,7 +44,7 @@ hw.lcd.height=2220
 hw.lcd.width=1080" >> $AVD_CONFIG_FILE
 
 echo "##### Starting emulator with AVD ..."
-nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-window 2>&1 &
+nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim 2>&1 &
 
 echo "##### Waiting for device to boot"
 "$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell <<ENDSCRIPT
@@ -79,5 +79,5 @@ else
 fi
 
 echo "#### AVD settings: "
-type $AVD_CONFIG_FILE
+cat $AVD_CONFIG_FILE
 
