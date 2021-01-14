@@ -21,7 +21,7 @@ function checkFileExists(){
 # (LINUX ONLY)
 echo "##### Installing Android command tools ..."
 wget https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
-unzip commandlinetools-linux-6609375_latest.zip -d $ANDROID_SDK_ROOT/tools
+unzip commandlinetools-linux-6609375_latest.zip -d $ANDROID_SDK_ROOT/
 checkFileExists $ANDROID_SDK_ROOT/tools/bin/sdkmanager
 
 echo "##### Generating .apk from project $APP_ANDROID_DIR ..."
