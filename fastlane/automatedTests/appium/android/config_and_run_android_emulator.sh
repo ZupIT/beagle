@@ -20,7 +20,15 @@ function checkFileExists(){
 
 
 
-ls ~/.android/Library/Android/sdk
+echo "search: sdkmanager"
+sudo find / -name "*sdkmanager*"
+echo "search: avdmanager"
+sudo find / -name "*avdmanager*"
+echo "search: emulator"
+sudo find / -name "*emulator*"
+echo "search: android"
+sudo find / -name "*android*"
+
 # (LINUX ONLY)
 echo "##### Installing Android command tools ..."
 wget https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
