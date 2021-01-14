@@ -20,6 +20,7 @@ import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.widget.RootView
@@ -190,8 +191,8 @@ internal class ActionReportFactoryTest : BaseTest() {
     inner class ActionAttribute {
         private val url = "/url"
         private val route = Route.Remote(url = "/url")
-        private val actionType = "beagle:testActionAnalytics"
-        private val action: ActionAnalytics = TestActionAnalytics(route = route)
+        private val actionType = "beagle:pushView"
+        private val action: ActionAnalytics = Navigate.PushView(route = route)
 
         @BeforeEach
         fun setup(){
@@ -271,7 +272,7 @@ internal class ActionReportFactoryTest : BaseTest() {
     inner class PreGenerateActionAnalyticsConfig {
         private val url = "/url"
         private val route = Route.Remote(url = url)
-        private val action: ActionAnalytics = TestActionAnalytics(route = route)
+        private val action: ActionAnalytics = Navigate.PushView(route = route)
 
         @DisplayName("Then should create correct data action report")
         @Test
@@ -286,15 +287,14 @@ internal class ActionReportFactoryTest : BaseTest() {
                     "route.url.length" to 4,
                     ROUTE_SHOULD_PREFETCH_CONSTANT to false,
                     "route" to route,
-                    ROUTE_URL_CONSTANT to url,
-                    "list" to listOf<ServerDrivenComponent>()
+                    ROUTE_URL_CONSTANT to url
                 ),
                 id = null,
                 type = null,
                 analyticsValue = "onPress",
                 action = action,
                 screenId = "",
-                actionType = "beagle:testActionAnalytics"
+                actionType = "beagle:pushView"
             )
             //WHEN
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
@@ -306,16 +306,6 @@ internal class ActionReportFactoryTest : BaseTest() {
 
             //THEN
             Assert.assertEquals(expectedDataReport, dataActionReport)
-        }
-    }
-
-    internal data class TestActionAnalytics(
-        val route: Route,
-        var list: List<ServerDrivenComponent> = listOf(),
-        override var analytics: ActionAnalyticsConfig? = null
-    ) : ActionAnalytics() {
-        override fun execute(rootView: RootView, origin: View) {
-            //this class will be removed when the action become actionAnalytics
         }
     }
 }
