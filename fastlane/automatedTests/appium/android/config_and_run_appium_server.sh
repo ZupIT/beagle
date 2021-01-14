@@ -1,6 +1,7 @@
 #!/bin/bash
-sudo chmod -R a+rwX /usr/local/lib/node_modules #grant permission
+echo $USER
+sudo chmod -R $USER:$USER /usr/local/ #grant permission
 set -ex
-npm install -g appium
+npm install -g appium --unsafe-perm=true --allow-root
 appium -v
 appium &>/dev/null &
