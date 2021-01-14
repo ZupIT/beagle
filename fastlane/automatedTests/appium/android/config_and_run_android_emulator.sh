@@ -19,7 +19,8 @@ function checkFileExists(){
 # trap exit SIGHUP SIGINT
 
 
-
+echo $ANDROID_HOME
+echo $ANDROID_SDK_ROOT
 echo "search: sdkmanager"
 sudo find / -name "*sdkmanager*"
 echo "search: avdmanager"
