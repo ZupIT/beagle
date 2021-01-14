@@ -31,20 +31,26 @@ if "$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep -q "$AVD_NAME"; then
 else
     echo "##### AVD not found in cache, creating AVD ..."
     #blank line necessary as input to AVD
-    echo | "$ANDROID_SDK_ROOT"/tools/bin/avdmanager create avd -f -n $AVD_NAME -k "$AVD_IMAGE"
+    echo n | "$ANDROID_SDK_ROOT"/tools/bin/avdmanager create avd -f -n $AVD_NAME -k "$AVD_IMAGE"
 fi
 
 echo "##### Checking if AVD was created correctly ..."
 checkFileExists $AVD_CONFIG_FILE
 
 echo "##### Configuring AVD settings ..."
-echo "hw.keyboard=yes
-hw.lcd.density=440
+echo "hw.lcd.density=440
 hw.lcd.height=2220
-hw.lcd.width=1080" >> $AVD_CONFIG_FILE
+hw.lcd.width=1080
+hw.ramSize=1536
+vm.heapSize = 512
+hw.gpu.enabled = yes
+hw.gpu.mode = auto" >> $AVD_CONFIG_FILE
+
+echo "##### Checking if a hypervisor is installed"
+"$ANDROID_SDK_ROOT"/emulator/emulator -accel-check
 
 echo "##### Starting emulator with AVD ..."
-nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim 2>&1 &
+nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-window -gpu on -gpu host -no-snapshot -noaudio -no-boot-anim 2>&1 &
 
 echo "##### Waiting for device to boot"
 "$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell <<ENDSCRIPT
@@ -66,10 +72,10 @@ sleep 30
 echo "##### Installing the .apk file in the emulator ..."
 $ANDROID_SDK_ROOT/platform-tools/adb install $APP_ANDROID_APK_FILE
 
-echo "#### Waiting 30 secs for the app to be installed ..."
+echo "##### Waiting 30 secs for the app to be installed ..."
 sleep 30
 
-echo "#### Checking if the .apk was installed in the emulator ... "
+echo "##### Checking if the .apk was installed in the emulator ... "
 OUTPUT=`$ANDROID_SDK_ROOT/platform-tools/adb shell pm list packages`
 if echo "$OUTPUT" | grep -q "package:br.com.zup.beagle.appiumapp"; then
     echo "OK!"
@@ -78,6 +84,6 @@ else
 	exit 1
 fi
 
-echo "#### AVD settings: "
+echo "##### AVD settings: "
 cat $AVD_CONFIG_FILE
 
