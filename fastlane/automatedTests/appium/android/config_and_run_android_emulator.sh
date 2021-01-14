@@ -18,6 +18,9 @@ function checkFileExists(){
 
 # trap exit SIGHUP SIGINT
 
+
+
+ls ~/.android/Library/Android/sdk
 # (LINUX ONLY)
 echo "##### Installing Android command tools ..."
 wget https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
