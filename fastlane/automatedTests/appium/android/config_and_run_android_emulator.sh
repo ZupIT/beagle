@@ -19,22 +19,18 @@ function checkFileExists(){
 # trap exit SIGHUP SIGINT
 
 
-echo $ANDROID_HOME
-echo $ANDROID_SDK_ROOT
-echo "search: sdkmanager"
-sudo find / -name "*sdkmanager*"
-echo "search: avdmanager"
-sudo find / -name "*avdmanager*"
-echo "search: emulator"
-sudo find / -name "*emulator*"
-echo "search: android"
-sudo find / -name "*android*"
-
-# (LINUX ONLY)
-echo "##### Installing Android command tools ..."
-wget https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
-unzip commandlinetools-linux-6609375_latest.zip -d $ANDROID_SDK_ROOT/
-checkFileExists $ANDROID_SDK_ROOT/tools/bin/sdkmanager
+#echo $ANDROID_HOME
+#echo $ANDROID_SDK_ROOT
+#echo "search: sdkmanager"
+#sudo find / -name "*sdkmanager*"
+#echo "search: avdmanager"
+#sudo find / -name "*avdmanager*"
+#echo "search: emulator"
+#sudo find / -name "*emulator*"
+#echo "search: android"
+#sudo find / -name "*android*"
+echo "search: adb"
+sudo find / -name "*adb*"
 
 echo "##### Generating .apk from project $APP_ANDROID_DIR ..."
 chmod +x $APP_ANDROID_DIR/gradlew
