@@ -28,8 +28,8 @@ jobs:
                     path: ${{ env.fastlane-path }}
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
             
-            -   name: Install Fastlane
-                run: bundle config set path '~/.gem' && bundle install
+#            -   name: Install Fastlane
+#                run: bundle config set path '~/.gem' && bundle install
 
             -   name: Cache backend gradle dependencies
                 uses: actions/cache@v2
@@ -105,5 +105,5 @@ jobs:
                     name: failed_tests_screenshots
                     path: tests/appium/project/build/screenshots/
 
-            -   name: Cleanup
-                run: bundle exec fastlane automated_tests cleanup
+#            -   name: Cleanup
+#                run: bundle exec fastlane automated_tests cleanup
