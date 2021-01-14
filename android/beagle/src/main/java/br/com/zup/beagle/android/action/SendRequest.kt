@@ -138,7 +138,7 @@ data class SendRequest(
                     origin,
                     it,
                     ContextData("onError", state.response),
-                    analyticsValue = "onFalse"
+                    analyticsValue = "onError"
                 )
             }
             is FetchViewState.Success -> onSuccess?.let {
@@ -147,7 +147,7 @@ data class SendRequest(
                     origin,
                     it,
                     ContextData("onSuccess", state.response),
-                    analyticsValue = "onFalse"
+                    analyticsValue = "onSuccess"
                 )
             }
         }

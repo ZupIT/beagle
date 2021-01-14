@@ -84,7 +84,7 @@ class SendRequestTest : BaseAsyncActionTest() {
                 view,
                 listOf(onSuccessAction),
                 any<ContextData>(),
-                analyticsValue = "onFalse"
+                analyticsValue = "onSuccess"
             )
         }
 
@@ -118,7 +118,7 @@ class SendRequestTest : BaseAsyncActionTest() {
                 view,
                 listOf(onErrorAction),
                 any<ContextData>(),
-                analyticsValue = "onFalse"
+                analyticsValue = "onError"
             )
         }
 
