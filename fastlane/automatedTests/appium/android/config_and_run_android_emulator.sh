@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 AVD_NAME='Pixel_3a_API_30_x86'
 AVD_IMAGE='system-images;android-30;google_apis;x86'
@@ -17,6 +17,12 @@ function checkFileExists(){
 }
 
 # trap exit SIGHUP SIGINT
+
+# (LINUX ONLY)
+echo "##### Installing Android command tools ..."
+wget https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
+unzip commandlinetools-linux-6609375_latest.zip -d $ANDROID_SDK_ROOT/tools
+checkFileExists $ANDROID_SDK_ROOT/tools/bin/sdkmanager
 
 echo "##### Generating .apk from project $APP_ANDROID_DIR ..."
 chmod +x $APP_ANDROID_DIR/gradlew
