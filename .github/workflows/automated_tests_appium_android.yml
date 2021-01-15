@@ -13,9 +13,37 @@ on:
             - '.github/**'
 
 jobs:
-    run-automated-tests:
+    
+    build_app_android:
+    
+        name: Build Android app for Appium tests
+        runs-on: ubuntu-latest
+        steps:
+             -   uses: actions/checkout@v2
+             
+             -   name: set up JDK 1.8
+                 uses: actions/setup-java@v1
+                 with:
+                      java-version: 1.8
+           
+             -   name: Cache Appium app-android gradle dependencies
+                 uses: actions/cache@v2
+                 env:
+                     gradle-cache-key: app-android-tests-gradle-cache
+                     gradle-path: ~/.gradle
+                 with:
+                      path: ${{ env.gradle-path }}
+                      key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
+                      restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+
+             -   name: build app-android project
+                 bash: ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug                      
+    
+    
+    appium_tests:
+        
         name: Run Appium Android tests
-        runs-on: ubuntu-20.04
+        runs-on: macos-latest
         steps:
             -   uses: actions/checkout@v2
 
@@ -25,81 +53,62 @@ jobs:
                     fastlane-cache-key: fastlane-cache-test
                     fastlane-path: ~/.gem
                 with:
-                    path: ${{ env.fastlane-path }}
-                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+                     path: ${{ env.fastlane-path }}
+                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
             
-#            -   name: Install Fastlane
-#                run: bundle config set path '~/.gem' && bundle install
+            -   name: Install Fastlane
+                run: bundle config set path '~/.gem' && bundle install
 
-            -   name: Cache backend gradle dependencies
+            -   name: Cache Beagle backend gradle dependencies
                 uses: actions/cache@v2
                 env:
-                    gradle-cache-key: backend-tests-gradle-cache
-                    gradle-path: ~/.gradle
+                     gradle-cache-key: backend-tests-gradle-cache
+                     gradle-path: ~/.gradle
                 with:
-                    path: ${{ env.gradle-path }}
-                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
-                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+                     path: ${{ env.gradle-path }}
+                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+                     restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             
-            -   name: Start backend in background
+            -   name: Start Beagle backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
 
             #TODO wait for backend server finish starting to proceed
-            -   name: Wait server starts
+            -   name: Wait for server to start
                 run: sleep 30
-
-            -   name: Cache Appium app-android gradle dependencies
-                uses: actions/cache@v2
-                env:
-                    gradle-cache-key: android-tests-gradle-cache
-                    gradle-path: ~/.gradle
-                with:
-                    path: ${{ env.gradle-path }}
-                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
-                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             
             -   name: Cache android platforms
                 uses: actions/cache@v2
                 env:
                     android-platform-cache-key: android-platform-cache
                     android-platform-path: /Users/runner/Library/Android/sdk/platforms
-                with:
-                    path: ${{ env.android-platform-path }}
-                    key: ${{ runner.os }}-build-${{ env.android-platform-cache-key }}-${{ hashFiles('fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh') }}
             
             -   name: Cache android system-images
                 uses: actions/cache@v2
                 env:
                     android-system-images-cache-key: android-system-images-cache
                     android-system-images-path: /Users/runner/Library/Android/sdk/system-images
-                with:
-                    path: ${{ env.android-system-images-path }}
-                    key: ${{ runner.os }}-build-${{ env.android-system-images-cache-key }}-${{ hashFiles('fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh') }}
-            
-            -   name: set up JDK 1.8
-                uses: actions/setup-java@v1
-                with:
-                    java-version: 1.8
             
             -   name: Config and run Appium server
                 run: bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
 
-            -   name: Config and run Android emulator
-                run: bash fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh
-                env:
-                    ANDROID_SDK_ROOT: /usr/local/lib/android/sdk #/Users/runner/Library/Android/sdk
-            
-            -   name: Run Appium tests on Android
-                run: bash fastlane/automatedTests/appium/android/run_appium_android_tests.sh
-                env:
-                    ANDROID_SDK_ROOT: /usr/local/lib/android/sdk #/Users/runner/Library/Android/sdk
+            -   name: run tests
+                uses: reactivecircus/android-emulator-runner@v2
+                with:
+                    api-level: 30
+                    target: google_apis
+                    arch: x86_64
+                    profile: Nexus 6
+                    avd_name: Nexus6
+                    disable-animations: true
+                    emulator-options: hw.lcd.density=440 hw.lcd.height=2220 hw.lcd.width=1080
+                    script: ./tests/appium/project/gradlew -p tests/appium/project cucumber -Dplatform=android     
 
             -   name: Expose failed test screenshot files
                 if: failure()
                 uses: actions/upload-artifact@v2
                 with:
-                    name: failed_tests_screenshots
-                    path: tests/appium/project/build/screenshots/
+                     name: failed_tests_screenshots
+                     path: tests/appium/project/build/screenshots/
 
 #            -   name: Cleanup
 #                run: bundle exec fastlane automated_tests cleanup

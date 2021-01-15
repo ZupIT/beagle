@@ -20,12 +20,8 @@ function checkFileExists(){
 
 
 echo "##### Generating .apk from project $APP_ANDROID_DIR ..."
-echo "Java version:"
-java -version
-echo "Javac version:"
-javac -version
 chmod +x $APP_ANDROID_DIR/gradlew
-$APP_ANDROID_DIR/gradlew -p $APP_ANDROID_DIR assembleDebug  
+$APP_ANDROID_DIR/gradlew -p $APP_ANDROID_DIR assembleDebug
 checkFileExists $APP_ANDROID_APK_FILE
 
 echo "##### Installing / updating image $AVD_IMAGE ..."

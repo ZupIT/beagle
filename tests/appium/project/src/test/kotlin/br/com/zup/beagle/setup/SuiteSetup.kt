@@ -98,7 +98,7 @@ object SuiteSetup {
              */
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android")
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11")
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Pixel_3a_API_30_x86")
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Nexus6")
 
             /**
              * When the .apk being tested is build as test-only (ex when it is created by running on Android Studio)
@@ -128,6 +128,11 @@ object SuiteSetup {
             val appActivity = ".activity.MainActivity"
             capabilities.setCapability("appPackage", appPackage)
             capabilities.setCapability("appActivity", appActivity)
+            capabilities.setCapability(
+                MobileCapabilityType.APP,
+                "./../app-android/app/build/outputs/apk/debug/app-debug.apk"
+            )
+
 
             driver = AndroidDriver<MobileElement>(/*service?.url*/URL(APPIUM_URL), capabilities)
 
