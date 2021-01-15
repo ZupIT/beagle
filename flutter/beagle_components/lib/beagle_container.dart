@@ -47,7 +47,34 @@ class _BeagleContainerState extends State<BeagleContainer> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      // todo this will be extracted to work with other components
-      applyFlexDirection(widget.children, flex: widget.style?.flex);
+  Widget build(BuildContext context) {
+    final relatives = <Widget>[];
+    final absolutes = <Align>[];
+    for (final child in widget.children) {
+      if (child is Padding) {
+        absolutes.add(
+          Align(
+            alignment: getAlignment(child.padding, widget.style?.flex),
+            child: child.child,
+          ),
+        );
+      } else {
+        relatives.add(child);
+      }
+    }
+    return applyFlexDirection([
+      Expanded(
+        child: Stack(
+          fit: widget.style?.size?.height != null
+              ? StackFit.expand
+              : StackFit.loose,
+          children: [
+            // todo this will be extracted to work with other components
+            applyFlexDirection(relatives, widget.style?.flex),
+            ...absolutes,
+          ],
+        ),
+      ),
+    ], widget.style?.flex);
+  }
 }

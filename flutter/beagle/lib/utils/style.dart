@@ -20,7 +20,7 @@ import 'package:beagle/utils/flex.dart';
 import 'package:flutter/widgets.dart';
 
 extension ApplyStyle on Widget {
-  Widget applyStyle({beagle.BeagleStyle style}) {
+  Widget applyStyle([beagle.BeagleStyle style]) {
     return style != null ? _buildWidget(style, this) : this;
   }
 }
@@ -29,16 +29,22 @@ Widget _buildWidget(
   beagle.BeagleStyle style,
   Widget widget,
 ) =>
-    // todo implement PositionType.ABSOLUTE attribute behavior
     _isAbsolute(style)
-        ? Expanded(
-            child: Stack(
-              children: [
-                Positioned.fill(child: _buildLayoutBuilder(style, widget))
-              ],
-            ),
-          )
+        ? _buildPadding(style, widget)
         : _buildLayoutBuilder(style, widget);
+
+Padding _buildPadding(beagle.BeagleStyle style, Widget widget) {
+  final layoutBuilder = _buildLayoutBuilder(style, widget);
+  return Padding(
+    padding: EdgeInsets.fromLTRB(
+      _getLeft(style.position, nullable: true),
+      _getTop(style.position, nullable: true),
+      _getRight(style.position, nullable: true),
+      _getBottom(style.position, nullable: true),
+    ),
+    child: layoutBuilder,
+  );
+}
 
 bool _isAbsolute(beagle.BeagleStyle style) =>
     style.positionType == beagle.FlexPosition.ABSOLUTE;
@@ -130,14 +136,13 @@ Widget _buildCurrent(
   BoxConstraints constraints,
 ) {
   var current = container;
-  // todo implement Position attribute behavior
   current = _hasPosition(style)
       ? Padding(
-          padding: EdgeInsets.only(
-            left: _getLeft(style.position, constraints.maxWidth),
-            top: _getTop(style.position, constraints.maxHeight),
-            right: _getRight(style.position, constraints.maxWidth),
-            bottom: _getBottom(style.position, constraints.maxHeight),
+          padding: EdgeInsets.fromLTRB(
+            _getLeft(style.position, maxConstraint: constraints.maxWidth),
+            _getTop(style.position, maxConstraint: constraints.maxHeight),
+            _getRight(style.position, maxConstraint: constraints.maxWidth),
+            _getBottom(style.position, maxConstraint: constraints.maxHeight),
           ),
           child: current,
         )
@@ -163,10 +168,10 @@ EdgeInsets _mapEdgeValue(beagle.EdgeValue edgeValue, double maxWidth) {
               horizontal: _getAll(edgeValue) * maxWidth);
     } else {
       return EdgeInsets.fromLTRB(
-        _getLeft(edgeValue, maxWidth),
-        _getTop(edgeValue, maxWidth),
-        _getRight(edgeValue, maxWidth),
-        _getBottom(edgeValue, maxWidth),
+        _getLeft(edgeValue, maxConstraint: maxWidth),
+        _getTop(edgeValue, maxConstraint: maxWidth),
+        _getRight(edgeValue, maxConstraint: maxWidth),
+        _getBottom(edgeValue, maxConstraint: maxWidth),
       );
     }
   } else {
@@ -174,17 +179,13 @@ EdgeInsets _mapEdgeValue(beagle.EdgeValue edgeValue, double maxWidth) {
   }
 }
 
-num _getAll(beagle.EdgeValue edgeValue) {
-  if (edgeValue.all != null) {
-    return edgeValue.all.type == beagle.UnitType.REAL
+num _getAll(beagle.EdgeValue edgeValue) =>
+    edgeValue.all.type == beagle.UnitType.REAL
         ? edgeValue.all.value.toDouble()
         : edgeValue.all.value / 100;
-  } else {
-    return 0;
-  }
-}
 
-num _getLeft(beagle.EdgeValue edgeValue, double maxConstraint) {
+num _getLeft(beagle.EdgeValue edgeValue,
+    {double maxConstraint, bool nullable = false}) {
   var left = beagle.UnitValue(value: 0, type: beagle.UnitType.REAL);
   if (edgeValue.horizontal != null) {
     left = edgeValue.horizontal;
@@ -192,21 +193,27 @@ num _getLeft(beagle.EdgeValue edgeValue, double maxConstraint) {
     left = edgeValue.start;
   } else if (edgeValue.left != null) {
     left = edgeValue.left;
+  } else if (nullable) {
+    return null;
   }
   return _pickRealOrPercent(left, maxConstraint);
 }
 
-num _getTop(beagle.EdgeValue edgeValue, double maxConstraint) {
+num _getTop(beagle.EdgeValue edgeValue,
+    {double maxConstraint, bool nullable = false}) {
   var top = beagle.UnitValue(value: 0, type: beagle.UnitType.REAL);
   if (edgeValue.vertical != null) {
     top = edgeValue.vertical;
   } else if (edgeValue.top != null) {
     top = edgeValue.top;
+  } else if (nullable) {
+    return null;
   }
   return _pickRealOrPercent(top, maxConstraint);
 }
 
-num _getRight(beagle.EdgeValue edgeValue, double maxConstraint) {
+num _getRight(beagle.EdgeValue edgeValue,
+    {double maxConstraint, bool nullable = false}) {
   var right = beagle.UnitValue(value: 0, type: beagle.UnitType.REAL);
   if (edgeValue.horizontal != null) {
     right = edgeValue.horizontal;
@@ -214,26 +221,27 @@ num _getRight(beagle.EdgeValue edgeValue, double maxConstraint) {
     right = edgeValue.end;
   } else if (edgeValue.right != null) {
     right = edgeValue.right;
+  } else if (nullable) {
+    return null;
   }
   return _pickRealOrPercent(right, maxConstraint);
 }
 
-num _getBottom(beagle.EdgeValue edgeValue, double maxConstraint) {
+num _getBottom(beagle.EdgeValue edgeValue,
+    {double maxConstraint, bool nullable = false}) {
   var bottom = beagle.UnitValue(value: 0, type: beagle.UnitType.REAL);
   if (edgeValue.vertical != null) {
     bottom = edgeValue.vertical;
   } else if (edgeValue.bottom != null) {
     bottom = edgeValue.bottom;
+  } else if (nullable) {
+    return null;
   }
   return _pickRealOrPercent(bottom, maxConstraint);
 }
 
-num _pickRealOrPercent(beagle.UnitValue unitValue, double maxConstraint) {
-  if (unitValue != null) {
-    return unitValue.type == beagle.UnitType.REAL
+num _pickRealOrPercent(beagle.UnitValue unitValue,
+        [double maxConstraint]) =>
+    unitValue.type == beagle.UnitType.REAL
         ? unitValue.value.toDouble()
-        : (unitValue.value / 100) * maxConstraint;
-  } else {
-    return 0.0;
-  }
-}
+        : (unitValue.value / 100) * (maxConstraint ?? 100);

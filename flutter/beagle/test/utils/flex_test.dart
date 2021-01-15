@@ -41,7 +41,7 @@ void main() {
       const children = <Widget>[];
       final flex = beagle.Flex(flexDirection: beagle.FlexDirection.COLUMN);
 
-      final Column result = applyFlexDirection(children, flex: flex);
+      final Column result = applyFlexDirection(children, flex);
 
       expect(result, isA<Column>());
       expect(result.mainAxisSize, MainAxisSize.min);
@@ -57,7 +57,7 @@ void main() {
       final flex =
           beagle.Flex(flexDirection: beagle.FlexDirection.COLUMN_REVERSE);
 
-      final Column result = applyFlexDirection(children, flex: flex);
+      final Column result = applyFlexDirection(children, flex);
 
       expect(result, isA<Column>());
       expect(result.mainAxisSize, MainAxisSize.min);
@@ -74,7 +74,7 @@ void main() {
       const children = <Widget>[];
       final flex = beagle.Flex(flexDirection: beagle.FlexDirection.ROW);
 
-      final Row result = applyFlexDirection(children, flex: flex);
+      final Row result = applyFlexDirection(children, flex);
 
       expect(result, isA<Row>());
       expect(result.crossAxisAlignment, CrossAxisAlignment.start);
@@ -88,7 +88,7 @@ void main() {
       const children = <Widget>[];
       final flex = beagle.Flex(flexDirection: beagle.FlexDirection.ROW_REVERSE);
 
-      final Row result = applyFlexDirection(children, flex: flex);
+      final Row result = applyFlexDirection(children, flex);
 
       expect(result, isA<Row>());
       expect(result.textDirection, TextDirection.rtl);

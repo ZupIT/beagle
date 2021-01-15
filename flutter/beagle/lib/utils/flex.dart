@@ -19,7 +19,7 @@ import 'package:flutter/widgets.dart';
 
 Widget applyFlex(beagle.Flex flex, Widget child) => child;
 
-Widget applyFlexDirection(List<Widget> children, {beagle.Flex flex}) {
+Widget applyFlexDirection(List<Widget> children, [beagle.Flex flex]) {
   if (flex != null) {
     Widget childContainer;
     switch (flex.flexDirection) {
@@ -60,4 +60,65 @@ Widget applyFlexDirection(List<Widget> children, {beagle.Flex flex}) {
       children: children,
     );
   }
+}
+
+Alignment getAlignment(EdgeInsets padding, [beagle.Flex flex]) {
+  final left = padding.left;
+  final top = padding.top;
+  final right = padding.right;
+  final bottom = padding.bottom;
+
+  var alignment = Alignment.topLeft;
+
+  switch (flex?.flexDirection) {
+    case beagle.FlexDirection.COLUMN:
+    case beagle.FlexDirection.ROW:
+      if (left != null && bottom != null) {
+        alignment = Alignment.bottomLeft;
+      } else if (top != null && right != null) {
+        alignment = Alignment.topRight;
+      } else if (right != null) {
+        if (bottom != null) {
+          alignment = Alignment.bottomRight;
+        } else {
+          alignment = Alignment.topRight;
+        }
+      } else if (bottom != null) {
+        alignment = Alignment.bottomLeft;
+      }
+      break;
+    case beagle.FlexDirection.COLUMN_REVERSE:
+      alignment = Alignment.bottomLeft;
+      if (left != null && top != null) {
+        alignment = Alignment.topLeft;
+      } else if (bottom != null && right != null) {
+        alignment = Alignment.bottomRight;
+      } else if (top != null) {
+        if (right != null) {
+          alignment = Alignment.topRight;
+        } else {
+          alignment = Alignment.topLeft;
+        }
+      } else if (right != null) {
+        alignment = Alignment.bottomRight;
+      }
+      break;
+    case beagle.FlexDirection.ROW_REVERSE:
+      alignment = Alignment.topRight;
+      if (right != null && bottom != null) {
+        alignment = Alignment.bottomRight;
+      } else if (top != null && left != null) {
+        alignment = Alignment.topLeft;
+      } else if (bottom != null) {
+        if (left != null) {
+          alignment = Alignment.bottomLeft;
+        } else {
+          alignment = Alignment.bottomRight;
+        }
+      } else if (left != null) {
+        alignment = Alignment.topLeft;
+      }
+      break;
+  }
+  return alignment;
 }
