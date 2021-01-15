@@ -37,7 +37,7 @@ jobs:
                       restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
 
              -   name: build app-android project
-                 bash: ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug                      
+                 run: bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug                      
     
     
     appium_tests:
