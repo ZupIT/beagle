@@ -75,19 +75,7 @@ jobs:
             #TODO wait for backend server finish starting to proceed
             -   name: Wait for server to start
                 run: sleep 30
-            
-            -   name: Cache android platforms
-                uses: actions/cache@v2
-                env:
-                    android-platform-cache-key: android-platform-cache
-                    android-platform-path: /Users/runner/Library/Android/sdk/platforms
-            
-            -   name: Cache android system-images
-                uses: actions/cache@v2
-                env:
-                    android-system-images-cache-key: android-system-images-cache
-                    android-system-images-path: /Users/runner/Library/Android/sdk/system-images
-            
+                        
             -   name: Config and run Appium server
                 run: bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
 
