@@ -55,12 +55,12 @@ vm.heapSize = 512
 hw.gpu.enabled = yes
 hw.gpu.mode = auto" >> $AVD_CONFIG_FILE
 
-echo "##### Checking if a hypervisor is installed"
-"$ANDROID_SDK_ROOT"/emulator/emulator -accel-check
+#echo "##### Checking if a hypervisor is installed"
+#"$ANDROID_SDK_ROOT"/emulator/emulator -accel-check
 
 echo "##### Starting emulator with AVD ..."
-#nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-window -no-snapshot -noaudio -no-boot-anim 2>&1 &
-"$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-window -no-snapshot -noaudio -no-boot-anim
+nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-window -no-snapshot -noaudio -no-boot-anim 2>&1 &
+
 
 echo "##### Waiting for device to boot"
 "$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell <<ENDSCRIPT
