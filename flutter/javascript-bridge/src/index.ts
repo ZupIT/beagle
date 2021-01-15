@@ -19,14 +19,6 @@ interface StartParams {
   strategy: Strategy,
 }
 
-interface StartParams {
-  baseUrl: string,
-  actionKeys: string[],
-  navigationControllers: Record<string, NavigationController>,
-  useBeagleHeaders: boolean,
-  strategy: Strategy,
-}
-
 // @ts-ignore
 window.beagle = (() => {
   let service: BeagleService

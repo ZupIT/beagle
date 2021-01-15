@@ -21,7 +21,7 @@ extension SubmitForm {
         var view: UIView? = origin
         while view != nil {
             if let simpleForm = view?.beagleFormElement as? SimpleForm {
-                controller.execute(actions: simpleForm.onSubmit, origin: origin)
+                controller.execute(actions: simpleForm.onSubmit, event: "onSubmit", origin: origin)
                 break
             }
             view = view?.superview

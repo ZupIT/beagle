@@ -62,19 +62,21 @@ class _BeagleContainerState extends State<BeagleContainer> {
         relatives.add(child);
       }
     }
-    return applyFlexDirection([
-      Expanded(
-        child: Stack(
-          fit: widget.style?.size?.height != null
-              ? StackFit.expand
-              : StackFit.loose,
-          children: [
-            // todo this will be extracted to work with other components
-            applyFlexDirection(relatives, widget.style?.flex),
-            ...absolutes,
-          ],
-        ),
-      ),
-    ], widget.style?.flex);
+    return absolutes.isNotEmpty
+        ? applyFlexDirection([
+            Expanded(
+              child: Stack(
+                fit: widget.style?.size?.height != null
+                    ? StackFit.expand
+                    : StackFit.loose,
+                children: [
+                  // todo this will be extracted to work with other components
+                  applyFlexDirection(relatives, widget.style?.flex),
+                  ...absolutes,
+                ],
+              ),
+            ),
+          ], widget.style?.flex)
+        : applyFlexDirection(relatives, widget.style?.flex);
   }
 }

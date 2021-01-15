@@ -1,4 +1,5 @@
 ▿ AddChildren
+  - analytics: Optional<ActionAnalyticsConfig>.none
   - componentId: "id"
   - mode: Mode.prepend
   ▿ value: 1 element

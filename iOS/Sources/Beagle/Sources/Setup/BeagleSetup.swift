@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-public var dependencies: BeagleDependenciesProtocol = BeagleDependencies()
+public var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
+    didSet {
+        AnalyticsService.shared = AnalyticsService(provider: dependencies.analyticsProvider)
+    }
+}
 
 // MARK: - Public Functions
 

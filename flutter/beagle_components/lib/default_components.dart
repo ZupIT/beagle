@@ -18,26 +18,24 @@
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle_components/beagle_container.dart';
+import 'package:beagle_components/beagle_lazy_component.dart';
 import 'package:beagle_components/beagle_text_input.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
-  'custom:loading': (BeagleUIElement element, List<Widget> children) =>
+  'custom:loading': (element, _, __) =>
       Text('Loading...', key: element.getKey()),
-  'custom:error': (BeagleUIElement element, List<Widget> children) =>
-      Text('Error!', key: element.getKey()),
-  'beagle:text': (BeagleUIElement element, List<Widget> children) =>
+  'custom:error': (element, _, __) => Text('Error!', key: element.getKey()),
+  'beagle:text': (element, _, __) =>
       Text(element.getAttributeValue('text'), key: element.getKey()),
-  'beagle:container': (BeagleUIElement element, List<Widget> children) =>
-      BeagleContainer(
+  'beagle:container': (element, children, _) => BeagleContainer(
         key: element.getKey(),
         context: element.getContext(),
         onInit: element.getAttributeValue('onInit'),
         style: element.getStyle(),
         children: children,
       ),
-  'beagle:textInput': (BeagleUIElement element, List<Widget> children) =>
-      BeagleTextInput(
+  'beagle:textInput': (element, _, __) => BeagleTextInput(
         key: element.getKey(),
         onChange: element.getAttributeValue('onChange'),
         onFocus: element.getAttributeValue('onFocus'),
@@ -45,12 +43,22 @@ final Map<String, ComponentBuilder> defaultComponents = {
         placeholder: element.getAttributeValue('placeholder'),
         value: element.getAttributeValue('value'),
       ),
-  'beagle:button': (BeagleUIElement element, List<Widget> children) =>
-      FlatButton(
+  'beagle:button': (element, _, __) => FlatButton(
         key: element.getKey(),
         onPressed: element.getAttributeValue('onPress'),
         child: Text(
           element.getAttributeValue('text'),
         ),
       ),
+  'beagle:lazycomponent': (element, children, view) {
+    final initialState = element.getAttributeValue('initialState');
+    return BeagleLazyComponent(
+        key: element.getKey(),
+        path: element.getAttributeValue('path'),
+        initialState:
+            initialState == null ? null : BeagleUIElement(initialState),
+        beagleId: element.getId(),
+        view: view,
+        child: children.isEmpty ? null : children[0]);
+  }
 };

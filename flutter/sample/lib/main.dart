@@ -22,7 +22,7 @@ import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/material.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/3d1371fa96d4db0d5cc8d87c1ab409f52262d049';
+    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/041461163dbad2ec7c234cfd28325483f3750d0b';
 
 void main() {
   runApp(const BeagleSampleApp());
@@ -38,7 +38,7 @@ class BeagleSampleApp extends StatefulWidget {
 class _BeagleSampleApp extends State<BeagleSampleApp> {
   bool isBeagleReady = false;
   Map<String, ComponentBuilder> myCustomComponents = {
-    'custom:loading': (element, children) {
+    'custom:loading': (element, _, __) {
       return Center(
           key: element.getKey(), child: const Text('My custom loading.'));
     }
@@ -84,7 +84,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
           title: const Text('Beagle Sample'),
         ),
         body: isBeagleReady
-            ? const BeagleRemoteView(route: '/global.json')
+            ? const BeagleRemoteView(route: '/lazy.json')
             : const Center(child: Text('Not ready yet!')),
       ),
     );

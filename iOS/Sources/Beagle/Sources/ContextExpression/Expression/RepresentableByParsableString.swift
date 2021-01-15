@@ -22,7 +22,7 @@
 ///
 /// `SingleExpression("@{context.name}")`.
 ///
-public protocol RepresentableByParsableString: RawRepresentable, Decodable, Equatable {
+public protocol RepresentableByParsableString: RawRepresentable, Codable, Equatable {
     static var parser: Parser<Self> { get }
 }
 
