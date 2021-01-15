@@ -43,6 +43,6 @@ class ComponentPropertyAssigner<T : ServerDrivenComponent>(
         if (isCustomWidget(component)) "custom:" + component::class.simpleName?.putFirstCharacterOnLowerCase()
         else "beagle:" + component::class.simpleName?.putFirstCharacterOnLowerCase()
 
-    private fun isCustomWidget(component: ServerDrivenComponent): Boolean =
+    private fun isCustomWidget(component: ServerDrivenComponent) =
         BeagleEnvironment.beagleSdk.registeredWidgets().contains(component::class.java)
 }
