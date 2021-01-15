@@ -59,13 +59,14 @@ jobs:
                      key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
                      restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
 
-            -   name: build app-android project
-                run: | 
-                    bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug
-                    find / -name "app-debug.apk"
+            -   name: Build app-android project to generate .apk file
+                run: bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug
                         
             -   name: Config and run Appium server
-                run: bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
+                run: | #bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
+                     npm install -g appium
+                     appium -v
+                     appium &>/dev/null &
 
             -   name: Run Appium tests
                 uses: reactivecircus/android-emulator-runner@v2
