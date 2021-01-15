@@ -39,7 +39,7 @@ class ComponentPropertyAssigner<T : ServerDrivenComponent>(
 
     private fun getComponentType(component: ServerDrivenComponent) = createComponentType(component)
 
-    private fun createComponentType(component: ServerDrivenComponent): String =
+    private fun createComponentType(component: ServerDrivenComponent) =
         if (isCustomWidget(component)) "custom:" + component::class.simpleName?.putFirstCharacterOnLowerCase()
         else "beagle:" + component::class.simpleName?.putFirstCharacterOnLowerCase()
 
