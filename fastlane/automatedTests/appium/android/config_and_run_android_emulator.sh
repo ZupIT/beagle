@@ -32,8 +32,8 @@ echo "##### Installing / updating image $AVD_IMAGE ..."
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager "$AVD_IMAGE"
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager --update
 
-echo "##### Emulator version:"
-$ANDROID_SDK_ROOT/emulator/emulator -version
+#echo "##### Emulator version:"
+#$ANDROID_SDK_ROOT/emulator/emulator -version
 
 if "$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep -q "$AVD_NAME"; then
     echo "##### Using avd from cache"
