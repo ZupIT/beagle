@@ -19,20 +19,11 @@ function checkFileExists(){
 # trap exit SIGHUP SIGINT
 
 
-#echo $ANDROID_HOME
-#echo $ANDROID_SDK_ROOT
-#echo "search: sdkmanager"
-#sudo find / -name "*sdkmanager*"
-#echo "search: avdmanager"
-#sudo find / -name "*avdmanager*"
-#echo "search: emulator"
-#sudo find / -name "*emulator*"
-#echo "search: android"
-#sudo find / -name "*android*"
-echo "search: adb"
-sudo find / -name "*adb*"
-
 echo "##### Generating .apk from project $APP_ANDROID_DIR ..."
+echo "Java version:"
+java -version
+echo "Javac version:"
+javac -version
 chmod +x $APP_ANDROID_DIR/gradlew
 $APP_ANDROID_DIR/gradlew -p $APP_ANDROID_DIR assembleDebug  
 checkFileExists $APP_ANDROID_APK_FILE
