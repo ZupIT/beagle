@@ -31,6 +31,7 @@ Widget _buildWidget(
 ) =>
     _isAbsolute(style)
         ? _buildPadding(style, widget)
+        // todo apply position property to relative views
         : _buildLayoutBuilder(style, widget);
 
 Padding _buildPadding(beagle.BeagleStyle style, Widget widget) {

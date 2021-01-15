@@ -20,10 +20,10 @@ import 'package:beagle/model/beagle_style.dart' as beagle;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Column', () {
+  group('FlexDirection with COLUMN', () {
     test(
         'GIVEN a null flex WHEN applyFlexDirection THEN should return a '
-        'column with mainAxisSize min and crossAxisAlignment stretch', () {
+            'column with mainAxisSize min and crossAxisAlignment stretch', () {
       const children = <Widget>[];
 
       final Column result = applyFlexDirection(children);
@@ -36,8 +36,8 @@ void main() {
 
     test(
         'GIVEN a FlexDirection.COLUMN WHEN applyFlexDirection THEN should '
-        'return a column with mainAxisSize min and '
-        'crossAxisAlignment stretch', () {
+            'return a column with mainAxisSize min and '
+            'crossAxisAlignment stretch', () {
       const children = <Widget>[];
       final flex = beagle.Flex(flexDirection: beagle.FlexDirection.COLUMN);
 
@@ -51,11 +51,11 @@ void main() {
 
     test(
         'GIVEN a FlexDirection.COLUMN_REVERSE WHEN applyFlexDirection '
-        'THEN should return a column with mainAxisSize min and '
-        'crossAxisAlignment stretch and verticalDirection up', () {
+            'THEN should return a column with mainAxisSize min and '
+            'crossAxisAlignment stretch and verticalDirection up', () {
       const children = <Widget>[];
       final flex =
-          beagle.Flex(flexDirection: beagle.FlexDirection.COLUMN_REVERSE);
+      beagle.Flex(flexDirection: beagle.FlexDirection.COLUMN_REVERSE);
 
       final Column result = applyFlexDirection(children, flex);
 
@@ -67,7 +67,7 @@ void main() {
     });
   });
 
-  group('Row', () {
+  group('FlexDirection with ROW', () {
     test(
         'GIVEN a FlexDirection.ROW WHEN applyFlexDirection THEN should return a '
             'row with crossAxisAlignment start', () {

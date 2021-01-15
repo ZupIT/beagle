@@ -16,6 +16,7 @@
 
 import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/utils/alignment.dart';
 import 'package:beagle/utils/flex.dart';
 import 'package:flutter/widgets.dart';
 
@@ -48,13 +49,16 @@ class _BeagleContainerState extends State<BeagleContainer> {
 
   @override
   Widget build(BuildContext context) {
+    // todo all this logic will be extracted to work with other components
     final relatives = <Widget>[];
     final absolutes = <Align>[];
+    final flex = widget.style?.flex;
+
     for (final child in widget.children) {
       if (child is Padding) {
         absolutes.add(
           Align(
-            alignment: getAlignment(child.padding, widget.style?.flex),
+            alignment: getAlignment(child.padding, flex),
             child: child.child,
           ),
         );
@@ -70,13 +74,12 @@ class _BeagleContainerState extends State<BeagleContainer> {
                     ? StackFit.expand
                     : StackFit.loose,
                 children: [
-                  // todo this will be extracted to work with other components
-                  applyFlexDirection(relatives, widget.style?.flex),
+                  applyFlexDirection(relatives, flex),
                   ...absolutes,
                 ],
               ),
             ),
-          ], widget.style?.flex)
-        : applyFlexDirection(relatives, widget.style?.flex);
+          ], flex)
+        : applyFlexDirection(relatives, flex);
   }
 }
