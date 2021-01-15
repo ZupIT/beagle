@@ -1,0 +1,28 @@
+{
+    "_beagleAction_": "beagle:pushView",
+    "analytics": {
+        "attributes": [
+            "route.fallback.identifier",
+            "route.fallback.navigationBar.title",
+            "route.shouldPrefetch",
+            "route.url"
+        ],
+        "enable": true
+    },
+    "route": {
+        "fallback": {
+            "_beagleComponent_": "beagle:screenComponent",
+            "child": {
+                "_beagleComponent_": "beagle:text",
+                "text": "Fallback Screen Content"
+            },
+            "identifier": "fallback-screen-id",
+            "navigationBar": {
+                "showBackButton": true,
+                "title": "Fallback Screen Title"
+            }
+        },
+        "shouldPrefetch": false,
+        "url": "@{context.remoteRoute}"
+    }
+}

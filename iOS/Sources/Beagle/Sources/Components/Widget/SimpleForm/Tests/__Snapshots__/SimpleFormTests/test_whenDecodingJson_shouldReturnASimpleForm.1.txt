@@ -5,7 +5,8 @@
       - disabled: Optional<Expression<Bool>>.none
       ▿ onPress: Optional<Array<Action>>
         ▿ some: 1 element
-          - SubmitForm
+          ▿ SubmitForm
+            - analytics: Optional<ActionAnalyticsConfig>.none
       - styleId: Optional<String>.none
       ▿ text: Expression<String>
         - value: "Dados"
@@ -20,6 +21,7 @@
   ▿ onSubmit: Optional<Array<Action>>
     ▿ some: 1 element
       ▿ Confirm
+        - analytics: Optional<ActionAnalyticsConfig>.none
         - labelCancel: Optional<String>.none
         - labelOk: Optional<String>.none
         ▿ message: Expression<String>

@@ -1,0 +1,24 @@
+{
+    "_beagleAction_": "beagle:condition",
+    "analytics": {
+        "attributes": [
+            "condition",
+            "onFalse[0].message",
+            "onTrue[0].message"
+        ],
+        "enable": true
+    },
+    "condition": "@{eq(context.query, 'beagle')}",
+    "onFalse": [
+        {
+            "_beagleAction_": "beagle:alert",
+            "message": "False"
+        }
+    ],
+    "onTrue": [
+        {
+            "_beagleAction_": "beagle:alert",
+            "message": "True"
+        }
+    ]
+}

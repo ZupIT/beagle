@@ -63,7 +63,7 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
       debugPrint("Can't find builder for component ${tree.getType()}");
       return Container();
     }
-    return builder(tree, widgetChildren);
+    return builder(tree, widgetChildren, _view);
   }
 
   @override

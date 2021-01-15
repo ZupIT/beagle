@@ -30,7 +30,7 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     func addOnInit(_ onInit: [Action], in view: UIView)
     func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void)
     
-    func execute(actions: [Action]?, origin: UIView)
+    func execute(actions: [Action]?, event: String?, origin: UIView)
     func execute(actions: [Action]?, with contextId: String, and contextValue: DynamicObject, origin: UIView)
     
     func setNeedsLayout(component: UIView)
@@ -122,8 +122,9 @@ public class BeagleScreenViewController: BeagleController {
         bindings.add(self, expression, view, update)
     }
     
-    public func execute(actions: [Action]?, origin: UIView) {
+    public func execute(actions: [Action]?, event: String?, origin: UIView) {
         actions?.forEach {
+            AnalyticsService.shared?.createRecord(action: $0, origin: origin, event: event, controller: self)
             $0.execute(controller: self, origin: origin)
         }
     }
@@ -132,7 +133,7 @@ public class BeagleScreenViewController: BeagleController {
         guard let actions = actions else { return }
         let context = Context(id: contextId, value: contextValue)
         origin.setContext(context)
-        execute(actions: actions, origin: origin)
+        execute(actions: actions, event: contextId, origin: origin)
     }
             
     // MARK: - Lifecycle
@@ -171,7 +172,7 @@ public class BeagleScreenViewController: BeagleController {
     
     private func executeOnInit() {
         for (view, actions) in onInit {
-            execute(actions: actions, origin: view)
+            execute(actions: actions, event: "onInit", origin: view)
         }
         onInit.removeAll()
     }

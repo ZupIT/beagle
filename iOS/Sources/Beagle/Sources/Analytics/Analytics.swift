@@ -17,6 +17,7 @@
 // MARK: - Dependency Protocol
 public protocol DependencyAnalyticsExecutor {
     var analytics: Analytics? { get }
+    var analyticsProvider: AnalyticsProvider? { get }
 }
 
 // MARK: - Executor Protocol
@@ -24,4 +25,13 @@ public protocol Analytics {
     func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
     func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
     func trackEventOnClick(_ event: AnalyticsClick)
+}
+
+// MARK: - Analytics 2
+public protocol AnalyticsProvider {
+    var getConfig: (@escaping (Result<AnalyticsConfig, Error>) -> Void) -> Void { get }
+    var startSession: (@escaping (Result<Void, Error>) -> Void) -> Void { get }
+    var maximumItemsInQueue: Int? { get }
+    
+    func createRecord(_ record: AnalyticsRecord)
 }

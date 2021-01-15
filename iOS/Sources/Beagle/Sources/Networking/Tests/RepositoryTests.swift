@@ -162,6 +162,8 @@ final class ComponentDecodingStub: ComponentDecoding {
     func register<A>(action type: A.Type, named typeName: String) where A: Action {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
+    func nameForComponent(ofType type: ServerDrivenComponent.Type) -> String? { return nil }
+    func nameForAction(ofType type: Action.Type) -> String? { return nil }
     
     var componentToReturnOnDecode: ServerDrivenComponent?
     var errorToThrowOnDecode: Error?

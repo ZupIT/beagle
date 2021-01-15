@@ -16,6 +16,7 @@
  */
 
 import 'package:beagle/beagle.dart';
+import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/global_context.dart';
 import 'package:beagle/interface/http_client.dart';
@@ -27,7 +28,7 @@ import 'package:beagle/model/network_strategy.dart';
 import 'package:flutter/widgets.dart';
 
 typedef ComponentBuilder = Widget Function(
-    BeagleUIElement element, List<Widget> children);
+    BeagleUIElement element, List<Widget> children, BeagleView view);
 typedef ActionHandler = void Function(
     {BeagleAction action, BeagleView view, BeagleUIElement element});
 
@@ -71,6 +72,9 @@ abstract class BeagleService {
   /// Access to the Global Context API. Use it to set persistent values that can be retrieved and
   /// manipulated by the view rendered by Beagle.
   GlobalContext globalContext;
+
+  /// Helper to build urls relative to the baseUrl
+  UrlBuilder urlBuilder;
 
   // todo:
   /*Analytics analytics;
