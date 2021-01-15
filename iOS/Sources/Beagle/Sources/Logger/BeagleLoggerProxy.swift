@@ -19,9 +19,9 @@ import Foundation
 public class BeagleLoggerProxy: BeagleLoggerType {
     
     public let logger: BeagleLoggerType?
-    public let dependencies: DependencyLoggingCondition
+    let dependencies: DependencyLoggingCondition
     
-    public init(logger: BeagleLoggerType?, dependencies: DependencyLoggingCondition) {
+    init(logger: BeagleLoggerType?, dependencies: DependencyLoggingCondition) {
         self.logger = logger
         self.dependencies = dependencies
     }
