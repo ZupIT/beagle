@@ -18,6 +18,10 @@ import UIKit
 
 /// Markup to define an action to be triggered in response to some event
 public protocol Action: Decodable {
+
+    /// can be used to override or extend the global `AnalyticsConfig`.
+    ///
+    /// - when `nil`: analytics behavior for this action will be determined by global `AnalyticsConfig`.
     var analytics: ActionAnalyticsConfig? { get }
     
     func execute(controller: BeagleController, origin: UIView)
@@ -25,24 +29,6 @@ public protocol Action: Decodable {
 
 public protocol AsyncAction: Action {
     var onFinish: [Action]? { get set }
-}
-
-public struct ActionAnalyticsConfig: Codable, AutoInitiable {
-    public let enable: Bool?
-    public let attributes: [String]?
-    public let additionalEntries: [String: DynamicObject]?
-
-// sourcery:inline:auto:ActionAnalyticsConfig.Init
-    public init(
-        enable: Bool? = nil,
-        attributes: [String]? = nil,
-        additionalEntries: [String: DynamicObject]? = nil
-    ) {
-        self.enable = enable
-        self.attributes = attributes
-        self.additionalEntries = additionalEntries
-    }
-// sourcery:end
 }
 
 /// Defines a representation of an unknown Action

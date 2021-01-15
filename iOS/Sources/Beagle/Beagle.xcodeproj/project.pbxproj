@@ -29,6 +29,8 @@
 		25CDD47624EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47524EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift */; };
 		25CDD47824EDBB7600CC49CB /* OperationOtherEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */; };
 		3D8E5C7E2542341C002B92E2 /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */; };
+		3DB1BF7C25B0F544008248C6 /* ActionAnalyticsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */; };
+		3DB1BF8225B0FC53008248C6 /* ActionAnalyticsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */; };
 		5744D121251E6868003638F4 /* DynamicObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744D120251E6868003638F4 /* DynamicObjectExtension.swift */; };
 		576A4D17249BFC09002EADFD /* ImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 57D6F0FD249985D600A422E3 /* ImageComponent.json */; };
 		576F61052487004900273BA0 /* ContextObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576F61042487004900273BA0 /* ContextObserver.swift */; };
@@ -376,6 +378,8 @@
 		25CDD47524EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationArrayEvaluationTests.swift; sourceTree = "<group>"; };
 		25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationOtherEvaluationTests.swift; sourceTree = "<group>"; };
 		3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpAditionalData.swift; sourceTree = "<group>"; };
+		3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfig.swift; sourceTree = "<group>"; };
+		3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfigTests.swift; sourceTree = "<group>"; };
 		5744D120251E6868003638F4 /* DynamicObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DynamicObjectExtension.swift; path = ../../../../../../Test/DynamicObjectExtension.swift; sourceTree = "<group>"; };
 		576F61042487004900273BA0 /* ContextObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextObserver.swift; sourceTree = "<group>"; };
 		57A8097E243CF44A0034D180 /* CacheReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheReference.swift; sourceTree = "<group>"; };
@@ -871,6 +875,7 @@
 			isa = PBXGroup;
 			children = (
 				9337F834249A7F0000B0A260 /* LocalFormHandlerTests.swift */,
+				3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1442,9 +1447,10 @@
 			isa = PBXGroup;
 			children = (
 				A040DBBB2497E259000F3213 /* Action.swift */,
+				3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */,
 				A0EF0AAB238811AA0019BE83 /* LocalFormHandler.swift */,
-				A05C74CE2497F29E009DBB66 /* Types */,
 				9337F832249A7F0000B0A260 /* Tests */,
+				A05C74CE2497F29E009DBB66 /* Types */,
 			);
 			path = Action;
 			sourceTree = "<group>";
@@ -2394,6 +2400,7 @@
 				931B6E302375BA7400DE73FD /* Theme.swift in Sources */,
 				9398CA3825531E9D0003A010 /* SendRequest.swift in Sources */,
 				93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */,
+				3DB1BF7C25B0F544008248C6 /* ActionAnalyticsConfig.swift in Sources */,
 				A05C74D62497F524009DBB66 /* Navigate+Extensions.swift in Sources */,
 				A05C74D02497F2BF009DBB66 /* FormLocalAction+Extensions.swift in Sources */,
 				7C8C21CA24DC8A4800B95374 /* TabBarItemExtension.swift in Sources */,
@@ -2574,6 +2581,7 @@
 				25CDD47424ED666D00CC49CB /* OperationStringEvaluationTests.swift in Sources */,
 				C0291889247D5BFA00C3AA13 /* ComponentFromJsonFile.swift in Sources */,
 				C829CF2323B197CF001B7225 /* FormInputTests.swift in Sources */,
+				3DB1BF8225B0FC53008248C6 /* ActionAnalyticsConfigTests.swift in Sources */,
 				9398CACF25549A0B0003A010 /* PageIndicatorTests.swift in Sources */,
 				A0EF0ABE238B05A10019BE83 /* ValidatorHandlerTests.swift in Sources */,
 				93EE0C94252CA16C0032BE77 /* SetContextTests.swift in Sources */,

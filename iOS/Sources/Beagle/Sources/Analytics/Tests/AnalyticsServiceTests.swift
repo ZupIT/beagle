@@ -24,12 +24,6 @@ class AnalyticsServiceTests: XCTestCase {
     private var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
     private var declarativeScreen: ScreenType { .declarative(Screen(identifier: "DECLARATIVE", child: ComponentDummy())) }
     
-    func testInit() {
-        // Given, When, Then
-        XCTAssertNil(AnalyticsService(provider: nil))
-        XCTAssertNotNil(AnalyticsService(provider: AnalyticsProviderStub()))
-    }
-    
     // MARK: Configuration tests
     
     func testWaitStartSessionAndGetConfigToCreateRecord() {
@@ -49,7 +43,7 @@ class AnalyticsServiceTests: XCTestCase {
         let sut = AnalyticsService(provider: provider)
         
         // When create session without config available
-        sut?.createRecord(screen: remoteScreen)
+        sut.createRecord(screen: remoteScreen)
         wait(for: [startSession], timeout: timeout)
         
         // Then should not create records
@@ -84,7 +78,7 @@ class AnalyticsServiceTests: XCTestCase {
         
         // When
         (0..<(maximumItemsInQueue + 10)).forEach { _ in
-            sut?.createRecord(screen: remoteScreen)
+            sut.createRecord(screen: remoteScreen)
         }
         wait(for: [getConfig, startSession], timeout: timeout)
         configCompletion?(.success(.init()))
@@ -106,7 +100,7 @@ class AnalyticsServiceTests: XCTestCase {
             session: .success(())
         )
         // When
-        sut?.createRecord(screen: remoteScreen)
+        sut.createRecord(screen: remoteScreen)
         waitCreateRecords(sut)
         // Then
         XCTAssertEqual(provider.records.count, enabled ? 1 : 0)
@@ -117,9 +111,9 @@ class AnalyticsServiceTests: XCTestCase {
         let action = AnalyticsTestAction(
             _beagleAction_: "enabled",
             values: ["itemA": "Value A", "itemB": "Value B", "itemC": "Value C"],
-            analytics: ActionAnalyticsConfig(
+            analytics: .enabled(.init(
                 additionalEntries: ["case": "use default config"]
-            )
+            ))
         )
         let (sut, provider) = analyticsServiceAndProviderStub(
             config: .success(.init(actions: [action._beagleAction_: ["values.itemC", "values.itemA"]])),
@@ -127,7 +121,7 @@ class AnalyticsServiceTests: XCTestCase {
         )
         
         // When
-        sut?.createRecord(action: action, origin: UIView(), event: "testCase", controller: BeagleControllerStub(remoteScreen))
+        sut.createRecord(action: action, origin: UIView(), event: "testCase", controller: BeagleControllerStub(remoteScreen))
         waitCreateRecords(sut)
         
         // Then
@@ -144,7 +138,7 @@ class AnalyticsServiceTests: XCTestCase {
         )
         
         // When
-        sut?.createRecord(screen: remoteScreen)
+        sut.createRecord(screen: remoteScreen)
         waitCreateRecords(sut)
         
         // Then
@@ -159,7 +153,7 @@ class AnalyticsServiceTests: XCTestCase {
         )
         
         // When
-        sut?.createRecord(screen: declarativeScreen)
+        sut.createRecord(screen: declarativeScreen)
         waitCreateRecords(sut)
         
         // Then
@@ -340,7 +334,7 @@ class AnalyticsServiceTests: XCTestCase {
         let origin = controller.view.viewWithTag(type(of: child).tag)!
         // swiftlint:enable force_unwrapping
         
-        service?.createRecord(action: action, origin: origin, event: nil, controller: controller)
+        service.createRecord(action: action, origin: origin, event: nil, controller: controller)
         waitCreateRecords(service)
         return provider.records
     }
@@ -363,7 +357,7 @@ extension AnalyticsServiceTests {
     private func analyticsServiceAndProviderStub(
         config: Result<AnalyticsConfig, Error>,
         session: Result<Void, Error>
-    ) -> (AnalyticsService?, AnalyticsProviderStub) {
+    ) -> (AnalyticsService, AnalyticsProviderStub) {
         let getConfig = expectation(description: "getConfig")
         let startSession = expectation(description: "startSession")
         let provider = AnalyticsProviderStub()

@@ -34,10 +34,7 @@ class AnalyticsService {
         target: .global(qos: .utility)
     )
     
-    init?(provider: AnalyticsProvider?) {
-        guard let provider = provider else {
-            return nil
-        }
+    init(provider: AnalyticsProvider) {
         self.provider = provider
         self.provider.startSession { result in
             self.startSessionResult = result
@@ -153,7 +150,9 @@ class AnalyticsService {
     }
     
     private func setValues(of action: Action, named name: String, config: AnalyticsConfig, origin: UIView, in values: inout [String: Any]) {
-        let attributes = action.analytics?.attributes ?? config.actions[name]
+        guard case .enabled(let data) = action.analytics else { return }
+
+        let attributes = data?.attributes ?? config.actions[name]
         for attribute in attributes ?? [] {
             if let path = Path(rawValue: attribute), !path.nodes.isEmpty,
                let attributeValue = try? value(from: action, at: path, origin: origin) {
@@ -161,7 +160,7 @@ class AnalyticsService {
             }
         }
         
-        let additionalEntries = (action.analytics?.additionalEntries ?? [:])
+        let additionalEntries = (data?.additionalEntries ?? [:])
             .reduce(into: [String: Any]()) { result, entry in
                 if let value = entry.value.asAny() {
                     result[entry.key] = value
@@ -171,10 +170,11 @@ class AnalyticsService {
     }
     
     private func shouldGenerateAnalytics(action: Action, name: String, config: AnalyticsConfig) -> Bool {
-        if let enable = action.analytics?.enable {
-            return enable
+        guard let analytics = action.analytics else {
+            return config.actions[name] != nil
         }
-        return config.actions[name] != nil
+
+        return analytics != .disabled
     }
     
     func screenURL(from controller: BeagleControllerProtocol) -> String? {
