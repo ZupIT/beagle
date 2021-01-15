@@ -98,7 +98,7 @@ object SuiteSetup {
              */
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android")
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11")
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Nexus6")
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Nexus 6")
 
             /**
              * When the .apk being tested is build as test-only (ex when it is created by running on Android Studio)
@@ -130,7 +130,7 @@ object SuiteSetup {
             capabilities.setCapability("appActivity", appActivity)
             capabilities.setCapability(
                 MobileCapabilityType.APP,
-                "./../app-android/app/build/outputs/apk/debug/app-debug.apk"
+                "/Users/runner/work/beagle/beagle/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk"
             )
 
 
@@ -142,7 +142,7 @@ object SuiteSetup {
                 throw Exception("Error loading the app and activity!")
             }
 
-        } else {
+        } else /* iOS */ {
 
             capabilities.setCapability("noReset", true)
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
