@@ -79,7 +79,7 @@ jobs:
             -   name: Config and run Appium server
                 run: bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
 
-            -   name: run tests
+            -   name: Run Appium tests
                 uses: reactivecircus/android-emulator-runner@v2
                 with:
                     api-level: 30
@@ -88,7 +88,6 @@ jobs:
                     profile: Nexus 6
                     avd_name: Nexus6
                     disable-animations: true
-                    emulator-options: hw.lcd.density=440 hw.lcd.height=2220 hw.lcd.width=1080
                     script: ./tests/appium/project/gradlew -p tests/appium/project cucumber -Dplatform=android     
 
             -   name: Expose failed test screenshot files
