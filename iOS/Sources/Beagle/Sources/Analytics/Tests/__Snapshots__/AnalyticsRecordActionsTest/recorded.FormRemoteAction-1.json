@@ -1,0 +1,16 @@
+{
+  "beagleAction" : "beagle:formremoteaction",
+  "component" : {
+    "id" : "test-component-id",
+    "position" : {
+      "x" : 0,
+      "y" : 0
+    },
+    "type" : "custom:analyticstestcomponent"
+  },
+  "method" : "DELETE",
+  "path" : "\/friends\/troll",
+  "platform" : "ios",
+  "screen" : "analytics-actions",
+  "type" : "action"
+}

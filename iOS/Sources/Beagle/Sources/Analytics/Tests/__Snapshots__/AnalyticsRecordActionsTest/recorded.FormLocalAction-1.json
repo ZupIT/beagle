@@ -1,0 +1,19 @@
+{
+  "beagleAction" : "beagle:formlocalaction",
+  "component" : {
+    "id" : "test-component-id",
+    "position" : {
+      "x" : 0,
+      "y" : 0
+    },
+    "type" : "custom:analyticstestcomponent"
+  },
+  "data" : {
+    "B" : "value B",
+    "X Y" : "strange key"
+  },
+  "name" : "my-form-name",
+  "platform" : "ios",
+  "screen" : "analytics-actions",
+  "type" : "action"
+}

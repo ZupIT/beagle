@@ -1,0 +1,15 @@
+{
+  "beagleAction" : "beagle:poptoview",
+  "component" : {
+    "id" : "test-component-id",
+    "position" : {
+      "x" : 0,
+      "y" : 0
+    },
+    "type" : "custom:analyticstestcomponent"
+  },
+  "platform" : "ios",
+  "route" : "route-to-pop-to",
+  "screen" : "analytics-actions",
+  "type" : "action"
+}

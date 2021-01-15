@@ -20,156 +20,43 @@ import SnapshotTesting
 
 class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
 
-    private var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
-    private var declarativeScreen: ScreenType { .declarative(Screen(identifier: "DECLARATIVE", child: ComponentDummy())) }
+    func testRecordingMultipleActions() throws {
+        let records = [
+            try doRecord(AddChildren.self, fromJson: "AddChildren-1"),
+            try doRecord(Alert.self, fromJson: "Alert-1"),
+            try doRecord(Condition.self, fromJson: "Condition-1"),
+            try doRecord(Confirm.self, fromJson: "Confirm-1"),
+            try doRecord(FormLocalAction.self, fromJson: "FormLocalAction-1"),
+            try doRecord(FormRemoteAction.self, fromJson: "FormRemoteAction-1"),
+            try doRecord(FormValidation.self, fromJson: "FormValidation-1"),
+            try doRecord(Navigate.self, fromJson: "OpenExternalURL-1"),
+            try doRecord(Navigate.self, fromJson: "OpenNativeRoute-1"),
+            try doRecord(Navigate.self, fromJson: "PopStack-1"),
+            try doRecord(Navigate.self, fromJson: "PopToView-1"),
+            try doRecord(Navigate.self, fromJson: "PopToView-1"),
+            try doRecord(Navigate.self, fromJson: "PopView-1"),
+            try doRecord(Navigate.self, fromJson: "PushStack-1"),
+            try doRecord(Navigate.self, fromJson: "PushStack-2"),
+            try doRecord(Navigate.self, fromJson: "PushView-1"),
+            try doRecord(Navigate.self, fromJson: "PushView-2"),
+            try doRecord(Navigate.self, fromJson: "ResetApplication-1"),
+            try doRecord(Navigate.self, fromJson: "ResetApplication-2"),
+            try doRecord(Navigate.self, fromJson: "ResetStack-1"),
+            try doRecord(Navigate.self, fromJson: "ResetStack-2"),
+            try doRecord(SendRequest.self, fromJson: "SendRequest-1"),
+            try doRecord(SetContext.self, fromJson: "SetContext-1"),
+            try doRecord(SubmitForm.self, fromJson: "SubmitForm-1")
+        ]
 
-    // MARK: - Action tests
-
-    func testActionAddChildren() throws {
-        // Given, When
-        let records = try recordsForAction(AddChildren.self, fileName: "testActionAddChildren.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionAlert() throws {
-        // Given, When
-        let records = try recordsForAction(Alert.self, fileName: "testActionAlert.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionCondition() throws {
-        // Given, When
-        let records = try recordsForAction(Condition.self, fileName: "testActionCondition.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionConfirm() throws {
-        // Given, When
-        let records = try recordsForAction(Confirm.self, fileName: "testActionConfirm.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionFormLocalAction() throws {
-        // Given, When
-        let records = try recordsForAction(FormLocalAction.self, fileName: "testActionFormLocalAction.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionFormRemoteAction() throws {
-        // Given, When
-        let records = try recordsForAction(FormRemoteAction.self, fileName: "testActionFormRemoteAction.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionFormValidation() throws {
-        // Given, When
-        let records = try recordsForAction(FormValidation.self, fileName: "testActionFormValidation.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionOpenExternalURL() throws {
-        // Given, When
-        let records = try recordsForAction(Navigate.self, fileName: "testActionOpenExternalURL.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionOpenNativeRoute() throws {
-        // Given, When
-        let records = try recordsForAction(Navigate.self, fileName: "testActionOpenNativeRoute.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionPopStack() throws {
-        // Given, When
-        let records = try recordsForAction(Navigate.self, fileName: "testActionPopStack.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionPopToView() throws {
-        // Given, When
-        let records = try recordsForAction(Navigate.self, fileName: "testActionPopToView.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionPopView() throws {
-        // Given, When
-        let records = try recordsForAction(Navigate.self, fileName: "testActionPopView.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionPushStack() throws {
-        // Given, When
-        let remote = try recordsForAction(Navigate.self, fileName: "testActionPushStack.1")
-        let local = try recordsForAction(Navigate.self, fileName: "testActionPushStack.2")
-        // Then
-        assertSnapshot(matching: remote, as: .json)
-        assertSnapshot(matching: local, as: .json)
-    }
-
-    func testActionPushView() throws {
-        // Given, When
-        let remote = try recordsForAction(Navigate.self, fileName: "testActionPushView.1")
-        let local = try recordsForAction(Navigate.self, fileName: "testActionPushView.2")
-        // Then
-        assertSnapshot(matching: remote, as: .json)
-        assertSnapshot(matching: local, as: .json)
-    }
-
-    func testActionResetApplication() throws {
-        // Given, When
-        let remote = try recordsForAction(Navigate.self, fileName: "testActionResetApplication.1")
-        let local = try recordsForAction(Navigate.self, fileName: "testActionResetApplication.2")
-        // Then
-        assertSnapshot(matching: remote, as: .json)
-        assertSnapshot(matching: local, as: .json)
-    }
-
-    func testActionResetStack() throws {
-        // Given, When
-        let remote = try recordsForAction(Navigate.self, fileName: "testActionResetStack.1")
-        let local = try recordsForAction(Navigate.self, fileName: "testActionResetStack.2")
-        // Then
-        assertSnapshot(matching: remote, as: .json)
-        assertSnapshot(matching: local, as: .json)
-    }
-
-    func testActionSendRequest() throws {
-        // Given, When
-        let records = try recordsForAction(SendRequest.self, fileName: "testActionSendRequest.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionSetContext() throws {
-        // Given, When
-        let records = try recordsForAction(SetContext.self, fileName: "testActionSetContext.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
-    }
-
-    func testActionSubmitForm() throws {
-        // Given, When
-        let records = try recordsForAction(SubmitForm.self, fileName: "testActionSubmitForm.1")
-        // Then
-        assertSnapshot(matching: records, as: .json)
+        records.forEach {
+            assertSnapshot(matching: $0.0, as: .json, named: $0.file, testName: "recorded")
+        }
     }
 
     // MARK: - Aux
 
-    private func recordsForAction<A: Action>(_: A.Type, fileName: String) throws -> [AnalyticsRecord] {
-        let action: A = try actionFromJsonFile(fileName: fileName)
+    private func doRecord<A: Action>(_: A.Type, fromJson: String) throws -> (AnalyticsRecord, file: String) {
+        let action: A = try actionFromJsonFile(fileName: fromJson)
         let (service, provider) = analyticsServiceAndProviderStub(
             config: .success(.init()),
             session: .success(())
@@ -195,13 +82,11 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
             viewModel: .init(screenType: .declarative(screen), dependencies: dependencies)
         )
         _ = BeagleNavigationController(rootViewController: controller)
-        // swiftlint:disable force_unwrapping
-        let origin = controller.view.viewWithTag(type(of: child).tag)!
-        // swiftlint:enable force_unwrapping
+        let origin = try XCTUnwrap(controller.view.viewWithTag(type(of: child).tag))
 
         service.createRecord(action: action, origin: origin, event: nil, controller: controller)
         waitCreateRecords(service)
-        return provider.records
+        return (try XCTUnwrap(provider.records.first), fromJson)
     }
 }
 

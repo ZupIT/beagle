@@ -1,0 +1,24 @@
+{
+  "beagleAction" : "beagle:confirm",
+  "component" : {
+    "id" : "test-component-id",
+    "position" : {
+      "x" : 0,
+      "y" : 0
+    },
+    "type" : "custom:analyticstestcomponent"
+  },
+  "labelCancel" : "👎🏻",
+  "labelOk" : "👍🏻",
+  "message" : "Message - 3.14159265359",
+  "onPressCancel" : {
+    "message" : "Cancel - beagle"
+  },
+  "onPressOk" : {
+    "message" : "OK - beagle"
+  },
+  "platform" : "ios",
+  "screen" : "analytics-actions",
+  "title" : "Title - beagle-ios",
+  "type" : "action"
+}

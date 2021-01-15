@@ -1,0 +1,24 @@
+{
+  "beagleAction" : "beagle:pushview",
+  "component" : {
+    "id" : "test-component-id",
+    "position" : {
+      "x" : 0,
+      "y" : 0
+    },
+    "type" : "custom:analyticstestcomponent"
+  },
+  "platform" : "ios",
+  "route" : {
+    "fallback" : {
+      "identifier" : "fallback-screen-id",
+      "navigationBar" : {
+        "title" : "Fallback Screen Title"
+      }
+    },
+    "shouldPrefetch" : false,
+    "url" : "result of @{context.remoteRoute}"
+  },
+  "screen" : "analytics-actions",
+  "type" : "action"
+}
