@@ -128,10 +128,10 @@ object SuiteSetup {
             val appActivity = ".activity.MainActivity"
             capabilities.setCapability("appPackage", appPackage)
             capabilities.setCapability("appActivity", appActivity)
-            capabilities.setCapability(
+            /*capabilities.setCapability(
                 MobileCapabilityType.APP,
                 "/Users/runner/work/beagle/beagle/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk"
-            )
+            )*/
 
 
             driver = AndroidDriver<MobileElement>(/*service?.url*/URL(APPIUM_URL), capabilities)

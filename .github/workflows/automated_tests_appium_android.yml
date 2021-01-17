@@ -63,10 +63,7 @@ jobs:
                 run: bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug
                         
             -   name: Config and run Appium server
-                run: | #bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
-                     npm install -g appium
-                     appium -v
-                     appium &>/dev/null &
+                run: bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
 
             -   name: Run Appium tests
                 uses: reactivecircus/android-emulator-runner@v2
@@ -78,8 +75,7 @@ jobs:
                     avd-name: Nexus6
                     disable-animations: true
                     emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -skin 1080x2220 
-                    script: ./tests/appium/project/gradlew -p tests/appium/project cucumber -Dplatform=android     
-                    # /Users/runner/work/beagle/beagle/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
+                    script: bash fastlane/automatedTests/appium/android/install_apk_in_emulator.sh && ./tests/appium/project/gradlew -p tests/appium/project cucumber -Dplatform=android
 
             -   name: Expose failed test screenshot files
                 if: failure()
