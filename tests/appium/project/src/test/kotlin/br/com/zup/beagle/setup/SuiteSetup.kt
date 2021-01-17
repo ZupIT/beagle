@@ -97,7 +97,7 @@ object SuiteSetup {
              * Device & platform
              */
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android")
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11")
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10")
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Nexus 6")
 
             /**

@@ -71,9 +71,9 @@ jobs:
             -   name: Run Appium tests
                 uses: reactivecircus/android-emulator-runner@v2
                 with:
-                    api-level: 30
+                    api-level: 29 #30
                     target: google_apis
-                    arch: x86_64
+                    arch: x86 #x86_64
                     profile: Nexus 6
                     avd-name: Nexus6
                     disable-animations: true
