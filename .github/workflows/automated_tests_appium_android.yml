@@ -71,7 +71,7 @@ jobs:
             -   name: Run Appium tests
                 uses: reactivecircus/android-emulator-runner@v2
                 with:
-                    api-level: 29 #30
+                    api-level: 30
                     target: google_apis
                     arch: x86 #x86_64
                     profile: Nexus 6
