@@ -1,0 +1,26 @@
+{
+    "_beagleAction_": "beagle:resetApplication",
+    "analytics": {
+        "attributes": [
+            "controllerId",
+            "route.screen.identifier",
+            "route.screen.navigationBar.title"
+        ],
+        "enable": true
+    },
+    "controllerId": "controller ID - local",
+    "route": {
+        "screen": {
+            "_beagleComponent_": "beagle:screenComponent",
+            "child": {
+                "_beagleComponent_": "beagle:text",
+                "text": "Local Screen Content"
+            },
+            "identifier": "screen-id-local-route",
+            "navigationBar": {
+                "showBackButton": true,
+                "title": "Local Screen Title"
+            }
+        }
+    }
+}

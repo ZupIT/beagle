@@ -88,6 +88,8 @@ final class ComponentDecodingDummy: ComponentDecoding {
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     func decodeComponent(from data: Data) throws -> ServerDrivenComponent { return ComponentDummy() }
     func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
+    func nameForComponent(ofType type: ServerDrivenComponent.Type) -> String? { return nil }
+    func nameForAction(ofType type: Action.Type) -> String? { return nil }
 }
 
 final class CacheManagerDummy: CacheManagerProtocol {
@@ -128,12 +130,15 @@ struct ComponentDummy: ServerDrivenComponent, CustomStringConvertible {
 }
 
 struct ActionDummy: Action, Equatable {
+    var analytics: ActionAnalyticsConfig? { return nil }
+    
     func execute(controller: BeagleController, origin: UIView) {}
 }
 
 struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var isLoggingEnabled: Bool = true
     var analytics: Analytics?
+    var analyticsProvider: AnalyticsProvider?
     var repository: Repository = RepositoryStub()
     var imageDownloader: ImageDownloader = ImageDownloaderStub()
     var theme: Theme = AppThemeDummy()

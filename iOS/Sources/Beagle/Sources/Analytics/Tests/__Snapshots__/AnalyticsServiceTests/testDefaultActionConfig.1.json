@@ -1,0 +1,20 @@
+[
+  {
+    "beagleAction" : "enabled",
+    "case" : "use default config",
+    "component" : {
+      "position" : {
+        "x" : 0,
+        "y" : 0
+      }
+    },
+    "event" : "testCase",
+    "platform" : "ios",
+    "screen" : "REMOTE",
+    "type" : "action",
+    "values" : {
+      "itemA" : "Value A",
+      "itemC" : "Value C"
+    }
+  }
+]

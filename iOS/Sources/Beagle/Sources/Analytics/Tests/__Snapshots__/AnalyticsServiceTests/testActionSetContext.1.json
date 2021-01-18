@@ -1,0 +1,19 @@
+[
+  {
+    "beagleAction" : "beagle:setcontext",
+    "component" : {
+      "id" : "test-component-id",
+      "position" : {
+        "x" : 0,
+        "y" : 0
+      },
+      "type" : "custom:analyticstestcomponent"
+    },
+    "contextId" : "context",
+    "path" : "setContext",
+    "platform" : "ios",
+    "screen" : "analytics-actions",
+    "type" : "action",
+    "value" : "new value from setContext [@{context.query}]"
+  }
+]

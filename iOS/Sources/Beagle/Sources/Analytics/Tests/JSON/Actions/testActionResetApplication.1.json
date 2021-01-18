@@ -1,0 +1,29 @@
+{
+    "_beagleAction_": "beagle:resetApplication",
+    "analytics": {
+        "attributes": [
+            "controllerId",
+            "route.fallback.identifier",
+            "route.fallback.navigationBar.title",
+            "route.shouldPrefetch",
+            "route.url"
+        ],
+        "enable": true
+    },
+    "controllerId": "controller ID - remote",
+    "route": {
+        "fallback": {
+            "_beagleComponent_": "beagle:screenComponent",
+            "child": {
+                "_beagleComponent_": "beagle:text",
+                "text": "Fallback Screen Content"
+            },
+            "identifier": "fallback-screen-id",
+            "navigationBar": {
+                "title": "Fallback Screen Title"
+            }
+        },
+        "shouldPrefetch": false,
+        "url": "@{context.remoteRoute}"
+    }
+}

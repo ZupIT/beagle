@@ -34,7 +34,7 @@ final class SetContextTests: XCTestCase {
         
         // When/Then
         assertSnapshotImage(navigation, size: size)
-        controller.execute(actions: [action], origin: getOriginView(controller))
+        controller.execute(actions: [action], event: nil, origin: getOriginView(controller))
         assertSnapshotImage(navigation, size: size)
     }
     
@@ -51,7 +51,7 @@ final class SetContextTests: XCTestCase {
         
         // When/Then
         assertSnapshotImage(navigation, size: smallSize)
-        controller.execute(actions: [action], origin: getOriginView(controller))
+        controller.execute(actions: [action], event: nil, origin: getOriginView(controller))
         assertSnapshotImage(navigation, size: smallSize)
     }
     
