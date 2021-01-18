@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newAnalytics.ActionAnalyticsConfig
 
 abstract class ActionAnalytics : Action {
     abstract var analytics: ActionAnalyticsConfig?

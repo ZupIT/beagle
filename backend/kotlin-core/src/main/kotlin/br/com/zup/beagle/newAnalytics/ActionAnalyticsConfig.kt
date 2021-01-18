@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newAnalytics
 
 data class ActionAnalyticsProperties(
     var attributes: List<String>? = null,

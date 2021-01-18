@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newAnalytics.ActionAnalyticsConfig
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
