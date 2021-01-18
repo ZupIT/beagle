@@ -85,6 +85,7 @@ object SuiteSetup {
 
             capabilities.setCapability("ignoreHiddenApiPolicyError", true)
             capabilities.setCapability("disableWindowAnimation", true)
+            capabilities.setCapability("uiautomator2ServerInstallTimeout", 90000);
 
             /**
              * Reset strategies
