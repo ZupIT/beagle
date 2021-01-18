@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * This action will show dialogues natively, such as an error alert indicating alternative flows, business system
@@ -36,9 +37,17 @@ import br.com.zup.beagle.android.widget.RootView
  *
  */
 data class Alert(
+
+    @BeagleJson(name = "title")
     val title: Bind<String>? = null,
+
+    @BeagleJson(name = "message")
     val message: Bind<String>,
+
+    @BeagleJson(name = "onPressOk")
     val onPressOk: Action? = null,
+
+    @BeagleJson(name = "labelOk")
     val labelOk: String? = null
 ) : Action {
 

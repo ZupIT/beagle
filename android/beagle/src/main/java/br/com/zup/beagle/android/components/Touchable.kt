@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -37,9 +38,15 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *
  */
 data class Touchable(
+
+    @BeagleJson(name = "onPress")
     val onPress: List<Action>,
+
+    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
-    val clickAnalyticsEvent: ClickEvent? = null
+
+    @BeagleJson(name = "clickAnalyticsEvent")
+    val clickAnalyticsEvent: ClickEvent? = null,
 ) : ViewConvertable, GhostComponent {
 
     @Transient

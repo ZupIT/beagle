@@ -16,20 +16,21 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.android.annotation.BeagleEnum
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Enum define the scroll roll direction on screen.
  */
-@BeagleEnum
 enum class ScrollAxis {
     /**
      * Defines the scroll as vertical.
      */
+    @BeagleJson(name = "VERTICAL")
     VERTICAL,
 
     /**
      * Defines the scroll as horizontal.
      */
+    @BeagleJson(name = "HORIZONTAL")
     HORIZONTAL
 }

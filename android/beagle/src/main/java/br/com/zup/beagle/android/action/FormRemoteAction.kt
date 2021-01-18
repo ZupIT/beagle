@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
@@ -38,6 +39,7 @@ enum class FormMethodType {
      * Requests using GET should only retrieve data.
      *
      */
+    @BeagleJson(name = "GET")
     GET,
 
     /**
@@ -45,18 +47,21 @@ enum class FormMethodType {
      * often causing a change in state or side effects on the server.
      *
      */
+    @BeagleJson(name = "POST")
     POST,
 
     /**
      * The PUT method replaces all current representations of the target resource with the request payload.
      *
      */
+    @BeagleJson(name = "PUT")
     PUT,
 
     /**
      * The DELETE method deletes the specified resource.
      *
      */
+    @BeagleJson(name = "DELETE")
     DELETE
 }
 
@@ -72,8 +77,12 @@ internal typealias ResultListener = (result: FormResult) -> Unit
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormRemoteAction(
+
+    @BeagleJson(name = "path")
     val path: String,
-    val method: FormMethodType
+
+    @BeagleJson(name = "method")
+    val method: FormMethodType,
 ) : Action, AsyncAction by AsyncActionImpl() {
 
     @Transient

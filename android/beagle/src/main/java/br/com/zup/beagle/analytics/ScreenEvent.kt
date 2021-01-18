@@ -16,9 +16,13 @@
 
 package br.com.zup.beagle.analytics
 
+import br.com.zup.beagle.core.BeagleJson
+
 /**
  * Beagle analytics is used to track screen.
  */
 data class ScreenEvent(
+
+    @BeagleJson(name = "screenName")
     val screenName: String
 )

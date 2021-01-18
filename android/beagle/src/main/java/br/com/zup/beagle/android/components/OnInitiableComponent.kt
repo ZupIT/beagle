@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.setIsInitiableComponent
 import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Class that has onInit property
@@ -33,6 +34,7 @@ import br.com.zup.beagle.android.widget.RootView
  */
 interface OnInitiableComponent {
 
+    @BeagleJson(name = "onInit")
     val onInit: List<Action>?
 
     /**

@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.core
 
-import br.com.zup.beagle.android.annotation.BeagleField
-
 /**
  * The accessibility will enable a textual information to explain the view content in case a screen reader is used.
  *
@@ -30,8 +28,10 @@ import br.com.zup.beagle.android.annotation.BeagleField
  *                      them he will now where he is on the app.
  */
 data class Accessibility(
-    @BeagleField("accessibility")
+
+    @BeagleJson(name = "accessibility")
     val accessible: Boolean = true,
-    @BeagleField("accessibilityLabel")
+
+    @BeagleJson(name = "accessibilityLabel")
     val accessibilityLabel: String? = null,
 )

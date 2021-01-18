@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 
@@ -41,9 +42,15 @@ import br.com.zup.beagle.core.SingleChildComponent
     "Use TabBarItem instead.",
     replaceWith = ReplaceWith("TabBarItem(title, icon)"))
 data class TabItem(
+
+    @BeagleJson(name = "title")
     val title: String? = null,
+
+    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
-    val icon: ImagePath.Local? = null
+
+    @BeagleJson(name = "icon")
+    val icon: ImagePath.Local? = null,
 ) : WidgetView(), SingleChildComponent {
 
     @Transient

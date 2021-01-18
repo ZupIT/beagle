@@ -36,6 +36,7 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
@@ -54,17 +55,25 @@ private val TAB_BAR_HEIGHT = 48.dp()
  */
 @RegisterWidget("tabBar")
 data class TabBar(
+
+    @BeagleJson(name = "items")
     val items: List<TabBarItem>,
+
+    @BeagleJson(name = "styleId")
     val styleId: String? = null,
+
+    @BeagleJson(name = "currentTab")
     val currentTab: Bind<Int>? = null,
-    val onTabSelection: List<Action>? = null
+
+    @BeagleJson(name = "onTabSelection")
+    val onTabSelection: List<Action>? = null,
 ) : WidgetView() {
 
     constructor(
         items: List<TabBarItem>,
         styleId: String? = null,
         currentTab: Int = 0,
-        onTabSelection: List<Action>? = null
+        onTabSelection: List<Action>? = null,
     ) : this(items, styleId, valueOf(currentTab), onTabSelection)
 
     @Transient
@@ -169,5 +178,5 @@ data class TabBar(
  */
 data class TabBarItem(
     val title: String? = null,
-    val icon: ImagePath.Local? = null
+    val icon: ImagePath.Local? = null,
 )

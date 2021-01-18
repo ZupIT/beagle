@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.analytics
 
+import br.com.zup.beagle.core.BeagleJson
+
 
 /**
  * Define click event
@@ -26,7 +28,12 @@ package br.com.zup.beagle.analytics
  *
  */
 data class ClickEvent(
+    @BeagleJson(name = "category")
     val category: String,
+
+    @BeagleJson(name = "label")
     val label: String? = null,
-    val value: String? = null
+
+    @BeagleJson(name = "value")
+    val value: String? = null,
 )

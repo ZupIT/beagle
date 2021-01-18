@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -37,16 +38,19 @@ enum class Mode {
     /**
      * Adds the view in the end of the children's list.
      */
+    @BeagleJson(name = "APPEND")
     APPEND,
 
     /**
      * Adds the view on the beginning of the children's list.
      */
+    @BeagleJson(name = "PREPEND")
     PREPEND,
 
     /**
      * Replaces all children of the widget.
      */
+    @BeagleJson(name = "REPLACE")
     REPLACE
 }
 
@@ -60,9 +64,15 @@ enum class Mode {
  * the list will be replaced.
  */
 data class AddChildren(
+
+    @BeagleJson(name = "componentId")
     var componentId: String,
+
+    @BeagleJson(name = "value")
     var value: List<ServerDrivenComponent>,
-    var mode: Mode? = Mode.APPEND
+
+    @BeagleJson(name = "mode")
+    var mode: Mode? = Mode.APPEND,
 ) : Action {
 
     override fun execute(rootView: RootView, origin: View) {

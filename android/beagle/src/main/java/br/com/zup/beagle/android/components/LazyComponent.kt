@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -37,8 +38,12 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  */
 @RegisterWidget("lazyComponent")
 data class LazyComponent(
+
+    @BeagleJson(name = "path")
     val path: String,
-    val initialState: ServerDrivenComponent
+
+    @BeagleJson(name = "initialState")
+    val initialState: ServerDrivenComponent,
 ) : WidgetView() {
 
     @Transient

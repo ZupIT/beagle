@@ -30,6 +30,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Define a button natively using the server driven information received through Beagle
@@ -42,17 +43,25 @@ import br.com.zup.beagle.annotation.RegisterWidget
  */
 @RegisterWidget("button")
 data class Button(
+
+    @BeagleJson(name = "text")
     val text: Bind<String>,
+
+    @BeagleJson(name = "styleId")
     val styleId: String? = null,
+
+    @BeagleJson(name = "onPress")
     val onPress: List<Action>? = null,
-    val clickAnalyticsEvent: ClickEvent? = null
+
+    @BeagleJson(name = "clickAnalyticsEvent")
+    val clickAnalyticsEvent: ClickEvent? = null,
 ) : WidgetView() {
 
     constructor(
         text: String,
         styleId: String? = null,
         onPress: List<Action>? = null,
-        clickAnalyticsEvent: ClickEvent? = null
+        clickAnalyticsEvent: ClickEvent? = null,
     ) : this(
         expressionOrValueOf(text),
         styleId,

@@ -33,6 +33,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * A WebView widget will define a WebView natively using the server driven information received through Beagle.
@@ -44,7 +45,9 @@ import br.com.zup.beagle.annotation.RegisterWidget
  */
 @RegisterWidget("webView")
 data class WebView(
-    val url: Bind<String>
+
+    @BeagleJson(name = "url")
+    val url: Bind<String>,
 ) : WidgetView() {
 
     constructor(url: String) : this(expressionOrValueOf(url))
@@ -73,7 +76,7 @@ data class WebView(
         override fun onPageStarted(
             view: WebView?,
             url: String?,
-            favicon: Bitmap?
+            favicon: Bitmap?,
         ) {
             notify(loading = true)
         }
@@ -81,7 +84,7 @@ data class WebView(
         override fun onReceivedError(
             view: WebView?,
             request: WebResourceRequest?,
-            error: WebResourceError?
+            error: WebResourceError?,
         ) {
             val throwable = Error("$error")
             notify(state = ServerDrivenState.WebViewError(throwable) { view?.reload() })

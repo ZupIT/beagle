@@ -35,6 +35,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
@@ -56,8 +57,14 @@ private val TAB_BAR_HEIGHT = 48.dp()
     "Use TabBar instead.",
     replaceWith = ReplaceWith("TabBar(items=children, styleId=styleId, currentTab=null, onTabSelection=null)"))
 data class TabView(
+
+    @BeagleJson(name = "children")
     override val children: List<TabItem>,
+
+    @BeagleJson(name = "styleId")
     val styleId: String? = null,
+
+    @BeagleJson(name = "context")
     override val context: ContextData? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 

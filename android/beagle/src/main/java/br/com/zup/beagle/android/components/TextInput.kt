@@ -33,6 +33,7 @@ import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
@@ -62,16 +63,36 @@ private const val VALUE_KEY = "value"
  */
 @RegisterWidget("textInput")
 data class TextInput(
+
+    @BeagleJson(name = "value")
     val value: Bind<String>? = null,
+
+    @BeagleJson(name = "placeholder")
     val placeholder: Bind<String>? = null,
+
+    @BeagleJson(name = "disabled")
     val disabled: Bind<Boolean>? = null,
+
+    @BeagleJson(name = "readOnly")
     val readOnly: Bind<Boolean>? = null,
+
+    @BeagleJson(name = "type")
     val type: Bind<TextInputType>? = null,
+
+    @BeagleJson(name = "hidden")
     val hidden: Bind<Boolean>? = null,
+
+    @BeagleJson(name = "styleId")
     val styleId: String? = null,
+
+    @BeagleJson(name = "onChange")
     val onChange: List<Action>? = null,
+
+    @BeagleJson(name = "onFocus")
     val onFocus: List<Action>? = null,
-    val onBlur: List<Action>? = null
+
+    @BeagleJson(name = "onBlur")
+    val onBlur: List<Action>? = null,
 ) : InputWidget() {
 
     constructor(
@@ -84,7 +105,7 @@ data class TextInput(
         styleId: String? = null,
         onChange: List<Action>? = null,
         onFocus: List<Action>? = null,
-        onBlur: List<Action>? = null
+        onBlur: List<Action>? = null,
     ) : this(
         expressionOrValueOfNullable(value),
         expressionOrValueOfNullable(placeholder),

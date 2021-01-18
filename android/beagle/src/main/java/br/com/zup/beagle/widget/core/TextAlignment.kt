@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.android.annotation.BeagleEnum
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Defines the text content alignment inside the text view
@@ -26,23 +26,26 @@ import br.com.zup.beagle.android.annotation.BeagleEnum
  * @property RIGHT
  *
  */
-@BeagleEnum
+
 enum class TextAlignment {
     /**
      * Text content is LEFT aligned inside the text view.
      *
      */
+    @BeagleJson(name = "LEFT")
     LEFT,
 
     /**
      * Text content is CENTER aligned inside the text view.
      *
      */
+    @BeagleJson(name = "CENTER")
     CENTER,
 
     /**
      * Text content is RIGHT aligned inside the text view.
      *
      */
+    @BeagleJson(name = "RIGHT")
     RIGHT
 }

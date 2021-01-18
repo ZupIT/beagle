@@ -24,11 +24,12 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 internal data class SetContextInternal(
     val contextId: String,
     val value: Any,
-    val path: String? = null
+    val path: String? = null,
 )
 
 /**
@@ -39,10 +40,16 @@ internal data class SetContextInternal(
  * @param path Specific context point to be changed in the case of arrays and maps <key, value>.
  */
 data class SetContext(
+
+    @BeagleJson(name = "contextId")
     val contextId: String,
+
+    @BeagleJson(name = "value")
     @property:ContextDataValue
     val value: Any,
-    val path: String? = null
+
+    @BeagleJson(name = "path")
+    val path: String? = null,
 ) : Action {
 
     override fun execute(rootView: RootView, origin: View) {

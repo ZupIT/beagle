@@ -21,5 +21,6 @@ package br.com.zup.beagle.core
  * @property style attribute will enable a few visual options to be changed.
  */
 interface StyleComponent : ServerDrivenComponent {
+    @BeagleJson(name = "style")
     val style: Style?
 }

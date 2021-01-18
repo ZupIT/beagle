@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget
 
-import br.com.zup.beagle.android.annotation.BeagleField
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.IdentifierComponent
@@ -30,11 +30,12 @@ import br.com.zup.beagle.core.StyleComponent
 abstract class Widget : StyleComponent, AccessibilityComponent,
     IdentifierComponent {
 
-    @BeagleField("id")
+    @BeagleJson(name = "id")
     override var id: String? = null
 
+    @BeagleJson(name = "style")
     override var style: Style? = null
 
-    @BeagleField("accessibility")
+    @BeagleJson(name = "accessibility")
     override var accessibility: Accessibility? = null
 }

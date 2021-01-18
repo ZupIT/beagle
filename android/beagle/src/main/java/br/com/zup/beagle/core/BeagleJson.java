@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.annotation
+package br.com.zup.beagle.core;
 
-import com.squareup.moshi.JsonQualifier
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target(AnnotationTarget.FIELD)
-@Retention(AnnotationRetention.RUNTIME)
-@JsonQualifier
-annotation class BeagleField(
-    val name: String = ""
-)
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+
+@Retention(RUNTIME)
+@Documented
+public @interface BeagleJson {
+    String name();
+}

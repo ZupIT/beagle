@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Enum with HTTP methods.
@@ -38,31 +39,37 @@ enum class RequestActionMethod {
     /**
      * Request we representation of an resource.
      */
+    @BeagleJson(name = "GET")
     GET,
 
     /**
      * The POST method is used when we want to create a resource.
      */
+    @BeagleJson(name = "POST")
     POST,
 
     /**
      * Require that a resource be "saved" in the given URI.
      */
+    @BeagleJson(name = "PUT")
     PUT,
 
     /**
      * Deletes the specified resource.
      */
+    @BeagleJson(name = "DELETE")
     DELETE,
 
     /**
      * Returns only the headers of a response.
      */
+    @BeagleJson(name = "HEAD")
     HEAD,
 
     /**
      * Used to update parts of a resource
      */
+    @BeagleJson(name = "PATCH")
     PATCH
 }
 
@@ -78,14 +85,28 @@ enum class RequestActionMethod {
  * @param onFinish Finish action.
  */
 data class SendRequest(
+
+    @BeagleJson(name = "url")
     val url: Bind<String>,
+
+    @BeagleJson(name = "method")
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
+
+    @BeagleJson(name = "headers")
     val headers: Bind<Map<String, String>>? = null,
+
+    @BeagleJson(name = "data")
     @property:ContextDataValue
     val data: Any? = null,
+
+    @BeagleJson(name = "onSuccess")
     val onSuccess: List<Action>? = null,
+
+    @BeagleJson(name = "onError")
     val onError: List<Action>? = null,
-    val onFinish: List<Action>? = null
+
+    @BeagleJson(name = "onFinish")
+    val onFinish: List<Action>? = null,
 ) : Action, AsyncAction by AsyncActionImpl() {
 
     constructor(
@@ -95,7 +116,7 @@ data class SendRequest(
         data: Any? = null,
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
-        onFinish: List<Action>? = null
+        onFinish: List<Action>? = null,
     ) : this(
         expressionOrValueOf(url),
         valueOf(method),
@@ -118,7 +139,7 @@ data class SendRequest(
     private fun executeActions(
         rootView: RootView,
         state: FetchViewState,
-        origin: View
+        origin: View,
     ) {
         onFinish?.let {
             handleEvent(rootView, origin, it)
@@ -152,5 +173,5 @@ internal data class SendRequestInternal(
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
-    val onFinish: List<Action>? = null
+    val onFinish: List<Action>? = null,
 )

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.android.annotation.BeagleEnum
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
@@ -24,7 +24,9 @@ import br.com.zup.beagle.android.annotation.BeagleEnum
  * @property type the unit of measurement.
  */
 data class UnitValue(
+    @BeagleJson(name = "value")
     val value: Double,
+    @BeagleJson(name = "type")
     val type: UnitType
 )
 
@@ -36,20 +38,22 @@ data class UnitValue(
  * @property AUTO
  */
 
-@BeagleEnum
 enum class UnitType {
     /**
      * Apply the value based in platform, like android this represent dp.
      */
+    @BeagleJson(name = "REAL")
     REAL,
 
     /**
      * Apply the value based in percentage.
      */
+    @BeagleJson(name = "PERCENT")
     PERCENT,
 
     /**
      * TODO.
      */
+    @BeagleJson(name = "AUTO")
     AUTO
 }

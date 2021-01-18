@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.widget.core.ImageContentMode
 
 
@@ -42,8 +43,12 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  */
 @RegisterWidget("image")
 data class Image constructor(
+
+    @BeagleJson(name = "path")
     val path: Bind<ImagePath>,
-    val mode: ImageContentMode? = null
+
+    @BeagleJson(name = "mode")
+    val mode: ImageContentMode? = null,
 ) : WidgetView() {
 
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)

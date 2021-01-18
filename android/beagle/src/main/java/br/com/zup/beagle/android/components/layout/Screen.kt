@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
@@ -41,10 +42,18 @@ import br.com.zup.beagle.core.Style
  *
  */
 data class SafeArea(
+
+    @BeagleJson(name = "top")
     val top: Boolean? = null,
+
+    @BeagleJson(name = "leading")
     val leading: Boolean? = null,
+
+    @BeagleJson(name = "bottom")
     val bottom: Boolean? = null,
-    val trailing: Boolean? = null
+
+    @BeagleJson(name = "trailing")
+    val trailing: Boolean? = null,
 )
 
 /**
@@ -59,10 +68,18 @@ data class SafeArea(
  *
  */
 data class NavigationBarItem(
+
+    @BeagleJson(name = "text")
     val text: String,
+
+    @BeagleJson(name = "image")
     val image: ImagePath.Local? = null,
+
+    @BeagleJson(name = "action")
     val action: Action,
-    val accessibility: Accessibility? = null
+
+    @BeagleJson(name = "accessibility")
+    val accessibility: Accessibility? = null,
 ) : IdentifierComponent {
     override var id: String? = null
 }
@@ -81,11 +98,21 @@ data class NavigationBarItem(
  *
  */
 data class NavigationBar(
+
+    @BeagleJson(name = "title")
     val title: String,
+
+    @BeagleJson(name = "showBackButton")
     val showBackButton: Boolean = true,
+
+    @BeagleJson(name = "styleId")
     val styleId: String? = null,
+
+    @BeagleJson(name = "navigationBarItems")
     val navigationBarItems: List<NavigationBarItem>? = null,
-    val backButtonAccessibility: Accessibility? = null
+
+    @BeagleJson(name = "backButtonAccessibility")
+    val backButtonAccessibility: Accessibility? = null,
 )
 
 /**
@@ -116,6 +143,7 @@ data class NavigationBar(
  */
 @Suppress("DataClassPrivateConstructor")
 data class Screen private constructor(
+
     val identifier: String? = null,
     val safeArea: SafeArea? = null,
     val navigationBar: NavigationBar? = null,
@@ -123,7 +151,7 @@ data class Screen private constructor(
     val style: Style? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override val context: ContextData? = null,
-    override val id: String? = null
+    override val id: String? = null,
 ) : ScreenAnalytics, ContextComponent, SingleChildComponent, IdentifierComponent {
 
     @Deprecated(
@@ -147,6 +175,6 @@ data class Screen private constructor(
         style: Style? = null,
         screenAnalyticsEvent: ScreenEvent? = null,
         context: ContextData? = null,
-        id: String? = null
+        id: String? = null,
     ) : this(null, safeArea, navigationBar, child, style, screenAnalyticsEvent, context, id)
 }

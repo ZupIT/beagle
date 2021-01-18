@@ -23,5 +23,6 @@ package br.com.zup.beagle.core
 interface GhostComponent : SingleChildComponent {
 
 
+    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent
 }

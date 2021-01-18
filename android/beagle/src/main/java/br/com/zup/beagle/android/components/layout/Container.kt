@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
@@ -41,9 +42,15 @@ import br.com.zup.beagle.core.Style
  */
 @RegisterWidget("container")
 data class Container(
+
+    @BeagleJson(name = "children")
     override val children: List<ServerDrivenComponent>,
+
+    @BeagleJson(name = "context")
     override val context: ContextData? = null,
-    override val onInit: List<Action>? = null
+
+    @BeagleJson(name = "onInit")
+    override val onInit: List<Action>? = null,
 ) : WidgetView(), OnInitiableComponent by OnInitiableComponentImpl(onInit), ContextComponent, MultiChildComponent {
 
     @Transient

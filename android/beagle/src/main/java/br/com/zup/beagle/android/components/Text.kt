@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
@@ -45,17 +46,25 @@ import br.com.zup.beagle.widget.core.TextAlignment
  */
 @RegisterWidget("text")
 data class Text(
+
+    @BeagleJson(name = "text")
     val text: Bind<String>,
+
+    @BeagleJson(name = "styleId")
     val styleId: String? = null,
+
+    @BeagleJson(name = "textColor")
     val textColor: Bind<String>? = null,
-    val alignment: Bind<TextAlignment>? = null
+
+    @BeagleJson(name = "alignment")
+    val alignment: Bind<TextAlignment>? = null,
 ) : WidgetView() {
 
     constructor(
         text: String,
         styleId: String? = null,
         textColor: String? = null,
-        alignment: TextAlignment? = null
+        alignment: TextAlignment? = null,
     ) : this(
         expressionOrValueOf(text),
         styleId,
