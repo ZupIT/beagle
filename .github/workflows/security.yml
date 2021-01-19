@@ -32,7 +32,7 @@ jobs:
     - name: Trivy Scan - High and Critical Severity
       uses: aquasecurity/trivy-action@0.0.7
       with:
-        image-ref: ubuntu-latest
+        image-ref: ubuntu:latest
         exit-code: 1
         severity: HIGH,CRITICAL
         format: table
