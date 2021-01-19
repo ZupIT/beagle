@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,84 +18,25 @@
 import Foundation
 import UIKit
 
-struct AnalyticsGenerator {
+struct MapActionToDictionary {
 
-    let info: AnalyticsService.ActionInfo
+    let action: Action
+    let contextProvider: UIView
 
-    // MARK: - Action
-
-    func createRecord() -> AnalyticsRecord? {
-        let reflectionName = Mirror(reflecting: info.action).descendant("_beagleAction_") as? String
-        guard
-            let name = reflectionName ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
-        else { return nil }
-
+    func getAttributes(_ attributes: [String]) -> [String: Any] {
         var values = [String: Any]()
-        setValues(in: &values)
-
-        if let screen = screenURL() {
-            values["screen"] = screen
-        }
-
-        values["beagleAction"] = name
-        if let event = info.event {
-            values["event"] = event
-        }
-
-        var componentInfo = (values["component"] as? [String: Any]) ?? [:]
-        if let type = info.origin.componentType,
-           let name = info.controller.dependencies.decoder.nameForComponent(ofType: type) {
-            componentInfo["type"] = name
-        }
-        if let identifier = info.origin.accessibilityIdentifier {
-            componentInfo["id"] = identifier
-        }
-        let position = info.origin.convert(CGPoint.zero, to: nil)
-        componentInfo["position"] = [
-            "x": Double(position.x),
-            "y": Double(position.y)
-        ]
-        values["component"] = componentInfo
-
-        return AnalyticsRecord(type: .action, values: values)
-    }
-
-    private func setValues(in values: inout [String: Any]) {
-        var attributes = [String]()
-        var additionalEntries = [String: DynamicObject]()
-        if case .enabled(let d) = info.action.analytics {
-            attributes = d?.attributes ?? []
-            additionalEntries = d?.additionalEntries ?? [:]
-        }
-
-        for attribute in attributes {
-            if let path = Path(rawValue: attribute), !path.nodes.isEmpty,
+        attributes.forEach {
+            if let path = Path(rawValue: $0),
+               !path.nodes.isEmpty,
                let attributeValue = try? value(at: path) {
                 values = object(values, setting: attributeValue, at: path)
             }
         }
-
-        let reduced = additionalEntries.reduce(into: [String: Any]()) { result, entry in
-            if let value = entry.value.asAny() {
-                result[entry.key] = value
-            }
-        }
-        values.merge(reduced) { _, new in new }
-    }
-
-    func screenURL() -> String? {
-        switch info.controller.screenType {
-        case .remote(let remote):
-            return remote.url
-        case .declarative(let screen):
-            return screen.identifier
-        case .declarativeText:
-            return nil
-        }
+        return values
     }
 
     private func value(at path: Path) throws -> Any? {
-        var value: Any = info.action
+        var value: Any = action
         for node in path.nodes {
             switch node {
             case .index(let index):
@@ -104,7 +46,7 @@ struct AnalyticsGenerator {
             }
 
             if let evaluable = value as? ContextEvaluable {
-                value = evaluable.evaluateWith(contextProvider: info.origin)
+                value = evaluable.evaluateWith(contextProvider: contextProvider)
             }
             if let dynamicObject = value as? DynamicObject {
                 guard let any = dynamicObject.asAny() else { return nil }
@@ -175,8 +117,6 @@ struct AnalyticsGenerator {
     }
 }
 
-// MARK: - Helper Extensions
-
 private protocol ContextEvaluable {
     func evaluateWith(contextProvider view: UIView) -> Any
 }
@@ -199,4 +139,3 @@ extension Expression: ContextEvaluable {
         }
     }
 }
-

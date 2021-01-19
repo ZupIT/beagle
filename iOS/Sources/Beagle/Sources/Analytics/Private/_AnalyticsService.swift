@@ -52,10 +52,6 @@ class AnalyticsService {
     }
     
     // MARK: - Create Events
-
-    struct ActionInfo {
-        let action: Action, event: String?, origin: UIView, controller: BeagleControllerProtocol
-    }
     
     func createRecord(screen: ScreenType) {
         createRecord { self.sendScreenRecord(screen) }
@@ -63,6 +59,10 @@ class AnalyticsService {
     
     func createRecord(_ action: ActionInfo) {
         createRecord { self.sendActionRecord(action) }
+    }
+
+    struct ActionInfo {
+        let action: Action, event: String?, origin: UIView, controller: BeagleControllerProtocol
     }
     
     private func createRecord(_ work: @escaping () -> Void) {

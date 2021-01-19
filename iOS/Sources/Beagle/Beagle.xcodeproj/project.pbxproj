@@ -29,6 +29,7 @@
 		25CDD47624EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47524EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift */; };
 		25CDD47824EDBB7600CC49CB /* OperationOtherEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */; };
 		3D21CD3225B73F2100A392CA /* AnalyticsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D21CD2625B71E0900A392CA /* AnalyticsGenerator.swift */; };
+		3D21CD3925B769DC00A392CA /* MapActionToDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D21CD3825B769DC00A392CA /* MapActionToDictionary.swift */; };
 		3D8E5C7E2542341C002B92E2 /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */; };
 		3DB1BF7C25B0F544008248C6 /* ActionAnalyticsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */; };
 		3DB1BF8225B0FC53008248C6 /* ActionAnalyticsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */; };
@@ -202,7 +203,7 @@
 		A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */; };
 		A0EB6BD725910FC8001A3E65 /* AnalyticsRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BD425910FC8001A3E65 /* AnalyticsRecord.swift */; };
 		A0EB6BD825910FC8001A3E65 /* AnalyticsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BD525910FC8001A3E65 /* AnalyticsConfig.swift */; };
-		A0EB6BD925910FC8001A3E65 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BD625910FC8001A3E65 /* AnalyticsService.swift */; };
+		A0EB6BD925910FC8001A3E65 /* _AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BD625910FC8001A3E65 /* _AnalyticsService.swift */; };
 		A0EB6BE425911760001A3E65 /* AnalyticsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BE325911760001A3E65 /* AnalyticsServiceTests.swift */; };
 		A0EB6C132591192C001A3E65 /* OpenNativeRoute-1.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EB6BFC2591192C001A3E65 /* OpenNativeRoute-1.json */; };
 		A0EB6C142591192C001A3E65 /* ResetStack-2.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EB6BFD2591192C001A3E65 /* ResetStack-2.json */; };
@@ -380,6 +381,7 @@
 		25CDD47524EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationArrayEvaluationTests.swift; sourceTree = "<group>"; };
 		25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationOtherEvaluationTests.swift; sourceTree = "<group>"; };
 		3D21CD2625B71E0900A392CA /* AnalyticsGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsGenerator.swift; sourceTree = "<group>"; };
+		3D21CD3825B769DC00A392CA /* MapActionToDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapActionToDictionary.swift; sourceTree = "<group>"; };
 		3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpAditionalData.swift; sourceTree = "<group>"; };
 		3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfig.swift; sourceTree = "<group>"; };
 		3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfigTests.swift; sourceTree = "<group>"; };
@@ -576,7 +578,7 @@
 		A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleNavigationController.swift; sourceTree = "<group>"; };
 		A0EB6BD425910FC8001A3E65 /* AnalyticsRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsRecord.swift; sourceTree = "<group>"; };
 		A0EB6BD525910FC8001A3E65 /* AnalyticsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsConfig.swift; sourceTree = "<group>"; };
-		A0EB6BD625910FC8001A3E65 /* AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		A0EB6BD625910FC8001A3E65 /* _AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _AnalyticsService.swift; sourceTree = "<group>"; };
 		A0EB6BE325911760001A3E65 /* AnalyticsServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceTests.swift; sourceTree = "<group>"; };
 		A0EB6BFC2591192C001A3E65 /* OpenNativeRoute-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "OpenNativeRoute-1.json"; sourceTree = "<group>"; };
 		A0EB6BFD2591192C001A3E65 /* ResetStack-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ResetStack-2.json"; sourceTree = "<group>"; };
@@ -753,6 +755,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D21CD3725B769C100A392CA /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				A0EB6BD625910FC8001A3E65 /* _AnalyticsService.swift */,
+				3D21CD2625B71E0900A392CA /* AnalyticsGenerator.swift */,
+				3D21CD3825B769DC00A392CA /* MapActionToDictionary.swift */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
 		5740E23523F708BE004A0BF0 /* CacheManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1503,10 +1515,9 @@
 			children = (
 				C048EBDA242BD78500A24075 /* Analytics.swift */,
 				A0EB6BD525910FC8001A3E65 /* AnalyticsConfig.swift */,
-				3D21CD2625B71E0900A392CA /* AnalyticsGenerator.swift */,
 				C0479F56243272460040E30C /* AnalyticsGestureRecognizer.swift */,
 				A0EB6BD425910FC8001A3E65 /* AnalyticsRecord.swift */,
-				A0EB6BD625910FC8001A3E65 /* AnalyticsService.swift */,
+				3D21CD3725B769C100A392CA /* Private */,
 				C05E164924365D190088F9D2 /* Tests */,
 			);
 			path = Analytics;
@@ -2418,6 +2429,7 @@
 				C85688BC2433C4A800DD8B60 /* BeagleLogger.swift in Sources */,
 				E531D6B42359FE19007EEBA7 /* UIView+AutoLayout.swift in Sources */,
 				C08D4E3124857C7700AAAC0A /* DependencyWindowManager.swift in Sources */,
+				3D21CD3925B769DC00A392CA /* MapActionToDictionary.swift in Sources */,
 				C08D4E442485803E00AAAC0A /* LazyComponent+Extensions.swift in Sources */,
 				2539A44F24C61C0D00B8FA92 /* GlobalContext.swift in Sources */,
 				9398CA3925531E9D0003A010 /* SetContext.swift in Sources */,
@@ -2481,7 +2493,7 @@
 				C08D4E2C24857BC200AAAC0A /* StyleViewConfigurator.swift in Sources */,
 				9398CB10255591310003A010 /* RepresentableByParsableString.swift in Sources */,
 				A0EB6BD825910FC8001A3E65 /* AnalyticsConfig.swift in Sources */,
-				A0EB6BD925910FC8001A3E65 /* AnalyticsService.swift in Sources */,
+				A0EB6BD925910FC8001A3E65 /* _AnalyticsService.swift in Sources */,
 				9337F82D249A466B00B0A260 /* SetContext+Extensions.swift in Sources */,
 				E7523AF8239E8F2100F93385 /* BeagleDependencies.swift in Sources */,
 				576F61052487004900273BA0 /* ContextObserver.swift in Sources */,
