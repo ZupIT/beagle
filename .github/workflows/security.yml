@@ -22,11 +22,11 @@ jobs:
         java-version: 1.11
 
     # Dependecy Check
-    - name: Dependecy Check
-      run: |
-        wget -q https://github.com/jeremylong/DependencyCheck/releases/download/v6.0.5/dependency-check-6.0.5-release.zip
-        unzip -q dependency-check-*.zip
-        ./dependency-check/bin/dependency-check.sh --scan "target/*.jar"
+    # - name: Dependecy Check
+    #   run: |
+    #     wget -q https://github.com/jeremylong/DependencyCheck/releases/download/v6.0.5/dependency-check-6.0.5-release.zip
+    #     unzip -q dependency-check-*.zip
+    #     ./dependency-check/bin/dependency-check.sh --scan "target/*.jar"
   
     # Trivy Container Security
     - name: Trivy Scan - High and Critical Severity
