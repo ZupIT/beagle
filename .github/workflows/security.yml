@@ -13,3 +13,10 @@ jobs:
       run: |
         curl -fsSL https://horusec.io/bin/install.sh | bash 
         horusec start -p ./ -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -G "true" -u "https://api-horusec.zup.com.br" -n "beagle"
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH'    
