@@ -13,14 +13,6 @@ jobs:
       run: |
         curl -fsSL https://horusec.io/bin/install.sh | bash 
         horusec start -p ./ -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -G "true" -u "https://api-horusec.zup.com.br" -n "beagle"
-    - name: Aqua Security Trivy
-      uses: aquasecurity/trivy-action@0.0.8
-    - name: SecurityCodeScan
-      uses: security-code-scan/security-code-scan-results-action@v1.0
-    - name: Terraform security scan
-      uses: triat/terraform-security-scan@v2.0.2
-    - name: Security and Licence Scan
-      uses: ShiftLeftSecurity/scan-action@v1.3.0
 
 
 
