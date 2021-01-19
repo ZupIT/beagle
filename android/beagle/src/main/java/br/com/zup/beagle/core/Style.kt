@@ -103,7 +103,7 @@ data class CornerRadius(
  * @property FLEX
  * @property NONE
  */
-
+@BeagleJson
 enum class Display {
     /**
      * Apply the flex properties.
@@ -124,7 +124,7 @@ enum class Display {
  * @property ABSOLUTE
  * @property RELATIVE
  */
-
+@BeagleJson
 enum class PositionType {
 
     /**

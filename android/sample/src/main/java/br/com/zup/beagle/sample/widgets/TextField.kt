@@ -23,21 +23,39 @@ import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.sample.utils.MaskApplier
 
+@BeagleJson
 enum class TextFieldInputType {
+
+    @BeagleJson(name = "NUMBER")
     NUMBER,
+
+    @BeagleJson(name = "PASSWORD")
     PASSWORD,
+
+    @BeagleJson(name = "TEXT")
     TEXT
 }
 
-@RegisterWidget
+@RegisterWidget("textField")
 data class TextField(
+
+    @BeagleJson(name = "description")
     val description: String = "",
+
+    @BeagleJson(name = "hint")
     val hint: String = "",
+
+    @BeagleJson(name = "color")
     val color: String = "#000000",
+
+    @BeagleJson(name = "mask")
     val mask: String? = null,
-    val inputType: TextFieldInputType? = null
+
+    @BeagleJson(name = "inputType")
+    val inputType: TextFieldInputType? = null,
 ) : InputWidget() {
 
     @Transient

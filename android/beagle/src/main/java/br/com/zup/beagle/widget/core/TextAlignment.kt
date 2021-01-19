@@ -26,7 +26,7 @@ import br.com.zup.beagle.core.BeagleJson
  * @property RIGHT
  *
  */
-
+@BeagleJson
 enum class TextAlignment {
     /**
      * Text content is LEFT aligned inside the text view.

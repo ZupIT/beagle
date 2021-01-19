@@ -34,6 +34,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @property PREPEND
  * @property REPLACE
  */
+@BeagleJson
 enum class Mode {
     /**
      * Adds the view in the end of the children's list.

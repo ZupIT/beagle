@@ -21,6 +21,7 @@ import br.com.zup.beagle.core.BeagleJson
 /**
  * Enum define text support.
  */
+@BeagleJson
 enum class TextInputType {
     /**
      * Date text support.

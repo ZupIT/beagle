@@ -25,6 +25,7 @@ import br.com.zup.beagle.core.BeagleJson
  * @property HORIZONTAL
  *
  */
+@BeagleJson
 enum class ListDirection {
     /**
      * Items list are displayed in vertical direction like LINES.

@@ -173,6 +173,7 @@ data class EdgeValue(
  * @property COLUMN_REVERSE
  * @property ROW_REVERSE
  */
+@BeagleJson
 enum class FlexDirection {
     /**
      * Align children from top to bottom. If wrapping is enabled,
@@ -213,6 +214,7 @@ enum class FlexDirection {
  * @property WRAP
  * @property WRAP_REVERSE
  */
+@BeagleJson
 enum class FlexWrap {
     /**
      *  The flex items are laid out in a single line which may cause the flex container to overflow.
@@ -252,6 +254,7 @@ enum class FlexWrap {
  *
  */
 
+@BeagleJson
 enum class JustifyContent {
     /**
      * Align children of a container to the start of the container's main axis.
@@ -309,7 +312,7 @@ enum class JustifyContent {
  * @property SPACE_AROUND
  * @property STRETCH
  */
-
+@BeagleJson
 enum class AlignContent {
     /**
      * Align wrapped lines to the start of the container's cross axis.
@@ -364,7 +367,7 @@ enum class AlignContent {
  * @property AUTO
  * @property STRETCH
  */
-
+@BeagleJson
 enum class AlignSelf {
     /**
      * Align wrapped lines to the start of the container's cross axis.
@@ -415,7 +418,7 @@ enum class AlignSelf {
  * @property BASELINE
  * @property STRETCH
  */
-
+@BeagleJson
 enum class AlignItems {
     /**
      * Align wrapped lines to the start of the container's cross axis.

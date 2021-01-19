@@ -24,5 +24,5 @@ import java.lang.annotation.Retention;
 @Retention(RUNTIME)
 @Documented
 public @interface BeagleJson {
-    String name();
+    String name() default "";;
 }

@@ -21,6 +21,7 @@ import br.com.zup.beagle.core.BeagleJson
 /**
  * Enum define the scroll roll direction on screen.
  */
+@BeagleJson
 enum class ScrollAxis {
     /**
      * Defines the scroll as vertical.

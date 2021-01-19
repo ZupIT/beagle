@@ -126,7 +126,10 @@ sealed class ImagePath {
      *
      * @param mobileId reference an image natively in your mobile app local styles file.
      * */
-    data class Local(val mobileId: Bind<String>) : ImagePath() {
+    data class Local(
+        @BeagleJson(name = "mobileId")
+        val mobileId: Bind<String>,
+    ) : ImagePath() {
         constructor(mobileId: String) : this(expressionOrValueOf(mobileId))
     }
 
@@ -136,7 +139,14 @@ sealed class ImagePath {
      * @param url reference the path where the image should be fetched from.
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
-    data class Remote(val url: Bind<String>, val placeholder: Local? = null) : ImagePath() {
+    data class Remote(
+
+        @BeagleJson(name = "url")
+        val url: Bind<String>,
+
+        @BeagleJson(name = "placeholder")
+        val placeholder: Local? = null,
+    ) : ImagePath() {
         constructor(url: String, placeholder: Local? = null) : this(expressionOrValueOf(url), placeholder)
     }
 }

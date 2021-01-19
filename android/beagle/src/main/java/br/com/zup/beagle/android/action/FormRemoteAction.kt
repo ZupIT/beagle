@@ -33,6 +33,7 @@ import br.com.zup.beagle.core.BeagleJson
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 enum class FormMethodType {
     /**
      * The GET method requests a representation of the specified resource.

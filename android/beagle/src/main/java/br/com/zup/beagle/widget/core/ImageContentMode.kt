@@ -26,6 +26,7 @@ import br.com.zup.beagle.core.BeagleJson
  * @property CENTER_CROP
  * @property CENTER
  */
+@BeagleJson
 enum class ImageContentMode {
     /**
      * Compute a scale that will maintain the original aspect ratio,

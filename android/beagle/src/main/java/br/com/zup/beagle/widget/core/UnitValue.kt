@@ -38,6 +38,7 @@ data class UnitValue(
  * @property AUTO
  */
 
+@BeagleJson
 enum class UnitType {
     /**
      * Apply the value based in platform, like android this represent dp.

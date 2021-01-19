@@ -38,6 +38,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
+import br.com.zup.beagle.core.BeagleJson
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
