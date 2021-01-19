@@ -13,8 +13,8 @@ jobs:
     - name: Running Horus Security
       run: |
         curl -fsSL https://horusec.io/bin/install.sh | bash 
-        horusec start -p ./ -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -G "true" -u "https://api-horusec.zup.com.br" -n "${GITHUB_REPOSITORY}-${GITHUB_REF##*/}"
-        echo ${GITHUB_REPOSITORY}-${GITHUB_REF##*/}
+        horusec start -p ./ -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -G "true" -u "https://api-horusec.zup.com.br" -n "${GITHUB_REPOSITORY}_${GITHUB_REF##*/}"
+        echo ${GITHUB_REPOSITORY}_${GITHUB_REF##*/}
 
     # JDK 1.11
     - name: Set up JDK 1.11
