@@ -124,7 +124,7 @@ public class BeagleScreenViewController: BeagleController {
     
     public func execute(actions: [Action]?, event: String?, origin: UIView) {
         actions?.forEach {
-            AnalyticsService.shared?.createRecord(action: $0, origin: origin, event: event, controller: self)
+            AnalyticsService.shared?.createRecord(.init(action: $0, event: event, origin: origin, controller: self))
             $0.execute(controller: self, origin: origin)
         }
     }

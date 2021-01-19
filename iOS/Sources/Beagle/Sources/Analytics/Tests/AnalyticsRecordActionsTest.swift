@@ -84,8 +84,8 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
         _ = BeagleNavigationController(rootViewController: controller)
         let origin = try XCTUnwrap(controller.view.viewWithTag(type(of: child).tag))
 
-        service.createRecord(action: action, origin: origin, event: nil, controller: controller)
-        waitCreateRecords(service)
+        service.createRecord(.init(action: action, event: nil, origin: origin, controller: controller))
+//        waitCreateRecords(service)
         return (try XCTUnwrap(provider.records.first), fromJson)
     }
 }

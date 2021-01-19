@@ -120,7 +120,7 @@ class AnalyticsServiceTests: AnalyticsTestHelpers {
         )
         
         // When
-        sut.createRecord(action: action, origin: UIView(), event: "testCase", controller: BeagleControllerStub(remoteScreen))
+        sut.createRecord(.init(action: action, event: "testCase", origin: UIView(), controller: BeagleControllerStub(remoteScreen)))
         waitCreateRecords(sut)
         
         // Then
