@@ -113,7 +113,7 @@ internal object ActionReportFactory {
 
     fun generateActionAnalyticsConfig(
         dataActionReport: DataActionReport,
-        actionAnalyticsConfig: ActionAnalyticsConfig
+        actionAnalyticsConfig: ActionAnalyticsConfig.Enabled
     ) = object : AnalyticsRecord {
         override val type: String
             get() = "action"
@@ -125,14 +125,14 @@ internal object ActionReportFactory {
 
     private fun generateAttributes(
         dataActionReport: DataActionReport,
-        actionAnalyticsConfig: ActionAnalyticsConfig
+        actionAnalyticsConfig: ActionAnalyticsConfig.Enabled
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
         setScreenIdAttribute(dataActionReport.screenId, hashMap)
         dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
-        actionAnalyticsConfig.attributes?.let {
+        (actionAnalyticsConfig.value as ActionAnalyticsProperties).attributes?.let{
             hashMap.putAll(
                 generateAnalyticsConfigAttributesHashMap(
                     it,
@@ -140,7 +140,7 @@ internal object ActionReportFactory {
                 )
             )
         }
-        actionAnalyticsConfig.additionalEntries?.let {
+        (actionAnalyticsConfig.value as ActionAnalyticsProperties).additionalEntries?.let {
             hashMap.putAll(it)
         }
         hashMap["beagleAction"] = dataActionReport.actionType

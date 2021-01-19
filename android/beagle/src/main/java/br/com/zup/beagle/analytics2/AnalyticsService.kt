@@ -20,7 +20,8 @@ import android.view.View
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
-import java.util.*
+import java.util.LinkedList
+import java.util.Queue
 
 internal object AnalyticsService {
 
@@ -78,7 +79,7 @@ internal object AnalyticsService {
     fun reportActionIfShould(dataActionReport: DataActionReport) {
         val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport)
         if (shouldReport(config)) {
-            analyticsProvider?.createRecord(ActionReportFactory.generateActionAnalyticsConfig(dataActionReport, config))
+            analyticsProvider?.createRecord(ActionReportFactory.generateActionAnalyticsConfig(dataActionReport, config as ActionAnalyticsConfig.Enabled))
         }
     }
 
@@ -86,10 +87,7 @@ internal object AnalyticsService {
         dataActionReport: DataActionReport
     ): ActionAnalyticsConfig {
         dataActionReport.action.analytics?.let { actionAnalytics ->
-            return ActionAnalyticsConfig(
-                enable = actionAnalytics.enable,
-                attributes = actionAnalytics.attributes,
-                additionalEntries = actionAnalytics.additionalEntries)
+            return actionAnalytics
         }
         return actionAnalyticsFromConfig(dataActionReport)
     }
@@ -97,10 +95,11 @@ internal object AnalyticsService {
     private fun actionAnalyticsFromConfig(dataActionReport: DataActionReport): ActionAnalyticsConfig {
         val key = dataActionReport.actionType
         val attributeList = analyticsConfig.actions?.get(key)
-        return ActionAnalyticsConfig(enable = attributeList != null, attributes = attributeList)
+        return ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributeList))
     }
 
-    private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig.enable
+    private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig is ActionAnalyticsConfig.Enabled
+
 
     fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
         analyticsProvider?.let {

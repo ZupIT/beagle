@@ -69,7 +69,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf())
+                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf()))
             )
 
             //THEN
@@ -97,7 +97,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf())
+                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf()))
             )
 
             //THEN
@@ -182,7 +182,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         private fun reportDataAction(
             dataActionReport: DataActionReport) = ActionReportFactory.generateActionAnalyticsConfig(
             dataActionReport,
-            ActionAnalyticsConfig(enable = true, attributes = listOf())
+            ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf()))
         )
     }
 
@@ -195,10 +195,11 @@ internal class ActionReportFactoryTest : BaseTest() {
         private val action: ActionAnalytics = Navigate.PushView(route = route)
 
         @BeforeEach
-        fun setup(){
+        fun setup() {
             every { rootView.getScreenId() } returns ""
 
         }
+
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testSimpleActionAttribute() {
@@ -211,7 +212,8 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf("route"))
+                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("route")))
+
             )
 
             //THEN
@@ -231,7 +233,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf(ROUTE_URL_CONSTANT, ROUTE_SHOULD_PREFETCH_CONSTANT))
+                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf(ROUTE_URL_CONSTANT, ROUTE_SHOULD_PREFETCH_CONSTANT)))
             )
 
             //THEN
@@ -252,7 +254,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
-                ActionAnalyticsConfig(enable = true, attributes = listOf("route.a"))
+                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("route.a")))
             )
             print(report)
             //THEN

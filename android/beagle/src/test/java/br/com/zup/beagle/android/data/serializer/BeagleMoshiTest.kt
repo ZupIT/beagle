@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.data.serializer
 
+import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.analytics2.ActionAnalyticsProperties
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AddChildren
@@ -70,6 +72,8 @@ import org.json.JSONObject
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
@@ -83,6 +87,7 @@ private val ACTIONS = listOf(
     CustomAndroidAction::class.java as Class<Action>
 )
 
+@DisplayName("Given a Moshi Adapter")
 class BeagleMoshiTest : BaseTest() {
 
     private lateinit var moshi: Moshi
@@ -1087,4 +1092,137 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         assertNotNull(JSONObject(json))
     }
+
+    @DisplayName("When to JSON")
+    @Nested
+    inner class ActionAnalyticsConfigAdapterToJson {
+
+        @DisplayName("Then should create JSON with false string")
+        @Test
+        fun testActionAnalyticsConfigDisabledToJsonReturnFalse() {
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Disabled()
+
+            val json = moshi.adapter(ActionAnalyticsConfig::class.java).toJson(actionAnalyticsConfig)
+
+            assertNotNull(json)
+            assertEquals("false", json)
+        }
+
+        @DisplayName("Then should create JSON with true string")
+        @Test
+        fun testActionAnalyticsConfigEnabledWithAnalyticsNullToJsonReturnFalse() {
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Enabled()
+
+            val json = moshi.adapter(ActionAnalyticsConfig::class.java).toJson(actionAnalyticsConfig)
+
+            assertNotNull(json)
+            assertEquals("true", json)
+        }
+
+        @DisplayName("Then should create JSON with Attributes should return right string")
+        @Test
+        fun testActionAnalyticsConfigEnabledWithAnalyticsToJsonReturnRightString() {
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("attributes")))
+
+            val json = moshi.adapter(ActionAnalyticsConfig::class.java).toJson(actionAnalyticsConfig)
+
+            assertNotNull(json)
+            assertEquals(makeActionAnalyticsPropertiesWithAttribute(), json)
+        }
+
+        @DisplayName("Then should create JSON with AdditionalEntries should return right string")
+        @Test
+        fun testActionAnalyticsConfigEnabledWithAdditionalEntriesToJsonReturnRightString() {
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(additionalEntries = mapOf("attributes" to "test")))
+
+            val json = moshi.adapter(ActionAnalyticsConfig::class.java).toJson(actionAnalyticsConfig)
+
+            assertNotNull(json)
+            assertEquals(makeActionAnalyticsPropertiesWithAdditionalEntries(), json)
+        }
+
+        @DisplayName("Then should create JSON with AdditionalEntries and attributes should return right string")
+        @Test
+        fun testActionAnalyticsConfigEnabledWithAdditionalEntriesAndAttributesToJsonReturnRightString() {
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(listOf("attributes"), mapOf("attributes" to "test")))
+
+            val json = moshi.adapter(ActionAnalyticsConfig::class.java).toJson(actionAnalyticsConfig)
+
+            assertNotNull(json)
+            assertEquals(makeActionAnalyticsPropertiesWithAttributesAndAdditionalEntries(), json)
+        }
+    }
+
+    @DisplayName("When from JSON")
+    @Nested
+    inner class ActionAnalyticsConfigAdapterFromJson {
+
+        @DisplayName("Then should create JSON with false string")
+        @Test
+        fun testActionAnalyticsConfigDisabledToJsonReturnFalse() {
+            val actionAnalyticsConfigExpected = ActionAnalyticsConfig.Disabled()
+
+            val actionAnalyticsConfigActual = moshi.adapter(ActionAnalyticsConfig::class.java).fromJson("false")
+
+            assertNotNull(actionAnalyticsConfigActual)
+            assertEquals(actionAnalyticsConfigExpected::class.java, actionAnalyticsConfigActual!!::class.java)
+            assertFalse(actionAnalyticsConfigActual.value as Boolean)
+
+        }
+
+        @DisplayName("Then should create JSON with true string")
+        @Test
+        fun testActionAnalyticsConfigEnabledWithAnalyticsNullToJsonReturnFalse() {
+            val actionAnalyticsConfigExpected = ActionAnalyticsConfig.Enabled()
+
+            val actionAnalyticsConfigActual = moshi.adapter(ActionAnalyticsConfig::class.java).fromJson("true")
+
+            assertNotNull(actionAnalyticsConfigActual)
+            assertEquals(actionAnalyticsConfigExpected::class.java, actionAnalyticsConfigActual!!::class.java)
+            assertEquals(null, actionAnalyticsConfigActual.value)
+        }
+
+        @DisplayName("Then should create JSON with Attributes should return right string")
+        @Test
+        fun testActionAnalyticsConfigEnabledWithAnalyticsToJsonReturnRightString() {
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("attributes")))
+
+            val actual = moshi.adapter(ActionAnalyticsConfig::class.java).fromJson(makeActionAnalyticsPropertiesWithAttribute())
+
+            assertNotNull(actual)
+            assertEquals(actionAnalyticsConfig::class.java, actual!!::class.java)
+            assertEquals((actionAnalyticsConfig.value as ActionAnalyticsProperties).attributes, (actual.value as ActionAnalyticsProperties).attributes)
+            assertEquals((actionAnalyticsConfig.value as ActionAnalyticsProperties).additionalEntries, (actual.value as ActionAnalyticsProperties).additionalEntries)
+
+        }
+
+        @DisplayName("Then should create JSON with AdditionalEntries should return right string")
+        @Test
+        fun testActionAnalyticsConfigEnabledWithAdditionalEntriesToJsonReturnRightString() {
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(additionalEntries = mapOf("attributes" to "test")))
+
+            val actual = moshi.adapter(ActionAnalyticsConfig::class.java).fromJson(makeActionAnalyticsPropertiesWithAdditionalEntries())
+
+            assertNotNull(actual)
+            assertEquals(actionAnalyticsConfig::class.java, actual!!::class.java)
+            assertEquals((actionAnalyticsConfig.value as ActionAnalyticsProperties).attributes, (actual.value as ActionAnalyticsProperties).attributes)
+            assertEquals(1, (actual.value as ActionAnalyticsProperties).additionalEntries?.size)
+            assertEquals((actionAnalyticsConfig.value as ActionAnalyticsProperties).additionalEntries?.get("attributes"), (actual.value as ActionAnalyticsProperties).additionalEntries?.get("attributes"))
+        }
+
+        @DisplayName("Then should create JSON with AdditionalEntries and attributes should return right string")
+        @Test
+        fun testActionAnalyticsConfigEnabledWithAdditionalEntriesAndAttributesToJsonReturnRightString() {
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(listOf("attributes"), mapOf("attributes" to "test")))
+
+            val actual = moshi.adapter(ActionAnalyticsConfig::class.java).fromJson(makeActionAnalyticsPropertiesWithAttributesAndAdditionalEntries())
+
+            assertNotNull(actual)
+            assertEquals(actionAnalyticsConfig::class.java, actual!!::class.java)
+            assertEquals((actionAnalyticsConfig.value as ActionAnalyticsProperties).attributes, (actual.value as ActionAnalyticsProperties).attributes)
+            assertEquals((actionAnalyticsConfig.value as ActionAnalyticsProperties).additionalEntries, (actual.value as ActionAnalyticsProperties).additionalEntries)
+        }
+    }
+
+
 }

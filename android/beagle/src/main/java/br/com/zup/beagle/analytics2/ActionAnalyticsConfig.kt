@@ -24,8 +24,16 @@ package br.com.zup.beagle.analytics2
  * @param additionalEntries is a Map of String to Any, on this param can be passed additional values to be reported
  * with the action.
 */
-data class ActionAnalyticsConfig(
-    var enable: Boolean = false,
+data class ActionAnalyticsProperties(
     var attributes: List<String>? = null,
     var additionalEntries: Map<String, Any>? = null
 )
+
+
+sealed class ActionAnalyticsConfig(
+    var value: Any? = null
+) {
+    class Disabled : ActionAnalyticsConfig(false)
+
+    class Enabled(analytics: ActionAnalyticsProperties? = null) : ActionAnalyticsConfig(analytics)
+}

@@ -25,9 +25,11 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.slot
 import io.mockk.unmockkObject
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.jupiter.api.AfterEach
@@ -246,7 +248,7 @@ class AnalyticsServiceTest : BaseTest() {
                 AnalyticsConfigImpl(actions = hashMapOf())
             )
             initAnalyticsService()
-            every { action.analytics?.enable } returns true
+            every { action.analytics } returns ActionAnalyticsConfig.Enabled()
             //WHEN
             AnalyticsService.createActionRecord(rootView, view, action)
 
@@ -278,7 +280,7 @@ class AnalyticsServiceTest : BaseTest() {
             //GIVEN
             every { ActionReportFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
 
-            val actionAnalyticsConfig = ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))
+            val actionAnalyticsConfig = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("componentId")))
             every { action.analytics } returns actionAnalyticsConfig
             analyticsProviderImpl = AnalyticsProviderImpl(
                 AnalyticsConfigImpl(actions = hashMapOf())
@@ -296,7 +298,9 @@ class AnalyticsServiceTest : BaseTest() {
         @DisplayName("Then should create record with right parameters")
         fun testActionWithAttributesOnAnalyticsConfigCallCreateRecordWithCorrectParameters() {
             //GIVEN
-            every { ActionReportFactory.generateActionAnalyticsConfig(any(), any()) } returns mockk()
+            val expected = ActionAnalyticsProperties(listOf("componentId"))
+            val slot = slot<ActionAnalyticsConfig.Enabled>()
+            every { ActionReportFactory.generateActionAnalyticsConfig(any(), capture(slot)) } returns mockk()
             every { action.analytics } returns null
 
             val analyticsConfig: AnalyticsConfig = AnalyticsConfigImpl(actions = hashMapOf(ACTION_TYPE to listOf("componentId")))
@@ -309,7 +313,9 @@ class AnalyticsServiceTest : BaseTest() {
             AnalyticsService.createActionRecord(rootView, view, action)
 
             //THEN
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(any(), ActionAnalyticsConfig(enable = true, attributes = listOf("componentId"))) }
+            assertEquals(expected.attributes, (slot.captured.value as ActionAnalyticsProperties).attributes)
+            assertEquals(expected.additionalEntries, (slot.captured.value as ActionAnalyticsProperties).additionalEntries)
+            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(any(), any()) }
         }
     }
 
@@ -325,7 +331,7 @@ class AnalyticsServiceTest : BaseTest() {
                 analyticsConfig
             )
             initAnalyticsService()
-            every { action.analytics?.enable } returns false
+            every { action.analytics } returns ActionAnalyticsConfig.Disabled()
 
             //WHEN
             AnalyticsService.createActionRecord(rootView, view, action)
