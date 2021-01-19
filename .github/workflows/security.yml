@@ -14,6 +14,7 @@ jobs:
       run: |
         curl -fsSL https://horusec.io/bin/install.sh | bash 
         horusec start -p ./ -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -G "true" -u "https://api-horusec.zup.com.br" -n "beagle-${GITHUB_REF##*/}"
+        echo teste ${GITHUB_REF##*/}
 
     # JDK 1.11
     - name: Set up JDK 1.11
