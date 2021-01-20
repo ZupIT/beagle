@@ -2,10 +2,7 @@
     "_beagleAction_": "beagle:formValidation",
     "analytics": {
         "attributes": [
-            "errors[4].message",
-            "errors[2]",
-            "errors[-2]",
-            "errors[4].inputName"
+            "errors"
         ],
         "enable": true
     },

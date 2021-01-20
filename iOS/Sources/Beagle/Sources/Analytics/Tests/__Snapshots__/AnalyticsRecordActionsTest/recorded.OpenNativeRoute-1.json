@@ -8,9 +8,7 @@
     },
     "type" : "custom:analyticstestcomponent"
   },
-  "data" : {
-    "number" : "Ten"
-  },
+  "data.number" : "Ten",
   "platform" : "ios",
   "route" : "native-route?q=@{context.query}",
   "screen" : "analytics-actions",

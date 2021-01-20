@@ -10,9 +10,7 @@
   },
   "labelOk" : "additionalEntries takes precedence",
   "message" : "Message - 3.14159265359",
-  "onPressOk" : {
-    "message" : "beagle"
-  },
+  "onPressOk.message" : "beagle",
   "platform" : "ios",
   "screen" : "analytics-actions",
   "title" : "Title - beagle-ios",

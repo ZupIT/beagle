@@ -9,16 +9,10 @@
     "type" : "custom:analyticstestcomponent"
   },
   "platform" : "ios",
-  "route" : {
-    "fallback" : {
-      "identifier" : "fallback-screen-id",
-      "navigationBar" : {
-        "title" : "Fallback Screen Title"
-      }
-    },
-    "shouldPrefetch" : false,
-    "url" : "result of @{context.remoteRoute}"
-  },
+  "route.fallback.identifier" : "fallback-screen-id",
+  "route.fallback.navigationBar.title" : "Fallback Screen Title",
+  "route.shouldPrefetch" : false,
+  "route.url" : "result of @{context.remoteRoute}",
   "screen" : "analytics-actions",
   "type" : "action"
 }

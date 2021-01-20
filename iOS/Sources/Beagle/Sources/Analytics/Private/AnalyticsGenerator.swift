@@ -79,10 +79,13 @@ struct AnalyticsGenerator {
     private func getAttributesAndAdditionalEntries() -> [String: Any] {
         guard case .enabled(let analytics) = info.action.analytics else { return [:] }
 
+        let attributes = analytics?.attributes ?? []
+        let additional = analytics?.additionalEntries ?? [:]
+
         var values = [String: Any]()
         [
-            mapToDictionary.getAttributes(analytics?.attributes ?? []),
-            makeAdditionalEntries(analytics?.additionalEntries ?? [:])
+            mapToDictionary.getAttributes(attributes),
+            makeAdditionalEntries(additional)
         ].forEach {
             values.merge($0) { _, new in new }
         }

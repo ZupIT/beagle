@@ -9,13 +9,22 @@
     "type" : "custom:analyticstestcomponent"
   },
   "errors" : [
-    null,
-    null,
+    {
+      "inputName" : "inputName0",
+      "message" : "error for inputName0"
+    },
+    {
+      "inputName" : "inputName1",
+      "message" : "error for inputName1"
+    },
     {
       "inputName" : "inputName2",
       "message" : "error for inputName2"
     },
-    null,
+    {
+      "inputName" : "inputName3",
+      "message" : "error for inputName3"
+    },
     {
       "inputName" : "inputName4",
       "message" : "error for inputName4"

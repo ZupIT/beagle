@@ -12,10 +12,5 @@
   "mode" : "APPEND",
   "platform" : "ios",
   "screen" : "analytics-actions",
-  "type" : "action",
-  "value" : [
-    {
-      "text" : "Appended text."
-    }
-  ]
+  "type" : "action"
 }

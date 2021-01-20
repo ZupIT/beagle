@@ -9,14 +9,8 @@
     "type" : "custom:analyticstestcomponent"
   },
   "platform" : "ios",
-  "route" : {
-    "screen" : {
-      "identifier" : "screen-id-local-route",
-      "navigationBar" : {
-        "title" : "Local Screen Title"
-      }
-    }
-  },
+  "route.screen.identifier" : "screen-id-local-route",
+  "route.screen.navigationBar.title" : "Local Screen Title",
   "screen" : "analytics-actions",
   "type" : "action"
 }

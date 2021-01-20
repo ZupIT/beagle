@@ -11,12 +11,8 @@
   "labelCancel" : "👎🏻",
   "labelOk" : "👍🏻",
   "message" : "Message - 3.14159265359",
-  "onPressCancel" : {
-    "message" : "Cancel - beagle"
-  },
-  "onPressOk" : {
-    "message" : "OK - beagle"
-  },
+  "onPressCancel.message" : "Cancel - beagle",
+  "onPressOk.message" : "OK - beagle",
   "platform" : "ios",
   "screen" : "analytics-actions",
   "title" : "Title - beagle-ios",
