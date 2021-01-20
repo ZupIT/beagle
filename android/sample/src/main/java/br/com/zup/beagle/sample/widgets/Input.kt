@@ -31,11 +31,7 @@ import br.com.zup.beagle.core.BeagleJson
 
 @RegisterWidget("input")
 data class Input(
-
-    @BeagleJson(name = "hint")
     val hint: Bind<String>,
-
-    @BeagleJson(name = "onTextChange")
     val onTextChange: List<Action>? = null,
 ) : WidgetView() {
 

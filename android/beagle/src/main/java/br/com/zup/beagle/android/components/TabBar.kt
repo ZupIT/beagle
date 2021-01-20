@@ -55,17 +55,9 @@ private val TAB_BAR_HEIGHT = 48.dp()
  */
 @RegisterWidget("tabBar")
 data class TabBar(
-
-    @BeagleJson(name = "items")
     val items: List<TabBarItem>,
-
-    @BeagleJson(name = "styleId")
     val styleId: String? = null,
-
-    @BeagleJson(name = "currentTab")
     val currentTab: Bind<Int>? = null,
-
-    @BeagleJson(name = "onTabSelection")
     val onTabSelection: List<Action>? = null,
 ) : WidgetView() {
 

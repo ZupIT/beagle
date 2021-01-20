@@ -23,12 +23,9 @@ import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.BeagleJson
 
 @RegisterWidget("text")
 data class Text(
-
-    @BeagleJson(name = "text")
     val text: Bind<String>,
 ) : WidgetView() {
     override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).also {

@@ -49,39 +49,18 @@ import br.com.zup.beagle.widget.core.Size
  * @param positionType The position type of an element defines how it is positioned within its parent.
  * @param display enables a flex context for all its direct children.
  */
+@BeagleJson
 data class Style(
-
-    @BeagleJson(name = "backgroundColor")
     val backgroundColor: String? = null,
-
-    @BeagleJson(name = "cornerRadius")
     val cornerRadius: CornerRadius? = null,
-
-    @BeagleJson(name = "borderColor")
     val borderColor: String? = null,
-
-    @BeagleJson(name = "borderWidth")
     val borderWidth: Double? = null,
-
-    @BeagleJson(name = "size")
     val size: Size? = null,
-
-    @BeagleJson(name = "margin")
     val margin: EdgeValue? = null,
-
-    @BeagleJson(name = "padding")
     val padding: EdgeValue? = null,
-
-    @BeagleJson(name = "position")
     val position: EdgeValue? = null,
-
-    @BeagleJson(name = "flex")
     val flex: Flex? = null,
-
-    @BeagleJson(name = "positionType")
     val positionType: PositionType? = null,
-
-    @BeagleJson(name = "display")
     val display: Bind<Display>? = null,
 )
 
@@ -90,9 +69,8 @@ data class Style(
  *
  * @param radius define size of radius
  */
+@BeagleJson
 data class CornerRadius(
-
-    @BeagleJson(name = "radius")
     val radius: Double = 0.0,
 )
 
@@ -108,13 +86,11 @@ enum class Display {
     /**
      * Apply the flex properties.
      */
-    @BeagleJson(name = "FLEX")
     FLEX,
 
     /**
      * No flex properties will be applied to the element.
      */
-    @BeagleJson(name = "NONE")
     NONE
 }
 
@@ -132,7 +108,6 @@ enum class PositionType {
      * and then offset relative to that position based on the values of top, right, bottom, and left.
      * The offset does not affect the position of any sibling or parent elements.
      */
-    @BeagleJson(name = "ABSOLUTE")
     ABSOLUTE,
 
     /**
@@ -140,6 +115,5 @@ enum class PositionType {
      * It is instead laid out independent of its siblings.
      * The position is determined based on the top, right, bottom, and left values.
      */
-    @BeagleJson(name = "RELATIVE")
     RELATIVE
 }

@@ -28,15 +28,16 @@ import br.com.zup.beagle.core.BeagleJson
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
+
+@BeagleJson
 sealed class Navigate : Action {
 
     /**
      * Opens one of the browsers available on the device with the passed url.
      * @param url defined route to be shown.
      */
+    @BeagleJson
     data class OpenExternalURL(
-
-        @BeagleJson(name = "url")
         val url: String,
 
         ) : Navigate() {
@@ -52,15 +53,10 @@ sealed class Navigate : Action {
      * restarting the application view stack.
      * @param data pass information between screens.
      */
+    @BeagleJson
     class OpenNativeRoute(
-
-        @BeagleJson(name = "route")
         val route: String,
-
-        @BeagleJson(name = "shouldResetApplication")
         val shouldResetApplication: Boolean = false,
-
-        @BeagleJson(name = "data")
         val data: Map<String, String>? = null,
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
@@ -71,6 +67,7 @@ sealed class Navigate : Action {
     /**
      * This action closes the current view stack.
      */
+    @BeagleJson
     class PopStack : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popStack(rootView.getContext())
@@ -80,6 +77,7 @@ sealed class Navigate : Action {
     /**
      * Action that closes the current view.
      */
+    @BeagleJson
     class PopView : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popView(rootView.getContext())
@@ -91,8 +89,8 @@ sealed class Navigate : Action {
      *
      * @param route route of a screen that it's on the pile.
      */
+    @BeagleJson
     data class PopToView(
-        @BeagleJson(name = "route")
         val route: String,
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
@@ -108,8 +106,8 @@ sealed class Navigate : Action {
      * @param route this defines navigation type, it can be a navigation to a remote route in which Beagle will
      * deserialize the content or to a local screen already built.
      */
+    @BeagleJson
     data class PushView(
-        @BeagleJson(name = "route")
         val route: Route,
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
@@ -126,15 +124,11 @@ sealed class Navigate : Action {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
+    @BeagleJson
     data class PushStack(
-
-        @BeagleJson(name = "route")
         val route: Route,
-
-        @BeagleJson(name = "controllerId")
         val controllerId: String? = null,
-
-        ) : Navigate() {
+    ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.pushStack(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }
@@ -149,15 +143,11 @@ sealed class Navigate : Action {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
+    @BeagleJson
     data class ResetApplication(
-
-        @BeagleJson(name = "route")
         val route: Route,
-
-        @BeagleJson(name = "controllerId")
         val controllerId: String? = null,
-
-        ) : Navigate() {
+    ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.resetApplication(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
         }
@@ -172,12 +162,9 @@ sealed class Navigate : Action {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
+    @BeagleJson
     data class ResetStack(
-
-        @BeagleJson(name = "route")
         val route: Route,
-
-        @BeagleJson(name = "controllerId")
         val controllerId: String? = null,
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
@@ -199,6 +186,7 @@ sealed class Navigate : Action {
  * it can be a navigation to a remote route in which Beagle will deserialize the content
  * or to a local screen already built.
  */
+@BeagleJson
 sealed class Route {
     /**
      * Class that takes care of navigation to remote content.
@@ -206,14 +194,10 @@ sealed class Route {
      * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
      * @param fallback screen that is rendered in case the request fails.
      */
+    @BeagleJson
     data class Remote constructor(
-        @BeagleJson(name = "url")
         val url: Bind<String>,
-
-        @BeagleJson(name = "shouldPrefetch")
         val shouldPrefetch: Boolean = false,
-
-        @BeagleJson(name = "fallback")
         val fallback: Screen? = null,
     ) : Route() {
 
@@ -232,9 +216,8 @@ sealed class Route {
      * Class indicating navigation to a local screen.
      * @param screen screen to be rendered.
      */
+    @BeagleJson
     data class Local(
-
-        @BeagleJson(name = "screen")
         val screen: Screen,
     ) : Route()
 }

@@ -188,6 +188,7 @@ class BeagleKotlinJsonAdapterFactory : JsonAdapter.Factory {
         val rawType = type.rawType
         if (rawType.isInterface) return null
         if (rawType.isEnum) return null
+
         if (!rawType.isAnnotationPresent(KOTLIN_METADATA)) return null
         if (Util.isPlatformType(rawType)) return null
         try {
@@ -244,7 +245,6 @@ class BeagleKotlinJsonAdapterFactory : JsonAdapter.Factory {
             property.isAccessible = true
             val allAnnotations = property.annotations.toMutableList()
             var jsonAnnotation = property.findAnnotation<BeagleJson>()
-            Log.v("uzias json annotation", jsonAnnotation.toString())
 
             if (parameter != null) {
                 allAnnotations += parameter.annotations

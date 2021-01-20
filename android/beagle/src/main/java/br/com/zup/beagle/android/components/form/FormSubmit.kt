@@ -38,12 +38,9 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 data class FormSubmit(
-
-    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
-
-    @BeagleJson(name = "enabled")
     val enabled: Boolean = true,
 ) : ViewConvertable, GhostComponent {
 

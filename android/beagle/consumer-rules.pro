@@ -14,16 +14,17 @@
 # limitations under the License.
 #
 
+-dontwarn org.jetbrains.annotations.**
+-dontwarn javax.annotation.**
+
 # Beagle uses coroutines in network requests
 -keep class kotlinx.coroutines.experimental.android.AndroidExceptionPreHandler { *; }
 
 # Beagle does reflection on generic parameters
-#-keepattributes Signature, InnerClasses, EnclosingMethod
+-keepattributes Signature, InnerClasses, EnclosingMethod
 
 # Beagle does reflection on method and parameter annotations
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
--dontwarn org.jetbrains.annotations.**
--keep class kotlin.Metadata { *; }
 
 # Yoga is a dependency used on Beagle
 -keep @com.facebook.proguard.annotations.DoNotStrip class * { *; }
@@ -35,12 +36,21 @@
 # Beagle Serialization / Deserialization
 -keep class br.com.zup.beagle.core.BeagleJson
 
--keepclassmembers @br.com.zup.beagle.core.BeagleJson class * extends java.lang.Enum {
-    <fields>;
-    **[] values();
+-keepclassmembers @br.com.zup.beagle.annotation.RegisterWidget class *  {
+  <init>(...);
+  <fields>;
 }
 
--dontwarn javax.annotation.**
+-keepclassmembers @br.com.zup.beagle.annotation.RegisterAction class *  {
+  <init>(...);
+  <fields>;
+}
+
+-keepclassmembers @br.com.zup.beagle.core.BeagleJson class *  {
+  <init>(...);
+  <fields>;
+  **[] values();
+}
 
 -keepattributes LineNumberTable,SourceFile
 

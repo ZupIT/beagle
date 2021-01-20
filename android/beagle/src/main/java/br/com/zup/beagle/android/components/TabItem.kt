@@ -42,14 +42,8 @@ import br.com.zup.beagle.core.SingleChildComponent
     "Use TabBarItem instead.",
     replaceWith = ReplaceWith("TabBarItem(title, icon)"))
 data class TabItem(
-
-    @BeagleJson(name = "title")
     val title: String? = null,
-
-    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
-
-    @BeagleJson(name = "icon")
     val icon: ImagePath.Local? = null,
 ) : WidgetView(), SingleChildComponent {
 

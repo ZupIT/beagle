@@ -25,8 +25,6 @@ import br.com.zup.beagle.core.BeagleJson
 
 @RegisterWidget("sampleTextField")
 data class SampleTextField(
-
-    @BeagleJson(name = "placeholder")
     val placeholder: String = "",
 ) : InputWidget() {
 

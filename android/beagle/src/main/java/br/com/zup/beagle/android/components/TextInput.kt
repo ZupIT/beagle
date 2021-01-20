@@ -63,35 +63,15 @@ private const val VALUE_KEY = "value"
  */
 @RegisterWidget("textInput")
 data class TextInput(
-
-    @BeagleJson(name = "value")
     val value: Bind<String>? = null,
-
-    @BeagleJson(name = "placeholder")
     val placeholder: Bind<String>? = null,
-
-    @BeagleJson(name = "disabled")
     val disabled: Bind<Boolean>? = null,
-
-    @BeagleJson(name = "readOnly")
     val readOnly: Bind<Boolean>? = null,
-
-    @BeagleJson(name = "type")
     val type: Bind<TextInputType>? = null,
-
-    @BeagleJson(name = "hidden")
     val hidden: Bind<Boolean>? = null,
-
-    @BeagleJson(name = "styleId")
     val styleId: String? = null,
-
-    @BeagleJson(name = "onChange")
     val onChange: List<Action>? = null,
-
-    @BeagleJson(name = "onFocus")
     val onFocus: List<Action>? = null,
-
-    @BeagleJson(name = "onBlur")
     val onBlur: List<Action>? = null,
 ) : InputWidget() {
 

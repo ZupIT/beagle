@@ -44,36 +44,18 @@ import br.com.zup.beagle.core.BeagleJson
  *              the total size of the children overflow the size of the container on the main axis.
  *
  */
+
+@BeagleJson
 data class Flex(
-
-    @BeagleJson(name = "flexDirection")
     val flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
-
-    @BeagleJson(name = "flexWrap")
     val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
-
-    @BeagleJson(name = "justifyContent")
     val justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
-
-    @BeagleJson(name = "alignItems")
     val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
-
-    @BeagleJson(name = "alignSelf")
     val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
-
-    @BeagleJson(name = "alignContent")
     val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
-
-    @BeagleJson(name = "basis")
     val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
-
-    @BeagleJson(name = "flex")
     val flex: Double? = null, /* = 0.0 */
-
-    @BeagleJson(name = "grow")
     val grow: Double? = null, /* = 0.0 */
-
-    @BeagleJson(name = "shrink")
     val shrink: Double? = null, /* = 1.0 */
 )
 
@@ -90,27 +72,14 @@ data class Flex(
  * @param aspectRatio defined as the ratio between the width and the height of a node.
  *
  */
+@BeagleJson
 data class Size(
-
-    @BeagleJson(name = "width")
     val width: UnitValue? = null,
-
-    @BeagleJson(name = "height")
     val height: UnitValue? = null,
-
-    @BeagleJson(name = "maxWidth")
     val maxWidth: UnitValue? = null,
-
-    @BeagleJson(name = "maxHeight")
     val maxHeight: UnitValue? = null,
-
-    @BeagleJson(name = "minWidth")
     val minWidth: UnitValue? = null,
-
-    @BeagleJson(name = "minHeight")
     val minHeight: UnitValue? = null,
-
-    @BeagleJson(name = "aspectRatio")
     val aspectRatio: Double? = null,
 )
 
@@ -140,27 +109,14 @@ data class Size(
  *               specify the offset the all edge of the item should have from
  *               it’s closest sibling (item) or parent (container).
  */
+@BeagleJson
 data class EdgeValue(
-
-    @BeagleJson(name = "left")
     val left: UnitValue? = null,
-
-    @BeagleJson(name = "top")
     val top: UnitValue? = null,
-
-    @BeagleJson(name = "right")
     val right: UnitValue? = null,
-
-    @BeagleJson(name = "bottom")
     val bottom: UnitValue? = null,
-
-    @BeagleJson(name = "horizontal")
     val horizontal: UnitValue? = null,
-
-    @BeagleJson(name = "vertical")
     val vertical: UnitValue? = null,
-
-    @BeagleJson(name = "all")
     val all: UnitValue? = null,
 )
 
@@ -179,28 +135,24 @@ enum class FlexDirection {
      * Align children from top to bottom. If wrapping is enabled,
      * then the next line will start to the right of the first item on the top of the container
      */
-    @BeagleJson(name = "COLUMN")
     COLUMN,
 
     /**
      *  Align children from left to right. If wrapping is enabled,
      *  then the next line will start under the first item on the left of the container.
      */
-    @BeagleJson(name = "ROW")
     ROW,
 
     /**
      *  Align children from bottom to top. If wrapping is enabled,
      *  then the next line will start to the right of the first item on the bottom of the container.
      */
-    @BeagleJson(name = "COLUMN_REVERSE")
     COLUMN_REVERSE,
 
     /**
      *  Align children from right to left. If wrapping is enabled,
      *  then the next line will start under the first item on the right of the container.
      */
-    @BeagleJson(name = "ROW_REVERSE")
     ROW_REVERSE
 }
 
@@ -221,7 +173,6 @@ enum class FlexWrap {
      *  The cross-start is either equivalent to start or before depending flex-direction value.
      *  This is the default value.
      */
-    @BeagleJson(name = "NO_WRAP")
     NO_WRAP,
 
     /**
@@ -229,13 +180,11 @@ enum class FlexWrap {
      *  The cross-start is either equivalent to start or
      *  before depending flex-direction value and the cross-end is the opposite of the specified cross-start.
      */
-    @BeagleJson(name = "WRAP")
     WRAP,
 
     /**
      *  Behaves the same as wrap but cross-start and cross-end are permuted.
      */
-    @BeagleJson(name = "WRAP_REVERSE")
     WRAP_REVERSE
 }
 
@@ -259,26 +208,22 @@ enum class JustifyContent {
     /**
      * Align children of a container to the start of the container's main axis.
      */
-    @BeagleJson(name = "FLEX_START")
     FLEX_START,
 
     /**
      * Align children of a container in the center of the container's main axis.
      */
-    @BeagleJson(name = "CENTER")
     CENTER,
 
     /**
      * Align children of a container to the end of the container's main axis.
      */
-    @BeagleJson(name = "FLEX_END")
     FLEX_END,
 
     /**
      * Evenly space off children across the container's main axis,
      * distributing the remaining space between the children.
      */
-    @BeagleJson(name = "SPACE_BETWEEN")
     SPACE_BETWEEN,
 
     /**
@@ -287,7 +232,6 @@ enum class JustifyContent {
      * Compared to space-between, using space-around will result in space
      * being distributed to the beginning of the first child and end of the last child.
      */
-    @BeagleJson(name = "SPACE_AROUND")
     SPACE_AROUND,
 
     /**
@@ -295,7 +239,6 @@ enum class JustifyContent {
      *  The spacing between each pair of adjacent items,
      *  the main-start edge and the first item, and the main-end edge and the last item, are all exactly the same.
      */
-    @BeagleJson(name = "SPACE_EVENLY")
     SPACE_EVENLY
 }
 
@@ -317,26 +260,22 @@ enum class AlignContent {
     /**
      * Align wrapped lines to the start of the container's cross axis.
      */
-    @BeagleJson(name = "FLEX_START")
     FLEX_START,
 
     /**
      * Align wrapped lines in the center of the container's cross axis.
      */
-    @BeagleJson(name = "CENTER")
     CENTER,
 
     /**
      * Align wrapped lines to the end of the container's cross axis.
      */
-    @BeagleJson(name = "FLEX_END")
     FLEX_END,
 
     /**
      * Evenly space wrapped lines across the container's main axis,
      * distributing the remaining space between the lines.
      */
-    @BeagleJson(name = "SPACE_BETWEEN")
     SPACE_BETWEEN,
 
     /**
@@ -344,13 +283,11 @@ enum class AlignContent {
      * Compared to space-between, using space-around will result in space being
      * distributed to the beginning of the first line and the end of the last line.
      */
-    @BeagleJson(name = "SPACE_AROUND")
     SPACE_AROUND,
 
     /**
      * Stretch wrapped lines to match the height of the container's cross axis.
      */
-    @BeagleJson(name = "STRETCH")
     STRETCH
 }
 
@@ -372,38 +309,32 @@ enum class AlignSelf {
     /**
      * Align wrapped lines to the start of the container's cross axis.
      */
-    @BeagleJson(name = "FLEX_START")
     FLEX_START,
 
     /**
      * Align wrapped lines in the center of the container's cross axis.
      */
-    @BeagleJson(name = "CENTER")
     CENTER,
 
     /**
      * Align wrapped lines to the end of the container's cross axis.
      */
-    @BeagleJson(name = "FLEX_END")
     FLEX_END,
 
     /**
      * Align children of a container along a common baseline.
      * Individual children can be set to be the reference baseline for their parents.
      */
-    @BeagleJson(name = "BASELINE")
     BASELINE,
 
     /**
      * Computes to the parent's
      */
-    @BeagleJson(name = "AUTO")
     AUTO,
 
     /**
      * Stretch wrapped lines to match the height of the container's cross axis.
      */
-    @BeagleJson(name = "STRETCH")
     STRETCH
 }
 
@@ -423,32 +354,27 @@ enum class AlignItems {
     /**
      * Align wrapped lines to the start of the container's cross axis.
      */
-    @BeagleJson(name = "FLEX_START")
     FLEX_START,
 
     /**
      * Align wrapped lines in the center of the container's cross axis.
      */
-    @BeagleJson(name = "CENTER")
     CENTER,
 
     /**
      * Align wrapped lines to the end of the container's cross axis.
      */
-    @BeagleJson(name = "FLEX_END")
     FLEX_END,
 
     /**
      * Align children of a container along a common baseline.
      * Individual children can be set to be the reference baseline for their parents.
      */
-    @BeagleJson(name = "BASELINE")
     BASELINE,
 
     /**
      * Stretch wrapped lines to match the height of the container's cross axis.
      */
-    @BeagleJson(name = "STRETCH")
     STRETCH
 }
 

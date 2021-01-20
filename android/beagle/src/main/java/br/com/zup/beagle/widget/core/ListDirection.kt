@@ -31,13 +31,11 @@ enum class ListDirection {
      * Items list are displayed in vertical direction like LINES.
      *
      */
-    @BeagleJson(name = "VERTICAL")
     VERTICAL,
 
     /**
      * Items list are displayed in Horizontal direction like COLUMNS.
      *
      */
-    @BeagleJson(name = "HORIZONTAL")
     HORIZONTAL
 }

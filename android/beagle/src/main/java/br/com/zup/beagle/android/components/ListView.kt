@@ -36,7 +36,6 @@ import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
@@ -57,35 +56,15 @@ data class ListView
             "iteratorName, key)")
 )
 constructor(
-
-    @BeagleJson(name = "children")
     val children: List<ServerDrivenComponent>? = null,
-
-    @BeagleJson(name = "direction")
     val direction: ListDirection = ListDirection.VERTICAL,
-
-    @BeagleJson(name = "context")
     override val context: ContextData? = null,
-
-    @BeagleJson(name = "onInit")
     override val onInit: List<Action>? = null,
-
-    @BeagleJson(name = "dataSource")
     val dataSource: Bind<List<Any>>? = null,
-
-    @BeagleJson(name = "template")
     val template: ServerDrivenComponent? = null,
-
-    @BeagleJson(name = "onScrollEnd")
     val onScrollEnd: List<Action>? = null,
-
-    @BeagleJson(name = "scrollEndThreshold")
     val scrollEndThreshold: Int? = null,
-
-    @BeagleJson(name = "iteratorName")
     val iteratorName: String = "item",
-
-    @BeagleJson(name = "key")
     val key: String? = null,
 ) : WidgetView(), ContextComponent, OnInitiableComponent by OnInitiableComponentImpl(onInit) {
 

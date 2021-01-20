@@ -43,11 +43,7 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  */
 @RegisterWidget("image")
 data class Image constructor(
-
-    @BeagleJson(name = "path")
     val path: Bind<ImagePath>,
-
-    @BeagleJson(name = "mode")
     val mode: ImageContentMode? = null,
 ) : WidgetView() {
 
@@ -120,14 +116,16 @@ data class Image constructor(
 /**
  * Define the source of image data to populate the image view.
  * */
+
+@BeagleJson
 sealed class ImagePath {
     /**
      * Define an image whose data is local to the client app.
      *
      * @param mobileId reference an image natively in your mobile app local styles file.
      * */
+    @BeagleJson
     data class Local(
-        @BeagleJson(name = "mobileId")
         val mobileId: Bind<String>,
     ) : ImagePath() {
         constructor(mobileId: String) : this(expressionOrValueOf(mobileId))
@@ -139,12 +137,9 @@ sealed class ImagePath {
      * @param url reference the path where the image should be fetched from.
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
+    @BeagleJson
     data class Remote(
-
-        @BeagleJson(name = "url")
         val url: Bind<String>,
-
-        @BeagleJson(name = "placeholder")
         val placeholder: Local? = null,
     ) : ImagePath() {
         constructor(url: String, placeholder: Local? = null) : this(expressionOrValueOf(url), placeholder)

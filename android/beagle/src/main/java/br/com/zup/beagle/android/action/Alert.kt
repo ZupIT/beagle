@@ -36,26 +36,20 @@ import br.com.zup.beagle.core.BeagleJson
  * @param onPressOk define action of button positive in dialog.
  *
  */
+
+@BeagleJson
 data class Alert(
-
-    @BeagleJson(name = "title")
     val title: Bind<String>? = null,
-
-    @BeagleJson(name = "message")
     val message: Bind<String>,
-
-    @BeagleJson(name = "onPressOk")
     val onPressOk: Action? = null,
-
-    @BeagleJson(name = "labelOk")
-    val labelOk: String? = null
+    val labelOk: String? = null,
 ) : Action {
 
     constructor(
         title: String? = null,
         message: String,
         onPressOk: Action? = null,
-        labelOk: String? = null
+        labelOk: String? = null,
     ) : this(
         title = expressionOrValueOfNullable(title),
         message = expressionOrValueOf(message),

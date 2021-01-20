@@ -33,15 +33,10 @@ import br.com.zup.beagle.core.BeagleJson
  * @param onFalse define action if the condition returns false.
  *
  */
+@BeagleJson
 data class Condition(
-
-    @BeagleJson(name = "condition")
     val condition: Bind<Boolean>,
-
-    @BeagleJson(name = "onTrue")
     val onTrue: List<Action>? = null,
-
-    @BeagleJson(name = "onFalse")
     val onFalse: List<Action>? = null
 ) : Action {
 

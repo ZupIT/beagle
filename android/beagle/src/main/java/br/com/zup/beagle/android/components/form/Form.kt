@@ -64,20 +64,10 @@ import br.com.zup.beagle.core.SingleChildComponent
 @RegisterWidget("form")
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class Form(
-
-    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
-
-    @BeagleJson(name = "onSubmit")
     val onSubmit: List<Action>? = null,
-
-    @BeagleJson(name = "group")
     val group: String? = null,
-
-    @BeagleJson(name = "additionalData")
     val additionalData: Map<String, String>? = null,
-
-    @BeagleJson(name = "shouldStoreFields")
     val shouldStoreFields: Boolean = false,
 ) : WidgetView(), SingleChildComponent {
 

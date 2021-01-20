@@ -38,11 +38,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  */
 @RegisterWidget("lazyComponent")
 data class LazyComponent(
-
-    @BeagleJson(name = "path")
     val path: String,
-
-    @BeagleJson(name = "initialState")
     val initialState: ServerDrivenComponent,
 ) : WidgetView() {
 

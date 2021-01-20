@@ -46,56 +46,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return true
     }
 
+    override fun onResume() {
+        super.onResume()
+        startActivity(newServerDrivenIntent<ServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)))
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         menuSelected(itemSelected = item.itemId)
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        startActivity(newServerDrivenIntent<ServerDrivenActivity>(
-            """
-                    {
-                      "_beagleComponent_": "beagle:container",
-                      "style": {
-                        "flex": {
-                          "flexDirection": "COLUMN",
-                          "alignItems": "CENTER",
-                          "justifyContent": "CENTER"
-                        },
-                        "size": {
-                          "height": {
-                            "value": 100,
-                            "type": "PERCENT"
-                          }
-                        },
-                        "backgroundColor": "WHITE"
-                      },
-                      "children": [
-                        {
-                          "_beagleComponent_": "beagle:image",
-                          "path": {
-                            "_beagleImagePath_": "remote",
-                            "url": "https://i.ibb.co/rvRN9kv/logo.png"
-                          },
-                          "style": {
-                            "size": {
-                              "width": {
-                                "value": 242,
-                                "type": "REAL"
-                              },
-                              "height": {
-                                "value": 225,
-                                "type": "REAL"
-                              }
-                            }
-                          }
-                        }
-                      ]
-                    }
-                """.trimIndent()
-
-        ))
     }
 
     @Suppress("ComplexMethod")
@@ -116,7 +74,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.listView -> goToFragment(ListViewFragment.newInstance())
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
-            R.id.sampleBff -> {}
+            R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)))
         }
     }
 

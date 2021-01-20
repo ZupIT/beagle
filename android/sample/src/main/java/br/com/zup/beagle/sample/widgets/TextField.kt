@@ -28,33 +28,17 @@ import br.com.zup.beagle.sample.utils.MaskApplier
 
 @BeagleJson
 enum class TextFieldInputType {
-
-    @BeagleJson(name = "NUMBER")
     NUMBER,
-
-    @BeagleJson(name = "PASSWORD")
     PASSWORD,
-
-    @BeagleJson(name = "TEXT")
     TEXT
 }
 
 @RegisterWidget("textField")
 data class TextField(
-
-    @BeagleJson(name = "description")
     val description: String = "",
-
-    @BeagleJson(name = "hint")
     val hint: String = "",
-
-    @BeagleJson(name = "color")
     val color: String = "#000000",
-
-    @BeagleJson(name = "mask")
     val mask: String? = null,
-
-    @BeagleJson(name = "inputType")
     val inputType: TextFieldInputType? = null,
 ) : InputWidget() {
 

@@ -26,11 +26,7 @@ import br.com.zup.beagle.sample.components.CustomPageIndicatorView
 
 @RegisterWidget(name = "customPageIndicator")
 data class CustomPageIndicator(
-
-    @BeagleJson(name = "showContinue")
     val showContinue: Boolean,
-
-    @BeagleJson(name = "showSkip")
     val showSkip: Boolean,
 ) : PageIndicatorComponent {
 

@@ -22,8 +22,8 @@ import br.com.zup.beagle.core.BeagleJson
  * Component that hold the click analytics
  * @property clickAnalyticsEvent attribute to define click event name
  */
-interface TouchableAnalytics {
 
-    @BeagleJson(name = "clickAnalyticsEvent")
+@BeagleJson
+interface TouchableAnalytics {
     val clickAnalyticsEvent: ClickEvent?
 }

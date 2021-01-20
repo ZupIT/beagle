@@ -45,14 +45,8 @@ import br.com.zup.beagle.core.Style
  */
 @RegisterWidget("simpleForm")
 data class SimpleForm(
-
-    @BeagleJson(name = "context")
     override val context: ContextData? = null,
-
-    @BeagleJson(name = "onSubmit")
     val onSubmit: List<Action>,
-
-    @BeagleJson(name = "children")
     override val children: List<ServerDrivenComponent>,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 

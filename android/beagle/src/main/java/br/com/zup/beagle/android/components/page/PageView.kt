@@ -48,21 +48,11 @@ import br.com.zup.beagle.widget.core.Flex
  */
 @RegisterWidget("pageView")
 data class PageView(
-
-    @BeagleJson(name = "children")
     override val children: List<ServerDrivenComponent>,
     @Deprecated(message = "This property was deprecated in version 1.1.0 and will be removed in a future version.")
-
-    @BeagleJson(name = "pageIndicator")
     val pageIndicator: PageIndicatorComponent? = null,
-
-    @BeagleJson(name = "context")
     override val context: ContextData? = null,
-
-    @BeagleJson(name = "onPageChange")
     val onPageChange: List<Action>? = null,
-
-    @BeagleJson(name = "currentPage")
     val currentPage: Bind<Int>? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 

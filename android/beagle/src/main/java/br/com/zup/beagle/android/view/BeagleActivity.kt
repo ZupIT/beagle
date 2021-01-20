@@ -272,8 +272,6 @@ abstract class BeagleActivity : AppCompatActivity() {
         super.onResume()
 
         if (supportFragmentManager.fragments.size == 0) {
-            Log.v("uzias on resume", screen.toString())
-            Log.v("uzias on resume2", beagleSerializer.deserializeComponent(screen!!).toString())
             screen?.let { screen ->
                 fetch(
                     ScreenRequest(""),
@@ -337,8 +335,6 @@ abstract class BeagleActivity : AppCompatActivity() {
 
     private fun showScreen(screenName: String?, component: ServerDrivenComponent) {
         val transition = getFragmentTransitionAnimation()
-
-        Log.v("uzias show", component.toString())
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(

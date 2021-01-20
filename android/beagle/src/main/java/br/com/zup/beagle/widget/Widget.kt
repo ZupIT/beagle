@@ -30,12 +30,9 @@ import br.com.zup.beagle.core.StyleComponent
 abstract class Widget : StyleComponent, AccessibilityComponent,
     IdentifierComponent {
 
-    @BeagleJson(name = "id")
     override var id: String? = null
 
-    @BeagleJson(name = "style")
     override var style: Style? = null
 
-    @BeagleJson(name = "accessibility")
     override var accessibility: Accessibility? = null
 }

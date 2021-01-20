@@ -57,14 +57,8 @@ private val TAB_BAR_HEIGHT = 48.dp()
     "Use TabBar instead.",
     replaceWith = ReplaceWith("TabBar(items=children, styleId=styleId, currentTab=null, onTabSelection=null)"))
 data class TabView(
-
-    @BeagleJson(name = "children")
     override val children: List<TabItem>,
-
-    @BeagleJson(name = "styleId")
     val styleId: String? = null,
-
-    @BeagleJson(name = "context")
     override val context: ContextData? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 

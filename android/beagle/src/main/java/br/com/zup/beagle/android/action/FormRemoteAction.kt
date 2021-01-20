@@ -40,7 +40,6 @@ enum class FormMethodType {
      * Requests using GET should only retrieve data.
      *
      */
-    @BeagleJson(name = "GET")
     GET,
 
     /**
@@ -48,21 +47,18 @@ enum class FormMethodType {
      * often causing a change in state or side effects on the server.
      *
      */
-    @BeagleJson(name = "POST")
     POST,
 
     /**
      * The PUT method replaces all current representations of the target resource with the request payload.
      *
      */
-    @BeagleJson(name = "PUT")
     PUT,
 
     /**
      * The DELETE method deletes the specified resource.
      *
      */
-    @BeagleJson(name = "DELETE")
     DELETE
 }
 
@@ -77,12 +73,9 @@ internal typealias ResultListener = (result: FormResult) -> Unit
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 data class FormRemoteAction(
-
-    @BeagleJson(name = "path")
     val path: String,
-
-    @BeagleJson(name = "method")
     val method: FormMethodType,
 ) : Action, AsyncAction by AsyncActionImpl() {
 

@@ -40,37 +40,31 @@ enum class RequestActionMethod {
     /**
      * Request we representation of an resource.
      */
-    @BeagleJson(name = "GET")
     GET,
 
     /**
      * The POST method is used when we want to create a resource.
      */
-    @BeagleJson(name = "POST")
     POST,
 
     /**
      * Require that a resource be "saved" in the given URI.
      */
-    @BeagleJson(name = "PUT")
     PUT,
 
     /**
      * Deletes the specified resource.
      */
-    @BeagleJson(name = "DELETE")
     DELETE,
 
     /**
      * Returns only the headers of a response.
      */
-    @BeagleJson(name = "HEAD")
     HEAD,
 
     /**
      * Used to update parts of a resource
      */
-    @BeagleJson(name = "PATCH")
     PATCH
 }
 
@@ -85,28 +79,15 @@ enum class RequestActionMethod {
  * @param onError  Error action.
  * @param onFinish Finish action.
  */
+@BeagleJson
 data class SendRequest(
-
-    @BeagleJson(name = "url")
     val url: Bind<String>,
-
-    @BeagleJson(name = "method")
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
-
-    @BeagleJson(name = "headers")
     val headers: Bind<Map<String, String>>? = null,
-
-    @BeagleJson(name = "data")
     @property:ContextDataValue
     val data: Any? = null,
-
-    @BeagleJson(name = "onSuccess")
     val onSuccess: List<Action>? = null,
-
-    @BeagleJson(name = "onError")
     val onError: List<Action>? = null,
-
-    @BeagleJson(name = "onFinish")
     val onFinish: List<Action>? = null,
 ) : Action, AsyncAction by AsyncActionImpl() {
 

@@ -29,7 +29,6 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
@@ -40,26 +39,12 @@ internal data class ScreenComponent(
     @Deprecated(
         "It was deprecated in version 1.5.0 and will be removed in a future version. Use field id instead."
     )
-
-    @BeagleJson(name = "identifier")
     val identifier: String? = null,
-
-    @BeagleJson(name = "safeArea")
     val safeArea: SafeArea? = null,
-
-    @BeagleJson(name = "navigationBar")
     val navigationBar: NavigationBar? = null,
-
-    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
-
-    @BeagleJson(name = "screenAnalyticsEvent")
     override val screenAnalyticsEvent: ScreenEvent? = null,
-
-    @BeagleJson(name = "style")
     override var style: Style? = null,
-
-    @BeagleJson(name = "context")
     override val context: ContextData? = null,
 ) : WidgetView(), ScreenAnalytics, ContextComponent, SingleChildComponent {
 

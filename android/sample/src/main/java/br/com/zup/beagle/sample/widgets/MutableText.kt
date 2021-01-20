@@ -25,14 +25,8 @@ import br.com.zup.beagle.core.BeagleJson
 
 @RegisterWidget("mutableText")
 data class MutableText(
-
-    @BeagleJson(name = "firstText")
     val firstText: String = "",
-
-    @BeagleJson(name = "secondText")
     val secondText: String = "",
-
-    @BeagleJson(name = "color")
     val color: String = "#000000",
 ) : WidgetView() {
 

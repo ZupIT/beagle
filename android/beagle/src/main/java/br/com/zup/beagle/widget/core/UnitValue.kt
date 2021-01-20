@@ -23,10 +23,9 @@ import br.com.zup.beagle.core.BeagleJson
  * @property value the numeric measurement value.
  * @property type the unit of measurement.
  */
+@BeagleJson
 data class UnitValue(
-    @BeagleJson(name = "value")
     val value: Double,
-    @BeagleJson(name = "type")
     val type: UnitType
 )
 
@@ -43,18 +42,15 @@ enum class UnitType {
     /**
      * Apply the value based in platform, like android this represent dp.
      */
-    @BeagleJson(name = "REAL")
     REAL,
 
     /**
      * Apply the value based in percentage.
      */
-    @BeagleJson(name = "PERCENT")
     PERCENT,
 
     /**
      * TODO.
      */
-    @BeagleJson(name = "AUTO")
     AUTO
 }

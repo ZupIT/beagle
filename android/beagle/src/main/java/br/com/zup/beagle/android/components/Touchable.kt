@@ -37,15 +37,10 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param clickAnalyticsEvent define the event will triggered when click
  *
  */
+@BeagleJson
 data class Touchable(
-
-    @BeagleJson(name = "onPress")
     val onPress: List<Action>,
-
-    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
-
-    @BeagleJson(name = "clickAnalyticsEvent")
     val clickAnalyticsEvent: ClickEvent? = null,
 ) : ViewConvertable, GhostComponent {
 

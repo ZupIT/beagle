@@ -27,13 +27,9 @@ import br.com.zup.beagle.core.BeagleJson
  * @param value
  *
  */
+@BeagleJson
 data class ClickEvent(
-    @BeagleJson(name = "category")
     val category: String,
-
-    @BeagleJson(name = "label")
     val label: String? = null,
-
-    @BeagleJson(name = "value")
     val value: String? = null,
 )

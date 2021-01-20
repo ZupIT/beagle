@@ -23,34 +23,30 @@ import br.com.zup.beagle.core.BeagleJson
  */
 @BeagleJson
 enum class TextInputType {
+
     /**
      * Date text support.
      * This attribute on iOS will have the same effect as NUMBER.
      */
-    @BeagleJson(name = "DATE")
     DATE,
 
     /**
      * Email text support.
      */
-    @BeagleJson(name = "EMAIL")
     EMAIL,
 
     /**
      * Password text support.
      */
-    @BeagleJson(name = "PASSWORD")
     PASSWORD,
 
     /**
      * Numeric text support.
      */
-    @BeagleJson(name = "NUMBER")
     NUMBER,
 
     /**
      * Normal text support.
      */
-    @BeagleJson(name = "TEXT")
     TEXT
 }

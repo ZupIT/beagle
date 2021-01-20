@@ -21,8 +21,5 @@ package br.com.zup.beagle.core
  * @property child show the current view
  */
 interface GhostComponent : SingleChildComponent {
-
-
-    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent
 }

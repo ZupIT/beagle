@@ -33,7 +33,6 @@ enum class ImageContentMode {
      * but will also ensure that it fits entirely inside the destination view.
      * At least one axis (X or Y) will fit exactly. The result is centered inside the destination.
      */
-    @BeagleJson(name = "FIT_XY")
     FIT_XY,
 
     /**
@@ -42,7 +41,6 @@ enum class ImageContentMode {
      * At least one axis (X or Y) will fit exactly.
      * The result is centered inside the destination.
      */
-    @BeagleJson(name = "FIT_CENTER")
     FIT_CENTER,
 
     /**
@@ -50,12 +48,10 @@ enum class ImageContentMode {
      * (width and height) of the image will be equal to or larger than
      * the corresponding dimension of the view (minus padding).
      */
-    @BeagleJson(name = "CENTER_CROP")
     CENTER_CROP,
 
     /**
      * Center the image in the view but perform no scaling.
      */
-    @BeagleJson(name = "CENTER")
     CENTER
 }

@@ -22,6 +22,5 @@ package br.com.zup.beagle.core
  */
 interface SingleChildComponent {
 
-    @BeagleJson(name = "child")
     val child: ServerDrivenComponent
 }

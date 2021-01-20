@@ -41,18 +41,11 @@ import br.com.zup.beagle.core.Style
  * @param trailing enable the safeArea constraint only on the RIGHT of the screen view.
  *
  */
+@BeagleJson
 data class SafeArea(
-
-    @BeagleJson(name = "top")
     val top: Boolean? = null,
-
-    @BeagleJson(name = "leading")
     val leading: Boolean? = null,
-
-    @BeagleJson(name = "bottom")
     val bottom: Boolean? = null,
-
-    @BeagleJson(name = "trailing")
     val trailing: Boolean? = null,
 )
 
@@ -67,18 +60,11 @@ data class SafeArea(
  * @param accessibility define Accessibility details for the item
  *
  */
+@BeagleJson
 data class NavigationBarItem(
-
-    @BeagleJson(name = "text")
     val text: String,
-
-    @BeagleJson(name = "image")
     val image: ImagePath.Local? = null,
-
-    @BeagleJson(name = "action")
     val action: Action,
-
-    @BeagleJson(name = "accessibility")
     val accessibility: Accessibility? = null,
 ) : IdentifierComponent {
     override var id: String? = null
@@ -97,21 +83,12 @@ data class NavigationBarItem(
  * @param backButtonAccessibility define accessibility details for the item
  *
  */
+@BeagleJson
 data class NavigationBar(
-
-    @BeagleJson(name = "title")
     val title: String,
-
-    @BeagleJson(name = "showBackButton")
     val showBackButton: Boolean = true,
-
-    @BeagleJson(name = "styleId")
     val styleId: String? = null,
-
-    @BeagleJson(name = "navigationBarItems")
     val navigationBarItems: List<NavigationBarItem>? = null,
-
-    @BeagleJson(name = "backButtonAccessibility")
     val backButtonAccessibility: Accessibility? = null,
 )
 
@@ -142,30 +119,15 @@ data class NavigationBar(
  *
  */
 @Suppress("DataClassPrivateConstructor")
+@BeagleJson
 data class Screen private constructor(
-
-    @BeagleJson(name = "identifier")
     val identifier: String? = null,
-
-    @BeagleJson(name = "safeArea")
     val safeArea: SafeArea? = null,
-
-    @BeagleJson(name = "navigationBar")
     val navigationBar: NavigationBar? = null,
-
-    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
-
-    @BeagleJson(name = "style")
     val style: Style? = null,
-
-    @BeagleJson(name = "screenAnalyticsEvent")
     override val screenAnalyticsEvent: ScreenEvent? = null,
-
-    @BeagleJson(name = "context")
     override val context: ContextData? = null,
-
-    @BeagleJson(name = "id")
     override val id: String? = null,
 ) : ScreenAnalytics, ContextComponent, SingleChildComponent, IdentifierComponent {
 

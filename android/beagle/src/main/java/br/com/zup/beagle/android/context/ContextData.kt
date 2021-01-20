@@ -26,12 +26,9 @@ import br.com.zup.beagle.core.BeagleJson
  * @param id a string that later has to be identified.
  * @param value is a parameter (data) of any kind.
  */
+@BeagleJson
 data class ContextData(
-
-    @BeagleJson(name = "id")
     val id: String,
-
     @property:ContextDataValue
-    @BeagleJson(name = "value")
     val value: Any,
 )

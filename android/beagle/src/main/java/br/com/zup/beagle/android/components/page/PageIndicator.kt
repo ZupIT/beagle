@@ -37,17 +37,9 @@ import br.com.zup.beagle.core.BeagleJson
  */
 @RegisterWidget("pageIndicator")
 class PageIndicator(
-
-    @BeagleJson(name = "selectedColor")
     val selectedColor: String,
-
-    @BeagleJson(name = "unselectedColor")
     val unselectedColor: String,
-
-    @BeagleJson(name = "numberOfPages")
     var numberOfPages: Int? = null,
-
-    @BeagleJson(name = "currentPage")
     var currentPage: Bind<Int>? = null,
 ) : WidgetView(), PageIndicatorComponent {
 

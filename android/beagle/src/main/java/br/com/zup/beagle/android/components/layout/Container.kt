@@ -42,14 +42,8 @@ import br.com.zup.beagle.core.Style
  */
 @RegisterWidget("container")
 data class Container(
-
-    @BeagleJson(name = "children")
     override val children: List<ServerDrivenComponent>,
-
-    @BeagleJson(name = "context")
     override val context: ContextData? = null,
-
-    @BeagleJson(name = "onInit")
     override val onInit: List<Action>? = null,
 ) : WidgetView(), OnInitiableComponent by OnInitiableComponentImpl(onInit), ContextComponent, MultiChildComponent {
 

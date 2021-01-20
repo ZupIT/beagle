@@ -45,8 +45,6 @@ import br.com.zup.beagle.core.BeagleJson
  */
 @RegisterWidget("webView")
 data class WebView(
-
-    @BeagleJson(name = "url")
     val url: Bind<String>,
 ) : WidgetView() {
 

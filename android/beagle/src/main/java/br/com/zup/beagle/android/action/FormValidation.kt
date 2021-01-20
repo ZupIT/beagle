@@ -32,10 +32,9 @@ import br.com.zup.beagle.core.BeagleJson
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 internal class FormValidation(
-
-    @BeagleJson(name = "errors")
-    val errors: List<FieldError>
+    val errors: List<FieldError>,
 ) : Action {
 
     @Transient
@@ -46,7 +45,7 @@ internal class FormValidation(
             val formInput = formInputs?.find {
                 it.name == error.inputName
             }
-            val childInputWidget : InputWidget? = formInput?.child
+            val childInputWidget: InputWidget? = formInput?.child
 
             childInputWidget?.onErrorMessage(error.message)
         }
@@ -60,11 +59,8 @@ internal class FormValidation(
  * @param message The error message displayed.
  *
  */
+@BeagleJson
 data class FieldError(
-
-    @BeagleJson(name = "inputName")
     val inputName: String,
-
-    @BeagleJson(name = "message")
-    val message: String
+    val message: String,
 )

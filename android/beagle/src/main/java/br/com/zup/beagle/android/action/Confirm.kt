@@ -38,24 +38,13 @@ import br.com.zup.beagle.core.BeagleJson
  * @param onPressCancel define action of button negative in dialog.
  *
  */
+@BeagleJson
 data class Confirm(
-
-    @BeagleJson(name = "title")
     val title: Bind<String>? = null,
-
-    @BeagleJson(name = "message")
     val message: Bind<String>,
-
-    @BeagleJson(name = "onPressOk")
     val onPressOk: Action? = null,
-
-    @BeagleJson(name = "onPressCancel")
     val onPressCancel: Action? = null,
-
-    @BeagleJson(name = "labelOk")
     val labelOk: String? = null,
-
-    @BeagleJson(name = "labelCancel")
     val labelCancel: String? = null,
 ) : Action {
 

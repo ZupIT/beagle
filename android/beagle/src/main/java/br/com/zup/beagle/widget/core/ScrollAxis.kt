@@ -26,12 +26,10 @@ enum class ScrollAxis {
     /**
      * Defines the scroll as vertical.
      */
-    @BeagleJson(name = "VERTICAL")
     VERTICAL,
 
     /**
      * Defines the scroll as horizontal.
      */
-    @BeagleJson(name = "HORIZONTAL")
     HORIZONTAL
 }

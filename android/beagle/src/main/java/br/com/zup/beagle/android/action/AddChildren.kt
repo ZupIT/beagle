@@ -39,19 +39,16 @@ enum class Mode {
     /**
      * Adds the view in the end of the children's list.
      */
-    @BeagleJson(name = "APPEND")
     APPEND,
 
     /**
      * Adds the view on the beginning of the children's list.
      */
-    @BeagleJson(name = "PREPEND")
     PREPEND,
 
     /**
      * Replaces all children of the widget.
      */
-    @BeagleJson(name = "REPLACE")
     REPLACE
 }
 
@@ -64,15 +61,10 @@ enum class Mode {
  * @param mode Defines the placement of where the children will be inserted in the list or if the contents of
  * the list will be replaced.
  */
+@BeagleJson
 data class AddChildren(
-
-    @BeagleJson(name = "componentId")
     var componentId: String,
-
-    @BeagleJson(name = "value")
     var value: List<ServerDrivenComponent>,
-
-    @BeagleJson(name = "mode")
     var mode: Mode? = Mode.APPEND,
 ) : Action {
 

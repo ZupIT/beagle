@@ -21,7 +21,5 @@ package br.com.zup.beagle.core
  * @property children list of views that the component has in its hierarchy
  */
 interface MultiChildComponent {
-
-    @BeagleJson(name = "children")
     val children: List<ServerDrivenComponent>
 }

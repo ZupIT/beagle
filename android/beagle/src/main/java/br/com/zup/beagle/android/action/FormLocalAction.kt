@@ -41,13 +41,10 @@ import br.com.zup.beagle.core.BeagleJson
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 data class FormLocalAction(
-
-    @BeagleJson(name = "name")
     val name: String,
-
-    @BeagleJson(name = "data")
-    val data: Map<String, String>
+    val data: Map<String, String>,
 ) : Action, AsyncAction by AsyncActionImpl() {
 
     @Transient

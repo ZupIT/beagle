@@ -22,8 +22,8 @@ import br.com.zup.beagle.core.BeagleJson
  * Component that hold the screen analytics
  * @property screenAnalyticsEvent attribute to define screen name
  */
-interface ScreenAnalytics {
 
-    @BeagleJson(name = "screenAnalyticsEvent")
+@BeagleJson
+interface ScreenAnalytics {
     val screenAnalyticsEvent: ScreenEvent?
 }

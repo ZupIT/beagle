@@ -33,8 +33,6 @@ import br.com.zup.beagle.core.BeagleJson
  * @property onInit list of actions performed as soon as the component is rendered
  */
 interface OnInitiableComponent {
-
-    @BeagleJson(name = "onInit")
     val onInit: List<Action>?
 
     /**

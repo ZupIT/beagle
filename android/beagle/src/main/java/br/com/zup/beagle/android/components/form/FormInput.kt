@@ -44,21 +44,12 @@ import br.com.zup.beagle.core.GhostComponent
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 data class FormInput(
-
-    @BeagleJson(name = "name")
     val name: String,
-
-    @BeagleJson(name = "required")
     val required: Boolean? = null,
-
-    @BeagleJson(name = "validator")
     val validator: String? = null,
-
-    @BeagleJson(name = "errorMessage")
     val errorMessage: String? = null,
-
-    @BeagleJson(name = "child")
     override val child: InputWidget,
 ) : ViewConvertable, GhostComponent {
 

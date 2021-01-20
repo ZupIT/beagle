@@ -69,8 +69,6 @@ internal class BeagleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return context?.let {
-            Log.v("uzias", screen.toString())
-            Log.v("uzias", arguments?.getString(JSON_SCREEN_KEY) ?: "")
             FrameLayout(it).apply {
                 applyBackgroundFromWindowBackgroundTheme(it)
                 addView(screen.toView(this@BeagleFragment))
