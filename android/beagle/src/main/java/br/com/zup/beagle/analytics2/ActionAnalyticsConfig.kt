@@ -18,7 +18,8 @@ package br.com.zup.beagle.analytics2
 
 /**
  * This class is used to pass some properties for analytics
- * @param attributes is a List of String to indicate what attributes of the action will be reported.
+ * @param attributes is a List of String to indicate what attributes of the action will be reported, when this param is
+ * null, the analytics will get the attribute from AnalyticsConfig.
  * @param additionalEntries is a Map of String to Any, on this param can be passed additional values to be reported
  * with the action.
 */
@@ -29,7 +30,7 @@ data class ActionAnalyticsProperties(
 
 /**
  * Class to represent the analytics used on ActionAnalytics
- * @property value is False, when the analytics is Disabled and can be true or have an ActionAnalyticsProperties
+ * @property value is False, when the analytics is Disabled and can be null or have an ActionAnalyticsProperties
  * when is enabled
  */
 
@@ -43,8 +44,8 @@ sealed class ActionAnalyticsConfig(
 
     /**
      * Set the analytics to be enabled
-     * @attribute analytics can be null or ActionAnalyticsProperties, if it is null, the attributes will be get from
-     * the AnalyticsConfig
+     * @param analytics can be null or ActionAnalyticsProperties, this attributes is used to create the analytics
+     * for the actions, when this param is null, the analytics will get the attribute from AnalyticsConfig
      */
     class Enabled(analytics: ActionAnalyticsProperties? = null) : ActionAnalyticsConfig(analytics)
 }
