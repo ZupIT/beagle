@@ -18,9 +18,10 @@ package br.com.zup.beagle.newanalytics
 
 /**
 * This class is used to pass some properties for analytics
-* @param attributes is a List of String to indicate what attributes of the action will be reported.
-* @param additionalEntries is a Map of String to Any, on this param can be passed additional values to be reported
-* with the action.
+* @param attributes by default is null, but can be a List of String to indicate what attributes of the action will be
+ * reported.
+* @param additionalEntries by default is null, but can be a Map of String to Any, on this param can be passed additional
+ * values to be reported with the action.
 */
 data class ActionAnalyticsProperties(
     var attributes: List<String>? = null,
@@ -42,7 +43,7 @@ sealed class ActionAnalyticsConfig(
 
     /**
      * Set the analytics to be enabled
-     * @attribute analytics can be null or ActionAnalyticsProperties
+     * @param analytics by default is null, but can be ActionAnalyticsProperties
      */
     class Enabled(analytics: ActionAnalyticsProperties? = null) : ActionAnalyticsConfig() {
         init {
