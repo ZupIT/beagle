@@ -60,12 +60,20 @@ struct SimpleFormScreen: DeeplinkScreen {
 }
 
 struct FirstAction: Action {
+    var analytics: ActionAnalyticsConfig? {
+        return nil
+    }
+    
     func execute(controller: BeagleController, origin: UIView) {
         print("FirstAction Executed")
     }
 }
 
 struct SecondAction: Action {
+    var analytics: ActionAnalyticsConfig? {
+        return nil
+    }
+    
     func execute(controller: BeagleController, origin: UIView) {
         print("SecondAction Executed")
     }

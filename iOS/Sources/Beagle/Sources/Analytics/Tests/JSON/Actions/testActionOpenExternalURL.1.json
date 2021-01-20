@@ -1,0 +1,10 @@
+{
+    "_beagleAction_": "beagle:openExternalURL",
+    "analytics": {
+        "attributes": [
+            "url"
+        ],
+        "enable": true
+    },
+    "url": "schema:\/\/search?q=@{context.query}"
+}

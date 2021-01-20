@@ -16,7 +16,7 @@
 
 public struct SendRequest: Action, AutoInitiableAndDecodable {
     
-    public enum HTTPMethod: String, Decodable {
+    public enum HTTPMethod: String, Codable {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
@@ -31,6 +31,7 @@ public struct SendRequest: Action, AutoInitiableAndDecodable {
     public let onSuccess: [Action]?
     public let onError: [Action]?
     public var onFinish: [Action]?
+    public let analytics: ActionAnalyticsConfig?
     
 // sourcery:inline:auto:SendRequest.Init
     public init(
@@ -40,7 +41,8 @@ public struct SendRequest: Action, AutoInitiableAndDecodable {
         headers: Expression<[String: String]>? = nil,
         onSuccess: [Action]? = nil,
         onError: [Action]? = nil,
-        onFinish: [Action]? = nil
+        onFinish: [Action]? = nil,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.url = url
         self.method = method
@@ -49,6 +51,7 @@ public struct SendRequest: Action, AutoInitiableAndDecodable {
         self.onSuccess = onSuccess
         self.onError = onError
         self.onFinish = onFinish
+        self.analytics = analytics
     }
 // sourcery:end
     
@@ -60,7 +63,8 @@ public struct SendRequest: Action, AutoInitiableAndDecodable {
         headers: [String: String]? = nil,
         onSuccess: [Action]? = nil,
         onError: [Action]? = nil,
-        onFinish: [Action]? = nil
+        onFinish: [Action]? = nil,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.url = url
         self.method = .value(method ?? .get)
@@ -69,5 +73,6 @@ public struct SendRequest: Action, AutoInitiableAndDecodable {
         self.onSuccess = onSuccess
         self.onError = onError
         self.onFinish = onFinish
+        self.analytics = analytics
     }
 }

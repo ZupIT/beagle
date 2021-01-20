@@ -23,6 +23,7 @@ public struct Confirm: Action, AutoInitiableAndDecodable {
     public let onPressCancel: Action?
     public let labelOk: String?
     public let labelCancel: String?
+    public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:Confirm.Init
     public init(
@@ -31,7 +32,8 @@ public struct Confirm: Action, AutoInitiableAndDecodable {
         onPressOk: Action? = nil,
         onPressCancel: Action? = nil,
         labelOk: String? = nil,
-        labelCancel: String? = nil
+        labelCancel: String? = nil,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.title = title
         self.message = message
@@ -39,6 +41,7 @@ public struct Confirm: Action, AutoInitiableAndDecodable {
         self.onPressCancel = onPressCancel
         self.labelOk = labelOk
         self.labelCancel = labelCancel
+        self.analytics = analytics
     }
 // sourcery:end
 }

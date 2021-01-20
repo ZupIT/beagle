@@ -21,18 +21,21 @@ public struct Alert: Action, AutoInitiableAndDecodable {
     public let message: Expression<String>
     public let onPressOk: Action?
     public let labelOk: String?
+    public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:Alert.Init
     public init(
         title: Expression<String>? = nil,
         message: Expression<String>,
         onPressOk: Action? = nil,
-        labelOk: String? = nil
+        labelOk: String? = nil,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.title = title
         self.message = message
         self.onPressOk = onPressOk
         self.labelOk = labelOk
+        self.analytics = analytics
     }
 // sourcery:end
 }

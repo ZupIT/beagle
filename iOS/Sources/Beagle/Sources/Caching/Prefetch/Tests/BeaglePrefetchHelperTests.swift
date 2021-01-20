@@ -114,8 +114,8 @@ final class BeaglePrefetchHelperTests: XCTestCase {
             Navigate.pushView(.remote(.init(url: path, shouldPrefetch: true))),
             Navigate.pushView(.remote(.init(url: path, shouldPrefetch: false))),
 
-            Navigate.popStack,
-            Navigate.popView,
+            Navigate.popStack(),
+            Navigate.popView(),
             Navigate.popToView(path)
         ]
         let bools = actions.map { $0.newPath }

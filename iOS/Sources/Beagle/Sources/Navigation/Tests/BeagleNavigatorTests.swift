@@ -135,7 +135,7 @@ final class BeagleNavigatorTests: XCTestCase {
     func test_popStack_shouldDismissNavigation() {
         // Given
         let sut = BeagleNavigator()
-        let action = Navigate.popStack
+        let action = Navigate.popStack()
         let navigationSpy = BeagleControllerNavigationSpy()
 
         // When
@@ -148,7 +148,7 @@ final class BeagleNavigatorTests: XCTestCase {
     func test_popView_shouldPopNavigationScreen() {
         // Given
         let sut = BeagleNavigator()
-        let action = Navigate.popView
+        let action = Navigate.popView()
         let firstViewController = BeagleControllerStub()
         let secondViewController = UIViewController()
         let thirdViewController = BeagleControllerStub()
@@ -239,10 +239,10 @@ final class BeagleNavigatorTests: XCTestCase {
     func test_popToView_byIdentifier() {
         // Given
         let sut = BeagleNavigator()
-        let vc1 = BeagleControllerStub(.declarative(Screen(id: "1", child: Text("Screen 1"))))
-        let vc2 = BeagleControllerStub(.declarative(Screen(id: "2", child: Text("Screen 2"))))
+        let vc1 = BeagleControllerStub(.declarative(Screen(identifier: "1", child: Text("Screen 1"))))
+        let vc2 = BeagleControllerStub(.declarative(Screen(identifier: "2", child: Text("Screen 2"))))
         let vc3 = UIViewController()
-        let vc4 = BeagleControllerStub(.declarative(Screen(id: "4", child: Text("Screen 4"))))
+        let vc4 = BeagleControllerStub(.declarative(Screen(identifier: "4", child: Text("Screen 4"))))
         let action = Navigate.popToView("2")
         
         let navigation = UINavigationController()

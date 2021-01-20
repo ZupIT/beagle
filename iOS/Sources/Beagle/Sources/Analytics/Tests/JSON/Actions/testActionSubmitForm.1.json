@@ -1,0 +1,6 @@
+{
+    "_beagleAction_": "beagle:submitForm",
+    "analytics": {
+        "enable": true
+    }
+}
