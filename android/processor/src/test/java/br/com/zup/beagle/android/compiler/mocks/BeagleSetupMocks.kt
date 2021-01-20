@@ -25,7 +25,7 @@ const val COMPLETE_BEAGLE_CUSTOM_CLASS =
         import br.com.zup.beagle.android.annotation.RegisterController
         import br.com.zup.beagle.android.view.BeagleActivity
         import br.com.zup.beagle.analytics.Analytics
-        import br.com.zup.beagle.analytics2.AnalyticsProvider
+        import br.com.zup.beagle.newanalytics.AnalyticsProvider
         import br.com.zup.beagle.annotation.RegisterAction
         import br.com.zup.beagle.android.action.Action
         import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
@@ -116,7 +116,6 @@ const val BEAGLE_SETUP_COMPLETE =
         
         import br.com.test.beagle.BeagleConfigImpl
         import br.com.zup.beagle.analytics.Analytics
-        import br.com.zup.beagle.analytics2.AnalyticsProvider
         import br.com.zup.beagle.android.`data`.serializer.adapter.generic.TypeAdapterResolver
         import br.com.zup.beagle.android.action.Action
         import br.com.zup.beagle.android.action.FormLocalActionHandler
@@ -134,6 +133,7 @@ const val BEAGLE_SETUP_COMPLETE =
         import br.com.zup.beagle.android.store.StoreHandler
         import br.com.zup.beagle.android.view.BeagleActivity
         import br.com.zup.beagle.android.widget.WidgetView
+        import br.com.zup.beagle.newanalytics.AnalyticsProvider
         import java.lang.Class
         import kotlin.String
         import kotlin.Suppress
