@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.newAnalytics.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * The setContext class is responsible for changing the value of a context.

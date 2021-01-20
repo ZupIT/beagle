@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.newAnalytics.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * SubmitForm and a specific action of the SimpleForm component when executing it calls SimpleForm's onSubmit attribute.

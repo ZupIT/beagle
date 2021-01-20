@@ -14,19 +14,36 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.newAnalytics
+package br.com.zup.beagle.newanalytics
 
+/**
+* This class is used to pass some properties for analytics
+* @param attributes is a List of String to indicate what attributes of the action will be reported.
+* @param additionalEntries is a Map of String to Any, on this param can be passed additional values to be reported
+* with the action.
+*/
 data class ActionAnalyticsProperties(
     var attributes: List<String>? = null,
     var additionalEntries: Map<String, Any>? = null
 )
 
-
+/**
+ * Class to represent the analytics used on ActionAnalytics
+ * @property value is False, when the analytics is Disabled and can be true or have an ActionAnalyticsProperties
+ * when is enabled
+ */
 sealed class ActionAnalyticsConfig(
     var value: Any = true
 ) {
+    /**
+     * Set the analytics to be disabled
+     */
     class Disabled : ActionAnalyticsConfig(false)
 
+    /**
+     * Set the analytics to be enabled
+     * @attribute analytics can be null or ActionAnalyticsProperties
+     */
     class Enabled(analytics: ActionAnalyticsProperties? = null) : ActionAnalyticsConfig() {
         init {
             analytics?.let {

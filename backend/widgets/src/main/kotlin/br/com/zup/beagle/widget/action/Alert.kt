@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.newAnalytics.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
