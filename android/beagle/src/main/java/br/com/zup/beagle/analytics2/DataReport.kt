@@ -19,5 +19,5 @@ package br.com.zup.beagle.analytics2
 
 internal interface DataReport {
 
-    fun report()
+    fun report(analyticsConfig: AnalyticsConfig) : AnalyticsRecord?
 }

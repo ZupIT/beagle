@@ -19,39 +19,17 @@ package br.com.zup.beagle.analytics2
 import android.view.View
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.RootView
 import java.util.LinkedList
 import java.util.Queue
+import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.atomic.AtomicBoolean
 
 internal object AnalyticsService {
 
-    private val queueOfReportsWaitingConfig: Queue<DataReport> = LinkedList()
-    private var analyticsProvider: AnalyticsProvider? = null
-    private var queueSize: Int = 0
-    private lateinit var analyticsConfig: AnalyticsConfig
-
-    fun initialConfig(analyticsProvider: AnalyticsProvider? = null) {
-        this.analyticsProvider = analyticsProvider
-        analyticsProvider?.let {
-            queueSize = it.getMaximumItemsInQueue()
-            startSessionAndGetConfig(it)
-        }
-    }
-
-    private fun startSessionAndGetConfig(analyticsProvider: AnalyticsProvider) {
-        analyticsProvider.startSession {
-            analyticsProvider.getConfig { analyticsConfig ->
-                this@AnalyticsService.analyticsConfig = analyticsConfig
-                reportElementsOnQueue()
-            }
-        }
-    }
-
-    private fun reportElementsOnQueue() {
-        while (queueIsNotEmpty()) {
-            queueOfReportsWaitingConfig.remove().report()
-        }
-    }
+    private val queueOfReportsWaitingConfig: Queue<DataReport> = ConcurrentLinkedQueue()
+    private val isQueueReported = AtomicBoolean(false)
 
     private fun queueIsNotEmpty() = !queueOfReportsWaitingConfig.isEmpty()
 
@@ -61,6 +39,12 @@ internal object AnalyticsService {
         action: ActionAnalytics,
         analyticsValue: String? = null
     ) {
+        action.analytics?.let{
+            if(it is ActionAnalyticsConfig.Disabled){
+                return
+            }
+        }
+        val analyticsProvider = BeagleEnvironment.beagleSdk.analyticsProvider
         analyticsProvider?.let {
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
@@ -68,82 +52,70 @@ internal object AnalyticsService {
                 action,
                 analyticsValue
             )
-            if (isAnalyticsConfigInitialized()) {
-                reportActionIfShould(dataActionReport)
-            } else {
-                addReportOnQueue(dataActionReport)
-            }
+            reportDataReport(dataActionReport, it)
         }
     }
-
-    fun reportActionIfShould(dataActionReport: DataActionReport) {
-        val config = createAConfigFromActionAnalyticsOrAnalyticsConfig(dataActionReport)
-        if (shouldReport(config)) {
-            analyticsProvider?.createRecord(ActionReportFactory.generateActionAnalyticsConfig(dataActionReport, config as ActionAnalyticsConfig.Enabled))
-        }
-    }
-
-    private fun createAConfigFromActionAnalyticsOrAnalyticsConfig(
-        dataActionReport: DataActionReport
-    ): ActionAnalyticsConfig {
-        dataActionReport.action.analytics?.let { actionAnalytics ->
-            return actionAnalytics
-        }
-        return actionAnalyticsFromConfig(dataActionReport)
-    }
-
-    private fun actionAnalyticsFromConfig(dataActionReport: DataActionReport): ActionAnalyticsConfig {
-        val key = dataActionReport.actionType
-        val attributeList = analyticsConfig.actions?.get(key)
-        return ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributeList))
-    }
-
-    private fun shouldReport(actionAnalyticsConfig: ActionAnalyticsConfig) = actionAnalyticsConfig is ActionAnalyticsConfig.Enabled
-
 
     fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
+        val analyticsProvider: AnalyticsProvider? = BeagleEnvironment.beagleSdk.analyticsProvider
         analyticsProvider?.let {
             val dataScreenReport = DataScreenReport(isLocalScreen, screenIdentifier)
-            if (isAnalyticsConfigInitialized()) {
-                reportScreen(dataScreenReport)
-            } else {
-                addReportOnQueue(dataScreenReport)
-            }
+            reportDataReport(dataScreenReport, it)
         }
     }
 
-    fun reportScreen(dataScreenReport: DataScreenReport) {
-        if (shouldReportScreen()) {
-            val screenIdentifier = dataScreenReport.screenIdentifier
-            if (dataScreenReport.isLocalScreen) {
-                analyticsProvider?.createRecord(
-                    ScreenReportFactory.generateLocalScreenAnalyticsRecord(screenIdentifier)
-                )
-            } else {
-                analyticsProvider?.createRecord(
-                    ScreenReportFactory.generateRemoteScreenAnalyticsRecord(screenIdentifier)
-                )
-            }
+    private fun reportDataReport(dataReport: DataReport, analyticsProvider: AnalyticsProvider) {
+        val analyticsConfig = analyticsProvider.getConfig()
+        val queueSize = analyticsProvider.getMaximumItemsInQueue()
+        if (analyticsConfig == null) {
+            reportWithConfigNull(dataReport, queueSize)
+        } else {
+            reportWithConfigNotNull(dataReport, analyticsConfig, analyticsProvider)
         }
     }
 
-    private fun isAnalyticsConfigInitialized() = this::analyticsConfig.isInitialized
+    private fun reportWithConfigNull(dataReport: DataReport, queueSize: Int) {
+        addReportOnQueue(dataReport, queueSize)
+        isQueueReported.set(false)
+    }
 
-    private fun shouldReportScreen() = analyticsConfig.enableScreenAnalytics ?: false
-
-    private fun addReportOnQueue(dataReport: DataReport) {
-        if (isNotQueueFull()) {
+    private fun addReportOnQueue(dataReport: DataReport, queueSize: Int) {
+        if (isNotQueueFull(queueSize)) {
             queueOfReportsWaitingConfig.add(dataReport)
         } else {
-            addItemOnFullQueue(dataReport)
+            addItemOnFullQueue(dataReport, queueSize)
         }
     }
 
-    private fun isNotQueueFull() = queueOfReportsWaitingConfig.size < queueSize
+    private fun isNotQueueFull(queueSize : Int) = queueOfReportsWaitingConfig.size < queueSize
 
-    private fun addItemOnFullQueue(dataReport: DataReport) {
+    private fun addItemOnFullQueue(dataReport: DataReport, queueSize: Int) {
         BeagleMessageLogs.analyticsQueueIsFull(queueSize)
         queueOfReportsWaitingConfig.remove()
         queueOfReportsWaitingConfig.add(dataReport)
+    }
+
+    private fun reportWithConfigNotNull(
+        dataReport: DataReport,
+        analyticsConfig: AnalyticsConfig,
+        analyticsProvider: AnalyticsProvider
+    ) {
+        val report = dataReport.report(analyticsConfig)
+        report?.let {
+            analyticsProvider.createRecord(report)
+        }
+        if (!isQueueReported.get()) {
+            isQueueReported.set(true)
+            reportElementsOnQueue(analyticsConfig, analyticsProvider)
+        }
+    }
+
+    private fun reportElementsOnQueue(analyticsConfig: AnalyticsConfig, analyticsProvider: AnalyticsProvider) {
+        while (queueIsNotEmpty()) {
+            val report = queueOfReportsWaitingConfig.poll()?.report(analyticsConfig)
+            report?.let {
+                analyticsProvider.createRecord(it)
+            }
+        }
     }
 }

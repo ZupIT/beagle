@@ -112,35 +112,28 @@ internal object ActionReportFactory {
     }
 
     fun generateActionAnalyticsConfig(
-        dataActionReport: DataActionReport,
-        actionAnalyticsConfig: ActionAnalyticsConfig.Enabled
+        dataActionReport: DataActionReport
     ) = object : AnalyticsRecord {
         override val type: String
             get() = "action"
         override val platform: String
             get() = "android"
         override val attributes: HashMap<String, Any>
-            get() = generateAttributes(dataActionReport, actionAnalyticsConfig)
+            get() = generateAttributes(dataActionReport)
     }
 
     private fun generateAttributes(
-        dataActionReport: DataActionReport,
-        actionAnalyticsConfig: ActionAnalyticsConfig.Enabled
+        dataActionReport: DataActionReport
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
         setScreenIdAttribute(dataActionReport.screenId, hashMap)
         dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
-        (actionAnalyticsConfig.value as ActionAnalyticsProperties).attributes?.let{
-            hashMap.putAll(
-                generateAnalyticsConfigAttributesHashMap(
-                    it,
-                    dataActionReport.attributes
-                )
-            )
+        dataActionReport.attributes.let{
+            hashMap.putAll(it)
         }
-        (actionAnalyticsConfig.value as ActionAnalyticsProperties).additionalEntries?.let {
+        dataActionReport.additionalEntries?.let{
             hashMap.putAll(it)
         }
         hashMap["beagleAction"] = dataActionReport.actionType
@@ -170,19 +163,7 @@ internal object ActionReportFactory {
         return hashMap
     }
 
-    private fun generateAnalyticsConfigAttributesHashMap(
-        attributes: List<String>,
-        attributeEvaluated: HashMap<String, Any>
-    ): HashMap<String, Any> {
-        val hashMap = HashMap<String, Any>()
-        attributes.forEach { key ->
-            val result = attributeEvaluated[key]
-            result?.let { value ->
-                hashMap[key] = value
-            }
-        }
-        return hashMap
-    }
+
 
 
 }

@@ -19,17 +19,77 @@ package br.com.zup.beagle.analytics2
 import br.com.zup.beagle.android.action.ActionAnalytics
 
 internal data class DataActionReport(
-    var originX : Float? = null,
-    var originY : Float? = null,
+    var originX: Float? = null,
+    var originY: Float? = null,
     var attributes: HashMap<String, Any>,
-    var id : String? = null,
-    var type : String? = null,
+    var id: String? = null,
+    var type: String? = null,
     var analyticsValue: String? = null,
-    var action : ActionAnalytics,
-    var screenId : String? = null,
-    var actionType : String
-) : DataReport{
-    override fun report() {
-        AnalyticsService.reportActionIfShould(this)
+    var action: ActionAnalytics,
+    var screenId: String? = null,
+    var actionType: String,
+    var additionalEntries: Map<String, Any>? = null
+) : DataReport {
+
+    override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
+        val attributes = getActionAttributes(analyticsConfig)
+        if(attributes != null){
+            updateAttributes(attributes)
+            ActionReportFactory.generateActionAnalyticsConfig(this)
+        }
+        return null
+    }
+
+    private fun getActionAttributes(analyticsConfig: AnalyticsConfig) : List<String>?{
+        var attributes: List<String>? = null
+        action.analytics?.let {
+            val actionAnalyticsProperties = getActionProperties(it.value)
+            updateAdditionalEntries(actionAnalyticsProperties)
+            attributes = getAttributeOnActionAnalyticsProperties(actionAnalyticsProperties)
+        }
+
+        if (attributes == null){
+            attributes = getAttributeOnAnalyticsConfig(analyticsConfig)
+        }
+        return attributes
+    }
+
+    private fun getActionProperties(value: Any?) =
+        if (value != null && value is ActionAnalyticsProperties) value else null
+
+    private fun getAttributeOnActionAnalyticsProperties(
+        actionAnalyticsProperties: ActionAnalyticsProperties?
+    ): List<String>? {
+        actionAnalyticsProperties?.let {
+            return it.attributes
+        }
+        return null
+    }
+
+    private fun getAttributeOnAnalyticsConfig(
+        analyticsConfig: AnalyticsConfig
+    ): List<String>? {
+        val key = this.actionType
+        val attributeList = analyticsConfig.actions?.get(key)
+        return attributeList
+    }
+
+    private fun updateAttributes(
+        expectedAttributes: List<String>,
+    ) {
+        val actualAttributes = attributes
+        attributes = hashMapOf()
+        expectedAttributes.forEach { key ->
+            val result = actualAttributes[key]
+            result?.let { value ->
+                attributes[key] = value
+            }
+        }
+    }
+
+    private fun updateAdditionalEntries(actionAnalyticsProperties: ActionAnalyticsProperties?) {
+        actionAnalyticsProperties?.let {
+            additionalEntries = it.additionalEntries
+        }
     }
 }

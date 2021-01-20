@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.analytics2
 
+import android.util.Log.e
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
@@ -29,6 +30,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -68,8 +70,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 action
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
-                dataActionReport,
-                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf()))
+                dataActionReport
             )
 
             //THEN
@@ -96,8 +97,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 action
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
-                dataActionReport,
-                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf()))
+                dataActionReport
             )
 
             //THEN
@@ -181,14 +181,13 @@ internal class ActionReportFactoryTest : BaseTest() {
 
         private fun reportDataAction(
             dataActionReport: DataActionReport) = ActionReportFactory.generateActionAnalyticsConfig(
-            dataActionReport,
-            ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf()))
+            dataActionReport
         )
     }
 
     @DisplayName("When create record")
     @Nested
-    inner class ActionAttribute {
+    inner class ActionAttributeAndAdditionalEntries {
         private val url = "/url"
         private val route = Route.Remote(url = "/url")
         private val actionType = "beagle:pushView"
@@ -210,15 +209,13 @@ internal class ActionReportFactoryTest : BaseTest() {
                 action,
                 analyticsValue = "onPress"
             )
-            val report = ActionReportFactory.generateActionAnalyticsConfig(
-                dataActionReport,
-                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("route")))
-
-            )
+            dataActionReport.additionalEntries = hashMapOf("additionalEntries" to true)
+            val report = ActionReportFactory.generateActionAnalyticsConfig(dataActionReport)
 
             //THEN
             commonAsserts(report)
             Assert.assertEquals(route, report.attributes["route"])
+            assertTrue(report.attributes["additionalEntries"] as Boolean)
         }
 
         @Test
@@ -232,8 +229,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 analyticsValue = "onPress"
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
-                dataActionReport,
-                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf(ROUTE_URL_CONSTANT, ROUTE_SHOULD_PREFETCH_CONSTANT)))
+                dataActionReport
             )
 
             //THEN
@@ -254,7 +250,6 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
             val report = ActionReportFactory.generateActionAnalyticsConfig(
                 dataActionReport,
-                ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("route.a")))
             )
             print(report)
             //THEN
