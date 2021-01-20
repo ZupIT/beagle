@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.form.core.Constants

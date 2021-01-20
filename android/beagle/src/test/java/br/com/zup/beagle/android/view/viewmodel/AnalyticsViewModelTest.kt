@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import android.view.View
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.analytics2.AnalyticsService
+import br.com.zup.beagle.newanalytics.AnalyticsService
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.widget.RootView

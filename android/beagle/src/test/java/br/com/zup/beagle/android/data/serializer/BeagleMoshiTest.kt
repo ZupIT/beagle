@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.analytics2.ActionAnalyticsProperties
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsProperties
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AddChildren

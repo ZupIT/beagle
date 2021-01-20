@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy

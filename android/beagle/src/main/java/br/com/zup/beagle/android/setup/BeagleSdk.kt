@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.setup
 import android.app.Application
 import androidx.annotation.VisibleForTesting
 import br.com.zup.beagle.analytics.Analytics
-import br.com.zup.beagle.analytics2.AnalyticsProvider
+import br.com.zup.beagle.newanalytics.AnalyticsProvider
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
 internal data class DataScreenReport(
     val isLocalScreen: Boolean,

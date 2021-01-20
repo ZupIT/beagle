@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * This abstract class represents an Action Analytics on Beagle

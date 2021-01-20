@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
-import br.com.zup.beagle.analytics2.ActionAnalyticsProperties
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsProperties
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi.moshi
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
@@ -47,10 +47,10 @@ internal class ActionAnalyticsConfigAdapter : JsonAdapter<ActionAnalyticsConfig>
 
         var actionAnalyticsConfig: ActionAnalyticsConfig? = null
         if (jsonValue is Boolean) {
-            if (jsonValue) {
-                actionAnalyticsConfig = ActionAnalyticsConfig.Enabled()
+            actionAnalyticsConfig = if (jsonValue) {
+                ActionAnalyticsConfig.Enabled()
             } else {
-                actionAnalyticsConfig = ActionAnalyticsConfig.Disabled()
+                ActionAnalyticsConfig.Disabled()
             }
         } else {
             val value = jsonValue as Map<String, Any>
@@ -108,5 +108,4 @@ internal class ActionAnalyticsConfigAdapter : JsonAdapter<ActionAnalyticsConfig>
         private const val ATTRIBUTES: String = "attributes"
         private const val ADDITIONAL_ENTRIES = "additionalEntries"
     }
-
 }

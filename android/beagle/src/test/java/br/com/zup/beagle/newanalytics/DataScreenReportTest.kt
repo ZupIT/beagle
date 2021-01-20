@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
-import android.view.View
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.ActionAnalytics
-import io.mockk.Runs
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach

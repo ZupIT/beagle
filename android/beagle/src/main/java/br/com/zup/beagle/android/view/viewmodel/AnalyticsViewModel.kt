@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.view.viewmodel
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.analytics2.AnalyticsService
+import br.com.zup.beagle.newanalytics.AnalyticsService
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.widget.RootView
 import kotlinx.coroutines.Dispatchers

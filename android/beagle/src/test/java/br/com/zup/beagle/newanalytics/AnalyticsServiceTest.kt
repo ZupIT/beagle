@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
@@ -36,7 +36,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.util.concurrent.ConcurrentLinkedQueue
 
 @DisplayName("Given Analytics Service")
 class AnalyticsServiceTest : BaseTest() {

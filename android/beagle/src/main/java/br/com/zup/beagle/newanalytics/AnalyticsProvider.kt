@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
 /**
  * This interface is used to start the configuration of analytics, without this the analytics will not be reported.

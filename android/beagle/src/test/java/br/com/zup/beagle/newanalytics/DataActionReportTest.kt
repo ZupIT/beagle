@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionAnalytics

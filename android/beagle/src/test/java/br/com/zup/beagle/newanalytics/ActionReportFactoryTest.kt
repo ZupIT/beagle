@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
-import android.util.Log.e
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
@@ -24,9 +23,7 @@ import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert

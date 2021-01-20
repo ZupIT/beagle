@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
