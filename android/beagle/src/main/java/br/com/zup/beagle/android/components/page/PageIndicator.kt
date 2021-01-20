@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.BeagleJson
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.

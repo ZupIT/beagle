@@ -34,7 +34,6 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.widget.core.ImageContentMode
 
-
 /**
  * Define an image view using the server driven information received through Beagle.
  *

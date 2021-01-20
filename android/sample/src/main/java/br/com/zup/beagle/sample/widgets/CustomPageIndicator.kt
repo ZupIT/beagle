@@ -21,7 +21,6 @@ import android.view.View
 import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.components.page.PageIndicatorOutput
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.sample.components.CustomPageIndicatorView
 
 @RegisterWidget(name = "customPageIndicator")

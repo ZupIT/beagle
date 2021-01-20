@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.widget
 
-import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.IdentifierComponent

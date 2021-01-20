@@ -21,7 +21,6 @@ import android.widget.TextView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.BeagleJson
 
 @RegisterWidget("mutableText")
 data class MutableText(

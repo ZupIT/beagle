@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
+
+/*
+ * This file is part of https://github.com/square/moshi which is originally released under Apache-2.0 License
+ * See file https://github.com/square/moshi/blob/master/kotlin/reflect/src/main/java/com/squareup/moshi/kotlin/reflect/KotlinJsonAdapter.kt
+ * or go to https://github.com/square/moshi/blob/master/LICENSE for full license details.
+ */
+
+@file:Suppress("ComplexMethod", "LongMethod",
+    "ReturnCount", "MaxLineLength",
+    "LoopWithTooManyJumpStatements", "TooGenericExceptionCaught")
+
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import android.util.Log
 import br.com.zup.beagle.core.BeagleJson
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException

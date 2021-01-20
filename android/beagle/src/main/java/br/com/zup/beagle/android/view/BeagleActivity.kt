@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.IdRes
@@ -39,7 +38,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
-import br.com.zup.beagle.core.BeagleJson
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {

@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components.utils
 
-import android.util.Log
 import android.view.View
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.ServerDrivenComponent

@@ -32,7 +32,6 @@ import br.com.zup.beagle.android.data.serializer.adapter.defaults.PairAdapterFac
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleGenericAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 internal object BeagleMoshi {
 

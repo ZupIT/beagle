@@ -31,7 +31,6 @@ import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.generateNameSpaceToDefaultAction
-import java.util.Locale
 
 @Deprecated(message = "It was deprecated in version 1.0.0 and will be removed in a future version. " +
     "Use AndroidActionJsonAdapterFactory instead.",
@@ -47,14 +46,17 @@ internal object ActionJsonAdapterFactory {
             .withSubtype(FormValidation::class.java, createNamespaceFor<FormValidation>("formValidation"))
             .withSubtype(Alert::class.java, createNamespaceFor<Alert>("alert"))
             .withSubtype(Confirm::class.java, createNamespaceFor<Confirm>("confirm"))
-            .withSubtype(Navigate.OpenExternalURL::class.java, createNamespaceFor<Navigate.OpenExternalURL>("openExternalURL"))
-            .withSubtype(Navigate.OpenNativeRoute::class.java, createNamespaceFor<Navigate.OpenNativeRoute>("openNativeRoute"))
+            .withSubtype(Navigate.OpenExternalURL::class.java,
+                createNamespaceFor<Navigate.OpenExternalURL>("openExternalURL"))
+            .withSubtype(Navigate.OpenNativeRoute::class.java,
+                createNamespaceFor<Navigate.OpenNativeRoute>("openNativeRoute"))
             .withSubtype(Navigate.PushStack::class.java, createNamespaceFor<Navigate.PushStack>("pushStack"))
             .withSubtype(Navigate.PopStack::class.java, createNamespaceFor<Navigate.PopStack>("popStack"))
             .withSubtype(Navigate.PushView::class.java, createNamespaceFor<Navigate.PushView>("pushView"))
             .withSubtype(Navigate.PopView::class.java, createNamespaceFor<Navigate.PopView>("popView"))
             .withSubtype(Navigate.PopToView::class.java, createNamespaceFor<Navigate.PopToView>("popToView"))
-            .withSubtype(Navigate.ResetApplication::class.java, createNamespaceFor<Navigate.ResetApplication>("resetApplication"))
+            .withSubtype(Navigate.ResetApplication::class.java,
+                createNamespaceFor<Navigate.ResetApplication>("resetApplication"))
             .withSubtype(Navigate.ResetStack::class.java, createNamespaceFor<Navigate.ResetStack>("resetStack"))
             .withSubtype(SendRequest::class.java, createNamespaceFor<SendRequest>("sendRequest"))
             .withSubtype(SetContext::class.java, createNamespaceFor<SetContext>("setContext"))
