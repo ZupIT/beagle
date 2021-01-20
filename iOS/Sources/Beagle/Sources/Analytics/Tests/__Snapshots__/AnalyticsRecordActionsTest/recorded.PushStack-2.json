@@ -12,9 +12,22 @@
   "platform" : "ios",
   "route" : {
     "screen" : {
+      "child" : {
+        "text" : "Local Screen Content",
+        "widgetProperties" : {
+
+        }
+      },
       "identifier" : "screen-id-local-route",
       "navigationBar" : {
+        "showBackButton" : true,
         "title" : "Local Screen Title"
+      },
+      "safeArea" : {
+        "bottom" : true,
+        "leading" : true,
+        "top" : true,
+        "trailing" : true
       }
     }
   },

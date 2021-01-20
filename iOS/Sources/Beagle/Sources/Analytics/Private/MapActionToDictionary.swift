@@ -18,6 +18,8 @@
 import Foundation
 import UIKit
 
+// swiftlint:disable syntactic_sugar
+
 struct MapActionToDictionary {
 
     let action: Action
@@ -28,12 +30,12 @@ struct MapActionToDictionary {
         attributes.forEach { attribute in
             guard
                 let path = Path(rawValue: attribute),
-                !path.nodes.isEmpty,
                 let value = try? value(at: path)
             else { return }
 
             values[attribute] = value
         }
+
         return values
     }
 
@@ -52,7 +54,58 @@ struct MapActionToDictionary {
                 current = any
             }
         }
+
+        transformCustomTypeToDict(current).map {
+            current = $0
+        }
+
+        (current as? [Any]).map(transformArrayWithCustomTypes).map {
+            current = $0 as Any
+        }
+
         return current
+    }
+
+    private func transformCustomTypeToDict(_ object: Any) -> [String: Any]? {
+        if let dict = object as? [String: Any] { return dict }
+        if object is [Any] { return nil }
+
+        let children = Mirror(reflecting: object).children
+
+        guard !children.isEmpty else { return nil }
+
+        return [String: Any].init(uniqueKeysWithValues:
+            children.compactMap {
+                guard
+                    let label = $0.label,
+                    case Optional<Any>.some(var value) = $0.value
+                else { return nil }
+
+                if let evaluable = value as? ContextEvaluable {
+                    value = evaluable.evaluateWith(contextProvider: contextProvider)
+                }
+                if let dynamicObject = value as? DynamicObject {
+                    guard let any = dynamicObject.asAny() else { return nil }
+                    value = any
+                }
+
+                transformCustomTypeToDict(value).map {
+                    value = $0
+                }
+
+                return (label, value)
+            }
+        )
+    }
+
+    private func transformArrayWithCustomTypes(_ array: [Any]) -> [Any]? {
+        array.compactMap {
+            if let otherArray = $0 as? [Any] {
+                return transformArrayWithCustomTypes(otherArray)
+            } else {
+                return transformCustomTypeToDict($0)
+            }
+        }
     }
 
     private func valueForKey(_ key: String, in container: Any) throws -> Any {
@@ -107,11 +160,9 @@ struct MapActionToDictionary {
     }
 
     fileprivate func unwrap(_ object: Any) -> Any {
-        // swiftlint:disable syntactic_sugar
         if case Optional<Any>.some(let unwraped) = object {
             return unwraped
         }
-        // swiftlint:enable syntactic_sugar
         return object
     }
 }

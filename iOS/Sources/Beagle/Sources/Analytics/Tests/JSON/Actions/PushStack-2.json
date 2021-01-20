@@ -3,8 +3,7 @@
     "analytics": {
         "attributes": [
             "controllerId",
-            "route.screen.identifier",
-            "route.screen.navigationBar.title"
+            "route"
         ],
         "enable": true
     },

@@ -3,8 +3,8 @@
     "analytics": {
         "attributes": [
             "condition",
-            "onFalse[0].message",
-            "onTrue[0].message"
+            "onFalse",
+            "onTrue"
         ],
         "enable": true
     },
@@ -12,13 +12,13 @@
     "onFalse": [
         {
             "_beagleAction_": "beagle:alert",
-            "message": "False"
+            "message": "Hello @{context.query}"
         }
     ],
     "onTrue": [
         {
             "_beagleAction_": "beagle:alert",
-            "message": "True"
+            "message": "Hello @{context.query}"
         }
     ]
 }

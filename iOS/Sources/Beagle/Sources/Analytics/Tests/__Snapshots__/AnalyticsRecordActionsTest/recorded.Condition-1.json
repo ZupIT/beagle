@@ -11,12 +11,12 @@
   "condition" : true,
   "onFalse" : [
     {
-      "message" : "False"
+      "message" : "Hello beagle"
     }
   ],
   "onTrue" : [
     {
-      "message" : "True"
+      "message" : "Hello beagle"
     }
   ],
   "platform" : "ios",
