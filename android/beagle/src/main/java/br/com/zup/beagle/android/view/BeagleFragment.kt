@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,6 +69,8 @@ internal class BeagleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return context?.let {
+            Log.v("uzias", screen.toString())
+            Log.v("uzias", arguments?.getString(JSON_SCREEN_KEY) ?: "")
             FrameLayout(it).apply {
                 applyBackgroundFromWindowBackgroundTheme(it)
                 addView(screen.toView(this@BeagleFragment))

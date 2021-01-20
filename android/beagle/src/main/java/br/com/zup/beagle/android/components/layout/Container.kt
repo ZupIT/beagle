@@ -65,7 +65,7 @@ data class Container(
     }
 
     private fun addChildren(beagleFlexView: BeagleFlexView) {
-        children.forEach { child ->
+        children?.forEach { child ->
             beagleFlexView.addServerDrivenComponent(child)
         }
     }

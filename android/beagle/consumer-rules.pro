@@ -32,10 +32,16 @@
 -keep class com.facebook.jni.**{*;}
 -keep class com.facebook.fbjni.**{*;}
 
+# Beagle Serialization / Deserialization
 -keep class br.com.zup.beagle.core.BeagleJson
--keep class br.com.zup.beagle.annotation.{*;}
 
 -keepclassmembers @br.com.zup.beagle.core.BeagleJson class * extends java.lang.Enum {
     <fields>;
     **[] values();
 }
+
+-dontwarn javax.annotation.**
+
+-keepattributes LineNumberTable,SourceFile
+
+

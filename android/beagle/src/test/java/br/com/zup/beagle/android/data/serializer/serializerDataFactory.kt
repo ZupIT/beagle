@@ -68,7 +68,7 @@ fun makeButtonJson() = """
 fun makeTextJson() = """
     {
         "_beagleComponent_": "beagle:text",
-        "textone": "Test"
+        "text": "Test"
     }
 """
 

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
+import android.util.Log
 import br.com.zup.beagle.core.BeagleJson
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
@@ -243,6 +244,7 @@ class BeagleKotlinJsonAdapterFactory : JsonAdapter.Factory {
             property.isAccessible = true
             val allAnnotations = property.annotations.toMutableList()
             var jsonAnnotation = property.findAnnotation<BeagleJson>()
+            Log.v("uzias json annotation", jsonAnnotation.toString())
 
             if (parameter != null) {
                 allAnnotations += parameter.annotations

@@ -144,13 +144,28 @@ data class NavigationBar(
 @Suppress("DataClassPrivateConstructor")
 data class Screen private constructor(
 
+    @BeagleJson(name = "identifier")
     val identifier: String? = null,
+
+    @BeagleJson(name = "safeArea")
     val safeArea: SafeArea? = null,
+
+    @BeagleJson(name = "navigationBar")
     val navigationBar: NavigationBar? = null,
+
+    @BeagleJson(name = "child")
     override val child: ServerDrivenComponent,
+
+    @BeagleJson(name = "style")
     val style: Style? = null,
+
+    @BeagleJson(name = "screenAnalyticsEvent")
     override val screenAnalyticsEvent: ScreenEvent? = null,
+
+    @BeagleJson(name = "context")
     override val context: ContextData? = null,
+
+    @BeagleJson(name = "id")
     override val id: String? = null,
 ) : ScreenAnalytics, ContextComponent, SingleChildComponent, IdentifierComponent {
 

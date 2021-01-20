@@ -77,7 +77,7 @@ internal class GenerateIdManager(
         if (serverDrivenComponent is SingleChildComponent) {
             markEachNestedComponentAsNoIdIfNeeded(serverDrivenComponent.child)
         } else if (serverDrivenComponent is MultiChildComponent) {
-            serverDrivenComponent.children.forEach { childComponent ->
+            serverDrivenComponent.children?.forEach { childComponent ->
                 markEachNestedComponentAsNoIdIfNeeded(childComponent)
             }
         }
