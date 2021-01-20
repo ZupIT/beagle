@@ -18,17 +18,13 @@ package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
 import br.com.zup.beagle.analytics2.ActionAnalyticsProperties
-import br.com.zup.beagle.android.action.Route
-import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi.moshi
 import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import java.lang.reflect.Type
-import kotlin.reflect.jvm.internal.impl.resolve.constants.NullValue
 
 class ActionAnalyticsConfigAdapterFactory : JsonAdapter.Factory {
 
@@ -45,7 +41,7 @@ class ActionAnalyticsConfigAdapterFactory : JsonAdapter.Factory {
     }
 }
 
-internal class ActionAnalyticsConfigAdapter() : JsonAdapter<ActionAnalyticsConfig>() {
+internal class ActionAnalyticsConfigAdapter : JsonAdapter<ActionAnalyticsConfig>() {
     override fun fromJson(reader: JsonReader): ActionAnalyticsConfig? {
         val jsonValue = reader.readJsonValue()
 

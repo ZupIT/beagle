@@ -21,7 +21,6 @@ import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.RootView
-import java.util.LinkedList
 import java.util.Queue
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicBoolean

@@ -285,5 +285,4 @@ class AnalyticsServiceTest : BaseTest() {
             assertEquals(analyticsConfig, slot.captured)
         }
     }
-    //refactor, changing the name (like on ScreenReport With config null, because, in this case, we test the reportDataReport and not the screenReport)
 }
