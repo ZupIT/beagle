@@ -76,7 +76,7 @@ data class FormRemoteAction(
     val path: String,
     val method: FormMethodType,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
+) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
 
     @Transient
     internal lateinit var formsValue: Map<String, String>

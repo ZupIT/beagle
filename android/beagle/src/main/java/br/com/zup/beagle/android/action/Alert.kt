@@ -42,7 +42,7 @@ data class Alert(
     val onPressOk: Action? = null,
     val labelOk: String? = null,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : ActionAnalytics {
 
     constructor(
         title: String? = null,
@@ -66,7 +66,7 @@ data class Alert(
             .setPositiveButton(labelOk ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressOk?.let {
-                    handleEvent(rootView, origin, it, "onPressOk")
+                    handleEvent(rootView, origin, it, analyticsValue = "onPressOk")
                 }
             }
             .show()

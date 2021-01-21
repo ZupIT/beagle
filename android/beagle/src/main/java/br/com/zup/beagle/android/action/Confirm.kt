@@ -46,7 +46,7 @@ data class Confirm(
     val labelOk: String? = null,
     val labelCancel: String? = null,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : ActionAnalytics {
 
     constructor(
         title: String? = null,

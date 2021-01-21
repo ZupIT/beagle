@@ -17,27 +17,32 @@
 package br.com.zup.beagle.newanalytics
 
 import br.com.zup.beagle.android.utils.removeBaseUrl
+import java.sql.Timestamp
 
 internal object ScreenReportFactory {
 
     private const val TYPE_ANALYTICS = "screen"
     private const val PLATFORM_ANALYTICS = "android"
 
-    fun generateLocalScreenAnalyticsRecord(screenId: String) = object : AnalyticsRecord {
+    fun generateLocalScreenAnalyticsRecord(screenId: String, timestamp: String) = object : AnalyticsRecord {
         override val type: String
             get() = TYPE_ANALYTICS
         override val platform: String
             get() = PLATFORM_ANALYTICS
         override val attributes: HashMap<String, Any>
             get() = hashMapOf("screenId" to screenId)
+        override val timestamp: String
+            get() = timestamp
     }
 
-    fun generateRemoteScreenAnalyticsRecord(url: String) = object : AnalyticsRecord {
+    fun generateRemoteScreenAnalyticsRecord(url: String, timestamp: String) = object : AnalyticsRecord {
         override val type: String
             get() = TYPE_ANALYTICS
         override val platform: String
             get() = PLATFORM_ANALYTICS
         override val attributes: HashMap<String, Any>
             get() = hashMapOf("url" to url.removeBaseUrl())
+        override val timestamp: String
+            get() = timestamp
     }
 }

@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.widget.RootView
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
-sealed class Navigate : ActionAnalytics() {
+sealed class Navigate : ActionAnalytics {
 
     /**
      * Opens one of the browsers available on the device with the passed url.

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.newanalytics
 
 import br.com.zup.beagle.android.action.ActionAnalytics
+import java.sql.Timestamp
 
 internal data class DataActionReport(
     var originX: Float? = null,
@@ -28,8 +29,8 @@ internal data class DataActionReport(
     var action: ActionAnalytics,
     var screenId: String? = null,
     var actionType: String,
-    var additionalEntries: Map<String, Any>? = null
-) : DataReport {
+    var additionalEntries: Map<String, Any>? = null,
+) : DataReport() {
 
     override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
         updateActionAttributes(analyticsConfig)

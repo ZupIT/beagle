@@ -35,7 +35,7 @@ import br.com.zup.beagle.android.widget.RootView
 internal class FormValidation(
     val errors: List<FieldError>,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : ActionAnalytics {
 
     @Transient
     var formInputs: List<FormInput>? = null

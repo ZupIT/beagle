@@ -16,8 +16,18 @@
 
 package br.com.zup.beagle.newanalytics
 
+import java.sql.Timestamp
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
 
-internal interface DataReport {
 
-    fun report(analyticsConfig: AnalyticsConfig) : AnalyticsRecord?
+abstract class DataReport {
+    val timestamp = getTime().toString()
+    abstract fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord?
+
+    private fun getTime(): Date {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+        return Date()
+    }
 }

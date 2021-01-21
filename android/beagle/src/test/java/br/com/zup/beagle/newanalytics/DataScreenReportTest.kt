@@ -48,13 +48,14 @@ internal class DataScreenReportTest : BaseTest() {
             //GIVEN
             mockkObject(ScreenReportFactory)
             val dataScreenReport = DataScreenReport(isLocalScreen = true, screenIdentifier = SCREEN_IDENTIFIER)
+            val timestamp = dataScreenReport.timestamp
 
             //WHEN
             dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 1) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(SCREEN_IDENTIFIER) }
-            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(SCREEN_IDENTIFIER) }
+            verify(exactly = 1) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(SCREEN_IDENTIFIER, timestamp) }
+            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(any(), any()) }
 
         }
 
@@ -64,13 +65,14 @@ internal class DataScreenReportTest : BaseTest() {
             //GIVEN
             mockkObject(ScreenReportFactory)
             val dataScreenReport = DataScreenReport(isLocalScreen = false, screenIdentifier = SCREEN_IDENTIFIER)
+            val timestamp = dataScreenReport.timestamp
 
             //WHEN
             dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 1) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(SCREEN_IDENTIFIER) }
-            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(SCREEN_IDENTIFIER) }
+            verify(exactly = 1) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(SCREEN_IDENTIFIER, timestamp) }
+            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(any(), any()) }
         }
 
     }
@@ -96,8 +98,8 @@ internal class DataScreenReportTest : BaseTest() {
             val result = dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(SCREEN_IDENTIFIER) }
-            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(SCREEN_IDENTIFIER) }
+            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(any(), any()) }
+            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(any(), any()) }
             assertEquals(null, result)
 
         }
@@ -113,8 +115,8 @@ internal class DataScreenReportTest : BaseTest() {
             val result = dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(SCREEN_IDENTIFIER) }
-            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(SCREEN_IDENTIFIER) }
+            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(any(), any()) }
+            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(any(), any()) }
             assertEquals(null, result)
         }
     }

@@ -38,7 +38,7 @@ data class Condition(
     val onTrue: List<Action>? = null,
     val onFalse: List<Action>? = null,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : ActionAnalytics {
 
     constructor(
         condition: Boolean,

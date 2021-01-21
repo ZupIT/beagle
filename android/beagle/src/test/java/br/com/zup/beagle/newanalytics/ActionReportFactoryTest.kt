@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test
 @DisplayName("Given a Action Report Factory")
 internal class ActionReportFactoryTest : BaseTest() {
 
-    private val origin: View = mockk()
+    private val origin: View = mockk(relaxed = true)
     private val ROUTE_URL_CONSTANT = "route.url"
     private val ROUTE_SHOULD_PREFETCH_CONSTANT = "route.shouldPrefetch"
 
@@ -55,12 +55,12 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should return hash map with rootview screenId")
         fun testRootViewWithScreenIdReturnHashMapWithScreenKey() {
-            //GIVEN
+            //Given
             val action: ActionAnalytics = mockk()
             every { rootView.getScreenId() } returns "/screen"
             every { action.analytics } returns null
 
-            //WHEN
+            //When
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
@@ -70,7 +70,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 dataActionReport
             )
 
-            //THEN
+            //Then
             Assert.assertEquals("/screen", report.attributes["screen"])
         }
     }
@@ -82,12 +82,12 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should return platform as android and type as action")
         fun testPlatformAnTypeWithCorrectValue() {
-            //GIVEN
+            //Given
             val action: ActionAnalytics = mockk()
             every { rootView.getScreenId() } returns ""
             every { action.analytics } returns null
 
-            //WHEN
+            //When
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
@@ -97,7 +97,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 dataActionReport
             )
 
-            //THEN
+            //Then
             Assert.assertEquals("android", report.platform)
             Assert.assertEquals("action", report.type)
         }
@@ -121,47 +121,46 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should return correct value to component key without crash")
         fun testOriginComponentAsServerDrivenComponent() {
-            //GIVEN
+            //Given
             val componentReport = generateComponentReport()
             val dataActionReport = generateDataActionReport()
 
-            //WHEN
-
+            //When
             val report = reportDataAction(dataActionReport)
 
-            //THEN
+            //Then
             Assert.assertEquals(componentReport, report.attributes["component"])
         }
 
         @Test
         @DisplayName("Then should return correct value to component key without crash")
         fun testOriginComponentAsWidgetViewWithAnId() {
-            //GIVEN
+            //Given
             every { origin.getTag(R.id.beagle_component_id) } returns "text-id"
             val componentReport = hashMapOf<String, Any>("type" to "beagle:button", "id" to "text-id")
             val componentReportAux = generateComponentReport()
             componentReport.putAll(componentReportAux)
             val dataActionReport = generateDataActionReport()
 
-            //WHEN
+            //When
             val report = reportDataAction(dataActionReport)
 
-            //THEN
+            //Then
             Assert.assertEquals(componentReport, report.attributes["component"])
         }
 
         @Test
         @DisplayName("Then should return correct value to component key without crash")
         fun testOriginComponentAsWidgetViewWithoutId() {
-            //GIVEN
+            //Given
             val componentReport = generateComponentReport()
             originComponent.id = null
             val dataActionReport = generateDataActionReport()
 
-            //WHEN
+            //When
             val report = reportDataAction(dataActionReport)
 
-            //THEN
+            //Then
             Assert.assertEquals(componentReport, report.attributes["component"])
         }
 
@@ -199,7 +198,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testSimpleActionAttribute() {
-            //WHEN
+            //When
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
@@ -209,8 +208,8 @@ internal class ActionReportFactoryTest : BaseTest() {
             dataActionReport.additionalEntries = hashMapOf("additionalEntries" to true)
             val report = ActionReportFactory.generateActionAnalyticsConfig(dataActionReport)
 
-            //THEN
-            commonAsserts(report)
+            //Then
+            commonAsserts(report, dataActionReport)
             Assert.assertEquals(route, report.attributes["route"])
             assertTrue(report.attributes["additionalEntries"] as Boolean)
         }
@@ -218,7 +217,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testComposeActionAttribute() {
-            //WHEN
+            //When
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
@@ -229,8 +228,8 @@ internal class ActionReportFactoryTest : BaseTest() {
                 dataActionReport
             )
 
-            //THEN
-            commonAsserts(report)
+            //Then
+            commonAsserts(report, dataActionReport)
             Assert.assertEquals(url, report.attributes[ROUTE_URL_CONSTANT])
             Assert.assertEquals(false, report.attributes[ROUTE_SHOULD_PREFETCH_CONSTANT])
         }
@@ -238,7 +237,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testWrongComposeActionAttribute() {
-            //WHEN
+            //When
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
@@ -249,12 +248,13 @@ internal class ActionReportFactoryTest : BaseTest() {
                 dataActionReport,
             )
             print(report)
-            //THEN
-            commonAsserts(report)
+            //Then
+            commonAsserts(report, dataActionReport)
             Assert.assertEquals(null, report.attributes["route.a"])
         }
 
-        private fun commonAsserts(report: AnalyticsRecord) {
+        private fun commonAsserts(report: AnalyticsRecord, dataReport: DataReport) {
+            Assert.assertEquals(dataReport.timestamp, report.timestamp)
             Assert.assertEquals("onPress", report.attributes["event"])
             Assert.assertEquals(actionType, report.attributes["beagleAction"])
         }
@@ -271,7 +271,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @DisplayName("Then should create correct data action report")
         @Test
         fun testPreGenerateActionAnalyticsConfigCreateCorrectDataActionReport() {
-            //GIVEN
+            //Given
             every { rootView.getScreenId() } returns ""
             every { origin.getTag(R.id.beagle_component_type) } returns null
             val expectedDataReport = DataActionReport(
@@ -290,7 +290,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 screenId = "",
                 actionType = "beagle:pushView"
             )
-            //WHEN
+            //When
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
                 rootView,
                 origin,
@@ -298,7 +298,7 @@ internal class ActionReportFactoryTest : BaseTest() {
                 analyticsValue = "onPress"
             )
 
-            //THEN
+            //Then
             Assert.assertEquals(expectedDataReport, dataActionReport)
         }
     }

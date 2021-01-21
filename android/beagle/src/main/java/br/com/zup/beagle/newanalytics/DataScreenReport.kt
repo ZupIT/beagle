@@ -18,8 +18,8 @@ package br.com.zup.beagle.newanalytics
 
 internal data class DataScreenReport(
     val isLocalScreen: Boolean,
-    val screenIdentifier: String
-) : DataReport {
+    val screenIdentifier: String,
+) : DataReport() {
     override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
         if (shouldReportScreen(analyticsConfig)) {
             return reportScreen()
@@ -31,9 +31,9 @@ internal data class DataScreenReport(
 
     private fun reportScreen(): AnalyticsRecord {
         if (isLocalScreen) {
-            return ScreenReportFactory.generateLocalScreenAnalyticsRecord(screenIdentifier)
+            return ScreenReportFactory.generateLocalScreenAnalyticsRecord(screenIdentifier, timestamp)
         } else {
-            return ScreenReportFactory.generateRemoteScreenAnalyticsRecord(screenIdentifier)
+            return ScreenReportFactory.generateRemoteScreenAnalyticsRecord(screenIdentifier, timestamp)
         }
     }
 }
