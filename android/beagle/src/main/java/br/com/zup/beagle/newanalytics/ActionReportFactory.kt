@@ -120,7 +120,7 @@ internal object ActionReportFactory {
             get() = "android"
         override val attributes: HashMap<String, Any>
             get() = generateAttributes(dataActionReport)
-        override val timestamp: String
+        override val timestamp: Long
             get() = dataActionReport.timestamp
     }
 

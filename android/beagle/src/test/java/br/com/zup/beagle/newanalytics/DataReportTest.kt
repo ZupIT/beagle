@@ -47,13 +47,15 @@ internal class DataReportTest : BaseTest(){
         @DisplayName("Then should create the timestamp with correct time")
         fun testWhenCreateADataReportTestThenShouldGetTheTimestampCorrectly() {
             //Given
+            val time1 = System.currentTimeMillis()
             val dataReport = object : DataReport() {
                 override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
                     return null
                 }
             }
-            val regex = "([A-Z][a-z]{2} ){2}[0-9]{2} ([0-9]{2}:){2}[0-9]{2} UTC [0-9]{4}".toRegex()
-            assertTrue(dataReport.timestamp.matches(regex))
+            val time2 = System.currentTimeMillis()
+            assertTrue(dataReport.timestamp >= time1)
+            assertTrue(dataReport.timestamp <= time2)
         }
     }
 }

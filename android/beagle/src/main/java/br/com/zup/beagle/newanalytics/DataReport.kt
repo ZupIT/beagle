@@ -21,11 +21,6 @@ import java.util.TimeZone
 
 
 abstract class DataReport {
-    val timestamp = getTime().toString()
+    val timestamp = System.currentTimeMillis()
     abstract fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord?
-
-    private fun getTime(): Date {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
-        return Date()
-    }
 }

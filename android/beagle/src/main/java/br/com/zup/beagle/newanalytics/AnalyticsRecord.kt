@@ -27,5 +27,5 @@ interface AnalyticsRecord {
     val type : String
     val platform : String
     val attributes : HashMap<String, Any>
-    val timestamp : String
+    val timestamp : Long
 }
