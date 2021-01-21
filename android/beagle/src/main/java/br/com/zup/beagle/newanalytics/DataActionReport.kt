@@ -17,7 +17,6 @@
 package br.com.zup.beagle.newanalytics
 
 import br.com.zup.beagle.android.action.ActionAnalytics
-import java.sql.Timestamp
 
 internal data class DataActionReport(
     var originX: Float? = null,

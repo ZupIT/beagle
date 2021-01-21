@@ -17,7 +17,6 @@
 package br.com.zup.beagle.newanalytics
 
 import br.com.zup.beagle.android.utils.removeBaseUrl
-import java.sql.Timestamp
 
 internal object ScreenReportFactory {
 
