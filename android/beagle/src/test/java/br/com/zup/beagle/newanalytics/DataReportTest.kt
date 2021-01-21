@@ -52,7 +52,7 @@ internal class DataReportTest : BaseTest(){
                     return null
                 }
             }
-            val regex = "[A-Z][a-z][a-z] [A-Z][a-z][a-z] [0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9] UTC [0-9][0-9][0-9][0-9]".toRegex()
+            val regex = "([A-Z][a-z]{2} ){2}[0-9]{2} ([0-9]{2}:){2}[0-9]{2} UTC [0-9]{4}".toRegex()
             assertTrue(dataReport.timestamp.matches(regex))
         }
     }
