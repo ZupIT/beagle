@@ -58,11 +58,6 @@ class AnalyticsServiceTest : BaseTest() {
         every { analyticsProvider.createRecord(any()) } just Runs
     }
 
-    @AfterEach
-    fun teardown() {
-        unmockkAll()
-    }
-
     @DisplayName("When create screen record")
     @Nested
     inner class ReportScreenWithAnalyticsConfigNotNull {

@@ -32,15 +32,14 @@ internal data class DataActionReport(
 ) : DataReport {
 
     override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
-        val attributes = getActionAttributes(analyticsConfig)
-        if(attributes != null){
-            updateAttributes(attributes)
-            ActionReportFactory.generateActionAnalyticsConfig(this)
+        updateActionAttributes(analyticsConfig)
+        if (attributes.size == 0) {
+            return null
         }
-        return null
+        return ActionReportFactory.generateActionAnalyticsConfig(this)
     }
 
-    private fun getActionAttributes(analyticsConfig: AnalyticsConfig) : List<String>?{
+    private fun updateActionAttributes(analyticsConfig: AnalyticsConfig) {
         var attributes: List<String>? = null
         action.analytics?.let {
             val actionAnalyticsProperties = getActionProperties(it.value)
@@ -48,10 +47,10 @@ internal data class DataActionReport(
             attributes = getAttributeOnActionAnalyticsProperties(actionAnalyticsProperties)
         }
 
-        if (attributes == null){
+        if (attributes == null) {
             attributes = getAttributeOnAnalyticsConfig(analyticsConfig)
         }
-        return attributes
+        updateAttributes(attributes)
     }
 
     private fun getActionProperties(value: Any?) =
@@ -75,11 +74,11 @@ internal data class DataActionReport(
     }
 
     private fun updateAttributes(
-        expectedAttributes: List<String>,
+        expectedAttributes: List<String>?,
     ) {
         val actualAttributes = attributes
         attributes = hashMapOf()
-        expectedAttributes.forEach { key ->
+        expectedAttributes?.forEach { key ->
             val result = actualAttributes[key]
             result?.let { value ->
                 attributes[key] = value

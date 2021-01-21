@@ -44,7 +44,6 @@ class ActionAnalyticsConfigAdapterFactory : JsonAdapter.Factory {
 internal class ActionAnalyticsConfigAdapter : JsonAdapter<ActionAnalyticsConfig>() {
     override fun fromJson(reader: JsonReader): ActionAnalyticsConfig? {
         val jsonValue = reader.readJsonValue()
-
         var actionAnalyticsConfig: ActionAnalyticsConfig? = null
         if (jsonValue is Boolean) {
             actionAnalyticsConfig = if (jsonValue) {
@@ -67,8 +66,6 @@ internal class ActionAnalyticsConfigAdapter : JsonAdapter<ActionAnalyticsConfig>
                 additionalEntries
             ))
         }
-
-
         return actionAnalyticsConfig
     }
 
@@ -101,7 +98,6 @@ internal class ActionAnalyticsConfigAdapter : JsonAdapter<ActionAnalyticsConfig>
                 }
             }
         }
-
     }
 
     companion object {

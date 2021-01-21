@@ -33,7 +33,6 @@ data class ActionAnalyticsProperties(
  * @property value is False, when the analytics is Disabled and can be null or have an ActionAnalyticsProperties
  * when is enabled
  */
-
 sealed class ActionAnalyticsConfig(
     var value: Any? = null
 ) {
