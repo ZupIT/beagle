@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.serialization.jackson
 
-data class ActionAnalyticsConfig(
-    var enable: Boolean = false,
-    var attributes: List<String>? = null,
-    var additionalEntries: Map<String, Any>? = null
-)
+import com.fasterxml.jackson.annotation.JsonValue
+
+internal object ActionAnalyticsConfigMixin {
+    @get:JsonValue
+    val value: Any = this
+}
