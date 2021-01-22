@@ -35,7 +35,7 @@ class ScreenReportFactoryTest : BaseTest() {
         @DisplayName("Then should create local screen report correctly")
         fun testCreateScreenLocalReportShouldCreateLocalScreenReportCorrectly() {
             //Given
-            val timestamp = Timestamp(System.currentTimeMillis()).toString()
+            val timestamp = System.currentTimeMillis()
 
             //WHEN
             val result = ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId", timestamp)
@@ -56,7 +56,7 @@ class ScreenReportFactoryTest : BaseTest() {
         @DisplayName("Then should create remote screen report correctly")
         fun testCreateScreenRemoteReportShouldCreateRemoteScreenReportCorrectly() {
             //Given
-            val timestamp = Timestamp(System.currentTimeMillis()).toString()
+            val timestamp = System.currentTimeMillis()
 
             //When
             val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url", timestamp)
@@ -74,7 +74,7 @@ class ScreenReportFactoryTest : BaseTest() {
             //Given
             val baseUrl = "https://baseUrl.com.br/"
             every { beagleSdk.config.baseUrl } returns baseUrl
-            val timestamp = Timestamp(System.currentTimeMillis()).toString()
+            val timestamp = System.currentTimeMillis()
 
             //When
             val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord(baseUrl + "url", timestamp)

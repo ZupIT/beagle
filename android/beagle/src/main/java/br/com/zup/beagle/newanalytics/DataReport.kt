@@ -16,9 +16,6 @@
 
 package br.com.zup.beagle.newanalytics
 
-import java.util.Date
-import java.util.TimeZone
-
 
 abstract class DataReport {
     val timestamp = System.currentTimeMillis()
