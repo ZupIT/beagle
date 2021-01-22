@@ -65,8 +65,7 @@ abstract class AbstractStep {
         return AppiumUtil.waitForElementToBeClickable(
             getDriver(),
             xpath,
-            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL,
-            0
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
 
     }
@@ -83,8 +82,7 @@ abstract class AbstractStep {
         return AppiumUtil.waitForElementToBeClickable(
             getDriver(),
             xpath,
-            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL,
-            0
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
 
     }
@@ -93,15 +91,15 @@ abstract class AbstractStep {
      * Waits for an element to be present on the screen
      */
     protected fun waitForElementWithValueToBePresent(
-            elementValue: String,
-            likeSearch: Boolean,
-            ignoreCase: Boolean
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
     ): MobileElement {
         val xpath: By = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
         return AppiumUtil.waitForElementToBePresent(
-                getDriver(),
-                xpath,
-                DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+            getDriver(),
+            xpath,
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
 
     }
@@ -138,34 +136,53 @@ abstract class AbstractStep {
         AppiumUtil.waitForElementToBeInvisible(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
-    @Deprecated(
-        message = "Seaches the element and scroll to it, but some platforms won't render the element when it is not visible. " +
-                "Use swipe instead"
-    )
     protected fun scrollDownToElementWithText(
         elementText: String,
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        return scrollToElement(elementText, likeSearch, ignoreCase, SwipeDirection.DOWN)
+        val locator = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+        return scrollToElement(locator, SwipeDirection.UP) // swiping up scrolls down...
+    }
+
+    protected fun scrollDownToElementWithValue(
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ): MobileElement {
+        val locator = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
+        return scrollToElement(locator, SwipeDirection.UP)
+    }
+
+    protected fun scrollUpToElementWithText(
+        elementText: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ): MobileElement {
+        val locator = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+        return scrollToElement(locator, SwipeDirection.DOWN) // swiping down scrolls up...
+    }
+
+    protected fun scrollUpToElementWithValue(
+        elementText: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ): MobileElement {
+        val locator = getSearchByValueXpath(elementText, likeSearch, ignoreCase)
+        return scrollToElement(locator, SwipeDirection.DOWN) // swiping down scrolls up...
     }
 
     private fun scrollToElement(
-        elementText: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean,
+        elementLocator: By,
         direction: SwipeDirection
     ): MobileElement {
-        val xpath: By = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
-
-        // since the element might not be visible until scrolled to, should wait for presence, not visibility
-        val element: MobileElement = AppiumUtil.waitForElementToBePresent(
+        return AppiumUtil.scrollToElement(
             getDriver(),
-            xpath,
+            elementLocator,
+            direction,
+            1500,
             DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
-
-        return AppiumUtil.scrollToElement(getDriver(), element, direction, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
     protected fun hideKeyboard() {

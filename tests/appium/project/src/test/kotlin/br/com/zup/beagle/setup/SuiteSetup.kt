@@ -16,13 +16,16 @@
 
 package br.com.zup.beagle.setup
 
+
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.MobileElement
 import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.android.AndroidElement
 import io.appium.java_client.ios.IOSDriver
 import io.appium.java_client.remote.MobileCapabilityType
 import org.openqa.selenium.remote.DesiredCapabilities
 import java.net.URL
+
 
 object SuiteSetup {
 
@@ -30,10 +33,7 @@ object SuiteSetup {
     const val SCREENSHOTS_DATABASE_FOLDER = "./src/test/resources/screenshots_database"
     private var platform: String? = null
     private var driver: AppiumDriver<*>? = null
-
-    //private var service: AppiumDriverLocalService? = null
     private var bffBaseUrl: String? = null
-
 
     fun getDriver(): AppiumDriver<*> {
 
@@ -57,86 +57,92 @@ object SuiteSetup {
 
     fun initSuit() {
 
-        //startAppiumServer()
+        if (driver != null)
+            throw Exception("Test suite already running")
 
-        if (platform == null) {
+        platform = System.getProperty("platform") // mandatory param
+        if (platform.isNullOrBlank())
+            throw Exception("Missing param: platform")
 
-            platform = System.getProperty("platform") // command-line argument
+        if (!"android".equals(platform, true) && !"ios".equals(platform, true))
+            throw Exception("Invalid platform param: $platform. Platform must be android or ios")
 
-            if (platform == null || platform == "")
-                throw Exception("Missing param: platform")
 
-            if (!"android".equals(platform, true) && !"ios".equals(platform, true))
-                throw Exception("Invalid platform param: $platform. Platform must be android or ios")
-        }
+        println("#### Initializing test suite setup with platform $platform...")
 
-        println("#### Initializing suite setup with platform $platform...")
-
-        if (bffBaseUrl == null) {
+        bffBaseUrl = System.getProperty("bff_base_url")
+        if (bffBaseUrl.isNullOrBlank()) {
             if (isAndroid())
                 bffBaseUrl = "http://10.0.2.2:8080"
             else
                 bffBaseUrl = "http://localhost:8080"
         }
 
+        /**
+         * List of capabilities: http://appium.io/docs/en/writing-running-appium/caps/
+         */
+        var platformVersion = System.getProperty("platform_version")
+        var deviceName = System.getProperty("device_name")
+        var appFile = System.getProperty("app_file")
+        var browserstackUser = System.getProperty("browserstack_user")
+        var browserstackKey = System.getProperty("browserstack_key")
         val capabilities = DesiredCapabilities()
-
         if (isAndroid()) {
 
-            capabilities.setCapability("ignoreHiddenApiPolicyError", true)
-            capabilities.setCapability("disableWindowAnimation", true)
-            capabilities.setCapability("uiautomator2ServerInstallTimeout", 90000);
-
-            /**
-             * Reset strategies
-             * http://appium.io/docs/en/writing-running-appium/other/reset-strategies/index.html
-             */
-            capabilities.setCapability("noReset", true)
-            capabilities.setCapability("fullReset", false)
-
-            /**
-             * Device & platform
-             */
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android")
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11")
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Nexus 6")
-
-            /**
-             * When the .apk being tested is build as test-only (ex when it is created by running on Android Studio)
-             * https://github.com/appium/appium/issues/10758
-             * https://stackoverflow.com/questions/25274296/adb-install-fails-with-install-failed-test-only
-             */
-            capabilities.setCapability("allowTestPackages", true)
-
-            /**
-             * Android driver strategy: UiAutomator2 (default and stable) or Espresso
-             */
-            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2")
-
-            /**
-             * Espresso driver config. It is mandatory to set the app capability when using Espresso driver
-             */
-            //capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Espresso")
-            //capabilities.setCapability("forceEspressoRebuild", true)
-            //capabilities.setCapability(MobileCapabilityType.APP, "C:\\workspaces\\beagle\\android\\automated-tests\\build\\outputs\\apk\\debug\\automated-tests-debug.apk");
-
-            /**
-             *
-             * MobileCapabilityType.APP capability is not required for Android if you specify appPackage and appActivity
-             * In this case, the Android image already contains the app
-             */
             val appPackage = "br.com.zup.beagle.appiumapp"
             val appActivity = ".activity.MainActivity"
-            capabilities.setCapability("appPackage", appPackage)
-            capabilities.setCapability("appActivity", appActivity)
-            /*capabilities.setCapability(
-                MobileCapabilityType.APP,
-                "/Users/runner/work/beagle/beagle/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk"
-            )*/
+
+            // when device is running at BrowserStack
+            if (!browserstackUser.isNullOrBlank() && !browserstackKey.isNullOrBlank()) {
+
+                capabilities.setCapability("ignoreHiddenApiPolicyError", true)
+                capabilities.setCapability("noReset", true)
+                capabilities.setCapability("fullReset", false)
+                capabilities.setCapability("allowTestPackages", true)
+
+                capabilities.setCapability("browserstack.user", browserstackUser)
+                capabilities.setCapability("browserstack.key", browserstackKey)
+                capabilities.setCapability("app", appFile)
+                capabilities.setCapability("device", deviceName);
+                capabilities.setCapability("os_version", platformVersion);
+                capabilities.setCapability("project", "Beagle Appium tests")
+                capabilities.setCapability("build", "Kotlin Android")
+                capabilities.setCapability("name", "Beagle Appium tests on Android")
+                capabilities.setCapability("browserstack.networkLogs", true)
+                driver = AndroidDriver<AndroidElement>(
+                    URL("http://hub.browserstack.com/wd/hub"), capabilities
+                )
 
 
-            driver = AndroidDriver<MobileElement>(/*service?.url*/URL(APPIUM_URL), capabilities)
+            } else // device is running locally
+            {
 
+                if (platformVersion.isNullOrBlank())
+                    platformVersion = "11"
+
+                if (deviceName.isNullOrBlank())
+                    deviceName = "Pixel_4_API_30"
+
+                capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android")
+                capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2")
+                capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion)
+                capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName)
+                capabilities.setCapability("appPackage", appPackage)
+                capabilities.setCapability("appActivity", appActivity)
+                if (!appFile.isNullOrBlank())  // The "app" capability is not required if the emulator already has the app installed
+                    capabilities.setCapability(MobileCapabilityType.APP, appFile)
+
+                capabilities.setCapability("ignoreHiddenApiPolicyError", true)
+                // capabilities.setCapability("disableWindowAnimation", true)
+                // capabilities.setCapability("uiautomator2ServerInstallTimeout", 90000);
+                capabilities.setCapability("noReset", true)
+                capabilities.setCapability("fullReset", false)
+                capabilities.setCapability("allowTestPackages", true)
+
+                driver = AndroidDriver<MobileElement>(URL(APPIUM_URL), capabilities)
+            }
+
+            // checks if the app has started correctly
             if (!appPackage.equals((driver as AndroidDriver<MobileElement>).currentPackage) ||
                 !appActivity.equals((driver as AndroidDriver<MobileElement>).currentActivity())
             ) {
@@ -145,24 +151,25 @@ object SuiteSetup {
 
         } else /* iOS */ {
 
-            capabilities.setCapability("noReset", true)
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13.5")
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 11")
-            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
+            if (platformVersion.isNullOrBlank())
+                platformVersion = "13.5"
+
+            if (deviceName.isNullOrBlank())
+                deviceName = "iPhone 11"
 
             /**
              * The required .app file is usually at
              * ~/Library/Developer/Xcode/DerivedData/APP-RANDOM-CODE/Build/Products/Debug-iphonesimulator/AppiumApp.app
-             *
-             * TODO: remove hardcoded AppiumApp.app path by:
-             *  - passing the path by runtime param (just like -Dplatform param for example)
-             *  - and the new param usage and requirement in the documentation
              */
-            capabilities.setCapability(
-                MobileCapabilityType.APP,
-                "COMPLETE-PATH/AppiumApp.app"
-            )
+            if (appFile.isNullOrBlank())
+                appFile = "COMPLETE-PATH-TO/AppiumApp.app"
+
+            capabilities.setCapability("noReset", true)
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
+            capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion)
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName)
+            capabilities.setCapability(MobileCapabilityType.APP, appFile)
 
             capabilities.setCapability("waitForQuiescence", false)
 
@@ -199,18 +206,5 @@ object SuiteSetup {
             driver?.quit()
         }
     }
-
-    /*
-    @Throws(IOException::class)
-    private fun startAppiumServer() {
-        val serviceBuilder = AppiumServiceBuilder()
-        //serviceBuilder.usingDriverExecutable(File("/path/to/node/executable"));
-        //serviceBuilder.withAppiumJS(new File("/path/to/appium"));
-        //service = AppiumDriverLocalService.buildService(serviceBuilder);
-        service = AppiumDriverLocalService.buildDefaultService()
-        service?.start()
-    }
-    */
-
 
 }

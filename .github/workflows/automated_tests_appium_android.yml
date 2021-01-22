@@ -1,3 +1,19 @@
+#
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 name: Beagle Appium Android Tests
 
 # on: workflow_dispatch
@@ -18,8 +34,19 @@ jobs:
         
         name: Run Appium Android tests
         runs-on: macos-latest
+        env:
+            BEAGLE_DIR: /Users/runner/work/beagle/beagle # TODO: retrieve via script
+            BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
+            BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
+            BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
+
         steps:
+
             -   uses: actions/checkout@v2
+
+            ##################################################################################################
+            # Caching - Start
+            ##################################################################################################
 
             -   name: Cache fastlane dependences
                 uses: actions/cache@v2
@@ -29,9 +56,6 @@ jobs:
                 with:
                      path: ${{ env.fastlane-path }}
                      key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
-            
-            -   name: Install Fastlane
-                run: bundle config set path '~/.gem' && bundle install
 
             -   name: Cache Beagle backend gradle dependencies
                 uses: actions/cache@v2
@@ -42,12 +66,6 @@ jobs:
                      path: ${{ env.gradle-path }}
                      key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
                      restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
-            
-            -   name: Start Beagle backend in background
-                run: bash fastlane/automatedTests/start_test_backend.sh
-
-            -   name: Wait for server to start
-                run: sleep 30
 
             -   name: Cache Appium app-android gradle dependencies
                 uses: actions/cache@v2
@@ -55,27 +73,45 @@ jobs:
                     gradle-cache-key: app-android-tests-gradle-cache
                     gradle-path: ~/.gradle
                 with:
-                     path: ${{ env.gradle-path }}
-                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
-                     restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+                    path: ${{ env.gradle-path }}
+                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
 
-            -   name: Build app-android project to generate .apk file
-                run: bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug
-                        
-            -   name: Config and run Appium server
-                run: bash fastlane/automatedTests/appium/android/config_and_run_appium_server.sh
+            ##################################################################################################
+            # Caching - end
+            ##################################################################################################
 
-            -   name: Run Appium tests
-                uses: reactivecircus/android-emulator-runner@v2
-                with:
-                    api-level: 30
-                    target: google_apis
-                    arch: x86 #x86_64
-                    profile: Nexus 6
-                    avd-name: Nexus6
-                    disable-animations: true
-                    emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -skin 1080x2220 
-                    script: bash fastlane/automatedTests/appium/android/install_apk_in_emulator.sh && ./tests/appium/project/gradlew -p tests/appium/project cucumber -Dplatform=android
+            -   name: Install Fastlane
+                run: bundle config set path '~/.gem' && bundle install
+
+            # TODO: bff open server on demand...
+            #-   name: Start Beagle backend in background
+            #    run: ...
+            #-   name: Wait for server to start
+            #    run: sleep 30
+
+            -   name: Build app-android project to generate the app file
+                env:
+                    BEAGLE_CONFIG_FILE=tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
+                run: | # builds the app replacing localhost for the $BFF_URL. Rollbacks after the app is created
+                    sed -i --expression 's@http://10.0.2.2:8080@$BFF_URL@g' $BEAGLE_CONFIG_FILE &&
+                    bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug &&
+                    sed -i --expression 's@$BFF_URL@http://10.0.2.2:8080@g' $BEAGLE_CONFIG_FILE
+
+            -   name: Configure app in BrowserStack and run the tests
+                env:
+                    ANDROID_APK_FILE: $BEAGLE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
+                    BROWSERSTACK_APP_ID:
+                run: |
+                    bash fastlane/automatedTests/appium/android/upload_apk_to_browserstack_and_get_id.sh &&
+                    ./tests/appium/project/gradlew -p tests/appium/project cucumber \
+                    -Dplatform=android \
+                    -Dplatform_version='11.0' \
+                    -Ddevice_name='Google Pixel 4' \
+                    -Dbrowserstack.user='$BROWSERSTACK_USER' \
+                    -Dbrowserstack.key='$BROWSERSTACK_KEY' \
+                    -Dapp_file='$BROWSERSTACK_APP_ID' \
+                    -Dbff_base_url='$BFF_URL'
 
             -   name: Expose failed test screenshot files
                 if: failure()
@@ -86,3 +122,4 @@ jobs:
 
 #            -   name: Cleanup
 #                run: bundle exec fastlane automated_tests cleanup
+
