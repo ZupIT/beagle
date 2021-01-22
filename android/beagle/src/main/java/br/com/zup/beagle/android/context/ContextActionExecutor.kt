@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.util.Log
 import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AsyncAction
@@ -48,6 +49,10 @@ internal object ContextActionExecutor {
         actions: List<Action>
     ) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+
+        Log.v("uzias implict context", context.isValueNormalized().toString())
+        Log.v("uzias implict context", context.toString())
+        Log.v("uzias implict context", context.value.javaClass.toGenericString())
         viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
 

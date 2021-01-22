@@ -76,6 +76,10 @@
     @com.squareup.moshi.ToJson <methods>;
 }
 
+
+# Add the gson class
+-keep public class com.google.gson
+
 -keepattributes LineNumberTable,SourceFile
 
 

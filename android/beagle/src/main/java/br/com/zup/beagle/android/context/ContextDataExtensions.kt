@@ -33,6 +33,7 @@ internal fun ContextData.normalize(): ContextData {
 }
 
 internal fun Any.normalizeContextValue(): Any {
+
     return when {
         isValueNormalized() -> {
             this
@@ -62,6 +63,6 @@ internal fun String.normalizeContextValue(): Any {
     }
 }
 
-private fun Any.isValueNormalized(): Boolean {
+ fun Any.isValueNormalized(): Boolean {
     return this is String || this is Number || this is Boolean || this is JSONArray || this is JSONObject
 }
