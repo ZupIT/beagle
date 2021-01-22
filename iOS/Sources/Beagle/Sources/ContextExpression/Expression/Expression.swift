@@ -24,7 +24,7 @@ public enum Expression<T: Decodable> {
     case expression(ContextExpression)
 }
 
-public enum ContextExpression: Equatable, Hashable {
+public enum ContextExpression: Hashable {
     case single(SingleExpression)
     case multiple(MultipleExpression)
 }
@@ -72,6 +72,19 @@ public extension Expression {
 }
 
 // MARK: - RepresentableByParsableString
+
+extension ContextExpression: RepresentableByParsableString {
+    public static var parser = singleOrMultipleExpression
+
+    public var rawValue: String {
+        switch self {
+        case .multiple(let multiple):
+            return multiple.rawValue
+        case .single(let single):
+            return single.rawValue
+        }
+    }
+}
 
 extension SingleExpression: RepresentableByParsableString {
     public static let parser = singleExpression
@@ -187,19 +200,6 @@ extension Expression: Decodable {
             }
         } else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expression cannot be decoded")
-        }
-    }
-}
-
-extension ContextExpression: Decodable {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let expression = try? container.decode(SingleExpression.self) {
-            self = .single(expression)
-        } else if let expression = try? container.decode(MultipleExpression.self) {
-            self = .multiple(expression)
-        } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "ContextExpression cannot be decoded")
         }
     }
 }
