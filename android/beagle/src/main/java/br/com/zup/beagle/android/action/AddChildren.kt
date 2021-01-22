@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -71,9 +72,11 @@ data class AddChildren(
     override fun execute(rootView: RootView, origin: View) {
         try {
             val view = (rootView.getContext() as AppCompatActivity).findViewById<ViewGroup>(componentId.toAndroidId())
+            Log.v("uzias add children", view.toString())
             val viewList = convertServerDrivenListOnViewList(value, rootView)
             addValueToView(view, viewList)
         } catch (exception: Exception) {
+            exception.printStackTrace()
             BeagleMessageLogs.errorWhileTryingToAddViewWithAddChildrenAction(componentId)
         }
     }

@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget
 
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
@@ -26,6 +27,8 @@ import br.com.zup.beagle.core.StyleComponent
  * Base of all widgets
  *
  */
+
+@BeagleJson
 abstract class Widget : StyleComponent, AccessibilityComponent,
     IdentifierComponent {
 
