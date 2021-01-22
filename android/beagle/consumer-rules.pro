@@ -35,6 +35,8 @@
 
 # Beagle Serialization / Deserialization
 -keep class br.com.zup.beagle.core.BeagleJson
+-keep class br.com.zup.beagle.android.annotation.ContextDataValue
+-keep,allowobfuscation @com.squareup.moshi.JsonQualifier @interface * { *; }
 
 -keepclassmembers @br.com.zup.beagle.annotation.RegisterWidget class *  {
   <init>(...);
@@ -50,6 +52,28 @@
   <init>(...);
   <fields>;
   **[] values();
+}
+
+-keepclassmembers class ** {
+  @br.com.zup.beagle.android.annotation.ContextDataValue *;
+}
+
+-dontwarn org.jetbrains.annotations.**
+-keep class kotlin.Metadata { *; }
+
+-keepnames class br.com.zup.beagle.android.data.** { *; }
+
+
+-keepclassmembers class br.com.zup.beagle.android.data.serializer.*
+
+-keepnames class br.com.zup.beagle.android.context.** { *; }
+
+
+-keepclassmembers class br.com.zup.beagle.android.context.**
+
+-keepclassmembers class * {
+    @com.squareup.moshi.FromJson <methods>;
+    @com.squareup.moshi.ToJson <methods>;
 }
 
 -keepattributes LineNumberTable,SourceFile

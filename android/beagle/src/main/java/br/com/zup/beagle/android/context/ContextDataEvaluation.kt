@@ -75,6 +75,8 @@ internal class ContextDataEvaluation(
                 expressions.size == 1 && type == null -> moshi.adapter<Any>(bind.type).fromJsonValue(response)
                 else -> {
                     val newType = if (bind.type == Any::class.java) type else bind.type
+                    Log.v("uzias dese", newType.toString())
+                    Log.v("uzias dese", response?.javaClass?.toGenericString() ?: "")
                     Log.v("uzias dese", response.toString())
                     moshi.adapter<Any>(newType ?: bind.type).fromJson(response.toString())
                         ?: showLogErrorAndReturn(bind)

@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.action
 
 import android.util.Log
 import android.view.View
-import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
@@ -31,6 +30,7 @@ import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.android.annotation.ContextDataValue
 
 /**
  * Enum with HTTP methods.
@@ -85,7 +85,7 @@ data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
     val headers: Bind<Map<String, String>>? = null,
-    @property:ContextDataValue
+    @ContextDataValue
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
@@ -133,6 +133,7 @@ data class SendRequest(
                 handleEvent(rootView, origin, it, ContextData("onError", state.response))
             }
             is FetchViewState.Success -> onSuccess?.let {
+                Log.v("uzias on success", state.response.data?.javaClass?.toGenericString() ?: "")
                 Log.v("uzias on success", state.response.data.toString())
                 handleEvent(rootView, origin, it, ContextData("onSuccess", state.response))
             }

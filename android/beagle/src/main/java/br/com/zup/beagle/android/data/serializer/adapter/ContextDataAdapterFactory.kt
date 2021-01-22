@@ -16,26 +16,35 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
+import android.util.Log
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.readValue
+import br.com.zup.beagle.core.BeagleJson
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
+import com.squareup.moshi.nextAnnotations
 import okio.Buffer
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
 
+@BeagleJson
 internal class ContextDataAdapterFactory : JsonAdapter.Factory {
 
     override fun create(
         type: Type,
         annotations: MutableSet<out Annotation>,
-        moshi: Moshi
+        moshi: Moshi,
     ): JsonAdapter<*>? {
-        return Types.nextAnnotations(annotations, ContextDataValue::class.java)?.let {
+        Log.v("uzias context adapter", "entrou")
+        Log.v("uzias context adapter", this::class.java.toGenericString())
+        Log.v("uzias context adapter context data ", ContextDataValue::class.java.toGenericString())
+        Log.v("uzias context adapter", annotations.toString())
+
+        return annotations.nextAnnotations<ContextDataValue>()?.let {
+            Log.v("uzias annotation", "trueeee")
             val adapter: JsonAdapter<Any> = moshi.adapter(type)
             AnyToJsonObjectAdapter(
                 adapter
@@ -44,15 +53,19 @@ internal class ContextDataAdapterFactory : JsonAdapter.Factory {
     }
 }
 
+@BeagleJson
 internal class AnyToJsonObjectAdapter(
-    private val adapter: JsonAdapter<Any>
+    private val adapter: JsonAdapter<Any>,
 ) : JsonAdapter<Any>() {
 
     override fun fromJson(reader: JsonReader): Any? {
+        Log.v("uzias from", reader.toString())
         return reader.readValue()
     }
 
     override fun toJson(writer: JsonWriter, value: Any?) {
+        Log.v("uzias any", value.toString())
+        Log.v("uzias any2", (value is JSONObject).toString())
         if (value is JSONObject || value is JSONArray) {
             val json = value.toString()
             val buffer = Buffer()

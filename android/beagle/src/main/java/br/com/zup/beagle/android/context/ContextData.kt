@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.android.annotation.ContextDataValue
 
 /**
  * Context is a variable of any type, including a map that defines a set of key/value pairs.
@@ -29,6 +29,6 @@ import br.com.zup.beagle.core.BeagleJson
 @BeagleJson
 data class ContextData(
     val id: String,
-    @property:ContextDataValue
+    @ContextDataValue
     val value: Any,
 )

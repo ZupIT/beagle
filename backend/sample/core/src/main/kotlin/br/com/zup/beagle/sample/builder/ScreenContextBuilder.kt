@@ -28,6 +28,7 @@ import br.com.zup.beagle.widget.action.RequestActionMethod
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -85,7 +86,8 @@ object ScreenContextBuilder : ScreenBuilder {
                         ),
                         createZip(),
                         createTextInput(),
-                        createButton()
+                        createButton(),
+                        Text(text = expressionOf("@{address}"))
                     ),
                     context = ContextData(
                         id = "address",
