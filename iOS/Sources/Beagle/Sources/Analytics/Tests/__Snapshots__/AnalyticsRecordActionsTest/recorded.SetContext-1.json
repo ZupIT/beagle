@@ -13,5 +13,5 @@
   "platform" : "ios",
   "screen" : "analytics-actions",
   "type" : "action",
-  "value" : "new value from setContext [@{context.query}]"
+  "value" : "new value from setContext [beagle]"
 }

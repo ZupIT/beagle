@@ -10,7 +10,7 @@
   },
   "data.number" : "Ten",
   "platform" : "ios",
-  "route" : "native-route?q=@{context.query}",
+  "route" : "native-route?q=beagle",
   "screen" : "analytics-actions",
   "shouldResetApplication" : false,
   "type" : "action"

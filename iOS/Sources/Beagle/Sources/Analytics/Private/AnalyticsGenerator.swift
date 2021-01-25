@@ -17,16 +17,15 @@
 import Foundation
 import UIKit
 
-struct AnalyticsGenerator {
+class AnalyticsGenerator {
 
     let info: AnalyticsService.ActionInfo
 
-    private let mapToDictionary: MapActionToDictionary
-
     init(info: AnalyticsService.ActionInfo) {
         self.info = info
-        self.mapToDictionary = MapActionToDictionary(action: info.action, contextProvider: info.origin)
     }
+
+    private var values = [String: Any]()
 
     // MARK: - Action
 
@@ -36,28 +35,57 @@ struct AnalyticsGenerator {
             let name = reflectionName ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
         else { return nil }
 
-//        var values = [String: Any].init(uniqueKeysWithValues:
-//            Mirror(reflecting: info.action).children.compactMap {
-//                if let label = $0.label {
-//                    return (label, $0.value)
-//                } else {
-//                    return nil
-//                }
-//            }
-//        )
-//        values.removeValue(forKey: "analytics")
+        addAttributesAndAdditionalEntries()
 
-        var values = getAttributesAndAdditionalEntries()
-
-        if let screen = screenURL() {
-            values["screen"] = screen
-        }
+        addScreenInfo()
 
         values["beagleAction"] = name
         if let event = info.event {
             values["event"] = event
         }
 
+        addComponentInfo()
+
+        return AnalyticsRecord(type: .action, values: values)
+    }
+
+    private func addScreenInfo() {
+        let screen: String?
+        switch info.controller.screenType {
+        case .remote(let remote):
+            screen = remote.url
+        case .declarative(let declerative):
+            screen = declerative.identifier
+        case .declarativeText:
+            screen = nil
+        }
+
+        screen.map { values["screen"] = $0 }
+    }
+
+    private func addAttributesAndAdditionalEntries() {
+        guard case .enabled(let analytics) = info.action.analytics else { return }
+
+        let attributes = analytics?.attributes ?? []
+        let additional = analytics?.additionalEntries ?? [:]
+
+        [
+            info.action.getSomeAttributes(attributes, contextProvider: info.origin),
+            makeAdditionalEntries(additional)
+        ].forEach {
+            values.merge($0) { _, new in new }
+        }
+    }
+
+    private func makeAdditionalEntries(_ entries: [String: DynamicObject]) -> [String: Any] {
+        entries.reduce(into: [String: Any]()) { result, entry in
+            if let value = entry.value.asAny() {
+                result[entry.key] = value
+            }
+        }
+    }
+
+    private func addComponentInfo() {
         var componentInfo = (values["component"] as? [String: Any]) ?? [:]
         if let type = info.origin.componentType,
            let name = info.controller.dependencies.decoder.nameForComponent(ofType: type) {
@@ -72,42 +100,5 @@ struct AnalyticsGenerator {
             "y": Double(position.y)
         ]
         values["component"] = componentInfo
-
-        return AnalyticsRecord(type: .action, values: values)
-    }
-
-    private func getAttributesAndAdditionalEntries() -> [String: Any] {
-        guard case .enabled(let analytics) = info.action.analytics else { return [:] }
-
-        let attributes = analytics?.attributes ?? []
-        let additional = analytics?.additionalEntries ?? [:]
-
-        var values = [String: Any]()
-        [
-            mapToDictionary.getAttributes(attributes),
-            makeAdditionalEntries(additional)
-        ].forEach {
-            values.merge($0) { _, new in new }
-        }
-        return values
-    }
-
-    private func makeAdditionalEntries(_ entries: [String: DynamicObject]) -> [String: Any] {
-        entries.reduce(into: [String: Any]()) { result, entry in
-            if let value = entry.value.asAny() {
-                result[entry.key] = value
-            }
-        }
-    }
-
-    private func screenURL() -> String? {
-        switch info.controller.screenType {
-        case .remote(let remote):
-            return remote.url
-        case .declarative(let screen):
-            return screen.identifier
-        case .declarativeText:
-            return nil
-        }
     }
 }

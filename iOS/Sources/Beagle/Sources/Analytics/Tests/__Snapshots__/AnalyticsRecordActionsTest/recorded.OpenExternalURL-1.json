@@ -11,5 +11,5 @@
   "platform" : "ios",
   "screen" : "analytics-actions",
   "type" : "action",
-  "url" : "schema:\/\/search?q=@{context.query}"
+  "url" : "schema:\/\/search?q=beagle"
 }
