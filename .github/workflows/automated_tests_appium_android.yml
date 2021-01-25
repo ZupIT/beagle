@@ -100,7 +100,7 @@ jobs:
 
             -   name: Configure app in BrowserStack and run the tests
                 env:
-                    ANDROID_APK_FILE: $BEAGLE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
+                    ANDROID_APK_FILE: $BEAGLE-DIR/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
                     BROWSERSTACK_APP_ID:
                 run: |
                     bash fastlane/automatedTests/appium/android/upload_apk_to_browserstack_and_get_id.sh &&
