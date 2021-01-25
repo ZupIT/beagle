@@ -46,7 +46,7 @@ echo "##### Installing / updating image $AVD_IMAGE ..."
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager --update
 
 #echo "##### Emulator version:"
-#$ANDROID_SDK_ROOT/emulator/emulator -version
+$ANDROID_SDK_ROOT/emulator/emulator -version
 
 if "$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep -q "$AVD_NAME"; then
     echo "##### Using avd from cache"
@@ -59,7 +59,7 @@ fi
 echo "##### Checking if AVD was created correctly ..."
 checkFileExists $AVD_CONFIG_FILE
 
-echo "##### Configuring AVD settings ..."
+echo "##### Adding AVD properties ..."
 echo "hw.lcd.density=440
 hw.lcd.height=2220
 hw.lcd.width=1080
@@ -93,7 +93,7 @@ echo "#### Waiting 30 secs for us to be really booted ..."
 sleep 30
 
 echo "##### Installing the .apk file in the emulator ..."
-$ANDROID_SDK_ROOT/platform-tools/adb install $APP_ANDROID_APK_FILE
+$ANDROID_SDK_ROOT/platform-tools/adb install -r -t $APP_ANDROID_APK_FILE
 
 echo "##### Waiting 30 secs for the app to be installed ..."
 sleep 30

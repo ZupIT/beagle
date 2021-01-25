@@ -16,17 +16,17 @@
 
 name: Beagle Appium Android Tests
 
-# on: workflow_dispatch
+on: workflow_dispatch
 # testing for this PULL REQUEST only. Will be set back to 'workflow_dispatch' afterwards 
-on:
-    push:
-        branches:
-            - master
-        paths:
-            - '.github/**'
-    pull_request:
-        paths:
-            - '.github/**'
+#on:
+#    push:
+#        branches:
+#            - master
+#        paths:
+#            - '.github/**'
+#    pull_request:
+#        paths:
+#            - '.github/**'
 
 jobs:
      
@@ -35,7 +35,7 @@ jobs:
         name: Run Appium Android tests
         runs-on: macos-latest
         env:
-            BEAGLE_DIR: /Users/runner/work/beagle/beagle # TODO: retrieve via script
+            BEAGLE_DIR: /Users/runner/work/beagle/beagle 
             BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
             BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
             BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
@@ -100,10 +100,10 @@ jobs:
 
             -   name: Configure app in BrowserStack and run the tests
                 env:
-                    ANDROID_APK_FILE: $BEAGLE-DIR/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
+                    APP_FILE: $BEAGLE-DIR/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
                     BROWSERSTACK_APP_ID:
                 run: |
-                    bash fastlane/automatedTests/appium/android/upload_apk_to_browserstack_and_get_id.sh &&
+                    bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh &&
                     ./tests/appium/project/gradlew -p tests/appium/project cucumber \
                     -Dplatform=android \
                     -Dplatform_version='11.0' \

@@ -19,7 +19,7 @@
 set -e
 APP_UPLOAD_RESPONSE=$(curl -u "$BROWSERSTACK_USER:$BROWSERSTACK_KEY" \
 -X POST https://api-cloud.browserstack.com/app-automate/upload \
--F "file=@$ANDROID_APP_FILE")
+-F "file=@$APP_FILE")
 
 APP_ID=$(echo $APP_UPLOAD_RESPONSE | jq -r ".app_url")
 
