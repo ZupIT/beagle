@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import android.util.Log
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.readValue
 import br.com.zup.beagle.core.BeagleJson
@@ -38,13 +37,7 @@ internal class ContextDataAdapterFactory : JsonAdapter.Factory {
         annotations: MutableSet<out Annotation>,
         moshi: Moshi,
     ): JsonAdapter<*>? {
-        Log.v("uzias context adapter", "entrou")
-        Log.v("uzias context adapter", this::class.java.toGenericString())
-        Log.v("uzias context adapter context data ", ContextDataValue::class.java.toGenericString())
-        Log.v("uzias context adapter", annotations.toString())
-
         return annotations.nextAnnotations<ContextDataValue>()?.let {
-            Log.v("uzias annotation", "trueeee")
             val adapter: JsonAdapter<Any> = moshi.adapter(type)
             AnyToJsonObjectAdapter(
                 adapter
@@ -59,13 +52,10 @@ internal class AnyToJsonObjectAdapter(
 ) : JsonAdapter<Any>() {
 
     override fun fromJson(reader: JsonReader): Any? {
-        Log.v("uzias from", reader.toString())
         return reader.readValue()
     }
 
     override fun toJson(writer: JsonWriter, value: Any?) {
-        Log.v("uzias any", value.toString())
-        Log.v("uzias any2", (value is JSONObject).toString())
         if (value is JSONObject || value is JSONArray) {
             val json = value.toString()
             val buffer = Buffer()

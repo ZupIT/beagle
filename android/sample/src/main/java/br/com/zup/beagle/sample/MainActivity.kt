@@ -46,11 +46,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return true
     }
 
-    override fun onResume() {
-        super.onResume()
-        startActivity(newServerDrivenIntent<ServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)))
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         menuSelected(itemSelected = item.itemId)
         return super.onOptionsItemSelected(item)

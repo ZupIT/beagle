@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.action
 
-import android.util.Log
 import android.view.View
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent
@@ -133,8 +132,6 @@ data class SendRequest(
                 handleEvent(rootView, origin, it, ContextData("onError", state.response))
             }
             is FetchViewState.Success -> onSuccess?.let {
-                Log.v("uzias on success", state.response.data?.javaClass?.toGenericString() ?: "")
-                Log.v("uzias on success", state.response.data.toString())
                 handleEvent(rootView, origin, it, ContextData("onSuccess", state.response))
             }
         }

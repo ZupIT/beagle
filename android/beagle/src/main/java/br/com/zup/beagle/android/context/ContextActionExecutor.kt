@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.context
 
-import android.util.Log
 import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AsyncAction
@@ -33,7 +32,7 @@ internal object ContextActionExecutor {
         origin: View,
         sender: Any,
         actions: List<Action>,
-        context: ContextData? = null
+        context: ContextData? = null,
     ) {
         if (context != null) {
             createImplicitContextForActions(rootView, sender, context, actions)
@@ -46,18 +45,14 @@ internal object ContextActionExecutor {
         rootView: RootView,
         sender: Any,
         context: ContextData,
-        actions: List<Action>
+        actions: List<Action>,
     ) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-
-        Log.v("uzias implict context", context.isValueNormalized().toString())
-        Log.v("uzias implict context", context.toString())
-        Log.v("uzias implict context", context.value.javaClass.toGenericString())
         viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
 
     private fun executeActions(rootView: RootView, origin: View, actions: List<Action>?) {
-        actions?.forEach {  action ->
+        actions?.forEach { action ->
             if (action is AsyncAction) {
                 val viewModel = rootView.generateViewModelInstance<AsyncActionViewModel>()
                 viewModel.onAsyncActionExecuted(AsyncActionData(origin, action))
@@ -70,5 +65,5 @@ internal object ContextActionExecutor {
 
 internal data class AsyncActionData(
     val origin: View,
-    val asyncAction: AsyncAction
+    val asyncAction: AsyncAction,
 )

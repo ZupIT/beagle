@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.action
 
-import android.util.Log
 import android.view.View
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
@@ -53,12 +52,8 @@ data class SetContext(
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         try {
             val value = toInternalSetContext(rootView, origin)
-            Log.v("uzias value", value.toString())
-            Log.v("uzias value", value.value.toString())
-            Log.v("uzias value", value.value.javaClass.toGenericString())
             viewModel.updateContext(origin, value)
         } catch (ex: Exception) {
-            Log.v("uzias warning", value.toString())
             BeagleLoggerProxy.warning(ex.message ?: "")
         }
     }

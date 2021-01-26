@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.context
 
-import android.util.Log
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
@@ -75,16 +74,12 @@ internal class ContextDataEvaluation(
                 expressions.size == 1 && type == null -> moshi.adapter<Any>(bind.type).fromJsonValue(response)
                 else -> {
                     val newType = if (bind.type == Any::class.java) type else bind.type
-                    Log.v("uzias dese", newType.toString())
-                    Log.v("uzias dese", response?.javaClass?.toGenericString() ?: "")
-                    Log.v("uzias dese", response.toString())
                     moshi.adapter<Any>(newType ?: bind.type).fromJson(response.toString())
                         ?: showLogErrorAndReturn(bind)
                 }
             }
 
         } catch (ex: Exception) {
-            Log.v("uzias ex derserialization expression", ex.stackTraceToString())
             showLogErrorAndReturn(bind)
             null
         }
