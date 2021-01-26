@@ -35,7 +35,6 @@
 
 # Beagle Serialization / Deserialization
 -keep class br.com.zup.beagle.core.BeagleJson
--keep class br.com.zup.beagle.android.annotation.ContextDataValue
 
 -keepclassmembers @br.com.zup.beagle.annotation.RegisterWidget class *  {
   <init>(...);
