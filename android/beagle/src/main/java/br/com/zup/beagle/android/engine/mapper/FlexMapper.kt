@@ -54,15 +54,16 @@ internal class FlexMapper {
         applyAttributes(style, this)
     }
 
-    fun observeBindChangesFlex(style: Style,
-                               rootView: RootView,
-                               view: View,
-                               yogaNode: YogaNode) {
+    fun observeBindChangesFlex(
+        style: Style,
+        rootView: RootView,
+        view: View,
+        yogaNode: YogaNode,
+    ) {
 
         if (style.display != null) {
             internalObserveBindChanges(rootView, view, style.display) {
                 yogaNode.display = makeYogaDisplay(it) ?: YogaDisplay.FLEX
-                view.invalidate()
                 view.requestLayout()
             }
         }
@@ -188,7 +189,7 @@ internal class FlexMapper {
 
     private fun applyEdgeValue(
         edgeValue: EdgeValue?,
-        finish: (yogaEdge: YogaEdge, unitValue: UnitValue) -> Unit
+        finish: (yogaEdge: YogaEdge, unitValue: UnitValue) -> Unit,
     ) {
         edgeValue?.top?.let {
             finish(YogaEdge.TOP, it)

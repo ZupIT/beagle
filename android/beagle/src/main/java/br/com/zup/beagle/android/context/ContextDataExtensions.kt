@@ -63,6 +63,6 @@ internal fun String.normalizeContextValue(): Any {
     }
 }
 
- fun Any.isValueNormalized(): Boolean {
+private fun Any.isValueNormalized(): Boolean {
     return this is String || this is Number || this is Boolean || this is JSONArray || this is JSONObject
 }

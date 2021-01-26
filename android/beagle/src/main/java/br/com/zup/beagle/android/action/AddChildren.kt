@@ -74,7 +74,6 @@ data class AddChildren(
             val viewList = convertServerDrivenListOnViewList(value, rootView)
             addValueToView(view, viewList)
         } catch (exception: Exception) {
-            exception.printStackTrace()
             BeagleMessageLogs.errorWhileTryingToAddViewWithAddChildrenAction(componentId)
         }
     }

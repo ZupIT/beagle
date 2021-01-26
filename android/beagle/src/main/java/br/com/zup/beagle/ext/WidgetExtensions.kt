@@ -48,7 +48,7 @@ fun <T : Widget> T.applyFlex(flex: Flex) = this.apply {
  * @return the current widget
  */
 fun <T : Widget> T.applyStyle(style: Style) = this.apply {
-     this.style = if (style.flex != null) style else style.copy(flex = this.style?.flex)
+    this.style = if (style.flex != null) style else style.copy(flex = this.style?.flex)
 }
 
 /**

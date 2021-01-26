@@ -57,7 +57,8 @@
   @br.com.zup.beagle.android.annotation.ContextDataValue *;
 }
 
-
--keepattributes LineNumberTable,SourceFile
+# Uncomment this to preserve the line number information for
+# debugging stack traces.
+#-keepattributes LineNumberTable,SourceFile
 
 

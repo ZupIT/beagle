@@ -22,14 +22,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    signingConfigs {
-        beaglesample {
-            storeFile file('/Users/uziasferreira/Desktop/beaglesample')
-            storePassword 'beaglesample'
-            keyAlias 'key0'
-            keyPassword 'beaglesample'
-        }
-    }
     compileSdkVersion Dependencies.Versions.compileSdk
     buildToolsVersion Dependencies.Versions.buildTools
     defaultConfig {
@@ -50,18 +42,15 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
-            shrinkResources true
-            debuggable true
+            minifyEnabled false // enable to test config in proguard
+            shrinkResources false // enable to test config in proguard
             testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             minifyEnabled true
             shrinkResources true
-            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.beaglesample
         }
     }
 
