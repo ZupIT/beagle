@@ -312,15 +312,22 @@ abstract class AbstractStep {
      * @return true if images are identical or false otherwise.
      */
     protected fun compareCurrentScreenWithDatabase(imageName: String): Boolean {
-        val databaseFile = File("${getScreenshotDatabaseFolderPath()}/${imageName}.png")
-        val screenshotFile = getAppScreenShot()
+        val databaseScreenshotFile = File("${getScreenshotDatabaseFolderPath()}/${imageName}.png")
+
+        if (!databaseScreenshotFile.exists())
+            throw Exception(
+                "Screenshot database file not found: ${databaseScreenshotFile}! " +
+                        "Refer to function registerCurrentScreenInDatabase to create a reference screenshot file"
+            )
+
+        val queryScreenshotFile = getAppScreenShot()
         val resultFile =
             File(
                 "${SuiteSetup.ERROR_SCREENSHOTS_FOLDER}/Comparison-" +
-                        "${FilenameUtils.removeExtension(databaseFile.name)}-${System.currentTimeMillis()}.png"
+                        "${FilenameUtils.removeExtension(databaseScreenshotFile.name)}-${System.currentTimeMillis()}.png"
             )
 
-        ImageUtil.compareImages(screenshotFile, databaseFile, resultFile)
+        ImageUtil.compareImages(queryScreenshotFile, databaseScreenshotFile, resultFile)
 
         // difference found
         if (resultFile.exists()) {
@@ -376,9 +383,11 @@ abstract class AbstractStep {
             SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/ios/" + deviceScreenSize
 
         if (!File(dataBaseFolderPath).exists())
-            throw Exception("Screenshot database folder not found: ${dataBaseFolderPath}! " +
-                    "Create this folder and refer to function registerCurrentScreenInDatabase " +
-                    "to create a reference screenshot inside that folder")
+            throw Exception(
+                "Screenshot database folder not found: ${dataBaseFolderPath}! " +
+                        "Create this folder and refer to function registerCurrentScreenInDatabase " +
+                        "to create a reference screenshot inside that folder"
+            )
 
         return dataBaseFolderPath
     }
