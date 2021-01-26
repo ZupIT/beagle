@@ -77,7 +77,7 @@ jobs:
             -   name: Build app-ios project to generate the app file
                 run: | 
                      set -e
-                     cd tests/appium/app-ios/AppiumApp && xcodebuild clean install && 
+                     cd tests/appium/app-ios/AppiumApp && xcodebuild clean build 
                      cd $GITHUB_WORKSPACE
             
             
