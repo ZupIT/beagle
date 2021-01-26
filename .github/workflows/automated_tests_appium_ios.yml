@@ -76,6 +76,7 @@ jobs:
 
             -   name: Build app-ios project to generate the app file
                 run: | 
+                     set -e
                      cd tests\appium\app-ios\AppiumApp\AppiumApp.xcodeproj && xcodebuild clean install && 
                      cd $GITHUB_WORKSPACE
             
@@ -91,10 +92,12 @@ jobs:
                  
             -   name: Install iOS Runtime        
                 run: |  
+                     set -e
                      gem install xcode-install xcversion simulators --install='iOS 13.5'      
             
             -   name: Create and Run iOS Emulator        
                 run: |
+                     set -e
                      xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 \ 
                      com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt && 
                      DEVICEUUID=`cat deviceid.txt` && 
@@ -109,11 +112,12 @@ jobs:
 
             -   name: Run the tests
                 run: | 
+                     set -e 
                      APP_FILE=`find ~/Library/Developer/Xcode/DerivedData -name AppiumApp.app \ 
                      | grep Build/Products/Debug-iphonesimulator/AppiumApp.app` && 
                      if [ -z "$APP_FILE" ]; then
                        echo "app file not found!"
-	                   exit 1
+                       exit 1
                      fi &&
                     ./tests/appium/project/gradlew -p tests/appium/project cucumber \
                     -Dplatform=ios \
