@@ -112,8 +112,7 @@ jobs:
 
             -   name: Run the tests
                 run: | 
-                     set -e 
-                     APP_FILE=`find ~/Library/Developer/Xcode/DerivedData -name AppiumApp.app | grep Build/Products/Debug-iphonesimulator/AppiumApp.app` && 
+                     APP_FILE=`find ~/Library/Developer/Xcode/DerivedData -name AppiumApp.app | grep Build/Products/Debug-iphonesimulator/AppiumApp.app` 
                     ./tests/appium/project/gradlew -p tests/appium/project cucumber \ 
                     -Dplatform=ios \ 
                     -Dplatform_version='13.5' \ 
