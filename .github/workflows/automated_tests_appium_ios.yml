@@ -78,9 +78,34 @@ jobs:
                 run: | 
                      cd tests\appium\app-ios\AppiumApp\AppiumApp.xcodeproj && xcodebuild clean install && 
                      cd $GITHUB_WORKSPACE
+            
+            
+            ##################################################################################################
+            # Emulator config - start
+            ##################################################################################################            
 
-            -   name: Start the iOS emulator
-                run: open -a Simulator.app && sleep 30
+            -   name: List iOS Devices & Platforms        
+                run: |          
+                     echo "##### List of iOS Devices & Platforms:" && 
+                     xcrun simctl list      
+                 
+            -   name: Install iOS Runtime        
+                run: |  
+                     gem install xcode-install xcversion simulators --install='iOS 13.5'      
+            
+            -   name: Create and Run iOS Emulator        
+                run: |
+                     xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 \ 
+                     com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt && 
+                     DEVICEUUID=`cat deviceid.txt` && 
+                     echo "Device id: $DEVICEUUID" &&
+                     xcrun simctl boot $DEVICEUUID &&
+                     sleep 30
+
+            ##################################################################################################
+            # Emulator config - end
+            ##################################################################################################
+
 
             -   name: Run the tests
                 run: | 
