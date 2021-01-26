@@ -50,7 +50,7 @@ data class Container(
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val view = viewFactory.makeBeagleFlexView(rootView, Style())
+        val view = viewFactory.makeBeagleFlexView(rootView, style ?: Style())
         handleOnInit(rootView, view)
         return view.apply {
             addChildren(this)
