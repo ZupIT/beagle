@@ -17,10 +17,11 @@
 package br.com.zup.beagle.spring.filter
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
+import br.com.zup.beagle.cache.BeagleCacheProperties
 import br.com.zup.beagle.platform.BeaglePlatformUtil
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
-import java.util.*
+import java.util.Locale
 import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
@@ -28,16 +29,22 @@ import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class BeagleCacheFilter(private val cacheHandler: BeagleCacheHandler) : Filter {
+class BeagleCacheFilter(private val properties: BeagleCacheProperties) : Filter {
+
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
         if (chain != null && request is HttpServletRequest && response is HttpServletResponse) {
             if (request.method.toUpperCase(Locale.ROOT) == HttpMethod.GET.name) {
-                this.cacheHandler.handleCache(
+                val beagleCacheHandler = BeagleSpringCacheHandler(
+                    request = request,
+                    wrapper = ContentCachingResponseWrapper(response),
+                    chain = chain,
+                    properties = properties
+                )
+                (beagleCacheHandler.handleCache(
                     endpoint = request.requestURI,
                     receivedHash = request.getHeader(BeagleCacheHandler.CACHE_HEADER),
-                    currentPlatform = request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER),
-                    handler = BeagleSpringCacheHandler(request, ContentCachingResponseWrapper(response), chain)
-                ).copyBodyToResponse()
+                    currentPlatform = request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
+                ) as ContentCachingResponseWrapper).copyBodyToResponse()
             } else {
                 chain.doFilter(request, response)
             }

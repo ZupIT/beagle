@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.micronaut.filter
 
-import br.com.zup.beagle.cache.HttpCacheHandler
+import br.com.zup.beagle.cache.BeagleCacheHandler
+import br.com.zup.beagle.cache.BeagleCacheProperties
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponseFactory
 import io.micronaut.http.HttpStatus
@@ -24,18 +25,24 @@ import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.filter.ServerFilterChain
 import io.reactivex.Flowable
 
-internal class BeagleMicronautCacheHandler(
+class BeagleMicronautCacheHandler(
     private val request: HttpRequest<*>,
-    private val chain: ServerFilterChain
-) : HttpCacheHandler<MutableHttpResponse<*>> {
-    override fun createResponseFromController(): MutableHttpResponse<*> =
-        Flowable.fromPublisher(chain.proceed(request)).blockingFirst()
+    private val chain: ServerFilterChain,
+    properties: BeagleCacheProperties
+) : BeagleCacheHandler(properties) {
 
-    override fun createResponse(status: Int): MutableHttpResponse<*> =
-        HttpResponseFactory.INSTANCE.status(HttpStatus.valueOf(status), Unit)
+    override fun createResponseFromController(modifyResponse: (response: Any) -> Any): Any {
+        return Flowable.fromPublisher(chain.proceed(request)).switchMap {
+            Flowable.just(modifyResponse.invoke(it))
+        }
+    }
 
-    override fun getBody(response: MutableHttpResponse<*>): String = response.body.toString()
+    override fun createResponse(status: Int)
+        = Flowable.just(HttpResponseFactory.INSTANCE.status(HttpStatus.valueOf(status), Unit))
 
-    override fun addHeader(response: MutableHttpResponse<*>, key: String, value: String): MutableHttpResponse<*> =
-        response.header(key, value)
+    override fun getBody(response: Any) = (response as MutableHttpResponse<*>).body.toString()
+
+    override fun addHeader(response: Any, key: String, value: String) {
+        (response as MutableHttpResponse<*>).header(key, value)
+    }
 }

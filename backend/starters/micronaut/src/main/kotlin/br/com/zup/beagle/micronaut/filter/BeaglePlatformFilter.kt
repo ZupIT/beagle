@@ -23,28 +23,29 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.annotation.Filter
-import io.micronaut.http.filter.HttpServerFilter
+import io.micronaut.http.filter.OncePerRequestHttpServerFilter
 import io.micronaut.http.filter.ServerFilterChain
 import io.micronaut.http.server.netty.types.files.NettySystemFileCustomizableResponseType
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 
-@Filter("/**")
+@Filter(Filter.MATCH_ALL_PATTERN)
 @Requirements(Requires(classes = [BeaglePlatformUtil::class]))
-class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : HttpServerFilter {
+class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : OncePerRequestHttpServerFilter() {
 
-    override fun doFilter(request: HttpRequest<*>, chain: ServerFilterChain): Publisher<MutableHttpResponse<*>>? {
+    override fun doFilterOnce(request: HttpRequest<*>, chain: ServerFilterChain): Publisher<MutableHttpResponse<*>> {
         val currentPlatform = request.headers.get(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
         request.attributes.put(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER, currentPlatform)
-        return Flowable.fromPublisher(chain.proceed(request))
-            .map { wrappedResponse ->
-                treatResponse(wrappedResponse, currentPlatform)
-                wrappedResponse
-            }
+        return Flowable.fromPublisher(chain.proceed(request)).switchMap {
+            treatResponse(it, currentPlatform)
+        }
     }
 
-    private fun treatResponse(wrappedResponse: MutableHttpResponse<*>, currentPlatform: String?) {
-        wrappedResponse.body.ifPresent {
+    private fun treatResponse(
+        response: MutableHttpResponse<*>,
+        currentPlatform: String?
+    ): Publisher<MutableHttpResponse<*>> {
+        response.body.ifPresent {
             if (it !is NettySystemFileCustomizableResponseType && it !is String) {
                 val jsonTree = this.objectMapper.readTree(
                     this.objectMapper.writeValueAsString(it)
@@ -53,8 +54,9 @@ class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : HttpServerF
                     currentPlatform,
                     jsonTree
                 )
-                (wrappedResponse as MutableHttpResponse<String>).body(this.objectMapper.writeValueAsString(jsonTree))
+                response.body(this.objectMapper.writeValueAsString(jsonTree))
             }
         }
+        return Flowable.just(response)
     }
 }

@@ -32,9 +32,6 @@ import org.springframework.context.annotation.Configuration
 @ConditionalOnProperty(value = [BEAGLE_CACHE_ENABLED], matchIfMissing = true, havingValue = "true")
 open class BeagleCacheAutoConfiguration(private val properties: BeagleSpringCacheProperties) {
     @Bean
-    open fun beagleCachingFilter(cacheHandler: BeagleCacheHandler) =
-        FilterRegistrationBean<BeagleCacheFilter>().also { it.filter = BeagleCacheFilter(cacheHandler) }
-
-    @Bean
-    open fun beagleCacheHandler() = BeagleCacheHandler(this.properties)
+    open fun beagleCachingFilter() =
+        FilterRegistrationBean<BeagleCacheFilter>().also { it.filter = BeagleCacheFilter(properties) }
 }

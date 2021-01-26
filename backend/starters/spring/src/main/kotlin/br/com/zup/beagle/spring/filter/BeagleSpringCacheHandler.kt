@@ -16,22 +16,25 @@
 
 package br.com.zup.beagle.spring.filter
 
-import br.com.zup.beagle.cache.HttpCacheHandler
+import br.com.zup.beagle.cache.BeagleCacheHandler
+import br.com.zup.beagle.cache.BeagleCacheProperties
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 
-internal class BeagleSpringCacheHandler(
+class BeagleSpringCacheHandler(
     private val request: HttpServletRequest,
     private val wrapper: ContentCachingResponseWrapper,
-    private val chain: FilterChain
-) : HttpCacheHandler<ContentCachingResponseWrapper> {
-    override fun createResponseFromController() = this.wrapper.also { chain.doFilter(request, it) }
+    private val chain: FilterChain,
+    properties: BeagleCacheProperties
+) : BeagleCacheHandler(properties) {
+    override fun createResponseFromController(modifyResponse: (response: Any) -> Any)
+    = modifyResponse.invoke(wrapper.also { chain.doFilter(request, it) })
 
-    override fun createResponse(status: Int) = this.wrapper.also { it.status = status }
+    override fun createResponse(status: Int) = wrapper.also { it.status = status }
+    override fun getBody(response: Any) = String((response as ContentCachingResponseWrapper).contentAsByteArray)
 
-    override fun getBody(response: ContentCachingResponseWrapper) = String(response.contentAsByteArray)
-
-    override fun addHeader(response: ContentCachingResponseWrapper, key: String, value: String) =
-        response.also { it.setHeader(key, value) }
+    override fun addHeader(response: Any, key: String, value: String) {
+        (response as ContentCachingResponseWrapper).setHeader(key, value)
+    }
 }
