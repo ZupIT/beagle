@@ -312,7 +312,7 @@ abstract class AbstractStep {
      * @return true if images are identical or false otherwise.
      */
     protected fun compareCurrentScreenWithDatabase(imageName: String): Boolean {
-        val databaseFile = File("${getScreenshotDatabaseFolder()}/${imageName}.png")
+        val databaseFile = File("${getScreenshotDatabaseFolderPath()}/${imageName}.png")
         val screenshotFile = getAppScreenShot()
         val resultFile =
             File(
@@ -336,7 +336,7 @@ abstract class AbstractStep {
      */
     protected fun registerCurrentScreenInDatabase(imageName: String) {
         val screenshotFile = getAppScreenShot()
-        val destinationFile = File("${getScreenshotDatabaseFolder()}/${imageName}.png")
+        val destinationFile = File("${getScreenshotDatabaseFolderPath()}/${imageName}.png")
 
         if (destinationFile.exists())
             destinationFile.delete()
@@ -361,11 +361,26 @@ abstract class AbstractStep {
         return if (SuiteSetup.isAndroid()) By.id("android:id/content") else By.id("")
     }
 
-    private fun getScreenshotDatabaseFolder(): String {
-        val imagesDbDir = if (SuiteSetup.isAndroid())
-            return SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/android"
+    private fun getScreenshotDatabaseFolderPath(): String {
+
+        /**
+         *  screenshot database folders are organized by device resolution instead of device models, because the
+         *  resolution can be edited in the AVD's config.ini file or through command-line when starting the emulator.
+         *  That means the same device model can have different resolutions
+         */
+        val deviceScreenSize = getDriver().capabilities.getCapability("deviceScreenSize").toString().trim()
+
+        val dataBaseFolderPath = if (SuiteSetup.isAndroid())
+            SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/android/" + deviceScreenSize
         else
-            return SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/ios"
+            SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/ios/" + deviceScreenSize
+
+        if (!File(dataBaseFolderPath).exists())
+            throw Exception("Screenshot database folder not found: ${dataBaseFolderPath}! " +
+                    "Create this folder and refer to function registerCurrentScreenInDatabase " +
+                    "to create a reference screenshot inside that folder")
+
+        return dataBaseFolderPath
     }
 
 }
