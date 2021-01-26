@@ -77,8 +77,9 @@ jobs:
             -   name: Build app-ios project to generate the app file
                 run: | 
                      set -e
-                     cd tests/appium/app-ios/AppiumApp &&
-                     xcodebuild -sdk iphonesimulator13.5 &&  
+                     cd tests/appium/app-ios/AppiumApp
+                     xcodebuild -showsdks
+                     xcodebuild -sdk iphonesimulator13.5   
                      cd $GITHUB_WORKSPACE
             
             
@@ -88,7 +89,8 @@ jobs:
 
             -   name: List iOS Devices & Platforms        
                 run: |          
-                     echo "##### List of iOS Devices & Platforms:" && 
+                     set -e
+                     echo "##### List of iOS Devices & Platforms:" 
                      xcrun simctl list      
                  
             -   name: Install iOS Runtime        
@@ -100,10 +102,10 @@ jobs:
                 run: |
                      set -e
                      xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 \ 
-                     com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt && 
-                     DEVICEUUID=`cat deviceid.txt` && 
-                     echo "Device id: $DEVICEUUID" &&
-                     xcrun simctl boot $DEVICEUUID &&
+                     com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt 
+                     DEVICEUUID=`cat deviceid.txt` 
+                     echo "Device id: $DEVICEUUID" 
+                     xcrun simctl boot $DEVICEUUID 
                      sleep 30
 
             ##################################################################################################
