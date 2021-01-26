@@ -60,14 +60,14 @@ import br.com.zup.beagle.core.SingleChildComponent
  * @see FormSubmit
  *
  */
-@RegisterWidget
+@RegisterWidget("form")
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class Form(
     override val child: ServerDrivenComponent,
     val onSubmit: List<Action>? = null,
     val group: String? = null,
     val additionalData: Map<String, String>? = null,
-    val shouldStoreFields: Boolean = false
+    val shouldStoreFields: Boolean = false,
 ) : WidgetView(), SingleChildComponent {
 
     @Transient
@@ -181,7 +181,7 @@ data class Form(
 
     private fun validateFormInput(
         formInput: FormInput,
-        formsValue: MutableMap<String, String>
+        formsValue: MutableMap<String, String>,
     ) {
         val validator = formInput.validator ?: return
 
@@ -234,7 +234,7 @@ data class Form(
                 handleEvent(rootView, view, formResult.action)
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
-                ServerDrivenState.FormError(formResult.throwable){ handleFormSubmit(rootView, view) }
+                ServerDrivenState.FormError(formResult.throwable) { handleFormSubmit(rootView, view) }
             )
         }
     }

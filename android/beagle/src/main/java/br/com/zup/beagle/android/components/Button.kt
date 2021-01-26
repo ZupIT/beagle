@@ -41,13 +41,13 @@ import br.com.zup.beagle.annotation.RegisterWidget
  * @param clickAnalyticsEvent attribute to define click event name
  *
  */
-@RegisterWidget
+@RegisterWidget("button")
 data class Button(
     val text: Bind<String>,
     val styleId: String? = null,
     val onPress: List<Action>? = null,
     val clickAnalyticsEvent: ClickEvent? = null,
-    val disabled: Bind<Boolean>? = null
+    val disabled: Bind<Boolean>? = null,
 ) : WidgetView() {
 
     constructor(
@@ -55,7 +55,7 @@ data class Button(
         styleId: String? = null,
         onPress: List<Action>? = null,
         clickAnalyticsEvent: ClickEvent? = null,
-        disabled: Boolean? = null
+        disabled: Boolean? = null,
     ) : this(
         expressionOrValueOf(text),
         styleId,

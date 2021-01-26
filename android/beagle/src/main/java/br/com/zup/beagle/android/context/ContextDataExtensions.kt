@@ -33,6 +33,7 @@ internal fun ContextData.normalize(): ContextData {
 }
 
 internal fun Any.normalizeContextValue(): Any {
+
     return when {
         isValueNormalized() -> {
             this

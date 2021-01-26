@@ -39,7 +39,7 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
-@RegisterWidget
+@RegisterWidget("listView")
 data class ListView
 
 /**
@@ -65,7 +65,7 @@ constructor(
     val onScrollEnd: List<Action>? = null,
     val scrollEndThreshold: Int? = null,
     val iteratorName: String = "item",
-    val key: String? = null
+    val key: String? = null,
 ) : WidgetView(), ContextComponent, OnInitiableComponent by OnInitiableComponentImpl(onInit) {
 
     /**
@@ -79,7 +79,7 @@ constructor(
                 "iteratorName, key)"))
     constructor(
         children: List<ServerDrivenComponent>,
-        direction: ListDirection
+        direction: ListDirection,
     ) : this(
         children = children,
         direction = direction,
@@ -107,7 +107,7 @@ constructor(
         onScrollEnd: List<Action>? = null,
         scrollEndThreshold: Int? = null,
         iteratorName: String = "item",
-        key: String? = null
+        key: String? = null,
     ) : this(
         null,
         direction,
@@ -178,7 +178,7 @@ constructor(
         val children: List<ServerDrivenComponent>,
         private val viewFactory: ViewFactory,
         private val orientation: Int,
-        private val rootView: RootView
+        private val rootView: RootView,
     ) : RecyclerView.Adapter<ViewHolder>() {
 
         override fun getItemViewType(position: Int): Int = position

@@ -18,7 +18,9 @@ package br.com.zup.beagle.android.action
 
 import android.view.View
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
+@BeagleJson
 internal class UndefinedAction : Action {
 
     override fun execute(rootView: RootView, origin: View) {}

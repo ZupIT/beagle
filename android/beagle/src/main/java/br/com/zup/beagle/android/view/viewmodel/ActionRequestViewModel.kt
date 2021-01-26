@@ -25,10 +25,12 @@ import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.mapper.toResponse
+import br.com.zup.beagle.core.BeagleJson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@BeagleJson
 data class Response(
     val statusCode: Int?,
     val data: Any?,

@@ -18,24 +18,26 @@ package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.readValue
+import br.com.zup.beagle.core.BeagleJson
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
+import com.squareup.moshi.nextAnnotations
 import okio.Buffer
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
 
+@BeagleJson
 internal class ContextDataAdapterFactory : JsonAdapter.Factory {
 
     override fun create(
         type: Type,
         annotations: MutableSet<out Annotation>,
-        moshi: Moshi
+        moshi: Moshi,
     ): JsonAdapter<*>? {
-        return Types.nextAnnotations(annotations, ContextDataValue::class.java)?.let {
+        return annotations.nextAnnotations<ContextDataValue>()?.let {
             val adapter: JsonAdapter<Any> = moshi.adapter(type)
             AnyToJsonObjectAdapter(
                 adapter
@@ -44,8 +46,9 @@ internal class ContextDataAdapterFactory : JsonAdapter.Factory {
     }
 }
 
+@BeagleJson
 internal class AnyToJsonObjectAdapter(
-    private val adapter: JsonAdapter<Any>
+    private val adapter: JsonAdapter<Any>,
 ) : JsonAdapter<Any>() {
 
     override fun fromJson(reader: JsonReader): Any? {

@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Defines form local actions, that is, that do not make http requests,
@@ -40,9 +41,10 @@ import br.com.zup.beagle.android.widget.RootView
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 data class FormLocalAction(
     val name: String,
-    val data: Map<String, String>
+    val data: Map<String, String>,
 ) : Action, AsyncAction by AsyncActionImpl() {
 
     @Transient
