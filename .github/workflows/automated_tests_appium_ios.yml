@@ -118,7 +118,7 @@ jobs:
                      if [ -z "$APP_FILE" ]; then
                        echo "app file not found!"
                        exit 1
-                     fi &&
+                     fi && 
                     ./tests/appium/project/gradlew -p tests/appium/project cucumber \
                     -Dplatform=ios \
                     -Dplatform_version='13.5' \
