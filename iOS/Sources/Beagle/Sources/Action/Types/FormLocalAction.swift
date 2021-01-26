@@ -19,14 +19,17 @@ public struct FormLocalAction: Action, AutoInitiable {
     
     public let name: String
     public let data: [String: String]
+    public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:FormLocalAction.Init
     public init(
         name: String,
-        data: [String: String]
+        data: [String: String],
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.name = name
         self.data = data
+        self.analytics = analytics
     }
 // sourcery:end
 }

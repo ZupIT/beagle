@@ -1,5 +1,6 @@
 ▿ BeagleDependencies
   - analytics: Optional<Analytics>.none
+  - analyticsProvider: Optional<AnalyticsProvider>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
   - cacheManager: Optional<CacheManagerProtocol>.none
   - decoder: ComponentDecodingDummy

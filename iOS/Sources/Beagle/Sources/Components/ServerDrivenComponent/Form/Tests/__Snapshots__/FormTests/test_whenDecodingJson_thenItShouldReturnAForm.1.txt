@@ -41,6 +41,7 @@
   ▿ onSubmit: Optional<Array<Action>>
     ▿ some: 1 element
       ▿ FormRemoteAction
+        - analytics: Optional<ActionAnalyticsConfig>.none
         - method: Method.post
         - path: "/sample/form"
   - shouldStoreFields: true

@@ -1,0 +1,24 @@
+{
+    "_beagleAction_": "beagle:pushView",
+    "analytics": {
+        "attributes": [
+            "route.screen.identifier",
+            "route.screen.navigationBar.title"
+        ],
+        "enable": true
+    },
+    "route": {
+        "screen": {
+            "_beagleComponent_": "beagle:screenComponent",
+            "child": {
+                "_beagleComponent_": "beagle:text",
+                "text": "Local Screen Content"
+            },
+            "identifier": "screen-id-local-route",
+            "navigationBar": {
+                "showBackButton": true,
+                "title": "Local Screen Title"
+            }
+        }
+    }
+}

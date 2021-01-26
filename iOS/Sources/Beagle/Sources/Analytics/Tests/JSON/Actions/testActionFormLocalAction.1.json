@@ -1,0 +1,16 @@
+{
+    "_beagleAction_": "beagle:formLocalAction",
+    "analytics": {
+        "attributes": [
+            "data",
+            "data.invalid",
+            "name"
+        ],
+        "enable": true
+    },
+    "data": {
+        "B": "value B",
+        "X Y": "strange key"
+    },
+    "name": "my-form-name"
+}

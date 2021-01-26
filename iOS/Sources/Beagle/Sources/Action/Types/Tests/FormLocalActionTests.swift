@@ -76,6 +76,7 @@ class LocalFormHandlerSpy: LocalFormHandler {
 }
 
 class ActionSpy: Action {
+    var analytics: ActionAnalyticsConfig? { return nil }
     private(set) var executionCount = 0
     private(set) var lastController: BeagleController?
     private(set) var lastOrigin: UIView?

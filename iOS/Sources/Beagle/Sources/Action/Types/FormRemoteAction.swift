@@ -20,8 +20,9 @@ public struct FormRemoteAction: Action, AutoInitiable {
     
     public let path: String
     public let method: Method
+    public let analytics: ActionAnalyticsConfig?
 
-    public enum Method: String, Decodable, CaseIterable {
+    public enum Method: String, Codable, CaseIterable {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
@@ -31,10 +32,12 @@ public struct FormRemoteAction: Action, AutoInitiable {
 // sourcery:inline:auto:FormRemoteAction.Init
     public init(
         path: String,
-        method: Method
+        method: Method,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.path = path
         self.method = method
+        self.analytics = analytics
     }
 // sourcery:end
     

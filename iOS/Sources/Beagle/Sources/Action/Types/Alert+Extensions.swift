@@ -25,7 +25,7 @@ extension Alert {
         let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
             [weak controller] _ in guard let controller = controller else { return }
             if let onPressOk = self.onPressOk {
-                controller.execute(actions: [onPressOk], origin: origin)
+                controller.execute(actions: [onPressOk], event: "onPressOk", origin: origin)
             }
         }
         alertController.addAction(onPressOkAction)

@@ -16,6 +16,9 @@
  */
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
+import 'package:beagle/bridge_impl/beagle_navigator_js.dart';
+import 'package:beagle/bridge_impl/renderer_js.dart';
+import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
@@ -23,16 +26,20 @@ import 'package:beagle/model/network_options.dart';
 
 class BeagleViewJS implements BeagleView {
   BeagleViewJS(
-      {String route,
+      {
       // ignore: avoid_unused_constructor_parameters
       NetworkOptions networkOptions,
       // ignore: avoid_unused_constructor_parameters
       String initialControllerId}) {
-    _id = BeagleJSEngine.createBeagleView(route);
+    _id = BeagleJSEngine.createBeagleView();
     BeagleViewJS.views[_id] = this;
+    _navigator = BeagleNavigatorJS(_id);
+    _renderer = RendererJS(_id);
   }
 
   String _id;
+  BeagleNavigatorJS _navigator;
+  Renderer _renderer;
   static Map<String, BeagleViewJS> views = {};
 
   @override
@@ -46,21 +53,21 @@ class BeagleViewJS implements BeagleView {
   }
 
   @override
-  void getNavigator() {
-    // TODO: implement getNavigator
-    throw UnimplementedError();
+  BeagleNavigator getNavigator() {
+    return _navigator;
   }
 
   @override
   Renderer getRenderer() {
-    // TODO: implement getRenderer
-    throw UnimplementedError();
+    return _renderer;
   }
 
   @override
   BeagleUIElement getTree() {
-    // TODO: implement getTree
-    throw UnimplementedError();
+    final result = BeagleJSEngine.js
+        .evaluate("global.beagle.getViewById('$_id').getTree()")
+        .rawResult;
+    return BeagleUIElement(result);
   }
 
   @override
