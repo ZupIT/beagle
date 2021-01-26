@@ -50,7 +50,7 @@ internal class ActionReportFactoryTest : BaseTest() {
 
     @DisplayName("When create record")
     @Nested
-    inner class ScreenKeyAttribute {
+    inner class ScreenKeyValues {
 
         @Test
         @DisplayName("Then should return hash map with rootview screenId")
@@ -71,7 +71,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
 
             //Then
-            Assert.assertEquals("/screen", report.attributes["screen"])
+            Assert.assertEquals("/screen", report.values["screen"])
         }
     }
 
@@ -105,7 +105,7 @@ internal class ActionReportFactoryTest : BaseTest() {
 
     @DisplayName("When create record")
     @Nested
-    inner class ComponentAttribute {
+    inner class ComponentValues {
 
         private val action: ActionAnalytics = mockk()
         private val originComponent: WidgetView = Text("test")
@@ -129,7 +129,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.attributes["component"])
+            Assert.assertEquals(componentReport, report.values["component"])
         }
 
         @Test
@@ -146,7 +146,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.attributes["component"])
+            Assert.assertEquals(componentReport, report.values["component"])
         }
 
         @Test
@@ -161,7 +161,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.attributes["component"])
+            Assert.assertEquals(componentReport, report.values["component"])
         }
 
         private fun generateComponentReport() = hashMapOf<String, Any>(
@@ -210,8 +210,8 @@ internal class ActionReportFactoryTest : BaseTest() {
 
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(route, report.attributes["route"])
-            assertTrue(report.attributes["additionalEntries"] as Boolean)
+            Assert.assertEquals(route, report.values["route"])
+            assertTrue(report.values["additionalEntries"] as Boolean)
         }
 
         @Test
@@ -230,8 +230,8 @@ internal class ActionReportFactoryTest : BaseTest() {
 
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(url, report.attributes[ROUTE_URL_CONSTANT])
-            Assert.assertEquals(false, report.attributes[ROUTE_SHOULD_PREFETCH_CONSTANT])
+            Assert.assertEquals(url, report.values[ROUTE_URL_CONSTANT])
+            Assert.assertEquals(false, report.values[ROUTE_SHOULD_PREFETCH_CONSTANT])
         }
 
         @Test
@@ -250,13 +250,13 @@ internal class ActionReportFactoryTest : BaseTest() {
             print(report)
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(null, report.attributes["route.a"])
+            Assert.assertEquals(null, report.values["route.a"])
         }
 
         private fun commonAsserts(report: AnalyticsRecord, dataReport: DataReport) {
             Assert.assertEquals(dataReport.timestamp, report.timestamp)
-            Assert.assertEquals("onPress", report.attributes["event"])
-            Assert.assertEquals(actionType, report.attributes["beagleAction"])
+            Assert.assertEquals("onPress", report.values["event"])
+            Assert.assertEquals(actionType, report.values["beagleAction"])
         }
 
     }

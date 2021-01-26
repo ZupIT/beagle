@@ -17,7 +17,7 @@
 package br.com.zup.beagle.newanalytics
 
 
-abstract class DataReport {
+internal abstract class DataReport {
     val timestamp = System.currentTimeMillis()
     abstract fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord?
 }

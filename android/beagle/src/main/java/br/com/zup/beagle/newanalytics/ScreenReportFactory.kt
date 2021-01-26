@@ -28,7 +28,7 @@ internal object ScreenReportFactory {
             get() = TYPE_ANALYTICS
         override val platform: String
             get() = PLATFORM_ANALYTICS
-        override val attributes: HashMap<String, Any>
+        override val values: HashMap<String, Any>
             get() = hashMapOf("screenId" to screenId)
         override val timestamp: Long
             get() = timestamp
@@ -39,7 +39,7 @@ internal object ScreenReportFactory {
             get() = TYPE_ANALYTICS
         override val platform: String
             get() = PLATFORM_ANALYTICS
-        override val attributes: HashMap<String, Any>
+        override val values: HashMap<String, Any>
             get() = hashMapOf("url" to url.removeBaseUrl())
         override val timestamp: Long
             get() = timestamp

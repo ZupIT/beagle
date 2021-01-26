@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.sql.Timestamp
 
 @DisplayName("Given Screen Report Factory")
 class ScreenReportFactoryTest : BaseTest() {
@@ -43,7 +42,7 @@ class ScreenReportFactoryTest : BaseTest() {
             //THEN
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("screenId" to "screenId"), result.attributes)
+            assertEquals(hashMapOf("screenId" to "screenId"), result.values)
             assertEquals(timestamp, result.timestamp)
         }
     }
@@ -64,7 +63,7 @@ class ScreenReportFactoryTest : BaseTest() {
             //Then
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("url" to "url"), result.attributes)
+            assertEquals(hashMapOf("url" to "url"), result.values)
             assertEquals(timestamp, result.timestamp)
         }
 
@@ -82,7 +81,7 @@ class ScreenReportFactoryTest : BaseTest() {
             //Then
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("url" to "url"), result.attributes)
+            assertEquals(hashMapOf("url" to "url"), result.values)
             assertEquals(timestamp, result.timestamp)
         }
     }

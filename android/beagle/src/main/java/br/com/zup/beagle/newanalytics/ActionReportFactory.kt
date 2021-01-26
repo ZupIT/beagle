@@ -118,17 +118,17 @@ internal object ActionReportFactory {
             get() = "action"
         override val platform: String
             get() = "android"
-        override val attributes: HashMap<String, Any>
-            get() = generateAttributes(dataActionReport)
+        override val values: HashMap<String, Any>
+            get() = generateValues(dataActionReport)
         override val timestamp: Long
             get() = dataActionReport.timestamp
     }
 
-    private fun generateAttributes(
+    private fun generateValues(
         dataActionReport: DataActionReport
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        setScreenIdAttribute(dataActionReport.screenId, hashMap)
+        setScreenIdValue(dataActionReport.screenId, hashMap)
         dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
@@ -143,7 +143,7 @@ internal object ActionReportFactory {
         return hashMap
     }
 
-    private fun setScreenIdAttribute(screenId: String?, hashMap: HashMap<String, Any>) {
+    private fun setScreenIdValue(screenId: String?, hashMap: HashMap<String, Any>) {
         if (screenId != null && screenId.isNotEmpty()) {
             hashMap["screen"] = screenId
         }
