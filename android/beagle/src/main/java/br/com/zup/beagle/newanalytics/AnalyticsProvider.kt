@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
-
-typealias analyticsConfig = (analyticConfig: AnalyticsConfig) -> Unit
-typealias startSession = ()-> Unit
+package br.com.zup.beagle.newanalytics
 
 /**
  * This interface is used to start the configuration of analytics, without this the analytics will not be reported.
@@ -26,15 +23,9 @@ interface AnalyticsProvider {
 
     /**
      * This function is called to get the AnalyticsConfig.
-     * @attribute config is a function that need to be invoked passing yours AnalyticConfig on parameter
+     * @return can be null or an AnalyticsConfig
     */
-    fun getConfig(config: analyticsConfig)
-
-    /**
-     * This function is called when Beagle is initialized.
-     * @attribute startSession is a function that need to be invoked when session is started to get the config.
-    */
-    fun startSession(startSession: startSession)
+    fun getConfig() : AnalyticsConfig?
 
     /**
      * This function is called to record the reports.

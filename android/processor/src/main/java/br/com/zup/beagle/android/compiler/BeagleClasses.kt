@@ -74,7 +74,7 @@ val ANALYTICS = BeagleClass(
     "Analytics"
 )
 val ANALYTICS_PROVIDER = BeagleClass(
-    "br.com.zup.beagle.analytics2",
+    "br.com.zup.beagle.newanalytics",
     "AnalyticsProvider"
 )
 val CONTROLLER_REFERENCE = BeagleClass(

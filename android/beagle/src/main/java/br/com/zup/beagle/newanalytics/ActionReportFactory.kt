@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
 import android.view.View
 import br.com.zup.beagle.R
@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.utils.putFirstCharacterOnLowerCase
 import br.com.zup.beagle.android.widget.RootView
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -54,11 +55,8 @@ internal object ActionReportFactory {
     )
 
     private fun getActionType(action: Action): String =
-        if (isCustomAction(action)) "custom:" + putFirstCharacterAsLower(action::class.simpleName)
-        else "beagle:" + putFirstCharacterAsLower(action::class.simpleName)
-
-    private fun putFirstCharacterAsLower(string: String?) =
-        string?.get(0)?.toLowerCase()?.plus(string.substring(1))
+        if (isCustomAction(action)) "custom:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
+        else "beagle:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
 
     private fun isCustomAction(action: Action): Boolean =
         BeagleEnvironment.beagleSdk.registeredActions().contains(action::class.java)
@@ -114,35 +112,30 @@ internal object ActionReportFactory {
     }
 
     fun generateActionAnalyticsConfig(
-        dataActionReport: DataActionReport,
-        actionAnalyticsConfig: ActionAnalyticsConfig
+        dataActionReport: DataActionReport
     ) = object : AnalyticsRecord {
         override val type: String
             get() = "action"
         override val platform: String
             get() = "android"
-        override val attributes: HashMap<String, Any>
-            get() = generateAttributes(dataActionReport, actionAnalyticsConfig)
+        override val values: HashMap<String, Any>
+            get() = generateValues(dataActionReport)
+        override val timestamp: Long
+            get() = dataActionReport.timestamp
     }
 
-    private fun generateAttributes(
-        dataActionReport: DataActionReport,
-        actionAnalyticsConfig: ActionAnalyticsConfig
+    private fun generateValues(
+        dataActionReport: DataActionReport
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        setScreenIdAttribute(dataActionReport.screenId, hashMap)
+        setScreenIdValue(dataActionReport.screenId, hashMap)
         dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
-        actionAnalyticsConfig.attributes?.let {
-            hashMap.putAll(
-                generateAnalyticsConfigAttributesHashMap(
-                    it,
-                    dataActionReport.attributes
-                )
-            )
+        dataActionReport.attributes.let{
+            hashMap.putAll(it)
         }
-        actionAnalyticsConfig.additionalEntries?.let {
+        dataActionReport.additionalEntries?.let{
             hashMap.putAll(it)
         }
         hashMap["beagleAction"] = dataActionReport.actionType
@@ -150,7 +143,7 @@ internal object ActionReportFactory {
         return hashMap
     }
 
-    private fun setScreenIdAttribute(screenId: String?, hashMap: HashMap<String, Any>) {
+    private fun setScreenIdValue(screenId: String?, hashMap: HashMap<String, Any>) {
         if (screenId != null && screenId.isNotEmpty()) {
             hashMap["screen"] = screenId
         }
@@ -172,19 +165,7 @@ internal object ActionReportFactory {
         return hashMap
     }
 
-    private fun generateAnalyticsConfigAttributesHashMap(
-        attributes: List<String>,
-        attributeEvaluated: HashMap<String, Any>
-    ): HashMap<String, Any> {
-        val hashMap = HashMap<String, Any>()
-        attributes.forEach { key ->
-            val result = attributeEvaluated[key]
-            result?.let { value ->
-                hashMap[key] = value
-            }
-        }
-        return hashMap
-    }
+
 
 
 }

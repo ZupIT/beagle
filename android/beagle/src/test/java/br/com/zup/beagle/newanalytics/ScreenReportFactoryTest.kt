@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
 import br.com.zup.beagle.android.BaseTest
 import io.mockk.every
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -33,13 +33,17 @@ class ScreenReportFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should create local screen report correctly")
         fun testCreateScreenLocalReportShouldCreateLocalScreenReportCorrectly() {
+            //Given
+            val timestamp = System.currentTimeMillis()
+
             //WHEN
-            val result = ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId")
+            val result = ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId", timestamp)
 
             //THEN
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("screenId" to "screenId"), result.attributes)
+            assertEquals(hashMapOf("screenId" to "screenId"), result.values)
+            assertEquals(timestamp, result.timestamp)
         }
     }
 
@@ -50,13 +54,17 @@ class ScreenReportFactoryTest : BaseTest() {
         @Test
         @DisplayName("Then should create remote screen report correctly")
         fun testCreateScreenRemoteReportShouldCreateRemoteScreenReportCorrectly() {
+            //Given
+            val timestamp = System.currentTimeMillis()
+
             //When
-            val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url")
+            val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url", timestamp)
 
             //Then
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("url" to "url"), result.attributes)
+            assertEquals(hashMapOf("url" to "url"), result.values)
+            assertEquals(timestamp, result.timestamp)
         }
 
         @Test
@@ -65,14 +73,16 @@ class ScreenReportFactoryTest : BaseTest() {
             //Given
             val baseUrl = "https://baseUrl.com.br/"
             every { beagleSdk.config.baseUrl } returns baseUrl
+            val timestamp = System.currentTimeMillis()
 
             //When
-            val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord(baseUrl + "url")
+            val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord(baseUrl + "url", timestamp)
 
             //Then
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("url" to "url"), result.attributes)
+            assertEquals(hashMapOf("url" to "url"), result.values)
+            assertEquals(timestamp, result.timestamp)
         }
     }
 }

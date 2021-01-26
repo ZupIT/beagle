@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.form.core.Constants
@@ -35,7 +35,7 @@ import br.com.zup.beagle.android.widget.RootView
 internal class FormValidation(
     val errors: List<FieldError>,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : ActionAnalytics {
 
     @Transient
     var formInputs: List<FormInput>? = null

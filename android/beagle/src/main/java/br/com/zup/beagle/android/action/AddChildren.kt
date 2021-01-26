@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.toView
@@ -65,7 +65,7 @@ data class AddChildren(
     var value: List<ServerDrivenComponent>,
     var mode: Mode? = Mode.APPEND,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : ActionAnalytics {
 
     override fun execute(rootView: RootView, origin: View) {
         try {

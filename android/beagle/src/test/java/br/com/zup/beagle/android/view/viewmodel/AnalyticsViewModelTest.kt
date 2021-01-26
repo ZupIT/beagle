@@ -18,13 +18,23 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import android.view.View
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.analytics2.AnalyticsService
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.widget.RootView
-import io.mockk.*
+import br.com.zup.beagle.newanalytics.AnalyticsService
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
+import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 

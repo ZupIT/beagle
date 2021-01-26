@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.expressionOrValueOfNullable
@@ -46,7 +46,7 @@ data class Confirm(
     val labelOk: String? = null,
     val labelCancel: String? = null,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : ActionAnalytics {
 
     constructor(
         title: String? = null,

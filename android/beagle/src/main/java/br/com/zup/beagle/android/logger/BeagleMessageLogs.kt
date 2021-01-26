@@ -139,7 +139,7 @@ internal object BeagleMessageLogs {
         BeagleLoggerProxy.warning(errorMessage)
     }
 
-    fun errorWhileTryingToAddViewWithAddChildrenAction(id : String){
+    fun errorWhileTryingToAddViewWithAddChildrenAction(id: String) {
         val errorMessage = "The view with id:$id cannot receive children"
         BeagleLoggerProxy.error(errorMessage)
     }

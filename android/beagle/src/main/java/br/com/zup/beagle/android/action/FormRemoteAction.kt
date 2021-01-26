@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
@@ -76,7 +76,7 @@ data class FormRemoteAction(
     val path: String,
     val method: FormMethodType,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
+) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
 
     @Transient
     internal lateinit var formsValue: Map<String, String>

@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
-
-internal interface DataReport {
-
-    fun report()
-}
+interface AnalyticsProvider

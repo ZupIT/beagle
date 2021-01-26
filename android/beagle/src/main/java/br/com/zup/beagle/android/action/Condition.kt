@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
@@ -38,7 +38,7 @@ data class Condition(
     val onTrue: List<Action>? = null,
     val onFalse: List<Action>? = null,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : ActionAnalytics {
 
     constructor(
         condition: Boolean,
