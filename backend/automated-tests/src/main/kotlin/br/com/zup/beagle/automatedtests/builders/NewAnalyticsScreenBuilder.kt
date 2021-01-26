@@ -16,8 +16,9 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.automatedtests.constants.NEW_ANALYTICS_NAVIGATE_ENDPOINT
+import br.com.zup.beagle.newanalytics.ActionAnalyticsProperties
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.action.Navigate
@@ -36,9 +37,6 @@ object NewAnalyticsScreenBuilder {
                     text = "Alert with no specific analytics configuration",
                     onPress = listOf(
                         Alert(
-                            analytics = ActionAnalyticsConfig(
-                                attributes = listOf("message")
-                            ),
                             title = "Alert Title",
                             message = "AlertMessage",
                             onPressOk = nativeNavigation()
@@ -49,10 +47,7 @@ object NewAnalyticsScreenBuilder {
                     text = "Confirm with analytics local configuration",
                     onPress = listOf(
                         Confirm(
-                            analytics = ActionAnalyticsConfig(
-                                enable = true,
-                                attributes = listOf("title", "message")
-                            ),
+                            analytics = ActionAnalyticsConfig.Enabled(),
                             title = "Confirm Title",
                             message = "Confirm Message",
                             labelOk = "Accept",
@@ -67,10 +62,7 @@ object NewAnalyticsScreenBuilder {
                     text = "Alert with remote analytics configuration",
                     onPress = listOf(
                         Alert(
-                            analytics = ActionAnalyticsConfig(
-                                enable = true,
-                                attributes = listOf("message")
-                            ),
+                            analytics = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("message"))),
                             title = "Alert Title",
                             message = "AlertMessage",
                             onPressOk = nativeNavigation()
@@ -83,9 +75,7 @@ object NewAnalyticsScreenBuilder {
                     text = "Confirm with disabled analytics configuration",
                     onPress = listOf(
                         Confirm(
-                            analytics = ActionAnalyticsConfig(
-                                enable = false
-                            ),
+                            analytics = ActionAnalyticsConfig.Disabled(),
                             title = "Confirm Title",
                             message = "Confirm Message",
                             labelOk = "Accept",
@@ -105,7 +95,7 @@ object NewAnalyticsScreenBuilder {
     )
 
     private fun nativeNavigation() = Navigate.OpenNativeRoute(
-        analytics = ActionAnalyticsConfig(false),
+        analytics = ActionAnalyticsConfig.Disabled(),
         route = "screen-analytics-link",
         shouldResetApplication = true
     )

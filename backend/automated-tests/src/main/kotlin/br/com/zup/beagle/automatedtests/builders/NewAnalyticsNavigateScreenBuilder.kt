@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
@@ -28,7 +28,7 @@ object NewAnalyticsNavigateScreenBuilder {
             text = "navigate to local screen",
             onPress = listOf(
                 Navigate.OpenNativeRoute(
-                    analytics = ActionAnalyticsConfig(false),
+                    analytics = ActionAnalyticsConfig.Disabled(),
                     route = "screen-analytics-link",
                     shouldResetApplication = true
                 )
