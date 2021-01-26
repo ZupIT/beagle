@@ -115,14 +115,14 @@ jobs:
                      set -e 
                      APP_FILE=`find ~/Library/Developer/Xcode/DerivedData -name AppiumApp.app \ 
                      | grep Build/Products/Debug-iphonesimulator/AppiumApp.app` && 
-                     if [ -z "$APP_FILE" ]; then
-                       echo "app file not found!"
-                       exit 1
-                     fi && 
-                    ./tests/appium/project/gradlew -p tests/appium/project cucumber \
-                    -Dplatform=ios \
-                    -Dplatform_version='13.5' \
-                    -Ddevice_name='iPhone 11' \
+#                     if [ -z "$APP_FILE" ]; then
+#                       echo "app file not found!"
+#                       exit 1
+#                     fi && 
+                    ./tests/appium/project/gradlew -p tests/appium/project cucumber \ 
+                    -Dplatform=ios \ 
+                    -Dplatform_version='13.5' \ 
+                    -Ddevice_name='iPhone 11' \ 
                     -Dapp_file='$APP_FILE'
                    
 
