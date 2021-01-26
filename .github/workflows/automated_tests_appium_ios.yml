@@ -79,7 +79,7 @@ jobs:
                      set -e
                      cd tests/appium/app-ios/AppiumApp
                      xcodebuild -showsdks
-                     xcodebuild -sdk iphonesimulator13.5   
+                     xcodebuild -sdk iphonesimulator14.2   
                      cd $GITHUB_WORKSPACE
             
             
