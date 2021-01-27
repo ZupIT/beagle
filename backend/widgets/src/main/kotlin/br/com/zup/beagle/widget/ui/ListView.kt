@@ -43,7 +43,6 @@ data class ListView(
     val onScrollEnd: List<Action>? = null,
     val scrollEndThreshold: Int? = null,
     val iteratorName: String = "item",
-    val isScrollIndicatorVisible: Boolean = false,
     val key: String? = null,
     val useParentScroll: Boolean? = null
 ) : Widget(), ContextComponent {
@@ -75,7 +74,6 @@ data class ListView(
      * @param template represents each cell in the list through a ServerDrivenComponent.
      * @param onScrollEnd list of actions performed when the list is scrolled to the end.
      * @param scrollEndThreshold sets the scrolled percentage of the list to trigger onScrollEnd.
-     * @param isScrollIndicatorVisible this attribute enables or disables the scroll bar.
      * @param iteratorName is the context identifier of each cell.
      * @param key points to a unique value present in each dataSource item
      * used as a suffix in the component ids within the Widget.
@@ -89,7 +87,6 @@ data class ListView(
         onScrollEnd: List<Action>? = null,
         scrollEndThreshold: Int? = null,
         iteratorName: String = "item",
-        isScrollIndicatorVisible: Boolean = false,
         key: String? = null,
         useParentScroll: Boolean? = null
     ) : this(
@@ -102,7 +99,6 @@ data class ListView(
         onScrollEnd,
         scrollEndThreshold,
         iteratorName,
-        isScrollIndicatorVisible,
         key,
         useParentScroll
     )
