@@ -77,10 +77,8 @@ jobs:
             -   name: Build app-ios project to generate the app file
                 run: | 
                      set -e
-                     cd tests/appium/app-ios/AppiumApp
                      xcodebuild -showsdks
-                     xcodebuild -sdk iphonesimulator14.2   
-                     cd $GITHUB_WORKSPACE
+                     xcodebuild  -workspace iOS/Beagle.xcworkspace -scheme AppiumApp -destination 'platform=iOS Simulator,name=iPhone 11' -quiet
             
             
             ##################################################################################################
@@ -124,4 +122,3 @@ jobs:
 
             -   name: Cleanup
                 run: bundle exec fastlane automated_tests cleanup
-
