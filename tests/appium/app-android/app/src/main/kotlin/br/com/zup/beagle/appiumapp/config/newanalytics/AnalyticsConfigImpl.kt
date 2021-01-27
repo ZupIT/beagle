@@ -1,6 +1,6 @@
-package br.com.zup.beagle.appiumapp.config.analytics2
+package br.com.zup.beagle.appiumapp.config.newanalytics
 
-import br.com.zup.beagle.analytics2.AnalyticsConfig
+import br.com.zup.beagle.newanalytics.AnalyticsConfig
 
 class AnalyticsConfigImpl(
     override var enableScreenAnalytics: Boolean? = true,
