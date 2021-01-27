@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BeagleButton extends StatelessWidget {
   const BeagleButton({Key key, this.text, this.onPress, this.disabled})
@@ -26,11 +28,31 @@ class BeagleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: (disabled ?? false) ? null : onPress,
-      child: Text(
-        text,
-      ),
+    final _platform = Theme.of(context).platform;
+    return _platform == TargetPlatform.iOS
+        ? buildCupertinoWidget()
+        : buildMaterialWidget();
+  }
+
+  Widget buildCupertinoWidget() {
+    return CupertinoButton(
+      onPressed: getOnPressedFunction(),
+      child: buildButtonChild(),
     );
+  }
+
+  Widget buildMaterialWidget() {
+    return ElevatedButton(
+      onPressed: getOnPressedFunction(),
+      child: buildButtonChild(),
+    );
+  }
+
+  Widget buildButtonChild() {
+    return Text(text);
+  }
+
+  Function getOnPressedFunction() {
+    return (disabled ?? false) ? null : onPress;
   }
 }

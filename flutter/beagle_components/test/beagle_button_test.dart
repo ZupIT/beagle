@@ -15,97 +15,122 @@
  */
 
 import 'package:beagle_components/beagle_button.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const buttonText = 'Beagle Button';
 const buttonKey = Key('BeagleButton');
-final widget = MaterialApp(
-  home: createBeagleButton(),
-);
 
 void buttonOnPress() {}
 
-BeagleButton createBeagleButton({
+Widget createWidget({
   Key buttonKey = buttonKey,
   String buttonText = buttonText,
   Function buttonOnPress = buttonOnPress,
   bool buttonDisabled = false,
 }) {
-  return BeagleButton(
-    key: buttonKey,
-    text: buttonText,
-    onPress: buttonOnPress,
-    disabled: buttonDisabled,
+  return MaterialApp(
+    home: BeagleButton(
+      key: buttonKey,
+      text: buttonText,
+      onPress: buttonOnPress,
+      disabled: buttonDisabled,
+    ),
   );
 }
 
 void main() {
-  testWidgets('BeagleButton has a ElevatedButton', (WidgetTester tester) async {
-    await tester.pumpWidget(widget);
+  group('Given a BeagleButton', () {
+    group('When the widget is created and platform is android', () {
+      testWidgets('Then it should have a ElevatedButton child',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(createWidget());
 
-    final buttonFinder = find.byType(ElevatedButton);
+        final buttonFinder = find.byType(ElevatedButton);
 
-    expect(buttonFinder, findsOneWidget);
-  });
+        expect(buttonFinder, findsOneWidget);
+      });
+    });
 
-  testWidgets('BeagleButton has a text', (WidgetTester tester) async {
-    await tester.pumpWidget(widget);
+    group('When the widget is created and platform is iOS', () {
+      testWidgets('Then it should have a CupertinoButton child',
+          (WidgetTester tester) async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+        await tester.pumpWidget(createWidget());
 
-    final textFinder = find.text(buttonText);
+        final buttonFinder = find.byType(CupertinoButton);
 
-    expect(textFinder, findsOneWidget);
-  });
+        expect(buttonFinder, findsOneWidget);
 
-  testWidgets('BeagleButton is enabled', (WidgetTester tester) async {
-    await tester.pumpWidget(widget);
+        debugDefaultTargetPlatformOverride = null;
+      });
+    });
 
-    expect(tester.widget<ElevatedButton>(find.byType(ElevatedButton)).enabled,
-        isTrue);
-  });
+    group('When it has a text', () {
+      testWidgets('Then it should have a Text widget with specified text',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(createWidget());
 
-  testWidgets('BeagleButton is disabled', (WidgetTester tester) async {
-    final widget = MaterialApp(home: createBeagleButton(buttonDisabled: true));
+        final textFinder = find.text(buttonText);
 
-    await tester.pumpWidget(widget);
+        expect(textFinder, findsOneWidget);
+      });
+    });
 
-    expect(tester.widget<ElevatedButton>(find.byType(ElevatedButton)).enabled,
-        isFalse);
-  });
+    group('When it is enabled', () {
+      testWidgets('Then the button widget should be enabled',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(createWidget());
 
-  testWidgets('BeagleButton fire onPress callback when enabled',
-      (WidgetTester tester) async {
-    final log = <int>[];
-    void onPressed() {
-      log.add(0);
-    }
+        expect(
+            tester.widget<ElevatedButton>(find.byType(ElevatedButton)).enabled,
+            isTrue);
+      });
 
-    final widget =
-        MaterialApp(home: createBeagleButton(buttonOnPress: onPressed));
+      testWidgets('Then should fire onPress callback',
+          (WidgetTester tester) async {
+        final log = <int>[];
+        void onPressed() {
+          log.add(0);
+        }
 
-    await tester.pumpWidget(widget);
-    await tester.tap(find.byType(BeagleButton));
+        await tester.pumpWidget(createWidget(buttonOnPress: onPressed));
+        await tester.tap(find.byType(BeagleButton));
 
-    expect(log.length, 1);
-  });
+        expect(log.length, 1);
+      });
+    });
 
-  testWidgets("BeagleButton don't fire onPress callback when disabled",
-      (WidgetTester tester) async {
-    final log = <int>[];
-    void onPressed() {
-      log.add(0);
-    }
+    group('When it is disabled', () {
+      testWidgets('Then the button widget should be disabled',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(createWidget(buttonDisabled: true));
 
-    final widget = MaterialApp(
-        home: createBeagleButton(
-      buttonOnPress: onPressed,
-      buttonDisabled: true,
-    ));
+        expect(
+            tester.widget<ElevatedButton>(find.byType(ElevatedButton)).enabled,
+            isFalse);
+      });
 
-    await tester.pumpWidget(widget);
-    await tester.tap(find.byType(BeagleButton));
+      testWidgets("Then shouldn't fire onPress callback",
+          (WidgetTester tester) async {
+        final log = <int>[];
+        void onPressed() {
+          log.add(0);
+        }
 
-    expect(log.length, 0);
+        final widget = createWidget(
+          buttonOnPress: onPressed,
+          buttonDisabled: true,
+        );
+
+        await tester.pumpWidget(widget);
+        await tester.tap(find.byType(BeagleButton));
+
+        expect(log.length, 0);
+      });
+    });
   });
 }
