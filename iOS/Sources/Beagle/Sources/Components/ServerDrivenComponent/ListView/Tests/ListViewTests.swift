@@ -176,28 +176,39 @@ final class ListViewTests: XCTestCase {
         return collection
     }
     
-    func testHorizontalScrollIndicator() throws {
+    func testHorizontalScrollIndicatorEnabled() throws {
         // Given
-        let collectionScrollIndicatorEnabled = try getCollectionView(direction: .horizontal, isScrollIndicatorVisible: true)
-        
-        let collectionScrollIndicatorDisabled = try getCollectionView(direction: .horizontal)
+        let collectionView = try getCollectionView(direction: .horizontal, isScrollIndicatorVisible: true)
         
         // Then
-        XCTAssertEqual(collectionScrollIndicatorEnabled.showsHorizontalScrollIndicator, true)
+        XCTAssertEqual(collectionView.showsHorizontalScrollIndicator, true)
         
-        XCTAssertEqual(collectionScrollIndicatorDisabled.showsHorizontalScrollIndicator, false)
     }
     
-    func testVerticalScrollIndicator() throws {
+    func testHorizontalScrollIndicatorDisabled() throws {
         // Given
-        let collectionScrollIndicatorEnabled = try getCollectionView(direction: .vertical, isScrollIndicatorVisible: true)
-        
-        let collectionScrollIndicatorDisabled = try getCollectionView(direction: .vertical)
+        let collectionView = try getCollectionView(direction: .horizontal)
         
         // Then
-        XCTAssertEqual(collectionScrollIndicatorEnabled.showsVerticalScrollIndicator, true)
+        XCTAssertEqual(collectionView.showsHorizontalScrollIndicator, false)
         
-        XCTAssertEqual(collectionScrollIndicatorDisabled.showsHorizontalScrollIndicator, false)
+    }
+    
+    func testVerticalScrollIndicatorDisabled() throws {
+        // Given
+        let collectionView = try getCollectionView(direction: .vertical)
+    
+        // Then
+        XCTAssertEqual(collectionView.showsHorizontalScrollIndicator, false)
+
+    }
+    
+    func testVerticalScrollIndicatorEnabled() throws {
+        // Given
+        let collectionView = try getCollectionView(direction: .vertical, isScrollIndicatorVisible: true)
+        
+        // Then
+        XCTAssertEqual(collectionView.showsVerticalScrollIndicator, true)
 
     }
     
