@@ -24,8 +24,8 @@ import java.time.Duration
 
 @ConstructorBinding
 @ConfigurationProperties(BEAGLE_CACHE_ENDPOINT_PREFIX)
-data class BeagleSpringCacheProperties(
-    override val include: List<String> = emptyList(),
-    override val exclude: List<String> = emptyList(),
-    override val ttl: Map<String, Duration> = emptyMap()
-) : BeagleCacheProperties
+class BeagleSpringCacheProperties(
+    include: List<String> = emptyList(),
+    exclude: List<String> = emptyList(),
+    ttl: Map<String, Duration> = emptyMap()
+) : BeagleCacheProperties(include, exclude, ttl)

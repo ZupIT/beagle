@@ -22,7 +22,7 @@ import java.net.HttpURLConnection
 import java.nio.charset.Charset
 import java.time.Duration
 
-abstract class BeagleCacheHandler(properties: BeagleCacheProperties) {
+abstract class BeagleCacheHandler(private val properties: BeagleCacheProperties) {
     companion object {
         const val CACHE_HEADER = "beagle-hash"
         internal const val MAX_AGE_HEADER = "max-age"
@@ -30,9 +30,6 @@ abstract class BeagleCacheHandler(properties: BeagleCacheProperties) {
     }
 
     private val endpointHashMap = mutableMapOf<String, String>()
-    private val excludePatterns = properties.exclude.filter { it.isNotBlank() }.map(::Regex)
-    private val includePatterns = properties.include.filter { it.isNotBlank() }.map(::Regex)
-    private val ttl = properties.ttl.filterKeys { it.isNotBlank() }
 
     abstract fun createResponseFromController(modifyResponse: (response: Any) -> Any = { it }): Any
 
@@ -48,13 +45,14 @@ abstract class BeagleCacheHandler(properties: BeagleCacheProperties) {
     private fun getCacheKey(endpoint: String, currentPlatform: String?) =
         currentPlatform?.plus("_")?.plus(endpoint) ?: endpoint
 
-    internal fun isEndpointExcluded(endpoint: String) =
-        this.includePatterns.none { it matches endpoint } || this.excludePatterns.any { it matches endpoint }
+    private fun isEndpointExcluded(endpoint: String) =
+        properties.includePatterns.none { it matches endpoint }
+            || properties.excludePatterns.any { it matches endpoint }
 
-    internal fun isHashUpToDate(endpoint: String, currentPlatform: String?, hash: String) =
+    private fun isHashUpToDate(endpoint: String, currentPlatform: String?, hash: String) =
         this.endpointHashMap[this.getCacheKey(endpoint, currentPlatform)] == hash
 
-    internal fun generateAndAddHash(endpoint: String, currentPlatform: String?, json: String) =
+    private fun generateAndAddHash(endpoint: String, currentPlatform: String?, json: String) =
         this.endpointHashMap.computeIfAbsent(this.getCacheKey(endpoint, currentPlatform)) {
             this.generateHashForJson(json)
         }
@@ -105,6 +103,6 @@ abstract class BeagleCacheHandler(properties: BeagleCacheProperties) {
     private fun addTtlHeader(response: Any, endpoint: String) = addHeader(
         response = response,
         key = HttpHeaders.CACHE_CONTROL,
-        value = "$MAX_AGE_HEADER=${(this.ttl[endpoint] ?: DEFAULT_TTL).seconds}"
+        value = "$MAX_AGE_HEADER=${(properties.ttlPattern[endpoint] ?: DEFAULT_TTL).seconds}"
     )
 }

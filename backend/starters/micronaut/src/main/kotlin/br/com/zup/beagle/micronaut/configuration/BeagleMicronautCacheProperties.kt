@@ -23,10 +23,8 @@ import io.micronaut.core.convert.format.MapFormat
 import java.time.Duration
 
 @ConfigurationProperties(BEAGLE_CACHE_ENDPOINT_PREFIX)
-class BeagleMicronautCacheProperties : BeagleCacheProperties {
-    override var include: List<String> = emptyList()
-    override var exclude: List<String> = emptyList()
-
-    @MapFormat(transformation = MapFormat.MapTransformation.FLAT)
-    override var ttl: Map<String, Duration> = emptyMap()
-}
+class BeagleMicronautCacheProperties(
+    include: List<String> = emptyList(),
+    exclude: List<String> = emptyList(),
+    @MapFormat(transformation = MapFormat.MapTransformation.FLAT) ttl: Map<String, Duration> = emptyMap()
+) : BeagleCacheProperties(include, exclude, ttl)
