@@ -27,6 +27,8 @@ class BeagleScreenViewModel {
         didSet { stateObserver?.didChangeState(state) }
     }
     
+    public var beagleViewState: BeagleViewState?
+    
     public enum State {
         case initialized
         case loading
@@ -76,6 +78,15 @@ class BeagleScreenViewModel {
         self.screenType = screenType
         self.dependencies = dependencies
         self.state = .initialized
+    }
+    
+    public convenience init(
+        screenType: ScreenType,
+        dependencies: BeagleDependenciesProtocol = Beagle.dependencies,
+        beagleViewState: @escaping BeagleViewState
+    ) {
+        self.init(screenType: screenType, dependencies: dependencies)
+        self.beagleViewState = beagleViewState
     }
     
     public func loadScreen() {

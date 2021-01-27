@@ -218,15 +218,18 @@ public class BeagleScreenViewController: BeagleController {
     fileprivate func updateView(state: ViewModel.State) {
         switch state {
         case .initialized:
-            break
+            renderBeagleViewIfNeeded(state: .started)
         case .loading:
+            renderBeagleViewIfNeeded(state: .started)
             serverDrivenState = .started
         case .success:
+            renderBeagleViewIfNeeded(state: .finished)
             serverDrivenState = .finished
             serverDrivenState = .success
             renderScreenIfNeeded()
         case .failure(let error):
             renderScreenIfNeeded()
+            renderBeagleViewIfNeeded(state: .error(error, viewModel.loadScreen))
             serverDrivenState = .finished
             serverDrivenState = .error(error, viewModel.loadScreen)
         }
@@ -236,6 +239,16 @@ public class BeagleScreenViewController: BeagleController {
         if content == nil, let screen = screen {
             updateNavigationBar(animated: true)
             content = .view(screen.toView(renderer: renderer))
+        } else if viewModel.beagleViewState != nil, let screen = screen {
+            updateNavigationBar(animated: true)
+            content = .view(screen.toView(renderer: renderer))
+        }
+    }
+    
+    private func renderBeagleViewIfNeeded(state: ServerDrivenState) {
+        if let beagleViewState = viewModel.beagleViewState {
+            let stateView = beagleViewState(state)
+            content = .view(stateView)
         }
     }
 

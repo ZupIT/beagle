@@ -16,6 +16,8 @@
 
 import UIKit
 
+public typealias BeagleViewState = (ServerDrivenState) -> (UIView)
+
 /// Use this View when you need to add a Beagle component inside a native screen that have other UIViews and uses AutoLayout
 public class BeagleView: UIView {
     
@@ -35,6 +37,10 @@ public class BeagleView: UIView {
         self.init(viewModel: .init(screenType: screenType))
     }
     
+    public convenience init(_ remote: ScreenType.Remote, beagleViewState: @escaping BeagleViewState) {
+        self.init(viewModel: .init(screenType: .remote(remote), beagleViewState: beagleViewState))
+    }
+
     required init(viewModel: BeagleScreenViewModel) {
         let controller = BeagleScreenViewController(viewModel: viewModel)
         controller.skipNavigationCreation = true
@@ -62,6 +68,7 @@ public class BeagleView: UIView {
         guard let beagleView = beagleController.view else {
             return
         }
+        beagleView.backgroundColor = .clear
         clipsToBounds = true
         addSubview(beagleView)
         beagleView.anchorTo(superview: self)
@@ -69,8 +76,7 @@ public class BeagleView: UIView {
     }
     
     public override var intrinsicContentSize: CGSize {
-        guard case .view(let content) = beagleController.content,
-              let screenView = content as? ScreenView else {
+        guard case .view(let content) = beagleController.content else {
             return super.intrinsicContentSize
         }
         
@@ -78,7 +84,7 @@ public class BeagleView: UIView {
         if !alreadyCalculateIntrinsicSize {
             alreadyCalculateIntrinsicSize = true
             
-            let unboundedIntrinsic = screenView.yoga.calculateLayout(with: size)
+            let unboundedIntrinsic = content.yoga.calculateLayout(with: size)
             if unboundedIntrinsic.width > frame.width {
                 size.width = frame.width
             }
@@ -86,17 +92,16 @@ public class BeagleView: UIView {
                 size.height = frame.height
             }
         }
-        return screenView.yoga.calculateLayout(with: size)
+        return content.yoga.calculateLayout(with: size)
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
         
-        guard case .view(let content) = beagleController.content,
-              let screenView = content as? ScreenView else { return }
+        guard case .view(let content) = beagleController.content else { return }
                 
-        screenView.frame = bounds
-        screenView.yoga.applyLayout(preservingOrigin: true)
+        content.frame = bounds
+        content.yoga.applyLayout(preservingOrigin: true)
         
         invalidateIntrinsicContentSize() // we need to calculate intrinsecSize a second time
         alreadyCalculateIntrinsicSize = false
