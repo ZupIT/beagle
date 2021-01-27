@@ -73,11 +73,13 @@ class ListViewTest : BaseComponentTest() {
         super.setUp()
 
         deprecatedListView = ListView(children, ListDirection.VERTICAL)
-        listView = ListView(ListDirection.VERTICAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key)
+        listView = ListView(ListDirection.VERTICAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key, isScrollIndicatorVisible = true)
 
         every { beagleFlexView.addView(any()) } just Runs
         every { anyConstructed<ViewFactory>().makeRecyclerView(rootView.getContext()) } returns recyclerView
         every { anyConstructed<ViewFactory>().makeBeagleRecyclerView(rootView.getContext()) } returns beagleRecyclerView
+        every { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext()) } returns beagleRecyclerView
+        every { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext()) } returns beagleRecyclerView
         every { recyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
         every { recyclerView.adapter = any() } just Runs
     }
@@ -159,5 +161,41 @@ class ListViewTest : BaseComponentTest() {
         onScrollEnd.forEach {
             verify(exactly = 1) { it.execute(rootView, beagleRecyclerView) }
         }
+    }
+
+    @Test
+    fun `Given a listView without scrollIndicator WHEN buildView THEN should call method makeBeagleRecyclerView`(){
+        // Given
+        listView = ListView(ListDirection.VERTICAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key)
+
+        // When
+        listView.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { anyConstructed<ViewFactory>().makeBeagleRecyclerView(rootView.getContext()) }
+    }
+
+    @Test
+    fun `Given a listView with scrollIndicator vertical WHEN buildView THEN should call method makeBeagleRecyclerViewScrollIndicatorVertical`(){
+        // Given
+        listView = ListView(ListDirection.VERTICAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key, isScrollIndicatorVisible = true)
+
+        // When
+        listView.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext()) }
+    }
+
+    @Test
+    fun `Given a listView with scrollIndicator horizontal WHEN buildView THEN should call method makeBeagleRecyclerViewScrollIndicatorHorizontal`(){
+        // Given
+        listView = ListView(ListDirection.HORIZONTAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key, isScrollIndicatorVisible = true)
+
+        // When
+        listView.buildView(rootView)
+
+        // Then
+        verify(exactly = 1) { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext()) }
     }
 }
