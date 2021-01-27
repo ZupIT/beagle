@@ -1,0 +1,24 @@
+[
+  {
+    "beagleAction" : "beagle:pushview",
+    "component" : {
+      "id" : "test-component-id",
+      "position" : {
+        "x" : 0,
+        "y" : 0
+      },
+      "type" : "custom:analyticstestcomponent"
+    },
+    "platform" : "ios",
+    "route" : {
+      "screen" : {
+        "identifier" : "screen-id-local-route",
+        "navigationBar" : {
+          "title" : "Local Screen Title"
+        }
+      }
+    },
+    "screen" : "analytics-actions",
+    "type" : "action"
+  }
+]

@@ -9,7 +9,9 @@
   - disabled: Optional<Expression<Bool>>.none
   ▿ onPress: Optional<Array<Action>>
     ▿ some: 1 element
-      - Navigate.popStack
+      ▿ Navigate
+        - _beagleAction_: "beagle:popstack"
+        - analytics: Optional<ActionAnalyticsConfig>.none
   - styleId: Optional<String>.none
   ▿ text: Expression<String>
     - value: "button"

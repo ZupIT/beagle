@@ -49,7 +49,8 @@ import br.com.zup.beagle.widget.core.Size
  * @param positionType The position type of an element defines how it is positioned within its parent.
  * @param display enables a flex context for all its direct children.
  */
-data class Style (
+@BeagleJson
+data class Style(
     val backgroundColor: String? = null,
     val cornerRadius: CornerRadius? = null,
     val borderColor: String? = null,
@@ -60,7 +61,7 @@ data class Style (
     val position: EdgeValue? = null,
     val flex: Flex? = null,
     val positionType: PositionType? = null,
-    val display: Bind<Display>? = null
+    val display: Bind<Display>? = null,
 )
 
 /**
@@ -68,8 +69,9 @@ data class Style (
  *
  * @param radius define size of radius
  */
+@BeagleJson
 data class CornerRadius(
-    val radius: Double = 0.0
+    val radius: Double = 0.0,
 )
 
 /**
@@ -79,6 +81,7 @@ data class CornerRadius(
  * @property FLEX
  * @property NONE
  */
+@BeagleJson
 enum class Display {
     /**
      * Apply the flex properties.
@@ -97,6 +100,7 @@ enum class Display {
  * @property ABSOLUTE
  * @property RELATIVE
  */
+@BeagleJson
 enum class PositionType {
 
     /**

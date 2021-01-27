@@ -21,6 +21,7 @@ import 'package:beagle/bridge_impl/beagle_navigator_js.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/interface/storage.dart';
 import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/beagle_action.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
@@ -43,6 +44,7 @@ class BeagleJSEngine {
   static Map<String, List<ViewUpdateListener>> viewUpdateListenerMap = {};
   static Map<String, List<ViewErrorListener>> viewErrorListenerMap = {};
   static Map<String, List<NavigationListener>> navigationListenerMap = {};
+  static Storage storage;
 
   static dynamic deserializeJsFunctions(dynamic value, [String viewId]) {
     if (value.runtimeType.toString() == 'String' &&
@@ -114,7 +116,7 @@ class BeagleJSEngine {
           ? (args['headers'] as Map<String, dynamic>).cast<String, String>()
           : null;
       final String body = args['body'];
-      final req = Request(url, method, headers, body);
+      final req = Request(url, method: method, headers: headers, body: body);
       httpListener(id, req);
     });
   }
@@ -172,11 +174,41 @@ class BeagleJSEngine {
     });
   }
 
+  static void _setupStorageMessages() {
+    js
+      ..onMessage('storage.set', (dynamic args) async {
+        final key = args['key'];
+        final value = args['value'];
+        final promiseId = args['promiseId'];
+        await storage.setItem(key, value);
+        js.evaluate("global.beagle.promise.resolve('$promiseId')");
+      })
+      ..onMessage('storage.get', (dynamic args) async {
+        final key = args['key'];
+        final promiseId = args['promiseId'];
+        final result = await storage.getItem(key);
+        js.evaluate(
+            "global.beagle.promise.resolve('$promiseId', ${jsonEncode(result)})");
+      })
+      ..onMessage('storage.remove', (dynamic args) async {
+        final key = args['key'];
+        final promiseId = args['promiseId'];
+        await storage.removeItem(key);
+        js.evaluate("global.beagle.promise.resolve('$promiseId')");
+      })
+      ..onMessage('storage.clear', (dynamic args) async {
+        final promiseId = args['promiseId'];
+        await storage.clear();
+        js.evaluate("global.beagle.promise.resolve('$promiseId')");
+      });
+  }
+
   static void _setupMessages() {
     _setupHttpMessages();
     _setupActionMessages();
     _setupBeagleViewMessages();
     _setupBeagleNavigatorMessages();
+    _setupStorageMessages();
   }
 
   static Future<JsEvalResult> promiseToFuture(JsEvalResult result) {
@@ -198,10 +230,26 @@ class BeagleJSEngine {
   }
 
   // todo: increment this to pass more configurations
-  static void createBeagleService(String baseUrl, List<String> actionKeys) {
-    final actionArray = json.encode(actionKeys);
-    final result = js.evaluate("global.beagle.start('$baseUrl', $actionArray)");
+  static void createBeagleService({
+    String baseUrl,
+    Map<String, dynamic> navigationControllers,
+    List<String> actionKeys,
+    bool useBeagleHeaders,
+    String strategy,
+    Storage storage,
+  }) {
+    final params = {
+      'baseUrl': baseUrl,
+      'actionKeys': actionKeys,
+      'useBeagleHeaders': useBeagleHeaders,
+      'strategy': strategy,
+    };
+    if (navigationControllers != null) {
+      params['navigationControllers'] = navigationControllers;
+    }
+    final result = js.evaluate('global.beagle.start(${json.encode(params)})');
     debugPrint('Beagle service result: $result');
+    BeagleJSEngine.storage = storage;
   }
 
   // todo: increment this to pass more configurations

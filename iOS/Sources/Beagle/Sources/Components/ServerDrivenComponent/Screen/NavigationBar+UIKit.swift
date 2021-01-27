@@ -72,7 +72,7 @@ extension NavigationBarItem {
         
         @objc private func triggerAction() {
             if case .view(let view) = controller?.content {
-                controller?.execute(actions: [barItem.action], origin: view)
+                controller?.execute(actions: [barItem.action], event: nil, origin: view)
             }
         }
     }

@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.networking
 
+import br.com.zup.beagle.core.BeagleJson
+
 /**
  * ResponseData is used to return data made by the request.
  *
@@ -24,6 +26,8 @@ package br.com.zup.beagle.android.networking
  * @param headers Header items for the response.
  * @param statusText
  */
+
+@BeagleJson
 data class ResponseData(
     val statusCode: Int?,
     val data: ByteArray,

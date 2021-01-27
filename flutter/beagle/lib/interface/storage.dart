@@ -16,11 +16,19 @@
  */
 
 abstract class Storage {
-  void setItem(String key, String value);
+  /// Adds the tuple ([key], [value]) to this persistent storage. The Future (promise) returned
+  /// resolves as soon as the operation completes.
+  Future<void> setItem(String key, String value);
 
-  dynamic getItem(String key);
+  /// Retrieves the value identified by the [key] passed as parameter. If the key doesn't exist,
+  /// null is returned. The return value is wrapped in a Future (promise).
+  Future<String> getItem(String key);
 
-  void removeItem(String key);
+  /// Removes a [key] from the storage. The Future (promise) returned resolves as soon as the
+  /// operation completes.
+  Future<void> removeItem(String key);
 
-  void clear();
+  /// removes everything from the storage. The Future (promise) returned resolves as soon as the
+  /// operation completes.
+  Future<void> clear();
 }

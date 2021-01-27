@@ -20,16 +20,19 @@ public struct Condition: Action, AutoInitiableAndDecodable {
     public let condition: Expression<Bool>
     public let onTrue: [Action]?
     public let onFalse: [Action]?
+    public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:Condition.Init
     public init(
         condition: Expression<Bool>,
         onTrue: [Action]? = nil,
-        onFalse: [Action]? = nil
+        onFalse: [Action]? = nil,
+        analytics: ActionAnalyticsConfig? = nil
     ) {
         self.condition = condition
         self.onTrue = onTrue
         self.onFalse = onFalse
+        self.analytics = analytics
     }
 // sourcery:end
 

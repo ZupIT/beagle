@@ -1,42 +1,42 @@
-  openExternalURL("http://localhost")  -->  NULL 
+  Navigate(_beagleAction_: "beagle:openexternalurl", analytics: nil, url: "http://localhost")  -->  NULL 
 
-  openNativeRoute(Beagle.Navigate.OpenNativeRoute(route: "path", data: nil, shouldResetApplication: false))  -->  NULL 
+  Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: "path", data: nil, shouldResetApplication: false)  -->  NULL 
 
-  openNativeRoute(Beagle.Navigate.OpenNativeRoute(route: "path", data: Optional(["data": "value"]), shouldResetApplication: false))  -->  NULL 
+  Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: "path", data: Optional(["data": "value"]), shouldResetApplication: false)  -->  NULL 
 
-  resetApplication(Beagle.Route.declarative(Beagle.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)), controllerId: nil)  -->  NULL 
+  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: Beagle.Route(screen: Beagle.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)), controllerId: nil)  -->  NULL 
 
-  resetApplication(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil)), controllerId: nil)  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil), controllerId: nil)  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
 
-  resetApplication(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil)), controllerId: nil)  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil), controllerId: nil)  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
 
-  resetStack(Beagle.Route.declarative(Beagle.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)))  -->  NULL 
+  Navigate(_beagleAction_: "beagle:resetstack", analytics: nil, route: Beagle.Route(screen: Beagle.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)))  -->  NULL 
 
-  resetStack(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil)))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:resetstack", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
 
-  resetStack(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil)))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:resetstack", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
 
-  pushStack(Beagle.Route.declarative(Beagle.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)), controllerId: nil)  -->  NULL 
+  Navigate(_beagleAction_: "beagle:pushstack", analytics: nil, route: Beagle.Route(screen: Beagle.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)), controllerId: nil)  -->  NULL 
 
-  pushStack(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil)), controllerId: nil)  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:pushstack", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil), controllerId: nil)  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
 
-  pushStack(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil)), controllerId: nil)  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:pushstack", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil), controllerId: nil)  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
 
-  pushStack(Beagle.Route.declarative(Beagle.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)), controllerId: Optional("customId"))  -->  NULL 
+  Navigate(_beagleAction_: "beagle:pushstack", analytics: nil, route: Beagle.Route(screen: Beagle.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)), controllerId: Optional("customId"))  -->  NULL 
 
-  pushStack(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil)), controllerId: Optional("customId"))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:pushstack", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil), controllerId: Optional("customId"))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
 
-  pushStack(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil)), controllerId: Optional("customId"))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:pushstack", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil), controllerId: Optional("customId"))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
 
-  pushView(Beagle.Route.declarative(Beagle.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)))  -->  NULL 
+  Navigate(_beagleAction_: "beagle:pushview", analytics: nil, route: Beagle.Route(screen: Beagle.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: [], widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil), context: nil)))  -->  NULL 
 
-  pushView(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil)))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:pushview", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: true, fallback: nil) 
 
-  pushView(Beagle.Route.remote(Beagle.Route.NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil)))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
+  Navigate(_beagleAction_: "beagle:pushview", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil))  -->  NewPath(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: false, fallback: nil) 
 
-  popStack  -->  NULL 
+  Navigate(_beagleAction_: "beagle:popstack", analytics: nil)  -->  NULL 
 
-  popView  -->  NULL 
+  Navigate(_beagleAction_: "beagle:popview", analytics: nil)  -->  NULL 
 
-  popToView("path")  -->  NULL 
+  Navigate(_beagleAction_: "beagle:poptoview", analytics: nil, route: "path")  -->  NULL 
 

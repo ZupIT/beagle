@@ -16,10 +16,14 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.core.BeagleJson
+
 /**
  * Enum define text support.
  */
+@BeagleJson
 enum class TextInputType {
+
     /**
      * Date text support.
      * This attribute on iOS will have the same effect as NUMBER.

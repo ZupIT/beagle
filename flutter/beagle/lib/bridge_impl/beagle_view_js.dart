@@ -17,6 +17,7 @@
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_navigator_js.dart';
+import 'package:beagle/bridge_impl/renderer_js.dart';
 import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/renderer.dart';
@@ -32,11 +33,13 @@ class BeagleViewJS implements BeagleView {
       String initialControllerId}) {
     _id = BeagleJSEngine.createBeagleView();
     BeagleViewJS.views[_id] = this;
-    navigator = BeagleNavigatorJS(_id);
+    _navigator = BeagleNavigatorJS(_id);
+    _renderer = RendererJS(_id);
   }
 
   String _id;
-  BeagleNavigatorJS navigator;
+  BeagleNavigatorJS _navigator;
+  Renderer _renderer;
   static Map<String, BeagleViewJS> views = {};
 
   @override
@@ -51,19 +54,20 @@ class BeagleViewJS implements BeagleView {
 
   @override
   BeagleNavigator getNavigator() {
-    return navigator;
+    return _navigator;
   }
 
   @override
   Renderer getRenderer() {
-    // TODO: implement getRenderer
-    throw UnimplementedError();
+    return _renderer;
   }
 
   @override
   BeagleUIElement getTree() {
-    // TODO: implement getTree
-    throw UnimplementedError();
+    final result = BeagleJSEngine.js
+        .evaluate("global.beagle.getViewById('$_id').getTree()")
+        .rawResult;
+    return BeagleUIElement(result);
   }
 
   @override

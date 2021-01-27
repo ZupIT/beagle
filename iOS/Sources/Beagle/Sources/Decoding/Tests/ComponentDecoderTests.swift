@@ -145,6 +145,7 @@ public final class ComponentDecoderTests: XCTestCase {
     }
 
     private class TestAction: Action {
+        var analytics: ActionAnalyticsConfig? { return nil }
         let value: Int
         
         func execute(controller: BeagleController, origin: UIView) {

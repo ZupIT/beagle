@@ -1,13 +1,14 @@
 ▿ Navigate
-  ▿ pushView: Route
-    ▿ remote: NewPath
-      - fallback: Optional<Screen>.none
-      - shouldPrefetch: false
-      ▿ url: Expression<String>
-        ▿ expression: ContextExpression
-          ▿ single: SingleExpression
-            ▿ value: Value
-              ▿ binding: Binding
-                - context: "test"
-                ▿ path: Path
-                  - nodes: 0 elements
+  - _beagleAction_: "beagle:pushview"
+  - analytics: Optional<ActionAnalyticsConfig>.none
+  ▿ route: Route
+    - fallback: Optional<Screen>.none
+    - shouldPrefetch: false
+    ▿ url: Expression<String>
+      ▿ expression: ContextExpression
+        ▿ single: SingleExpression
+          ▿ value: Value
+            ▿ binding: Binding
+              - context: "test"
+              ▿ path: Path
+                - nodes: 0 elements

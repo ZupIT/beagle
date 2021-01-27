@@ -194,7 +194,7 @@ final class ListViewUIComponent: UIView {
         
         if items?.count == 0 || didReachScrollThreshol {
             onScrollEndExecuted = true
-            renderer.controller.execute(actions: model.onScrollEnd, origin: self)
+            renderer.controller.execute(actions: model.onScrollEnd, event: "onScrollEnd", origin: self)
         }
     }
     

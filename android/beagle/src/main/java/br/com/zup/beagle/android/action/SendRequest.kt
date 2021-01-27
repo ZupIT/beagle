@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
@@ -29,11 +28,14 @@ import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
+import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.android.annotation.ContextDataValue
 
 /**
  * Enum with HTTP methods.
  */
 @SuppressWarnings("UNUSED_PARAMETER")
+@BeagleJson
 enum class RequestActionMethod {
     /**
      * Request we representation of an resource.
@@ -77,15 +79,16 @@ enum class RequestActionMethod {
  * @param onError  Error action.
  * @param onFinish Finish action.
  */
+@BeagleJson
 data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
     val headers: Bind<Map<String, String>>? = null,
-    @property:ContextDataValue
+    @ContextDataValue
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
-    val onFinish: List<Action>? = null
+    val onFinish: List<Action>? = null,
 ) : Action, AsyncAction by AsyncActionImpl() {
 
     constructor(
@@ -95,7 +98,7 @@ data class SendRequest(
         data: Any? = null,
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
-        onFinish: List<Action>? = null
+        onFinish: List<Action>? = null,
     ) : this(
         expressionOrValueOf(url),
         valueOf(method),
@@ -118,7 +121,7 @@ data class SendRequest(
     private fun executeActions(
         rootView: RootView,
         state: FetchViewState,
-        origin: View
+        origin: View,
     ) {
         onFinish?.let {
             handleEvent(rootView, origin, it)
@@ -152,5 +155,5 @@ internal data class SendRequestInternal(
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
-    val onFinish: List<Action>? = null
+    val onFinish: List<Action>? = null,
 )

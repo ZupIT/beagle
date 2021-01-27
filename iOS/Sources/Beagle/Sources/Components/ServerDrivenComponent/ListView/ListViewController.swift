@@ -114,7 +114,7 @@ extension ListViewController: BeagleControllerProtocol {
         delegate?.onInit(onInit, view: view)
     }
     
-    func execute(actions: [Action]?, origin: UIView) {
+    func execute(actions: [Action]?, event: String?, origin: UIView) {
         let newActions: [Action]? = actions?.reduce(into: []) { result, action in
             if var asyncAction = action as? AsyncAction {
                 if asyncAction.onFinish == nil {
@@ -126,7 +126,7 @@ extension ListViewController: BeagleControllerProtocol {
                 result?.append(action)
             }
         }
-        beagleController?.execute(actions: newActions, origin: origin)
+        beagleController?.execute(actions: newActions, event: event, origin: origin)
     }
     
     func execute(actions: [Action]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
@@ -155,6 +155,10 @@ private struct AsyncActionTracker: Action {
     
     let uuid: UUID
     weak var delegate: ListViewDelegate?
+    
+    var analytics: ActionAnalyticsConfig? {
+        return nil
+    }
     
     init(uuid: UUID, delegate: ListViewDelegate?) {
         self.uuid = uuid

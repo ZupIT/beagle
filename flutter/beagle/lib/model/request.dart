@@ -18,8 +18,8 @@
 import 'package:flutter_js/extensions/xhr.dart';
 
 class Request {
-  Request(
-      this.url, HttpMethod method, Map<String, String> headers, String body) {
+  Request(this.url,
+      {HttpMethod method, Map<String, String> headers, String body}) {
     this.method = method ?? HttpMethod.get;
     this.headers = headers ?? {};
     this.body = body ?? '';
