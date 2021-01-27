@@ -73,7 +73,7 @@ class ListViewTest : BaseComponentTest() {
         super.setUp()
 
         deprecatedListView = ListView(children, ListDirection.VERTICAL)
-        listView = ListView(ListDirection.VERTICAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key, isScrollIndicatorVisible = true)
+        listView = ListView(ListDirection.VERTICAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key)
 
         every { beagleFlexView.addView(any()) } just Runs
         every { anyConstructed<ViewFactory>().makeRecyclerView(rootView.getContext()) } returns recyclerView
