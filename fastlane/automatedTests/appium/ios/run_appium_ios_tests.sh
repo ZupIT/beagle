@@ -21,7 +21,7 @@ set -e
 APPIUM_PROJECT_DIR=tests/appium/project
 
 APP_FILE=$(find ~/Library/Developer/Xcode/DerivedData -name AppiumApp.app \ 
- | grep Build/Products/Debug-iphonesimulator/AppiumApp.app) &&
+ | grep Build/Products/Debug-iphonesimulator/AppiumApp.app)
 
 if [ -z "$APP_FILE" ]; then
    echo "app file not found!"
