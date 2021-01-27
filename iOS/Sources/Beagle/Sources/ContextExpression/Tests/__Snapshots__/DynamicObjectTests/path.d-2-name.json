@@ -1,0 +1,23 @@
+{
+  "path" : "d[2].name",
+  "result" : {
+    "a" : "default",
+    "c" : [
+      1,
+      2
+    ],
+    "d" : [
+      {
+        "code" : "123",
+        "name" : "John"
+      },
+      {
+        "code" : "321",
+        "name" : "Doe"
+      },
+      {
+        "name" : "UPDATED"
+      }
+    ]
+  }
+}
