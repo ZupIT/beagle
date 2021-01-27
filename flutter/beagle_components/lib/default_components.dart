@@ -16,7 +16,9 @@
  */
 
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
+import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +27,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'custom:loading': (element, _, __) =>
       Text('Loading...', key: element.getKey()),
   'custom:error': (element, _, __) => Text('Error!', key: element.getKey()),
-  'beagle:text': (element, _, __) =>
-      Text(element.getAttributeValue('text'), key: element.getKey()),
+  'beagle:text': beagleTextBuilder(),
   'beagle:container': (element, children, _) =>
       Container(key: element.getKey(), child: Column(children: children)),
   'beagle:textInput': (element, _, __) => BeagleTextInput(
@@ -56,3 +57,15 @@ final Map<String, ComponentBuilder> defaultComponents = {
         child: children.isEmpty ? null : children[0]);
   }
 };
+
+ComponentBuilder beagleTextBuilder() {
+  return (element, _, __) => BeagleText(
+        key: element.getKey(),
+        text: element.getAttributeValue('text'),
+        textColor: element.getAttributeValue('textColor'),
+        alignment: EnumUtils.fromString(
+          TextAlignment.values,
+          element.getAttributeValue('alignment') ?? '',
+        ),
+      );
+}
