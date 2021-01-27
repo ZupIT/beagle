@@ -84,7 +84,9 @@ internal class ViewFactory {
 
     fun makeBeagleRecyclerView(context: Context) = BeagleRecyclerView(context)
 
-    fun makeBeagleRecyclerViewScrollIndicatorHorizontal(context: Context) = BeagleRecyclerView(ContextThemeWrapper(context, R.style.scrollIndicatorHorizontal))
+    fun makeBeagleRecyclerViewScrollIndicatorHorizontal(context: Context) =
+        BeagleRecyclerView(ContextThemeWrapper(context, R.style.scrollIndicatorHorizontal))
 
-    fun makeBeagleRecyclerViewScrollIndicatorVertical(context: Context) = BeagleRecyclerView(ContextThemeWrapper(context, R.style.scrollIndicatorVertical))
+    fun makeBeagleRecyclerViewScrollIndicatorVertical(context: Context) =
+        BeagleRecyclerView(ContextThemeWrapper(context, R.style.scrollIndicatorVertical))
 }

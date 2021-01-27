@@ -214,10 +214,10 @@ constructor(
 
     private fun generateRecyclerView(orientation: Int): BeagleRecyclerView =
         if (isScrollIndicatorVisible) {
-        generateRecyclerViewWithScrollIndicator(orientation)
-    } else {
-        viewFactory.makeBeagleRecyclerView(rootView.getContext())
-    }
+            generateRecyclerViewWithScrollIndicator(orientation)
+        } else {
+            viewFactory.makeBeagleRecyclerView(rootView.getContext())
+        }
 
 
     private fun generateRecyclerViewWithScrollIndicator(orientation: Int): BeagleRecyclerView =
