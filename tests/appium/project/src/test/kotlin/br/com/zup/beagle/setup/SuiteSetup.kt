@@ -109,6 +109,7 @@ object SuiteSetup {
                 capabilities.setCapability("build", "Kotlin Android")
                 capabilities.setCapability("name", "Beagle Appium tests on Android")
                 capabilities.setCapability("browserstack.networkLogs", true)
+
                 driver = AndroidDriver<AndroidElement>(
                     URL("http://hub.browserstack.com/wd/hub"), capabilities
                 )
@@ -170,8 +171,11 @@ object SuiteSetup {
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion)
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName)
             capabilities.setCapability(MobileCapabilityType.APP, appFile)
-
             capabilities.setCapability("waitForQuiescence", false)
+
+            println("#### Initializing driver with the following capabilities: " +
+                    "platformVersion = $platformVersion" +
+                    "deviceName = $deviceName")
 
             driver = IOSDriver<MobileElement>(URL(APPIUM_URL), capabilities)
         }
