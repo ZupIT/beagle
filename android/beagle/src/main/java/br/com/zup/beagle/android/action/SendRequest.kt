@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
@@ -30,6 +29,8 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * Enum with HTTP methods.
@@ -78,11 +79,12 @@ enum class RequestActionMethod {
  * @param onError  Error action.
  * @param onFinish Finish action.
  */
+@BeagleJson
 data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
     val headers: Bind<Map<String, String>>? = null,
-    @property:ContextDataValue
+    @ContextDataValue
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
@@ -97,7 +99,8 @@ data class SendRequest(
         data: Any? = null,
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
-        onFinish: List<Action>? = null
+        onFinish: List<Action>? = null,
+        analytics: ActionAnalyticsConfig? = null
     ) : this(
         expressionOrValueOf(url),
         valueOf(method),
@@ -105,7 +108,8 @@ data class SendRequest(
         data,
         onSuccess,
         onError,
-        onFinish
+        onFinish,
+        analytics
     )
 
     override fun execute(rootView: RootView, origin: View) {
@@ -171,5 +175,5 @@ internal data class SendRequestInternal(
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
-    val onFinish: List<Action>? = null
+    val onFinish: List<Action>? = null,
 )

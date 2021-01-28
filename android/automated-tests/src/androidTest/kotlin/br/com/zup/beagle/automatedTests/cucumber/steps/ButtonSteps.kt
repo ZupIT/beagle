@@ -70,6 +70,11 @@ class ButtonScreen {
             .sleep(2)
     }
 
+    @Then("the alert with message (.*) should not appear")
+    fun checkAlertMessage(message :String) {
+        ScreenRobot().checkViewDoesNotContainsText(message)
+    }
+
     @After("@button")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()

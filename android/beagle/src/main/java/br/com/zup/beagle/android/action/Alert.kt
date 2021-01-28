@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * This action will show dialogues natively, such as an error alert indicating alternative flows, business system
@@ -36,6 +37,8 @@ import br.com.zup.beagle.android.widget.RootView
  * @param onPressOk define action of button positive in dialog.
  *
  */
+
+@BeagleJson
 data class Alert(
     val title: Bind<String>? = null,
     val message: Bind<String>,
@@ -48,12 +51,14 @@ data class Alert(
         title: String? = null,
         message: String,
         onPressOk: Action? = null,
-        labelOk: String? = null
+        labelOk: String? = null,
+        analytics: ActionAnalyticsConfig? = null
     ) : this(
         title = expressionOrValueOfNullable(title),
         message = expressionOrValueOf(message),
         onPressOk = onPressOk,
-        labelOk = labelOk
+        labelOk = labelOk,
+        analytics = analytics
     )
 
     @Transient

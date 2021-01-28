@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.testutil
 
+import br.com.zup.beagle.android.data.serializer.adapter.BeagleKotlinJsonAdapterFactory
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -36,7 +37,7 @@ object IoUtils {
 
     inline fun <reified T> getDataListFromJson(jsonFileString: String): List<T> {
         val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
+            .add(BeagleKotlinJsonAdapterFactory())
             .build()
         val type: Type = Types.newParameterizedType(MutableList::class.java, T::class.java)
         val adapter: JsonAdapter<List<T>> = moshi.adapter(type)

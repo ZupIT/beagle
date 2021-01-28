@@ -21,6 +21,8 @@ package br.com.zup.beagle.core
  * @property accessibility attribute will enable a textual information to explain
  * the view content in case a screen reader is use
  */
+
+@BeagleJson
 interface AccessibilityComponent: ServerDrivenComponent {
     val accessibility: Accessibility?
 }

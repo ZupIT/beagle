@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Configures the error messages returned by a service external to the application.
@@ -32,6 +33,7 @@ import br.com.zup.beagle.android.widget.RootView
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 internal class FormValidation(
     val errors: List<FieldError>,
     override var analytics: ActionAnalyticsConfig? = null
@@ -59,7 +61,8 @@ internal class FormValidation(
  * @param message The error message displayed.
  *
  */
+@BeagleJson
 data class FieldError(
     val inputName: String,
-    val message: String
+    val message: String,
 )

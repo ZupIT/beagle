@@ -34,19 +34,19 @@ import br.com.zup.beagle.annotation.RegisterWidget
  * @param numberOfPages Numbers of pages that will contain.
  * @param currentPage Integer number that identifies that selected
  */
-@RegisterWidget
+@RegisterWidget("pageIndicator")
 class PageIndicator(
     val selectedColor: String,
     val unselectedColor: String,
     var numberOfPages: Int? = null,
-    var currentPage: Bind<Int>? = null
+    var currentPage: Bind<Int>? = null,
 ) : WidgetView(), PageIndicatorComponent {
 
     constructor(
         selectedColor: String,
         unselectedColor: String,
         numberOfPages: Int? = null,
-        currentPage: Int
+        currentPage: Int,
     ) : this(selectedColor, unselectedColor, numberOfPages, valueOf(currentPage))
 
     @Transient

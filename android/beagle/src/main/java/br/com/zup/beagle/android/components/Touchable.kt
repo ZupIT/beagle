@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -36,10 +37,11 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param clickAnalyticsEvent define the event will triggered when click
  *
  */
+@BeagleJson
 data class Touchable(
     val onPress: List<Action>,
     override val child: ServerDrivenComponent,
-    val clickAnalyticsEvent: ClickEvent? = null
+    val clickAnalyticsEvent: ClickEvent? = null,
 ) : ViewConvertable, GhostComponent {
 
     @Transient
