@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.core.BeagleJson
+
 /**
  *
  * The flex is a Layout component that will handle your visual component positioning at the screen.
@@ -42,6 +44,8 @@ package br.com.zup.beagle.widget.core
  *              the total size of the children overflow the size of the container on the main axis.
  *
  */
+
+@BeagleJson
 data class Flex(
     val flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
     val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
@@ -52,7 +56,7 @@ data class Flex(
     val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
     val flex: Double? = null, /* = 0.0 */
     val grow: Double? = null, /* = 0.0 */
-    val shrink: Double? = null /* = 1.0 */
+    val shrink: Double? = null, /* = 1.0 */
 )
 
 /**
@@ -68,6 +72,7 @@ data class Flex(
  * @param aspectRatio defined as the ratio between the width and the height of a node.
  *
  */
+@BeagleJson
 data class Size(
     val width: UnitValue? = null,
     val height: UnitValue? = null,
@@ -75,7 +80,7 @@ data class Size(
     val maxHeight: UnitValue? = null,
     val minWidth: UnitValue? = null,
     val minHeight: UnitValue? = null,
-    val aspectRatio: Double? = null
+    val aspectRatio: Double? = null,
 )
 
 /**
@@ -104,6 +109,7 @@ data class Size(
  *               specify the offset the all edge of the item should have from
  *               it’s closest sibling (item) or parent (container).
  */
+@BeagleJson
 data class EdgeValue(
     val left: UnitValue? = null,
     val top: UnitValue? = null,
@@ -111,7 +117,7 @@ data class EdgeValue(
     val bottom: UnitValue? = null,
     val horizontal: UnitValue? = null,
     val vertical: UnitValue? = null,
-    val all: UnitValue? = null
+    val all: UnitValue? = null,
 )
 
 /**
@@ -123,6 +129,7 @@ data class EdgeValue(
  * @property COLUMN_REVERSE
  * @property ROW_REVERSE
  */
+@BeagleJson
 enum class FlexDirection {
     /**
      * Align children from top to bottom. If wrapping is enabled,
@@ -159,6 +166,7 @@ enum class FlexDirection {
  * @property WRAP
  * @property WRAP_REVERSE
  */
+@BeagleJson
 enum class FlexWrap {
     /**
      *  The flex items are laid out in a single line which may cause the flex container to overflow.
@@ -194,6 +202,8 @@ enum class FlexWrap {
  *
  *
  */
+
+@BeagleJson
 enum class JustifyContent {
     /**
      * Align children of a container to the start of the container's main axis.
@@ -245,6 +255,7 @@ enum class JustifyContent {
  * @property SPACE_AROUND
  * @property STRETCH
  */
+@BeagleJson
 enum class AlignContent {
     /**
      * Align wrapped lines to the start of the container's cross axis.
@@ -293,6 +304,7 @@ enum class AlignContent {
  * @property AUTO
  * @property STRETCH
  */
+@BeagleJson
 enum class AlignSelf {
     /**
      * Align wrapped lines to the start of the container's cross axis.
@@ -337,6 +349,7 @@ enum class AlignSelf {
  * @property BASELINE
  * @property STRETCH
  */
+@BeagleJson
 enum class AlignItems {
     /**
      * Align wrapped lines to the start of the container's cross axis.

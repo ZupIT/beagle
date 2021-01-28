@@ -29,7 +29,7 @@ interface AnalyticsProvider {
 
     /**
      * This function is called to record the reports.
-     * @attribute record is an AnalyticsRecord generated when a screen is loaded or a action is executed
+     * @param record is an AnalyticsRecord generated when a screen is loaded or a action is executed
      * according the config passing on getConfig function.
     */
     fun createRecord(record: AnalyticsRecord)

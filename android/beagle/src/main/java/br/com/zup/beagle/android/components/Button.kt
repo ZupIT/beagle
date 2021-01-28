@@ -21,6 +21,7 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
@@ -40,24 +41,27 @@ import br.com.zup.beagle.annotation.RegisterWidget
  * @param clickAnalyticsEvent attribute to define click event name
  *
  */
-@RegisterWidget
+@RegisterWidget("button")
 data class Button(
     val text: Bind<String>,
     val styleId: String? = null,
     val onPress: List<Action>? = null,
-    val clickAnalyticsEvent: ClickEvent? = null
+    val clickAnalyticsEvent: ClickEvent? = null,
+    val disabled: Bind<Boolean>? = null,
 ) : WidgetView() {
 
     constructor(
         text: String,
         styleId: String? = null,
         onPress: List<Action>? = null,
-        clickAnalyticsEvent: ClickEvent? = null
+        clickAnalyticsEvent: ClickEvent? = null,
+        disabled: Boolean? = null,
     ) : this(
         expressionOrValueOf(text),
         styleId,
         onPress,
-        clickAnalyticsEvent
+        clickAnalyticsEvent,
+        valueOfNullable(disabled)
     )
 
     @Transient
@@ -82,6 +86,14 @@ data class Button(
             }
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
+            }
+        }
+
+        disabled?.let { bind ->
+            observeBindChanges(rootView, button, bind) {
+                it?.let { disabled ->
+                    button.isEnabled = !disabled
+                }
             }
         }
 

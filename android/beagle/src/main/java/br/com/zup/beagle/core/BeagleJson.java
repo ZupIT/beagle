@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.core;
 
-/**
- * Component that hold the ghost view
- * @property child show the current view
- */
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@BeagleJson
-interface GhostComponent : SingleChildComponent {
-    override val child: ServerDrivenComponent
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+
+@Retention(RUNTIME)
+@Documented
+public @interface BeagleJson {
+    String name() default "";;
 }

@@ -333,7 +333,6 @@ abstract class BeagleActivity : AppCompatActivity() {
 
     private fun showScreen(screenName: String?, component: ServerDrivenComponent, isLocalScreen : Boolean) {
         val transition = getFragmentTransitionAnimation()
-
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(

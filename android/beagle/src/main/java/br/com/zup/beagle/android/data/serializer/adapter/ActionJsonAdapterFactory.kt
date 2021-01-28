@@ -30,9 +30,7 @@ import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
-import java.util.Locale
-
-private const val BEAGLE_NAMESPACE = "beagle"
+import br.com.zup.beagle.android.data.serializer.generateNameSpaceToDefaultAction
 
 @Deprecated(message = "It was deprecated in version 1.0.0 and will be removed in a future version. " +
     "Use AndroidActionJsonAdapterFactory instead.",
@@ -42,30 +40,32 @@ internal object ActionJsonAdapterFactory {
     fun make(factory: PolymorphicJsonAdapterFactory<Action>): PolymorphicJsonAdapterFactory<Action> {
         return factory
             .withDefaultValue(UndefinedAction())
-            .withSubtype(UndefinedAction::class.java, createNamespaceFor<UndefinedAction>())
-            .withSubtype(FormRemoteAction::class.java, createNamespaceFor<FormRemoteAction>())
-            .withSubtype(FormLocalAction::class.java, createNamespaceFor<FormLocalAction>())
-            .withSubtype(FormValidation::class.java, createNamespaceFor<FormValidation>())
-            .withSubtype(Alert::class.java, createNamespaceFor<Alert>())
-            .withSubtype(Confirm::class.java, createNamespaceFor<Confirm>())
-            .withSubtype(Navigate.OpenExternalURL::class.java, createNamespaceFor<Navigate.OpenExternalURL>())
-            .withSubtype(Navigate.OpenNativeRoute::class.java, createNamespaceFor<Navigate.OpenNativeRoute>())
-            .withSubtype(Navigate.PushStack::class.java, createNamespaceFor<Navigate.PushStack>())
-            .withSubtype(Navigate.PopStack::class.java, createNamespaceFor<Navigate.PopStack>())
-            .withSubtype(Navigate.PushView::class.java, createNamespaceFor<Navigate.PushView>())
-            .withSubtype(Navigate.PopView::class.java, createNamespaceFor<Navigate.PopView>())
-            .withSubtype(Navigate.PopToView::class.java, createNamespaceFor<Navigate.PopToView>())
-            .withSubtype(Navigate.ResetApplication::class.java, createNamespaceFor<Navigate.ResetApplication>())
-            .withSubtype(Navigate.ResetStack::class.java, createNamespaceFor<Navigate.ResetStack>())
-            .withSubtype(SendRequest::class.java, createNamespaceFor<SendRequest>())
-            .withSubtype(SetContext::class.java, createNamespaceFor<SetContext>())
-            .withSubtype(SubmitForm::class.java, createNamespaceFor<SubmitForm>())
-            .withSubtype(AddChildren::class.java, createNamespaceFor<AddChildren>())
-            .withSubtype(Condition::class.java, createNamespaceFor<Condition>())
-
+            .withSubtype(UndefinedAction::class.java, createNamespaceFor<UndefinedAction>("undefinedAction"))
+            .withSubtype(FormRemoteAction::class.java, createNamespaceFor<FormRemoteAction>("formRemoteAction"))
+            .withSubtype(FormLocalAction::class.java, createNamespaceFor<FormLocalAction>("formLocalAction"))
+            .withSubtype(FormValidation::class.java, createNamespaceFor<FormValidation>("formValidation"))
+            .withSubtype(Alert::class.java, createNamespaceFor<Alert>("alert"))
+            .withSubtype(Confirm::class.java, createNamespaceFor<Confirm>("confirm"))
+            .withSubtype(Navigate.OpenExternalURL::class.java,
+                createNamespaceFor<Navigate.OpenExternalURL>("openExternalURL"))
+            .withSubtype(Navigate.OpenNativeRoute::class.java,
+                createNamespaceFor<Navigate.OpenNativeRoute>("openNativeRoute"))
+            .withSubtype(Navigate.PushStack::class.java, createNamespaceFor<Navigate.PushStack>("pushStack"))
+            .withSubtype(Navigate.PopStack::class.java, createNamespaceFor<Navigate.PopStack>("popStack"))
+            .withSubtype(Navigate.PushView::class.java, createNamespaceFor<Navigate.PushView>("pushView"))
+            .withSubtype(Navigate.PopView::class.java, createNamespaceFor<Navigate.PopView>("popView"))
+            .withSubtype(Navigate.PopToView::class.java, createNamespaceFor<Navigate.PopToView>("popToView"))
+            .withSubtype(Navigate.ResetApplication::class.java,
+                createNamespaceFor<Navigate.ResetApplication>("resetApplication"))
+            .withSubtype(Navigate.ResetStack::class.java, createNamespaceFor<Navigate.ResetStack>("resetStack"))
+            .withSubtype(SendRequest::class.java, createNamespaceFor<SendRequest>("sendRequest"))
+            .withSubtype(SetContext::class.java, createNamespaceFor<SetContext>("setContext"))
+            .withSubtype(SubmitForm::class.java, createNamespaceFor<SubmitForm>("submitForm"))
+            .withSubtype(AddChildren::class.java, createNamespaceFor<AddChildren>("addChildren"))
+            .withSubtype(Condition::class.java, createNamespaceFor<Condition>("condition"))
     }
 
-    private inline fun <reified T : Action> createNamespaceFor(): String {
-        return "$BEAGLE_NAMESPACE:${T::class.java.simpleName.toLowerCase(Locale.getDefault())}"
+    private inline fun <reified T : Action> createNamespaceFor(name: String): String {
+        return generateNameSpaceToDefaultAction(T::class.java, name)
     }
 }

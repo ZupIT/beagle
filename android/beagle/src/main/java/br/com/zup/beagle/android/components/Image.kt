@@ -31,8 +31,8 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.widget.core.ImageContentMode
-
 
 /**
  * Define an image view using the server driven information received through Beagle.
@@ -40,10 +40,10 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  * @param path defines where the source of the image is
  * @param mode defines how the declared image will fit the view.
  */
-@RegisterWidget
+@RegisterWidget("image")
 data class Image constructor(
     val path: Bind<ImagePath>,
-    val mode: ImageContentMode? = null
+    val mode: ImageContentMode? = null,
 ) : WidgetView() {
 
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
@@ -115,13 +115,18 @@ data class Image constructor(
 /**
  * Define the source of image data to populate the image view.
  * */
+
+@BeagleJson
 sealed class ImagePath {
     /**
      * Define an image whose data is local to the client app.
      *
      * @param mobileId reference an image natively in your mobile app local styles file.
      * */
-    data class Local(val mobileId: Bind<String>) : ImagePath() {
+    @BeagleJson
+    data class Local(
+        val mobileId: Bind<String>,
+    ) : ImagePath() {
         constructor(mobileId: String) : this(expressionOrValueOf(mobileId))
     }
 
@@ -131,7 +136,11 @@ sealed class ImagePath {
      * @param url reference the path where the image should be fetched from.
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
-    data class Remote(val url: Bind<String>, val placeholder: Local? = null) : ImagePath() {
+    @BeagleJson
+    data class Remote(
+        val url: Bind<String>,
+        val placeholder: Local? = null,
+    ) : ImagePath() {
         constructor(url: String, placeholder: Local? = null) : this(expressionOrValueOf(url), placeholder)
     }
 }
