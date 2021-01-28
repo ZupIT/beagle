@@ -21,8 +21,8 @@ import UIKit
 extension Action {
 
     func getSomeAttributes(_ attributes: [String], contextProvider: UIView) -> [String: Any] {
-        let dynamicObject = asDynamicObject()
-
+        let dynamicObject = asDynamicObject().evaluate(with: contextProvider)
+        
         var values = [String: Any]()
         attributes.forEach { attribute in
             guard let path = pathForAttribute(attribute) else { return }

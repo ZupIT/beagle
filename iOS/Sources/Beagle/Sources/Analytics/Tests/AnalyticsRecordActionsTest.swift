@@ -66,7 +66,7 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
             id: "context",
             value: [
                 "query": "beagle",
-                "remoteRoute": "result of @{context.remoteRoute}",
+                "remoteRoute": "some other value -> @{context.headers.pi}",
                 "method": "GET",
                 "headers": [
                     "platform": "beagle-ios",

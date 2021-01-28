@@ -16,55 +16,33 @@
 
 import UIKit
 
-extension DynamicObject {
-    public func evaluate(with view: UIView) -> DynamicObject {
-        switch self {
-        case .empty, .bool, .int, .double, .string:
-            return self
-            
-        case let .array(array):
-            return .array(array.map { $0.evaluate(with: view) })
-        case let .dictionary(dictionary):
-            return .dictionary(dictionary.mapValues { $0.evaluate(with: view) })
-        case let .expression(expression):
-            let dynamicObject: DynamicObject? = view.evaluate(for: expression)
-            return dynamicObject ?? .empty
-        }
-    }
-    
-    @available(*, deprecated, message: "use evaluate(with view: UIView) instead")
-    public func get(with view: UIView) -> DynamicObject {
-        return evaluate(with: view)
-    }
-}
-
 // MARK: ExpressibleByLiteral
 
-extension DynamicObject: ExpressibleByNilLiteral {
+extension DynamicObject: ExpressibleByNilLiteral,
+    ExpressibleByBooleanLiteral,
+    ExpressibleByIntegerLiteral,
+    ExpressibleByFloatLiteral,
+    ExpressibleByStringLiteral,
+    ExpressibleByStringInterpolation,
+    ExpressibleByArrayLiteral,
+    ExpressibleByDictionaryLiteral
+{
     public init(nilLiteral: Void) {
         self = .empty
     }
-}
 
-extension DynamicObject: ExpressibleByBooleanLiteral {
     public init(booleanLiteral value: Bool) {
         self = .bool(value)
     }
-}
 
-extension DynamicObject: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: Int) {
         self = .int(value)
     }
-}
 
-extension DynamicObject: ExpressibleByFloatLiteral {
     public init(floatLiteral value: Double) {
         self = .double(value)
     }
-}
 
-extension DynamicObject: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         if let expression = SingleExpression(rawValue: value) {
             self = .expression(.single(expression))
@@ -74,17 +52,11 @@ extension DynamicObject: ExpressibleByStringLiteral {
             self = .string(value.escapeExpressions())
         }
     }
-}
 
-extension DynamicObject: ExpressibleByStringInterpolation {}
-
-extension DynamicObject: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: DynamicObject...) {
         self = .array(elements)
     }
-}
 
-extension DynamicObject: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, DynamicObject)...) {
         var dictionary: [String: DynamicObject] = [:]
         elements.forEach { dictionary[$0.0] = $0.1 }
@@ -92,40 +64,19 @@ extension DynamicObject: ExpressibleByDictionaryLiteral {
     }
 }
 
-// MARK: Evaluate Path
+// MARK: Accessing value with Path
 
 extension DynamicObject {
-    
+
     subscript(path: Path) -> DynamicObject {
-        var nodes = path.nodes[...]
-        return Self.evaluate(&nodes, self)
-    }
-    
-    private static func evaluate(_ expression: inout ArraySlice<Path.Node>, _ model: DynamicObject) -> DynamicObject {
-        guard let first = expression.first else {
-            return model
+        var current = self
+        for node in path.nodes {
+            current = current.getValueAtNode(node)
         }
-        switch first {
-        case let .key(key):
-            guard case let .dictionary(dictionary) = model, let value = dictionary[key] else {
-                return nil
-            }
-            expression.removeFirst()
-            return evaluate(&expression, value)
 
-        case let .index(index):
-            guard case let .array(array) = model, let value = array[safe: index] else {
-                return nil
-            }
-            expression.removeFirst()
-            return evaluate(&expression, value)
-        }
+        return current
     }
-}
 
-// MARK: Set value with Path
-
-extension DynamicObject {
     func set(_ value: DynamicObject, with path: Path) -> DynamicObject {
         return set(value, with: path.nodes[...])
     }
@@ -145,6 +96,7 @@ extension DynamicObject {
                 return .dictionary(dictionary)
             }
             return .dictionary([key: DynamicObject.empty.set(value, with: newPath)])
+
         case let .index(index):
             if case var .array(array) = self {
                 if let old = array[safe: index] {
@@ -158,6 +110,18 @@ extension DynamicObject {
             var newArray = dynamicArray(count: index + 1)
             newArray[index] = DynamicObject.empty.set(value, with: newPath)
             return .array(newArray)
+        }
+    }
+
+    private func getValueAtNode(_ node: Path.Node) -> DynamicObject {
+        switch node {
+        case let .key(key):
+            guard case let .dictionary(dictionary) = self, let value = dictionary[key] else { return .empty }
+            return value
+            
+        case let .index(index):
+            guard case let .array(array) = self, let value = array[safe: index] else { return .empty }
+            return value
         }
     }
     

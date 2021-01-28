@@ -8,6 +8,7 @@
     },
     "type" : "custom:analyticstestcomponent"
   },
+  "headers.platform" : "beagle-ios",
   "method" : "GET",
   "platform" : "ios",
   "screen" : "analytics-actions",

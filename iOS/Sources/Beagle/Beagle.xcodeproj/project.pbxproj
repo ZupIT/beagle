@@ -34,6 +34,7 @@
 		3DB1BF7C25B0F544008248C6 /* ActionAnalyticsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */; };
 		3DB1BF8225B0FC53008248C6 /* ActionAnalyticsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */; };
 		3DB1BF8D25B1E9B2008248C6 /* AnalyticsRecordActionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8C25B1E9B1008248C6 /* AnalyticsRecordActionsTest.swift */; };
+		3DE35AE625BF62AD009A93B6 /* Evaluate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE35AE525BF62AD009A93B6 /* Evaluate.swift */; };
 		5744D121251E6868003638F4 /* DynamicObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744D120251E6868003638F4 /* DynamicObjectExtension.swift */; };
 		576A4D17249BFC09002EADFD /* ImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 57D6F0FD249985D600A422E3 /* ImageComponent.json */; };
 		576F61052487004900273BA0 /* ContextObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576F61042487004900273BA0 /* ContextObserver.swift */; };
@@ -386,6 +387,7 @@
 		3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfig.swift; sourceTree = "<group>"; };
 		3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfigTests.swift; sourceTree = "<group>"; };
 		3DB1BF8C25B1E9B1008248C6 /* AnalyticsRecordActionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsRecordActionsTest.swift; sourceTree = "<group>"; };
+		3DE35AE525BF62AD009A93B6 /* Evaluate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluate.swift; sourceTree = "<group>"; };
 		5744D120251E6868003638F4 /* DynamicObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DynamicObjectExtension.swift; path = ../../../../../../Test/DynamicObjectExtension.swift; sourceTree = "<group>"; };
 		576F61042487004900273BA0 /* ContextObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextObserver.swift; sourceTree = "<group>"; };
 		57A8097E243CF44A0034D180 /* CacheReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheReference.swift; sourceTree = "<group>"; };
@@ -899,12 +901,13 @@
 		935278F0249970E300AB9D1F /* ContextExpression */ = {
 			isa = PBXGroup;
 			children = (
-				9398CB11255592CE0003A010 /* Expression */,
 				9398CA47255325190003A010 /* Context.swift */,
 				9398CA49255325190003A010 /* DynamicObject.swift */,
 				935278F52499728400AB9D1F /* DynamicObject+Extensions.swift */,
+				3DE35AE525BF62AD009A93B6 /* Evaluate.swift */,
 				2539A44E24C61C0D00B8FA92 /* GlobalContext.swift */,
 				57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */,
+				9398CB11255592CE0003A010 /* Expression */,
 				935278F92499755000AB9D1F /* Tests */,
 			);
 			path = ContextExpression;
@@ -2486,6 +2489,7 @@
 				9398CA5E2553294E0003A010 /* Button.swift in Sources */,
 				9398CA6225532A150003A010 /* ScrollView.swift in Sources */,
 				9398CAB2255427C10003A010 /* AutoDecodable.generated.swift in Sources */,
+				3DE35AE625BF62AD009A93B6 /* Evaluate.swift in Sources */,
 				9398CA9E255338AD0003A010 /* Events.swift in Sources */,
 				9398CA7D25532ECD0003A010 /* NavigationBar.swift in Sources */,
 				C08D4E2024857B5100AAAC0A /* ScreenComponent+Extensions.swift in Sources */,
