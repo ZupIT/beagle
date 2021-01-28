@@ -422,7 +422,7 @@ internal class BeagleMessageLogsTest {
         }
     }
 
-    @DisplayName("When can not get property value")
+    @DisplayName("When cannot get property value")
     @Nested
     inner class CanNotGetPropertyValue{
 
@@ -431,14 +431,13 @@ internal class BeagleMessageLogsTest {
         fun testCanNotGetPropertyValue(){
             //given
             val propertyName = "property"
-            val expectedMessage = "Can not get some attributes of property $propertyName."
+            val expectedMessage = "Cannot get some attributes of property $propertyName."
 
             //when
             BeagleMessageLogs.canNotGetPropertyValue(propertyName)
 
             //then
             verify(exactly = 1) { BeagleLoggerProxy.warning(expectedMessage) }
-
         }
     }
 }
