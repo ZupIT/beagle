@@ -89,7 +89,9 @@ jobs:
                 run: |  
                      set -e
                      echo "##### List of iOS Devices & Platforms:" 
-                     xcrun simctl list  
+                     xcrun simctl list
+                     echo "##### Installing simulator"
+                     gem sources --add https://rubygems.org/
                      gem install xcode-install xcversion simulators --install='iOS 13.5'      
             
             -   name: Create and Run iOS Emulator        
