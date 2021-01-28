@@ -70,7 +70,7 @@ class AnalyticsGenerator {
         let additional = analytics?.additionalEntries ?? [:]
 
         [
-            info.action.getSomeAttributes(attributes, contextProvider: info.origin),
+            info.action.getSomeAttributes(.some(attributes), contextProvider: info.origin),
             makeAdditionalEntries(additional)
         ].forEach {
             values.merge($0) { _, new in new }

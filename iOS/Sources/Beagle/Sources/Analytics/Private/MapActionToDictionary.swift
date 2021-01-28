@@ -20,14 +20,27 @@ import UIKit
 
 extension Action {
 
-    func getSomeAttributes(_ attributes: [String], contextProvider: UIView) -> [String: Any] {
+    func getSomeAttributes(_ attributes: ActionAttributes, contextProvider: UIView) -> [String: DynamicObject] {
         let dynamicObject = asDynamicObject().evaluate(with: contextProvider)
-        
-        var values = [String: Any]()
+
+        switch attributes {
+        case .some(let some):
+            return getSomeAttributes(some, of: dynamicObject, contextProvider: contextProvider)
+
+        case .all:
+            guard case .dictionary(let dict) = dynamicObject else {
+                assertionFailure("this should not happen since an Action will always be mapped to DynamicObject.dictionary"); return .init()
+            }
+            return dict
+        }
+    }
+
+    func getSomeAttributes(_ attributes: [String], of object: DynamicObject, contextProvider: UIView) -> [String: DynamicObject] {
+        var values = [String: DynamicObject]()
         attributes.forEach { attribute in
             guard let path = pathForAttribute(attribute) else { return }
 
-            let value = dynamicObject[path].evaluate(with: contextProvider)
+            let value = object[path].evaluate(with: contextProvider)
             guard value != .empty else { return }
             values[attribute] = value
         }
@@ -106,6 +119,11 @@ extension Action {
 
         return [String: Any](uniqueKeysWithValues: allAttributes)
     }
+}
+
+internal enum ActionAttributes {
+    case all
+    case some([String])
 }
 
 private enum SpecificTypeResult {
