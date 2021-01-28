@@ -33,63 +33,11 @@ object NewAnalyticsScreenBuilder {
         child = Container(
             listOf(
                 Text("Analytics 2.0"),
-                Button(
-                    text = "Alert with no specific analytics configuration",
-                    onPress = listOf(
-                        Alert(
-                            title = "Alert Title",
-                            message = "AlertMessage",
-                            onPressOk = nativeNavigation()
-                        )
-                    )
-                ),
-                Button(
-                    text = "Confirm with analytics local configuration",
-                    onPress = listOf(
-                        Confirm(
-                            analytics = ActionAnalyticsConfig.Enabled(),
-                            title = "Confirm Title",
-                            message = "Confirm Message",
-                            labelOk = "Accept",
-                            labelCancel = "cancel",
-                            onPressOk = nativeNavigation()
-                        )
-                    )
-                ).apply {
-                    id = "_beagle_5"
-                },
-                Button(
-                    text = "Alert with remote analytics configuration",
-                    onPress = listOf(
-                        Alert(
-                            analytics = ActionAnalyticsConfig.Enabled(ActionAnalyticsProperties(attributes = listOf("message"))),
-                            title = "Alert Title",
-                            message = "AlertMessage",
-                            onPressOk = nativeNavigation()
-                        )
-                    )
-                ).apply {
-                    id = "_beagle_6"
-                },
-                Button(
-                    text = "Confirm with disabled analytics configuration",
-                    onPress = listOf(
-                        Confirm(
-                            analytics = ActionAnalyticsConfig.Disabled(),
-                            title = "Confirm Title",
-                            message = "Confirm Message",
-                            labelOk = "Accept",
-                            labelCancel = "cancel",
-                            onPressOk = nativeNavigation()
-                        )
-                    )
-                ),
-                Button(
-                    text = "navigateToPage",
-                    onPress = listOf(
-                        Navigate.PushView(Route.Remote(NEW_ANALYTICS_NAVIGATE_ENDPOINT, true))
-                    )
-                )
+                noSpecificAnalyticsButton(),
+                analyticsLocalConfigurationButton(),
+                remoteAnalyticsConfigurationButton(),
+                disabledAnalyticsConfigurationButton(),
+                navigateToPageButton()
             )
         )
     )
@@ -98,5 +46,69 @@ object NewAnalyticsScreenBuilder {
         analytics = ActionAnalyticsConfig.Disabled(),
         route = "screen-analytics-link",
         shouldResetApplication = true
+    )
+
+    private fun noSpecificAnalyticsButton() = Button(
+        text = "Alert with no specific analytics configuration",
+        onPress = listOf(
+            Alert(
+                title = "Alert Title",
+                message = "AlertMessage",
+                onPressOk = nativeNavigation()
+            )
+        )
+    )
+
+    private fun analyticsLocalConfigurationButton() = Button(
+        text = "Confirm with analytics local configuration",
+        onPress = listOf(
+            Confirm(
+                analytics = ActionAnalyticsConfig.Enabled(),
+                title = "Confirm Title",
+                message = "Confirm Message",
+                labelOk = "Accept",
+                labelCancel = "cancel",
+                onPressOk = nativeNavigation()
+            )
+        )
+    ).apply {
+        id = "_beagle_5"
+    }
+
+    private fun remoteAnalyticsConfigurationButton() = Button(
+        text = "Alert with remote analytics configuration",
+        onPress = listOf(
+            Alert(
+                analytics = ActionAnalyticsConfig.Enabled(
+                    ActionAnalyticsProperties(attributes = listOf("message"))
+                ),
+                title = "Alert Title",
+                message = "AlertMessage",
+                onPressOk = nativeNavigation()
+            )
+        )
+    ).apply {
+        id = "_beagle_6"
+    }
+
+    private fun disabledAnalyticsConfigurationButton() = Button(
+        text = "Confirm with disabled analytics configuration",
+        onPress = listOf(
+            Confirm(
+                analytics = ActionAnalyticsConfig.Disabled(),
+                title = "Confirm Title",
+                message = "Confirm Message",
+                labelOk = "Accept",
+                labelCancel = "cancel",
+                onPressOk = nativeNavigation()
+            )
+        )
+    )
+
+    private fun navigateToPageButton() =  Button(
+        text = "navigateToPage",
+        onPress = listOf(
+            Navigate.PushView(Route.Remote(NEW_ANALYTICS_NAVIGATE_ENDPOINT, true))
+        )
     )
 }
