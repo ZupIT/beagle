@@ -218,38 +218,37 @@ public class BeagleScreenViewController: BeagleController {
     fileprivate func updateView(state: ViewModel.State) {
         switch state {
         case .initialized:
-            renderBeagleViewIfNeeded(state: .started)
-        case .loading:
-            renderBeagleViewIfNeeded(state: .started)
             serverDrivenState = .started
+            renderScreenIfNeeded(state: serverDrivenState)
+        case .loading:
+            serverDrivenState = .started
+            renderScreenIfNeeded(state: serverDrivenState)
         case .success:
-            renderBeagleViewIfNeeded(state: .finished)
             serverDrivenState = .finished
+            renderScreenIfNeeded(state: serverDrivenState)
             serverDrivenState = .success
-            renderScreenIfNeeded()
+            renderScreenIfNeeded(state: serverDrivenState)
         case .failure(let error):
-            renderScreenIfNeeded()
-            renderBeagleViewIfNeeded(state: .error(error, viewModel.loadScreen))
             serverDrivenState = .finished
+            renderScreenIfNeeded(state: serverDrivenState)
             serverDrivenState = .error(error, viewModel.loadScreen)
+            renderScreenIfNeeded(state: serverDrivenState)
         }
     }
     
-    private func renderScreenIfNeeded() {
-        if content == nil, let screen = screen {
-            updateNavigationBar(animated: true)
-            content = .view(screen.toView(renderer: renderer))
-        } else if viewModel.beagleViewState != nil, let screen = screen {
+    private func renderScreenIfNeeded(state: ServerDrivenState) {
+        renderBeagleViewIfNeeded(state: state)
+        guard let screen = screen else { return }
+        if content == nil || viewModel.beagleViewState != nil {
             updateNavigationBar(animated: true)
             content = .view(screen.toView(renderer: renderer))
         }
     }
     
     private func renderBeagleViewIfNeeded(state: ServerDrivenState) {
-        if let beagleViewState = viewModel.beagleViewState {
-            let stateView = beagleViewState(state)
-            content = .view(stateView)
-        }
+        guard let beagleViewState = viewModel.beagleViewState else { return }
+        let stateView = beagleViewState(state)
+        content = .view(stateView)
     }
 
     public func reloadScreen(with screenType: ScreenType) {
