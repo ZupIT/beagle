@@ -29,10 +29,10 @@ fi
 
 echo "#### Starting Appium tests ..."
 chmod +x $APPIUM_PROJECT_DIR/gradlew
-if $APPIUM_PROJECT_DIR/gradlew -p $APPIUM_PROJECT_DIR cucumber \ 
--Dplatform=ios \ 
--Dplatform_version='13.5' \ 
--Ddevice_name='iPhone 11' \ 
+if $APPIUM_PROJECT_DIR/gradlew -p $APPIUM_PROJECT_DIR cucumber \
+-Dplatform=ios \
+-Dplatform_version='13.5' \
+-Ddevice_name='iPhone 11' \
 -Dapp_file='$APP_FILE'; then
   echo "Gradle task succeeded" >&2
 else
