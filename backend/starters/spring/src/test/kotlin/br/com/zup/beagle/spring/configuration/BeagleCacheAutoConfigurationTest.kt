@@ -22,7 +22,10 @@ import br.com.zup.beagle.constants.BEAGLE_CACHE_EXCLUDES
 import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
 import br.com.zup.beagle.constants.BEAGLE_CACHE_TTL
 import br.com.zup.beagle.spring.filter.BeagleCacheFilter
+import org.assertj.core.api.Assertions.`as`
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.InstanceOfAssertFactories
+import org.assertj.core.groups.Tuple
 import org.junit.jupiter.api.Test
 import org.springframework.boot.autoconfigure.AutoConfigurations
 import org.springframework.boot.test.context.FilteredClassLoader
@@ -102,10 +105,9 @@ internal class BeagleCacheAutoConfigurationTest {
             validateCacheFilter(it)
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
                 .extracting(propertiesField)
-                .hasFieldOrPropertyWithValue(
-                    includePatternsField,
-                    expected.includePatterns
-                )
+                .extracting(includePatternsField, `as`(InstanceOfAssertFactories.LIST))
+                .extracting({ regex -> (regex as Regex).pattern })
+                .containsAll(expected.includePatterns.map { regex -> Tuple.tuple(regex.pattern) })
         }
     }
 
@@ -116,10 +118,9 @@ internal class BeagleCacheAutoConfigurationTest {
             validateCacheFilter(it)
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
                 .extracting(propertiesField)
-                .hasFieldOrPropertyWithValue(
-                    excludesPatternsField,
-                    expected.excludePatterns
-                )
+                .extracting(excludesPatternsField, `as`(InstanceOfAssertFactories.LIST))
+                .extracting({ regex -> (regex as Regex).pattern })
+                .containsAll(expected.excludePatterns.map { regex -> Tuple.tuple(regex.pattern) })
         }
     }
 
@@ -133,14 +134,14 @@ internal class BeagleCacheAutoConfigurationTest {
             validateCacheFilter(it)
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
                 .extracting(propertiesField)
-                .hasFieldOrPropertyWithValue(
-                    includePatternsField,
-                    expected.includePatterns
-                )
-                .hasFieldOrPropertyWithValue(
-                    excludesPatternsField,
-                    expected.excludePatterns
-                )
+                .extracting(includePatternsField, `as`(InstanceOfAssertFactories.LIST))
+                .extracting({ regex -> (regex as Regex).pattern })
+                .containsAll(expected.includePatterns.map { regex -> Tuple.tuple(regex.pattern) })
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .extracting(propertiesField)
+                .extracting(excludesPatternsField, `as`(InstanceOfAssertFactories.LIST))
+                .extracting({ regex -> (regex as Regex).pattern })
+                .containsAll(expected.excludePatterns.map { regex -> Tuple.tuple(regex.pattern) })
         }
     }
 
