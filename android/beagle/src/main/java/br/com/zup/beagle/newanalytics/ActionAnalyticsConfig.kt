@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.newanalytics
 
+import br.com.zup.beagle.core.BeagleJson
+
 /**
  * This class is used to pass some properties for analytics
  * @param attributes by default is null, but can be a List of String to indicate what attributes of the action will be
@@ -33,6 +35,8 @@ data class ActionAnalyticsProperties(
  * @property value is False, when the analytics is Disabled and can be null or have an ActionAnalyticsProperties
  * when is enabled
  */
+
+@BeagleJson
 sealed class ActionAnalyticsConfig(
     var value: Any? = null
 ) {
