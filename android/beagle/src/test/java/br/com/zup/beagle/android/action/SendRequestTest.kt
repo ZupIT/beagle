@@ -27,8 +27,14 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
 import br.com.zup.beagle.android.view.viewmodel.Response
-import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
+import io.mockk.verifyOrder
 import org.json.JSONObject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -84,7 +90,7 @@ class SendRequestTest : BaseAsyncActionTest() {
                 view,
                 listOf(onSuccessAction),
                 any<ContextData>(),
-                analyticsValue = "onFalse"
+                analyticsValue = "onSuccess"
             )
         }
 
@@ -118,7 +124,7 @@ class SendRequestTest : BaseAsyncActionTest() {
                 view,
                 listOf(onErrorAction),
                 any<ContextData>(),
-                analyticsValue = "onFalse"
+                analyticsValue = "onError"
             )
         }
 

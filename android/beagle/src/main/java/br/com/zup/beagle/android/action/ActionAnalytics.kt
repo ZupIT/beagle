@@ -16,18 +16,18 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * This abstract class represents an Action Analytics on Beagle
  */
-abstract class ActionAnalytics : Action {
+interface ActionAnalytics : Action {
 
     /**
      * This attribute is an ActionAnalyticsConfig.
      * When this attribute is not null, this ActionAnalyticsConfig will override the AnalyticsConfig provided on
      * AnalyticsProvider.
      */
-    abstract var analytics: ActionAnalyticsConfig?
+    var analytics: ActionAnalyticsConfig?
 
 }

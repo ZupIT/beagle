@@ -1,6 +1,6 @@
-package br.com.zup.beagle.appiumapp.config.analytics2
+package br.com.zup.beagle.appiumapp.config.newanalytics
 
-import br.com.zup.beagle.analytics2.AnalyticsRecord
+import br.com.zup.beagle.newanalytics.AnalyticsRecord
 import java.util.ArrayList
 
 object RecordService {

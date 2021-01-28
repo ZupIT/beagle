@@ -63,29 +63,6 @@ class ComponentPropertyAssignerTest : BaseTest() {
         mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
     }
 
-    @Test
-    fun afterBuildView_when_is_widget() {
-        // GIVEN
-        val widgetId = "123"
-        val slotId = slot<Int>()
-
-        every { widget.id } returns widgetId
-        every { view.id = capture(slotId) } just Runs
-        every { view.applyStyle(widget) } just Runs
-        every { view.setTag(R.id.beagle_component_id, any()) } just Runs
-        every { view.setTag(R.id.beagle_component_type, any()) } just Runs
-
-        // WHEN
-        componentPropertyAssigner.apply(view, widget)
-
-        // THEN
-        assertEquals(widgetId.toAndroidId(), slotId.captured)
-        verifyOrder {
-            view.applyStyle(widget)
-            accessibilitySetup.applyAccessibility(view, widget)
-        }
-    }
-
     @DisplayName("When apply")
     @Nested
     inner class Apply {
@@ -129,26 +106,50 @@ class ComponentPropertyAssignerTest : BaseTest() {
             // Then
             assertEquals("custom:text", slotId.captured)
         }
-    }
 
-    @DisplayName("Then should set beagle_component_type tag")
-    @Test
-    fun testComponentNotRegisteredWhenApplyShouldSetBeagleComponentType() {
-        // Given
-        val widgetId = "123"
-        val slotId = slot<String>()
+        @DisplayName("Then should set beagle_component_type tag")
+        @Test
+        fun testComponentNotRegisteredWhenApplyShouldSetBeagleComponentType() {
+            // Given
+            val widgetId = "123"
+            val slotId = slot<String>()
 
-        every { view.setTag(R.id.beagle_component_type, capture(slotId)) } just Runs
-        every { view.id = any() } just Runs
-        every { widget.id } returns widgetId
-        every { view.setTag(R.id.beagle_component_id, any()) } just Runs
-        every { view.applyStyle(widget) } just Runs
+            every { view.setTag(R.id.beagle_component_type, capture(slotId)) } just Runs
+            every { view.id = any() } just Runs
+            every { widget.id } returns widgetId
+            every { view.setTag(R.id.beagle_component_id, any()) } just Runs
+            every { view.applyStyle(widget) } just Runs
 
-        // When
-        componentPropertyAssigner.apply(view, widget)
+            // When
+            componentPropertyAssigner.apply(view, widget)
 
-        // Then
-        assertEquals("beagle:text", slotId.captured)
+            // Then
+            assertEquals("beagle:text", slotId.captured)
+        }
+
+        @DisplayName("Then should apply style and apply accessibility")
+        @Test
+        fun testAfterBuildViewWhenApplyShouldApplyStyleAndAccessibility() {
+            // GIVEN
+            val widgetId = "123"
+            val slotId = slot<Int>()
+
+            every { view.setTag(R.id.beagle_component_type, any()) } just Runs
+            every { view.setTag(R.id.beagle_component_id, any()) } just Runs
+            every { widget.id } returns widgetId
+            every { view.id = capture(slotId) } just Runs
+            every { view.applyStyle(widget) } just Runs
+
+            // WHEN
+            componentPropertyAssigner.apply(view, widget)
+
+            // THEN
+            assertEquals(widgetId.toAndroidId(), slotId.captured)
+            verifyOrder {
+                view.applyStyle(widget)
+                accessibilitySetup.applyAccessibility(view, widget)
+            }
+        }
     }
 }
 

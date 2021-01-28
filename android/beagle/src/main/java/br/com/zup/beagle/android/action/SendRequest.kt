@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
@@ -88,7 +88,7 @@ data class SendRequest(
     val onError: List<Action>? = null,
     val onFinish: List<Action>? = null,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics(), AsyncAction by AsyncActionImpl() {
+) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
 
     constructor(
         url: String,
@@ -138,7 +138,7 @@ data class SendRequest(
                     origin,
                     it,
                     ContextData("onError", state.response),
-                    analyticsValue = "onFalse"
+                    analyticsValue = "onError"
                 )
             }
             is FetchViewState.Success -> onSuccess?.let {
@@ -147,7 +147,7 @@ data class SendRequest(
                     origin,
                     it,
                     ContextData("onSuccess", state.response),
-                    analyticsValue = "onFalse"
+                    analyticsValue = "onSuccess"
                 )
             }
         }

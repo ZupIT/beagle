@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android
 
 import br.com.zup.beagle.analytics.Analytics
-import br.com.zup.beagle.analytics2.AnalyticsProvider
+import br.com.zup.beagle.newanalytics.AnalyticsProvider
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
@@ -29,7 +29,11 @@ import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.operation.Operation
-import br.com.zup.beagle.android.setup.*
+import br.com.zup.beagle.android.setup.BeagleConfig
+import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.android.setup.Cache
+import br.com.zup.beagle.android.setup.DesignSystem
+import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.store.StoreHandler
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenActivity

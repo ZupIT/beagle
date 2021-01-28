@@ -33,7 +33,12 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.Widget
-import io.mockk.*
+import io.mockk.CapturingSlot
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -116,7 +121,7 @@ class WidgetExtensionsKtTest : BaseTest() {
         }
 
 
-        @DisplayName("Then assert the identifier is getting right")
+        @DisplayName("Then identifier should have the correct value")
         @Test
         fun testToViewShouldGetScreenIdentifierFromParameterFirst() {
             //given
@@ -130,7 +135,7 @@ class WidgetExtensionsKtTest : BaseTest() {
             assertEquals(screenId, slot.captured.getScreenId())
         }
 
-        @DisplayName("Then assert the identifier is getting right")
+        @DisplayName( "Then identifier should have the correct value")
         @Test
         fun testToViewWithIdOnComponent() {
             //given

@@ -14,42 +14,48 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.analytics2
+package br.com.zup.beagle.newanalytics
 
-import android.view.View
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.ActionAnalytics
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
+import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.mockito.Mock
+import java.sql.Timestamp
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
 
-@DisplayName("Given DataScreenReport")
-internal class DataScreenReportTest : BaseTest() {
 
-    @DisplayName("When report")
+@DisplayName("Given a Data Report")
+internal class DataReportTest : BaseTest(){
+
+    @DisplayName("When create")
     @Nested
-    inner class Report {
+    inner class Create {
 
         @Test
-        @DisplayName("Then should call AnalyticsService.createActionRecord")
-        fun testReportCallActionReport() {
-            //GIVEN
-            mockkObject(AnalyticsService)
-            val dataScreenReport = DataScreenReport(isLocalScreen = false, screenIdentifier = "identifier")
-            every { AnalyticsService.reportScreen(dataScreenReport) } just Runs
-
-            //WHEN
-            dataScreenReport.report()
-
-            //THEN
-            verify(exactly = 1) { AnalyticsService.reportScreen(dataScreenReport) }
+        @DisplayName("Then should create the timestamp with correct time")
+        fun testWhenCreateADataReportTestThenShouldGetTheTimestampCorrectly() {
+            //Given
+            val time1 = System.currentTimeMillis()
+            val dataReport = object : DataReport() {
+                override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
+                    return null
+                }
+            }
+            val time2 = System.currentTimeMillis()
+            assertTrue(dataReport.timestamp >= time1)
+            assertTrue(dataReport.timestamp <= time2)
         }
     }
 }

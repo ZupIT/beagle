@@ -37,14 +37,12 @@ class ComponentPropertyAssigner<T : ServerDrivenComponent>(
         accessibilitySetup.applyAccessibility(view, component)
     }
 
-    private fun getComponentType(component: ServerDrivenComponent): String {
-        return createComponentType(component)
-    }
+    private fun getComponentType(component: ServerDrivenComponent) = createComponentType(component)
 
-    private fun createComponentType(component: ServerDrivenComponent): String =
+    private fun createComponentType(component: ServerDrivenComponent) =
         if (isCustomWidget(component)) "custom:" + component::class.simpleName?.putFirstCharacterOnLowerCase()
         else "beagle:" + component::class.simpleName?.putFirstCharacterOnLowerCase()
 
-    private fun isCustomWidget(component: ServerDrivenComponent): Boolean =
+    private fun isCustomWidget(component: ServerDrivenComponent) =
         BeagleEnvironment.beagleSdk.registeredWidgets().contains(component::class.java)
 }

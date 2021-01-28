@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.analytics2.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.widget.RootView
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
-sealed class Navigate : ActionAnalytics() {
+sealed class Navigate : ActionAnalytics {
 
     /**
      * Opens one of the browsers available on the device with the passed url.
