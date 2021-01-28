@@ -58,7 +58,7 @@ internal object ContextActionExecutor {
         rootView: RootView,
         origin: View,
         actions: List<Action>?,
-        analyticsValue: String?
+        analyticsValue: String? = null
     ) {
         actions?.forEach { action ->
             if (action is AsyncAction) {
