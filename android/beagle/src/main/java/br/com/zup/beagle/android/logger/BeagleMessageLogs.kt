@@ -149,7 +149,7 @@ internal object BeagleMessageLogs {
     }
 
     fun canNotGetPropertyValue(propertyName : String?) {
-        val warningMessage = "Can not get some attributes of property $propertyName."
+        val warningMessage = "Cannot get some attributes of property $propertyName."
         BeagleLoggerProxy.warning(warningMessage)
     }
 
@@ -162,4 +162,3 @@ internal object BeagleMessageLogs {
         BeagleLoggerProxy.warning(warningMessage)
     }
 }
-
