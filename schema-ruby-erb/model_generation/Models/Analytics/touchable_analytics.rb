@@ -12,8 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
+require_relative 'click_event.rb'
+require_relative '../Types/interface.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 
 class TouchableAnalytics < BaseComponent

@@ -13,6 +13,8 @@
 #  limitations under the License.
 
 # This class lists the available supported kotlin template of beagle schema.
+require_relative 'template_helper.rb'
+
 class KotlinTemplateHelper < TemplateHelper
 
   TAB = "    "

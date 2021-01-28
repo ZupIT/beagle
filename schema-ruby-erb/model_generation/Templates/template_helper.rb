@@ -12,6 +12,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+require_relative '../Models/Types/string.rb'
+require_relative '../Models/Types/double.rb'
+require_relative '../Models/Types/boolean.rb'
+require_relative '../Models/Types/integer.rb'
+require_relative '../Models/Types/enum.rb'
+require_relative '../Models/Types/abstract.rb'
+require_relative '../Models/Types/interface.rb'
+require_relative '../Models/Types/struct.rb'
+require_relative '../Models/Types/data_class.rb'
+
 # This class lists the available supported languages of beagle schema.
 class SupportedLanguages
 
