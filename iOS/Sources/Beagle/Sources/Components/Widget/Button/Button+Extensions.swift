@@ -29,10 +29,10 @@ extension Button {
             button.setTitle($0, for: .normal)
         }
         
-        renderer.observe(disabled, andUpdateManyIn: button) {
-            if let disabled = $0 {
-                button.isEnabled = !disabled
-                button.setTitleColor(disabled ? .systemGray : .systemBlue, for: .normal)
+        renderer.observe(enabled, andUpdateManyIn: button) {
+            if let enabled = $0 {
+                button.isEnabled = enabled
+                button.setTitleColor(enabled ? .systemBlue : .systemGray, for: .normal)
             }
         }
         
