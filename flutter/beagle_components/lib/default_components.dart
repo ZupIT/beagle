@@ -17,6 +17,8 @@
 
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
+import 'package:beagle_components/beagle_page_view.dart';
+import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:flutter/material.dart';
@@ -54,5 +56,5 @@ final Map<String, ComponentBuilder> defaultComponents = {
         beagleId: element.getId(),
         view: view,
         child: children.isEmpty ? null : children[0]);
-  }
+  },
 };

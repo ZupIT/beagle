@@ -68,7 +68,7 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
 
   @override
   Widget build(BuildContext context) {
-    return BeagleAlert(
+    return Container(
         child:
             currentTree == null ? Container() : buildViewFromTree(currentTree));
   }
