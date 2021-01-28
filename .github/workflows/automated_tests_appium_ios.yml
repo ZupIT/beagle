@@ -85,10 +85,12 @@ jobs:
             # Emulator config - start
             ##################################################################################################            
 
-            #-   name: Install iOS Runtime        
-            #    run: |  
-            #         set -e
-            #         gem install xcode-install xcversion simulators --install='iOS 13.5'      
+            -   name: Install iOS Runtime        
+                run: |  
+                     set -e
+                     echo "##### List of iOS Devices & Platforms:" 
+                     xcrun simctl list  
+                     gem install xcode-install xcversion simulators --install='iOS 13.5'      
             
             -   name: Create and Run iOS Emulator        
                 run: |
