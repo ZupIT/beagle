@@ -98,7 +98,9 @@ jobs:
             -   name: Create and Run iOS Emulator        
                 run: |
                      set -e
-                     "##### Creating iOS image and starting emulator with it ..."
+                     echo "##### Devicetypes runtime:"
+                     xcrun simctl list devicetypes runtimes
+                     echo "##### Creating iOS image and starting emulator with it ..."
                      xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 \ 
                      com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt 
                      DEVICEUUID=`cat deviceid.txt` 
