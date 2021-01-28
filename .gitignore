@@ -55,7 +55,26 @@ yarn.lock
 package-lock.json
 yarn.error
 
-# Flutter/Dart/Pub related
+### Bash ###
+nohup.out
+
+### iOS
+
+# user settings
+xcuserdata/
+DerivedData/
+
+# Obj-C/Swift specific
+*.hmap
+
+# App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+Pods/
+
+### Flutter/Dart/Pub related
+
 flutter/**/**/doc/api/
 flutter/**/.dart_tool/
 flutter/**/.flutter-plugins
@@ -114,6 +133,3 @@ flutter/**/**/ios/Runner/GeneratedPluginRegistrant.*
 !flutter/**/**/ios/**/default.pbxuser
 !flutter/**/**/ios/**/default.perspectivev3
 !flutter/**/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
-
-### Bash ###
-nohup.out
