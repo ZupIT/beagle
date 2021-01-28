@@ -38,7 +38,8 @@ class ButtonBuilder : BeagleBuilder<Button> {
     fun enabled(enabled: Bind<Boolean>) = this.apply { this.enabled = enabled }
     fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
     fun onPress(onPress: List<Action>?) = this.apply { this.onPress = onPress?.toMutableList() }
-    fun clickAnalyticsEvent(clickAnalyticsEvent: ClickEvent?) = this.apply { this.clickAnalyticsEvent = clickAnalyticsEvent }
+    fun clickAnalyticsEvent(clickAnalyticsEvent: ClickEvent?) =
+        this.apply { this.clickAnalyticsEvent = clickAnalyticsEvent }
 
     fun text(block: () -> Bind<String>) {
         text(block.invoke())
