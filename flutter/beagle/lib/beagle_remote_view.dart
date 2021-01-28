@@ -19,7 +19,7 @@ import 'package:beagle/beagle_initializer.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
-import 'package:beagle/utils/style.dart';
+import 'package:beagle/render/beagle_style_widget.dart';
 import 'package:flutter/material.dart';
 
 typedef OnCreateViewListener = void Function(BeagleView view);
@@ -63,7 +63,12 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
       debugPrint("Can't find builder for component ${tree.getType()}");
       return Container();
     }
-    return builder(tree, widgetChildren, _view).applyStyle(tree.getStyle());
+    final child = builder(tree, widgetChildren, _view);
+    return BeagleStyleWidget(
+      style: tree.getStyle(),
+      child: child,
+      children: widgetChildren,
+    );
   }
 
   @override

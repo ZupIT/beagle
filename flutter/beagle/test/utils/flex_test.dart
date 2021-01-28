@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import 'package:beagle/utils/flex.dart';
 import 'package:flutter/widgets.dart';
 import 'package:beagle/model/beagle_style.dart' as beagle;
 import 'package:flutter_test/flutter_test.dart';

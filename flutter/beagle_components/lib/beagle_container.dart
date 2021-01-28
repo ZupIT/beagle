@@ -16,8 +16,8 @@
 
 import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/render/beagle_flex_widget.dart';
 import 'package:beagle/utils/alignment.dart';
-import 'package:beagle/utils/flex.dart';
 import 'package:flutter/widgets.dart';
 
 class BeagleContainer extends StatefulWidget {
@@ -66,20 +66,37 @@ class _BeagleContainerState extends State<BeagleContainer> {
         relatives.add(child);
       }
     }
-    return absolutes.isNotEmpty
-        ? applyFlexDirection([
-            Expanded(
-              child: Stack(
-                fit: widget.style?.size?.height != null
-                    ? StackFit.expand
-                    : StackFit.loose,
-                children: [
-                  applyFlexDirection(relatives, flex),
-                  ...absolutes,
-                ],
-              ),
-            ),
-          ], flex)
-        : applyFlexDirection(relatives, flex);
+    return BeagleFlexWidget(flex: flex, children: widget.children);
+    // return absolutes.isNotEmpty
+    //     ? applyFlexDirection([
+    //         Expanded(
+    //           child: Stack(
+    //             fit: widget.style?.size?.height != null
+    //                 ? StackFit.expand
+    //                 : StackFit.loose,
+    //             children: [
+    //               applyFlexDirection(relatives, flex),
+    //               ...absolutes,
+    //             ],
+    //           ),
+    //         ),
+    //       ], flex)
+    //     : applyFlexDirection(relatives, flex);
   }
 }
+
+// final custom = CustomSingleChildLayout(delegate: Delegate());
+// class Delegate extends MultiChildLayoutDelegate {
+//   @override
+//   void performLayout(Size size) {
+//     // TODO: implement performLayout
+//   }
+//
+//   @override
+//   bool shouldRelayout(covariant MultiChildLayoutDelegate oldDelegate) {
+//     // TODO: implement shouldRelayout
+//     throw UnimplementedError();
+//   }
+//
+//
+// }
