@@ -17,9 +17,6 @@
 import 'package:flutter/material.dart';
 import 'package:beagle/utils/color_utils.dart';
 
-const kBeagleTextDefaultTextColor = '#000000';
-const kBeagleTextDefaultTextAlignment = TextAlign.left;
-
 class BeagleText extends StatelessWidget {
   const BeagleText({
     Key key,
@@ -27,6 +24,9 @@ class BeagleText extends StatelessWidget {
     this.textColor,
     this.alignment,
   }) : super(key: key);
+
+  static const defaultTextColor = '#000000';
+  static const defaultTextAlign = TextAlign.left;
 
   final String text;
   final String textColor;
@@ -51,12 +51,12 @@ class BeagleText extends StatelessWidget {
     } else if (alignment == TextAlignment.LEFT) {
       return TextAlign.left;
     } else {
-      return kBeagleTextDefaultTextAlignment;
+      return defaultTextAlign;
     }
   }
 
   Color getTextColor(String color) {
-    return hexToColor(color ?? kBeagleTextDefaultTextColor);
+    return hexToColor(color ?? defaultTextColor);
   }
 }
 

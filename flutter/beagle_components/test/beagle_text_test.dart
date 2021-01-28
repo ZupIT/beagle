@@ -78,7 +78,7 @@ void main() {
           (WidgetTester tester) async {
         await tester.pumpWidget(createWidget(textColor: null));
 
-        final expectedTextColor = hexToColor(kBeagleTextDefaultTextColor);
+        final expectedTextColor = hexToColor(BeagleText.defaultTextColor);
 
         expect(tester.widget<Text>(find.text(text)).style.color,
             expectedTextColor);
@@ -90,7 +90,7 @@ void main() {
           (WidgetTester tester) async {
         await tester.pumpWidget(createWidget(alignment: null));
 
-        const expectedTextAlign = kBeagleTextDefaultTextAlignment;
+        const expectedTextAlign = BeagleText.defaultTextAlign;
 
         expect(
             tester.widget<Text>(find.text(text)).textAlign, expectedTextAlign);
