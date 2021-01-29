@@ -26,7 +26,7 @@ on:
             - 'backend/**'
             - 'test/appium/app-ios/**'
             - 'test/appium/project/**'
-            - '.github/workflows/tests/appium'
+            - '.github/**'
             - 'fastlane/automatedTests/appium'  
     
     pull_request:
@@ -37,7 +37,7 @@ on:
             - 'backend/**'
             - 'test/appium/app-ios/**'
             - 'test/appium/project/**'
-            - '.github/workflows/tests/appium'
+            - '.github/**'
             - 'fastlane/automatedTests/appium'
 
 
