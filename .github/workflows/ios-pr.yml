@@ -19,15 +19,17 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
-            -   name: Cache fastlane dependences
+            -   name: get github actions image version
+                run: echo "ImageVersion=$ImageVersion"  >> $GITHUB_ENV
+
+            -   name: Cache ruby gems dependencies
                 uses: actions/cache@v2
                 env:
-                    keyPath: ${{ runner.os }}-gems-${{ $ImageVersion }}
+                    keyPath: ${{ runner.os }}-gems-${{ env.ImageVersion }}
                 with:
                     path: ~/.gem
                     key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
                     restore-keys: ${{ env.keyPath }}
-
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
