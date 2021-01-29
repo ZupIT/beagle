@@ -79,7 +79,7 @@ internal object ActionReportFactory {
                     hashMap.putAll(result)
 
                 } catch (e: Exception) {
-                    BeagleMessageLogs.canNotGetPropertyValue(keyName)
+                    BeagleMessageLogs.cannotGetPropertyValue(keyName)
                 }
 
             }
@@ -132,10 +132,10 @@ internal object ActionReportFactory {
         dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
-        dataActionReport.attributes.let{
+        getAttributesValue(dataActionReport)?.let {
             hashMap.putAll(it)
         }
-        dataActionReport.additionalEntries?.let{
+        dataActionReport.additionalEntries?.let {
             hashMap.putAll(it)
         }
         hashMap["beagleAction"] = dataActionReport.actionType
@@ -147,6 +147,13 @@ internal object ActionReportFactory {
         if (screenId != null && screenId.isNotEmpty()) {
             hashMap["screen"] = screenId
         }
+    }
+
+    private fun getAttributesValue(dataActionReport: DataActionReport): HashMap<String, Any>? {
+        if(dataActionReport.attributes.size == 0){
+            return null
+        }
+        return dataActionReport.attributes
     }
 
     private fun generateComponentHashMap(dataActionReport: DataActionReport): HashMap<String, Any> {
@@ -164,8 +171,4 @@ internal object ActionReportFactory {
         }
         return hashMap
     }
-
-
-
-
 }

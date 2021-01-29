@@ -402,11 +402,11 @@ internal class BeagleMessageLogsTest {
 
     @DisplayName("When analyticsQueueIsFull")
     @Nested
-    inner class AnalyticsQueueIsFull{
+    inner class AnalyticsQueueIsFull {
 
         @DisplayName("Then Should call BeagleLogger warning")
         @Test
-        fun testAnalyticsQueueIsFull(){
+        fun testAnalyticsQueueIsFull() {
             //given
             val expectedMessage = "10 analytics records are queued and waiting for the initial configuration" +
                 " of the AnalyticsProvider to conclude. This is probably an error within your analytics provider. Why" +
@@ -424,17 +424,17 @@ internal class BeagleMessageLogsTest {
 
     @DisplayName("When cannot get property value")
     @Nested
-    inner class CanNotGetPropertyValue{
+    inner class CanNotGetPropertyValue {
 
         @DisplayName("Then should call BeagleLoggerProxy warning")
         @Test
-        fun testCanNotGetPropertyValue(){
+        fun testCanNotGetPropertyValue() {
             //given
             val propertyName = "property"
             val expectedMessage = "Cannot get some attributes of property $propertyName."
 
             //when
-            BeagleMessageLogs.canNotGetPropertyValue(propertyName)
+            BeagleMessageLogs.cannotGetPropertyValue(propertyName)
 
             //then
             verify(exactly = 1) { BeagleLoggerProxy.warning(expectedMessage) }
