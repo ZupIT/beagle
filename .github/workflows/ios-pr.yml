@@ -22,7 +22,7 @@ jobs:
             -   name: Cache fastlane dependences
                 uses: actions/cache@v2
                 env:
-                    keyPath: ${{ runner.os }}-gems-${{ env.ImageVersion }}
+                    keyPath: ${{ runner.os }}-gems-${{ $ImageVersion }}
                 with:
                     path: ~/.gem
                     key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
