@@ -19,14 +19,14 @@ import UIKit
 // MARK: ExpressibleByLiteral
 
 extension DynamicObject: ExpressibleByNilLiteral,
-    ExpressibleByBooleanLiteral,
-    ExpressibleByIntegerLiteral,
-    ExpressibleByFloatLiteral,
-    ExpressibleByStringLiteral,
-    ExpressibleByStringInterpolation,
-    ExpressibleByArrayLiteral,
-    ExpressibleByDictionaryLiteral
-{
+        ExpressibleByBooleanLiteral,
+        ExpressibleByIntegerLiteral,
+        ExpressibleByFloatLiteral,
+        ExpressibleByStringLiteral,
+        ExpressibleByStringInterpolation,
+        ExpressibleByArrayLiteral,
+        ExpressibleByDictionaryLiteral {
+
     public init(nilLiteral: Void) {
         self = .empty
     }

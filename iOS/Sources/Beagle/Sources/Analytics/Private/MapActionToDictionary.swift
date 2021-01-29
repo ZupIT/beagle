@@ -18,10 +18,17 @@
 import Foundation
 import UIKit
 
+private var analyticsPath = Path(nodes: [.key("analytics")])
+
 extension Action {
 
     func getSomeAttributes(_ attributes: ActionAttributes, contextProvider: UIView) -> [String: DynamicObject] {
-        let dynamicObject = asDynamicObject().evaluate(with: contextProvider)
+        if case .some(let array) = attributes, array.isEmpty { return [:] }
+
+        let dynamicObject = asDynamicObject()
+            .evaluate(with: contextProvider)
+            // don't use analytics attribute
+            .set(.empty, with: analyticsPath)
 
         switch attributes {
         case .some(let some):
@@ -50,6 +57,7 @@ extension Action {
 
     private func pathForAttribute(_ attribute: String) -> Path? {
         guard let path = Path(rawValue: attribute) else { return nil }
+
         for node in path.nodes {
             if case .index = node { return nil }
         }
@@ -106,11 +114,10 @@ extension Action {
         }
     }
 
-    private func dictFromChildren(_ children: Mirror.Children) -> [String: Any] {
+    private func dictFromChildren(_ children: Mirror.Children) -> [String: Any] { // swiftlint:disable syntactic_sugar
         let allAttributes: [(String, Any)] = children.compactMap {
             guard
                 let label = $0.label,
-                // swiftlint:disable syntactic_sugar
                 case Optional<Any>.some(let value) = $0.value
             else { return nil }
 

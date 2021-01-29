@@ -29,9 +29,10 @@ public protocol Analytics {
 
 // MARK: - Analytics 2
 public protocol AnalyticsProvider {
-    var getConfig: (@escaping (Result<AnalyticsConfig, Error>) -> Void) -> Void { get }
-    var startSession: (@escaping (Result<Void, Error>) -> Void) -> Void { get }
+//    var getConfig: (@escaping (Result<AnalyticsConfig, Error>) -> Void) -> Void { get }
+//    var startSession: (@escaping (Result<Void, Error>) -> Void) -> Void { get }
     var maximumItemsInQueue: Int? { get }
     
     func createRecord(_ record: AnalyticsRecord)
+    func getConfig2() -> AnalyticsConfig?
 }

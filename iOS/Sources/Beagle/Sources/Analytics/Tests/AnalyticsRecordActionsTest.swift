@@ -57,10 +57,9 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
 
     private func doRecord<A: Action>(_: A.Type, fromJson: String) throws -> (AnalyticsRecord, file: String) {
         let action: A = try actionFromJsonFile(fileName: fromJson)
-        let (service, provider) = analyticsServiceAndProviderStub(
-            config: .success(.init()),
-            session: .success(())
-        )
+        let provider = AnalyticsProviderStub()
+        let service = AnalyticsService(provider: provider)
+        
         let child = AnalyticsTestComponent()
         let context = Context(
             id: "context",

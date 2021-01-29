@@ -21,8 +21,6 @@ class AnalyticsService {
     static var shared: AnalyticsService?
     
     private let provider: AnalyticsProvider
-    private var startSessionResult: Result<Void, Error>?
-    private var configResult: Result<AnalyticsConfig, Error>?
     
     private let itemsLock = DispatchSemaphore(value: 1)
     private (set) var itemsInQueue = 0
@@ -36,19 +34,6 @@ class AnalyticsService {
     
     init(provider: AnalyticsProvider) {
         self.provider = provider
-        self.provider.startSession { result in
-            self.startSessionResult = result
-            self.activateQueueIfNeeded()
-        }
-        self.provider.getConfig { result in
-            self.configResult = result
-            self.activateQueueIfNeeded()
-        }
-    }
-    
-    private func activateQueueIfNeeded() {
-        guard startSessionResult != nil && configResult != nil else { return }
-        queue.activate()
     }
     
     // MARK: - Create Events
@@ -58,7 +43,11 @@ class AnalyticsService {
     }
     
     func createRecord(_ action: ActionInfo) {
-        createRecord { self.sendActionRecord(action) }
+        AnalyticsGenerator(info: action, globalConfig: provider.getConfig2()?.actions)
+            .createRecord()
+            .map {
+                provider.createRecord($0)
+            }
     }
 
     struct ActionInfo {
@@ -92,7 +81,7 @@ class AnalyticsService {
     // MARK: - Screen
     
     private func sendScreenRecord(_ screen: ScreenType) {
-        guard case .success(let config) = configResult, config.enableScreenAnalytics ?? true else { return }
+//        guard case .success(let config) = configResult, config.enableScreenAnalytics ?? true else { return }
         let record = AnalyticsRecord(type: .screen, values: valuesFor(screen: screen))
 //        DispatchQueue.main.async {
             self.provider.createRecord(record)
@@ -109,15 +98,5 @@ class AnalyticsService {
         case .declarativeText: ()
         }
         return values
-    }
-    
-    // MARK: - Action
-    
-    private func sendActionRecord(_ action: ActionInfo) {
-        guard case .success(let config) = configResult else { return }
-
-        let generator = AnalyticsGenerator(info: action)
-        generator.createRecord()
-            .map { self.provider.createRecord($0) }
     }
 }

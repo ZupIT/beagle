@@ -20,12 +20,18 @@ import UIKit
 class AnalyticsGenerator {
 
     let info: AnalyticsService.ActionInfo
+    let globalConfig: AnalyticsConfig.AttributesByActionName?
 
-    init(info: AnalyticsService.ActionInfo) {
+    init(
+        info: AnalyticsService.ActionInfo,
+        globalConfig: AnalyticsConfig.AttributesByActionName?
+    ) {
         self.info = info
+        self.globalConfig = globalConfig
     }
 
     private var values = [String: Any]()
+    private var name = ""
 
     // MARK: - Action
 
@@ -34,6 +40,7 @@ class AnalyticsGenerator {
         guard
             let name = reflectionName ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
         else { return nil }
+        self.name = name
 
         addAttributesAndAdditionalEntries()
 
@@ -64,16 +71,35 @@ class AnalyticsGenerator {
     }
 
     private func addAttributesAndAdditionalEntries() {
-        guard case .enabled(let analytics) = info.action.analytics else { return }
+        let attributes = decideWhichAttributesShouldBeRecorded()
 
-        let attributes = analytics?.attributes ?? []
-        let additional = analytics?.additionalEntries ?? [:]
+        var additional = [String: DynamicObject]()
+        if case .enabled(let analytics?) = info.action.analytics {
+            additional = analytics.additionalEntries ?? [:]
+        }
 
         [
-            info.action.getSomeAttributes(.some(attributes), contextProvider: info.origin),
+            info.action.getSomeAttributes(attributes, contextProvider: info.origin),
             makeAdditionalEntries(additional)
         ].forEach {
             values.merge($0) { _, new in new }
+        }
+    }
+
+    private func decideWhichAttributesShouldBeRecorded() -> ActionAttributes {
+        guard let global = globalConfig else {
+            // we need to store all attributes for when globalConfig gets set
+            return .all
+        }
+
+        let attributes = global[name] ?? []
+        switch info.action.analytics {
+        case .disabled:
+            return .some([])
+        case .enabled(nil), nil:
+            return .some(attributes)
+        case .enabled(let analytics?):
+            return .some(analytics.attributes ?? [] + attributes)
         }
     }
 
