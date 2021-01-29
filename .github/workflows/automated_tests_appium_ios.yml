@@ -16,17 +16,7 @@
 
 name: Beagle Appium iOS Tests
 
-#on: workflow_dispatch
-# testing for this PULL REQUEST only. Will be set back to 'workflow_dispatch' afterwards 
-on:
-    push:
-        branches:
-            - master
-        paths:
-            - '.github/**'
-    pull_request:
-        paths:
-            - '.github/**'
+on: workflow_dispatch
 
 jobs:
      
