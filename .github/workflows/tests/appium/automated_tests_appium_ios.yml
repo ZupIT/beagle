@@ -22,12 +22,7 @@ on:
         branches:
             - master
         paths:
-            - 'iOS/**'
-            - 'backend/**'
-            - 'test/appium/app-ios/**'
-            - 'test/appium/project/**'
-            - '.github/workflows/tests/appium'
-            - 'fastlane/automatedTests/appium'  
+            - '.github/**'  
     
     pull_request:
         branches:
