@@ -85,14 +85,11 @@ jobs:
             # Emulator config - start
             ##################################################################################################            
 
-             -   name: Install iOS Runtime        
-                 run: |  
-                      set -e
-                      echo "##### List of iOS Devices & Platforms:" 
-                      xcrun simctl list
-                     # echo "##### Installing iOS simulator ..."
-                     # gem sources --add https://rubygems.org/
-                     # gem install xcode-install 
+            -   name: Install iOS Runtime        
+                run: |  
+                     set -e
+                     echo "##### List of iOS Devices & Platforms:" 
+                     xcrun simctl list
                      xcversion simulators --install='iOS 13.5'      
             
             -   name: Create and Run iOS Emulator        
