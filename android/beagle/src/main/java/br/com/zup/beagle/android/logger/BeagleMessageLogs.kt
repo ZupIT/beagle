@@ -148,7 +148,7 @@ internal object BeagleMessageLogs {
         BeagleLoggerProxy.warning("Expression is not support in prefetch")
     }
 
-    fun canNotGetPropertyValue(propertyName : String?) {
+    fun cannotGetPropertyValue(propertyName : String?) {
         val warningMessage = "Cannot get some attributes of property $propertyName."
         BeagleLoggerProxy.warning(warningMessage)
     }
