@@ -21,6 +21,9 @@ require_relative '../Models/Types/abstract.rb'
 require_relative '../Models/Types/interface.rb'
 require_relative '../Models/Types/struct.rb'
 require_relative '../Models/Types/data_class.rb'
+require_relative '../Models/Analytics/touchable_analytics.rb'
+require_relative '../Models/Widgets/button.rb'
+require 'active_support/core_ext/object/try'
 
 # This class lists the available supported languages of beagle schema.
 class SupportedLanguages
@@ -156,7 +159,7 @@ class TemplateHelper < SupportedLanguages
     # @param object_type [BaseComponent]
     # @return [Bool] indicating wether the object is interface or not
     def is_interface(object_type)
-        object_type.synthax_type.type.is_a?(TypeInterface)
+        object_type.try(:synthax_type).try(:type).is_a?(TypeInterface) || false
     end
 
     # Given object_type, this functions returns if such an object is abstract or not
@@ -188,11 +191,13 @@ class TemplateHelper < SupportedLanguages
     # @param object_type [BaseComponent]
     # @return [Bool] indicating wether the object inherits from a widget or no
     def inheritFrom_widget(object_type)
-        if object_type.synthax_type.name == "Widget"
+        if object_type.try(:synthax_type).try(:name) == "Widget"
             return false
         else
-            for inherit in object_type.synthax_type.inheritFrom
-                return is_widget(inherit)
+            if !object_type.try(:synthax_type).try(:inheritFrom).nil?
+                for inherit in object_type.synthax_type.inheritFrom
+                    return is_widget(inherit)
+                end
             end
         end
 
@@ -220,11 +225,13 @@ class TemplateHelper < SupportedLanguages
     # @param object_type [BaseComponent]
     # @return [Bool] indicating wether the object is a widget or inherits from a widget
     def is_widget(object_type)
-        if object_type.synthax_type.name == "Widget"
+        if object_type.try(:synthax_type).try(:name) == "Widget"
             return true
         else
-            for inherit in object_type.synthax_type.inheritFrom
-                return is_widget(inherit)
+            if !object_type.try(:synthax_type).try(:inheritFrom).nil?
+                for inherit in object_type.synthax_type.inheritFrom
+                    return is_widget(inherit)
+                end
             end
         end
 
