@@ -21,10 +21,12 @@ jobs:
 
             -   name: Cache fastlane dependences
                 uses: actions/cache@v2
+                env:
+                    keyPath: ${{ runner.os }}-gems-${{ env.ImageVersion }}
                 with:
                     path: ~/.gem
-                    key: ${{ runner.os }}-gems-${{ env.ImageVersion }}-${{ hashFiles('Gemfile.lock') }}
-                    restore-keys: ${{ runner.os }}-gems-${{ env.ImageVersion }}
+                    key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
+                    restore-keys: ${{ env.keyPath }}
 
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
