@@ -74,11 +74,6 @@ platform :ios do
   desc "Pull Request verification"
   lane :pull_request_verification do
     xcversion(version: "~> 11.5.0")
-    # TODO: see if it's ok to remove this SwiftLint, since we already have it inside xcode and danger
-    swiftlint(
-      mode: :lint, # :lint (default) or :autocorrect
-      ignore_exit_status: true # Allow fastlane to continue even if SwiftLint returns a non-zero exit status
-    )
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
       scheme: "All",
