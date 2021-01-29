@@ -39,6 +39,9 @@ on: workflow_dispatch
 #            - '.github/**'
 #            - 'fastlane/automatedTests/appium'
 
+env:
+  BFF_NAME: automated-test-bff
+
 jobs:
     appium_tests:
         name: Steps
@@ -95,18 +98,29 @@ jobs:
             # BFF setup - start
             ##################################################################################################
 
-            -  name: Configure AWS credentials
+            -  name: Build test BFF image
+               working-directory: backend
+               run: ./gradlew automatedTests:bootBuildImage --imageName=${{ BFF_NAME }}
+
+            -  name: Configure AWS
                uses: aws-actions/configure-aws-credentials@v1
                with:
                    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                    aws-region: sa-east-1
 
-           -   name: Update kubeconfig
-               run: aws eks update-kubeconfig --name beagle-cluster
-#
-#           -   name: Deploy to Kubernetes cluster
-#               run: ../../.github/scripts/helm-deploy.sh
+            -  name: Login to ECR
+               id: login-ecr
+               uses: aws-actions/amazon-ecr-login@v1
+
+            -  name: Deploy to AWS
+               run: bash ./fastlane/automatedTests/deploy_test_backend.sh
+               env:
+                 NAME: ${{ BFF_NAME }}
+                 REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                 VERSION: ${{ github.sha }}
+                 CLUSTER: ${{ secrets.AWS_CLUSTER_NAME }}
+                 NAMESPACE: ${{ secrets.AWS_CLUSTER_NAMESPACE }}
 
             ##################################################################################################
             # BFF setup - end
