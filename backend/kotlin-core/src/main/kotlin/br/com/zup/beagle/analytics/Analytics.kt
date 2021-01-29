@@ -35,3 +35,5 @@ interface Analytics {
      */
     fun trackEventOnScreenDisappeared(event: ScreenEvent)
 }
+
+// just making it trigger ci
