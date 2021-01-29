@@ -371,21 +371,20 @@ abstract class AbstractStep {
     private fun getScreenshotDatabaseFolderPath(): String {
 
         /**
-         *  screenshot database folders are organized by device resolution instead of device models, because the
-         *  resolution can be edited in the AVD's config.ini file or through command-line when starting the emulator.
-         *  That means the same device model can have different resolutions
+         *  Retrieving deviceName from SuiteSetup class instead of driver.getCapability("deviceName")
+         *  because the latter changes its value after driver initialization
          */
-        val deviceScreenSize = getDriver().capabilities.getCapability("deviceScreenSize").toString().trim()
+        val deviceName = SuiteSetup.getDeviceName().trim()
 
         val dataBaseFolderPath = if (SuiteSetup.isAndroid())
-            SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/android/" + deviceScreenSize
+            SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/android/" + deviceName
         else
-            SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/ios/" + deviceScreenSize
+            SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/ios/" + deviceName
 
         if (!File(dataBaseFolderPath).exists())
             throw Exception(
                 "Screenshot database folder not found: ${dataBaseFolderPath}! " +
-                        "Create this folder and refer to function registerCurrentScreenInDatabase " +
+                        "Create this missing folder and refer to function registerCurrentScreenInDatabase " +
                         "to create a reference screenshot inside that folder"
             )
 

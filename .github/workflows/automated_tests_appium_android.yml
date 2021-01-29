@@ -94,8 +94,8 @@ jobs:
                 env:
                     BEAGLE_CONFIG_FILE=tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
                 run: | # builds the app replacing localhost for the $BFF_URL. Rollbacks after the app is created
-                    sed -i --expression 's@http://10.0.2.2:8080@$BFF_URL@g' $BEAGLE_CONFIG_FILE &&
-                    bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug &&
+                    sed -i --expression 's@http://10.0.2.2:8080@$BFF_URL@g' $BEAGLE_CONFIG_FILE 
+                    bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug 
                     sed -i --expression 's@$BFF_URL@http://10.0.2.2:8080@g' $BEAGLE_CONFIG_FILE
 
             -   name: Configure app in BrowserStack and run the tests
@@ -103,15 +103,19 @@ jobs:
                     APP_FILE: $BEAGLE-DIR/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
                     BROWSERSTACK_APP_ID:
                 run: |
-                    bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh &&
-                    ./tests/appium/project/gradlew -p tests/appium/project cucumber \
-                    -Dplatform=android \
-                    -Dplatform_version='11.0' \
-                    -Ddevice_name='Google Pixel 4' \
-                    -Dbrowserstack.user='$BROWSERSTACK_USER' \
-                    -Dbrowserstack.key='$BROWSERSTACK_KEY' \
-                    -Dapp_file='$BROWSERSTACK_APP_ID' \
-                    -Dbff_base_url='$BFF_URL'
+                    bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh
+                    if ./tests/appium/project/gradlew -p tests/appium/project cucumber \
+                    -Dplatform="android" \
+                    -Dplatform_version="11.0" \
+                    -Ddevice_name="Google Pixel 4" \
+                    -Dbrowserstack.user="$BROWSERSTACK_USER" \
+                    -Dbrowserstack.key="$BROWSERSTACK_KEY" \
+                    -Dapp_file="$BROWSERSTACK_APP_ID" \
+                    -Dbff_base_url="$BFF_URL"; then
+                       echo "Gradle task succeeded" >&2
+                     else
+                       echo "Gradle task failed" >&2
+                       exit 1
 
             -   name: Expose failed test screenshot files
                 if: failure()

@@ -32,6 +32,7 @@ object SuiteSetup {
     const val ERROR_SCREENSHOTS_FOLDER = "./build/screenshots"
     const val SCREENSHOTS_DATABASE_FOLDER = "./src/test/resources/screenshots_database"
     private var platform: String? = null
+    private var deviceName: String? = null
     private var driver: AppiumDriver<*>? = null
     private var bffBaseUrl: String? = null
 
@@ -53,6 +54,10 @@ object SuiteSetup {
 
     fun getBffBaseUrl(): String {
         return bffBaseUrl!!
+    }
+
+    fun getDeviceName(): String {
+        return deviceName!!
     }
 
     fun initSuit() {
@@ -82,7 +87,7 @@ object SuiteSetup {
          * List of capabilities: http://appium.io/docs/en/writing-running-appium/caps/
          */
         var platformVersion = System.getProperty("platform_version")
-        var deviceName = System.getProperty("device_name")
+        deviceName = System.getProperty("device_name")
         var appFile = System.getProperty("app_file")
         var browserstackUser = System.getProperty("browserstack_user")
         var browserstackKey = System.getProperty("browserstack_key")
@@ -166,16 +171,13 @@ object SuiteSetup {
                 appFile = "COMPLETE-PATH-TO/AppiumApp.app"
 
             capabilities.setCapability("noReset", true)
+            capabilities.setCapability("waitForQuiescence", false)
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion)
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName)
             capabilities.setCapability(MobileCapabilityType.APP, appFile)
-            capabilities.setCapability("waitForQuiescence", false)
 
-            println("#### Initializing driver with the following capabilities: " +
-                    "platformVersion = $platformVersion" +
-                    "deviceName = $deviceName")
 
             driver = IOSDriver<MobileElement>(URL(APPIUM_URL), capabilities)
         }
