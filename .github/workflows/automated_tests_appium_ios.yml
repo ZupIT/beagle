@@ -16,39 +16,36 @@
 
 name: Beagle Appium iOS Tests
 
-#on: workflow_dispatch
-on:
-    push: # for testing with draft mode. Will be removed afterwards
-        branches:
-            - master
-        paths:
-            - 'iOS/**'
-            - 'backend/**'
-            - 'test/appium/app-ios/**'
-            - 'test/appium/project/**'
-            - '.github/**'
-            - 'fastlane/automatedTests/appium'  
-    
-    pull_request:
-        branches:
-            - master
-        paths:
-            - 'iOS/**'
-            - 'backend/**'
-            - 'test/appium/app-ios/**'
-            - 'test/appium/project/**'
-            - '.github/**'
-            - 'fastlane/automatedTests/appium'
+on: workflow_dispatch
+#on:
+#    push:
+#        branches:
+#            - master
+#        paths:
+#            - 'iOS/**'
+#            - 'backend/**'
+#            - 'test/appium/app-ios/**'
+#            - 'test/appium/project/**'
+#            - '.github/**'
+#            - 'fastlane/automatedTests/appium'
+#
+#    pull_request:
+#        branches:
+#            - master
+#        paths:
+#            - 'iOS/**'
+#            - 'backend/**'
+#            - 'test/appium/app-ios/**'
+#            - 'test/appium/project/**'
+#            - '.github/**'
+#            - 'fastlane/automatedTests/appium'
 
 
 jobs:
-     
     appium_tests:
-        
-        name: Run Appium iOS tests
+        name: Steps
         runs-on: macos-latest 
         steps:
-
             -   uses: actions/checkout@v2
 
             ##################################################################################################

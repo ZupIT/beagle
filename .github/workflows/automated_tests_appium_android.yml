@@ -16,44 +16,39 @@
 
 name: Beagle Appium Android Tests
 
-on: workflow_dispatch
-#on:
-#    push: # for testing with draft mode. Will be removed afterwards
-#        branches:
-#            - master
-#        paths:
-#            - 'android/**'
-#            - 'backend/**'
-#            - 'test/appium/app-android/**'
-#            - 'test/appium/project/**'
-#            - '.github/**'
-#            - 'fastlane/automatedTests/appium'  
-    
-#    pull_request:
-#        branches:
-#            - master
-#        paths:
-#            - 'android/**'
-#            - 'backend/**'
-#            - 'test/appium/app-android/**'
-#            - 'test/appium/project/**'
-#            - '.github/**'
-#            - 'fastlane/automatedTests/appium'
-
+#on: workflow_dispatch
+on:
+    push:
+        branches:
+            - master
+        paths:
+            - 'android/**'
+            - 'backend/**'
+            - 'test/appium/app-android/**'
+            - 'test/appium/project/**'
+            - '.github/**'
+            - 'fastlane/automatedTests/appium'
+    pull_request:
+        branches:
+            - master
+        paths:
+            - 'android/**'
+            - 'backend/**'
+            - 'test/appium/app-android/**'
+            - 'test/appium/project/**'
+            - '.github/**'
+            - 'fastlane/automatedTests/appium'
 
 jobs:
     appium_tests:
-        
-        name: Run Appium Android tests
+        name: Steps
         runs-on: macos-latest
         env:
             BEAGLE_DIR: /Users/runner/work/beagle/beagle 
             BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
             BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
             BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
-
         steps:
-
             -   uses: actions/checkout@v2
 
             ##################################################################################################
@@ -100,15 +95,15 @@ jobs:
             # BFF setup - start
             ##################################################################################################
 
-#            -  name: Configure AWS credentials
-#               uses: aws-actions/configure-aws-credentials@v1
-#               with:
-#                   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#                   aws-region: sa-east-1
-#
-#           -   name: Update kubeconfig
-#               run: aws eks update-kubeconfig --name beagle-cluster
+            -  name: Configure AWS credentials
+               uses: aws-actions/configure-aws-credentials@v1
+               with:
+                   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                   aws-region: sa-east-1
+
+           -   name: Update kubeconfig
+               run: aws eks update-kubeconfig --name beagle-cluster
 #
 #           -   name: Deploy to Kubernetes cluster
 #               run: ../../.github/scripts/helm-deploy.sh
