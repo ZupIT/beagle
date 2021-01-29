@@ -18,7 +18,7 @@ name: Beagle Appium iOS Tests
 
 #on: workflow_dispatch
 on:
-    push:
+    pull_request:
         branches:
             - master
         paths:
