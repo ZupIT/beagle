@@ -43,7 +43,10 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
   bool isBeagleReady = false;
   Map<String, ComponentBuilder> myCustomComponents = {
     'custom:loading': (element, _, __) {
-      return Text('My custom loading.', key: element.getKey());
+      return Center(
+        key: element.getKey(),
+        child: const Text('My custom loading.'),
+      );
     }
   };
   Map<String, ActionHandler> myCustomActions = {
@@ -102,11 +105,11 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
             ),
           ],
         ),
-        body: Center(
-          child: isBeagleReady
-              ? const BeagleRemoteView(route: '/beagle_lazy')
-              : const Text('Not ready yet!'),
-        ),
+        body: isBeagleReady
+            ? const BeagleRemoteView(route: '/beagle_lazy')
+            : const Center(
+                child: Text('Not ready yet!'),
+              ),
       ),
     );
   }
