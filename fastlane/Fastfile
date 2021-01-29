@@ -77,7 +77,7 @@ platform :ios do
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
       scheme: "All",
-      device: "iPhone 11",
+      device: "iPhone 11"
     )
     run_codecov(platform: 'ios')
     check_if_beagle_works_via_cocoapods_integration
