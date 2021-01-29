@@ -17,23 +17,10 @@
 package br.com.zup.beagle.newanalytics
 
 import br.com.zup.beagle.android.BaseTest
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.verify
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
-import java.sql.Timestamp
-import java.util.Calendar
-import java.util.Date
-import java.util.TimeZone
 
 
 @DisplayName("Given a Data Report")

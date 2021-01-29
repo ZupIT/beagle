@@ -36,6 +36,7 @@ import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
  * Enum with HTTP methods.
  */
 @SuppressWarnings("UNUSED_PARAMETER")
+@BeagleJson
 enum class RequestActionMethod {
     /**
      * Request we representation of an resource.
