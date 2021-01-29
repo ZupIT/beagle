@@ -55,7 +55,7 @@ class AnalyticsService {
     }
 
     private func bla() {
-        let bla = "bla"
+        let bla = "bla2"
     }
     
     // MARK: - Create Events
