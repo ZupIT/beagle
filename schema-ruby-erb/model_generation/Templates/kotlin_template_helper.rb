@@ -557,13 +557,14 @@ class KotlinTemplateHelper < TemplateHelper
       scape = "@param "
     end
 
-    for i in 0.."#{scape}#{variable.name}".length
+    (0.."#{scape}#{variable.name}".length).step(1) do |n|
       output += " "
     end
+
     output
   end
 
-   def dictionary_variable_declaration(variable) 
+  def dictionary_variable_declaration(variable) 
     type_of_key = handle_type(variable.type_of_key)
     type_of_value = handle_type(variable.type_of_value)
     type_name = "Map<#{type_of_key}, #{type_of_value}>"

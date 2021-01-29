@@ -167,7 +167,7 @@ class TemplateHelper < SupportedLanguages
     # @param object_type [BaseComponent]
     # @return [Bool] indicating wether the object is abstract or not
     def is_abstract(object_type)
-        object_type.synthax_type.type.is_a?(TypeAbstract)
+        object_type.try(:synthax_type).try(:type).is_a?(TypeAbstract) || false
     end
 
     # Given object_type, this functions returns if such an object is enum or abstract

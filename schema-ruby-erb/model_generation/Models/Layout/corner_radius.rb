@@ -15,7 +15,7 @@
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative '../../Models/Types/Double.rb'
+require_relative '../../Models/Types/double.rb'
 require_relative '../../Synthax/Attributes/package.rb'
 
 class CornerRadius < BaseComponent

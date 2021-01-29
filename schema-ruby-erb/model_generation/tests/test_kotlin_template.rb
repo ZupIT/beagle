@@ -1,24 +1,23 @@
+require_relative 'base_unit_test.rb'
 require_relative '../Templates/kotlin_template_helper.rb'
 require_relative '../Models/Analytics/touchable_analytics.rb'
 require_relative '../Models/Widgets/button.rb'
-
-require "test/unit"
  
-class TestKotlinTemplate < Test::Unit::TestCase
+class TestKotlinTemplate < BaseUnitTest
 
 	def setup
     	@kotlinHelper = KotlinTemplateHelper.new
   	end
  
-	def test_is_interface
+	def test_is_interface_when_interface
 		assert_equal(true, @kotlinHelper.is_interface(TouchableAnalytics.new))
 	end
 
-	def test_is_interface_null
+	def test_is_interface_when_null
 		assert_equal(false, @kotlinHelper.is_interface(nil))
 	end
 
-	def test_is_interface_widget_android
+	def test_is_interface_when_widget_android
 		assert_equal(true, @kotlinHelper.is_interface(Button.new))
 	end
  
