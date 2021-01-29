@@ -18,6 +18,17 @@ name: Beagle Appium iOS Tests
 
 #on: workflow_dispatch
 on:
+    push: # for testing with draft mode. Will be removed afterwards
+        branches:
+            - master
+        paths:
+            - 'iOS/**'
+            - 'backend/**'
+            - 'test/appium/app-ios/**'
+            - 'test/appium/project/**'
+            - '.github/workflows/tests/appium'
+            - 'fastlane/automatedTests/appium'  
+    
     pull_request:
         branches:
             - master
