@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import 'package:beagle/beagle.dart';
+import 'package:beagle_components/beagle_image.dart';
 import 'package:flutter/material.dart';
 
 class BeagleTabBar extends StatefulWidget {
@@ -71,81 +73,35 @@ class _BeagleTabBarState extends State<BeagleTabBar>
 
   List<Widget> createTabs() {
     return widget.items
-        .map((tabBarItem) => Tab(
-              text: tabBarItem.title,
-              // TODO: place dynamic icon
-              icon:
-                  //           ImageIcon(
-                  //   AssetImage("images/icon_more.png"),
-                  //   color: Color(0xFF3A5A98),
-                  // ),
-                  const Icon(
-                Icons.directions_transit,
-                // color: Colors.red,
+        .map(
+          (tabBarItem) => Tab(
+            text: tabBarItem.title,
+            // TODO: place dynamic icon
+            icon: SizedBox(
+              width: 24,
+              height: 24,
+              child: Image.asset(
+                BeagleInitializer.designSystem.image(
+                  tabBarItem.path.mobileId,
+                ),
+                fit: BoxFit.fill,
               ),
-            ))
+            ),
+          ),
+        )
         .toList();
   }
 }
 
-// class BeagleTabBar extends StatelessWidget {
-//   const BeagleTabBar({
-//     Key key,
-//     this.items,
-//     this.currentTab,
-//     this.onTabSelection,
-//   }) : super(key: key);
-//
-//   final List<TabBarItem> items;
-//   final int currentTab;
-//   final Function onTabSelection;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return DefaultTabController(
-//       initialIndex: currentTab,
-//       length: items.length,
-//       child: Container(
-//         // TODO: check if its viable to maintain this
-//         color: Theme.of(context).primaryColor,
-//         child: TabBar(
-//           onTap: (tabIndex) {
-//             //TODO: check evaluation of implicit contexts.. (see sample json)
-//             onTabSelection({'value': tabIndex});
-//           },
-//           tabs: createTabs(),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   List<Widget> createTabs() {
-//     return items
-//         .map((tabBarItem) => Tab(
-//               text: tabBarItem.title,
-//               // TODO: place dynamic icon
-//               icon:
-//                   //           ImageIcon(
-//                   //   AssetImage("images/icon_more.png"),
-//                   //   color: Color(0xFF3A5A98),
-//                   // ),
-//                   const Icon(
-//                 Icons.directions_transit,
-//                 // color: Colors.red,
-//               ),
-//             ))
-//         .toList();
-//   }
-// }
-
 // TODO: check ImagePath
 class TabBarItem {
-  TabBarItem(this.title);
+  TabBarItem(this.title, this.path);
 
-  TabBarItem.fromJson(Map<String, dynamic> json) : title = json['title'];
+  TabBarItem.fromJson(Map<String, dynamic> json)
+      : title = json['title'],
+        path = ImagePath.fromJson(json['icon']);
 
   final String title;
+  final LocalImagePath path;
 }
-// val title: String? = null,
 // val icon: ImagePath.Local? = null,
-// )

@@ -37,23 +37,31 @@ class BeaglePageView extends StatefulWidget {
 class _BeaglePageViewState extends State<BeaglePageView> {
   PageController _pageController;
   double _lastPage = 0;
+  int _selectedPage = 0;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: widget.currentPage);
     _pageController.addListener(() {
+      // if (_pageController.page == _selectedPage) {
+      //   widget.onPageChange({'value': _selectedPage});
+      // }
       final isScrollingLeft = _pageController.page < _lastPage;
       final pageFraction =
           _pageController.page - _pageController.page.truncate();
       final page = _pageController.page.round();
       if (isScrollingLeft) {
-        if (pageFraction < 0.01) {
+        if (pageFraction < 0.10) {
           widget.onPageChange({'value': page});
+        } else if (_pageController.page == _selectedPage) {
+          widget.onPageChange({'value': _selectedPage});
         }
       } else {
-        if (pageFraction > 0.99) {
+        if (pageFraction > 0.90) {
           widget.onPageChange({'value': page});
+        } else if (_pageController.page == _selectedPage) {
+          widget.onPageChange({'value': _selectedPage});
         }
       }
 
@@ -76,22 +84,20 @@ class _BeaglePageViewState extends State<BeaglePageView> {
         controller: _pageController,
         onPageChanged: (page) {
           // print('onPageChange got called!');
+          _selectedPage = page;
           // widget.onPageChange({'value': page});
         },
-        // children: widget.children,
-        children: [
-          Container(
-            color: Colors.yellow,
-          ),
-          Container(
-            color: Colors.green,
-          )
-        ],
+        children: widget.children,
+        // children: [
+        //   Container(
+        //     color: Colors.yellow,
+        //   ),
+        //   Container(
+        //     color: Colors.green,
+        //   )
+        // ],
       ),
     );
   }
 }
-
-// override val children: List<ServerDrivenComponent>,
 // override val context: ContextData? = null,
-// val onPageChange: List<Action>? = null,
