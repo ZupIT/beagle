@@ -383,8 +383,8 @@ abstract class AbstractStep {
 
         if (!File(dataBaseFolderPath).exists())
             throw Exception(
-                "Screenshot database folder not found: ${dataBaseFolderPath}! " +
-                        "Create this missing folder and refer to function registerCurrentScreenInDatabase " +
+                "Screenshot database folder not found: ${dataBaseFolderPath} " +
+                        "\nCreate this folder and refer to function registerCurrentScreenInDatabase " +
                         "to create a reference screenshot inside that folder"
             )
 

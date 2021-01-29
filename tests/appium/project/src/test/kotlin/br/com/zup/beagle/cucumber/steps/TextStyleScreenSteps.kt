@@ -21,7 +21,7 @@ import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import org.junit.Assert
 
-class TextStyleScreenSteps: AbstractStep() {
+class TextStyleScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/text"
 
     @Before("@textStyle")
@@ -32,7 +32,7 @@ class TextStyleScreenSteps: AbstractStep() {
     @Given("^the Beagle application did launch with the texts on the screen$")
     fun checkScreen() {
         waitForElementWithTextToBeClickable("TextScreen", false, false)
-        // registerCurrentScreenInDatabase("TextStyleScreen01")
+        //registerCurrentScreenInDatabase("TextStyleScreen01")
     }
 
     @Then("^take a screenshot and assert it is identical to the (.*) image$")
