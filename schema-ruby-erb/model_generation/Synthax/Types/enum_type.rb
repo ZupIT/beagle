@@ -13,6 +13,8 @@
 #  limitations under the License.
 
 require_relative 'type.rb'
+require_relative '../../Models/Types/enum.rb'
+
 
 # This class represents the declaration of an enum
 class EnumType

@@ -12,9 +12,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
+require_relative '../../Synthax/Attributes/field.rb'
+require_relative '../../Synthax/Attributes/package.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
+require_relative '../../Models/Types/string.rb'
+require_relative '../../Models/Types/double.rb'
+require_relative '../../Models/Layout/position_type.rb'
+require_relative 'edge_value.rb'
+require_relative 'corner_radius.rb'
+require_relative 'size.rb'
+require_relative 'position_type.rb'
+require_relative 'display.rb'
+require_relative 'Flex/flex.rb'
 
 class Style < BaseComponent
 

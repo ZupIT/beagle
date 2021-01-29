@@ -12,8 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
+require_relative '../../Models/Types/abstract.rb'
+require_relative '../../Synthax/Attributes/package.rb'
+require_relative '../../Models/Widgets/style_component.rb'
+require_relative 'accessibility_component.rb'
+require_relative 'identifier_component.rb'
 
 class Widget < BaseComponent
 

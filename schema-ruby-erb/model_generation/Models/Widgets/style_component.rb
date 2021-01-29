@@ -12,9 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
+require_relative '../../Models/ServerDriven/server_driven_component.rb'
+require_relative '../Layout/style.rb'
+require_relative '../../Models/Types/interface.rb'
+require_relative '../../Synthax/Attributes/package.rb'
+
 
 class StyleComponent < BaseComponent
 

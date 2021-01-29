@@ -14,6 +14,7 @@
 
 # This class lists the available supported kotlin template of beagle schema.
 require_relative 'template_helper.rb'
+require_relative '../Synthax/Attributes/dictionary.rb'
 
 class KotlinTemplateHelper < TemplateHelper
 

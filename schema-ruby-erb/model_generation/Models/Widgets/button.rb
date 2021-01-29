@@ -12,12 +12,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+require_relative '../base_component.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Attributes/list.rb'
-require_relative '../../Synthax/Types/built_in_type.rb'
-require_relative '../base_component.rb'
+require_relative '../../Models/Types/string.rb'
+require_relative '../../Models/Types/boolean.rb'
 require_relative '../Action/action.rb'
 require_relative 'widget.rb'
+require_relative '../../Models/Analytics/touchable_analytics.rb'
 
 class Button < BaseComponent
 

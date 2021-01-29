@@ -12,9 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/enum_case.rb'
 require_relative '../base_component.rb'
+require_relative '../../Synthax/Attributes/enum_case.rb'
 require_relative '../../Synthax/Types/enum_type.rb'
+require_relative '../../Synthax/Attributes/package.rb'
 
 class UnitType < BaseComponent
 

@@ -12,9 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../../Synthax/Attributes/field.rb'
 require_relative '../../base_component.rb'
+require_relative '../../../Synthax/Attributes/field.rb'
 require_relative '../../../Synthax/Types/built_in_type.rb'
+require_relative '../../../Models/Layout/size.rb'
+require_relative '../../../Models/Types/Double.rb'
+require_relative '../../../Synthax/Attributes/package.rb'
+require_relative '../edge_value.rb'
 require_relative 'flex_direction.rb'
 require_relative 'flex_wrap.rb'
 require_relative 'justify_content.rb'

@@ -12,9 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../base_component.rb'
+require_relative '../../Synthax/Attributes/field.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
+require_relative '../../Synthax/Attributes/package.rb'
 require_relative 'unit_value.rb'
 
 class EdgeValue < BaseComponent

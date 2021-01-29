@@ -15,67 +15,22 @@
 require 'erb'
 require 'date'
 
-require_relative 'Synthax/Attributes/field.rb'
-require_relative 'Synthax/Attributes/package.rb'
-require_relative 'Synthax/Types/type.rb'
-require_relative 'Models/Types/string.rb'
-require_relative 'Models/Types/Double.rb'
-require_relative 'Models/Types/boolean.rb'
-require_relative 'Models/Types/integer.rb'
-require_relative 'Models/Types/enum.rb'
-require_relative 'Models/Types/abstract.rb'
-require_relative 'Models/Types/interface.rb'
-require_relative 'Models/Types/struct.rb'
-require_relative 'Models/Types/data_class.rb'
-
-require_relative 'Models/Layout/corner_radius.rb'
-require_relative 'Models/Layout/display.rb'
-require_relative 'Models/Layout/edge_value.rb'
 require_relative 'Models/Layout/Flex/flex.rb'
-require_relative 'Models/Layout/position_type.rb'
-require_relative 'Models/Layout/size.rb'
 require_relative 'Models/Layout/style.rb'
 require_relative 'Models/Layout/unit_value.rb'
-require_relative 'Models/Layout/unit_type.rb'
-
 require_relative 'Models/Accessibility/accessibility.rb'
-
 require_relative 'Models/Analytics/touchable_analytics.rb'
 require_relative 'Models/Analytics/click_event.rb'
-
 require_relative 'Models/Widgets/button.rb'
+require_relative 'Models/Widgets/widget.rb'
 require_relative 'Models/Widgets/style_component.rb'
 require_relative 'Models/Widgets/accessibility_component.rb'
-require_relative 'Models/Widgets/text.rb'
-require_relative 'Models/Widgets/text_input.rb'
-require_relative 'Models/Widgets/text_input_type.rb'
-require_relative 'Models/Widgets/container.rb'
-require_relative 'Models/Widgets/image.rb'
-require_relative 'Models/Widgets/image_content.rb'
 require_relative 'Models/Widgets/identifier_component.rb'
-
 require_relative 'Models/ServerDriven/server_driven_component.rb'
-require_relative 'Models/ServerDriven/Scroll/scroll_axis.rb'
-require_relative 'Models/ServerDriven/Scroll/scroll_view.rb'
-require_relative 'Models/ServerDriven/List/list_view.rb'
-require_relative 'Models/ServerDriven/Lazy/lazy_component.rb'
-require_relative 'Models/ServerDriven/Screen/safe_area.rb'
-require_relative 'Models/ServerDriven/Screen/screen.rb'
-require_relative 'Models/ServerDriven/Screen/navigation_bar.rb'
-require_relative 'Models/ServerDriven/Screen/navigation_bar_item.rb'
-require_relative 'Models/ServerDriven/TabBar/tab_bar_item.rb'
-require_relative 'Models/ServerDriven/TabBar/tab_bar.rb'
-
-require_relative 'Models/Action/action.rb'
-require_relative 'Models/Action/unknown_action.rb'
-require_relative 'Models/Action/add_children.rb'
-require_relative 'Models/Action/alert.rb'
-require_relative 'Models/Action/confirm.rb'
-require_relative 'Models/Action/send_request.rb'
-require_relative 'Models/Action/condition.rb'
 
 require_relative 'FileHandler/file_handler.rb'
 require_relative 'Common/constants.rb'
+
 require_relative 'Templates/template_helper.rb'
 require_relative 'Templates/kotlin_template_helper.rb'
 
@@ -203,50 +158,10 @@ if __FILE__ == $0
     StyleComponent,
     AccessibilityComponent,
     ClickEvent,
-    # Text,
-    # TextInputType,
-    # ImageContentMode,
-    # TextInput,
-    # Container,
-    # Image,
-    # # Layout
-    # CornerRadius,
-    # EdgeValue,
     Flex,
-    # Size,
     Style,
     UnitValue,
-    # UnitType,
-    # # Accessibility
-    Accessibility,
-    # # Far from being usable
-    # ListView,
-    # AnalyticsEvent,
-    # AnalyticsClick,
-    # TouchableAnalytics,
-    # ClickEvent,
-    # AnalyticsScreen,
-    # SendRequest,
-    # # ServerDriven
-    # ScrollAxis,
-    # ScrollView,
-    # # Action
-    # Action,
-    # UnknownAction,
-    # AddChildren,
-    # Alert,
-    # Confirm,
-    # Condition,
-    # # Lazy
-    # LazyComponent,
-    # # Screen
-    # SafeArea,
-    # Screen,
-    # NavigationBar,
-    # NavigationBarItem,
-    # # TabBar
-    # TabBar,
-    # TabBarItem
+    Accessibility
   ]
   
   generator = ModelGenerator.new(components)
