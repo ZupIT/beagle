@@ -16,8 +16,10 @@
  */
 
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
+import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_page_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text_input.dart';
@@ -51,9 +53,14 @@ ComponentBuilder beagleErrorBuilder() {
 }
 
 ComponentBuilder beagleTextBuilder() {
-  return (element, _, __) => Text(
-        element.getAttributeValue('text'),
+  return (element, _, __) => BeagleText(
         key: element.getKey(),
+        text: element.getAttributeValue('text'),
+        textColor: element.getAttributeValue('textColor'),
+        alignment: EnumUtils.fromString(
+          TextAlignment.values,
+          element.getAttributeValue('alignment') ?? '',
+        ),
       );
 }
 
