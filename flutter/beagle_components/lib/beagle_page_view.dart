@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BeaglePageView extends StatefulWidget {
@@ -35,13 +36,28 @@ class BeaglePageView extends StatefulWidget {
 
 class _BeaglePageViewState extends State<BeaglePageView> {
   PageController _pageController;
+  double _lastPage = 0;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: widget.currentPage);
     _pageController.addListener(() {
-      print(_pageController.page.round());
+      final isScrollingLeft = _pageController.page < _lastPage;
+      final pageFraction =
+          _pageController.page - _pageController.page.truncate();
+      final page = _pageController.page.round();
+      if (isScrollingLeft) {
+        if (pageFraction < 0.01) {
+          widget.onPageChange({'value': page});
+        }
+      } else {
+        if (pageFraction > 0.99) {
+          widget.onPageChange({'value': page});
+        }
+      }
+
+      _lastPage = _pageController.page;
     });
   }
 
@@ -59,14 +75,18 @@ class _BeaglePageViewState extends State<BeaglePageView> {
       child: PageView(
         controller: _pageController,
         onPageChanged: (page) {
-          print('onPageChange got called!');
-          widget.onPageChange({'value': page});
+          // print('onPageChange got called!');
+          // widget.onPageChange({'value': page});
         },
-        children: widget.children,
-        // [
-        //   Text('Page 1 ${widget.currentPage}'),
-        //   Text('Page 2 ${widget.currentPage}'),
-        // ],
+        // children: widget.children,
+        children: [
+          Container(
+            color: Colors.yellow,
+          ),
+          Container(
+            color: Colors.green,
+          )
+        ],
       ),
     );
   }
