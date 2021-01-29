@@ -117,18 +117,18 @@ internal class DataActionReportTest : BaseTest() {
         }
 
         @Test
-        @DisplayName("Then should not call ActionReportFactory.GenerateActionAnalyticsConfig")
-        fun testReportActionWithouAttributesOnAnalyticsAndConfigShouldNotCallGenerateActionAnalyticsConfigAndReturnNull() {
-            //Given
+        @DisplayName("Then should call ActionReportFactory.GenerateActionAnalyticsConfig")
+        fun testReportActionWithoutAttributesOnAnalyticsAndConfigShouldCallGenerateActionAnalyticsConfigWithEmptyAttributesOnDataActionReport() {
+                //Given
             val analyticsConfig: AnalyticsConfig = mockk()
             every { analyticsConfig.actions } returns null
 
             //When
-            val result = dataActionReport.report(analyticsConfig)
+            dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 0) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
-            assertEquals(null, result)
+            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            assertEquals(0, dataActionReport.attributes.size)
         }
 
         @Test
