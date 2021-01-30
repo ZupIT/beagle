@@ -44,7 +44,6 @@ jobs:
         name: Steps
         runs-on: macos-latest
         env:
-            BEAGLE_DIR: /Users/runner/work/beagle/beagle 
             BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
             BFF_NAME: automated-test-bff
             BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
@@ -134,7 +133,7 @@ jobs:
 
             -   name: Configure app in BrowserStack and run the tests
                 env:
-                    APP_FILE: $BEAGLE-DIR/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
+                    APP_FILE: $GITHUB_WORKSPACE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
                     BROWSERSTACK_APP_ID:
                 run: |
                     bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh
