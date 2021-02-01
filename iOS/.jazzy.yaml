@@ -1,0 +1,16 @@
+# Ordered by output of `jazzy — help config`
+output: public
+clean: true
+xcodebuild_arguments:
+- -workspace
+- Beagle.xcworkspace
+- -scheme
+- Beagle
+- CODE_SIGNING_ALLOWED = NO
+- ONLY_ACTIVE_ARCH = NO 
+- ARCHS = 'i386 x86_64'
+author: ZupIT
+copyright: Copyright message here
+min_acl: internal
+theme: fullwidth
+documentation: ./*.md
