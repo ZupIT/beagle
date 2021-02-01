@@ -26,9 +26,11 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.putFirstCharacterOnLowerCase
 import br.com.zup.beagle.android.widget.RootView
+import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.javaGetter
 
 internal object ActionReportFactory {
 
@@ -69,7 +71,7 @@ internal object ActionReportFactory {
         action: ActionAnalytics
     ): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()
-        (value::class as KClass<Any>).memberProperties.forEach { property ->
+        (value::class as KClass<Any>).memberProperties.filter { isFilterAccessibility(it)}.forEach { property ->
             property.get(value)?.let { it ->
                 val keyName = getKeyName(name, property)
                 val propertyValue = evaluateValueIfNecessary(it, rootView, origin, action)
@@ -86,6 +88,10 @@ internal object ActionReportFactory {
         }
         return hashMap
     }
+
+    private fun isFilterAccessibility(property: KProperty1<Any, *>) =
+        property.javaGetter?.modifiers?.let{Modifier.isPublic(it)} ?: false
+
 
     private fun evaluateValueIfNecessary(
         value: Any,
