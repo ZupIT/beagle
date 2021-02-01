@@ -40,124 +40,122 @@ on:
             - 'fastlane/automatedTests/appium/**'
 
 jobs:
-    appium_tests:
-        name: Steps
-        runs-on: macos-latest
+  env:
+    BFF_NAME: automated-test-bff
+
+  bff_config_job:
+    name: BFF configuration job
+    runs-on: ubuntu-20.04
+    steps:
+      -  uses: actions/checkout@v2
+
+      ##################################################################################################
+      # Caching - Start
+      ##################################################################################################
+      -  name: Cache Beagle backend gradle dependencies
+         uses: actions/cache@v2
+         env:
+           gradle-cache-key: backend-tests-gradle-cache
+           gradle-path: ~/.gradle
+         with:
+           path: ${{ env.gradle-path }}
+           key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+           restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+
+      -  name: Cache Appium app-android gradle dependencies
+         uses: actions/cache@v2
+         env:
+           gradle-cache-key: app-android-tests-gradle-cache
+           gradle-path: ~/.gradle
+         with:
+           path: ${{ env.gradle-path }}
+           key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
+           restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+      ##################################################################################################
+      # Caching - end
+      ##################################################################################################
+
+      -  name: Build test BFF image
+         working-directory: backend
+         run: ./gradlew automatedTests:bootBuildImage --imageName="$BFF_NAME"
+
+      -  name: Configure AWS
+         uses: aws-actions/configure-aws-credentials@v1
+         with:
+           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+           aws-region: sa-east-1
+
+      -  name: Login to ECR
+         id: login-ecr
+         uses: aws-actions/amazon-ecr-login@v1
+
+      -  name: Deploy to AWS
+         run: bash ./fastlane/automatedTests/deploy_test_backend.sh
+         env:
+           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+           VERSION: ${{ github.sha }}
+           CLUSTER: ${{ secrets.AWS_CLUSTER_NAME }}
+           NAMESPACE: ${{ secrets.AWS_CLUSTER_NAMESPACE }}
+
+  appium_tests:
+    name: Appium tests job
+    runs-on: macos-latest
+    env:
+        BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
+        BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
+        BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache fastlane dependences
+        uses: actions/cache@v2
         env:
-            BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
-            BFF_NAME: automated-test-bff
-            BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
-            BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
-        steps:
-            -   uses: actions/checkout@v2
+          fastlane-cache-key: fastlane-cache-test
+          fastlane-path: ~/.gem
+        with:
+          path: ${{ env.fastlane-path }}
+          key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
 
-            ##################################################################################################
-            # Caching - Start
-            ##################################################################################################
+      -  name: Install Fastlane
+         run: bundle config set path '~/.gem' && bundle install
 
-            -   name: Cache fastlane dependences
-                uses: actions/cache@v2
-                env:
-                    fastlane-cache-key: fastlane-cache-test
-                    fastlane-path: ~/.gem
-                with:
-                     path: ${{ env.fastlane-path }}
-                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+      -  name: halt process
+         run: echo "stopping the workflow... " && exit 1
 
-            -   name: Cache Beagle backend gradle dependencies
-                uses: actions/cache@v2
-                env:
-                     gradle-cache-key: backend-tests-gradle-cache
-                     gradle-path: ~/.gradle
-                with:
-                     path: ${{ env.gradle-path }}
-                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
-                     restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+      -  name: Build app-android project to generate the app file
+         env:
+           BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
+         run: | # builds the app replacing localhost for the $BFF_URL. Rollbacks after the app is created
+             sed -i --expression 's@http://10.0.2.2:8080@$BFF_URL@g' $BEAGLE_CONFIG_FILE
+             bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug
+             sed -i --expression 's@$BFF_URL@http://10.0.2.2:8080@g' $BEAGLE_CONFIG_FILE
 
-            -   name: Cache Appium app-android gradle dependencies
-                uses: actions/cache@v2
-                env:
-                    gradle-cache-key: app-android-tests-gradle-cache
-                    gradle-path: ~/.gradle
-                with:
-                    path: ${{ env.gradle-path }}
-                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
-                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+      -  name: Configure app in BrowserStack and run the tests
+         env:
+           APP_FILE: $GITHUB_WORKSPACE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
+           BROWSERSTACK_APP_ID: 123
+         run: |
+             bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh
+             if ./tests/appium/project/gradlew -p tests/appium/project cucumber \
+             -Dplatform="android" \
+             -Dplatform_version="11.0" \
+             -Ddevice_name="Google Pixel 4" \
+             -Dbrowserstack.user="$BROWSERSTACK_USER" \
+             -Dbrowserstack.key="$BROWSERSTACK_KEY" \
+             -Dapp_file="$BROWSERSTACK_APP_ID" \
+             -Dbff_base_url="$BFF_URL"; then
+                echo "Gradle task succeeded" >&2
+              else
+                echo "Gradle task failed" >&2
+                exit 1
 
-            ##################################################################################################
-            # Caching - end
-            ##################################################################################################
-
-            -   name: Install Fastlane
-                run: bundle config set path '~/.gem' && bundle install
-
-            ##################################################################################################
-            # BFF setup - start
-            ##################################################################################################
-
-            -  name: Build test BFF image
-               working-directory: backend
-               run: ./gradlew automatedTests:bootBuildImage --imageName="$BFF_NAME"
-
-            -  name: Configure AWS
-               uses: aws-actions/configure-aws-credentials@v1
-               with:
-                   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                   aws-region: sa-east-1
-
-            -  name: Login to ECR
-               id: login-ecr
-               uses: aws-actions/amazon-ecr-login@v1
-
-            -  name: Deploy to AWS
-               run: bash ./fastlane/automatedTests/deploy_test_backend.sh
-               env:
-                 REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                 VERSION: ${{ github.sha }}
-                 CLUSTER: ${{ secrets.AWS_CLUSTER_NAME }}
-                 NAMESPACE: ${{ secrets.AWS_CLUSTER_NAMESPACE }}
-
-            ##################################################################################################
-            # BFF setup - end
-            ##################################################################################################
-
-            -  name: halt process
-               run: echo "stopping the workflow... " && exit 1
-
-            -   name: Build app-android project to generate the app file
-                env:
-                    BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
-                run: | # builds the app replacing localhost for the $BFF_URL. Rollbacks after the app is created
-                    sed -i --expression 's@http://10.0.2.2:8080@$BFF_URL@g' $BEAGLE_CONFIG_FILE 
-                    bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug 
-                    sed -i --expression 's@$BFF_URL@http://10.0.2.2:8080@g' $BEAGLE_CONFIG_FILE
-
-            -   name: Configure app in BrowserStack and run the tests
-                env:
-                    APP_FILE: $GITHUB_WORKSPACE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
-                    BROWSERSTACK_APP_ID: 123
-                run: |
-                    bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh
-                    if ./tests/appium/project/gradlew -p tests/appium/project cucumber \
-                    -Dplatform="android" \
-                    -Dplatform_version="11.0" \
-                    -Ddevice_name="Google Pixel 4" \
-                    -Dbrowserstack.user="$BROWSERSTACK_USER" \
-                    -Dbrowserstack.key="$BROWSERSTACK_KEY" \
-                    -Dapp_file="$BROWSERSTACK_APP_ID" \
-                    -Dbff_base_url="$BFF_URL"; then
-                       echo "Gradle task succeeded" >&2
-                     else
-                       echo "Gradle task failed" >&2
-                       exit 1
-
-            -   name: Expose failed test screenshot files
-                if: failure()
-                uses: actions/upload-artifact@v2
-                with:
-                     name: failed_tests_screenshots
-                     path: tests/appium/project/build/screenshots/
+      -  name: Expose failed test screenshot files
+         if: failure()
+         uses: actions/upload-artifact@v2
+         with:
+           name: failed_tests_screenshots
+           path: tests/appium/project/build/screenshots/
 
 #            -   name: Cleanup
 #                run: bundle exec fastlane automated_tests cleanup
