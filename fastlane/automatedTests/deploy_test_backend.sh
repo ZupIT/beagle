@@ -23,7 +23,7 @@ docker push "$FULL_IMAGE"
 
 # Deploy image in EKS
 aws eks update-kubeconfig --name "$CLUSTER"
-kubectl -n ""$BFF_NAME"SPACE" apply -f - << EOF
+kubectl -n ""$BFF_NAMESPACE" apply -f - << EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
