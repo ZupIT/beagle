@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/material.dart';
 
-void main() {
-  test('Counter value should be incremented', () {
-    expect(1, 1);
-  });
+Color hexToColor(String hexString, {String alphaChannel = 'FF'}) {
+  return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
 }
