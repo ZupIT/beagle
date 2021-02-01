@@ -16,8 +16,8 @@
 
 name: Beagle Appium Android Tests
 
-on: workflow_dispatch
-#on:
+#on: workflow_dispatch
+on:
 #    push:
 #        branches:
 #            - master
@@ -28,16 +28,16 @@ on: workflow_dispatch
 #            - 'test/appium/project/**'
 #            - '.github/**'
 #            - 'fastlane/automatedTests/appium'
-#    pull_request:
-#        branches:
-#            - master
-#        paths:
-#            - 'android/**'
-#            - 'backend/**'
-#            - 'test/appium/app-android/**'
-#            - 'test/appium/project/**'
-#            - '.github/**'
-#            - 'fastlane/automatedTests/appium'
+    pull_request:
+        branches:
+            - master
+        paths:
+            - 'android/**'
+            - 'backend/**'
+            - 'test/appium/app-android/**'
+            - 'test/appium/project/**'
+            - '.github/**'
+            - 'fastlane/automatedTests/appium'
 
 jobs:
     appium_tests:
@@ -122,6 +122,9 @@ jobs:
             ##################################################################################################
             # BFF setup - end
             ##################################################################################################
+
+            -  name: halt process
+               run: echo "stopping the workflow... " && exit 1
 
             -   name: Build app-android project to generate the app file
                 env:
