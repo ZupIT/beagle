@@ -28,17 +28,17 @@ class BeagleImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return path.runtimeType == LocalImagePath
-        ? createImageFromAsset(path)
-        : createImageFromNetwork(path);
+        ? _createImageFromAsset(path)
+        : _createImageFromNetwork(path);
   }
 
-  Image createImageFromAsset(LocalImagePath path) {
+  Image _createImageFromAsset(LocalImagePath path) {
     //   // TODO: adicionar design system
     //   // return Image.asset(path.mobileId)
     return Image.asset('name');
   }
 
-  Widget createImageFromNetwork(RemoteImagePath path) {
+  Widget _createImageFromNetwork(RemoteImagePath path) {
     // TODO: check placeholder
     // return Image.network(
     //   path.url,
@@ -49,25 +49,24 @@ class BeagleImage extends StatelessWidget {
       return FadeInImage.assetNetwork(
         placeholder: 'assets/loading.gif',
         image: path.url,
-        fit: getBoxFit(mode),
+        fit: _getBoxFit(mode),
       );
     } else {
       return FadeInImage.memoryNetwork(
         placeholder: kTransparentImage,
         image: path.url,
-        fit: getBoxFit(mode),
+        fit: _getBoxFit(mode),
       );
     }
   }
 
-  // TODO: check Box Fit
-  BoxFit getBoxFit(ImageContentMode mode) {
+  BoxFit _getBoxFit(ImageContentMode mode) {
     if (mode == ImageContentMode.CENTER) {
-      return BoxFit.cover;
+      return BoxFit.none;
     } else if (mode == ImageContentMode.CENTER_CROP) {
       return BoxFit.cover;
     } else if (mode == ImageContentMode.FIT_CENTER) {
-      return BoxFit.cover;
+      return BoxFit.contain;
     } else if (mode == ImageContentMode.FIT_XY) {
       return BoxFit.fill;
     } else {
@@ -85,36 +84,43 @@ abstract class ImagePath {
       RemoteImagePath;
 
   factory ImagePath.fromJson(Map<String, dynamic> json) {
-    if (json['_beagleImagePath_'] == 'local') {
+    if (json[_jsonBeagleImagePathKey] == 'local') {
       return LocalImagePath.fromJson(json);
     } else {
       return RemoteImagePath.fromJson(json);
     }
   }
+
+  static const _jsonBeagleImagePathKey = '_beagleImagePath_';
 }
 
 class LocalImagePath extends ImagePath {
   LocalImagePath(this.mobileId) : super._();
 
   LocalImagePath.fromJson(Map<String, dynamic> json)
-      : mobileId = json['mobileId'],
+      : mobileId = json[_jsonMobileIdKey],
         super._();
 
   final String mobileId;
+
+  static const _jsonMobileIdKey = 'mobileId';
 }
 
 class RemoteImagePath extends ImagePath {
   RemoteImagePath(this.url, this.placeholder) : super._();
 
   RemoteImagePath.fromJson(Map<String, dynamic> json)
-      : url = json['url'],
-        placeholder = json['placeholder'] != null
-            ? LocalImagePath.fromJson(json['placeholder'])
+      : url = json[_jsonUrlKey],
+        placeholder = json[_jsonPlaceholderKey] != null
+            ? LocalImagePath.fromJson(json[_jsonPlaceholderKey])
             : null,
         super._();
 
   final String url;
   final LocalImagePath placeholder;
+
+  static const _jsonUrlKey = 'url';
+  static const _jsonPlaceholderKey = 'placeholder';
 }
 
 enum ImageContentMode {
