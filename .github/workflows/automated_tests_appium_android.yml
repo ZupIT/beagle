@@ -127,7 +127,7 @@ jobs:
 
             -   name: Build app-android project to generate the app file
                 env:
-                    BEAGLE_CONFIG_FILE=tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
+                    BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
                 run: | # builds the app replacing localhost for the $BFF_URL. Rollbacks after the app is created
                     sed -i --expression 's@http://10.0.2.2:8080@$BFF_URL@g' $BEAGLE_CONFIG_FILE 
                     bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug 
@@ -136,7 +136,7 @@ jobs:
             -   name: Configure app in BrowserStack and run the tests
                 env:
                     APP_FILE: $GITHUB_WORKSPACE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
-                    BROWSERSTACK_APP_ID:
+                    BROWSERSTACK_APP_ID: 123
                 run: |
                     bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh
                     if ./tests/appium/project/gradlew -p tests/appium/project cucumber \
