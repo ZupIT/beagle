@@ -1,0 +1,19 @@
+{
+    "_beagleAction_": "beagle:addChildren",
+    "analytics": {
+        "attributes": [
+            "componentId",
+            "mode",
+            "value[0].text"
+        ],
+        "enable": true
+    },
+    "componentId": "my-component",
+    "mode": "APPEND",
+    "value": [
+        {
+            "_beagleComponent_": "beagle:text",
+            "text": "Appended text."
+        }
+    ]
+}

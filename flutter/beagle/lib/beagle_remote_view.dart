@@ -15,7 +15,6 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/action/beagle_alert.dart';
 import 'package:beagle/beagle_initializer.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
@@ -42,7 +41,7 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
   @override
   void initState() {
     super.initState();
-    _view = BeagleInitializer.service.createView();
+    _view = BeagleInitializer.getService().createView();
     if (widget.onCreateView != null) {
       widget.onCreateView(_view);
     }
@@ -58,18 +57,16 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
 
   Widget buildViewFromTree(BeagleUIElement tree) {
     final widgetChildren = tree.getChildren().map(buildViewFromTree).toList();
-    final builder = BeagleInitializer.service.components[tree.getType()];
+    final builder = BeagleInitializer.getService().components[tree.getType()];
     if (builder == null) {
       debugPrint("Can't find builder for component ${tree.getType()}");
       return Container();
     }
-    return builder(tree, widgetChildren);
+    return builder(tree, widgetChildren, _view);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BeagleAlert(
-        child:
-            currentTree == null ? Container() : buildViewFromTree(currentTree));
+    return currentTree == null ? Container() : buildViewFromTree(currentTree);
   }
 }

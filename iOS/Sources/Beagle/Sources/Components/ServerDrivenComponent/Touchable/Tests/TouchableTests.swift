@@ -28,13 +28,15 @@ final class TouchableTests: XCTestCase {
             - type: "custom:beagleschematestscomponent"
           - clickAnalyticsEvent: Optional<AnalyticsClick>.none
           ▿ onPress: 1 element
-            - Navigate.popView
+            ▿ Navigate
+              - _beagleAction_: "beagle:popview"
+              - analytics: Optional<ActionAnalyticsConfig>.none
         """)
     }
 
     func testTouchableView() {
         //Given //When
-        let touchable = Touchable(onPress: [Navigate.popView], child: Text("Touchable"))
+        let touchable = Touchable(onPress: [Navigate.popView()], child: Text("Touchable"))
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
         let view = renderer.render(touchable)

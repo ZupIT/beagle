@@ -20,7 +20,7 @@ public struct Screen: AutoInitiable, HasContext {
     
     // MARK: - Public Properties
     
-    public let id: String?
+    public let identifier: String?
     public let style: Style?
     public let safeArea: SafeArea?
     public let navigationBar: NavigationBar?
@@ -30,7 +30,7 @@ public struct Screen: AutoInitiable, HasContext {
 
 // sourcery:inline:auto:Screen.Init
     public init(
-        id: String? = nil,
+        identifier: String? = nil,
         style: Style? = nil,
         safeArea: SafeArea? = nil,
         navigationBar: NavigationBar? = nil,
@@ -38,7 +38,7 @@ public struct Screen: AutoInitiable, HasContext {
         child: ServerDrivenComponent,
         context: Context? = nil
     ) {
-        self.id = id
+        self.identifier = identifier
         self.style = style
         self.safeArea = safeArea
         self.navigationBar = navigationBar
@@ -58,7 +58,7 @@ public struct Screen: AutoInitiable, HasContext {
         @ChildBuilder
         _ child: () -> ServerDrivenComponent
     ) {
-        self.init(id: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: screenAnalyticsEvent, child: child(), context: context)
+        self.init(identifier: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: screenAnalyticsEvent, child: child(), context: context)
     }
 
 }

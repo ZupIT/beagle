@@ -75,7 +75,9 @@ final class ListViewCell: UICollectionViewCell {
             initContexts()
             container.setContext(Context(id: listView.model.iteratorName, value: item))
             setViewsIdentifier(viewsIdentifier)
-            onInits.forEach(listView.listController.execute)
+            onInits.forEach {
+                listView.listController.execute(actions: $0.actions, event: "onInit", origin: $0.view)
+            }
         }
         
         addBindings()

@@ -38,20 +38,22 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
-private val DEFAULT_TEXT = Bind.Value("Hello")
 private const val DEFAULT_STYLE = "DummyStyle"
-private val BUTTON_STYLE = RandomData.int()
 
-class ButtonTest : BaseComponentTest() {
+@DisplayName("Given a Button")
+internal class ButtonTest : BaseComponentTest() {
 
+    private val buttonStyle = RandomData.int()
+    private val defaultText = Bind.Value("Hello")
     private val analytics: Analytics = mockk(relaxed = true)
     private val context: Context = mockk()
     private val button: AppCompatButton = mockk(relaxed = true, relaxUnitFun = true)
-
     private val listener = slot<View.OnClickListener>()
 
     private lateinit var buttonComponent: Button
@@ -68,80 +70,136 @@ class ButtonTest : BaseComponentTest() {
         every { button.setOnClickListener(capture(listener)) } just Runs
         every { button.context } returns context
 
-        every { anyConstructed<ViewFactory>().makeButton(any(), BUTTON_STYLE) } returns button
+        every { anyConstructed<ViewFactory>().makeButton(any(), buttonStyle) } returns button
         every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any<List<Action>>()) } just Runs
-        every { anyConstructed<StyleManager>().getButtonStyle(any()) } returns BUTTON_STYLE
+        every { anyConstructed<StyleManager>().getButtonStyle(any()) } returns buttonStyle
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
 
-        buttonComponent = Button(DEFAULT_TEXT, styleId = DEFAULT_STYLE)
+        buttonComponent = Button(defaultText, styleId = DEFAULT_STYLE)
     }
 
-    @Test
-    fun build_should_call_prefetch_when_action_not_null() {
-        // Given
-        val action = Navigate.PopView()
-        buttonComponent = buttonComponent.copy(onPress = listOf(action))
+    @DisplayName("When set the configurations for Button")
+    @Nested
+    inner class ButtonConfigurations {
 
-        // When
-        buttonComponent.buildView(rootView)
+        @Test
+        @DisplayName("Then should build a Button")
+        fun buildButtonInstance() {
+            // When
+            val view = buttonComponent.buildView(rootView)
 
-        // Then
-        verify(exactly = once()) { anyConstructed<PreFetchHelper>().handlePreFetch(rootView, listOf(action)) }
+            // Then
+            assertTrue(view is AppCompatButton)
+        }
+
+        @Test
+        @DisplayName("Then should build a ClickListener on Button")
+        fun buildClickListenerInstance() {
+            // When
+            buttonComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) { button.setOnClickListener(any()) }
+        }
+
+        @Test
+        @DisplayName("Then check if prefetch was called")
+        fun verifyPrefetch() {
+            // Given
+            val action = Navigate.PopView()
+            buttonComponent = buttonComponent.copy(onPress = listOf(action))
+
+            // When
+            buttonComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) { anyConstructed<PreFetchHelper>().handlePreFetch(rootView, listOf(action)) }
+        }
     }
 
-    @Test
-    fun build_should_return_a_button_instance() {
-        // When
-        val view = buttonComponent.buildView(rootView)
+    @DisplayName("When passing isEnabled")
+    @Nested
+    inner class IsEnabledTest {
 
-        // Then
-        assertTrue(view is AppCompatButton)
+        @Test
+        @DisplayName("Then shouldn't call setEnabled with null")
+        fun testIsEnabledNull() {
+            // When
+            buttonComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = 0) { button.isEnabled = any() }
+        }
+
+        @Test
+        @DisplayName("Then should call setEnabled(true) with false")
+        fun testIsEnabledFalse() {
+            // Given
+            buttonComponent = buttonComponent.copy(disabled = Bind.Value(false))
+
+            // When
+            buttonComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = 1) { button.isEnabled = true }
+        }
+
+        @Test
+        @DisplayName("Then should call setEnabled(false) with true")
+        fun testIsEnabledTrue() {
+            // Given
+            buttonComponent = buttonComponent.copy(disabled = Bind.Value(true))
+
+            // When
+            buttonComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = 1) { button.isEnabled = false }
+        }
     }
 
-    @Test
-    fun build_should_setOnClickListener() {
-        // When
-        buttonComponent.buildView(rootView)
+    @DisplayName("When passing clickAnalyticsEvent and click on button")
+    @Nested
+    inner class ClickAnalyticsEventTest {
 
-        // Then
-        verify(exactly = once()) { button.setOnClickListener(any()) }
-    }
+        @Test
+        @DisplayName("Then should call analytics with ClickEvent")
+        fun testClickAnalyticsEventClickEvent() {
+            // GIVEN
+            val category = "category"
+            val action = "action"
+            val value = "value"
+            val clickAnalyticsEvent = ClickEvent(
+                category,
+                action,
+                value
+            )
+            buttonComponent = buttonComponent.copy(clickAnalyticsEvent = clickAnalyticsEvent)
+            val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
 
-    @Test
-    fun should_call_analytics_when_button_clicked_and_click_event_presented() {
-        // GIVEN
-        val category = "category"
-        val action = "action"
-        val value = "value"
-        val clickAnalyticsEvent = ClickEvent(
-            category,
-            action,
-            value
-        )
-        buttonComponent = buttonComponent.copy(clickAnalyticsEvent = clickAnalyticsEvent)
-        val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
+            // When
+            val buttonView = buttonComponent.buildView(rootView)
+            verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
+            onClickListenerSlot.captured.onClick(view)
 
-        // When
-        val buttonView = buttonComponent.buildView(rootView)
-        verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
-        onClickListenerSlot.captured.onClick(view)
+            // Then
+            verify { analytics.trackEventOnClick(eq(clickAnalyticsEvent)) }
+        }
 
-        // Then
-        verify { analytics.trackEventOnClick(eq(clickAnalyticsEvent)) }
-    }
+        @Test
+        @DisplayName("Then shouldn't call analytics with null")
+        fun testClickAnalyticsEventNull() {
+            // GIVEN
+            val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
 
-    @Test
-    fun should_not_call_analytics_when_click_event_not_presented() {
-        // GIVEN
-        val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
+            // When
+            val buttonView = buttonComponent.buildView(rootView)
+            verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
+            onClickListenerSlot.captured.onClick(view)
 
-        // When
-        val buttonView = buttonComponent.buildView(rootView)
-        verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
-        onClickListenerSlot.captured.onClick(view)
-
-        // Then
-        verify(exactly = 0) { analytics.trackEventOnClick(any()) }
+            // Then
+            verify(exactly = 0) { analytics.trackEventOnClick(any()) }
+        }
     }
 }

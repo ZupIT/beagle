@@ -16,11 +16,14 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.core.BeagleJson
+
 /**
  * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
  * @property value the numeric measurement value.
  * @property type the unit of measurement.
  */
+@BeagleJson
 data class UnitValue(
     val value: Double,
     val type: UnitType
@@ -33,6 +36,8 @@ data class UnitValue(
  * @property PERCENT
  * @property AUTO
  */
+
+@BeagleJson
 enum class UnitType {
     /**
      * Apply the value based in platform, like android this represent dp.

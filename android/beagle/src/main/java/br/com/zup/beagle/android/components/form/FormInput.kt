@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.GhostComponent
 
 /**
@@ -43,13 +44,14 @@ import br.com.zup.beagle.core.GhostComponent
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
+@BeagleJson
 data class FormInput(
     val name: String,
     val required: Boolean? = null,
     val validator: String? = null,
     val errorMessage: String? = null,
-    override val child: InputWidget
-)  : ViewConvertable, GhostComponent {
+    override val child: InputWidget,
+) : ViewConvertable, GhostComponent {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
