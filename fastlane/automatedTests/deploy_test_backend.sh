@@ -20,7 +20,6 @@
 FULL_IMAGE=$(echo "$REGISTRY/$BFF_NAME:$VERSION" | tr [:upper:] [:lower:])
 docker tag ""$BFF_NAME"" "$FULL_IMAGE"
 docker push "$FULL_IMAGE"
-docker logout "$REGISTRY"
 
 # Deploy image in EKS
 aws eks update-kubeconfig --name "$CLUSTER"
