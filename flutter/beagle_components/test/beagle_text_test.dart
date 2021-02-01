@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
+import 'package:beagle/utils/color.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:beagle/utils/color_utils.dart';
 
 const text = 'Beagle Text';
 const textColor = '#00FF00';
@@ -56,7 +56,7 @@ void main() {
           (WidgetTester tester) async {
         await tester.pumpWidget(createWidget());
 
-        final expectedTextColor = hexToColor(textColor);
+        final expectedTextColor = HexColor(textColor);
 
         expect(tester.widget<Text>(find.text(text)).style.color,
             expectedTextColor);
@@ -78,7 +78,7 @@ void main() {
           (WidgetTester tester) async {
         await tester.pumpWidget(createWidget(textColor: null));
 
-        final expectedTextColor = hexToColor(BeagleText.defaultTextColor);
+        final expectedTextColor = HexColor(BeagleText.defaultTextColor);
 
         expect(tester.widget<Text>(find.text(text)).style.color,
             expectedTextColor);
