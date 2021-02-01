@@ -17,36 +17,36 @@
 #
 
 # Send image to ECR
-FULL_IMAGE=$(echo "$REGISTRY/$NAME:$VERSION" | tr [:upper:] [:lower:])
-docker tag $NAME $FULL_IMAGE
-docker push $FULL_IMAGE
-docker logout $REGISTRY
+FULL_IMAGE=$(echo "$REGISTRY/$BFF_NAME:$VERSION" | tr [:upper:] [:lower:])
+docker tag ""$BFF_NAME"" "$FULL_IMAGE"
+docker push "$FULL_IMAGE"
+docker logout "$REGISTRY"
 
 # Deploy image in EKS
-aws eks update-kubeconfig --name $CLUSTER
-kubectl -n $NAMESPACE apply -f - << EOF
+aws eks update-kubeconfig --name "$CLUSTER"
+kubectl -n ""$BFF_NAME"SPACE" apply -f - << EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $NAME
+  name: "$BFF_NAME"
   labels:
-    app: $NAME
-    version: $VERSION
+    app: "$BFF_NAME"
+    version: "$VERSION"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: $NAME
-      version: $VERSION
+      app: "$BFF_NAME"
+      version: "$VERSION"
   template:
     metadata:
       labels:
-        app: $NAME
-        version: $VERSION
+        app: "$BFF_NAME"
+        version: "$VERSION"
     spec:
       containers:
-        - name: $NAME
-          image: $FULL_IMAGE
+        - name: "$BFF_NAME"
+          image: "$FULL_IMAGE"
           livenessProbe:
             failureThreshold: 3
             httpGet:
@@ -75,14 +75,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: $NAME
-    service: $NAME
-  name: $NAME
+    app: "$BFF_NAME"
+    service: "$BFF_NAME"
+  name: "$BFF_NAME"
 spec:
   ports:
     - name: http
       port: 8080
       targetPort: 8080
   selector:
-    app: $NAME
+    app: "$BFF_NAME"
 EOF

@@ -97,7 +97,7 @@ jobs:
 
             -  name: Build test BFF image
                working-directory: backend
-               run: ./gradlew automatedTests:bootBuildImage --imageName=${{ BFF_NAME }}
+               run: ./gradlew automatedTests:bootBuildImage --imageName="$BFF_NAME"
 
             -  name: Configure AWS
                uses: aws-actions/configure-aws-credentials@v1
@@ -113,7 +113,6 @@ jobs:
             -  name: Deploy to AWS
                run: bash ./fastlane/automatedTests/deploy_test_backend.sh
                env:
-                 NAME: ${{ BFF_NAME }}
                  REGISTRY: ${{ steps.login-ecr.outputs.registry }}
                  VERSION: ${{ github.sha }}
                  CLUSTER: ${{ secrets.AWS_CLUSTER_NAME }}
