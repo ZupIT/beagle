@@ -54,42 +54,24 @@ final class ButtonTests: XCTestCase {
         let button = renderer.render(component) as? UIButton
         
         // Then
-        XCTAssertEqual(button?.titleLabel?.text, buttonTitle, "Build View not returning UIButton")
+        XCTAssertEqual(button?.titleLabel?.text, buttonTitle)
     }
-    
-    func testSetButtonEnabledDefaultValue() {
-        //Given
-        let component = Button(text: "")
-        
-        //When
-        let button = renderer.render(component) as? UIButton
-        
-        // Then
-        XCTAssertEqual(button?.isEnabled, true, "Build View not returning UIButton")
+
+    func testSetEnabledState() throws {
+        try buttonShouldBeProperlySetWith(enabled: true)
+        try buttonShouldBeProperlySetWith(enabled: false)
+        try buttonShouldBeProperlySetWith(enabled: nil)
     }
-    
-    func testSetButtonDisabled() {
-        //Given
-        let buttonDisabled = false
-        let component = Button(text: "", enabled: .value(buttonDisabled))
-        
-        //When
-        let button = renderer.render(component) as? UIButton
-        
+
+    private func buttonShouldBeProperlySetWith(enabled: Bool?) throws {
+        // Given
+        let component = Button(text: "", enabled: enabled.map { .value($0) })
+
+        // When
+        let button = try XCTUnwrap(renderer.render(component) as? UIButton)
+
         // Then
-        XCTAssertEqual(button?.isEnabled, buttonDisabled, "Build View not returning UIButton")
-    }
-    
-    func testSetButtonEnabled() {
-        //Given
-        let buttonEnabled = true
-        let component = Button(text: "", enabled: .value(buttonEnabled))
-        
-        //When
-        let button = renderer.render(component) as? UIButton
-        
-        // Then
-        XCTAssertEqual(button?.isEnabled, buttonEnabled, "Build View not returning UIButton")
+        XCTAssertEqual(button.isEnabled, enabled ?? true)
     }
     
     func testApplyButtonStyle() {
