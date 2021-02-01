@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-import 'package:beagle/beagle.dart';
+import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:beagle_components/beagle_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BeagleTabBar extends StatefulWidget {
   const BeagleTabBar({
     Key key,
+    this.designSystem,
     this.items,
     this.currentTab,
     this.onTabSelection,
@@ -29,6 +31,7 @@ class BeagleTabBar extends StatefulWidget {
   final List<TabBarItem> items;
   final int currentTab;
   final Function onTabSelection;
+  final DesignSystem designSystem;
 
   @override
   _BeagleTabBarState createState() => _BeagleTabBarState();
@@ -42,9 +45,10 @@ class _BeagleTabBarState extends State<BeagleTabBar>
   void initState() {
     super.initState();
     _tabController = TabController(
-        initialIndex: widget.currentTab,
-        length: widget.items.length,
-        vsync: this);
+      initialIndex: widget.currentTab,
+      length: widget.items.length,
+      vsync: this,
+    );
   }
 
   @override
@@ -56,44 +60,78 @@ class _BeagleTabBarState extends State<BeagleTabBar>
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final _platform = Theme.of(context).platform;
+    return _platform == TargetPlatform.iOS
+        ? buildCupertinoWidget()
+        : buildMaterialWidget();
+  }
+
+  Widget buildCupertinoWidget() {
+    return CupertinoTabBar(
+      currentIndex: widget.currentTab,
+      onTap: (tabIndex) {
+        widget.onTabSelection({'value': tabIndex});
+      },
+      items: buildCupertinoTabs(),
+    );
+  }
+
+  List<BottomNavigationBarItem> buildCupertinoTabs() {
+    return widget.items.map((tabBarItem) {
+      return BottomNavigationBarItem(
+        label: tabBarItem.title,
+        icon: _getImageFromAsset(
+          tabBarItem.path.mobileId,
+        ),
+      );
+    }).toList();
+  }
+
+  Widget buildMaterialWidget() {
     return Container(
       // TODO: check if its viable to maintain this
       color: Theme.of(context).primaryColor,
       child: TabBar(
         controller: _tabController,
         onTap: (tabIndex) {
-          //TODO: check evaluation of implicit contexts.. (see sample json)
           widget.onTabSelection({'value': tabIndex});
         },
-        tabs: createTabs(),
+        tabs: buildMaterialTabs(),
       ),
     );
   }
 
-  List<Widget> createTabs() {
+  List<Widget> buildMaterialTabs() {
     return widget.items
         .map(
           (tabBarItem) => Tab(
             text: tabBarItem.title,
-            // TODO: place dynamic icon
-            icon: SizedBox(
-              width: 24,
-              height: 24,
-              child: Image.asset(
-                BeagleInitializer.designSystem.image(
-                  tabBarItem.path.mobileId,
-                ),
-                fit: BoxFit.fill,
-              ),
+            icon: _getImageFromAsset(
+              tabBarItem.path.mobileId,
             ),
           ),
         )
         .toList();
   }
+
+  Image _getImageFromAsset(String mobileId) {
+    if (widget.designSystem == null) {
+      return null;
+    }
+
+    final assetName = widget.designSystem.image(mobileId);
+
+    return assetName != null ? Image.asset(assetName, fit: BoxFit.fill) : null;
+  }
 }
 
-// TODO: check ImagePath
 class TabBarItem {
   TabBarItem(this.title, this.path);
 
@@ -104,4 +142,3 @@ class TabBarItem {
   final String title;
   final LocalImagePath path;
 }
-// val icon: ImagePath.Local? = null,

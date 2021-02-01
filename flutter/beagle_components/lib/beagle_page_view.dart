@@ -44,9 +44,7 @@ class _BeaglePageViewState extends State<BeaglePageView> {
     super.initState();
     _pageController = PageController(initialPage: widget.currentPage);
     _pageController.addListener(() {
-      // if (_pageController.page == _selectedPage) {
-      //   widget.onPageChange({'value': _selectedPage});
-      // }
+      // Here we're trying to do a smooth transition between pages
       final isScrollingLeft = _pageController.page < _lastPage;
       final pageFraction =
           _pageController.page - _pageController.page.truncate();
@@ -78,26 +76,21 @@ class _BeaglePageViewState extends State<BeaglePageView> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: PageView(
         controller: _pageController,
         onPageChanged: (page) {
-          // print('onPageChange got called!');
           _selectedPage = page;
-          // widget.onPageChange({'value': page});
         },
         children: widget.children,
-        // children: [
-        //   Container(
-        //     color: Colors.yellow,
-        //   ),
-        //   Container(
-        //     color: Colors.green,
-        //   )
-        // ],
       ),
     );
   }
 }
-// override val context: ContextData? = null,

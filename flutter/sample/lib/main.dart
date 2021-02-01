@@ -19,12 +19,13 @@ import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sample/design_system.dart';
 import 'package:sample/tab_bar_screen.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/310c8bbcc7a4ec835c57d60e858b8bcf9a6ca7e0/';
+    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/648f59cc4ba492b6dcfe486e5a3d698442afdd8f';
 
 void main() {
   runApp(const MaterialApp(home: BeagleSampleApp()));
@@ -83,11 +84,12 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
     return MaterialApp(
       title: 'Beagle Sample',
       theme: ThemeData(
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          indicatorColor: Colors.white,
-          appBarTheme: const AppBarTheme(
-            elevation: 0,
-          )),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        indicatorColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+        ),
+      ),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Beagle Sample'),
