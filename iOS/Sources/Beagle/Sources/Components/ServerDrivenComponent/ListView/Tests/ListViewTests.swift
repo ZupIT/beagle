@@ -165,7 +165,7 @@ final class ListViewTests: XCTestCase {
     
     private func getCollectionView(direction: ListView.Direction, isScrollIndicatorVisible: Bool? = nil) throws -> UICollectionView {
         let component = createListView(
-            direction: .horizontal,
+            direction: direction,
             isScrollIndicatorVisible: isScrollIndicatorVisible
         )
         
