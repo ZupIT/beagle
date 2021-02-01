@@ -15,6 +15,8 @@
 #
 
 name: Beagle Appium Android Tests
+env:
+  BFF_NAME: automated-test-bff
 
 #on: workflow_dispatch
 on:
@@ -40,9 +42,6 @@ on:
             - 'fastlane/automatedTests/appium/**'
 
 jobs:
-  env:
-    BFF_NAME: automated-test-bff
-
   bff_config_job:
     name: BFF configuration job
     runs-on: ubuntu-20.04
