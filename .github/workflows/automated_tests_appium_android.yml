@@ -15,8 +15,6 @@
 #
 
 name: Beagle Appium Android Tests
-env:
-  BFF_NAME: automated-test-bff
 
 #on: workflow_dispatch
 on:
@@ -45,6 +43,8 @@ jobs:
   bff_config_job:
     name: BFF configuration job
     runs-on: ubuntu-20.04
+    env:
+      BFF_NAME: automated-test-bff
     steps:
       -  uses: actions/checkout@v2
 
