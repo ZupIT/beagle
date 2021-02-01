@@ -64,7 +64,5 @@ class BeagleInitializer {
     return _service;
   }
 
-  static DesignSystem get designSystem {
-    return _designSystem;
-  }
+  static DesignSystem get designSystem => _designSystem;
 }

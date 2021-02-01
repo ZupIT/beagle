@@ -22,12 +22,16 @@ abstract class ImagePath {
   factory ImagePath.remote(String url) = RemoteImagePath;
 
   factory ImagePath.fromJson(Map<String, dynamic> json) {
-    if (json['_beagleImagePath_'] == 'local') {
-      return LocalImagePath(json['mobileId']);
+    if (json[_jsonImagePathKey] == 'local') {
+      return LocalImagePath(json[_jsonMobileIdKey]);
     } else {
-      return RemoteImagePath(json['url']);
+      return RemoteImagePath(json[_jsonUrlKey]);
     }
   }
+
+  static const _jsonImagePathKey = '_beagleImagePath_';
+  static const _jsonMobileIdKey = 'mobileId';
+  static const _jsonUrlKey = '_beagleImagePath_';
 }
 
 class LocalImagePath extends ImagePath {

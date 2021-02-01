@@ -95,7 +95,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
           title: const Text('Beagle Sample'),
           actions: [
             PopupMenuButton(
-              onSelected: handleAppBarMenuOption,
+              onSelected: _handleAppBarMenuOption,
               itemBuilder: (BuildContext context) {
                 return _appBarMenuOptions.map((menuOption) {
                   return PopupMenuItem<String>(
@@ -116,7 +116,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
     );
   }
 
-  void handleAppBarMenuOption(String menuOption) {
+  void _handleAppBarMenuOption(String menuOption) {
     if (menuOption == _appBarMenuOptions[0]) {
       Navigator.push(
           context,
