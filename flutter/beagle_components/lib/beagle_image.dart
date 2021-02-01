@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
+import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/widgets.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class BeagleImage extends StatelessWidget {
-  const BeagleImage({Key key, this.path, this.mode}) : super(key: key);
+  const BeagleImage({
+    Key key,
+    this.designSystem,
+    this.path,
+    this.mode,
+  }) : super(key: key);
 
   final ImagePath path;
   final ImageContentMode mode;
 
-  // final designSystem DesignSystem;
+  final DesignSystem designSystem;
 
   @override
   Widget build(BuildContext context) {
@@ -33,21 +39,13 @@ class BeagleImage extends StatelessWidget {
   }
 
   Image _createImageFromAsset(LocalImagePath path) {
-    //   // TODO: adicionar design system
-    //   // return Image.asset(path.mobileId)
-    return Image.asset('name');
+    return Image.asset(_getAssetName(path));
   }
 
   Widget _createImageFromNetwork(RemoteImagePath path) {
-    // TODO: check placeholder
-    // return Image.network(
-    //   path.url,
-    //   fit: getBoxFit(mode),
-    // );
-    if (path.placeholder != null) {
-      // TODO: adicionar design system
+    if (_isPlaceHolderValid(path)) {
       return FadeInImage.assetNetwork(
-        placeholder: 'assets/loading.gif',
+        placeholder: _getAssetName(path.placeholder),
         image: path.url,
         fit: _getBoxFit(mode),
       );
@@ -59,6 +57,17 @@ class BeagleImage extends StatelessWidget {
       );
     }
   }
+
+  String _getAssetName(LocalImagePath imagePath) {
+    if (designSystem == null) {
+      return null;
+    }
+
+    return designSystem.image(imagePath.mobileId);
+  }
+
+  bool _isPlaceHolderValid(RemoteImagePath path) =>
+      path.placeholder != null && _getAssetName(path.placeholder) != null;
 
   BoxFit _getBoxFit(ImageContentMode mode) {
     if (mode == ImageContentMode.CENTER) {
