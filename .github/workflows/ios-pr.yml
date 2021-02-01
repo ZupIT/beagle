@@ -21,16 +21,6 @@ jobs:
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
-            -   name: Cache SPM dependencies
-                uses: actions/cache@v2
-                with:
-                    path: ~/**/DerivedData/**/SourcePackages
-                    key: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
-                    restore-keys: ${{ runner.os }}-spm
-
-            -   name: install swiftLint
-                run: brew install swiftlint
-
             -   name: execute Fastlane
                 env:
                     GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
