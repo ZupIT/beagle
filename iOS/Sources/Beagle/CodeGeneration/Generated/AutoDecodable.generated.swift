@@ -59,6 +59,22 @@ extension Alert {
     }
 }
 
+// MARK: AnalyticsConfig Decodable
+extension AnalyticsConfig {
+
+    enum CodingKeys: String, CodingKey {
+        case enableScreenAnalytics
+        case actions
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        enableScreenAnalytics = try container.decodeIfPresent(Bool.self, forKey: .enableScreenAnalytics) ?? true
+        actions = try container.decodeIfPresent(AttributesByActionName.self, forKey: .actions) ?? AttributesByActionName()
+    }
+}
+
 // MARK: Button Decodable
 extension Button {
 

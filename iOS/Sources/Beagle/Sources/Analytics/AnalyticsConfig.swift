@@ -23,9 +23,8 @@ public struct AnalyticsConfig: AutoInitiableAndDecodable, Codable {
     
     /// A map of actions allowed to create analytics records. By default no action creates records.
     ///
-    /// In this map, each key is a `_beagleAction_`, while the values are array of strings. The value
-    /// indicates which properties of the action will compose the analytics record. By default, only
-    /// the `_beagleAction_` is sent as part of the record. If we want to send for instance, the `url` and
+    /// In this map, each key is the name of a `_beagleAction_`, and values are an array of strings. The value
+    /// indicates which properties of the action will compose the analytics record. If we want to send for instance, the `url` and
     /// `method` of every `"beagle:sendRequest"`, we must create the entry
     /// `{"beagle:sendRequest": ["url", "method"]}`.
     public var actions = AttributesByActionName()

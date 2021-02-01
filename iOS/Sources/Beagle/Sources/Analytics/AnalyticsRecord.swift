@@ -25,7 +25,7 @@ public struct AnalyticsRecord {
     
     public let type: RecordType
     public let platform: String
-    public let values: [String: Any]
+    public var values: [String: Any]
     
     public init(type: RecordType, platform: String = "ios", values: [String: Any] = [:]) {
         self.type = type

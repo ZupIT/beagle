@@ -31,18 +31,15 @@ class AnalyticsGenerator {
     }
 
     private var values = [String: Any]()
-    private var name = ""
 
     // MARK: - Action
 
     func createRecord() -> AnalyticsRecord? {
-        let reflectionName = Mirror(reflecting: info.action).descendant("_beagleAction_") as? String
-        guard
-            let name = reflectionName ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
-        else { return nil }
-        self.name = name
+        guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
 
-        addAttributesAndAdditionalEntries()
+        guard let config = configForAction(named: name) else { return nil }
+
+        addAttributesAndAdditionalEntries(config: config)
 
         addScreenInfo()
 
@@ -54,6 +51,37 @@ class AnalyticsGenerator {
         addComponentInfo()
 
         return AnalyticsRecord(type: .action, values: values)
+    }
+
+    private func getActionName() -> String? {
+        Mirror(reflecting: info.action).descendant("_beagleAction_") as? String
+            ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
+    }
+
+    private func configForAction(named: String) -> ActionConfig? {
+        guard let global = globalConfig else {
+            // we need to store all attributes until globalConfig gets set
+            return .init(attributes: .all)
+        }
+
+        let attributes = global[named] ?? []
+
+        switch info.action.analytics {
+        case .disabled:
+            return nil
+        case .enabled(nil), nil:
+            return .init(attributes: .some(attributes))
+        case .enabled(let analytics?):
+            return .init(
+                attributes: .some(analytics.attributes ?? [] + attributes),
+                additional: analytics.additionalEntries ?? [:]
+            )
+        }
+    }
+
+    private struct ActionConfig {
+        let attributes: ActionAttributes
+        var additional = [String: DynamicObject]()
     }
 
     private func addScreenInfo() {
@@ -70,36 +98,12 @@ class AnalyticsGenerator {
         screen.map { values["screen"] = $0 }
     }
 
-    private func addAttributesAndAdditionalEntries() {
-        let attributes = decideWhichAttributesShouldBeRecorded()
-
-        var additional = [String: DynamicObject]()
-        if case .enabled(let analytics?) = info.action.analytics {
-            additional = analytics.additionalEntries ?? [:]
-        }
-
+    private func addAttributesAndAdditionalEntries(config: ActionConfig) {
         [
-            info.action.getSomeAttributes(attributes, contextProvider: info.origin),
-            makeAdditionalEntries(additional)
+            info.action.getSomeAttributes(config.attributes, contextProvider: info.origin),
+            makeAdditionalEntries(config.additional)
         ].forEach {
             values.merge($0) { _, new in new }
-        }
-    }
-
-    private func decideWhichAttributesShouldBeRecorded() -> ActionAttributes {
-        guard let global = globalConfig else {
-            // we need to store all attributes for when globalConfig gets set
-            return .all
-        }
-
-        let attributes = global[name] ?? []
-        switch info.action.analytics {
-        case .disabled:
-            return .some([])
-        case .enabled(nil), nil:
-            return .some(attributes)
-        case .enabled(let analytics?):
-            return .some(analytics.attributes ?? [] + attributes)
         }
     }
 

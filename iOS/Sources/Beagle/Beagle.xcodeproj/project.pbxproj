@@ -28,8 +28,11 @@
 		25CDD47424ED666D00CC49CB /* OperationStringEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47324ED666D00CC49CB /* OperationStringEvaluationTests.swift */; };
 		25CDD47624EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47524EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift */; };
 		25CDD47824EDBB7600CC49CB /* OperationOtherEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */; };
+		3D11155D25C370160096E84A /* AnalyticsGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D11155725C36FA30096E84A /* AnalyticsGeneratorTests.swift */; };
+		3D11156025C3702E0096E84A /* AnalyticsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BE325911760001A3E65 /* AnalyticsServiceTests.swift */; };
 		3D21CD3225B73F2100A392CA /* AnalyticsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D21CD2625B71E0900A392CA /* AnalyticsGenerator.swift */; };
 		3D21CD3925B769DC00A392CA /* MapActionToDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D21CD3825B769DC00A392CA /* MapActionToDictionary.swift */; };
+		3D6D9A5B25C8C3B9004FF423 /* AssertNever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6D9A5A25C8C3B9004FF423 /* AssertNever.swift */; };
 		3D8E5C7E2542341C002B92E2 /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */; };
 		3DB1BF7C25B0F544008248C6 /* ActionAnalyticsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */; };
 		3DB1BF8225B0FC53008248C6 /* ActionAnalyticsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */; };
@@ -205,7 +208,6 @@
 		A0EB6BD725910FC8001A3E65 /* AnalyticsRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BD425910FC8001A3E65 /* AnalyticsRecord.swift */; };
 		A0EB6BD825910FC8001A3E65 /* AnalyticsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BD525910FC8001A3E65 /* AnalyticsConfig.swift */; };
 		A0EB6BD925910FC8001A3E65 /* _AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BD625910FC8001A3E65 /* _AnalyticsService.swift */; };
-		A0EB6BE425911760001A3E65 /* AnalyticsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BE325911760001A3E65 /* AnalyticsServiceTests.swift */; };
 		A0EB6C132591192C001A3E65 /* OpenNativeRoute-1.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EB6BFC2591192C001A3E65 /* OpenNativeRoute-1.json */; };
 		A0EB6C142591192C001A3E65 /* ResetStack-2.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EB6BFD2591192C001A3E65 /* ResetStack-2.json */; };
 		A0EB6C152591192C001A3E65 /* PushStack-2.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EB6BFE2591192C001A3E65 /* PushStack-2.json */; };
@@ -381,8 +383,10 @@
 		25CDD47324ED666D00CC49CB /* OperationStringEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStringEvaluationTests.swift; sourceTree = "<group>"; };
 		25CDD47524EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationArrayEvaluationTests.swift; sourceTree = "<group>"; };
 		25CDD47724EDBB7600CC49CB /* OperationOtherEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationOtherEvaluationTests.swift; sourceTree = "<group>"; };
+		3D11155725C36FA30096E84A /* AnalyticsGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsGeneratorTests.swift; sourceTree = "<group>"; };
 		3D21CD2625B71E0900A392CA /* AnalyticsGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsGenerator.swift; sourceTree = "<group>"; };
 		3D21CD3825B769DC00A392CA /* MapActionToDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapActionToDictionary.swift; sourceTree = "<group>"; };
+		3D6D9A5A25C8C3B9004FF423 /* AssertNever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertNever.swift; sourceTree = "<group>"; };
 		3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpAditionalData.swift; sourceTree = "<group>"; };
 		3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfig.swift; sourceTree = "<group>"; };
 		3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfigTests.swift; sourceTree = "<group>"; };
@@ -1534,6 +1538,7 @@
 				C05E164C24365DBE0088F9D2 /* AnalyticsTests.swift */,
 				A0EB6BE325911760001A3E65 /* AnalyticsServiceTests.swift */,
 				3DB1BF8C25B1E9B1008248C6 /* AnalyticsRecordActionsTest.swift */,
+				3D11155725C36FA30096E84A /* AnalyticsGeneratorTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2101,6 +2106,7 @@
 		E5A6F4A72358A53B008906F8 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				3D6D9A5A25C8C3B9004FF423 /* AssertNever.swift */,
 				E5A6F4A82358A547008906F8 /* FatalErrorUtil.swift */,
 				931B6E31237610B300DE73FD /* FunctiontalUtils.swift */,
 				C829CEB823B1621E001B7225 /* Tests */,
@@ -2420,6 +2426,7 @@
 				931B6E302375BA7400DE73FD /* Theme.swift in Sources */,
 				9398CA3825531E9D0003A010 /* SendRequest.swift in Sources */,
 				93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */,
+				3D6D9A5B25C8C3B9004FF423 /* AssertNever.swift in Sources */,
 				3DB1BF7C25B0F544008248C6 /* ActionAnalyticsConfig.swift in Sources */,
 				A05C74D62497F524009DBB66 /* Navigate+Extensions.swift in Sources */,
 				A05C74D02497F2BF009DBB66 /* FormLocalAction+Extensions.swift in Sources */,
@@ -2540,7 +2547,6 @@
 			files = (
 				C81EAB4A23C8BFD70074B9D2 /* Snapshot.swift in Sources */,
 				C08D4E2924857BB400AAAC0A /* YogaTranslatorTests.swift in Sources */,
-				A0EB6BE425911760001A3E65 /* AnalyticsServiceTests.swift in Sources */,
 				E50B284523639299005E2E6D /* BeagleScreenViewControllerTests.swift in Sources */,
 				17BE346024D45C61002C1391 /* XCTestCase+Leaks.swift in Sources */,
 				C08D4E78248593AC00AAAC0A /* ButtonTests.swift in Sources */,
@@ -2585,6 +2591,7 @@
 				6E71540D24B3B4F20025B850 /* SimpleFormTests.swift in Sources */,
 				93D24A57251402B8005A5CBD /* AutoLayoutWrapperTests.swift in Sources */,
 				C08D4E9D248594FB00AAAC0A /* ImageTests.swift in Sources */,
+				3D11156025C3702E0096E84A /* AnalyticsServiceTests.swift in Sources */,
 				C08D4E862485944300AAAC0A /* TextTests.swift in Sources */,
 				25CDD47224ED5B4800CC49CB /* OperationComparisonEvaluationTests.swift in Sources */,
 				9380222B249A98CA00FA8519 /* FormManagerTests.swift in Sources */,
@@ -2624,6 +2631,7 @@
 				E56A02BA2345367D00C0F23D /* ListViewInitTests.swift in Sources */,
 				98E18D1A249BF1D7009D6A54 /* ConfirmTests.swift in Sources */,
 				25B7472A24EEC7D400AFE60A /* OperationEvaluationTests.swift in Sources */,
+				3D11155D25C370160096E84A /* AnalyticsGeneratorTests.swift in Sources */,
 				93BFE32F24A13F34009838CE /* DynamicObjectTests.swift in Sources */,
 				E5A77643237DC17D002F5515 /* FormSubmitTests.swift in Sources */,
 				9398CAAA255346840003A010 /* AccessibilityTests.swift in Sources */,
