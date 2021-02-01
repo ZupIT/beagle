@@ -17,22 +17,22 @@ jobs:
         runs-on: macos-latest
 
         steps:
-            -   uses: actions/checkout@v2
+            -   name: Checkout repo
+                uses: actions/checkout@v2
 
-            # Fastlane
-            -   name: get github actions image version
-                run: echo "ImageVersion=$ImageVersion"  >> $GITHUB_ENV
+            # Gems for Fastlane
             -   name: Cache ruby gems dependencies
                 uses: actions/cache@v2
                 env:
-                    keyPath: ${{ runner.os }}-gems-${{ env.ImageVersion }}
+                    keyPath: ${{ runner.os }}-gems
                 with:
                     path: ~/.gem
                     key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
                     restore-keys: ${{ env.keyPath }}
-            -   name: Install Fastlane
+            -   name: Install gem dependencies
                 run: bundle config set path '~/.gem' && bundle install
 
+            # SPM
             -   name: Cache SPM dependencies
                 uses: actions/cache@v2
                 with:
@@ -40,7 +40,8 @@ jobs:
                     key: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
                     restore-keys: ${{ runner.os }}-spm
 
-            -   name: execute Fastlane
+            # Run
+            -   name: Run PR Verification
                 env:
                     GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
                     GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
