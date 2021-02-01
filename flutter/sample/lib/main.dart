@@ -22,7 +22,7 @@ import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/material.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/041461163dbad2ec7c234cfd28325483f3750d0b';
+    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/02dc56a2f6f5a3ec515013de03c08f593d7260d4';
 
 void main() {
   runApp(const BeagleSampleApp());
@@ -86,7 +86,8 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
           title: const Text('Beagle Sample'),
         ),
         body: isBeagleReady
-            ? const BeagleRemoteView(route: '/lazy.json')
+            // ? const BeagleRemoteView(route: '/lazy.json')
+            ? const BeagleRemoteView(route: '/beagle_image_remote')
             : const Center(
                 child: Text('Not ready yet!'),
               ),

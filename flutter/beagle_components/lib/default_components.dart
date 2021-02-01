@@ -18,6 +18,7 @@
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
+import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
@@ -32,6 +33,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:textInput': beagleTextInputBuilder(),
   'beagle:button': beagleButtonBuilder(),
   'beagle:lazycomponent': beagleLazyComponentBuilder(),
+  'beagle:image': beagleImageBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -99,4 +101,15 @@ ComponentBuilder beagleLazyComponentBuilder() {
         view: view,
         child: children.isEmpty ? null : children[0]);
   };
+}
+
+ComponentBuilder beagleImageBuilder() {
+  return (element, _, __) => BeagleImage(
+        key: element.getKey(),
+        path: ImagePath.fromJson(element.getAttributeValue('path')),
+        mode: EnumUtils.fromString(
+          ImageContentMode.values,
+          element.getAttributeValue('mode') ?? '',
+        ),
+      );
 }
