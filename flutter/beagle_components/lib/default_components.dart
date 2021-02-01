@@ -15,14 +15,17 @@
  *  limitations under the License.
  */
 
+import 'package:beagle/beagle.dart';
+import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
+import 'package:beagle_components/beagle_page_view.dart';
+import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
-import 'package:beagle/interface/beagle_service.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -33,6 +36,8 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:textInput': beagleTextInputBuilder(),
   'beagle:button': beagleButtonBuilder(),
   'beagle:lazycomponent': beagleLazyComponentBuilder(),
+  'beagle:tabbar': beagleTabBarBuilder(),
+  'beagle:pageview': beaglePageViewBuilder(),
   'beagle:image': beagleImageBuilder(),
 };
 
@@ -102,6 +107,29 @@ ComponentBuilder beagleLazyComponentBuilder() {
         child: children.isEmpty ? null : children[0]);
   };
 }
+
+ComponentBuilder beagleTabBarBuilder() {
+  return (element, _, __) => BeagleTabBar(
+        key: element.getKey(),
+        designSystem: BeagleInitializer.designSystem,
+        items:
+            element.getAttributeValue('items').map<TabBarItem>((dynamic item) {
+          return TabBarItem.fromJson(item);
+        }).toList(),
+        currentTab: element.getAttributeValue('currentTab'),
+        onTabSelection: element.getAttributeValue('onTabSelection'),
+      );
+}
+
+ComponentBuilder beaglePageViewBuilder() {
+  return (element, children, __) => BeaglePageView(
+        key: element.getKey(),
+        currentPage: element.getAttributeValue('currentPage'),
+        onPageChange: element.getAttributeValue('onPageChange'),
+        children: children,
+      );
+}
+
 
 ComponentBuilder beagleImageBuilder() {
   return (element, _, __) => BeagleImage(

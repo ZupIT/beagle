@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import 'package:beagle/utils/color.dart';
 import 'package:flutter/material.dart';
-import 'package:beagle/utils/color_utils.dart';
 
 class BeagleText extends StatelessWidget {
   const BeagleText({
@@ -56,7 +56,7 @@ class BeagleText extends StatelessWidget {
   }
 
   Color getTextColor(String color) {
-    return hexToColor(color ?? defaultTextColor);
+    return HexColor(color ?? defaultTextColor);
   }
 }
 
