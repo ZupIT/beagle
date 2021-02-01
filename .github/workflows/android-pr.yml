@@ -21,9 +21,6 @@ jobs:
         runs-on: macos-latest
         steps:
             -   uses: actions/checkout@v2
-<<<<<<< HEAD
-            -   name: Install Fastlane
-=======
 
             # Gems for Fastlane
             -   name: Cache ruby gems dependencies
@@ -35,7 +32,6 @@ jobs:
                     key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
                     restore-keys: ${{ env.keyPath }}
             -   name: Install gem dependencies
->>>>>>> master
                 run: bundle config set path '~/.gem' && bundle install
 
             -   name: Cache gradle dependences
