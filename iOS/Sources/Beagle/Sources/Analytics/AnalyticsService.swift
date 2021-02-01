@@ -53,10 +53,6 @@ class AnalyticsService {
         guard startSessionResult != nil && configResult != nil else { return }
         queue.activate()
     }
-
-    private func bla() {
-        let bla = "bla2"
-    }
     
     // MARK: - Create Events
     
