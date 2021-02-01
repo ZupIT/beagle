@@ -17,7 +17,7 @@
 #
 
 set -e
-APP_ANDROID_APK_FILE=/Users/runner/work/beagle/beagle/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
+APP_ANDROID_APK_FILE=$GITHUB_WORKSPACE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
 
 echo "##### Installing the .apk file in the emulator ..."
 $ANDROID_HOME/platform-tools/adb install -r -t $APP_ANDROID_APK_FILE
