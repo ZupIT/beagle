@@ -30,14 +30,14 @@ Widget createWidget({
   Key buttonKey = buttonKey,
   String buttonText = buttonText,
   Function buttonOnPress = buttonOnPress,
-  bool buttonDisabled = false,
+  bool buttonEnabled = true,
 }) {
   return MaterialApp(
     home: BeagleButton(
       key: buttonKey,
       text: buttonText,
       onPress: buttonOnPress,
-      disabled: buttonDisabled,
+      enabled: buttonEnabled,
     ),
   );
 }
@@ -107,7 +107,7 @@ void main() {
     group('When it is disabled', () {
       testWidgets('Then the button widget should be disabled',
           (WidgetTester tester) async {
-        await tester.pumpWidget(createWidget(buttonDisabled: true));
+        await tester.pumpWidget(createWidget(buttonEnabled: false));
 
         expect(
             tester.widget<ElevatedButton>(find.byType(ElevatedButton)).enabled,
@@ -123,7 +123,7 @@ void main() {
 
         final widget = createWidget(
           buttonOnPress: onPressed,
-          buttonDisabled: true,
+          buttonEnabled: false,
         );
 
         await tester.pumpWidget(widget);
