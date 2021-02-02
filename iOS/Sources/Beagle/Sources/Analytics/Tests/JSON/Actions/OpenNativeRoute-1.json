@@ -5,8 +5,7 @@
             "data.number",
             "route",
             "shouldResetApplication"
-        ],
-        "enable": true
+        ]
     },
     "data": {
         "name": "John Doe",

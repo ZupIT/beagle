@@ -5,8 +5,7 @@
             "data",
             "data.invalid",
             "name"
-        ],
-        "enable": true
+        ]
     },
     "data": {
         "B": "value B",

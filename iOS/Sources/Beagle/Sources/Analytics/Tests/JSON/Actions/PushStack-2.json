@@ -2,24 +2,24 @@
     "_beagleAction_": "beagle:pushStack",
     "analytics": {
         "attributes": [
-            "controllerId",
             "route"
-        ],
-        "enable": true
+        ]
     },
-    "controllerId": "controller ID - local",
+    "controllerId": "controller ID - remote",
     "route": {
-        "screen": {
+        "fallback": {
             "_beagleComponent_": "beagle:screenComponent",
             "child": {
                 "_beagleComponent_": "beagle:text",
-                "text": "Local Screen Content"
+                "text": "Fallback Screen Content"
             },
-            "identifier": "screen-id-local-route",
+            "identifier": "fallback-screen-id",
             "navigationBar": {
                 "showBackButton": true,
-                "title": "Local Screen Title"
+                "title": "Fallback Screen Title"
             }
-        }
+        },
+        "shouldPrefetch": false,
+        "url": "@{context.remoteRoute}"
     }
 }

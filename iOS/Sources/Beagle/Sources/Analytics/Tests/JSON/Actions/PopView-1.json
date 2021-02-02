@@ -1,6 +1,3 @@
 {
-    "_beagleAction_": "beagle:popView",
-    "analytics": {
-        "enable": true
-    }
+    "_beagleAction_": "beagle:popView"
 }

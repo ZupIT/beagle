@@ -9,8 +9,7 @@
         ],
         "additionalEntries": {
             "labelOk": "additionalEntries takes precedence"
-        },
-        "enable": true
+        }
     },
     "labelOk": "ok",
     "message": "Message - @{context.headers.pi}",

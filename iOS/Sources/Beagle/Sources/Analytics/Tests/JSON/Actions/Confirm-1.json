@@ -8,8 +8,7 @@
             "onPressCancel.message",
             "onPressOk.message",
             "title"
-        ],
-        "enable": true
+        ]
     },
     "labelCancel": "👎🏻",
     "labelOk": "👍🏻",

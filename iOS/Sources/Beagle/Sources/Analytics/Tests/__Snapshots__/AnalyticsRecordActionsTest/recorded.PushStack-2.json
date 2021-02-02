@@ -1,17 +1,16 @@
 {
-  "controllerId" : "controller ID - local",
   "route" : {
-    "screen" : {
+    "fallback" : {
       "child" : {
-        "text" : "Local Screen Content",
+        "text" : "Fallback Screen Content",
         "widgetProperties" : {
 
         }
       },
-      "identifier" : "screen-id-local-route",
+      "identifier" : "fallback-screen-id",
       "navigationBar" : {
         "showBackButton" : true,
-        "title" : "Local Screen Title"
+        "title" : "Fallback Screen Title"
       },
       "safeArea" : {
         "bottom" : true,
@@ -19,6 +18,8 @@
         "top" : true,
         "trailing" : true
       }
-    }
+    },
+    "shouldPrefetch" : false,
+    "url" : "some other value -> 3.14159265359"
   }
 }

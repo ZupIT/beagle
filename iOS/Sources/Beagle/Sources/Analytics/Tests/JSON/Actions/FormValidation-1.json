@@ -2,9 +2,9 @@
     "_beagleAction_": "beagle:formValidation",
     "analytics": {
         "attributes": [
-            "errors"
-        ],
-        "enable": true
+            "errors",
+            "unknowAttribute"
+        ]
     },
     "errors": [
         {

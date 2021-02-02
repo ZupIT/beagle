@@ -1,7 +1,0 @@
-{
-  "controllerId" : "controller ID - remote",
-  "route.fallback.identifier" : "fallback-screen-id",
-  "route.fallback.navigationBar.title" : "Fallback Screen Title",
-  "route.shouldPrefetch" : false,
-  "route.url" : "some other value -> 3.14159265359"
-}

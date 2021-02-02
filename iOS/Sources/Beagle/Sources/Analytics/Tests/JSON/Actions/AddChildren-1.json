@@ -5,8 +5,7 @@
             "componentId",
             "mode",
             "value[0].text"
-        ],
-        "enable": true
+        ]
     },
     "componentId": "my-component",
     "mode": "APPEND",

@@ -5,10 +5,9 @@
             "headers.platform",
             "method",
             "url"
-        ],
-        "enable": true
+        ]
     },
     "headers": "@{context.headers}",
-    "method": "@{context.method}",
+    "method": "DELETE",
     "url": "\/search?q=@{context.query}"
 }

@@ -2,13 +2,11 @@
     "_beagleAction_": "beagle:pushStack",
     "analytics": {
         "attributes": [
-            "controllerId",
             "route.fallback.identifier",
             "route.fallback.navigationBar.title",
             "route.shouldPrefetch",
             "route.url"
-        ],
-        "enable": true
+        ]
     },
     "controllerId": "controller ID - remote",
     "route": {

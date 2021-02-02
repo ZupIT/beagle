@@ -27,25 +27,12 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
             try doRecord(Condition.self, fromJson: "Condition-1"),
             try doRecord(Confirm.self, fromJson: "Confirm-1"),
             try doRecord(FormLocalAction.self, fromJson: "FormLocalAction-1"),
-            try doRecord(FormRemoteAction.self, fromJson: "FormRemoteAction-1"),
             try doRecord(FormValidation.self, fromJson: "FormValidation-1"),
-            try doRecord(Navigate.self, fromJson: "OpenExternalURL-1"),
             try doRecord(Navigate.self, fromJson: "OpenNativeRoute-1"),
-            try doRecord(Navigate.self, fromJson: "PopStack-1"),
-            try doRecord(Navigate.self, fromJson: "PopToView-1"),
-            try doRecord(Navigate.self, fromJson: "PopToView-1"),
             try doRecord(Navigate.self, fromJson: "PopView-1"),
             try doRecord(Navigate.self, fromJson: "PushStack-1"),
             try doRecord(Navigate.self, fromJson: "PushStack-2"),
-            try doRecord(Navigate.self, fromJson: "PushView-1"),
-            try doRecord(Navigate.self, fromJson: "PushView-2"),
-            try doRecord(Navigate.self, fromJson: "ResetApplication-1"),
-            try doRecord(Navigate.self, fromJson: "ResetApplication-2"),
-            try doRecord(Navigate.self, fromJson: "ResetStack-1"),
-            try doRecord(Navigate.self, fromJson: "ResetStack-2"),
-            try doRecord(SendRequest.self, fromJson: "SendRequest-1"),
-            try doRecord(SetContext.self, fromJson: "SetContext-1"),
-            try doRecord(SubmitForm.self, fromJson: "SubmitForm-1")
+            try doRecord(SendRequest.self, fromJson: "SendRequest-1")
         ]
 
         records.forEach {
@@ -54,6 +41,10 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
     }
 
     // MARK: - Aux
+
+    // TODO: full end to end scenario
+    // I still need to test a full end to end scenario, in which I could use the screen with context below to actually
+    // record a full action (with default values).
 
     private func doRecord<A: Action>(_: A.Type, fromJson: String) throws -> ([String: DynamicObject], file: String) {
         let action: A = try actionFromJsonFile(fileName: fromJson)
@@ -80,13 +71,14 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
         )
         _ = BeagleNavigationController(rootViewController: controller)
         let origin = try XCTUnwrap(controller.view.viewWithTag(type(of: child).tag))
-        guard case .enabled(let config) = action.analytics else { throw Error.shouldNeverHappen }
-        let result = action.getSomeAttributes(.some(config?.attributes ?? []), contextProvider: origin)
-        return (result, fromJson)
-    }
 
-    enum Error: Swift.Error {
-        case shouldNeverHappen
+        var attributes = [String]()
+        if case .enabled(let config?) = action.analytics {
+            attributes = config.attributes ?? []
+        }
+
+        let result = action.getSomeAttributes(.some(attributes), contextProvider: origin)
+        return (result, fromJson)
     }
 }
 

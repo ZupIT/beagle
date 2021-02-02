@@ -1,5 +1,5 @@
 {
   "headers.platform" : "beagle-ios",
-  "method" : "GET",
+  "method" : "DELETE",
   "url" : "\/search?q=beagle"
 }

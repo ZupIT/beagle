@@ -5,8 +5,7 @@
             "condition",
             "onFalse",
             "onTrue"
-        ],
-        "enable": true
+        ]
     },
     "condition": "@{eq(context.query, 'beagle')}",
     "onFalse": [
