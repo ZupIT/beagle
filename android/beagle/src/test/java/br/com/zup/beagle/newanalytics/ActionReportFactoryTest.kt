@@ -332,7 +332,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
 
             //then
-            Assert.assertEquals("beagle:actioName", dataActionReport.actionType)
+            Assert.assertEquals("beagle:actionName", dataActionReport.actionType)
         }
 
         @DisplayName("Then should get name from class")
@@ -369,7 +369,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             )
 
             //then
-            Assert.assertEquals("custom:actioName", dataActionReport.actionType)
+            Assert.assertEquals("custom:actionName", dataActionReport.actionType)
         }
 
         @DisplayName("Then should get name from class")
