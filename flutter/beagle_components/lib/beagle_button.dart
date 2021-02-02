@@ -19,12 +19,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BeagleButton extends StatelessWidget {
-  const BeagleButton({Key key, this.text, this.onPress, this.disabled})
+  const BeagleButton({Key key, this.text, this.onPress, this.enabled})
       : super(key: key);
 
   final String text;
   final Function onPress;
-  final bool disabled;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +53,6 @@ class BeagleButton extends StatelessWidget {
   }
 
   Function getOnPressedFunction() {
-    return (disabled ?? false) ? null : onPress;
+    return (enabled ?? true) ? onPress : null;
   }
 }

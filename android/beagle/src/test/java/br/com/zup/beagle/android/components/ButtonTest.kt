@@ -118,12 +118,12 @@ internal class ButtonTest : BaseComponentTest() {
         }
     }
 
-    @DisplayName("When passing isEnabled")
+    @DisplayName("When set enabled")
     @Nested
     inner class IsEnabledTest {
 
         @Test
-        @DisplayName("Then shouldn't call setEnabled with null")
+        @DisplayName("Then should not call field")
         fun testIsEnabledNull() {
             // When
             buttonComponent.buildView(rootView)
@@ -133,10 +133,10 @@ internal class ButtonTest : BaseComponentTest() {
         }
 
         @Test
-        @DisplayName("Then should call setEnabled(true) with false")
+        @DisplayName("Then should set field enabled with true")
         fun testIsEnabledFalse() {
             // Given
-            buttonComponent = buttonComponent.copy(disabled = Bind.Value(false))
+            buttonComponent = buttonComponent.copy(enabled = Bind.Value(true))
 
             // When
             buttonComponent.buildView(rootView)
@@ -146,10 +146,10 @@ internal class ButtonTest : BaseComponentTest() {
         }
 
         @Test
-        @DisplayName("Then should call setEnabled(false) with true")
+        @DisplayName("Then should call set field enabled with false")
         fun testIsEnabledTrue() {
             // Given
-            buttonComponent = buttonComponent.copy(disabled = Bind.Value(true))
+            buttonComponent = buttonComponent.copy(enabled = Bind.Value(false))
 
             // When
             buttonComponent.buildView(rootView)
