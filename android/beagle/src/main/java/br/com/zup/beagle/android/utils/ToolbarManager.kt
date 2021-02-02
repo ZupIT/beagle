@@ -27,6 +27,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
@@ -48,12 +49,15 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
 
     fun configureNavigationBarForScreen(
         context: BeagleActivity,
-        navigationBar: NavigationBar
+        navigationBar: NavigationBar,
     ) {
         if (navigationBar.showBackButton) {
             context.getToolbar().apply {
                 navigationBar.backButtonAccessibility?.accessibilityLabel?.let { backButtonAccessibilityLabel ->
                     navigationContentDescription = backButtonAccessibilityLabel
+                }
+                navigationBar.backButtonAccessibility?.isHeader?.let { isHeader ->
+                    ViewCompat.setAccessibilityHeading(this, isHeader)
                 }
 
                 setNavigationOnClickListener {
@@ -70,7 +74,8 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
         rootView: RootView,
         navigationBar: NavigationBar,
         container: BeagleFlexView,
-        screenComponent: ScreenComponent) {
+        screenComponent: ScreenComponent,
+    ) {
         (rootView.getContext() as BeagleActivity).getToolbar().apply {
             visibility = View.VISIBLE
             menu.clear()
@@ -84,7 +89,7 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
     private fun configToolbarStyle(
         context: Context,
         toolbar: Toolbar,
-        navigationBar: NavigationBar
+        navigationBar: NavigationBar,
     ) {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
         val style = navigationBar.styleId ?: ""
@@ -137,7 +142,7 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
         toolbar: Toolbar,
         items: List<NavigationBarItem>,
         container: BeagleFlexView,
-        screenComponent: ScreenComponent
+        screenComponent: ScreenComponent,
     ) {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
         for (i in items.indices) {
@@ -161,7 +166,7 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
 
     private fun MenuItem.setContentDescription(
         items: List<NavigationBarItem>,
-        i: Int
+        i: Int,
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             items[i].accessibility?.accessibilityLabel?.let { accessibilityLabel ->
@@ -177,7 +182,7 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
         i: Int,
         rootView: RootView,
         container: BeagleFlexView,
-        screenComponent: ScreenComponent
+        screenComponent: ScreenComponent,
     ) {
         design?.let { designSystem ->
             items[i].image?.let { image ->
