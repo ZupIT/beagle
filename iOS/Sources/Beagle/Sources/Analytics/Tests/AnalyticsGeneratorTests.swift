@@ -20,8 +20,7 @@ import SnapshotTesting
 
 class AnalyticsGeneratorTests: XCTestCase {
 
-    private lazy var sut = AnalyticsService(provider: provider)
-    private var provider = AnalyticsProviderStub()
+    private lazy var sut = AnalyticsGenerator(info: info, globalConfig: _globalConfig)
 
     func testJustUsingGlobalConfig() {
         // Given
@@ -30,9 +29,9 @@ class AnalyticsGeneratorTests: XCTestCase {
         actionWithConfig(nil)
 
         // Then should obey global config
-        resultShouldBeEqualTo("""
+        recordShouldBeEqualTo("""
         {
-          "path" : "somePath",
+          "path" : "PATH",
           "platform" : "ios",
           "type" : "action"
         }
@@ -46,7 +45,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         actionWithJust1AttributeEnabled()
 
         // Then should create a record with just 1 attribute
-        resultShouldBeEqualTo("""
+        recordShouldBeEqualTo("""
         {
           "method" : "DELETE",
           "platform" : "ios",
@@ -62,19 +61,19 @@ class AnalyticsGeneratorTests: XCTestCase {
         actionWithConfig(.disabled)
 
         // Then should NOT create record
-        resultShouldBeEqualTo("""
+        recordShouldBeEqualTo("""
         null
         """)
     }
 
-    func testWithNoGlobalShouldCreateFullRecord() {
+    func testWithNoGlobalShouldRecordAllAttributes() {
         // Given
-        globalConfig(nil)
+        nilGlobalConfig()
         // And
         actionWithJust1AttributeEnabled()
 
-        // Then should create a full record
-        resultShouldBeEqualTo("""
+        // Then should create a record with all attributes
+        recordShouldBeEqualTo("""
         {
           "analytics" : null,
           "method" : "DELETE",
@@ -92,7 +91,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         actionWithConfig(.enabled(nil))
 
         // Then should have just standard properties
-        resultShouldBeEqualTo("""
+        recordShouldBeEqualTo("""
         {
           "platform" : "ios",
           "type" : "action"
@@ -107,9 +106,9 @@ class AnalyticsGeneratorTests: XCTestCase {
         actionWithConfig(.enabled(nil))
 
         // Then should use global config
-        resultShouldBeEqualTo("""
+        recordShouldBeEqualTo("""
         {
-          "path" : "somePath",
+          "path" : "PATH",
           "platform" : "ios",
           "type" : "action"
         }
@@ -125,11 +124,42 @@ class AnalyticsGeneratorTests: XCTestCase {
             additionalEntries: ["path": "NEW PATH"]
         )))
 
-        // Then should have just standard properties
-        resultShouldBeEqualTo("""
+        // Then should use NEW PATH
+        recordShouldBeEqualTo("""
         {
           "path" : "NEW PATH",
           "platform" : "ios",
+          "type" : "action"
+        }
+        """)
+    }
+
+    func testRecordWithAllDefaultProperties() throws {
+        // Given
+        emptyGlobalConfig()
+        // And
+        actionWithConfig(.enabled(nil))
+        // And
+        try prepareComponentHierarchy()
+
+        // When
+        let record = sut.createRecord()
+
+        // Then should have all default properties
+        _assertInlineSnapshot(matching: record, as: .json, with: """
+        {
+          "beagleAction" : "beagle:formremoteaction",
+          "component" : {
+            "id" : "test-component-id",
+            "position" : {
+              "x" : 0,
+              "y" : 0
+            },
+            "type" : "custom:analyticstestcomponent"
+          },
+          "event" : "event",
+          "platform" : "ios",
+          "screen" : "analytics-actions",
           "type" : "action"
         }
         """)
@@ -140,62 +170,66 @@ class AnalyticsGeneratorTests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional
     var action: FormRemoteAction!
 
+    private lazy var info = AnalyticsService.ActionInfo(
+        action: action,
+        event: "event",
+        origin: ViewDummy(),
+        controller: BeagleScreenViewController(ComponentDummy())
+    )
+
+    private lazy var _globalConfig: AnalyticsConfig.AttributesByActionName? = nil
+
     private func actionWithConfig(_ config: ActionAnalyticsConfig?) {
         action = FormRemoteAction(
-            path: "somePath",
+            path: "PATH",
             method: .delete,
             analytics: config
         )
     }
 
     private func actionWithJust1AttributeEnabled() {
-        action = FormRemoteAction(
-            path: "PATH",
-            method: .delete,
-            analytics: .enabled(.init(attributes: ["method"]))
-        )
+        actionWithConfig(.enabled(.init(attributes: ["method"])))
     }
 
-    private func globalConfig(_ config: AnalyticsConfig?) {
-        provider.config = config
+    private func nilGlobalConfig() {
+        _globalConfig = nil
     }
 
     private func emptyGlobalConfig() {
-        provider.config = .init()
+        _globalConfig = [:]
     }
 
     private func globalConfigWithActionEnabled() {
-        globalConfig(.init(actions: [
+        _globalConfig = [
             "beagle:formremoteaction": ["methods", "path"]
-        ]))
+        ]
     }
 
-    private func resultShouldBeEqualTo(
+    private func recordShouldBeEqualTo(
         _ string: String,
         record: Bool = false,
         testName: String = #function,
         line: UInt = #line
     ) {
         // When
-        sut.createRecord(.init(
-            action: action,
-            event: "event",
-            origin: ViewDummy(),
-            controller: BeagleScreenViewController(ComponentDummy())
-        ))
-
-        let result = resultWithoutDefaultValues()
+        let result = sut.createRecord()
+            .map(resultWithoutDefaultValues(_:))
 
         // Then
         _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)
     }
 
-    private func resultWithoutDefaultValues() -> AnalyticsRecord? {
-        var result = provider.records.first
+    private func resultWithoutDefaultValues(_ result: AnalyticsRecord?) -> AnalyticsRecord? {
+        var result = result
         let defaultValues = ["beagleAction", "component", "event", "platform", "type"]
         defaultValues.forEach {
             result?.values.removeValue(forKey: $0)
         }
         return result
+    }
+
+    private func prepareComponentHierarchy() throws {
+        let (view, controller) = try analyticsViewHierarchyWith(context: nil)
+        info = .init(action: action, event: "event", origin: view, controller: controller)
     }
 }

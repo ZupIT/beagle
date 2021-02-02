@@ -42,14 +42,9 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
 
     // MARK: - Aux
 
-    // TODO: full end to end scenario
-    // I still need to test a full end to end scenario, in which I could use the screen with context below to actually
-    // record a full action (with default values).
-
     private func doRecord<A: Action>(_: A.Type, fromJson: String) throws -> ([String: DynamicObject], file: String) {
         let action: A = try actionFromJsonFile(fileName: fromJson)
-        
-        let child = AnalyticsTestComponent()
+
         let context = Context(
             id: "context",
             value: [
@@ -62,24 +57,31 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
                 ]
             ]
         )
-        let screen = Screen(identifier: "analytics-actions", child: child, context: context)
-        let dependencies = BeagleDependencies()
-        dependencies.decoder.register(component: AnalyticsTestComponent.self)
-
-        let controller = BeagleScreenViewController(
-            viewModel: .init(screenType: .declarative(screen), dependencies: dependencies)
-        )
-        _ = BeagleNavigationController(rootViewController: controller)
-        let origin = try XCTUnwrap(controller.view.viewWithTag(type(of: child).tag))
+        let view = try analyticsViewHierarchyWith(context: context).view
 
         var attributes = [String]()
         if case .enabled(let config?) = action.analytics {
             attributes = config.attributes ?? []
         }
 
-        let result = action.getSomeAttributes(.some(attributes), contextProvider: origin)
+        let result = action.getSomeAttributes(.some(attributes), contextProvider: view)
         return (result, fromJson)
     }
+}
+
+func analyticsViewHierarchyWith(context: Context?) throws -> (view: UIView, controller: BeagleController) {
+    let child = AnalyticsTestComponent()
+    let screen = Screen(identifier: "analytics-actions", child: child, context: context)
+    
+    let dependencies = BeagleDependencies()
+    dependencies.decoder.register(component: AnalyticsTestComponent.self)
+
+    let controller = BeagleScreenViewController(
+        viewModel: .init(screenType: .declarative(screen), dependencies: dependencies)
+    )
+    _ = BeagleNavigationController(rootViewController: controller)
+    let view = try XCTUnwrap(controller.view.viewWithTag(type(of: child).tag))
+    return (view, controller)
 }
 
 private struct AnalyticsTestComponent: ServerDrivenComponent, IdentifiableComponent {

@@ -52,13 +52,18 @@ class AnalyticsGenerator {
 
         return AnalyticsRecord(type: .action, values: values)
     }
+}
 
-    private func getActionName() -> String? {
+// MARK: - Private
+
+private extension AnalyticsGenerator {
+
+    func getActionName() -> String? {
         Mirror(reflecting: info.action).descendant("_beagleAction_") as? String
             ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
     }
 
-    private func configForAction(named: String) -> ActionConfig? {
+    func configForAction(named: String) -> ActionConfig? {
         guard let global = globalConfig else {
             // we need to store all attributes until globalConfig gets set
             return .init(attributes: .all)
@@ -79,12 +84,12 @@ class AnalyticsGenerator {
         }
     }
 
-    private struct ActionConfig {
+    struct ActionConfig {
         let attributes: ActionAttributes
         var additional = [String: DynamicObject]()
     }
 
-    private func addScreenInfo() {
+    func addScreenInfo() {
         let screen: String?
         switch info.controller.screenType {
         case .remote(let remote):
@@ -98,7 +103,7 @@ class AnalyticsGenerator {
         screen.map { values["screen"] = $0 }
     }
 
-    private func addAttributesAndAdditionalEntries(config: ActionConfig) {
+    func addAttributesAndAdditionalEntries(config: ActionConfig) {
         [
             info.action.getSomeAttributes(config.attributes, contextProvider: info.origin),
             makeAdditionalEntries(config.additional)
@@ -107,7 +112,7 @@ class AnalyticsGenerator {
         }
     }
 
-    private func makeAdditionalEntries(_ entries: [String: DynamicObject]) -> [String: Any] {
+    func makeAdditionalEntries(_ entries: [String: DynamicObject]) -> [String: Any] {
         entries.reduce(into: [String: Any]()) { result, entry in
             if let value = entry.value.asAny() {
                 result[entry.key] = value
@@ -115,7 +120,7 @@ class AnalyticsGenerator {
         }
     }
 
-    private func addComponentInfo() {
+    func addComponentInfo() {
         var componentInfo = (values["component"] as? [String: Any]) ?? [:]
         if let type = info.origin.componentType,
            let name = info.controller.dependencies.decoder.nameForComponent(ofType: type) {
