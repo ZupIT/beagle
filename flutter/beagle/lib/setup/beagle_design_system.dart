@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/material.dart';
 
-void main() {
-  test('Counter value should be incremented', () {
-    expect(1, 1);
-  });
+abstract class DesignSystem {
+  String image(String id);
+
+  Theme theme(String id);
 }
