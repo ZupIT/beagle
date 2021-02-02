@@ -134,6 +134,7 @@ ComponentBuilder beagleImageBuilder() {
   return (element, _, __) => BeagleImage(
         key: element.getKey(),
         designSystem: BeagleInitializer.designSystem,
+        imageDownloader: BeagleInitializer.imageDownloader,
         path: ImagePath.fromJson(element.getAttributeValue('path')),
         mode: EnumUtils.fromString(
           ImageContentMode.values,

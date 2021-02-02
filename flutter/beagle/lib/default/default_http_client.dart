@@ -36,6 +36,7 @@ class DefaultHttpClient implements HttpClient {
       HttpMethod.delete: () => http.delete(req.url, headers: req.headers),
     };
     final response = await handlers[req.method]();
-    return Response(response.statusCode, response.body, response.headers);
+    return Response(response.statusCode, response.body, response.headers,
+        response.bodyBytes);
   }
 }

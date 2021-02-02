@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
+import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:flutter/material.dart';
@@ -24,23 +26,28 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'image/image_mock_data.dart';
-import 'image/image_mock_http_client.dart';
 
 class MockDesignSystem extends Mock implements DesignSystem {}
 
+class MockBeagleImageDownloader extends Mock implements BeagleImageDownloader {}
+
 void main() {
   final designSystemMock = MockDesignSystem();
-  when(designSystemMock.image(any)).thenReturn('images/beagle.png');
+  when(designSystemMock.image(any)).thenReturn('images/beagle_dog.png');
+
+  final imageDownloaderMock = MockBeagleImageDownloader();
+  when(imageDownloaderMock.downloadImage(any)).thenAnswer((invocation) {
+    return Future<Uint8List>.value(mockedBeagleImageData);
+  });
 
   const imageUrl = 'https://test.com/beagle.png';
-
-  final httpDataMock = {Uri.parse(imageUrl): mockedBeagleImageData};
 
   const imageKey = Key('BeagleImage');
 
   Widget createWidget({
     Key key = imageKey,
     DesignSystem designSystem,
+    BeagleImageDownloader imageDownloader,
     ImagePath path,
     ImageContentMode mode,
   }) {
@@ -48,6 +55,7 @@ void main() {
       home: BeagleImage(
         key: key,
         designSystem: designSystem,
+        imageDownloader: imageDownloader,
         path: path,
         mode: mode,
       ),
@@ -93,22 +101,18 @@ void main() {
     group('When path is RemoteImagePath', () {
       final remoteImage = createWidget(
         designSystem: designSystemMock,
+        imageDownloader: imageDownloaderMock,
         path: ImagePath.remote(
           imageUrl,
           ImagePath.local('mobileId'),
         ),
       );
 
-      testWidgets('Then it should have a FadeInImage widget child',
+      testWidgets('Then it should have a Image widget child',
           (WidgetTester tester) async {
-        await mockNetworkImagesFor(
-          () async {
-            await tester.pumpWidget(remoteImage);
-          },
-          httpDataMock,
-        );
+        await tester.pumpWidget(remoteImage);
 
-        final imageFinder = find.byType(FadeInImage);
+        final imageFinder = find.byType(Image);
 
         expect(imageFinder, findsOneWidget);
       });
@@ -116,21 +120,18 @@ void main() {
       testWidgets('Then it should present the correct remote image',
           (WidgetTester tester) async {
         await tester.runAsync(() async {
-          await mockNetworkImagesFor(
-            () async {
-              await tester.pumpWidget(remoteImage);
-            },
-            httpDataMock,
-          );
+          await tester.pumpWidget(remoteImage);
 
-          final element = tester.element(find.byType(FadeInImage));
-          final FadeInImage widget = element.widget;
+          await tester.pumpAndSettle();
+
+          final element = tester.element(find.byType(Image));
+          final Image widget = element.widget;
           final image = widget.image;
           await precacheImage(image, element);
           await tester.pumpAndSettle();
         });
 
-        final imageFinder = find.byType(FadeInImage);
+        final imageFinder = find.byType(Image);
 
         await expectLater(
           imageFinder,

@@ -17,12 +17,15 @@
 
 import 'dart:convert';
 
+import 'dart:typed_data';
+
 class Response {
-  Response(this.status, this.body, this.headers);
+  Response(this.status, this.body, this.headers, this.bodyBytes);
 
   int status;
   String body;
   Map<String, String> headers;
+  Uint8List bodyBytes;
 
   String toJson() {
     return json.encode({
