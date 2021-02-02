@@ -20,6 +20,8 @@ package br.com.zup.beagle.core
  * Component that has a single child
  * @property child only view that the component has in its hierarchy
  */
+
+@BeagleJson
 interface SingleChildComponent {
     val child: ServerDrivenComponent
 }

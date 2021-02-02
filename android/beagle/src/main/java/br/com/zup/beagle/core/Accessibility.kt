@@ -27,7 +27,8 @@ package br.com.zup.beagle.core
  *                      By enabling this, the VoiceOver will read this if a user selects this view,
  *                      them he will now where he is on the app.
  */
+@BeagleJson
 data class Accessibility(
     val accessible: Boolean = true,
-    val accessibilityLabel: String? = null
+    val accessibilityLabel: String? = null,
 )

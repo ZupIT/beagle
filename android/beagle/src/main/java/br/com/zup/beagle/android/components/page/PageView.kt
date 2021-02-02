@@ -45,7 +45,7 @@ import br.com.zup.beagle.widget.core.Flex
  * @param onPageChange List of actions that are performed when you are on the selected page.
  * @param currentPage Integer number that identifies that selected.
  */
-@RegisterWidget
+@RegisterWidget("pageView")
 data class PageView(
     override val children: List<ServerDrivenComponent>,
     @Deprecated(message = "This property was deprecated in version 1.1.0 and will be removed in a future version.")

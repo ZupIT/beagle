@@ -20,6 +20,8 @@ package br.com.zup.beagle.core
  * Component that hold the identifier
  * @property id use to identifier the current view
  */
+
+@BeagleJson
 interface IdentifierComponent : ServerDrivenComponent {
     val id: String?
 }

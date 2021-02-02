@@ -23,14 +23,15 @@ import br.com.zup.beagle.android.components.page.PageIndicatorOutput
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.sample.components.CustomPageIndicatorView
 
-@RegisterWidget
+@RegisterWidget(name = "customPageIndicator")
 data class CustomPageIndicator(
     val showContinue: Boolean,
-    val showSkip: Boolean
+    val showSkip: Boolean,
 ) : PageIndicatorComponent {
 
     @Transient
     private lateinit var customPageIndicatorView: CustomPageIndicatorView
+
     @Transient
     private lateinit var output: PageIndicatorOutput
 

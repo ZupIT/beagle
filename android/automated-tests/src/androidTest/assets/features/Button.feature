@@ -36,10 +36,12 @@ Feature: Button Component Validation
             |Button                           |
             |Button with style                |
             |Button with Appearance           |
-#           |Button with Style and Appearance |
-#
-#
-## Snapshot Test
-##    Scenario: Button 02 - Button component renders style attribute correctly
-##        When I click on a component with a valid style attribute configured
-##        Then component should render the style attribute correctly
+
+    Scenario Outline: Button 03 - Button component is disabled
+        When I click on button <buttonText>
+        Then the alert with message This button must be disabled should not appear
+
+        Examples:
+            |buttonText                  |
+            | Disabled Button            |
+            | Disabled Button by context |

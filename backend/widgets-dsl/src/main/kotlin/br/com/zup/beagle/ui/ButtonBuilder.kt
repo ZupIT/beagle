@@ -32,15 +32,21 @@ class ButtonBuilder : BeagleBuilder<Button> {
     var styleId: String? = null
     var onPress: MutableList<Action>? = null
     var clickAnalyticsEvent: ClickEvent? = null
+    var enabled: Bind<Boolean>? = null
 
     fun text(text: Bind<String>) = this.apply { this.text = text }
+    fun enabled(enabled: Bind<Boolean>) = this.apply { this.enabled = enabled }
     fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
     fun onPress(onPress: List<Action>?) = this.apply { this.onPress = onPress?.toMutableList() }
-    fun clickAnalyticsEvent(clickAnalyticsEvent: ClickEvent?)
-        = this.apply { this.clickAnalyticsEvent = clickAnalyticsEvent }
+    fun clickAnalyticsEvent(clickAnalyticsEvent: ClickEvent?) =
+        this.apply { this.clickAnalyticsEvent = clickAnalyticsEvent }
 
     fun text(block: () -> Bind<String>) {
         text(block.invoke())
+    }
+
+    fun enabled(block: () -> Bind<Boolean>) {
+        enabled(block.invoke())
     }
 
     fun styleId(block: () -> String?) {
@@ -59,6 +65,7 @@ class ButtonBuilder : BeagleBuilder<Button> {
         text = text,
         styleId = styleId,
         onPress = onPress,
-        clickAnalyticsEvent = clickAnalyticsEvent
+        clickAnalyticsEvent = clickAnalyticsEvent,
+        enabled = enabled
     )
 }

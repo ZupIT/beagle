@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.core.BeagleJson
+
 /**
  * Defines the text content alignment inside the text view
  *
@@ -24,6 +26,7 @@ package br.com.zup.beagle.widget.core
  * @property RIGHT
  *
  */
+@BeagleJson
 enum class TextAlignment {
     /**
      * Text content is LEFT aligned inside the text view.
