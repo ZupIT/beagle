@@ -39,7 +39,7 @@ sealed class ActionAnalyticsConfig(
     /**
      * Set the analytics to be disabled
      */
-    class Disabled : ActionAnalyticsConfig(false)
+    object Disabled : ActionAnalyticsConfig(false)
 
     /**
      * Set the analytics to be enabled
