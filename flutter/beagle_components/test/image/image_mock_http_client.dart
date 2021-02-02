@@ -26,9 +26,9 @@ import 'dart:io'
 import 'dart:io';
 
 import 'package:mockito/mockito.dart'
-    show Mock, any, anyNamed, captureAny, throwOnMissingStub, typed, when;
+    show Mock, any, anyNamed, captureAny, throwOnMissingStub, when;
 
-/// Runs [body] in separate [Zone] with [MockHttpClient].
+/// Runs [body] in separate Zone with [MockHttpClient].
 R mockNetworkImagesFor<R>(R Function() body, Map<Uri, List<int>> data) {
   return HttpOverrides.runZoned(
     body,
