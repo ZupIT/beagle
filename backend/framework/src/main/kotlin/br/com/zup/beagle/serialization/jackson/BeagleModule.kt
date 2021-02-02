@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.ScreenBuilder
@@ -38,6 +39,10 @@ class BeagleModule(
         this.setMixInAnnotation(
             getClass(Bind::class, this.classLoader),
             BindMixin::class.java
+        )
+        this.setMixInAnnotation(
+            getClass(ActionAnalyticsConfig::class, this.classLoader),
+            ActionAnalyticsConfigMixin::class.java
         )
     }
 }
