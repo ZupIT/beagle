@@ -27,7 +27,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
@@ -57,7 +59,12 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
                     navigationContentDescription = backButtonAccessibilityLabel
                 }
                 navigationBar.backButtonAccessibility?.isHeader?.let { isHeader ->
-                    ViewCompat.setAccessibilityHeading(this, isHeader)
+                    ViewCompat.setAccessibilityDelegate(this, object : AccessibilityDelegateCompat() {
+                        override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                            super.onInitializeAccessibilityNodeInfo(host, info)
+                            info.isHeading = isHeader
+                        }
+                    })
                 }
 
                 setNavigationOnClickListener {
