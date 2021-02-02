@@ -64,6 +64,7 @@ constructor(
     val template: ServerDrivenComponent? = null,
     val onScrollEnd: List<Action>? = null,
     val scrollEndThreshold: Int? = null,
+    val isScrollIndicatorVisible: Boolean = false,
     val iteratorName: String = "item",
     val key: String? = null,
 ) : WidgetView(), ContextComponent, OnInitiableComponent by OnInitiableComponentImpl(onInit) {
@@ -83,7 +84,7 @@ constructor(
     ) : this(
         children = children,
         direction = direction,
-        context = null,
+        context = null
     )
 
     /**
@@ -94,6 +95,7 @@ constructor(
      * @param template represents each cell in the list through a ServerDrivenComponent.
      * @param onScrollEnd list of actions performed when the list is scrolled to the end.
      * @param scrollEndThreshold sets the scrolled percentage of the list to trigger onScrollEnd.
+     * @param isScrollIndicatorVisible this attribute enables or disables the scroll bar.
      * @param iteratorName is the context identifier of each cell.
      * @param key points to a unique value present in each dataSource item
      * used as a suffix in the component ids within the Widget.
@@ -106,6 +108,7 @@ constructor(
         template: ServerDrivenComponent,
         onScrollEnd: List<Action>? = null,
         scrollEndThreshold: Int? = null,
+        isScrollIndicatorVisible: Boolean = false,
         iteratorName: String = "item",
         key: String? = null,
     ) : this(
@@ -117,6 +120,7 @@ constructor(
         template,
         onScrollEnd,
         scrollEndThreshold,
+        isScrollIndicatorVisible,
         iteratorName,
         key
     )
@@ -160,9 +164,11 @@ constructor(
 
     private fun buildNewListView(): View {
         listViewIdViewModel = rootView.generateViewModelInstance()
-        recyclerView = viewFactory.makeBeagleRecyclerView(rootView.getContext())
 
         val orientation = listDirectionToRecyclerViewOrientation()
+
+        recyclerView = generateRecyclerView(orientation)
+
         setupRecyclerView(orientation)
         configDataSourceObserver()
         configRecyclerViewScrollListener()
@@ -205,6 +211,22 @@ constructor(
     } else {
         RecyclerView.HORIZONTAL
     }
+
+    private fun generateRecyclerView(orientation: Int): BeagleRecyclerView =
+        if (isScrollIndicatorVisible) {
+            generateRecyclerViewWithScrollIndicator(orientation)
+        } else {
+            viewFactory.makeBeagleRecyclerView(rootView.getContext())
+        }
+
+
+    private fun generateRecyclerViewWithScrollIndicator(orientation: Int): BeagleRecyclerView =
+        if (orientation == RecyclerView.VERTICAL) {
+            viewFactory.makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext())
+        } else {
+            viewFactory.makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext())
+        }
+
 
     private fun setupRecyclerView(orientation: Int) {
         val contextAdapter = ListAdapter(

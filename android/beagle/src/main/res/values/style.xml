@@ -16,10 +16,13 @@
   -->
 
 <resources>
-    <item name="beagle_toolbar_text" type="id" />
-    <item name="beagle_component_tag" type="id" />
-    <item name="beagle_context_view" type="id" />
-    <item name="beagle_default_id" type="id" />
-    <item name="beagle_auto_generate_id_enabled" type="id" />
-    <item name="beagle_initiable_component" type="id" />
+
+    <style name="Beagle.Widget.ScrollIndicatorVertical" parent="android:Widget">
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="Beagle.Widget.ScrollIndicatorHorizontal" parent="android:Widget">
+        <item name="android:scrollbars">horizontal</item>
+    </style>
+
 </resources>
