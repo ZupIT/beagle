@@ -106,10 +106,29 @@ class AnalyticsGeneratorTests: XCTestCase {
         // And
         actionWithConfig(.enabled(nil))
 
-        // Then should have just standard properties
+        // Then should use global config
         resultShouldBeEqualTo("""
         {
           "path" : "somePath",
+          "platform" : "ios",
+          "type" : "action"
+        }
+        """)
+    }
+
+    func testAdditionalEntriesShouldTakePrecedence() {
+        // Given
+        emptyGlobalConfig()
+        // And
+        actionWithConfig(.enabled(.init(
+            attributes: ["path"],
+            additionalEntries: ["path": "NEW PATH"]
+        )))
+
+        // Then should have just standard properties
+        resultShouldBeEqualTo("""
+        {
+          "path" : "NEW PATH",
           "platform" : "ios",
           "type" : "action"
         }
@@ -168,7 +187,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         let result = resultWithoutDefaultValues()
 
         // Then
-        _assertInlineSnapshot(matching: result, as: .json, with: string, testName: testName, line: line)
+        _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)
     }
 
     private func resultWithoutDefaultValues() -> AnalyticsRecord? {

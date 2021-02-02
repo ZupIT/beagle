@@ -1,17 +1,5 @@
 {
-  "beagleAction" : "beagle:opennativeroute",
-  "component" : {
-    "id" : "test-component-id",
-    "position" : {
-      "x" : 0,
-      "y" : 0
-    },
-    "type" : "custom:analyticstestcomponent"
-  },
   "data.number" : "Ten",
-  "platform" : "ios",
   "route" : "native-route?q=beagle",
-  "screen" : "analytics-actions",
-  "shouldResetApplication" : false,
-  "type" : "action"
+  "shouldResetApplication" : false
 }

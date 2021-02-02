@@ -1,17 +1,5 @@
 {
-  "beagleAction" : "beagle:resetapplication",
-  "component" : {
-    "id" : "test-component-id",
-    "position" : {
-      "x" : 0,
-      "y" : 0
-    },
-    "type" : "custom:analyticstestcomponent"
-  },
   "controllerId" : "controller ID - local",
-  "platform" : "ios",
   "route.screen.identifier" : "screen-id-local-route",
-  "route.screen.navigationBar.title" : "Local Screen Title",
-  "screen" : "analytics-actions",
-  "type" : "action"
+  "route.screen.navigationBar.title" : "Local Screen Title"
 }

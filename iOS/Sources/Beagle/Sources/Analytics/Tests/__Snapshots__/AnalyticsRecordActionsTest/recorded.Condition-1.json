@@ -1,13 +1,4 @@
 {
-  "beagleAction" : "beagle:condition",
-  "component" : {
-    "id" : "test-component-id",
-    "position" : {
-      "x" : 0,
-      "y" : 0
-    },
-    "type" : "custom:analyticstestcomponent"
-  },
   "condition" : true,
   "onFalse" : [
     {
@@ -18,8 +9,5 @@
     {
       "message" : "Hello beagle"
     }
-  ],
-  "platform" : "ios",
-  "screen" : "analytics-actions",
-  "type" : "action"
+  ]
 }

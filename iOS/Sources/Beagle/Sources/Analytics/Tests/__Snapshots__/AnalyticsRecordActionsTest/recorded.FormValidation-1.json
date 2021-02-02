@@ -1,13 +1,4 @@
 {
-  "beagleAction" : "beagle:formvalidation",
-  "component" : {
-    "id" : "test-component-id",
-    "position" : {
-      "x" : 0,
-      "y" : 0
-    },
-    "type" : "custom:analyticstestcomponent"
-  },
   "errors" : [
     {
       "inputName" : "inputName0",
@@ -29,8 +20,5 @@
       "inputName" : "inputName4",
       "message" : "error for inputName4"
     }
-  ],
-  "platform" : "ios",
-  "screen" : "analytics-actions",
-  "type" : "action"
+  ]
 }

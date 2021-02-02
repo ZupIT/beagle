@@ -55,10 +55,8 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
 
     // MARK: - Aux
 
-    private func doRecord<A: Action>(_: A.Type, fromJson: String) throws -> (AnalyticsRecord, file: String) {
+    private func doRecord<A: Action>(_: A.Type, fromJson: String) throws -> ([String: DynamicObject], file: String) {
         let action: A = try actionFromJsonFile(fileName: fromJson)
-        let provider = AnalyticsProviderStub()
-        let service = AnalyticsService(provider: provider)
         
         let child = AnalyticsTestComponent()
         let context = Context(
@@ -82,10 +80,13 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
         )
         _ = BeagleNavigationController(rootViewController: controller)
         let origin = try XCTUnwrap(controller.view.viewWithTag(type(of: child).tag))
+        guard case .enabled(let config) = action.analytics else { throw Error.shouldNeverHappen }
+        let result = action.getSomeAttributes(.some(config?.attributes ?? []), contextProvider: origin)
+        return (result, fromJson)
+    }
 
-        service.createRecord(.init(action: action, event: nil, origin: origin, controller: controller))
-//        waitCreateRecords(service)
-        return (try XCTUnwrap(provider.records.first), fromJson)
+    enum Error: Swift.Error {
+        case shouldNeverHappen
     }
 }
 
