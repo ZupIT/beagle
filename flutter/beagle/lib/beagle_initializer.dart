@@ -19,14 +19,13 @@ import 'package:beagle/bridge_impl/beagle_service_js.dart';
 import 'package:beagle/default/default_actions.dart';
 import 'package:beagle/default/default_http_client.dart';
 import 'package:beagle/default/default_image_downloader.dart';
+import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/model/network_strategy.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
-
-import 'interface/beagle_image_downloader.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class BeagleInitializer {
