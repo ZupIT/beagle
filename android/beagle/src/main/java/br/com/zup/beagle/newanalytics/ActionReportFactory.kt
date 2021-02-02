@@ -57,7 +57,7 @@ internal object ActionReportFactory {
     )
 
     private fun getActionType(action: Action): String =
-        if (isCustomAction(action)) "custom:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
+        if (isCustomAction(action)) "custom:" + getCustomActionName(action::class.java)
         else "beagle:" + getBeagleActionName(action::class.java)
 
     private fun isCustomAction(action: Action): Boolean =

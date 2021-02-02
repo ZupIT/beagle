@@ -19,11 +19,15 @@ package br.com.zup.beagle.newanalytics
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionAnalytics
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.core.BeagleJson
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert
@@ -301,5 +305,118 @@ internal class ActionReportFactoryTest : BaseTest() {
             //Then
             Assert.assertEquals(expectedDataReport, dataActionReport)
         }
+    }
+
+    @DisplayName("when preGenerateActionAnalyticsConfig")
+    @Nested
+    inner class ProGuardTest {
+        @BeforeEach
+        fun setup() {
+            every { rootView.getScreenId() } returns ""
+            every { origin.x } returns 300f
+            every { origin.y } returns 400f
+        }
+
+        @DisplayName("Then should get name from annotation")
+        @Test
+        fun testPreGenerateActionAnalyticsConfigOfBeagleJsonActionShouldGetNameFromAnnotation() {
+            //given
+            val action = BeagleJsonActionWithName()
+
+            //when
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("beagle:actioName", dataActionReport.actionType)
+        }
+
+        @DisplayName("Then should get name from class")
+        @Test
+        fun testPreGenerateActionAnalyticsConfigOfBeagleJsonActionShouldGetNameFromClass() {
+            //given
+            val action = BeagleJsonActionWithoutName()
+
+            //when
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("beagle:beagleJsonActionWithoutName", dataActionReport.actionType)
+        }
+
+        @DisplayName("Then should get name from annotation")
+        @Test
+        fun testPreGenerateActionAnalyticsConfigOfRegisterActionShouldGetNameFromAnnotation() {
+            //given
+            val action = RegisterActionWithName()
+            every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
+
+            //when
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("custom:actioName", dataActionReport.actionType)
+        }
+
+        @DisplayName("Then should get name from class")
+        @Test
+        fun testPreGenerateActionAnalyticsConfigOfRegisterActionShouldGetNameFromClass() {
+            //given
+            val action = RegisterActionWithoutName()
+            every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
+
+            //when
+            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("custom:registerActionWithoutName", dataActionReport.actionType)
+        }
+    }
+}
+
+@BeagleJson(name = "actionName")
+internal class BeagleJsonActionWithName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
+    override fun execute(rootView: RootView, origin: View) {
+
+    }
+}
+
+@BeagleJson
+internal class BeagleJsonActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
+    override fun execute(rootView: RootView, origin: View) {
+
+    }
+}
+
+@RegisterAction
+internal class RegisterActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
+    override fun execute(rootView: RootView, origin: View) {
+
+    }
+}
+
+@RegisterAction(name = "actionName")
+internal class RegisterActionWithName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
+    override fun execute(rootView: RootView, origin: View) {
+
     }
 }
