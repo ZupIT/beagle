@@ -35,8 +35,8 @@
 		3D6D9A5B25C8C3B9004FF423 /* AssertNever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6D9A5A25C8C3B9004FF423 /* AssertNever.swift */; };
 		3D6D9A6F25C8D23E004FF423 /* PopView-1.json in Resources */ = {isa = PBXBuildFile; fileRef = 3D6D9A6E25C8D23E004FF423 /* PopView-1.json */; };
 		3D8E5C7E2542341C002B92E2 /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */; };
+		3D9B27D325C9D4C900144CF5 /* DecodeActionAnalyticsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8125B0FC53008248C6 /* DecodeActionAnalyticsConfigTests.swift */; };
 		3DB1BF7C25B0F544008248C6 /* ActionAnalyticsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */; };
-		3DB1BF8225B0FC53008248C6 /* ActionAnalyticsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */; };
 		3DB1BF8D25B1E9B2008248C6 /* AnalyticsRecordActionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8C25B1E9B1008248C6 /* AnalyticsRecordActionsTest.swift */; };
 		3DE35AE625BF62AD009A93B6 /* Evaluate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE35AE525BF62AD009A93B6 /* Evaluate.swift */; };
 		5744D121251E6868003638F4 /* DynamicObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5744D120251E6868003638F4 /* DynamicObjectExtension.swift */; };
@@ -378,7 +378,7 @@
 		3D6D9A6E25C8D23E004FF423 /* PopView-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "PopView-1.json"; path = "Sources/Analytics/Tests/JSON/Actions/PopView-1.json"; sourceTree = SOURCE_ROOT; };
 		3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpAditionalData.swift; sourceTree = "<group>"; };
 		3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfig.swift; sourceTree = "<group>"; };
-		3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfigTests.swift; sourceTree = "<group>"; };
+		3DB1BF8125B0FC53008248C6 /* DecodeActionAnalyticsConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeActionAnalyticsConfigTests.swift; sourceTree = "<group>"; };
 		3DB1BF8C25B1E9B1008248C6 /* AnalyticsRecordActionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsRecordActionsTest.swift; sourceTree = "<group>"; };
 		3DE35AE525BF62AD009A93B6 /* Evaluate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluate.swift; sourceTree = "<group>"; };
 		5744D120251E6868003638F4 /* DynamicObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DynamicObjectExtension.swift; path = ../../../../../../Test/DynamicObjectExtension.swift; sourceTree = "<group>"; };
@@ -873,7 +873,7 @@
 			isa = PBXGroup;
 			children = (
 				9337F834249A7F0000B0A260 /* LocalFormHandlerTests.swift */,
-				3DB1BF8125B0FC53008248C6 /* ActionAnalyticsConfigTests.swift */,
+				3DB1BF8125B0FC53008248C6 /* DecodeActionAnalyticsConfigTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2512,6 +2512,7 @@
 				E531D6BC235A007C007EEBA7 /* UIView+LoadingTests.swift in Sources */,
 				25CDD47024EC5E6800CC49CB /* OperationLogicEvaluationTests.swift in Sources */,
 				2539A45124C633D700B8FA92 /* GlobalContextTests.swift in Sources */,
+				3D9B27D325C9D4C900144CF5 /* DecodeActionAnalyticsConfigTests.swift in Sources */,
 				25CDD47624EDAF5E00CC49CB /* OperationArrayEvaluationTests.swift in Sources */,
 				C05E164D24365DBE0088F9D2 /* AnalyticsTests.swift in Sources */,
 				25BFEDA5252BC91F00365889 /* ImageDownloaderTests.swift in Sources */,
@@ -2564,7 +2565,6 @@
 				25CDD47424ED666D00CC49CB /* OperationStringEvaluationTests.swift in Sources */,
 				C0291889247D5BFA00C3AA13 /* ComponentFromJsonFile.swift in Sources */,
 				C829CF2323B197CF001B7225 /* FormInputTests.swift in Sources */,
-				3DB1BF8225B0FC53008248C6 /* ActionAnalyticsConfigTests.swift in Sources */,
 				9398CACF25549A0B0003A010 /* PageIndicatorTests.swift in Sources */,
 				A0EF0ABE238B05A10019BE83 /* ValidatorHandlerTests.swift in Sources */,
 				93EE0C94252CA16C0032BE77 /* SetContextTests.swift in Sources */,
