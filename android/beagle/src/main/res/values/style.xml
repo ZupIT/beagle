@@ -17,11 +17,11 @@
 
 <resources>
 
-    <style name="scrollIndicatorVertical" parent="android:Widget">
+    <style name="Beagle.Widget.ScrollIndicatorVertical" parent="android:Widget">
         <item name="android:scrollbars">vertical</item>
     </style>
 
-    <style name="scrollIndicatorHorizontal" parent="android:Widget">
+    <style name="Beagle.Widget.ScrollIndicatorHorizontal" parent="android:Widget">
         <item name="android:scrollbars">horizontal</item>
     </style>
 
