@@ -39,7 +39,10 @@ class BeagleImage extends StatelessWidget {
   }
 
   Image _createImageFromAsset(LocalImagePath path) {
-    return Image.asset(_getAssetName(path));
+    return Image.asset(
+      _getAssetName(path),
+      fit: _getBoxFit(mode),
+    );
   }
 
   Widget _createImageFromNetwork(RemoteImagePath path) {
