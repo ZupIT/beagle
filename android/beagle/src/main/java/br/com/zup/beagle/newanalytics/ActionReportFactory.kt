@@ -26,11 +26,11 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.putFirstCharacterOnLowerCase
 import br.com.zup.beagle.android.widget.RootView
-import java.lang.reflect.Modifier
+import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.core.BeagleJson
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.javaGetter
 
 internal object ActionReportFactory {
 
@@ -58,10 +58,28 @@ internal object ActionReportFactory {
 
     private fun getActionType(action: Action): String =
         if (isCustomAction(action)) "custom:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
-        else "beagle:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
+        else "beagle:" + getBeagleActionName(action::class.java)
 
     private fun isCustomAction(action: Action): Boolean =
         BeagleEnvironment.beagleSdk.registeredActions().contains(action::class.java)
+
+    //When use proguard, the action name on Beagle is caught by the BeagleJson annotation
+    private fun getBeagleActionName(clazz: Class<*>): String? {
+        var name = clazz.getAnnotation(BeagleJson::class.java)?.name
+        if (name.isNullOrEmpty()) {
+            name = clazz.simpleName
+        }
+        return name?.putFirstCharacterOnLowerCase()
+    }
+
+    //When use proguard, the action name on Beagle is caught by the RegisterAction annotation
+    private fun getCustomActionName(clazz: Class<*>): String? {
+        var name = clazz.getAnnotation(RegisterAction::class.java)?.name
+        if (name.isNullOrEmpty()) {
+            name = clazz.simpleName
+        }
+        return name?.putFirstCharacterOnLowerCase()
+    }
 
     private fun evaluateAllActionAttribute(
         value: Any,
@@ -71,8 +89,8 @@ internal object ActionReportFactory {
         action: ActionAnalytics
     ): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()
-        (value::class as KClass<Any>).memberProperties.filter { isFilterAccessibility(it)}.forEach { property ->
-            property.get(value)?.let { it ->
+        (value::class as KClass<Any>).memberProperties.forEach { property ->
+            property.getPropertyValue(value)?.let { it ->
                 val keyName = getKeyName(name, property)
                 val propertyValue = evaluateValueIfNecessary(it, rootView, origin, action)
                 hashMap[keyName] = propertyValue
@@ -89,9 +107,15 @@ internal object ActionReportFactory {
         return hashMap
     }
 
-    private fun isFilterAccessibility(property: KProperty1<Any, *>) =
-        property.javaGetter?.modifiers?.let{Modifier.isPublic(it)} ?: false
-
+    //this fun is necessary because using the proguard, when try to get the value of a private field can throw
+    //an exception
+    private fun KProperty1<Any, *>.getPropertyValue(value: Any): Any? {
+        return try {
+            this.get(value)
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     private fun evaluateValueIfNecessary(
         value: Any,
@@ -156,7 +180,7 @@ internal object ActionReportFactory {
     }
 
     private fun getAttributesValue(dataActionReport: DataActionReport): HashMap<String, Any>? {
-        if(dataActionReport.attributes.size == 0){
+        if (dataActionReport.attributes.size == 0) {
             return null
         }
         return dataActionReport.attributes
