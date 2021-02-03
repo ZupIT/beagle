@@ -38,7 +38,7 @@ import br.com.zup.beagle.core.BeagleJson
  *
  */
 
-@BeagleJson
+@BeagleJson(name = "alert")
 data class Alert(
     val title: Bind<String>? = null,
     val message: Bind<String>,

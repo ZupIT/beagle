@@ -77,7 +77,6 @@ internal object ContextActionExecutor {
         analyticsValue: String? = null
     ) {
         action.execute(rootView, origin)
-
         if (action is ActionAnalytics) {
             rootView.generateViewModelInstance<AnalyticsViewModel>().createActionReport(
                 rootView,

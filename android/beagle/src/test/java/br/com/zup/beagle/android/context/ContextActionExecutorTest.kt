@@ -197,6 +197,7 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
 
             // Then
             verify(exactly = 1) { action.execute(rootView, view) }
+            verify(exactly = 1) { actionAnalytics.execute(rootView, view) }
             verify(exactly = 1) { analyticsViewModel.createActionReport(rootView, view, actionAnalytics, analyticsValue) }
         }
     }

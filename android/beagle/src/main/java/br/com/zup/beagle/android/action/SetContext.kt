@@ -41,7 +41,7 @@ internal data class SetContextInternal(
  * @param path Specific context point to be changed in the case of arrays and maps <key, value>.
  */
 
-@BeagleJson
+@BeagleJson(name = "setContext")
 data class SetContext(
     val contextId: String,
     @ContextDataValue

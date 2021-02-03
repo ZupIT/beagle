@@ -33,7 +33,7 @@ import br.com.zup.beagle.core.BeagleJson
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
-@BeagleJson
+@BeagleJson(name = "formValidation")
 internal class FormValidation(
     val errors: List<FieldError>,
     override var analytics: ActionAnalyticsConfig? = null

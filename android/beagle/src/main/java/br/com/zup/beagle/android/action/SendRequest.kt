@@ -80,7 +80,7 @@ enum class RequestActionMethod {
  * @param onError  Error action.
  * @param onFinish Finish action.
  */
-@BeagleJson
+@BeagleJson(name = "sendRequest")
 data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),

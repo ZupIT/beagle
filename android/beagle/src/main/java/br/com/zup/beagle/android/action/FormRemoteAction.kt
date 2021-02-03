@@ -74,7 +74,7 @@ internal typealias ResultListener = (result: FormResult) -> Unit
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
-@BeagleJson
+@BeagleJson(name = "formRemoteAction")
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType,

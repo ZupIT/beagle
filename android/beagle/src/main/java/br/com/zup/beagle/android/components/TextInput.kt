@@ -135,7 +135,7 @@ data class TextInput(
                         id = "onChange",
                         value = mapOf(VALUE_KEY to newText.toString())
                     ),
-                    "onChange"
+                    analyticsValue = "onChange"
                 )
             }
         }
@@ -157,7 +157,7 @@ data class TextInput(
                             id = "onFocus",
                             value = mapOf(VALUE_KEY to this.text.toString())
                         ),
-                        "onFocus"
+                        analyticsValue = "onFocus"
                     )
                 }
             } else {
@@ -170,7 +170,7 @@ data class TextInput(
                             id = "onBlur",
                             value = mapOf(VALUE_KEY to this.text.toString())
                         ),
-                        "onBlur"
+                        analyticsValue = "onBlur"
                     )
                 }
             }

@@ -51,7 +51,7 @@ internal object AnalyticsService {
                 action,
                 analyticsValue
             )
-            reportDataReport(dataActionReport, it)
+            reportAData(dataActionReport, it)
         }
     }
 
@@ -59,11 +59,11 @@ internal object AnalyticsService {
         val analyticsProvider: AnalyticsProvider? = BeagleEnvironment.beagleSdk.analyticsProvider
         analyticsProvider?.let {
             val dataScreenReport = DataScreenReport(isLocalScreen, screenIdentifier)
-            reportDataReport(dataScreenReport, it)
+            reportAData(dataScreenReport, it)
         }
     }
 
-    private fun reportDataReport(dataReport: DataReport, analyticsProvider: AnalyticsProvider) {
+    private fun reportAData(dataReport: DataReport, analyticsProvider: AnalyticsProvider) {
         val analyticsConfig = analyticsProvider.getConfig()
         val queueSize = analyticsProvider.getMaximumItemsInQueue()
         if (analyticsConfig == null) {

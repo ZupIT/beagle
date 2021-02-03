@@ -29,7 +29,7 @@ import br.com.zup.beagle.core.BeagleJson
 /**
  * SubmitForm and a specific action of the SimpleForm component when executing it calls SimpleForm's onSubmit attribute.
  */
-@BeagleJson
+@BeagleJson(name = "submitForm")
 class SubmitForm(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
 
     override fun execute(rootView: RootView, origin: View) {

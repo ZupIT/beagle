@@ -42,7 +42,7 @@ import br.com.zup.beagle.core.BeagleJson
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
-@BeagleJson
+@BeagleJson(name = "formLocalAction")
 data class FormLocalAction(
     val name: String,
     val data: Map<String, String>,
