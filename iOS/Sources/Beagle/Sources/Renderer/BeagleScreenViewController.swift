@@ -218,8 +218,7 @@ public class BeagleScreenViewController: BeagleController {
     fileprivate func updateView(state: ViewModel.State) {
         switch state {
         case .initialized:
-            serverDrivenState = .started
-            renderScreenIfNeeded(state: serverDrivenState)
+            break
         case .loading:
             serverDrivenState = .started
             renderScreenIfNeeded(state: serverDrivenState)
@@ -235,22 +234,16 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func renderScreenIfNeeded(state: ServerDrivenState) {
-        renderBeagleViewIfNeeded(state: state)
-        guard let screen = screen else { return }
-        if content == nil || viewModel.beagleViewState != nil {
+        loadBeagleViewState(state)
+        if content == nil, let screen = screen {
             updateNavigationBar(animated: true)
             content = .view(screen.toView(renderer: renderer))
         }
     }
     
-    private func renderBeagleViewIfNeeded(state: ServerDrivenState) {
+    private func loadBeagleViewState(_ state: ServerDrivenState) {
         guard let beagleViewState = viewModel.beagleViewState else { return }
-        view.subviews.forEach { beagleView in
-            beagleView.removeFromSuperview()
-        }
-        beagleViewState(state, view)
-        guard let beagleViewContent = view.subviews.first else { return }
-        content = .view(beagleViewContent)
+        beagleViewState(state)
     }
 
     public func reloadScreen(with screenType: ScreenType) {

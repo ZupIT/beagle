@@ -16,7 +16,7 @@
 
 import UIKit
 
-public typealias BeagleViewState = (ServerDrivenState, UIView) -> ()
+public typealias BeagleViewState = (ServerDrivenState) -> Void
 
 /// Use this View when you need to add a Beagle component inside a native screen that have other UIViews and uses AutoLayout
 public class BeagleView: UIView {
@@ -76,7 +76,8 @@ public class BeagleView: UIView {
     }
     
     public override var intrinsicContentSize: CGSize {
-        guard case .view(let content) = beagleController.content else {
+        guard case .view(let content) = beagleController.content,
+              let screenView = content as? ScreenView else {
             return super.intrinsicContentSize
         }
         
@@ -84,7 +85,7 @@ public class BeagleView: UIView {
         if !alreadyCalculateIntrinsicSize {
             alreadyCalculateIntrinsicSize = true
             
-            let unboundedIntrinsic = content.yoga.calculateLayout(with: size)
+            let unboundedIntrinsic = screenView.yoga.calculateLayout(with: size)
             if unboundedIntrinsic.width > frame.width {
                 size.width = frame.width
             }
@@ -92,16 +93,17 @@ public class BeagleView: UIView {
                 size.height = frame.height
             }
         }
-        return content.yoga.calculateLayout(with: size)
+        return screenView.yoga.calculateLayout(with: size)
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
         
-        guard case .view(let content) = beagleController.content else { return }
+        guard case .view(let content) = beagleController.content,
+              let screenView = content as? ScreenView else { return }
                 
-        content.frame = bounds
-        content.yoga.applyLayout(preservingOrigin: true)
+        screenView.frame = bounds
+        screenView.yoga.applyLayout(preservingOrigin: true)
         
         invalidateIntrinsicContentSize() // we need to calculate intrinsecSize a second time
         alreadyCalculateIntrinsicSize = false
