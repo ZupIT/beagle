@@ -63,7 +63,10 @@ open class BeagleNavigationController: UINavigationController {
             view.hideLoading()
         case .error(let serverDrivenError, let retry):
             let message: String
+            
+            #if DEBUG
             switch serverDrivenError {
+            
             case .remoteScreen(let error), .lazyLoad(let error), .submitForm(let error):
                 switch error {
                 case .networkError(let messageError):
@@ -80,6 +83,11 @@ open class BeagleNavigationController: UINavigationController {
             default:
                 message = "Unknow Error."
             }
+            
+            #else
+            message = serverDrivenError.localizedDescription
+            
+            #endif
             
             if !view.subviews.contains(errorView) {
                 errorView = BeagleErrorView(message: message, retry: retry)
