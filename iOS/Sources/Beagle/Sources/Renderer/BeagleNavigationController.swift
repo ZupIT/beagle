@@ -81,11 +81,11 @@ open class BeagleNavigationController: UINavigationController {
                 message = error.localizedDescription
                 
             default:
-                message = "Unknow Error."
+                message = "Unknown Error."
             }
             
             #else
-            message = serverDrivenError.localizedDescription
+            message = "An unknown error occurred."
             
             #endif
             
