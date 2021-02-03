@@ -25,7 +25,7 @@ import 'package:sample/design_system.dart';
 import 'package:sample/tab_bar_screen.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/648f59cc4ba492b6dcfe486e5a3d698442afdd8f';
+    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/1b1be7518ccec3280dc095f385e39da76b2c13b9';
 
 void main() {
   runApp(const MaterialApp(home: BeagleSampleApp()));

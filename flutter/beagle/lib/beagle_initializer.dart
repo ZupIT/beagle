@@ -18,6 +18,8 @@
 import 'package:beagle/bridge_impl/beagle_service_js.dart';
 import 'package:beagle/default/default_actions.dart';
 import 'package:beagle/default/default_http_client.dart';
+import 'package:beagle/default/default_image_downloader.dart';
+import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
@@ -29,6 +31,7 @@ import 'package:beagle/setup/beagle_design_system.dart';
 class BeagleInitializer {
   static BeagleService _service;
   static DesignSystem _designSystem;
+  static BeagleImageDownloader _imageDownloader;
 
   /// Starts the BeagleService. Only a single instance of this service is allowed.
   /// The parameters are all the attributes of the class BeagleService. Please check its
@@ -43,11 +46,16 @@ class BeagleInitializer {
     NetworkStrategy strategy,
     Map<String, NavigationController> navigationControllers,
     DesignSystem designSystem,
+    BeagleImageDownloader imageDownloader,
   }) async {
     _designSystem = designSystem;
+    _imageDownloader = imageDownloader ??
+        DefaultBeagleImageDownloader(
+            httpClient: httpClient ?? const DefaultHttpClient());
+
     _service = BeagleServiceJS(
       baseUrl: baseUrl,
-      httpClient: httpClient ?? DefaultHttpClient(),
+      httpClient: httpClient ?? const DefaultHttpClient(),
       components: components,
       storage: storage,
       useBeagleHeaders: useBeagleHeaders ?? true,
@@ -65,4 +73,6 @@ class BeagleInitializer {
   }
 
   static DesignSystem get designSystem => _designSystem;
+
+  static BeagleImageDownloader get imageDownloader => _imageDownloader;
 }
