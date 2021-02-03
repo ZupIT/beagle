@@ -95,29 +95,8 @@ class ViewConfigurator: ViewConfiguratorProtocol {
         }
         object?.isAccessibilityElement = accessibility.accessible
         
-        if let isHeader = accessibility.isHeader, isHeader, let object = object {
-            object.accessibilityTraits = getAccessibilityTrait(for: object)
+        if let isHeader = accessibility.isHeader {
+            object?.accessibilityTraits = isHeader ? .header : .none
         }
-    }
-    
-    private static func getAccessibilityTrait(for object: NSObject) -> UIAccessibilityTraits {
-        if object.isKind(of: UIBarButtonItem.self) || object.isKind(of: UIButton.self) || object.isKind(of: UINavigationItem.self) {
-            
-            return .button
-        }
-        if object.isKind(of: UINavigationItem.self) {
-            return .header
-        }
-        if object.isKind(of: UIImageView.self) || object.isKind(of: UIImageView.self) {
-            return .image
-        }
-        if object.isKind(of: UILabel.self) {
-            return .staticText
-        }
-        if object.isKind(of: UISearchBar.self) {
-            return .searchField
-        }
-
-        return .none
     }
 }

@@ -30,12 +30,8 @@ public struct Accessibility: Decodable, Equatable {
     public var accessible: Bool
     
     /// A mask that contains the OR combination of the accessibility traits that best characterize an accessibility element.
-//    public var accessibilityTraits: UIAccessibilityTraits?
-    
     public var isHeader: Bool?
-    
-    // TODO: all the trait options are available in swift4.2+ so we must check if we can update version
-    
+        
     /// Initializer for Accessibility
     /// - Parameters:
     ///   - accessibilityLabel: the identifier of the element. Default is nil
@@ -45,7 +41,7 @@ public struct Accessibility: Decodable, Equatable {
     public init(
         accessibilityLabel: String? = nil,
         accessible: Bool = true,
-        isHeader: Bool? = nil
+        isHeader: Bool? = false
     ) {
         self.accessibilityLabel = accessibilityLabel
         self.accessible = accessible
