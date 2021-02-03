@@ -18,7 +18,7 @@ import XCTest
 import SnapshotTesting
 @testable import Beagle
 
-class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
+class ActionAttributesTest: AnalyticsTestHelpers {
 
     func testRecordingMultipleActions() throws {
         let records = [
@@ -36,7 +36,7 @@ class AnalyticsRecordActionsTest: AnalyticsTestHelpers {
         ]
 
         records.forEach {
-            assertSnapshot(matching: $0.0, as: .json, named: $0.file, testName: "recorded")
+            assertSnapshot(matching: $0.0, as: .json, named: $0.file, testName: "attributes")
         }
     }
 

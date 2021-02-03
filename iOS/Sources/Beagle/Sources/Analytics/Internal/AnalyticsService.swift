@@ -43,7 +43,7 @@ class AnalyticsService {
     }
     
     func createRecord(_ action: ActionInfo) {
-        AnalyticsGenerator(info: action, globalConfig: provider.getConfig2()?.actions)
+        AnalyticsGenerator(info: action, globalConfig: provider.getConfig()?.actions)
             .createRecord()
             .map {
                 provider.createRecord($0)

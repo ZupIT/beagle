@@ -173,7 +173,7 @@ class AnalyticsProviderStub: AnalyticsProvider {
         records.append(record)
     }
 
-    func getConfig2() -> AnalyticsConfig? {
+    func getConfig() -> AnalyticsConfig? {
         return config
     }
     
