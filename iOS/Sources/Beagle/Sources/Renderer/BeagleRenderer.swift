@@ -58,6 +58,7 @@ public struct BeagleRenderer {
         if let style = (component as? StyleComponent)?.style {
             observe(style: style, in: view)
         }
+        view.componentType = type(of: component)
     }
     
     private func observe(style: Style, in view: UIView) {

@@ -42,9 +42,9 @@ import br.com.zup.beagle.annotation.RegisterWidget
  *              This attribute must be declared and it cannot be null.
  *
  */
-@RegisterWidget
+@RegisterWidget("webView")
 data class WebView(
-    val url: Bind<String>
+    val url: Bind<String>,
 ) : WidgetView() {
 
     constructor(url: String) : this(expressionOrValueOf(url))
@@ -73,7 +73,7 @@ data class WebView(
         override fun onPageStarted(
             view: WebView?,
             url: String?,
-            favicon: Bitmap?
+            favicon: Bitmap?,
         ) {
             notify(loading = true)
         }
@@ -81,7 +81,7 @@ data class WebView(
         override fun onReceivedError(
             view: WebView?,
             request: WebResourceRequest?,
-            error: WebResourceError?
+            error: WebResourceError?,
         ) {
             val throwable = Error("$error")
             notify(state = ServerDrivenState.WebViewError(throwable) { view?.reload() })

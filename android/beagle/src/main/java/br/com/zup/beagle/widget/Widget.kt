@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -13,23 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget
 
-import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.AccessibilityComponent
-import br.com.zup.beagle.core.IdentifierComponent
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.core.AccessibilityComponent
+import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.IdentifierComponent
 
 /**
  * Base of all widgets
  *
+ * @property style attribute will enable a few visual options to be changed.
+ * @property accessibility attribute will enable a textual information to explain
+ *                         the view content in case a screen reader is use
+ * @property id use to identifier the current view
+ *
  */
-abstract class Widget : StyleComponent, AccessibilityComponent,
-    IdentifierComponent {
-
-    override var id: String? = null
-    override var style: Style? = null
-    override var accessibility: Accessibility? = null
+abstract class Widget : StyleComponent, AccessibilityComponent, IdentifierComponent {
+     override var style: Style? = null
+     override var accessibility: Accessibility? = null
+     override var id: String? = null
 }

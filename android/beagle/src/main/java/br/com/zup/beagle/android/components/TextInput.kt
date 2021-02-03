@@ -60,7 +60,7 @@ private const val VALUE_KEY = "value"
  * @param onFocus Actions array that this field can trigger when this field is on focus.
  * @param onBlur Action array that this field can trigger when its focus is removed
  */
-@RegisterWidget
+@RegisterWidget("textInput")
 data class TextInput(
     val value: Bind<String>? = null,
     val placeholder: Bind<String>? = null,
@@ -71,7 +71,7 @@ data class TextInput(
     val styleId: String? = null,
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
-    val onBlur: List<Action>? = null
+    val onBlur: List<Action>? = null,
 ) : InputWidget() {
 
     constructor(
@@ -84,7 +84,7 @@ data class TextInput(
         styleId: String? = null,
         onChange: List<Action>? = null,
         onFocus: List<Action>? = null,
-        onBlur: List<Action>? = null
+        onBlur: List<Action>? = null,
     ) : this(
         expressionOrValueOfNullable(value),
         expressionOrValueOfNullable(placeholder),
@@ -145,7 +145,7 @@ data class TextInput(
     }
 
     private fun EditText.setUpOnFocusChange(rootView: RootView) {
-        this.setOnFocusChangeListener { view, hasFocus ->
+        setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 onFocus?.let {
                     this@TextInput.handleEvent(
@@ -154,7 +154,7 @@ data class TextInput(
                         onFocus,
                         ContextData(
                             id = "onFocus",
-                            value = mapOf(VALUE_KEY to text.toString())
+                            value = mapOf(VALUE_KEY to this.text.toString())
                         )
                     )
                 }
@@ -166,7 +166,7 @@ data class TextInput(
                         onBlur,
                         ContextData(
                             id = "onBlur",
-                            value = mapOf(VALUE_KEY to text.toString())
+                            value = mapOf(VALUE_KEY to this.text.toString())
                         )
                     )
                 }

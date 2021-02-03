@@ -20,6 +20,7 @@ extension UIView {
     private static var contextMapKey = "contextMapKey"
     private static var expressionLastValueMapKey = "expressionLastValueMapKey"
     private static var parentContextKey = "parentContextKey"
+    private static var componentType = "componentType"
     
     private class ObjectWrapper<T> {
         let object: T?
@@ -47,6 +48,15 @@ extension UIView {
         }
     }
     
+    var componentType: ServerDrivenComponent.Type? {
+        get {
+            return (objc_getAssociatedObject(self, &UIView.componentType) as? ObjectWrapper)?.object
+        }
+        set {
+            objc_setAssociatedObject(self, &UIView.componentType, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
     weak var parentContext: UIView? {
         get {
             objc_getAssociatedObject(self, &UIView.parentContextKey) as? UIView
@@ -71,7 +81,7 @@ extension UIView {
         return expression.evaluate(with: self)
     }
     
-    func evaluate<T: Decodable>(for expression: ContextExpression) -> T? {
+    func evaluate(for expression: ContextExpression) -> DynamicObject {
         switch expression {
         case let .single(expression):
             return evaluate(for: expression)
@@ -85,7 +95,7 @@ extension UIView {
     private func configBinding<T: Decodable>(_ binding: Binding, in expression: SingleExpression, completion: @escaping (T?) -> Void) {
         guard let context = getContext(with: binding.context) else { return }
         let closure: (Context) -> Void = { [weak self] context in
-            completion(self?.evaluate(for: expression))
+            completion(self?.evaluate(for: expression).transform())
         }
         let contextObserver = ContextObserver(onContextChange: closure)
         context.addObserver(contextObserver)
@@ -108,21 +118,21 @@ extension UIView {
         case let .value(.binding(binding)):
             configBinding(binding, in: expression, completion: completion)
         case let .value(.literal(literal)):
-            completion(transform(literal.evaluate()))
+            completion(literal.evaluate().transform())
         case let .operation(operation):
             configBinding(operation, in: expression, completion: completion)
         }
-        completion(evaluate(for: expression))
+        completion(evaluate(for: expression).transform())
     }
     
-    private func evaluate<T: Decodable>(for expression: SingleExpression) -> T? {
+    private func evaluate(for expression: SingleExpression) -> DynamicObject {
         switch expression {
         case let .value(.binding(binding)):
-            return transform(binding.evaluate(in: self))
+            return binding.evaluate(in: self)
         case let .value(.literal(literal)):
-            return transform(literal.evaluate())
+            return literal.evaluate()
         case let .operation(operation):
-            return transform(operation.evaluate(in: self))
+            return operation.evaluate(in: self)
         }
     }
     
@@ -131,7 +141,7 @@ extension UIView {
     private func configBinding<T: Decodable>(_ binding: Binding, in expression: MultipleExpression, completion: @escaping (T?) -> Void) {
         guard let context = getContext(with: binding.context) else { return }
         let closure: (Context) -> Void = { [weak self] _ in
-            let value: T? = self?.evaluate(for: expression, contextId: binding.context)
+            let value: T? = self?.evaluate(for: expression, contextId: binding.context).transform()
             completion(value)
         }
         let contextObserver = ContextObserver(onContextChange: closure)
@@ -162,22 +172,21 @@ extension UIView {
                 }
             }
         }
-        completion(evaluate(for: expression))
+        completion(evaluate(for: expression).transform())
     }
     
-    private func evaluate<T: Decodable>(for expression: MultipleExpression, contextId: String? = nil) -> T? {
+    private func evaluate(for expression: MultipleExpression, contextId: String? = nil) -> DynamicObject {
         var result: String = ""
-        
         expression.nodes.forEach {
             switch $0 {
             case let .expression(expression):
-                let evaluated: String? = evaluateWithCache(for: expression, contextId: contextId)
+                let evaluated: String? = evaluateWithCache(for: expression, contextId: contextId).transform()
                 result += evaluated ?? ""
             case let .string(string):
                 result += string
             }
         }
-        return transform(.string(result))
+        return .string(result)
     }
     
     // MARK: Get/Set Context
@@ -217,39 +226,41 @@ extension UIView {
     
     // MARK: Private
     
-    private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
-        if T.self is String.Type {
-            return dynamicObject.description as? T
-        } else if T.self is DynamicObject.Type {
-            return dynamicObject as? T
-        } else {
-            let encoder = JSONEncoder()
-            let decoder = JSONDecoder()
-            if #available(iOS 13.0, *) {
-                guard let data = try? encoder.encode(dynamicObject) else { return nil }
-                return try? decoder.decode(T.self, from: data)
-            } else {
-                // here we use array as a wrapper because iOS 12 (or prior) JSONEncoder/Decoder bug
-                // https://bugs.swift.org/browse/SR-6163
-                guard let data = try? encoder.encode([dynamicObject]) else { return nil }
-                return try? decoder.decode([T].self, from: data).first
-            }
-        }
-    }
-    
-    // expression last value cache is used only for multiple expressions binding
-    private func evaluateWithCache<T: Decodable>(for expression: SingleExpression, contextId: String? = nil) -> T? {
+    /// expression last value cache is used only for multiple expressions binding
+    private func evaluateWithCache(for expression: SingleExpression, contextId: String? = nil) -> DynamicObject {
         switch expression {
         case let .value(.binding(binding)):
             if contextId == nil || contextId == binding.context {
                 return evaluate(for: expression)
             } else {
-                return transform(expressionLastValueMap[binding.rawValue] ?? .empty)
+                return expressionLastValueMap[binding.rawValue, default: .empty]
             }
         case let .value(.literal(literal)):
-            return transform(literal.evaluate())
+            return literal.evaluate()
         case let .operation(operation):
-            return transform(operation.evaluate(in: self))
+            return operation.evaluate(in: self)
+        }
+    }
+}
+
+extension DynamicObject {
+    internal func transform<T: Decodable>() -> T? {
+        if T.self is String.Type {
+            return description as? T
+        } else if T.self is DynamicObject.Type {
+            return self as? T
+        } else {
+            let encoder = JSONEncoder()
+            let decoder = JSONDecoder()
+            if #available(iOS 13.0, *) {
+                guard let data = try? encoder.encode(self) else { return nil }
+                return try? decoder.decode(T.self, from: data)
+            } else {
+                // here we use array as a wrapper because iOS 12 (or prior) JSONEncoder/Decoder bug
+                // https://bugs.swift.org/browse/SR-6163
+                guard let data = try? encoder.encode([self]) else { return nil }
+                return try? decoder.decode([T].self, from: data).first
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -13,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.core
 
 /**
  * Component that hold the accessibility
+ *
  * @property accessibility attribute will enable a textual information to explain
- * the view content in case a screen reader is use
+ *                         the view content in case a screen reader is use
+ *
  */
-interface AccessibilityComponent: ServerDrivenComponent {
-    val accessibility: Accessibility?
+interface AccessibilityComponent : ServerDrivenComponent  {
+    var accessibility: Accessibility?
 }

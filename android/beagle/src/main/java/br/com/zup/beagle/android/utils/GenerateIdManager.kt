@@ -36,7 +36,7 @@ internal class GenerateIdManager(
     private val rootView: RootView,
     private val generateIdViewModel: GenerateIdViewModel = rootView.generateViewModelInstance(),
     private val listViewIdViewModel: ListViewIdViewModel = rootView.generateViewModelInstance(),
-    private val onInitViewModel: OnInitViewModel = rootView.generateViewModelInstance()
+    private val onInitViewModel: OnInitViewModel = rootView.generateViewModelInstance(),
 ) {
 
     fun createSingleManagerByRootViewId() {

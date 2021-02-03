@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -13,50 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.core
 
 /**
- *
  * The flex is a Layout component that will handle your visual component positioning at the screen.
  * Internally Beagle uses a Layout engine called Yoga Layout to position elements on screen.
  * In fact it will use the HTML Flexbox properties applied on the visual components and its children.
  *
- * @param flexDirection
- *                          controls the direction in which the children of a node are laid out.
- *                          This is also referred to as the main axis
- * @param flexWrap
- *                  set on containers and controls what happens when children
- *                  overflow the size of the container along the main axis.
+ * @param flexDirection controls the direction in which the children of a node are laid out.
+ *                      This is also referred to as the main axis
+ * @param flexWrap set on containers and controls what happens when children
+ *                 overflow the size of the container along the main axis.
  * @param justifyContent align children within the main axis of their container.
  * @param alignItems Align items describes how to align children along the cross axis of their container.
- * @param alignSelf
- *                      Align self has the same options and effect as align items
- *                      but instead of affecting the children within a container.
+ * @param alignSelf Align self has the same options and effect as align items
+ *                  but instead of affecting the children within a container.
  * @param alignContent Align content defines the distribution of lines along the cross-axis..
  * @param basis is an axis-independent way of providing the default size of an item along the main axis.
  * @param flex TODO.
  * @param grow describes how any space within a container should be distributed among its children along the main axis.
- * @param shrink
- *              describes how to shrink children along the main axis in the case that
- *              the total size of the children overflow the size of the container on the main axis.
+ * @param shrink describes how to shrink children along the main axis in the case that
+ *               the total size of the children overflow the size of the container on the main axis.
  *
  */
-data class Flex(
-    val flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
-    val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
-    val justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
-    val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
-    val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
-    val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
-    val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
-    val flex: Double? = null, /* = 0.0 */
-    val grow: Double? = null, /* = 0.0 */
-    val shrink: Double? = null /* = 1.0 */
+data class Flex (
+    val flexDirection: FlexDirection? = null,
+    val flexWrap: FlexWrap? = null,
+    val justifyContent: JustifyContent? = null,
+    val alignItems: AlignItems? = null,
+    val alignSelf: AlignSelf? = null,
+    val alignContent: AlignContent? = null,
+    val basis: UnitValue? = null,
+    val flex: Double? = null,
+    val grow: Double? = null,
+    val shrink: Double? = null
 )
 
 /**
- *
  * Size handles the size of the item
  *
  * @param width The value specifies the view's width
@@ -68,7 +62,7 @@ data class Flex(
  * @param aspectRatio defined as the ratio between the width and the height of a node.
  *
  */
-data class Size(
+data class Size (
     val width: UnitValue? = null,
     val height: UnitValue? = null,
     val maxWidth: UnitValue? = null,
@@ -79,32 +73,25 @@ data class Size(
 )
 
 /**
- *
  * specify the offset the edge of the item should have from it’s closest sibling (item) or parent (container)
  *
- * @param left
- *              specify the offset the left edge of the item should have from
+ * @param left specify the offset the left edge of the item should have from
+ *             it’s closest sibling (item) or parent (container).
+ * @param top specify the offset the top edge of the item should have from
+ *            it’s closest sibling (item) or parent (container).
+ * @param right specify the offset the right edge of the item should have from
  *              it’s closest sibling (item) or parent (container).
- * @param top
- *              specify the offset the top edge of the item should have from
- *              it’s closest sibling (item) or parent (container).
- * @param right
- *              specify the offset the right edge of the item should have from
- *              it’s closest sibling (item) or parent (container).
- * @param bottom
- *               specify the offset the bottom edge of the item should have from
+ * @param bottom specify the offset the bottom edge of the item should have from
  *               it’s closest sibling (item) or parent (container).
- * @param horizontal
- *               specify the offset the horizontal edge of the item should have from
- *               it’s closest sibling (item) or parent (container).
- * @param vertical
- *               specify the offset the vertical edge of the item should have from
- *               it’s closest sibling (item) or parent (container).
- * @param all
- *               specify the offset the all edge of the item should have from
- *               it’s closest sibling (item) or parent (container).
+ * @param horizontal specify the offset the horizontal edge of the item should have from
+ *                   it’s closest sibling (item) or parent (container).
+ * @param vertical specify the offset the vertical edge of the item should have from
+ *                 it’s closest sibling (item) or parent (container).
+ * @param all specify the offset the all edge of the item should have from
+ *            it’s closest sibling (item) or parent (container).
+ *
  */
-data class EdgeValue(
+data class EdgeValue (
     val left: UnitValue? = null,
     val top: UnitValue? = null,
     val right: UnitValue? = null,
@@ -115,13 +102,14 @@ data class EdgeValue(
 )
 
 /**
- *  controls the direction in which the children of a node are laid out. This is also referred to as the main axis.
- *  The cross axis is the axis perpendicular to the main axis, or the axis which the wrapping lines are laid out in.
+ * controls the direction in which the children of a node are laid out. This is also referred to as the main axis.
+ * The cross axis is the axis perpendicular to the main axis, or the axis which the wrapping lines are laid out in.
  *
  * @property COLUMN
  * @property ROW
  * @property COLUMN_REVERSE
  * @property ROW_REVERSE
+ *
  */
 enum class FlexDirection {
     /**
@@ -131,20 +119,20 @@ enum class FlexDirection {
     COLUMN,
 
     /**
-     *  Align children from left to right. If wrapping is enabled,
-     *  then the next line will start under the first item on the left of the container.
+     * Align children from left to right. If wrapping is enabled,
+     * then the next line will start under the first item on the left of the container.
      */
     ROW,
 
     /**
-     *  Align children from bottom to top. If wrapping is enabled,
-     *  then the next line will start to the right of the first item on the bottom of the container.
+     * Align children from bottom to top. If wrapping is enabled,
+     * then the next line will start to the right of the first item on the bottom of the container.
      */
     COLUMN_REVERSE,
 
     /**
-     *  Align children from right to left. If wrapping is enabled,
-     *  then the next line will start under the first item on the right of the container.
+     * Align children from right to left. If wrapping is enabled,
+     * then the next line will start under the first item on the right of the container.
      */
     ROW_REVERSE
 }
@@ -158,24 +146,25 @@ enum class FlexDirection {
  * @property NO_WRAP
  * @property WRAP
  * @property WRAP_REVERSE
+ *
  */
 enum class FlexWrap {
     /**
-     *  The flex items are laid out in a single line which may cause the flex container to overflow.
-     *  The cross-start is either equivalent to start or before depending flex-direction value.
-     *  This is the default value.
+     * The flex items are laid out in a single line which may cause the flex container to overflow.
+     * The cross-start is either equivalent to start or before depending flex-direction value.
+     * This is the default value.
      */
     NO_WRAP,
 
     /**
-     *  The flex items break into multiple lines.
-     *  The cross-start is either equivalent to start or
-     *  before depending flex-direction value and the cross-end is the opposite of the specified cross-start.
+     * The flex items break into multiple lines.
+     * The cross-start is either equivalent to start or
+     * before depending flex-direction value and the cross-end is the opposite of the specified cross-start.
      */
     WRAP,
 
     /**
-     *  Behaves the same as wrap but cross-start and cross-end are permuted.
+     * Behaves the same as wrap but cross-start and cross-end are permuted.
      */
     WRAP_REVERSE
 }
@@ -191,7 +180,6 @@ enum class FlexWrap {
  * @property SPACE_BETWEEN
  * @property SPACE_AROUND
  * @property SPACE_EVENLY
- *
  *
  */
 enum class JustifyContent {
@@ -225,9 +213,9 @@ enum class JustifyContent {
     SPACE_AROUND,
 
     /**
-     *  evenly distribute children within the alignment container along the main axis.
-     *  The spacing between each pair of adjacent items,
-     *  the main-start edge and the first item, and the main-end edge and the last item, are all exactly the same.
+     * evenly distribute children within the alignment container along the main axis.
+     * The spacing between each pair of adjacent items,
+     * the main-start edge and the first item, and the main-end edge and the last item, are all exactly the same.
      */
     SPACE_EVENLY
 }
@@ -244,6 +232,7 @@ enum class JustifyContent {
  * @property SPACE_BETWEEN
  * @property SPACE_AROUND
  * @property STRETCH
+ *
  */
 enum class AlignContent {
     /**
@@ -281,10 +270,10 @@ enum class AlignContent {
 }
 
 /**
- *Describes how to align the children on the container's cross axis.
+ * Describes how to align the children on the container's cross axis.
  * Align self replaces any parent-defined options with align items.
- *For example, you can use this property to center a child horizontally
- *inside a container with flexDirection set to column or vertically inside a container with flexDirection set to row.
+ * For example, you can use this property to center a child horizontally
+ * inside a container with flexDirection set to column or vertically inside a container with flexDirection set to row.
  *
  * @property FLEX_START
  * @property CENTER
@@ -292,6 +281,7 @@ enum class AlignContent {
  * @property BASELINE
  * @property AUTO
  * @property STRETCH
+ *
  */
 enum class AlignSelf {
     /**
@@ -336,6 +326,7 @@ enum class AlignSelf {
  * @property FLEX_END
  * @property BASELINE
  * @property STRETCH
+ *
  */
 enum class AlignItems {
     /**
@@ -364,4 +355,3 @@ enum class AlignItems {
      */
     STRETCH
 }
-

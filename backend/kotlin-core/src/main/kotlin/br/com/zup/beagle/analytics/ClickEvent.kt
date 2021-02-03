@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -13,18 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.analytics
 
 /**
  * Define click event
  *
- * @param category
- * @param label
- * @param value
- *
  */
-data class ClickEvent(
+data class ClickEvent (
     val category: String,
     val label: String? = null,
     val value: String? = null

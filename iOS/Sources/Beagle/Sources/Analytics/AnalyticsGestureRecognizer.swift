@@ -32,7 +32,7 @@ final class EventsGestureRecognizer: UITapGestureRecognizer {
             switch event {
             case .action(let action):
                 if let origin = view {
-                    controller?.execute(actions: [action], origin: origin)
+                    controller?.execute(actions: [action], event: "onPress", origin: origin)
                 }
             case .analytics(let analyticsClick):
                 controller?.dependencies.analytics?.trackEventOnClick(analyticsClick)

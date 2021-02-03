@@ -22,16 +22,16 @@ import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
+import br.com.zup.beagle.android.data.serializer.generateNameSpaceToDefaultWidget
+import br.com.zup.beagle.android.data.serializer.generateNameSpaceToWidget
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.InternalWidgetFactory
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
-import java.util.Locale
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleComponent_"
-private const val BEAGLE_NAMESPACE = "beagle"
 private const val CUSTOM_NAMESPACE = "custom"
 
 internal object ComponentJsonAdapterFactory {
@@ -43,15 +43,15 @@ internal object ComponentJsonAdapterFactory {
 
         factory = registerBaseSubTypes(factory)
         factory = registerUIClass(factory)
-        factory = registerWidgets(factory, BEAGLE_NAMESPACE, InternalWidgetFactory.registeredWidgets())
-        factory = registerWidgets(factory, CUSTOM_NAMESPACE, BeagleEnvironment.beagleSdk.registeredWidgets())
+        factory = registerWidgets(factory, true, InternalWidgetFactory.registeredWidgets())
+        factory = registerWidgets(factory, false, BeagleEnvironment.beagleSdk.registeredWidgets())
         factory = registerUndefinedWidget(factory)
 
         return factory
     }
 
     private fun registerBaseSubTypes(
-        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
+        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory.withBaseSubType(PageIndicatorComponent::class.java)
             .withBaseSubType(InputWidget::class.java)
@@ -59,40 +59,38 @@ internal object ComponentJsonAdapterFactory {
     }
 
     private fun registerUIClass(
-        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
+        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory
-            .withSubtype(Touchable::class.java, createNamespaceFor<Touchable>())
-            .withSubtype(FormInput::class.java, createNamespaceFor<FormInput>())
-            .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
+            .withSubtype(Touchable::class.java, createNameSpaceToDefaultWidget<Touchable>("touchable"))
+            .withSubtype(FormInput::class.java, createNameSpaceToDefaultWidget<FormInput>("formInput"))
+            .withSubtype(FormSubmit::class.java, createNameSpaceToDefaultWidget<FormSubmit>("formSubmit"))
     }
 
     private fun registerWidgets(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
-        appName: String,
-        widgets: List<Class<WidgetView>>
+        isDefault: Boolean,
+        widgets: List<Class<WidgetView>>,
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         var newFactory = factory
 
         widgets.forEach {
-            newFactory = newFactory.withSubtype(it, createNamespace(appName, it))
+            val nameSpace = if (isDefault) generateNameSpaceToDefaultWidget(it)
+            else generateNameSpaceToWidget(CUSTOM_NAMESPACE, it)
+
+            newFactory = newFactory.withSubtype(it, nameSpace)
         }
 
         return newFactory
     }
 
     private fun registerUndefinedWidget(
-        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
+        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory.withDefaultValue(UndefinedWidget())
     }
 
-    private inline fun <reified T : ServerDrivenComponent> createNamespaceFor(): String {
-        return createNamespace(BEAGLE_NAMESPACE, T::class.java)
-    }
-
-    private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        val typeName = clazz.simpleName.toLowerCase(Locale.getDefault())
-        return "$appNamespace:$typeName"
+    private inline fun <reified T : ServerDrivenComponent> createNameSpaceToDefaultWidget(name: String = ""): String {
+        return generateNameSpaceToDefaultWidget(T::class.java, name)
     }
 }

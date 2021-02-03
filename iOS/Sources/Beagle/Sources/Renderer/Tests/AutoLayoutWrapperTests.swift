@@ -86,7 +86,7 @@ class AutoLayoutWrapperTests: XCTestCase {
         
         // When/ Then
         assertSnapshotImage(viewController, size: size)
-        viewController.execute(actions: [AddChildren(componentId: "container", value: [AutoLayoutComponent()])], origin: UIView())
+        viewController.execute(actions: [AddChildren(componentId: "container", value: [AutoLayoutComponent()])], event: nil, origin: UIView())
         assertSnapshotImage(viewController, size: size)
     }
     

@@ -24,8 +24,8 @@ public struct Button: Widget, TouchableAnalytics, AutoDecodable {
     public var styleId: String?
     /// attribute to define action when onPress
     public var onPress: [Action]?
-    /// attribute to set disabled
-    public var disabled: Expression<Bool>?
+    /// attribute to set enabled
+    public var enabled: Expression<Bool>?
     public var widgetProperties: WidgetProperties
     /// attribute to define click event name
     public var clickAnalyticsEvent: ClickEvent?
@@ -34,14 +34,14 @@ public struct Button: Widget, TouchableAnalytics, AutoDecodable {
         text: Expression<String>,
         styleId: String? = nil,
         onPress: [Action]? = nil,
-        disabled: Expression<Bool>? = nil,
+        enabled: Expression<Bool>? = nil,
         widgetProperties: WidgetProperties = WidgetProperties(),
         clickAnalyticsEvent: ClickEvent? = nil
     ) {
         self.text = text
         self.styleId = styleId
         self.onPress = onPress
-        self.disabled = disabled
+        self.enabled = enabled
         self.widgetProperties = widgetProperties
         self.clickAnalyticsEvent = clickAnalyticsEvent
     }

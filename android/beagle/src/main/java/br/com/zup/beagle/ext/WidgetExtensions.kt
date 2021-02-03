@@ -36,7 +36,9 @@ fun <T : Widget> T.id(block: () -> String) = this.setId(block.invoke())
  *
  * @return the current widget
  */
-fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.style = (this.style ?: Style()).copy(flex = flex) }
+fun <T : Widget> T.applyFlex(flex: Flex) = this.apply {
+    this.style = (this.style ?: Style()).copy(flex = flex)
+}
 
 /**
  * Apply the appearance.
@@ -56,4 +58,6 @@ fun <T : Widget> T.applyStyle(style: Style) = this.apply {
  *
  * @return the current widget
  */
-fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply { this.accessibility = accessibility }
+fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply {
+    this.accessibility = accessibility
+}

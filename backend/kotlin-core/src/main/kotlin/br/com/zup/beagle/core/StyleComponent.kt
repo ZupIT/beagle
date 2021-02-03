@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -13,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.core
 
 /**
  * Component that hold the style
+ *
  * @property style attribute will enable a few visual options to be changed.
+ *
  */
-interface StyleComponent : ServerDrivenComponent {
-    val style: Style?
+interface StyleComponent : ServerDrivenComponent  {
+    var style: Style?
 }

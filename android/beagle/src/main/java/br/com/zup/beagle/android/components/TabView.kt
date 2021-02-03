@@ -51,7 +51,7 @@ private val TAB_BAR_HEIGHT = 48.dp()
  * @param context define the contextData that be set to tabView.
  *
  */
-@RegisterWidget
+@RegisterWidget("tabView")
 @Deprecated(message = "It was deprecated in version 1.1.0 and will be removed in a future version. " +
     "Use TabBar instead.",
     replaceWith = ReplaceWith("TabBar(items=children, styleId=styleId, currentTab=null, onTabSelection=null)"))

@@ -15,47 +15,113 @@
  *  limitations under the License.
  */
 
+import 'package:beagle/beagle.dart';
+import 'package:beagle/interface/beagle_service.dart';
+import 'package:beagle/interface/navigation_controller.dart';
+import 'package:beagle_components/beagle_components.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sample/design_system.dart';
+import 'package:sample/tab_bar_screen.dart';
+
+const BASE_URL =
+    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/1b1be7518ccec3280dc095f385e39da76b2c13b9';
 
 void main() {
-  runApp(const BeagleSampleApp());
+  runApp(const MaterialApp(home: BeagleSampleApp()));
 }
 
-class BeagleSampleApp extends StatelessWidget {
+class BeagleSampleApp extends StatefulWidget {
   const BeagleSampleApp({Key key}) : super(key: key);
+
+  @override
+  _BeagleSampleApp createState() => _BeagleSampleApp();
+}
+
+class _BeagleSampleApp extends State<BeagleSampleApp> {
+  static const _appBarMenuOptions = ['Tab Bar'];
+
+  bool isBeagleReady = false;
+  Map<String, ComponentBuilder> myCustomComponents = {
+    'custom:loading': (element, _, __) {
+      return Center(
+        key: element.getKey(),
+        child: const Text('My custom loading.'),
+      );
+    }
+  };
+  Map<String, ActionHandler> myCustomActions = {
+    'custom:log': ({action, view, element}) {
+      debugPrint(action.getAttributeValue('message'));
+    }
+  };
+
+  Future<void> startBeagle() async {
+    await BeagleInitializer.start(
+      baseUrl: BASE_URL,
+      components: {...defaultComponents, ...myCustomComponents},
+      actions: myCustomActions,
+      navigationControllers: {
+        'general': NavigationController(
+            isDefault: true, loadingComponent: 'custom:loading'),
+      },
+      designSystem: AppDesignSystem(),
+    );
+    BeagleInitializer.getService().globalContext.set(5, 'counter');
+    setState(() {
+      isBeagleReady = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startBeagle();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Beagle Sample',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        indicatorColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+        ),
       ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key key}) : super(key: key);
-
-  String get text => 'Beagle Simple Text';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              text,
-            )
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Beagle Sample'),
+          actions: [
+            PopupMenuButton(
+              onSelected: _handleAppBarMenuOption,
+              itemBuilder: (BuildContext context) {
+                return _appBarMenuOptions.map((menuOption) {
+                  return PopupMenuItem<String>(
+                    value: menuOption,
+                    child: Text(menuOption),
+                  );
+                }).toList();
+              },
+            ),
           ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        body: isBeagleReady
+            ? const BeagleRemoteView(route: '/beagle_lazy')
+            : const Center(
+                child: Text('Not ready yet!'),
+              ),
+      ),
     );
+  }
+
+  void _handleAppBarMenuOption(String menuOption) {
+    if (menuOption == _appBarMenuOptions[0]) {
+      Navigator.push(
+          context,
+          MaterialPageRoute<TabBarScreen>(
+              builder: (buildContext) => const TabBarScreen()));
+    }
   }
 }

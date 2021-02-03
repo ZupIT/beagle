@@ -22,8 +22,10 @@ import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
 
-@RegisterWidget
-data class SampleTextField(val placeholder: String = "") : InputWidget() {
+@RegisterWidget("sampleTextField")
+data class SampleTextField(
+    val placeholder: String = "",
+) : InputWidget() {
 
     @Transient
     private lateinit var textFieldView: EditText

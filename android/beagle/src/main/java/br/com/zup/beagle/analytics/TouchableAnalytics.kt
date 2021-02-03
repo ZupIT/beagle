@@ -1,3 +1,4 @@
+// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -13,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.analytics
 
 /**
  * Component that hold the click analytics
+ *
  * @property clickAnalyticsEvent attribute to define click event name
+ *
  */
 interface TouchableAnalytics {
     val clickAnalyticsEvent: ClickEvent?

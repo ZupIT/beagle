@@ -52,19 +52,19 @@ private val TAB_BAR_HEIGHT = 48.dp()
  * @param onTabSelection define a list of action that will be executed when a tab is selected
  *
  */
-@RegisterWidget
+@RegisterWidget("tabBar")
 data class TabBar(
     val items: List<TabBarItem>,
     val styleId: String? = null,
     val currentTab: Bind<Int>? = null,
-    val onTabSelection: List<Action>? = null
+    val onTabSelection: List<Action>? = null,
 ) : WidgetView() {
 
     constructor(
         items: List<TabBarItem>,
         styleId: String? = null,
         currentTab: Int = 0,
-        onTabSelection: List<Action>? = null
+        onTabSelection: List<Action>? = null,
     ) : this(items, styleId, valueOf(currentTab), onTabSelection)
 
     @Transient
@@ -169,5 +169,5 @@ data class TabBar(
  */
 data class TabBarItem(
     val title: String? = null,
-    val icon: ImagePath.Local? = null
+    val icon: ImagePath.Local? = null,
 )

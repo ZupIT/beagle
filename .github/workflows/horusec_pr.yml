@@ -16,7 +16,8 @@ jobs:
     - name: Running Horusec Security
       #we need to ignore sample, automatedTests, automated-tests and .gradle because they are not being shipped the Beagle sdk
       #The two hash was added because we have False Positive on TextInput.swift, we have an enum called PASSWORD, and UrlBuilderDefault.kt, we have a base64 failure but we don't use the base64 on this code
+      env:
+        HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ secrets.HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
       run: |
-        curl -fsSL https://horusec-cli.s3.amazonaws.com/install.sh | bash
-        horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**,**/iOS/Libraries/**,**/iOS/Tests/**" -e="true" -F="ba3a605f761ba4d5755128a8d87be8b9fd6e47b4ff3c0d0feba86bfe937e581e,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92"
-    
+        curl -fsSL https://horusec.io/bin/install.sh | bash
+        horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**,**/iOS/Libraries/**,**/iOS/Tests/**,**/flutter/beagle/assets/**,**/tests/appium/**" -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -n "beagle" -e "true" -u "https://api-horusec.zup.com.br"  -G "true" -F "ba3a605f761ba4d5755128a8d87be8b9fd6e47b4ff3c0d0feba86bfe937e581e,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92, 9ebcedfab07c79c309b7e2f1112434c0641819fd6434bf413d8251f7a4698298"
