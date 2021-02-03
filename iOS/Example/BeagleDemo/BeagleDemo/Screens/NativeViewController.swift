@@ -45,17 +45,19 @@ class NativeViewController: UIViewController {
         )
     })
     
-    private lazy var serverDrivenBeagleView = BeagleView(.init(url: .textLazyComponentEndpoint)) { state in
+    private lazy var serverDrivenBeagleView = BeagleView(.init(url: .textLazyComponentEndpoint)) { state, view in
         switch state {
-        case .started, .finished, .success:
+        case .started:
             let initialLabel = self.makeLabel(text: "Loading server-driven component in another BeagleView...")
             initialLabel.yoga.isEnabled = true
-            return initialLabel
+            view.addSubview(initialLabel)
         case .error(var serverDrivenError, let retry):
-            let view = ErrorView(message: serverDrivenError.localizedDescription, retry: retry)
-            view.frame.size = CGSize(width: 100, height: 100)
-            view.yoga.isEnabled = true
-            return view
+            let errorView = ErrorView(message: serverDrivenError.localizedDescription, retry: retry)
+            errorView.frame.size = CGSize(width: 100, height: 100)
+            errorView.yoga.isEnabled = true
+            view.addSubview(errorView)
+        case .finished, .success:
+            break
         }
     }
     

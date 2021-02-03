@@ -16,7 +16,7 @@
 
 import UIKit
 
-public typealias BeagleViewState = (ServerDrivenState) -> (UIView)
+public typealias BeagleViewState = (ServerDrivenState, UIView) -> ()
 
 /// Use this View when you need to add a Beagle component inside a native screen that have other UIViews and uses AutoLayout
 public class BeagleView: UIView {

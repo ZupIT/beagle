@@ -224,13 +224,11 @@ public class BeagleScreenViewController: BeagleController {
             serverDrivenState = .started
             renderScreenIfNeeded(state: serverDrivenState)
         case .success:
-            serverDrivenState = .finished
-            renderScreenIfNeeded(state: serverDrivenState)
             serverDrivenState = .success
+            serverDrivenState = .finished
             renderScreenIfNeeded(state: serverDrivenState)
         case .failure(let error):
             serverDrivenState = .finished
-            renderScreenIfNeeded(state: serverDrivenState)
             serverDrivenState = .error(error, viewModel.loadScreen)
             renderScreenIfNeeded(state: serverDrivenState)
         }
@@ -247,8 +245,12 @@ public class BeagleScreenViewController: BeagleController {
     
     private func renderBeagleViewIfNeeded(state: ServerDrivenState) {
         guard let beagleViewState = viewModel.beagleViewState else { return }
-        let stateView = beagleViewState(state)
-        content = .view(stateView)
+        view.subviews.forEach { beagleView in
+            beagleView.removeFromSuperview()
+        }
+        beagleViewState(state, view)
+        guard let beagleViewContent = view.subviews.first else { return }
+        content = .view(beagleViewContent)
     }
 
     public func reloadScreen(with screenType: ScreenType) {
