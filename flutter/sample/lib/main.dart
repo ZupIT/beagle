@@ -108,7 +108,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
           ],
         ),
         body: isBeagleReady
-            ? const BeagleRemoteView(route: '/beagle_image_remote')
+            ? const BeagleRemoteView(route: '/beagle_lazy')
             : const Center(
                 child: Text('Not ready yet!'),
               ),

@@ -31,7 +31,6 @@ import 'package:beagle/setup/beagle_design_system.dart';
 class BeagleInitializer {
   static BeagleService _service;
   static DesignSystem _designSystem;
-  static HttpClient _httpClient;
   static BeagleImageDownloader _imageDownloader;
 
   /// Starts the BeagleService. Only a single instance of this service is allowed.
@@ -50,11 +49,13 @@ class BeagleInitializer {
     BeagleImageDownloader imageDownloader,
   }) async {
     _designSystem = designSystem;
-    _imageDownloader = imageDownloader ?? DefaultBeagleImageDownloader();
-    _httpClient = httpClient;
+    _imageDownloader = imageDownloader ??
+        DefaultBeagleImageDownloader(
+            httpClient: httpClient ?? const DefaultHttpClient());
+
     _service = BeagleServiceJS(
       baseUrl: baseUrl,
-      httpClient: httpClient ?? DefaultHttpClient(),
+      httpClient: httpClient ?? const DefaultHttpClient(),
       components: components,
       storage: storage,
       useBeagleHeaders: useBeagleHeaders ?? true,
@@ -74,6 +75,4 @@ class BeagleInitializer {
   static DesignSystem get designSystem => _designSystem;
 
   static BeagleImageDownloader get imageDownloader => _imageDownloader;
-
-  static HttpClient get httpClient => _httpClient;
 }

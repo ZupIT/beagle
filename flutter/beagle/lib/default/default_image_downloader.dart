@@ -17,15 +17,19 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:beagle/default/default_http_client.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
+import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/model/request.dart';
 import 'package:flutter/foundation.dart';
 
 class DefaultBeagleImageDownloader implements BeagleImageDownloader {
+  DefaultBeagleImageDownloader({@required this.httpClient})
+      : assert(httpClient != null);
+
+  final HttpClient httpClient;
+
   @override
   Future<Uint8List> downloadImage(String url) async {
-    final httpClient = DefaultHttpClient();
     final request = Request(url);
     final response = await httpClient.sendRequest(request);
 
