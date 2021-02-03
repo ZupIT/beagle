@@ -121,6 +121,7 @@ internal class DataActionReportTest : BaseTest() {
         fun testReportActionWithoutAttributesOnAnalyticsAndConfigShouldCallGenerateActionAnalyticsConfigWithEmptyAttributesOnDataActionReport() {
                 //Given
             val analyticsConfig: AnalyticsConfig = mockk()
+            action.analytics = ActionAnalyticsConfig.Enabled()
             every { analyticsConfig.actions } returns null
 
             //When
@@ -184,5 +185,19 @@ internal class DataActionReportTest : BaseTest() {
             assertEquals(1, dataActionReport.additionalEntries?.size)
         }
 
+        @Test
+        @DisplayName("Then should return null")
+        fun testReportWithoutAnalyticsAndActionNotInConfigShouldReturnNull(){
+            //Given
+            val analyticsConfig: AnalyticsConfig = mockk()
+            action.analytics = null
+            every { analyticsConfig.actions } returns null
+
+            //When
+            val result = dataActionReport.report(analyticsConfig)
+
+            //then
+            assertEquals(null, result)
+        }
     }
 }

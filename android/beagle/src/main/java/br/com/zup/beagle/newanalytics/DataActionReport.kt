@@ -33,7 +33,9 @@ internal data class DataActionReport(
 
     override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
         updateActionAttributes(analyticsConfig)
-        return ActionReportFactory.generateActionAnalyticsConfig(this)
+        if (shouldReport())
+            return ActionReportFactory.generateActionAnalyticsConfig(this)
+        return null
     }
 
     private fun updateActionAttributes(analyticsConfig: AnalyticsConfig) {
@@ -87,5 +89,9 @@ internal data class DataActionReport(
         actionAnalyticsProperties?.let {
             additionalEntries = it.additionalEntries
         }
+    }
+
+    private fun shouldReport(): Boolean {
+        return !(action.analytics == null && attributes.size == 0)
     }
 }
