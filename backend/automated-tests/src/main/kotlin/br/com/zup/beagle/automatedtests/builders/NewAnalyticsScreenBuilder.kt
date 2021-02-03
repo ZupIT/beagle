@@ -43,7 +43,7 @@ object NewAnalyticsScreenBuilder {
     )
 
     private fun nativeNavigation() = Navigate.OpenNativeRoute(
-        analytics = ActionAnalyticsConfig.Disabled(),
+        analytics = ActionAnalyticsConfig.Disabled,
         route = "screen-analytics-link",
         shouldResetApplication = true
     )
@@ -95,7 +95,7 @@ object NewAnalyticsScreenBuilder {
         text = "Confirm with disabled analytics configuration",
         onPress = listOf(
             Confirm(
-                analytics = ActionAnalyticsConfig.Disabled(),
+                analytics = ActionAnalyticsConfig.Disabled,
                 title = "Confirm Title",
                 message = "Confirm Message",
                 labelOk = "Accept",
@@ -108,7 +108,7 @@ object NewAnalyticsScreenBuilder {
     private fun navigateToPageButton() =  Button(
         text = "navigateToPage",
         onPress = listOf(
-            Navigate.PushView(Route.Remote(NEW_ANALYTICS_NAVIGATE_ENDPOINT, true))
+            Navigate.PushView(Route.Remote(NEW_ANALYTICS_NAVIGATE_ENDPOINT, true), analytics = ActionAnalyticsConfig.Disabled),
         )
     )
 }

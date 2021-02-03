@@ -96,7 +96,7 @@ sealed class Navigate : ActionAnalytics() {
     /**
      * This action closes the current view stack.
      */
-    class PopStack(override var analytics: ActionAnalyticsConfig? = null) : Navigate()
+    data class PopStack(override var analytics: ActionAnalyticsConfig? = null) : Navigate()
 
     /**
      * This type means the action to be performed is the opening
@@ -111,7 +111,7 @@ sealed class Navigate : ActionAnalytics() {
     /**
      * Action that closes the current view.
      */
-    class PopView(override var analytics: ActionAnalyticsConfig? = null) : Navigate()
+    data class PopView(override var analytics: ActionAnalyticsConfig? = null) : Navigate()
 
     /**
      * It is responsible for returning the stack of screens in the application flow to a specific screen.

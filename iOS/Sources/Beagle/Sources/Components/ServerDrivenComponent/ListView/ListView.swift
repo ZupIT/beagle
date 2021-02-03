@@ -25,6 +25,7 @@ public struct ListView: Widget, HasContext, InitiableComponent {
     public let iteratorName: String?
     public let onScrollEnd: [Action]?
     public let scrollEndThreshold: Int?
+    public let isScrollIndicatorVisible: Bool?
     public var widgetProperties: WidgetProperties
     
     public init(
@@ -37,6 +38,7 @@ public struct ListView: Widget, HasContext, InitiableComponent {
         iteratorName: String? = nil,
         onScrollEnd: [Action]? = nil,
         scrollEndThreshold: Int? = nil,
+        isScrollIndicatorVisible: Bool? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.context = context
@@ -48,6 +50,7 @@ public struct ListView: Widget, HasContext, InitiableComponent {
         self.iteratorName = iteratorName
         self.onScrollEnd = onScrollEnd
         self.scrollEndThreshold = scrollEndThreshold
+        self.isScrollIndicatorVisible = isScrollIndicatorVisible
         self.widgetProperties = widgetProperties
     }
     
@@ -110,6 +113,7 @@ extension ListView: Decodable {
         case iteratorName
         case onScrollEnd
         case scrollEndThreshold
+        case isScrollIndicatorVisible
     }
 
     public init(from decoder: Decoder) throws {
@@ -124,6 +128,7 @@ extension ListView: Decodable {
         onInit = try container.decodeIfPresent(forKey: .onInit)
         onScrollEnd = try container.decodeIfPresent(forKey: .onScrollEnd)
         scrollEndThreshold = try container.decodeIfPresent(Int.self, forKey: .scrollEndThreshold)
+        isScrollIndicatorVisible = try container.decodeIfPresent(Bool.self, forKey: .isScrollIndicatorVisible)
         widgetProperties = try WidgetProperties(listFrom: decoder)
         
         if container.contains(.children) {

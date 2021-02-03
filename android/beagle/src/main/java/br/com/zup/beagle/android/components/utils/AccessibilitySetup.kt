@@ -17,8 +17,12 @@
 package br.com.zup.beagle.android.components.utils
 
 import android.view.View
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+
 
 class AccessibilitySetup {
 
@@ -30,6 +34,16 @@ class AccessibilitySetup {
 
             accessibilityComponent.accessibility?.accessibilityLabel?.let { accessibilityLabel ->
                 view.contentDescription = accessibilityLabel
+            }
+
+            accessibilityComponent.accessibility?.isHeader?.let { isHeader ->
+
+                ViewCompat.setAccessibilityDelegate(view, object : AccessibilityDelegateCompat() {
+                    override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                        super.onInitializeAccessibilityNodeInfo(host, info)
+                        info.isHeading = isHeader
+                    }
+                })
             }
         }
     }

@@ -47,7 +47,7 @@ data class Button(
     val styleId: String? = null,
     val onPress: List<Action>? = null,
     val clickAnalyticsEvent: ClickEvent? = null,
-    val disabled: Bind<Boolean>? = null,
+    val enabled: Bind<Boolean>? = null,
 ) : WidgetView() {
 
     constructor(
@@ -89,10 +89,10 @@ data class Button(
             }
         }
 
-        disabled?.let { bind ->
+        enabled?.let { bind ->
             observeBindChanges(rootView, button, bind) {
-                it?.let { disabled ->
-                    button.isEnabled = !disabled
+                it?.let { enabled ->
+                    button.isEnabled = enabled
                 }
             }
         }

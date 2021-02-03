@@ -28,7 +28,7 @@ object NewAnalyticsNavigateScreenBuilder {
             text = "navigate to local screen",
             onPress = listOf(
                 Navigate.OpenNativeRoute(
-                    analytics = ActionAnalyticsConfig.Disabled(),
+                    analytics = ActionAnalyticsConfig.Disabled,
                     route = "screen-analytics-link",
                     shouldResetApplication = true
                 )
