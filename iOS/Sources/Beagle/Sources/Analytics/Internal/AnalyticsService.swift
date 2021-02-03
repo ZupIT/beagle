@@ -82,21 +82,20 @@ class AnalyticsService {
     
     private func sendScreenRecord(_ screen: ScreenType) {
 //        guard case .success(let config) = configResult, config.enableScreenAnalytics ?? true else { return }
-        let record = AnalyticsRecord(type: .screen, values: valuesFor(screen: screen))
+        let record = AnalyticsRecord(type: .screen(valuesFor(screen: screen)))
 //        DispatchQueue.main.async {
             self.provider.createRecord(record)
 //        }
     }
     
-    private func valuesFor(screen: ScreenType) -> [String: Any] {
-        var values = [String: Any]()
+    private func valuesFor(screen: ScreenType) -> AnalyticsRecord.Screen {
         switch screen {
         case .remote(let remote):
-            values["url"] = remote.url
+            return .init(url: remote.url)
         case .declarative(let screen):
-            values["screenId"] = screen.identifier
-        case .declarativeText: ()
+            return .init(screenId: screen.identifier)
+        case .declarativeText:
+            return .init()
         }
-        return values
     }
 }

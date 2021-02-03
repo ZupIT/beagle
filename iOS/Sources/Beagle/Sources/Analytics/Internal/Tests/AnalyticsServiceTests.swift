@@ -126,7 +126,6 @@ class AnalyticsServiceTests: AnalyticsTestHelpers {
     func testScreenRemote() {
         // When
         sut.createRecord(screen: remoteScreen)
-        waitCreateRecords(sut)
         
         // Then
         assertSnapshot(matching: provider.records, as: .json)
@@ -135,7 +134,6 @@ class AnalyticsServiceTests: AnalyticsTestHelpers {
     func testScreenDeclarative() {
         // When
         sut.createRecord(screen: declarativeScreen)
-        waitCreateRecords(sut)
         
         // Then
         assertSnapshot(matching: provider.records, as: .json)
@@ -186,43 +184,5 @@ private struct AnalyticsTestAction: Action {
     
     func execute(controller: BeagleController, origin: UIView) {
         // Intentionally unimplemented...
-    }
-}
-
-extension AnalyticsRecord: Encodable {
-    
-    public func encode(to encoder: Encoder) throws {
-        var encodable = values.reduce(into: [:]) { $0[$1.key] = Wrapper($1.value) }
-        encodable["type"] = Wrapper(type.rawValue)
-        encodable["platform"] = Wrapper(platform)
-        try encodable.encode(to: encoder)
-    }
-    
-    private struct Wrapper: Encodable {
-        let value: Any
-        
-        init(_ value: Any) {
-            self.value = value
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            if let encodable = value as? Encodable {
-                try encodable.encode(to: encoder)
-                return
-            }
-            var container = encoder.singleValueContainer()
-            switch value {
-            case Optional<Any>.none:
-                try container.encodeNil()
-            case let array as [Any]:
-                let encodable = array.map { Wrapper($0) }
-                try container.encode(encodable)
-            case let dictionary as [String: Any]:
-                let encodable = dictionary.reduce(into: [:]) { $0[$1.key] = Wrapper($1.value) }
-                try container.encode(encodable)
-            default:
-                try container.encode(String(reflecting: value))
-            }
-        }
     }
 }

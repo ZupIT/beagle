@@ -31,9 +31,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         // Then should obey global config
         recordShouldBeEqualTo("""
         {
-          "path" : "PATH",
-          "platform" : "ios",
-          "type" : "action"
+          "path" : "PATH"
         }
         """)
     }
@@ -47,9 +45,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         // Then should create a record with just 1 attribute
         recordShouldBeEqualTo("""
         {
-          "method" : "DELETE",
-          "platform" : "ios",
-          "type" : "action"
+          "method" : "DELETE"
         }
         """)
     }
@@ -77,9 +73,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         {
           "analytics" : null,
           "method" : "DELETE",
-          "path" : "PATH",
-          "platform" : "ios",
-          "type" : "action"
+          "path" : "PATH"
         }
         """)
     }
@@ -93,8 +87,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         // Then should have just standard properties
         recordShouldBeEqualTo("""
         {
-          "platform" : "ios",
-          "type" : "action"
+        
         }
         """)
     }
@@ -108,9 +101,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         // Then should use global config
         recordShouldBeEqualTo("""
         {
-          "path" : "PATH",
-          "platform" : "ios",
-          "type" : "action"
+          "path" : "PATH"
         }
         """)
     }
@@ -127,9 +118,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         // Then should use NEW PATH
         recordShouldBeEqualTo("""
         {
-          "path" : "NEW PATH",
-          "platform" : "ios",
-          "type" : "action"
+          "path" : "NEW PATH"
         }
         """)
     }
@@ -219,11 +208,11 @@ class AnalyticsGeneratorTests: XCTestCase {
         _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)
     }
 
-    private func resultWithoutDefaultValues(_ result: AnalyticsRecord?) -> AnalyticsRecord? {
-        var result = result
+    private func resultWithoutDefaultValues(_ result: AnalyticsRecord?) -> [String: DynamicObject]? {
+        var result = result?.toDictionary()
         let defaultValues = ["beagleAction", "component", "event", "platform", "type"]
         defaultValues.forEach {
-            result?.values.removeValue(forKey: $0)
+            result?.removeValue(forKey: $0)
         }
         return result
     }

@@ -188,23 +188,29 @@ extension UIView {
 }
 
 extension DynamicObject {
+
     internal func transform<T: Decodable>() -> T? {
-        if T.self is String.Type {
+        switch T.self {
+        case is String.Type:
             return description as? T
-        } else if T.self is DynamicObject.Type {
+        case is DynamicObject.Type:
             return self as? T
+        default:
+            return transformByDecoding()
+        }
+    }
+
+    private func transformByDecoding<T: Decodable>() -> T? {
+        let encoder = JSONEncoder()
+        let decoder = JSONDecoder()
+        if #available(iOS 13.0, *) {
+            guard let data = try? encoder.encode(self) else { return nil }
+            return try? decoder.decode(T.self, from: data)
         } else {
-            let encoder = JSONEncoder()
-            let decoder = JSONDecoder()
-            if #available(iOS 13.0, *) {
-                guard let data = try? encoder.encode(self) else { return nil }
-                return try? decoder.decode(T.self, from: data)
-            } else {
-                // here we use array as a wrapper because iOS 12 (or prior) JSONEncoder/Decoder bug
-                // https://bugs.swift.org/browse/SR-6163
-                guard let data = try? encoder.encode([self]) else { return nil }
-                return try? decoder.decode([T].self, from: data).first
-            }
+            // here we use array as a wrapper because iOS 12 (or prior) JSONEncoder/Decoder bug
+            // https://bugs.swift.org/browse/SR-6163
+            guard let data = try? encoder.encode([self]) else { return nil }
+            return try? decoder.decode([T].self, from: data).first
         }
     }
 }

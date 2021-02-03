@@ -17,19 +17,68 @@
 import Foundation
 
 public struct AnalyticsRecord {
-    
-    public enum RecordType: String, Codable {
-        case screen
-        case action
+
+    public let platform = "ios"
+    public var values: [String: DynamicObject]
+
+    public let type: RecordType
+
+    public enum RecordType {
+        case screen(Screen)
+        case action(Action)
     }
     
-    public let type: RecordType
-    public let platform: String
-    public var values: [String: Any]
-    
-    public init(type: RecordType, platform: String = "ios", values: [String: Any] = [:]) {
+    public init(type: RecordType, values: [String: DynamicObject] = [:]) {
         self.type = type
-        self.platform = platform
         self.values = values
+    }
+
+    public struct Screen {
+        public var url, screenId: String?
+    }
+
+    public struct Action {
+        public var beagleAction: String
+        public var event: String?
+        public var screen: String?
+        public var component: Component
+
+        public struct Component {
+            public var id: String?
+            public var type: String?
+            public var position: Position
+
+            public struct Position { let x, y: Double }
+        }
+    }
+}
+
+extension AnalyticsRecord {
+
+    public func toDictionary() -> [String: DynamicObject] {
+        var dict = values
+
+        switch type {
+        case .action(let action):
+            dict["type"] = "action"
+            let object = transformToDynamicObject(action).asDictionary()
+            dict.merge(object, uniquingKeysWith: { $1 })
+
+        case .screen(let screen):
+            dict["type"] = "screen"
+            let object = transformToDynamicObject(screen).asDictionary()
+            dict.merge(object, uniquingKeysWith: { $1 })
+        }
+
+        dict["platform"] = .string(platform)
+        return dict
+    }
+}
+
+extension AnalyticsRecord: Encodable {
+
+    public func encode(to encoder: Encoder) throws {
+        let dict = self.toDictionary()
+        try dict.encode(to: encoder)
     }
 }

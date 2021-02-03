@@ -24,7 +24,7 @@ extension Action {
     func getSomeAttributes(_ attributes: ActionAttributes, contextProvider: UIView) -> [String: DynamicObject] {
         if case .some(let array) = attributes, array.isEmpty { return [:] }
 
-        let dynamicObject = asDynamicObject()
+        let dynamicObject = transformToDynamicObject(self)
             .evaluate(with: contextProvider)
             // don't use analytics attribute
             .set(.empty, with: analyticsPath)
@@ -34,14 +34,13 @@ extension Action {
             return getSomeAttributes(some, of: dynamicObject, contextProvider: contextProvider)
 
         case .all:
-            guard case .dictionary(let dict) = dynamicObject else {
-                assertionFailure("this should not happen since an Action will always be mapped to DynamicObject.dictionary"); return .init()
-            }
-            return dict
+            return dynamicObject.asDictionary()
         }
     }
 
     func getSomeAttributes(_ attributes: [String], of object: DynamicObject, contextProvider: UIView) -> [String: DynamicObject] {
+        guard case .dictionary(_) = object else { return [:] }
+
         var values = [String: DynamicObject]()
         attributes.forEach { attribute in
             guard let path = pathForAttribute(attribute) else { return }
@@ -63,68 +62,73 @@ extension Action {
         return path
     }
 
-    // MARK: - JSON Transformation
+}
 
-    private func asDynamicObject() -> DynamicObject {
-        let json = validJsonFromObject(self)
-        let data = try! JSONSerialization.data(withJSONObject: json)
-        return try! JSONDecoder().decode(DynamicObject.self, from: data)
+// MARK: - JSON Transformation
+
+func transformToDynamicObject(_ any: Any) -> DynamicObject {
+    let json = validJsonFromObject(any)
+    do {
+        let data = try JSONSerialization.data(withJSONObject: json)
+        return try JSONDecoder().decode(DynamicObject.self, from: data)
+    } catch {
+        return .empty
+    }
+}
+
+private func validJsonFromObject(_ object: Any) -> Any {
+    switch handleJsonForSpecifcTypes(object) {
+    case .alreadyTransformed(let json):
+        return json
+
+    case .shouldUseChildren(let children):
+        guard !children.isEmpty else { return object }
+        return dictFromChildren(children)
+    }
+}
+
+private func handleJsonForSpecifcTypes(_ object: Any) -> SpecificTypeResult {
+    let result: Any?
+
+    switch object {
+    case let expression as ExpressionRawValue:
+        result = validJsonFromObject(expression.rawValue)
+    case let dynamicObject as DynamicObject:
+        result = dynamicObject.asAny() as Any
+    case let array as [Any]:
+        result = array.compactMap(validJsonFromObject)
+    case let dict as [String: Any]:
+        result = dict
+    default:
+        result = nil
     }
 
-    private func validJsonFromObject(_ object: Any) -> Any {
-        switch handleJsonForSpecifcTypes(object) {
-        case .alreadyTransformed(let json):
-            return json
-
-        case .shouldUseChildren(let children):
-            guard !children.isEmpty else { return object }
-            return dictFromChildren(children)
-        }
+    if let result = result {
+        return .alreadyTransformed(result)
     }
 
-    private func handleJsonForSpecifcTypes(_ object: Any) -> SpecificTypeResult {
-        let result: Any?
+    let mirror = Mirror(reflecting: object)
+    let isEnum = mirror.displayStyle == .enum
 
-        switch object {
-        case let expression as ExpressionRawValue:
-            result = validJsonFromObject(expression.rawValue)
-        case let dynamicObject as DynamicObject:
-            result = dynamicObject.asAny() as Any
-        case let array as [Any]:
-            result = array.compactMap(validJsonFromObject)
-        case let dict as [String: Any]:
-            result = dict
-        default:
-            result = nil
-        }
+    if isEnum {
+        let string = String(describing: object).uppercased()
+        return .alreadyTransformed(string)
+    } else {
+        return .shouldUseChildren(mirror.children)
+    }
+}
 
-        if let result = result {
-            return .alreadyTransformed(result)
-        }
+private func dictFromChildren(_ children: Mirror.Children) -> [String: Any] { // swiftlint:disable syntactic_sugar
+    let allAttributes: [(String, Any)] = children.compactMap {
+        guard
+            let label = $0.label,
+            case Optional<Any>.some(let value) = $0.value
+        else { return nil }
 
-        let mirror = Mirror(reflecting: object)
-        let isEnum = mirror.displayStyle == .enum
-
-        if isEnum {
-            let string = String(describing: object).uppercased()
-            return .alreadyTransformed(string)
-        } else {
-            return .shouldUseChildren(mirror.children)
-        }
+        return (label, validJsonFromObject(value))
     }
 
-    private func dictFromChildren(_ children: Mirror.Children) -> [String: Any] { // swiftlint:disable syntactic_sugar
-        let allAttributes: [(String, Any)] = children.compactMap {
-            guard
-                let label = $0.label,
-                case Optional<Any>.some(let value) = $0.value
-            else { return nil }
-
-            return (label, validJsonFromObject(value))
-        }
-
-        return [String: Any](uniqueKeysWithValues: allAttributes)
-    }
+    return [String: Any](uniqueKeysWithValues: allAttributes)
 }
 
 internal enum ActionAttributes {
@@ -135,11 +139,6 @@ internal enum ActionAttributes {
 private enum SpecificTypeResult {
     case alreadyTransformed(Any)
     case shouldUseChildren(Mirror.Children)
-}
-
-private enum Error: Swift.Error {
-    case indexNotPermittedInAttribute
-    case keyNotFound(String)
 }
 
 private protocol ExpressionRawValue {

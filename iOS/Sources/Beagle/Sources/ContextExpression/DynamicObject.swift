@@ -56,6 +56,11 @@ extension DynamicObject: CustomStringConvertible {
             }
         }
     }
+
+    public func asDictionary() -> [String: DynamicObject] {
+        guard case .dictionary(let dict) = self else { return [:] }
+        return dict
+    }
     
     private func toString() -> String {
         switch self {

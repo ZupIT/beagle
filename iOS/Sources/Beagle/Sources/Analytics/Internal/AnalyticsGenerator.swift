@@ -30,27 +30,21 @@ class AnalyticsGenerator {
         self.globalConfig = globalConfig
     }
 
-    private var values = [String: Any]()
-
     // MARK: - Action
 
     func createRecord() -> AnalyticsRecord? {
         guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
-
         guard let config = configForAction(named: name) else { return nil }
 
-        addAttributesAndAdditionalEntries(config: config)
+        let action = AnalyticsRecord.Action(
+            beagleAction: name,
+            event: info.event,
+            screen: screenInfo(),
+            component: componentInfo()
+        )
 
-        addScreenInfo()
-
-        values["beagleAction"] = name
-        if let event = info.event {
-            values["event"] = event
-        }
-
-        addComponentInfo()
-
-        return AnalyticsRecord(type: .action, values: values)
+        let values = attributesAndAdditionalEntries(config: config)
+        return .init(type: .action(action), values: values)
     }
 }
 
@@ -89,51 +83,33 @@ private extension AnalyticsGenerator {
         var additional = [String: DynamicObject]()
     }
 
-    func addScreenInfo() {
-        let screen: String?
+    func screenInfo() -> String? {
         switch info.controller.screenType {
         case .remote(let remote):
-            screen = remote.url
+            return remote.url
         case .declarative(let declerative):
-            screen = declerative.identifier
+            return declerative.identifier
         case .declarativeText:
-            screen = nil
-        }
-
-        screen.map { values["screen"] = $0 }
-    }
-
-    func addAttributesAndAdditionalEntries(config: ActionConfig) {
-        [
-            info.action.getSomeAttributes(config.attributes, contextProvider: info.origin),
-            makeAdditionalEntries(config.additional)
-        ].forEach {
-            values.merge($0) { _, new in new }
+            return nil
         }
     }
 
-    func makeAdditionalEntries(_ entries: [String: DynamicObject]) -> [String: Any] {
-        entries.reduce(into: [String: Any]()) { result, entry in
-            if let value = entry.value.asAny() {
-                result[entry.key] = value
-            }
-        }
+    func attributesAndAdditionalEntries(config: ActionConfig) -> [String: DynamicObject] {
+        info.action.getSomeAttributes(config.attributes, contextProvider: info.origin)
+            .merging(config.additional) { _, new in new }
     }
 
-    func addComponentInfo() {
-        var componentInfo = (values["component"] as? [String: Any]) ?? [:]
-        if let type = info.origin.componentType,
-           let name = info.controller.dependencies.decoder.nameForComponent(ofType: type) {
-            componentInfo["type"] = name
-        }
-        if let identifier = info.origin.accessibilityIdentifier {
-            componentInfo["id"] = identifier
-        }
-        let position = info.origin.convert(CGPoint.zero, to: nil)
-        componentInfo["position"] = [
-            "x": Double(position.x),
-            "y": Double(position.y)
-        ]
-        values["component"] = componentInfo
+    func componentInfo() -> AnalyticsRecord.Action.Component {
+        let name = info.origin.componentType
+            .flatMap(info.controller.dependencies.decoder.nameForComponent(ofType:))
+
+        let id = info.origin.accessibilityIdentifier
+
+        let point = info.origin.convert(CGPoint.zero, to: nil)
+        let position = (
+            x: Double(point.x),
+            y: Double(point.y)
+        )
+        return .init(id: id, type: name, position: .init(x: position.x, y: position.y))
     }
 }
