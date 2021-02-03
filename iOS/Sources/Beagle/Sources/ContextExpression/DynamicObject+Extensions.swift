@@ -73,8 +73,19 @@ extension DynamicObject {
         for node in path.nodes {
             current = current.getValueAtNode(node)
         }
-
         return current
+    }
+
+    private func getValueAtNode(_ node: Path.Node) -> DynamicObject {
+        switch node {
+        case let .key(key):
+            guard case let .dictionary(dictionary) = self, let value = dictionary[key] else { return .empty }
+            return value
+
+        case let .index(index):
+            guard case let .array(array) = self, let value = array[safe: index] else { return .empty }
+            return value
+        }
     }
 
     func set(_ value: DynamicObject, with path: Path) -> DynamicObject {
@@ -110,18 +121,6 @@ extension DynamicObject {
             var newArray = dynamicArray(count: index + 1)
             newArray[index] = DynamicObject.empty.set(value, with: newPath)
             return .array(newArray)
-        }
-    }
-
-    private func getValueAtNode(_ node: Path.Node) -> DynamicObject {
-        switch node {
-        case let .key(key):
-            guard case let .dictionary(dictionary) = self, let value = dictionary[key] else { return .empty }
-            return value
-            
-        case let .index(index):
-            guard case let .array(array) = self, let value = array[safe: index] else { return .empty }
-            return value
         }
     }
     

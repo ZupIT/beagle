@@ -17,7 +17,10 @@
 import Foundation
 import UIKit
 
-private var analyticsPath = Path(nodes: [.key("analytics")])
+internal enum ActionAttributes {
+    case all
+    case some([String])
+}
 
 extension Action {
 
@@ -76,6 +79,10 @@ func transformToDynamicObject(_ any: Any) -> DynamicObject {
     }
 }
 
+// MARK: - Private
+
+private var analyticsPath = Path(nodes: [.key("analytics")])
+
 private func validJsonFromObject(_ object: Any) -> Any {
     switch handleJsonForSpecifcTypes(object) {
     case .alreadyTransformed(let json):
@@ -129,11 +136,6 @@ private func dictFromChildren(_ children: Mirror.Children) -> [String: Any] { //
     }
 
     return [String: Any](uniqueKeysWithValues: allAttributes)
-}
-
-internal enum ActionAttributes {
-    case all
-    case some([String])
 }
 
 private enum SpecificTypeResult {
