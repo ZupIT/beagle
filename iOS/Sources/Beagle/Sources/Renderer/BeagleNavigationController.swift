@@ -62,42 +62,40 @@ open class BeagleNavigationController: UINavigationController {
         case .finished:
             view.hideLoading()
         case .error(let serverDrivenError, let retry):
-            let message: String
-            
-            #if DEBUG
-            switch serverDrivenError {
-            
-            case .remoteScreen(let error), .lazyLoad(let error), .submitForm(let error):
-                switch error {
-                case .networkError(let messageError):
-                    message = messageError.error.localizedDescription
-                case .decoding(let messageError):
-                    message = messageError.localizedDescription
-                case .loadFromTextError, .urlBuilderError, .networkClientWasNotConfigured:
-                    message = error.localizedDescription
-                }
-                
-            case .action(let error):
-                message = error.localizedDescription
-                
-            default:
-                message = "Unknown Error."
-            }
-            
-            #else
-            message = "An unknown error occurred."
-            
-            #endif
-            
+            let message = getServerDrivenErrorMessage(from: serverDrivenError)
             if !view.subviews.contains(errorView) {
                 errorView = BeagleErrorView(message: message, retry: retry)
                 errorView.present(in: view)
             } else {
                 errorView.addRetry(retry)
             }
-
         case .success:
             break
         }
+    }
+    
+    private func getServerDrivenErrorMessage(from serverDrivenError: ServerDrivenState.Error) -> String {
+        #if DEBUG
+        switch serverDrivenError {
+        case .remoteScreen(let error), .lazyLoad(let error), .submitForm(let error):
+            switch error {
+            case .networkError(let messageError):
+                return messageError.error.localizedDescription
+            case .decoding(let messageError):
+                return messageError.localizedDescription
+            case .loadFromTextError, .urlBuilderError, .networkClientWasNotConfigured:
+                return error.localizedDescription
+            }
+        case .action(let error):
+            return error.localizedDescription
+            
+        default:
+            return "Unknown Error."
+        }
+        
+        #else
+        return "An unknown error occurred."
+        
+        #endif
     }
 }

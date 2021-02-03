@@ -15,7 +15,6 @@
 		5C2963AC258BB0E7000194EE /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2963A9258BB0E7000194EE /* YogaKit.framework */; };
 		5C2963AD258BB0E7000194EE /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2963A9258BB0E7000194EE /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5C2963B1258BB3BD000194EE /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963B0258BB3BD000194EE /* CustomNavigationController.swift */; };
-		5C2963B3258BB3D8000194EE /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963B2258BB3D8000194EE /* ErrorView.swift */; };
 		5C2963BB258BB457000194EE /* BeagleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963B5258BB457000194EE /* BeagleConfig.swift */; };
 		5C2963BC258BB457000194EE /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963B7258BB457000194EE /* BeagleLoggerDefault.swift */; };
 		5C2963BD258BB457000194EE /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963B9258BB457000194EE /* HttpRequestBuilder.swift */; };
@@ -48,7 +47,6 @@
 		5C2963A8258BB0E7000194EE /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2963A9258BB0E7000194EE /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2963B0258BB3BD000194EE /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
-		5C2963B2258BB3D8000194EE /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		5C2963B5258BB457000194EE /* BeagleConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleConfig.swift; sourceTree = "<group>"; };
 		5C2963B7258BB457000194EE /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
 		5C2963B9258BB457000194EE /* HttpRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilder.swift; sourceTree = "<group>"; };
@@ -114,7 +112,6 @@
 			isa = PBXGroup;
 			children = (
 				5C2963B0258BB3BD000194EE /* CustomNavigationController.swift */,
-				5C2963B2258BB3D8000194EE /* ErrorView.swift */,
 			);
 			path = CustomNavigationController;
 			sourceTree = "<group>";
@@ -230,7 +227,6 @@
 				5C2963BE258BB457000194EE /* NetworkClientDefault.swift in Sources */,
 				5C2963BD258BB457000194EE /* HttpRequestBuilder.swift in Sources */,
 				5C2963C3258BB542000194EE /* ViewLayoutHelper.swift in Sources */,
-				5C2963B3258BB3D8000194EE /* ErrorView.swift in Sources */,
 				5C2963BC258BB457000194EE /* BeagleLoggerDefault.swift in Sources */,
 				5C296393258BB014000194EE /* AppDelegate.swift in Sources */,
 				5C2963BB258BB457000194EE /* BeagleConfig.swift in Sources */,
