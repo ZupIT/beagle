@@ -25,6 +25,8 @@ public struct TextInput: Widget, AutoInitiableAndDecodable {
     public let onChange: [Action]?
     public let onBlur: [Action]?
     public let onFocus: [Action]?
+    public let error: Expression<String>?
+    public let showError: Expression<Bool>?
     public var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:TextInput.Init
@@ -39,6 +41,8 @@ public struct TextInput: Widget, AutoInitiableAndDecodable {
         onChange: [Action]? = nil,
         onBlur: [Action]? = nil,
         onFocus: [Action]? = nil,
+        error: Expression<String>? = nil,
+        showError: Expression<Bool>? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.value = value
@@ -51,6 +55,8 @@ public struct TextInput: Widget, AutoInitiableAndDecodable {
         self.onChange = onChange
         self.onBlur = onBlur
         self.onFocus = onFocus
+        self.error = error
+        self.showError = showError
         self.widgetProperties = widgetProperties
     }
 // sourcery:end
