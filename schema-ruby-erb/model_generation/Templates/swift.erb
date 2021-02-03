@@ -273,8 +273,8 @@
   def adaptTypeNameToSwiftSpecific(typeName)
     if typeName.eql?(FlexWrap.new.name)
       "Wrap"
-    elsif typeName.eql?(ContextComponent.new.name)
-      "HasContext"
+    # elsif typeName.eql?(ContextComponent.new.name)
+    #   "HasContext"
     elsif typeName.eql?("ContextData")
       "DynamicObject"
     elsif typeName.eql?(SwiftCustom.new("WidgetProperties").name)
