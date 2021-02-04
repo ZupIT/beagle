@@ -76,7 +76,7 @@ jobs:
 
       - name: Build test BFF image
         working-directory: backend
-        run: ./gradlew automatedTests:bootBuildImage --imageName="$BFF_NAME"
+        run: ./gradlew --build-cache automatedTests:bootBuildImage --imageName="$BFF_NAME"
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v1
@@ -101,7 +101,7 @@ jobs:
     name: Appium tests job
     runs-on: macos-latest
     env:
-      BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
+      BFF_URL: ${{ secrets.S }}
       BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
       BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
     steps:
@@ -119,15 +119,12 @@ jobs:
       - name: Install Fastlane
         run: bundle config set path '~/.gem' && bundle install
 
-      - name: halt process
-        run: echo "stopping the workflow... " && exit 1
-
       - name: Build app-android project to generate the app file
         env:
           BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
         run: | # builds the app replacing localhost for the $BFF_URL. Rollbacks after the app is created
           sed -i --expression 's@http://10.0.2.2:8080@$BFF_URL@g' $BEAGLE_CONFIG_FILE
-          bash ./tests/appium/app-android/gradlew -p tests/appium/app-android assembleDebug
+          bash ./tests/appium/app-android/gradlew --build-cache  -p tests/appium/app-android assembleDebug
           sed -i --expression 's@$BFF_URL@http://10.0.2.2:8080@g' $BEAGLE_CONFIG_FILE
 
       - name: Configure app in BrowserStack and run the tests
@@ -136,7 +133,7 @@ jobs:
           BROWSERSTACK_APP_ID: 123
         run: |
           bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh
-          if ./tests/appium/project/gradlew -p tests/appium/project cucumber \
+          if ./tests/appium/project/gradlew --build-cache  -p tests/appium/project cucumber \
           -Dplatform="android" \
           -Dplatform_version="11.0" \
           -Ddevice_name="Google Pixel 4" \
@@ -156,6 +153,4 @@ jobs:
           name: failed_tests_screenshots
           path: tests/appium/project/build/screenshots/
 
-#            -   name: Cleanup
-#                run: bundle exec fastlane automated_tests cleanup
 
