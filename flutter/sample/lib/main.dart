@@ -24,8 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:sample/design_system.dart';
 import 'package:sample/tab_bar_screen.dart';
 
-const BASE_URL =
-    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/1b1be7518ccec3280dc095f385e39da76b2c13b9';
+const BASE_URL = 'https://run.mocky.io/v3/2c1f3442-28ec-4df8-abd9-56fcc90e8a4d';
 
 void main() {
   runApp(const MaterialApp(home: BeagleSampleApp()));
