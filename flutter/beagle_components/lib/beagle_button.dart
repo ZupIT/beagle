@@ -16,22 +16,29 @@
 
 import 'package:beagle/beagle.dart';
 import 'package:beagle/model/beagle_button_style.dart';
+import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BeagleButton extends StatelessWidget {
-  const BeagleButton(
-      {Key key, this.text, this.onPress, this.enabled, this.styleId})
-      : super(key: key);
+  const BeagleButton({
+    Key key,
+    this.text,
+    this.onPress,
+    this.enabled,
+    this.styleId,
+    DesignSystem designSystem,
+  })  : _designSystem = designSystem,
+        super(key: key);
 
   final String text;
   final String styleId;
   final Function onPress;
   final bool enabled;
+  final DesignSystem _designSystem;
 
-  BeagleButtonStyle get _buttonStyle =>
-      BeagleInitializer.designSystem?.buttonStyle(styleId);
+  BeagleButtonStyle get _buttonStyle => _designSystem?.buttonStyle(styleId);
 
   @override
   Widget build(BuildContext context) {

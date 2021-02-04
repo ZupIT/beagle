@@ -21,6 +21,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'objects_fake/button_one_style.dart';
+import 'objects_fake/fake_design_system.dart';
+
 const buttonText = 'Beagle Button';
 const buttonKey = Key('BeagleButton');
 
@@ -31,6 +34,7 @@ Widget createWidget({
   String buttonText = buttonText,
   Function buttonOnPress = buttonOnPress,
   bool buttonEnabled = true,
+  String styleId = '',
 }) {
   return MaterialApp(
     home: BeagleButton(
@@ -38,6 +42,8 @@ Widget createWidget({
       text: buttonText,
       onPress: buttonOnPress,
       enabled: buttonEnabled,
+      styleId: styleId,
+      designSystem: FakeDesignSystem(),
     ),
   );
 }
@@ -135,30 +141,118 @@ void main() {
 
     group('When set style and platform is iOS', () {
       testWidgets('Then it should have a correct style',
-              (WidgetTester tester) async {
-            debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-            await tester.pumpWidget(createWidget());
+          (WidgetTester tester) async {
+        // GIVEN
+        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
-            final buttonFinder = find.byType(CupertinoButton);
+        // WHEN
+        await tester.pumpWidget(createWidget(styleId: 'button-one'));
 
-            expect(buttonFinder, findsOneWidget);
+        // THEN
+        final buttonFinder = find.byType(CupertinoButton);
+        final textFinder = find.text(buttonText);
 
-            debugDefaultTargetPlatformOverride = null;
-          });
+        final buttonCreated = tester.widget<CupertinoButton>(buttonFinder);
+        final textCreated = tester.widget<Text>(textFinder);
+
+        final buttonOne = ButtonOneStyle();
+
+        expect(
+            buttonCreated.borderRadius, buttonOne.iosButtonStyle.borderRadius);
+        expect(buttonCreated.disabledColor,
+            buttonOne.iosButtonStyle.disabledColor);
+        expect(buttonCreated.padding, buttonOne.iosButtonStyle.padding);
+        expect(buttonCreated.pressedOpacity,
+            buttonOne.iosButtonStyle.pressedOpacity);
+        expect(buttonCreated.color, buttonOne.iosButtonStyle.color);
+
+        expect(textCreated.style, buttonOne.buttonTextStyle);
+
+        debugDefaultTargetPlatformOverride = null;
+      });
     });
 
-    group('When set style and platform is Android', () {
+    group('When set style and platform is iOS', () {
       testWidgets('Then it should have a correct style',
-              (WidgetTester tester) async {
-            debugDefaultTargetPlatformOverride = TargetPlatform.android;
-            await tester.pumpWidget(createWidget());
+          (WidgetTester tester) async {
+        // GIVEN
+        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
-            final buttonFinder = find.byType(CupertinoButton);
+        // WHEN
+        await tester.pumpWidget(createWidget(styleId: 'button-one'));
 
-            expect(buttonFinder, findsOneWidget);
+        // THEN
+        final buttonFinder = find.byType(CupertinoButton);
+        final textFinder = find.text(buttonText);
 
-            debugDefaultTargetPlatformOverride = null;
-          });
+        final buttonCreated = tester.widget<CupertinoButton>(buttonFinder);
+        final textCreated = tester.widget<Text>(textFinder);
+
+        final buttonOne = ButtonOneStyle();
+
+        expect(
+            buttonCreated.borderRadius, buttonOne.iosButtonStyle.borderRadius);
+        expect(buttonCreated.disabledColor,
+            buttonOne.iosButtonStyle.disabledColor);
+        expect(buttonCreated.padding, buttonOne.iosButtonStyle.padding);
+        expect(buttonCreated.pressedOpacity,
+            buttonOne.iosButtonStyle.pressedOpacity);
+        expect(buttonCreated.color, buttonOne.iosButtonStyle.color);
+
+        expect(textCreated.style, buttonOne.buttonTextStyle);
+
+        debugDefaultTargetPlatformOverride = null;
+      });
+    });
+
+    group('When not set style and platform is Android', () {
+      testWidgets('Then it should have a correct style',
+          (WidgetTester tester) async {
+        // GIVEN
+        debugDefaultTargetPlatformOverride = TargetPlatform.android;
+
+        // WHEN
+        await tester.pumpWidget(createWidget());
+
+        // THEN
+        final buttonFinder = find.byType(ElevatedButton);
+        final textFinder = find.text(buttonText);
+
+        final buttonCreated = tester.widget<ElevatedButton>(buttonFinder);
+        final textCreated = tester.widget<Text>(textFinder);
+
+        expect(buttonFinder, findsOneWidget);
+        expect(buttonCreated.style, null);
+
+        expect(textCreated.style, null);
+
+        debugDefaultTargetPlatformOverride = null;
+      });
+    });
+
+    group('When not set style and platform is Android', () {
+      testWidgets('Then it should have a correct style',
+          (WidgetTester tester) async {
+        // GIVEN
+        debugDefaultTargetPlatformOverride = TargetPlatform.android;
+
+        // WHEN
+        await tester.pumpWidget(createWidget());
+
+        // THEN
+        final buttonFinder = find.byType(ElevatedButton);
+        final textFinder = find.text(buttonText);
+
+        final buttonCreated = tester.widget<ElevatedButton>(buttonFinder);
+        final textCreated = tester.widget<Text>(textFinder);
+
+        expect(buttonFinder, findsOneWidget);
+        expect(buttonCreated.style, null);
+
+        expect(textCreated.style, null);
+
+        debugDefaultTargetPlatformOverride = null;
+      });
     });
   });
 }

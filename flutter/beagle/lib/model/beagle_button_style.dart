@@ -38,8 +38,13 @@ class BeagleButtonStyle {
 }
 
 class BeagleIosButtonStyle {
-  BeagleIosButtonStyle(this.padding, this.color, this.disabledColor,
-      this.borderRadius, this.pressedOpacity);
+
+  BeagleIosButtonStyle(
+      {this.padding,
+      this.color,
+      this.disabledColor,
+      this.borderRadius,
+      this.pressedOpacity});
 
   /// The amount of space to surround the child inside the bounds of the button.
   ///
