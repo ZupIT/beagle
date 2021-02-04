@@ -115,9 +115,9 @@ object SuiteSetup {
                 capabilities.setCapability("name", "Beagle Appium tests on Android")
                 capabilities.setCapability("browserstack.networkLogs", true)
 
-                driver = AndroidDriver<AndroidElement>(
-                    URL("http://hub.browserstack.com/wd/hub"), capabilities
-                )
+                println("#### Using BrowserStack ... ${capabilities.toString()}") // temp
+
+                driver = AndroidDriver<AndroidElement>(URL("http://hub.browserstack.com/wd/hub"), capabilities)
 
 
             } else // device is running locally
