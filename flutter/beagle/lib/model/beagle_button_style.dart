@@ -21,7 +21,7 @@ class BeagleButtonStyle {
   BeagleButtonStyle(
       {this.androidButtonStyle, this.iosButtonStyle, this.buttonTextStyle});
 
-  /// Customizes this button's appearance to platform Android.
+  /// Customizes the appearance of this button for the Android platform.
   /// Null by default.
   final ButtonStyle androidButtonStyle;
 
