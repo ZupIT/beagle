@@ -89,6 +89,7 @@ ComponentBuilder beagleButtonBuilder() {
         onPress: element.getAttributeValue('onPress'),
         text: element.getAttributeValue('text'),
         enabled: element.getAttributeValue('enabled'),
+        styleId: element.getAttributeValue('styleId'),
       );
 }
 
