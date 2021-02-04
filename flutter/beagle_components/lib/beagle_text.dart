@@ -62,8 +62,7 @@ class BeagleText extends StatelessWidget {
   }
 
   TextStyle getTextStyle() {
-    var textStyle = _designSystem?.textStyle(styleId);
-    textStyle ??= const TextStyle();
+    var textStyle = _designSystem?.textStyle(styleId) ?? const TextStyle();
     if (textColor != null && textColor.isNotEmpty) {
       textStyle = textStyle.copyWith(color: getTextColor(textColor));
     }
