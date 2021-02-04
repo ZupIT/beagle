@@ -110,24 +110,8 @@ jobs:
           bash ./tests/appium/app-android/gradlew --build-cache -p tests/appium/app-android assembleDebug
           sed -i --expression "s@$BFF_URL@http://10.0.2.2:8080@g" $BEAGLE_CONFIG_FILE
 
-      - name: Configure .apk file in BrowserStack and run the tests
-        env:
-          APP_FILE: $GITHUB_WORKSPACE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
-          BROWSERSTACK_APP_ID: 123
-        run: |
-          bash fastlane/automatedTests/appium/upload_app_to_browserstack_and_get_id.sh
-          if ./tests/appium/project/gradlew --build-cache -p tests/appium/project cucumber \
-          -Dplatform="android" \
-          -Dplatform_version="11.0" \
-          -Ddevice_name="Google Pixel 4" \
-          -Dbrowserstack.user="$BROWSERSTACK_USER" \
-          -Dbrowserstack.key="$BROWSERSTACK_KEY" \
-          -Dapp_file="$BROWSERSTACK_APP_ID" \
-          -Dbff_base_url="$BFF_URL"; then
-             echo "Gradle task succeeded" >&2
-           else
-             echo "Gradle task failed" >&2
-             exit 1
+      - name: Upload .apk file in BrowserStack and run the Appium test suite
+        run: bash fastlane/automatedTests/appium/setup_apk_in_browserstack_and_run_android_tests.sh
 
       - name: Expose failed test screenshot files
         if: failure()
