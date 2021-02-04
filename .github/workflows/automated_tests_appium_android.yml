@@ -106,11 +106,9 @@ jobs:
         env:
           BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
         run: | # builds the app replacing localhost for the $BFF_URL. Rollbacks after the app is created
-          echo "bff url $BFF_URL"
-          echo "bff url ${BFF_URL}"
-          sed -i --expression 's@http://10.0.2.2:8080@$BFF_URL@g' $BEAGLE_CONFIG_FILE
+          sed -i --expression "s@http://10.0.2.2:8080@$BFF_URL@g" $BEAGLE_CONFIG_FILE
           bash ./tests/appium/app-android/gradlew --build-cache -p tests/appium/app-android assembleDebug
-          sed -i --expression 's@$BFF_URL@http://10.0.2.2:8080@g' $BEAGLE_CONFIG_FILE
+          sed -i --expression "s@$BFF_URL@http://10.0.2.2:8080@g" $BEAGLE_CONFIG_FILE
 
       - name: Configure .apk file in BrowserStack and run the tests
         env:
