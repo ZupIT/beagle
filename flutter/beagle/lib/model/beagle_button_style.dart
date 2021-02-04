@@ -25,7 +25,7 @@ class BeagleButtonStyle {
   /// Null by default.
   final ButtonStyle androidButtonStyle;
 
-  /// Customizes this button's appearance to platform ios.
+  /// Customizes the appearance of this button for the iOS platform.
   /// Null by default.
   final BeagleIosButtonStyle iosButtonStyle;
 
