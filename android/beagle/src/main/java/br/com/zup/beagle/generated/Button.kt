@@ -26,7 +26,7 @@ import br.com.zup.beagle.android.context.Bind
  * @property text define the button text content.
  * @property styleId reference a native style in your local styles file to be applied on this button.
  * @property onPress attribute to define action when onPress
- * @property enabled attribute to set disabled
+ * @property enabled attribute to set enabled
  * @property clickAnalyticsEvent attribute to define click event name
  *
  */

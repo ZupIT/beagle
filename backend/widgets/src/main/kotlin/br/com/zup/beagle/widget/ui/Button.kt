@@ -30,7 +30,7 @@ import br.com.zup.beagle.widget.context.valueOfNullable
  * @param text define the button text content.
  * @param styleId reference a native style in your local styles file to be applied on this button.
  * @param onPress attribute to define action when onPress
- * @param enabled attribute to set disabled
+ * @param enabled attribute to set enabled
  * @property clickAnalyticsEvent attribute to define click event name
  *
  */
