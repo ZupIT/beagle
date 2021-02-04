@@ -396,27 +396,27 @@ internal class ActionReportFactoryTest : BaseTest() {
 @BeagleJson(name = "actionName")
 internal class BeagleJsonActionWithName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
     override fun execute(rootView: RootView, origin: View) {
-
+        //this is a class to test
     }
 }
 
 @BeagleJson
 internal class BeagleJsonActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
     override fun execute(rootView: RootView, origin: View) {
-
+        //this is a class to test
     }
 }
 
 @RegisterAction
 internal class RegisterActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
     override fun execute(rootView: RootView, origin: View) {
-
+        //this is a class to test
     }
 }
 
 @RegisterAction(name = "actionName")
 internal class RegisterActionWithName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
     override fun execute(rootView: RootView, origin: View) {
-
+        //this is a class to test
     }
 }
