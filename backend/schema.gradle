@@ -15,7 +15,7 @@
  */
 
 task schema {
-    def bashSchema = "../schema-ruby-erb/model_generation/schema.sh -b".execute()
+    def bashSchema = "./../schema-ruby-erb/model_generation/schema.sh -b".execute()
     bashSchema.waitForProcessOutput(System.out, System.err)
 
     if (bashSchema.exitValue() != 0) {
