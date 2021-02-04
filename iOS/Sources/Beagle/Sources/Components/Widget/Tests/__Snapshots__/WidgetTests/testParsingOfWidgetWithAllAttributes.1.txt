@@ -15,6 +15,7 @@
         ▿ accessibilityLabel: Optional<String>
           - some: "This is a text as title"
         - accessible: true
+        - isHeader: Optional<Bool>.none
     ▿ id: Optional<String>
       - some: "some id"
     ▿ style: Optional<Style>
