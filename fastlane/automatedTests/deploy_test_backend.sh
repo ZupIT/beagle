@@ -36,12 +36,10 @@ spec:
   selector:
     matchLabels:
       app: "$BFF_NAME"
-      version: "$VERSION"
   template:
     metadata:
       labels:
         app: "$BFF_NAME"
-        version: "$VERSION"
     spec:
       containers:
         - name: "$BFF_NAME"
