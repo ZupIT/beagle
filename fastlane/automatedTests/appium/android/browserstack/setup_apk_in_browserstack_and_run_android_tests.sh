@@ -18,6 +18,14 @@
 
 set -e
 
+function checkVarEmpty(){
+  temp_var=$1
+	if [ -z "$temp_var" ]; then
+		echo "Error: environment var $2 is empty!"
+		exit 1
+	fi
+}
+
 APP_FILE=$GITHUB_WORKSPACE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
 
 echo "Uploading .apk file in BrowserStack..."
@@ -34,6 +42,12 @@ else
   echo "App upload failed, reason : ",$UPLOAD_ERROR_MESSAGE
   exit 1;
 fi
+
+echo "Checking environment vars..."
+checkVarEmpty "$BROWSERSTACK_USER" '$BROWSERSTACK_USER'
+checkVarEmpty "$BROWSERSTACK_KEY" '$BROWSERSTACK_KEY'
+checkVarEmpty "$APP_ID" '$APP_ID'
+checkVarEmpty "$BFF_URL" '$BFF_URL'
 
 echo "Running Appium tests..."
 if ./tests/appium/project/gradlew --build-cache -p tests/appium/project cucumber \
