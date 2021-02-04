@@ -15,6 +15,7 @@
  */
 
 task schema {
+    println projectDir
     def bashSchema = "./../schema-ruby-erb/model_generation/schema.sh -a".execute()
     bashSchema.waitForProcessOutput(System.out, System.err)
 
