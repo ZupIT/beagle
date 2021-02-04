@@ -22,16 +22,6 @@ class AnalyticsService {
     
     private let provider: AnalyticsProvider
     
-    private let itemsLock = DispatchSemaphore(value: 1)
-    private (set) var itemsInQueue = 0
-    private (set) lazy var queue = DispatchQueue(
-        label: "BeagleAnalyticsService",
-        qos: .utility,
-        attributes: .initiallyInactive,
-        autoreleaseFrequency: .inherit,
-        target: .global(qos: .utility)
-    )
-    
     init(provider: AnalyticsProvider) {
         self.provider = provider
     }
@@ -39,54 +29,65 @@ class AnalyticsService {
     // MARK: - Create Events
     
     func createRecord(screen: ScreenType) {
-        createRecord { self.sendScreenRecord(screen) }
-    }
-    
-    func createRecord(_ action: ActionInfo) {
-        AnalyticsGenerator(info: action, globalConfig: provider.getConfig()?.actions)
-            .createRecord()
-            .map {
-                provider.createRecord($0)
-            }
+        let isScreenDisabled = provider.getConfig()?.enableScreenAnalytics == false
+        if isScreenDisabled { return }
+
+        let record = AnalyticsRecord(type: .screen(valuesFor(screen: screen)))
+        sendToQueue(record: record)
     }
 
     struct ActionInfo {
-        let action: Action, event: String?, origin: UIView, controller: BeagleControllerProtocol
+        let action: Action
+        let event: String?
+        let origin: UIView
+        let controller: BeagleControllerProtocol
     }
     
-    private func createRecord(_ work: @escaping () -> Void) {
-        guard getQueueSlot() else { return }
-//        queue.async {
-            work()
-            self.releaseQueueSlot()
-//        }
+    func createRecord(_ action: ActionInfo) {
+        let config = provider.getConfig()
+
+        let generator = AnalyticsGenerator(info: action, globalConfig: config?.actions)
+        guard let record = generator.createRecord() else { return }
+
+        sendToQueue(record: record)
     }
-    
-    private func getQueueSlot() -> Bool {
-        itemsLock.wait()
-        defer { itemsLock.signal() }
-        guard itemsInQueue < provider.maximumItemsInQueue ?? 100 else {
-            return false
+
+    // MARK: - Queue
+
+    private(set) lazy var serialDispatch = DispatchQueue(
+        label: "AnalyticsService serial queue for records",
+        qos: .utility
+    )
+
+    private var queue = [AnalyticsRecord]()
+
+    private func sendToQueue(record: AnalyticsRecord) {
+        serialDispatch.async {
+            self.dispatchRecord(record)
         }
-        itemsInQueue += 1
-        return true
     }
-    
-    private func releaseQueueSlot() {
-        itemsLock.wait()
-        defer { itemsLock.signal() }
-        itemsInQueue -= 1
+
+    /// this should only be called when inside `serialDispatch` to avoid data racing conditions
+    private func dispatchRecord(_ record: AnalyticsRecord) {
+        let isFull = queue.count >= maxItemsInQueue()
+        if isFull {
+            queue.removeFirst()
+        }
+
+        queue.append(record)
+
+        let isProviderReadyToReceive = provider.getConfig() != nil
+        if isProviderReadyToReceive {
+            queue.forEach(provider.createRecord)
+            queue = []
+        }
+    }
+
+    private func maxItemsInQueue() -> Int {
+        provider.maximumItemsInQueue ?? 100
     }
     
     // MARK: - Screen
-    
-    private func sendScreenRecord(_ screen: ScreenType) {
-//        guard case .success(let config) = configResult, config.enableScreenAnalytics ?? true else { return }
-        let record = AnalyticsRecord(type: .screen(valuesFor(screen: screen)))
-//        DispatchQueue.main.async {
-            self.provider.createRecord(record)
-//        }
-    }
     
     private func valuesFor(screen: ScreenType) -> AnalyticsRecord.Screen {
         switch screen {

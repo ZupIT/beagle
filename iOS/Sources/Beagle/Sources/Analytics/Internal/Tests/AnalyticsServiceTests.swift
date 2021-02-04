@@ -18,7 +18,7 @@ import XCTest
 import SnapshotTesting
 @testable import Beagle
 
-class AnalyticsServiceTests: AnalyticsTestHelpers {
+class AnalyticsServiceTests: XCTestCase {
 
     private lazy var sut = AnalyticsService(provider: provider)
     private lazy var provider = AnalyticsProviderStub()
@@ -27,98 +27,86 @@ class AnalyticsServiceTests: AnalyticsTestHelpers {
     private var declarativeScreen: ScreenType { .declarative(Screen(identifier: "DECLARATIVE", child: ComponentDummy())) }
     
     // MARK: Configuration tests
-    
-//    func testWaitStartSessionAndGetConfigToCreateRecord() {
-//        // Given
-//        let getConfig = expectation(description: "getConfig")
-//
-//        provider.config = {
-//            getConfig.fulfill()
-//            return AnalyticsConfig(enableScreenAnalytics: true)
-//        }
-//
-//        let sut = AnalyticsService(provider: provider)
-//
-//        // When create session without config available
-//        sut.createRecord(screen: remoteScreen)
-//
-//        // Then should not create records
-//        XCTAssertEqual(provider.records.count, 0)
-//
-//        // When did start session and config and available
-//        wait(for: [getConfig], timeout: timeout)
-//        waitCreateRecords(sut)
-//
-//        // Then should create records
-//        XCTAssertEqual(provider.records.count, 1)
-//    }
-//
-//    func testMaximumItemsInQueueConfig() {
-//        // Given
-//        let maximumItemsInQueue = 20
-//        let getConfig = expectation(description: "getConfig")
-//        let startSession = expectation(description: "startSession")
-//        var configCompletion: ((Result<AnalyticsConfig, Error>) -> Void)?
-//        let provider = AnalyticsProviderStub()
-//        provider.maximumItemsInQueue = maximumItemsInQueue
-//        provider.getConfig = {
-//            configCompletion = $0
-//            getConfig.fulfill()
-//        }
-//        provider.startSession = {
-//            $0(.success(()))
-//            startSession.fulfill()
-//        }
-//
-//        let sut = AnalyticsService(provider: provider)
-//
-//        // When
-//        (0..<(maximumItemsInQueue + 10)).forEach { _ in
-//            sut.createRecord(screen: remoteScreen)
-//        }
-//        wait(for: [getConfig, startSession], timeout: timeout)
-//        configCompletion?(.success(.init()))
-//        waitCreateRecords(sut)
-//
-//        // Then
-//        XCTAssertEqual(provider.records.count, maximumItemsInQueue)
-//    }
-    
-    func testEnableScreenAnalyticsConfig() {
-        testEnableScreenAnalytics(false)
-        testEnableScreenAnalytics(true)
+
+    func testMaximumItemsInQueue() {
+        provider.config = nil
+        let max = 5
+        provider.maximumItemsInQueue = max
+
+        for _ in 1...max {
+            sut.createRecord(screen: remoteScreen)
+        }
+        waitRecords()
+        XCTAssertEqual(provider.records, [])
+
+        provider.config = .init()
+
+        sut.createRecord(screen: remoteScreen)
+
+        waitRecords()
+        XCTAssertEqual(provider.records.count, max)
+    }
+
+    func testWithConfig() {
+        provider.config = .init()
+        let max = 5
+        provider.maximumItemsInQueue = max
+        let overMax = 4 * max
+
+        for _ in 1...overMax {
+            sut.createRecord(screen: remoteScreen)
+        }
+
+        waitRecords()
+        XCTAssertEqual(provider.records.count, overMax)
+    }
+
+    func testChangingConfig() {
+        provider.config = .init()
+        let max = 5
+        provider.maximumItemsInQueue = max
+
+        for _ in 1...3 {
+            sut.createRecord(screen: remoteScreen)
+        }
+
+        waitRecords()
+        XCTAssertEqual(provider.records.count, 3)
+
+        provider.config = nil
+
+        for _ in 1...5 {
+            sut.createRecord(screen: remoteScreen)
+        }
+
+        waitRecords()
+        XCTAssertEqual(provider.records.count, 3)
+
+        provider.config = .init()
+
+        for _ in 1...5 {
+            sut.createRecord(screen: remoteScreen)
+        }
+
+        waitRecords()
+        XCTAssertEqual(provider.records.count, 12)
     }
     
-    private func testEnableScreenAnalytics(_ enabled: Bool) {
+    func testScreenRecord() {
+        testScreenRecordWithConfig(enabled: false)
+        testScreenRecordWithConfig(enabled: true)
+    }
+    
+    private func testScreenRecordWithConfig(enabled: Bool) {
         // Given
         provider.config = .init(enableScreenAnalytics: enabled)
 
         // When
         sut.createRecord(screen: remoteScreen)
-        waitCreateRecords(sut)
+        waitRecords()
 
         // Then
         XCTAssertEqual(provider.records.count, enabled ? 1 : 0)
-    }
-    
-    func testDefaultActionConfig() {
-        // Given
-        let action = AnalyticsTestAction(
-            _beagleAction_: "enabled",
-            values: ["itemA": "Value A", "itemB": "Value B", "itemC": "Value C"],
-            analytics: .enabled(.init(
-                additionalEntries: ["case": "use default config"]
-            ))
-        )
-
-        provider.config = .init(actions: [action._beagleAction_: ["values.itemC", "values.itemA"]])
-        
-        // When
-        sut.createRecord(.init(action: action, event: "testCase", origin: UIView(), controller: BeagleControllerStub(remoteScreen)))
-        waitCreateRecords(sut)
-        
-        // Then
-        assertSnapshot(matching: provider.records, as: .json)
     }
     
     // MARK: Screen tests
@@ -138,22 +126,13 @@ class AnalyticsServiceTests: AnalyticsTestHelpers {
         // Then
         assertSnapshot(matching: provider.records, as: .json)
     }
-}
 
-// MARK: - Helpers
-
-class AnalyticsTestHelpers: XCTestCase {
-    
-    var timeout: TimeInterval { 1 }
-
-    func waitCreateRecords(_ service: AnalyticsService?) {
-        let createRecords = expectation(description: "AnalyticsService create queued records")
-        let consumeMainQueue = expectation(description: "return to main queue")
-        service?.queue.async {
-            createRecords.fulfill()
-            DispatchQueue.main.async { consumeMainQueue.fulfill() }
+    private func waitRecords() {
+        let expec = expectation(description: "wait records")
+        sut.serialDispatch.async {
+            expec.fulfill()
         }
-        wait(for: [createRecords, consumeMainQueue], timeout: timeout)
+        wait(for: [expec], timeout: 1)
     }
 }
 
@@ -173,16 +152,5 @@ class AnalyticsProviderStub: AnalyticsProvider {
 
     func getConfig() -> AnalyticsConfig? {
         return config
-    }
-    
-}
-
-private struct AnalyticsTestAction: Action {
-    var _beagleAction_: String
-    var values = [String: String]()
-    var analytics: ActionAnalyticsConfig?
-    
-    func execute(controller: BeagleController, origin: UIView) {
-        // Intentionally unimplemented...
     }
 }

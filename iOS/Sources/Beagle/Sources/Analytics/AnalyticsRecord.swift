@@ -53,6 +53,8 @@ public struct AnalyticsRecord {
     }
 }
 
+// MARK: Dictionary
+
 extension AnalyticsRecord {
 
     public func toDictionary() -> [String: DynamicObject] {
@@ -75,6 +77,8 @@ extension AnalyticsRecord {
     }
 }
 
+// MARK: Encodable
+
 extension AnalyticsRecord: Encodable {
 
     public func encode(to encoder: Encoder) throws {
@@ -82,3 +86,12 @@ extension AnalyticsRecord: Encodable {
         try dict.encode(to: encoder)
     }
 }
+
+// MARK: Equatable
+
+extension AnalyticsRecord: Equatable {}
+extension AnalyticsRecord.RecordType: Equatable {}
+extension AnalyticsRecord.Screen: Equatable {}
+extension AnalyticsRecord.Action: Equatable {}
+extension AnalyticsRecord.Action.Component: Equatable {}
+extension AnalyticsRecord.Action.Component.Position: Equatable {}
