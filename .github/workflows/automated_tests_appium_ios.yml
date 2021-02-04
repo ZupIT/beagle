@@ -61,7 +61,7 @@ jobs:
           path: ${{ env.fastlane-path }}
           key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
 
-      - name: Cache Beagle backend gradle dependencies
+      - name: Cache gradle dependencies of project backend
         uses: actions/cache@v2
         env:
           gradle-cache-key: backend-tests-gradle-cache

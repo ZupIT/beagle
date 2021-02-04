@@ -48,10 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      ##################################################################################################
-      # Caching - Start
-      ##################################################################################################
-      - name: Cache Beagle backend gradle dependencies
+      - name: Cache gradle dependencies of project backend
         uses: actions/cache@v2
         env:
           gradle-cache-key: backend-tests-gradle-cache
@@ -60,19 +57,6 @@ jobs:
           path: ${{ env.gradle-path }}
           key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
           restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
-
-      - name: Cache Appium app-android gradle dependencies
-        uses: actions/cache@v2
-        env:
-          gradle-cache-key: app-android-tests-gradle-cache
-          gradle-path: ~/.gradle
-        with:
-          path: ${{ env.gradle-path }}
-          key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
-          restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
-      ##################################################################################################
-      # Caching - end
-      ##################################################################################################
 
       - name: Build test BFF image
         working-directory: backend
@@ -98,28 +82,27 @@ jobs:
           NAMESPACE: ${{ secrets.AWS_CLUSTER_NAMESPACE }}
 
   appium_tests:
+    needs: bff_config_job
     name: Appium tests job
     runs-on: macos-latest
     env:
-      BFF_URL: ${{ secrets.S }}
+      BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
       BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
       BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache fastlane dependences
+      - name: Cache gradle dependencies of project app-android
         uses: actions/cache@v2
         env:
-          fastlane-cache-key: fastlane-cache-test
-          fastlane-path: ~/.gem
+          gradle-cache-key: app-android-tests-gradle-cache
+          gradle-path: ~/.gradle
         with:
-          path: ${{ env.fastlane-path }}
-          key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+          path: ${{ env.gradle-path }}
+          key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
 
-      - name: Install Fastlane
-        run: bundle config set path '~/.gem' && bundle install
-
-      - name: Build app-android project to generate the app file
+      - name: Build project app-android to generate the .apk file
         env:
           BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
         run: | # builds the app replacing localhost for the $BFF_URL. Rollbacks after the app is created
@@ -127,12 +110,12 @@ jobs:
           bash ./tests/appium/app-android/gradlew --build-cache -p tests/appium/app-android assembleDebug
           sed -i --expression 's@$BFF_URL@http://10.0.2.2:8080@g' $BEAGLE_CONFIG_FILE
 
-      - name: Configure app in BrowserStack and run the tests
+      - name: Configure .apk file in BrowserStack and run the tests
         env:
           APP_FILE: $GITHUB_WORKSPACE/tests/appium/app-android/app/build/outputs/apk/debug/app-debug.apk
           BROWSERSTACK_APP_ID: 123
         run: |
-          bash fastlane/automatedTests/appium/upload_apk_to_browserstack_and_get_id.sh
+          bash fastlane/automatedTests/appium/upload_app_to_browserstack_and_get_id.sh
           if ./tests/appium/project/gradlew --build-cache -p tests/appium/project cucumber \
           -Dplatform="android" \
           -Dplatform_version="11.0" \
