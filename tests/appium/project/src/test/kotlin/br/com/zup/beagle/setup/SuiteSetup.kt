@@ -99,6 +99,9 @@ object SuiteSetup {
 
             println("############# BS user $browserstackUser")
             println("############# BS key $browserstackKey")
+            println("############# APP FILE $appFile")
+            println("############# BFF URL $bffBaseUrl")
+            println("############# DEVICE NAME $deviceName")
 
             // when device is running at BrowserStack
             if (!browserstackUser.isNullOrBlank() && !browserstackKey.isNullOrBlank()) {
