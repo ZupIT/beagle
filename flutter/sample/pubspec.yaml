@@ -28,6 +28,7 @@ dependencies:
     path: ../beagle
   beagle_components:
     path: ../beagle_components
+  logging: ^0.11.4
 
 
   # The following adds the Cupertino Icons font to your application.

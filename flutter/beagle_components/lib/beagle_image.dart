@@ -18,7 +18,9 @@ import 'dart:developer' as developer;
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
+import 'package:beagle/logger/beagle_logger_proxy.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -28,6 +30,7 @@ class BeagleImage extends StatefulWidget {
     Key key,
     this.designSystem,
     this.imageDownloader,
+    this.logger,
     this.path,
     this.mode,
   }) : super(key: key);
@@ -37,6 +40,7 @@ class BeagleImage extends StatefulWidget {
 
   final DesignSystem designSystem;
   final BeagleImageDownloader imageDownloader;
+  final BeagleLoggerProxy logger;
 
   @override
   _BeagleImageState createState() => _BeagleImageState();
@@ -61,16 +65,15 @@ class _BeagleImageState extends State<BeagleImage> {
         : createImageFromNetwork(widget.path);
   }
 
-  void downloadImage() {
+  Future<void> downloadImage() async {
     final RemoteImagePath path = widget.path;
     try {
-      widget.imageDownloader.downloadImage(path.url).then((value) {
-        setState(() {
-          imageBytes = value;
-        });
+      final bytes = await widget.imageDownloader.downloadImage(path.url);
+      setState(() {
+        imageBytes = bytes;
       });
-    } on Exception catch (e, _) {
-      developer.log(e.toString());
+    } catch (e) {
+      widget.logger.errorWithException(e.toString(), e);
     }
   }
 
