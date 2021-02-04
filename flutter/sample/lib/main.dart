@@ -21,10 +21,10 @@ import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sample/design_system.dart';
+import 'package:sample/app_design_system.dart';
 import 'package:sample/tab_bar_screen.dart';
 
-const BASE_URL = 'https://run.mocky.io/v3/2c1f3442-28ec-4df8-abd9-56fcc90e8a4d';
+const BASE_URL = 'https://run.mocky.io/v3/c26db673-6e1b-4825-94a5-0c29527594dc';
 
 void main() {
   runApp(const MaterialApp(home: BeagleSampleApp()));

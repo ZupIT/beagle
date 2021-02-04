@@ -16,6 +16,7 @@
 
 import 'package:beagle/model/beagle_button_style.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:flutter/rendering.dart';
 
 class AppDesignSystem extends DesignSystem {
   @override
@@ -35,6 +36,11 @@ class AppDesignSystem extends DesignSystem {
 
   @override
   BeagleButtonStyle buttonStyle(String id) {
+    return null;
+  }
+
+  @override
+  TextStyle textStyle(String id) {
     return null;
   }
 }
