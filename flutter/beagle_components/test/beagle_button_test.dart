@@ -132,5 +132,33 @@ void main() {
         expect(log.length, 0);
       });
     });
+
+    group('When set style and platform is iOS', () {
+      testWidgets('Then it should have a correct style',
+              (WidgetTester tester) async {
+            debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+            await tester.pumpWidget(createWidget());
+
+            final buttonFinder = find.byType(CupertinoButton);
+
+            expect(buttonFinder, findsOneWidget);
+
+            debugDefaultTargetPlatformOverride = null;
+          });
+    });
+
+    group('When set style and platform is Android', () {
+      testWidgets('Then it should have a correct style',
+              (WidgetTester tester) async {
+            debugDefaultTargetPlatformOverride = TargetPlatform.android;
+            await tester.pumpWidget(createWidget());
+
+            final buttonFinder = find.byType(CupertinoButton);
+
+            expect(buttonFinder, findsOneWidget);
+
+            debugDefaultTargetPlatformOverride = null;
+          });
+    });
   });
 }
