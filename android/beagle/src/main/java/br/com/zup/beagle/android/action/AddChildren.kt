@@ -67,7 +67,7 @@ data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
     var mode: Mode? = Mode.APPEND,
-    override var analytics: ActionAnalyticsConfig? = null
+    override var analytics: ActionAnalyticsConfig? = null,
 ) : ActionAnalytics {
 
     override fun execute(rootView: RootView, origin: View) {

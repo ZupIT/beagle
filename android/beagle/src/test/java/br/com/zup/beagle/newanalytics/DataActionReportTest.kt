@@ -119,7 +119,7 @@ internal class DataActionReportTest : BaseTest() {
         @Test
         @DisplayName("Then should call ActionReportFactory.GenerateActionAnalyticsConfig")
         fun testReportActionWithoutAttributesOnAnalyticsAndConfigShouldCallGenerateActionAnalyticsConfigWithEmptyAttributesOnDataActionReport() {
-                //Given
+            //Given
             val analyticsConfig: AnalyticsConfig = mockk()
             action.analytics = ActionAnalyticsConfig.Enabled()
             every { analyticsConfig.actions } returns null
@@ -187,7 +187,7 @@ internal class DataActionReportTest : BaseTest() {
 
         @Test
         @DisplayName("Then should return null")
-        fun testReportWithoutAnalyticsAndActionNotInConfigShouldReturnNull(){
+        fun testReportWithoutAnalyticsAndActionNotInConfigShouldReturnNull() {
             //Given
             val analyticsConfig: AnalyticsConfig = mockk()
             action.analytics = null

@@ -40,7 +40,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 
 @DisplayName("Given a StringExtension")
-class StringExtensionsKtTest{
+class StringExtensionsKtTest {
 
     private val colorSlot = slot<String>()
 
@@ -207,11 +207,11 @@ class StringExtensionsKtTest{
 
     @DisplayName("When putFirstCharacterOnLowerCase")
     @Nested
-    inner class PutFirstCharacterOnLowerCase{
+    inner class PutFirstCharacterOnLowerCase {
 
         @DisplayName("Then should put the first character on lower case")
         @Test
-        fun testFirstCharacterAlreadyInLowerCase(){
+        fun testFirstCharacterAlreadyInLowerCase() {
             val string = "charactersonlowercase"
 
             val result = string.putFirstCharacterOnLowerCase()
@@ -221,7 +221,7 @@ class StringExtensionsKtTest{
 
         @DisplayName("Then should put the first character on lower case")
         @Test
-        fun testFirstCharacterNotInLowerCase(){
+        fun testFirstCharacterNotInLowerCase() {
             val string = "CHARACTERSONUPPERCASE"
 
             val result = string.putFirstCharacterOnLowerCase()

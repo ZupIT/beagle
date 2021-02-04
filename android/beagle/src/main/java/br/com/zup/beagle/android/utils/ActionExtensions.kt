@@ -41,7 +41,7 @@ fun Action.handleEvent(
     origin: View,
     actions: List<Action>,
     context: ContextData? = null,
-    analyticsValue: String?  = null
+    analyticsValue: String? = null,
 ) {
     contextActionExecutor.executeActions(rootView, origin, this, actions, context, analyticsValue)
 }
@@ -82,7 +82,7 @@ fun Action.handleEvent(
     origin: View,
     action: Action,
     context: ContextData? = null,
-    analyticsValue : String? = null
+    analyticsValue: String? = null,
 ) {
     contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context, analyticsValue)
 }

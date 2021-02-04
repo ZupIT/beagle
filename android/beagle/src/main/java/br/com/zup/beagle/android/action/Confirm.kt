@@ -47,7 +47,7 @@ data class Confirm(
     val onPressCancel: Action? = null,
     val labelOk: String? = null,
     val labelCancel: String? = null,
-    override var analytics: ActionAnalyticsConfig? = null
+    override var analytics: ActionAnalyticsConfig? = null,
 ) : ActionAnalytics {
 
     constructor(
@@ -57,7 +57,7 @@ data class Confirm(
         onPressCancel: Action? = null,
         labelOk: String? = null,
         labelCancel: String? = null,
-        analytics: ActionAnalyticsConfig? = null
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         title = expressionOrValueOfNullable(title),
         message = expressionOrValueOf(message),

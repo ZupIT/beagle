@@ -47,7 +47,7 @@ data class SetContext(
     @ContextDataValue
     val value: Any,
     val path: String? = null,
-    override var analytics: ActionAnalyticsConfig? = null
+    override var analytics: ActionAnalyticsConfig? = null,
 ) : ActionAnalytics {
 
     override fun execute(rootView: RootView, origin: View) {

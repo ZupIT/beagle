@@ -193,7 +193,7 @@ fun ViewGroup.renderScreen(
     activity: AppCompatActivity,
     screenJson: String,
     screenId: String = "",
-    isLocalScreen: Boolean? = null
+    isLocalScreen: Boolean? = null,
 ) {
     this.renderScreen(ActivityRootView(activity, this.id, screenId), screenJson, isLocalScreen)
 }
@@ -212,7 +212,7 @@ fun ViewGroup.renderScreen(
     fragment: Fragment,
     screenJson: String,
     screenId: String = "",
-    isLocalScreen: Boolean? = null
+    isLocalScreen: Boolean? = null,
 ) {
     this.renderScreen(FragmentRootView(fragment, this.id, screenId), screenJson, isLocalScreen)
 }

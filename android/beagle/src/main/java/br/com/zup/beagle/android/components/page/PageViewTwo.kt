@@ -51,7 +51,7 @@ internal data class PageViewTwo(
     override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
-    val currentPage: Bind<Int>? = null
+    val currentPage: Bind<Int>? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
@@ -80,7 +80,7 @@ internal data class PageViewTwo(
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
-                positionOffsetPixels: Int
+                positionOffsetPixels: Int,
             ) {
             }
 
@@ -116,7 +116,7 @@ internal data class PageViewTwo(
 internal class PageViewAdapterTwo(
     private val rootView: RootView,
     private val children: List<ServerDrivenComponent>,
-    private val viewFactory: ViewFactory
+    private val viewFactory: ViewFactory,
 ) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {

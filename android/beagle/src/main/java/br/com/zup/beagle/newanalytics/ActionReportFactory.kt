@@ -38,7 +38,7 @@ internal object ActionReportFactory {
         rootView: RootView,
         origin: View,
         action: ActionAnalytics,
-        analyticsValue: String? = null
+        analyticsValue: String? = null,
     ) = DataActionReport(
         originX = origin.x,
         originY = origin.y,
@@ -86,7 +86,7 @@ internal object ActionReportFactory {
         name: String? = null,
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics
+        action: ActionAnalytics,
     ): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()
         (value::class as KClass<Any>).memberProperties.forEach { property ->
@@ -121,7 +121,7 @@ internal object ActionReportFactory {
         value: Any,
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics
+        action: ActionAnalytics,
     ): Any {
         var propertyValue: Any = value
         if (propertyValue is Bind<*>) {
@@ -142,7 +142,7 @@ internal object ActionReportFactory {
     }
 
     fun generateActionAnalyticsConfig(
-        dataActionReport: DataActionReport
+        dataActionReport: DataActionReport,
     ) = object : AnalyticsRecord {
         override val type: String
             get() = "action"
@@ -155,7 +155,7 @@ internal object ActionReportFactory {
     }
 
     private fun generateValues(
-        dataActionReport: DataActionReport
+        dataActionReport: DataActionReport,
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
         setScreenIdValue(dataActionReport.screenId, hashMap)

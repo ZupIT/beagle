@@ -27,7 +27,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     private val componentPropertyAssigner: ComponentPropertyAssigner<T> = ComponentPropertyAssigner(),
-    private val contextComponentHandler: ContextComponentHandler = ContextComponentHandler()
+    private val contextComponentHandler: ContextComponentHandler = ContextComponentHandler(),
 ) {
     abstract val component: T
 

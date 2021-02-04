@@ -108,7 +108,7 @@ internal class BeagleView(
         component: ServerDrivenComponent,
         view: View? = null,
         screenIdentifier: String?,
-        isLocalScreen: Boolean?
+        isLocalScreen: Boolean?,
     ) {
         serverStateChangedListener?.invoke(ServerDrivenState.Success)
         if (view != null) {
@@ -119,8 +119,8 @@ internal class BeagleView(
             addServerDrivenComponent(component)
             loadCompletedListener?.invoke()
         }
-        isLocalScreen?.let{
-            screenIdentifier?.let{
+        isLocalScreen?.let {
+            screenIdentifier?.let {
                 rootView.generateViewModelInstance<AnalyticsViewModel>().createScreenReport(
                     isLocalScreen,
                     screenIdentifier

@@ -18,25 +18,25 @@ package br.com.zup.beagle.newanalytics
 
 /**
  * This interface is used to start the configuration of analytics, without this the analytics will not be reported.
-*/
+ */
 interface AnalyticsProvider {
 
     /**
      * This function is called to get the AnalyticsConfig.
      * @return can be null or an AnalyticsConfig
-    */
-    fun getConfig() : AnalyticsConfig?
+     */
+    fun getConfig(): AnalyticsConfig?
 
     /**
      * This function is called to record the reports.
      * @param record is an AnalyticsRecord generated when a screen is loaded or a action is executed
      * according the config passing on getConfig function.
-    */
+     */
     fun createRecord(record: AnalyticsRecord)
 
     /**
      *@return an Int to control the maximum iitems that will be on the queue of reports while the config
      * was not provided.
-    */
+     */
     fun getMaximumItemsInQueue() = 100
 }

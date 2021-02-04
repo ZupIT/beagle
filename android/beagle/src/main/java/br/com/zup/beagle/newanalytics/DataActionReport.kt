@@ -56,7 +56,7 @@ internal data class DataActionReport(
         if (value != null && value is ActionAnalyticsProperties) value else null
 
     private fun getAttributeOnActionAnalyticsProperties(
-        actionAnalyticsProperties: ActionAnalyticsProperties?
+        actionAnalyticsProperties: ActionAnalyticsProperties?,
     ): List<String>? {
         actionAnalyticsProperties?.let {
             return it.attributes
@@ -65,7 +65,7 @@ internal data class DataActionReport(
     }
 
     private fun getAttributeOnAnalyticsConfig(
-        analyticsConfig: AnalyticsConfig
+        analyticsConfig: AnalyticsConfig,
     ): List<String>? {
         val key = this.actionType
         val attributeList = analyticsConfig.actions?.get(key)

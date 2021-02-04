@@ -46,7 +46,7 @@ import br.com.zup.beagle.core.BeagleJson
 data class FormLocalAction(
     val name: String,
     val data: Map<String, String>,
-    override var analytics: ActionAnalyticsConfig? = null
+    override var analytics: ActionAnalyticsConfig? = null,
 ) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
 
     @Transient

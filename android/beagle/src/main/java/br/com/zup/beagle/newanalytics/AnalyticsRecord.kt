@@ -25,8 +25,8 @@ package br.com.zup.beagle.newanalytics
  * @param timestamp is a Long that have the timestamp when the action was called.
  */
 interface AnalyticsRecord {
-    val type : String
-    val platform : String
-    val values : HashMap<String, Any>
-    val timestamp : Long
+    val type: String
+    val platform: String
+    val values: HashMap<String, Any>
+    val timestamp: Long
 }

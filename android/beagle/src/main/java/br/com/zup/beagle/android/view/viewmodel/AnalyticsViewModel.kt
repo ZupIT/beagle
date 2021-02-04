@@ -31,7 +31,7 @@ internal class AnalyticsViewModel : ViewModel() {
         rootView: RootView,
         origin: View,
         action: ActionAnalytics,
-        analyticsValue : String?
+        analyticsValue: String?,
     ) {
         viewModelScope.launch(Dispatchers.Default) {
             AnalyticsService.createActionRecord(
@@ -43,7 +43,7 @@ internal class AnalyticsViewModel : ViewModel() {
         }
     }
 
-    fun createScreenReport(isLocalScreen: Boolean, screenIdentifier: String){
+    fun createScreenReport(isLocalScreen: Boolean, screenIdentifier: String) {
         viewModelScope.launch(Dispatchers.Default) {
             AnalyticsService.createScreenRecord(isLocalScreen, screenIdentifier)
         }

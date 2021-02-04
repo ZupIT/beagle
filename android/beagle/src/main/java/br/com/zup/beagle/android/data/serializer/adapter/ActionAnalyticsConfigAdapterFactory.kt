@@ -31,7 +31,7 @@ class ActionAnalyticsConfigAdapterFactory : JsonAdapter.Factory {
     override fun create(
         type: Type,
         annotations: MutableSet<out Annotation>,
-        moshi: Moshi
+        moshi: Moshi,
     ): JsonAdapter<ActionAnalyticsConfig>? {
         return if (Types.getRawType(type) == ActionAnalyticsConfig::class.java) {
             ActionAnalyticsConfigAdapter()

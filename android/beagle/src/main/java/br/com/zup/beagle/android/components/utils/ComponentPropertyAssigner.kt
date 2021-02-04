@@ -27,7 +27,7 @@ import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 class ComponentPropertyAssigner<T : ServerDrivenComponent>(
-    private val accessibilitySetup: AccessibilitySetup = AccessibilitySetup()
+    private val accessibilitySetup: AccessibilitySetup = AccessibilitySetup(),
 ) {
     fun apply(view: View, component: T) {
         view.applyStyle(component)

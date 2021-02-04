@@ -24,11 +24,11 @@ import br.com.zup.beagle.core.BeagleJson
  * reported. When this param is null, the analytics will get the attribute from AnalyticsConfig.
  * @param additionalEntries by default is null, but can be a Map of String to Any, on this param can be passed
  * additional values to be reported with the action.
-*/
+ */
 @BeagleJson
 data class ActionAnalyticsProperties(
     var attributes: List<String>? = null,
-    var additionalEntries: Map<String, Any>? = null
+    var additionalEntries: Map<String, Any>? = null,
 )
 
 /**
@@ -39,7 +39,7 @@ data class ActionAnalyticsProperties(
 
 @BeagleJson
 sealed class ActionAnalyticsConfig(
-    var value: Any? = null
+    var value: Any? = null,
 ) {
     /**
      * Set the analytics to be disabled

@@ -35,7 +35,7 @@ internal object ContextActionExecutor {
         sender: Any,
         actions: List<Action>,
         context: ContextData? = null,
-        analyticsValue: String? = null
+        analyticsValue: String? = null,
     ) {
         if (context != null) {
             createImplicitContextForActions(rootView, sender, context, actions)
@@ -58,7 +58,7 @@ internal object ContextActionExecutor {
         rootView: RootView,
         origin: View,
         actions: List<Action>?,
-        analyticsValue: String? = null
+        analyticsValue: String? = null,
     ) {
         actions?.forEach { action ->
             if (action is AsyncAction) {
@@ -74,7 +74,7 @@ internal object ContextActionExecutor {
         action: Action,
         rootView: RootView,
         origin: View,
-        analyticsValue: String? = null
+        analyticsValue: String? = null,
     ) {
         action.execute(rootView, origin)
         if (action is ActionAnalytics) {

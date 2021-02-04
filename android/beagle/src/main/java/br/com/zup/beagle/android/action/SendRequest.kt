@@ -90,7 +90,7 @@ data class SendRequest(
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
     val onFinish: List<Action>? = null,
-    override var analytics: ActionAnalyticsConfig? = null
+    override var analytics: ActionAnalyticsConfig? = null,
 ) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
 
     constructor(
@@ -101,7 +101,7 @@ data class SendRequest(
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
         onFinish: List<Action>? = null,
-        analytics: ActionAnalyticsConfig? = null
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         expressionOrValueOf(url),
         valueOf(method),

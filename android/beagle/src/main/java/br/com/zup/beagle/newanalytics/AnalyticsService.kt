@@ -36,10 +36,10 @@ internal object AnalyticsService {
         rootView: RootView,
         origin: View,
         action: ActionAnalytics,
-        analyticsValue: String? = null
+        analyticsValue: String? = null,
     ) {
-        action.analytics?.let{
-            if(it is ActionAnalyticsConfig.Disabled){
+        action.analytics?.let {
+            if (it is ActionAnalyticsConfig.Disabled) {
                 return
             }
         }
@@ -86,7 +86,7 @@ internal object AnalyticsService {
         }
     }
 
-    private fun isNotQueueFull(queueSize : Int) = queueOfReportsWaitingConfig.size < queueSize
+    private fun isNotQueueFull(queueSize: Int) = queueOfReportsWaitingConfig.size < queueSize
 
     private fun addItemOnFullQueue(dataReport: DataReport, queueSize: Int) {
         BeagleMessageLogs.analyticsQueueIsFull(queueSize)
@@ -97,7 +97,7 @@ internal object AnalyticsService {
     private fun reportWithConfigNotNull(
         dataReport: DataReport,
         analyticsConfig: AnalyticsConfig,
-        analyticsProvider: AnalyticsProvider
+        analyticsProvider: AnalyticsProvider,
     ) {
         val report = dataReport.report(analyticsConfig)
         report?.let {

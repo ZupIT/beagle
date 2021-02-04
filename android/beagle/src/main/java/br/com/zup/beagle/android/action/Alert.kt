@@ -44,7 +44,7 @@ data class Alert(
     val message: Bind<String>,
     val onPressOk: Action? = null,
     val labelOk: String? = null,
-    override var analytics: ActionAnalyticsConfig? = null
+    override var analytics: ActionAnalyticsConfig? = null,
 ) : ActionAnalytics {
 
     constructor(
@@ -52,7 +52,7 @@ data class Alert(
         message: String,
         onPressOk: Action? = null,
         labelOk: String? = null,
-        analytics: ActionAnalyticsConfig? = null
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         title = expressionOrValueOfNullable(title),
         message = expressionOrValueOf(message),

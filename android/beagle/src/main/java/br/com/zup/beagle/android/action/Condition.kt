@@ -39,14 +39,14 @@ data class Condition(
     val condition: Bind<Boolean>,
     val onTrue: List<Action>? = null,
     val onFalse: List<Action>? = null,
-    override var analytics: ActionAnalyticsConfig? = null
+    override var analytics: ActionAnalyticsConfig? = null,
 ) : ActionAnalytics {
 
     constructor(
         condition: Boolean,
         onTrue: List<Action>? = null,
         onFalse: List<Action>? = null,
-        analytics: ActionAnalyticsConfig? = null
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         condition = valueOf(condition),
         onTrue = onTrue,

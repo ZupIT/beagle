@@ -43,8 +43,9 @@ interface RootView {
      * Returns the parent id of View that encapsulates all the content rendered by server-driven.
      */
     fun getParentId(): Int
+
     /**
      * Returns the screen url or screen id of Screen that encapsulates all the content rendered by server-driven.
      */
-    fun getScreenId() : String
+    fun getScreenId(): String
 }

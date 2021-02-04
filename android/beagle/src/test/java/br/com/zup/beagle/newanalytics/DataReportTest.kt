@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test
 
 
 @DisplayName("Given a Data Report")
-internal class DataReportTest : BaseTest(){
+internal class DataReportTest : BaseTest() {
 
     @DisplayName("When create")
     @Nested

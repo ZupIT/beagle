@@ -180,7 +180,8 @@ internal class ActionReportFactoryTest : BaseTest() {
         )
 
         private fun reportDataAction(
-            dataActionReport: DataActionReport) = ActionReportFactory.generateActionAnalyticsConfig(
+            dataActionReport: DataActionReport,
+        ) = ActionReportFactory.generateActionAnalyticsConfig(
             dataActionReport
         )
     }

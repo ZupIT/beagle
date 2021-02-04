@@ -45,9 +45,9 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     actions: List<Action>,
     context: ContextData? = null,
-    analyticsValue: String? = null
+    analyticsValue: String? = null,
 
-) {
+    ) {
     contextActionExecutor.executeActions(
         rootView,
         origin,
@@ -94,7 +94,7 @@ fun ServerDrivenComponent.handleEvent(
     origin: View,
     action: Action,
     context: ContextData? = null,
-    analyticsValue: String? = null
+    analyticsValue: String? = null,
 ) {
     contextActionExecutor.executeActions(
         rootView,
@@ -166,7 +166,7 @@ internal fun <T> internalObserveBindChanges(
 fun ServerDrivenComponent.toView(
     activity: AppCompatActivity,
     idView: Int = R.id.beagle_default_id,
-    screenIdentifier: String? = null
+    screenIdentifier: String? = null,
 ): View =
     this.toView(ActivityRootView(activity, idView, this.getServerDrivenIdentifier(screenIdentifier)))
 
@@ -178,13 +178,13 @@ fun ServerDrivenComponent.toView(
 fun ServerDrivenComponent.toView(
     fragment: Fragment,
     idView: Int = R.id.beagle_default_id,
-    screenIdentifier: String? = null
+    screenIdentifier: String? = null,
 ): View =
     this.toView(FragmentRootView(fragment, idView, this.getServerDrivenIdentifier(screenIdentifier)))
 
 internal fun ServerDrivenComponent.toView(
     rootView: RootView,
-    generateIdManager: GenerateIdManager = GenerateIdManager(rootView)
+    generateIdManager: GenerateIdManager = GenerateIdManager(rootView),
 ): View {
     generateIdManager.createSingleManagerByRootViewId()
     val view = viewFactory.makeBeagleFlexView(rootView).apply {

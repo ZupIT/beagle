@@ -78,7 +78,7 @@ internal typealias ResultListener = (result: FormResult) -> Unit
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType,
-    override var analytics: ActionAnalyticsConfig? = null
+    override var analytics: ActionAnalyticsConfig? = null,
 ) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
 
     @Transient
