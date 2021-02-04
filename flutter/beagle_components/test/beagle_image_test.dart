@@ -113,7 +113,6 @@ void main() {
     return null;
   }
 
-  // group('All tests', () {
   group('Given a BeagleImage with a LocalImagePath', () {
     final localImage = createLocalWidget();
 
@@ -334,5 +333,4 @@ void main() {
       });
     });
   });
-  // });
 }
