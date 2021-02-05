@@ -38,7 +38,7 @@ jobs:
             
       - name: Test with Rake
         run: |
-          cd schema-ruby-erb/model_generation && CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} CODECOV_SLUG=ZupIT/beagle rake test
+          cd schema-ruby-erb/model_generation && CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} CODECOV_FLAG=schema CODECOV_SLUG=ZupIT/beagle rake test
       
       - name: Upload coverage results
         uses: actions/upload-artifact@master
