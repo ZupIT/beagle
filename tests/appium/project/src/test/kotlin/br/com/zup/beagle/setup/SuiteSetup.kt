@@ -97,12 +97,6 @@ object SuiteSetup {
             val appPackage = "br.com.zup.beagle.appiumapp"
             val appActivity = ".activity.MainActivity"
 
-            println("############# BS user $browserstackUser")
-            println("############# BS key $browserstackKey")
-            println("############# APP FILE $appFile")
-            println("############# BFF URL $bffBaseUrl")
-            println("############# DEVICE NAME $deviceName")
-
             // when device is running at BrowserStack
             if (!browserstackUser.isNullOrBlank() && !browserstackKey.isNullOrBlank()) {
 
@@ -121,8 +115,7 @@ object SuiteSetup {
                 capabilities.setCapability("name", "Beagle Appium tests on Android")
                 capabilities.setCapability("browserstack.networkLogs", true)
 
-                println("#### Using BrowserStack ... ${capabilities.toString()}") // temp
-
+                println("#### Using BrowserStack ... ")
                 driver = AndroidDriver<AndroidElement>(URL("http://hub.browserstack.com/wd/hub"), capabilities)
 
 

@@ -82,7 +82,7 @@ jobs:
           NAMESPACE: ${{ secrets.AWS_CLUSTER_NAMESPACE }}
 
   appium_tests:
-    needs: bff_config_job
+    needs: bff_config_jobs
     name: Appium tests job
     runs-on: macos-latest
     env:

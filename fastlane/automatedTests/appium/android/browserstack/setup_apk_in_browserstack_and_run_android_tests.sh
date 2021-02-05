@@ -23,8 +23,6 @@ function checkVarEmpty(){
 	if [ -z "$temp_var" ]; then
 		echo "Error: environment var $2 is empty!"
 		exit 1
-	else
-	  echo "Environment var $2 is $temp_var"
 	fi
 }
 
