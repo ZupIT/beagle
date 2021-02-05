@@ -17,14 +17,17 @@
 import Foundation
 import UIKit
 
-func generateScreenRecord(
+func makeScreenRecord(
     screen: ScreenType,
     globalConfigIsEnabled: Bool?
-) -> AnalyticsRecord? {
+) -> AnalyticsService.Cache? {
     let isScreenDisabled = globalConfigIsEnabled == false
     if isScreenDisabled { return nil }
 
-    return AnalyticsRecord(type: .screen, screen: screenInfo(screen))
+    return .init(
+        record: AnalyticsRecord(type: .screen, screen: screenInfo(screen)),
+        dependsOnFutureGlobalConfig: globalConfigIsEnabled == nil
+    )
 }
 
 struct AnalyticsGenerator {
@@ -34,9 +37,9 @@ struct AnalyticsGenerator {
 
     // MARK: - Action
 
-    func createRecord() -> AnalyticsRecord? {
+    func makeRecord() -> AnalyticsService.Cache? {
         guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
-        guard let config = configForAction(named: name) else { return nil }
+        guard let values = enabledValuesForAction(named: name) else { return nil }
 
         let action = AnalyticsRecord.Action(
             beagleAction: name,
@@ -44,11 +47,13 @@ struct AnalyticsGenerator {
             component: componentInfo()
         )
 
-        return .init(
+        let record = AnalyticsRecord(
             type: .action(action),
             screen: screenInfo(info.controller.screenType),
-            values: attributesAndAdditionalEntries(config: config)
+            values: attributesAndAdditionalEntries(values: values)
         )
+
+        return .init(record: record, dependsOnFutureGlobalConfig: values.attributes == .all)
     }
 }
 
@@ -61,7 +66,7 @@ private extension AnalyticsGenerator {
             ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
     }
 
-    func configForAction(named: String) -> ActionConfig? {
+    func enabledValuesForAction(named: String) -> EnabledValues? {
         switch info.action.analytics {
         case .disabled:
             return nil
@@ -86,14 +91,14 @@ private extension AnalyticsGenerator {
         }
     }
 
-    struct ActionConfig {
+    struct EnabledValues {
         let attributes: ActionAttributes
         var additional = [String: DynamicObject]()
     }
 
-    func attributesAndAdditionalEntries(config: ActionConfig) -> [String: DynamicObject] {
-        info.action.getAttributes(config.attributes, contextProvider: info.origin)
-            .merging(config.additional) { _, new in new }
+    func attributesAndAdditionalEntries(values: EnabledValues) -> [String: DynamicObject] {
+        info.action.getAttributes(values.attributes, contextProvider: info.origin)
+            .merging(values.additional) { _, new in new }
     }
 
     func componentInfo() -> AnalyticsRecord.Action.Component {

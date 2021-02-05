@@ -76,6 +76,23 @@ class AnalyticsGeneratorTests: XCTestCase {
         """)
     }
 
+    func testShouldDependOnFutureGlobalConfig() {
+        // Given
+        nilGlobalConfig()
+        // And
+        actionWithConfig(nil)
+
+        // Then should depend on future global config
+        recordShouldBeEqualTo("""
+        {
+          "analytics" : null,
+          "dependsOnFutureGlobalConfig" : true,
+          "method" : "DELETE",
+          "path" : "PATH"
+        }
+        """)
+    }
+
     func testActionWithEnabledNil() {
         // Given
         emptyGlobalConfig()
@@ -130,24 +147,27 @@ class AnalyticsGeneratorTests: XCTestCase {
         try prepareComponentHierarchy()
 
         // When
-        let record = sut.createRecord()
+        let record = sut.makeRecord()
 
         // Then should have all default properties
         _assertInlineSnapshot(matching: record, as: .json, with: """
         {
-          "beagleAction" : "beagle:formremoteaction",
-          "component" : {
-            "id" : "test-component-id",
-            "position" : {
-              "x" : 0,
-              "y" : 0
+          "dependsOnFutureGlobalConfig" : false,
+          "record" : {
+            "beagleAction" : "beagle:formremoteaction",
+            "component" : {
+              "id" : "test-component-id",
+              "position" : {
+                "x" : 0,
+                "y" : 0
+              },
+              "type" : "custom:analyticstestcomponent"
             },
-            "type" : "custom:analyticstestcomponent"
-          },
-          "event" : "event",
-          "platform" : "ios",
-          "screen" : "analytics-actions",
-          "type" : "action"
+            "event" : "event",
+            "platform" : "ios",
+            "screen" : "analytics-actions",
+            "type" : "action"
+          }
         }
         """)
     }
@@ -199,20 +219,21 @@ class AnalyticsGeneratorTests: XCTestCase {
         line: UInt = #line
     ) {
         // When
-        let result = sut.createRecord()
-            .map(resultWithoutDefaultValues(_:))
+        let result = sut.makeRecord()
+            .flatMap(resultWithoutDefaultValues(_:))
 
         // Then
         _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)
     }
 
-    private func resultWithoutDefaultValues(_ result: AnalyticsRecord?) -> [String: DynamicObject]? {
-        var result = result?.toDictionary()
-        let defaultValues = ["beagleAction", "component", "event", "platform", "type"]
-        defaultValues.forEach {
-            result?.removeValue(forKey: $0)
+    private func resultWithoutDefaultValues(_ result: AnalyticsService.Cache) -> [String: DynamicObject]? {
+        var dict = result.record.values
+
+        if result.dependsOnFutureGlobalConfig {
+            dict["dependsOnFutureGlobalConfig"] = .bool(true)
         }
-        return result
+
+        return dict
     }
 
     private func prepareComponentHierarchy() throws {

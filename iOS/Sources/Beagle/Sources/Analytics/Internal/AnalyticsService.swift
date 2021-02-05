@@ -17,24 +17,24 @@
 import UIKit
 
 class AnalyticsService {
-    
+
     static var shared: AnalyticsService?
-    
+
     private let provider: AnalyticsProvider
-    
+
     init(provider: AnalyticsProvider) {
         self.provider = provider
     }
-    
+
     // MARK: - Create Events
-    
+
     func createRecord(screen: ScreenType) {
-        generateScreenRecord(
+        makeScreenRecord(
             screen: screen,
             globalConfigIsEnabled: provider.getConfig()?.enableScreenAnalytics
         )
         .map(
-            sendToQueue(record:)
+            sendToQueue(cache:)
         )
     }
 
@@ -44,9 +44,9 @@ class AnalyticsService {
             globalConfig: provider.getConfig()?.actions
         )
 
-        guard let record = generator.createRecord() else { return }
+        guard let record = generator.makeRecord() else { return }
 
-        sendToQueue(record: record)
+        sendToQueue(cache: record)
     }
 
     struct ActionInfo {
@@ -56,15 +56,20 @@ class AnalyticsService {
         let controller: BeagleControllerProtocol
     }
 
-    private func sendToQueue(record: AnalyticsRecord) {
+    private func sendToQueue(cache: Cache) {
         serialDispatch.async {
-            self.dispatchRecord(record)
+            self.dispatch(cache)
         }
     }
 
     // MARK: - Queue
 
-    private var queue = [AnalyticsRecord]()
+    private var queue = [Cache]()
+
+    struct Cache: Encodable {
+        let record: AnalyticsRecord
+        let dependsOnFutureGlobalConfig: Bool
+    }
 
     private(set) lazy var serialDispatch = DispatchQueue(
         label: "AnalyticsService serial queue for records",
@@ -72,18 +77,43 @@ class AnalyticsService {
     )
 
     /// this should only be called when inside `serialDispatch` to avoid data racing conditions
-    private func dispatchRecord(_ record: AnalyticsRecord) {
+    private func dispatch(_ cache: Cache) {
         let isFull = queue.count >= maxItemsInQueue()
         if isFull {
             queue.removeFirst()
         }
 
-        queue.append(record)
+        queue.append(cache)
 
-        let isProviderReadyToReceive = provider.getConfig() != nil
-        if isProviderReadyToReceive {
-            queue.forEach(provider.createRecord)
+        if let config = provider.getConfig() {
+            queue.forEach {
+                sendRecordToProvider($0, config: config)
+            }
             queue = []
+        }
+    }
+
+    private func sendRecordToProvider(_ cache: Cache, config: AnalyticsConfig) {
+        var record: AnalyticsRecord? = cache.record
+
+        if cache.dependsOnFutureGlobalConfig {
+            record = updateRecord(cache.record, newConfig: config)
+        }
+
+        record.map(provider.createRecord(_:))
+    }
+
+    private func updateRecord(_ record: AnalyticsRecord, newConfig: AnalyticsConfig) -> AnalyticsRecord? {
+        var new = record
+
+        switch new.type {
+        case .screen:
+            return newConfig.enableScreenAnalytics ? new : nil
+
+        case .action(let action):
+            guard let attributes = newConfig.actions[action.beagleAction] else { return nil }
+            new.values = new.values.getSomeAttributes(attributes, contextProvider: nil)
+            return new
         }
     }
 

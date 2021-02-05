@@ -91,36 +91,29 @@ class AnalyticsServiceTests: XCTestCase {
     }
 
     func testFirstWithoutConfigAndThenWithDisabledConfig() {
-        let action = FormRemoteAction(
-            path: "PATH",
-            method: .delete
-        )
-
         provider.config = nil
 
-        sut.createRecord(action: .init(action: action, event: nil, origin: ViewDummy(), controller: BeagleScreenViewController(ComponentDummy())) )
+        sut.createRecord(screen: remoteScreen)
 
-        provider.config = .init(actions: [:])
+        provider.config = .init(enableScreenAnalytics: false)
 
         sut.createRecord(screen: remoteScreen)
 
         waitRecords()
-        _assertInlineSnapshot(matching: provider.records.first, as: .json, with: """
-        {
-          "analytics" : null,
-          "beagleAction" : "beagle:formremoteaction",
-          "component" : {
-            "position" : {
-              "x" : 0,
-              "y" : 0
-            }
-          },
-          "method" : "DELETE",
-          "path" : "PATH",
-          "platform" : "ios",
-          "type" : "action"
-        }
-        """)
+        XCTAssertEqual(provider.records.count, 0)
+    }
+
+    func testFirstWithoutConfigAndThenWithEnabledConfig() {
+        provider.config = nil
+
+        sut.createRecord(screen: remoteScreen)
+
+        provider.config = .init(enableScreenAnalytics: true)
+
+        sut.createRecord(screen: remoteScreen)
+
+        waitRecords()
+        XCTAssertEqual(provider.records.count, 2)
     }
 
     func testFirstWithoutConfigAndThenWithAttributes() {
@@ -133,25 +126,14 @@ class AnalyticsServiceTests: XCTestCase {
 
         sut.createRecord(action: .init(action: action, event: nil, origin: ViewDummy(), controller: BeagleScreenViewController(ComponentDummy())) )
 
-        provider.config = .init(actions: ["beagle:formRemoteAction": ["path"]])
+        provider.config = .init(actions: ["beagle:formremoteaction": ["path"]])
 
         sut.createRecord(screen: remoteScreen)
 
         waitRecords()
-        _assertInlineSnapshot(matching: provider.records.first, as: .json, with: """
+        _assertInlineSnapshot(matching: provider.records.first?.values, as: .json, with: """
         {
-          "analytics" : null,
-          "beagleAction" : "beagle:formremoteaction",
-          "component" : {
-            "position" : {
-              "x" : 0,
-              "y" : 0
-            }
-          },
-          "method" : "DELETE",
-          "path" : "PATH",
-          "platform" : "ios",
-          "type" : "action"
+          "path" : "PATH"
         }
         """)
     }
@@ -207,7 +189,7 @@ class AnalyticsServiceTests: XCTestCase {
 
 class AnalyticsProviderStub: AnalyticsProvider {
     
-    private (set) var records = [AnalyticsRecord]()
+    var records = [AnalyticsRecord]()
     
     var maximumItemsInQueue: Int?
 

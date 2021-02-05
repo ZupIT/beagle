@@ -17,7 +17,7 @@
 import Foundation
 import UIKit
 
-internal enum ActionAttributes {
+internal enum ActionAttributes: Equatable {
     case all
     case some([String])
 }
