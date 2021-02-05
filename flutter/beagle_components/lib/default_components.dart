@@ -27,6 +27,7 @@ import 'package:beagle_components/beagle_page_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
+import 'package:beagle_components/beagle_touchable.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -41,6 +42,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:pageview': beaglePageViewBuilder(),
   'beagle:image': beagleImageBuilder(),
   'beagle:pageIndicator': beaglePageIndicatorBuilder(),
+  'beagle:touchable': beagleTouchableBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -154,5 +156,13 @@ ComponentBuilder beaglePageIndicatorBuilder() {
         unselectedColor: element.getAttributeValue('unselectedColor'),
         numberOfPages: element.getAttributeValue('numberOfPages'),
         currentPage: element.getAttributeValue('currentPage'),
+      );
+}
+
+ComponentBuilder beagleTouchableBuilder() {
+  return (element, children, __) => BeagleTouchable(
+        key: element.getKey(),
+        onPress: element.getAttributeValue('onPress'),
+        child: children[0],
       );
 }

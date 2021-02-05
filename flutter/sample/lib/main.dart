@@ -25,7 +25,7 @@ import 'package:sample/beagle_sample_screen.dart';
 import 'package:sample/design_system.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/84af7623f20411c90bbbfd2ca07ed2fa616d0341';
+    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/b000186cfa79ad1ed450bda48da5f6ed9077942c';
 
 void main() {
   runApp(const MaterialApp(home: BeagleSampleApp()));
@@ -42,6 +42,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
   static final _appBarMenuOptions = [
     MenuOption(title: 'Tab Bar', route: '/beagle_tab_bar'),
     MenuOption(title: 'Page View', route: '/beagle_pageview'),
+    MenuOption(title: 'Touchable', route: '/beagle_touchable'),
   ];
 
   bool isBeagleReady = false;
