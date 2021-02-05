@@ -21,6 +21,7 @@ on:
   push:
     branches:
       - master
+      - feature/appium_scripts
     paths:
       - 'android/**'
       - 'backend/**'
@@ -29,8 +30,9 @@ on:
       - '.github/**'
       - 'fastlane/automatedTests/appium/**'
   pull_request_target:
-#    branches:
-#      - master
+    branches:
+      - master
+      - feature/appium_scripts
     paths:
       - 'android/**'
       - 'backend/**'
