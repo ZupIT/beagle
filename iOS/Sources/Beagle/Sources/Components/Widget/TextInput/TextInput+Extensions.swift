@@ -71,6 +71,9 @@ extension TextInput: ServerDrivenComponent {
         var showError: Bool = false {
             didSet {
                 validationLabel.isHidden = !showError
+                if let errorMessage = errorMessage, !errorMessage.isEmpty {
+                    layer.borderColor = validationLabel.isHidden ? UIColor.red.cgColor : UIColor.gray.cgColor
+                }
             }
         }
         var inputType: TextInputType? {
@@ -80,17 +83,14 @@ extension TextInput: ServerDrivenComponent {
         }
         var errorMessage: String? {
             didSet {
-                if let errorMessage = errorMessage {
-                    validationLabel.text = errorMessage
-                    layer.borderColor = errorMessage.isEmpty ? UIColor.gray.cgColor : UIColor.red.cgColor
-                }
+                validationLabel.text = errorMessage
             }
         }
         
         var observable = Observable<WidgetState>(value: WidgetState(value: text))
         weak var controller: BeagleController?
         
-        lazy var validationLabel: UILabel = {
+        private lazy var validationLabel: UILabel = {
             let label = UILabel()
             label.textColor = .red
             label.font = .systemFont(ofSize: 15)
@@ -111,7 +111,6 @@ extension TextInput: ServerDrivenComponent {
             self.controller = controller
             super.init(frame: .zero)
             setupValidationLabel()
-            borderStyle = .roundedRect
             self.delegate = self
         }
         

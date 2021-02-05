@@ -41,7 +41,6 @@ struct SimpleFormScreen: DeeplinkScreen {
         }
     }()
 
-    
     static var declarativeScreen: Screen {
         return Screen(navigationBar: NavigationBar(title: "Simple Form", showBackButton: true)) {
             Container {
@@ -118,7 +117,7 @@ struct SimpleFormValidationText: DeeplinkScreen {
                     "password":"",
                     "passwordConfirmation":""
                   },
-                  "showFormErrors": true,
+                  "showFormErrors": false,
                   "showError": {
                     "username": false,
                     "password": false,

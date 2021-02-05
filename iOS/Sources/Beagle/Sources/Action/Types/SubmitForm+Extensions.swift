@@ -23,6 +23,8 @@ extension SubmitForm {
             if let simpleForm = view?.beagleFormElement as? SimpleForm {
                 if verifyFormValidation(from: view) {
                     controller.execute(actions: simpleForm.onSubmit, event: "onSubmit", origin: origin)
+                } else {
+                    controller.execute(actions: simpleForm.onValidationError, event: "onValidationError", origin: origin)
                 }
                 break
             }
