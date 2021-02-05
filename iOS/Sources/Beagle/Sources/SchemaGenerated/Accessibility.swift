@@ -25,13 +25,18 @@ public struct Accessibility: Decodable, Equatable {
     /// By enabling this, the VoiceOver will read this if a user selects this view,
     /// them he will now where he is on the app.
     public var accessibilityLabel: String?
+    /// that will inform when the view is heading for a section of content.
+    /// By default is kept as false.
+    public var isHeader: Bool?
 
     public init(
         accessible: Bool = true,
-        accessibilityLabel: String? = nil
+        accessibilityLabel: String? = nil,
+        isHeader: Bool? = false
     ) {
         self.accessible = accessible
         self.accessibilityLabel = accessibilityLabel
+        self.isHeader = isHeader
     }
 
 }

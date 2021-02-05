@@ -529,6 +529,7 @@
 		93BFE32D24A1387C009838CE /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		93BFE32E24A13F34009838CE /* DynamicObjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicObjectTests.swift; sourceTree = "<group>"; };
 		93C69F2A24A4D84D00818305 /* UIView+ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ContextTests.swift"; sourceTree = "<group>"; };
+		93CB96DE25CC67F100CD326F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		93D1C6BB24D06D6500351347 /* SendRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestTests.swift; sourceTree = "<group>"; };
 		93D1C6BD24D0A3FB00351347 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutWrapper.swift; sourceTree = "<group>"; };
@@ -1160,6 +1161,7 @@
 		9398CAF825557B7A0003A010 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				93CB96DE25CC67F100CD326F /* __Snapshots__ */,
 				9398CAF925557B930003A010 /* JSON */,
 				9398CAFC25557BAD0003A010 /* WidgetTests.swift */,
 			);
