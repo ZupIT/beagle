@@ -73,7 +73,7 @@ class _BeagleImageState extends State<BeagleImage> {
         imageBytes = bytes;
       });
     } catch (e) {
-      widget.logger.errorWithException(e.toString(), e);
+      widget.logger?.errorWithException(e.toString(), e);
     }
   }
 
