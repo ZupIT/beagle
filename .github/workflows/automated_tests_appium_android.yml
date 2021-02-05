@@ -83,7 +83,7 @@ jobs:
 
   appium_tests:
     needs: bff_config_job
-    name: Appium tests job
+    name: Tests job
     runs-on: macos-latest
     env:
       BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
