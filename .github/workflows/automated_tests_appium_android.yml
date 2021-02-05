@@ -28,7 +28,7 @@ on:
       - 'test/appium/project/**'
       - '.github/**'
       - 'fastlane/automatedTests/appium/**'
-  pull_request_target:
+  pull_request:
     branches:
       - master
     paths:
