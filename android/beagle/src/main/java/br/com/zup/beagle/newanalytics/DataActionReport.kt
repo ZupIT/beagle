@@ -92,7 +92,5 @@ internal data class DataActionReport(
         }
     }
 
-    private fun shouldReport(): Boolean {
-        return !(action.analytics == null && attributes.size == 0)
-    }
+    private fun shouldReport() = action.analytics != null && attributes.size > 0
 }
