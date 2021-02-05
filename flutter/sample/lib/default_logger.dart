@@ -15,7 +15,6 @@
  */
 
 import 'dart:developer' as developer;
-import 'package:logging/logging.dart';
 
 import 'package:beagle/logger/beagle_logger.dart';
 
@@ -48,4 +47,21 @@ class AppLogger implements BeagleLogger {
   void warning(String message) {
     developer.log(message, level: Level.WARNING.value);
   }
+}
+
+/// [Level]s to control logging output.
+class Level {
+  const Level(this.name, this.value);
+
+  final String name;
+  final int value;
+
+  /// Key for informational messages ([value] = 800).
+  static const Level INFO = Level('INFO', 800);
+
+  /// Key for potential problems ([value] = 900).
+  static const Level WARNING = Level('WARNING', 900);
+
+  /// Key for serious failures ([value] = 1000).
+  static const Level SEVERE = Level('SEVERE', 1000);
 }
