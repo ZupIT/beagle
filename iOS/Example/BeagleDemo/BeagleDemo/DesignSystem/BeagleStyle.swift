@@ -54,7 +54,9 @@ struct AppTheme {
     static func designSystemTextInput() -> (UITextField?) -> Void {
         return {
             $0?.textColor = .black
-            $0?.font = .boldSystemFont(ofSize: 30)
+            $0?.layer.borderColor = UIColor.gray.cgColor
+            $0?.borderStyle = .roundedRect
+//            $0?.font = .boldSystemFont(ofSize: 30)
         }
     }
     

@@ -69,6 +69,7 @@ class BeagleConfig {
         deepLink[.imageEndpoint] = ImageScreen.self
         deepLink[.globalContextEndpoint] = GlobalContexScreen.self
         deepLink[.beagleView] = BeagleViewScreen.self
+        deepLink[.simpleFormValidationEndpoint] = SimpleFormValidationText.self
         return deepLink
     }
 

@@ -51,6 +51,16 @@ extension TextInput: ServerDrivenComponent {
                 view.isHidden = isHidden
             }
         }
+        renderer.observe(error, andUpdateManyIn: view) { errorMessage in
+            if let errorMessage = errorMessage {
+                view.errorMessage = errorMessage
+            }
+        }
+        renderer.observe(showError, andUpdateManyIn: view) { showError in
+            if let showError = showError {
+                view.showError = showError
+            }
+        }
     }
     
     class TextInputView: UITextField, UITextFieldDelegate, InputValue, WidgetStateObservable, ValidationErrorListener {
@@ -58,13 +68,36 @@ extension TextInput: ServerDrivenComponent {
         var onChange: [Action]?
         var onBlur: [Action]?
         var onFocus: [Action]?
+        var showError: Bool = false {
+            didSet {
+                validationLabel.isHidden = !showError
+            }
+        }
         var inputType: TextInputType? {
             didSet {
                 setupType()
             }
         }
+        var errorMessage: String? {
+            didSet {
+                if let errorMessage = errorMessage {
+                    validationLabel.text = errorMessage
+                    layer.borderColor = errorMessage.isEmpty ? UIColor.gray.cgColor : UIColor.red.cgColor
+                }
+            }
+        }
+        
         var observable = Observable<WidgetState>(value: WidgetState(value: text))
         weak var controller: BeagleController?
+        
+        lazy var validationLabel: UILabel = {
+            let label = UILabel()
+            label.textColor = .red
+            label.font = .systemFont(ofSize: 15)
+            label.numberOfLines = 0
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
         
         init(
             onChange: [Action]? =  nil,
@@ -77,6 +110,8 @@ extension TextInput: ServerDrivenComponent {
             self.onFocus = onFocus
             self.controller = controller
             super.init(frame: .zero)
+            setupValidationLabel()
+            borderStyle = .roundedRect
             self.delegate = self
         }
         
@@ -144,6 +179,15 @@ private extension TextInput.TextInputView {
             isSecureTextEntry = true
         case .text:
             keyboardType = .default
+        }
+    }
+    
+    func setupValidationLabel() {
+        if !showError {
+            addSubview(validationLabel)
+            validationLabel.anchor(top: bottomAnchor, left: leftAnchor, right: rightAnchor, topConstant: 1)
+            layer.borderWidth = 0.5
+            layer.cornerRadius = 5
         }
     }
     
