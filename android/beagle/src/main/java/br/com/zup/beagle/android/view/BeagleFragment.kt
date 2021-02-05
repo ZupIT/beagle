@@ -65,7 +65,7 @@ internal class BeagleFragment : Fragment() {
             json: String,
             isLocalScreen: Boolean? = null,
             screenIdentifier: String? = null,
-        ): BeagleFragment = BeagleFragment().apply {
+        ) = BeagleFragment().apply {
             val bundle = Bundle()
             bundle.putString(JSON_SCREEN_KEY, json)
             isLocalScreen?.let {
