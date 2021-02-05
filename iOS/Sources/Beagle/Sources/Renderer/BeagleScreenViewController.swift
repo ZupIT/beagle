@@ -224,11 +224,13 @@ public class BeagleScreenViewController: BeagleController {
             renderScreenIfNeeded(state: serverDrivenState)
         case .success:
             serverDrivenState = .success
+            renderScreenIfNeeded(state: serverDrivenState)
             serverDrivenState = .finished
             renderScreenIfNeeded(state: serverDrivenState)
         case .failure(let error):
-            serverDrivenState = .finished
             serverDrivenState = .error(error, viewModel.loadScreen)
+            renderScreenIfNeeded(state: serverDrivenState)
+            serverDrivenState = .finished
             renderScreenIfNeeded(state: serverDrivenState)
         }
     }
