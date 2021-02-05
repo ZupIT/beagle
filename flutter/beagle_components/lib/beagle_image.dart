@@ -18,7 +18,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:beagle/interface/beagle_image_downloader.dart';
-import 'package:beagle/logger/beagle_logger_proxy.dart';
+import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -38,7 +38,7 @@ class BeagleImage extends StatefulWidget {
 
   final DesignSystem designSystem;
   final BeagleImageDownloader imageDownloader;
-  final BeagleLoggerProxy logger;
+  final BeagleLogger logger;
 
   @override
   _BeagleImageState createState() => _BeagleImageState();

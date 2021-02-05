@@ -25,7 +25,6 @@ import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
-import 'package:beagle/logger/beagle_logger_proxy.dart';
 import 'package:beagle/model/network_strategy.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 
@@ -34,7 +33,7 @@ class BeagleInitializer {
   static BeagleService _service;
   static DesignSystem _designSystem;
   static BeagleImageDownloader _imageDownloader;
-  static BeagleLoggerProxy _loggerProxy;
+  static BeagleLogger _logger;
 
   /// Starts the BeagleService. Only a single instance of this service is allowed.
   /// The parameters are all the attributes of the class BeagleService. Please check its
@@ -56,7 +55,7 @@ class BeagleInitializer {
     _imageDownloader = imageDownloader ??
         DefaultBeagleImageDownloader(
             httpClient: httpClient ?? const DefaultHttpClient());
-    _loggerProxy = BeagleLoggerProxy(logger: logger);
+    _logger = logger;
     _service = BeagleServiceJS(
       baseUrl: baseUrl,
       httpClient: httpClient ?? const DefaultHttpClient(),
@@ -80,5 +79,5 @@ class BeagleInitializer {
 
   static BeagleImageDownloader get imageDownloader => _imageDownloader;
 
-  static BeagleLoggerProxy get logger => _loggerProxy;
+  static BeagleLogger get logger => _logger;
 }
