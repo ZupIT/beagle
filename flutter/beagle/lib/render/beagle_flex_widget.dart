@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_style.dart' as beagle;
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/render/beagle_layout.dart';
 import 'package:beagle/render/beagle_style_widget.dart';
 import 'package:flutter/rendering.dart';
@@ -45,6 +45,7 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
           flexDirection: flex?.flexDirection,
           flexWrap: flex?.flexWrap,
         ),
+        _textBaseline = TextBaseline.alphabetic,
         _alignment = _getAlignment(
           justifyContent: flex?.justifyContent,
         ),
@@ -53,12 +54,13 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
         ),
         super(key: key, children: _mapChildren(children));
 
-  final beagle.Flex flex;
+  final BeagleFlex flex;
 
   // shared properties
   final Axis _direction;
   final TextDirection _textDirection;
   final VerticalDirection _verticalDirection;
+  final TextBaseline _textBaseline;
 
   // flex exclusive properties
   final MainAxisSize _mainAxisSize;
@@ -73,11 +75,15 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
     final list = children;
     return list.map((child) {
       if (child is BeagleStyleWidget && child.style?.flex != null) {
-        if (child.style.flex.grow > 0) {
-          return BeagleExpanded(child: child);
-        } else {
-          return BeagleFlexible(child: child);
-        }
+        return BeagleFlexible(
+          grow: child.style.flex.grow,
+          shrink: child.style.flex.shrink,
+          alignSelf: child.style.flex.alignSelf,
+          positionType: child.style.positionType,
+          margin: child.style.margin,
+          hasSize: child.style.size != null,
+          child: child,
+        );
       } else {
         return child;
       }
@@ -93,6 +99,7 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
         alignment: _alignment,
         runAlignment: _runAlignment,
         textDirection: _getEffectiveTextDirection(context),
+        textBaseline: _textBaseline,
         verticalDirection: _verticalDirection,
         flexWrap: flex?.flexWrap,
       );
@@ -110,67 +117,65 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
       ..alignment = _alignment
       ..runAlignment = _runAlignment
       ..textDirection = _getEffectiveTextDirection(context)
+      ..textBaseline = _textBaseline
       ..verticalDirection = _verticalDirection;
   }
 
-  static Axis _getDirection({beagle.FlexDirection flexDirection}) =>
-      (flexDirection == beagle.FlexDirection.ROW ||
-              flexDirection == beagle.FlexDirection.ROW_REVERSE)
+  static Axis _getDirection({FlexDirection flexDirection}) =>
+      (flexDirection == FlexDirection.ROW ||
+              flexDirection == FlexDirection.ROW_REVERSE)
           ? Axis.horizontal
           : Axis.vertical;
 
-  static MainAxisSize _getMainAxisSize({beagle.FlexDirection flexDirection}) =>
-      (flexDirection == beagle.FlexDirection.ROW ||
-              flexDirection == beagle.FlexDirection.ROW_REVERSE)
+  static MainAxisSize _getMainAxisSize({FlexDirection flexDirection}) =>
+      (flexDirection == FlexDirection.ROW ||
+              flexDirection == FlexDirection.ROW_REVERSE)
           ? MainAxisSize.max
           : MainAxisSize.min;
 
   static MainAxisAlignment _getMainAxisAlignment(
-      {beagle.JustifyContent justifyContent}) {
+      {JustifyContent justifyContent}) {
     switch (justifyContent) {
-      case beagle.JustifyContent.FLEX_START:
+      case JustifyContent.FLEX_START:
         return MainAxisAlignment.start;
-      case beagle.JustifyContent.CENTER:
+      case JustifyContent.CENTER:
         return MainAxisAlignment.center;
-      case beagle.JustifyContent.FLEX_END:
+      case JustifyContent.FLEX_END:
         return MainAxisAlignment.end;
-      case beagle.JustifyContent.SPACE_BETWEEN:
+      case JustifyContent.SPACE_BETWEEN:
         return MainAxisAlignment.spaceBetween;
-      case beagle.JustifyContent.SPACE_AROUND:
+      case JustifyContent.SPACE_AROUND:
         return MainAxisAlignment.spaceAround;
-      case beagle.JustifyContent.SPACE_EVENLY:
+      case JustifyContent.SPACE_EVENLY:
         return MainAxisAlignment.spaceEvenly;
     }
     return MainAxisAlignment.start;
   }
 
   static CrossAxisAlignment _getCrossAxisAlignment({
-    beagle.FlexDirection flexDirection,
-    beagle.AlignItems alignItems,
+    FlexDirection flexDirection,
+    AlignItems alignItems,
   }) {
     switch (alignItems) {
-      case beagle.AlignItems.FLEX_START:
+      case AlignItems.FLEX_START:
         return CrossAxisAlignment.start;
-      case beagle.AlignItems.CENTER:
+      case AlignItems.CENTER:
         return CrossAxisAlignment.center;
-      case beagle.AlignItems.FLEX_END:
+      case AlignItems.FLEX_END:
         return CrossAxisAlignment.end;
-      case beagle.AlignItems.BASELINE:
+      case AlignItems.BASELINE:
         return CrossAxisAlignment.baseline;
-      case beagle.AlignItems.STRETCH:
+      case AlignItems.STRETCH:
         return CrossAxisAlignment.stretch;
     }
-    return (flexDirection == beagle.FlexDirection.ROW ||
-            flexDirection == beagle.FlexDirection.ROW_REVERSE)
+    return (flexDirection == FlexDirection.ROW ||
+            flexDirection == FlexDirection.ROW_REVERSE)
         ? CrossAxisAlignment.start
         : CrossAxisAlignment.stretch;
   }
 
-  static TextDirection _getTextDirection(
-          {beagle.FlexDirection flexDirection}) =>
-      flexDirection == beagle.FlexDirection.ROW_REVERSE
-          ? TextDirection.rtl
-          : null;
+  static TextDirection _getTextDirection({FlexDirection flexDirection}) =>
+      flexDirection == FlexDirection.ROW_REVERSE ? TextDirection.rtl : null;
 
   TextDirection _getEffectiveTextDirection(BuildContext context) {
     return _textDirection ??
@@ -189,43 +194,43 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
   }
 
   static VerticalDirection _getVerticalDirection(
-          {beagle.FlexDirection flexDirection, beagle.FlexWrap flexWrap}) =>
-      (flexDirection == beagle.FlexDirection.COLUMN_REVERSE ||
-              flexWrap == beagle.FlexWrap.WRAP_REVERSE)
+          {FlexDirection flexDirection, FlexWrap flexWrap}) =>
+      (flexDirection == FlexDirection.COLUMN_REVERSE ||
+              flexWrap == FlexWrap.WRAP_REVERSE)
           ? VerticalDirection.up
           : VerticalDirection.down;
 
-  static WrapAlignment _getAlignment({beagle.JustifyContent justifyContent}) {
+  static WrapAlignment _getAlignment({JustifyContent justifyContent}) {
     switch (justifyContent) {
-      case beagle.JustifyContent.FLEX_START:
+      case JustifyContent.FLEX_START:
         return WrapAlignment.start;
-      case beagle.JustifyContent.CENTER:
+      case JustifyContent.CENTER:
         return WrapAlignment.center;
-      case beagle.JustifyContent.FLEX_END:
+      case JustifyContent.FLEX_END:
         return WrapAlignment.end;
-      case beagle.JustifyContent.SPACE_BETWEEN:
+      case JustifyContent.SPACE_BETWEEN:
         return WrapAlignment.spaceBetween;
-      case beagle.JustifyContent.SPACE_AROUND:
+      case JustifyContent.SPACE_AROUND:
         return WrapAlignment.spaceAround;
-      case beagle.JustifyContent.SPACE_EVENLY:
+      case JustifyContent.SPACE_EVENLY:
         return WrapAlignment.spaceEvenly;
     }
     return WrapAlignment.start;
   }
 
-  static WrapAlignment _getRunAlignment({beagle.AlignContent alignContent}) {
+  static WrapAlignment _getRunAlignment({AlignContent alignContent}) {
     switch (alignContent) {
-      case beagle.AlignContent.FLEX_START:
+      case AlignContent.FLEX_START:
         return WrapAlignment.start;
-      case beagle.AlignContent.CENTER:
+      case AlignContent.CENTER:
         return WrapAlignment.center;
-      case beagle.AlignContent.FLEX_END:
+      case AlignContent.FLEX_END:
         return WrapAlignment.end;
-      case beagle.AlignContent.SPACE_BETWEEN:
+      case AlignContent.SPACE_BETWEEN:
         return WrapAlignment.spaceBetween;
-      case beagle.AlignContent.SPACE_AROUND:
+      case AlignContent.SPACE_AROUND:
         return WrapAlignment.spaceAround;
-      case beagle.AlignContent.STRETCH:
+      case AlignContent.STRETCH:
         //todo implement stretch attribute
         return WrapAlignment.spaceEvenly;
     }

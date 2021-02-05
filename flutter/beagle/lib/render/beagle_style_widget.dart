@@ -15,7 +15,7 @@
  */
 
 import 'package:beagle/model/beagle_style.dart';
-import 'package:beagle/render/beagle_layout.dart';
+import 'package:beagle/render/layout_builder.dart' as beagle;
 import 'package:beagle/utils/color.dart';
 import 'package:flutter/widgets.dart';
 
@@ -59,12 +59,12 @@ class BeagleStyleWidget extends StatelessWidget {
   bool _isAbsolute(BeagleStyle style) =>
       style.positionType == FlexPosition.ABSOLUTE;
 
-  LayoutBuilder _buildLayoutBuilder(
+  beagle.LayoutBuilder _buildLayoutBuilder(
     BeagleStyle style, {
     Widget child,
     List<Widget> children,
   }) {
-    return LayoutBuilder(
+    return beagle.LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       return _buildCurrent(
         style,
@@ -117,13 +117,6 @@ class BeagleStyleWidget extends StatelessWidget {
       );
     }
 
-    if (style.margin != null) {
-      current = Padding(
-        padding: _mapEdgeValue(style.margin, constraints.maxWidth),
-        child: current,
-      );
-    }
-
     if (_hasPosition(style)) {
       current = Padding(
         padding: EdgeInsets.fromLTRB(
@@ -150,7 +143,7 @@ class BeagleStyleWidget extends StatelessWidget {
 
   bool _hasPosition(BeagleStyle style) => style.position != null;
 
-  Padding _buildPadding(BeagleStyle style, LayoutBuilder builder) => Padding(
+  Padding _buildPadding(BeagleStyle style, beagle.LayoutBuilder builder) => Padding(
         padding: EdgeInsets.fromLTRB(
           _getLeft(style.position, nullable: true),
           _getTop(style.position, nullable: true),

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_style.dart' as beagle;
+import 'package:beagle/model/beagle_style.dart';
 import 'package:flutter/widgets.dart';
 
-Alignment getAlignment(EdgeInsets padding, [beagle.Flex flex]) {
+Alignment getAlignment(EdgeInsets padding, [BeagleFlex flex]) {
   final left = padding.left;
   final top = padding.top;
   final right = padding.right;
@@ -26,8 +26,8 @@ Alignment getAlignment(EdgeInsets padding, [beagle.Flex flex]) {
   var alignment = Alignment.topLeft;
 
   switch (flex?.flexDirection) {
-    case beagle.FlexDirection.COLUMN:
-    case beagle.FlexDirection.ROW:
+    case FlexDirection.COLUMN:
+    case FlexDirection.ROW:
       if (left != null && bottom != null) {
         alignment = Alignment.bottomLeft;
       } else if (top != null && right != null) {
@@ -42,7 +42,7 @@ Alignment getAlignment(EdgeInsets padding, [beagle.Flex flex]) {
         alignment = Alignment.bottomLeft;
       }
       break;
-    case beagle.FlexDirection.COLUMN_REVERSE:
+    case FlexDirection.COLUMN_REVERSE:
       alignment = Alignment.bottomLeft;
       if (left != null && top != null) {
         alignment = Alignment.topLeft;
@@ -58,7 +58,7 @@ Alignment getAlignment(EdgeInsets padding, [beagle.Flex flex]) {
         alignment = Alignment.bottomRight;
       }
       break;
-    case beagle.FlexDirection.ROW_REVERSE:
+    case FlexDirection.ROW_REVERSE:
       alignment = Alignment.topRight;
       if (right != null && bottom != null) {
         alignment = Alignment.bottomRight;
