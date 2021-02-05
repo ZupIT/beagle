@@ -43,7 +43,7 @@ on: workflow_dispatch
 
 jobs:
   appium_tests:
-    name: Steps
+    name: Tests job
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
