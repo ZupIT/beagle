@@ -43,7 +43,7 @@ on:
 
 jobs:
   appium_tests:
-    name: Tests job
+    name: Trigger job
     runs-on: macos-latest
     steps:
       - name: Start mobile tests

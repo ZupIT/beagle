@@ -19,8 +19,9 @@ name: Beagle Appium Android Tests
 on:
   workflow_run:
     workflows: ["Beagle Appium Tests"] #automated_tests_appium_mobile.yml
+    branches: master
     types:
-      - requested
+      - completed
 #on: workflow_dispatch
 #on:
 #  push:
