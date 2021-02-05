@@ -71,9 +71,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         // Then should create a record with all attributes
         recordShouldBeEqualTo("""
         {
-          "analytics" : null,
-          "method" : "DELETE",
-          "path" : "PATH"
+          "method" : "DELETE"
         }
         """)
     }
@@ -101,7 +99,7 @@ class AnalyticsGeneratorTests: XCTestCase {
         // Then should use global config
         recordShouldBeEqualTo("""
         {
-          "path" : "PATH"
+        
         }
         """)
     }

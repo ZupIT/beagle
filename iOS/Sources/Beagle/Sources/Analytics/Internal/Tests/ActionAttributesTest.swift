@@ -64,7 +64,7 @@ class ActionAttributesTest: XCTestCase {
             attributes = config.attributes ?? []
         }
 
-        let result = action.getSomeAttributes(.some(attributes), contextProvider: view)
+        let result = action.getAttributes(.some(attributes), contextProvider: view)
         return (result, fromJson)
     }
 }

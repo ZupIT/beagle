@@ -62,23 +62,27 @@ private extension AnalyticsGenerator {
     }
 
     func configForAction(named: String) -> ActionConfig? {
-        guard let global = globalConfig else {
-            // we need to store all attributes until globalConfig gets set
-            return .init(attributes: .all)
-        }
-
-        let attributes = global[named] ?? []
-
         switch info.action.analytics {
         case .disabled:
             return nil
-        case .enabled(nil), nil:
-            return .init(attributes: .some(attributes))
+
+        case .enabled(nil):
+            return .init(attributes: .some([]))
+
         case .enabled(let analytics?):
             return .init(
-                attributes: .some(analytics.attributes ?? [] + attributes),
+                attributes: .some(analytics.attributes ?? []),
                 additional: analytics.additionalEntries ?? [:]
             )
+
+        case nil:
+            if let global = globalConfig {
+                return global[named].flatMap {
+                    .init(attributes: .some($0))
+                }
+            } else {
+                return .init(attributes: .all)
+            }
         }
     }
 
@@ -88,7 +92,7 @@ private extension AnalyticsGenerator {
     }
 
     func attributesAndAdditionalEntries(config: ActionConfig) -> [String: DynamicObject] {
-        info.action.getSomeAttributes(config.attributes, contextProvider: info.origin)
+        info.action.getAttributes(config.attributes, contextProvider: info.origin)
             .merging(config.additional) { _, new in new }
     }
 
