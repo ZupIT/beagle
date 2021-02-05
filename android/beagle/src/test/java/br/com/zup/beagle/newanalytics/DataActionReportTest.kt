@@ -118,6 +118,22 @@ internal class DataActionReportTest : BaseTest() {
 
         @Test
         @DisplayName("Then should call ActionReportFactory.GenerateActionAnalyticsConfig")
+        fun testReportActionWithoutAttributesOnAnalyticsAndConfigShouldCallGenerateActionAnalyticsConfigWithEmptyAttributesOnDataActionReport() {
+            //Given
+            val analyticsConfig: AnalyticsConfig = mockk()
+            action.analytics = ActionAnalyticsConfig.Enabled()
+            every { analyticsConfig.actions } returns null
+
+            //When
+            dataActionReport.report(analyticsConfig)
+
+            //then
+            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            assertEquals(0, dataActionReport.attributes.size)
+        }
+
+        @Test
+        @DisplayName("Then should call ActionReportFactory.GenerateActionAnalyticsConfig")
         fun testReportAttributesOnActionAndConfigShouldPrevailAnalyticsFromAction() {
             //Given
             val attributesHashMap = hashMapOf<String, Any>(
