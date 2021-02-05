@@ -55,7 +55,7 @@ object ButtonScreenBuilder {
                         image = ImagePath.Local.justMobile("informationImage"),
                         action = Alert(
                             title = "Button",
-                            message = "This is a widget that will define a button natively using the server " +
+                            message = "This is a a widget that will define a button natively using the server " +
                                 "driven information received through Beagle.",
                             labelOk = "OK"
                         )
