@@ -19,22 +19,20 @@ import Foundation
 public struct AnalyticsRecord {
 
     public let platform = "ios"
+    public let screen: String?
     public var values: [String: DynamicObject]
 
     public let type: RecordType
 
     public enum RecordType {
-        case screen(Screen)
+        case screen
         case action(Action)
     }
     
-    public init(type: RecordType, values: [String: DynamicObject] = [:]) {
+    public init(type: RecordType, screen: String?, values: [String: DynamicObject] = [:]) {
         self.type = type
         self.values = values
-    }
-
-    public struct Screen {
-        public var url, screenId: String?
+        self.screen = screen
     }
 
     public struct Action {
@@ -66,12 +64,11 @@ extension AnalyticsRecord {
             let object = transformToDynamicObject(action).asDictionary()
             dict.merge(object, uniquingKeysWith: { $1 })
 
-        case .screen(let screen):
+        case .screen:
             dict["type"] = "screen"
-            let object = transformToDynamicObject(screen).asDictionary()
-            dict.merge(object, uniquingKeysWith: { $1 })
         }
 
+        screen.map { dict["screen"] = .string($0) }
         dict["platform"] = .string(platform)
         return dict
     }
@@ -91,7 +88,6 @@ extension AnalyticsRecord: Encodable {
 
 extension AnalyticsRecord: Equatable {}
 extension AnalyticsRecord.RecordType: Equatable {}
-extension AnalyticsRecord.Screen: Equatable {}
 extension AnalyticsRecord.Action: Equatable {}
 extension AnalyticsRecord.Action.Component: Equatable {}
 extension AnalyticsRecord.Action.Component.Position: Equatable {}

@@ -29,10 +29,23 @@ class AnalyticsService {
     // MARK: - Create Events
     
     func createRecord(screen: ScreenType) {
-        let isScreenDisabled = provider.getConfig()?.enableScreenAnalytics == false
-        if isScreenDisabled { return }
+        generateScreenRecord(
+            screen: screen,
+            globalConfigIsEnabled: provider.getConfig()?.enableScreenAnalytics
+        )
+        .map(
+            sendToQueue(record:)
+        )
+    }
 
-        let record = AnalyticsRecord(type: .screen(valuesFor(screen: screen)))
+    func createRecord(action: ActionInfo) {
+        let generator = AnalyticsGenerator(
+            info: action,
+            globalConfig: provider.getConfig()?.actions
+        )
+
+        guard let record = generator.createRecord() else { return }
+
         sendToQueue(record: record)
     }
 
@@ -42,30 +55,21 @@ class AnalyticsService {
         let origin: UIView
         let controller: BeagleControllerProtocol
     }
-    
-    func createRecord(_ action: ActionInfo) {
-        let config = provider.getConfig()
-
-        let generator = AnalyticsGenerator(info: action, globalConfig: config?.actions)
-        guard let record = generator.createRecord() else { return }
-
-        sendToQueue(record: record)
-    }
-
-    // MARK: - Queue
-
-    private(set) lazy var serialDispatch = DispatchQueue(
-        label: "AnalyticsService serial queue for records",
-        qos: .utility
-    )
-
-    private var queue = [AnalyticsRecord]()
 
     private func sendToQueue(record: AnalyticsRecord) {
         serialDispatch.async {
             self.dispatchRecord(record)
         }
     }
+
+    // MARK: - Queue
+
+    private var queue = [AnalyticsRecord]()
+
+    private(set) lazy var serialDispatch = DispatchQueue(
+        label: "AnalyticsService serial queue for records",
+        qos: .utility
+    )
 
     /// this should only be called when inside `serialDispatch` to avoid data racing conditions
     private func dispatchRecord(_ record: AnalyticsRecord) {
@@ -85,18 +89,5 @@ class AnalyticsService {
 
     private func maxItemsInQueue() -> Int {
         provider.maximumItemsInQueue ?? 100
-    }
-    
-    // MARK: - Screen
-    
-    private func valuesFor(screen: ScreenType) -> AnalyticsRecord.Screen {
-        switch screen {
-        case .remote(let remote):
-            return .init(url: remote.url)
-        case .declarative(let screen):
-            return .init(screenId: screen.identifier)
-        case .declarativeText:
-            return .init()
-        }
     }
 }

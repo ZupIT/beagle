@@ -17,18 +17,20 @@
 import Foundation
 import UIKit
 
-class AnalyticsGenerator {
+func generateScreenRecord(
+    screen: ScreenType,
+    globalConfigIsEnabled: Bool?
+) -> AnalyticsRecord? {
+    let isScreenDisabled = globalConfigIsEnabled == false
+    if isScreenDisabled { return nil }
+
+    return AnalyticsRecord(type: .screen, screen: screenInfo(screen))
+}
+
+struct AnalyticsGenerator {
 
     let info: AnalyticsService.ActionInfo
     let globalConfig: AnalyticsConfig.AttributesByActionName?
-
-    init(
-        info: AnalyticsService.ActionInfo,
-        globalConfig: AnalyticsConfig.AttributesByActionName?
-    ) {
-        self.info = info
-        self.globalConfig = globalConfig
-    }
 
     // MARK: - Action
 
@@ -39,12 +41,14 @@ class AnalyticsGenerator {
         let action = AnalyticsRecord.Action(
             beagleAction: name,
             event: info.event,
-            screen: screenInfo(),
             component: componentInfo()
         )
 
-        let values = attributesAndAdditionalEntries(config: config)
-        return .init(type: .action(action), values: values)
+        return .init(
+            type: .action(action),
+            screen: screenInfo(info.controller.screenType),
+            values: attributesAndAdditionalEntries(config: config)
+        )
     }
 }
 
@@ -83,17 +87,6 @@ private extension AnalyticsGenerator {
         var additional = [String: DynamicObject]()
     }
 
-    func screenInfo() -> String? {
-        switch info.controller.screenType {
-        case .remote(let remote):
-            return remote.url
-        case .declarative(let declerative):
-            return declerative.identifier
-        case .declarativeText:
-            return nil
-        }
-    }
-
     func attributesAndAdditionalEntries(config: ActionConfig) -> [String: DynamicObject] {
         info.action.getSomeAttributes(config.attributes, contextProvider: info.origin)
             .merging(config.additional) { _, new in new }
@@ -111,5 +104,16 @@ private extension AnalyticsGenerator {
             y: Double(point.y)
         )
         return .init(id: id, type: name, position: .init(x: position.x, y: position.y))
+    }
+}
+
+private func screenInfo(_ screenType: ScreenType) -> String? {
+    switch screenType {
+    case .remote(let remote):
+        return remote.url
+    case .declarative(let declarative):
+        return declarative.identifier
+    case .declarativeText:
+        return ""
     }
 }

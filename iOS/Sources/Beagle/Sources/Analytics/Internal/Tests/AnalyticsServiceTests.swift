@@ -21,7 +21,6 @@ import SnapshotTesting
 class AnalyticsServiceTests: XCTestCase {
 
     private lazy var sut = AnalyticsService(provider: provider)
-    private lazy var provider = AnalyticsProviderStub()
 
     private var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
     private var declarativeScreen: ScreenType { .declarative(Screen(identifier: "DECLARATIVE", child: ComponentDummy())) }
@@ -30,10 +29,8 @@ class AnalyticsServiceTests: XCTestCase {
 
     func testMaximumItemsInQueue() {
         provider.config = nil
-        let max = 5
-        provider.maximumItemsInQueue = max
 
-        for _ in 1...max {
+        for _ in 1...maxItems {
             sut.createRecord(screen: remoteScreen)
         }
         waitRecords()
@@ -44,14 +41,12 @@ class AnalyticsServiceTests: XCTestCase {
         sut.createRecord(screen: remoteScreen)
 
         waitRecords()
-        XCTAssertEqual(provider.records.count, max)
+        XCTAssertEqual(provider.records.count, maxItems)
     }
 
     func testWithConfig() {
         provider.config = .init()
-        let max = 5
-        provider.maximumItemsInQueue = max
-        let overMax = 4 * max
+        let overMax = 4 * maxItems
 
         for _ in 1...overMax {
             sut.createRecord(screen: remoteScreen)
@@ -63,8 +58,6 @@ class AnalyticsServiceTests: XCTestCase {
 
     func testChangingConfig() {
         provider.config = .init()
-        let max = 5
-        provider.maximumItemsInQueue = max
 
         for _ in 1...3 {
             sut.createRecord(screen: remoteScreen)
@@ -96,6 +89,24 @@ class AnalyticsServiceTests: XCTestCase {
         testScreenRecordWithConfig(enabled: false)
         testScreenRecordWithConfig(enabled: true)
     }
+
+//    func testFirstWithoutConfigAndThenWithAttributes() {
+//        let action = FormRemoteAction(
+//            path: "PATH",
+//            method: .delete,
+//            analytics: nil
+//        )
+//
+//        provider.config = nil
+//
+//        sut.createRecord(screen: )
+//        for _ in 1...overMax {
+//
+//        }
+//
+//        waitRecords()
+//        XCTAssertEqual(provider.records.count, overMax)
+//    }
     
     private func testScreenRecordWithConfig(enabled: Bool) {
         // Given
@@ -126,6 +137,14 @@ class AnalyticsServiceTests: XCTestCase {
         // Then
         assertSnapshot(matching: provider.records, as: .json)
     }
+
+    private let maxItems = 5
+
+    private lazy var provider: AnalyticsProviderStub = {
+        let it = AnalyticsProviderStub()
+        it.maximumItemsInQueue = maxItems
+        return it
+    }()
 
     private func waitRecords() {
         let expec = expectation(description: "wait records")

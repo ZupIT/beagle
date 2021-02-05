@@ -1,7 +1,7 @@
 [
   {
     "platform" : "ios",
-    "type" : "screen",
-    "url" : "REMOTE"
+    "screen" : "REMOTE",
+    "type" : "screen"
   }
 ]
