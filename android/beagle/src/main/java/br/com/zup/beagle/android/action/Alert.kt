@@ -45,7 +45,7 @@ data class Alert(
     val onPressOk: Action? = null,
     val labelOk: String? = null,
     override var analytics: ActionAnalyticsConfig? = null,
-) : ActionAnalytics {
+) : AnalyticsAction {
 
     constructor(
         title: String? = null,

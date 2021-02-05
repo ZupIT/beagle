@@ -19,7 +19,7 @@ package br.com.zup.beagle.newanalytics
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -37,7 +37,7 @@ internal object ActionReportFactory {
     fun preGenerateActionAnalyticsConfig(
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics,
+        action: AnalyticsAction,
         analyticsValue: String? = null,
     ) = DataActionReport(
         originX = origin.x,
@@ -86,7 +86,7 @@ internal object ActionReportFactory {
         name: String? = null,
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics,
+        action: AnalyticsAction,
     ): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()
         (value::class as KClass<Any>).memberProperties.forEach { property ->
@@ -121,7 +121,7 @@ internal object ActionReportFactory {
         value: Any,
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics,
+        action: AnalyticsAction,
     ): Any {
         var propertyValue: Any = value
         if (propertyValue is Bind<*>) {

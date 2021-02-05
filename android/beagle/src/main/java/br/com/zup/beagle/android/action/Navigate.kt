@@ -31,7 +31,7 @@ import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
  */
 
 @BeagleJson(name = "navigate")
-sealed class Navigate : ActionAnalytics {
+sealed class Navigate : AnalyticsAction {
 
     /**
      * Opens one of the browsers available on the device with the passed url.

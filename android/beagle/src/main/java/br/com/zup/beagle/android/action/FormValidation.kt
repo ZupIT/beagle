@@ -37,7 +37,7 @@ import br.com.zup.beagle.core.BeagleJson
 internal class FormValidation(
     val errors: List<FieldError>,
     override var analytics: ActionAnalyticsConfig? = null,
-) : ActionAnalytics {
+) : AnalyticsAction {
 
     @Transient
     var formInputs: List<FormInput>? = null

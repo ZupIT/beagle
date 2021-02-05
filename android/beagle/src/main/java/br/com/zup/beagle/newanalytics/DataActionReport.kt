@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.newanalytics
 
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 
 internal data class DataActionReport(
     var originX: Float? = null,
@@ -25,7 +25,7 @@ internal data class DataActionReport(
     var id: String? = null,
     var type: String? = null,
     var analyticsValue: String? = null,
-    var action: ActionAnalytics,
+    var action: AnalyticsAction,
     var screenId: String? = null,
     var actionType: String,
     var additionalEntries: Map<String, Any>? = null,

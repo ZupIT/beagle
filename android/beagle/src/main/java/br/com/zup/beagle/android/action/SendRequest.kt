@@ -91,7 +91,7 @@ data class SendRequest(
     val onError: List<Action>? = null,
     val onFinish: List<Action>? = null,
     override var analytics: ActionAnalyticsConfig? = null,
-) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
+) : AnalyticsAction, AsyncAction by AsyncActionImpl() {
 
     constructor(
         url: String,

@@ -18,7 +18,7 @@ package br.com.zup.beagle.newanalytics
 
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import io.mockk.Runs
 import io.mockk.every
@@ -27,11 +27,9 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.slot
-import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -41,7 +39,7 @@ import org.junit.jupiter.api.Test
 class AnalyticsServiceTest : BaseTest() {
 
     private val analyticsProvider: AnalyticsProvider = mockk()
-    private val action: ActionAnalytics = mockk(relaxed = true)
+    private val action: AnalyticsAction = mockk(relaxed = true)
     private val origin: View = mockk()
     private val slot = slot<AnalyticsConfig>()
     private val analyticsConfig: AnalyticsConfig = mockk()

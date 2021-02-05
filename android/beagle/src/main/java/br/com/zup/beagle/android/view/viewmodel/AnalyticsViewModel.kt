@@ -20,7 +20,7 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.newanalytics.AnalyticsService
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.widget.RootView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ internal class AnalyticsViewModel : ViewModel() {
     fun createActionReport(
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics,
+        action: AnalyticsAction,
         analyticsValue: String?,
     ) {
         viewModelScope.launch(Dispatchers.Default) {

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.newanalytics
 
 import android.view.View
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.RootView
@@ -35,7 +35,7 @@ internal object AnalyticsService {
     fun createActionRecord(
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics,
+        action: AnalyticsAction,
         analyticsValue: String? = null,
     ) {
         action.analytics?.let {

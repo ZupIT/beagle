@@ -20,7 +20,7 @@ import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
@@ -60,7 +60,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @DisplayName("Then should return hash map with rootview screenId")
         fun testRootViewWithScreenIdReturnHashMapWithScreenKey() {
             //Given
-            val action: ActionAnalytics = mockk()
+            val action: AnalyticsAction = mockk()
             every { rootView.getScreenId() } returns "/screen"
             every { action.analytics } returns null
 
@@ -87,7 +87,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @DisplayName("Then should return platform as android and type as action")
         fun testPlatformAnTypeWithCorrectValue() {
             //Given
-            val action: ActionAnalytics = mockk()
+            val action: AnalyticsAction = mockk()
             every { rootView.getScreenId() } returns ""
             every { action.analytics } returns null
 
@@ -111,7 +111,7 @@ internal class ActionReportFactoryTest : BaseTest() {
     @Nested
     inner class ComponentValues {
 
-        private val action: ActionAnalytics = mockk()
+        private val action: AnalyticsAction = mockk()
         private val originComponent: WidgetView = Text("test")
 
         @BeforeEach
@@ -192,7 +192,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         private val url = "/url"
         private val route = Route.Remote(url = "/url")
         private val actionType = "beagle:pushView"
-        private val action: ActionAnalytics = Navigate.PushView(route = route)
+        private val action: AnalyticsAction = Navigate.PushView(route = route)
 
         @BeforeEach
         fun setup() {
@@ -268,10 +268,10 @@ internal class ActionReportFactoryTest : BaseTest() {
 
     @DisplayName("When preGenerateActionAnalyticsConfig")
     @Nested
-    inner class PreGenerateActionAnalyticsConfig {
+    inner class PreGenerateAnalyticsActionConfig {
         private val url = "/url"
         private val route = Route.Remote(url = url)
-        private val action: ActionAnalytics = Navigate.PushView(route = route)
+        private val action: AnalyticsAction = Navigate.PushView(route = route)
 
         @DisplayName("Then should create correct data action report")
         @Test
@@ -322,7 +322,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         fun testPreGenerateActionAnalyticsConfigOfBeagleJsonActionShouldGetNameFromAnnotation() {
             //given
-            val action = BeagleJsonActionWithName()
+            val action = BeagleJsonWithNameAction()
 
             //when
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
@@ -340,7 +340,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         fun testPreGenerateActionAnalyticsConfigOfBeagleJsonActionShouldGetNameFromClass() {
             //given
-            val action = BeagleJsonActionWithoutName()
+            val action = BeagleJsonWithoutNameAction()
 
             //when
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
@@ -358,7 +358,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         fun testPreGenerateActionAnalyticsConfigOfRegisterActionShouldGetNameFromAnnotation() {
             //given
-            val action = RegisterActionWithName()
+            val action = RegisterWithNameAction()
             every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
 
             //when
@@ -377,7 +377,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         fun testPreGenerateActionAnalyticsConfigOfRegisterActionShouldGetNameFromClass() {
             //given
-            val action = RegisterActionWithoutName()
+            val action = RegisterWithoutNameAction()
             every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
 
             //when
@@ -395,28 +395,28 @@ internal class ActionReportFactoryTest : BaseTest() {
 }
 
 @BeagleJson(name = "actionName")
-internal class BeagleJsonActionWithName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
+internal class BeagleJsonWithNameAction(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
     override fun execute(rootView: RootView, origin: View) {
         //this is a class to test
     }
 }
 
 @BeagleJson
-internal class BeagleJsonActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
+internal class BeagleJsonWithoutNameAction(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
     override fun execute(rootView: RootView, origin: View) {
         //this is a class to test
     }
 }
 
 @RegisterAction
-internal class RegisterActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
+internal class RegisterWithoutNameAction(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
     override fun execute(rootView: RootView, origin: View) {
         //this is a class to test
     }
 }
 
 @RegisterAction(name = "actionName")
-internal class RegisterActionWithName(override var analytics: ActionAnalyticsConfig? = null) : ActionAnalytics {
+internal class RegisterWithNameAction(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
     override fun execute(rootView: RootView, origin: View) {
         //this is a class to test
     }

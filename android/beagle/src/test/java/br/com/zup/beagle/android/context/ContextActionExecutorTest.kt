@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.context
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.action.BaseAsyncActionTest
 import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.extensions.once
@@ -181,7 +181,7 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
             val analyticsViewModel = mockk<AnalyticsViewModel>()
             val value = PersonTest(name = NAME)
             val analyticsValue = "onChange"
-            val actionAnalytics = mockk<ActionAnalytics>()
+            val actionAnalytics = mockk<AnalyticsAction>()
             every { actionAnalytics.execute(any(), view) } just Runs
             every { rootView.generateViewModelInstance<AnalyticsViewModel>() } returns analyticsViewModel
             every { analyticsViewModel.createActionReport(rootView, any(), any(), any()) } just Runs

@@ -48,7 +48,7 @@ data class SetContext(
     val value: Any,
     val path: String? = null,
     override var analytics: ActionAnalyticsConfig? = null,
-) : ActionAnalytics {
+) : AnalyticsAction {
 
     override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()

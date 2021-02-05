@@ -21,7 +21,7 @@ import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 /**
  * This abstract class represents an Action Analytics on Beagle
  */
-interface ActionAnalytics : Action {
+interface AnalyticsAction : Action {
 
     /**
      * This attribute is an ActionAnalyticsConfig.
