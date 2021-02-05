@@ -221,22 +221,23 @@ public class BeagleScreenViewController: BeagleController {
             break
         case .loading:
             serverDrivenState = .started
-            renderScreenIfNeeded(state: serverDrivenState)
+            loadBeagleViewState(serverDrivenState)
         case .success:
             serverDrivenState = .success
-            renderScreenIfNeeded(state: serverDrivenState)
+            loadBeagleViewState(serverDrivenState)
             serverDrivenState = .finished
-            renderScreenIfNeeded(state: serverDrivenState)
+            loadBeagleViewState(serverDrivenState)
+            renderScreenIfNeeded()
         case .failure(let error):
+            renderScreenIfNeeded()
             serverDrivenState = .error(error, viewModel.loadScreen)
-            renderScreenIfNeeded(state: serverDrivenState)
+            loadBeagleViewState(serverDrivenState)
             serverDrivenState = .finished
-            renderScreenIfNeeded(state: serverDrivenState)
+            loadBeagleViewState(serverDrivenState)
         }
     }
     
-    private func renderScreenIfNeeded(state: ServerDrivenState) {
-        loadBeagleViewState(state)
+    private func renderScreenIfNeeded() {
         if content == nil, let screen = screen {
             updateNavigationBar(animated: true)
             content = .view(screen.toView(renderer: renderer))
