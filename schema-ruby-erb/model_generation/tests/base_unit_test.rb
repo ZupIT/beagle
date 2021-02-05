@@ -1,9 +1,11 @@
-require 'simplecov'
-
 if ENV.fetch('COVERAGE', false)
-  SimpleCov.start do
-    minimum_coverage 60
-  end
+	require 'simplecov'
+  	SimpleCov.start
+
+  	if ENV.fetch('CODECOV_TOKEN', false)
+  		require 'codecov'
+  		SimpleCov.formatter = SimpleCov::Formatter::Codecov
+  	end
 end
 
 require "test/unit"
