@@ -16,29 +16,29 @@
 
 # Workflow used as a reference for triggering Appium tests
 name: Beagle Appium Tests
-#on: workflow_dispatch
-on:
-    push:
-        branches:
-            - master
-        paths:
-            - 'iOS/**'
-            - 'backend/**'
-            - 'test/appium/app-ios/**'
-            - 'test/appium/project/**'
-            - '.github/**'
-            - 'fastlane/automatedTests/appium'
-
-    pull_request:
-        branches:
-            - master
-        paths:
-            - 'iOS/**'
-            - 'backend/**'
-            - 'test/appium/app-ios/**'
-            - 'test/appium/project/**'
-            - '.github/**'
-            - 'fastlane/automatedTests/appium'
+on: workflow_dispatch
+#on:
+#    push:
+#        branches:
+#            - master
+#        paths:
+#            - 'iOS/**'
+#            - 'backend/**'
+#            - 'test/appium/app-ios/**'
+#            - 'test/appium/project/**'
+#            - '.github/**'
+#            - 'fastlane/automatedTests/appium'
+#
+#    pull_request:
+#        branches:
+#            - master
+#        paths:
+#            - 'iOS/**'
+#            - 'backend/**'
+#            - 'test/appium/app-ios/**'
+#            - 'test/appium/project/**'
+#            - '.github/**'
+#            - 'fastlane/automatedTests/appium'
 
 
 jobs:
