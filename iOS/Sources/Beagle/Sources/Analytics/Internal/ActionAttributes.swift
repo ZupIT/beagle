@@ -24,7 +24,7 @@ internal enum ActionAttributes {
 
 extension Action {
 
-    func getSomeAttributes(_ attributes: ActionAttributes, contextProvider: UIView) -> [String: DynamicObject] {
+    func getAttributes(_ attributes: ActionAttributes, contextProvider: UIView) -> [String: DynamicObject] {
         if case .some(let array) = attributes, array.isEmpty { return [:] }
 
         let dynamicObject = transformToDynamicObject(self)
@@ -32,39 +32,47 @@ extension Action {
             // don't use analytics attribute
             .set(.empty, with: analyticsPath)
 
+        let dict = dynamicObject.asDictionary()
+
         switch attributes {
         case .some(let some):
-            return getSomeAttributes(some, of: dynamicObject, contextProvider: contextProvider)
+            return dict.getSomeAttributes(some, contextProvider: contextProvider)
 
         case .all:
-            return dynamicObject.asDictionary()
+            return dict
         }
     }
+}
 
-    func getSomeAttributes(_ attributes: [String], of object: DynamicObject, contextProvider: UIView) -> [String: DynamicObject] {
-        guard case .dictionary(_) = object else { return [:] }
+private func pathForAttribute(_ attribute: String) -> Path? {
+    guard let path = Path(rawValue: attribute) else { return nil }
+
+    for node in path.nodes {
+        if case .index = node { return nil }
+    }
+    return path
+}
+
+extension Dictionary where Key == String, Value == DynamicObject {
+
+    func getSomeAttributes(_ attributes: [String], contextProvider: UIView?) -> [String: DynamicObject] {
+        let object = DynamicObject.dictionary(self)
 
         var values = [String: DynamicObject]()
         attributes.forEach { attribute in
             guard let path = pathForAttribute(attribute) else { return }
 
-            let value = object[path].evaluate(with: contextProvider)
+            var value = object[path]
+            contextProvider.map {
+                value = value.evaluate(with: $0)
+            }
+
             guard value != .empty else { return }
             values[attribute] = value
         }
 
         return values
     }
-
-    private func pathForAttribute(_ attribute: String) -> Path? {
-        guard let path = Path(rawValue: attribute) else { return nil }
-
-        for node in path.nodes {
-            if case .index = node { return nil }
-        }
-        return path
-    }
-
 }
 
 // MARK: - JSON Transformation

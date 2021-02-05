@@ -90,23 +90,71 @@ class AnalyticsServiceTests: XCTestCase {
         testScreenRecordWithConfig(enabled: true)
     }
 
-//    func testFirstWithoutConfigAndThenWithAttributes() {
-//        let action = FormRemoteAction(
-//            path: "PATH",
-//            method: .delete,
-//            analytics: nil
-//        )
-//
-//        provider.config = nil
-//
-//        sut.createRecord(screen: )
-//        for _ in 1...overMax {
-//
-//        }
-//
-//        waitRecords()
-//        XCTAssertEqual(provider.records.count, overMax)
-//    }
+    func testFirstWithoutConfigAndThenWithDisabledConfig() {
+        let action = FormRemoteAction(
+            path: "PATH",
+            method: .delete
+        )
+
+        provider.config = nil
+
+        sut.createRecord(action: .init(action: action, event: nil, origin: ViewDummy(), controller: BeagleScreenViewController(ComponentDummy())) )
+
+        provider.config = .init(actions: [:])
+
+        sut.createRecord(screen: remoteScreen)
+
+        waitRecords()
+        _assertInlineSnapshot(matching: provider.records.first, as: .json, with: """
+        {
+          "analytics" : null,
+          "beagleAction" : "beagle:formremoteaction",
+          "component" : {
+            "position" : {
+              "x" : 0,
+              "y" : 0
+            }
+          },
+          "method" : "DELETE",
+          "path" : "PATH",
+          "platform" : "ios",
+          "type" : "action"
+        }
+        """)
+    }
+
+    func testFirstWithoutConfigAndThenWithAttributes() {
+        let action = FormRemoteAction(
+            path: "PATH",
+            method: .delete
+        )
+
+        provider.config = nil
+
+        sut.createRecord(action: .init(action: action, event: nil, origin: ViewDummy(), controller: BeagleScreenViewController(ComponentDummy())) )
+
+        provider.config = .init(actions: ["beagle:formRemoteAction": ["path"]])
+
+        sut.createRecord(screen: remoteScreen)
+
+        waitRecords()
+        _assertInlineSnapshot(matching: provider.records.first, as: .json, with: """
+        {
+          "analytics" : null,
+          "beagleAction" : "beagle:formremoteaction",
+          "component" : {
+            "position" : {
+              "x" : 0,
+              "y" : 0
+            }
+          },
+          "method" : "DELETE",
+          "path" : "PATH",
+          "platform" : "ios",
+          "type" : "action"
+        }
+        """)
+    }
     
     private func testScreenRecordWithConfig(enabled: Bool) {
         // Given
