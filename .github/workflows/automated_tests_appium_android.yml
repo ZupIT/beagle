@@ -28,16 +28,16 @@ on:
       - 'test/appium/project/**'
       - '.github/**'
       - 'fastlane/automatedTests/appium/**'
-  pull_request:
-    branches:
-      - master
-    paths:
-      - 'android/**'
-      - 'backend/**'
-      - 'test/appium/app-android/**'
-      - 'test/appium/project/**'
-      - '.github/**'
-      - 'fastlane/automatedTests/appium/**'
+  pull_request_target:
+#    branches:
+#      - master
+#    paths:
+#      - 'android/**'
+#      - 'backend/**'
+#      - 'test/appium/app-android/**'
+#      - 'test/appium/project/**'
+#      - '.github/**'
+#      - 'fastlane/automatedTests/appium/**'
 
 jobs:
   bff_config_job:
