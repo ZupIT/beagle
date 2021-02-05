@@ -33,6 +33,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.verifyOrder
 import io.mockk.verifySequence
 import org.json.JSONArray
 import org.json.JSONObject
@@ -196,9 +197,11 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
             )
 
             // Then
-            verify(exactly = 1) { action.execute(rootView, view) }
-            verify(exactly = 1) { actionAnalytics.execute(rootView, view) }
-            verify(exactly = 1) { analyticsViewModel.createActionReport(rootView, view, actionAnalytics, analyticsValue) }
+            verifyOrder {
+                action.execute(rootView, view)
+                actionAnalytics.execute(rootView, view)
+                analyticsViewModel.createActionReport(rootView, view, actionAnalytics, analyticsValue)
+            }
         }
     }
 }

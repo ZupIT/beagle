@@ -322,7 +322,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         fun testPreGenerateActionAnalyticsConfigOfBeagleJsonActionShouldGetNameFromAnnotation() {
             //given
-            val action = BeagleJsonWithNameAction()
+            val action = BeagleJsonActionWithName()
 
             //when
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
@@ -340,7 +340,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         fun testPreGenerateActionAnalyticsConfigOfBeagleJsonActionShouldGetNameFromClass() {
             //given
-            val action = BeagleJsonWithoutNameAction()
+            val action = BeagleJsonActionWithoutName()
 
             //when
             val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
@@ -358,7 +358,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         fun testPreGenerateActionAnalyticsConfigOfRegisterActionShouldGetNameFromAnnotation() {
             //given
-            val action = RegisterWithNameAction()
+            val action = RegisterActionWithName()
             every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
 
             //when
@@ -377,7 +377,7 @@ internal class ActionReportFactoryTest : BaseTest() {
         @Test
         fun testPreGenerateActionAnalyticsConfigOfRegisterActionShouldGetNameFromClass() {
             //given
-            val action = RegisterWithoutNameAction()
+            val action = RegisterActionWithoutName()
             every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
 
             //when
@@ -395,28 +395,28 @@ internal class ActionReportFactoryTest : BaseTest() {
 }
 
 @BeagleJson(name = "actionName")
-internal class BeagleJsonWithNameAction(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
+internal class BeagleJsonActionWithName(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
     override fun execute(rootView: RootView, origin: View) {
         //this is a class to test
     }
 }
 
 @BeagleJson
-internal class BeagleJsonWithoutNameAction(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
+internal class BeagleJsonActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
     override fun execute(rootView: RootView, origin: View) {
         //this is a class to test
     }
 }
 
 @RegisterAction
-internal class RegisterWithoutNameAction(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
+internal class RegisterActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
     override fun execute(rootView: RootView, origin: View) {
         //this is a class to test
     }
 }
 
 @RegisterAction(name = "actionName")
-internal class RegisterWithNameAction(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
+internal class RegisterActionWithName(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
     override fun execute(rootView: RootView, origin: View) {
         //this is a class to test
     }
