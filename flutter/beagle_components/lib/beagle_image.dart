@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-import 'dart:developer' as developer;
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/logger/beagle_logger_proxy.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
