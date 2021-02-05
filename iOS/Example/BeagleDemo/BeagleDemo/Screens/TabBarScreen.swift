@@ -58,7 +58,7 @@ struct TabBarScreen: DeeplinkScreen {
                 currentPage: "@{tab.currentTab}"
             ) {
                 Container(widgetProperties: .init(Flex().alignContent(.center))) {
-                    Text("Text1 Tab 1")
+                    Text("Text1 Tab 1", widgetProperties: .init(accessibility: Accessibility(accessible: true, isHeader: true)))
                     Image(.remote(.init(url: .networkImageBeagle, placeholder: "imageBeagle")))
                     Text("Text2 Tab 1")
                     Button(text: "change Context Tab 1", onPress: [

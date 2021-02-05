@@ -29,7 +29,7 @@ public struct Accessibility: Decodable, Equatable {
     /// A Boolean value indicating whether the receiver is an accessibility element that an assistive application can access
     public var accessible: Bool
     
-    /// A mask that contains the OR combination of the accessibility traits that best characterize an accessibility element.
+    /// A Boolean value indicating whether header is available for an element
     public var isHeader: Bool?
         
     /// Initializer for Accessibility
