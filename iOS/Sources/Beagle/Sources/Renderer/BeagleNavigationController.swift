@@ -22,7 +22,7 @@ public enum ServerDrivenState {
     case started
     case finished
     case success
-    case error(ServerDrivenState.Error, BeagleRetry)
+    case error(ServerDrivenState.Error, BeagleRetry? = nil)
 }
 
 extension ServerDrivenState {

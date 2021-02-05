@@ -45,10 +45,10 @@ class CustomBeagleNavigationController: BeagleNavigationController {
             message = "Unknow Error."
         }
         
-        if !view.subviews.contains(errorView) {
+        if !view.subviews.contains(errorView), let retry = retry {
             errorView = ErrorView(message: message, retry: retry)
             errorView.present(in: view)
-        } else {
+        } else if let retry = retry {
             errorView.addRetry(retry)
         }
     }
