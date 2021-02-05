@@ -39,9 +39,7 @@ class ComponentPropertyAssigner<T : ServerDrivenComponent>(
         accessibilitySetup.applyAccessibility(view, component)
     }
 
-    private fun getComponentType(component: ServerDrivenComponent) = createComponentType(component)
-
-    private fun createComponentType(component: ServerDrivenComponent) =
+    private fun getComponentType(component: ServerDrivenComponent) =
         if (isCustomWidget(component)) "custom:" + getCustomWidgetName(component::class.java)
         else "beagle:" + getBeagleWidgetName(component::class.java)
 
