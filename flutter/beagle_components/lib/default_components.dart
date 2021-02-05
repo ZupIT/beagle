@@ -22,6 +22,7 @@ import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
+import 'package:beagle_components/beagle_page_indicator.dart';
 import 'package:beagle_components/beagle_page_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
@@ -39,6 +40,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:tabbar': beagleTabBarBuilder(),
   'beagle:pageview': beaglePageViewBuilder(),
   'beagle:image': beagleImageBuilder(),
+  'beagle:pageIndicator': beaglePageIndicatorBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -142,5 +144,15 @@ ComponentBuilder beagleImageBuilder() {
           ImageContentMode.values,
           element.getAttributeValue('mode') ?? '',
         ),
+      );
+}
+
+ComponentBuilder beaglePageIndicatorBuilder() {
+  return (element, _, __) => BeaglePageIndicator(
+        key: element.getKey(),
+        selectedColor: element.getAttributeValue('selectedColor'),
+        unselectedColor: element.getAttributeValue('unselectedColor'),
+        numberOfPages: element.getAttributeValue('numberOfPages'),
+        currentPage: element.getAttributeValue('currentPage'),
       );
 }
