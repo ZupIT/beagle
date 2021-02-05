@@ -33,8 +33,9 @@ internal data class DataActionReport(
 
     override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
         updateActionAttributes(analyticsConfig)
-        if (shouldReport())
+        if (shouldReport()) {
             return ActionReportFactory.generateActionAnalyticsConfig(this)
+        }
         return null
     }
 
