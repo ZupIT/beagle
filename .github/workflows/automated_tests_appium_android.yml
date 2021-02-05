@@ -21,7 +21,6 @@ on:
   push:
     branches:
       - master
-      - feature/appium_scripts
     paths:
       - 'android/**'
       - 'backend/**'
@@ -32,7 +31,6 @@ on:
   pull_request_target:
     branches:
       - master
-      - feature/appium_scripts
     paths:
       - 'android/**'
       - 'backend/**'
@@ -84,7 +82,7 @@ jobs:
           NAMESPACE: ${{ secrets.AWS_CLUSTER_NAMESPACE }}
 
   appium_tests:
-    needs: bff_config_jobs
+    needs: bff_config_job
     name: Appium tests job
     runs-on: macos-latest
     env:
