@@ -26,7 +26,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import java.lang.reflect.Type
 
-class ActionAnalyticsConfigAdapterFactory : JsonAdapter.Factory {
+internal class AnalyticsActionConfigAdapterFactory : JsonAdapter.Factory {
 
     override fun create(
         type: Type,
@@ -34,14 +34,14 @@ class ActionAnalyticsConfigAdapterFactory : JsonAdapter.Factory {
         moshi: Moshi,
     ): JsonAdapter<ActionAnalyticsConfig>? {
         return if (Types.getRawType(type) == ActionAnalyticsConfig::class.java) {
-            ActionAnalyticsConfigAdapter()
+            AnalyticsActionConfigAdapter()
         } else {
             null
         }
     }
 }
 
-internal class ActionAnalyticsConfigAdapter : JsonAdapter<ActionAnalyticsConfig>() {
+internal class AnalyticsActionConfigAdapter : JsonAdapter<ActionAnalyticsConfig>() {
     override fun fromJson(reader: JsonReader): ActionAnalyticsConfig? {
         val jsonValue = reader.readJsonValue()
         var actionAnalyticsConfig: ActionAnalyticsConfig? = null
