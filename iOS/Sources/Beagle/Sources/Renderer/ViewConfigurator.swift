@@ -94,5 +94,9 @@ class ViewConfigurator: ViewConfiguratorProtocol {
             object?.accessibilityLabel = label
         }
         object?.isAccessibilityElement = accessibility.accessible
+        
+        if let isHeader = accessibility.isHeader {
+            object?.accessibilityTraits = isHeader ? .header : .none
+        }
     }
 }
