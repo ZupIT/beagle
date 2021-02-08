@@ -28,6 +28,7 @@ import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle_components/beagle_touchable.dart';
+import 'package:beagle_components/beagle_webview.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -43,6 +44,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:image': beagleImageBuilder(),
   'beagle:pageIndicator': beaglePageIndicatorBuilder(),
   'beagle:touchable': beagleTouchableBuilder(),
+  'beagle:webView': beagleWebViewBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -167,5 +169,12 @@ ComponentBuilder beagleTouchableBuilder() {
         key: element.getKey(),
         onPress: element.getAttributeValue('onPress'),
         child: children[0],
+      );
+}
+
+ComponentBuilder beagleWebViewBuilder() {
+  return (element, children, __) => BeagleWebView(
+        key: element.getKey(),
+        url: element.getAttributeValue('url'),
       );
 }
