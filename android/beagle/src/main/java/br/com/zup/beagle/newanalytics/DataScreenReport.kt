@@ -22,18 +22,11 @@ internal data class DataScreenReport(
 ) : DataReport() {
     override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
         if (shouldReportScreen(analyticsConfig)) {
-            return reportScreen()
+            return ScreenReportFactory.generateScreenAnalyticsRecord(isLocalScreen, screenIdentifier, timestamp)
         }
         return null
     }
 
     private fun shouldReportScreen(analyticsConfig: AnalyticsConfig) = analyticsConfig.enableScreenAnalytics ?: false
 
-    private fun reportScreen(): AnalyticsRecord {
-        if (isLocalScreen) {
-            return ScreenReportFactory.generateLocalScreenAnalyticsRecord(screenIdentifier, timestamp)
-        } else {
-            return ScreenReportFactory.generateRemoteScreenAnalyticsRecord(screenIdentifier, timestamp)
-        }
-    }
 }

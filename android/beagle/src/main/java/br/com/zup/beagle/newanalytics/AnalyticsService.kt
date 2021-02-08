@@ -45,7 +45,7 @@ internal object AnalyticsService {
         }
         val analyticsProvider = BeagleEnvironment.beagleSdk.analyticsProvider
         analyticsProvider?.let {
-            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action,

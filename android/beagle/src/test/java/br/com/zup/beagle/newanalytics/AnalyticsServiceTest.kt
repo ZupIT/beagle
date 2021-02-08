@@ -239,7 +239,7 @@ class AnalyticsServiceTest : BaseTest() {
         @BeforeEach
         fun setUp() {
             mockkObject(ActionReportFactory)
-            every { ActionReportFactory.preGenerateActionAnalyticsConfig(any(), any(), any(), any()) } returns dataActionReport
+            every { ActionReportFactory.generateDataActionReport(any(), any(), any(), any()) } returns dataActionReport
             every { analyticsProvider.getConfig() } returns analyticsConfig
         }
 
@@ -255,7 +255,7 @@ class AnalyticsServiceTest : BaseTest() {
             AnalyticsService.createActionRecord(rootView, origin, action)
 
             //Then
-            verify(exactly = 1) { ActionReportFactory.preGenerateActionAnalyticsConfig(any(), any(), any(), any()) }
+            verify(exactly = 1) { ActionReportFactory.generateDataActionReport(any(), any(), any(), any()) }
             verify(exactly = 1) { analyticsProvider.createRecord(any()) }
             assertTrue(slot.isCaptured)
             assertEquals(analyticsConfig, slot.captured)
@@ -271,7 +271,7 @@ class AnalyticsServiceTest : BaseTest() {
             AnalyticsService.createActionRecord(rootView, origin, action)
 
             //Then
-            verify(exactly = 1) { ActionReportFactory.preGenerateActionAnalyticsConfig(any(), any(), any(), any()) }
+            verify(exactly = 1) { ActionReportFactory.generateDataActionReport(any(), any(), any(), any()) }
             verify(exactly = 0) { analyticsProvider.createRecord(any()) }
             assertTrue(slot.isCaptured)
             assertEquals(analyticsConfig, slot.captured)

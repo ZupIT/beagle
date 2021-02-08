@@ -37,12 +37,13 @@ class ScreenReportFactoryTest : BaseTest() {
             val timestamp = System.currentTimeMillis()
 
             //WHEN
-            val result = ScreenReportFactory.generateLocalScreenAnalyticsRecord("screenId", timestamp)
+            val result = ScreenReportFactory.generateScreenAnalyticsRecord(true,"screenId", timestamp)
 
             //THEN
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("screenId" to "screenId"), result.values)
+            assertEquals("screenId", result.screen)
+            assertEquals(null, result.values)
             assertEquals(timestamp, result.timestamp)
         }
     }
@@ -58,12 +59,13 @@ class ScreenReportFactoryTest : BaseTest() {
             val timestamp = System.currentTimeMillis()
 
             //When
-            val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord("url", timestamp)
+            val result = ScreenReportFactory.generateScreenAnalyticsRecord(false,"url", timestamp)
 
             //Then
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("url" to "url"), result.values)
+            assertEquals("url", result.screen)
+            assertEquals(null, result.values)
             assertEquals(timestamp, result.timestamp)
         }
 
@@ -76,12 +78,13 @@ class ScreenReportFactoryTest : BaseTest() {
             val timestamp = System.currentTimeMillis()
 
             //When
-            val result = ScreenReportFactory.generateRemoteScreenAnalyticsRecord(baseUrl + "url", timestamp)
+            val result = ScreenReportFactory.generateScreenAnalyticsRecord(false,baseUrl + "url", timestamp)
 
             //Then
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals(hashMapOf("url" to "url"), result.values)
+            assertEquals("url", result.screen)
+            assertEquals(null, result.values)
             assertEquals(timestamp, result.timestamp)
         }
     }

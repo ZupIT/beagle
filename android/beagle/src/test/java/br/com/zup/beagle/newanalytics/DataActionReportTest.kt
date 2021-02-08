@@ -36,7 +36,7 @@ internal class DataActionReportTest : BaseTest() {
     @BeforeEach
     fun setup() {
         mockkObject(ActionReportFactory)
-        every { ActionReportFactory.generateActionAnalyticsConfig(any()) } returns mockk()
+        every { ActionReportFactory.generateAnalyticsRecord(any()) } returns mockk()
     }
 
     private val ROUTE_URL_CONSTANT = "route.url"
@@ -83,7 +83,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(mockk())
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(attributesHashMap.size, dataActionReport.attributes.size)
             assertEquals(attributesHashMap["route"], dataActionReport.attributes["route"])
             assertEquals(attributesHashMap["route.url"], dataActionReport.attributes["route.url"])
@@ -109,7 +109,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(attributesHashMap.size, dataActionReport.attributes.size)
             assertEquals(attributesHashMap["route"], dataActionReport.attributes["route"])
             assertEquals(attributesHashMap["route.url"], dataActionReport.attributes["route.url"])
@@ -128,7 +128,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(0, dataActionReport.attributes.size)
         }
 
@@ -150,7 +150,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(attributesHashMap.size, dataActionReport.attributes.size)
             assertEquals(attributesHashMap["route"], dataActionReport.attributes["route"])
             assertEquals(attributesHashMap["route.url"], dataActionReport.attributes["route.url"])
@@ -177,7 +177,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(attributesHashMap.size, dataActionReport.attributes.size)
             assertEquals(attributesHashMap["route"], dataActionReport.attributes["route"])
             assertEquals(attributesHashMap["route.url"], dataActionReport.attributes["route.url"])

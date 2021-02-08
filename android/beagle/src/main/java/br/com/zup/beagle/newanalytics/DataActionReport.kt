@@ -34,7 +34,7 @@ internal data class DataActionReport(
     override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
         updateActionAttributes(analyticsConfig)
         if (shouldReport()) {
-            return ActionReportFactory.generateActionAnalyticsConfig(this)
+            return ActionReportFactory.generateAnalyticsRecord(this)
         }
         return null
     }
@@ -68,9 +68,10 @@ internal data class DataActionReport(
     private fun getAttributeOnAnalyticsConfig(
         analyticsConfig: AnalyticsConfig,
     ): List<String>? {
-        val key = this.actionType
-        val attributeList = analyticsConfig.actions?.get(key)
-        return attributeList
+        val key = analyticsConfig.actions?.keys?.find {
+            it.equals(actionType, ignoreCase = true)
+        }
+        return analyticsConfig.actions?.get(key)
     }
 
     private fun updateAttributes(

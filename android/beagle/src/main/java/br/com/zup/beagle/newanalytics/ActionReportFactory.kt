@@ -21,10 +21,10 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.data.serializer.createNamespace
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.evaluateExpression
-import br.com.zup.beagle.android.utils.putFirstCharacterOnLowerCase
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.core.BeagleJson
@@ -34,7 +34,7 @@ import kotlin.reflect.full.memberProperties
 
 internal object ActionReportFactory {
 
-    fun preGenerateActionAnalyticsConfig(
+    fun generateDataActionReport(
         rootView: RootView,
         origin: View,
         action: AnalyticsAction,
@@ -57,28 +57,27 @@ internal object ActionReportFactory {
     )
 
     private fun getActionType(action: Action): String =
-        if (isCustomAction(action)) "custom:" + getCustomActionName(action::class.java)
-        else "beagle:" + getBeagleActionName(action::class.java)
+        if (isCustomAction(action)) getActionName("custom", action::class.java)
+        else getActionName("beagle", action::class.java)
 
     private fun isCustomAction(action: Action): Boolean =
         BeagleEnvironment.beagleSdk.registeredActions().contains(action::class.java)
 
-    //When use proguard, the action name on Beagle is caught by the BeagleJson annotation
-    private fun getBeagleActionName(clazz: Class<*>): String? {
-        var name = clazz.getAnnotation(BeagleJson::class.java)?.name
-        if (name.isNullOrEmpty()) {
+    private fun getActionName(appNameSpace: String, clazz: Class<*>): String {
+        var name = ""
+        clazz.getAnnotation(RegisterAction::class.java)?.let {
+            name = it.name
+        }
+        if (name.isEmpty()) {
+            clazz.getAnnotation(BeagleJson::class.java)?.let {
+                name = it.name
+            }
+        }
+        if(name.isEmpty()){
             name = clazz.simpleName
         }
-        return name?.putFirstCharacterOnLowerCase()
-    }
+        return createNamespace(appNameSpace, clazz, name)
 
-    //When use proguard, the action name on Beagle is caught by the RegisterAction annotation
-    private fun getCustomActionName(clazz: Class<*>): String? {
-        var name = clazz.getAnnotation(RegisterAction::class.java)?.name
-        if (name.isNullOrEmpty()) {
-            name = clazz.simpleName
-        }
-        return name?.putFirstCharacterOnLowerCase()
     }
 
     private fun evaluateAllActionAttribute(
@@ -141,24 +140,19 @@ internal object ActionReportFactory {
         return nameResult
     }
 
-    fun generateActionAnalyticsConfig(
+    fun generateAnalyticsRecord(
         dataActionReport: DataActionReport,
-    ) = object : AnalyticsRecord {
-        override val type: String
-            get() = "action"
-        override val platform: String
-            get() = "android"
-        override val values: HashMap<String, Any>
-            get() = generateValues(dataActionReport)
-        override val timestamp: Long
-            get() = dataActionReport.timestamp
-    }
+    ) = AnalyticsRecord(
+        type = "action",
+        values = generateValues(dataActionReport),
+        timestamp = dataActionReport.timestamp,
+        screen = dataActionReport.screenId ?: "",
+    )
 
     private fun generateValues(
         dataActionReport: DataActionReport,
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        setScreenIdValue(dataActionReport.screenId, hashMap)
         dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
@@ -171,12 +165,6 @@ internal object ActionReportFactory {
         hashMap["beagleAction"] = dataActionReport.actionType
         hashMap["component"] = generateComponentHashMap(dataActionReport)
         return hashMap
-    }
-
-    private fun setScreenIdValue(screenId: String?, hashMap: HashMap<String, Any>) {
-        if (screenId != null && screenId.isNotEmpty()) {
-            hashMap["screen"] = screenId
-        }
     }
 
     private fun getAttributesValue(dataActionReport: DataActionReport): HashMap<String, Any>? {

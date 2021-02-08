@@ -18,8 +18,8 @@ package br.com.zup.beagle.android.components.utils
 
 import android.view.View
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.data.serializer.createNamespace
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.putFirstCharacterOnLowerCase
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.BeagleJson
@@ -40,27 +40,25 @@ class ComponentStylization<T : ServerDrivenComponent>(
     }
 
     private fun getComponentType(component: ServerDrivenComponent) =
-        if (isCustomWidget(component)) "custom:" + getCustomWidgetName(component::class.java)
-        else "beagle:" + getBeagleWidgetName(component::class.java)
+        if (isCustomWidget(component)) getWidgetName("custom",component::class.java)
+        else getWidgetName("beagle",component::class.java)
 
     private fun isCustomWidget(component: ServerDrivenComponent) =
         BeagleEnvironment.beagleSdk.registeredWidgets().contains(component::class.java)
 
-    //When use proguard, the widget name on Beagle is caught by the BeagleJson annotation
-    private fun getBeagleWidgetName(clazz: Class<*>): String? {
-        var name = clazz.getAnnotation(BeagleJson::class.java)?.name
-        if (name.isNullOrEmpty()) {
+    private fun getWidgetName(appNameSpace : String, clazz: Class<*>): String {
+        var name = ""
+        clazz.getAnnotation(RegisterWidget::class.java)?.let{
+            name = it.name
+        }
+        if (name.isEmpty()) {
+            clazz.getAnnotation(BeagleJson::class.java)?.let{
+                name = it.name
+            }
+        }
+        if(name.isEmpty()){
             name = clazz.simpleName
         }
-        return name?.putFirstCharacterOnLowerCase()
-    }
-
-    //When use proguard, the widget name on Beagle is caught by the RegisterWidget annotation
-    private fun getCustomWidgetName(clazz: Class<*>): String? {
-        var name = clazz.getAnnotation(RegisterWidget::class.java)?.name
-        if (name.isNullOrEmpty()) {
-            name = clazz.simpleName
-        }
-        return name?.putFirstCharacterOnLowerCase()
+        return createNamespace(appNameSpace, clazz, name)
     }
 }

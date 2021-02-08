@@ -54,8 +54,7 @@ internal class DataScreenReportTest : BaseTest() {
             dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 1) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(SCREEN_IDENTIFIER, timestamp) }
-            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(any(), any()) }
+            verify(exactly = 1) { ScreenReportFactory.generateScreenAnalyticsRecord(true, SCREEN_IDENTIFIER, timestamp) }
 
         }
 
@@ -71,8 +70,7 @@ internal class DataScreenReportTest : BaseTest() {
             dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 1) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(SCREEN_IDENTIFIER, timestamp) }
-            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(any(), any()) }
+            verify(exactly = 1) { ScreenReportFactory.generateScreenAnalyticsRecord(false,SCREEN_IDENTIFIER, timestamp) }
         }
 
     }
@@ -98,8 +96,7 @@ internal class DataScreenReportTest : BaseTest() {
             val result = dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(any(), any()) }
-            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(any(), any()) }
+            verify(exactly = 0) { ScreenReportFactory.generateScreenAnalyticsRecord(any(), any(), any()) }
             assertEquals(null, result)
 
         }
@@ -115,8 +112,7 @@ internal class DataScreenReportTest : BaseTest() {
             val result = dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 0) { ScreenReportFactory.generateRemoteScreenAnalyticsRecord(any(), any()) }
-            verify(exactly = 0) { ScreenReportFactory.generateLocalScreenAnalyticsRecord(any(), any()) }
+            verify(exactly = 0) { ScreenReportFactory.generateScreenAnalyticsRecord(any(), any(), any()) }
             assertEquals(null, result)
         }
     }

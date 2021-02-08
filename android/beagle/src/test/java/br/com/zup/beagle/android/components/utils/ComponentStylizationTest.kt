@@ -42,7 +42,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a ComponentPropertyAssigner")
+@DisplayName("Given a ComponentStylization")
 class ComponentStylizationTest : BaseTest() {
 
     @RelaxedMockK
@@ -176,7 +176,7 @@ class ComponentStylizationTest : BaseTest() {
             componentStylization.apply(view, widget)
 
             //then
-            Assert.assertEquals("beagle:widgetName", slotId.captured)
+            Assert.assertEquals("beagle:widgetname", slotId.captured)
         }
 
         @DisplayName("Then should get name from class")
@@ -195,7 +195,7 @@ class ComponentStylizationTest : BaseTest() {
             componentStylization.apply(view, widget)
 
             //then
-            Assert.assertEquals("beagle:beagleJsonWidgetWithoutName", slotId.captured)
+            Assert.assertEquals("beagle:beaglejsonwidgetwithoutname", slotId.captured)
         }
 
         @DisplayName("Then should get name from annotation")
@@ -215,7 +215,7 @@ class ComponentStylizationTest : BaseTest() {
             componentStylization.apply(view, widget)
 
             //then
-            Assert.assertEquals("custom:widgetName", slotId.captured)
+            Assert.assertEquals("custom:widgetname", slotId.captured)
         }
 
         @DisplayName("Then should get name from class")
@@ -235,7 +235,7 @@ class ComponentStylizationTest : BaseTest() {
             componentStylization.apply(view, widget)
 
             //then
-            Assert.assertEquals("custom:registerWidgetWithoutName", slotId.captured)
+            Assert.assertEquals("custom:registerwidgetwithoutname", slotId.captured)
         }
     }
 }
