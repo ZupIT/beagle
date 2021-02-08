@@ -32,7 +32,6 @@ trap cleanup EXIT
 
 echo "#### Starting Appium tests ..."
 chmod +x $APPIUM_PROJECT_DIR/gradlew
-#$APPIUM_PROJECT_DIR/gradlew -p $APPIUM_PROJECT_DIR cucumber -Dplatform=android 
 if $APPIUM_PROJECT_DIR/gradlew -p $APPIUM_PROJECT_DIR cucumber -Dplatform=android; then
   echo "Gradle task succeeded" >&2
 else
@@ -40,4 +39,3 @@ else
   exit 1
 fi
 
-#echo "Finish!"
