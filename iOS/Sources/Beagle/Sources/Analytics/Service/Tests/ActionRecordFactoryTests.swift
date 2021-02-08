@@ -29,27 +29,26 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
         try prepareComponentHierarchy()
 
         // When
-        let record = sut.makeRecord()
+        var record = sut.makeRecord()?.record
+        record?.timestamp = 0
 
         // Then should have all default properties
         _assertInlineSnapshot(matching: record, as: .json, with: """
         {
-          "dependsOnFutureGlobalConfig" : false,
-          "record" : {
-            "beagleAction" : "beagle:formremoteaction",
-            "component" : {
-              "id" : "test-component-id",
-              "position" : {
-                "x" : 0,
-                "y" : 0
-              },
-              "type" : "custom:analyticstestcomponent"
+          "beagleAction" : "beagle:formremoteaction",
+          "component" : {
+            "id" : "test-component-id",
+            "position" : {
+              "x" : 0,
+              "y" : 0
             },
-            "event" : "event",
-            "platform" : "ios",
-            "screen" : "analytics-actions",
-            "type" : "action"
-          }
+            "type" : "custom:analyticstestcomponent"
+          },
+          "event" : "event",
+          "platform" : "ios",
+          "screen" : "analytics-actions",
+          "timestamp" : 0,
+          "type" : "action"
         }
         """)
     }

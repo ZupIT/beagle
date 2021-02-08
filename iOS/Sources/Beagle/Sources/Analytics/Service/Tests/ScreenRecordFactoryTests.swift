@@ -21,71 +21,97 @@ import SnapshotTesting
 class ScreenRecordFactoryTests: XCTestCase {
 
     func testScreenRemote() {
-        // When
-        let record = makeScreenRecord(screen: remoteScreen, globalConfigIsEnabled: true)
+        // Given
+        screen = remoteScreen
 
         // Then
-        _assertInlineSnapshot(matching: record, as: .json, with: """
+        recordShouldBeEqualTo("""
         {
           "dependsOnFutureGlobalConfig" : false,
-          "record" : {
-            "platform" : "ios",
-            "screen" : "REMOTE",
-            "type" : "screen"
-          }
+          "platform" : "ios",
+          "screen" : "REMOTE",
+          "type" : "screen"
         }
         """)
     }
 
     func testScreenDeclarative() {
         // Given
-        let declarative = ScreenType.declarative(Screen(
+        screen = .declarative(Screen(
             identifier: "DECLARATIVE",
             child: ComponentDummy()
         ))
 
-        // When
-        let record = makeScreenRecord(screen: declarative, globalConfigIsEnabled: true)
-
         // Then
-        _assertInlineSnapshot(matching: record, as: .json, with: """
+        recordShouldBeEqualTo("""
         {
           "dependsOnFutureGlobalConfig" : false,
-          "record" : {
-            "platform" : "ios",
-            "screen" : "DECLARATIVE",
-            "type" : "screen"
-          }
+          "platform" : "ios",
+          "screen" : "DECLARATIVE",
+          "type" : "screen"
         }
         """)
     }
 
     func testConfigDisabled() {
-        // When
-        let record = makeScreenRecord(screen: remoteScreen, globalConfigIsEnabled: false)
+        // Given
+        disabledGlobalConfig()
 
         // Then
-        _assertInlineSnapshot(matching: record, as: .json, with: """
+        recordShouldBeEqualTo("""
         null
         """)
     }
 
     func testConfigNil() {
-        // When
-        let record = makeScreenRecord(screen: remoteScreen, globalConfigIsEnabled: nil)
+        // Given
+        noGlobalConfig()
 
         // Then
-        _assertInlineSnapshot(matching: record, as: .json, with: """
+        recordShouldBeEqualTo("""
         {
           "dependsOnFutureGlobalConfig" : true,
-          "record" : {
-            "platform" : "ios",
-            "screen" : "REMOTE",
-            "type" : "screen"
-          }
+          "platform" : "ios",
+          "screen" : "REMOTE",
+          "type" : "screen"
         }
         """)
     }
 
-    private var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
+    // MARK: - Aux
+
+    lazy var screen = remoteScreen
+
+    var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
+
+    var _globalConfig: Bool? = true
+
+    func disabledGlobalConfig() {
+        _globalConfig = false
+    }
+
+    func noGlobalConfig() {
+        _globalConfig = nil
+    }
+
+    func recordShouldBeEqualTo(
+        _ string: String,
+        override: Bool = false,
+        testName: String = #function,
+        line: UInt = #line
+    ) {
+        // When
+        let result = makeScreenRecord(screen: screen, globalConfigIsEnabled: _globalConfig)
+            .flatMap(removeTimestamp)
+
+        // Then
+        _assertInlineSnapshot(matching: result, as: .json, record: override, with: string, testName: testName, line: line)
+    }
+
+    func removeTimestamp(_ record: AnalyticsService.Cache) -> [String: DynamicObject]? {
+        var dict = record.record.toDictionary()
+        dict.removeValue(forKey: "timestamp")
+        dict["dependsOnFutureGlobalConfig"] = .bool(record.dependsOnFutureGlobalConfig)
+        return dict
+    }
 }

@@ -27,7 +27,7 @@ func makeScreenRecord(
     if isScreenDisabled { return nil }
 
     return .init(
-        record: AnalyticsRecord(type: .screen, screen: screenInfo(screen)),
+        record: AnalyticsRecord(type: .screen, screen: screenInfo(screen), timestamp: timestamp()),
         dependsOnFutureGlobalConfig: globalConfigIsEnabled == nil
     )
 }
@@ -55,7 +55,8 @@ struct ActionRecordFactory {
 
         let record = AnalyticsRecord(
             type: .action(action),
-            screen: screenInfo(info.controller.screenType)
+            screen: screenInfo(info.controller.screenType),
+            timestamp: timestamp()
         )
 
         return .init(record: record, dependsOnFutureGlobalConfig: values.attributes == .all)
@@ -63,6 +64,10 @@ struct ActionRecordFactory {
 }
 
 // MARK: - Private
+
+private func timestamp() -> Double {
+    return Date().timeIntervalSince1970 * 1000
+}
 
 private func screenInfo(_ screenType: ScreenType) -> String? {
     switch screenType {

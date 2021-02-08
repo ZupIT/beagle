@@ -20,17 +20,18 @@ public struct AnalyticsRecord {
 
     public let platform = "ios"
     public let screen: String?
+    public var timestamp: Double
 
     public var type: RecordType
-
     public enum RecordType {
         case screen
         case action(Action)
     }
     
-    public init(type: RecordType, screen: String?) {
+    public init(type: RecordType, screen: String?, timestamp: Double) {
         self.type = type
         self.screen = screen
+        self.timestamp = timestamp
     }
 
     public struct Action {
@@ -70,6 +71,7 @@ extension AnalyticsRecord {
 
         screen.map { dict["screen"] = .string($0) }
         dict["platform"] = .string(platform)
+        dict["timestamp"] = .double(timestamp)
         return dict
     }
 }
