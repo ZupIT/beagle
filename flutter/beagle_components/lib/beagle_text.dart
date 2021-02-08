@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
+import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:beagle/utils/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BeagleText extends StatelessWidget {
   const BeagleText({
@@ -23,23 +25,23 @@ class BeagleText extends StatelessWidget {
     this.text,
     this.textColor,
     this.alignment,
-  }) : super(key: key);
-
-  static const defaultTextColor = '#000000';
-  static const defaultTextAlign = TextAlign.left;
+    this.styleId,
+    DesignSystem designSystem,
+  })  : _designSystem = designSystem,
+        super(key: key);
 
   final String text;
   final String textColor;
   final TextAlignment alignment;
+  final String styleId;
+  final DesignSystem _designSystem;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(
-        color: getTextColor(textColor),
-      ),
       textAlign: getTextAlign(alignment),
+      style: getTextStyle(),
     );
   }
 
@@ -51,12 +53,20 @@ class BeagleText extends StatelessWidget {
     } else if (alignment == TextAlignment.LEFT) {
       return TextAlign.left;
     } else {
-      return defaultTextAlign;
+      return null;
     }
   }
 
   Color getTextColor(String color) {
-    return HexColor(color ?? defaultTextColor);
+    return color != null ? HexColor(color) : null;
+  }
+
+  TextStyle getTextStyle() {
+    var textStyle = _designSystem?.textStyle(styleId) ?? const TextStyle();
+    if (textColor != null && textColor.isNotEmpty) {
+      textStyle = textStyle.copyWith(color: getTextColor(textColor));
+    }
+    return textStyle;
   }
 }
 

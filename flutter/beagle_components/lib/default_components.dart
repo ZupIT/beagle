@@ -60,10 +60,12 @@ ComponentBuilder beagleTextBuilder() {
         key: element.getKey(),
         text: element.getAttributeValue('text'),
         textColor: element.getAttributeValue('textColor'),
+        styleId: element.getAttributeValue('styleId'),
         alignment: EnumUtils.fromString(
           TextAlignment.values,
           element.getAttributeValue('alignment') ?? '',
         ),
+        designSystem: BeagleInitializer.designSystem,
       );
 }
 
