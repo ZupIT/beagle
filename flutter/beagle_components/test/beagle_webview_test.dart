@@ -45,5 +45,15 @@ void main() {
         expect(webViewFinder, findsOneWidget);
       });
     });
+
+    group('When I pass an URL', () {
+      testWidgets('Then it should load the correct initial URL',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(createWidget());
+
+        expect(tester.widget<WebView>(find.byType(WebView)).initialUrl,
+            defaultUrl);
+      });
+    });
   });
 }
