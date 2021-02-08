@@ -14,27 +14,17 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
+/// API for sending log output.
+abstract class BeagleLogger {
+  /// Function to pass warning message.
+  void warning(String message);
 
-class AppDesignSystem extends DesignSystem {
-  @override
-  String image(String id) {
-    if (id == 'bus') {
-      return 'images/bus.png';
-    } else if (id == 'car') {
-      return 'images/car.png';
-    } else if (id == 'person') {
-      return 'images/person.png';
-    } else if (id == 'beagle') {
-      return 'images/beagle.png';
-    }
+  /// Function to pass error message.
+  void error(String message);
 
-    return null;
-  }
+  /// Function to pass a exception and error message.
+  void errorWithException(String message, Exception exception);
 
-  @override
-  BeagleButtonStyle buttonStyle(String id) {
-    return null;
-  }
+  /// Function for passing an information message.
+  void info(String message);
 }

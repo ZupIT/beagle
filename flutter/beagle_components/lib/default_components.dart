@@ -91,6 +91,8 @@ ComponentBuilder beagleButtonBuilder() {
         onPress: element.getAttributeValue('onPress'),
         text: element.getAttributeValue('text'),
         enabled: element.getAttributeValue('enabled'),
+        styleId: element.getAttributeValue('styleId'),
+        designSystem: BeagleInitializer.designSystem,
       );
 }
 
@@ -135,6 +137,7 @@ ComponentBuilder beagleImageBuilder() {
         key: element.getKey(),
         designSystem: BeagleInitializer.designSystem,
         imageDownloader: BeagleInitializer.imageDownloader,
+        logger: BeagleInitializer.logger,
         path: ImagePath.fromJson(element.getAttributeValue('path')),
         mode: EnumUtils.fromString(
           ImageContentMode.values,

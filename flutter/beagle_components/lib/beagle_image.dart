@@ -15,20 +15,20 @@
  */
 
 import 'dart:typed_data';
-
 import 'dart:ui';
 
 import 'package:beagle/interface/beagle_image_downloader.dart';
+import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class BeagleImage extends StatefulWidget {
   const BeagleImage({
     Key key,
     this.designSystem,
     this.imageDownloader,
+    this.logger,
     this.path,
     this.mode,
   }) : super(key: key);
@@ -38,6 +38,7 @@ class BeagleImage extends StatefulWidget {
 
   final DesignSystem designSystem;
   final BeagleImageDownloader imageDownloader;
+  final BeagleLogger logger;
 
   @override
   _BeagleImageState createState() => _BeagleImageState();
@@ -62,38 +63,48 @@ class _BeagleImageState extends State<BeagleImage> {
         : createImageFromNetwork(widget.path);
   }
 
-  void downloadImage() {
+  Future<void> downloadImage() async {
     final RemoteImagePath path = widget.path;
-    widget.imageDownloader.downloadImage(path.url).then((value) {
+    try {
+      final bytes = await widget.imageDownloader.downloadImage(path.url);
       setState(() {
-        imageBytes = value;
+        imageBytes = bytes;
       });
-    });
+    } catch (e) {
+      widget.logger?.errorWithException(e.toString(), e);
+    }
   }
 
   bool isLocalImage() => widget.path.runtimeType == LocalImagePath;
 
-  Image createImageFromAsset(LocalImagePath path) {
-    return Image.asset(
-      getAssetName(path),
-      fit: getBoxFit(widget.mode),
-    );
+  Widget createImageFromAsset(LocalImagePath path) {
+    if (isPlaceHolderValid(path)) {
+      return Image.asset(
+        getAssetName(path),
+        fit: getBoxFit(widget.mode),
+      );
+    } else {
+      return Container();
+    }
   }
 
-  Image createImageFromNetwork(RemoteImagePath path) {
+  Widget createImageFromNetwork(RemoteImagePath path) {
     if (isImageDownloaded()) {
       return createImageFromMemory(imageBytes);
     } else {
-      if (isPlaceHolderValid(path)) {
+      if (isPlaceHolderValid(path.placeholder)) {
         return createImageFromAsset(path.placeholder);
       } else {
-        return createImageFromMemory(kTransparentImage);
+        return Container();
       }
     }
   }
 
   Image createImageFromMemory(Uint8List bytes) {
-    return Image.memory(bytes);
+    return Image.memory(
+      bytes,
+      fit: getBoxFit(widget.mode),
+    );
   }
 
   bool isImageDownloaded() => imageBytes != null;
@@ -106,8 +117,8 @@ class _BeagleImageState extends State<BeagleImage> {
     return widget.designSystem.image(imagePath.mobileId);
   }
 
-  bool isPlaceHolderValid(RemoteImagePath path) =>
-      path.placeholder != null && getAssetName(path.placeholder) != null;
+  bool isPlaceHolderValid(LocalImagePath path) =>
+      path != null && getAssetName(path) != null;
 
   BoxFit getBoxFit(ImageContentMode mode) {
     if (mode == ImageContentMode.CENTER) {

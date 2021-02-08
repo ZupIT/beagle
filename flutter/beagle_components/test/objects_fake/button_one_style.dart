@@ -14,27 +14,26 @@
  * limitations under the License.
  */
 
+import 'dart:ui';
+
 import 'package:beagle/model/beagle_button_style.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:flutter/material.dart';
 
-class AppDesignSystem extends DesignSystem {
+class ButtonOneStyle extends BeagleButtonStyle {
   @override
-  String image(String id) {
-    if (id == 'bus') {
-      return 'images/bus.png';
-    } else if (id == 'car') {
-      return 'images/car.png';
-    } else if (id == 'person') {
-      return 'images/person.png';
-    } else if (id == 'beagle') {
-      return 'images/beagle.png';
-    }
-
-    return null;
-  }
+  BeagleIosButtonStyle get iosButtonStyle => BeagleIosButtonStyle(
+        padding: const EdgeInsets.all(16),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        pressedOpacity: 1,
+        color: Colors.indigo,
+        disabledColor: Colors.lightGreenAccent,
+      );
 
   @override
-  BeagleButtonStyle buttonStyle(String id) {
-    return null;
-  }
+  ButtonStyle get androidButtonStyle => ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+      );
+
+  @override
+  TextStyle get buttonTextStyle => const TextStyle(color: Colors.amber);
 }

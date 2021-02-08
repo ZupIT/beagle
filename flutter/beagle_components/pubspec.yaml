@@ -14,7 +14,6 @@ dependencies:
     sdk: flutter
   beagle:
     path: '../beagle'
-  transparent_image: ^1.0.0
 
 dev_dependencies:
   flutter_test:
