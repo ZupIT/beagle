@@ -61,11 +61,11 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
   final TextDirection _textDirection;
   final VerticalDirection _verticalDirection;
   final TextBaseline _textBaseline;
+  final CrossAxisAlignment _crossAxisAlignment;
 
   // flex exclusive properties
   final MainAxisSize _mainAxisSize;
   final MainAxisAlignment _mainAxisAlignment;
-  final CrossAxisAlignment _crossAxisAlignment;
 
   // wrap exclusive properties
   final WrapAlignment _alignment;
@@ -74,14 +74,13 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
   static List<Widget> _mapChildren(List<Widget> children) {
     final list = children;
     return list.map((child) {
-      if (child is BeagleStyleWidget && child.style?.flex != null) {
+      if (child is BeagleStyleWidget) {
         return BeagleFlexible(
-          grow: child.style.flex.grow,
-          shrink: child.style.flex.shrink,
-          alignSelf: child.style.flex.alignSelf,
-          positionType: child.style.positionType,
-          margin: child.style.margin,
-          hasSize: child.style.size != null,
+          grow: child.style?.flex?.grow ?? 0,
+          shrink: child.style?.flex?.shrink ?? 1,
+          alignSelf: child.style?.flex?.alignSelf ?? AlignSelf.AUTO,
+          positionType: child.style?.positionType ?? FlexPosition.RELATIVE,
+          margin: child.style?.margin,
           child: child,
         );
       } else {

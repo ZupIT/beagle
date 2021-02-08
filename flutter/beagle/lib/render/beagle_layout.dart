@@ -53,17 +53,11 @@ bool _startIsTopLeft(
 }
 
 class _RunMetrics {
-  _RunMetrics(
-    this.mainAxisExtent,
-    this.crossAxisExtent,
-    this.childCount, {
-    this.hasFreeSpace,
-  });
+  _RunMetrics(this.mainAxisExtent, this.crossAxisExtent, this.childCount);
 
   final double mainAxisExtent;
   final double crossAxisExtent;
   final int childCount;
-  final bool hasFreeSpace;
 }
 
 class BeagleWrapFlexParentData extends ContainerBoxParentData<RenderBox> {
@@ -74,7 +68,6 @@ class BeagleWrapFlexParentData extends ContainerBoxParentData<RenderBox> {
   AlignSelf alignSelf;
   FlexPosition positionType;
   EdgeValue margin;
-  bool hasSize;
   int _runIndex = 0;
 }
 
@@ -86,7 +79,6 @@ class BeagleFlexible extends ParentDataWidget<BeagleWrapFlexParentData> {
     this.alignSelf,
     this.positionType,
     this.margin,
-    this.hasSize,
     @required Widget child,
   }) : super(key: key, child: child);
 
@@ -95,7 +87,6 @@ class BeagleFlexible extends ParentDataWidget<BeagleWrapFlexParentData> {
   final AlignSelf alignSelf;
   final FlexPosition positionType;
   final EdgeValue margin;
-  final bool hasSize;
 
   @override
   void applyParentData(RenderObject renderObject) {
@@ -128,11 +119,6 @@ class BeagleFlexible extends ParentDataWidget<BeagleWrapFlexParentData> {
       needsLayout = true;
     }
 
-    if (parentData.hasSize != hasSize) {
-      parentData.hasSize = hasSize;
-      needsLayout = true;
-    }
-
     if (needsLayout) {
       final targetParent = renderObject.parent;
       if (targetParent is RenderObject) {
@@ -152,8 +138,7 @@ class BeagleFlexible extends ParentDataWidget<BeagleWrapFlexParentData> {
       ..add(DoubleProperty('shrink', shrink))
       ..add(EnumProperty('alignSelf', alignSelf))
       ..add(EnumProperty('positionType', positionType))
-      ..add(StringProperty('margin', margin.toString()))
-      ..add(StringProperty('hasSize', hasSize.toString()));
+      ..add(StringProperty('margin', margin.toString()));
   }
 }
 
@@ -408,6 +393,7 @@ class RenderWrapFlex extends RenderBox
 
   var _isWrap = false;
   var _flexChildrenSize = 0.0;
+  var _totalChildrenShrinkSize = 0.0;
 
   @override
   void setupParentData(RenderBox child) {
@@ -416,29 +402,30 @@ class RenderWrapFlex extends RenderBox
     }
   }
 
-  bool _isWrapNeeded(Axis sizingDirection, double extent) {
+  bool _isWrapNeeded() {
     //todo add margin to this math
     var childrenSize = 0.0;
-    if (sizingDirection == Axis.horizontal) {
-      for (final child in getChildrenAsList()) {
+    for (final child in getChildrenAsList()) {
+      if (direction == Axis.horizontal) {
         child.layout(
           BoxConstraints(maxWidth: constraints.maxWidth),
           parentUsesSize: true,
         );
         childrenSize += child.size.width;
-      }
-    } else {
-      for (final child in getChildrenAsList()) {
+      } else {
         child.layout(
           BoxConstraints(maxHeight: constraints.maxHeight),
           parentUsesSize: true,
         );
         childrenSize += child.size.height;
       }
+      _totalChildrenShrinkSize +=
+          (child.parentData as BeagleWrapFlexParentData).shrink *
+              _getMainSize(child);
     }
     _flexChildrenSize = childrenSize;
     return _isWrap =
-        childrenSize > extent && _flexWrap != FlexWrap.NO_WRAP;
+        childrenSize > _getExtent() && _flexWrap != FlexWrap.NO_WRAP;
   }
 
   double _getFlexIntrinsicSize({
@@ -457,7 +444,8 @@ class RenderWrapFlex extends RenderBox
         totalShrink += shrink;
         if (shrink > 0) {
           final flexFraction = childSize(child, extent) / shrink;
-          maxShrinkFractionSoFar = math.max(maxShrinkFractionSoFar, flexFraction);
+          maxShrinkFractionSoFar =
+              math.max(maxShrinkFractionSoFar, flexFraction);
         } else {
           inflexibleSpace += childSize(child, extent);
         }
@@ -683,6 +671,10 @@ class RenderWrapFlex extends RenderBox
     return 0;
   }
 
+  double _getExtent() => _direction == Axis.horizontal
+      ? constraints.maxWidth
+      : constraints.maxHeight;
+
   double _getWrapMainAxisExtent(RenderBox child) =>
       direction == Axis.horizontal ? child.size.width : child.size.height;
 
@@ -694,10 +686,22 @@ class RenderWrapFlex extends RenderBox
           ? Offset(mainAxisOffset, crossAxisOffset)
           : Offset(crossAxisOffset, mainAxisOffset);
 
-  double _getWrapChildCrossAxisOffset(bool flipCrossAxis,
-      double runCrossAxisExtent, double childCrossAxisExtent) {
+  double _getWrapChildCrossAxisOffset(double runCrossAxisExtent,
+      double childCrossAxisExtent) {
     final freeSpace = runCrossAxisExtent - childCrossAxisExtent;
-    return flipCrossAxis ? freeSpace : 0.0;
+    switch (crossAxisAlignment) {
+      case CrossAxisAlignment.stretch:
+      case CrossAxisAlignment.start:
+        return 0;
+      case CrossAxisAlignment.end:
+        return freeSpace;
+      case CrossAxisAlignment.center:
+        return freeSpace / 2.0;
+      case CrossAxisAlignment.baseline:
+        // todo
+        return 0;
+    }
+    return 0;
   }
 
   num _getGrow(RenderBox child) {
@@ -802,12 +806,13 @@ class RenderWrapFlex extends RenderBox
           runMainAxisExtent + childMainAxisExtent > mainAxisLimit) {
         mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
         crossAxisExtent += runCrossAxisExtent;
-        runMetrics.add(_RunMetrics(
-          runMainAxisExtent,
-          runCrossAxisExtent,
-          childCount,
-          hasFreeSpace: mainAxisLimit - runMainAxisExtent > 0,
-        ));
+        runMetrics.add(
+          _RunMetrics(
+            runMainAxisExtent,
+            runCrossAxisExtent,
+            childCount,
+          ),
+        );
         runMainAxisExtent = 0.0;
         runCrossAxisExtent = 0.0;
         childCount = 0;
@@ -822,12 +827,13 @@ class RenderWrapFlex extends RenderBox
     if (childCount > 0) {
       mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
       crossAxisExtent += runCrossAxisExtent;
-      runMetrics.add(_RunMetrics(
-        runMainAxisExtent,
-        runCrossAxisExtent,
-        childCount,
-        hasFreeSpace: mainAxisLimit - runMainAxisExtent > 0
-      ));
+      runMetrics.add(
+        _RunMetrics(
+          runMainAxisExtent,
+          runCrossAxisExtent,
+          childCount,
+        ),
+      );
     }
 
     final runCount = runMetrics.length;
@@ -840,10 +846,9 @@ class RenderWrapFlex extends RenderBox
       var allocatedSize = 0.0;
       RenderBox lastFlexChild;
       for (var i = runInit; i < runInit + run.childCount; i++) {
-        final shrink = _getShrink(children[i]);
         final grow = _getGrow(children[i]);
-        if (shrink > 0 || grow > 0) {
-          totalFlex += run.hasFreeSpace ? grow : shrink;
+        if (grow > 0) {
+          totalFlex += grow;
           lastFlexChild = children[i];
         } else {
           allocatedSize += _getMainSize(children[i]);
@@ -854,26 +859,22 @@ class RenderWrapFlex extends RenderBox
       var allocatedFlexSpace = 0.0;
       for (var i = runInit; i < runInit + run.childCount; i++) {
         BoxConstraints innerConstraints;
-        final shrink = _getShrink(children[i]);
         final grow = _getGrow(children[i]);
-        if (shrink > 0 || grow > 0) {
-          final maxChildExtent = children[i] == lastFlexChild
-              ? freeSpace - allocatedFlexSpace
-              : spacePerFlex * (run.hasFreeSpace ? grow : shrink);
-          var minChildExtent = 0.0;
-          if (grow > 0) {
-            minChildExtent = maxChildExtent;
-          } else {
-            minChildExtent = 0.0;
+        if (grow > 0) {
+          var maxChildExtent = 0.0;
+          if (mainAxisLimit > run.mainAxisExtent) {
+            maxChildExtent = children[i] == lastFlexChild
+                ? freeSpace - allocatedFlexSpace
+                : spacePerFlex * grow;
           }
           if (direction == Axis.horizontal) {
             innerConstraints = BoxConstraints(
-              minWidth: minChildExtent,
+              minWidth: maxChildExtent,
               maxWidth: constraints.maxWidth,
             );
           } else {
             innerConstraints = BoxConstraints(
-              minHeight: minChildExtent,
+              minHeight: maxChildExtent,
               maxHeight: constraints.maxHeight,
             );
           }
@@ -881,7 +882,7 @@ class RenderWrapFlex extends RenderBox
           allocatedFlexSpace += maxChildExtent;
         }
       }
-      runInit = run.childCount;
+      runInit += run.childCount;
     }
 
     var containerMainAxisExtent = 0.0;
@@ -985,7 +986,7 @@ class RenderWrapFlex extends RenderBox
         final childMainAxisExtent = _getWrapMainAxisExtent(child);
         final childCrossAxisExtent = _getWrapCrossAxisExtent(child);
         final childCrossAxisOffset = _getWrapChildCrossAxisOffset(
-            flipCrossAxis, runCrossAxisExtent, childCrossAxisExtent);
+            runCrossAxisExtent, childCrossAxisExtent);
         if (flipMainAxis) {
           childMainPosition -= childMainAxisExtent;
         }
@@ -1053,7 +1054,7 @@ class RenderWrapFlex extends RenderBox
       } else {
         BoxConstraints innerConstraints;
         if (crossAxisAlignment == CrossAxisAlignment.stretch) {
-          switch (_direction) {
+          switch (direction) {
             case Axis.horizontal:
               innerConstraints =
                   BoxConstraints.tightFor(height: constraints.maxHeight);
@@ -1064,7 +1065,7 @@ class RenderWrapFlex extends RenderBox
               break;
           }
         } else {
-          switch (_direction) {
+          switch (direction) {
             case Axis.horizontal:
               innerConstraints =
                   BoxConstraints(maxHeight: constraints.maxHeight);
@@ -1100,10 +1101,13 @@ class RenderWrapFlex extends RenderBox
           // todo implement flex basis and consider too padding with border
           var minChildExtent = _getMainSize(child);
           if (useShrink && shrink > 0) {
-            if (childParentData.hasSize && canFlex) {
-              final childProportion =
-                  _getMainSize(child) / totalChildrenSizeToShrink;
-              maxChildExtent = maxMainSize * childProportion;
+            if (canFlex) {
+              final remainingSpace = totalChildrenSizeToShrink - maxMainSize;
+              final childShrinkSize = shrink * _getMainSize(child);
+              final childShrinkFactor =
+                  childShrinkSize / _totalChildrenShrinkSize;
+              maxChildExtent =
+                  _getMainSize(child) - (childShrinkFactor * remainingSpace);
             } else {
               maxChildExtent = _getMainSize(child);
             }
@@ -1311,11 +1315,7 @@ class RenderWrapFlex extends RenderBox
 
   @override
   void performLayout() {
-    final isWrap = _isWrapNeeded(
-        _direction,
-        _direction == Axis.horizontal
-            ? constraints.maxWidth
-            : constraints.maxHeight);
+    final isWrap = _isWrapNeeded();
     if (isWrap) {
       _performWrapLayout();
     } else {
