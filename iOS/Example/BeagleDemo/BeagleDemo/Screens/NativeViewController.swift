@@ -51,15 +51,13 @@ class NativeViewController: UIViewController {
             self.loadingLabel.isHidden = false
             self.errorLabel.isHidden = true
         case .error(var serverDrivenError, let retry):
-            self.loadingLabel.isHidden = true
             self.errorLabel.text = serverDrivenError.localizedDescription
             self.errorLabel.textColor = .red
             self.errorLabel.isHidden = false
         case .success:
-            self.loadingLabel.isHidden = true
             self.errorLabel.isHidden = true
         case .finished:
-            break
+            self.loadingLabel.isHidden = true
         }
     }
     
