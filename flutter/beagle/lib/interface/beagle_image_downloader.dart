@@ -14,27 +14,9 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
+import 'dart:typed_data';
 
-class AppDesignSystem extends DesignSystem {
-  @override
-  String image(String id) {
-    if (id == 'bus') {
-      return 'images/bus.png';
-    } else if (id == 'car') {
-      return 'images/car.png';
-    } else if (id == 'person') {
-      return 'images/person.png';
-    } else if (id == 'beagle') {
-      return 'images/beagle.png';
-    }
-
-    return null;
-  }
-
-  @override
-  BeagleButtonStyle buttonStyle(String id) {
-    return null;
-  }
+// ignore: one_member_abstracts
+abstract class BeagleImageDownloader {
+  Future<Uint8List> downloadImage(String url);
 }
