@@ -122,7 +122,7 @@ class AnalyticsService {
         }
     }
 
-    private func maxItemsInQueue() -> Int {
+    func maxItemsInQueue() -> Int {
         provider.maximumItemsInQueue ?? 100
     }
 }

@@ -21,99 +21,80 @@ import SnapshotTesting
 class AnalyticsServiceTests: XCTestCase {
 
     private lazy var sut = AnalyticsService(provider: provider)
-
-    private var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
-    private var declarativeScreen: ScreenType { .declarative(Screen(identifier: "DECLARATIVE", child: ComponentDummy())) }
     
     // MARK: Configuration tests
 
-    func testMaximumItemsInQueue() {
-        provider.config = nil
+    func testNormalOperation() {
+        // Given
+        enabledGlobalConfig()
+        let items = 4 * maxItems
 
-        for _ in 1...maxItems {
-            sut.createRecord(screen: remoteScreen)
-        }
-        waitRecords()
-        XCTAssertEqual(provider.records, [])
+        // When
+        triggerNewRecord(manyTimes: items)
 
-        provider.config = .init()
-
-        sut.createRecord(screen: remoteScreen)
-
-        waitRecords()
-        XCTAssertEqual(provider.records.count, maxItems)
+        // Then
+        XCTAssertEqual(receivedRecords().count, items)
     }
 
-    func testWithConfig() {
-        provider.config = .init()
-        let overMax = 4 * maxItems
+    func testDefaultValueOfMaxItems() {
+        // Given
+        provider.maximumItemsInQueue = nil
 
-        for _ in 1...overMax {
-            sut.createRecord(screen: remoteScreen)
-        }
+        // Then
+        XCTAssertEqual(sut.maxItemsInQueue(), 100)
+    }
 
-        waitRecords()
-        XCTAssertEqual(provider.records.count, overMax)
+    func testMaximumItemsInQueue() {
+        // Given
+        noGlobalConfig()
+        // When
+        sendNewRecordsUntilQueueIsFull()
+        // Then
+        XCTAssertEqual(receivedRecords(), [])
+
+        // When changing to
+        enabledGlobalConfig()
+        // And
+        triggerNewRecord()
+
+        // Then should receive all items that were queued
+        XCTAssertEqual(receivedRecords().count, maxItems)
     }
 
     func testChangingConfig() {
-        provider.config = .init()
+        // Given is working normally
+        testNormalOperation()
 
-        for _ in 1...3 {
-            sut.createRecord(screen: remoteScreen)
-        }
+        // When change config to
+        noGlobalConfig()
+        // And
+        sendNewRecordsUntilQueueIsFull()
+        // Then should not receive more records
+        XCTAssertEqual(receivedRecords().count, 0)
 
-        waitRecords()
-        XCTAssertEqual(provider.records.count, 3)
+        // When change config again to
+        enabledGlobalConfig()
+        // And
+        triggerNewRecord(manyTimes: 30)
 
-        provider.config = nil
-
-        for _ in 1...5 {
-            sut.createRecord(screen: remoteScreen)
-        }
-
-        waitRecords()
-        XCTAssertEqual(provider.records.count, 3)
-
-        provider.config = .init()
-
-        for _ in 1...5 {
-            sut.createRecord(screen: remoteScreen)
-        }
-
-        waitRecords()
-        XCTAssertEqual(provider.records.count, 12)
-    }
-    
-    func testScreenRecord() {
-        testScreenRecordWithConfig(enabled: false)
-        testScreenRecordWithConfig(enabled: true)
+        // Then
+        let items = 30 + maxItems - 1 // -1 due to losing item to full queue
+        XCTAssertEqual(receivedRecords().count, items)
     }
 
-    func testFirstWithoutConfigAndThenWithDisabledConfig() {
-        provider.config = nil
+    func testDisabledConfigShouldDisableItemsInQueue() {
+        // Given
+        noGlobalConfig()
+        // And
+        sendNewRecordsUntilQueueIsFull()
 
-        sut.createRecord(screen: remoteScreen)
+        // When change to
+        disabledGlobalConfig()
+        // And
+        triggerNewRecord()
 
-        provider.config = .init(enableScreenAnalytics: false)
-
-        sut.createRecord(screen: remoteScreen)
-
-        waitRecords()
-        XCTAssertEqual(provider.records.count, 0)
-    }
-
-    func testFirstWithoutConfigAndThenWithEnabledConfig() {
-        provider.config = nil
-
-        sut.createRecord(screen: remoteScreen)
-
-        provider.config = .init(enableScreenAnalytics: true)
-
-        sut.createRecord(screen: remoteScreen)
-
-        waitRecords()
-        XCTAssertEqual(provider.records.count, 2)
+        // Then
+        XCTAssertEqual(receivedRecords().count, 0)
     }
 
     func testFirstWithoutConfigAndThenWithAttributes() {
@@ -128,10 +109,9 @@ class AnalyticsServiceTests: XCTestCase {
 
         provider.config = .init(actions: ["beagle:formremoteaction": ["path"]])
 
-        sut.createRecord(screen: remoteScreen)
+        triggerNewRecord()
 
-        waitRecords()
-        _assertInlineSnapshot(matching: resultWithAttributes(), as: .json, with: """
+        _assertInlineSnapshot(matching: recordedAttributes(), as: .json, with: """
         {
           "attributes" : {
             "path" : "PATH"
@@ -139,40 +119,48 @@ class AnalyticsServiceTests: XCTestCase {
         }
         """)
     }
-
-    private func resultWithAttributes() -> [String: DynamicObject]? {
-        provider.records.first?.onlyAttributesAndAdditional()
-    }
     
+    // MARK: Screen tests
+
+    func testScreenRecord() {
+        testScreenRecordWithConfig(enabled: false)
+        testScreenRecordWithConfig(enabled: true)
+    }
+
     private func testScreenRecordWithConfig(enabled: Bool) {
         // Given
         provider.config = .init(enableScreenAnalytics: enabled)
 
         // When
-        sut.createRecord(screen: remoteScreen)
-        waitRecords()
+        triggerNewRecord()
 
         // Then
-        XCTAssertEqual(provider.records.count, enabled ? 1 : 0)
+        XCTAssertEqual(receivedRecords().count, enabled ? 1 : 0)
     }
-    
-    // MARK: Screen tests
     
     func testScreenRemote() {
         // When
-        sut.createRecord(screen: remoteScreen)
+        triggerNewRecord()
         
         // Then
         assertSnapshot(matching: provider.records, as: .json)
     }
     
     func testScreenDeclarative() {
+        // Given
+        let declarative = ScreenType.declarative(Screen(
+            identifier: "DECLARATIVE",
+            child: ComponentDummy()
+        ))
+
         // When
-        sut.createRecord(screen: declarativeScreen)
+        sut.createRecord(screen: declarative)
         
         // Then
         assertSnapshot(matching: provider.records, as: .json)
     }
+
+    // MARK: - Aux
 
     private let maxItems = 5
 
@@ -182,12 +170,44 @@ class AnalyticsServiceTests: XCTestCase {
         return it
     }()
 
-    private func waitRecords() {
+    private func receivedRecords() -> [AnalyticsRecord] {
         let expec = expectation(description: "wait records")
         sut.serialDispatch.async {
             expec.fulfill()
         }
         wait(for: [expec], timeout: 1)
+
+        let records = provider.records
+        provider.records = []
+        return records
+    }
+
+    private func triggerNewRecord(manyTimes: Int = 1) {
+        for _ in 1...manyTimes {
+            sut.createRecord(screen: remoteScreen)
+        }
+    }
+
+    private func sendNewRecordsUntilQueueIsFull() {
+        triggerNewRecord(manyTimes: maxItems)
+    }
+
+    private var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
+
+    private func recordedAttributes() -> [String: DynamicObject]? {
+        receivedRecords().first?.onlyAttributesAndAdditional()
+    }
+
+    private func noGlobalConfig() {
+        provider.config = nil
+    }
+
+    private func enabledGlobalConfig() {
+        provider.config = .init()
+    }
+
+    private func disabledGlobalConfig() {
+        provider.config = .init(enableScreenAnalytics: false)
     }
 }
 
