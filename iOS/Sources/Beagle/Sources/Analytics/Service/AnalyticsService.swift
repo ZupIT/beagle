@@ -68,6 +68,8 @@ class AnalyticsService {
 
     struct Cache: Encodable {
         let record: AnalyticsRecord
+
+        /// indicates that this record was created without a complete config, and so should be further updated with a new config before being sent
         let dependsOnFutureGlobalConfig: Bool
     }
 
@@ -112,9 +114,10 @@ class AnalyticsService {
         case .screen:
             return newConfig.enableScreenAnalytics ? new : nil
 
-        case .action(let action):
+        case .action(var action):
             guard let attributes = newConfig.actions[action.beagleAction] else { return nil }
-            new.values = new.values.getSomeAttributes(attributes, contextProvider: nil)
+            action.attributes = action.attributes.getSomeAttributes(attributes, contextProvider: nil)
+            new.type = .action(action)
             return new
         }
     }

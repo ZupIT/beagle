@@ -18,130 +18,12 @@ import XCTest
 import SnapshotTesting
 @testable import Beagle
 
-class AnalyticsGeneratorTests: XCTestCase {
+class RecordFactoryTests: RecordFactoryHelpers {
 
-    private lazy var sut = ActionRecordFactory(info: info, globalConfig: _globalConfig)
-
-    func testJustUsingGlobalConfig() {
-        // Given
-        globalConfigWithActionEnabled()
-        // And
-        actionWithConfig(nil)
-
-        // Then should obey global config
-        recordShouldBeEqualTo("""
-        {
-          "path" : "PATH"
-        }
-        """)
-    }
-
-    func testEnabledActionWith1Attribute() {
-        // Given
-        emptyGlobalConfig()
-        // And
-        actionWithJust1AttributeEnabled()
-
-        // Then should create a record with just 1 attribute
-        recordShouldBeEqualTo("""
-        {
-          "method" : "DELETE"
-        }
-        """)
-    }
-    
-    func testDisabledActionShouldOverrideGlobalConfig() {
-        // Given
-        globalConfigWithActionEnabled()
-        // And
-        actionWithConfig(.disabled)
-
-        // Then should NOT create record
-        recordShouldBeEqualTo("""
-        null
-        """)
-    }
-
-    func testWithNoGlobalShouldRecordAllAttributes() {
-        // Given
-        nilGlobalConfig()
-        // And
-        actionWithJust1AttributeEnabled()
-
-        // Then should create a record with all attributes
-        recordShouldBeEqualTo("""
-        {
-          "method" : "DELETE"
-        }
-        """)
-    }
-
-    func testShouldDependOnFutureGlobalConfig() {
-        // Given
-        nilGlobalConfig()
-        // And
-        actionWithConfig(nil)
-
-        // Then should depend on future global config
-        recordShouldBeEqualTo("""
-        {
-          "analytics" : null,
-          "dependsOnFutureGlobalConfig" : true,
-          "method" : "DELETE",
-          "path" : "PATH"
-        }
-        """)
-    }
-
-    func testActionWithEnabledNil() {
-        // Given
-        emptyGlobalConfig()
-        // And
-        actionWithConfig(.enabled(nil))
-
-        // Then should have just standard properties
-        recordShouldBeEqualTo("""
-        {
-        
-        }
-        """)
-    }
-
-    func testActionWithEnabledNilAndGlobalConfigEnabled() {
-        // Given
-        globalConfigWithActionEnabled()
-        // And
-        actionWithConfig(.enabled(nil))
-
-        // Then should use global config
-        recordShouldBeEqualTo("""
-        {
-        
-        }
-        """)
-    }
-
-    func testAdditionalEntriesShouldTakePrecedence() {
-        // Given
-        emptyGlobalConfig()
-        // And
-        actionWithConfig(.enabled(.init(
-            attributes: ["path"],
-            additionalEntries: ["path": "NEW PATH"]
-        )))
-
-        // Then should use NEW PATH
-        recordShouldBeEqualTo("""
-        {
-          "path" : "NEW PATH"
-        }
-        """)
-    }
+    // MARK: Default Record
 
     func testRecordWithAllDefaultProperties() throws {
         // Given
-        emptyGlobalConfig()
-        // And
         actionWithConfig(.enabled(nil))
         // And
         try prepareComponentHierarchy()
@@ -172,21 +54,189 @@ class AnalyticsGeneratorTests: XCTestCase {
         """)
     }
 
-    // MARK: - Private
+    // MARK: Only Global Config
+
+    func testJustGlobalConfig() {
+        // Given
+        globalConfigWithActionEnabled()
+        // And
+        actionWithConfig(nil)
+
+        // Then should obey global config
+        recordShouldBeEqualTo("""
+        {
+          "attributes" : {
+            "path" : "PATH"
+          }
+        }
+        """)
+    }
+
+    func testJustUsingGlobalConfigEmpty() {
+        // Given
+        emptyGlobalConfig()
+        // And
+        actionWithConfig(nil)
+
+        // Then should obey global config
+        recordShouldBeEqualTo("""
+        null
+        """)
+    }
+
+    // MARK: Action precedence
+
+    func testEnabledActionWith1Attribute() {
+        // Given
+        emptyGlobalConfig()
+        // And
+        actionWithJust1AttributeEnabled()
+
+        // Then should create a record with just 1 attribute
+        recordShouldBeEqualTo("""
+        {
+          "attributes" : {
+            "method" : "DELETE"
+          }
+        }
+        """)
+    }
+    
+    func testDisabledActionShouldOverrideGlobalConfig() {
+        // Given
+        globalConfigWithActionEnabled()
+        // And
+        actionWithConfig(.disabled)
+
+        // Then should NOT create record
+        recordShouldBeEqualTo("""
+        null
+        """)
+    }
+
+    func testActionWithEnabledNilAndGlobalConfigEnabled() {
+        // Given
+        globalConfigWithActionEnabled()
+        // And
+        actionWithConfig(.enabled(nil))
+
+        // Then should use Action config
+        recordShouldBeEqualTo("""
+        {
+
+        }
+        """)
+    }
+
+    // MARK: Nil Global Config
+
+    func testShouldDependOnFutureGlobalConfig() {
+        // Given
+        nilGlobalConfig()
+        // And
+        actionWithConfig(nil)
+
+        // Then should have all attributes, and depend on future global config
+        recordShouldBeEqualTo("""
+        {
+          "attributes" : {
+            "analytics" : null,
+            "method" : "DELETE",
+            "path" : "PATH"
+          },
+          "dependsOnFutureGlobalConfig" : true
+        }
+        """)
+    }
+
+    func testActionEnabledShouldNotDependOnGlobalConfig() {
+        // Given
+        nilGlobalConfig()
+        // And
+        actionWithConfig(.enabled(nil))
+
+        // Then should NOT depend on future global config
+        recordShouldBeEqualTo("""
+        {
+
+        }
+        """)
+    }
+
+    func testActionEnabledWithAttributeShouldNotDependOnGlobalConfig() {
+        // Given
+        nilGlobalConfig()
+        // And
+        actionWithJust1AttributeEnabled()
+
+        // Then should NOT depend on global config
+        recordShouldBeEqualTo("""
+        {
+          "attributes" : {
+            "method" : "DELETE"
+          }
+        }
+        """)
+    }
+
+    // MARK: Additional Entries
+
+    func testAdditionalEntries() {
+        // Given
+        actionWithConfig(.enabled(.init(
+            additionalEntries: ["additional": "NEW ENTRY"]
+        )))
+
+        // Then
+        recordShouldBeEqualTo("""
+        {
+          "additionalEntries" : {
+            "additional" : "NEW ENTRY"
+          }
+        }
+        """)
+    }
+
+    func testAdditionalEntriesAndAttributes() {
+        // Given
+        actionWithConfig(.enabled(.init(
+            attributes: ["path"],
+            additionalEntries: ["additional": "NEW ENTRY"]
+        )))
+
+        // Then
+        recordShouldBeEqualTo("""
+        {
+          "additionalEntries" : {
+            "additional" : "NEW ENTRY"
+          },
+          "attributes" : {
+            "path" : "PATH"
+          }
+        }
+        """)
+    }
+}
+
+// MARK: - Aux
+
+class RecordFactoryHelpers: XCTestCase {
+
+    lazy var sut = ActionRecordFactory(info: info, globalConfig: _globalConfig?.actions)
 
     // swiftlint:disable implicitly_unwrapped_optional
     var action: FormRemoteAction!
 
-    private lazy var info = AnalyticsService.ActionInfo(
+    lazy var info = AnalyticsService.ActionInfo(
         action: action,
         event: "event",
         origin: ViewDummy(),
         controller: BeagleScreenViewController(ComponentDummy())
     )
 
-    private lazy var _globalConfig: AnalyticsConfig.AttributesByActionName? = nil
+    lazy var _globalConfig: AnalyticsConfig? = nil
 
-    private func actionWithConfig(_ config: ActionAnalyticsConfig?) {
+    func actionWithConfig(_ config: ActionAnalyticsConfig?) {
         action = FormRemoteAction(
             path: "PATH",
             method: .delete,
@@ -194,25 +244,25 @@ class AnalyticsGeneratorTests: XCTestCase {
         )
     }
 
-    private func actionWithJust1AttributeEnabled() {
+    func actionWithJust1AttributeEnabled() {
         actionWithConfig(.enabled(.init(attributes: ["method"])))
     }
 
-    private func nilGlobalConfig() {
+    func nilGlobalConfig() {
         _globalConfig = nil
     }
 
-    private func emptyGlobalConfig() {
-        _globalConfig = [:]
+    func emptyGlobalConfig() {
+        _globalConfig =  .init(actions: [:])
     }
 
-    private func globalConfigWithActionEnabled() {
-        _globalConfig = [
+    func globalConfigWithActionEnabled() {
+        _globalConfig = .init(actions: [
             "beagle:formremoteaction": ["methods", "path"]
-        ]
+        ])
     }
 
-    private func recordShouldBeEqualTo(
+    func recordShouldBeEqualTo(
         _ string: String,
         record: Bool = false,
         testName: String = #function,
@@ -226,8 +276,8 @@ class AnalyticsGeneratorTests: XCTestCase {
         _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)
     }
 
-    private func resultWithoutDefaultValues(_ result: AnalyticsService.Cache) -> [String: DynamicObject]? {
-        var dict = result.record.values
+    func resultWithoutDefaultValues(_ result: AnalyticsService.Cache) -> [String: DynamicObject]? {
+        var dict = result.record.onlyAttributesAndAdditional()
 
         if result.dependsOnFutureGlobalConfig {
             dict["dependsOnFutureGlobalConfig"] = .bool(true)
@@ -236,8 +286,16 @@ class AnalyticsGeneratorTests: XCTestCase {
         return dict
     }
 
-    private func prepareComponentHierarchy() throws {
+    func prepareComponentHierarchy() throws {
         let (view, controller) = try analyticsViewHierarchyWith(context: nil)
         info = .init(action: action, event: "event", origin: view, controller: controller)
+    }
+}
+
+extension AnalyticsRecord {
+    func onlyAttributesAndAdditional() -> [String: DynamicObject] {
+        var dict = toDictionary()
+        dict = dict.getSomeAttributes(["attributes", "additionalEntries"], contextProvider: nil)
+        return dict
     }
 }

@@ -17,6 +17,8 @@
 import Foundation
 import UIKit
 
+// MARK: Screen
+
 func makeScreenRecord(
     screen: ScreenType,
     globalConfigIsEnabled: Bool?
@@ -30,27 +32,30 @@ func makeScreenRecord(
     )
 }
 
+// MARK: Action
+
 struct ActionRecordFactory {
 
     let info: AnalyticsService.ActionInfo
     let globalConfig: AnalyticsConfig.AttributesByActionName?
 
-    // MARK: - Action
-
     func makeRecord() -> AnalyticsService.Cache? {
         guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
         guard let values = enabledValuesForAction(named: name) else { return nil }
 
+        let attributes = info.action.getAttributes(values.attributes, contextProvider: info.origin)
+
         let action = AnalyticsRecord.Action(
             beagleAction: name,
             event: info.event,
-            component: componentInfo()
+            component: componentInfo(),
+            attributes: attributes,
+            additionalEntries: values.additional
         )
 
         let record = AnalyticsRecord(
             type: .action(action),
-            screen: screenInfo(info.controller.screenType),
-            values: attributesAndAdditionalEntries(values: values)
+            screen: screenInfo(info.controller.screenType)
         )
 
         return .init(record: record, dependsOnFutureGlobalConfig: values.attributes == .all)
@@ -105,11 +110,6 @@ private extension ActionRecordFactory {
     struct EnabledValues {
         let attributes: ActionAttributes
         var additional = [String: DynamicObject]()
-    }
-
-    func attributesAndAdditionalEntries(values: EnabledValues) -> [String: DynamicObject] {
-        info.action.getAttributes(values.attributes, contextProvider: info.origin)
-            .merging(values.additional) { _, new in new }
     }
 
     func componentInfo() -> AnalyticsRecord.Action.Component {

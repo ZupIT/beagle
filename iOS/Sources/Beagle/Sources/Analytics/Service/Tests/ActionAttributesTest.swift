@@ -20,7 +20,7 @@ import SnapshotTesting
 
 class ActionAttributesTest: XCTestCase {
 
-    func testRecordingMultipleActions() throws {
+    func testAttributesInMultipleActions() throws {
         let records = [
             try doRecord(AddChildren.self, fromJson: "AddChildren-1"),
             try doRecord(Alert.self, fromJson: "Alert-1"),

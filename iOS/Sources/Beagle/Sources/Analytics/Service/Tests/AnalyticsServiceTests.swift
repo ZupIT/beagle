@@ -131,11 +131,17 @@ class AnalyticsServiceTests: XCTestCase {
         sut.createRecord(screen: remoteScreen)
 
         waitRecords()
-        _assertInlineSnapshot(matching: provider.records.first?.values, as: .json, with: """
+        _assertInlineSnapshot(matching: resultWithAttributes(), as: .json, with: """
         {
-          "path" : "PATH"
+          "attributes" : {
+            "path" : "PATH"
+          }
         }
         """)
+    }
+
+    private func resultWithAttributes() -> [String: DynamicObject]? {
+        provider.records.first?.onlyAttributesAndAdditional()
     }
     
     private func testScreenRecordWithConfig(enabled: Bool) {

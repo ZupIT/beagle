@@ -78,7 +78,8 @@ extension Dictionary where Key == String, Value == DynamicObject {
 // MARK: - JSON Transformation
 
 func transformToDynamicObject(_ any: Any) -> DynamicObject {
-    let json = validJsonFromObject(any)
+    guard let json = validJsonFromObject(any) else { return .empty }
+
     do {
         let data = try JSONSerialization.data(withJSONObject: json)
         return try JSONDecoder().decode(DynamicObject.self, from: data)
@@ -91,7 +92,7 @@ func transformToDynamicObject(_ any: Any) -> DynamicObject {
 
 private var analyticsPath = Path(nodes: [.key("analytics")])
 
-private func validJsonFromObject(_ object: Any) -> Any {
+private func validJsonFromObject(_ object: Any) -> Any? {
     switch handleJsonForSpecifcTypes(object) {
     case .alreadyTransformed(let json):
         return json
@@ -99,6 +100,9 @@ private func validJsonFromObject(_ object: Any) -> Any {
     case .shouldUseChildren(let children):
         guard !children.isEmpty else { return object }
         return dictFromChildren(children)
+
+    case .isAnEmptyCollection:
+        return nil
     }
 }
 
@@ -108,12 +112,19 @@ private func handleJsonForSpecifcTypes(_ object: Any) -> SpecificTypeResult {
     switch object {
     case let expression as ExpressionRawValue:
         result = validJsonFromObject(expression.rawValue)
+
     case let dynamicObject as DynamicObject:
         result = dynamicObject.asAny() as Any
+        if isEmptyCollection(result) { return .isAnEmptyCollection }
+
     case let array as [Any]:
-        result = array.compactMap(validJsonFromObject)
+        if isEmptyCollection(array) { return .isAnEmptyCollection }
+        result = array.map(validJsonFromObject)
+
     case let dict as [String: Any]:
-        result = dict
+        if isEmptyCollection(dict) { return .isAnEmptyCollection }
+        result = dict.mapValues(validJsonFromObject)
+
     default:
         result = nil
     }
@@ -133,6 +144,19 @@ private func handleJsonForSpecifcTypes(_ object: Any) -> SpecificTypeResult {
     }
 }
 
+private func isEmptyCollection(_ object: Any?) -> Bool {
+    guard let object = object else { return true }
+
+    switch object {
+    case let array as [Any]:
+        return array.isEmpty
+    case let dict as [String: Any]:
+        return dict.isEmpty
+    default:
+        return false
+    }
+}
+
 private func dictFromChildren(_ children: Mirror.Children) -> [String: Any] { // swiftlint:disable syntactic_sugar
     let allAttributes: [(String, Any)] = children.compactMap {
         guard
@@ -140,7 +164,8 @@ private func dictFromChildren(_ children: Mirror.Children) -> [String: Any] { //
             case Optional<Any>.some(let value) = $0.value
         else { return nil }
 
-        return (label, validJsonFromObject(value))
+        guard let newValue = validJsonFromObject(value) else { return nil }
+        return (label, newValue)
     }
 
     return [String: Any](uniqueKeysWithValues: allAttributes)
@@ -149,6 +174,7 @@ private func dictFromChildren(_ children: Mirror.Children) -> [String: Any] { //
 private enum SpecificTypeResult {
     case alreadyTransformed(Any)
     case shouldUseChildren(Mirror.Children)
+    case isAnEmptyCollection
 }
 
 private protocol ExpressionRawValue {

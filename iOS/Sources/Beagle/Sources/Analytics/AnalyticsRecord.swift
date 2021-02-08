@@ -20,18 +20,16 @@ public struct AnalyticsRecord {
 
     public let platform = "ios"
     public let screen: String?
-    public var values: [String: DynamicObject]
 
-    public let type: RecordType
+    public var type: RecordType
 
     public enum RecordType {
         case screen
         case action(Action)
     }
     
-    public init(type: RecordType, screen: String?, values: [String: DynamicObject] = [:]) {
+    public init(type: RecordType, screen: String?) {
         self.type = type
-        self.values = values
         self.screen = screen
     }
 
@@ -40,6 +38,8 @@ public struct AnalyticsRecord {
         public var event: String?
         public var screen: String?
         public var component: Component
+        public var attributes: [String: DynamicObject]
+        public var additionalEntries: [String: DynamicObject]
 
         public struct Component {
             public var id: String?
@@ -56,7 +56,7 @@ public struct AnalyticsRecord {
 extension AnalyticsRecord {
 
     public func toDictionary() -> [String: DynamicObject] {
-        var dict = values
+        var dict = [String: DynamicObject]()
 
         switch type {
         case .action(let action):
