@@ -21,8 +21,8 @@ import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
-import 'package:sample/design_system.dart';
 
 const BASE_URL =
     'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/b000186cfa79ad1ed450bda48da5f6ed9077942c';

@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
+/// API for sending log output.
+abstract class BeagleLogger {
+  /// Function to pass warning message.
+  void warning(String message);
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:flutter/rendering.dart';
+  /// Function to pass error message.
+  void error(String message);
 
-abstract class DesignSystem {
-  String image(String id);
+  /// Function to pass a exception and error message.
+  void errorWithException(String message, Exception exception);
 
-  BeagleButtonStyle buttonStyle(String id);
-
-  TextStyle textStyle(String id);
+  /// Function for passing an information message.
+  void info(String message);
 }

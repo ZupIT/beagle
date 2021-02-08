@@ -64,10 +64,12 @@ ComponentBuilder beagleTextBuilder() {
         key: element.getKey(),
         text: element.getAttributeValue('text'),
         textColor: element.getAttributeValue('textColor'),
+        styleId: element.getAttributeValue('styleId'),
         alignment: EnumUtils.fromString(
           TextAlignment.values,
           element.getAttributeValue('alignment') ?? '',
         ),
+        designSystem: BeagleInitializer.designSystem,
       );
 }
 
@@ -141,6 +143,7 @@ ComponentBuilder beagleImageBuilder() {
         key: element.getKey(),
         designSystem: BeagleInitializer.designSystem,
         imageDownloader: BeagleInitializer.imageDownloader,
+        logger: BeagleInitializer.logger,
         path: ImagePath.fromJson(element.getAttributeValue('path')),
         mode: EnumUtils.fromString(
           ImageContentMode.values,
