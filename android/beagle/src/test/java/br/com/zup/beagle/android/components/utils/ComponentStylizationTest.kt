@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a ComponentPropertyAssigner")
-class ComponentPropertyAssignerTest : BaseTest() {
+class ComponentStylizationTest : BaseTest() {
 
     @RelaxedMockK
     private lateinit var accessibilitySetup: AccessibilitySetup
@@ -58,7 +58,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
     private lateinit var styleManager: StyleManager
 
     @InjectMockKs
-    private lateinit var componentPropertyAssigner: ComponentPropertyAssigner<WidgetView>
+    private lateinit var componentStylization: ComponentStylization<WidgetView>
 
     @BeforeEach
     override fun setUp() {
@@ -84,7 +84,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
             every { view.applyStyle(widget) } just Runs
 
             // When
-            componentPropertyAssigner.apply(view, widget)
+            componentStylization.apply(view, widget)
 
             // Then
             assertEquals(widgetId, slotId.captured)
@@ -105,7 +105,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
             every { view.applyStyle(widget) } just Runs
 
             // When
-            componentPropertyAssigner.apply(view, widget)
+            componentStylization.apply(view, widget)
 
             // Then
             assertEquals("custom:text", slotId.captured)
@@ -125,7 +125,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
             every { view.applyStyle(widget) } just Runs
 
             // When
-            componentPropertyAssigner.apply(view, widget)
+            componentStylization.apply(view, widget)
 
             // Then
             assertEquals("beagle:text", slotId.captured)
@@ -145,7 +145,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
             every { view.applyStyle(widget) } just Runs
 
             // WHEN
-            componentPropertyAssigner.apply(view, widget)
+            componentStylization.apply(view, widget)
 
             // THEN
             assertEquals(widgetId.toAndroidId(), slotId.captured)
@@ -173,7 +173,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
             every { view.applyStyle(widget) } just Runs
 
             //when
-            componentPropertyAssigner.apply(view, widget)
+            componentStylization.apply(view, widget)
 
             //then
             Assert.assertEquals("beagle:widgetName", slotId.captured)
@@ -192,7 +192,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
             every { view.applyStyle(widget) } just Runs
 
             //when
-            componentPropertyAssigner.apply(view, widget)
+            componentStylization.apply(view, widget)
 
             //then
             Assert.assertEquals("beagle:beagleJsonWidgetWithoutName", slotId.captured)
@@ -212,7 +212,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
             every { view.applyStyle(widget) } just Runs
 
             //when
-            componentPropertyAssigner.apply(view, widget)
+            componentStylization.apply(view, widget)
 
             //then
             Assert.assertEquals("custom:widgetName", slotId.captured)
@@ -232,7 +232,7 @@ class ComponentPropertyAssignerTest : BaseTest() {
             every { view.applyStyle(widget) } just Runs
 
             //when
-            componentPropertyAssigner.apply(view, widget)
+            componentStylization.apply(view, widget)
 
             //then
             Assert.assertEquals("custom:registerWidgetWithoutName", slotId.captured)
