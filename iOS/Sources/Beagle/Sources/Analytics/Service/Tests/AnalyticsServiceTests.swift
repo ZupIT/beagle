@@ -20,9 +20,7 @@ import SnapshotTesting
 
 class AnalyticsServiceTests: XCTestCase {
 
-    private lazy var sut = AnalyticsService(provider: provider)
-    
-    // MARK: Configuration tests
+    lazy var sut = AnalyticsService(provider: provider)
 
     func testNormalOperation() {
         // Given
@@ -118,46 +116,6 @@ class AnalyticsServiceTests: XCTestCase {
           }
         }
         """)
-    }
-    
-    // MARK: Screen tests
-
-    func testScreenRecord() {
-        testScreenRecordWithConfig(enabled: false)
-        testScreenRecordWithConfig(enabled: true)
-    }
-
-    private func testScreenRecordWithConfig(enabled: Bool) {
-        // Given
-        provider.config = .init(enableScreenAnalytics: enabled)
-
-        // When
-        triggerNewRecord()
-
-        // Then
-        XCTAssertEqual(receivedRecords().count, enabled ? 1 : 0)
-    }
-    
-    func testScreenRemote() {
-        // When
-        triggerNewRecord()
-        
-        // Then
-        assertSnapshot(matching: provider.records, as: .json)
-    }
-    
-    func testScreenDeclarative() {
-        // Given
-        let declarative = ScreenType.declarative(Screen(
-            identifier: "DECLARATIVE",
-            child: ComponentDummy()
-        ))
-
-        // When
-        sut.createRecord(screen: declarative)
-        
-        // Then
-        assertSnapshot(matching: provider.records, as: .json)
     }
 
     // MARK: - Aux

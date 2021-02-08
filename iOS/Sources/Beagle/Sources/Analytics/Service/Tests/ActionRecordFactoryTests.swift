@@ -18,7 +18,7 @@ import XCTest
 import SnapshotTesting
 @testable import Beagle
 
-class RecordFactoryTests: RecordFactoryHelpers {
+class ActionRecordFactoryTests: RecordFactoryHelpers {
 
     // MARK: Default Record
 
