@@ -24,14 +24,20 @@ fun accessibility(block: AccessibilityBuilder.() -> Unit)
 
 class AccessibilityBuilder: BeagleBuilder<Accessibility> {
     var accessible: Boolean = true
+    var isHeader: Boolean = false
     var accessibilityLabel: String? = null
 
+    fun isHeader(isHeader: Boolean) = this.apply { this.isHeader = isHeader }
     fun accessible(accessible: Boolean) = this.apply { this.accessible = accessible }
     fun accessibilityLabel(accessibilityLabel: String?)
             = this.apply { this.accessibilityLabel = accessibilityLabel }
 
     fun accessible(block: () -> Boolean) {
         accessible(block.invoke())
+    }
+
+    fun isHeader(block: () -> Boolean) {
+        isHeader(block.invoke())
     }
 
     fun accessibilityLabel(block: () -> String?) {

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import 'package:flutter/material.dart';
+import 'package:beagle/model/beagle_button_style.dart';
 
 abstract class DesignSystem {
   String image(String id);
 
-  Theme theme(String id);
+  BeagleButtonStyle buttonStyle(String id);
 }

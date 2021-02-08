@@ -17,24 +17,23 @@
 import 'package:beagle/model/beagle_button_style.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 
-class AppDesignSystem extends DesignSystem {
+import 'button_one_style.dart';
+
+class FakeDesignSystem extends DesignSystem {
   @override
-  String image(String id) {
-    if (id == 'bus') {
-      return 'images/bus.png';
-    } else if (id == 'car') {
-      return 'images/car.png';
-    } else if (id == 'person') {
-      return 'images/person.png';
-    } else if (id == 'beagle') {
-      return 'images/beagle.png';
+  BeagleButtonStyle buttonStyle(String id) {
+    BeagleButtonStyle style;
+    switch (id) {
+      case 'button-one':
+        style = ButtonOneStyle();
+        break;
     }
 
-    return null;
+    return style;
   }
 
   @override
-  BeagleButtonStyle buttonStyle(String id) {
-    return null;
+  String image(String id) {
+    throw UnimplementedError();
   }
 }
