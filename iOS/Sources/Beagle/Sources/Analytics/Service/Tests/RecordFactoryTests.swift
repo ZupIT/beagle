@@ -20,7 +20,7 @@ import SnapshotTesting
 
 class AnalyticsGeneratorTests: XCTestCase {
 
-    private lazy var sut = AnalyticsGenerator(info: info, globalConfig: _globalConfig)
+    private lazy var sut = ActionRecordFactory(info: info, globalConfig: _globalConfig)
 
     func testJustUsingGlobalConfig() {
         // Given

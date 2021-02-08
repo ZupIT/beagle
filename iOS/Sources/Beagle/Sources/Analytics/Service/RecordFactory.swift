@@ -30,7 +30,7 @@ func makeScreenRecord(
     )
 }
 
-struct AnalyticsGenerator {
+struct ActionRecordFactory {
 
     let info: AnalyticsService.ActionInfo
     let globalConfig: AnalyticsConfig.AttributesByActionName?
@@ -59,7 +59,18 @@ struct AnalyticsGenerator {
 
 // MARK: - Private
 
-private extension AnalyticsGenerator {
+private func screenInfo(_ screenType: ScreenType) -> String? {
+    switch screenType {
+    case .remote(let remote):
+        return remote.url
+    case .declarative(let declarative):
+        return declarative.identifier
+    case .declarativeText:
+        return ""
+    }
+}
+
+private extension ActionRecordFactory {
 
     func getActionName() -> String? {
         Mirror(reflecting: info.action).descendant("_beagleAction_") as? String
@@ -113,16 +124,5 @@ private extension AnalyticsGenerator {
             y: Double(point.y)
         )
         return .init(id: id, type: name, position: .init(x: position.x, y: position.y))
-    }
-}
-
-private func screenInfo(_ screenType: ScreenType) -> String? {
-    switch screenType {
-    case .remote(let remote):
-        return remote.url
-    case .declarative(let declarative):
-        return declarative.identifier
-    case .declarativeText:
-        return ""
     }
 }

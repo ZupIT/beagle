@@ -39,14 +39,14 @@ class AnalyticsService {
     }
 
     func createRecord(action: ActionInfo) {
-        let generator = AnalyticsGenerator(
+        ActionRecordFactory(
             info: action,
             globalConfig: provider.getConfig()?.actions
         )
-
-        guard let record = generator.makeRecord() else { return }
-
-        sendToQueue(cache: record)
+        .makeRecord()
+        .map(
+            sendToQueue(cache:)
+        )
     }
 
     struct ActionInfo {
@@ -85,12 +85,12 @@ class AnalyticsService {
 
         queue.append(cache)
 
-        if let config = provider.getConfig() {
-            queue.forEach {
-                sendRecordToProvider($0, config: config)
-            }
-            queue = []
+        guard let config = provider.getConfig() else { return }
+
+        queue.forEach {
+            sendRecordToProvider($0, config: config)
         }
+        queue = []
     }
 
     private func sendRecordToProvider(_ cache: Cache, config: AnalyticsConfig) {
@@ -100,7 +100,9 @@ class AnalyticsService {
             record = updateRecord(cache.record, newConfig: config)
         }
 
-        record.map(provider.createRecord(_:))
+        record.map(
+            provider.createRecord(_:)
+        )
     }
 
     private func updateRecord(_ record: AnalyticsRecord, newConfig: AnalyticsConfig) -> AnalyticsRecord? {
