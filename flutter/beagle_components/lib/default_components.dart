@@ -20,11 +20,14 @@ import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
+import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
+import 'package:beagle_components/beagle_page_indicator.dart';
 import 'package:beagle_components/beagle_page_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
+import 'package:beagle_components/beagle_touchable.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -37,6 +40,9 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:lazycomponent': beagleLazyComponentBuilder(),
   'beagle:tabbar': beagleTabBarBuilder(),
   'beagle:pageview': beaglePageViewBuilder(),
+  'beagle:image': beagleImageBuilder(),
+  'beagle:pageIndicator': beaglePageIndicatorBuilder(),
+  'beagle:touchable': beagleTouchableBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -58,10 +64,12 @@ ComponentBuilder beagleTextBuilder() {
         key: element.getKey(),
         text: element.getAttributeValue('text'),
         textColor: element.getAttributeValue('textColor'),
+        styleId: element.getAttributeValue('styleId'),
         alignment: EnumUtils.fromString(
           TextAlignment.values,
           element.getAttributeValue('alignment') ?? '',
         ),
+        designSystem: BeagleInitializer.designSystem,
       );
 }
 
@@ -89,6 +97,8 @@ ComponentBuilder beagleButtonBuilder() {
         onPress: element.getAttributeValue('onPress'),
         text: element.getAttributeValue('text'),
         enabled: element.getAttributeValue('enabled'),
+        styleId: element.getAttributeValue('styleId'),
+        designSystem: BeagleInitializer.designSystem,
       );
 }
 
@@ -125,5 +135,37 @@ ComponentBuilder beaglePageViewBuilder() {
         currentPage: element.getAttributeValue('currentPage'),
         onPageChange: element.getAttributeValue('onPageChange'),
         children: children,
+      );
+}
+
+ComponentBuilder beagleImageBuilder() {
+  return (element, _, __) => BeagleImage(
+        key: element.getKey(),
+        designSystem: BeagleInitializer.designSystem,
+        imageDownloader: BeagleInitializer.imageDownloader,
+        logger: BeagleInitializer.logger,
+        path: ImagePath.fromJson(element.getAttributeValue('path')),
+        mode: EnumUtils.fromString(
+          ImageContentMode.values,
+          element.getAttributeValue('mode') ?? '',
+        ),
+      );
+}
+
+ComponentBuilder beaglePageIndicatorBuilder() {
+  return (element, _, __) => BeaglePageIndicator(
+        key: element.getKey(),
+        selectedColor: element.getAttributeValue('selectedColor'),
+        unselectedColor: element.getAttributeValue('unselectedColor'),
+        numberOfPages: element.getAttributeValue('numberOfPages'),
+        currentPage: element.getAttributeValue('currentPage'),
+      );
+}
+
+ComponentBuilder beagleTouchableBuilder() {
+  return (element, children, __) => BeagleTouchable(
+        key: element.getKey(),
+        onPress: element.getAttributeValue('onPress'),
+        child: children[0],
       );
 }

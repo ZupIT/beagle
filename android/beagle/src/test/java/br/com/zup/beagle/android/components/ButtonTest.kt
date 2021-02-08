@@ -71,8 +71,9 @@ internal class ButtonTest : BaseComponentTest() {
         every { button.context } returns context
 
         every { anyConstructed<ViewFactory>().makeButton(any(), buttonStyle) } returns button
+        every { anyConstructed<ViewFactory>().makeButton(any()) } returns button
         every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any<List<Action>>()) } just Runs
-        every { anyConstructed<StyleManager>().getButtonStyle(any()) } returns buttonStyle
+        every { anyConstructed<StyleManager>().getButtonStyle(DEFAULT_STYLE) } returns buttonStyle
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
 
@@ -85,12 +86,31 @@ internal class ButtonTest : BaseComponentTest() {
 
         @Test
         @DisplayName("Then should build a Button")
+        fun testBuildButtonWithoutStyle() {
+            // Given
+            buttonComponent = Button(defaultText)
+
+            // When
+            val view = buttonComponent.buildView(rootView)
+
+            // Then
+            verify {
+                anyConstructed<ViewFactory>().makeButton(any())
+            }
+            assertTrue(view is AppCompatButton)
+        }
+
+        @Test
+        @DisplayName("Then should build a Button")
         fun buildButtonInstance() {
             // When
             val view = buttonComponent.buildView(rootView)
 
             // Then
             assertTrue(view is AppCompatButton)
+            verify {
+                anyConstructed<ViewFactory>().makeButton(any(), buttonStyle)
+            }
         }
 
         @Test

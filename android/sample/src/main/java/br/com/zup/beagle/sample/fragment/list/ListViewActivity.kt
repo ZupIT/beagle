@@ -57,6 +57,7 @@ class ListViewActivity : AppCompatActivity() {
         ),
         dataSource = expressionOf("@{outsideContext}"),
         direction = ListDirection.VERTICAL,
+        isScrollIndicatorVisible = true,
         template = Container(
             children = listOf(
                 Text(text = expressionOf("@{item}")),
@@ -147,6 +148,7 @@ class ListViewActivity : AppCompatActivity() {
         key = "cpf",
         dataSource = expressionOf("@{insideContext}"),
         direction = ListDirection.HORIZONTAL,
+        isScrollIndicatorVisible = true,
         template = Container(
             children = listOf(
                 Button(

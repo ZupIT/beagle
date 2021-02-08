@@ -17,18 +17,25 @@
 import 'package:beagle/beagle_remote_view.dart';
 import 'package:flutter/material.dart';
 
-class TabBarScreen extends StatefulWidget {
-  const TabBarScreen({Key key}) : super(key: key);
+class BeagleSampleScreen extends StatefulWidget {
+  const BeagleSampleScreen({
+    Key key,
+    this.title,
+    this.route,
+  }) : super(key: key);
+
+  final String title;
+  final String route;
 
   @override
-  _TabBarScreenState createState() => _TabBarScreenState();
+  _BeagleSampleScreenState createState() => _BeagleSampleScreenState();
 }
 
-class _TabBarScreenState extends State<TabBarScreen> {
+class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tab Bar',
+      title: widget.title,
       theme: Theme.of(context).copyWith(
         indicatorColor: Colors.white,
         appBarTheme: const AppBarTheme(
@@ -37,9 +44,9 @@ class _TabBarScreenState extends State<TabBarScreen> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('TabBar Sample'),
+          title: Text(widget.title),
         ),
-        body: const BeagleRemoteView(route: '/beagle_tab_bar'),
+        body: BeagleRemoteView(route: widget.route),
       ),
     );
   }
