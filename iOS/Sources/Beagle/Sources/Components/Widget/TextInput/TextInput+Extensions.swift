@@ -27,6 +27,9 @@ extension TextInput: ServerDrivenComponent {
         
         if let styleId = styleId {
             textInputView.beagle.applyStyle(for: textInputView as UITextField, styleId: styleId, with: renderer.controller)
+        } else {
+            textInputView.layer.borderWidth = 0.5
+            textInputView.layer.cornerRadius = 5
         }
         
         return textInputView
@@ -87,6 +90,7 @@ extension TextInput: ServerDrivenComponent {
             }
         }
         
+        private var shouldFixHeight: Bool = true
         var observable = Observable<WidgetState>(value: WidgetState(value: text))
         weak var controller: BeagleController?
         
@@ -116,6 +120,14 @@ extension TextInput: ServerDrivenComponent {
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            if superview != nil && shouldFixHeight {
+                frame.size.height = frame.size.height - validationLabel.frame.size.height
+                shouldFixHeight = false
+            }
         }
    
         func getValue() -> Any {
@@ -182,12 +194,8 @@ private extension TextInput.TextInputView {
     }
     
     func setupValidationLabel() {
-        if !showError {
-            addSubview(validationLabel)
-            validationLabel.anchor(top: bottomAnchor, left: leftAnchor, right: rightAnchor, topConstant: 1)
-            layer.borderWidth = 0.5
-            layer.cornerRadius = 5
-        }
+        addSubview(validationLabel)
+        validationLabel.anchor(top: bottomAnchor, left: leftAnchor, right: rightAnchor, topConstant: 1)
     }
     
     func setupToolBar() {

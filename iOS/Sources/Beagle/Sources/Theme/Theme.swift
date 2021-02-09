@@ -72,6 +72,16 @@ public struct BeagleStyle {
     public static func button(withTitleColor color: UIColor) -> (UIButton?) -> Void {
         return { $0?.setTitleColor(color, for: .normal) }
     }
+
+    public static func textInput(borderColor: UIColor? = nil, validationErrorBoderColor: UIColor? = nil, borderStyle: UITextField.BorderStyle? = nil, borderWidth: CGFloat? = nil) -> (UITextField?) -> Void {
+        return {
+            guard let textInput = $0 as? TextInput.TextInputView else { return }
+            textInput.borderStyle = borderStyle ?? .none
+            textInput.layer.borderWidth = borderWidth ?? 0
+            textInput.layer.borderColor = borderColor?.cgColor
+            
+        }
+    }
     
     public static func tabBar(backgroundColor: UIColor, indicatorColor: UIColor, selectedTextColor: UIColor? = nil, unselectedTextColor: UIColor? = nil, selectedIconColor: UIColor? = nil, unselectedIconColor: UIColor? = nil) -> (UIView?) -> Void {
         return {

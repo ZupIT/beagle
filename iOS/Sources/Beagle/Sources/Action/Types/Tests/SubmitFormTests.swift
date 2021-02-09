@@ -37,4 +37,50 @@ final class SubmitFormTest: XCTestCase {
         XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
     }
     
+    func test_validationErrorAction() {
+        // Given
+        let controller = BeagleControllerNavigationSpy()
+        let renderer = BeagleRenderer(controller: controller)
+        let submitFormAction = SubmitForm()
+        let simpleForm = SimpleForm(
+            onValidationError: [Alert(message: "Validation Error!")],
+            children: [
+                TextInput(value: "",
+                          error: .value("Error!"),
+                          showError: .value(true)),
+                Button(text: "Test", onPress: [submitFormAction])
+            ]
+        )
+        
+        // When
+        let resultingView = renderer.render(simpleForm)
+        submitFormAction.execute(controller: controller, origin: resultingView)
+
+        // Then
+        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
+    }
+
+    func test_whenValidationError_onSubmitIsNotTriggered() {
+        // Given
+        let submitFormAction = SubmitForm()
+        let simpleForm = SimpleForm(
+            onSubmit: [Alert(message: "Hello Beagle!")],
+            onValidationError: [SetContext(contextId: "context", value: "text")],
+            children: [
+                TextInput(value: "@{context}",
+                          error: .value("Error!"),
+                          showError: .value(true),
+                          widgetProperties: .init(style: .init(size: Size().width(150).height(50)))),
+                Button(text: "Test", onPress: [submitFormAction])
+            ]
+        )
+        
+        // When
+        
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(simpleForm.toScreen()), dependencies: dependencies))
+        controller.execute(actions: [submitFormAction], event: nil, origin: getOriginView(controller))
+
+        // Then
+        assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 150, height: 70)))
+    }
 }
