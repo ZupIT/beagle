@@ -61,17 +61,18 @@ data class Style(
     val positionType: PositionType? = null,
     val display: Bind<Display>? = null,
 )
+
 /**
  * The corner radius change the appearance of view
  *
  * @param radius define size of radius
  *
  */
-
 @BeagleJson
 data class CornerRadius(
     val radius: Double = 0.0,
 )
+
 /**
  * This defines a flex container;
  * inline or block depending on the given value. It enables a flex context for all its direct children.
@@ -80,7 +81,6 @@ data class CornerRadius(
  * @property NONE
  *
  */
-
 @BeagleJson
 enum class Display {
     /**
@@ -93,6 +93,7 @@ enum class Display {
      */
     NONE
 }
+
 /**
  * The position type of an element defines how it is positioned within its parent.
  *
@@ -100,7 +101,6 @@ enum class Display {
  * @property RELATIVE
  *
  */
-
 @BeagleJson
 enum class PositionType {
     /**

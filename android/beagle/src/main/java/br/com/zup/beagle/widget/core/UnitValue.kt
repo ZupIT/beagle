@@ -31,6 +31,7 @@ data class UnitValue(
     val value: Double,
     val type: UnitType,
 )
+
 /**
  * This defines of a unit type;
  *
@@ -39,7 +40,6 @@ data class UnitValue(
  * @property AUTO
  *
  */
-
 @BeagleJson
 enum class UnitType {
     /**

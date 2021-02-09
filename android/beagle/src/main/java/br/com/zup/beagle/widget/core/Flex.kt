@@ -53,6 +53,7 @@ data class Flex(
     val grow: Double? = null,
     val shrink: Double? = null,
 )
+
 /**
  * Size handles the size of the item
  *
@@ -65,7 +66,6 @@ data class Flex(
  * @param aspectRatio defined as the ratio between the width and the height of a node.
  *
  */
-
 @BeagleJson
 data class Size(
     val width: UnitValue? = null,
@@ -76,6 +76,7 @@ data class Size(
     val minHeight: UnitValue? = null,
     val aspectRatio: Double? = null,
 )
+
 /**
  * specify the offset the edge of the item should have from it’s closest sibling (item) or parent (container)
  *
@@ -95,7 +96,6 @@ data class Size(
  *            it’s closest sibling (item) or parent (container).
  *
  */
-
 @BeagleJson
 data class EdgeValue(
     val left: UnitValue? = null,
@@ -106,6 +106,7 @@ data class EdgeValue(
     val vertical: UnitValue? = null,
     val all: UnitValue? = null,
 )
+
 /**
  * controls the direction in which the children of a node are laid out. This is also referred to as the main axis.
  * The cross axis is the axis perpendicular to the main axis, or the axis which the wrapping lines are laid out in.
@@ -116,7 +117,6 @@ data class EdgeValue(
  * @property ROW_REVERSE
  *
  */
-
 @BeagleJson
 enum class FlexDirection {
     /**
@@ -143,6 +143,7 @@ enum class FlexDirection {
      */
     ROW_REVERSE
 }
+
 /**
  * FlexWrap is set on containers and it controls what happens when children overflow
  * the size of the container along the main axis.
@@ -154,7 +155,6 @@ enum class FlexDirection {
  * @property WRAP_REVERSE
  *
  */
-
 @BeagleJson
 enum class FlexWrap {
     /**
@@ -176,6 +176,7 @@ enum class FlexWrap {
      */
     WRAP_REVERSE
 }
+
 /**
  * Describes how to align children within the main axis of their container.
  * For example, you can use this property to center a child horizontally within a container with flexDirection
@@ -189,7 +190,6 @@ enum class FlexWrap {
  * @property SPACE_EVENLY
  *
  */
-
 @BeagleJson
 enum class JustifyContent {
     /**
@@ -228,6 +228,7 @@ enum class JustifyContent {
      */
     SPACE_EVENLY
 }
+
 /**
  * Describes how to align distribution of lines along the transverse axis of the container.
  * For example, you can use this property to center child lines horizontally
@@ -242,7 +243,6 @@ enum class JustifyContent {
  * @property STRETCH
  *
  */
-
 @BeagleJson
 enum class AlignContent {
     /**
@@ -278,6 +278,7 @@ enum class AlignContent {
      */
     STRETCH
 }
+
 /**
  * Describes how to align the children on the container's cross axis.
  * Align self replaces any parent-defined options with align items.
@@ -292,7 +293,6 @@ enum class AlignContent {
  * @property STRETCH
  *
  */
-
 @BeagleJson
 enum class AlignSelf {
     /**
@@ -326,6 +326,7 @@ enum class AlignSelf {
      */
     STRETCH
 }
+
 /**
  * Describes how to align the children on the cross axis of the container.
  * For example, you can use this property to center a child horizontally
@@ -338,7 +339,6 @@ enum class AlignSelf {
  * @property STRETCH
  *
  */
-
 @BeagleJson
 enum class AlignItems {
     /**

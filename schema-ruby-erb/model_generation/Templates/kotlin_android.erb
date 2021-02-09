@@ -25,13 +25,13 @@
 
     output += @kotlinHelper.resolve_imports(object_type)
     output += @kotlinHelper.resolve_documentation(object_type)
-    output += resolve_object(object_type)
+    output += "\n#{resolve_object(object_type)}"
 
     output
   end
 
   def resolve_object(object_type)
-    output = "\n@BeagleJson"
+    output = "@BeagleJson"
 
     # Android widgets are generated interfaces
     if @kotlinHelper.inheritFrom_widget(object_type)
@@ -49,7 +49,7 @@
     output = ""
 
     for object_type in object_types
-      output += "\n#{@kotlinHelper.resolve_documentation(object_type)}"
+      output += "\n\n#{@kotlinHelper.resolve_documentation(object_type)}"
       output += "\n#{resolve_object(object_type)}"
       possibleNestedTypes = object_type.synthax_type.sameFileTypes
       if possibleNestedTypes.size > 0
