@@ -24,7 +24,7 @@ jobs:
             -   name: Cache ruby gems dependencies
                 uses: actions/cache@v2
                 env:
-                    keyPath: ${{ runner.os }}-gems
+                    keyPath: ${{ runner.os }}-gems-testing
                 with:
                     path: ~/.gem
                     key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
