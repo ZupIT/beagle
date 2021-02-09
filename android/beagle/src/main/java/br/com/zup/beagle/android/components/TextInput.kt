@@ -23,6 +23,7 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
@@ -117,11 +118,14 @@ data class TextInput(
     private var textWatcher: TextWatcher? = null
 
     @Transient
-    private var errorTextValuated: String? = null
+    var errorTextValuated: String? = null
+        private set
+
 
     override fun buildView(rootView: RootView): View =
         instanceEdiText(rootView)
             .apply {
+                beagleComponent = this@TextInput
                 textInputView = this
                 setData(this@TextInput, rootView)
                 setUpOnTextChange(rootView)
@@ -214,7 +218,7 @@ data class TextInput(
 
         textInput.showError?.let { bind ->
             observeBindChanges(rootView, this, bind) { showError ->
-                error = if (showError == true) {
+                error = if (showError == true && !errorTextValuated.isNullOrEmpty()) {
                     errorTextValuated
                 } else {
                     null

@@ -17,7 +17,9 @@
 package br.com.zup.beagle.android.components.form
 
 import android.view.View
+import android.view.ViewGroup
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
@@ -41,13 +43,20 @@ import br.com.zup.beagle.core.Style
  *
  * @param onSubmit define the actions you want to execute when action submit form
  *
+ * @param onValidationError this event is executed every time a form is submitted,
+ * but because of a validation error, the onSubmit event is not run.
+ *
  */
 @RegisterWidget("simpleForm")
 data class SimpleForm(
     override val context: ContextData? = null,
     val onSubmit: List<Action>,
     override val children: List<ServerDrivenComponent>,
+    val onValidationError: List<Action>? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
+
+    @Transient
+    private lateinit var simpleFormViewCreated: BeagleFlexView
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -55,13 +64,21 @@ data class SimpleForm(
     @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
 
+
     override fun buildView(rootView: RootView): View {
         preFetchHelper.handlePreFetch(rootView, onSubmit)
-        return viewFactory.makeBeagleFlexView(rootView, style ?: Style())
+        simpleFormViewCreated = viewFactory.makeBeagleFlexView(rootView, style ?: Style())
             .apply {
                 beagleComponent = this@SimpleForm
                 addChildrenForm(this)
             }
+        return simpleFormViewCreated
+    }
+
+    fun submit(rootView: RootView, view: View) {
+        val hasError = recursiveLoopToFindErrorChildren(simpleFormViewCreated)
+        val actions = if (hasError) onValidationError ?: emptyList() else onSubmit
+        handleEvent(rootView, view, actions)
     }
 
     private fun addChildrenForm(beagleFlexView: BeagleFlexView) {
@@ -70,9 +87,21 @@ data class SimpleForm(
         }
     }
 
-    fun submit(rootView: RootView, view: View) {
-        onSubmit.forEach { action ->
-            handleEvent(rootView, view, action)
+    private fun recursiveLoopToFindErrorChildren(parent: ViewGroup): Boolean {
+        for (i in 0 until parent.childCount) {
+            val child = parent.getChildAt(i)
+            if (child is ViewGroup) {
+                val result = recursiveLoopToFindErrorChildren(child)
+                if (result) return true
+            } else {
+                if (child != null && child.beagleComponent is TextInput) {
+                    val value = (child.beagleComponent as TextInput).errorTextValuated
+
+                    if (!value.isNullOrEmpty()) return true
+                }
+            }
         }
+
+        return false
     }
 }
