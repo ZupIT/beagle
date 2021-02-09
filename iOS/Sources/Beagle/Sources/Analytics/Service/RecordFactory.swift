@@ -22,12 +22,12 @@ import UIKit
 func makeScreenRecord(
     screen: ScreenType,
     globalConfigIsEnabled: Bool?
-) -> AnalyticsService.Cache? {
+) -> AnalyticsService.Record? {
     let isScreenDisabled = globalConfigIsEnabled == false
     if isScreenDisabled { return nil }
 
     return .init(
-        record: AnalyticsRecord(type: .screen, screen: screenInfo(screen), timestamp: timestamp()),
+        data: AnalyticsRecord(type: .screen, screen: screenInfo(screen), timestamp: timestamp()),
         dependsOnFutureGlobalConfig: globalConfigIsEnabled == nil
     )
 }
@@ -39,7 +39,7 @@ struct ActionRecordFactory {
     let info: AnalyticsService.ActionInfo
     let globalConfig: AnalyticsConfig.AttributesByActionName?
 
-    func makeRecord() -> AnalyticsService.Cache? {
+    func makeRecord() -> AnalyticsService.Record? {
         guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
         guard let values = enabledValuesForAction(named: name) else { return nil }
 
@@ -59,7 +59,7 @@ struct ActionRecordFactory {
             timestamp: timestamp()
         )
 
-        return .init(record: record, dependsOnFutureGlobalConfig: values.attributes == .all)
+        return .init(data: record, dependsOnFutureGlobalConfig: values.attributes == .all)
     }
 }
 

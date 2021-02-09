@@ -29,7 +29,7 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
         try prepareComponentHierarchy()
 
         // When
-        var record = sut.makeRecord()?.record
+        var record = sut.makeRecord()?.data
         record?.timestamp = 0
 
         // Then should have all default properties
@@ -275,8 +275,8 @@ class RecordFactoryHelpers: XCTestCase {
         _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)
     }
 
-    func resultWithoutDefaultValues(_ result: AnalyticsService.Cache) -> [String: DynamicObject]? {
-        var dict = result.record.onlyAttributesAndAdditional()
+    func resultWithoutDefaultValues(_ result: AnalyticsService.Record) -> [String: DynamicObject]? {
+        var dict = result.data.onlyAttributesAndAdditional()
 
         if result.dependsOnFutureGlobalConfig {
             dict["dependsOnFutureGlobalConfig"] = .bool(true)

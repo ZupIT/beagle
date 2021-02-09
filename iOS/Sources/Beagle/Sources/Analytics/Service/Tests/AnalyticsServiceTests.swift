@@ -56,7 +56,7 @@ class AnalyticsServiceTests: XCTestCase {
         triggerNewRecord()
 
         // Then should receive all items that were queued
-        XCTAssertEqual(receivedRecords().count, maxItems)
+        XCTAssertEqual(receivedRecords().count, maxItems + 1)
     }
 
     func testChangingConfig() {
@@ -76,8 +76,8 @@ class AnalyticsServiceTests: XCTestCase {
         triggerNewRecord(manyTimes: 30)
 
         // Then
-        let items = 30 + maxItems - 1 // -1 due to losing item to full queue
-        XCTAssertEqual(receivedRecords().count, items)
+        let totalItems = 30 + maxItems
+        XCTAssertEqual(receivedRecords().count, totalItems)
     }
 
     func testDisabledConfigShouldDisableItemsInQueue() {
@@ -130,7 +130,7 @@ class AnalyticsServiceTests: XCTestCase {
 
     private func receivedRecords() -> [AnalyticsRecord] {
         let expec = expectation(description: "wait records")
-        sut.serialDispatch.async {
+        sut.serialThread.async {
             expec.fulfill()
         }
         wait(for: [expec], timeout: 1)
@@ -147,7 +147,8 @@ class AnalyticsServiceTests: XCTestCase {
     }
 
     private func sendNewRecordsUntilQueueIsFull() {
-        triggerNewRecord(manyTimes: maxItems)
+        let extra = [0, 1, 2].randomElement() ?? 0
+        triggerNewRecord(manyTimes: maxItems + extra)
     }
 
     private var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }

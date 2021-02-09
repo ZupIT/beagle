@@ -36,7 +36,7 @@ class AnalyticsService {
             globalConfigIsEnabled: provider.getConfig()?.enableScreenAnalytics
         )
         .map(
-            sendToQueue(cache:)
+            handleCreatedRecord(_:)
         )
     }
 
@@ -47,7 +47,7 @@ class AnalyticsService {
         )
         .makeRecord()
         .map(
-            sendToQueue(cache:)
+            handleCreatedRecord(_:)
         )
     }
 
@@ -58,54 +58,65 @@ class AnalyticsService {
         let controller: BeagleControllerProtocol
     }
 
-    private func sendToQueue(cache: Cache) {
-        serialDispatch.async {
-            self.dispatch(cache)
+    private func handleCreatedRecord(_ record: Record) {
+        serialThread.async {
+            self.sendRecordWhenPossible(record)
         }
     }
 
     // MARK: - Queue
 
-    private var queue = [Cache]()
+    private var queuedRecords = [Record]()
 
-    struct Cache: Encodable {
-        let record: AnalyticsRecord
+    struct Record: Encodable {
+        let data: AnalyticsRecord
 
         /// indicates that this record was created without a complete config, and so should be further updated with a new config before being sent
         let dependsOnFutureGlobalConfig: Bool
     }
 
-    private(set) lazy var serialDispatch = DispatchQueue(
+    /// this DispatchQueue should be `serial` (not `concurrent`) in order to avoid race conditions
+    private(set) lazy var serialThread = DispatchQueue(
         label: "AnalyticsService serial queue for records",
         qos: .utility
     )
 
-    /// this should only be called when inside `serialDispatch` to avoid data racing conditions
-    private func dispatch(_ cache: Cache) {
-        let isFull = queue.count >= maxItemsInQueue()
-        if isFull {
-            logger.log(Log.analytics(.queueIsAlreadyFull(items: queue.count)))
-            queue.removeFirst()
+    /// this should only be called when inside `serialThread` to avoid data racing conditions
+    private func sendRecordWhenPossible(_ record: Record) {
+        guard let config = provider.getConfig() else {
+            addToQueue(record)
+            return
         }
 
-        queue.append(cache)
-
-        guard let config = provider.getConfig() else { return }
-
-        queue.forEach {
-            sendRecordToProvider($0, config: config)
-        }
-        queue = []
+        releaseQueue(config: config)
+        sendRecordToProvider(record, config: config)
     }
 
-    private func sendRecordToProvider(_ cache: Cache, config: AnalyticsConfig) {
-        var record: AnalyticsRecord? = cache.record
-
-        if cache.dependsOnFutureGlobalConfig {
-            record = updateRecord(cache.record, newConfig: config)
+    private func addToQueue(_ record: Record) {
+        let isFull = queuedRecords.count >= maxItemsInQueue()
+        if isFull {
+            logger.log(Log.analytics(.queueIsAlreadyFull(items: queuedRecords.count)))
+            queuedRecords.removeFirst()
         }
 
-        record.map(
+        queuedRecords.append(record)
+    }
+
+    private func releaseQueue(config: AnalyticsConfig) {
+        queuedRecords.forEach {
+            sendRecordToProvider($0, config: config)
+        }
+        queuedRecords = []
+    }
+
+    private func sendRecordToProvider(_ record: Record, config: AnalyticsConfig) {
+        var data: AnalyticsRecord? = record.data
+
+        if record.dependsOnFutureGlobalConfig {
+            data = updateRecord(record.data, newConfig: config)
+        }
+
+        data.map(
             provider.createRecord(_:)
         )
     }
