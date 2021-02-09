@@ -23,6 +23,7 @@ public struct AnalyticsRecord {
     public var timestamp: Double
 
     public var type: RecordType
+
     public enum RecordType {
         case screen
         case action(Action)

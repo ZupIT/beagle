@@ -17,11 +17,11 @@
 import Foundation
 
 @discardableResult
-func assertNeverGetsHere<T>(or value: T, file: StaticString = #file, line: UInt = #line) -> T {
+func assertNeverGetsHere<T>(or value: T) -> T {
     assertionFailure("this should never happen")
     return value
 }
 
-func assertNeverGetsHere(file: StaticString = #file, line: UInt = #line) {
+func assertNeverGetsHere() {
     assertionFailure("this should never happen")
 }
