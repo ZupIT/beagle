@@ -29,8 +29,11 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.core.BeagleJson
 import kotlin.reflect.KClass
+import kotlin.reflect.KParameter
 import kotlin.reflect.KProperty1
+import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.full.primaryConstructor
 
 internal object ActionReportFactory {
 
@@ -49,7 +52,9 @@ internal object ActionReportFactory {
             value = action,
             rootView = rootView,
             origin = origin,
-            action = action
+            action = action,
+            parameters = (action::class as KClass<AnalyticsAction>)
+                .primaryConstructor?.parameters?.associateBy { it.name }
         ),
         action = action,
         screenId = rootView.getScreenId(),
@@ -73,7 +78,7 @@ internal object ActionReportFactory {
                 name = it.name
             }
         }
-        if(name.isEmpty()){
+        if (name.isEmpty()) {
             name = clazz.simpleName
         }
         return createNamespace(appNameSpace, clazz, name)
@@ -86,15 +91,23 @@ internal object ActionReportFactory {
         rootView: RootView,
         origin: View,
         action: AnalyticsAction,
+        parameters: Map<String?, KParameter>?,
     ): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()
         (value::class as KClass<Any>).memberProperties.forEach { property ->
             property.getPropertyValue(value)?.let { it ->
-                val keyName = getKeyName(name, property)
+                val keyName = getKeyName(name, property, parameters)
                 val propertyValue = evaluateValueIfNecessary(it, rootView, origin, action)
                 hashMap[keyName] = propertyValue
                 try {
-                    val result = evaluateAllActionAttribute(propertyValue, keyName, rootView, origin, action)
+                    val result = evaluateAllActionAttribute(
+                        propertyValue,
+                        keyName,
+                        rootView,
+                        origin,
+                        action,
+                        parameters
+                    )
                     hashMap.putAll(result)
 
                 } catch (e: Exception) {
@@ -131,12 +144,21 @@ internal object ActionReportFactory {
         return propertyValue
     }
 
-    private fun getKeyName(name: String?, property: KProperty1<Any, *>): String {
+    private fun getKeyName(
+        name: String?,
+        property: KProperty1<Any, *>,
+        parameters: Map<String?, KParameter>?,
+    ): String {
+        var propertyName = parameters?.get(property.name)?.findAnnotation<BeagleJson>()?.name
+
         var nameResult = ""
         name?.let {
             nameResult = "$name."
         }
-        nameResult += property.name
+        if (propertyName.isNullOrEmpty()) {
+            propertyName = property.name
+        }
+        nameResult += propertyName
         return nameResult
     }
 
