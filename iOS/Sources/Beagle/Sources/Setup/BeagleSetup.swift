@@ -16,7 +16,9 @@
 
 public var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
     didSet {
-        AnalyticsService.shared = dependencies.analyticsProvider.flatMap { AnalyticsService(provider: $0) } 
+        AnalyticsService.shared = dependencies.analyticsProvider.flatMap {
+            AnalyticsService(provider: $0, logger: dependencies.logger)
+        }
     }
 }
 

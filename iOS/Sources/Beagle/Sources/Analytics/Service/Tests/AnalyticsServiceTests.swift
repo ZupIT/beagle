@@ -20,7 +20,7 @@ import SnapshotTesting
 
 class AnalyticsServiceTests: XCTestCase {
 
-    lazy var sut = AnalyticsService(provider: provider)
+    lazy var sut = AnalyticsService(provider: provider, logger: LoggerMocked())
 
     func testNormalOperation() {
         // Given

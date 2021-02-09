@@ -21,9 +21,11 @@ class AnalyticsService {
     static var shared: AnalyticsService?
 
     private let provider: AnalyticsProvider
+    private var logger: BeagleLoggerType
 
-    init(provider: AnalyticsProvider) {
+    init(provider: AnalyticsProvider, logger: BeagleLoggerType) {
         self.provider = provider
+        self.logger = logger
     }
 
     // MARK: - Create Events
@@ -82,6 +84,7 @@ class AnalyticsService {
     private func dispatch(_ cache: Cache) {
         let isFull = queue.count >= maxItemsInQueue()
         if isFull {
+            logger.log(Log.analytics(.queueIsAlreadyFull(items: queue.count)))
             queue.removeFirst()
         }
 
