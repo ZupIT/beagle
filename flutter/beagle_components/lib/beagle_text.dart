@@ -19,6 +19,7 @@ import 'package:beagle/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// A Text widget that displays a string of text with single style.
 class BeagleText extends StatelessWidget {
   const BeagleText({
     Key key,
@@ -30,10 +31,20 @@ class BeagleText extends StatelessWidget {
   })  : _designSystem = designSystem,
         super(key: key);
 
+  /// The text to display.
   final String text;
+
+  /// This is a string value and it must be filled as HEX (Hexadecimal).
   final String textColor;
+
+  /// Defines the content alignment inside the widget.
   final TextAlignment alignment;
+
+  /// Reference a native style in your local styles file to be applied on this
+  /// Text.
   final String styleId;
+
+  /// [DesignSystem] that will provide the style referenced by [styleId].
   final DesignSystem _designSystem;
 
   @override

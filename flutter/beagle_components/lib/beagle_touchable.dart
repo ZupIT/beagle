@@ -16,6 +16,7 @@
 
 import 'package:flutter/material.dart';
 
+/// Defines a [GestureDetector] that executes an action when [child] is pressed.
 class BeagleTouchable extends StatelessWidget {
   const BeagleTouchable({
     Key key,
@@ -23,7 +24,11 @@ class BeagleTouchable extends StatelessWidget {
     this.child,
   }) : super(key: key);
 
+  /// Action that will be performed when [child] is pressed.
   final Function onPress;
+
+  /// A [Widget] that will be rendered inside [BeagleTouchable] and listen to
+  /// press events.
   final Widget child;
 
   @override

@@ -23,6 +23,8 @@ import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+/// Defines an image widget that renders local or remote resource depending on
+/// the value passed to [path].
 class BeagleImage extends StatefulWidget {
   const BeagleImage({
     Key key,
@@ -33,11 +35,20 @@ class BeagleImage extends StatefulWidget {
     this.mode,
   }) : super(key: key);
 
+  /// Defines the location of the image resource.
   final ImagePath path;
+
+  /// Defines how the declared image will fit the view.
   final ImageContentMode mode;
 
+  /// [DesignSystem] that will provide the resource to be rendered when [path]
+  /// is [LocalImagePath].
   final DesignSystem designSystem;
+
+  /// [BeagleImageDownloader] used to get image resource from network.
   final BeagleImageDownloader imageDownloader;
+
+  /// [BeagleLogger] used to report events on the widget.
   final BeagleLogger logger;
 
   @override
