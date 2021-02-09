@@ -19,7 +19,7 @@ import UIKit
 /// Markup to define an action to be triggered in response to some event
 public protocol Action: Decodable {
 
-    /// can be used to override or extend the global `AnalyticsConfig`.
+    /// can be used to override the global `AnalyticsConfig`.
     ///
     /// - when `nil`: analytics behavior for this action will be determined by global `AnalyticsConfig`.
     var analytics: ActionAnalyticsConfig? { get }

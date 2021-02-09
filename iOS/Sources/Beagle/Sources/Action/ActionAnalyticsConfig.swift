@@ -27,10 +27,10 @@ public enum ActionAnalyticsConfig {
 
     public struct Attributes: AutoInitiable {
 
-        /// all action's properties that you want to be recorded, plus those already configured globally
+        /// all action properties that you want to be recorded
         public var attributes: [String]?
 
-        /// any additional entry you want recorded
+        /// any additional value you want to be recorded
         public var additionalEntries: [String: DynamicObject]?
 
         // sourcery:inline:auto:ActionAnalyticsConfig.Attributes.Init
