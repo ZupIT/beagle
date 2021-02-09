@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.core
 
 /**
@@ -28,8 +29,9 @@ package br.com.zup.beagle.core
  *                 By default is kept as false.
  *
  */
-data class Accessibility (
+@BeagleJson
+data class Accessibility(
     val accessible: Boolean = true,
     val accessibilityLabel: String? = null,
-    val isHeader: Boolean? = false
+    val isHeader: Boolean? = false,
 )

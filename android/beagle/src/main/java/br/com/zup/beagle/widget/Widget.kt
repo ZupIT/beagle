@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.widget
 
 import br.com.zup.beagle.core.StyleComponent
@@ -21,6 +22,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.IdentifierComponent
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Base of all widgets
@@ -31,6 +33,7 @@ import br.com.zup.beagle.core.IdentifierComponent
  * @property id use to identifier the current view
  *
  */
+@BeagleJson
 abstract class Widget : StyleComponent, AccessibilityComponent, IdentifierComponent {
      override var style: Style? = null
      override var accessibility: Accessibility? = null

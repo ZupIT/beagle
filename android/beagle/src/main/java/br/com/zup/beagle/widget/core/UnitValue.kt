@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.widget.core
+
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
@@ -23,9 +26,10 @@ package br.com.zup.beagle.widget.core
  * @param type the unit of measurement.
  *
  */
-data class UnitValue (
+@BeagleJson
+data class UnitValue(
     val value: Double,
-    val type: UnitType
+    val type: UnitType,
 )
 /**
  * This defines of a unit type;
@@ -36,6 +40,7 @@ data class UnitValue (
  *
  */
 
+@BeagleJson
 enum class UnitType {
     /**
      * Apply the value based in platform, like android this represent dp.

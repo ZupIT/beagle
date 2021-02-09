@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.generated
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Define a button natively using the server driven information received through Beagle
@@ -30,7 +32,8 @@ import br.com.zup.beagle.android.context.Bind
  * @property clickAnalyticsEvent attribute to define click event name
  *
  */
-interface Button : TouchableAnalytics  {
+@BeagleJson
+interface Button : TouchableAnalytics {
     val text: Bind<String>
     val styleId: String?
     val onPress: List<Action>?

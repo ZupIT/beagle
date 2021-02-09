@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.widget.core
 
 /**
@@ -37,7 +38,7 @@ package br.com.zup.beagle.widget.core
  *               the total size of the children overflow the size of the container on the main axis.
  *
  */
-data class Flex (
+data class Flex(
     val flexDirection: FlexDirection? = null,
     val flexWrap: FlexWrap? = null,
     val justifyContent: JustifyContent? = null,
@@ -47,7 +48,7 @@ data class Flex (
     val basis: UnitValue? = null,
     val flex: Double? = null,
     val grow: Double? = null,
-    val shrink: Double? = null
+    val shrink: Double? = null,
 )
 
 /**
@@ -62,14 +63,14 @@ data class Flex (
  * @param aspectRatio defined as the ratio between the width and the height of a node.
  *
  */
-data class Size (
+data class Size(
     val width: UnitValue? = null,
     val height: UnitValue? = null,
     val maxWidth: UnitValue? = null,
     val maxHeight: UnitValue? = null,
     val minWidth: UnitValue? = null,
     val minHeight: UnitValue? = null,
-    val aspectRatio: Double? = null
+    val aspectRatio: Double? = null,
 )
 
 /**
@@ -91,14 +92,14 @@ data class Size (
  *            it’s closest sibling (item) or parent (container).
  *
  */
-data class EdgeValue (
+data class EdgeValue(
     val left: UnitValue? = null,
     val top: UnitValue? = null,
     val right: UnitValue? = null,
     val bottom: UnitValue? = null,
     val horizontal: UnitValue? = null,
     val vertical: UnitValue? = null,
-    val all: UnitValue? = null
+    val all: UnitValue? = null,
 )
 
 /**

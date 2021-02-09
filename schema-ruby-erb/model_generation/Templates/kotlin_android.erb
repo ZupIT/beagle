@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 <%
 
   @kotlinHelper.languageIdentifier = SupportedLanguages.new.kotlin
@@ -30,7 +31,7 @@
   end
 
   def resolve_object(object_type)
-    output = ""
+    output = "\n@BeagleJson"
 
     # Android widgets are generated interfaces
     if @kotlinHelper.inheritFrom_widget(object_type)
@@ -61,5 +62,5 @@
 
 -%>
 <%=
-full_declaration(objectType) 
+full_declaration(objectType)
 %>

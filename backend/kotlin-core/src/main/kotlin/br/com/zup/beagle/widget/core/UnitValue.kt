@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.widget.core
 
 /**
@@ -23,9 +24,9 @@ package br.com.zup.beagle.widget.core
  * @param type the unit of measurement.
  *
  */
-data class UnitValue (
+data class UnitValue(
     val value: Double,
-    val type: UnitType
+    val type: UnitType,
 )
 
 /**

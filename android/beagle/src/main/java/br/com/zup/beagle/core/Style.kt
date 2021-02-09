@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.core
 
 import br.com.zup.beagle.widget.core.Size
@@ -46,7 +47,8 @@ import br.com.zup.beagle.android.context.Bind
  * @param display enables a flex context for all its direct children.
  *
  */
-data class Style (
+@BeagleJson
+data class Style(
     val backgroundColor: String? = null,
     val cornerRadius: CornerRadius? = null,
     val borderColor: String? = null,
@@ -57,7 +59,7 @@ data class Style (
     val position: EdgeValue? = null,
     val flex: Flex? = null,
     val positionType: PositionType? = null,
-    val display: Bind<Display>? = null
+    val display: Bind<Display>? = null,
 )
 /**
  * The corner radius change the appearance of view
@@ -66,8 +68,9 @@ data class Style (
  *
  */
 
-data class CornerRadius (
-    val radius: Double = 0.0
+@BeagleJson
+data class CornerRadius(
+    val radius: Double = 0.0,
 )
 /**
  * This defines a flex container;
@@ -78,6 +81,7 @@ data class CornerRadius (
  *
  */
 
+@BeagleJson
 enum class Display {
     /**
      * Apply the flex properties.
@@ -97,6 +101,7 @@ enum class Display {
  *
  */
 
+@BeagleJson
 enum class PositionType {
     /**
      * This means an element is positioned according to the normal flow of the layout,

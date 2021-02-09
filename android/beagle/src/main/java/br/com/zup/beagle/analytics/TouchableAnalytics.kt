@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.analytics
+
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Component that hold the click analytics
@@ -22,6 +25,7 @@ package br.com.zup.beagle.analytics
  * @property clickAnalyticsEvent attribute to define click event name
  *
  */
+@BeagleJson
 interface TouchableAnalytics {
     val clickAnalyticsEvent: ClickEvent?
 }

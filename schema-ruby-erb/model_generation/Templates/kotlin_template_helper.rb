@@ -50,6 +50,11 @@ class KotlinTemplateHelper < TemplateHelper
     output += resolve_variables_imports(object_type)
     output += resolve_bind_import(object_type)
 
+    if languageIdentifier == @kotlin and
+      !object_type.synthax_type.package.android.include? "br.com.zup.beagle.core"
+      output += "import br.com.zup.beagle.core.BeagleJson\n"
+    end
+
     if output.include? "import"
       "\n" + output + "\n"
     else
@@ -296,7 +301,7 @@ class KotlinTemplateHelper < TemplateHelper
         counter += 1
       end
 
-      output += " "
+      output += ""
     end
 
     output
@@ -350,8 +355,8 @@ class KotlinTemplateHelper < TemplateHelper
     for inherited in object_type.synthax_type.inheritFrom
       if is_interface(inherited)
         for variable in inherited.synthax_type.variables
-          if !output.include? "{"
-            output += "{"
+          if !output.include? " {"
+            output += " {"
           end
 
           output += "\n#{TAB}#{handle_field_accessor(variable)} override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, is_abstract(object_type), inherited.synthax_type.variables.size - 1 != counter && !is_abstract(object_type))}"
@@ -375,27 +380,21 @@ class KotlinTemplateHelper < TemplateHelper
     object_type.synthax_type.type = TypeDataClass.new
     output = handle_name_and_type(object_type)
 
-    counter = 0 
     if object_type.synthax_type.variables.any?
-      output += " ("
+      output += "("
       for variable in object_type.synthax_type.variables
-        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, true, object_type.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
+        output += "\n#{TAB}#{handle_field_accessor(variable)}#{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, true, true)}"
       end
     end
 
     for inherited in object_type.synthax_type.inheritFrom
       if is_interface(inherited) && has_variables(inherited)
         if object_type.synthax_type.variables.size == 0
-            output += " ("
-        else
-          output += ","
+          output += "("
         end
 
-        counter = 0 
         for variable in inherited.synthax_type.variables
-          output += "\n#{TAB}#{handle_field_accessor(variable)}override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, true, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
+          output += "\n#{TAB}#{handle_field_accessor(variable)}override #{handle_field_mutator(variable)}#{variable.name}: #{handle_type_name(object_type, variable, true, true)}"
         end
       end
     end
@@ -418,50 +417,38 @@ class KotlinTemplateHelper < TemplateHelper
     output  = ""
 
     if object_type.synthax_type.variables.any?(&:isBindable) and object_type.synthax_type.variables.any? { |v| v.isOptional == false}
-      output += "{\n#{TAB}constructor ("
+      output += " {\n#{TAB}constructor("
 
-      counter = 0 
       for variable in object_type.synthax_type.variables
-        output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, object_type.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
+        output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, true)}"
       end
 
       for inherited in object_type.synthax_type.inheritFrom
         if is_interface(inherited) && has_variables(inherited)
-          if has_variables(object_type)
-            output += ","
-          else
+          if !has_variables(object_type)
             output += " ("
           end
 
-          counter = 0 
           for variable in inherited.synthax_type.variables
-          output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
+            output += "\n#{TAB}#{TAB}#{variable.name}: #{handle_type_name_init_method(variable, true)}"
           end
         end
       end
 
-      output += "\n#{TAB}) : this ("
+      output += "\n#{TAB}) : this("
 
-      counter = 0
       for variable in object_type.synthax_type.variables
-        output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, object_type.synthax_type.variables.size - 1 != counter)}"
-        counter += 1
+        output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, true)}"
       end
 
       for inherited in object_type.synthax_type.inheritFrom
         if is_interface(inherited) && has_variables(inherited)
-          if has_variables(object_type)
-              output += ","
-          else
+          if !has_variables(object_type)
             output += " ("
           end
 
-          counter = 0
           for variable in inherited.synthax_type.variables
-          output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, inherited.synthax_type.variables.size - 1 != counter)}"
-          counter += 1
+            output += "\n#{TAB}#{TAB}#{handle_variable_with_bind(variable, true)}"
           end
         end
       end

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.core
 
 /**
@@ -22,6 +23,6 @@ package br.com.zup.beagle.core
  * @property style attribute will enable a few visual options to be changed.
  *
  */
-interface StyleComponent : ServerDrivenComponent  {
+interface StyleComponent : ServerDrivenComponent {
     var style: Style?
 }

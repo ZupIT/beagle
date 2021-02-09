@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.core
 
 /**
@@ -23,6 +24,7 @@ package br.com.zup.beagle.core
  *                         the view content in case a screen reader is use
  *
  */
-interface AccessibilityComponent : ServerDrivenComponent  {
+@BeagleJson
+interface AccessibilityComponent : ServerDrivenComponent {
     var accessibility: Accessibility?
 }

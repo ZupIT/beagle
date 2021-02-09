@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.core
 
 import br.com.zup.beagle.widget.core.Size
@@ -46,7 +47,7 @@ import br.com.zup.beagle.widget.context.Bind
  * @param display enables a flex context for all its direct children.
  *
  */
-data class Style (
+data class Style(
     val backgroundColor: String? = null,
     val cornerRadius: CornerRadius? = null,
     val borderColor: String? = null,
@@ -57,7 +58,7 @@ data class Style (
     val position: EdgeValue? = null,
     val flex: Flex? = null,
     val positionType: PositionType? = null,
-    val display: Bind<Display>? = null
+    val display: Bind<Display>? = null,
 )
 
 /**
@@ -66,8 +67,8 @@ data class Style (
  * @param radius define size of radius
  *
  */
-data class CornerRadius (
-    val radius: Double = 0.0
+data class CornerRadius(
+    val radius: Double = 0.0,
 )
 
 /**

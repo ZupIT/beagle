@@ -14,14 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package br.com.zup.beagle.analytics
+
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Define click event
  *
  */
-data class ClickEvent (
+@BeagleJson
+data class ClickEvent(
     val category: String,
     val label: String? = null,
-    val value: String? = null
+    val value: String? = null,
 )
