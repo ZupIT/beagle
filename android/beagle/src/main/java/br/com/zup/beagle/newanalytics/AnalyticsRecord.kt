@@ -24,9 +24,10 @@ package br.com.zup.beagle.newanalytics
  * the value is the value of the attribute that will be reported
  * @param timestamp is a Long that have the timestamp when the action was called.
  */
-interface AnalyticsRecord {
-    val type : String
-    val platform : String
-    val values : HashMap<String, Any>
-    val timestamp : Long
-}
+data class AnalyticsRecord(
+    val type: String,
+    val platform: String = "android",
+    val values: HashMap<String, Any>? = null,
+    val timestamp: Long,
+    val screen : String
+)

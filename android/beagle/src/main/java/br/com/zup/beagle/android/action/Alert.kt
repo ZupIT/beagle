@@ -38,21 +38,21 @@ import br.com.zup.beagle.core.BeagleJson
  *
  */
 
-@BeagleJson
+@BeagleJson(name = "alert")
 data class Alert(
     val title: Bind<String>? = null,
     val message: Bind<String>,
     val onPressOk: Action? = null,
     val labelOk: String? = null,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
 
     constructor(
         title: String? = null,
         message: String,
         onPressOk: Action? = null,
         labelOk: String? = null,
-        analytics: ActionAnalyticsConfig? = null
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         title = expressionOrValueOfNullable(title),
         message = expressionOrValueOf(message),

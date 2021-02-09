@@ -237,7 +237,7 @@ class SendRequestTest : BaseAsyncActionTest() {
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
         onFinish: List<Action>? = null,
-        data: Any? = null
+        data: Any? = null,
     ): SendRequest {
         return SendRequest(
             url = valueOf(""),

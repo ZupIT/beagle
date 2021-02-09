@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
-import br.com.zup.beagle.android.components.utils.ComponentPropertyAssigner
+import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -26,15 +26,15 @@ import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
-    private val componentPropertyAssigner: ComponentPropertyAssigner<T> = ComponentPropertyAssigner(),
-    private val contextComponentHandler: ContextComponentHandler = ContextComponentHandler()
+    private val componentStylization: ComponentStylization<T> = ComponentStylization(),
+    private val contextComponentHandler: ContextComponentHandler = ContextComponentHandler(),
 ) {
     abstract val component: T
 
     fun build(rootView: RootView): View {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         val builtView = buildView(rootView)
-        componentPropertyAssigner.apply(builtView, component)
+        componentStylization.apply(builtView, component)
         contextComponentHandler.handleComponent(builtView, viewModel, component)
         return builtView
     }

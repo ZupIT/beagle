@@ -80,7 +80,7 @@ enum class RequestActionMethod {
  * @param onError  Error action.
  * @param onFinish Finish action.
  */
-@BeagleJson
+@BeagleJson(name = "sendRequest")
 data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
@@ -90,8 +90,8 @@ data class SendRequest(
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
     val onFinish: List<Action>? = null,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction, AsyncAction by AsyncActionImpl() {
 
     constructor(
         url: String,
@@ -101,7 +101,7 @@ data class SendRequest(
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
         onFinish: List<Action>? = null,
-        analytics: ActionAnalyticsConfig? = null
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         expressionOrValueOf(url),
         valueOf(method),

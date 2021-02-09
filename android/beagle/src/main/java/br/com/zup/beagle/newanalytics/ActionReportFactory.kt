@@ -19,26 +19,29 @@ package br.com.zup.beagle.newanalytics
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.data.serializer.createNamespace
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.evaluateExpression
-import br.com.zup.beagle.android.utils.putFirstCharacterOnLowerCase
 import br.com.zup.beagle.android.widget.RootView
-import java.lang.reflect.Modifier
+import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.core.BeagleJson
 import kotlin.reflect.KClass
+import kotlin.reflect.KParameter
 import kotlin.reflect.KProperty1
+import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.javaGetter
+import kotlin.reflect.full.primaryConstructor
 
 internal object ActionReportFactory {
 
-    fun preGenerateActionAnalyticsConfig(
+    fun generateDataActionReport(
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics,
-        analyticsValue: String? = null
+        action: AnalyticsAction,
+        analyticsValue: String? = null,
     ) = DataActionReport(
         originX = origin.x,
         originY = origin.y,
@@ -49,7 +52,9 @@ internal object ActionReportFactory {
             value = action,
             rootView = rootView,
             origin = origin,
-            action = action
+            action = action,
+            parameters = (action::class as KClass<AnalyticsAction>)
+                .primaryConstructor?.parameters?.associateBy { it.name }
         ),
         action = action,
         screenId = rootView.getScreenId(),
@@ -57,27 +62,52 @@ internal object ActionReportFactory {
     )
 
     private fun getActionType(action: Action): String =
-        if (isCustomAction(action)) "custom:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
-        else "beagle:" + action::class.simpleName?.putFirstCharacterOnLowerCase()
+        if (isCustomAction(action)) getActionName("custom", action::class.java)
+        else getActionName("beagle", action::class.java)
 
     private fun isCustomAction(action: Action): Boolean =
         BeagleEnvironment.beagleSdk.registeredActions().contains(action::class.java)
+
+    private fun getActionName(appNameSpace: String, clazz: Class<*>): String {
+        var name = ""
+        clazz.getAnnotation(RegisterAction::class.java)?.let {
+            name = it.name
+        }
+        if (name.isEmpty()) {
+            clazz.getAnnotation(BeagleJson::class.java)?.let {
+                name = it.name
+            }
+        }
+        if (name.isEmpty()) {
+            name = clazz.simpleName
+        }
+        return createNamespace(appNameSpace, clazz, name)
+
+    }
 
     private fun evaluateAllActionAttribute(
         value: Any,
         name: String? = null,
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics
+        action: AnalyticsAction,
+        parameters: Map<String?, KParameter>?,
     ): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()
-        (value::class as KClass<Any>).memberProperties.filter { isFilterAccessibility(it)}.forEach { property ->
-            property.get(value)?.let { it ->
-                val keyName = getKeyName(name, property)
+        (value::class as KClass<Any>).memberProperties.forEach { property ->
+            property.getPropertyValue(value)?.let { it ->
+                val keyName = getKeyName(name, property, parameters)
                 val propertyValue = evaluateValueIfNecessary(it, rootView, origin, action)
                 hashMap[keyName] = propertyValue
                 try {
-                    val result = evaluateAllActionAttribute(propertyValue, keyName, rootView, origin, action)
+                    val result = evaluateAllActionAttribute(
+                        propertyValue,
+                        keyName,
+                        rootView,
+                        origin,
+                        action,
+                        parameters
+                    )
                     hashMap.putAll(result)
 
                 } catch (e: Exception) {
@@ -89,15 +119,21 @@ internal object ActionReportFactory {
         return hashMap
     }
 
-    private fun isFilterAccessibility(property: KProperty1<Any, *>) =
-        property.javaGetter?.modifiers?.let{Modifier.isPublic(it)} ?: false
-
+    //this fun is necessary because using the proguard, when try to get the value of a private field can throw
+    //an exception
+    private fun KProperty1<Any, *>.getPropertyValue(value: Any): Any? {
+        return try {
+            this.get(value)
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     private fun evaluateValueIfNecessary(
         value: Any,
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics
+        action: AnalyticsAction,
     ): Any {
         var propertyValue: Any = value
         if (propertyValue is Bind<*>) {
@@ -108,33 +144,37 @@ internal object ActionReportFactory {
         return propertyValue
     }
 
-    private fun getKeyName(name: String?, property: KProperty1<Any, *>): String {
+    private fun getKeyName(
+        name: String?,
+        property: KProperty1<Any, *>,
+        parameters: Map<String?, KParameter>?,
+    ): String {
+        var propertyName = parameters?.get(property.name)?.findAnnotation<BeagleJson>()?.name
+
         var nameResult = ""
         name?.let {
             nameResult = "$name."
         }
-        nameResult += property.name
+        if (propertyName.isNullOrEmpty()) {
+            propertyName = property.name
+        }
+        nameResult += propertyName
         return nameResult
     }
 
-    fun generateActionAnalyticsConfig(
-        dataActionReport: DataActionReport
-    ) = object : AnalyticsRecord {
-        override val type: String
-            get() = "action"
-        override val platform: String
-            get() = "android"
-        override val values: HashMap<String, Any>
-            get() = generateValues(dataActionReport)
-        override val timestamp: Long
-            get() = dataActionReport.timestamp
-    }
+    fun generateAnalyticsRecord(
+        dataActionReport: DataActionReport,
+    ) = AnalyticsRecord(
+        type = "action",
+        values = generateValues(dataActionReport),
+        timestamp = dataActionReport.timestamp,
+        screen = dataActionReport.screenId ?: "",
+    )
 
     private fun generateValues(
-        dataActionReport: DataActionReport
+        dataActionReport: DataActionReport,
     ): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
-        setScreenIdValue(dataActionReport.screenId, hashMap)
         dataActionReport.analyticsValue?.let {
             hashMap["event"] = it
         }
@@ -149,14 +189,8 @@ internal object ActionReportFactory {
         return hashMap
     }
 
-    private fun setScreenIdValue(screenId: String?, hashMap: HashMap<String, Any>) {
-        if (screenId != null && screenId.isNotEmpty()) {
-            hashMap["screen"] = screenId
-        }
-    }
-
     private fun getAttributesValue(dataActionReport: DataActionReport): HashMap<String, Any>? {
-        if(dataActionReport.attributes.size == 0){
+        if (dataActionReport.attributes.size == 0) {
             return null
         }
         return dataActionReport.attributes

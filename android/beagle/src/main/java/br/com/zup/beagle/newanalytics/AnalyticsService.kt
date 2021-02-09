@@ -17,7 +17,7 @@
 package br.com.zup.beagle.newanalytics
 
 import android.view.View
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.RootView
@@ -35,23 +35,23 @@ internal object AnalyticsService {
     fun createActionRecord(
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics,
-        analyticsValue: String? = null
+        action: AnalyticsAction,
+        analyticsValue: String? = null,
     ) {
-        action.analytics?.let{
-            if(it is ActionAnalyticsConfig.Disabled){
+        action.analytics?.let {
+            if (it is ActionAnalyticsConfig.Disabled) {
                 return
             }
         }
         val analyticsProvider = BeagleEnvironment.beagleSdk.analyticsProvider
         analyticsProvider?.let {
-            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action,
                 analyticsValue
             )
-            reportDataReport(dataActionReport, it)
+            reportData(dataActionReport, it)
         }
     }
 
@@ -59,11 +59,11 @@ internal object AnalyticsService {
         val analyticsProvider: AnalyticsProvider? = BeagleEnvironment.beagleSdk.analyticsProvider
         analyticsProvider?.let {
             val dataScreenReport = DataScreenReport(isLocalScreen, screenIdentifier)
-            reportDataReport(dataScreenReport, it)
+            reportData(dataScreenReport, it)
         }
     }
 
-    private fun reportDataReport(dataReport: DataReport, analyticsProvider: AnalyticsProvider) {
+    private fun reportData(dataReport: DataReport, analyticsProvider: AnalyticsProvider) {
         val analyticsConfig = analyticsProvider.getConfig()
         val queueSize = analyticsProvider.getMaximumItemsInQueue()
         if (analyticsConfig == null) {
@@ -86,7 +86,7 @@ internal object AnalyticsService {
         }
     }
 
-    private fun isNotQueueFull(queueSize : Int) = queueOfReportsWaitingConfig.size < queueSize
+    private fun isNotQueueFull(queueSize: Int) = queueOfReportsWaitingConfig.size < queueSize
 
     private fun addItemOnFullQueue(dataReport: DataReport, queueSize: Int) {
         BeagleMessageLogs.analyticsQueueIsFull(queueSize)
@@ -97,7 +97,7 @@ internal object AnalyticsService {
     private fun reportWithConfigNotNull(
         dataReport: DataReport,
         analyticsConfig: AnalyticsConfig,
-        analyticsProvider: AnalyticsProvider
+        analyticsProvider: AnalyticsProvider,
     ) {
         val report = dataReport.report(analyticsConfig)
         report?.let {

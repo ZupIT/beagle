@@ -20,7 +20,7 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.newanalytics.AnalyticsService
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.widget.RootView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,8 +30,8 @@ internal class AnalyticsViewModel : ViewModel() {
     fun createActionReport(
         rootView: RootView,
         origin: View,
-        action: ActionAnalytics,
-        analyticsValue : String?
+        action: AnalyticsAction,
+        analyticsValue: String?,
     ) {
         viewModelScope.launch(Dispatchers.Default) {
             AnalyticsService.createActionRecord(
@@ -43,7 +43,7 @@ internal class AnalyticsViewModel : ViewModel() {
         }
     }
 
-    fun createScreenReport(isLocalScreen: Boolean, screenIdentifier: String){
+    fun createScreenReport(isLocalScreen: Boolean, screenIdentifier: String) {
         viewModelScope.launch(Dispatchers.Default) {
             AnalyticsService.createScreenRecord(isLocalScreen, screenIdentifier)
         }

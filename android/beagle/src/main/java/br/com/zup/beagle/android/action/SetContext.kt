@@ -41,14 +41,14 @@ internal data class SetContextInternal(
  * @param path Specific context point to be changed in the case of arrays and maps <key, value>.
  */
 
-@BeagleJson
+@BeagleJson(name = "setContext")
 data class SetContext(
     val contextId: String,
     @ContextDataValue
     val value: Any,
     val path: String? = null,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
 
     override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()

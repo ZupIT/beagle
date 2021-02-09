@@ -88,7 +88,7 @@ internal object PropertyImplementationManager {
     private fun propertySpec(
         propertySpecificationsElement: TypeElement?,
         beagleClass: BeagleClass,
-        customPropertyName: String? = null
+        customPropertyName: String? = null,
     ) = propertySpec(
         propertySpecificationsElement.toString(),
         beagleClass,
@@ -98,7 +98,7 @@ internal object PropertyImplementationManager {
     private fun propertySpec(
         property: String,
         beagleClass: BeagleClass,
-        customPropertyName: String? = null
+        customPropertyName: String? = null,
     ) = GenericPropertyManagement(
         property,
         beagleClass

@@ -62,13 +62,13 @@ enum class Mode {
  * @param mode Defines the placement of where the children will be inserted in the list or if the contents of
  * the list will be replaced.
  */
-@BeagleJson
+@BeagleJson(name = "addChildren")
 data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
     var mode: Mode? = Mode.APPEND,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
 
     override fun execute(rootView: RootView, origin: View) {
         try {

@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
@@ -25,6 +24,7 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * Action to resolve condition and call onTrue if return true and onFalse if return is false.
@@ -34,22 +34,24 @@ import br.com.zup.beagle.core.BeagleJson
  * @param onFalse define action if the condition returns false.
  *
  */
-@BeagleJson
+@BeagleJson(name = "condition")
 data class Condition(
     val condition: Bind<Boolean>,
     val onTrue: List<Action>? = null,
     val onFalse: List<Action>? = null,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
 
     constructor(
         condition: Boolean,
         onTrue: List<Action>? = null,
-        onFalse: List<Action>? = null
+        onFalse: List<Action>? = null,
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         condition = valueOf(condition),
         onTrue = onTrue,
-        onFalse = onFalse
+        onFalse = onFalse,
+        analytics = analytics
     )
 
     override fun execute(rootView: RootView, origin: View) {

@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.context
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.action.BaseAsyncActionTest
 import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.extensions.once
@@ -33,6 +33,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.verifyOrder
 import io.mockk.verifySequence
 import org.json.JSONArray
 import org.json.JSONObject
@@ -181,7 +182,7 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
             val analyticsViewModel = mockk<AnalyticsViewModel>()
             val value = PersonTest(name = NAME)
             val analyticsValue = "onChange"
-            val actionAnalytics = mockk<ActionAnalytics>()
+            val actionAnalytics = mockk<AnalyticsAction>()
             every { actionAnalytics.execute(any(), view) } just Runs
             every { rootView.generateViewModelInstance<AnalyticsViewModel>() } returns analyticsViewModel
             every { analyticsViewModel.createActionReport(rootView, any(), any(), any()) } just Runs
@@ -196,8 +197,11 @@ class ContextActionExecutorTest : BaseAsyncActionTest() {
             )
 
             // Then
-            verify(exactly = 1) { action.execute(rootView, view) }
-            verify(exactly = 1) { analyticsViewModel.createActionReport(rootView, view, actionAnalytics, analyticsValue) }
+            verifyOrder {
+                action.execute(rootView, view)
+                actionAnalytics.execute(rootView, view)
+                analyticsViewModel.createActionReport(rootView, view, actionAnalytics, analyticsValue)
+            }
         }
     }
 }

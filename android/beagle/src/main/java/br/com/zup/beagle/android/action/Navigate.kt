@@ -30,14 +30,14 @@ import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
 
-@BeagleJson
-sealed class Navigate : ActionAnalytics {
+@BeagleJson(name = "navigate")
+sealed class Navigate : AnalyticsAction {
 
     /**
      * Opens one of the browsers available on the device with the passed url.
      * @param url defined route to be shown.
      */
-    @BeagleJson
+    @BeagleJson(name = "openExternalURL")
     data class OpenExternalURL(val url: String, override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.openExternalURL(rootView.getContext(), url)
@@ -51,7 +51,7 @@ sealed class Navigate : ActionAnalytics {
      * restarting the application view stack.
      * @param data pass information between screens.
      */
-    @BeagleJson
+    @BeagleJson(name = "openNativeRoute")
     class OpenNativeRoute(
         val route: String,
         val shouldResetApplication: Boolean = false,
@@ -66,7 +66,7 @@ sealed class Navigate : ActionAnalytics {
     /**
      * This action closes the current view stack.
      */
-    @BeagleJson
+    @BeagleJson(name = "popStack")
     class PopStack(override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popStack(rootView.getContext())
@@ -76,7 +76,7 @@ sealed class Navigate : ActionAnalytics {
     /**
      * Action that closes the current view.
      */
-    @BeagleJson
+    @BeagleJson(name = "popView")
     class PopView(override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popView(rootView.getContext())
@@ -88,7 +88,7 @@ sealed class Navigate : ActionAnalytics {
      *
      * @param route route of a screen that it's on the pile.
      */
-    @BeagleJson
+    @BeagleJson(name = "popToView")
     data class PopToView(val route: String, override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popToView(rootView.getContext(), route)
@@ -103,7 +103,7 @@ sealed class Navigate : ActionAnalytics {
      * @param route this defines navigation type, it can be a navigation to a remote route in which Beagle will
      * deserialize the content or to a local screen already built.
      */
-    @BeagleJson
+    @BeagleJson(name = "pushView")
     data class PushView(val route: Route, override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.pushView(rootView.getContext(), route.getSafe(rootView, origin))
@@ -119,7 +119,7 @@ sealed class Navigate : ActionAnalytics {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
-    @BeagleJson
+    @BeagleJson(name = "pushStack")
     data class PushStack(
         val route: Route,
         val controllerId: String? = null,
@@ -139,7 +139,7 @@ sealed class Navigate : ActionAnalytics {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
-    @BeagleJson
+    @BeagleJson(name = "resetApplication")
     data class ResetApplication(
         val route: Route,
         val controllerId: String? = null,
@@ -159,7 +159,7 @@ sealed class Navigate : ActionAnalytics {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
-    @BeagleJson
+    @BeagleJson(name = "resetStack")
     data class ResetStack(
         val route: Route,
         val controllerId: String? = null,

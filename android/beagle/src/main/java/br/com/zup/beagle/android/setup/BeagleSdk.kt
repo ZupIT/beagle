@@ -52,7 +52,7 @@ interface BeagleSdk {
     val storeHandler: StoreHandler?
     val controllerReference: BeagleControllerReference?
     val typeAdapterResolver: TypeAdapterResolver?
-    val analyticsProvider : AnalyticsProvider?
+    val analyticsProvider: AnalyticsProvider?
 
     @Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
         " Use @RegisterController with no arguments to register your default BeagleActivity.")

@@ -1095,7 +1095,7 @@ class BeagleMoshiTest : BaseTest() {
 
     @DisplayName("When to JSON")
     @Nested
-    inner class ActionAnalyticsConfigAdapterToJson {
+    inner class AnalyticsActionConfigAdapterToJson {
 
         @DisplayName("Then should create JSON with false string")
         @Test
@@ -1155,7 +1155,7 @@ class BeagleMoshiTest : BaseTest() {
 
     @DisplayName("When from JSON")
     @Nested
-    inner class ActionAnalyticsConfigAdapterFromJson {
+    inner class AnalyticsActionConfigAdapterFromJson {
 
         @DisplayName("Then should create JSON with false string")
         @Test

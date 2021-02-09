@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import android.view.View
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.newanalytics.AnalyticsService
@@ -45,7 +45,7 @@ internal class AnalyticsViewModelTest {
     private val analyticsViewModel = AnalyticsViewModel()
     var rootView: RootView = mockk()
     var origin: View = mockk()
-    var action: ActionAnalytics = mockk()
+    var action: AnalyticsAction = mockk()
     var analyticsValue: String = "any"
 
     @BeforeEach

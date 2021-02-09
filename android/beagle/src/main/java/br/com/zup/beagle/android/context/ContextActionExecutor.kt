@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.context
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
@@ -35,7 +35,7 @@ internal object ContextActionExecutor {
         sender: Any,
         actions: List<Action>,
         context: ContextData? = null,
-        analyticsValue: String? = null
+        analyticsValue: String? = null,
     ) {
         if (context != null) {
             createImplicitContextForActions(rootView, sender, context, actions)
@@ -58,7 +58,7 @@ internal object ContextActionExecutor {
         rootView: RootView,
         origin: View,
         actions: List<Action>?,
-        analyticsValue: String? = null
+        analyticsValue: String? = null,
     ) {
         actions?.forEach { action ->
             if (action is AsyncAction) {
@@ -74,11 +74,10 @@ internal object ContextActionExecutor {
         action: Action,
         rootView: RootView,
         origin: View,
-        analyticsValue: String? = null
+        analyticsValue: String? = null,
     ) {
         action.execute(rootView, origin)
-
-        if (action is ActionAnalytics) {
+        if (action is AnalyticsAction) {
             rootView.generateViewModelInstance<AnalyticsViewModel>().createActionReport(
                 rootView,
                 origin,

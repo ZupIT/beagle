@@ -19,11 +19,15 @@ package br.com.zup.beagle.newanalytics
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.core.BeagleJson
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert
@@ -56,22 +60,22 @@ internal class ActionReportFactoryTest : BaseTest() {
         @DisplayName("Then should return hash map with rootview screenId")
         fun testRootViewWithScreenIdReturnHashMapWithScreenKey() {
             //Given
-            val action: ActionAnalytics = mockk()
+            val action: AnalyticsAction = mockk()
             every { rootView.getScreenId() } returns "/screen"
             every { action.analytics } returns null
 
             //When
-            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action
             )
-            val report = ActionReportFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateAnalyticsRecord(
                 dataActionReport
             )
 
             //Then
-            Assert.assertEquals("/screen", report.values["screen"])
+            Assert.assertEquals("/screen", report.screen)
         }
     }
 
@@ -83,17 +87,17 @@ internal class ActionReportFactoryTest : BaseTest() {
         @DisplayName("Then should return platform as android and type as action")
         fun testPlatformAnTypeWithCorrectValue() {
             //Given
-            val action: ActionAnalytics = mockk()
+            val action: AnalyticsAction = mockk()
             every { rootView.getScreenId() } returns ""
             every { action.analytics } returns null
 
             //When
-            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action
             )
-            val report = ActionReportFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateAnalyticsRecord(
                 dataActionReport
             )
 
@@ -107,7 +111,7 @@ internal class ActionReportFactoryTest : BaseTest() {
     @Nested
     inner class ComponentValues {
 
-        private val action: ActionAnalytics = mockk()
+        private val action: AnalyticsAction = mockk()
         private val originComponent: WidgetView = Text("test")
 
         @BeforeEach
@@ -129,7 +133,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.values["component"])
+            Assert.assertEquals(componentReport, report.values?.get("component"))
         }
 
         @Test
@@ -146,7 +150,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.values["component"])
+            Assert.assertEquals(componentReport, report.values?.get("component"))
         }
 
         @Test
@@ -161,7 +165,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.values["component"])
+            Assert.assertEquals(componentReport, report.values?.get("component"))
         }
 
         private fun generateComponentReport() = hashMapOf<String, Any>(
@@ -169,14 +173,15 @@ internal class ActionReportFactoryTest : BaseTest() {
             "type" to "beagle:text"
         )
 
-        private fun generateDataActionReport() = ActionReportFactory.preGenerateActionAnalyticsConfig(
+        private fun generateDataActionReport() = ActionReportFactory.generateDataActionReport(
             rootView,
             origin,
             action,
         )
 
         private fun reportDataAction(
-            dataActionReport: DataActionReport) = ActionReportFactory.generateActionAnalyticsConfig(
+            dataActionReport: DataActionReport,
+        ) = ActionReportFactory.generateAnalyticsRecord(
             dataActionReport
         )
     }
@@ -186,8 +191,8 @@ internal class ActionReportFactoryTest : BaseTest() {
     inner class ActionAttributeAndAdditionalEntries {
         private val url = "/url"
         private val route = Route.Remote(url = "/url")
-        private val actionType = "beagle:pushView"
-        private val action: ActionAnalytics = Navigate.PushView(route = route)
+        private val actionType = "beagle:pushview"
+        private val action: AnalyticsAction = Navigate.PushView(route = route)
 
         @BeforeEach
         fun setup() {
@@ -199,78 +204,78 @@ internal class ActionReportFactoryTest : BaseTest() {
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testSimpleActionAttribute() {
             //When
-            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action,
                 analyticsValue = "onPress"
             )
             dataActionReport.additionalEntries = hashMapOf("additionalEntries" to true)
-            val report = ActionReportFactory.generateActionAnalyticsConfig(dataActionReport)
+            val report = ActionReportFactory.generateAnalyticsRecord(dataActionReport)
 
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(route, report.values["route"])
-            assertTrue(report.values["additionalEntries"] as Boolean)
+            Assert.assertEquals(route, report.values?.get("route"))
+            assertTrue(report.values?.get("additionalEntries") as Boolean)
         }
 
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testComposeActionAttribute() {
             //When
-            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action,
                 analyticsValue = "onPress"
             )
-            val report = ActionReportFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateAnalyticsRecord(
                 dataActionReport
             )
 
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(url, report.values[ROUTE_URL_CONSTANT])
-            Assert.assertEquals(false, report.values[ROUTE_SHOULD_PREFETCH_CONSTANT])
+            Assert.assertEquals(url, report.values?.get(ROUTE_URL_CONSTANT))
+            Assert.assertEquals(false, report.values?.get(ROUTE_SHOULD_PREFETCH_CONSTANT))
         }
 
         @Test
         @DisplayName("Then should return correct value to action attribute key without crash")
         fun testWrongComposeActionAttribute() {
             //When
-            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action,
                 analyticsValue = "onPress"
             )
-            val report = ActionReportFactory.generateActionAnalyticsConfig(
+            val report = ActionReportFactory.generateAnalyticsRecord(
                 dataActionReport,
             )
             print(report)
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(null, report.values["route.a"])
+            Assert.assertEquals(null, report.values?.get("route.a"))
         }
 
         private fun commonAsserts(report: AnalyticsRecord, dataReport: DataReport) {
             Assert.assertEquals(dataReport.timestamp, report.timestamp)
-            Assert.assertEquals("onPress", report.values["event"])
-            Assert.assertEquals(actionType, report.values["beagleAction"])
+            Assert.assertEquals("onPress", report.values?.get("event"))
+            Assert.assertEquals(actionType, report.values?.get("beagleAction"))
         }
 
     }
 
-    @DisplayName("When preGenerateActionAnalyticsConfig")
+    @DisplayName("When GenerateDataActionReport")
     @Nested
-    inner class PreGenerateActionAnalyticsConfig {
+    inner class GenerateDataActionReport {
         private val url = "/url"
         private val route = Route.Remote(url = url)
-        private val action: ActionAnalytics = Navigate.PushView(route = route)
+        private val action: AnalyticsAction = Navigate.PushView(route = route)
 
         @DisplayName("Then should create correct data action report")
         @Test
-        fun testPreGenerateActionAnalyticsConfigCreateCorrectDataActionReport() {
+        fun testGenerateDataActionReportCreateCorrectDataActionReport() {
             //Given
             every { rootView.getScreenId() } returns ""
             every { origin.getTag(R.id.beagle_component_type) } returns null
@@ -288,10 +293,10 @@ internal class ActionReportFactoryTest : BaseTest() {
                 analyticsValue = "onPress",
                 action = action,
                 screenId = "",
-                actionType = "beagle:pushView"
+                actionType = "beagle:pushview"
             )
             //When
-            val dataActionReport = ActionReportFactory.preGenerateActionAnalyticsConfig(
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action,
@@ -301,5 +306,165 @@ internal class ActionReportFactoryTest : BaseTest() {
             //Then
             Assert.assertEquals(expectedDataReport, dataActionReport)
         }
+    }
+
+    @DisplayName("when GenerateDataActionReport")
+    @Nested
+    inner class ProGuardTest {
+        @BeforeEach
+        fun setup() {
+            every { rootView.getScreenId() } returns ""
+            every { origin.x } returns 300f
+            every { origin.y } returns 400f
+        }
+
+        @DisplayName("Then should get name from annotation")
+        @Test
+        fun testGenerateDataActionReportOfBeagleJsonActionShouldGetNameFromAnnotation() {
+            //given
+            val action = BeagleJsonActionWithName()
+
+            //when
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("beagle:actionname", dataActionReport.actionType)
+        }
+
+        @DisplayName("Then should get name from class")
+        @Test
+        fun testGenerateDataActionReportOfBeagleJsonActionShouldGetNameFromClass() {
+            //given
+            val action = BeagleJsonActionWithoutName()
+
+            //when
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("beagle:beaglejsonactionwithoutname", dataActionReport.actionType)
+        }
+
+        @DisplayName("Then should get name from annotation")
+        @Test
+        fun testGenerateDataActionReportOfRegisterActionShouldGetNameFromAnnotation() {
+            //given
+            val action = RegisterActionWithName()
+            every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
+
+            //when
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("custom:actionname", dataActionReport.actionType)
+        }
+
+        @DisplayName("Then should get name from class")
+        @Test
+        fun testGenerateDataActionReportOfRegisterActionShouldGetNameFromClass() {
+            //given
+            val action = RegisterActionWithoutName()
+            every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
+
+            //when
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("custom:registeractionwithoutname", dataActionReport.actionType)
+        }
+
+        @DisplayName("Then should get name from annotation")
+        @Test
+        fun testGenerateDataActionReportWithAnnotationOnAttributeShouldGetTheNameFromAnnotation() {
+            //given
+            val action = RegisterActionWithoutName("test")
+            every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
+
+            //when
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("test", dataActionReport.attributes["titleTest"])
+            Assert.assertEquals(null, dataActionReport.attributes["title"])
+        }
+
+        @DisplayName("Then should get name from attribute")
+        @Test
+        fun testGenerateDataActionReportWithAnnotationOnAttributeShouldGetTheNameFromAttribute() {
+            //given
+            val action = RegisterActionWithName("test")
+            every { beagleSdk.registeredActions() } returns listOf(action::class.java as Class<Action>)
+
+            //when
+            val dataActionReport = ActionReportFactory.generateDataActionReport(
+                rootView,
+                origin,
+                action,
+                analyticsValue = "onPress"
+            )
+
+            //then
+            Assert.assertEquals("test", dataActionReport.attributes["title"])
+        }
+    }
+}
+
+@BeagleJson(name = "actionName")
+internal class BeagleJsonActionWithName(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
+    override fun execute(rootView: RootView, origin: View) {
+        //this is a class to test
+    }
+}
+
+@BeagleJson
+internal class BeagleJsonActionWithoutName(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
+    override fun execute(rootView: RootView, origin: View) {
+        //this is a class to test
+    }
+}
+
+@RegisterAction
+internal class RegisterActionWithoutName(
+    @BeagleJson(name = "titleTest")
+    val title: String = "",
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
+    override fun execute(rootView: RootView, origin: View) {
+        //this is a class to test
+    }
+}
+
+@RegisterAction(name = "actionName")
+internal class RegisterActionWithName(
+    @BeagleJson
+    val title: String = "",
+    override var analytics: ActionAnalyticsConfig? = null
+) : AnalyticsAction {
+    override fun execute(rootView: RootView, origin: View) {
+        //this is a class to test
     }
 }

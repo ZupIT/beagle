@@ -17,7 +17,7 @@
 package br.com.zup.beagle.newanalytics
 
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import io.mockk.every
@@ -36,14 +36,14 @@ internal class DataActionReportTest : BaseTest() {
     @BeforeEach
     fun setup() {
         mockkObject(ActionReportFactory)
-        every { ActionReportFactory.generateActionAnalyticsConfig(any()) } returns mockk()
+        every { ActionReportFactory.generateAnalyticsRecord(any()) } returns mockk()
     }
 
     private val ROUTE_URL_CONSTANT = "route.url"
     private val ROUTE_SHOULD_PREFETCH_CONSTANT = "route.shouldPrefetch"
     private val url = "/url"
     private val route = Route.Remote(url = url)
-    private val action: ActionAnalytics = Navigate.PushView(route = route)
+    private val action: AnalyticsAction = Navigate.PushView(route = route)
 
     private val dataActionReport = DataActionReport(
         originX = 300f,
@@ -83,7 +83,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(mockk())
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(attributesHashMap.size, dataActionReport.attributes.size)
             assertEquals(attributesHashMap["route"], dataActionReport.attributes["route"])
             assertEquals(attributesHashMap["route.url"], dataActionReport.attributes["route.url"])
@@ -109,7 +109,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(attributesHashMap.size, dataActionReport.attributes.size)
             assertEquals(attributesHashMap["route"], dataActionReport.attributes["route"])
             assertEquals(attributesHashMap["route.url"], dataActionReport.attributes["route.url"])
@@ -119,15 +119,16 @@ internal class DataActionReportTest : BaseTest() {
         @Test
         @DisplayName("Then should call ActionReportFactory.GenerateActionAnalyticsConfig")
         fun testReportActionWithoutAttributesOnAnalyticsAndConfigShouldCallGenerateActionAnalyticsConfigWithEmptyAttributesOnDataActionReport() {
-                //Given
+            //Given
             val analyticsConfig: AnalyticsConfig = mockk()
+            action.analytics = ActionAnalyticsConfig.Enabled()
             every { analyticsConfig.actions } returns null
 
             //When
             dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(0, dataActionReport.attributes.size)
         }
 
@@ -149,7 +150,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(attributesHashMap.size, dataActionReport.attributes.size)
             assertEquals(attributesHashMap["route"], dataActionReport.attributes["route"])
             assertEquals(attributesHashMap["route.url"], dataActionReport.attributes["route.url"])
@@ -176,7 +177,7 @@ internal class DataActionReportTest : BaseTest() {
             dataActionReport.report(analyticsConfig)
 
             //then
-            verify(exactly = 1) { ActionReportFactory.generateActionAnalyticsConfig(dataActionReport) }
+            verify(exactly = 1) { ActionReportFactory.generateAnalyticsRecord(dataActionReport) }
             assertEquals(attributesHashMap.size, dataActionReport.attributes.size)
             assertEquals(attributesHashMap["route"], dataActionReport.attributes["route"])
             assertEquals(attributesHashMap["route.url"], dataActionReport.attributes["route.url"])
@@ -184,5 +185,19 @@ internal class DataActionReportTest : BaseTest() {
             assertEquals(1, dataActionReport.additionalEntries?.size)
         }
 
+        @Test
+        @DisplayName("Then should return null")
+        fun testReportWithoutAnalyticsAndActionNotInConfigShouldReturnNull() {
+            //Given
+            val analyticsConfig: AnalyticsConfig = mockk()
+            action.analytics = null
+            every { analyticsConfig.actions } returns null
+
+            //When
+            val result = dataActionReport.report(analyticsConfig)
+
+            //then
+            assertEquals(null, result)
+        }
     }
 }

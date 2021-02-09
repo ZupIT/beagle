@@ -42,12 +42,12 @@ import br.com.zup.beagle.core.BeagleJson
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
-@BeagleJson
+@BeagleJson(name = "formLocalAction")
 data class FormLocalAction(
     val name: String,
     val data: Map<String, String>,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction, AsyncAction by AsyncActionImpl() {
 
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler

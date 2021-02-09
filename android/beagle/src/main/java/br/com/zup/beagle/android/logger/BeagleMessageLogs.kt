@@ -148,12 +148,12 @@ internal object BeagleMessageLogs {
         BeagleLoggerProxy.warning("Expression is not support in prefetch")
     }
 
-    fun cannotGetPropertyValue(propertyName : String?) {
+    fun cannotGetPropertyValue(propertyName: String?) {
         val warningMessage = "Cannot get some attributes of property $propertyName."
         BeagleLoggerProxy.warning(warningMessage)
     }
 
-    fun analyticsQueueIsFull(maxItems : Int) {
+    fun analyticsQueueIsFull(maxItems: Int) {
         val warningMessage = "${maxItems} analytics records are queued and waiting for the initial configuration" +
             " of the AnalyticsProvider to conclude. This is probably an error within your analytics provider. Why" +
             " is getConfig() still returning null? From now on, some analytics records will be lost. If you need to" +

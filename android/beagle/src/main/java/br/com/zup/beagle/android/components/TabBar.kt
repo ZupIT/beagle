@@ -141,7 +141,7 @@ data class TabBar(
                             tabBar,
                             it,
                             ContextData("onTabSelection", value = tab.position),
-                            "onTabSelected"
+                            analyticsValue = "onTabSelected"
                         )
                     }
                 }

@@ -53,7 +53,7 @@ internal class BeagleFragment : Fragment() {
         fun newInstance(
             component: ServerDrivenComponent,
             isLocalScreen: Boolean? = null,
-            screenIdentifier: String? = null
+            screenIdentifier: String? = null,
         ) = newInstance(
             beagleSerializer.serializeComponent(component),
             isLocalScreen,
@@ -64,8 +64,8 @@ internal class BeagleFragment : Fragment() {
         fun newInstance(
             json: String,
             isLocalScreen: Boolean? = null,
-            screenIdentifier: String? = null
-        ): BeagleFragment = BeagleFragment().apply {
+            screenIdentifier: String? = null,
+        ) = BeagleFragment().apply {
             val bundle = Bundle()
             bundle.putString(JSON_SCREEN_KEY, json)
             isLocalScreen?.let {
@@ -95,7 +95,7 @@ internal class BeagleFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return context?.let {
             FrameLayout(it).apply {

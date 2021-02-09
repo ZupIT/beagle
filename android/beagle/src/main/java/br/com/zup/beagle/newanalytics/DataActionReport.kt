@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.newanalytics
 
-import br.com.zup.beagle.android.action.ActionAnalytics
+import br.com.zup.beagle.android.action.AnalyticsAction
 
 internal data class DataActionReport(
     var originX: Float? = null,
@@ -25,7 +25,7 @@ internal data class DataActionReport(
     var id: String? = null,
     var type: String? = null,
     var analyticsValue: String? = null,
-    var action: ActionAnalytics,
+    var action: AnalyticsAction,
     var screenId: String? = null,
     var actionType: String,
     var additionalEntries: Map<String, Any>? = null,
@@ -33,7 +33,10 @@ internal data class DataActionReport(
 
     override fun report(analyticsConfig: AnalyticsConfig): AnalyticsRecord? {
         updateActionAttributes(analyticsConfig)
-        return ActionReportFactory.generateActionAnalyticsConfig(this)
+        if (shouldReport()) {
+            return ActionReportFactory.generateAnalyticsRecord(this)
+        }
+        return null
     }
 
     private fun updateActionAttributes(analyticsConfig: AnalyticsConfig) {
@@ -54,7 +57,7 @@ internal data class DataActionReport(
         if (value != null && value is ActionAnalyticsProperties) value else null
 
     private fun getAttributeOnActionAnalyticsProperties(
-        actionAnalyticsProperties: ActionAnalyticsProperties?
+        actionAnalyticsProperties: ActionAnalyticsProperties?,
     ): List<String>? {
         actionAnalyticsProperties?.let {
             return it.attributes
@@ -63,11 +66,12 @@ internal data class DataActionReport(
     }
 
     private fun getAttributeOnAnalyticsConfig(
-        analyticsConfig: AnalyticsConfig
+        analyticsConfig: AnalyticsConfig,
     ): List<String>? {
-        val key = this.actionType
-        val attributeList = analyticsConfig.actions?.get(key)
-        return attributeList
+        val key = analyticsConfig.actions?.keys?.find {
+            it.equals(actionType, ignoreCase = true)
+        }
+        return analyticsConfig.actions?.get(key)
     }
 
     private fun updateAttributes(
@@ -88,4 +92,6 @@ internal data class DataActionReport(
             additionalEntries = it.additionalEntries
         }
     }
+
+    private fun shouldReport() = action.analytics != null || attributes.size > 0
 }

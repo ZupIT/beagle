@@ -33,7 +33,7 @@ import javax.lang.model.element.TypeElement
 internal class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironment) {
 
     fun generate(
-        roundEnvironment: RoundEnvironment
+        roundEnvironment: RoundEnvironment,
     ): List<PropertySpec> {
         val propertySpecifications: PropertySpecifications? = PropertySpecifications()
 
@@ -48,14 +48,14 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
 
     private fun checkIfHandlersExists(
         typeElement: TypeElement,
-        propertySpecifications: PropertySpecifications?
+        propertySpecifications: PropertySpecifications?,
     ) {
         TypeElementImplementationManager.manage(processingEnv, typeElement, propertySpecifications)
     }
 
     private fun checkIfOtherAttributesExists(
         typeElement: TypeElement,
-        propertySpecifications: PropertySpecifications?
+        propertySpecifications: PropertySpecifications?,
     ) {
         when {
             typeElement.implements(DESIGN_SYSTEM, processingEnv) -> {
@@ -95,7 +95,7 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
     }
 
     private fun createListOfPropertySpec(
-        propertySpecifications: PropertySpecifications?
+        propertySpecifications: PropertySpecifications?,
     ): List<PropertySpec> {
         return PropertyImplementationManager.manage(propertySpecifications).toMutableList().apply {
             add(implementServerDrivenActivityProperty(propertySpecifications?.defaultBeagleActivity))
@@ -128,7 +128,7 @@ internal data class PropertySpecifications(
     var urlBuilder: TypeElement? = null,
     var storeHandler: TypeElement? = null,
     var analytics: TypeElement? = null,
-    var analyticsProvider : TypeElement? = null,
+    var analyticsProvider: TypeElement? = null,
     var logger: TypeElement? = null,
-    var imageDownloader: TypeElement? = null
+    var imageDownloader: TypeElement? = null,
 )

@@ -42,14 +42,15 @@ sealed class ViewState {
     data class DoRender(
         val screenId: String?,
         val component: ServerDrivenComponent,
-        val isLocalScreen : Boolean
+        val isLocalScreen: Boolean,
     ) : ViewState()
+
     object DoCancel : ViewState()
 }
 
 internal open class BeagleViewModel(
     private val ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
-    private val componentRequester: ComponentRequester = ComponentRequester()
+    private val componentRequester: ComponentRequester = ComponentRequester(),
 ) : ViewModel() {
 
     var fetchComponent: FetchComponentLiveData? = null
@@ -79,7 +80,8 @@ internal open class BeagleViewModel(
         private val screen: ServerDrivenComponent?,
         private val componentRequester: ComponentRequester,
         private val coroutineScope: CoroutineScope,
-        private val ioDispatcher: CoroutineDispatcher) : LiveData<ViewState>() {
+        private val ioDispatcher: CoroutineDispatcher,
+    ) : LiveData<ViewState>() {
 
         var job: Job? = null
         private val isRenderedReference = AtomicReference(false)

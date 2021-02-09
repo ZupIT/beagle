@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+/// API for sending log output.
+abstract class BeagleLogger {
+  /// Function to pass warning message.
+  void warning(String message);
 
-import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
+  /// Function to pass error message.
+  void error(String message);
 
-/**
- * This abstract class represents an Action Analytics on Beagle
- */
-interface ActionAnalytics : Action {
+  /// Function to pass a exception and error message.
+  void errorWithException(String message, Exception exception);
 
-    /**
-     * This attribute is an ActionAnalyticsConfig.
-     * When this attribute is not null, this ActionAnalyticsConfig will override the AnalyticsConfig provided on
-     * AnalyticsProvider.
-     */
-    var analytics: ActionAnalyticsConfig?
-
+  /// Function for passing an information message.
+  void info(String message);
 }

@@ -39,7 +39,7 @@ import br.com.zup.beagle.core.BeagleJson
  * @param onPressCancel define action of button negative in dialog.
  *
  */
-@BeagleJson
+@BeagleJson(name = "confirm")
 data class Confirm(
     val title: Bind<String>? = null,
     val message: Bind<String>,
@@ -47,8 +47,8 @@ data class Confirm(
     val onPressCancel: Action? = null,
     val labelOk: String? = null,
     val labelCancel: String? = null,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
 
     constructor(
         title: String? = null,
@@ -57,7 +57,7 @@ data class Confirm(
         onPressCancel: Action? = null,
         labelOk: String? = null,
         labelCancel: String? = null,
-        analytics: ActionAnalyticsConfig? = null
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         title = expressionOrValueOfNullable(title),
         message = expressionOrValueOf(message),

@@ -20,6 +20,7 @@ import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
+import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
 import 'package:beagle_components/beagle_page_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
@@ -37,6 +38,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:lazycomponent': beagleLazyComponentBuilder(),
   'beagle:tabbar': beagleTabBarBuilder(),
   'beagle:pageview': beaglePageViewBuilder(),
+  'beagle:image': beagleImageBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -89,6 +91,8 @@ ComponentBuilder beagleButtonBuilder() {
         onPress: element.getAttributeValue('onPress'),
         text: element.getAttributeValue('text'),
         enabled: element.getAttributeValue('enabled'),
+        styleId: element.getAttributeValue('styleId'),
+        designSystem: BeagleInitializer.designSystem,
       );
 }
 
@@ -125,5 +129,19 @@ ComponentBuilder beaglePageViewBuilder() {
         currentPage: element.getAttributeValue('currentPage'),
         onPageChange: element.getAttributeValue('onPageChange'),
         children: children,
+      );
+}
+
+ComponentBuilder beagleImageBuilder() {
+  return (element, _, __) => BeagleImage(
+        key: element.getKey(),
+        designSystem: BeagleInitializer.designSystem,
+        imageDownloader: BeagleInitializer.imageDownloader,
+        logger: BeagleInitializer.logger,
+        path: ImagePath.fromJson(element.getAttributeValue('path')),
+        mode: EnumUtils.fromString(
+          ImageContentMode.values,
+          element.getAttributeValue('mode') ?? '',
+        ),
       );
 }

@@ -74,12 +74,12 @@ internal typealias ResultListener = (result: FormResult) -> Unit
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
-@BeagleJson
+@BeagleJson(name = "formRemoteAction")
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType,
-    override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics, AsyncAction by AsyncActionImpl() {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction, AsyncAction by AsyncActionImpl() {
 
     @Transient
     internal lateinit var formsValue: Map<String, String>
