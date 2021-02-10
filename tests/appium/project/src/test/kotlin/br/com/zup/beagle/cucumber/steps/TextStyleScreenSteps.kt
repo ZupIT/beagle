@@ -21,7 +21,7 @@ import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import org.junit.Assert
 
-class TextStyleScreenSteps : AbstractStep() {
+class TextStyleScreenSteps: AbstractStep() {
     override var bffRelativeUrlPath = "/text"
 
     @Before("@textStyle")
