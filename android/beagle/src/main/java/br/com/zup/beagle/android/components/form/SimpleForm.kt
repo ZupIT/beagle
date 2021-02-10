@@ -90,19 +90,19 @@ data class SimpleForm(
     private fun searchErrorInHierarchy(parent: ViewGroup): Boolean {
         var result = false
 
-        run breaker@{
+        run searchLoop@{
             (0 until parent.childCount).forEach { i ->
                 val child = parent.getChildAt(i)
                 when {
                     child is ViewGroup -> {
                         result = searchErrorInHierarchy(child)
-                        if (result) return@breaker
+                        if (result) return@searchLoop
                     }
                     child != null && child.beagleComponent is TextInput -> {
                         val value = (child.beagleComponent as TextInput).errorTextValuated
 
                         result = !value.isNullOrEmpty()
-                        if (result) return@breaker
+                        if (result) return@searchLoop
 
                     }
                 }
