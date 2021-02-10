@@ -18,7 +18,7 @@ name: Beagle Appium Android Tests
 
 on:
   workflow_run:
-    workflows: ["Beagle Appium Tests"] #automated_tests_appium_mobile.yml
+    workflows: ["Beagle Appium Tests"]
     types:
       - completed
 #on: workflow_dispatch
@@ -124,5 +124,4 @@ jobs:
         with:
           name: failed_tests_screenshots
           path: tests/appium/project/build/screenshots/
-
 
