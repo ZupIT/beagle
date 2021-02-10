@@ -124,7 +124,7 @@ data class TextInput(
 
 
     override fun buildView(rootView: RootView): View =
-        instanceEdiText(rootView)
+        createEditText(rootView)
             .apply {
                 beagleComponent = this@TextInput
                 textInputView = this
@@ -133,7 +133,7 @@ data class TextInput(
                 if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView)
             }
 
-    private fun instanceEdiText(rootView: RootView): EditText {
+    private fun createEditText(rootView: RootView): EditText {
         return if (styleId.isNullOrEmpty()) viewFactory.makeInputText(rootView.getContext())
         else viewFactory.makeInputText(rootView.getContext(), styleManagerFactory.getInputTextStyle(styleId))
     }
@@ -223,13 +223,17 @@ data class TextInput(
 
         textInput.showError?.let { bind ->
             observeBindChanges(rootView, editText, bind) { showError ->
-                editText.error = if (showError == true && !errorTextValuated.isNullOrEmpty()) {
-                    errorTextValuated
-                } else {
-                    null
-                }
+                editText.error = getMessageError(showError)
             }
 
+        }
+    }
+
+    private fun getMessageError(showError: Boolean?): String? {
+        return if (showError == true && !errorTextValuated.isNullOrEmpty()) {
+            errorTextValuated
+        } else {
+            null
         }
     }
 

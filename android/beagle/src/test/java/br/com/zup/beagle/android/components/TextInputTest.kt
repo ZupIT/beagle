@@ -96,7 +96,7 @@ internal class TextInputTest : BaseComponentTest() {
 
     private fun callTextInput(
         type: TextInputType, styleId: String? = STYLE_ID,
-        showError: Boolean = true,
+        showError: Boolean = false,
     ) = TextInput(
         value = VALUE_KEY,
         placeholder = PLACE_HOLDER,
@@ -120,7 +120,7 @@ internal class TextInputTest : BaseComponentTest() {
         @DisplayName("Then should show correct")
         fun testErrorEnabled() {
             // Given
-            textInput = callTextInput(TYPE, styleId = null)
+            textInput = callTextInput(TYPE, styleId = null, showError = true)
 
             // When
             val view = textInput.buildView(rootView)
