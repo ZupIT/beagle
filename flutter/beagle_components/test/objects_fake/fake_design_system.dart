@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
+import 'dart:ui';
+
 import 'package:beagle/model/beagle_button_style.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/painting/text_style.dart';
 
 import 'button_one_style.dart';
 
@@ -35,5 +39,20 @@ class FakeDesignSystem extends DesignSystem {
   @override
   String image(String id) {
     throw UnimplementedError();
+  }
+
+  @override
+  TextStyle textStyle(String id) {
+    TextStyle style;
+    switch (id) {
+      case 'text-one':
+        style = const TextStyle(
+          color: Colors.black,
+          backgroundColor: Colors.indigo,
+        );
+        break;
+    }
+
+    return style;
   }
 }

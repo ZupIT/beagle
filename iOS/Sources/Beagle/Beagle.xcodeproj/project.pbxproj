@@ -344,6 +344,7 @@
 		E7523AF8239E8F2100F93385 /* BeagleDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523AF7239E8F2100F93385 /* BeagleDependencies.swift */; };
 		E7716B9D2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7716B9C2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift */; };
 		E79D846D23AABFA100BAE9FA /* BeaglePrefetchHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79D846C23AABFA100BAE9FA /* BeaglePrefetchHelperTests.swift */; };
+		FA7AA63C25C3564100385A36 /* BeagleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7AA63B25C3564100385A36 /* BeagleErrorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -729,6 +730,7 @@
 		E7716B9C2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleDeepLinkHandler.swift; sourceTree = "<group>"; };
 		E79D846C23AABFA100BAE9FA /* BeaglePrefetchHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaglePrefetchHelperTests.swift; sourceTree = "<group>"; };
 		E7F8CF50239190F4004C6C19 /* CustomPageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageIndicator.swift; sourceTree = "<group>"; };
+		FA7AA63B25C3564100385A36 /* BeagleErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1793,6 +1795,7 @@
 			isa = PBXGroup;
 			children = (
 				93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */,
+				FA7AA63B25C3564100385A36 /* BeagleErrorView.swift */,
 				A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */,
 				C852A0F2247F246B009535D9 /* BeagleRenderer.swift */,
 				E5CB5D64234E7CF6009783A7 /* BeagleScreenViewController.swift */,
@@ -2454,6 +2457,7 @@
 				A05C74D22497F430009DBB66 /* FormValidation+Extensions.swift in Sources */,
 				7CC2D9B424C614FB0059D5F9 /* TabBar+Extensions.swift in Sources */,
 				9398CA3A25531E9D0003A010 /* Alert.swift in Sources */,
+				FA7AA63C25C3564100385A36 /* BeagleErrorView.swift in Sources */,
 				A024CF0F24991E42009BB92D /* UIView+Style.swift in Sources */,
 				C08D4E1F24857B4E00AAAC0A /* NavigationBar+UIKit.swift in Sources */,
 				9398CAF3255579D60003A010 /* Deprecated.swift in Sources */,

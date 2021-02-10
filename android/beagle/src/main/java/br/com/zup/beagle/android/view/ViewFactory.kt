@@ -59,11 +59,15 @@ internal class ViewFactory {
 
     fun makeButton(context: Context, id: Int) = Button(ContextThemeWrapper(context, id), null, 0)
 
+    fun makeButton(context: Context) = Button(context)
+
     fun makeTextView(context: Context) = TextView(context)
 
     fun makeTextView(context: Context, id: Int) = TextView(ContextThemeWrapper(context, id), null, 0)
 
     fun makeInputText(context: Context, id: Int) = EditText(ContextThemeWrapper(context, id), null, 0)
+
+    fun makeInputText(context: Context) = EditText(context)
 
     fun makeAlertDialogBuilder(context: Context) = AlertDialog.Builder(context)
 

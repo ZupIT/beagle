@@ -22,10 +22,13 @@ import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
+import 'package:beagle_components/beagle_page_indicator.dart';
 import 'package:beagle_components/beagle_page_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
+import 'package:beagle_components/beagle_touchable.dart';
+import 'package:beagle_components/beagle_webview.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -39,6 +42,9 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:tabbar': beagleTabBarBuilder(),
   'beagle:pageview': beaglePageViewBuilder(),
   'beagle:image': beagleImageBuilder(),
+  'beagle:pageIndicator': beaglePageIndicatorBuilder(),
+  'beagle:touchable': beagleTouchableBuilder(),
+  'beagle:webView': beagleWebViewBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -60,10 +66,12 @@ ComponentBuilder beagleTextBuilder() {
         key: element.getKey(),
         text: element.getAttributeValue('text'),
         textColor: element.getAttributeValue('textColor'),
+        styleId: element.getAttributeValue('styleId'),
         alignment: EnumUtils.fromString(
           TextAlignment.values,
           element.getAttributeValue('alignment') ?? '',
         ),
+        designSystem: BeagleInitializer.designSystem,
       );
 }
 
@@ -143,5 +151,30 @@ ComponentBuilder beagleImageBuilder() {
           ImageContentMode.values,
           element.getAttributeValue('mode') ?? '',
         ),
+      );
+}
+
+ComponentBuilder beaglePageIndicatorBuilder() {
+  return (element, _, __) => BeaglePageIndicator(
+        key: element.getKey(),
+        selectedColor: element.getAttributeValue('selectedColor'),
+        unselectedColor: element.getAttributeValue('unselectedColor'),
+        numberOfPages: element.getAttributeValue('numberOfPages'),
+        currentPage: element.getAttributeValue('currentPage'),
+      );
+}
+
+ComponentBuilder beagleTouchableBuilder() {
+  return (element, children, __) => BeagleTouchable(
+        key: element.getKey(),
+        onPress: element.getAttributeValue('onPress'),
+        child: children[0],
+      );
+}
+
+ComponentBuilder beagleWebViewBuilder() {
+  return (element, children, __) => BeagleWebView(
+        key: element.getKey(),
+        url: element.getAttributeValue('url'),
       );
 }

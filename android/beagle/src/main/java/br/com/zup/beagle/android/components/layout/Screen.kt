@@ -41,7 +41,7 @@ import br.com.zup.beagle.core.Style
  * @param trailing enable the safeArea constraint only on the RIGHT of the screen view.
  *
  */
-@BeagleJson
+@BeagleJson(name = "safeArea")
 data class SafeArea(
     val top: Boolean? = null,
     val leading: Boolean? = null,
@@ -60,7 +60,7 @@ data class SafeArea(
  * @param accessibility define Accessibility details for the item
  *
  */
-@BeagleJson
+@BeagleJson(name = "navigationBarItem")
 data class NavigationBarItem(
     val text: String,
     val image: ImagePath.Local? = null,
@@ -83,7 +83,7 @@ data class NavigationBarItem(
  * @param backButtonAccessibility define accessibility details for the item
  *
  */
-@BeagleJson
+@BeagleJson(name = "navigationBar")
 data class NavigationBar(
     val title: String,
     val showBackButton: Boolean = true,
@@ -119,7 +119,7 @@ data class NavigationBar(
  *
  */
 @Suppress("DataClassPrivateConstructor")
-@BeagleJson
+@BeagleJson(name = "screen")
 data class Screen private constructor(
     val identifier: String? = null,
     val safeArea: SafeArea? = null,

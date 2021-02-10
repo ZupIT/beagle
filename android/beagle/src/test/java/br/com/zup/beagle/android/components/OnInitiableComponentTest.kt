@@ -20,6 +20,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.AsyncActionStatus
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.SendRequest
@@ -166,8 +167,10 @@ class OnInitiableComponentTest {
         @Test
         fun onViewAttachedToWindowExecute() {
             // Given
-            val action = Navigate.PopView()
+            val action = mockk<Action>()
+            every { action.execute(rootView, origin) } just Runs
             val initiableWidget = Container(children = listOf(), onInit = listOf(action))
+
 
             // When
             initiableWidget.handleOnInit(rootView, origin)
@@ -175,7 +178,7 @@ class OnInitiableComponentTest {
             listenerSlot.captured.onViewAttachedToWindow(origin)
 
             // Then
-            verify(exactly = 1) { action.handleEvent(rootView, origin, action) }
+            verify(exactly = 1) { action.handleEvent(rootView, origin, action, "onInit") }
         }
 
         @DisplayName("Then should setOnInitFinished true to FINISHED AsyncAction")
@@ -222,7 +225,8 @@ class OnInitiableComponentTest {
         @Test
         fun markToRerunOnInitAgain() {
             // Given
-            val action = Navigate.PopView()
+            val action = mockk<Action>()
+            every { action.execute(rootView, origin) } just Runs
             val initiableWidget = Container(children = listOf(), onInit = listOf(action))
 
             // When
@@ -232,7 +236,7 @@ class OnInitiableComponentTest {
             listenerSlot.captured.onViewAttachedToWindow(origin)
 
             // Then
-            verify(exactly = 2) { action.handleEvent(rootView, origin, action) }
+            verify(exactly = 2) { action.handleEvent(rootView, origin, action, analyticsValue = "onInit") }
         }
     }
 }

@@ -80,7 +80,7 @@ class TouchableViewRenderer : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) {
-            touchable.handleEvent(rootView, view, actions)
+            touchable.handleEvent(rootView, view, actions, analyticsValue = "onPress")
         }
     }
 
