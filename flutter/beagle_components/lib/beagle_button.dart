@@ -40,7 +40,7 @@ class BeagleButton extends StatelessWidget {
   /// to be applied to this widget.
   final String styleId;
 
-  /// Define actions that will be performed when this component is pressed.
+  /// Defines the actions that will be performed when this component is pressed.
   final Function onPress;
 
   /// Whether button will be enabled.
