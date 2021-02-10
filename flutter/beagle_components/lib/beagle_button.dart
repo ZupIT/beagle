@@ -36,11 +36,11 @@ class BeagleButton extends StatelessWidget {
   /// Define the button text content.
   final String text;
 
-  /// Reference a native style in your local styles file to be applied on this
-  /// button.
+  /// References a [BeagleButtonStyle] declared natively and locally in [DesignSystem] 
+  /// to be applied to this widget.
   final String styleId;
 
-  /// Define actions that will be performed when this component is pressed.
+  /// Defines the actions that will be performed when this component is pressed.
   final Function onPress;
 
   /// Whether button will be enabled.
