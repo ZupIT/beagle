@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-import Beagle
+import 'package:flutter/material.dart';
 
-class CustomBeagleNavigationController: BeagleNavigationController {
-        
-    override func serverDrivenStateDidChange(
-        to state: ServerDrivenState,
-        at screenController: BeagleController
-    ) {
-        super.serverDrivenStateDidChange(to: state, at: screenController)
-    }
+class BeagleTouchable extends StatelessWidget {
+  const BeagleTouchable({
+    Key key,
+    this.onPress,
+    this.child,
+  }) : super(key: key);
+
+  final Function onPress;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPress,
+      child: child,
+    );
+  }
 }

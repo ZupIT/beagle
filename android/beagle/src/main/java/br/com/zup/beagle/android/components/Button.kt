@@ -78,7 +78,10 @@ data class Button(
             preFetchHelper.handlePreFetch(rootView, it)
         }
 
-        val button = viewFactory.makeButton(rootView.getContext(), styleManager.getButtonStyle(styleId))
+        val style = styleManager.getButtonStyle(styleId)
+
+        val button = if (style == 0) viewFactory.makeButton(rootView.getContext())
+        else viewFactory.makeButton(rootView.getContext(), style)
 
         button.setOnClickListener { view ->
             onPress?.let {

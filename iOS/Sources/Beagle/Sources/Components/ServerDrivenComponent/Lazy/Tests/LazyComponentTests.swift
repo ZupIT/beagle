@@ -88,7 +88,7 @@ final class LazyComponentTests: XCTestCase {
         XCTAssertTrue(initialView.didCallOnUpdateState)
     }
     
-    func test_whenLoadFail_shouldSetNotifyTheScreen() {
+    func test_whenLoadFail_shouldSetNotifyTheScreen() throws {
         // Given
         let hostView = UIView()
         let initialView = UIView()
@@ -120,7 +120,9 @@ final class LazyComponentTests: XCTestCase {
         // When
         repository.componentCompletion = nil
         let lazyLoadedContent = UIView()
-        retry()
+        let retryLazyLoad = try XCTUnwrap(retry)
+        retryLazyLoad()
+        
         repository.componentCompletion?(.success(ComponentDummy(resultView: lazyLoadedContent)))
         
         let expect = expectation(description: "consume queue")
