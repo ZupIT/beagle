@@ -76,7 +76,7 @@ data class SimpleForm(
     }
 
     fun submit(rootView: RootView, view: View) {
-        val hasError = recursiveLoopToFindErrorChildren(simpleFormViewCreated)
+        val hasError = searchErrorInHierarchy(simpleFormViewCreated)
         val actions = if (hasError) onValidationError ?: emptyList() else onSubmit
         handleEvent(rootView, view, actions)
     }
@@ -87,13 +87,13 @@ data class SimpleForm(
         }
     }
 
-    private fun recursiveLoopToFindErrorChildren(parent: ViewGroup): Boolean {
+    private fun searchErrorInHierarchy(parent: ViewGroup): Boolean {
         var result = false
         (0 until parent.childCount).forEach { i ->
             val child = parent.getChildAt(i)
             when {
                 child is ViewGroup -> {
-                    result = recursiveLoopToFindErrorChildren(child)
+                    result = searchErrorInHierarchy(child)
                     if (result) return@forEach
                 }
                 child != null && child.beagleComponent is TextInput -> {

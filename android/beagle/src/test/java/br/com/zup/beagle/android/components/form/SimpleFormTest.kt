@@ -59,7 +59,7 @@ internal class SimpleFormTest : BaseComponentTest() {
     inner class SimpleFormBuildView {
 
         @Test
-        @DisplayName("Then should create beagle flex vix")
+        @DisplayName("Then should create beagle flex view")
         fun testConstructBeagleFlexView() {
             // When
             val view = simpleForm.buildView(rootView)
