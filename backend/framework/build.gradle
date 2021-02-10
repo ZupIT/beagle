@@ -16,7 +16,7 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply from: rootProject.file('schema.gradle')
+apply from: files("$rootDir/../schema.gradle").singleFile
 apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
