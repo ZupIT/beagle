@@ -112,12 +112,12 @@ internal class TextInputTest : BaseComponentTest() {
         onBlur = listOf(SetContext(contextId = "textInputValue", value = "c"))
     )
 
-    @DisplayName("When configure error")
+    @DisplayName("When enable to show error")
     @Nested
-    inner class TextInputErrorForm {
+    inner class TextInputEnableErrorForm {
 
         @Test
-        @DisplayName("Then should show correct")
+        @DisplayName("Then should show field error")
         fun testErrorEnabled() {
             // Given
             textInput = callTextInput(TYPE, styleId = null, showError = true)
@@ -134,6 +134,27 @@ internal class TextInputTest : BaseComponentTest() {
 
         @Test
         @DisplayName("Then should show correct it")
+        fun testErrorDisabled() {
+            // Given
+            textInput = callTextInput(TYPE, styleId = null, showError = false)
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = 0) {
+                editText.error = ERROR
+            }
+        }
+    }
+
+    @DisplayName("When disable to show error")
+    @Nested
+    inner class TextInputDisableErrorForm {
+
+        @Test
+        @DisplayName("Then should not call field error")
         fun testErrorDisabled() {
             // Given
             textInput = callTextInput(TYPE, styleId = null, showError = false)

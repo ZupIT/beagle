@@ -80,7 +80,7 @@ internal class SimpleFormTest : BaseComponentTest() {
 
     }
 
-    @DisplayName("When submit")
+    @DisplayName("When call function submit")
     @Nested
     inner class SimpleFormSubmit {
 
@@ -99,7 +99,7 @@ internal class SimpleFormTest : BaseComponentTest() {
 
     }
 
-    @DisplayName("When submit")
+    @DisplayName("When call function submit")
     @Nested
     inner class SimpleFormSubmitError {
 
@@ -157,6 +157,7 @@ internal class SimpleFormTest : BaseComponentTest() {
             }
         }
 
-
     }
+
+
 }
