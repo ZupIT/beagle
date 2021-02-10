@@ -32,6 +32,8 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
     var readOnly: Bind<Boolean>? = null
     var type: Bind<TextInputType>? = null
     var hidden: Bind<Boolean>? = null
+    var error: Bind<String>? = null
+    var showError: Bind<Boolean>? = null
     var styleId: String? = null
     var onChange: MutableList<Action>? = null
     var onFocus: MutableList<Action>? = null
@@ -43,6 +45,8 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
     fun readOnly(readOnly: Bind<Boolean>?) = this.apply { this.readOnly = readOnly }
     fun type(type: Bind<TextInputType>?) = this.apply { this.type = type }
     fun hidden(hidden: Bind<Boolean>?) = this.apply { this.hidden = hidden }
+    fun error(error: Bind<String>?) = this.apply { this.error = error }
+    fun showError(showError: Bind<Boolean>?) = this.apply { this.showError = showError }
     fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
     fun onChange(onChange: List<Action>?) = this.apply { this.onChange = onChange?.toMutableList() }
     fun onFocus(onFocus: List<Action>?) = this.apply { this.onFocus = onFocus?.toMutableList() }
@@ -72,6 +76,14 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
         hidden(block.invoke())
     }
 
+    fun error(block: () -> Bind<String>?) {
+        error(block.invoke())
+    }
+
+    fun showError(block: () -> Bind<Boolean>?) {
+        showError(block.invoke())
+    }
+
     fun styleId(block: () -> String?) {
         styleId(block.invoke())
     }
@@ -95,6 +107,8 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
         readOnly = readOnly,
         type = type,
         hidden = hidden,
+        error = error,
+        showError = showError,
         styleId = styleId,
         onChange = onChange,
         onFocus = onFocus,

@@ -76,6 +76,7 @@ internal class TextInputTest : BaseComponentTest() {
         styleManagerFactory = styleManager
 
         every { anyConstructed<ViewFactory>().makeInputText(any(), any()) } returns editText
+        every { anyConstructed<ViewFactory>().makeInputText(any()) } returns editText
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
@@ -93,22 +94,87 @@ internal class TextInputTest : BaseComponentTest() {
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
     }
 
-    private fun callTextInput(type: TextInputType) = TextInput(
+    private fun callTextInput(
+        type: TextInputType, styleId: String? = STYLE_ID,
+        showError: Boolean = false,
+    ) = TextInput(
         value = VALUE_KEY,
         placeholder = PLACE_HOLDER,
         readOnly = READ_ONLY,
         disabled = DISABLED,
         hidden = HIDDEN,
-        styleId = STYLE_ID,
+        styleId = styleId,
         type = type,
+        showError = showError,
+        error = ERROR,
         onChange = listOf(SetContext(contextId = "textInputValue", value = "a")),
         onFocus = listOf(SetContext(contextId = "textInputValue", value = "b")),
         onBlur = listOf(SetContext(contextId = "textInputValue", value = "c"))
     )
 
+    @DisplayName("When configure error")
+    @Nested
+    inner class TextInputErrorForm {
+
+        @Test
+        @DisplayName("Then should show correct")
+        fun testErrorEnabled() {
+            // Given
+            textInput = callTextInput(TYPE, styleId = null, showError = true)
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = once()) {
+                editText.error = ERROR
+            }
+        }
+
+        @Test
+        @DisplayName("Then should show correct it")
+        fun testErrorDisabled() {
+            // Given
+            textInput = callTextInput(TYPE, styleId = null, showError = false)
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = 0) {
+                editText.error = ERROR
+            }
+        }
+    }
+
     @DisplayName("When set the configurations for TextInput")
     @Nested
     inner class TextInputConfigurations {
+
+        @Test
+        @DisplayName("Then should build a textView")
+        fun testBuildButtonWithoutStyle() {
+            // Given
+            textInput = callTextInput(TYPE, styleId = null)
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = once()) {
+                anyConstructed<ViewFactory>().makeInputText(any())
+                editText.setText(VALUE_KEY)
+                editText.hint = PLACE_HOLDER
+                editText.isEnabled = READ_ONLY
+                editText.isEnabled = DISABLED
+                editText.visibility = View.INVISIBLE
+                editText.isFocusable = true
+                editText.isFocusableInTouchMode = true
+            }
+        }
 
         @Test
         @DisplayName("Then should build a textView")
@@ -119,6 +185,7 @@ internal class TextInputTest : BaseComponentTest() {
             // Then
             assertTrue(view is EditText)
             verify(exactly = once()) {
+                anyConstructed<ViewFactory>().makeInputText(any(), any())
                 editText.setText(VALUE_KEY)
                 editText.hint = PLACE_HOLDER
                 editText.isEnabled = READ_ONLY
