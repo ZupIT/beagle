@@ -80,7 +80,7 @@ internal class SimpleFormTest : BaseComponentTest() {
 
     }
 
-    @DisplayName("When submit")
+    @DisplayName("When call function submit")
     @Nested
     inner class SimpleFormSubmit {
 
@@ -99,7 +99,7 @@ internal class SimpleFormTest : BaseComponentTest() {
 
     }
 
-    @DisplayName("When submit")
+    @DisplayName("When call function submit")
     @Nested
     inner class SimpleFormSubmitError {
 
@@ -111,7 +111,7 @@ internal class SimpleFormTest : BaseComponentTest() {
         @BeforeEach
         fun setUp() {
             every { editText.getTag(any()) } returns text
-            every { text.errorTextValuated } returns "error"
+            every { text.errorTextValuated } returns "error" andThen ""
             every { errorAction.execute(rootView, view) } just Runs
             every { beagleFlexView.childCount } returns 1
 
@@ -142,8 +142,9 @@ internal class SimpleFormTest : BaseComponentTest() {
             val viewGroup = mockk<ViewGroup>()
 
             every { beagleFlexView.getChildAt(0) } returns viewGroup
-            every { viewGroup.childCount } returns 1
-            every { viewGroup.getChildAt(0) } returns editText
+            every { beagleFlexView.getChildAt(1) } returns viewGroup
+            every { viewGroup.childCount } returns 2
+            every { viewGroup.getChildAt(any()) } returns editText
 
             simpleForm = SimpleForm(context, onSubmit, children, onValidationError)
 
@@ -157,6 +158,7 @@ internal class SimpleFormTest : BaseComponentTest() {
             }
         }
 
-
     }
+
+
 }
