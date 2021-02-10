@@ -37,7 +37,8 @@ import br.com.zup.beagle.widget.form.InputWidget
  * @param hidden Enables the component to be visible or not.
  * @param error is a text that should be rendered, below the text input. It tells the user about the error.
  * This text is visible only if showError is true
- * @param showError controls weather to make the error of the input visible or not. The error will be visible only if showError is true.
+ * @param showError controls weather to make the error of the input visible or not.
+ * The error will be visible only if showError is true.
 
  * @param styleId This attribute receives a key that is registered in the Design System of each platform that
  * customizes the component.

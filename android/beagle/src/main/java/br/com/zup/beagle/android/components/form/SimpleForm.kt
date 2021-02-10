@@ -88,20 +88,24 @@ data class SimpleForm(
     }
 
     private fun recursiveLoopToFindErrorChildren(parent: ViewGroup): Boolean {
-        for (i in 0 until parent.childCount) {
+        var result = false
+        (0 until parent.childCount).forEach { i ->
             val child = parent.getChildAt(i)
-            if (child is ViewGroup) {
-                val result = recursiveLoopToFindErrorChildren(child)
-                if (result) return true
-            } else {
-                if (child != null && child.beagleComponent is TextInput) {
+            when {
+                child is ViewGroup -> {
+                    result = recursiveLoopToFindErrorChildren(child)
+                    if (result) return@forEach
+                }
+                child != null && child.beagleComponent is TextInput -> {
                     val value = (child.beagleComponent as TextInput).errorTextValuated
 
-                    if (!value.isNullOrEmpty()) return true
+                    result = !value.isNullOrEmpty()
+                    if (result) return@forEach
+
                 }
             }
         }
 
-        return false
+        return result
     }
 }
