@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-import 'package:flutter/material.dart';
+/// API for sending log output.
+abstract class BeagleLogger {
+  /// Function to pass warning message.
+  void warning(String message);
 
-Color hexToColor(String hexString, {String alphaChannel = 'FF'}) {
-  return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
+  /// Function to pass error message.
+  void error(String message);
+
+  /// Function to pass a exception and error message.
+  void errorWithException(String message, Exception exception);
+
+  /// Function for passing an information message.
+  void info(String message);
 }

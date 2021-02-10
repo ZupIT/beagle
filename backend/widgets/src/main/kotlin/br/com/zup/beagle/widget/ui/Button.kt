@@ -30,6 +30,7 @@ import br.com.zup.beagle.widget.context.valueOfNullable
  * @param text define the button text content.
  * @param styleId reference a native style in your local styles file to be applied on this button.
  * @param onPress attribute to define action when onPress
+ * @param enabled attribute to define button enabled or disabled
  * @property clickAnalyticsEvent attribute to define click event name
  *
  */
@@ -38,19 +39,19 @@ data class Button(
     val styleId: String? = null,
     val onPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null,
-    val disabled: Bind<Boolean>? = null
+    val enabled: Bind<Boolean>? = null
 ) : Widget(), TouchableAnalytics {
     constructor(
         text: String,
         styleId: String? = null,
         onPress: List<Action>? = null,
         clickAnalyticsEvent: ClickEvent? = null,
-        disabled: Boolean? = null
+        enabled: Boolean? = null
     ) : this(
         valueOf(text),
         styleId,
         onPress,
         clickAnalyticsEvent,
-        valueOfNullable(disabled)
+        valueOfNullable(enabled)
     )
 }

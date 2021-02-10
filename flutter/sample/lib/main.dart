@@ -19,13 +19,16 @@ import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sample/app_design_system.dart';
+import 'package:sample/beagle_sample_screen.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/Tiagoperes/89739c4c93a2f82b0ceb130921c3bf56/raw/041461163dbad2ec7c234cfd28325483f3750d0b';
+    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/b000186cfa79ad1ed450bda48da5f6ed9077942c';
 
 void main() {
-  runApp(const BeagleSampleApp());
+  runApp(const MaterialApp(home: BeagleSampleApp()));
 }
 
 class BeagleSampleApp extends StatefulWidget {
@@ -36,6 +39,12 @@ class BeagleSampleApp extends StatefulWidget {
 }
 
 class _BeagleSampleApp extends State<BeagleSampleApp> {
+  static final _appBarMenuOptions = [
+    MenuOption(title: 'Tab Bar', route: '/beagle_tab_bar'),
+    MenuOption(title: 'Page View', route: '/beagle_pageview'),
+    MenuOption(title: 'Touchable', route: '/beagle_touchable'),
+  ];
+
   bool isBeagleReady = false;
   Map<String, ComponentBuilder> myCustomComponents = {
     'custom:loading': (element, _, __) {
@@ -53,13 +62,15 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
 
   Future<void> startBeagle() async {
     await BeagleInitializer.start(
-        baseUrl: BASE_URL,
-        components: {...defaultComponents, ...myCustomComponents},
-        actions: myCustomActions,
-        navigationControllers: {
-          'general': NavigationController(
-              isDefault: true, loadingComponent: 'custom:loading'),
-        });
+      baseUrl: BASE_URL,
+      components: {...defaultComponents, ...myCustomComponents},
+      actions: myCustomActions,
+      navigationControllers: {
+        'general': NavigationController(
+            isDefault: true, loadingComponent: 'custom:loading'),
+      },
+      designSystem: AppDesignSystem(),
+    );
     BeagleInitializer.getService().globalContext.set(5, 'counter');
     setState(() {
       isBeagleReady = true;
@@ -77,20 +88,52 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
     return MaterialApp(
       title: 'Beagle Sample',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        indicatorColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+        ),
       ),
-      // home: JSCounter(),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Beagle Sample'),
+          actions: [
+            PopupMenuButton(
+              onSelected: _handleAppBarMenuOption,
+              itemBuilder: (BuildContext context) {
+                return _appBarMenuOptions.map((menuOption) {
+                  return PopupMenuItem<MenuOption>(
+                    value: menuOption,
+                    child: Text(menuOption.title),
+                  );
+                }).toList();
+              },
+            ),
+          ],
         ),
         body: isBeagleReady
-            ? const BeagleRemoteView(route: '/lazy.json')
+            ? const BeagleRemoteView(route: '/beagle_lazy')
             : const Center(
                 child: Text('Not ready yet!'),
               ),
       ),
     );
   }
+
+  void _handleAppBarMenuOption(MenuOption menuOption) {
+    Navigator.push(
+        context,
+        MaterialPageRoute<BeagleSampleScreen>(
+            builder: (buildContext) => BeagleSampleScreen(
+                  title: menuOption.title,
+                  route: menuOption.route,
+                )));
+  }
+}
+
+class MenuOption {
+  MenuOption({this.title, this.route});
+
+  final String title;
+  final String route;
 }

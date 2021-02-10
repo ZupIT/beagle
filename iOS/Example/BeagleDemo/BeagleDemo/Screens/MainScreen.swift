@@ -63,7 +63,7 @@ struct MainScreen: DeeplinkScreen {
                 )
                 Button(
                     text: "Disabled Button",
-                    disabled: true
+                    enabled: false
                 )
                 Button(
                     text: "Form",

@@ -20,7 +20,7 @@ jobs:
         HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ secrets.HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
       run: |
         curl -fsSL https://horusec.io/bin/install.sh | bash
-        horusec start -p ./ \
+        horusec start -p ./ \ 
         --ignore="**/sample/**,\
         **/.gradle/**,\
         **/automatedTests/**,\
@@ -28,7 +28,9 @@ jobs:
         **/iOS/Libraries/**,\
         **/iOS/Tests/**,\
         **/flutter/beagle/assets/**,\
-        **/tests/appium/**" \
+        **/tests/appium/**,\
+        **/**/gradlew.bat,\
+        **/flutter/tests.sh" \
         -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" \
         -n "beagle" \
         -e "true" \
@@ -36,6 +38,4 @@ jobs:
         -G "true" \
         -F "ba3a605f761ba4d5755128a8d87be8b9fd6e47b4ff3c0d0feba86bfe937e581e,\
         ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92,\
-        9ebcedfab07c79c309b7e2f1112434c0641819fd6434bf413d8251f7a4698298,\
-        a6594c73a18cd13a76895debb463f30a01b3b3eefefb132f63d75410783e02f0,\
-        f32491974008a6d3b1061fdfbe2edc6a6b5d125ff6edd831220dc9bad8416fed"
+        9ebcedfab07c79c309b7e2f1112434c0641819fd6434bf413d8251f7a4698298"
