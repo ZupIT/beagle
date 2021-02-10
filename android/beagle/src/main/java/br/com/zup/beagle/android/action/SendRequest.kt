@@ -17,19 +17,20 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.handleEvent
-import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
-import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.FetchViewState
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.BeagleJson
-import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * Enum with HTTP methods.
@@ -79,7 +80,7 @@ enum class RequestActionMethod {
  * @param onError  Error action.
  * @param onFinish Finish action.
  */
-@BeagleJson
+@BeagleJson(name = "sendRequest")
 data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
@@ -89,7 +90,8 @@ data class SendRequest(
     val onSuccess: List<Action>? = null,
     val onError: List<Action>? = null,
     val onFinish: List<Action>? = null,
-) : Action, AsyncAction by AsyncActionImpl() {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction, AsyncAction by AsyncActionImpl() {
 
     constructor(
         url: String,
@@ -99,6 +101,7 @@ data class SendRequest(
         onSuccess: List<Action>? = null,
         onError: List<Action>? = null,
         onFinish: List<Action>? = null,
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         expressionOrValueOf(url),
         valueOf(method),
@@ -106,7 +109,8 @@ data class SendRequest(
         data,
         onSuccess,
         onError,
-        onFinish
+        onFinish,
+        analytics
     )
 
     override fun execute(rootView: RootView, origin: View) {
@@ -124,15 +128,32 @@ data class SendRequest(
         origin: View,
     ) {
         onFinish?.let {
-            handleEvent(rootView, origin, it)
+            handleEvent(
+                rootView,
+                origin,
+                it,
+                analyticsValue = "onFinish"
+            )
         }
 
         when (state) {
             is FetchViewState.Error -> onError?.let {
-                handleEvent(rootView, origin, it, ContextData("onError", state.response))
+                handleEvent(
+                    rootView,
+                    origin,
+                    it,
+                    ContextData("onError", state.response),
+                    analyticsValue = "onError"
+                )
             }
             is FetchViewState.Success -> onSuccess?.let {
-                handleEvent(rootView, origin, it, ContextData("onSuccess", state.response))
+                handleEvent(
+                    rootView,
+                    origin,
+                    it,
+                    ContextData("onSuccess", state.response),
+                    analyticsValue = "onSuccess"
+                )
             }
         }
     }

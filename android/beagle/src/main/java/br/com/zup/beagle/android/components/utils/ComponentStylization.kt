@@ -17,18 +17,48 @@
 package br.com.zup.beagle.android.components.utils
 
 import android.view.View
+import br.com.zup.beagle.R
+import br.com.zup.beagle.android.data.serializer.createNamespace
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.toAndroidId
+import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 class ComponentStylization<T : ServerDrivenComponent>(
-    private val accessibilitySetup: AccessibilitySetup = AccessibilitySetup()
+    private val accessibilitySetup: AccessibilitySetup = AccessibilitySetup(),
 ) {
     fun apply(view: View, component: T) {
         view.applyStyle(component)
         (component as? IdentifierComponent)?.id?.let {
             view.id = it.toAndroidId()
+            view.setTag(R.id.beagle_component_id, it)
         }
+        view.setTag(R.id.beagle_component_type, getComponentType(component))
         accessibilitySetup.applyAccessibility(view, component)
+    }
+
+    private fun getComponentType(component: ServerDrivenComponent) =
+        if (isCustomWidget(component)) getWidgetName("custom",component::class.java)
+        else getWidgetName("beagle",component::class.java)
+
+    private fun isCustomWidget(component: ServerDrivenComponent) =
+        BeagleEnvironment.beagleSdk.registeredWidgets().contains(component::class.java)
+
+    private fun getWidgetName(appNameSpace : String, clazz: Class<*>): String {
+        var name = ""
+        clazz.getAnnotation(RegisterWidget::class.java)?.let{
+            name = it.name
+        }
+        if (name.isEmpty()) {
+            clazz.getAnnotation(BeagleJson::class.java)?.let{
+                name = it.name
+            }
+        }
+        if(name.isEmpty()){
+            name = clazz.simpleName
+        }
+        return createNamespace(appNameSpace, clazz, name)
     }
 }

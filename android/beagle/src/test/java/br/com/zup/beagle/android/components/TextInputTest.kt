@@ -261,7 +261,7 @@ internal class TextInputTest : BaseComponentTest() {
             assertTrue(view is EditText)
             verify {
                 textInput.notifyChanges()
-                textInput.handleEvent(rootView, view, textInput.onChange!!, valueWithContext)
+                textInput.handleEvent(rootView, view, textInput.onChange!!, valueWithContext, "onChange")
             }
         }
 
@@ -280,7 +280,7 @@ internal class TextInputTest : BaseComponentTest() {
             // Then
             assertTrue(view is EditText)
             verify {
-                textInput.handleEvent(rootView, view, textInput.onFocus!!, valueWithContext)
+                textInput.handleEvent(rootView, view, textInput.onFocus!!, valueWithContext, "onFocus")
             }
         }
 
@@ -299,7 +299,7 @@ internal class TextInputTest : BaseComponentTest() {
             // Then
             assertTrue(view is EditText)
             verify {
-                textInput.handleEvent(rootView, view, textInput.onBlur!!, valueWithContext)
+                textInput.handleEvent(rootView, view, textInput.onBlur!!, valueWithContext, "onBlur")
             }
         }
 

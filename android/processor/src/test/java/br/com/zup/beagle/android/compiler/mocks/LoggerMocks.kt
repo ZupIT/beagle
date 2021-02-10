@@ -58,6 +58,7 @@ const val VALID_LOGGER_BEAGLE_SDK =
         import br.com.zup.beagle.android.store.StoreHandler
         import br.com.zup.beagle.android.view.BeagleActivity
         import br.com.zup.beagle.android.widget.WidgetView
+        import br.com.zup.beagle.newanalytics.AnalyticsProvider
         import java.lang.Class
         import kotlin.String
         import kotlin.Suppress
@@ -80,7 +81,9 @@ const val VALID_LOGGER_BEAGLE_SDK =
 
             public override val analytics : Analytics? = null
 
-            public override val logger : BeagleLogger = br.com.test.beagle.LoggerTest()
+           public override val analyticsProvider : AnalyticsProvider? = null
+           
+           public override val logger : BeagleLogger = br.com.test.beagle.LoggerTest()
 
             public override val controllerReference : BeagleControllerReference = ControllerReferenceGenerated()
 

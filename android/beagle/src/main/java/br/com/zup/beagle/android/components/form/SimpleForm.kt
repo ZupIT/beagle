@@ -78,7 +78,7 @@ data class SimpleForm(
     fun submit(rootView: RootView, view: View) {
         val hasError = searchErrorInHierarchy(simpleFormViewCreated)
         val actions = if (hasError) onValidationError ?: emptyList() else onSubmit
-        handleEvent(rootView, view, actions)
+        handleEvent(rootView, view, actions, analyticsValue = "onSubmit")
     }
 
     private fun addChildrenForm(beagleFlexView: BeagleFlexView) {

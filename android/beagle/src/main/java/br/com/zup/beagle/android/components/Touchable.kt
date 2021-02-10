@@ -37,7 +37,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param clickAnalyticsEvent define the event will triggered when click
  *
  */
-@BeagleJson
+@BeagleJson(name = "touchable")
 data class Touchable(
     val onPress: List<Action>,
     override val child: ServerDrivenComponent,
@@ -54,7 +54,7 @@ data class Touchable(
         preFetchHelper.handlePreFetch(rootView, onPress)
         return viewRendererFactory.make(child).build(rootView).apply {
             setOnClickListener {
-                handleEvent(rootView, this, onPress)
+                handleEvent(rootView, this, onPress, analyticsValue = "onPress")
                 clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
                 }

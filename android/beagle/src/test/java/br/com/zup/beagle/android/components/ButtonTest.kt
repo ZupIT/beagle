@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -220,6 +221,28 @@ internal class ButtonTest : BaseComponentTest() {
 
             // Then
             verify(exactly = 0) { analytics.trackEventOnClick(any()) }
+        }
+    }
+
+    @DisplayName("When clicked")
+    @Nested
+    inner class ButtonClick {
+
+        @DisplayName("Then it should call handle event")
+        @Test
+        fun testButtonCLickShouldCallHandleEvent() {
+            // GIVEN
+            val action: Action = mockk()
+            val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
+            every { buttonComponent.handleEvent(rootView, view, listOf(action), analyticsValue = "onPress") } just Runs
+            buttonComponent.copy(onPress = listOf(action))
+            // When
+            val buttonView = buttonComponent.buildView(rootView)
+            verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
+            onClickListenerSlot.captured.onClick(view)
+
+            // Then
+            verify(exactly = 0) { buttonComponent.handleEvent(rootView, view, listOf(action), analyticsValue = "OnPress") }
         }
     }
 }

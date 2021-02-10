@@ -38,7 +38,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
-@BeagleJson
+@BeagleJson(name = "formSubmit")
 data class FormSubmit(
     override val child: ServerDrivenComponent,
     val enabled: Boolean = true,
