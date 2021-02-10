@@ -24,7 +24,7 @@ public enum ServerDrivenState {
     case started
     case finished
     case success
-    case error(ServerDrivenState.Error, BeagleRetry)
+    case error(ServerDrivenState.Error, BeagleRetry? = nil)
 }
 
 extension ServerDrivenState {
@@ -63,6 +63,7 @@ open class BeagleNavigationController: UINavigationController {
             view.hideLoading()
         case .error(let serverDrivenError, let retry):
             let message = getServerDrivenErrorMessage(from: serverDrivenError)
+            guard let retry = retry else { return }
             if !view.subviews.contains(errorView) {
                 errorView = BeagleErrorView(message: message, retry: retry)
                 errorView.present(in: view)

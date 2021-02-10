@@ -103,7 +103,10 @@ public class BeagleScreenViewController: BeagleController {
     }
 
     public var serverDrivenState: ServerDrivenState = .finished {
-        didSet { notifyBeagleNavigation(state: serverDrivenState) }
+        didSet {
+            notifyBeagleNavigation(state: serverDrivenState)
+            loadBeagleViewState(serverDrivenState)
+        }
     }
         
     public var screenType: ScreenType {
@@ -215,20 +218,20 @@ public class BeagleScreenViewController: BeagleController {
     
     // MARK: - Update View
     
-    fileprivate func updateView(state: ViewModel.State) {
+    fileprivate func updateView(state: ServerDrivenState) {
         switch state {
-        case .initialized:
-            break
-        case .loading:
+        case .started:
             serverDrivenState = .started
+        case .finished:
+            serverDrivenState = .finished
         case .success:
-            serverDrivenState = .finished
             serverDrivenState = .success
-            renderScreenIfNeeded()
-        case .failure(let error):
-            renderScreenIfNeeded()
             serverDrivenState = .finished
+            renderScreenIfNeeded()
+        case .error(let error, _):
+            renderScreenIfNeeded()
             serverDrivenState = .error(error, viewModel.loadScreen)
+            serverDrivenState = .finished
         }
     }
     
@@ -237,6 +240,11 @@ public class BeagleScreenViewController: BeagleController {
             updateNavigationBar(animated: true)
             content = .view(screen.toView(renderer: renderer))
         }
+    }
+    
+    private func loadBeagleViewState(_ state: ServerDrivenState) {
+        guard let beagleViewState = viewModel.beagleViewStateObserver else { return }
+        beagleViewState(state)
     }
 
     public func reloadScreen(with screenType: ScreenType) {
@@ -288,7 +296,7 @@ extension BeagleControllerProtocol where Self: UIViewController {
 // MARK: - Observer
 
 extension BeagleScreenViewController: BeagleScreenStateObserver {
-    func didChangeState(_ state: BeagleScreenViewController.ViewModel.State) {
+    func didChangeState(_ state: ServerDrivenState) {
         updateView(state: state)
     }
 }
