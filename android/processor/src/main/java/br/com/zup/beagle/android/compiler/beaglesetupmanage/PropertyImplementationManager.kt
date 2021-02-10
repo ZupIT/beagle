@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.android.compiler.BEAGLE_IMAGE_DOWNLOADER
 import br.com.zup.beagle.android.compiler.DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.ANALYTICS
+import br.com.zup.beagle.android.compiler.ANALYTICS_PROVIDER
 import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE
 import br.com.zup.beagle.compiler.shared.BeagleClass
 import javax.lang.model.element.TypeElement
@@ -64,6 +65,10 @@ internal object PropertyImplementationManager {
                 ANALYTICS
             ),
             propertySpec(
+                propertySpecifications?.analyticsProvider,
+                ANALYTICS_PROVIDER
+            ),
+            propertySpec(
                 propertySpecifications?.logger,
                 BEAGLE_LOGGER,
                 "logger"
@@ -83,7 +88,7 @@ internal object PropertyImplementationManager {
     private fun propertySpec(
         propertySpecificationsElement: TypeElement?,
         beagleClass: BeagleClass,
-        customPropertyName: String? = null
+        customPropertyName: String? = null,
     ) = propertySpec(
         propertySpecificationsElement.toString(),
         beagleClass,
@@ -93,7 +98,7 @@ internal object PropertyImplementationManager {
     private fun propertySpec(
         property: String,
         beagleClass: BeagleClass,
-        customPropertyName: String? = null
+        customPropertyName: String? = null,
     ) = GenericPropertyManagement(
         property,
         beagleClass

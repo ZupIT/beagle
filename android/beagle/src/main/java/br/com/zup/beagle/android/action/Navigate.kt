@@ -24,23 +24,21 @@ import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
 
-@BeagleJson
-sealed class Navigate : Action {
+@BeagleJson(name = "navigate")
+sealed class Navigate : AnalyticsAction {
 
     /**
      * Opens one of the browsers available on the device with the passed url.
      * @param url defined route to be shown.
      */
-    @BeagleJson
-    data class OpenExternalURL(
-        val url: String,
-
-        ) : Navigate() {
+    @BeagleJson(name = "openExternalURL")
+    data class OpenExternalURL(val url: String, override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.openExternalURL(rootView.getContext(), url)
         }
@@ -53,11 +51,12 @@ sealed class Navigate : Action {
      * restarting the application view stack.
      * @param data pass information between screens.
      */
-    @BeagleJson
+    @BeagleJson(name = "openNativeRoute")
     class OpenNativeRoute(
         val route: String,
         val shouldResetApplication: Boolean = false,
         val data: Map<String, String>? = null,
+        override var analytics: ActionAnalyticsConfig? = null,
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication)
@@ -67,8 +66,8 @@ sealed class Navigate : Action {
     /**
      * This action closes the current view stack.
      */
-    @BeagleJson
-    class PopStack : Navigate() {
+    @BeagleJson(name = "popStack")
+    class PopStack(override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popStack(rootView.getContext())
         }
@@ -77,8 +76,8 @@ sealed class Navigate : Action {
     /**
      * Action that closes the current view.
      */
-    @BeagleJson
-    class PopView : Navigate() {
+    @BeagleJson(name = "popView")
+    class PopView(override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popView(rootView.getContext())
         }
@@ -89,10 +88,8 @@ sealed class Navigate : Action {
      *
      * @param route route of a screen that it's on the pile.
      */
-    @BeagleJson
-    data class PopToView(
-        val route: String,
-    ) : Navigate() {
+    @BeagleJson(name = "popToView")
+    data class PopToView(val route: String, override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.popToView(rootView.getContext(), route)
         }
@@ -106,10 +103,8 @@ sealed class Navigate : Action {
      * @param route this defines navigation type, it can be a navigation to a remote route in which Beagle will
      * deserialize the content or to a local screen already built.
      */
-    @BeagleJson
-    data class PushView(
-        val route: Route,
-    ) : Navigate() {
+    @BeagleJson(name = "pushView")
+    data class PushView(val route: Route, override var analytics: ActionAnalyticsConfig? = null) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.pushView(rootView.getContext(), route.getSafe(rootView, origin))
         }
@@ -124,10 +119,11 @@ sealed class Navigate : Action {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
-    @BeagleJson
+    @BeagleJson(name = "pushStack")
     data class PushStack(
         val route: Route,
         val controllerId: String? = null,
+        override var analytics: ActionAnalyticsConfig? = null,
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.pushStack(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
@@ -143,10 +139,11 @@ sealed class Navigate : Action {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
-    @BeagleJson
+    @BeagleJson(name = "resetApplication")
     data class ResetApplication(
         val route: Route,
         val controllerId: String? = null,
+        override var analytics: ActionAnalyticsConfig? = null,
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.resetApplication(rootView.getContext(), route.getSafe(rootView, origin), controllerId)
@@ -162,10 +159,11 @@ sealed class Navigate : Action {
      * @param controllerId in this field passes the id created in the custom activity for beagle to create the flow,
      * if not the beagle passes default activity.
      */
-    @BeagleJson
+    @BeagleJson(name = "resetStack")
     data class ResetStack(
         val route: Route,
         val controllerId: String? = null,
+        override var analytics: ActionAnalyticsConfig? = null,
     ) : Navigate() {
         override fun execute(rootView: RootView, origin: View) {
             BeagleNavigator.resetStack(rootView.getContext(), route.getSafe(rootView, origin), controllerId)

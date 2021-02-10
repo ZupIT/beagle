@@ -399,4 +399,45 @@ internal class BeagleMessageLogsTest {
             BeagleLoggerProxy.warning("Expression is not support in prefetch")
         }
     }
+
+    @DisplayName("When analyticsQueueIsFull")
+    @Nested
+    inner class AnalyticsQueueIsFull {
+
+        @DisplayName("Then Should call BeagleLogger warning")
+        @Test
+        fun testAnalyticsQueueIsFull() {
+            //given
+            val expectedMessage = "10 analytics records are queued and waiting for the initial configuration" +
+                " of the AnalyticsProvider to conclude. This is probably an error within your analytics provider. Why" +
+                " is getConfig() still returning null? From now on, some analytics records will be lost. If you need to" +
+                " increase the maximum number of items the queue can support, implement getMaximumItemsInQueue() in your" +
+                " AnalyticsProvider."
+
+            //when
+            BeagleMessageLogs.analyticsQueueIsFull(10)
+
+            //then
+            verify(exactly = 1) { BeagleLoggerProxy.warning(expectedMessage) }
+        }
+    }
+
+    @DisplayName("When cannot get property value")
+    @Nested
+    inner class CanNotGetPropertyValue {
+
+        @DisplayName("Then should call BeagleLoggerProxy warning")
+        @Test
+        fun testCanNotGetPropertyValue() {
+            //given
+            val propertyName = "property"
+            val expectedMessage = "Cannot get some attributes of property $propertyName."
+
+            //when
+            BeagleMessageLogs.cannotGetPropertyValue(propertyName)
+
+            //then
+            verify(exactly = 1) { BeagleLoggerProxy.warning(expectedMessage) }
+        }
+    }
 }

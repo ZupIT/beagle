@@ -437,3 +437,7 @@ fun makeContextWithNumber(number: Number) = """
         "value": $number
     }
 """
+
+fun makeActionAnalyticsPropertiesWithAttribute() = """{"attributes":["attributes"]}"""
+fun makeActionAnalyticsPropertiesWithAdditionalEntries() = """{"additionalEntries":{"attributes":"test"}}"""
+fun makeActionAnalyticsPropertiesWithAttributesAndAdditionalEntries() = """{"attributes":["attributes"],"additionalEntries":{"attributes":"test"}}"""

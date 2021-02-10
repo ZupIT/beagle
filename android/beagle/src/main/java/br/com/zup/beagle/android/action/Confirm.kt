@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.expressionOrValueOfNullable
@@ -38,7 +39,7 @@ import br.com.zup.beagle.core.BeagleJson
  * @param onPressCancel define action of button negative in dialog.
  *
  */
-@BeagleJson
+@BeagleJson(name = "confirm")
 data class Confirm(
     val title: Bind<String>? = null,
     val message: Bind<String>,
@@ -46,7 +47,8 @@ data class Confirm(
     val onPressCancel: Action? = null,
     val labelOk: String? = null,
     val labelCancel: String? = null,
-) : Action {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
 
     constructor(
         title: String? = null,
@@ -55,13 +57,15 @@ data class Confirm(
         onPressCancel: Action? = null,
         labelOk: String? = null,
         labelCancel: String? = null,
+        analytics: ActionAnalyticsConfig? = null,
     ) : this(
         title = expressionOrValueOfNullable(title),
         message = expressionOrValueOf(message),
         onPressOk = onPressOk,
         onPressCancel = onPressCancel,
         labelOk = labelOk,
-        labelCancel = labelCancel
+        labelCancel = labelCancel,
+        analytics = analytics
     )
 
     @Transient
@@ -75,14 +79,24 @@ data class Confirm(
                 ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressOk?.let {
-                    handleEvent(rootView, origin, it)
+                    handleEvent(
+                        rootView,
+                        origin,
+                        it,
+                        analyticsValue = "onPressOk"
+                    )
                 }
             }
             .setNegativeButton(labelCancel
                 ?: rootView.getContext().getString(android.R.string.cancel)) { dialogBox, _ ->
                 dialogBox.dismiss()
                 onPressCancel?.let {
-                    handleEvent(rootView, origin, it)
+                    handleEvent(
+                        rootView,
+                        origin,
+                        it,
+                        analyticsValue = "onPressCancel"
+                    )
                 }
             }
             .show()

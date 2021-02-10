@@ -141,7 +141,7 @@ class AlertTest {
         listenerSlot.captured.onClick(dialogBox, 0)
 
         // Then
-        verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk) }
+        verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk, "onPressOk") }
     }
 
 }

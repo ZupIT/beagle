@@ -94,6 +94,8 @@ class Dependencies : Plugin<Project> {
 
         const val cucumber = "1.2.6"
         const val kotlinCompileTesting = "1.3.1"
+
+        const val multidex = "2.0.1"
     }
 
     object GeneralNames {
@@ -126,6 +128,8 @@ class Dependencies : Plugin<Project> {
         const val simpleLogger = "org.slf4j:slf4j-simple:${Versions.simpleLogger}"
 
         const val jsonObject = "org.json:json:${Versions.jsonObject}"
+
+        const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
     }
 
     object GoogleLibraries {

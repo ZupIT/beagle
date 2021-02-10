@@ -67,6 +67,8 @@ internal class ViewFactory {
 
     fun makeInputText(context: Context, id: Int) = EditText(ContextThemeWrapper(context, id), null, 0)
 
+    fun makeInputText(context: Context) = EditText(context)
+
     fun makeAlertDialogBuilder(context: Context) = AlertDialog.Builder(context)
 
     fun makeFrameLayoutParams(width: Int, height: Int) = FrameLayout.LayoutParams(width, height)
