@@ -96,16 +96,13 @@ data class SimpleForm(
                 when {
                     child is ViewGroup -> {
                         result = searchErrorInHierarchy(child)
-                        if (result) return@searchLoop
                     }
                     child != null && child.beagleComponent is TextInput -> {
                         val value = (child.beagleComponent as TextInput).errorTextValuated
-
                         result = !value.isNullOrEmpty()
-                        if (result) return@searchLoop
-
                     }
                 }
+                if (result) return@searchLoop
             }
         }
 
