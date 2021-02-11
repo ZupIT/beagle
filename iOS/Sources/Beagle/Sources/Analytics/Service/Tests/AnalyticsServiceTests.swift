@@ -18,6 +18,8 @@ import XCTest
 import SnapshotTesting
 @testable import Beagle
 
+// swiftlint:disable force_unwrapping
+
 class AnalyticsServiceTests: XCTestCase {
 
     lazy var sut = AnalyticsService(provider: provider, logger: LoggerMocked())
@@ -125,6 +127,59 @@ class AnalyticsServiceTests: XCTestCase {
         """)
     }
 
+    func testGlobalConfigWithDifferentActions() {
+        // Given
+        let caseSensitive = "beagle:FoRmReMoTeAcTion"
+        // And
+        globalConfig(.init(actions: [
+            caseSensitive: [],
+            "beagle:SENDREQUEST": [],
+            .beagleActionName(SetContext.self): []
+        ]))
+
+        // When
+        sut.createRecord(action: actionInfo(FormRemoteAction(path: "path", method: .get)))
+        sut.createRecord(action: actionInfo(SendRequest(url: .value("url"), method: .value(.delete))))
+        sut.createRecord(action: actionInfo(SetContext(contextId: "context", value: true)))
+
+        // Then
+        XCTAssertEqual(receivedRecords().count, 3)
+    }
+
+    func testGlobalConfigJson() throws {
+        // Given
+        let json = """
+        {
+          "actions": {
+            "key1": ["attribute"],
+            "KEY2": ["attribute"],
+            "kEy3": ["attribute"]
+          }
+        }
+        """.data(using: .utf8)!
+
+        // When
+        let config = try JSONDecoder().decode(AnalyticsConfig.self, from: json)
+
+        // Then
+        _assertInlineSnapshot(matching: config, as: .json, with: """
+        {
+          "actions" : {
+            "key1" : [
+              "attribute"
+            ],
+            "key2" : [
+              "attribute"
+            ],
+            "key3" : [
+              "attribute"
+            ]
+          },
+          "enableScreenAnalytics" : true
+        }
+        """)
+    }
+
     // MARK: - Aux
 
     private let maxItems = 5
@@ -153,12 +208,16 @@ class AnalyticsServiceTests: XCTestCase {
     }
 
     private func triggerActionRecord(_ action: Action) {
-        sut.createRecord(action: .init(
+        sut.createRecord(action: actionInfo(action))
+    }
+
+    func actionInfo(_ action: Action) -> AnalyticsService.ActionInfo {
+        AnalyticsService.ActionInfo(
             action: action,
             event: nil,
             origin: ViewDummy(),
             controller: BeagleScreenViewController(ComponentDummy())
-        ))
+        )
     }
 
     private func sendNewRecordsUntilQueueIsFull() {

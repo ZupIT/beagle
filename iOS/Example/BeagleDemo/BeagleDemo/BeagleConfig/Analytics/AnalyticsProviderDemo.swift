@@ -23,16 +23,12 @@ class AnalyticsProviderDemo: AnalyticsProvider {
         return AnalyticsConfig(
             enableScreenAnalytics: true,
             actions: [
-                "beagle:setcontext": ["contextId", "path", "value"],
-                "beagle:pushView": [],
-                "beagle:opennativeroute": [],
-                nameForAction(SendRequest.self): []
+                "beagle:SetContext": ["contextId", "path", "value"],
+                "beagle:PushView": [],
+                "beagle:OpenNativeRoute": [],
+                .beagleActionName(SendRequest.self): []
             ]
         )
-    }
-
-    private func nameForAction(_ action: Action.Type) -> String {
-        Beagle.dependencies.decoder.nameForAction(ofType: action) ?? ""
     }
 
     func createRecord(_ record: AnalyticsRecord) {
