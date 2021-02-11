@@ -24,6 +24,10 @@ import 'package:beagle/model/tree_update_mode.dart';
 import 'package:beagle_components/after_layout.dart';
 import 'package:flutter/material.dart';
 
+/// Displays a Widget obtained from the network.
+///
+/// An [initialState] can be provided to present a placeholder Widget while
+/// the component is being fetched.
 class BeagleLazyComponent extends StatefulWidget {
   const BeagleLazyComponent(
       {Key key,
@@ -34,10 +38,24 @@ class BeagleLazyComponent extends StatefulWidget {
       this.child})
       : super(key: key);
 
+  /// An URL that can be either absolute or a relative path from Beagle's base
+  /// url.
   final String path;
+
+  /// An element that will be displayed while the component is being fetched.
   final BeagleUIElement initialState;
+
+  /// [BeagleUIElement] id. Identifies this component on Beagle's components
+  /// tree.
   final String beagleId;
+
+  /// Used to access the render engine to re-render the component when the fetch
+  /// ends.
   final BeagleView view;
+
+  /// Initially, [BeagleLazyComponent] has no child. When loading ends, the
+  /// loaded component becomes its child and [BeagleLazyComponent] is
+  /// re-rendered.
   final Widget child;
 
   @override

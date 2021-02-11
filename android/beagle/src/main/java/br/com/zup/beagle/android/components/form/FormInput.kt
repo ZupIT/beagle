@@ -44,7 +44,7 @@ import br.com.zup.beagle.core.GhostComponent
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
-@BeagleJson
+@BeagleJson(name = "formInput")
 data class FormInput(
     val name: String,
     val required: Boolean? = null,

@@ -14,32 +14,45 @@
  * limitations under the License.
  */
 
+import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:beagle/utils/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
+/// A Text widget that displays a string of text with single style.
 class BeagleText extends StatelessWidget {
   const BeagleText({
     Key key,
     this.text,
     this.textColor,
     this.alignment,
-  }) : super(key: key);
+    this.styleId,
+    DesignSystem designSystem,
+  })  : _designSystem = designSystem,
+        super(key: key);
 
-  static const defaultTextColor = '#000000';
-  static const defaultTextAlign = TextAlign.left;
-
+  /// The text to display.
   final String text;
+
+  /// This is a string value and it must be filled as HEX (Hexadecimal).
   final String textColor;
+
+  /// Defines the content alignment inside the widget.
   final TextAlignment alignment;
+
+  /// Reference a native style in your local styles file to be applied on this
+  /// Text.
+  final String styleId;
+
+  /// [DesignSystem] that will provide the style referenced by [styleId].
+  final DesignSystem _designSystem;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(
-        color: getTextColor(textColor),
-      ),
       textAlign: getTextAlign(alignment),
+      style: getTextStyle(),
     );
   }
 
@@ -51,12 +64,20 @@ class BeagleText extends StatelessWidget {
     } else if (alignment == TextAlignment.LEFT) {
       return TextAlign.left;
     } else {
-      return defaultTextAlign;
+      return null;
     }
   }
 
   Color getTextColor(String color) {
-    return HexColor(color ?? defaultTextColor);
+    return color != null ? HexColor(color) : null;
+  }
+
+  TextStyle getTextStyle() {
+    var textStyle = _designSystem?.textStyle(styleId) ?? const TextStyle();
+    if (textColor != null && textColor.isNotEmpty) {
+      textStyle = textStyle.copyWith(color: getTextColor(textColor));
+    }
+    return textStyle;
   }
 }
 

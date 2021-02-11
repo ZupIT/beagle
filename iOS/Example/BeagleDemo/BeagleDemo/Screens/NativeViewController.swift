@@ -21,7 +21,7 @@ class NativeViewController: UIViewController {
 
     private lazy var firstLabel = makeLabel(text: "I'm a native UILabel")
     
-    private lazy var beagleView = BeagleView(Container(
+    private lazy var declarativeBeagleView = BeagleView(Container(
         widgetProperties: .init(style: Style()
             .backgroundColor(grayColor)
             .margin(.init(all: 20))
@@ -44,14 +44,35 @@ class NativeViewController: UIViewController {
             onPress: [Navigate.openNativeRoute(.init(route: .navigateStep1Endpoint))]
         )
     })
+    
+    private lazy var serverDrivenBeagleView = BeagleView(.init(url: .textLazyComponentEndpoint)) { state in
+        switch state {
+        case .started:
+            self.loadingLabel.isHidden = false
+            self.errorLabel.isHidden = true
+        case .error(var serverDrivenError, let retry):
+            self.errorLabel.text = serverDrivenError.localizedDescription
+            self.errorLabel.textColor = .red
+            self.errorLabel.isHidden = false
+        case .success:
+            self.errorLabel.isHidden = true
+        case .finished:
+            self.loadingLabel.isHidden = true
+        }
+    }
+    
+    private lazy var loadingLabel = makeLabel(text: "Loading server-driven component in another BeagleView...")
 
     private lazy var secondLabel = makeLabel(text: "Another native UILabel after Beagle")
+        
+    private lazy var errorLabel = makeLabel(text: "Error loading!")
 
     private func makeLabel(text: String) -> UILabel {
         let label = UILabel()
         label.text = text
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 25, weight: .semibold)
+        label.font = .systemFont(ofSize: 22, weight: .semibold)
+        label.numberOfLines = 0
         label.backgroundColor = UIColor(hex: grayColor)
         return label
     }
@@ -70,22 +91,28 @@ class NativeViewController: UIViewController {
         firstLabel.anchorCenterXToSuperview()
         firstLabel.anchor(
             top: topLayoutGuide.bottomAnchor,
-            topConstant: 50
+            topConstant: 30
         )
         
         let layoutMargins = view.layoutMarginsGuide
         
-        view.addSubview(beagleView)
-        beagleView.translatesAutoresizingMaskIntoConstraints = false
-        beagleView.topAnchor.constraint(equalTo: firstLabel.bottomAnchor, constant: 50).isActive = true
-        beagleView.leadingAnchor.constraint(greaterThanOrEqualTo: layoutMargins.leadingAnchor).isActive = true
-        beagleView.trailingAnchor.constraint(lessThanOrEqualTo: layoutMargins.trailingAnchor).isActive = true
-        beagleView.centerXAnchor.constraint(equalTo: firstLabel.centerXAnchor).isActive = true
+        view.addSubview(declarativeBeagleView)
+        declarativeBeagleView.translatesAutoresizingMaskIntoConstraints = false
+        declarativeBeagleView.topAnchor.constraint(equalTo: firstLabel.bottomAnchor, constant: 30).isActive = true
+        declarativeBeagleView.leadingAnchor.constraint(greaterThanOrEqualTo: layoutMargins.leadingAnchor).isActive = true
+        declarativeBeagleView.trailingAnchor.constraint(lessThanOrEqualTo: layoutMargins.trailingAnchor).isActive = true
+        declarativeBeagleView.centerXAnchor.constraint(equalTo: firstLabel.centerXAnchor).isActive = true
                 
         view.addSubview(secondLabel)
-        secondLabel.anchorCenterXToSuperview()
-        secondLabel.anchor(top: beagleView.bottomAnchor, topConstant: 30)
+        secondLabel.anchor(top: declarativeBeagleView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, topConstant: 20, leftConstant: 10, rightConstant: 10)
         secondLabel.bottomAnchor.constraint(lessThanOrEqualTo: layoutMargins.bottomAnchor).isActive = true
+        
+        view.addSubview(loadingLabel)
+        loadingLabel.anchor(top: secondLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 10, rightConstant: 10)
+        view.addSubview(serverDrivenBeagleView)
+        serverDrivenBeagleView.anchor(top: secondLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 10, rightConstant: 10)
+        view.addSubview(errorLabel)
+        errorLabel.anchor(top: secondLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, topConstant: 30, leftConstant: 10, rightConstant: 10)
     }
 
     private let grayColor = "#EEEEEE"

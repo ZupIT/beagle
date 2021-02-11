@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-import Beagle
+import 'package:flutter/material.dart';
 
-class CustomBeagleNavigationController: BeagleNavigationController {
-        
-    override func serverDrivenStateDidChange(
-        to state: ServerDrivenState,
-        at screenController: BeagleController
-    ) {
-        super.serverDrivenStateDidChange(to: state, at: screenController)
-    }
+/// Defines a [GestureDetector] that executes an action when [child] is pressed.
+class BeagleTouchable extends StatelessWidget {
+  const BeagleTouchable({
+    Key key,
+    this.onPress,
+    this.child,
+  }) : super(key: key);
+
+  /// Action that will be performed when [child] is pressed.
+  final Function onPress;
+
+  /// A [Widget] that will be rendered inside [BeagleTouchable] and listen to
+  /// press events.
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPress,
+      child: child,
+    );
+  }
 }

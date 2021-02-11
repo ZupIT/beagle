@@ -17,18 +17,26 @@
 import 'package:beagle/utils/color.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'objects_fake/fake_design_system.dart';
 
 const text = 'Beagle Text';
 const textColor = '#00FF00';
 const alignment = TextAlignment.RIGHT;
 const textKey = Key('TextKey');
+const textStyle = TextStyle(
+  color: Colors.black,
+  backgroundColor: Colors.indigo,
+);
 
 Widget createWidget({
   Key key = textKey,
   String text = text,
   String textColor = textColor,
   TextAlignment alignment = alignment,
+  String styleId,
 }) {
   return MaterialApp(
     home: BeagleText(
@@ -36,6 +44,8 @@ Widget createWidget({
       text: text,
       textColor: textColor,
       alignment: alignment,
+      styleId: styleId,
+      designSystem: FakeDesignSystem(),
     ),
   );
 }
@@ -74,27 +84,55 @@ void main() {
     });
 
     group('When a text color is not specified', () {
-      testWidgets('Then it should have the default text color',
+      testWidgets('Then it should not set text color',
           (WidgetTester tester) async {
         await tester.pumpWidget(createWidget(textColor: null));
 
-        final expectedTextColor = HexColor(BeagleText.defaultTextColor);
-
-        expect(tester.widget<Text>(find.text(text)).style.color,
-            expectedTextColor);
+        expect(tester.widget<Text>(find.text(text)).style.color, null);
       });
     });
 
     group('When a text alignment is not specified', () {
-      testWidgets('Then it should have the default text alignment',
+      testWidgets('Then it should not set text alignment',
           (WidgetTester tester) async {
         await tester.pumpWidget(createWidget(alignment: null));
 
-        const expectedTextAlign = BeagleText.defaultTextAlign;
-
-        expect(
-            tester.widget<Text>(find.text(text)).textAlign, expectedTextAlign);
+        expect(tester.widget<Text>(find.text(text)).textAlign, null);
       });
+    });
+
+    group('When set style', () {
+      testWidgets('Then it should have the correct style',
+          (WidgetTester tester) async {
+        // WHEN
+        await tester
+            .pumpWidget(createWidget(styleId: 'text-one', textColor: null));
+
+        //THEN
+        final textFinder = find.text(text);
+        final textCreated = tester.widget<Text>(find.text(text));
+
+        expect(textFinder, findsOneWidget);
+        expect(textCreated.style.color, textStyle.color);
+        expect(textCreated.style.backgroundColor, textStyle.backgroundColor);
+      });
+    });
+  });
+
+  group('When set style with text color', () {
+    testWidgets('Then it should have the correct style',
+        (WidgetTester tester) async {
+      // WHEN
+      await tester.pumpWidget(createWidget(styleId: 'text-one'));
+
+      //THEN
+      final textFinder = find.text(text);
+      final textCreated = tester.widget<Text>(find.text(text));
+      final expectedTextColor = HexColor(textColor);
+
+      expect(textFinder, findsOneWidget);
+      expect(textCreated.style.color, expectedTextColor);
+      expect(textCreated.style.backgroundColor, textStyle.backgroundColor);
     });
   });
 }
