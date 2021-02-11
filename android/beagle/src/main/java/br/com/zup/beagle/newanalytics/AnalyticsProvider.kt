@@ -23,9 +23,9 @@ interface AnalyticsProvider {
 
     /**
      * This function is called to get the AnalyticsConfig.
-     * @return can be null or an AnalyticsConfig
+     * @return is an AnalyticsConfig
      */
-    fun getConfig(): AnalyticsConfig?
+    fun getConfig(): AnalyticsConfig
 
     /**
      * This function is called to record the reports.
