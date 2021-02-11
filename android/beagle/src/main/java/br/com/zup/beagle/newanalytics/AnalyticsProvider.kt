@@ -33,10 +33,4 @@ interface AnalyticsProvider {
      * according the config passing on getConfig function.
      */
     fun createRecord(record: AnalyticsRecord)
-
-    /**
-     *@return an Int to control the maximum iitems that will be on the queue of reports while the config
-     * was not provided.
-     */
-    fun getMaximumItemsInQueue() = 100
 }
