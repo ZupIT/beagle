@@ -54,4 +54,12 @@ final class SetContextTests: XCTestCase {
         controller.execute(actions: [action], event: nil, origin: getOriginView(controller))
         assertSnapshotImage(navigation, size: smallSize)
     }
+    
+    private func getOriginView(_ controller: BeagleScreenViewController) -> UIView {
+        guard case let .view(screen) = controller.content, let container = screen.subviews[safe: 0] else {
+            return UIView()
+        }
+        return container
+    }
+    
 }

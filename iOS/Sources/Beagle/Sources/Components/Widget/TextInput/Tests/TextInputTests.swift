@@ -103,7 +103,7 @@ class TextInputTests: XCTestCase {
             type: .value(.password),
             error: .value("Password must have 6 characters."),
             showError: .value(true),
-            widgetProperties: WidgetProperties(style: .init(size: Size().width(300).height(50)))
+            widgetProperties: WidgetProperties(style: .init(size: Size().width(300).height(35)))
         )
                 
         // When

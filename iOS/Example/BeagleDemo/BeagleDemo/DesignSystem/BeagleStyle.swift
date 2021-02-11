@@ -52,12 +52,8 @@ struct AppTheme {
     }
     
     static func designSystemTextInput() -> (UITextField?) -> Void {
-        return {
-            $0?.textColor = .black
-            $0?.layer.borderColor = UIColor.gray.cgColor
-            $0?.borderStyle = .roundedRect
-//            $0?.font = .boldSystemFont(ofSize: 30)
-        }
+        return BeagleStyle.textInput(validInputColor: .gray, invalidInputColor: .red, borderStyle: .roundedRect, borderWidth: 1)
+        
     }
     
     static func designSystemStylishButton() -> (UIButton?) -> Void {

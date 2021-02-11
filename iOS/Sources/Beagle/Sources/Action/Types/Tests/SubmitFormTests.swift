@@ -62,25 +62,26 @@ final class SubmitFormTest: XCTestCase {
 
     func test_whenValidationError_onSubmitIsNotTriggered() {
         // Given
+        let controller = BeagleControllerNavigationSpy()
+        let renderer = BeagleRenderer(controller: controller)
         let submitFormAction = SubmitForm()
         let simpleForm = SimpleForm(
-            onSubmit: [Alert(message: "Hello Beagle!")],
+            onSubmit: [Alert(message: "Submitted!")],
             onValidationError: [SetContext(contextId: "context", value: "text")],
             children: [
                 TextInput(value: "@{context}",
                           error: .value("Error!"),
                           showError: .value(true),
-                          widgetProperties: .init(style: .init(size: Size().width(150).height(50)))),
-                Button(text: "Test", onPress: [submitFormAction])
+                          widgetProperties: .init(style: .init(size: Size().width(150).height(35)))),
+                Button(text: "submit", onPress: [submitFormAction])
             ]
         )
         
         // When
-        
-        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(simpleForm.toScreen()), dependencies: dependencies))
-        controller.execute(actions: [submitFormAction], event: nil, origin: getOriginView(controller))
+        let resultingView = renderer.render(simpleForm)
+        submitFormAction.execute(controller: controller, origin: resultingView)
 
         // Then
-        assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 150, height: 70)))
+        XCTAssertFalse(controller.viewControllerToPresent is UIAlertController)
     }
 }

@@ -27,9 +27,6 @@ extension TextInput: ServerDrivenComponent {
         
         if let styleId = styleId {
             textInputView.beagle.applyStyle(for: textInputView as UITextField, styleId: styleId, with: renderer.controller)
-        } else {
-            textInputView.layer.borderWidth = 0.5
-            textInputView.layer.cornerRadius = 5
         }
         
         return textInputView
@@ -68,14 +65,18 @@ extension TextInput: ServerDrivenComponent {
     
     class TextInputView: UITextField, UITextFieldDelegate, InputValue, WidgetStateObservable, ValidationErrorListener {
         
+        // MARK: - Properties
+
+        var invalidInputColor: UIColor?
+        var validInputColor: UIColor?
         var onChange: [Action]?
         var onBlur: [Action]?
         var onFocus: [Action]?
         var showError: Bool = false {
             didSet {
                 validationLabel.isHidden = !showError
-                if let errorMessage = errorMessage, !errorMessage.isEmpty {
-                    layer.borderColor = validationLabel.isHidden ? UIColor.red.cgColor : UIColor.gray.cgColor
+                if let errorMessage = errorMessage {
+                    layer.borderColor = errorMessage.isEmpty ? validInputColor?.cgColor : invalidInputColor?.cgColor
                 }
             }
         }
@@ -87,21 +88,25 @@ extension TextInput: ServerDrivenComponent {
         var errorMessage: String? {
             didSet {
                 validationLabel.text = errorMessage
+                validationLabel.textColor = invalidInputColor ?? .red
             }
         }
         
         private var shouldFixHeight: Bool = true
-        var observable = Observable<WidgetState>(value: WidgetState(value: text))
         weak var controller: BeagleController?
+        var observable = Observable<WidgetState>(value: WidgetState(value: text))
+        
+        // MARK: - UILabel
         
         private lazy var validationLabel: UILabel = {
             let label = UILabel()
-            label.textColor = .red
             label.font = .systemFont(ofSize: 15)
             label.numberOfLines = 0
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
+        
+        // MARK: - Initialization
         
         init(
             onChange: [Action]? =  nil,
@@ -121,14 +126,6 @@ extension TextInput: ServerDrivenComponent {
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            if superview != nil && shouldFixHeight {
-                frame.size.height = frame.size.height - validationLabel.frame.size.height
-                shouldFixHeight = false
-            }
-        }
    
         func getValue() -> Any {
             return text ?? ""
@@ -137,6 +134,8 @@ extension TextInput: ServerDrivenComponent {
         func onValidationError(message: String?) {
             controller?.dependencies.logger.log(Log.form(.validationInputNotValid(inputName: "TextInput - " + (message ?? "Validation Error"))))
         }
+        
+        // MARK: - TextField Delegate
         
         func textFieldDidBeginEditing(_ textField: UITextField) {
             let value: DynamicObject = .dictionary(["value": .string(textField.text ?? "")])

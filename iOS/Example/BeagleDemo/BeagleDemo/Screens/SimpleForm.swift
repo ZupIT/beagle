@@ -153,6 +153,7 @@ struct SimpleFormValidationText: DeeplinkScreen {
                       "children":[
                         {
                           "_beagleComponent_":"beagle:textInput",
+                          "styleId": "DesignSystem.TextInput.Style",
                           "placeholder":"Username",
                           "value":"@{form.data.username}",
                           "showError":"@{or(form.showFormErrors, form.showError.username)}",
@@ -220,6 +221,7 @@ struct SimpleFormValidationText: DeeplinkScreen {
                             }
                           },
                           "_beagleComponent_":"beagle:textInput",
+                          "styleId": "DesignSystem.TextInput.Style",
                           "placeholder":"Password",
                           "value":"@{form.data.password}",
                           "showError":"@{or(form.showFormErrors, form.showError.password)}",
@@ -244,6 +246,7 @@ struct SimpleFormValidationText: DeeplinkScreen {
                         },
                         {
                           "_beagleComponent_":"beagle:textInput",
+                          "styleId": "DesignSystem.TextInput.Style",
                           "placeholder":"Confirm your password",
                           "value":"@{form.data.passwordConfirmation}",
                           "showError":"@{or(form.showFormErrors, form.showError.passwordConfirmation)}",

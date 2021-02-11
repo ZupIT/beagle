@@ -73,13 +73,14 @@ public struct BeagleStyle {
         return { $0?.setTitleColor(color, for: .normal) }
     }
 
-    public static func textInput(borderColor: UIColor? = nil, validationErrorBoderColor: UIColor? = nil, borderStyle: UITextField.BorderStyle? = nil, borderWidth: CGFloat? = nil) -> (UITextField?) -> Void {
+    public static func textInput(validInputColor: UIColor? = nil, invalidInputColor: UIColor? = nil, borderStyle: UITextField.BorderStyle? = nil, borderWidth: CGFloat? = nil, cornerRadius: CGFloat? = nil) -> (UITextField?) -> Void {
         return {
             guard let textInput = $0 as? TextInput.TextInputView else { return }
             textInput.borderStyle = borderStyle ?? .none
+            textInput.invalidInputColor = invalidInputColor
+            textInput.validInputColor = validInputColor
             textInput.layer.borderWidth = borderWidth ?? 0
-            textInput.layer.borderColor = borderColor?.cgColor
-            
+            textInput.layer.cornerRadius = cornerRadius ?? 0
         }
     }
     
