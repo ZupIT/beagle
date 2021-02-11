@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 
+/// Defines a text field that lets the user enter text.
 class BeagleTextInput extends StatefulWidget {
   const BeagleTextInput(
       {Key key,
@@ -27,10 +28,19 @@ class BeagleTextInput extends StatefulWidget {
       this.placeholder})
       : super(key: key);
 
+  /// Initial text displayed.
   final String value;
+
+  /// Action that will be performed when text change.
   final Function onChange;
+
+  /// Action that will be performed when the widget looses its focus.
   final Function onBlur;
+
+  /// Action that will be performed when the widget acquire focus.
   final Function onFocus;
+
+  /// A label text that is shown when the text is empty.
   final String placeholder;
 
   @override

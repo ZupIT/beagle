@@ -17,6 +17,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// Defines a specialized container to hold pages [children] that will be
+/// displayed horizontally.
 class BeaglePageView extends StatefulWidget {
   const BeaglePageView({
     Key key,
@@ -25,9 +27,13 @@ class BeaglePageView extends StatefulWidget {
     this.currentPage,
   }) : super(key: key);
 
+  /// A List of widgets that will be showed as pages in this widget.
   final List<Widget> children;
 
+  /// Action that will be performed when a page is changed.
   final Function onPageChange;
+
+  /// Current selected page.
   final int currentPage;
 
   @override
