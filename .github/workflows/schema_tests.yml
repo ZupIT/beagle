@@ -10,7 +10,7 @@ name: Beagle Schema Tests
 on:
     push:
         branches:
-            - schema/infrastructure
+            - master
         paths:
             - 'schema-ruby-erb/**'
     pull_request:
