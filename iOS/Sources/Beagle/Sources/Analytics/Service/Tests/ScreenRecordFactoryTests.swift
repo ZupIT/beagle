@@ -102,7 +102,7 @@ class ScreenRecordFactoryTests: XCTestCase {
     ) {
         // When
         let result = makeScreenRecord(screen: screen, globalConfigIsEnabled: _globalConfig)
-            .flatMap(removeTimestamp)
+            .ifSome(removeTimestamp)
 
         // Then
         _assertInlineSnapshot(matching: result, as: .json, record: override, with: string, testName: testName, line: line)

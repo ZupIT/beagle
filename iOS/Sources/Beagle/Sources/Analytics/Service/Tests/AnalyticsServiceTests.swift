@@ -62,6 +62,7 @@ class AnalyticsServiceTests: XCTestCase {
     func testChangingConfig() {
         // Given is working normally
         testNormalOperation()
+        provider.records = []
 
         // When change config to
         noGlobalConfig()
@@ -96,19 +97,25 @@ class AnalyticsServiceTests: XCTestCase {
     }
 
     func testFirstWithoutConfigAndThenWithAttributes() {
-        let action = FormRemoteAction(
-            path: "PATH",
-            method: .delete
-        )
+        // Given
+        let action = FormRemoteAction(path: "PATH", method: .delete)
+        // And
+        noGlobalConfig()
 
-        provider.config = nil
-
-        sut.createRecord(action: .init(action: action, event: nil, origin: ViewDummy(), controller: BeagleScreenViewController(ComponentDummy())) )
-
-        provider.config = .init(actions: ["beagle:formremoteaction": ["path"]])
-
+        // When
+        triggerActionRecord(action)
+        // *
+        globalConfig(.init(
+            enableScreenAnalytics: false,
+            actions: ["beagle:formremoteaction": ["path"]]
+        ))
+        // *
         triggerNewRecord()
 
+        // Then
+        // should only have Action record
+        XCTAssertEqual(receivedRecords().count, 1)
+        // with  "path" attribute
         _assertInlineSnapshot(matching: recordedAttributes(), as: .json, with: """
         {
           "attributes" : {
@@ -136,22 +143,28 @@ class AnalyticsServiceTests: XCTestCase {
         wait(for: [expec], timeout: 1)
 
         let records = provider.records
-        provider.records = []
         return records
     }
 
     private func triggerNewRecord(manyTimes: Int = 1) {
         for _ in 1...manyTimes {
-            sut.createRecord(screen: remoteScreen)
+            sut.createRecord(screen: .remote(.init(url: "REMOTE")))
         }
+    }
+
+    private func triggerActionRecord(_ action: Action) {
+        sut.createRecord(action: .init(
+            action: action,
+            event: nil,
+            origin: ViewDummy(),
+            controller: BeagleScreenViewController(ComponentDummy())
+        ))
     }
 
     private func sendNewRecordsUntilQueueIsFull() {
         let extra = [0, 1, 2].randomElement() ?? 0
         triggerNewRecord(manyTimes: maxItems + extra)
     }
-
-    private var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
 
     private func recordedAttributes() -> [String: DynamicObject]? {
         receivedRecords().first?.onlyAttributesAndAdditional()
@@ -167,6 +180,10 @@ class AnalyticsServiceTests: XCTestCase {
 
     private func disabledGlobalConfig() {
         provider.config = .init(enableScreenAnalytics: false)
+    }
+
+    private func globalConfig(_ config: AnalyticsConfig) {
+        provider.config = config
     }
 }
 

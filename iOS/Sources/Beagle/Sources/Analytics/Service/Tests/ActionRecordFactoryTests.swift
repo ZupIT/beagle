@@ -30,7 +30,7 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
 
         // When
         var record = sut.makeRecord()?.data
-        record?.timestamp = 0
+        record?.timestamp = 0 // setting to avoid getting a different timestamp between runs
 
         // Then should have all default properties
         _assertInlineSnapshot(matching: record, as: .json, with: """
@@ -269,7 +269,7 @@ class RecordFactoryHelpers: XCTestCase {
     ) {
         // When
         let result = sut.makeRecord()
-            .flatMap(resultWithoutDefaultValues(_:))
+            .ifSome(resultWithoutDefaultValues(_:))
 
         // Then
         _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)

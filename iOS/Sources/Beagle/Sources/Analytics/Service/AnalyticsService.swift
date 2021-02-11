@@ -31,24 +31,21 @@ class AnalyticsService {
     // MARK: - Create Events
 
     func createRecord(screen: ScreenType) {
-        makeScreenRecord(
+        let record = makeScreenRecord(
             screen: screen,
             globalConfigIsEnabled: provider.getConfig()?.enableScreenAnalytics
         )
-        .map(
-            handleCreatedRecord(_:)
-        )
+
+        handleCreatedRecord(record)
     }
 
     func createRecord(action: ActionInfo) {
-        ActionRecordFactory(
+        let record = ActionRecordFactory(
             info: action,
             globalConfig: provider.getConfig()?.actions
-        )
-        .makeRecord()
-        .map(
-            handleCreatedRecord(_:)
-        )
+        ).makeRecord()
+
+        handleCreatedRecord(record)
     }
 
     struct ActionInfo {
@@ -58,7 +55,7 @@ class AnalyticsService {
         let controller: BeagleControllerProtocol
     }
 
-    private func handleCreatedRecord(_ record: Record) {
+    private func handleCreatedRecord(_ record: Record?) {
         serialThread.async {
             self.sendRecordWhenPossible(record)
         }
@@ -82,14 +79,19 @@ class AnalyticsService {
     )
 
     /// this should only be called when inside `serialThread` to avoid data racing conditions
-    private func sendRecordWhenPossible(_ record: Record) {
+    private func sendRecordWhenPossible(_ record: Record?) {
         guard let config = provider.getConfig() else {
-            addToQueue(record)
+            record.ifSome(
+                addToQueue(_:)
+            )
             return
         }
 
         releaseQueue(config: config)
-        sendRecordToProvider(record, config: config)
+
+        record.ifSome {
+            sendRecordToProvider($0, config: config)
+        }
     }
 
     private func addToQueue(_ record: Record) {
@@ -116,7 +118,7 @@ class AnalyticsService {
             data = updateRecord(record.data, newConfig: config)
         }
 
-        data.map(
+        data.ifSome(
             provider.createRecord(_:)
         )
     }

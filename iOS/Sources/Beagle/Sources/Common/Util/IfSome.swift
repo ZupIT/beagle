@@ -16,3 +16,14 @@
  */
 
 import Foundation
+
+extension Optional {
+
+    func ifSome<U>(_ transform: (Wrapped) throws -> U) rethrows -> U? {
+        try map(transform)
+    }
+
+    func ifSome<U>(_ transform: (Wrapped) throws -> U?) rethrows -> U? {
+        try flatMap(transform)
+    }
+}

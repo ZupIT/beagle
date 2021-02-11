@@ -103,7 +103,7 @@ private extension ActionRecordFactory {
 
         case nil:
             if let global = globalConfig {
-                return global[named].flatMap {
+                return global[named].ifSome {
                     .init(attributes: .some($0))
                 }
             } else {
@@ -119,7 +119,9 @@ private extension ActionRecordFactory {
 
     func componentInfo() -> AnalyticsRecord.Action.Component {
         let name = info.origin.componentType
-            .flatMap(info.controller.dependencies.decoder.nameForComponent(ofType:))
+            .ifSome(
+                info.controller.dependencies.decoder.nameForComponent(ofType:)
+            )
 
         let id = info.origin.accessibilityIdentifier
 

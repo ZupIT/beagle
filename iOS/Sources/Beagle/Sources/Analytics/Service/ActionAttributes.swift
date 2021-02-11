@@ -63,7 +63,7 @@ extension Dictionary where Key == String, Value == DynamicObject {
             guard let path = pathForAttribute(attribute) else { return }
 
             var value = object[path]
-            contextProvider.map {
+            contextProvider.ifSome {
                 value = value.evaluate(with: $0)
             }
 

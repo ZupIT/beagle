@@ -16,6 +16,7 @@
 
 import UIKit
 
+// TODO: Colocar deprecated
 public protocol Analytics {
     func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
     func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
