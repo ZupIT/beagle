@@ -14,11 +14,13 @@ dependencies:
     sdk: flutter
   beagle:
     path: '../beagle'
+  webview_flutter: ^1.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic: ^1.9.0
+  mockito: ^4.1.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -26,3 +28,5 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   uses-material-design: true
+  assets:
+    - images/

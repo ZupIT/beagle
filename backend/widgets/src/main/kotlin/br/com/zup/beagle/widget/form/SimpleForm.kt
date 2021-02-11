@@ -29,10 +29,13 @@ import br.com.zup.beagle.widget.context.ContextData
  * @param children define the items on the simple form.
  *
  * @param onSubmit define the actions you want to execute when action submit form
+ * @param onValidationError this event is executed every time a form is submitted,
+ * but because of a validation error, the onSubmit event is not run.
  *
  */
 class SimpleForm(
     override val context: ContextData? = null,
     val onSubmit: List<Action>,
-    val children: List<ServerDrivenComponent>
+    val children: List<ServerDrivenComponent>,
+    val onValidationError: List<Action>? = null
 ) : ServerDrivenComponent, ContextComponent

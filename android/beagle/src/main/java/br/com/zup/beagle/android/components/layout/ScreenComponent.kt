@@ -34,7 +34,7 @@ import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
-@RegisterWidget
+@RegisterWidget("screenComponent")
 internal data class ScreenComponent(
     @Deprecated(
         "It was deprecated in version 1.5.0 and will be removed in a future version. Use field id instead."
@@ -45,7 +45,7 @@ internal data class ScreenComponent(
     override val child: ServerDrivenComponent,
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override var style: Style? = null,
-    override val context: ContextData? = null
+    override val context: ContextData? = null,
 ) : WidgetView(), ScreenAnalytics, ContextComponent, SingleChildComponent {
 
     @Transient
@@ -79,7 +79,8 @@ internal data class ScreenComponent(
     private fun addNavigationBarIfNecessary(
         rootView: RootView,
         navigationBar: NavigationBar?,
-        container: BeagleFlexView) {
+        container: BeagleFlexView,
+    ) {
 
         (rootView.getContext() as? BeagleActivity)?.let {
             if (navigationBar != null) {
@@ -101,7 +102,8 @@ internal data class ScreenComponent(
     private fun configNavigationBar(
         rootView: RootView,
         navigationBar: NavigationBar,
-        container: BeagleFlexView) {
+        container: BeagleFlexView,
+    ) {
         (rootView.getContext() as? BeagleActivity)?.let {
             toolbarManager.configureNavigationBarForScreen(it, navigationBar)
             toolbarManager.configureToolbar(rootView, navigationBar, container, this)

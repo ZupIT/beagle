@@ -26,8 +26,13 @@ package br.com.zup.beagle.core
  *                      that will hold the textual information to be read by VoiceOver programs.
  *                      By enabling this, the VoiceOver will read this if a user selects this view,
  *                      them he will now where he is on the app.
+ * @param isHeader
+ *                      that will inform when the view is heading for a section of content.
+ *                      By default is kept as false.
  */
+@BeagleJson
 data class Accessibility(
     val accessible: Boolean = true,
-    val accessibilityLabel: String? = null
+    val accessibilityLabel: String? = null,
+    val isHeader: Boolean? = false,
 )

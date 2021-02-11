@@ -17,18 +17,20 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.android.annotation.ContextDataValue
 
 internal data class SetContextInternal(
     val contextId: String,
     val value: Any,
-    val path: String? = null
+    val path: String? = null,
 )
 
 /**
@@ -38,12 +40,15 @@ internal data class SetContextInternal(
  * @param value Required. New value to be applied in the context.
  * @param path Specific context point to be changed in the case of arrays and maps <key, value>.
  */
+
+@BeagleJson(name = "setContext")
 data class SetContext(
     val contextId: String,
-    @property:ContextDataValue
+    @ContextDataValue
     val value: Any,
-    val path: String? = null
-) : Action {
+    val path: String? = null,
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
 
     override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()

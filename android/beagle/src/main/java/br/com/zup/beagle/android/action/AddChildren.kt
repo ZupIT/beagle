@@ -19,10 +19,12 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -33,6 +35,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @property PREPEND
  * @property REPLACE
  */
+@BeagleJson
 enum class Mode {
     /**
      * Adds the view in the end of the children's list.
@@ -59,11 +62,13 @@ enum class Mode {
  * @param mode Defines the placement of where the children will be inserted in the list or if the contents of
  * the list will be replaced.
  */
+@BeagleJson(name = "addChildren")
 data class AddChildren(
     var componentId: String,
     var value: List<ServerDrivenComponent>,
-    var mode: Mode? = Mode.APPEND
-) : Action {
+    var mode: Mode? = Mode.APPEND,
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction {
 
     override fun execute(rootView: RootView, origin: View) {
         try {

@@ -22,12 +22,15 @@ import br.com.zup.beagle.android.context.tokenizer.ExpressionToken
 import br.com.zup.beagle.android.context.tokenizer.TokenParser
 import br.com.zup.beagle.android.utils.BeagleRegex
 import br.com.zup.beagle.android.utils.getExpressions
+import br.com.zup.beagle.core.BeagleJson
 import java.lang.reflect.Type
 
+@BeagleJson
 sealed class Bind<T> {
     abstract val type: Type
     abstract val value: Any
 
+    @BeagleJson
     data class Expression<T>(
         val expressions: List<ExpressionToken>,
         override val value: String,
@@ -40,6 +43,7 @@ sealed class Bind<T> {
         ) : this(expressions, value, type as Type)
     }
 
+    @BeagleJson
     data class Value<T : Any>(override val value: T) : Bind<T>() {
         override val type: Class<T> = value.javaClass
     }

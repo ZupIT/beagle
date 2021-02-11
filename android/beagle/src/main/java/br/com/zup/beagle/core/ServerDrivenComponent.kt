@@ -19,4 +19,5 @@ package br.com.zup.beagle.core
 /**
  * Base of components
  */
+
 interface ServerDrivenComponent

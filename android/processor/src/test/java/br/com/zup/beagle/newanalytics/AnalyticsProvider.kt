@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-import 'package:flutter_test/flutter_test.dart';
+package br.com.zup.beagle.newanalytics
 
-void main() {
-  test('Counter value should be incremented', () {
-    expect(1, 1);
-  });
-}
+interface AnalyticsProvider

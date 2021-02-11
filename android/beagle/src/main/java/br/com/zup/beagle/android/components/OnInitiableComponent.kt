@@ -26,13 +26,15 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.setIsInitiableComponent
 import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Class that has onInit property
  * @property onInit list of actions performed as soon as the component is rendered
  */
-interface OnInitiableComponent {
 
+@BeagleJson(name = "onInitiableComponent")
+interface OnInitiableComponent {
     val onInit: List<Action>?
 
     /**
@@ -91,7 +93,7 @@ class OnInitiableComponentImpl(override val onInit: List<Action>?) : OnInitiable
                 if (!onInitViewModel.isOnInitCalled(origin.id)) {
                     onInit?.forEach { action ->
                         (action as? AsyncAction)?.status?.observe(rootView.getLifecycleOwner(), observer)
-                        action.handleEvent(rootView, origin, action)
+                        action.handleEvent(rootView, origin, action, analyticsValue = "onInit")
                     }
                     onInitViewModel.setOnInitCalled(origin.id, true)
                 }

@@ -35,6 +35,11 @@ import br.com.zup.beagle.widget.form.InputWidget
  * @param type This attribute identifies the type of text that we will receive in the editable text area.
  * On Android and iOS, this field also assigns the type of keyboard that will be displayed to the us.
  * @param hidden Enables the component to be visible or not.
+ * @param error is a text that should be rendered, below the text input. It tells the user about the error.
+ * This text is visible only if showError is true
+ * @param showError controls weather to make the error of the input visible or not.
+ * The error will be visible only if showError is true.
+
  * @param styleId This attribute receives a key that is registered in the Design System of each platform that
  * customizes the component.
  * @param onChange Actions array that this field can trigger when its value is altered.
@@ -48,6 +53,8 @@ data class TextInput(
     val readOnly: Bind<Boolean>? = null,
     val type: Bind<TextInputType>? = null,
     val hidden: Bind<Boolean>? = null,
+    val error: Bind<String>? = null,
+    val showError: Bind<Boolean>? = null,
     val styleId: String? = null,
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
@@ -60,6 +67,8 @@ data class TextInput(
         readOnly: Boolean? = null,
         type: TextInputType? = null,
         hidden: Boolean? = null,
+        error: String? = null,
+        showError: Boolean? = null,
         styleId: String? = null,
         onChange: List<Action>? = null,
         onFocus: List<Action>? = null,
@@ -71,6 +80,8 @@ data class TextInput(
         readOnly = valueOfNullable(readOnly),
         type = valueOfNullable(type),
         hidden = valueOfNullable(hidden),
+        error = valueOfNullable(error),
+        showError = valueOfNullable(showError),
         styleId = styleId,
         onChange = onChange,
         onFocus = onFocus,

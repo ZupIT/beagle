@@ -34,6 +34,7 @@ android {
         versionName Dependencies.Releases.versionName
 
         testInstrumentationRunner Dependencies.GeneralNames.sampleTestInstrumentationRunner
+        multiDexEnabled true
     }
 
     lintOptions {
@@ -42,10 +43,14 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled false // enable to test config in proguard
+            shrinkResources false // enable to test config in proguard
             testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -57,12 +62,14 @@ android {
 
 dependencies {
     implementation Dependencies.AndroidxLibraries.appcompat
-
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
+
+    implementation Dependencies.GeneralLibraries.multidex
+    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     debugImplementation project(Dependencies.Modules.preview)
+
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)

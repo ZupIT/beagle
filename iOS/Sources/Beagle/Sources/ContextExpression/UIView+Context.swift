@@ -94,7 +94,7 @@ extension UIView {
     
     private func configBinding<T: Decodable>(_ binding: Binding, in expression: SingleExpression, completion: @escaping (T?) -> Void) {
         guard let context = getContext(with: binding.context) else { return }
-        let closure: (Context) -> Void = { [weak self] context in
+        let closure: (Context) -> Void = { [weak self] _ in
             completion(self?.evaluate(for: expression).transform())
         }
         let contextObserver = ContextObserver(onContextChange: closure)

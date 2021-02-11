@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
+
 /**
  * The setContext class is responsible for changing the value of a context.
  *
@@ -26,5 +28,6 @@ package br.com.zup.beagle.widget.action
 data class SetContext(
     val contextId: String,
     val value: Any,
-    val path: String? = null
-) : Action
+    val path: String? = null,
+    override var analytics: ActionAnalyticsConfig? = null
+) : ActionAnalytics()

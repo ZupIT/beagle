@@ -5,6 +5,7 @@
       - 
   ▿ direction: Optional<Direction>
     - some: Direction.vertical
+  - isScrollIndicatorVisible: Optional<Bool>.none
   ▿ iteratorName: Optional<String>
     - some: "main"
   - key: Optional<String>.none

@@ -17,7 +17,9 @@
 package br.com.zup.beagle.android.data.serializer
 
 import androidx.annotation.VisibleForTesting
+import br.com.zup.beagle.android.data.serializer.adapter.AnalyticsActionConfigAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.AndroidActionJsonAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.BeagleKotlinJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.BindAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ComponentJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ContextDataAdapterFactory
@@ -31,7 +33,6 @@ import br.com.zup.beagle.android.data.serializer.adapter.defaults.PairAdapterFac
 import br.com.zup.beagle.android.data.serializer.adapter.generic.BeagleGenericAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 internal object BeagleMoshi {
 
@@ -45,6 +46,7 @@ internal object BeagleMoshi {
         .add(ImagePathTypeJsonAdapterFactory.make())
         .add(ComponentJsonAdapterFactory.make())
         .add(RouteAdapterFactory())
+        .add(AnalyticsActionConfigAdapterFactory())
         .add(AndroidActionJsonAdapterFactory.make())
         .add(ContextDataAdapterFactory())
         .add(MoshiArrayListJsonAdapter.FACTORY)
@@ -55,7 +57,7 @@ internal object BeagleMoshi {
                 add(BeagleGenericAdapterFactory(it))
             }
         }
-        .add(KotlinJsonAdapterFactory())
+        .add(BeagleKotlinJsonAdapterFactory())
         .add(SimpleJsonAdapter())
         .add(SimpleJsonArrayAdapter())
         .build()

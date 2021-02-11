@@ -19,15 +19,18 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * SubmitForm and a specific action of the SimpleForm component when executing it calls SimpleForm's onSubmit attribute.
  */
-class SubmitForm : Action {
+@BeagleJson(name = "submitForm")
+class SubmitForm(override var analytics: ActionAnalyticsConfig? = null) : AnalyticsAction {
 
     override fun execute(rootView: RootView, origin: View) {
         var currentView: ViewParent? = origin.parent

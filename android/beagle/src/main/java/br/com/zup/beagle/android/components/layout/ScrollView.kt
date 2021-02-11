@@ -39,12 +39,12 @@ import br.com.zup.beagle.widget.core.ScrollAxis
  * @param scrollBarEnabled determine if the Scroll bar is displayed or not. It is displayed by default.
  * @param context define the contextData that be set to scrollView.
  */
-@RegisterWidget
+@RegisterWidget("scrollview")
 data class ScrollView(
     override val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,
     val scrollBarEnabled: Boolean? = null,
-    override val context: ContextData? = null
+    override val context: ContextData? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
@@ -86,7 +86,7 @@ data class ScrollView(
         children: List<ServerDrivenComponent>,
         rootView: RootView,
         styleChild: Style,
-        isHorizontal: Boolean
+        isHorizontal: Boolean,
     ) {
         val viewGroup = viewFactory.makeBeagleFlexView(rootView, styleChild)
 

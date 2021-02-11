@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test
 private open class AbstractViewRenderer(
     override val component: Widget,
     componentStylization: ComponentStylization<Widget>,
-    contextComponentHandler: ContextComponentHandler
+    contextComponentHandler: ContextComponentHandler,
 ) : ViewRenderer<Widget>(componentStylization, contextComponentHandler) {
     override fun buildView(rootView: RootView): View {
         return mockk()
