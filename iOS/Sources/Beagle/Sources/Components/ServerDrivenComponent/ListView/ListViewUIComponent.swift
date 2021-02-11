@@ -20,7 +20,7 @@ private struct CellsContextManager {
     
     private var orphanCells = [Int: ListViewCell]()
     
-    private var itemContexts = [Int: [String: DynamicObject]]()
+    private var itemContexts = [Int: DynamicDictionary]()
     
     mutating func track(orphanCell cell: ListViewCell) {
         if let itemHash = cell.itemHash {
@@ -40,7 +40,7 @@ private struct CellsContextManager {
         orphanCells.removeValue(forKey: itemHash)
     }
     
-    mutating func contexts(for itemHash: Int) -> [String: DynamicObject]? {
+    mutating func contexts(for itemHash: Int) -> DynamicDictionary? {
         if let orphan = orphanCells[itemHash] {
             reuse(cell: orphan)
         }

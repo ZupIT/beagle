@@ -196,6 +196,11 @@ let multipleExpression: Parser<MultipleExpression> = zeroOrMore(
     return always(MultipleExpression(nodes: result))
 }
 
+let singleOrMultipleExpression: Parser<ContextExpression> = oneOf(
+    singleExpression.map { ContextExpression.single($0) },
+    multipleExpression.map { ContextExpression.multiple($0) }
+)
+
 // MARK: High Order Functions
 
 func always<A>(_ a: A) -> Parser<A> {

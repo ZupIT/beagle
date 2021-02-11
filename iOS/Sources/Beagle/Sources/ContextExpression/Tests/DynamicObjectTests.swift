@@ -25,10 +25,13 @@ final class DynamicObjectTests: XCTestCase {
         let object: DynamicObject = [
             "a": "default",
             "c": [1, 2],
-            "d": [["name": "John", "code": "123"], ["name": "Doe", "code": "321"]]
+            "d": [
+                ["name": "John", "code": "123"],
+                ["name": "Doe", "code": "321"]
+            ]
         ]
 
-        let result: [Result] = [
+        let paths: [Path] = [
             "a",
             "b",
             "c[0]",
@@ -42,16 +45,19 @@ final class DynamicObjectTests: XCTestCase {
         .compactMap { Path(rawValue: $0) }
 
         // When
-        .map {
-            Result(input: $0.rawValue, output: object.set("UPDATED", with: $0))
+        let updates = paths.map { path in
+            object.set("UPDATED", with: path)
         }
 
         // Then
-        assertSnapshot(matching: result, as: .json)
+        zip(paths, updates).forEach {
+            let result = Result(path: $0.rawValue, result: $1)
+            assertSnapshot(matching: result, as: .json, named: $0.rawValue, testName: "path")
+        }
     }
 
     fileprivate struct Result: Encodable {
-        let input: String
-        let output: DynamicObject
+        let path: String
+        let result: DynamicObject
     }
 }

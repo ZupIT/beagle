@@ -23,9 +23,9 @@ interface AnalyticsProvider {
 
     /**
      * This function is called to get the AnalyticsConfig.
-     * @return can be null or an AnalyticsConfig
+     * @return is an AnalyticsConfig
      */
-    fun getConfig(): AnalyticsConfig?
+    fun getConfig(): AnalyticsConfig
 
     /**
      * This function is called to record the reports.
@@ -33,10 +33,4 @@ interface AnalyticsProvider {
      * according the config passing on getConfig function.
      */
     fun createRecord(record: AnalyticsRecord)
-
-    /**
-     *@return an Int to control the maximum iitems that will be on the queue of reports while the config
-     * was not provided.
-     */
-    fun getMaximumItemsInQueue() = 100
 }

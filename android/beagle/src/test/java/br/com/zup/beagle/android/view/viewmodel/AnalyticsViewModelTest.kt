@@ -95,7 +95,6 @@ internal class AnalyticsViewModelTest {
             verify(exactly = 1) {
                 AnalyticsService.createScreenRecord(false, "screenId")
             }
-            analyticsViewModel.viewModelScope
         }
     }
 
