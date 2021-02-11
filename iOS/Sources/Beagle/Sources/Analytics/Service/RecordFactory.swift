@@ -21,15 +21,11 @@ import UIKit
 
 func makeScreenRecord(
     screen: ScreenType,
-    globalConfigIsEnabled: Bool?
-) -> AnalyticsService.Record? {
-    let isScreenDisabled = globalConfigIsEnabled == false
-    if isScreenDisabled { return nil }
+    isScreenEnabled: Bool
+) -> AnalyticsRecord? {
+    guard isScreenEnabled else { return nil }
 
-    return .init(
-        data: AnalyticsRecord(type: .screen, screen: screenInfo(screen), timestamp: timestamp()),
-        dependsOnFutureGlobalConfig: globalConfigIsEnabled == nil
-    )
+    return AnalyticsRecord(type: .screen, screen: screenInfo(screen), timestamp: timestamp())
 }
 
 // MARK: Action
@@ -37,9 +33,9 @@ func makeScreenRecord(
 struct ActionRecordFactory {
 
     let info: AnalyticsService.ActionInfo
-    let globalConfig: AnalyticsConfig.AttributesByActionName?
+    let globalConfig: AnalyticsConfig.AttributesByActionName
 
-    func makeRecord() -> AnalyticsService.Record? {
+    func makeRecord() -> AnalyticsRecord? {
         guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
         guard let values = enabledValuesForAction(named: name) else { return nil }
 
@@ -53,13 +49,11 @@ struct ActionRecordFactory {
             additionalEntries: values.additional
         )
 
-        let record = AnalyticsRecord(
+        return AnalyticsRecord(
             type: .action(action),
             screen: screenInfo(info.controller.screenType),
             timestamp: timestamp()
         )
-
-        return .init(data: record, dependsOnFutureGlobalConfig: values.attributes == .all)
     }
 }
 
@@ -92,22 +86,15 @@ private extension ActionRecordFactory {
         case .disabled:
             return nil
 
-        case .enabled(nil):
-            return .init(attributes: .some([]))
-
-        case .enabled(let analytics?):
+        case .enabled(let analytics):
             return .init(
-                attributes: .some(analytics.attributes ?? []),
-                additional: analytics.additionalEntries ?? [:]
+                attributes: .some(analytics?.attributes ?? []),
+                additional: analytics?.additionalEntries ?? [:]
             )
 
         case nil:
-            if let global = globalConfig {
-                return global[named].ifSome {
-                    .init(attributes: .some($0))
-                }
-            } else {
-                return .init(attributes: .all)
+            return globalConfig[named].ifSome {
+                .init(attributes: .some($0))
             }
         }
     }
