@@ -31,12 +31,12 @@ public enum ActionAnalyticsConfig {
         public var attributes: [String]?
 
         /// any additional value you want to be recorded
-        public var additionalEntries: [String: DynamicObject]?
+        public var additionalEntries: DynamicDictionary?
 
         // sourcery:inline:auto:ActionAnalyticsConfig.Attributes.Init
             public init(
                 attributes: [String]? = nil,
-                additionalEntries: [String: DynamicObject]? = nil
+                additionalEntries: DynamicDictionary? = nil
             ) {
                 self.attributes = attributes
                 self.additionalEntries = additionalEntries

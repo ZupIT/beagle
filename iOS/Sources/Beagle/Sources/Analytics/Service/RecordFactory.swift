@@ -114,7 +114,7 @@ private extension ActionRecordFactory {
 
     struct EnabledValues {
         let attributes: ActionAttributes
-        var additional = [String: DynamicObject]()
+        var additional = DynamicDictionary()
     }
 
     func componentInfo() -> AnalyticsRecord.Action.Component {

@@ -39,9 +39,9 @@ extension UIView {
         }
     }
     
-    var expressionLastValueMap: [String: DynamicObject] {
+    var expressionLastValueMap: DynamicDictionary {
         get {
-            return (objc_getAssociatedObject(self, &UIView.expressionLastValueMapKey) as? ObjectWrapper)?.object ?? [String: DynamicObject]()
+            return (objc_getAssociatedObject(self, &UIView.expressionLastValueMapKey) as? ObjectWrapper)?.object ?? DynamicDictionary()
         }
         set {
             objc_setAssociatedObject(self, &UIView.expressionLastValueMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

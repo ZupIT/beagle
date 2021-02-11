@@ -42,7 +42,7 @@ class ActionAttributesTest: XCTestCase {
 
     // MARK: - Aux
 
-    private func doRecord<A: Action>(_: A.Type, fromJson: String) throws -> ([String: DynamicObject], file: String) {
+    private func doRecord<A: Action>(_: A.Type, fromJson: String) throws -> (DynamicDictionary, file: String) {
         let action: A = try actionFromJsonFile(fileName: fromJson)
 
         let context = Context(

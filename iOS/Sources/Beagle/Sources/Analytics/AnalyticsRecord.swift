@@ -40,8 +40,8 @@ public struct AnalyticsRecord {
         public var event: String?
         public var screen: String?
         public var component: Component
-        public var attributes: [String: DynamicObject]
-        public var additionalEntries: [String: DynamicObject]
+        public var attributes: DynamicDictionary
+        public var additionalEntries: DynamicDictionary
 
         public struct Component {
             public var id: String?
@@ -57,8 +57,8 @@ public struct AnalyticsRecord {
 
 extension AnalyticsRecord {
 
-    public func toDictionary() -> [String: DynamicObject] {
-        var dict = [String: DynamicObject]()
+    public func toDictionary() -> DynamicDictionary {
+        var dict = DynamicDictionary()
 
         switch type {
         case .action(let action):

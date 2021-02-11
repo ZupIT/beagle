@@ -21,9 +21,11 @@ public enum DynamicObject: Equatable, Hashable {
     case double(Double)
     case string(String)
     case array([DynamicObject])
-    case dictionary([String: DynamicObject])
+    case dictionary(DynamicDictionary)
     case expression(ContextExpression)
 }
+
+public typealias DynamicDictionary = [String: DynamicObject]
     
 extension DynamicObject: CustomStringConvertible {
     
@@ -47,6 +49,7 @@ extension DynamicObject: CustomStringConvertible {
             return array.map { $0.asAny() }
         case let .dictionary(dictionary):
             return dictionary.mapValues { $0.asAny() }
+
         case let .expression(expression):
             switch expression {
             case let .single(expression):
@@ -57,7 +60,7 @@ extension DynamicObject: CustomStringConvertible {
         }
     }
 
-    public func asDictionary() -> [String: DynamicObject] {
+    public func asDictionary() -> DynamicDictionary {
         guard case .dictionary(let dict) = self else { return [:] }
         return dict
     }
@@ -129,7 +132,7 @@ extension DynamicObject: Decodable {
             self = .string(string.escapeExpressions())
         } else if let array = try? container.decode([DynamicObject].self) {
             self = .array(array)
-        } else if let dictionary = try? container.decode([String: DynamicObject].self) {
+        } else if let dictionary = try? container.decode(DynamicDictionary.self) {
             self = .dictionary(dictionary)
         } else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "DynamicObject value cannot be decoded")

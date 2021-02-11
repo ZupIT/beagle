@@ -166,7 +166,7 @@ class AnalyticsServiceTests: XCTestCase {
         triggerNewRecord(manyTimes: maxItems + extra)
     }
 
-    private func recordedAttributes() -> [String: DynamicObject]? {
+    private func recordedAttributes() -> DynamicDictionary? {
         receivedRecords().first?.onlyAttributesAndAdditional()
     }
 

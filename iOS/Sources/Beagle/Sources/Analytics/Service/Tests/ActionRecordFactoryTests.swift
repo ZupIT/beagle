@@ -275,7 +275,7 @@ class RecordFactoryHelpers: XCTestCase {
         _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)
     }
 
-    func resultWithoutDefaultValues(_ result: AnalyticsService.Record) -> [String: DynamicObject]? {
+    func resultWithoutDefaultValues(_ result: AnalyticsService.Record) -> DynamicDictionary? {
         var dict = result.data.onlyAttributesAndAdditional()
 
         if result.dependsOnFutureGlobalConfig {
@@ -292,7 +292,7 @@ class RecordFactoryHelpers: XCTestCase {
 }
 
 extension AnalyticsRecord {
-    func onlyAttributesAndAdditional() -> [String: DynamicObject] {
+    func onlyAttributesAndAdditional() -> DynamicDictionary {
         var dict = toDictionary()
         dict = dict.getSomeAttributes(["attributes", "additionalEntries"], contextProvider: nil)
         return dict

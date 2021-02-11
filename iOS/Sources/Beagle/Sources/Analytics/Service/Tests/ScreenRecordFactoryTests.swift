@@ -108,7 +108,7 @@ class ScreenRecordFactoryTests: XCTestCase {
         _assertInlineSnapshot(matching: result, as: .json, record: override, with: string, testName: testName, line: line)
     }
 
-    func removeTimestamp(_ record: AnalyticsService.Record) -> [String: DynamicObject]? {
+    func removeTimestamp(_ record: AnalyticsService.Record) -> DynamicDictionary? {
         var dict = record.data.toDictionary()
         dict.removeValue(forKey: "timestamp")
         dict["dependsOnFutureGlobalConfig"] = .bool(record.dependsOnFutureGlobalConfig)

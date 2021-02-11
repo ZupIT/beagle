@@ -58,7 +58,7 @@ extension DynamicObject: ExpressibleByNilLiteral,
     }
 
     public init(dictionaryLiteral elements: (String, DynamicObject)...) {
-        var dictionary: [String: DynamicObject] = [:]
+        var dictionary: DynamicDictionary = [:]
         elements.forEach { dictionary[$0.0] = $0.1 }
         self = .dictionary(dictionary)
     }

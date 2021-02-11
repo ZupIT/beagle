@@ -25,8 +25,8 @@ class AnalyticsProviderDemo: AnalyticsProvider {
             actions: [
                 "beagle:setcontext": ["contextId", "path", "value"],
                 "beagle:pushView": [],
-                "beagle:opennativeroute": []
-                // Beagle.dependencies.decoder.nameForAction(ofType: SetContext.self)
+                "beagle:opennativeroute": [],
+                nameForAction(SendRequest.self): []
             ]
         )
     }
@@ -50,5 +50,5 @@ class AnalyticsProviderDemo: AnalyticsProvider {
     }
 
     // if this is `nil`, beagle will you use a default value
-    var maximumItemsInQueue: Int? = nil
+    var maximumItemsInQueue: Int?
 }

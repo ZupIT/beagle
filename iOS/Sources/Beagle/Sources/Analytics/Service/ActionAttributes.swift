@@ -24,7 +24,7 @@ internal enum ActionAttributes: Equatable {
 
 extension Action {
 
-    func getAttributes(_ attributes: ActionAttributes, contextProvider: UIView) -> [String: DynamicObject] {
+    func getAttributes(_ attributes: ActionAttributes, contextProvider: UIView) -> DynamicDictionary {
         if case .some(let array) = attributes, array.isEmpty { return [:] }
 
         let dynamicObject = transformToDynamicObject(self)
@@ -53,12 +53,12 @@ private func pathForAttribute(_ attribute: String) -> Path? {
     return path
 }
 
-extension Dictionary where Key == String, Value == DynamicObject {
+extension DynamicDictionary {
 
-    func getSomeAttributes(_ attributes: [String], contextProvider: UIView?) -> [String: DynamicObject] {
+    func getSomeAttributes(_ attributes: [String], contextProvider: UIView?) -> DynamicDictionary {
         let object = DynamicObject.dictionary(self)
 
-        var values = [String: DynamicObject]()
+        var values = DynamicDictionary()
         attributes.forEach { attribute in
             guard let path = pathForAttribute(attribute) else { return }
 
