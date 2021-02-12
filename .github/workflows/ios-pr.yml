@@ -19,6 +19,8 @@ jobs:
         steps:
             -   name: Checkout repo
                 uses: actions/checkout@v2
+                with:
+                    fetch-depth: 100
 
             # Gems for Fastlane
             -   name: Cache ruby gems dependencies

@@ -56,11 +56,3 @@ extension Operation: RepresentableByParsableString {
         return result
     }
 }
-
-// MARK: - Evaluate
-
-extension Operation {
-    func evaluate(in view: UIView) -> DynamicObject {
-        dependencies.operationsProvider.evaluate(with: self, in: view)
-    }
-}

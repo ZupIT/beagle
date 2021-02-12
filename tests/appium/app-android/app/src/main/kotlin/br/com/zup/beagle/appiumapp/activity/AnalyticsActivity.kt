@@ -16,8 +16,8 @@ class AnalyticsActivity : AppCompatActivity() {
         RecordService.setListener(object : ReportListener {
             override fun onReport(report: AnalyticsRecord) {
                 runOnUiThread {
-                    var text = "platform:${report.platform}, ${report.values},type:${report.type}"
-                    text+= "screen:${report.screen}, timestamp:${report.timestamp}"
+                    var text = "platform:${report.platform}, ${report.values},type:${report.type}, "
+                    text+= "screen=${report.screen}, timestamp:${report.timestamp}"
                     analytics_text.text = text
                 }
             }

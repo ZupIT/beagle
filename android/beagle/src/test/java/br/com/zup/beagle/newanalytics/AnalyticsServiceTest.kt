@@ -129,45 +129,6 @@ class AnalyticsServiceTest : BaseTest() {
             assertEquals(analyticsConfig, slot.captured)
         }
     }
-
-    @DisplayName("When create screen record")
-    @Nested
-    inner class ReportScreenWithAnalyticsConfigNull {
-        @BeforeEach
-        fun setUp() {
-            every { analyticsProvider.getConfig() } returns null
-        }
-
-        @Test
-        @DisplayName("Then should call the right functions")
-        fun testCreateLocalScreenRecordShouldDoNothingWhenConfigIsNull() {
-            //Given
-            every { anyConstructed<DataScreenReport>().report(any()) } returns mockk()
-
-            //When
-            //this is the flow to add an item on the queue and then report
-            AnalyticsService.createScreenRecord(true, "url")
-
-
-            //Then
-            verify(exactly = 0) { analyticsProvider.createRecord(any()) }
-        }
-
-        @Test
-        @DisplayName("Then should call the right functions")
-        fun testCreateRemoteScreenRecordShouldDoNothingWhenConfigIsNull() {
-            //Given
-            every { anyConstructed<DataScreenReport>().report(any()) } returns mockk()
-
-            //When
-            //this is the flow to add an item on the queue and then report
-            AnalyticsService.createScreenRecord(false, "url")
-
-
-            //Then
-            verify(exactly = 0) { analyticsProvider.createRecord(any()) }
-        }
-    }
     
     @DisplayName("When CreateActionRecord")
     @Nested

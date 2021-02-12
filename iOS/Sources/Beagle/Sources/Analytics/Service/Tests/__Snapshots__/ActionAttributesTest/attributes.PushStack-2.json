@@ -1,0 +1,25 @@
+{
+  "route" : {
+    "fallback" : {
+      "child" : {
+        "text" : "Fallback Screen Content",
+        "widgetProperties" : {
+
+        }
+      },
+      "identifier" : "fallback-screen-id",
+      "navigationBar" : {
+        "showBackButton" : true,
+        "title" : "Fallback Screen Title"
+      },
+      "safeArea" : {
+        "bottom" : true,
+        "leading" : true,
+        "top" : true,
+        "trailing" : true
+      }
+    },
+    "shouldPrefetch" : false,
+    "url" : "some other value -> 3.14159265359"
+  }
+}

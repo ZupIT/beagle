@@ -33,31 +33,3 @@ extension Value: RepresentableByParsableString {
         }
     }
 }
-
-// MARK: - Equatable
-
-extension Binding {
-    func evaluate(in view: UIView) -> DynamicObject {
-        guard let context = view.getContext(with: context) else { return nil }
-        let dynamicObject = context.value.value[path]
-        view.expressionLastValueMap[rawValue] = dynamicObject
-        return dynamicObject
-    }
-}
-
-extension Literal {
-    func evaluate() -> DynamicObject {
-        switch self {
-        case .int(let int):
-            return .int(int)
-        case .double(let double):
-            return .double(double)
-        case .bool(let bool):
-            return .bool(bool)
-        case .string(let string):
-            return .string(string)
-        case .null:
-            return .empty
-        }
-    }
-}
