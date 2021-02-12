@@ -37,10 +37,6 @@ plugins {
     id "org.jetbrains.dokka" version "1.4.20"
 }
 
-repositories {
-    jcenter()
-}
-
 allprojects {
     apply from: "$rootDir/../detekt.gradle"
 
