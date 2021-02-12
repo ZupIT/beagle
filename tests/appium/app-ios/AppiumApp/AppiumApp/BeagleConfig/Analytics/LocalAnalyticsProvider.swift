@@ -20,22 +20,15 @@ class LocalAnalyticsProvider: AnalyticsProvider {
     
     public static let shared = LocalAnalyticsProvider()
     
-    var getConfig: (@escaping (Result<AnalyticsConfig, Error>) -> Void) -> Void = { configurator in
-        let config = AnalyticsConfig(
+    func getConfig() -> AnalyticsConfig {
+        return AnalyticsConfig(
             enableScreenAnalytics: true,
             actions: ["beagle:confirm": ["title", "message"]]
         )
-        configurator(.success(config))
     }
-    
-    var startSession: (@escaping (Result<Void, Error>) -> Void) -> Void = {
-        $0(.success(()))
-    }
-    
-    var maximumItemsInQueue: Int?
     
     func createRecord(_ record: AnalyticsRecord) {
-        if record.type == .screen && (record.values["url"] as? String ?? "").hasSuffix("/analytics2") {
+        if record.type == .screen && (record.screen?.hasSuffix("/analytics2") == true) {
             return
         }
         lastRecord = record
