@@ -108,7 +108,9 @@ object NewAnalyticsScreenBuilder {
     private fun navigateToPageButton() =  Button(
         text = "navigateToPage",
         onPress = listOf(
-            Navigate.PushView(Route.Remote(NEW_ANALYTICS_NAVIGATE_ENDPOINT, true), analytics = ActionAnalyticsConfig.Disabled),
+            Navigate.PushView(Route.Remote(
+                NEW_ANALYTICS_NAVIGATE_ENDPOINT, true), analytics = ActionAnalyticsConfig.Disabled
+            ),
         )
     )
 }
