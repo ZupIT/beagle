@@ -48,6 +48,6 @@ Feature: Analytics validation
     Then no analytics record should be created
 
   Scenario: Analytics 05 - View loaded, screen analytics enabled in the config (should create record)
-    When I click on text navigateToPage2
+    When I click on text navigateToPage
     When I click on text navigate to local screen
     Then an analytics record should be created for Analytics 05

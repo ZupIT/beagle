@@ -37,7 +37,7 @@ class AnalyticsScreenSteps : AbstractStep() {
         ),
         "Analytics 05" to listOf(
             Regex("type:screen"),
-            Regex("url=/analytics2-navigate"),
+            Regex("screen=/analytics2-navigate"),
             platformCheck()
         )
     )

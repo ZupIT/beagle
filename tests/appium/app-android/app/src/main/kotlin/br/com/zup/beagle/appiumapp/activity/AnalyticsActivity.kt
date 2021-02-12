@@ -23,5 +23,4 @@ class AnalyticsActivity : AppCompatActivity() {
             }
         })
     }
-
 }
