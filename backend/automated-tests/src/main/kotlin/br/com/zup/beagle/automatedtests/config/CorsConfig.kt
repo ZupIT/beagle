@@ -27,4 +27,3 @@ open class CorsConfig : WebMvcConfigurer {
         registry.addMapping("/**").exposedHeaders(*BEAGLE_EXPOSED_HEADERS)
     }
 }
-
