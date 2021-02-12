@@ -20,7 +20,6 @@ import 'dart:typed_data';
 import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/model/response.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
