@@ -59,7 +59,7 @@ dependencies {
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
-
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.AndroidxLibraries.appcompat

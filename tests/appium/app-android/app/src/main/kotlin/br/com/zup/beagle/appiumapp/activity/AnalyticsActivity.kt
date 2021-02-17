@@ -6,7 +6,10 @@ import br.com.zup.beagle.appiumapp.R
 import br.com.zup.beagle.appiumapp.config.newanalytics.RecordService
 import br.com.zup.beagle.appiumapp.config.newanalytics.ReportListener
 import br.com.zup.beagle.newanalytics.AnalyticsRecord
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_analytics.*
+import org.json.JSONObject
 
 class AnalyticsActivity : AppCompatActivity() {
 
@@ -16,9 +19,11 @@ class AnalyticsActivity : AppCompatActivity() {
         RecordService.setListener(object : ReportListener {
             override fun onReport(report: AnalyticsRecord) {
                 runOnUiThread {
-                    var text = "platform:${report.platform}, ${report.values},type:${report.type}, "
-                    text+= "screen=${report.screen}, timestamp:${report.timestamp}"
-                    analytics_text.text = text
+                    val json = JSONObject()
+                    json.put("report", report)
+                    val gson: Gson = GsonBuilder().setPrettyPrinting().create()
+                    val prettyJsonString: String = gson.toJson(report)
+                    analytics_text.text = prettyJsonString
                 }
             }
         })
