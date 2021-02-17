@@ -167,35 +167,14 @@ internal object ActionReportFactory {
         dataActionReport: DataActionReport,
     ) = AnalyticsRecord(
         type = "action",
-        values = generateValues(dataActionReport),
+        event = dataActionReport.analyticsValue,
+        attributes = if (dataActionReport.attributes.size == 0) null else dataActionReport.attributes,
+        additionalEntries = dataActionReport.additionalEntries,
+        beagleAction = dataActionReport.actionType,
+        component = generateComponentHashMap(dataActionReport),
         timestamp = dataActionReport.timestamp,
         screen = dataActionReport.screenId ?: "",
     )
-
-    private fun generateValues(
-        dataActionReport: DataActionReport,
-    ): HashMap<String, Any> {
-        val hashMap: HashMap<String, Any> = HashMap()
-        dataActionReport.analyticsValue?.let {
-            hashMap["event"] = it
-        }
-        getAttributesValue(dataActionReport)?.let {
-            hashMap.putAll(it)
-        }
-        dataActionReport.additionalEntries?.let {
-            hashMap.putAll(it)
-        }
-        hashMap["beagleAction"] = dataActionReport.actionType
-        hashMap["component"] = generateComponentHashMap(dataActionReport)
-        return hashMap
-    }
-
-    private fun getAttributesValue(dataActionReport: DataActionReport): HashMap<String, Any>? {
-        if (dataActionReport.attributes.size == 0) {
-            return null
-        }
-        return dataActionReport.attributes
-    }
 
     private fun generateComponentHashMap(dataActionReport: DataActionReport): HashMap<String, Any> {
         val hashMap: HashMap<String, Any> = HashMap()
