@@ -43,9 +43,9 @@ class AnalyticsScreenSteps : AbstractStep() {
         )
     )
 
-    @Given("AppiumApp is properly configured with a AnalyticsProvider and with a native screen with id \"screen-analytics-link\"")
+    @Given("AppiumApp is properly configured with an AnalyticsProvider and with a native screen with id \"screen-analytics-link\"")
     fun properlyConfigured() {
-
+        // couldn't think of a way to easily assert this behavior
     }
 
     @Given("AppiumApp did navigate to remote screen with url {string}")
