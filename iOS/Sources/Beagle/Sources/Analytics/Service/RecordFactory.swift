@@ -60,7 +60,7 @@ struct ActionRecordFactory {
 // MARK: - Private
 
 private func timestamp() -> Double {
-    return Date().timeIntervalSince1970 * 1000
+    return (Date().timeIntervalSince1970 * 1000).rounded()
 }
 
 private func screenInfo(_ screenType: ScreenType) -> String? {
