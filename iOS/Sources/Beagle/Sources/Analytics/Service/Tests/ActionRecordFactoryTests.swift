@@ -65,6 +65,7 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
         recordShouldBeEqualTo("""
         {
           "attributes" : {
+            "method" : "DELETE",
             "path" : "PATH"
           }
         }
@@ -119,10 +120,29 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
         // And
         actionWithConfig(.enabled(nil))
 
+        // Then should use global config
+        recordShouldBeEqualTo("""
+        {
+          "attributes" : {
+            "method" : "DELETE",
+            "path" : "PATH"
+          }
+        }
+        """)
+    }
+
+    func testActionWithEnabledAttributesAndGlobalConfigEnabled() {
+        // Given
+        globalConfigWithActionEnabled()
+        // And
+        actionWithJust1AttributeEnabled()
+
         // Then should use Action config
         recordShouldBeEqualTo("""
         {
-
+          "attributes" : {
+            "method" : "DELETE"
+          }
         }
         """)
     }
@@ -202,7 +222,7 @@ class RecordFactoryHelpers: XCTestCase {
 
     func globalConfigWithActionEnabled() {
         _globalConfig = .init(actions: [
-            "beagle:formremoteaction": ["methods", "path"]
+            "beagle:formremoteaction": ["method", "path"]
         ])
     }
 

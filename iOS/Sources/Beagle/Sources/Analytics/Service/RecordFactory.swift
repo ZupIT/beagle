@@ -81,27 +81,35 @@ private extension ActionRecordFactory {
             ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
     }
 
-    func enabledValuesForAction(named: String) -> EnabledValues? {
+    struct EnabledValues {
+        let attributes: ActionAttributes
+        var additional = DynamicDictionary()
+    }
+
+    func enabledValuesForAction(named name: String) -> EnabledValues? {
         switch info.action.analytics {
         case .disabled:
             return nil
 
-        case .enabled(let analytics):
+        case .enabled(let analytics?):
             return .init(
-                attributes: .some(analytics?.attributes ?? []),
-                additional: analytics?.additionalEntries ?? [:]
+                attributes: .some(analytics.attributes ?? []),
+                additional: analytics.additionalEntries ?? [:]
             )
 
         case nil:
-            return globalConfig[named].ifSome {
-                .init(attributes: .some($0))
-            }
+            return globalAttributes(action: name)
+
+        case .enabled(nil):
+            return globalAttributes(action: name)
+                ?? .init(attributes: .some([]))
         }
     }
 
-    struct EnabledValues {
-        let attributes: ActionAttributes
-        var additional = DynamicDictionary()
+    private func globalAttributes(action: String) -> EnabledValues? {
+        return globalConfig[action].ifSome {
+            .init(attributes: .some($0))
+        }
     }
 
     func componentInfo() -> AnalyticsRecord.Action.Component {
