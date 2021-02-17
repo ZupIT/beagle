@@ -56,15 +56,15 @@ class BeagleImage extends StatefulWidget {
 }
 
 class _BeagleImageState extends State<BeagleImage> {
-  Uint8List imageBytes;
+  Future<Uint8List> imageBytes;
 
   @override
   void initState() {
-    super.initState();
-
     if (!isLocalImage()) {
       downloadImage();
     }
+
+    super.initState();
   }
 
   @override
@@ -77,10 +77,7 @@ class _BeagleImageState extends State<BeagleImage> {
   Future<void> downloadImage() async {
     final RemoteImagePath path = widget.path;
     try {
-      final bytes = await widget.imageDownloader.downloadImage(path.url);
-      setState(() {
-        imageBytes = bytes;
-      });
+      imageBytes = widget.imageDownloader.downloadImage(path.url);
     } catch (e) {
       widget.logger?.errorWithException(e.toString(), e);
     }
@@ -100,14 +97,23 @@ class _BeagleImageState extends State<BeagleImage> {
   }
 
   Widget createImageFromNetwork(RemoteImagePath path) {
-    if (isImageDownloaded()) {
-      return createImageFromMemory(imageBytes);
+    return FutureBuilder(
+      future: imageBytes,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return createPlaceHolderWidget(path);
+        } else {
+          return createImageFromMemory(snapshot.data);
+        }
+      },
+    );
+  }
+
+  Widget createPlaceHolderWidget(RemoteImagePath path) {
+    if (isPlaceHolderValid(path.placeholder)) {
+      return createImageFromAsset(path.placeholder);
     } else {
-      if (isPlaceHolderValid(path.placeholder)) {
-        return createImageFromAsset(path.placeholder);
-      } else {
-        return Container();
-      }
+      return Container();
     }
   }
 
