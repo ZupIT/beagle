@@ -18,22 +18,26 @@
 import UIKit
 
 class AnalyticsViewController: UIViewController {
-        
-    private lazy var titleLabel: UILabel = {
-        return Self.label(
-            font: .preferredFont(forTextStyle: .title1),
-            text: "Analytics 2.0 native"
-        )
+
+    private lazy var stack: UIStackView = {
+        let it = UIStackView(arrangedSubviews: [titleLabel, recordLabel])
+        it.axis = .vertical
+        it.spacing = 20
+        return it
     }()
+
+    private lazy var titleLabel = label(
+        font: .preferredFont(forTextStyle: .title1),
+        text: "Analytics 2.0 native"
+    )
     
     private lazy var recordLabel: UILabel = {
-        return Self.label(
-            font: .preferredFont(forTextStyle: .body),
-            text: nil
-        )
+        let it = label(font: .preferredFont(forTextStyle: .body), text: nil)
+        it.setContentHuggingPriority(UILayoutPriority(rawValue: 200), for: .vertical)
+        return it
     }()
     
-    private static func label(font: UIFont, text: String?) -> UILabel {
+    private func label(font: UIFont, text: String?) -> UILabel {
         let label = UILabel()
         label.text = text
         label.font = font
@@ -54,77 +58,30 @@ class AnalyticsViewController: UIViewController {
     }
     
     private func updateRecordLabel() {
-        var texts = [String]()
-        if let record = LocalAnalyticsProvider.shared.lastRecord {
-            appentTo(texts: &texts, value: record.type.rawValue, prefixes: ["type"])
-            appentTo(texts: &texts, value: record.platform, prefixes: ["platform"])
-            record.values.forEach { (key, value) in
-                appentTo(texts: &texts, value: value, prefixes: [key], middle: "=")
-            }
-        }
-        recordLabel.text = texts.joined(separator: "\n")
-    }
-    
-    private func appentTo(texts: inout [String], value: Any, prefixes: [String], middle: String = ":") {
-        if let dictionary = value as? [String: Any] {
-            dictionary.forEach { (innerKey, innerValue) in
-                var finalValue = innerValue
-                var options = JSONSerialization.WritingOptions.fragmentsAllowed
-                if #available(iOS 11.0, *) {
-                    options.formUnion(.sortedKeys)
-                }
-                if JSONSerialization.isValidJSONObject(innerValue),
-                   let data = try? JSONSerialization.data(withJSONObject: innerValue, options: options),
-                   var stringValue = String(data: data, encoding: .utf8) {
-                    stringValue = stringValue.replacingOccurrences(of: #"([^\\])":"#, with: "$1=", options: .regularExpression)
-                    finalValue = stringValue.replacingOccurrences(of: #"([^\\])""#, with: "$1", options: .regularExpression)
-                    
-                }
-                appentTo(texts: &texts, value: finalValue, prefixes: prefixes + [innerKey], middle: middle)
-            }
-        } else {
-            texts.append(textFor(value: value, prefixes: prefixes, middle: middle))
-        }
-    }
-    
-    private func textFor(value: Any, prefixes: [String], middle: String) -> String {
-        let prefix = prefixes.joined(separator: ".")
-        return "\(prefix)\(middle)\(value)"
+        guard let record = LocalAnalyticsProvider.shared.lastRecord?.toDictionary() else { return }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try! encoder.encode(record)
+        recordLabel.text = String(data: data, encoding: .utf8)!
     }
 }
 
 extension AnalyticsViewController: ViewLayoutHelper {
+
     func buildViewHierarchy() {
-        view.addSubview(titleLabel)
-        view.addSubview(recordLabel)
+        view.addSubview(stack)
     }
     
     func setupConstraints() {
-        let space = CGFloat(20)
-        if #available(iOS 11.0, *) {
-            titleLabel.anchor(
-                top: view.safeAreaLayoutGuide.topAnchor,
-                left: view.safeAreaLayoutGuide.leftAnchor,
-                right: view.safeAreaLayoutGuide.rightAnchor,
-                topConstant: space,
-                leftConstant: space,
-                rightConstant: space
-            )
-        } else {
-            titleLabel.anchor(
-                top: view.topAnchor,
-                left: view.leftAnchor,
-                right: view.rightAnchor,
-                topConstant: space,
-                leftConstant: space,
-                rightConstant: space
-            )
-        }
-        NSLayoutConstraint.activate([
-            recordLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: space),
-            recordLabel.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
-            recordLabel.rightAnchor.constraint(equalTo: titleLabel.rightAnchor)
-        ])
+        stack.anchor(
+            top: view.topAnchor,
+            left: view.leftAnchor,
+            right: view.rightAnchor,
+            topConstant: 40,
+            leftConstant: 10,
+            rightConstant: 10
+        )
+        stack.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor).isActive = true
     }
     
     func setupAdditionalConfiguration() {

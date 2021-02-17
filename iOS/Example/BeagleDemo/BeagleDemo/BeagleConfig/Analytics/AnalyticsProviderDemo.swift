@@ -19,7 +19,7 @@ import Beagle
 
 class AnalyticsProviderDemo: AnalyticsProvider {
 
-    func getConfig() -> AnalyticsConfig? {
+    func getConfig() -> AnalyticsConfig {
         return AnalyticsConfig(
             enableScreenAnalytics: true,
             actions: [
@@ -44,7 +44,4 @@ class AnalyticsProviderDemo: AnalyticsProvider {
         \(json ?? "")
         """)
     }
-
-    // if this is `nil`, beagle will you use a default value
-    var maximumItemsInQueue: Int?
 }

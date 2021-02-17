@@ -27,7 +27,6 @@ class ScreenRecordFactoryTests: XCTestCase {
         // Then
         recordShouldBeEqualTo("""
         {
-          "dependsOnFutureGlobalConfig" : false,
           "platform" : "ios",
           "screen" : "REMOTE",
           "type" : "screen"
@@ -45,7 +44,6 @@ class ScreenRecordFactoryTests: XCTestCase {
         // Then
         recordShouldBeEqualTo("""
         {
-          "dependsOnFutureGlobalConfig" : false,
           "platform" : "ios",
           "screen" : "DECLARATIVE",
           "type" : "screen"
@@ -63,35 +61,16 @@ class ScreenRecordFactoryTests: XCTestCase {
         """)
     }
 
-    func testConfigNil() {
-        // Given
-        noGlobalConfig()
-
-        // Then
-        recordShouldBeEqualTo("""
-        {
-          "dependsOnFutureGlobalConfig" : true,
-          "platform" : "ios",
-          "screen" : "REMOTE",
-          "type" : "screen"
-        }
-        """)
-    }
-
     // MARK: - Aux
 
     lazy var screen = remoteScreen
 
     var remoteScreen: ScreenType { .remote(.init(url: "REMOTE")) }
 
-    var _globalConfig: Bool? = true
+    var _globalConfig: Bool = true
 
     func disabledGlobalConfig() {
         _globalConfig = false
-    }
-
-    func noGlobalConfig() {
-        _globalConfig = nil
     }
 
     func recordShouldBeEqualTo(
@@ -101,17 +80,16 @@ class ScreenRecordFactoryTests: XCTestCase {
         line: UInt = #line
     ) {
         // When
-        let result = makeScreenRecord(screen: screen, globalConfigIsEnabled: _globalConfig)
+        let result = makeScreenRecord(screen: screen, isScreenEnabled: _globalConfig)
             .ifSome(removeTimestamp)
 
         // Then
         _assertInlineSnapshot(matching: result, as: .json, record: override, with: string, testName: testName, line: line)
     }
 
-    func removeTimestamp(_ record: AnalyticsService.Record) -> DynamicDictionary? {
-        var dict = record.data.toDictionary()
+    func removeTimestamp(_ record: AnalyticsRecord) -> DynamicDictionary? {
+        var dict = record.toDictionary()
         dict.removeValue(forKey: "timestamp")
-        dict["dependsOnFutureGlobalConfig"] = .bool(record.dependsOnFutureGlobalConfig)
         return dict
     }
 }

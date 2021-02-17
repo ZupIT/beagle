@@ -15,13 +15,15 @@
 #
 
 @analytics2.0 @android @ios
-Feature: Analytics validation
-  As a Beagle developer/user
-  I'd like to make sure my Analytics works as expected
-  In order to guarantee that my application never fails
+Feature: Analytics
+
+  The Analytics feature allows developers to receive information about common Beagle events like Screen appearances and Actions, so they can better understand their users and app.
+  There are 2 important configurations that can change how Analytics behave: global config (AnalyticsConfig), and action config (AnalyticsActionConfig).
+  In the following tests, we combine different inputs for these configurations, and then verify whether the recorded json behaves as expected.
 
   Background:
-    Given the Beagle application did launch with the Analytics screen url
+    Given AppiumApp is properly configured with an AnalyticsProvider and with a native screen with id "screen-analytics-link"
+    Given AppiumApp did navigate to remote screen with url "/analytics2"
 
   Scenario: Analytics 01 - Action with no remote analytics config and not declared in the local config (should not create record)
     When I click on text Alert with no specific analytics configuration
