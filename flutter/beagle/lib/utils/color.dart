@@ -40,17 +40,17 @@ class HexColor extends Color {
 
   static String _formatHexRGBColor(String hexColor) {
     final regExp =
-        RegExp(r'^([0-9A-F])([0-9A-F])([0-9A-F])?$', caseSensitive: false);
+    RegExp(r'^([0-9A-F])([0-9A-F])([0-9A-F])?$', caseSensitive: false);
     return hexColor.replaceAllMapped(
         regExp,
-        (match) => 'FF${match.group(1)}${match.group(1)}'
+            (match) => 'FF${match.group(1)}${match.group(1)}'
             '${match.group(2)}${match.group(2)}'
             '${match.group(3)}${match.group(3)}');
   }
 
   static String _formatHexColorAlpha(String hexColor) {
     final regExp =
-        RegExp(r'^([0-9A-F]{6})([0-9A-F]{2})$', caseSensitive: false);
+    RegExp(r'^([0-9A-F]{6})([0-9A-F]{2})$', caseSensitive: false);
     return hexColor.replaceAllMapped(
         regExp, (match) => '${match.group(2)}${match.group(1)}');
   }
@@ -60,7 +60,7 @@ class HexColor extends Color {
         caseSensitive: false);
     return hexColor.replaceAllMapped(
         regExp,
-        (match) => '${match.group(4)}${match.group(4)}'
+            (match) => '${match.group(4)}${match.group(4)}'
             '${match.group(1)}${match.group(1)}'
             '${match.group(2)}${match.group(2)}'
             '${match.group(3)}${match.group(3)}');

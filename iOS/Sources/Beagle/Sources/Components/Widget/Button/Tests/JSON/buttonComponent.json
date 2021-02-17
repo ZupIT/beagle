@@ -1,7 +1,7 @@
 {
   "_beagleComponent_": "beagle:Button",
   "text": "button",
-  "disabled": true,
+  "enabled": false,
   "onPress": [{
     "_beagleAction_": "beagle:popStack"
   }],

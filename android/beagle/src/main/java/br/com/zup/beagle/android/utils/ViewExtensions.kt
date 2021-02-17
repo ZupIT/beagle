@@ -98,9 +98,9 @@ internal fun View.isAutoGenerateIdEnabled(): Boolean {
 }
 
 internal fun View.setIsInitiableComponent(isInitiableComponent: Boolean) {
-    setTag(R.id.initiable_component, isInitiableComponent)
+    setTag(R.id.beagle_initiable_component, isInitiableComponent)
 }
 
 internal fun View.isInitiableComponent(): Boolean {
-    return getTag(R.id.initiable_component) as? Boolean ?: false
+    return getTag(R.id.beagle_initiable_component) as? Boolean ?: false
 }

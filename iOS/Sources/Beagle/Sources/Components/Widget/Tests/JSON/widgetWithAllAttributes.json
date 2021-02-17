@@ -23,6 +23,7 @@
    },
    "accessibility":{
       "accessible":true,
-      "accessibilityLabel":"This is a text as title"
+      "accessibilityLabel":"This is a text as title",
+      "isHeader": true
    }
 }

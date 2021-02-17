@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.android.annotation.ContextDataValue
 
 /**
@@ -25,8 +26,9 @@ import br.com.zup.beagle.android.annotation.ContextDataValue
  * @param id a string that later has to be identified.
  * @param value is a parameter (data) of any kind.
  */
+@BeagleJson
 data class ContextData(
     val id: String,
-    @property:ContextDataValue
-    val value: Any
+    @ContextDataValue
+    val value: Any,
 )

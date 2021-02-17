@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  * Action to resolve condition and call onTrue if return true and onFalse if return is false.
@@ -32,6 +33,7 @@ import br.com.zup.beagle.android.widget.RootView
  * @param onFalse define action if the condition returns false.
  *
  */
+@BeagleJson
 data class Condition(
     val condition: Bind<Boolean>,
     val onTrue: List<Action>? = null,

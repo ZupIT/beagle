@@ -16,7 +16,7 @@
 
 import UIKit
 
-class ErrorView: UIVisualEffectView {
+class BeagleErrorView: UIVisualEffectView {
     
     private var retry: [(() -> Void)?] = []
     

@@ -16,31 +16,34 @@
 
 package br.com.zup.beagle.android.components.utils
 
-
 import android.view.View
 import android.widget.TextView
-import br.com.zup.beagle.android.components.utils.AccessibilitySetup
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import br.com.zup.beagle.core.AccessibilityComponent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 
+@DisplayName("Given Component with accessibility")
 class AccessibilitySetupTest {
 
-    @MockK
-    private lateinit var view: TextView
-    @MockK
-    private lateinit var component: AccessibilityComponent
+    private val view: TextView = mockk(relaxUnitFun = true, relaxed = true)
 
-    private val viewImportantForAccessibilitySlot = slot<Int>()
-    private val viewContentDescriptionSlot = slot<String>()
+    private val component: AccessibilityComponent = mockk(relaxed = true)
+
+    private val accessibilityDelegate = slot<AccessibilityDelegateCompat>()
 
     @InjectMockKs
     private lateinit var accessibilitySetup: AccessibilitySetup
@@ -49,45 +52,66 @@ class AccessibilitySetupTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        every {
-            view.importantForAccessibility = capture(viewImportantForAccessibilitySlot)
-        } just Runs
+        mockkStatic(ViewCompat::class)
+
 
         every {
-            view.contentDescription = capture(viewContentDescriptionSlot)
+            ViewCompat.setAccessibilityDelegate(view, capture(accessibilityDelegate))
         } just Runs
     }
 
-    @Test
-    fun applyAccessibility_when_component_is_accessible() {
-        val result = View.IMPORTANT_FOR_ACCESSIBILITY_YES
-        every { component.accessibility?.accessible } returns true
-        every { component.accessibility?.accessibilityLabel } returns null
+    @DisplayName("When apply accessibility")
+    @Nested
+    inner class ApplyAccessibility {
 
-        accessibilitySetup.applyAccessibility(view, component)
+        @Test
+        @DisplayName("Then the component should be accessible")
+        fun testComponentIsAccessible() {
+            val result = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+            every { component.accessibility?.accessible } returns true
+            every { component.accessibility?.accessibilityLabel } returns null
 
-        assertEquals(result, viewImportantForAccessibilitySlot.captured)
+            accessibilitySetup.applyAccessibility(view, component)
+
+            verify { view.importantForAccessibility = result }
+        }
+
+        @Test
+        @DisplayName("Then the component should not be accessible")
+        fun testComponentIsNotAccessible() {
+            val result = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            every { component.accessibility?.accessible } returns false
+            every { component.accessibility?.accessibilityLabel } returns null
+
+            accessibilitySetup.applyAccessibility(view, component)
+
+            verify { view.importantForAccessibility = result }
+        }
+
+        @Test
+        @DisplayName("Then the component should set accessibility label")
+        fun testLabelAccessibility() {
+            val result = "Test with AccessibilityLabel"
+            every { component.accessibility?.accessibilityLabel } returns "Test with AccessibilityLabel"
+            every { component.accessibility?.accessible } returns true
+
+            accessibilitySetup.applyAccessibility(view, component)
+
+            verify { view.contentDescription = result }
+        }
+
+        @Test
+        @DisplayName("Then the component should set heading")
+        fun testHeading() {
+            val accessibilityNodeInfoCompatMock: AccessibilityNodeInfoCompat = mockk(relaxed = true, relaxUnitFun = true)
+
+            every { component.accessibility?.isHeader } returns true
+
+            accessibilitySetup.applyAccessibility(view, component)
+            accessibilityDelegate.captured.onInitializeAccessibilityNodeInfo(view, accessibilityNodeInfoCompatMock)
+
+            verify { accessibilityNodeInfoCompatMock.isHeading = true }
+        }
     }
 
-    @Test
-    fun applyAccessibility_when_component_is_not_accessible() {
-        val result = View.IMPORTANT_FOR_ACCESSIBILITY_NO
-        every { component.accessibility?.accessible } returns false
-        every { component.accessibility?.accessibilityLabel } returns null
-
-        accessibilitySetup.applyAccessibility(view, component)
-
-        assertEquals(result, viewImportantForAccessibilitySlot.captured)
-    }
-
-    @Test
-    fun applyAccessibility_when_has_accessibilityLabel() {
-        val result = "Test with AccessibilityLabel"
-        every { component.accessibility?.accessibilityLabel } returns "Test with AccessibilityLabel"
-        every { component.accessibility?.accessible } returns true
-
-        accessibilitySetup.applyAccessibility(view, component)
-
-        assertEquals(result, viewContentDescriptionSlot.captured)
-    }
 }

@@ -18,35 +18,45 @@ import 'package:beagle/utils/color.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('GIVEN #1B3 WHEN hexColor is called THEN consider #FF11BB33', () {
-    const colorRGB = '#1B3';
+  group('Given any color', () {
+    group('When hexColor is called to #1B3', () {
+      test('Then should return #FF11BB33', () {
+        const colorRGB = '#1B3';
 
-    final result = HexColor(colorRGB);
+        final result = HexColor(colorRGB);
 
-    expect(result.value, 0xFF11BB33);
-  });
+        expect(result.value, 0xFF11BB33);
+      });
+    });
 
-  test('GIVEN #6F32 WHEN hexColor is called THEN consider #2266FF33', () {
-    const colorRGBA = '#6F32';
+    group('When hexColor is called to #6F32', () {
+      test('Then should return #2266FF33', () {
+        const colorRGBA = '#6F32';
 
-    final result = HexColor(colorRGBA);
+        final result = HexColor(colorRGBA);
 
-    expect(result.value, 0x2266FF33);
-  });
+        expect(result.value, 0x2266FF33);
+      });
+    });
 
-  test('GIVEN #A3D256 WHEN hexColor is called THEN consider #FFA3D256', () {
-    const colorRGB = '#A3D256';
+    group('When hexColor is called to #A3D256', () {
+      test('Then should return #FFA3D256', () {
+        const colorRGB = '#A3D256';
 
-    final result = HexColor(colorRGB);
+        final result = HexColor(colorRGB);
 
-    expect(result.value, 0xFFA3D256);
-  });
+        expect(result.value, 0xFFA3D256);
+      });
+    });
 
-  test('GIVEN #ABC12330 WHEN hexColor is called THEN consider #30ABC123', () {
-    const colorRGBA = '#ABC12330';
+    group('When hexColor is called to #ABC12330', () {
+      test('Then should return #30ABC123', () {
+        const colorRGBA = '#ABC12330';
 
-    final result = HexColor(colorRGBA);
+        final result = HexColor(colorRGBA);
 
-    expect(result.value, 0x30ABC123);
+        expect(result.value, 0x30ABC123);
+      });
+    });
   });
 }

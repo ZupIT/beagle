@@ -19,36 +19,32 @@ import 'package:beagle/render/layout_builder.dart' as beagle;
 import 'package:beagle/utils/color.dart';
 import 'package:flutter/widgets.dart';
 
+mixin StyleWidget {}
+
 class BeagleStyleWidget extends StatelessWidget {
   const BeagleStyleWidget({
     Key key,
     this.style,
     this.child,
-    this.children,
   }) : super(key: key);
 
   final BeagleStyle style;
   final Widget child;
-  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
-    return style != null
-        ? _buildWidget(style, child: child, children: children)
-        : child;
+    return style != null ? _buildWidget(style, child: child) : child;
   }
 
   Widget _buildWidget(
     BeagleStyle style, {
     Widget child,
-    List<Widget> children,
   }) {
     if (_isDisplayNone(style)) {
       return Container();
     } else {
       // todo apply position property to relative views
-      final builder =
-          _buildLayoutBuilder(style, child: child, children: children);
+      final builder = _buildLayoutBuilder(style, child: child);
       return _isAbsolute(style) ? _buildPadding(style, builder) : builder;
     }
   }
@@ -70,7 +66,6 @@ class BeagleStyleWidget extends StatelessWidget {
         style,
         constraints,
         child: child,
-        children: children,
       );
     });
   }
@@ -79,7 +74,6 @@ class BeagleStyleWidget extends StatelessWidget {
     BeagleStyle style,
     BoxConstraints constraints, {
     Widget child,
-    List<Widget> children,
   }) {
     var current = child;
 
@@ -143,7 +137,8 @@ class BeagleStyleWidget extends StatelessWidget {
 
   bool _hasPosition(BeagleStyle style) => style.position != null;
 
-  Padding _buildPadding(BeagleStyle style, beagle.LayoutBuilder builder) => Padding(
+  Padding _buildPadding(BeagleStyle style, beagle.LayoutBuilder builder) =>
+      Padding(
         padding: EdgeInsets.fromLTRB(
           _getLeft(style.position, nullable: true),
           _getTop(style.position, nullable: true),

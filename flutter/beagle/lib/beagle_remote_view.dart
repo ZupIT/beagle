@@ -64,10 +64,9 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
       return Container();
     }
     final child = builder(tree, widgetChildren, _view);
-    return BeagleStyleWidget(
+    return child is StyleWidget ? child : BeagleStyleWidget(
       style: tree.getStyle(),
       child: child,
-      children: widgetChildren,
     );
   }
 

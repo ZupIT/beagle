@@ -41,10 +41,10 @@ class BeagleContainer extends StatefulWidget {
 class _BeagleContainerState extends State<BeagleContainer> {
   @override
   void initState() {
-    super.initState();
     if (widget.onInit != null) {
       widget.onInit();
     }
+    super.initState();
   }
 
   @override
@@ -84,19 +84,3 @@ class _BeagleContainerState extends State<BeagleContainer> {
     //     : applyFlexDirection(relatives, flex);
   }
 }
-
-// final custom = CustomSingleChildLayout(delegate: Delegate());
-// class Delegate extends MultiChildLayoutDelegate {
-//   @override
-//   void performLayout(Size size) {
-//     // TODO: implement performLayout
-//   }
-//
-//   @override
-//   bool shouldRelayout(covariant MultiChildLayoutDelegate oldDelegate) {
-//     // TODO: implement shouldRelayout
-//     throw UnimplementedError();
-//   }
-//
-//
-// }

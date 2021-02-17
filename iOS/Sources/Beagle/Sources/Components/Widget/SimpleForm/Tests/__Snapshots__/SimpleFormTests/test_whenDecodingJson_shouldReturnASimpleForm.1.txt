@@ -2,7 +2,7 @@
   ▿ children: 1 element
     ▿ Button
       - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-      - disabled: Optional<Expression<Bool>>.none
+      - enabled: Optional<Expression<Bool>>.none
       ▿ onPress: Optional<Array<Action>>
         ▿ some: 1 element
           ▿ SubmitForm

@@ -18,8 +18,8 @@ package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
+import br.com.zup.beagle.android.data.serializer.generateNameSpaceToAction
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import java.util.Locale
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleAction_"
 private const val NAMESPACE = "custom"
@@ -38,13 +38,8 @@ internal object AndroidActionJsonAdapterFactory {
         var newFactory = factory
         val customActions = BeagleEnvironment.beagleSdk.registeredActions()
         customActions.forEach {
-            newFactory = newFactory.withSubtype(it, createNamespace(NAMESPACE, it))
+            newFactory = newFactory.withSubtype(it, generateNameSpaceToAction(NAMESPACE, it))
         }
         return newFactory
-    }
-
-    private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        val typeName = clazz.simpleName.toLowerCase(Locale.getDefault())
-        return "$appNamespace:$typeName"
     }
 }

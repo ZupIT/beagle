@@ -76,8 +76,8 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
     return list.map((child) {
       if (child is BeagleStyleWidget) {
         return BeagleFlexible(
-          grow: child.style?.flex?.grow ?? 0,
-          shrink: child.style?.flex?.shrink ?? 1,
+          grow: child.style?.flex?.grow ?? 0.0,
+          shrink: child.style?.flex?.shrink ?? 1.0,
           alignSelf: child.style?.flex?.alignSelf ?? AlignSelf.AUTO,
           positionType: child.style?.positionType ?? FlexPosition.RELATIVE,
           margin: child.style?.margin,
@@ -100,7 +100,8 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
         textDirection: _getEffectiveTextDirection(context),
         textBaseline: _textBaseline,
         verticalDirection: _verticalDirection,
-        flexWrap: flex?.flexWrap,
+        clipBehavior: Clip.hardEdge,
+        flexWrap: flex?.flexWrap ?? FlexWrap.NO_WRAP,
       );
 
   @override
@@ -177,19 +178,7 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
       flexDirection == FlexDirection.ROW_REVERSE ? TextDirection.rtl : null;
 
   TextDirection _getEffectiveTextDirection(BuildContext context) {
-    return _textDirection ??
-        (_needTextDirection ? Directionality.of(context) : null);
-  }
-
-  bool get _needTextDirection {
-    switch (_direction) {
-      case Axis.horizontal:
-        return true;
-      case Axis.vertical:
-        return _crossAxisAlignment == CrossAxisAlignment.start ||
-            _crossAxisAlignment == CrossAxisAlignment.end;
-    }
-    return null;
+    return _textDirection ?? Directionality.of(context);
   }
 
   static VerticalDirection _getVerticalDirection(
