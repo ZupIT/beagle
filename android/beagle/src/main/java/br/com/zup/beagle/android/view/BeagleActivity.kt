@@ -325,13 +325,13 @@ abstract class BeagleActivity : AppCompatActivity() {
                 }
 
                 is ViewState.DoRender -> {
-                    showScreen(it.screenId, it.component)
+                    showScreen(it.screenId, it.component, it.isLocalScreen)
                 }
             }
         })
     }
 
-    private fun showScreen(screenName: String?, component: ServerDrivenComponent) {
+    private fun showScreen(screenName: String?, component: ServerDrivenComponent, isLocalScreen: Boolean) {
         val transition = getFragmentTransitionAnimation()
         supportFragmentManager
             .beginTransaction()
@@ -341,7 +341,7 @@ abstract class BeagleActivity : AppCompatActivity() {
                 transition.popEnter,
                 transition.popExit
             )
-            .replace(getServerDrivenContainerId(), BeagleFragment.newInstance(component))
+            .replace(getServerDrivenContainerId(), BeagleFragment.newInstance(component, isLocalScreen, screenName))
             .addToBackStack(screenName)
             .commit()
     }

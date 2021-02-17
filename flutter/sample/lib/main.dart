@@ -25,8 +25,7 @@ import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
 
 const BASE_URL =
-    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/b000186cfa79ad1ed450bda48da5f6ed9077942c';
-// 'http://10.0.2.2:8080';
+    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/20e593662467d0962ac2aa4e9194a7256a1e0b48';
 
 void main() {
   runApp(const MaterialApp(home: BeagleSampleApp()));
@@ -44,6 +43,7 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
     MenuOption(title: 'Tab Bar', route: '/beagle_tab_bar'),
     MenuOption(title: 'Page View', route: '/beagle_pageview'),
     MenuOption(title: 'Touchable', route: '/beagle_touchable'),
+    MenuOption(title: 'Web View', route: '/beagle_webview'),
   ];
 
   bool isBeagleReady = false;
@@ -114,8 +114,9 @@ class _BeagleSampleApp extends State<BeagleSampleApp> {
         ),
         body: isBeagleReady
             ? const BeagleRemoteView(route: '/beagle_lazy')
-            // ? const BeagleRemoteView(route: '/button')
-            : const Center(child: Text('Not ready yet!')),
+            : const Center(
+                child: Text('Not ready yet!'),
+              ),
       ),
     );
   }

@@ -33,7 +33,7 @@ import br.com.zup.beagle.core.BeagleJson
  * @property onInit list of actions performed as soon as the component is rendered
  */
 
-@BeagleJson
+@BeagleJson(name = "onInitiableComponent")
 interface OnInitiableComponent {
     val onInit: List<Action>?
 
@@ -93,7 +93,7 @@ class OnInitiableComponentImpl(override val onInit: List<Action>?) : OnInitiable
                 if (!onInitViewModel.isOnInitCalled(origin.id)) {
                     onInit?.forEach { action ->
                         (action as? AsyncAction)?.status?.observe(rootView.getLifecycleOwner(), observer)
-                        action.handleEvent(rootView, origin, action)
+                        action.handleEvent(rootView, origin, action, analyticsValue = "onInit")
                     }
                     onInitViewModel.setOnInitCalled(origin.id, true)
                 }

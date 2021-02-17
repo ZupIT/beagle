@@ -58,6 +58,7 @@ const val VALID_URL_BUILDER_BEAGLE_SDK =
         import br.com.zup.beagle.android.store.StoreHandler
         import br.com.zup.beagle.android.view.BeagleActivity
         import br.com.zup.beagle.android.widget.WidgetView
+        import br.com.zup.beagle.newanalytics.AnalyticsProvider
         import java.lang.Class
         import kotlin.String
         import kotlin.Suppress
@@ -79,6 +80,8 @@ const val VALID_URL_BUILDER_BEAGLE_SDK =
             public override val urlBuilder : UrlBuilder = br.com.test.beagle.UrlBuilderTest()
 
             public override val analytics : Analytics? = null
+           
+            public override val analyticsProvider : AnalyticsProvider? = null
 
             public override val logger : BeagleLogger? = null
 

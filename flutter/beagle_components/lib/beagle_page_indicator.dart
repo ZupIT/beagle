@@ -21,6 +21,8 @@ import 'package:beagle/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// Defines a widget to indicate the number of pages and the current selected
+/// page of a [PageView].
 class BeaglePageIndicator extends StatelessWidget with StyleWidget {
   const BeaglePageIndicator({
     Key key,
@@ -30,9 +32,16 @@ class BeaglePageIndicator extends StatelessWidget with StyleWidget {
     this.currentPage,
   }) : super(key: key);
 
+  /// This is a string value and it must be filled as HEX (Hexadecimal).
   final String selectedColor;
+
+  /// This is a string value and it must be filled as HEX (Hexadecimal).
   final String unselectedColor;
+
+  /// Numbers of pages.
   final int numberOfPages;
+
+  /// Identify the selected page.
   final int currentPage;
 
   static const double dotSpacing = 25;

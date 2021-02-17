@@ -399,4 +399,23 @@ internal class BeagleMessageLogsTest {
             BeagleLoggerProxy.warning("Expression is not support in prefetch")
         }
     }
+
+    @DisplayName("When cannot get property value")
+    @Nested
+    inner class CanNotGetPropertyValue {
+
+        @DisplayName("Then should call BeagleLoggerProxy warning")
+        @Test
+        fun testCanNotGetPropertyValue() {
+            //given
+            val propertyName = "property"
+            val expectedMessage = "Cannot get some attributes of property $propertyName."
+
+            //when
+            BeagleMessageLogs.cannotGetPropertyValue(propertyName)
+
+            //then
+            verify(exactly = 1) { BeagleLoggerProxy.warning(expectedMessage) }
+        }
+    }
 }

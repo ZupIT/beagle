@@ -1,0 +1,21 @@
+{
+    "_beagleAction_": "beagle:alert",
+    "analytics": {
+        "attributes": [
+            "labelOk",
+            "message",
+            "onPressOk.message",
+            "title"
+        ],
+        "additionalEntries": {
+            "labelOk": "additionalEntries takes precedence"
+        }
+    },
+    "labelOk": "ok",
+    "message": "Message - @{context.headers.pi}",
+    "onPressOk": {
+        "_beagleAction_": "beagle:alert",
+        "message": "@{context.query}"
+    },
+    "title": "Title - @{context.headers.platform}"
+}
