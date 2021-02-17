@@ -27,7 +27,11 @@ package br.com.zup.beagle.newanalytics
 data class AnalyticsRecord(
     val type: String,
     val platform: String = "android",
-    val values: HashMap<String, Any>? = null,
+    val attributes: Map<String, Any>? = null,
+    val component: Map<String, Any>? = null,
+    val beagleAction: String? = null,
+    val event: String? = null,
+    val additionalEntries: Map<String, Any>? = null,
     val timestamp: Long,
-    val screen : String
+    val screen: String,
 )

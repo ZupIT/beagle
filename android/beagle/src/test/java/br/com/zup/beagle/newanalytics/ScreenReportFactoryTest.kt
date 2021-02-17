@@ -43,7 +43,7 @@ class ScreenReportFactoryTest : BaseTest() {
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
             assertEquals("screenId", result.screen)
-            assertEquals(null, result.values)
+            commonAssert(result)
             assertEquals(timestamp, result.timestamp)
         }
     }
@@ -65,7 +65,7 @@ class ScreenReportFactoryTest : BaseTest() {
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
             assertEquals("url", result.screen)
-            assertEquals(null, result.values)
+            commonAssert(result)
             assertEquals(timestamp, result.timestamp)
         }
 
@@ -84,8 +84,18 @@ class ScreenReportFactoryTest : BaseTest() {
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
             assertEquals("url", result.screen)
-            assertEquals(null, result.values)
+            commonAssert(result)
             assertEquals(timestamp, result.timestamp)
         }
+    }
+    
+    private fun commonAssert(result: AnalyticsRecord){
+        assertEquals(null, result.additionalEntries)
+        assertEquals(null, result.attributes)
+        assertEquals(null, result.component)
+        assertEquals(null, result.beagleAction)
+        assertEquals(null, result.event)
+
+
     }
 }
