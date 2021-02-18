@@ -83,7 +83,7 @@ class ScreenReportFactoryTest : BaseTest() {
             //Then
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
-            assertEquals("url", result.screen)
+            assertEquals("https://baseUrl.com.br/url", result.screen)
             commonAssert(result)
             assertEquals(timestamp, result.timestamp)
         }
