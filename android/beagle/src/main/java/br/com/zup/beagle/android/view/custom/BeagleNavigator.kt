@@ -25,6 +25,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
@@ -85,8 +86,27 @@ internal object BeagleNavigator {
 
     fun popToView(context: Context, route: String) {
         if (context is AppCompatActivity) {
-            context.supportFragmentManager.popBackStack(route, 0)
+            context.supportFragmentManager.popBackStack(getFragmentName(route, context), 0)
         }
+    }
+
+    private fun getFragmentName(route: String, context: AppCompatActivity): String {
+        var backStackEntryName = route
+        val urlBuilder = UrlBuilderFactory().make()
+        val baseUrl = BeagleEnvironment.beagleSdk.config.baseUrl
+        val routeFormatted = urlBuilder.format(baseUrl, route)
+        for (index in 0 until context.supportFragmentManager.backStackEntryCount) {
+            val backStackEntry = context.supportFragmentManager.getBackStackEntryAt(index)
+            var nameFormatted: String? = null
+            backStackEntry.name?.let {
+                nameFormatted = urlBuilder.format(baseUrl, it)
+            }
+            if (nameFormatted != null && nameFormatted == routeFormatted) {
+                backStackEntryName = backStackEntry.name as String
+                break
+            }
+        }
+        return backStackEntryName
     }
 
     fun pushStack(context: Context, route: Route, controllerName: String?) {
