@@ -29,8 +29,7 @@ object NewAnalyticsNavigateScreenBuilder {
             onPress = listOf(
                 Navigate.OpenNativeRoute(
                     analytics = ActionAnalyticsConfig.Disabled,
-                    route = "screen-analytics-link",
-                    shouldResetApplication = true
+                    route = "screen-analytics-link"
                 )
             )
         )
