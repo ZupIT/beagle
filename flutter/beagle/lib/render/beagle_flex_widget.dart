@@ -80,6 +80,7 @@ class BeagleFlexWidget extends MultiChildRenderObjectWidget {
           shrink: child.style?.flex?.shrink ?? 1.0,
           alignSelf: child.style?.flex?.alignSelf ?? AlignSelf.AUTO,
           positionType: child.style?.positionType ?? FlexPosition.RELATIVE,
+          size: child.style?.size,
           margin: child.style?.margin,
           child: child,
         );
