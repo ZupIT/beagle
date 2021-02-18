@@ -39,7 +39,6 @@ const val LAZY_FAILURE_ENDPOINT = "/lazyfailure"
 const val IMAGE_REMOTE_ENDPOINT = "/imageremote"
 const val ANALYTICS_ENDPOINT = "/analytics"
 const val NEW_ANALYTICS_ENDPOINT = "/analytics2"
-const val NEW_ANALYTICS_NAVIGATE_ENDPOINT = "/analytics2-navigate"
 
 const val ACTION_ENDPOINT = "/action"
 const val ACCESSIBILITY_ENDPOINT = "/accessibility"

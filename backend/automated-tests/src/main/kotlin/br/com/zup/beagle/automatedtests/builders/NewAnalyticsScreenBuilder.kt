@@ -17,7 +17,6 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
-import br.com.zup.beagle.automatedtests.constants.NEW_ANALYTICS_NAVIGATE_ENDPOINT
 import br.com.zup.beagle.newanalytics.ActionAnalyticsProperties
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Confirm
@@ -29,37 +28,30 @@ import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
 object NewAnalyticsScreenBuilder {
+
     fun build() = Screen(
-        child = Container(
-            listOf(
-                Text("Analytics 2.0"),
-                noSpecificAnalyticsButton(),
-                analyticsLocalConfigurationButton(),
-                remoteAnalyticsConfigurationButton(),
-                disabledAnalyticsConfigurationButton(),
-                navigateToPageButton()
-            )
-        )
+        child = Container(listOf(
+            Text("Analytics 2.0"),
+            actionWithoutAnalytics(),
+            actionEnabled(),
+            actionEnabledWithAttributes(),
+            actionDisabled(),
+            onlyScreenEvent()
+        ))
     )
 
-    private fun nativeNavigation() = Navigate.OpenNativeRoute(
-        analytics = ActionAnalyticsConfig.Disabled,
-        route = "screen-analytics-link",
-        shouldResetApplication = true
-    )
-
-    private fun noSpecificAnalyticsButton() = Button(
+    private fun actionWithoutAnalytics() = Button(
         text = "Alert with no specific analytics configuration",
         onPress = listOf(
             Alert(
                 title = "Alert Title",
                 message = "AlertMessage",
-                onPressOk = nativeNavigation()
+                onPressOk = navigateToNativeScreen()
             )
         )
     )
 
-    private fun analyticsLocalConfigurationButton() = Button(
+    private fun actionEnabled() = Button(
         text = "Confirm with analytics local configuration",
         onPress = listOf(
             Confirm(
@@ -68,14 +60,14 @@ object NewAnalyticsScreenBuilder {
                 message = "Confirm Message",
                 labelOk = "Accept",
                 labelCancel = "cancel",
-                onPressOk = nativeNavigation()
+                onPressOk = navigateToNativeScreen()
             )
         )
     ).apply {
         id = "_beagle_5"
     }
 
-    private fun remoteAnalyticsConfigurationButton() = Button(
+    private fun actionEnabledWithAttributes() = Button(
         text = "Alert with remote analytics configuration",
         onPress = listOf(
             Alert(
@@ -84,14 +76,14 @@ object NewAnalyticsScreenBuilder {
                 ),
                 title = "Alert Title",
                 message = "AlertMessage",
-                onPressOk = nativeNavigation()
+                onPressOk = navigateToNativeScreen()
             )
         )
     ).apply {
         id = "_beagle_6"
     }
 
-    private fun disabledAnalyticsConfigurationButton() = Button(
+    private fun actionDisabled() = Button(
         text = "Confirm with disabled analytics configuration",
         onPress = listOf(
             Confirm(
@@ -100,17 +92,35 @@ object NewAnalyticsScreenBuilder {
                 message = "Confirm Message",
                 labelOk = "Accept",
                 labelCancel = "cancel",
-                onPressOk = nativeNavigation()
+                onPressOk = navigateToNativeScreen()
             )
         )
     )
 
-    private fun navigateToPageButton() =  Button(
+    private fun onlyScreenEvent() = Button(
         text = "navigateToPage",
-        onPress = listOf(
-            Navigate.PushView(Route.Remote(
-                NEW_ANALYTICS_NAVIGATE_ENDPOINT, true), analytics = ActionAnalyticsConfig.Disabled
-            ),
+        onPress = listOf(Navigate.PushView(
+            Route.Local(onlyScreen()),
+            analytics = ActionAnalyticsConfig.Disabled
+        ))
+    )
+
+    private fun onlyScreen() = Screen(
+        identifier = "/analytics2-navigate",
+        child = Button(
+            text = "navigate to local screen",
+            onPress = listOf(
+                Navigate.OpenNativeRoute(
+                    analytics = ActionAnalyticsConfig.Disabled,
+                    route = "screen-analytics-link"
+                )
+            )
         )
+    )
+
+    private fun navigateToNativeScreen() = Navigate.OpenNativeRoute(
+        analytics = ActionAnalyticsConfig.Disabled,
+        route = "screen-analytics-link",
+        shouldResetApplication = true
     )
 }
