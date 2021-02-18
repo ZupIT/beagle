@@ -35,28 +35,8 @@ abstract class AbstractScreen(mobileDriver: AppiumDriver<*>?) {
         PageFactory.initElements(
             AppiumFieldDecorator(
                 driver,
-                Duration.ofMillis(DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
+                Duration.ofMillis(DEFAULT_SCREEN_WAIT_TIME_IN_MILL)
             ), this
         )
-        waitForScreenToLoad<AbstractScreen>()
     }
-
-    /**
-     * Implement here the conditions to guarantee a screen is loaded, eg. wait for the visibility of key screen elements
-     * @param <T>
-     * @return
-    </T> */
-    abstract fun <T : AbstractScreen> waitForScreenToLoad(): T
-
-    /**
-     * @param elementArray
-     */
-    protected open fun waitForScreenToLoad(elementArray: Array<MobileElement>) {
-        AppiumUtil.waitForElementsToBeClickable(
-            driver!!,
-            elementArray,
-            DEFAULT_SCREEN_WAIT_TIME_IN_MILL
-        )
-    }
-
 }

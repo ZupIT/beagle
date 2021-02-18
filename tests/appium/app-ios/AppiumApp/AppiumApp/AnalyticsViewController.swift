@@ -16,6 +16,7 @@
  */
 
 import UIKit
+import Beagle
 
 class AnalyticsViewController: UIViewController {
 
@@ -59,10 +60,23 @@ class AnalyticsViewController: UIViewController {
     
     private func updateRecordLabel() {
         guard let record = LocalAnalyticsProvider.shared.lastRecord?.toDictionary() else { return }
+
+        recordLabel.text = record.toJsonString()
+    }
+}
+
+extension DynamicDictionary {
+
+    func toJsonString() -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-        let data = try! encoder.encode(record)
-        recordLabel.text = String(data: data, encoding: .utf8)!
+        if #available(iOS 13.0, *) {
+            encoder.outputFormatting.insert(.withoutEscapingSlashes)
+        }
+
+        let data = try! encoder.encode(self)
+        return String(data: data, encoding: .utf8)!
+            .replacingOccurrences(of: "\" : ", with: "\": ")
     }
 }
 

@@ -1,45 +1,42 @@
 package br.com.zup.beagle.cucumber.steps
 
 import br.com.zup.beagle.setup.SuiteSetup
-import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
-import org.openqa.selenium.json.Json
 
 class AnalyticsScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = ""
-    private val positionRegex = Regex("position=\\{x=([0-9][0-9]*)(.?)([0-9]?),\\s*y=([0-9][0-9]*)(.?)([0-9]?)\\}")
+    private val positionRegex = Regex("""\{\s*"[xy]": \d+(\.\d+)?\s*,\s*"[xy]": \d+(\.\d+)?\s*\}""")
 
-    private val recordHashMap = hashMapOf<String, List<Regex>>(
-        "Analytics 02" to listOf(
-            Regex("\"type\" : \"action\"")
-            // Regex("event=onPress"),
-            // Regex("type=beagle:button"),
-            // Regex("id=_beagle_5"),
-            // positionRegex,
-            // Regex("beagleAction=beagle:confirm"),
-            // Regex("title=Confirm Title"),
-            // Regex("message=Confirm Message"),
-            // Regex("screen=/analytics2"),
-            // platformCheck()
+    private val recordHashMap = hashMapOf(
+        "Analytics 02" to hashMapOf(
+            "type" to "action",
+            "event" to "onPress",
+            "type" to "beagle:button",
+            "id" to "_beagle_5",
+            "position" to positionRegex,
+            "beagleAction" to "beagle:confirm",
+            "title" to "Confirm Title",
+            "message" to "Confirm Message",
+            "screen" to "http://localhost:8080/analytics2",
+            "platform" to platformCheck()
         ),
-        "Analytics 03" to listOf(
-            Regex("type:action"),
-            Regex("event=onPress"),
-            Regex("type=beagle:button"),
-            Regex("id=_beagle_6"),
-            positionRegex,
-            Regex("beagleAction=beagle:alert"),
-            Regex("message=AlertMessage"),
-            Regex("screen=/analytics2"),
-            platformCheck()
+        "Analytics 03" to hashMapOf(
+            "type" to "action",
+            "event" to "onPress",
+            "type" to "beagle:button",
+            "id" to "_beagle_6",
+            "position" to positionRegex,
+            "beagleAction" to "beagle:alert",
+            "message" to "AlertMessage",
+            "screen" to "http://localhost:8080/analytics2",
+            "platform" to platformCheck()
         ),
-        "Analytics 05" to listOf(
-            Regex("type:screen"),
-            Regex("screen=/analytics2-navigate"),
-            platformCheck()
+        "Analytics 05" to hashMapOf(
+            "type" to "screen",
+            "screen" to "/analytics2-navigate",
+            "platform" to platformCheck()
         )
     )
 
@@ -73,22 +70,23 @@ class AnalyticsScreenSteps : AbstractStep() {
 
     @Then("^an analytics record should be created for (.*)$")
     fun checkAnalyticsGenerated(string: String) {
-        waitForElementWithTextToBeClickable("Analytics 2.0 native", false, false)
-        val text = waitForElementWithTextToBeClickable("type:", true, false).text
+        waitForElementWithTextToBeClickable("Analytics 2.0 native", likeSearch = false, ignoreCase = false)
+        val text = waitForElementWithTextToBeClickable("platform", likeSearch = true, ignoreCase = false).text
         
         val analytics = recordHashMap[string]
         analytics?.forEach {
-            val regex = "(.*)" + it + "(.*)"
-            if (!text.matches(regex.toRegex()))
-                throw Exception("Record doesn't match " + it)
+            val value = if (it.value is Regex)
+                it.value.toString()
+                else "\"${it.value}\""
+
+            val regex = Regex("\"${it.key}\": $value")
+            if (!text.contains(regex))
+                throw Exception("Record doesn't match $it")
         }
     }
 
-    private fun platformCheck(): Regex {
-        if (SuiteSetup.isAndroid()) {
-            return Regex("platform:android")
-        }
-        return Regex("platform:ios")
+    private fun platformCheck(): String {
+        return if (SuiteSetup.isAndroid()) "android" else "ios"
     }
 
 }
