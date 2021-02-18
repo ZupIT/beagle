@@ -19,7 +19,7 @@ class AnalyticsScreenSteps : AbstractStep() {
             "beagleAction" to "beagle:confirm",
             "title" to "Confirm Title",
             "message" to "Confirm Message",
-            "screen" to "http://localhost:8080/analytics2",
+            "screen" to "${SuiteSetup.getBaseUrl()}/analytics2",
             "platform" to platformCheck()
         ),
         "Analytics 03" to hashMapOf(
@@ -30,7 +30,7 @@ class AnalyticsScreenSteps : AbstractStep() {
             "position" to positionRegex,
             "beagleAction" to "beagle:alert",
             "message" to "AlertMessage",
-            "screen" to "http://localhost:8080/analytics2",
+            "screen" to "${SuiteSetup.getBaseUrl()}/analytics2",
             "platform" to platformCheck()
         ),
         "Analytics 05" to hashMapOf(
