@@ -16,7 +16,6 @@
 
 name: Beagle Appium Android Tests
 
-
 on:
   workflow_run:
     workflows: ["Beagle Appium Tests"]
