@@ -58,4 +58,4 @@ data class AddChildren(
     var value: List<ServerDrivenComponent>,
     var mode: Mode? = Mode.APPEND,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics()
+) : AnalyticsAction
