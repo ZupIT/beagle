@@ -39,7 +39,7 @@ data class SendRequest(
     val onError: List<Action>? = null,
     val onFinish: List<Action>? = null,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics() {
+) : AnalyticsAction {
     constructor(
         url: String,
         method: RequestActionMethod = RequestActionMethod.GET,
