@@ -14,20 +14,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:async';
 
-import 'package:beagle/action/beagle_alert.dart';
-import 'package:beagle/action/beagle_open_external_url.dart';
-import 'package:beagle/interface/beagle_service.dart';
-
-final Map<String, ActionHandler> defaultActions = {
-  'beagle:alert': ({action, view, element}) {
-    BeagleAlert.showAlertDialog(
-      message: action.getAttributeValue('message'),
-      onPressOk: action.getAttributeValue('onPressOk', () {}),
-      title: action.getAttributeValue('title', 'Alert'),
-    );
-  },
-  'beagle:openExternalURL': ({action, view, element}) {
-    BeagleOpenExternalUrl.launchURL(action.getAttributeValue('url'));
+class BeagleOpenExternalUrl {
+  static Future<void> launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
-};
+}
