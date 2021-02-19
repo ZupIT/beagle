@@ -91,22 +91,22 @@ internal object BeagleNavigator {
     }
 
     private fun getFragmentName(route: String, context: AppCompatActivity): String {
-        var backStackEntryName = route
+        var fragmentName = route
         val urlBuilder = UrlBuilderFactory().make()
         val baseUrl = BeagleEnvironment.beagleSdk.config.baseUrl
         val routeFormatted = urlBuilder.format(baseUrl, route)
         for (index in 0 until context.supportFragmentManager.backStackEntryCount) {
-            val backStackEntry = context.supportFragmentManager.getBackStackEntryAt(index)
+            val backStackEntryName = context.supportFragmentManager.getBackStackEntryAt(index).name
             var nameFormatted: String? = null
-            backStackEntry.name?.let {
+            backStackEntryName?.let {
                 nameFormatted = urlBuilder.format(baseUrl, it)
             }
             if (nameFormatted != null && nameFormatted == routeFormatted) {
-                backStackEntryName = backStackEntry.name as String
+                fragmentName = backStackEntryName as String
                 break
             }
         }
-        return backStackEntryName
+        return fragmentName
     }
 
     fun pushStack(context: Context, route: Route, controllerName: String?) {
