@@ -16,11 +16,25 @@
 
 name: Beagle Appium Android Tests
 
+## testing only
 on:
-  workflow_run:
-    workflows: ["Beagle Appium Tests"]
-    types:
-      - completed
+  push:
+    branches:
+      - master
+    paths:
+      - 'automated-tests/**'
+      - '.github/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'automated-tests/**'
+      - '.github/**'
+#on:
+#  workflow_run:
+#    workflows: ["Beagle Appium Tests"]
+#    types:
+#      - completed
 
 jobs:
   bff_config_job:
