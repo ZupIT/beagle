@@ -164,3 +164,9 @@ final class UIViewContextTests: XCTestCase {
         XCTAssertNil(weakReference)
     }
 }
+
+extension UIView {
+    func evaluate<T: Decodable>(expression: Expression<T>) -> T? {
+        return expression.evaluate(with: self)
+    }
+}

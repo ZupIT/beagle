@@ -20,6 +20,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// Defines a button widget that will be rendered according to the style of the
+/// running platform.
 class BeagleButton extends StatelessWidget {
   const BeagleButton({
     Key key,
@@ -31,10 +33,20 @@ class BeagleButton extends StatelessWidget {
   })  : _designSystem = designSystem,
         super(key: key);
 
+  /// Define the button text content.
   final String text;
+
+  /// References a [BeagleButtonStyle] declared natively and locally in [DesignSystem] 
+  /// to be applied to this widget.
   final String styleId;
+
+  /// Defines the actions that will be performed when this component is pressed.
   final Function onPress;
+
+  /// Whether button will be enabled.
   final bool enabled;
+
+  /// [DesignSystem] that will provide the style referenced by [styleId].
   final DesignSystem _designSystem;
 
   BeagleButtonStyle get _buttonStyle => _designSystem?.buttonStyle(styleId);

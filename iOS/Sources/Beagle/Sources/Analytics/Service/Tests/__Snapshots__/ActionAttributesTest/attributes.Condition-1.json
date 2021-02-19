@@ -1,0 +1,13 @@
+{
+  "condition" : true,
+  "onFalse" : [
+    {
+      "message" : "Hello beagle"
+    }
+  ],
+  "onTrue" : [
+    {
+      "message" : "Hello beagle"
+    }
+  ]
+}

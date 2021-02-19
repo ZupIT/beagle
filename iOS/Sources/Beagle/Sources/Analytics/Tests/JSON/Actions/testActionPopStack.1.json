@@ -1,9 +1,0 @@
-{
-    "_beagleAction_": "beagle:popStack",
-    "analytics": {
-        "attributes": [
-            "unknowAttribute"
-        ],
-        "enable": true
-    }
-}
