@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.newanalytics
 
-import br.com.zup.beagle.android.utils.removeBaseUrl
 
 internal object ScreenReportFactory {
 
@@ -29,6 +28,6 @@ internal object ScreenReportFactory {
     ) = AnalyticsRecord(
         type = TYPE_ANALYTICS,
         timestamp = timestamp,
-        screen = if(isLocalScreen) screenIdentifier else screenIdentifier.removeBaseUrl()
+        screen = screenIdentifier
     )
 }
