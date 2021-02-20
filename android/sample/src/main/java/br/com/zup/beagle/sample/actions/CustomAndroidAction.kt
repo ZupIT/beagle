@@ -21,12 +21,10 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterAction
 
-@RegisterAction
+@RegisterAction("CustomAndroidAction")
 data class CustomAndroidAction(
     val value: String,
     val intValue: Int
 ) : Action {
-    override fun execute(rootView: RootView, origin: View) {
-
-    }
+    override fun execute(rootView: RootView, origin: View) { }
 }

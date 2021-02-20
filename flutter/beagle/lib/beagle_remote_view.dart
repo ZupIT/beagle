@@ -45,6 +45,7 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
     if (widget.onCreateView != null) {
       widget.onCreateView(_view);
     }
+
     _view.subscribe((tree) {
       setState(() {
         currentTree = tree;
@@ -60,6 +61,7 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
     final builder = BeagleInitializer.getService().components[tree.getType()];
     if (builder == null) {
       debugPrint("Can't find builder for component ${tree.getType()}");
+      //TODO SHOULD CREATE A COMPONENT INFORM NOT REGISTERED AND IF PRODUCTION NOT CREATE ANY COMPONENT
       return Container();
     }
     return builder(tree, widgetChildren, _view);

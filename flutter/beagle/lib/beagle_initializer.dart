@@ -38,7 +38,7 @@ class BeagleInitializer {
   /// Starts the BeagleService. Only a single instance of this service is allowed.
   /// The parameters are all the attributes of the class BeagleService. Please check its
   /// documentation for more details.
-  static Future<void> start({
+  static void init({
     String baseUrl,
     HttpClient httpClient,
     Map<String, ComponentBuilder> components,
@@ -50,7 +50,7 @@ class BeagleInitializer {
     DesignSystem designSystem,
     BeagleImageDownloader imageDownloader,
     BeagleLogger logger,
-  }) async {
+  }) {
     _designSystem = designSystem;
     _imageDownloader = imageDownloader ??
         DefaultBeagleImageDownloader(
@@ -67,8 +67,6 @@ class BeagleInitializer {
       strategy: strategy ?? NetworkStrategy.beagleWithFallbackToCache,
       navigationControllers: navigationControllers,
     );
-
-    await _service.start();
   }
 
   static BeagleService getService() {
