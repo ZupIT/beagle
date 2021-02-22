@@ -69,7 +69,6 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     private lateinit var beagleViewModel: BeagleScreenViewModel
     private var activity: ServerDrivenActivity? = null
     private val analyticsViewModel = mockk<AnalyticsViewModel>()
-    private val localScreenSlot = slot<Boolean>()
     private val screenIdentifierSlot = slot<String>()
 
     @Before
@@ -90,13 +89,12 @@ class BeagleActivityTest : BaseSoLoaderTest() {
         val url = "/url"
         val screenRequest = ScreenRequest(url)
         prepareViewModelMock(analyticsViewModel)
-        every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
+        every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
 
         //When
         activity?.navigateTo(screenRequest, null)
 
         //Then
-        assertEquals(false, localScreenSlot.captured)
         assertEquals(url, screenIdentifierSlot.captured)
     }
 
@@ -110,14 +108,13 @@ class BeagleActivityTest : BaseSoLoaderTest() {
 
 
         prepareViewModelMock(analyticsViewModel)
-        every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
+        every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
 
 
         //When
         activity?.navigateTo(screenRequest, screen)
 
         // THEN
-        assertEquals(true, localScreenSlot.captured)
         assertEquals(screenId, screenIdentifierSlot.captured)
     }
 
@@ -130,14 +127,13 @@ class BeagleActivityTest : BaseSoLoaderTest() {
 
 
         prepareViewModelMock(analyticsViewModel)
-        every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
+        every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
 
 
         //When
         activity?.navigateTo(screenRequest, screen)
 
         // THEN
-        assertEquals(true, localScreenSlot.captured)
         assertEquals(screenIdentifier, screenIdentifierSlot.captured)
     }
 

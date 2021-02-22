@@ -43,36 +43,20 @@ internal class DataScreenReportTest : BaseTest() {
         }
 
         @Test
-        @DisplayName("Then should call ScreenReportFactory.generateLocalScreenAnalyticsRecord")
-        fun testReportLocalScreenWithScreenReportEnabledShouldCallGenerateLocalScreenAnalyticsRecord() {
+        @DisplayName("Then should call ScreenReportFactory.generateScreenAnalyticsRecord")
+        fun testReportScreenWithScreenReportEnabledShouldCallGenerateScreenAnalyticsRecord() {
             //GIVEN
             mockkObject(ScreenReportFactory)
-            val dataScreenReport = DataScreenReport(isLocalScreen = true, screenIdentifier = SCREEN_IDENTIFIER)
+            val dataScreenReport = DataScreenReport(screenIdentifier = SCREEN_IDENTIFIER)
             val timestamp = dataScreenReport.timestamp
 
             //WHEN
             dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 1) { ScreenReportFactory.generateScreenAnalyticsRecord(true, SCREEN_IDENTIFIER, timestamp) }
+            verify(exactly = 1) { ScreenReportFactory.generateScreenAnalyticsRecord(SCREEN_IDENTIFIER, timestamp) }
 
         }
-
-        @Test
-        @DisplayName("Then should call ScreenReportFactory.generateRemoteScreenAnalyticsRecord")
-        fun testReportRemoteScreenWithScreenReportEnabledShouldCallGenerateRemoteScreenAnalyticsRecord() {
-            //GIVEN
-            mockkObject(ScreenReportFactory)
-            val dataScreenReport = DataScreenReport(isLocalScreen = false, screenIdentifier = SCREEN_IDENTIFIER)
-            val timestamp = dataScreenReport.timestamp
-
-            //WHEN
-            dataScreenReport.report(analyticsConfig)
-
-            //THEN
-            verify(exactly = 1) { ScreenReportFactory.generateScreenAnalyticsRecord(false,SCREEN_IDENTIFIER, timestamp) }
-        }
-
     }
 
     @DisplayName("When report")
@@ -86,34 +70,19 @@ internal class DataScreenReportTest : BaseTest() {
         }
 
         @Test
-        @DisplayName("Then should not call ScreenReportFactory.generateLocalScreenAnalyticsRecord and return null")
-        fun testReportLocalScreenWithScreenReportDisabledShouldNotCallGenerateLocalScreenAnalyticsRecordAndReturnNull() {
+        @DisplayName("Then should not call ScreenReportFactory.generateScreenAnalyticsRecord and return null")
+        fun testReportScreenWithScreenReportDisabledShouldNotCallGenerateScreenAnalyticsRecordAndReturnNull() {
             //GIVEN
             mockkObject(ScreenReportFactory)
-            val dataScreenReport = DataScreenReport(isLocalScreen = true, screenIdentifier = SCREEN_IDENTIFIER)
+            val dataScreenReport = DataScreenReport(screenIdentifier = SCREEN_IDENTIFIER)
 
             //WHEN
             val result = dataScreenReport.report(analyticsConfig)
 
             //THEN
-            verify(exactly = 0) { ScreenReportFactory.generateScreenAnalyticsRecord(any(), any(), any()) }
+            verify(exactly = 0) { ScreenReportFactory.generateScreenAnalyticsRecord(any(), any()) }
             assertEquals(null, result)
 
-        }
-
-        @Test
-        @DisplayName("Then should not call ScreenReportFactory.generateRemoteScreenAnalyticsRecord and return null")
-        fun testReportRemoteScreenWithScreenReportDisabledShouldNotCallGenerateLocalScreenAnalyticsRecordAndReturnNull() {
-            //GIVEN
-            mockkObject(ScreenReportFactory)
-            val dataScreenReport = DataScreenReport(isLocalScreen = false, screenIdentifier = SCREEN_IDENTIFIER)
-
-            //WHEN
-            val result = dataScreenReport.report(analyticsConfig)
-
-            //THEN
-            verify(exactly = 0) { ScreenReportFactory.generateScreenAnalyticsRecord(any(), any(), any()) }
-            assertEquals(null, result)
         }
     }
 }

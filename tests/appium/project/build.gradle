@@ -51,10 +51,18 @@ task cucumber() {
     dependsOn assemble, testClasses
     doLast {
         javaexec {
-            // gradlew cucumber -Dplatform=CHOSEN-PLATFORM
+            /**
+             * System Property usage examples:
+             *  gradlew cucumber -Dplatform=CHOSEN-PLATFORM
+             *  gradlew cucumber -Dcucumber.options="-tags @tagname"
+             */
             systemProperty "platform", System.getProperty("platform")
-            // gradlew cucumber -Dcucumber.options="-tags @tagname"
-            // systemProperty "cucumber.options", System.getProperty("cucumber.options")
+            systemProperty "platform_version", System.getProperty("platform_version")
+            systemProperty "device_name", System.getProperty("device_name")
+            systemProperty "app_file", System.getProperty("app_file")
+            systemProperty "bff_base_url", System.getProperty("bff_base_url")
+            systemProperty "browserstack_user", System.getProperty("browserstack_user")
+            systemProperty "browserstack_key", System.getProperty("browserstack_key")
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = [/*'--plugin','pretty', */
@@ -67,7 +75,13 @@ task cucumber() {
     }
 }
 
-// necessary when running by Runner.kt class
+// Necessary when running by Runner.kt class
 test {
     systemProperty "platform", System.getProperty("platform")
+    systemProperty "platform_version", System.getProperty("platform_version")
+    systemProperty "device_name", System.getProperty("device_name")
+    systemProperty "app_file", System.getProperty("app_file")
+    systemProperty "bff_base_url", System.getProperty("bff_base_url")
+    systemProperty "browserstack_user", System.getProperty("browserstack_user")
+    systemProperty "browserstack_key", System.getProperty("browserstack_key")
 }

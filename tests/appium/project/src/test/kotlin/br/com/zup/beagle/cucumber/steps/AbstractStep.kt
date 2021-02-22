@@ -65,8 +65,7 @@ abstract class AbstractStep {
         return AppiumUtil.waitForElementToBeClickable(
             getDriver(),
             xpath,
-            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL,
-            0
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
 
     }
@@ -83,8 +82,7 @@ abstract class AbstractStep {
         return AppiumUtil.waitForElementToBeClickable(
             getDriver(),
             xpath,
-            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL,
-            0
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
 
     }
@@ -93,15 +91,15 @@ abstract class AbstractStep {
      * Waits for an element to be present on the screen
      */
     protected fun waitForElementWithValueToBePresent(
-            elementValue: String,
-            likeSearch: Boolean,
-            ignoreCase: Boolean
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
     ): MobileElement {
         val xpath: By = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
         return AppiumUtil.waitForElementToBePresent(
-                getDriver(),
-                xpath,
-                DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+            getDriver(),
+            xpath,
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
 
     }
@@ -138,34 +136,53 @@ abstract class AbstractStep {
         AppiumUtil.waitForElementToBeInvisible(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
-    @Deprecated(
-        message = "Seaches the element and scroll to it, but some platforms won't render the element when it is not visible. " +
-                "Use swipe instead"
-    )
     protected fun scrollDownToElementWithText(
         elementText: String,
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        return scrollToElement(elementText, likeSearch, ignoreCase, SwipeDirection.DOWN)
+        val locator = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+        return scrollToElement(locator, SwipeDirection.UP) // swiping up scrolls down...
+    }
+
+    protected fun scrollDownToElementWithValue(
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ): MobileElement {
+        val locator = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
+        return scrollToElement(locator, SwipeDirection.UP)
+    }
+
+    protected fun scrollUpToElementWithText(
+        elementText: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ): MobileElement {
+        val locator = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+        return scrollToElement(locator, SwipeDirection.DOWN) // swiping down scrolls up...
+    }
+
+    protected fun scrollUpToElementWithValue(
+        elementText: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ): MobileElement {
+        val locator = getSearchByValueXpath(elementText, likeSearch, ignoreCase)
+        return scrollToElement(locator, SwipeDirection.DOWN) // swiping down scrolls up...
     }
 
     private fun scrollToElement(
-        elementText: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean,
+        elementLocator: By,
         direction: SwipeDirection
     ): MobileElement {
-        val xpath: By = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
-
-        // since the element might not be visible until scrolled to, should wait for presence, not visibility
-        val element: MobileElement = AppiumUtil.waitForElementToBePresent(
+        return AppiumUtil.scrollToElement(
             getDriver(),
-            xpath,
+            elementLocator,
+            direction,
+            1500,
             DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
-
-        return AppiumUtil.scrollToElement(getDriver(), element, direction, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
     protected fun hideKeyboard() {
@@ -295,15 +312,22 @@ abstract class AbstractStep {
      * @return true if images are identical or false otherwise.
      */
     protected fun compareCurrentScreenWithDatabase(imageName: String): Boolean {
-        val databaseFile = File("${getScreenshotDatabaseFolder()}/${imageName}.png")
-        val screenshotFile = getAppScreenShot()
+        val databaseScreenshotFile = File("${getScreenshotDatabaseFolderPath()}/${imageName}.png")
+
+        if (!databaseScreenshotFile.exists())
+            throw Exception(
+                "Screenshot database file not found: ${databaseScreenshotFile}! " +
+                        "Refer to function registerCurrentScreenInDatabase to create a reference screenshot file"
+            )
+
+        val queryScreenshotFile = getAppScreenShot()
         val resultFile =
             File(
                 "${SuiteSetup.ERROR_SCREENSHOTS_FOLDER}/Comparison-" +
-                        "${FilenameUtils.removeExtension(databaseFile.name)}-${System.currentTimeMillis()}.png"
+                        "${FilenameUtils.removeExtension(databaseScreenshotFile.name)}-${System.currentTimeMillis()}.png"
             )
 
-        ImageUtil.compareImages(screenshotFile, databaseFile, resultFile)
+        ImageUtil.compareImages(queryScreenshotFile, databaseScreenshotFile, resultFile)
 
         // difference found
         if (resultFile.exists()) {
@@ -319,7 +343,7 @@ abstract class AbstractStep {
      */
     protected fun registerCurrentScreenInDatabase(imageName: String) {
         val screenshotFile = getAppScreenShot()
-        val destinationFile = File("${getScreenshotDatabaseFolder()}/${imageName}.png")
+        val destinationFile = File("${getScreenshotDatabaseFolderPath()}/${imageName}.png")
 
         if (destinationFile.exists())
             destinationFile.delete()
@@ -344,11 +368,27 @@ abstract class AbstractStep {
         return if (SuiteSetup.isAndroid()) By.id("android:id/content") else By.id("")
     }
 
-    private fun getScreenshotDatabaseFolder(): String {
-        val imagesDbDir = if (SuiteSetup.isAndroid())
-            return SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/android"
+    private fun getScreenshotDatabaseFolderPath(): String {
+
+        /**
+         *  Retrieving deviceName from SuiteSetup class instead of driver.getCapability("deviceName")
+         *  because the latter changes its value after driver initialization
+         */
+        val deviceName = SuiteSetup.getDeviceName().trim()
+
+        val dataBaseFolderPath = if (SuiteSetup.isAndroid())
+            SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/android/" + deviceName
         else
-            return SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/ios"
+            SuiteSetup.SCREENSHOTS_DATABASE_FOLDER + "/ios/" + deviceName
+
+        if (!File(dataBaseFolderPath).exists())
+            throw Exception(
+                "Screenshot database folder not found: ${dataBaseFolderPath} " +
+                        "\nCreate this folder and refer to function registerCurrentScreenInDatabase " +
+                        "to create a reference screenshot inside that folder"
+            )
+
+        return dataBaseFolderPath
     }
 
 }

@@ -67,7 +67,7 @@ data class FormRemoteAction(
     val path: String,
     val method: FormMethodType,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics()
+) : AnalyticsAction
 
 /**
  * Defines form local actions, that is, that do not make http requests,
@@ -89,7 +89,7 @@ data class FormLocalAction(
     val name: String,
     val data: Map<String, String>,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics()
+) : AnalyticsAction
 
 /**
  * Configures the error messages returned by a service external to the application.
@@ -103,7 +103,7 @@ data class FormLocalAction(
 data class FormValidation(
     val errors: List<FieldError>,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics()
+) : AnalyticsAction
 
 /**
  * class to define error.
