@@ -15,7 +15,7 @@
  */
 
 /// Action that represents confirm
-public struct Confirm: Action, AutoInitiableAndDecodable {
+public struct Confirm: Action, AnalyticsAction, AutoInitiableAndDecodable {
     
     public let title: Expression<String>?
     public let message: Expression<String>

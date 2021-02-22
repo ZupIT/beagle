@@ -1,0 +1,13 @@
+{
+     "_beagleAction_": "beagle:setContext",
+     "analytics": {
+         "attributes": [
+             "contextId",
+             "value",
+             "path"
+         ]
+     },
+     "contextId": "context",
+     "path": "bla.path.bla",
+     "value": "new value from setContext [@{context.query}]"
+ }

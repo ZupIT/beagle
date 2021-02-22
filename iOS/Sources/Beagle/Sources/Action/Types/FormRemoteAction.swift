@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct FormRemoteAction: Action, AutoInitiable {
+public struct FormRemoteAction: Action, AnalyticsAction, AutoInitiable {
     
     public let path: String
     public let method: Method

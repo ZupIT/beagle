@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct SubmitForm: Action, AutoInitiable {
+public struct SubmitForm: Action, AnalyticsAction, AutoInitiable {
     public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:SubmitForm.Init

@@ -15,7 +15,7 @@
  */
 
 /// Action to represent a alert
-public struct Alert: Action, AutoInitiableAndDecodable {
+public struct Alert: Action, AnalyticsAction, AutoInitiableAndDecodable {
     
     public let title: Expression<String>?
     public let message: Expression<String>

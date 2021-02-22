@@ -36,6 +36,7 @@
 		3D526B5D25CA14140027AB03 /* PopView-1.json in Resources */ = {isa = PBXBuildFile; fileRef = 3D526B5C25CA14140027AB03 /* PopView-1.json */; };
 		3D526B6825CA14C30027AB03 /* ActionAttributesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8C25B1E9B1008248C6 /* ActionAttributesTest.swift */; };
 		3D6D9A5B25C8C3B9004FF423 /* AssertNever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6D9A5A25C8C3B9004FF423 /* AssertNever.swift */; };
+		3D8209AB25E3F48300DCAA0E /* SetContext-1.json in Resources */ = {isa = PBXBuildFile; fileRef = 3D8209AA25E3F48300DCAA0E /* SetContext-1.json */; };
 		3D8E5C7E2542341C002B92E2 /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */; };
 		3D9B27D325C9D4C900144CF5 /* DecodeActionAnalyticsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB1BF8125B0FC53008248C6 /* DecodeActionAnalyticsConfigTests.swift */; };
 		3DAEFAEF25D1E91B002B0109 /* ScreenRecordFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEFAEE25D1E91B002B0109 /* ScreenRecordFactoryTests.swift */; };
@@ -379,6 +380,7 @@
 		3D526B5C25CA14140027AB03 /* PopView-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "PopView-1.json"; sourceTree = "<group>"; };
 		3D526B7625CA179D0027AB03 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		3D6D9A5A25C8C3B9004FF423 /* AssertNever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertNever.swift; sourceTree = "<group>"; };
+		3D8209AA25E3F48300DCAA0E /* SetContext-1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "SetContext-1.json"; sourceTree = "<group>"; };
 		3D8E5C7D2542341C002B92E2 /* HttpAditionalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpAditionalData.swift; sourceTree = "<group>"; };
 		3DAEFAEE25D1E91B002B0109 /* ScreenRecordFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRecordFactoryTests.swift; sourceTree = "<group>"; };
 		3DB1BF7B25B0F544008248C6 /* ActionAnalyticsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAnalyticsConfig.swift; sourceTree = "<group>"; };
@@ -1493,6 +1495,7 @@
 				A0EB6C0E2591192C001A3E65 /* PushStack-1.json */,
 				A0EB6BFE2591192C001A3E65 /* PushStack-2.json */,
 				A0EB6C002591192C001A3E65 /* SendRequest-1.json */,
+				3D8209AA25E3F48300DCAA0E /* SetContext-1.json */,
 			);
 			name = JSON;
 			path = Sources/Analytics/Service/Tests/JSON;
@@ -2242,6 +2245,7 @@
 				9398CABE255475770003A010 /* pushview.json in Resources */,
 				C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */,
 				A0EB6C192591192C001A3E65 /* Alert-1.json in Resources */,
+				3D8209AB25E3F48300DCAA0E /* SetContext-1.json in Resources */,
 				9398CAD925549F900003A010 /* PageViewWith3Pages.json in Resources */,
 				9398CABD255475770003A010 /* opennativeroute.json in Resources */,
 				A0EB6C182591192C001A3E65 /* FormLocalAction-1.json in Resources */,
