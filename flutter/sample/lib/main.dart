@@ -20,6 +20,7 @@ import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
@@ -43,9 +44,13 @@ Map<String, ActionHandler> myCustomActions = {
 };
 
 void main() {
-  BeagleInitializer.init(
+  BeagleSdk.init(
     logger: AppLogger(),
-    baseUrl: BASE_URL,
+    beagleConfig: BeagleConfig(
+      baseUrl: BASE_URL,
+      environment:
+          kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
+    ),
     components: {...defaultComponents, ...myCustomComponents},
     actions: myCustomActions,
     navigationControllers: {
@@ -99,9 +104,9 @@ class BeagleSampleApp extends StatelessWidget {
           ],
         ),
         body: BeagleWidget(
-          json: '''
+          screenJson: '''
                 {
-                      "_beagleComponent_": "beagle:button",
+                      "_beagleComponent_": "beagle:bddutton",
                       "text": "Beagle Button",
                       "disabled": false,
                       "onPress": [
@@ -112,12 +117,12 @@ class BeagleSampleApp extends StatelessWidget {
                       }
                       ]
               }
-  ''', onCreateView: (view) => {
-        view.addErrorListener((errors) {
-        //TODO
-        })
-
-        },
+  ''',
+          onCreateView: (view) => {
+            view.addErrorListener((errors) {
+              //TODO
+            })
+          },
         ),
       ),
     );
@@ -127,8 +132,7 @@ class BeagleSampleApp extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute<BeagleSampleScreen>(
-            builder: (buildContext) =>
-                BeagleSampleScreen(
+            builder: (buildContext) => BeagleSampleScreen(
                   title: menuOption.title,
                   route: menuOption.route,
                 )));

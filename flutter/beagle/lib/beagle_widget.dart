@@ -17,7 +17,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:beagle/beagle_initializer.dart';
+import 'package:beagle/beagle_sdk.dart';
+import 'package:beagle/components/beagle_undefined_widget.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
@@ -25,18 +26,22 @@ import 'package:flutter/widgets.dart';
 
 typedef OnCreateViewListener = void Function(BeagleView view);
 
+/// A widget that displays content of beagle.
 class BeagleWidget extends StatefulWidget {
   const BeagleWidget({
     Key key,
     this.url,
     this.onCreateView,
-    this.json,
+    this.screenJson,
   }) : super(key: key);
 
+  /// Server URL will be used to make a request.
   final String url;
 
-  final String json;
+  /// that represents a local screen to be shown.
+  final String screenJson;
 
+  /// get a current BeagleView.
   final OnCreateViewListener onCreateView;
 
   @override
@@ -55,9 +60,9 @@ class _BeagleWidget extends State<BeagleWidget> {
   }
 
   Future<void> startBeagleView() async {
-    await BeagleInitializer.getService().start();
+    await BeagleSdk.getService().start();
 
-    _view = BeagleInitializer.getService().createView()
+    _view = BeagleSdk.getService().createView()
       ..subscribe((tree) {
         final widgetLoaded = buildViewFromTree(tree);
         setState(() {
@@ -70,18 +75,17 @@ class _BeagleWidget extends State<BeagleWidget> {
     } else {
       await _view
           .getNavigator()
-          .pushView(LocalView(BeagleUIElement(jsonDecode(widget.json))));
+          .pushView(LocalView(BeagleUIElement(jsonDecode(widget.screenJson))));
     }
   }
 
   Widget buildViewFromTree(BeagleUIElement tree) {
     final widgetChildren = tree.getChildren().map(buildViewFromTree).toList();
-    final builder = BeagleInitializer.getService().components[tree.getType()];
+    final builder = BeagleSdk.getService().components[tree.getType()];
     if (builder == null) {
-      BeagleInitializer.logger
+      BeagleSdk.logger
           .error("Can't find builder for component ${tree.getType()}");
-      //TODO SHOULD CREATE A COMPONENT INFORM NOT REGISTERED AND IF PRODUCTION NOT CREATE ANY COMPONENT
-      return Container();
+      return const BeagleUndefinedWidget();
     }
     return builder(tree, widgetChildren, _view);
   }
