@@ -87,7 +87,7 @@ private extension ActionRecordFactory {
     }
 
     func enabledValuesForAction(named name: String) -> EnabledValues? {
-        switch info.action.analytics {
+        switch (info.action as? AnalyticsAction)?.analytics {
         case .disabled:
             return nil
 

@@ -32,10 +32,10 @@ extension Path: RepresentableByParsableString {
 
     public var rawValue: String {
         var path = ""
-        for node in self.nodes {
+        for (i, node) in self.nodes.enumerated() {
             switch node {
             case let .key(string):
-                if node != nodes.first {
+                if i != 0 {
                     path += "."
                 }
                 path += string

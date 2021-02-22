@@ -130,7 +130,6 @@ struct ComponentDummy: ServerDrivenComponent, CustomStringConvertible {
 }
 
 struct ActionDummy: Action, Equatable {
-    var analytics: ActionAnalyticsConfig? { return nil }
     
     func execute(controller: BeagleController, origin: UIView) {}
 }
