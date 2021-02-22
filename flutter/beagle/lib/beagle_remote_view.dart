@@ -15,6 +15,7 @@
  *  limitations under the License.
  */
 
+import 'package:beagle/action/beagle_open_native_route.dart';
 import 'package:beagle/beagle_initializer.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
@@ -67,6 +68,7 @@ class _BeagleRemoteView extends State<BeagleRemoteView> {
 
   @override
   Widget build(BuildContext context) {
+    BeagleNativeNavigator().buildContext = context;
     return currentTree == null ? Container() : buildViewFromTree(currentTree);
   }
 }
