@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct SetContext: Action, AnalyticsAction {
+public struct SetContext: AnalyticsAction {
     public let contextId: String
     public let path: Path?
     public let value: DynamicObject

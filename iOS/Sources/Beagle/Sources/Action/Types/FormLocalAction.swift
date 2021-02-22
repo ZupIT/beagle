@@ -15,7 +15,7 @@
  */
 
 /// An action to handle form submit locally
-public struct FormLocalAction: Action, AnalyticsAction, AutoInitiable {
+public struct FormLocalAction: AnalyticsAction, AutoInitiable {
     
     public let name: String
     public let data: [String: String]
