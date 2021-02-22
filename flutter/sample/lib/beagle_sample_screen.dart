@@ -47,7 +47,7 @@ class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: BeagleViewBuilder(
+        body: BeagleWidget(
           url: widget.route,
         ),
       ),

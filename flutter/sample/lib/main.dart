@@ -16,7 +16,6 @@
  */
 
 import 'package:beagle/beagle.dart';
-import 'package:beagle/beagle_server_driven_state.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
@@ -99,7 +98,7 @@ class BeagleSampleApp extends StatelessWidget {
             ),
           ],
         ),
-        body: BeagleViewBuilder(
+        body: BeagleWidget(
           json: '''
                 {
                       "_beagleComponent_": "beagle:button",

@@ -25,8 +25,8 @@ import 'package:flutter/widgets.dart';
 
 typedef OnCreateViewListener = void Function(BeagleView view);
 
-class BeagleServerDrivenWidget extends StatefulWidget {
-  const BeagleServerDrivenWidget({
+class BeagleWidget extends StatefulWidget {
+  const BeagleWidget({
     Key key,
     this.url,
     this.onCreateView,
@@ -40,10 +40,10 @@ class BeagleServerDrivenWidget extends StatefulWidget {
   final OnCreateViewListener onCreateView;
 
   @override
-  _BeagleServerDrivenWidget createState() => _BeagleServerDrivenWidget();
+  _BeagleWidget createState() => _BeagleWidget();
 }
 
-class _BeagleViewBuilder extends State<BeagleServerDrivenWidget> {
+class _BeagleWidget extends State<BeagleWidget> {
   BeagleView _view;
   Widget widgetState;
 
