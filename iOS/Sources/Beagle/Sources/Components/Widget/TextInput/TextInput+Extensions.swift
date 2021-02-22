@@ -74,10 +74,7 @@ extension TextInput: ServerDrivenComponent {
         var onFocus: [Action]?
         var showError: Bool = false {
             didSet {
-                validationLabel.isHidden = !showError
-                if let errorMessage = errorMessage {
-                    layer.borderColor = errorMessage.isEmpty ? validInputColor?.cgColor : invalidInputColor?.cgColor
-                }
+                updateLayoutForValidation()
             }
         }
         var inputType: TextInputType? {
@@ -87,8 +84,7 @@ extension TextInput: ServerDrivenComponent {
         }
         var errorMessage: String? {
             didSet {
-                validationLabel.text = errorMessage
-                validationLabel.textColor = invalidInputColor ?? .red
+                setupValidationLabel(with: errorMessage)
             }
         }
         
@@ -102,7 +98,6 @@ extension TextInput: ServerDrivenComponent {
             let label = UILabel()
             label.font = .systemFont(ofSize: 15)
             label.numberOfLines = 0
-            label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         
@@ -119,14 +114,42 @@ extension TextInput: ServerDrivenComponent {
             self.onFocus = onFocus
             self.controller = controller
             super.init(frame: .zero)
-            setupValidationLabel()
             self.delegate = self
         }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-   
+                
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            if superview != nil, errorMessage != nil && shouldFixHeight {
+                setupFixedHeight()
+                shouldFixHeight = false
+            }
+        }
+        
+        private func setupFixedHeight() {
+            addSubview(validationLabel)
+            validationLabel.frame.size.width = frame.width
+            validationLabel.sizeToFit()
+            
+            let minimumHeight = sizeThatFits(frame.size).height
+            let validationHeight = frame.size.height - validationLabel.frame.size.height
+            
+            /// New textField height with validation should be bigger or equal to the minimum textField height
+            let newHeight = minimumHeight >= frame.size.height || minimumHeight > validationHeight ? minimumHeight : validationHeight
+
+            style.setup(Style()
+                .size(Size().height(UnitValue(value: Double(newHeight), type: .real)))
+                .margin(EdgeValue().bottom(UnitValue(value: Double(validationLabel.frame.size.height), type: .real)))
+            )
+            
+            validationLabel.frame.origin.y = newHeight
+
+            yoga.applyLayout(preservingOrigin: true)
+        }
+        
         func getValue() -> Any {
             return text ?? ""
         }
@@ -163,7 +186,6 @@ extension TextInput: ServerDrivenComponent {
             
             let value: DynamicObject = .dictionary(["value": .string(updatedText ?? "")])
             controller?.execute(actions: onChange, with: "onChange", and: value, origin: self)
-            
             return false
         }
     }
@@ -192,9 +214,18 @@ private extension TextInput.TextInputView {
         }
     }
     
-    func setupValidationLabel() {
-        addSubview(validationLabel)
-        validationLabel.anchor(top: bottomAnchor, left: leftAnchor, right: rightAnchor, topConstant: 1)
+    func setupValidationLabel(with errorMessage: String?) {
+        validationLabel.text = errorMessage
+        validationLabel.textColor = invalidInputColor ?? .red
+        validationLabel.sizeToFit()
+        validationLabel.frame.size.width = frame.width
+    }
+    
+    func updateLayoutForValidation() {
+        validationLabel.isHidden = !showError
+        if let errorMessage = errorMessage {
+            layer.borderColor = errorMessage.isEmpty ? validInputColor?.cgColor : invalidInputColor?.cgColor
+        }
     }
     
     func setupToolBar() {
