@@ -23,21 +23,15 @@ import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.BeagleJson
 
-@BeagleJson
-enum class MyType {
-    PASSWORD, TEXT;
-}
-
-@BeagleJson
-data class MyText(val textOne: String, val textTwo: String)
-
-@RegisterWidget("myText")
+@RegisterWidget("text")
 data class Text(
     val text: Bind<String>,
-    val type: MyType,
-    val myText: MyText,
 ) : WidgetView() {
-    override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext())
+    override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).also {
+        it.setTextColor(Color.BLACK)
+        observeBindChanges(rootView, it, this@Text.text) { newText ->
+            it.text = newText
+        }
+    }
 }
