@@ -65,13 +65,13 @@ class AnalyticsServiceTest : BaseTest() {
 
         @Test
         @DisplayName("Then should call the right functions")
-        fun testCreateLocalScreenRecordShouldCallDataScreenReportReportReturningNotNullReportAndThenShouldCreateTheRecord() {
+        fun testCreateScreenRecordShouldCallDataScreenReportReportReturningNotNullReportAndThenShouldCreateTheRecord() {
             //Given
             val analyticsRecord: AnalyticsRecord = mockk()
             every { anyConstructed<DataScreenReport>().report(capture(slot)) } returns analyticsRecord
 
             //When
-            AnalyticsService.createScreenRecord(true, "url")
+            AnalyticsService.createScreenRecord( "url")
 
             //Then
             verify(exactly = 1) { analyticsProvider.createRecord(any()) }
@@ -81,7 +81,7 @@ class AnalyticsServiceTest : BaseTest() {
 
         @Test
         @DisplayName("Then should call the right functions")
-        fun testCreateLocalScreenRecordShouldCallDataScreenReportReportReturningNNullReportAndThenShouldNotCreateTheRecord() {
+        fun testCreateScreenRecordShouldCallDataScreenReportReportReturningNNullReportAndThenShouldNotCreateTheRecord() {
             //Given
             val analyticsConfig: AnalyticsConfig = mockk()
             val slot = slot<AnalyticsConfig>()
@@ -89,41 +89,10 @@ class AnalyticsServiceTest : BaseTest() {
             every { beagleSdk.analyticsProvider } returns analyticsProvider
             every { anyConstructed<DataScreenReport>().report(capture(slot)) } returns null
             //When
-            AnalyticsService.createScreenRecord(true, "url")
+            AnalyticsService.createScreenRecord( "url")
 
 
             //then
-            verify(exactly = 0) { analyticsProvider.createRecord(any()) }
-            assertTrue(slot.isCaptured)
-            assertEquals(analyticsConfig, slot.captured)
-        }
-
-        @Test
-        @DisplayName("Then should call the right functions")
-        fun testCreateRemoteScreenRecordShouldCallDataScreenReportReportReturningNotNullReportAndThenShouldCreateTheRecord() {
-            //Given
-            val analyticsRecord: AnalyticsRecord = mockk()
-            every { anyConstructed<DataScreenReport>().report(capture(slot)) } returns analyticsRecord
-
-            //When
-            AnalyticsService.createScreenRecord(false, "url")
-
-            //Then
-            verify(exactly = 1) { analyticsProvider.createRecord(any()) }
-            assertTrue(slot.isCaptured)
-            assertEquals(analyticsConfig, slot.captured)
-        }
-
-        @Test
-        @DisplayName("Then should call the right functions")
-        fun testCreateRemoteScreenRecordShouldCallDataScreenReportReportReturningNNullReportAndThenShouldNotCreateTheRecord() {
-            //Given
-            every { anyConstructed<DataScreenReport>().report(capture(slot)) } returns null
-
-            //When
-            AnalyticsService.createScreenRecord(false, "/url")
-
-            //Then
             verify(exactly = 0) { analyticsProvider.createRecord(any()) }
             assertTrue(slot.isCaptured)
             assertEquals(analyticsConfig, slot.captured)

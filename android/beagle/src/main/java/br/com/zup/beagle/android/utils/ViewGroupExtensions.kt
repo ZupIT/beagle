@@ -186,16 +186,14 @@ private fun loadView(
  * Make sure to use this method if you are inside a Activity because of the lifecycle
  * @property screenJson that represents your component
  * @property screenId that represents an screen identifier to create the analytics when the screen is created
- * @property isLocalScreen that indicated if your screen is local or not to create the analytics when
  * the screen is created
  */
 fun ViewGroup.renderScreen(
     activity: AppCompatActivity,
     screenJson: String,
     screenId: String = "",
-    isLocalScreen: Boolean? = null,
 ) {
-    this.renderScreen(ActivityRootView(activity, this.id, screenId), screenJson, isLocalScreen)
+    this.renderScreen(ActivityRootView(activity, this.id, screenId), screenJson)
 }
 
 /**
@@ -205,22 +203,19 @@ fun ViewGroup.renderScreen(
  * ause of the lifecycle</p>
  * @property screenJson that represents your component
  * @property screenId that represents an screen identifier to create the analytics when the screen is created
- * @property isLocalScreen that indicated if your screen is local or not to create the analytics when
  * the screen is created
  */
 fun ViewGroup.renderScreen(
     fragment: Fragment,
     screenJson: String,
     screenId: String = "",
-    isLocalScreen: Boolean? = null,
 ) {
-    this.renderScreen(FragmentRootView(fragment, this.id, screenId), screenJson, isLocalScreen)
+    this.renderScreen(FragmentRootView(fragment, this.id, screenId), screenJson)
 }
 
 internal fun ViewGroup.renderScreen(
     rootView: RootView,
     screenJson: String,
-    isLocalScreen: Boolean?,
 ) {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     viewModel.clearContexts()
@@ -228,7 +223,7 @@ internal fun ViewGroup.renderScreen(
     (rootView.getContext() as AppCompatActivity)
         .supportFragmentManager
         .beginTransaction()
-        .replace(this.id, BeagleFragment.newInstance(component, isLocalScreen, rootView.getScreenId()))
+        .replace(this.id, BeagleFragment.newInstance(component, rootView.getScreenId()))
         .addToBackStack(null)
         .commit()
 }
