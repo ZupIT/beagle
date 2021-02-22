@@ -116,7 +116,7 @@ class _BeagleStreamBuilder extends State<BeagleStreamBuilder> {
     if (widget.url != null) {
       await _view.getNavigator().pushView(RemoteView(widget.url));
     } else {
-      await _view.getNavigator().pushView(LocalView(jsonDecode(widget.json)));
+      await _view.getNavigator().pushView(LocalView(BeagleUIElement(jsonDecode(widget.json))));
     }
   }
 
