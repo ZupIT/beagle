@@ -43,9 +43,9 @@ internal class AnalyticsViewModel : ViewModel() {
         }
     }
 
-    fun createScreenReport(isLocalScreen: Boolean, screenIdentifier: String) {
+    fun createScreenReport(screenIdentifier: String) {
         viewModelScope.launch(Dispatchers.Default) {
-            AnalyticsService.createScreenRecord(isLocalScreen, screenIdentifier)
+            AnalyticsService.createScreenRecord(screenIdentifier)
         }
     }
 }

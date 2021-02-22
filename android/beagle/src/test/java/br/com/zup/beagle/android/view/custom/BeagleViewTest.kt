@@ -62,7 +62,6 @@ internal class BeagleViewTest : BaseTest() {
     private lateinit var viewModel: BeagleViewModel
     private val component = Text("Test component")
     private val analyticsViewModel = mockk<AnalyticsViewModel>()
-    private val localScreenSlot = slot<Boolean>()
     private val screenIdentifierSlot = slot<String>()
     private lateinit var beagleView: BeagleView
     private val mutableLiveData = MutableLiveData<ViewState>()
@@ -75,7 +74,7 @@ internal class BeagleViewTest : BaseTest() {
         MyBeagleSetup().init(application)
         viewModel = mockk()
         prepareViewModelMock(analyticsViewModel)
-        every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
+        every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
         every { viewModel.fetchComponent(any(), any()) } returns mutableLiveData
         val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
         activityScenario.onActivity {
@@ -99,28 +98,26 @@ internal class BeagleViewTest : BaseTest() {
     }
 
     @Test
-    fun `Given a DoRenderState with isLocalScreen and ScreenIdentifier not null When loadView Then Should ReportScreen`() {
+    fun `Given a DoRenderState with a ScreenIdentifier not null When loadView Then Should ReportScreen`() {
         //Given
-        mutableLiveData.postValue(ViewState.DoRender(url, component, false))
+        mutableLiveData.postValue(ViewState.DoRender(url, component))
 
         //when
         beagleView.loadView(ScreenRequest(url))
 
         //Then
-        Assert.assertEquals(false, localScreenSlot.captured)
         Assert.assertEquals(url, screenIdentifierSlot.captured)
     }
 
     @Test
     fun `Given a DoRenderState with screen id null When loadView Then Should not ReportScreen`() {
         //Given
-        mutableLiveData.postValue(ViewState.DoRender(null, component, false))
+        mutableLiveData.postValue(ViewState.DoRender(null, component))
 
         //when
         beagleView.loadView(ScreenRequest(url))
 
         //Then
-        Assert.assertEquals(false, localScreenSlot.isCaptured)
         Assert.assertEquals(false, screenIdentifierSlot.isCaptured)
     }
 }

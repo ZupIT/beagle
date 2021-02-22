@@ -40,7 +40,6 @@ import org.robolectric.annotation.Config
 class BeagleFragmentTest : BaseSoLoaderTest() {
 
     private val analyticsViewModel = mockk<AnalyticsViewModel>()
-    private val localScreenSlot = slot<Boolean>()
     private val screenIdentifierSlot = slot<String>()
     private val json = """{
                 "_beagleComponent_" : "beagle:screenComponent",
@@ -55,7 +54,7 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
     @Before
     fun mockBeforeTest() {
         prepareViewModelMock(analyticsViewModel)
-        every { analyticsViewModel.createScreenReport(capture(localScreenSlot), capture(screenIdentifierSlot)) } just Runs
+        every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
         val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
         activityScenario.onActivity {
             activityScenario.moveToState(Lifecycle.State.RESUMED)
@@ -64,28 +63,14 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
     }
 
     @Test
-    fun `Given  a BeagleFragment with local screen and screen identifier When BeagleFragment is resumed Then should report screen`() {
+    fun `Given  a BeagleFragment with screen identifier When BeagleFragment is resumed Then should report screen`() {
         //When
         activity?.supportFragmentManager?.beginTransaction()?.replace(
-            R.id.server_driven_container, BeagleFragment.newInstance(json, false, url)
+            R.id.server_driven_container, BeagleFragment.newInstance(json,  url)
         )?.commit()
 
         //Then
-        assertEquals(false, localScreenSlot.captured)
         assertEquals(url, screenIdentifierSlot.captured)
-    }
-
-    @Test
-    fun `Given  a BeagleFragment without local screen When BeagleFragment is resumed Then should not report screen`() {
-        //When
-        activity?.supportFragmentManager?.beginTransaction()?.replace(
-            R.id.server_driven_container,
-            BeagleFragment.newInstance(json, null, url)
-        )?.commit()
-
-        //Then
-        assertEquals(false, localScreenSlot.isCaptured)
-        assertEquals(false, screenIdentifierSlot.isCaptured)
     }
 
     @Test
@@ -93,24 +78,10 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
         //When
         activity?.supportFragmentManager?.beginTransaction()?.replace(
             R.id.server_driven_container,
-            BeagleFragment.newInstance(json, false, null)
+            BeagleFragment.newInstance(json, null)
         )?.commit()
 
         //then
-        assertEquals(false, localScreenSlot.isCaptured)
-        assertEquals(false, screenIdentifierSlot.isCaptured)
-    }
-
-    @Test
-    fun `Given  a BeagleFragment without local screen and screen identifier When BeagleFragment is resumed Then should not report screen`() {
-        //When
-        activity?.supportFragmentManager?.beginTransaction()?.replace(
-            R.id.server_driven_container,
-            BeagleFragment.newInstance(json)
-        )?.commit()
-
-        //Then
-        assertEquals(false, localScreenSlot.isCaptured)
         assertEquals(false, screenIdentifierSlot.isCaptured)
     }
 }
