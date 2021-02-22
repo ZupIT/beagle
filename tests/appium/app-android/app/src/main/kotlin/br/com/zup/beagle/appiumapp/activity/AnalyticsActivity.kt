@@ -19,11 +19,8 @@ class AnalyticsActivity : AppCompatActivity() {
         RecordService.setListener(object : ReportListener {
             override fun onReport(report: AnalyticsRecord) {
                 runOnUiThread {
-                    val json = JSONObject()
-                    json.put("report", report)
-                    val gson: Gson = GsonBuilder().setPrettyPrinting().create()
-                    val prettyJsonString: String = gson.toJson(report)
-                    analytics_text.text = prettyJsonString
+                    val json: String = GsonBuilder().setPrettyPrinting().create().toJson(report)
+                    analytics_text.text = json
                 }
             }
         })
