@@ -99,20 +99,34 @@ class BeagleSampleApp extends StatelessWidget {
           ],
         ),
         body: BeagleStreamBuilder(
-          url: '/beagle_tab_bar',
-
+          json: '''
+                {
+          "_beagleComponent_": "beagle:button",
+          "text": "Beagle Button",
+          "disabled": false,
+          "onPress": [
+          {
+          "_beagleAction_": "beagle:alert",
+          "title": "Button",
+          "message":"Button got pressed!"
+          }
+          ]
+        }
+  ''',
           builder: (BuildContext context, BeagleServerDrivenState state) {
-            var widget = const Center(
-              child: Text('Not ready yet!'),
-            );
-
+            Widget widget;
             switch (state.runtimeType) {
+              case BeagleServerDrivenStateStarted:
+                widget = const Center(
+                  child: Text('Not ready yet!'),
+                );
+                break;
               case BeagleServerDrivenStateError:
                 // ignore: avoid_as
-              widget = const Center(
-                child: Text('Error'),
-              );
-              break;
+                widget = const Center(
+                  child: Text('Error'),
+                );
+                break;
             }
 
             return widget;

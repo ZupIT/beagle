@@ -15,6 +15,7 @@
  */
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:beagle/beagle_initializer.dart';
 import 'package:beagle/interface/beagle_view.dart';
@@ -31,6 +32,7 @@ class BeagleServerDrivenState {
 
   factory BeagleServerDrivenState.Finished() = BeagleServerDrivenStateFinished;
 
+  //NOT IMPLEMENTED
   factory BeagleServerDrivenState.Canceled() = BeagleServerDrivenStateCanceled;
 
   factory BeagleServerDrivenState.Error(Exception exception) =
@@ -64,9 +66,12 @@ class BeagleStreamBuilder extends StatefulWidget {
     Key key,
     this.url,
     this.builder,
+    this.json,
   }) : super(key: key);
 
   final String url;
+
+  final String json;
 
   final Widget Function(BuildContext context, BeagleServerDrivenState state)
       builder;
@@ -92,28 +97,35 @@ class _BeagleStreamBuilder extends State<BeagleStreamBuilder> {
 
     _view = BeagleInitializer.getService().createView()
       ..subscribe((tree) {
-        widget.builder(context, BeagleServerDrivenState.Success());
         final widgetLoaded = buildViewFromTree(tree);
         setState(() {
           widgetState = widgetLoaded;
         });
+        setNewWidget(
+            widget.builder(context, BeagleServerDrivenState.Success()));
+        setNewWidget(
+            widget.builder(context, BeagleServerDrivenState.Finished()));
       })
       ..addErrorListener((errors) {
-        setState(() {
-          widgetState = widget.builder(
-              context, BeagleServerDrivenState.Error(Exception(errors)));
-        });
+        setNewWidget(widget.builder(
+            context, BeagleServerDrivenState.Error(Exception(errors))));
+        setNewWidget(
+            widget.builder(context, BeagleServerDrivenState.Finished()));
       });
 
-    //TODO NEEDS ADD TO LOCAL JSON
-    await _view.getNavigator().pushView(RemoteView(widget.url));
+    if (widget.url != null) {
+      await _view.getNavigator().pushView(RemoteView(widget.url));
+    } else {
+      await _view.getNavigator().pushView(LocalView(jsonDecode(widget.json)));
+    }
   }
 
   Widget buildViewFromTree(BeagleUIElement tree) {
     final widgetChildren = tree.getChildren().map(buildViewFromTree).toList();
     final builder = BeagleInitializer.getService().components[tree.getType()];
     if (builder == null) {
-      debugPrint("Can't find builder for component ${tree.getType()}");
+      BeagleInitializer.logger
+          .error("Can't find builder for component ${tree.getType()}");
       //TODO SHOULD CREATE A COMPONENT INFORM NOT REGISTERED AND IF PRODUCTION NOT CREATE ANY COMPONENT
       return Container();
     }
@@ -123,5 +135,13 @@ class _BeagleStreamBuilder extends State<BeagleStreamBuilder> {
   @override
   Widget build(BuildContext context) {
     return widgetState;
+  }
+
+  void setNewWidget(Widget widget) {
+    if (widget != null) {
+      setState(() {
+        widgetState = widget;
+      });
+    }
   }
 }

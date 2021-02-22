@@ -49,13 +49,15 @@ class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
         body: BeagleStreamBuilder(
           url: widget.route,
           builder: (BuildContext context, BeagleServerDrivenState state) {
-            var widget = const Center(
-              child: Text('Not ready yet!'),
-            );
-
+            Widget widget;
             switch (state.runtimeType) {
+              case BeagleServerDrivenStateStarted:
+                widget = const Center(
+                  child: Text('Not ready yet!'),
+                );
+                break;
               case BeagleServerDrivenStateError:
-                // ignore: avoid_as
+              // ignore: avoid_as
                 widget = const Center(
                   child: Text('Error'),
                 );
