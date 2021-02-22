@@ -19,4 +19,4 @@ library beagle;
 
 export 'package:beagle/beagle_initializer.dart';
 export 'package:beagle/model/beagle_ui_element.dart';
-export 'package:beagle/beagle_stream_builder.dart';
+export 'package:beagle/beagle_server_driven_widget.dart';

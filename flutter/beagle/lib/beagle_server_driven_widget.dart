@@ -18,17 +18,18 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:beagle/beagle_initializer.dart';
-import 'package:beagle/beagle_server_driven_state.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
 import 'package:flutter/widgets.dart';
 
-class BeagleStreamBuilder extends StatefulWidget {
-  const BeagleStreamBuilder({
+typedef OnCreateViewListener = void Function(BeagleView view);
+
+class BeagleServerDrivenWidget extends StatefulWidget {
+  const BeagleServerDrivenWidget({
     Key key,
     this.url,
-    this.builder,
+    this.onCreateView,
     this.json,
   }) : super(key: key);
 
@@ -36,21 +37,19 @@ class BeagleStreamBuilder extends StatefulWidget {
 
   final String json;
 
-  final Widget Function(BuildContext context, BeagleServerDrivenState state)
-      builder;
+  final OnCreateViewListener onCreateView;
 
   @override
-  _BeagleStreamBuilder createState() => _BeagleStreamBuilder();
+  _BeagleServerDrivenWidget createState() => _BeagleServerDrivenWidget();
 }
 
-class _BeagleStreamBuilder extends State<BeagleStreamBuilder> {
+class _BeagleViewBuilder extends State<BeagleServerDrivenWidget> {
   BeagleView _view;
   Widget widgetState;
 
   @override
   void initState() {
     super.initState();
-    widgetState = widget.builder(context, BeagleServerDrivenState.started());
 
     startBeagleView();
   }
@@ -64,22 +63,14 @@ class _BeagleStreamBuilder extends State<BeagleStreamBuilder> {
         setState(() {
           widgetState = widgetLoaded;
         });
-        setNewWidget(
-            widget.builder(context, BeagleServerDrivenState.success()));
-        setNewWidget(
-            widget.builder(context, BeagleServerDrivenState.finished()));
-      })
-      ..addErrorListener((errors) {
-        setNewWidget(widget.builder(
-            context, BeagleServerDrivenState.error(Exception(errors))));
-        setNewWidget(
-            widget.builder(context, BeagleServerDrivenState.finished()));
       });
 
     if (widget.url != null) {
       await _view.getNavigator().pushView(RemoteView(widget.url));
     } else {
-      await _view.getNavigator().pushView(LocalView(BeagleUIElement(jsonDecode(widget.json))));
+      await _view
+          .getNavigator()
+          .pushView(LocalView(BeagleUIElement(jsonDecode(widget.json))));
     }
   }
 
@@ -97,14 +88,6 @@ class _BeagleStreamBuilder extends State<BeagleStreamBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return widgetState;
-  }
-
-  void setNewWidget(Widget widget) {
-    if (widget != null) {
-      setState(() {
-        widgetState = widget;
-      });
-    }
+    return widgetState ?? Container();
   }
 }

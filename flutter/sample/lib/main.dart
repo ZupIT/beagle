@@ -16,6 +16,7 @@
  */
 
 import 'package:beagle/beagle.dart';
+import 'package:beagle/beagle_server_driven_state.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
@@ -98,39 +99,26 @@ class BeagleSampleApp extends StatelessWidget {
             ),
           ],
         ),
-        body: BeagleStreamBuilder(
+        body: BeagleViewBuilder(
           json: '''
                 {
-          "_beagleComponent_": "beagle:button",
-          "text": "Beagle Button",
-          "disabled": false,
-          "onPress": [
-          {
-          "_beagleAction_": "beagle:alert",
-          "title": "Button",
-          "message":"Button got pressed!"
-          }
-          ]
-        }
-  ''',
-          builder: (BuildContext context, BeagleServerDrivenState state) {
-            Widget widget;
-            switch (state.runtimeType) {
-              case BeagleServerDrivenStateStarted:
-                widget = const Center(
-                  child: Text('Not ready yet!'),
-                );
-                break;
-              case BeagleServerDrivenStateError:
-                // ignore: avoid_as
-                widget = const Center(
-                  child: Text('Error'),
-                );
-                break;
-            }
+                      "_beagleComponent_": "beagle:button",
+                      "text": "Beagle Button",
+                      "disabled": false,
+                      "onPress": [
+                      {
+                      "_beagleAction_": "beagle:alert",
+                      "title": "Button",
+                      "message":"Button got pressed!"
+                      }
+                      ]
+              }
+  ''', onCreateView: (view) => {
+        view.addErrorListener((errors) {
+        //TODO
+        })
 
-            return widget;
-          },
+        },
         ),
       ),
     );
@@ -140,7 +128,8 @@ class BeagleSampleApp extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute<BeagleSampleScreen>(
-            builder: (buildContext) => BeagleSampleScreen(
+            builder: (buildContext) =>
+                BeagleSampleScreen(
                   title: menuOption.title,
                   route: menuOption.route,
                 )));

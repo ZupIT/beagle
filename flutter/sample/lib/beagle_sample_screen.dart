@@ -15,6 +15,7 @@
  */
 
 import 'package:beagle/beagle.dart';
+import 'package:beagle/beagle_server_driven_state.dart';
 import 'package:flutter/material.dart';
 
 class BeagleSampleScreen extends StatefulWidget {
@@ -46,26 +47,8 @@ class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: BeagleStreamBuilder(
+        body: BeagleViewBuilder(
           url: widget.route,
-          builder: (BuildContext context, BeagleServerDrivenState state) {
-            Widget widget;
-            switch (state.runtimeType) {
-              case BeagleServerDrivenStateStarted:
-                widget = const Center(
-                  child: Text('Not ready yet!'),
-                );
-                break;
-              case BeagleServerDrivenStateError:
-              // ignore: avoid_as
-                widget = const Center(
-                  child: Text('Error'),
-                );
-                break;
-            }
-
-            return widget;
-          },
         ),
       ),
     );
