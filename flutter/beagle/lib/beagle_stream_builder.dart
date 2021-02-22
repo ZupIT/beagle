@@ -18,48 +18,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:beagle/beagle_initializer.dart';
+import 'package:beagle/beagle_server_driven_state.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
 import 'package:flutter/widgets.dart';
-
-class BeagleServerDrivenState {
-  BeagleServerDrivenState._();
-
-  factory BeagleServerDrivenState.Started() = BeagleServerDrivenStateStarted;
-
-  factory BeagleServerDrivenState.Success() = BeagleServerDrivenStateSuccess;
-
-  factory BeagleServerDrivenState.Finished() = BeagleServerDrivenStateFinished;
-
-  //NOT IMPLEMENTED
-  factory BeagleServerDrivenState.Canceled() = BeagleServerDrivenStateCanceled;
-
-  factory BeagleServerDrivenState.Error(Exception exception) =
-      BeagleServerDrivenStateError;
-}
-
-class BeagleServerDrivenStateSuccess extends BeagleServerDrivenState {
-  BeagleServerDrivenStateSuccess() : super._();
-}
-
-class BeagleServerDrivenStateStarted extends BeagleServerDrivenState {
-  BeagleServerDrivenStateStarted() : super._();
-}
-
-class BeagleServerDrivenStateFinished extends BeagleServerDrivenState {
-  BeagleServerDrivenStateFinished() : super._();
-}
-
-class BeagleServerDrivenStateCanceled extends BeagleServerDrivenState {
-  BeagleServerDrivenStateCanceled() : super._();
-}
-
-class BeagleServerDrivenStateError extends BeagleServerDrivenState {
-  BeagleServerDrivenStateError(this.exception) : super._();
-
-  final Exception exception;
-}
 
 class BeagleStreamBuilder extends StatefulWidget {
   const BeagleStreamBuilder({
@@ -87,7 +50,7 @@ class _BeagleStreamBuilder extends State<BeagleStreamBuilder> {
   @override
   void initState() {
     super.initState();
-    widgetState = widget.builder(context, BeagleServerDrivenState.Started());
+    widgetState = widget.builder(context, BeagleServerDrivenState.started());
 
     startBeagleView();
   }
@@ -102,15 +65,15 @@ class _BeagleStreamBuilder extends State<BeagleStreamBuilder> {
           widgetState = widgetLoaded;
         });
         setNewWidget(
-            widget.builder(context, BeagleServerDrivenState.Success()));
+            widget.builder(context, BeagleServerDrivenState.success()));
         setNewWidget(
-            widget.builder(context, BeagleServerDrivenState.Finished()));
+            widget.builder(context, BeagleServerDrivenState.finished()));
       })
       ..addErrorListener((errors) {
         setNewWidget(widget.builder(
-            context, BeagleServerDrivenState.Error(Exception(errors))));
+            context, BeagleServerDrivenState.error(Exception(errors))));
         setNewWidget(
-            widget.builder(context, BeagleServerDrivenState.Finished()));
+            widget.builder(context, BeagleServerDrivenState.finished()));
       });
 
     if (widget.url != null) {
