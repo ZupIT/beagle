@@ -14,15 +14,16 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
+import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:async';
 
 class BeagleOpenExternalUrl {
   static Future<void> launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw 'Could not launch $url';
+      debugPrint('Could not launch $url');
     }
   }
 }
