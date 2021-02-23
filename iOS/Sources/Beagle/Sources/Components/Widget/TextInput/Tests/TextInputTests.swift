@@ -45,8 +45,7 @@ class TextInputTests: XCTestCase {
     
     func testTextInputTypes() {
         // Given
-        let component = TextInput(value: "", placeholder: "", type: .value(.password))
-    
+        let component = TextInput(value: "", placeholder: "", type: .value(.password)
         
         // When
         guard let textField = renderer.render(component) as? UITextField else {
