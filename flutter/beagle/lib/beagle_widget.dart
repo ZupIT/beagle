@@ -56,15 +56,15 @@ class _BeagleWidget extends State<BeagleWidget> {
   void initState() {
     super.initState();
 
-    startBeagleView();
+    _startBeagleView();
   }
 
-  Future<void> startBeagleView() async {
+  Future<void> _startBeagleView() async {
     await BeagleSdk.getService().start();
 
     _view = BeagleSdk.getService().createView()
       ..subscribe((tree) {
-        final widgetLoaded = buildViewFromTree(tree);
+        final widgetLoaded = _buildViewFromTree(tree);
         setState(() {
           widgetState = widgetLoaded;
         });
@@ -79,8 +79,8 @@ class _BeagleWidget extends State<BeagleWidget> {
     }
   }
 
-  Widget buildViewFromTree(BeagleUIElement tree) {
-    final widgetChildren = tree.getChildren().map(buildViewFromTree).toList();
+  Widget _buildViewFromTree(BeagleUIElement tree) {
+    final widgetChildren = tree.getChildren().map(_buildViewFromTree).toList();
     final builder = BeagleSdk.getService().components[tree.getType()];
     if (builder == null) {
       BeagleSdk.logger

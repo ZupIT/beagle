@@ -25,7 +25,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.beagle_activity_server_driven.*
 import kotlinx.android.synthetic.main.beagle_include_error_server_driven.*
 
-@RegisterController("blabla")
 class ServerDrivenActivity : BeagleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
