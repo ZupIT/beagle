@@ -141,7 +141,9 @@ extension TextInput: ServerDrivenComponent {
             let newHeight = minimumHeight >= frame.size.height || minimumHeight > validationHeight ? minimumHeight : validationHeight
 
             style.setup(Style()
-                .size(Size().height(UnitValue(value: Double(newHeight), type: .real)))
+                .size(Size()
+                        .height(UnitValue(value: Double(newHeight), type: .real))
+                        .width(UnitValue(value: Double(frame.width), type: .real)))
                 .margin(EdgeValue().bottom(UnitValue(value: Double(validationLabel.frame.size.height), type: .real)))
             )
             
