@@ -28,6 +28,13 @@ extension Parser {
 
 // MARK: Basic Parsers
 
+let end = Parser<Void> { str in
+    if !str.isEmpty {
+        return nil
+    }
+    return ()
+}
+
 let int = Parser<Int> { str in
     let intString = prefix(with: #"^(-\d+|\d+)\b(?!\.\d)"#).run(&str)
     return Int(intString ?? "")
@@ -195,6 +202,11 @@ let multipleExpression: Parser<MultipleExpression> = zeroOrMore(
     guard hasExpression else { return .never }
     return always(MultipleExpression(nodes: result))
 }
+
+let singleOrMultipleExpression: Parser<ContextExpression> = oneOf(
+    zip(singleExpression, end).map { str, _ in ContextExpression.single(str) },
+    zip(multipleExpression, end).map { str, _ in ContextExpression.multiple(str) }
+)
 
 // MARK: High Order Functions
 

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
@@ -73,11 +74,12 @@ internal typealias ResultListener = (result: FormResult) -> Unit
  *
  */
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
-@BeagleJson
+@BeagleJson(name = "formRemoteAction")
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType,
-) : Action, AsyncAction by AsyncActionImpl() {
+    override var analytics: ActionAnalyticsConfig? = null,
+) : AnalyticsAction, AsyncAction by AsyncActionImpl() {
 
     @Transient
     internal lateinit var formsValue: Map<String, String>

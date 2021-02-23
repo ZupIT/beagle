@@ -16,6 +16,8 @@
 
 import UIKit
 
+public typealias BeagleViewStateObserver = (ServerDrivenState) -> Void
+
 /// Use this View when you need to add a Beagle component inside a native screen that have other UIViews and uses AutoLayout
 public class BeagleView: UIView {
     
@@ -35,6 +37,10 @@ public class BeagleView: UIView {
         self.init(viewModel: .init(screenType: screenType))
     }
     
+    public convenience init(_ remote: ScreenType.Remote, beagleViewStateObserver: @escaping BeagleViewStateObserver) {
+        self.init(viewModel: .init(screenType: .remote(remote), beagleViewStateObserver: beagleViewStateObserver))
+    }
+
     required init(viewModel: BeagleScreenViewModel) {
         let controller = BeagleScreenViewController(viewModel: viewModel)
         controller.skipNavigationCreation = true
@@ -62,6 +68,7 @@ public class BeagleView: UIView {
         guard let beagleView = beagleController.view else {
             return
         }
+        beagleView.backgroundColor = .clear
         clipsToBounds = true
         addSubview(beagleView)
         beagleView.anchorTo(superview: self)

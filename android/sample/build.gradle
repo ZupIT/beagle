@@ -34,6 +34,7 @@ android {
         versionName Dependencies.Releases.versionName
 
         testInstrumentationRunner Dependencies.GeneralNames.sampleTestInstrumentationRunner
+        multiDexEnabled true
     }
 
     lintOptions {
@@ -61,12 +62,14 @@ android {
 
 dependencies {
     implementation Dependencies.AndroidxLibraries.appcompat
-
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
+
+    implementation Dependencies.GeneralLibraries.multidex
+    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     debugImplementation project(Dependencies.Modules.preview)
+
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)

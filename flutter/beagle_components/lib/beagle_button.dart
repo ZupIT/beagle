@@ -14,21 +14,47 @@
  * limitations under the License.
  */
 
+import 'package:beagle/model/beagle_button_style.dart';
+import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// Defines a button widget that will be rendered according to the style of the
+/// running platform.
 class BeagleButton extends StatelessWidget {
-  const BeagleButton({Key key, this.text, this.onPress, this.enabled})
-      : super(key: key);
+  const BeagleButton({
+    Key key,
+    this.text,
+    this.onPress,
+    this.enabled,
+    this.styleId,
+    DesignSystem designSystem,
+  })  : _designSystem = designSystem,
+        super(key: key);
 
+  /// Define the button text content.
   final String text;
+
+  /// References a [BeagleButtonStyle] declared natively and locally in [DesignSystem] 
+  /// to be applied to this widget.
+  final String styleId;
+
+  /// Defines the actions that will be performed when this component is pressed.
   final Function onPress;
+
+  /// Whether button will be enabled.
   final bool enabled;
+
+  /// [DesignSystem] that will provide the style referenced by [styleId].
+  final DesignSystem _designSystem;
+
+  BeagleButtonStyle get _buttonStyle => _designSystem?.buttonStyle(styleId);
 
   @override
   Widget build(BuildContext context) {
     final _platform = Theme.of(context).platform;
+
     return _platform == TargetPlatform.iOS
         ? buildCupertinoWidget()
         : buildMaterialWidget();
@@ -36,6 +62,13 @@ class BeagleButton extends StatelessWidget {
 
   Widget buildCupertinoWidget() {
     return CupertinoButton(
+      color: _buttonStyle?.iosButtonStyle?.color,
+      disabledColor: _buttonStyle?.iosButtonStyle?.disabledColor ??
+          CupertinoColors.quaternarySystemFill,
+      padding: _buttonStyle?.iosButtonStyle?.padding,
+      borderRadius: _buttonStyle?.iosButtonStyle?.borderRadius ??
+          const BorderRadius.all(Radius.circular(8)),
+      pressedOpacity: _buttonStyle?.iosButtonStyle?.pressedOpacity ?? 0.4,
       onPressed: getOnPressedFunction(),
       child: buildButtonChild(),
     );
@@ -43,13 +76,17 @@ class BeagleButton extends StatelessWidget {
 
   Widget buildMaterialWidget() {
     return ElevatedButton(
+      style: _buttonStyle?.androidButtonStyle,
       onPressed: getOnPressedFunction(),
       child: buildButtonChild(),
     );
   }
 
   Widget buildButtonChild() {
-    return Text(text);
+    return Text(
+      text,
+      style: _buttonStyle?.buttonTextStyle,
+    );
   }
 
   Function getOnPressedFunction() {

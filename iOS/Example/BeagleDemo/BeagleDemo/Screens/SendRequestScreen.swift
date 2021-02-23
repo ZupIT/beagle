@@ -76,7 +76,6 @@ let sendRequestDeclarativeScreen: Screen = {
 }()
 
 struct CustomConsoleLogAction: Action {
-    var analytics: ActionAnalyticsConfig? { return nil }
     
     func execute(controller: BeagleController, origin: UIView) {
         print("SendRequestScreen.CustomConsoleAction")
@@ -84,7 +83,6 @@ struct CustomConsoleLogAction: Action {
 }
 
 struct OkAction: Action {
-    var analytics: ActionAnalyticsConfig? { return nil }
     
     func execute(controller: BeagleController, origin: UIView) {
         print("onPressOk from Alert clicked")
@@ -92,7 +90,6 @@ struct OkAction: Action {
 }
 
 struct CancelAction: Action {
-    var analytics: ActionAnalyticsConfig? { return nil }
     
     func execute(controller: BeagleController, origin: UIView) {
         print("onPressCancel from Confirm clicked")

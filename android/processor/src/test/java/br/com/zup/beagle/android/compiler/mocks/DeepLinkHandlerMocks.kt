@@ -57,6 +57,7 @@ const val VALID_DEEP_LINK_HANDLER_BEAGLE_SDK =
         import br.com.zup.beagle.android.store.StoreHandler
         import br.com.zup.beagle.android.view.BeagleActivity
         import br.com.zup.beagle.android.widget.WidgetView
+        import br.com.zup.beagle.newanalytics.AnalyticsProvider
         import java.lang.Class
         import kotlin.String
         import kotlin.Suppress
@@ -78,6 +79,8 @@ const val VALID_DEEP_LINK_HANDLER_BEAGLE_SDK =
             public override val urlBuilder : UrlBuilder? = null
 
             public override val analytics : Analytics? = null
+
+            public override val analyticsProvider : AnalyticsProvider? = null
 
             public override val logger : BeagleLogger? = null
 

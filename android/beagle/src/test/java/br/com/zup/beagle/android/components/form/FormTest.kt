@@ -19,9 +19,18 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import br.com.zup.beagle.android.action.*
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.FormRemoteAction
+import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.ResultListener
 import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.components.form.core.*
+import br.com.zup.beagle.android.components.form.core.Constants
+import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
+import br.com.zup.beagle.android.components.form.core.FormResult
+import br.com.zup.beagle.android.components.form.core.FormValidatorController
+import br.com.zup.beagle.android.components.form.core.Validator
+import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -33,7 +42,16 @@ import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
+import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -116,7 +134,7 @@ class FormTest : BaseComponentTest() {
 
         form = Form(onSubmit = listOf(mockk(relaxed = true)), child = mockk())
 
-        every { form.handleEvent(any(), any(), any<Action>()) } just Runs
+        every { form.handleEvent(any(), any(), any<Action>(), analyticsValue = any()) } just Runs
     }
 
     @Test
@@ -221,7 +239,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, remoteAction) }
+        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, remoteAction, analyticsValue = "onSubmit") }
     }
 
     @Test
@@ -234,7 +252,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, navigateAction) }
+        verify(exactly = once()) { form.handleEvent(rootView, formSubmitView, navigateAction, analyticsValue = "onSubmit") }
     }
 
     @Test
@@ -294,7 +312,7 @@ class FormTest : BaseComponentTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify { form.handleEvent(rootView, formSubmitView, remoteAction) }
+        verify { form.handleEvent(rootView, formSubmitView, remoteAction, analyticsValue = "onSubmit") }
     }
 
     @Test
@@ -446,6 +464,6 @@ class FormTest : BaseComponentTest() {
         (slotFormError.captured as ServerDrivenState.FormError).retry.invoke()
 
         // Then
-        verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>()) }
+        verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>(), analyticsValue = "onSubmit") }
     }
 }

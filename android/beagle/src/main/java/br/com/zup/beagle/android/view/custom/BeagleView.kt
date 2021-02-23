@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
+import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.RootView
@@ -78,7 +79,7 @@ internal class BeagleView(
         when (state) {
             is ViewState.Loading -> handleLoading(state.value)
             is ViewState.Error -> handleError(state.throwable, state.retry)
-            is ViewState.DoRender -> renderComponent(state.component, view)
+            is ViewState.DoRender -> renderComponent(state.component, view, state.screenId)
         }
     }
 
@@ -103,7 +104,11 @@ internal class BeagleView(
         serverStateChangedListener?.invoke(ServerDrivenState.Error(throwable, retry))
     }
 
-    private fun renderComponent(component: ServerDrivenComponent, view: View? = null) {
+    private fun renderComponent(
+        component: ServerDrivenComponent,
+        view: View? = null,
+        screenIdentifier: String?,
+    ) {
         serverStateChangedListener?.invoke(ServerDrivenState.Success)
         if (view != null) {
             removeView(view)
@@ -112,6 +117,11 @@ internal class BeagleView(
             removeAllViewsInLayout()
             addServerDrivenComponent(component)
             loadCompletedListener?.invoke()
+        }
+        screenIdentifier?.let {
+            rootView.generateViewModelInstance<AnalyticsViewModel>().createScreenReport(
+                screenIdentifier
+            )
         }
     }
 }

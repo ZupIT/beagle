@@ -25,27 +25,27 @@ import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
-import br.com.zup.beagle.android.utils.removeBaseUrl
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import java.util.concurrent.atomic.AtomicReference
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.atomic.AtomicReference
 
 sealed class ViewState {
     data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
     data class Loading(val value: Boolean) : ViewState()
     data class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
+
     object DoCancel : ViewState()
 }
 
 internal open class BeagleViewModel(
     private val ioDispatcher: CoroutineDispatcher = CoroutineDispatchers.IO,
-    private val componentRequester: ComponentRequester = ComponentRequester()
+    private val componentRequester: ComponentRequester = ComponentRequester(),
 ) : ViewModel() {
 
     var fetchComponent: FetchComponentLiveData? = null
@@ -75,7 +75,8 @@ internal open class BeagleViewModel(
         private val screen: ServerDrivenComponent?,
         private val componentRequester: ComponentRequester,
         private val coroutineScope: CoroutineScope,
-        private val ioDispatcher: CoroutineDispatcher) : LiveData<ViewState>() {
+        private val ioDispatcher: CoroutineDispatcher,
+    ) : LiveData<ViewState>() {
 
         var job: Job? = null
         private val isRenderedReference = AtomicReference(false)
@@ -93,8 +94,7 @@ internal open class BeagleViewModel(
                     try {
                         setLoading(true)
                         val component = componentRequester.fetchComponent(screenRequest)
-                        val relativePath = screenRequest.url.removeBaseUrl()
-                        postLiveDataResponse(ViewState.DoRender(relativePath, component))
+                        postLiveDataResponse(ViewState.DoRender(screenRequest.url, component))
                     } catch (exception: BeagleException) {
                         if (screen != null) {
                             postLiveDataResponse(ViewState.DoRender(identifier, screen))

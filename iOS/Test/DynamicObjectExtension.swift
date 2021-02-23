@@ -41,7 +41,7 @@ extension DynamicObject: AnySnapshotStringConvertible {
         return "[\(description)]"
     }
     
-    private func dictionaryDescription(_ dictionary: [String: DynamicObject]) -> String {
+    private func dictionaryDescription(_ dictionary: DynamicDictionary) -> String {
         let array = dictionary.map { ($0, $1) }.sorted { $0.0 < $1.0 }
         
         func arrayDescription(_ array: [(String, DynamicObject)]) -> String {

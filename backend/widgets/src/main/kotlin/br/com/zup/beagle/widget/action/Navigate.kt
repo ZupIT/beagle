@@ -60,7 +60,7 @@ sealed class Route {
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
-sealed class Navigate : ActionAnalytics() {
+sealed class Navigate : AnalyticsAction {
 
     /**
      * Opens one of the browsers available on the device with the passed url.

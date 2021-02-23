@@ -19,6 +19,8 @@ import 'package:beagle_components/beagle_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// Defines a widget that displays a horizontal row of tabs, that will be
+/// rendered according to the style of the running platform.
 class BeagleTabBar extends StatefulWidget {
   const BeagleTabBar({
     Key key,
@@ -28,9 +30,17 @@ class BeagleTabBar extends StatefulWidget {
     this.onTabSelection,
   }) : super(key: key);
 
+  /// List of tabs that will be displayed.
   final List<TabBarItem> items;
+
+  /// Currently selected Tab.
   final int currentTab;
+
+  /// Action that will be performed when a tab is pressed.
   final Function onTabSelection;
+
+  /// [DesignSystem] that will provide the resources referenced by
+  /// [LocalImagePath] under [TabBarItem].
   final DesignSystem designSystem;
 
   @override

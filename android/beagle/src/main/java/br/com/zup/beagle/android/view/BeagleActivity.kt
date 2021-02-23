@@ -341,7 +341,7 @@ abstract class BeagleActivity : AppCompatActivity() {
                 transition.popEnter,
                 transition.popExit
             )
-            .replace(getServerDrivenContainerId(), BeagleFragment.newInstance(component))
+            .replace(getServerDrivenContainerId(), BeagleFragment.newInstance(component, screenName))
             .addToBackStack(screenName)
             .commit()
     }

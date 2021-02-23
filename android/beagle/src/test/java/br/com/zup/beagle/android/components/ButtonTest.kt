@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -71,8 +72,9 @@ internal class ButtonTest : BaseComponentTest() {
         every { button.context } returns context
 
         every { anyConstructed<ViewFactory>().makeButton(any(), buttonStyle) } returns button
+        every { anyConstructed<ViewFactory>().makeButton(any()) } returns button
         every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any<List<Action>>()) } just Runs
-        every { anyConstructed<StyleManager>().getButtonStyle(any()) } returns buttonStyle
+        every { anyConstructed<StyleManager>().getButtonStyle(DEFAULT_STYLE) } returns buttonStyle
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
 
@@ -85,12 +87,31 @@ internal class ButtonTest : BaseComponentTest() {
 
         @Test
         @DisplayName("Then should build a Button")
+        fun testBuildButtonWithoutStyle() {
+            // Given
+            buttonComponent = Button(defaultText)
+
+            // When
+            val view = buttonComponent.buildView(rootView)
+
+            // Then
+            verify {
+                anyConstructed<ViewFactory>().makeButton(any())
+            }
+            assertTrue(view is AppCompatButton)
+        }
+
+        @Test
+        @DisplayName("Then should build a Button")
         fun buildButtonInstance() {
             // When
             val view = buttonComponent.buildView(rootView)
 
             // Then
             assertTrue(view is AppCompatButton)
+            verify {
+                anyConstructed<ViewFactory>().makeButton(any(), buttonStyle)
+            }
         }
 
         @Test
@@ -200,6 +221,28 @@ internal class ButtonTest : BaseComponentTest() {
 
             // Then
             verify(exactly = 0) { analytics.trackEventOnClick(any()) }
+        }
+    }
+
+    @DisplayName("When clicked")
+    @Nested
+    inner class ButtonClick {
+
+        @DisplayName("Then it should call handle event")
+        @Test
+        fun testButtonCLickShouldCallHandleEvent() {
+            // GIVEN
+            val action: Action = mockk()
+            val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
+            every { buttonComponent.handleEvent(rootView, view, listOf(action), analyticsValue = "onPress") } just Runs
+            buttonComponent.copy(onPress = listOf(action))
+            // When
+            val buttonView = buttonComponent.buildView(rootView)
+            verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
+            onClickListenerSlot.captured.onClick(view)
+
+            // Then
+            verify(exactly = 0) { buttonComponent.handleEvent(rootView, view, listOf(action), analyticsValue = "OnPress") }
         }
     }
 }

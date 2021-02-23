@@ -16,13 +16,15 @@
 
 import UIKit
 
+// swiftlint:disable pattern_matching_keywords
+
 public typealias BeagleRetry = () -> Void
 
 public enum ServerDrivenState {
     case started
     case finished
     case success
-    case error(ServerDrivenState.Error, BeagleRetry)
+    case error(ServerDrivenState.Error, BeagleRetry? = nil)
 }
 
 extension ServerDrivenState {
@@ -37,13 +39,15 @@ extension ServerDrivenState {
 }
 
 open class BeagleNavigationController: UINavigationController {
+    
+    private var errorView = BeagleErrorView(message: nil) { }
 
     /// This method is the entry point to handle screen state changes.
     /// The default implemetation shows an `ActivityIndicator` when screen is
     /// loading and does nothing when error happens; override this method to handle
     /// errors properly.
-    /// When overriding, if you want to preserve loading behavior, `super` implementation should be called,
-    /// or you can customize loading behavior yourself.
+    /// When overriding, if you want to preserve loading and error behavior, `super` implementation should be called,
+    /// or you can customize these behaviors yourself.
     ///
     /// - Parameters:
     ///   - state: new state that tells if screen is loading or any error happened
@@ -57,9 +61,42 @@ open class BeagleNavigationController: UINavigationController {
             view.showLoading(.whiteLarge)
         case .finished:
             view.hideLoading()
-        case .success, .error:
+        case .error(let serverDrivenError, let retry):
+            let message = getServerDrivenErrorMessage(from: serverDrivenError)
+            guard let retry = retry else { return }
+            if !view.subviews.contains(errorView) {
+                errorView = BeagleErrorView(message: message, retry: retry)
+                errorView.present(in: view)
+            } else {
+                errorView.addRetry(retry)
+            }
+        case .success:
             break
         }
     }
     
+    private func getServerDrivenErrorMessage(from serverDrivenError: ServerDrivenState.Error) -> String {
+        #if DEBUG
+        switch serverDrivenError {
+        case .remoteScreen(let error), .lazyLoad(let error), .submitForm(let error):
+            switch error {
+            case .networkError(let messageError):
+                return messageError.error.localizedDescription
+            case .decoding(let messageError):
+                return messageError.localizedDescription
+            case .loadFromTextError, .urlBuilderError, .networkClientWasNotConfigured:
+                return error.localizedDescription
+            }
+        case .action(let error):
+            return error.localizedDescription
+            
+        default:
+            return "Unknown Error."
+        }
+        
+        #else
+        return "An unknown error occurred."
+        
+        #endif
+    }
 }

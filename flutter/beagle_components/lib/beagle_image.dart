@@ -15,44 +15,56 @@
  */
 
 import 'dart:typed_data';
-
 import 'dart:ui';
 
 import 'package:beagle/interface/beagle_image_downloader.dart';
+import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:transparent_image/transparent_image.dart';
 
+/// Defines an image widget that renders local or remote resource depending on
+/// the value passed to [path].
 class BeagleImage extends StatefulWidget {
   const BeagleImage({
     Key key,
     this.designSystem,
     this.imageDownloader,
+    this.logger,
     this.path,
     this.mode,
   }) : super(key: key);
 
+  /// Defines the location of the image resource.
   final ImagePath path;
+
+  /// Defines how the declared image will fit the view.
   final ImageContentMode mode;
 
+  /// [DesignSystem] that will provide the resource to be rendered when [path]
+  /// is [LocalImagePath].
   final DesignSystem designSystem;
+
+  /// [BeagleImageDownloader] used to get image resource from network.
   final BeagleImageDownloader imageDownloader;
+
+  /// [BeagleLogger] used to report events on the widget.
+  final BeagleLogger logger;
 
   @override
   _BeagleImageState createState() => _BeagleImageState();
 }
 
 class _BeagleImageState extends State<BeagleImage> {
-  Uint8List imageBytes;
+  Future<Uint8List> imageBytes;
 
   @override
   void initState() {
-    super.initState();
-
     if (!isLocalImage()) {
       downloadImage();
     }
+
+    super.initState();
   }
 
   @override
@@ -62,38 +74,54 @@ class _BeagleImageState extends State<BeagleImage> {
         : createImageFromNetwork(widget.path);
   }
 
-  void downloadImage() {
+  Future<void> downloadImage() async {
     final RemoteImagePath path = widget.path;
-    widget.imageDownloader.downloadImage(path.url).then((value) {
-      setState(() {
-        imageBytes = value;
-      });
-    });
+    try {
+      imageBytes = widget.imageDownloader.downloadImage(path.url);
+    } catch (e) {
+      widget.logger?.errorWithException(e.toString(), e);
+    }
   }
 
   bool isLocalImage() => widget.path.runtimeType == LocalImagePath;
 
-  Image createImageFromAsset(LocalImagePath path) {
-    return Image.asset(
-      getAssetName(path),
-      fit: getBoxFit(widget.mode),
+  Widget createImageFromAsset(LocalImagePath path) {
+    if (isPlaceHolderValid(path)) {
+      return Image.asset(
+        getAssetName(path),
+        fit: getBoxFit(widget.mode),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget createImageFromNetwork(RemoteImagePath path) {
+    return FutureBuilder(
+      future: imageBytes,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return createPlaceHolderWidget(path);
+        } else {
+          return createImageFromMemory(snapshot.data);
+        }
+      },
     );
   }
 
-  Image createImageFromNetwork(RemoteImagePath path) {
-    if (isImageDownloaded()) {
-      return createImageFromMemory(imageBytes);
+  Widget createPlaceHolderWidget(RemoteImagePath path) {
+    if (isPlaceHolderValid(path.placeholder)) {
+      return createImageFromAsset(path.placeholder);
     } else {
-      if (isPlaceHolderValid(path)) {
-        return createImageFromAsset(path.placeholder);
-      } else {
-        return createImageFromMemory(kTransparentImage);
-      }
+      return Container();
     }
   }
 
   Image createImageFromMemory(Uint8List bytes) {
-    return Image.memory(bytes);
+    return Image.memory(
+      bytes,
+      fit: getBoxFit(widget.mode),
+    );
   }
 
   bool isImageDownloaded() => imageBytes != null;
@@ -106,8 +134,8 @@ class _BeagleImageState extends State<BeagleImage> {
     return widget.designSystem.image(imagePath.mobileId);
   }
 
-  bool isPlaceHolderValid(RemoteImagePath path) =>
-      path.placeholder != null && getAssetName(path.placeholder) != null;
+  bool isPlaceHolderValid(LocalImagePath path) =>
+      path != null && getAssetName(path) != null;
 
   BoxFit getBoxFit(ImageContentMode mode) {
     if (mode == ImageContentMode.CENTER) {
