@@ -53,9 +53,9 @@ object SendRequestScreenBuilder {
                 ),
                 Container(
                     listOf(
-                        requestWithExpressionMethod(),
                         requestsWithSuccess(),
                         requestWithError(),
+                        requestWithExpressionMethod(),
                         onFinishButtons()
                     )
                 )
@@ -79,12 +79,12 @@ object SendRequestScreenBuilder {
                             onSuccess = listOf(
                                 Alert(
                                     title = "Success",
-                                    message = "@{onSuccess.data}"
+                                    message = "onFinish with success"
                                 )),
                             onError = listOf(
                                 Alert(
                                     title = "Error",
-                                    message = "@{onError.data}"
+                                    message = "onFinish with error"
                                 ))
                         )
                     )
@@ -139,7 +139,7 @@ object SendRequestScreenBuilder {
                 text = "request with error",
                 onPress = listOf(
                     SendRequest(
-                        url = "erro",
+                        url = "error",
                         method = RequestActionMethod.GET,
                         onSuccess = listOf(
                             Alert(
@@ -149,7 +149,7 @@ object SendRequestScreenBuilder {
                         onError = listOf(
                             Alert(
                                 title = "Error",
-                                message = "@{onError.data}"
+                                message = "onFinish with error"
                             )
                         )
                     )
@@ -169,12 +169,12 @@ object SendRequestScreenBuilder {
                         onSuccess = listOf(
                             Alert(
                                 title = "Success",
-                                message = "@{onSuccess.data}"
+                                message = "onFinish with success"
                             )),
                         onError = listOf(
                             Alert(
                                 title = "Error",
-                                message = "@{onError.data}"
+                                message = "onFinish with error"
                             )
                         )
                     )
@@ -189,7 +189,7 @@ object SendRequestScreenBuilder {
                         onSuccess = listOf(
                             Alert(
                                 title = "Success",
-                                message = "@{onSuccess.data}"
+                                message = "@{success.data}"
                             )),
                         onError = listOf(
                             Alert(
