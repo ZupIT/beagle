@@ -127,6 +127,17 @@ final class ExpressionTests: XCTestCase {
         }
     }
     
+    func testContextExpression() {
+        // Given
+        let data = ["@{expression}", "@{expression} + string", "string"]
+        
+        // When
+        let result = data.map { ContextExpression(rawValue: $0) }
+            
+        // Then
+        assertSnapshot(matching: result, as: .dump)
+    }
+    
     func testDictionarySnapShot() throws {
         guard let url = Bundle(for: ComponentDecoderTests.self).url(
             forResource: "testDictionarySnapShot",
