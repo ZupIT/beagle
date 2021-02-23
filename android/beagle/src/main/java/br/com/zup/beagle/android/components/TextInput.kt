@@ -72,6 +72,7 @@ data class TextInput(
     val disabled: Bind<Boolean>? = null,
     val readOnly: Bind<Boolean>? = null,
     val type: Bind<TextInputType>? = null,
+    @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version. Use field display to control visibility.")
     val hidden: Bind<Boolean>? = null,
     val error: Bind<String>? = null,
     val showError: Bind<Boolean>? = null,
@@ -81,6 +82,7 @@ data class TextInput(
     val onBlur: List<Action>? = null,
 ) : InputWidget() {
 
+    @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version. Use field display to control visibility.")
     constructor(
         value: String? = null,
         placeholder: String? = null,
@@ -101,6 +103,33 @@ data class TextInput(
         valueOfNullable(readOnly),
         valueOfNullable(type),
         valueOfNullable(hidden),
+        expressionOrValueOfNullable(error),
+        valueOfNullable(showError),
+        styleId,
+        onChange,
+        onFocus,
+        onBlur
+    )
+
+    constructor(
+        value: String? = null,
+        placeholder: String? = null,
+        disabled: Boolean? = null,
+        readOnly: Boolean? = null,
+        type: TextInputType? = null,
+        error: String? = null,
+        showError: Boolean? = null,
+        styleId: String? = null,
+        onChange: List<Action>? = null,
+        onFocus: List<Action>? = null,
+        onBlur: List<Action>? = null,
+    ) : this(
+        expressionOrValueOfNullable(value),
+        expressionOrValueOfNullable(placeholder),
+        valueOfNullable(disabled),
+        valueOfNullable(readOnly),
+        valueOfNullable(type),
+        null,
         expressionOrValueOfNullable(error),
         valueOfNullable(showError),
         styleId,
