@@ -20,7 +20,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.R
-import br.com.zup.beagle.android.annotation.RegisterController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.beagle_activity_server_driven.*
 import kotlinx.android.synthetic.main.beagle_include_error_server_driven.*

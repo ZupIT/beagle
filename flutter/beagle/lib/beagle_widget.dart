@@ -26,6 +26,7 @@ import 'package:flutter/widgets.dart';
 
 typedef OnCreateViewListener = void Function(BeagleView view);
 
+/// TODO: THE UNIT TEST WILL BE WRITE AFTER RESOLVE DEPENDENCY INJECTION
 /// A widget that displays content of beagle.
 class BeagleWidget extends StatefulWidget {
   const BeagleWidget({
@@ -85,7 +86,9 @@ class _BeagleWidget extends State<BeagleWidget> {
     if (builder == null) {
       BeagleSdk.logger
           .error("Can't find builder for component ${tree.getType()}");
-      return const BeagleUndefinedWidget();
+      return BeagleUndefinedWidget(
+        environment: BeagleSdk.config.environment,
+      );
     }
     return builder(tree, widgetChildren, _view);
   }

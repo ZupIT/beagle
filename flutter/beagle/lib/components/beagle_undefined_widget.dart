@@ -19,12 +19,19 @@ import 'package:flutter/widgets.dart';
 
 /// A Undefined widget that displays a string of text.
 class BeagleUndefinedWidget extends StatelessWidget {
-  const BeagleUndefinedWidget({Key key}) : super(key: key);
+  const BeagleUndefinedWidget({
+    Key key,
+    BeagleEnvironment environment,
+  })  : _environment = environment,
+        super(key: key);
+
+  /// [BeagleEnvironment] that will provide current environment.
+  final BeagleEnvironment _environment;
 
   @override
   Widget build(BuildContext context) {
-    return BeagleSdk.config.environment == BeagleEnvironment.debug
-        ? const Text('undefined component')
+    return _environment == BeagleEnvironment.debug
+        ? const Text('Undefined Component')
         : const SizedBox(height: 0.01);
   }
 }
