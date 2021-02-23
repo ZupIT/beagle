@@ -37,4 +37,51 @@ final class SubmitFormTest: XCTestCase {
         XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
     }
     
+    func test_validationErrorAction() {
+        // Given
+        let controller = BeagleControllerNavigationSpy()
+        let renderer = BeagleRenderer(controller: controller)
+        let submitFormAction = SubmitForm()
+        let simpleForm = SimpleForm(
+            onValidationError: [Alert(message: "Validation Error!")],
+            children: [
+                TextInput(value: "",
+                          error: .value("Error!"),
+                          showError: .value(true)),
+                Button(text: "Test", onPress: [submitFormAction])
+            ]
+        )
+        
+        // When
+        let resultingView = renderer.render(simpleForm)
+        submitFormAction.execute(controller: controller, origin: resultingView)
+
+        // Then
+        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
+    }
+
+    func test_whenValidationError_onSubmitIsNotTriggered() {
+        // Given
+        let controller = BeagleControllerNavigationSpy()
+        let renderer = BeagleRenderer(controller: controller)
+        let submitFormAction = SubmitForm()
+        let simpleForm = SimpleForm(
+            onSubmit: [Alert(message: "Submitted!")],
+            onValidationError: [SetContext(contextId: "context", value: "text")],
+            children: [
+                TextInput(value: "@{context}",
+                          error: .value("Error!"),
+                          showError: .value(true),
+                          widgetProperties: .init(style: .init(size: Size().width(150).height(35)))),
+                Button(text: "submit", onPress: [submitFormAction])
+            ]
+        )
+        
+        // When
+        let resultingView = renderer.render(simpleForm)
+        submitFormAction.execute(controller: controller, origin: resultingView)
+
+        // Then
+        XCTAssertFalse(controller.viewControllerToPresent is UIAlertController)
+    }
 }

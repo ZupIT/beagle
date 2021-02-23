@@ -21,10 +21,23 @@ extension SubmitForm {
         var view: UIView? = origin
         while view != nil {
             if let simpleForm = view?.beagleFormElement as? SimpleForm {
-                controller.execute(actions: simpleForm.onSubmit, event: "onSubmit", origin: origin)
+                if verifyFormValidation(from: view) {
+                    controller.execute(actions: simpleForm.onSubmit, event: "onSubmit", origin: origin)
+                } else {
+                    controller.execute(actions: simpleForm.onValidationError, event: "onValidationError", origin: origin)
+                }
                 break
             }
             view = view?.superview
         }
+    }
+    
+    private func verifyFormValidation(from origin: UIView?) -> Bool {
+        var valid: [Bool] = []
+        origin?.allSubviews.forEach { childView in
+            guard let textField = childView as? TextInput.TextInputView else { return }
+            valid.append(textField.errorMessage?.isEmpty ?? false)
+        }
+        return !valid.contains(false) || valid.isEmpty
     }
 }
