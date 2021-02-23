@@ -95,6 +95,6 @@ class _BeagleWidget extends State<BeagleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widgetState ?? Container();
+    return widgetState ??  const SizedBox.shrink();
   }
 }

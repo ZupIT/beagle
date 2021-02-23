@@ -32,6 +32,6 @@ class BeagleUndefinedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return _environment == BeagleEnvironment.debug
         ? const Text('Undefined Component')
-        : const SizedBox(height: 0.01);
+        : const SizedBox.shrink();
   }
 }
