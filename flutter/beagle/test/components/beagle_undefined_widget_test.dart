@@ -33,7 +33,7 @@ Widget createWidget(
 
 void main() {
   group('Given a Undefined widget', () {
-    group('When the widget is rendered', () {
+    group('When set debug environment', () {
       testWidgets('Then it should have the correct text',
           (WidgetTester tester) async {
         await tester.pumpWidget(createWidget());
@@ -42,16 +42,18 @@ void main() {
 
         expect(textFinder, findsOneWidget);
       });
+    });
 
+    group('When set production environment', () {
       testWidgets('Then it should not have text widget',
-          (WidgetTester tester) async {
-        await tester.pumpWidget(
-            createWidget(environment: BeagleEnvironment.production));
+              (WidgetTester tester) async {
+            await tester.pumpWidget(
+                createWidget(environment: BeagleEnvironment.production));
 
-        final textFinder = find.text(text);
+            final textFinder = find.text(text);
 
-        expect(textFinder, findsNothing);
-      });
+            expect(textFinder, findsNothing);
+          });
     });
   });
 }
