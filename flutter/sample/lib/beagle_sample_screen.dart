@@ -15,7 +15,6 @@
  */
 
 import 'package:beagle/beagle.dart';
-import 'package:beagle/beagle_server_driven_state.dart';
 import 'package:flutter/material.dart';
 
 class BeagleSampleScreen extends StatefulWidget {
