@@ -54,8 +54,8 @@ if ./tests/appium/project/gradlew --build-cache -p tests/appium/project cucumber
 -Dplatform="android" \
 -Dplatform_version="11.0" \
 -Ddevice_name="Google Pixel 4" \
--Dbrowserstack.user="$BROWSERSTACK_USER" \
--Dbrowserstack.key="$BROWSERSTACK_KEY" \
+-Dbrowserstack_user="$BROWSERSTACK_USER" \
+-Dbrowserstack_key="$BROWSERSTACK_KEY" \
 -Dapp_file="$APP_ID" \
 -Dbff_base_url="$BFF_URL"; then
   echo "Gradle task succeeded" >&2

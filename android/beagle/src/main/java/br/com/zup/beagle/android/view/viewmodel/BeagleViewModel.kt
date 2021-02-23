@@ -38,11 +38,7 @@ import kotlinx.coroutines.withContext
 sealed class ViewState {
     data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
     data class Loading(val value: Boolean) : ViewState()
-    data class DoRender(
-        val screenId: String?,
-        val component: ServerDrivenComponent,
-        val isLocalScreen: Boolean,
-    ) : ViewState()
+    data class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
 
     object DoCancel : ViewState()
 }
@@ -98,16 +94,16 @@ internal open class BeagleViewModel(
                     try {
                         setLoading(true)
                         val component = componentRequester.fetchComponent(screenRequest)
-                        postLiveDataResponse(ViewState.DoRender(screenRequest.url, component, false))
+                        postLiveDataResponse(ViewState.DoRender(screenRequest.url, component))
                     } catch (exception: BeagleException) {
                         if (screen != null) {
-                            postLiveDataResponse(ViewState.DoRender(identifier, screen, true))
+                            postLiveDataResponse(ViewState.DoRender(identifier, screen))
                         } else {
                             postLiveDataResponse(ViewState.Error(exception) { fetchComponents() })
                         }
                     }
                 } else if (screen != null) {
-                    postLiveDataResponse(ViewState.DoRender(identifier, screen, true))
+                    postLiveDataResponse(ViewState.DoRender(identifier, screen))
                 }
             }
         }

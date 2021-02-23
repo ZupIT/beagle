@@ -26,76 +26,29 @@ import org.junit.jupiter.api.Test
 @DisplayName("Given Screen Report Factory")
 class ScreenReportFactoryTest : BaseTest() {
 
-    @DisplayName("When generateLocalScreenAnalyticsRecord")
+    @DisplayName("When GenerateScreenAnalyticsRecord")
     @Nested
-    inner class LocalScreen {
+    inner class GenerateScreenAnalyticsRecord {
 
         @Test
         @DisplayName("Then should create local screen report correctly")
-        fun testCreateScreenLocalReportShouldCreateLocalScreenReportCorrectly() {
+        fun testCreateScreenReportShouldCreateScreenReportCorrectly() {
             //Given
             val timestamp = System.currentTimeMillis()
 
             //WHEN
-            val result = ScreenReportFactory.generateScreenAnalyticsRecord(true,"screenId", timestamp)
+            val result = ScreenReportFactory.generateScreenAnalyticsRecord("screenId", timestamp)
 
             //THEN
             assertEquals("android", result.platform)
             assertEquals("screen", result.type)
             assertEquals("screenId", result.screen)
-            commonAssert(result)
+            assertEquals(null, result.additionalEntries)
+            assertEquals(null, result.attributes)
+            assertEquals(null, result.component)
+            assertEquals(null, result.beagleAction)
+            assertEquals(null, result.event)
             assertEquals(timestamp, result.timestamp)
         }
-    }
-
-    @DisplayName("When generateRemoteScreenAnalyticsRecord")
-    @Nested
-    inner class RemoteScreen {
-
-        @Test
-        @DisplayName("Then should create remote screen report correctly")
-        fun testCreateScreenRemoteReportShouldCreateRemoteScreenReportCorrectly() {
-            //Given
-            val timestamp = System.currentTimeMillis()
-
-            //When
-            val result = ScreenReportFactory.generateScreenAnalyticsRecord(false,"url", timestamp)
-
-            //Then
-            assertEquals("android", result.platform)
-            assertEquals("screen", result.type)
-            assertEquals("url", result.screen)
-            commonAssert(result)
-            assertEquals(timestamp, result.timestamp)
-        }
-
-        @Test
-        @DisplayName("Then should create remote screen report correctly")
-        fun testCreateScreenRemoteReportWithBaseUrlOnUrlShouldCreateRemoteScreenReportCorrectly() {
-            //Given
-            val baseUrl = "https://baseUrl.com.br/"
-            every { beagleSdk.config.baseUrl } returns baseUrl
-            val timestamp = System.currentTimeMillis()
-
-            //When
-            val result = ScreenReportFactory.generateScreenAnalyticsRecord(false,baseUrl + "url", timestamp)
-
-            //Then
-            assertEquals("android", result.platform)
-            assertEquals("screen", result.type)
-            assertEquals("https://baseUrl.com.br/url", result.screen)
-            commonAssert(result)
-            assertEquals(timestamp, result.timestamp)
-        }
-    }
-    
-    private fun commonAssert(result: AnalyticsRecord){
-        assertEquals(null, result.additionalEntries)
-        assertEquals(null, result.attributes)
-        assertEquals(null, result.component)
-        assertEquals(null, result.beagleAction)
-        assertEquals(null, result.event)
-
-
     }
 }

@@ -22,7 +22,6 @@ internal object ScreenReportFactory {
     private const val TYPE_ANALYTICS = "screen"
 
     fun generateScreenAnalyticsRecord(
-        isLocalScreen : Boolean,
         screenIdentifier: String,
         timestamp: Long
     ) = AnalyticsRecord(
