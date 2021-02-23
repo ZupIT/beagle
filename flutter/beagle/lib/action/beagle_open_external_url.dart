@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-import 'package:flutter/cupertino.dart';
+import 'package:beagle/beagle_initializer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BeagleOpenExternalUrl {
@@ -23,7 +23,7 @@ class BeagleOpenExternalUrl {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      debugPrint('Could not launch $url');
+      BeagleInitializer.logger.error('Could not launch $url');
     }
   }
 }
