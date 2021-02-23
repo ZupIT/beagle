@@ -36,6 +36,8 @@ object SuiteSetup {
     private var driver: AppiumDriver<*>? = null
     private var bffBaseUrl: String? = null
 
+    fun getBaseUrl() = bffBaseUrl
+
     fun getDriver(): AppiumDriver<*> {
 
         if (driver == null)

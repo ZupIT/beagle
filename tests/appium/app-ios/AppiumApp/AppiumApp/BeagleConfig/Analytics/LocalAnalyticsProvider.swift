@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.cucumber.steps
+import Beagle
 
-import io.cucumber.junit.Cucumber
-import io.cucumber.junit.CucumberOptions
-import org.junit.runner.RunWith
-
-/**
- * Used for debugging since cucumber task in gradle.build won't hit breakpoints.
- * Must be in the steps folder
- */
-@RunWith(Cucumber::class)
-@CucumberOptions(
-    /**
-     * running all tests on Android: "@android and not @inProgress"
-     * running all tests on iOS: "@ios and not @inProgress"
-     */
-    tags = "@analytics2.0 and not @inProgress",
-    features = ["src/test/resources/features"],
-    plugin = ["br.com.zup.beagle.setup.SuiteSetupPlugin"]
-)
-class Runner {
+class LocalAnalyticsProvider: AnalyticsProvider {
+    
+    public static let shared = LocalAnalyticsProvider()
+    
+    func getConfig() -> AnalyticsConfig {
+        return AnalyticsConfig(
+            enableScreenAnalytics: true,
+            actions: ["beagle:confirm": ["title", "message"]]
+        )
+    }
+    
+    func createRecord(_ record: AnalyticsRecord) {
+        if record.type == .screen && (record.screen?.hasSuffix("/analytics2") == true) {
+            return
+        }
+        lastRecord = record
+    }
+    
+    var lastRecord: AnalyticsRecord?
+    
 }

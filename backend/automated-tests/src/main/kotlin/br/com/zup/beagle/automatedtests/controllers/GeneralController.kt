@@ -16,21 +16,23 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
+import br.com.zup.beagle.automatedtests.builders.AccessibilityScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.BuilderKotlinDslScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ExpressionEscapingScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.NewAnalyticsScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder
 import br.com.zup.beagle.automatedtests.constants.ACCESSIBILITY_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.ANALYTICS_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.EXPRESSION_ESCAPING_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.IMAGE_WEB
 import br.com.zup.beagle.automatedtests.constants.KOTLIN_DSL_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.NEW_ANALYTICS_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SAFE_AREA_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
-import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.AnalyticsScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.SafeAreaScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.BuilderKotlinDslScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.ExpressionEscapingScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.AccessibilityScreenBuilder
-import br.com.zup.beagle.automatedtests.constants.IMAGE_WEB
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.MediaType
@@ -47,6 +49,9 @@ class GeneralController {
 
     @GetMapping(ANALYTICS_ENDPOINT)
     fun getAnalyticsScreen() = AnalyticsScreenBuilder.build()
+
+    @GetMapping(NEW_ANALYTICS_ENDPOINT)
+    fun getNewAnalyticsScreen() = NewAnalyticsScreenBuilder.build()
 
     @GetMapping(SAFE_AREA_ENDPOINT)
     fun getSampleSafeArea() = SafeAreaScreenBuilder.build()
@@ -67,7 +72,7 @@ class GeneralController {
     fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
 
     @GetMapping(IMAGE_WEB, produces = [MediaType.IMAGE_JPEG_VALUE])
-    fun getImageWeb(@PathVariable type:String): ResponseEntity<InputStreamResource> {
+    fun getImageWeb(@PathVariable type: String): ResponseEntity<InputStreamResource> {
 
         val imageFile = ClassPathResource("images/" + if (type == "1") "beagle1.jpg" else "beagle2.jpg")
         return ResponseEntity

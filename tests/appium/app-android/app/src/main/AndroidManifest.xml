@@ -43,6 +43,12 @@
             </intent-filter>
         </activity>
         <activity android:name="br.com.zup.beagle.appiumapp.activity.AppBeagleActivity" />
+        <activity android:name="br.com.zup.beagle.appiumapp.activity.AnalyticsActivity">
+            <intent-filter>
+                <action android:name="screen-analytics-link"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

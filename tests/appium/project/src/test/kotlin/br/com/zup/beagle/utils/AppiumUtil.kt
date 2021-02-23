@@ -329,26 +329,19 @@ object AppiumUtil {
 
     @Synchronized
     fun getPropertyXpath(property: String, propertyValue: String, likeSearch: Boolean, ignoreCase: Boolean): By {
-        val xpath: By
+        var key = "@$property"
+        var value = "\"$propertyValue\""
 
         if (ignoreCase) {
-            if (likeSearch) {
-                xpath =
-                    By.xpath("//*[contains(translate(@$property, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),\"${propertyValue?.toLowerCase()}\")]")
-            } else {
-                xpath =
-                    By.xpath("//*[translate(@$property, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')=\"${propertyValue?.toLowerCase()}\"]")
-            }
-        } else {
-            if (likeSearch) {
-                xpath = By.xpath("//*[contains(@$property,\"$propertyValue\")]")
-
-            } else {
-                xpath = By.xpath("//*[@$property=\"$propertyValue\"]")
-            }
+            key = "translate(@$property, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"
+            value = value.toLowerCase()
         }
 
-        return xpath
+        return if (likeSearch) {
+            By.xpath("//*[contains($key, $value)]")
+        } else {
+            By.xpath("//*[$key=$value]")
+        }
     }
 
     /**
