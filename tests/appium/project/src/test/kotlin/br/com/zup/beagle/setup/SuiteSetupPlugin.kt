@@ -26,7 +26,7 @@ import java.io.File
 
 
 /**
- * Custom suite test run hooks
+ * Custom test run hooks
  */
 class SuiteSetupPlugin : EventListener {
     override fun setEventPublisher(publisher: EventPublisher) {

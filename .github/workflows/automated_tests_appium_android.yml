@@ -1,0 +1,105 @@
+#
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+name: Beagle Appium Android Tests
+
+on:
+  workflow_run:
+    workflows: ["Beagle Appium Tests"]
+    types:
+      - completed
+
+jobs:
+  bff_config_job:
+    name: BFF configuration job
+    runs-on: ubuntu-20.04
+    env:
+      BFF_NAME: automated-test-bff
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache gradle dependencies of project backend
+        uses: actions/cache@v2
+        env:
+          gradle-cache-key: backend-tests-gradle-cache
+          gradle-path: ~/.gradle
+        with:
+          path: ${{ env.gradle-path }}
+          key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+
+      - name: Build test BFF image
+        working-directory: backend
+        run: ./gradlew --build-cache automatedTests:bootBuildImage --imageName="$BFF_NAME"
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: sa-east-1
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Deploy to AWS
+        run: bash ./fastlane/automatedTests/deploy_test_backend.sh
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          VERSION: ${{ github.sha }}
+          CLUSTER: ${{ secrets.AWS_CLUSTER_NAME }}
+          NAMESPACE: ${{ secrets.AWS_CLUSTER_NAMESPACE }}
+
+  appium_tests:
+    needs: bff_config_job
+    name: Tests job
+    runs-on: macos-latest
+    env:
+      BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
+      BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
+      BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache gradle dependencies of project app-android
+        uses: actions/cache@v2
+        env:
+          gradle-cache-key: app-android-tests-gradle-cache
+          gradle-path: ~/.gradle
+        with:
+          path: ${{ env.gradle-path }}
+          key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+
+      - name: Build project app-android to generate the .apk file
+        env:
+          BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
+        run: | # builds the app replacing localhost for the $BFF_URL
+          sed -i --expression "s@http://10.0.2.2:8080@$BFF_URL@g" $BEAGLE_CONFIG_FILE
+          bash ./tests/appium/app-android/gradlew --build-cache -p tests/appium/app-android assembleDebug
+          # sed -i --expression "s@$BFF_URL@http://10.0.2.2:8080@g" $BEAGLE_CONFIG_FILE
+
+      - name: Upload .apk file in BrowserStack and run the Appium test suite
+        run: bash fastlane/automatedTests/appium/android/browserstack/setup_apk_in_browserstack_and_run_android_tests.sh
+
+      - name: Expose failed test screenshot files
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: failed_tests_screenshots
+          path: tests/appium/project/build/screenshots/
+

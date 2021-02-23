@@ -90,7 +90,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Then("^validate that the value of the text input component (.*) of type \"email\" is shown correctly$")
     fun checkEmailWriting(string: String) {
-        swipeDown()
+        scrollUpToElementWithValue(string, false, false)
         val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
         mobileElement.sendKeys("test@abc.com")
         waitForElementWithValueToBeClickable("test@abc.com", false, false)
@@ -98,7 +98,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Then("^validate that the value of the text input component (.*) of type \"password\" is shown correctly$")
     fun checkPasswordWriting(string: String) {
-        swipeUp()
+        scrollDownToElementWithValue(string, false, false)
         val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
         mobileElement.sendKeys("123")
         Assert.assertTrue("123" != mobileElement.text) // validates text is in password format
@@ -108,7 +108,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Then("^validate that the value of the text input component (.*) of type \"number\" is shown correctly$")
     fun checkNumberWriting(string: String) {
-        swipeUp()
+        scrollDownToElementWithValue(string, false, false)
         val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
         mobileElement.sendKeys("12345678")
         waitForElementWithValueToBeClickable("12345678", false, false)
@@ -116,7 +116,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Then("^validate that the value of the text input component (.*) of type \"text\" is shown correctly$")
     fun checkTextWriting(string: String) {
-        swipeUp()
+        scrollDownToElementWithValue(string, false, false)
         val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
         mobileElement.sendKeys("This is a test!")
         waitForElementWithValueToBeClickable("This is a test!", false, false)
@@ -124,13 +124,13 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Then("^validate attribute of \"type number\" of textInput component (.*)$")
     fun validateTextsInputNumberType(string: String) {
-        swipeUp()
+        scrollDownToElementWithValue(string, false, false)
         Assert.assertTrue(isTextFieldNumeric(string))
     }
 
     @And("^I click the textInput with the placeholder (.*)$")
     fun textInputWithActionOfOnFocus(string: String) {
-        swipeUp()
+        scrollDownToElementWithValue(string, false, false)
         waitForElementWithValueToBeClickable(string, false, false).click()
     }
 
@@ -151,7 +151,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
     fun textInoutWithActionOfOnFocusAndOnChange(string: String, string2: String, string3: String) {
-        swipeDown()
+        scrollUpToElementWithValue(string, false, false)
         val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
         waitForElementWithValueToBeClickable(string2, false, false)
         mobileElement.sendKeys("a")
@@ -168,6 +168,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Then("^The hidden input fields (.*) should not be visible$")
     fun checkInputTextIsHidden(string: String) {
+        swipeUp()
         swipeUp()
         waitForElementWithValueToBeInvisible(string, false, false)
     }

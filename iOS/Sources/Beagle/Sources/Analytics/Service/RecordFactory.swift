@@ -21,15 +21,11 @@ import UIKit
 
 func makeScreenRecord(
     screen: ScreenType,
-    globalConfigIsEnabled: Bool?
-) -> AnalyticsService.Record? {
-    let isScreenDisabled = globalConfigIsEnabled == false
-    if isScreenDisabled { return nil }
+    isScreenEnabled: Bool
+) -> AnalyticsRecord? {
+    guard isScreenEnabled else { return nil }
 
-    return .init(
-        data: AnalyticsRecord(type: .screen, screen: screenInfo(screen), timestamp: timestamp()),
-        dependsOnFutureGlobalConfig: globalConfigIsEnabled == nil
-    )
+    return AnalyticsRecord(type: .screen, screen: screenInfo(screen), timestamp: timestamp())
 }
 
 // MARK: Action
@@ -37,9 +33,9 @@ func makeScreenRecord(
 struct ActionRecordFactory {
 
     let info: AnalyticsService.ActionInfo
-    let globalConfig: AnalyticsConfig.AttributesByActionName?
+    let globalConfig: AnalyticsConfig.AttributesByActionName
 
-    func makeRecord() -> AnalyticsService.Record? {
+    func makeRecord() -> AnalyticsRecord? {
         guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
         guard let values = enabledValuesForAction(named: name) else { return nil }
 
@@ -53,20 +49,18 @@ struct ActionRecordFactory {
             additionalEntries: values.additional
         )
 
-        let record = AnalyticsRecord(
+        return AnalyticsRecord(
             type: .action(action),
             screen: screenInfo(info.controller.screenType),
             timestamp: timestamp()
         )
-
-        return .init(data: record, dependsOnFutureGlobalConfig: values.attributes == .all)
     }
 }
 
 // MARK: - Private
 
 private func timestamp() -> Double {
-    return Date().timeIntervalSince1970 * 1000
+    return (Date().timeIntervalSince1970 * 1000).rounded()
 }
 
 private func screenInfo(_ screenType: ScreenType) -> String? {
@@ -87,13 +81,15 @@ private extension ActionRecordFactory {
             ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
     }
 
-    func enabledValuesForAction(named: String) -> EnabledValues? {
-        switch info.action.analytics {
+    struct EnabledValues {
+        let attributes: ActionAttributes
+        var additional = DynamicDictionary()
+    }
+
+    func enabledValuesForAction(named name: String) -> EnabledValues? {
+        switch (info.action as? AnalyticsAction)?.analytics {
         case .disabled:
             return nil
-
-        case .enabled(nil):
-            return .init(attributes: .some([]))
 
         case .enabled(let analytics?):
             return .init(
@@ -102,19 +98,18 @@ private extension ActionRecordFactory {
             )
 
         case nil:
-            if let global = globalConfig {
-                return global[named].ifSome {
-                    .init(attributes: .some($0))
-                }
-            } else {
-                return .init(attributes: .all)
-            }
+            return globalAttributes(action: name)
+
+        case .enabled(nil):
+            return globalAttributes(action: name)
+                ?? .init(attributes: .some([]))
         }
     }
 
-    struct EnabledValues {
-        let attributes: ActionAttributes
-        var additional = DynamicDictionary()
+    private func globalAttributes(action: String) -> EnabledValues? {
+        return globalConfig[action].ifSome {
+            .init(attributes: .some($0))
+        }
     }
 
     func componentInfo() -> AnalyticsRecord.Action.Component {

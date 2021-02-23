@@ -27,7 +27,7 @@ class AnalyticsServiceTests: XCTestCase {
     func testNormalOperation() {
         // Given
         enabledGlobalConfig()
-        let items = 4 * maxItems
+        let items = 30
 
         // When
         triggerNewRecord(manyTimes: items)
@@ -36,40 +36,17 @@ class AnalyticsServiceTests: XCTestCase {
         XCTAssertEqual(receivedRecords().count, items)
     }
 
-    func testDefaultValueOfMaxItems() {
-        // Given
-        provider.maximumItemsInQueue = nil
-
-        // Then
-        XCTAssertEqual(sut.maxItemsInQueue(), 100)
-    }
-
-    func testMaximumItemsInQueue() {
-        // Given
-        noGlobalConfig()
-        // When
-        sendNewRecordsUntilQueueIsFull()
-        // Then
-        XCTAssertEqual(receivedRecords(), [])
-
-        // When changing to
-        enabledGlobalConfig()
-        // And
-        triggerNewRecord()
-
-        // Then should receive all items that were queued
-        XCTAssertEqual(receivedRecords().count, maxItems + 1)
-    }
-
     func testChangingConfig() {
         // Given is working normally
         testNormalOperation()
         provider.records = []
 
         // When change config to
-        noGlobalConfig()
+        disabledGlobalConfig()
         // And
-        sendNewRecordsUntilQueueIsFull()
+        triggerNewRecord(manyTimes: 5)
+        triggerAction()
+
         // Then should not receive more records
         XCTAssertEqual(receivedRecords().count, 0)
 
@@ -77,48 +54,11 @@ class AnalyticsServiceTests: XCTestCase {
         enabledGlobalConfig()
         // And
         triggerNewRecord(manyTimes: 30)
+        triggerAction()
 
         // Then
-        let totalItems = 30 + maxItems
-        XCTAssertEqual(receivedRecords().count, totalItems)
-    }
-
-    func testDisabledConfigShouldDisableItemsInQueue() {
-        // Given
-        noGlobalConfig()
-        // And
-        sendNewRecordsUntilQueueIsFull()
-
-        // When change to
-        disabledGlobalConfig()
-        // And
-        triggerNewRecord()
-
-        // Then
-        XCTAssertEqual(receivedRecords().count, 0)
-    }
-
-    func testFirstWithoutConfigAndThenWithAttributes() {
-        // Given
-        let action = FormRemoteAction(path: "PATH", method: .delete)
-        // And
-        noGlobalConfig()
-
-        // When
-        triggerActionRecord(action)
-        // *
-        globalConfig(.init(
-            enableScreenAnalytics: false,
-            actions: ["beagle:formremoteaction": ["path"]]
-        ))
-        // *
-        triggerNewRecord()
-
-        // Then
-        // should only have Action record
-        XCTAssertEqual(receivedRecords().count, 1)
-        // with  "path" attribute
-        _assertInlineSnapshot(matching: recordedAttributes(), as: .json, with: """
+        XCTAssertEqual(receivedRecords().count, 30 + 1)
+        assertActionAttributes(equalTo: """
         {
           "attributes" : {
             "path" : "PATH"
@@ -127,7 +67,7 @@ class AnalyticsServiceTests: XCTestCase {
         """)
     }
 
-    func testGlobalConfigWithDifferentActions() {
+    func testConfigWithDifferentActions() {
         // Given
         let caseSensitive = "beagle:FoRmReMoTeAcTion"
         // And
@@ -138,9 +78,9 @@ class AnalyticsServiceTests: XCTestCase {
         ]))
 
         // When
-        sut.createRecord(action: actionInfo(FormRemoteAction(path: "path", method: .get)))
-        sut.createRecord(action: actionInfo(SendRequest(url: .value("url"), method: .value(.delete))))
-        sut.createRecord(action: actionInfo(SetContext(contextId: "context", value: true)))
+        triggerAction(FormRemoteAction(path: "path", method: .get))
+        triggerAction(SendRequest(url: .value("url"), method: .value(.delete)))
+        triggerAction(SetContext(contextId: "context", value: true))
 
         // Then
         XCTAssertEqual(receivedRecords().count, 3)
@@ -182,23 +122,10 @@ class AnalyticsServiceTests: XCTestCase {
 
     // MARK: - Aux
 
-    private let maxItems = 5
-
-    private lazy var provider: AnalyticsProviderStub = {
-        let it = AnalyticsProviderStub()
-        it.maximumItemsInQueue = maxItems
-        return it
-    }()
+    private lazy var provider = AnalyticsProviderStub()
 
     private func receivedRecords() -> [AnalyticsRecord] {
-        let expec = expectation(description: "wait records")
-        sut.serialThread.async {
-            expec.fulfill()
-        }
-        wait(for: [expec], timeout: 1)
-
-        let records = provider.records
-        return records
+        return provider.records
     }
 
     private func triggerNewRecord(manyTimes: Int = 1) {
@@ -207,34 +134,28 @@ class AnalyticsServiceTests: XCTestCase {
         }
     }
 
-    private func triggerActionRecord(_ action: Action) {
-        sut.createRecord(action: actionInfo(action))
-    }
-
-    func actionInfo(_ action: Action) -> AnalyticsService.ActionInfo {
-        AnalyticsService.ActionInfo(
-            action: action,
+    private func triggerAction(_ action: AnalyticsAction? = nil) {
+        sut.createRecord(action: .init(
+            action: action ?? FormRemoteAction(path: "PATH", method: .delete),
             event: nil,
             origin: ViewDummy(),
             controller: BeagleScreenViewController(ComponentDummy())
-        )
+        ))
     }
 
-    private func sendNewRecordsUntilQueueIsFull() {
-        let extra = [0, 1, 2].randomElement() ?? 0
-        triggerNewRecord(manyTimes: maxItems + extra)
-    }
-
-    private func recordedAttributes() -> DynamicDictionary? {
-        receivedRecords().first?.onlyAttributesAndAdditional()
-    }
-
-    private func noGlobalConfig() {
-        provider.config = nil
+    func assertActionAttributes(
+        equalTo string: String,
+        record: Bool = false,
+        line: UInt = #line
+    ) {
+        let action = receivedRecords().last?.onlyAttributesAndAdditional()
+        _assertInlineSnapshot(matching: action, as: .json, record: record, with: string, line: line)
     }
 
     private func enabledGlobalConfig() {
-        provider.config = .init()
+        provider.config = .init(actions: [
+            "beagle:formremoteaction": ["path"]
+        ])
     }
 
     private func disabledGlobalConfig() {
@@ -251,16 +172,14 @@ class AnalyticsServiceTests: XCTestCase {
 class AnalyticsProviderStub: AnalyticsProvider {
     
     var records = [AnalyticsRecord]()
-    
-    var maximumItemsInQueue: Int?
 
-    var config: AnalyticsConfig? = .init()
+    var config = AnalyticsConfig()
     
     func createRecord(_ record: AnalyticsRecord) {
         records.append(record)
     }
 
-    func getConfig() -> AnalyticsConfig? {
+    func getConfig() -> AnalyticsConfig {
         return config
     }
 }

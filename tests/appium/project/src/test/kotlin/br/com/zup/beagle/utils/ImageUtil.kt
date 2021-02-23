@@ -19,6 +19,7 @@ package br.com.zup.beagle.utils
 import com.github.romankh3.image.comparison.ImageComparison
 import com.github.romankh3.image.comparison.ImageComparisonUtil
 import com.github.romankh3.image.comparison.model.ImageComparisonResult
+import com.github.romankh3.image.comparison.model.ImageComparisonState
 import java.awt.image.BufferedImage
 import java.io.File
 
@@ -26,7 +27,7 @@ import java.io.File
 object ImageUtil {
 
     /**
-     * If there is any difference between the images, writes the image result in file @param resultImageFile
+     * If there is any difference between the images, writes the result image in file @param resultImageFile
      */
     fun compareImages(
         queryImageFile: File,
@@ -55,9 +56,15 @@ object ImageUtil {
         imageComparison.setMaximalRectangleCount(10)
         imageComparison.setMinimalRectangleSize(100)
         imageComparison.setPixelToleranceLevel(0.2)
+
         val imageComparisonResult: ImageComparisonResult = imageComparison.compareImages()
-        if ("MATCH".equals(imageComparisonResult.imageComparisonState.toString())) {
+
+        if (ImageComparisonState.MATCH == imageComparisonResult.imageComparisonState) {
             return
+        }
+
+        if (ImageComparisonState.SIZE_MISMATCH == imageComparisonResult.imageComparisonState) {
+            println("ERROR while comparing images: size mismatch")
         }
 
         ImageComparisonUtil.saveImage(resultImageFile, imageComparisonResult.result)

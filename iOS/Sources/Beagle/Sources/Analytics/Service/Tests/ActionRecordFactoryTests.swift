@@ -29,7 +29,7 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
         try prepareComponentHierarchy()
 
         // When
-        var record = sut.makeRecord()?.data
+        var record = sut.makeRecord()
         record?.timestamp = 0 // setting to avoid getting a different timestamp between runs
 
         // Then should have all default properties
@@ -65,6 +65,7 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
         recordShouldBeEqualTo("""
         {
           "attributes" : {
+            "method" : "DELETE",
             "path" : "PATH"
           }
         }
@@ -119,56 +120,24 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
         // And
         actionWithConfig(.enabled(nil))
 
-        // Then should use Action config
-        recordShouldBeEqualTo("""
-        {
-
-        }
-        """)
-    }
-
-    // MARK: Nil Global Config
-
-    func testShouldDependOnFutureGlobalConfig() {
-        // Given
-        nilGlobalConfig()
-        // And
-        actionWithConfig(nil)
-
-        // Then should have all attributes, and depend on future global config
+        // Then should use global config
         recordShouldBeEqualTo("""
         {
           "attributes" : {
-            "analytics" : null,
             "method" : "DELETE",
             "path" : "PATH"
-          },
-          "dependsOnFutureGlobalConfig" : true
+          }
         }
         """)
     }
 
-    func testActionEnabledShouldNotDependOnGlobalConfig() {
+    func testActionWithEnabledAttributesAndGlobalConfigEnabled() {
         // Given
-        nilGlobalConfig()
-        // And
-        actionWithConfig(.enabled(nil))
-
-        // Then should NOT depend on future global config
-        recordShouldBeEqualTo("""
-        {
-
-        }
-        """)
-    }
-
-    func testActionEnabledWithAttributeShouldNotDependOnGlobalConfig() {
-        // Given
-        nilGlobalConfig()
+        globalConfigWithActionEnabled()
         // And
         actionWithJust1AttributeEnabled()
 
-        // Then should NOT depend on global config
+        // Then should use Action config
         recordShouldBeEqualTo("""
         {
           "attributes" : {
@@ -221,7 +190,7 @@ class ActionRecordFactoryTests: RecordFactoryHelpers {
 
 class RecordFactoryHelpers: XCTestCase {
 
-    lazy var sut = ActionRecordFactory(info: info, globalConfig: _globalConfig?.actions)
+    lazy var sut = ActionRecordFactory(info: info, globalConfig: _globalConfig.actions)
 
     // swiftlint:disable implicitly_unwrapped_optional
     var action: FormRemoteAction!
@@ -233,7 +202,7 @@ class RecordFactoryHelpers: XCTestCase {
         controller: BeagleScreenViewController(ComponentDummy())
     )
 
-    lazy var _globalConfig: AnalyticsConfig? = nil
+    lazy var _globalConfig = AnalyticsConfig()
 
     func actionWithConfig(_ config: ActionAnalyticsConfig?) {
         action = FormRemoteAction(
@@ -247,17 +216,13 @@ class RecordFactoryHelpers: XCTestCase {
         actionWithConfig(.enabled(.init(attributes: ["method"])))
     }
 
-    func nilGlobalConfig() {
-        _globalConfig = nil
-    }
-
     func emptyGlobalConfig() {
         _globalConfig =  .init(actions: [:])
     }
 
     func globalConfigWithActionEnabled() {
         _globalConfig = .init(actions: [
-            "beagle:formremoteaction": ["methods", "path"]
+            "beagle:formremoteaction": ["method", "path"]
         ])
     }
 
@@ -269,20 +234,10 @@ class RecordFactoryHelpers: XCTestCase {
     ) {
         // When
         let result = sut.makeRecord()
-            .ifSome(resultWithoutDefaultValues(_:))
+            .ifSome { $0.onlyAttributesAndAdditional() }
 
         // Then
         _assertInlineSnapshot(matching: result, as: .json, record: record, with: string, testName: testName, line: line)
-    }
-
-    func resultWithoutDefaultValues(_ result: AnalyticsService.Record) -> DynamicDictionary? {
-        var dict = result.data.onlyAttributesAndAdditional()
-
-        if result.dependsOnFutureGlobalConfig {
-            dict["dependsOnFutureGlobalConfig"] = .bool(true)
-        }
-
-        return dict
     }
 
     func prepareComponentHierarchy() throws {
