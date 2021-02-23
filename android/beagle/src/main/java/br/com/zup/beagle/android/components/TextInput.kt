@@ -72,7 +72,8 @@ data class TextInput(
     val disabled: Bind<Boolean>? = null,
     val readOnly: Bind<Boolean>? = null,
     val type: Bind<TextInputType>? = null,
-    @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version. Use field display to control visibility.")
+    @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version." +
+        " Use field display to control visibility.")
     val hidden: Bind<Boolean>? = null,
     val error: Bind<String>? = null,
     val showError: Bind<Boolean>? = null,
@@ -82,7 +83,8 @@ data class TextInput(
     val onBlur: List<Action>? = null,
 ) : InputWidget() {
 
-    @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version. Use field display to control visibility.")
+    @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version." +
+        " Use field display to control visibility.")
     constructor(
         value: String? = null,
         placeholder: String? = null,
