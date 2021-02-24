@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
-import Foundation
+import Beagle
 
-@discardableResult
-func assertNeverGetsHere<T>(or value: T) -> T {
-    assertionFailure("this should never happen")
-    return value
-}
-
-func assertNeverGetsHere() {
-    assertionFailure("this should never happen")
+class LocalAnalyticsProvider: AnalyticsProvider {
+    
+    public static let shared = LocalAnalyticsProvider()
+    
+    func getConfig() -> AnalyticsConfig {
+        return AnalyticsConfig(
+            enableScreenAnalytics: true,
+            actions: ["beagle:confirm": ["title", "message"]]
+        )
+    }
+    
+    func createRecord(_ record: AnalyticsRecord) {
+        if record.type == .screen && (record.screen?.hasSuffix("/analytics2") == true) {
+            return
+        }
+        lastRecord = record
+    }
+    
+    var lastRecord: AnalyticsRecord?
+    
 }

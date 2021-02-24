@@ -65,12 +65,12 @@ class BeagleLazyComponent extends StatefulWidget {
 class _BeagleLazyComponent extends State<BeagleLazyComponent>
     with AfterLayoutMixin<BeagleLazyComponent> {
   String _buildUrl() {
-    return BeagleInitializer.getService().urlBuilder.build(widget.path);
+    return BeagleSdk.getService().urlBuilder.build(widget.path);
   }
 
   Future<void> _fetchLazyView() async {
     try {
-      final result = await BeagleInitializer.getService()
+      final result = await BeagleSdk.getService()
           .httpClient
           .sendRequest(Request(_buildUrl()));
       if (result.status >= 200 && result.status < 400) {

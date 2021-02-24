@@ -46,10 +46,10 @@ internal object AnalyticsService {
         }
     }
 
-    fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
+    fun createScreenRecord(screenIdentifier: String) {
         val analyticsProvider: AnalyticsProvider? = BeagleEnvironment.beagleSdk.analyticsProvider
         analyticsProvider?.getConfig()?.let {
-            val dataScreenReport = DataScreenReport(isLocalScreen, screenIdentifier)
+            val dataScreenReport = DataScreenReport(screenIdentifier)
             reportData(dataScreenReport, analyticsProvider, it)
         }
     }

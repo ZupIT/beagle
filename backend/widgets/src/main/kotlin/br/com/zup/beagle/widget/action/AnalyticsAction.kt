@@ -18,6 +18,12 @@ package br.com.zup.beagle.widget.action
 
 import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
-abstract class ActionAnalytics : Action {
-    abstract var analytics: ActionAnalyticsConfig?
+/**
+ * Interface that represents analytics actions in Beagle
+ * @property analytics is an ActionAnalyticsConfig. When this attribute is not null, this ActionAnalyticsConfig will
+ * override the AnalyticsConfig provided on AnalyticsProvider.
+ */
+interface AnalyticsAction : Action {
+
+    var analytics: ActionAnalyticsConfig?
 }

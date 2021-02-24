@@ -32,7 +32,7 @@ public struct FieldError: Codable, AutoInitiable {
 }
 
 /// Action to represent a form validation error
-public struct FormValidation: Action, AutoInitiable {
+public struct FormValidation: AnalyticsAction, AutoInitiable {
     
     public let errors: [FieldError]
     public let analytics: ActionAnalyticsConfig?

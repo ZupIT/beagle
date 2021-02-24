@@ -89,6 +89,8 @@ class Dependencies : Plugin<Project> {
 
         const val cucumber = "1.2.6"
         const val kotlinCompileTesting = "1.3.1"
+
+        const val gson = "2.8.6"
     }
 
     object GeneralNames {
@@ -141,6 +143,9 @@ class Dependencies : Plugin<Project> {
         const val adapters = "com.squareup.moshi:moshi-adapters:${Versions.moshi}"
     }
 
+    object GsonLibraries{
+        const val gson = "com.google.code.gson:gson:${Versions.gson}"
+    }
     object TestLibraries {
         const val junit4 = "junit:junit:${Versions.junit4}"
         const val junitApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"

@@ -32,7 +32,8 @@ class ActionAttributesTest: XCTestCase {
             try doRecord(Navigate.self, fromJson: "PopView-1"),
             try doRecord(Navigate.self, fromJson: "PushStack-1"),
             try doRecord(Navigate.self, fromJson: "PushStack-2"),
-            try doRecord(SendRequest.self, fromJson: "SendRequest-1")
+            try doRecord(SendRequest.self, fromJson: "SendRequest-1"),
+            try doRecord(SetContext.self, fromJson: "SetContext-1")
         ]
 
         records.forEach {
@@ -60,7 +61,7 @@ class ActionAttributesTest: XCTestCase {
         let view = try analyticsViewHierarchyWith(context: context).view
 
         var attributes = [String]()
-        if case .enabled(let config?) = action.analytics {
+        if case .enabled(let config?) = (action as? AnalyticsAction)?.analytics {
             attributes = config.attributes ?? []
         }
 

@@ -79,7 +79,7 @@ internal class BeagleView(
         when (state) {
             is ViewState.Loading -> handleLoading(state.value)
             is ViewState.Error -> handleError(state.throwable, state.retry)
-            is ViewState.DoRender -> renderComponent(state.component, view, state.screenId, state.isLocalScreen)
+            is ViewState.DoRender -> renderComponent(state.component, view, state.screenId)
         }
     }
 
@@ -108,7 +108,6 @@ internal class BeagleView(
         component: ServerDrivenComponent,
         view: View? = null,
         screenIdentifier: String?,
-        isLocalScreen: Boolean?,
     ) {
         serverStateChangedListener?.invoke(ServerDrivenState.Success)
         if (view != null) {
@@ -119,13 +118,10 @@ internal class BeagleView(
             addServerDrivenComponent(component)
             loadCompletedListener?.invoke()
         }
-        isLocalScreen?.let {
-            screenIdentifier?.let {
-                rootView.generateViewModelInstance<AnalyticsViewModel>().createScreenReport(
-                    isLocalScreen,
-                    screenIdentifier
-                )
-            }
+        screenIdentifier?.let {
+            rootView.generateViewModelInstance<AnalyticsViewModel>().createScreenReport(
+                screenIdentifier
+            )
         }
     }
 }

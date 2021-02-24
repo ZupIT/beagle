@@ -134,7 +134,7 @@ class AnalyticsServiceTests: XCTestCase {
         }
     }
 
-    private func triggerAction(_ action: Action? = nil) {
+    private func triggerAction(_ action: AnalyticsAction? = nil) {
         sut.createRecord(action: .init(
             action: action ?? FormRemoteAction(path: "PATH", method: .delete),
             event: nil,

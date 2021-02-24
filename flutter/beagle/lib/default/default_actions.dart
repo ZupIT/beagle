@@ -16,6 +16,7 @@
  */
 
 import 'package:beagle/action/beagle_alert.dart';
+import 'package:beagle/action/beagle_open_external_url.dart';
 import 'package:beagle/interface/beagle_service.dart';
 
 final Map<String, ActionHandler> defaultActions = {
@@ -25,5 +26,8 @@ final Map<String, ActionHandler> defaultActions = {
       onPressOk: action.getAttributeValue('onPressOk', () {}),
       title: action.getAttributeValue('title', 'Alert'),
     );
+  },
+  'beagle:openExternalURL': ({action, view, element}) {
+    BeagleOpenExternalUrl.launchURL(action.getAttributeValue('url'));
   }
 };
