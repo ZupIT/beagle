@@ -17,6 +17,8 @@
 
 library beagle;
 
-export 'package:beagle/beagle_initializer.dart';
-export 'package:beagle/beagle_remote_view.dart';
+export 'package:beagle/beagle_sdk.dart';
 export 'package:beagle/model/beagle_ui_element.dart';
+export 'package:beagle/beagle_widget.dart';
+export 'package:beagle/model/beagle_config.dart';
+export 'package:beagle/model/beagle_environment.dart';
