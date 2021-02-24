@@ -16,12 +16,12 @@
  */
 
 import 'package:beagle/beagle_sdk.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class BeagleOpenExternalUrl {
   static Future<void> launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await launcher.canLaunch(url)) {
+      await launcher.launch(url);
     } else {
       BeagleSdk.logger.error('Could not launch $url');
     }
