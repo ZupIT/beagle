@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/renderer.dart';
-import 'package:beagle/model/tree_update_mode.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/model/tree_update_mode.dart';
 import 'package:flutter/widgets.dart';
 
 class RendererJS implements Renderer {

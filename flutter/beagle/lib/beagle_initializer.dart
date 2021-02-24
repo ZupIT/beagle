@@ -42,13 +42,13 @@ class BeagleInitializer {
   /// The parameters are all the attributes of the class BeagleService. Please check its
   /// documentation for more details.
   static Future<void> start({
-    /**/ String baseUrl,
+    String baseUrl,
     HttpClient httpClient,
     Map<String, ComponentBuilder> components,
     Storage storage,
-    /**/ bool useBeagleHeaders,
+    bool useBeagleHeaders,
     Map<String, ActionHandler> actions,
-    /**/ NetworkStrategy strategy,
+    NetworkStrategy strategy,
     Map<String, NavigationController> navigationControllers,
     DesignSystem designSystem,
     BeagleImageDownloader imageDownloader,

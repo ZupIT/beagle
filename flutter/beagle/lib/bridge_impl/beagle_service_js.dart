@@ -20,7 +20,6 @@ import 'dart:convert';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/bridge_impl/global_context_js.dart';
-import 'package:beagle/default/default_storage.dart';
 import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
@@ -31,7 +30,6 @@ import 'package:beagle/interface/storage.dart';
 import 'package:beagle/model/network_options.dart';
 import 'package:beagle/model/network_strategy.dart';
 import 'package:beagle/model/request.dart';
-import 'package:flutter/widgets.dart';
 
 class BeagleServiceJS implements BeagleService {
   BeagleServiceJS(
