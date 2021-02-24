@@ -227,9 +227,7 @@ private extension TextInput.TextInputView {
     
     func updateLayoutForValidation() {
         validationLabel.isHidden = !showError
-//        if let errorMessage = errorMessage {
-            layer.borderColor = !showError ? validInputColor?.cgColor : invalidInputColor?.cgColor
-//        }
+        layer.borderColor = showError ? invalidInputColor?.cgColor : validInputColor?.cgColor
     }
     
     func setupToolBar() {
