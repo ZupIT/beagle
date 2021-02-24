@@ -130,7 +130,6 @@ class BeagleJSEngine {
         debugPrint('ERROR: no listener found for actions.');
         return;
       }
-
       actionListener(
           action: action,
           view: BeagleViewJS.views[args['viewId']],
