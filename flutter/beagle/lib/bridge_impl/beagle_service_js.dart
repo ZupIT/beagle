@@ -15,6 +15,8 @@
  *  limitations under the License.
  */
 
+import 'dart:convert';
+
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/bridge_impl/global_context_js.dart';
@@ -32,7 +34,8 @@ import 'package:beagle/model/request.dart';
 import 'package:flutter/widgets.dart';
 
 class BeagleServiceJS implements BeagleService {
-  BeagleServiceJS({
+  BeagleServiceJS(
+    this._beagleJSEngine, {
     this.baseUrl,
     this.httpClient,
     this.components,
@@ -41,7 +44,10 @@ class BeagleServiceJS implements BeagleService {
     this.actions,
     this.strategy,
     this.navigationControllers,
-  });
+  }) {
+    globalContext = GlobalContextJS(_beagleJSEngine);
+    urlBuilder = UrlBuilder(baseUrl);
+  }
 
   @override
   String baseUrl;
@@ -63,6 +69,8 @@ class BeagleServiceJS implements BeagleService {
   GlobalContext globalContext;
   @override
   UrlBuilder urlBuilder;
+
+  final BeagleJSEngine _beagleJSEngine;
 
   Map<String, dynamic> getNavigationControllersAsMap() {
     if (navigationControllers == null) {
@@ -96,37 +104,48 @@ class BeagleServiceJS implements BeagleService {
 
   @override
   Future<void> start() async {
-    await BeagleJSEngine.start();
+    await _beagleJSEngine.start(storage: storage);
 
-    BeagleJSEngine.createBeagleService(
-        baseUrl: baseUrl,
-        actionKeys: actions.keys.toList(),
-        navigationControllers: getNavigationControllersAsMap(),
-        useBeagleHeaders: useBeagleHeaders,
-        strategy: getJsStrategyName(),
-        storage: DefaultStorage());
+    _registerBeagleService();
+    _registerHttpListener();
+    _registerActionListener();
+  }
 
-    BeagleJSEngine.onHttpRequest((String id, Request request) async {
+  void _registerBeagleService() {
+    final params = {
+      'baseUrl': baseUrl,
+      'actionKeys': actions.keys.toList(),
+      'useBeagleHeaders': useBeagleHeaders,
+      'strategy': getJsStrategyName(),
+    };
+    final navigationControllers = getNavigationControllersAsMap();
+    if (navigationControllers != null) {
+      params['navigationControllers'] = navigationControllers;
+    }
+    _beagleJSEngine
+        .evaluateJavascriptCode('global.beagle.start(${json.encode(params)})');
+  }
+
+  void _registerHttpListener() {
+    _beagleJSEngine.onHttpRequest((String id, Request request) async {
       final response = await httpClient.sendRequest(request);
-      BeagleJSEngine.respondHttpRequest(id, response);
+      _beagleJSEngine.respondHttpRequest(id, response);
     });
+  }
 
-    BeagleJSEngine.onAction(({action, view, element}) {
+  void _registerActionListener() {
+    _beagleJSEngine.onAction(({action, view, element}) {
       final handler = actions[action.getType()];
       if (handler == null) {
-        debugPrint("Can't find handler for action ${action.getType()}");
         return;
       }
       handler(action: action, view: view, element: element);
     });
-
-    globalContext = GlobalContextJS();
-    urlBuilder = UrlBuilder(baseUrl);
   }
 
   @override
   BeagleView createView(
       {NetworkOptions networkOptions, String initialControllerId}) {
-    return BeagleViewJS();
+    return BeagleViewJS(_beagleJSEngine);
   }
 }

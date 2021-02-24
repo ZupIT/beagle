@@ -7,9 +7,10 @@ import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/route.dart';
 
 class BeagleNavigatorJS implements BeagleNavigator {
-  BeagleNavigatorJS(this._viewId);
+  BeagleNavigatorJS(this._beagleJSEngine, this._viewId);
 
   final String _viewId;
+  final BeagleJSEngine _beagleJSEngine;
 
   static String routeToJson(Route route) {
     var map = <String, dynamic>{};
@@ -50,8 +51,8 @@ class BeagleNavigatorJS implements BeagleNavigator {
 
   @override
   T getCurrentRoute<T extends Route>() {
-    final result = BeagleJSEngine.js
-        .evaluate(
+    final result = _beagleJSEngine
+        .evaluateJavascriptCode(
             "global.beagle.getViewById('$_viewId').getNavigator().getCurrentRoute()")
         .rawResult;
 
@@ -64,31 +65,31 @@ class BeagleNavigatorJS implements BeagleNavigator {
 
   @override
   bool isEmpty() {
-    return BeagleJSEngine.js
-        .evaluate(
+    return _beagleJSEngine
+        .evaluateJavascriptCode(
             "global.beagle.getViewById('$_viewId').getNavigator().isEmpty()")
         .rawResult;
   }
 
   @override
   Future<void> popStack() {
-    final result = BeagleJSEngine.js.evaluate(
+    final result = _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getNavigator().popStack()");
-    return BeagleJSEngine.promiseToFuture(result);
+    return _beagleJSEngine.promiseToFuture(result);
   }
 
   @override
   Future<void> popToView(String routeIdentifier) {
-    final result = BeagleJSEngine.js.evaluate(
+    final result = _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getNavigator().popToView('$routeIdentifier')");
-    return BeagleJSEngine.promiseToFuture(result);
+    return _beagleJSEngine.promiseToFuture(result);
   }
 
   @override
   Future<void> popView() {
-    final result = BeagleJSEngine.js.evaluate(
+    final result = _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getNavigator().popView()");
-    return BeagleJSEngine.promiseToFuture(result);
+    return _beagleJSEngine.promiseToFuture(result);
   }
 
   @override
@@ -96,17 +97,17 @@ class BeagleNavigatorJS implements BeagleNavigator {
     final routeJson = routeToJson(route);
     final args =
         controllerId == null ? routeJson : "$routeJson, '$controllerId'";
-    final result = BeagleJSEngine.js.evaluate(
+    final result = _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getNavigator().pushStack($args)");
-    return BeagleJSEngine.promiseToFuture(result);
+    return _beagleJSEngine.promiseToFuture(result);
   }
 
   @override
   Future<void> pushView(Route route) {
     final routeJson = routeToJson(route);
-    final result = BeagleJSEngine.js.evaluate(
+    final result = _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getNavigator().pushView($routeJson)");
-    return BeagleJSEngine.promiseToFuture(result);
+    return _beagleJSEngine.promiseToFuture(result);
   }
 
   @override
@@ -114,9 +115,9 @@ class BeagleNavigatorJS implements BeagleNavigator {
     final routeJson = routeToJson(route);
     final args =
         controllerId == null ? routeJson : "$routeJson, '$controllerId'";
-    final result = BeagleJSEngine.js.evaluate(
+    final result = _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getNavigator().resetApplication($args)");
-    return BeagleJSEngine.promiseToFuture(result);
+    return _beagleJSEngine.promiseToFuture(result);
   }
 
   @override
@@ -124,13 +125,13 @@ class BeagleNavigatorJS implements BeagleNavigator {
     final routeJson = routeToJson(route);
     final args =
         controllerId == null ? routeJson : "$routeJson, '$controllerId'";
-    final result = BeagleJSEngine.js.evaluate(
+    final result = _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getNavigator().resetStack($args)");
-    return BeagleJSEngine.promiseToFuture(result);
+    return _beagleJSEngine.promiseToFuture(result);
   }
 
   @override
   RemoveListener subscribe(NavigationListener listener) {
-    return BeagleJSEngine.onNavigate(_viewId, listener);
+    return _beagleJSEngine.onNavigate(_viewId, listener);
   }
 }

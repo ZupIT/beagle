@@ -11,22 +11,23 @@ class GlobalContextSerializationError implements Exception {
 }
 
 class GlobalContextJS implements GlobalContext {
-  static bool _isEncodable(dynamic value) {
-    return value is num || value is String || value is List || value is Map;
-  }
+  GlobalContextJS(this._beagleJSEngine);
+
+  final BeagleJSEngine _beagleJSEngine;
 
   @override
   void clear([String path]) {
     final args = path == null ? '' : "'$path'";
-    BeagleJSEngine.js
-        .evaluate('global.beagle.getService().globalContext.clear($args)');
+    _beagleJSEngine.evaluateJavascriptCode(
+        'global.beagle.getService().globalContext.clear($args)');
   }
 
   @override
   T get<T>([String path]) {
     final args = path == null ? '' : "'$path'";
-    return BeagleJSEngine.js
-        .evaluate('global.beagle.getService().globalContext.get($args)')
+    return _beagleJSEngine
+        .evaluateJavascriptCode(
+            'global.beagle.getService().globalContext.get($args)')
         .rawResult;
   }
 
@@ -38,7 +39,11 @@ class GlobalContextJS implements GlobalContext {
 
     final jsonString = json.encode(value);
     final args = path == null ? jsonString : "$jsonString, '$path'";
-    BeagleJSEngine.js
-        .evaluate('global.beagle.getService().globalContext.set($args)');
+    _beagleJSEngine.evaluateJavascriptCode(
+        'global.beagle.getService().globalContext.set($args)');
+  }
+
+  bool _isEncodable(dynamic value) {
+    return value is num || value is String || value is List || value is Map;
   }
 }

@@ -24,20 +24,23 @@ import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockJSRuntime extends Mock implements JavascriptRuntime {}
+class MockBeagleJSEngine extends Mock implements BeagleJSEngine {}
 
 void main() {
-  BeagleJSEngine.js = MockJSRuntime();
+  final beagleJSEngine = MockBeagleJSEngine();
   final tree = BeagleUIElement(
       {'_beagleComponent_': 'beagle:button', 'text': 'Click me!'});
 
   group('Given a RendererJS object', () {
-    final renderer = RendererJS('viewId');
+    final renderer = RendererJS(beagleJSEngine, 'viewId');
 
     group('When doFullRender is called', () {
       test('Then it should do full render', () {
         renderer.doFullRender(tree);
-        expect(verify(BeagleJSEngine.js.evaluate(captureAny)).captured.single,
+        expect(
+            verify(beagleJSEngine.evaluateJavascriptCode(captureAny))
+                .captured
+                .single,
             "global.beagle.getViewById('viewId').getRenderer().doFullRender(${jsonEncode(tree.properties)})");
       });
     });
@@ -46,7 +49,10 @@ void main() {
       test('Then it should do full render by replacing a branch of the tree',
           () {
         renderer.doFullRender(tree, 'elementId');
-        expect(verify(BeagleJSEngine.js.evaluate(captureAny)).captured.single,
+        expect(
+            verify(beagleJSEngine.evaluateJavascriptCode(captureAny))
+                .captured
+                .single,
             "global.beagle.getViewById('viewId').getRenderer().doFullRender(${jsonEncode(tree.properties)}, 'elementId')");
       });
     });
@@ -56,7 +62,10 @@ void main() {
           'Then it should do full render by appending an element to a branch of the tree',
           () {
         renderer.doFullRender(tree, 'elementId', TreeUpdateMode.append);
-        expect(verify(BeagleJSEngine.js.evaluate(captureAny)).captured.single,
+        expect(
+            verify(beagleJSEngine.evaluateJavascriptCode(captureAny))
+                .captured
+                .single,
             "global.beagle.getViewById('viewId').getRenderer().doFullRender(${jsonEncode(tree.properties)}, 'elementId', 'append')");
       });
     });
@@ -69,7 +78,10 @@ void main() {
           'text': 'Click me!'
         });
         renderer.doPartialRender(tree);
-        expect(verify(BeagleJSEngine.js.evaluate(captureAny)).captured.single,
+        expect(
+            verify(beagleJSEngine.evaluateJavascriptCode(captureAny))
+                .captured
+                .single,
             "global.beagle.getViewById('viewId').getRenderer().doPartialRender(${jsonEncode(tree.properties)})");
       });
     });
@@ -78,7 +90,10 @@ void main() {
       test('Then it should do partial render by replacing a branch of the tree',
           () {
         renderer.doPartialRender(tree, 'elementId');
-        expect(verify(BeagleJSEngine.js.evaluate(captureAny)).captured.single,
+        expect(
+            verify(beagleJSEngine.evaluateJavascriptCode(captureAny))
+                .captured
+                .single,
             "global.beagle.getViewById('viewId').getRenderer().doPartialRender(${jsonEncode(tree.properties)}, 'elementId')");
       });
     });
@@ -89,7 +104,10 @@ void main() {
           'Should do full partial by prepending an element to a branch of the tree',
           () {
         renderer.doPartialRender(tree, 'elementId', TreeUpdateMode.prepend);
-        expect(verify(BeagleJSEngine.js.evaluate(captureAny)).captured.single,
+        expect(
+            verify(beagleJSEngine.evaluateJavascriptCode(captureAny))
+                .captured
+                .single,
             "global.beagle.getViewById('viewId').getRenderer().doPartialRender(${jsonEncode(tree.properties)}, 'elementId', 'prepend')");
       });
     });

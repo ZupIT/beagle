@@ -17,8 +17,10 @@
 
 import 'dart:convert';
 
+import 'package:beagle/bridge_impl/beagle_js_request_message.dart';
 import 'package:beagle/bridge_impl/beagle_navigator_js.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
+import 'package:beagle/bridge_impl/js_runtime_wrapper.dart';
 import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/storage.dart';
@@ -29,24 +31,56 @@ import 'package:beagle/model/request.dart';
 import 'package:beagle/model/response.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_js/extensions/xhr.dart';
 import 'package:flutter_js/flutter_js.dart';
 
 typedef ActionListener = void Function(
     {BeagleAction action, BeagleView view, BeagleUIElement element});
+
 typedef HttpListener = void Function(String requestId, Request request);
 
-// ignore: avoid_classes_with_only_static_members
+/// Provides an interface to run javascript code and listen to Beagle's core
+/// events.
 class BeagleJSEngine {
-  static JavascriptRuntime js;
-  static HttpListener httpListener;
-  static ActionListener actionListener;
-  static Map<String, List<ViewUpdateListener>> viewUpdateListenerMap = {};
-  static Map<String, List<ViewErrorListener>> viewErrorListenerMap = {};
-  static Map<String, List<NavigationListener>> navigationListenerMap = {};
-  static Storage storage;
+  BeagleJSEngine(JavascriptRuntimeWrapper jsRuntime)
+      : assert(jsRuntime != null),
+        _jsRuntime = jsRuntime;
 
-  static dynamic deserializeJsFunctions(dynamic value, [String viewId]) {
+  final JavascriptRuntimeWrapper _jsRuntime;
+  BeagleJSEngineState _engineState = BeagleJSEngineState.CREATED;
+
+  final _httpRequestChannelName = 'httpClient.request';
+  final _actionChannelName = 'action';
+  final _viewUpdateChannelName = 'beagleView.update';
+  final _navigatorChannelName = 'beagleNavigator';
+
+  HttpListener _httpListener;
+  ActionListener _actionListener;
+  final Map<String, List<ViewUpdateListener>> _viewUpdateListenerMap = {};
+  final Map<String, List<ViewErrorListener>> _viewErrorListenerMap = {};
+  final Map<String, List<NavigationListener>> _navigationListenerMap = {};
+  Storage _storage;
+
+  /// Runs javascript [code].
+  /// It throws [BeagleJSEngineException] if [BeagleJSEngine] isn't started.
+  JsEvalResult evaluateJavascriptCode(String code) {
+    _checkEngineIsStarted();
+    return _jsRuntime.evaluate(code);
+  }
+
+  void _checkEngineIsStarted() {
+    if (!_isEngineStarted()) {
+      throw BeagleJSEngineException(
+          'BeagleJSEngine has not been started. Did you miss to call BeagleJSEngine.start()?');
+    }
+  }
+
+  bool _isEngineStarted() {
+    return _engineState == BeagleJSEngineState.STARTED;
+  }
+
+  BeagleJSEngineState get state => _engineState;
+
+  dynamic _deserializeJsFunctions(dynamic value, [String viewId]) {
     if (value.runtimeType.toString() == 'String' &&
         value.toString().startsWith('__beagleFn:')) {
       return ([Map<String, dynamic> argumentsMap]) {
@@ -55,7 +89,7 @@ class BeagleJSEngine {
             : "'$value', ${json.encode(argumentsMap)}";
         final jsMethod =
             viewId == null ? 'call(' : "callViewFunction('$viewId', ";
-        final result = js.evaluate('global.beagle.$jsMethod$args)');
+        final result = _jsRuntime.evaluate('global.beagle.$jsMethod$args)');
         debugPrint('dynamic function result: $result');
       };
     }
@@ -63,7 +97,7 @@ class BeagleJSEngine {
     if (value.runtimeType.toString() == 'List<dynamic>') {
       // ignore: avoid_as
       return (value as List<dynamic>)
-          .map((item) => deserializeJsFunctions(item, viewId))
+          .map((item) => _deserializeJsFunctions(item, viewId))
           .toList();
     }
 
@@ -76,7 +110,7 @@ class BeagleJSEngine {
 
       // ignore: cascade_invocations, avoid_function_literals_in_foreach_calls
       keys.forEach((key) {
-        result[key] = deserializeJsFunctions(map[key], viewId);
+        result[key] = _deserializeJsFunctions(map[key], viewId);
       });
       return result;
     }
@@ -84,126 +118,7 @@ class BeagleJSEngine {
     return value;
   }
 
-  static var httpMethodMap = {
-    'get': HttpMethod.get,
-    'post': HttpMethod.post,
-    'put': HttpMethod.put,
-    'patch': HttpMethod.patch,
-    'delete': HttpMethod.delete,
-  };
-
-  static void _setupHttpMessages() {
-    js.onMessage('httpClient.request', (dynamic args) {
-      if (httpListener == null) {
-        debugPrint('ERROR: no http listener found.');
-        return;
-      }
-
-      debugPrint('Received http request: $args');
-      final String id = args['id'];
-      final String url = args['url'];
-      final String methodStr =
-          args.containsKey('method') ? args['method'].toLowerCase() : 'get';
-
-      if (!httpMethodMap.containsKey(methodStr)) {
-        // ignore: only_throw_errors
-        throw ErrorDescription('Unsupported http method $methodStr');
-      }
-
-      final method = httpMethodMap[methodStr];
-      final headers = args.containsKey('headers')
-          // ignore: avoid_as
-          ? (args['headers'] as Map<String, dynamic>).cast<String, String>()
-          : null;
-      final String body = args['body'];
-      final req = Request(url, method: method, headers: headers, body: body);
-      httpListener(id, req);
-    });
-  }
-
-  static void _setupActionMessages() {
-    js.onMessage('action', (dynamic args) {
-      debugPrint('Received action: $args');
-      final action = BeagleAction(deserializeJsFunctions(args['action']));
-
-      if (actionListener == null) {
-        debugPrint('ERROR: no listener found for actions.');
-        return;
-      }
-
-      actionListener(
-          action: action,
-          view: BeagleViewJS.views[args['viewId']],
-          element: BeagleUIElement(args['element']));
-    });
-  }
-
-  static void _setupBeagleViewMessages() {
-    js.onMessage('beagleView.update', (dynamic args) {
-      debugPrint('Received tree from beagle-web-core');
-      final viewId = args['id'];
-
-      if (!viewUpdateListenerMap.containsKey(viewId) ||
-          viewUpdateListenerMap[viewId].isEmpty) {
-        debugPrint('No listener found for updates on view with id $viewId.');
-        return;
-      }
-
-      final deserialized = deserializeJsFunctions(args['tree'], viewId);
-      final result = BeagleUIElement(deserialized);
-
-      for (final listener in viewUpdateListenerMap[viewId]) {
-        listener(result);
-      }
-    });
-  }
-
-  static void _setupBeagleNavigatorMessages() {
-    js.onMessage('beagleNavigator', (dynamic args) {
-      final viewId = args['viewId'];
-      final route = BeagleNavigatorJS.mapToRoute(args['route']);
-
-      if (!navigationListenerMap.containsKey(viewId) ||
-          navigationListenerMap[viewId].isEmpty) {
-        return;
-      }
-
-      for (final listener in navigationListenerMap[viewId]) {
-        listener(route);
-      }
-    });
-  }
-
-  static void _setupStorageMessages() {
-    js
-      ..onMessage('storage.set', (dynamic args) async {
-        final key = args['key'];
-        final value = args['value'];
-        final promiseId = args['promiseId'];
-        await storage.setItem(key, value);
-        js.evaluate("global.beagle.promise.resolve('$promiseId')");
-      })
-      ..onMessage('storage.get', (dynamic args) async {
-        final key = args['key'];
-        final promiseId = args['promiseId'];
-        final result = await storage.getItem(key);
-        js.evaluate(
-            "global.beagle.promise.resolve('$promiseId', ${jsonEncode(result)})");
-      })
-      ..onMessage('storage.remove', (dynamic args) async {
-        final key = args['key'];
-        final promiseId = args['promiseId'];
-        await storage.removeItem(key);
-        js.evaluate("global.beagle.promise.resolve('$promiseId')");
-      })
-      ..onMessage('storage.clear', (dynamic args) async {
-        final promiseId = args['promiseId'];
-        await storage.clear();
-        js.evaluate("global.beagle.promise.resolve('$promiseId')");
-      });
-  }
-
-  static void _setupMessages() {
+  void _setupMessages() {
     _setupHttpMessages();
     _setupActionMessages();
     _setupBeagleViewMessages();
@@ -211,108 +126,223 @@ class BeagleJSEngine {
     _setupStorageMessages();
   }
 
-  static Future<JsEvalResult> promiseToFuture(JsEvalResult result) {
-    return js.handlePromise(result);
+  void _setupHttpMessages() {
+    _jsRuntime.onMessage(
+      _httpRequestChannelName,
+      _notifyHttpListener,
+    );
   }
 
-  static Future<void> start() async {
-    if (js == null) {
-      js = getJavascriptRuntime(forceJavascriptCoreOnAndroid: true, xhr: false);
-      // ignore: cascade_invocations
-      js.enableHandlePromises();
+  void _notifyHttpListener(dynamic requestMessage) {
+    if (_httpListener == null) {
+      return;
+    }
+
+    final jsRequestMessage = BeagleJSRequestMessage.fromJson(requestMessage);
+    final requestId = jsRequestMessage.requestId;
+    final req = jsRequestMessage.toRequest();
+
+    _httpListener(requestId, req);
+  }
+
+  void _setupActionMessages() {
+    _jsRuntime.onMessage(
+      _actionChannelName,
+      _notifyActionListener,
+    );
+  }
+
+  void _notifyActionListener(dynamic actionMessage) {
+    if (_actionListener == null) {
+      return;
+    }
+
+    final action =
+        BeagleAction(_deserializeJsFunctions(actionMessage['action']));
+
+    _actionListener(
+      action: action,
+      view: BeagleViewJS.views[actionMessage['viewId']],
+      element: BeagleUIElement(actionMessage['element']),
+    );
+  }
+
+  void _setupBeagleViewMessages() {
+    _jsRuntime.onMessage(
+      _viewUpdateChannelName,
+      _notifyViewUpdateListeners,
+    );
+  }
+
+  void _notifyViewUpdateListeners(dynamic updateMessage) {
+    final viewId = updateMessage['id'];
+
+    if (!_hasUpdateListenerForView(viewId)) {
+      return;
+    }
+
+    final deserialized = _deserializeJsFunctions(updateMessage['tree'], viewId);
+    final uiElement = BeagleUIElement(deserialized);
+
+    for (final listener in _viewUpdateListenerMap[viewId]) {
+      listener(uiElement);
+    }
+  }
+
+  bool _hasUpdateListenerForView(String viewId) {
+    return _viewUpdateListenerMap.containsKey(viewId) &&
+        _viewUpdateListenerMap[viewId].isNotEmpty;
+  }
+
+  void _setupBeagleNavigatorMessages() {
+    _jsRuntime.onMessage(
+      _navigatorChannelName,
+      _notifyNavigationListeners,
+    );
+  }
+
+  void _notifyNavigationListeners(dynamic navigationMessage) {
+    final viewId = navigationMessage['viewId'];
+
+    if (!_hasNavigationListenerForView(viewId)) {
+      return;
+    }
+
+    final route = BeagleNavigatorJS.mapToRoute(navigationMessage['route']);
+
+    for (final listener in _navigationListenerMap[viewId]) {
+      listener(route);
+    }
+  }
+
+  bool _hasNavigationListenerForView(String viewId) {
+    return _navigationListenerMap.containsKey(viewId) &&
+        _navigationListenerMap[viewId].isNotEmpty;
+  }
+
+  void _setupStorageMessages() {
+    _jsRuntime
+      ..onMessage('storage.set', (dynamic args) async {
+        final key = args['key'];
+        final value = args['value'];
+        final promiseId = args['promiseId'];
+        await _storage.setItem(key, value);
+        _jsRuntime.evaluate("global.beagle.promise.resolve('$promiseId')");
+      })
+      ..onMessage('storage.get', (dynamic args) async {
+        final key = args['key'];
+        final promiseId = args['promiseId'];
+        final result = await _storage.getItem(key);
+        _jsRuntime.evaluate(
+            "global.beagle.promise.resolve('$promiseId', ${jsonEncode(result)})");
+      })
+      ..onMessage('storage.remove', (dynamic args) async {
+        final key = args['key'];
+        final promiseId = args['promiseId'];
+        await _storage.removeItem(key);
+        _jsRuntime.evaluate("global.beagle.promise.resolve('$promiseId')");
+      })
+      ..onMessage('storage.clear', (dynamic args) async {
+        final promiseId = args['promiseId'];
+        await _storage.clear();
+        _jsRuntime.evaluate("global.beagle.promise.resolve('$promiseId')");
+      });
+  }
+
+  /// Handles a javascript promise.
+  /// It throws [BeagleJSEngineException] if [BeagleJSEngine] isn't started.
+  Future<JsEvalResult> promiseToFuture(JsEvalResult result) {
+    _checkEngineIsStarted();
+    return _jsRuntime.handlePromise(result);
+  }
+
+  /// Lazily starts the [BeagleJSEngine].
+  /// This method must be called before any attempt to interact with Beagle's
+  /// javascript core.
+  Future<void> start({Storage storage}) async {
+    if (!_isEngineStarted()) {
+      _storage = storage;
+      _engineState = BeagleJSEngineState.STARTED;
+      _jsRuntime.enableHandlePromises();
       _setupMessages();
       final beagleJS =
           await rootBundle.loadString('packages/beagle/assets/js/beagle.js');
-      js.evaluate('var window = global = globalThis;');
-      final bundleResult = await js.evaluateAsync(beagleJS);
+      _jsRuntime.evaluate('var window = global = globalThis;');
+      final bundleResult = await _jsRuntime.evaluateAsync(beagleJS);
       debugPrint('Initialization result: $bundleResult');
     }
   }
 
   // todo: increment this to pass more configurations
-  static void createBeagleService({
-    String baseUrl,
-    Map<String, dynamic> navigationControllers,
-    List<String> actionKeys,
-    bool useBeagleHeaders,
-    String strategy,
-    Storage storage,
-  }) {
-    final params = {
-      'baseUrl': baseUrl,
-      'actionKeys': actionKeys,
-      'useBeagleHeaders': useBeagleHeaders,
-      'strategy': strategy,
-    };
-    if (navigationControllers != null) {
-      params['navigationControllers'] = navigationControllers;
-    }
-    final result = js.evaluate('global.beagle.start(${json.encode(params)})');
-    debugPrint('Beagle service result: $result');
-    BeagleJSEngine.storage = storage;
-  }
-
-  // todo: increment this to pass more configurations
-  static String createBeagleView() {
-    final result = js.evaluate('global.beagle.createBeagleView()');
+  /// Creates a new BeagleView and returns the created view id.
+  String createBeagleView() {
+    final result = _jsRuntime.evaluate('global.beagle.createBeagleView()');
     final id = result.stringResult;
     debugPrint('created beagle view with id $id');
     return id;
   }
 
   // ignore: use_setters_to_change_properties
-  static void onAction(ActionListener listener) {
-    actionListener = listener;
+  void onAction(ActionListener listener) {
+    _actionListener = listener;
   }
 
   // ignore: use_setters_to_change_properties
-  static void onHttpRequest(HttpListener listener) {
-    httpListener = listener;
+  void onHttpRequest(HttpListener listener) {
+    _httpListener = listener;
   }
 
-  static RemoveListener onViewUpdate(
-      String viewId, ViewUpdateListener listener) {
-    viewUpdateListenerMap[viewId] = viewUpdateListenerMap[viewId] ?? [];
-    viewUpdateListenerMap[viewId].add(listener);
+  RemoveListener onViewUpdate(String viewId, ViewUpdateListener listener) {
+    _viewUpdateListenerMap[viewId] = _viewUpdateListenerMap[viewId] ?? [];
+    _viewUpdateListenerMap[viewId].add(listener);
     return () {
-      viewUpdateListenerMap[viewId].remove(listener);
+      _viewUpdateListenerMap[viewId].remove(listener);
     };
   }
 
-  static RemoveListener onViewUpdateError(
-      String viewId, ViewErrorListener listener) {
-    viewErrorListenerMap[viewId] = viewErrorListenerMap[viewId] ?? [];
-    viewErrorListenerMap[viewId].add(listener);
+  RemoveListener onViewUpdateError(String viewId, ViewErrorListener listener) {
+    _viewErrorListenerMap[viewId] = _viewErrorListenerMap[viewId] ?? [];
+    _viewErrorListenerMap[viewId].add(listener);
     return () {
-      viewErrorListenerMap[viewId].remove(listener);
+      _viewErrorListenerMap[viewId].remove(listener);
     };
   }
 
-  static RemoveListener onNavigate(String viewId, NavigationListener listener) {
-    navigationListenerMap[viewId] = navigationListenerMap[viewId] ?? [];
-    navigationListenerMap[viewId].add(listener);
+  RemoveListener onNavigate(String viewId, NavigationListener listener) {
+    _navigationListenerMap[viewId] = _navigationListenerMap[viewId] ?? [];
+    _navigationListenerMap[viewId].add(listener);
     return () {
-      navigationListenerMap[viewId].remove(listener);
+      _navigationListenerMap[viewId].remove(listener);
     };
   }
 
-  static void removeViewListeners(String viewId) {
-    viewUpdateListenerMap.remove(viewId);
-    viewErrorListenerMap.remove(viewId);
+  void removeViewListeners(String viewId) {
+    _viewUpdateListenerMap.remove(viewId);
+    _viewErrorListenerMap.remove(viewId);
   }
 
-  static void callJsFunction(String functionId,
-      [Map<String, dynamic> argumentsMap]) {
+  void callJsFunction(String functionId, [Map<String, dynamic> argumentsMap]) {
     final args = argumentsMap == null
         ? "'$functionId'"
         : "'$functionId', ${json.encode(argumentsMap)}";
-    final result = js.evaluate('global.beagle.call($args)');
+    final result = _jsRuntime.evaluate('global.beagle.call($args)');
     debugPrint('dynamic function result: $result');
   }
 
-  static void respondHttpRequest(String id, Response response) {
-    final result = js.evaluate(
+  void respondHttpRequest(String id, Response response) {
+    final result = _jsRuntime.evaluate(
         'global.beagle.httpClient.respond($id, ${response.toJson()})');
     debugPrint('httpClient.respond result: $result');
   }
 }
+
+class BeagleJSEngineException implements Exception {
+  BeagleJSEngineException(this._message);
+
+  final String _message;
+
+  @override
+  String toString() => _message;
+}
+
+enum BeagleJSEngineState { CREATED, STARTED }
