@@ -104,20 +104,21 @@ class BeagleSampleApp extends StatelessWidget {
           ],
         ),
         body: BeagleWidget(
-          screenJson: '''
-                {
-                      "_beagleComponent_": "beagle:bddutton",
-                      "text": "Beagle Button",
-                      "disabled": false,
-                      "onPress": [
-                      {
-                      "_beagleAction_": "beagle:alert",
-                      "title": "Button",
-                      "message":"Button got pressed!"
-                      }
-                      ]
-              }
-  ''',
+          //         screenJson: '''
+          //               {
+          //                     "_beagleComponent_": "beagle:button",
+          //                     "text": "Beagle Button",
+          //                     "disabled": false,
+          //                     "onPress": [
+          //                     {
+          //                     "_beagleAction_": "beagle:alert",
+          //                     "title": "Button",
+          //                     "message":"Button got pressed!"
+          //                     }
+          //                     ]
+          //             }
+          // ''',
+          url: 'beagle_lazy',
           onCreateView: (view) => {
             view.addErrorListener((errors) {
               //TODO

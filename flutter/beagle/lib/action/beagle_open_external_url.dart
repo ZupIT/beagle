@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/beagle_initializer.dart';
+import 'package:beagle/beagle_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BeagleOpenExternalUrl {
@@ -23,7 +23,7 @@ class BeagleOpenExternalUrl {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      BeagleInitializer.logger.error('Could not launch $url');
+      BeagleSdk.logger.error('Could not launch $url');
     }
   }
 }
