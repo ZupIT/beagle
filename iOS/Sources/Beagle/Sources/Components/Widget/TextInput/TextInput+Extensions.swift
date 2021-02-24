@@ -223,11 +223,14 @@ private extension TextInput.TextInputView {
         validationLabel.textColor = invalidInputColor ?? .red
         validationLabel.sizeToFit()
         validationLabel.frame.size.width = frame.width
+        let errorMessageEmpty = (errorMessage?.isEmpty ?? true)
+        layer.borderColor = (showError && !errorMessageEmpty) ? invalidInputColor?.cgColor : validInputColor?.cgColor
     }
     
     func updateLayoutForValidation() {
         validationLabel.isHidden = !showError
-        layer.borderColor = showError ? invalidInputColor?.cgColor : validInputColor?.cgColor
+        let errorMessageEmpty = (errorMessage?.isEmpty ?? true)
+        layer.borderColor = (showError && !errorMessageEmpty) ? invalidInputColor?.cgColor : validInputColor?.cgColor
     }
     
     func setupToolBar() {
