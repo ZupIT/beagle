@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
+import org.apache.tools.ant.taskdefs.condition.Os
+
 task schema {
-    def bashSchema = "$projectDir/../../schema-ruby-erb/model_generation/schema.sh -$rootProject.ext.schemaPlatform".execute()
+    def bashSchema
+	if (Os.isFamily(Os.FAMILY_WINDOWS)){
+		bashSchema = "$projectDir/../../schema-ruby-erb/model_generation/schema.bat -$rootProject.ext.schemaPlatform".execute()
+	}else{
+		bashSchema = "$projectDir/../../schema-ruby-erb/model_generation/schema.sh -$rootProject.ext.schemaPlatform".execute()
+	}
     bashSchema.waitForProcessOutput(System.out, System.err)
 
     if (bashSchema.exitValue() != 0) {

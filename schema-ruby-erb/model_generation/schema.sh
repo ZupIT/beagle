@@ -24,13 +24,13 @@ helpFunction()
         for other supported languages
         
     OPTIONS
-        -w                        Generates code for all the supported languages
-        -s                        Generates code in swift
+        -w                       Generates code for all the supported languages
+        -s                       Generates code in swift
         -k                       Generates code in kotlin (Backend and Android)
         -b                       Generates code in kotlin Backend
         -a                       Generates code in kotlin Android
-        -t                        Generates code in type script
-        -h                        Show help
+        -t                       Generates code in type script
+        -h                       Show help
         
     EXAMPLES
         ./schema.sh -s
@@ -53,7 +53,7 @@ full_path=$(dirname "$0")
 # Print helpFunction in case parameters are empty
 if [ $# -eq 0 ]
   then
-    echo "Invalid options. Use -h to get more info";
+    echo "No params found. Use -h to get more info";
     exit 1
 fi
 
@@ -67,6 +67,6 @@ do
         t) ruby $full_path/main.rb "$full_path" "ts";;
         w) ruby $full_path/main.rb "$full_path" "all";;
         h) helpFunction;;
-        ?) echo "Invalid options. Use -h to get more info";;
+        ?) echo "Invalid option. Use -h to get more info";;
     esac
 done
