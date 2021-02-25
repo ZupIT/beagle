@@ -1,3 +1,4 @@
+import 'package:beagle/beagle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ class BeagleNativeNavigator {
 
   BeagleNativeNavigator._constructor();
 
+  //Fix me - Using this context could lead to unexpected leaks, this will be swapped as soon as the context is available through the actions parameters
   BuildContext buildContext;
 
   static final BeagleNativeNavigator _instance =
@@ -17,7 +19,8 @@ class BeagleNativeNavigator {
     try {
       Navigator.pushNamed(buildContext, url);
     } catch (err) {
-      debugPrint('Error: $err while trying to navigate to $url');
+      BeagleInitializer.logger
+          .error('Error: $err while trying to navigate to $url');
     }
   }
 }
