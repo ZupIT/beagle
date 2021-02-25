@@ -30,6 +30,7 @@ import 'package:beagle/interface/storage.dart';
 import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/networking/beagle_request.dart';
+import 'package:beagle/utils/network_strategy.dart';
 
 class BeagleServiceJS implements BeagleService {
   BeagleServiceJS(
@@ -88,18 +89,6 @@ class BeagleServiceJS implements BeagleService {
     return result;
   }
 
-  // transforms the enum NetworkStrategy into the string expected by beagle web (js)
-  String getJsStrategyName() {
-    /* When calling toString in an enum, it returns EnumName.EnumValue, we just need the part after
-    the ".", which will give us the strategy name in camelCase. */
-    final strategyNameInCamelCase = strategy.toString().split('.')[1];
-    /* beagle web needs the strategy name in kebab-case, we use a regex to replace the uppercase
-    letters with a hyphen and the lower case equivalent. */
-    final strategyNameInKebabCase = strategyNameInCamelCase.replaceAllMapped(
-        RegExp('[A-Z]'), (match) => '-${match[0].toLowerCase()}');
-    return strategyNameInKebabCase;
-  }
-
   @override
   Future<void> start() async {
     await _beagleJSEngine.start(storage: storage);
@@ -114,7 +103,7 @@ class BeagleServiceJS implements BeagleService {
       'baseUrl': baseUrl,
       'actionKeys': actions.keys.toList(),
       'useBeagleHeaders': useBeagleHeaders,
-      'strategy': getJsStrategyName(),
+      'strategy': NetworkStrategyUtils.getJsStrategyName(strategy),
     };
     final navigationControllers = getNavigationControllersAsMap();
     if (navigationControllers != null) {
