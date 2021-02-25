@@ -279,7 +279,7 @@ class BeagleJSEngine {
     BeagleNetworkOptions networkOptions,
     String initialControllerId,
   }) {
-    final params = [networkOptions.toJsonEncode()];
+    final params = [BeagleNetworkOptions.toJsonEncode(networkOptions)];
     if (initialControllerId != null) {
       params.add(initialControllerId);
     }

@@ -16,18 +16,17 @@
 
 import 'package:beagle/networking/beagle_http_method.dart';
 import 'package:beagle/networking/beagle_network_options.dart';
+import 'package:beagle/networking/beagle_network_strategy.dart';
 
 /// BeagleRequest is used to do requests.
-class BeagleScreenRequest extends BeagleNetworkOptions {
+class BeagleScreenRequest implements BeagleNetworkOptions {
   BeagleScreenRequest(
     this.url, {
-    BeagleHttpMethod method,
-    Map<String, String> headers,
+    this.method,
+    this.headers,
+    this.strategy,
     this.body,
-  }) {
-    this.method = method;
-    this.headers = headers;
-  }
+  });
 
   /// Server URL
   String url;
@@ -35,4 +34,13 @@ class BeagleScreenRequest extends BeagleNetworkOptions {
   //TODO: NEEDS IMPLEMENTS
   /// Content that will be deliver with the request.
   String body;
+
+  @override
+  Map<String, String> headers;
+
+  @override
+  BeagleHttpMethod method;
+
+  @override
+  BeagleNetworkStrategy strategy;
 }

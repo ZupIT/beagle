@@ -29,17 +29,18 @@ class BeagleNetworkOptions {
   Map<String, String> headers;
   BeagleNetworkStrategy strategy;
 
-  String toJsonEncode() {
+  static String toJsonEncode(BeagleNetworkOptions networkOptions) {
     final params = <String, dynamic>{};
 
-    if (method != null) {
-      params['method'] = EnumUtils.name(method);
+    if (networkOptions.method != null) {
+      params['method'] = EnumUtils.name(networkOptions.method);
     }
-    if (headers != null) {
-      params['headers'] = headers;
+    if (networkOptions.headers != null) {
+      params['headers'] = networkOptions.headers;
     }
-    if (strategy != null) {
-      params['strategy'] = NetworkStrategyUtils.getJsStrategyName(strategy);
+    if (networkOptions.strategy != null) {
+      params['strategy'] =
+          NetworkStrategyUtils.getJsStrategyName(networkOptions.strategy);
     }
 
     return jsonEncode(params);
