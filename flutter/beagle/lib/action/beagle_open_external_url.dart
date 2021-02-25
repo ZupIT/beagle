@@ -15,15 +15,15 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/beagle_initializer.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:beagle/beagle_sdk.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class BeagleOpenExternalUrl {
   static Future<void> launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await launcher.canLaunch(url)) {
+      await launcher.launch(url);
     } else {
-      BeagleInitializer.logger.error('Could not launch $url');
+      BeagleSdk.logger.error('Could not launch $url');
     }
   }
 }

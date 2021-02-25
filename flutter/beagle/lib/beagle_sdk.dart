@@ -15,10 +15,12 @@
  *  limitations under the License.
  */
 
+import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_service_js.dart';
 import 'package:beagle/default/default_actions.dart';
 import 'package:beagle/default/default_http_client.dart';
 import 'package:beagle/default/default_image_downloader.dart';
+import 'package:beagle/default/default_storage.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
@@ -27,6 +29,7 @@ import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_config.dart';
 import 'package:beagle/model/network_strategy.dart';
+import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 
 // ignore: avoid_classes_with_only_static_members
@@ -53,6 +56,7 @@ class BeagleSdk {
     BeagleImageDownloader imageDownloader,
     BeagleLogger logger,
   }) {
+    setupServiceLocator();
     _config = beagleConfig;
     _designSystem = designSystem;
     _imageDownloader = imageDownloader ??
@@ -60,10 +64,11 @@ class BeagleSdk {
             httpClient: httpClient ?? const DefaultHttpClient());
     _logger = logger;
     _service = BeagleServiceJS(
+      serviceLocator<BeagleJSEngine>(),
       baseUrl: beagleConfig?.baseUrl ?? '',
       httpClient: httpClient ?? const DefaultHttpClient(),
       components: components,
-      storage: storage,
+      storage: storage ?? DefaultStorage(),
       useBeagleHeaders: useBeagleHeaders ?? true,
       actions:
           actions == null ? defaultActions : {...defaultActions, ...actions},
