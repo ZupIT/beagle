@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-
 import 'package:beagle/model/beagle_button_style.dart';
+import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/rendering.dart';
 
-abstract class BeagleDesignSystem {
-  String image(String id);
+class DefaultEmptyDesignSystem extends BeagleDesignSystem {
+  @override
+  BeagleButtonStyle buttonStyle(String id) {
+    return null;
+  }
 
-  BeagleButtonStyle buttonStyle(String id);
+  @override
+  String image(String id) {
+    return null;
+  }
 
-  TextStyle textStyle(String id);
+  @override
+  TextStyle textStyle(String id) {
+    return null;
+  }
 }

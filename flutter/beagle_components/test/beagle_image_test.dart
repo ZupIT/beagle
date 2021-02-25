@@ -27,12 +27,23 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'image/image_mock_data.dart';
+import 'service_locator/service_locator.dart';
 
-class MockDesignSystem extends Mock implements DesignSystem {}
+class MockDesignSystem extends Mock implements BeagleDesignSystem {}
 
 class MockBeagleImageDownloader extends Mock implements BeagleImageDownloader {}
 
 void main() {
+  final designSystemMock = MockDesignSystem();
+  final imageDownloaderMock = MockBeagleImageDownloader();
+
+  setUpAll(() async {
+    await testSetupServiceLocator(
+      designSystem: designSystemMock,
+      imageDownloader: imageDownloaderMock,
+    );
+  });
+
   const imageUrl = 'https://test.com/beagle.png';
   const imageNotFoundUrl = 'https://notfound.com/beagle.png';
   const defaultPlaceholder = 'mobileId';
@@ -40,13 +51,11 @@ void main() {
   const errorStatusCode = 404;
   const imageKey = Key('BeagleImage');
 
-  final designSystemMock = MockDesignSystem();
   when(designSystemMock.image(defaultPlaceholder))
       .thenReturn('images/beagle_dog.png');
 
   when(designSystemMock.image(invalidPlaceholder)).thenReturn(null);
 
-  final imageDownloaderMock = MockBeagleImageDownloader();
   when(imageDownloaderMock.downloadImage(imageUrl)).thenAnswer((invocation) {
     return Future<Uint8List>.value(mockedBeagleImageData);
   });
@@ -58,7 +67,6 @@ void main() {
 
   Widget createWidget({
     Key key = imageKey,
-    DesignSystem designSystem,
     BeagleImageDownloader imageDownloader,
     ImagePath path,
     ImageContentMode mode,
@@ -66,8 +74,6 @@ void main() {
     return MaterialApp(
       home: BeagleImage(
         key: key,
-        designSystem: designSystem,
-        imageDownloader: imageDownloader,
         path: path,
         mode: mode,
       ),
@@ -79,7 +85,6 @@ void main() {
     ImageContentMode mode,
   }) {
     return createWidget(
-      designSystem: designSystemMock,
       path: ImagePath.local(placeholder),
       mode: mode,
     );
@@ -91,7 +96,6 @@ void main() {
     ImageContentMode mode,
   }) {
     return createWidget(
-      designSystem: designSystemMock,
       imageDownloader: imageDownloaderMock,
       path: ImagePath.remote(
         url,

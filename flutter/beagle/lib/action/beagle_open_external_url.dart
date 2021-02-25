@@ -16,6 +16,8 @@
  */
 
 import 'package:beagle/beagle_sdk.dart';
+import 'package:beagle/logger/beagle_logger.dart';
+import 'package:beagle/service_locator.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class BeagleOpenExternalUrl {
@@ -23,7 +25,7 @@ class BeagleOpenExternalUrl {
     if (await launcher.canLaunch(url)) {
       await launcher.launch(url);
     } else {
-      BeagleSdk.logger.error('Could not launch $url');
+      beagleServiceLocator<BeagleLogger>().error('Could not launch $url');
     }
   }
 }

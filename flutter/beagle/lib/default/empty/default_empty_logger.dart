@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
+import 'package:beagle/logger/beagle_logger.dart';
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:flutter/rendering.dart';
+class DefaultEmptyLogger extends BeagleLogger {
+  @override
+  void error(String message) {}
 
-abstract class BeagleDesignSystem {
-  String image(String id);
+  @override
+  void errorWithException(String message, Exception exception) {}
 
-  BeagleButtonStyle buttonStyle(String id);
+  @override
+  void info(String message) {}
 
-  TextStyle textStyle(String id);
+  @override
+  void warning(String message) {}
 }

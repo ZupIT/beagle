@@ -20,12 +20,9 @@ class BeagleConfig {
   BeagleConfig({
     this.environment,
     this.baseUrl,
-    this.isLoggingEnabled,
   });
 
   final BeagleEnvironment environment;
 
   final String baseUrl;
-
-  final bool isLoggingEnabled;
 }

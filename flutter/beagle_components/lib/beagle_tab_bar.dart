@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,7 +25,6 @@ import 'package:flutter/material.dart';
 class BeagleTabBar extends StatefulWidget {
   const BeagleTabBar({
     Key key,
-    this.designSystem,
     this.items,
     this.currentTab,
     this.onTabSelection,
@@ -38,10 +38,6 @@ class BeagleTabBar extends StatefulWidget {
 
   /// Action that will be performed when a tab is pressed.
   final Function onTabSelection;
-
-  /// [DesignSystem] that will provide the resources referenced by
-  /// [LocalImagePath] under [TabBarItem].
-  final DesignSystem designSystem;
 
   @override
   _BeagleTabBarState createState() => _BeagleTabBarState();
@@ -132,11 +128,9 @@ class _BeagleTabBarState extends State<BeagleTabBar>
   }
 
   Image _getImageFromAsset(String mobileId) {
-    if (widget.designSystem == null) {
-      return null;
-    }
+    final designSystem = beagleServiceLocator<BeagleDesignSystem>();
 
-    final assetName = widget.designSystem.image(mobileId);
+    final assetName = designSystem.image(mobileId);
 
     return assetName != null ? Image.asset(assetName, fit: BoxFit.fill) : null;
   }

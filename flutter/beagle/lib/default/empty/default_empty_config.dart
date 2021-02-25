@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
+import 'package:beagle/beagle.dart';
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:flutter/rendering.dart';
+class DefaultEmptyConfig extends BeagleConfig {
+  @override
+  BeagleEnvironment get environment => BeagleEnvironment.debug;
 
-abstract class BeagleDesignSystem {
-  String image(String id);
-
-  BeagleButtonStyle buttonStyle(String id);
-
-  TextStyle textStyle(String id);
+  @override
+  String get baseUrl => '';
 }
