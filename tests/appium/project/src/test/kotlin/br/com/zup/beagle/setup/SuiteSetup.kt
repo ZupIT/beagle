@@ -75,7 +75,7 @@ object SuiteSetup {
             throw Exception("Invalid platform param: $platform. Platform must be android or ios")
 
 
-        println("#### Initializing test suite setup with platform $platform...")
+        println("#### Initializing test suite setup with platform $platform... (CUSTOM BRANCH)")
 
         bffBaseUrl = System.getProperty("bff_base_url")
         if (bffBaseUrl.isNullOrBlank()) {
