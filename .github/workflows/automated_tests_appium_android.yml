@@ -17,8 +17,9 @@
 name: Beagle Appium Android Tests
 
 on:
+  workflow_dispatch
   workflow_run:
-    workflows: ["Beagle Appium Tests"]
+    workflows: [ "Beagle Appium Tests" ]
     types:
       - completed
 
@@ -30,6 +31,10 @@ jobs:
       BFF_NAME: automated-test-bff
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+      - run: git branch
+      - run: env
 
       - name: Cache gradle dependencies of project backend
         uses: actions/cache@v2
@@ -74,6 +79,10 @@ jobs:
       BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+      - run: git branch
+      - run: env
 
       - name: Cache gradle dependencies of project app-android
         uses: actions/cache@v2
