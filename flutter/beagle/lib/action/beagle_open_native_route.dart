@@ -19,8 +19,7 @@ class BeagleNativeNavigator {
     try {
       Navigator.pushNamed(buildContext, url);
     } catch (err) {
-      BeagleInitializer.logger
-          .error('Error: $err while trying to navigate to $url');
+      BeagleSdk.logger.error('Error: $err while trying to navigate to $url');
     }
   }
 }
