@@ -38,17 +38,13 @@ class BeagleWidget extends StatefulWidget {
     Key key,
     this.onCreateView,
     this.screenJson,
-    this.controllerId,
     this.screenRequest,
   }) : super(key: key);
 
   /// that represents a local screen to be shown.
   final String screenJson;
 
-  /// that represents a controllerId.
-  final String controllerId;
-
-  /// that represents a screen request.
+  /// provides the url, method, headers and body to the request.
   final BeagleScreenRequest screenRequest;
 
   /// get a current BeagleView.
@@ -77,7 +73,6 @@ class _BeagleWidget extends State<BeagleWidget> {
     await service.start();
     _view = service.createView(
       networkOptions: widget.screenRequest,
-      initialControllerId: widget.controllerId,
     )..subscribe((tree) {
         final widgetLoaded = _buildViewFromTree(tree);
         setState(() {

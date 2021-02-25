@@ -20,6 +20,7 @@ import 'dart:convert';
 import 'package:beagle/networking/beagle_http_method.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/utils/enum.dart';
+import 'package:beagle/utils/network_strategy.dart';
 
 class BeagleNetworkOptions {
   BeagleNetworkOptions({this.method, this.headers, this.strategy});
@@ -28,12 +29,20 @@ class BeagleNetworkOptions {
   Map<String, String> headers;
   BeagleNetworkStrategy strategy;
 
-  String toJsonEncode() {
-    final params = {
-      'method': EnumUtils.name(method),
-      'headers': headers,
-      'strategy': EnumUtils.name(strategy),
-    };
+  static String toJsonEncode(BeagleNetworkOptions networkOptions) {
+    final params = <String, dynamic>{};
+
+    if (networkOptions.method != null) {
+      params['method'] = EnumUtils.name(networkOptions.method);
+    }
+    if (networkOptions.headers != null) {
+      params['headers'] = networkOptions.headers;
+    }
+    if (networkOptions.strategy != null) {
+      params['strategy'] =
+          NetworkStrategyUtils.getJsStrategyName(networkOptions.strategy);
+    }
+
     return jsonEncode(params);
   }
 }

@@ -14,33 +14,21 @@
  * limitations under the License.
  */
 
-import 'package:beagle/networking/beagle_http_method.dart';
-import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
+import 'package:beagle/utils/enum.dart';
 
-/// BeagleRequest is used to do requests.
-class BeagleScreenRequest implements BeagleNetworkOptions {
-  BeagleScreenRequest(
-    this.url, {
-    this.method,
-    this.headers,
-    this.strategy,
-    this.body,
-  });
+class NetworkStrategyUtils {
+  // transforms the enum NetworkStrategy into the string expected by beagle web (js)
+  static String getJsStrategyName(BeagleNetworkStrategy strategy) {
+    if (strategy == null) {
+      return null;
+    }
 
-  /// Server URL
-  String url;
-
-  //TODO: NEEDS IMPLEMENTS
-  /// Content that will be deliver with the request.
-  String body;
-
-  @override
-  Map<String, String> headers;
-
-  @override
-  BeagleHttpMethod method;
-
-  @override
-  BeagleNetworkStrategy strategy;
+    final strategyNameInCamelCase = EnumUtils.name(strategy);
+    /* beagle web needs the strategy name in kebab-case, we use a regex to replace the uppercase
+    letters with a hyphen and the lower case equivalent. */
+    final strategyNameInKebabCase = strategyNameInCamelCase.replaceAllMapped(
+        RegExp('[A-Z]'), (match) => '-${match[0].toLowerCase()}');
+    return strategyNameInKebabCase;
+  }
 }
