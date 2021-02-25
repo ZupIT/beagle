@@ -29,7 +29,7 @@ final Map<String, ActionHandler> defaultActions = {
     );
   },
   'beagle:openNativeRoute': ({action, view, element}) {
-    BeagleNativeNavigator().navigate(action.getAttributeValue('route'));
+    BeagleOpenNativeRoute().navigate(action.getAttributeValue('route'));
   },
   'beagle:openExternalURL': ({action, view, element}) {
     BeagleOpenExternalUrl.launchURL(action.getAttributeValue('url'));
