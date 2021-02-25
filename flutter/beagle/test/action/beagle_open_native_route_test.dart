@@ -1,4 +1,3 @@
-import 'package:beagle/action/beagle_open_external_url.dart';
 import 'package:beagle/action/beagle_open_native_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,11 @@ void main() {
     ContextMock _mockContext;
     const mockRoute = '/route';
     NavigatorObserver mockObserver;
-    BeagleOpenNativeRoute mockOpenNativeRoute = MockOpenNativeRoute();
-    mockOpenNativeRoute.buildContext = _mockContext;
+    final BeagleOpenNativeRoute mockOpenNativeRoute = MockOpenNativeRoute();
 
     setUp(() {
       mockObserver = MockNavigatorObserver();
+      mockOpenNativeRoute.buildContext = _mockContext;
     });
 
     Future<void> _buildPage(WidgetTester tester) async {
