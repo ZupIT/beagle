@@ -18,6 +18,7 @@
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
+import 'package:beagle/networking/beagle_http_method.dart';
 import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -104,21 +105,7 @@ class BeagleSampleApp extends StatelessWidget {
           ],
         ),
         body: BeagleWidget(
-          //         screenJson: '''
-          //               {
-          //                     "_beagleComponent_": "beagle:button",
-          //                     "text": "Beagle Button",
-          //                     "disabled": false,
-          //                     "onPress": [
-          //                     {
-          //                     "_beagleAction_": "beagle:alert",
-          //                     "title": "Button",
-          //                     "message":"Button got pressed!"
-          //                     }
-          //                     ]
-          //             }
-          // ''',
-          url: 'beagle_lazy',
+          screenRequest: BeagleScreenRequest('beagle_lazy'),
           onCreateView: (view) => {
             view.addErrorListener((errors) {
               //TODO

@@ -22,6 +22,7 @@ import 'package:beagle/components/beagle_undefined_widget.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
+import 'package:beagle/networking/beagle_screen_request.dart';
 import 'package:flutter/widgets.dart';
 
 typedef OnCreateViewListener = void Function(BeagleView view);
@@ -31,16 +32,20 @@ typedef OnCreateViewListener = void Function(BeagleView view);
 class BeagleWidget extends StatefulWidget {
   const BeagleWidget({
     Key key,
-    this.url,
     this.onCreateView,
     this.screenJson,
+    this.controllerId,
+    this.screenRequest,
   }) : super(key: key);
-
-  /// Server URL will be used to make a request.
-  final String url;
 
   /// that represents a local screen to be shown.
   final String screenJson;
+
+  /// that represents a controllerId.
+  final String controllerId;
+
+  /// that represents a screen request.
+  final BeagleScreenRequest screenRequest;
 
   /// get a current BeagleView.
   final OnCreateViewListener onCreateView;
@@ -63,16 +68,18 @@ class _BeagleWidget extends State<BeagleWidget> {
   Future<void> _startBeagleView() async {
     await BeagleSdk.getService().start();
 
-    _view = BeagleSdk.getService().createView()
-      ..subscribe((tree) {
+    _view = BeagleSdk.getService().createView(
+      networkOptions: widget.screenRequest,
+      initialControllerId: widget.controllerId,
+    )..subscribe((tree) {
         final widgetLoaded = _buildViewFromTree(tree);
         setState(() {
           widgetState = widgetLoaded;
         });
       });
 
-    if (widget.url != null) {
-      await _view.getNavigator().pushView(RemoteView(widget.url));
+    if (widget.screenRequest != null) {
+      await _view.getNavigator().pushView(RemoteView(widget.screenRequest.url));
     } else {
       await _view
           .getNavigator()
@@ -95,6 +102,6 @@ class _BeagleWidget extends State<BeagleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widgetState ??  const SizedBox.shrink();
+    return widgetState ?? const SizedBox.shrink();
   }
 }

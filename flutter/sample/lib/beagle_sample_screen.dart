@@ -47,7 +47,7 @@ class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
           title: Text(widget.title),
         ),
         body: BeagleWidget(
-          url: widget.route,
+          screenRequest: BeagleScreenRequest(widget.route)
         ),
       ),
     );

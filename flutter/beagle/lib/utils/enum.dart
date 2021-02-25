@@ -19,7 +19,12 @@ class EnumUtils {
   static T fromString<T>(List<T> values, String str) {
     return values.firstWhere(
         (item) =>
-            item.toString().split('.')[1].toUpperCase() == str.toUpperCase(),
+            name(item).toUpperCase() == str.toUpperCase(),
         orElse: () => null);
+  }
+
+  // ignore: inference_failure_on_untyped_parameter
+  static String name(value) {
+    return value.toString().split('.').last;
   }
 }

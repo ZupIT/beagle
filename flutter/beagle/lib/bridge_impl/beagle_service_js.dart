@@ -27,9 +27,9 @@ import 'package:beagle/interface/global_context.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
-import 'package:beagle/model/network_options.dart';
-import 'package:beagle/model/network_strategy.dart';
-import 'package:beagle/model/request.dart';
+import 'package:beagle/networking/beagle_network_options.dart';
+import 'package:beagle/networking/beagle_network_strategy.dart';
+import 'package:beagle/networking/beagle_request.dart';
 
 class BeagleServiceJS implements BeagleService {
   BeagleServiceJS(
@@ -60,7 +60,7 @@ class BeagleServiceJS implements BeagleService {
   @override
   Map<String, ActionHandler> actions;
   @override
-  NetworkStrategy strategy;
+  BeagleNetworkStrategy strategy;
   @override
   Map<String, NavigationController> navigationControllers;
   @override
@@ -125,7 +125,7 @@ class BeagleServiceJS implements BeagleService {
   }
 
   void _registerHttpListener() {
-    _beagleJSEngine.onHttpRequest((String id, Request request) async {
+    _beagleJSEngine.onHttpRequest((String id, BeagleRequest request) async {
       final response = await httpClient.sendRequest(request);
       _beagleJSEngine.respondHttpRequest(id, response);
     });
@@ -143,7 +143,11 @@ class BeagleServiceJS implements BeagleService {
 
   @override
   BeagleView createView(
-      {NetworkOptions networkOptions, String initialControllerId}) {
-    return BeagleViewJS(_beagleJSEngine);
+      {BeagleNetworkOptions networkOptions, String initialControllerId}) {
+    return BeagleViewJS(
+      _beagleJSEngine,
+      networkOptions: networkOptions,
+      initialControllerId: initialControllerId,
+    );
   }
 }

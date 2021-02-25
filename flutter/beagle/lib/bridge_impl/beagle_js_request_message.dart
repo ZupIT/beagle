@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import 'package:beagle/bridge_impl/beagle_supported_http_methods.dart';
-import 'package:beagle/model/request.dart';
-import 'package:flutter_js/extensions/xhr.dart';
+import 'package:beagle/networking/beagle_http_method.dart';
+import 'package:beagle/networking/beagle_request.dart';
+import 'package:beagle/utils/enum.dart';
 
 /// Encapsulates a Beagle javascript HTTP request message.
 class BeagleJSRequestMessage {
@@ -30,15 +30,15 @@ class BeagleJSRequestMessage {
 
   String _requestId;
   String _url;
-  HttpMethod _method;
+  BeagleHttpMethod _method;
   Map<String, String> _headers;
   String _body;
 
-  HttpMethod _getHttpMethod(Map<String, dynamic> json) {
+  BeagleHttpMethod _getHttpMethod(Map<String, dynamic> json) {
     final String httpMethodStr =
         json.containsKey('method') ? json['method'].toLowerCase() : 'get';
 
-    return BeagleSupportedHttpMethods().getHttpMethod(httpMethodStr);
+    return EnumUtils.fromString(BeagleHttpMethod.values, httpMethodStr);
   }
 
   Map<String, String> _getHeaders(Map<String, dynamic> json) {
@@ -50,7 +50,7 @@ class BeagleJSRequestMessage {
 
   String get requestId => _requestId;
 
-  Request toRequest() {
-    return Request(_url, method: _method, headers: _headers, body: _body);
+  BeagleRequest toRequest() {
+    return BeagleRequest(_url, method: _method, headers: _headers, body: _body);
   }
 }

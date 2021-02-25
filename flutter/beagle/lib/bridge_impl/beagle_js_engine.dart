@@ -27,8 +27,9 @@ import 'package:beagle/interface/storage.dart';
 import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/beagle_action.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
-import 'package:beagle/model/request.dart';
 import 'package:beagle/model/response.dart';
+import 'package:beagle/networking/beagle_network_options.dart';
+import 'package:beagle/networking/beagle_request.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_js/flutter_js.dart';
@@ -36,7 +37,7 @@ import 'package:flutter_js/flutter_js.dart';
 typedef ActionListener = void Function(
     {BeagleAction action, BeagleView view, BeagleUIElement element});
 
-typedef HttpListener = void Function(String requestId, Request request);
+typedef HttpListener = void Function(String requestId, BeagleRequest request);
 
 /// Provides an interface to run javascript code and listen to Beagle's core
 /// events.
@@ -273,11 +274,15 @@ class BeagleJSEngine {
     }
   }
 
-  // todo: increment this to pass more configurations
   /// Creates a new BeagleView and returns the created view id.
-  String createBeagleView() {
-    final result = _jsRuntime.evaluate('global.beagle.createBeagleView()');
+  String createBeagleView({
+    BeagleNetworkOptions networkOptions,
+    String initialControllerId,
+  }) {
+    final result = _jsRuntime.evaluate('global.beagle.createBeagleView('
+        '${networkOptions.toJsonEncode()} , $initialControllerId)');
     final id = result.stringResult;
+
     debugPrint('created beagle view with id $id');
     return id;
   }

@@ -15,7 +15,8 @@
  *  limitations under the License.
  */
 
-enum NetworkStrategy {
+//TODO: NEEDS ADD DOCUMENTATION
+enum BeagleNetworkStrategy {
   beagleCacheOnly,
   beagleWithFallbackToCache,
   networkWithFallbackToCache,

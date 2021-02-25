@@ -28,7 +28,7 @@ import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_config.dart';
-import 'package:beagle/model/network_strategy.dart';
+import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 
@@ -50,7 +50,7 @@ class BeagleSdk {
     Storage storage,
     bool useBeagleHeaders,
     Map<String, ActionHandler> actions,
-    NetworkStrategy strategy,
+    BeagleNetworkStrategy strategy,
     Map<String, NavigationController> navigationControllers,
     DesignSystem designSystem,
     BeagleImageDownloader imageDownloader,
@@ -72,7 +72,7 @@ class BeagleSdk {
       useBeagleHeaders: useBeagleHeaders ?? true,
       actions:
           actions == null ? defaultActions : {...defaultActions, ...actions},
-      strategy: strategy ?? NetworkStrategy.beagleWithFallbackToCache,
+      strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
       navigationControllers: navigationControllers,
     );
   }

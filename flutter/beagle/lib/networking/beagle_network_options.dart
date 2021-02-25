@@ -15,18 +15,25 @@
  *  limitations under the License.
  */
 
-import 'package:flutter_js/extensions/xhr.dart';
+import 'dart:convert';
 
-class Request {
-  Request(this.url,
-      {HttpMethod method, Map<String, String> headers, String body}) {
-    this.method = method ?? HttpMethod.get;
-    this.headers = headers ?? {};
-    this.body = body ?? '';
-  }
+import 'package:beagle/networking/beagle_http_method.dart';
+import 'package:beagle/networking/beagle_network_strategy.dart';
+import 'package:beagle/utils/enum.dart';
 
-  String url;
-  HttpMethod method;
+class BeagleNetworkOptions {
+  BeagleNetworkOptions({this.method, this.headers, this.strategy});
+
+  BeagleHttpMethod method;
   Map<String, String> headers;
-  String body;
+  BeagleNetworkStrategy strategy;
+
+  String toJsonEncode() {
+    final params = {
+      'method': EnumUtils.name(method),
+      'headers': headers,
+      'strategy': EnumUtils.name(strategy),
+    };
+    return jsonEncode(params);
+  }
 }
