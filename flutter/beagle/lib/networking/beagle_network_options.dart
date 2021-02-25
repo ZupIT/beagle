@@ -32,6 +32,10 @@ class BeagleNetworkOptions {
   static String toJsonEncode(BeagleNetworkOptions networkOptions) {
     final params = <String, dynamic>{};
 
+    if (networkOptions == null) {
+      return jsonEncode(params);
+    }
+
     if (networkOptions.method != null) {
       params['method'] = EnumUtils.name(networkOptions.method);
     }
