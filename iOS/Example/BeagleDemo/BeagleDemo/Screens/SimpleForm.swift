@@ -165,7 +165,7 @@ struct SimpleFormValidationText: DeeplinkScreen {
                               "_beagleAction_":"beagle:setContext",
                               "contextId":"form",
                               "path":"showError.username",
-                              "value":true
+                              "value":"@{condition(isEmpty(form.data.username), true, false)}"
                             }
                           ]
                         }
@@ -234,7 +234,7 @@ struct SimpleFormValidationText: DeeplinkScreen {
                               "_beagleAction_":"beagle:setContext",
                               "contextId":"form",
                               "path":"showError.password",
-                              "value":true
+                              "value":"@{condition(lt(length(form.data.password), 6), true, false)}"
                             }
                           ]
                         },
@@ -259,7 +259,7 @@ struct SimpleFormValidationText: DeeplinkScreen {
                               "_beagleAction_":"beagle:setContext",
                               "contextId":"form",
                               "path":"showError.passwordConfirmation",
-                              "value":true
+                              "value":"@{condition(eq(form.data.password, form.data.passwordConfirmation), false, true)}"
                             }
                           ]
                         }

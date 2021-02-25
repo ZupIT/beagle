@@ -36,7 +36,10 @@ extension SubmitForm {
         var valid: [Bool] = []
         origin?.allSubviews.forEach { childView in
             guard let textField = childView as? TextInput.TextInputView else { return }
-            valid.append(textField.errorMessage?.isEmpty ?? false)
+            if let expression = (textField.beagleFormElement as? TextInput)?.error {
+                let error: String = expression.evaluate(with: origin) ?? ""
+                valid.append(error.isEmpty)
+            }
         }
         return !valid.contains(false) || valid.isEmpty
     }
