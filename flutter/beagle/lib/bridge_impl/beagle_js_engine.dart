@@ -279,8 +279,8 @@ class BeagleJSEngine {
     BeagleNetworkOptions networkOptions,
     String initialControllerId,
   }) {
-    final result = _jsRuntime.evaluate('global.beagle.createBeagleView('
-        '${networkOptions.toJsonEncode()} , $initialControllerId)');
+    //TODO AFTER FIX THE PARAMETERS WILL BE PASSED
+    final result = _jsRuntime.evaluate('global.beagle.createBeagleView()');
     final id = result.stringResult;
 
     debugPrint('created beagle view with id $id');
