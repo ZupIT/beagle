@@ -23,11 +23,10 @@ class BeagleScreenRequest extends BeagleNetworkOptions {
     this.url, {
     BeagleHttpMethod method,
     Map<String, String> headers,
-    String body,
+    this.body,
   }) {
-    this.method = method ?? BeagleHttpMethod.get;
-    this.headers = headers ?? {};
-    this.body = body ?? '';
+    this.method = method;
+    this.headers = headers;
   }
 
   /// Server URL

@@ -67,7 +67,6 @@ class _BeagleWidget extends State<BeagleWidget> {
 
   Future<void> _startBeagleView() async {
     await BeagleSdk.getService().start();
-
     _view = BeagleSdk.getService().createView(
       networkOptions: widget.screenRequest,
       initialControllerId: widget.controllerId,
