@@ -16,12 +16,13 @@
  */
 
 class NavigationController {
-  NavigationController(
-      {this.errorComponent,
-      this.isDefault,
-      this.loadingComponent,
-      this.shouldShowError,
-      this.shouldShowLoading});
+  NavigationController({
+    this.errorComponent,
+    this.isDefault,
+    this.loadingComponent,
+    this.shouldShowError,
+    this.shouldShowLoading,
+  });
 
   /// If true, uses this as the default navigation controller.
   bool isDefault = false;

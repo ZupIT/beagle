@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct SendRequest: Action, AutoInitiableAndDecodable {
+public struct SendRequest: Action, AutoInitiableAndDecodable, AnalyticsAction {
     
     public enum HTTPMethod: String, Codable {
         case get = "GET"

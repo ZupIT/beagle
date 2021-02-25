@@ -134,10 +134,8 @@ extension String {
 extension Expression: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         let escaped = value.escapeExpressions()
-        if let expression = SingleExpression(rawValue: value) {
-            self = .expression(.single(expression))
-        } else if let multiple = MultipleExpression(rawValue: value) {
-            self = .expression(.multiple(multiple))
+        if let expression = ContextExpression(rawValue: value) {
+            self = .expression(expression)
         } else if let value = escaped as? T {
             self = .value(value)
         } else {

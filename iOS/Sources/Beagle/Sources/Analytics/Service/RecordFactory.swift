@@ -36,7 +36,7 @@ struct ActionRecordFactory {
     let globalConfig: AnalyticsConfig.AttributesByActionName
 
     func makeRecord() -> AnalyticsRecord? {
-        guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
+        guard let name = getActionName() else { return nil }
         guard let values = enabledValuesForAction(named: name) else { return nil }
 
         let attributes = info.action.getAttributes(values.attributes, contextProvider: info.origin)
@@ -87,7 +87,7 @@ private extension ActionRecordFactory {
     }
 
     func enabledValuesForAction(named name: String) -> EnabledValues? {
-        switch info.action.analytics {
+        switch (info.action as? AnalyticsAction)?.analytics {
         case .disabled:
             return nil
 

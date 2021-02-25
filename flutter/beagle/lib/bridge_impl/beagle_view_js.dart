@@ -26,30 +26,32 @@ import 'package:beagle/model/network_options.dart';
 
 class BeagleViewJS implements BeagleView {
   BeagleViewJS(
-      {
-      // ignore: avoid_unused_constructor_parameters
-      NetworkOptions networkOptions,
-      // ignore: avoid_unused_constructor_parameters
-      String initialControllerId}) {
-    _id = BeagleJSEngine.createBeagleView();
+    this._beagleJSEngine, {
+    // ignore: avoid_unused_constructor_parameters
+    NetworkOptions networkOptions,
+    // ignore: avoid_unused_constructor_parameters
+    String initialControllerId,
+  }) {
+    _id = _beagleJSEngine.createBeagleView();
     BeagleViewJS.views[_id] = this;
-    _navigator = BeagleNavigatorJS(_id);
-    _renderer = RendererJS(_id);
+    _navigator = BeagleNavigatorJS(_beagleJSEngine, _id);
+    _renderer = RendererJS(_beagleJSEngine, _id);
   }
 
   String _id;
   BeagleNavigatorJS _navigator;
   Renderer _renderer;
   static Map<String, BeagleViewJS> views = {};
+  final BeagleJSEngine _beagleJSEngine;
 
   @override
   void Function() addErrorListener(ViewErrorListener listener) {
-    return BeagleJSEngine.onViewUpdateError(_id, listener);
+    return _beagleJSEngine.onViewUpdateError(_id, listener);
   }
 
   @override
   void destroy() {
-    BeagleJSEngine.removeViewListeners(_id);
+    _beagleJSEngine.removeViewListeners(_id);
   }
 
   @override
@@ -64,14 +66,14 @@ class BeagleViewJS implements BeagleView {
 
   @override
   BeagleUIElement getTree() {
-    final result = BeagleJSEngine.js
-        .evaluate("global.beagle.getViewById('$_id').getTree()")
+    final result = _beagleJSEngine
+        .evaluateJavascriptCode("global.beagle.getViewById('$_id').getTree()")
         .rawResult;
     return BeagleUIElement(result);
   }
 
   @override
   void Function() subscribe(ViewUpdateListener listener) {
-    return BeagleJSEngine.onViewUpdate(_id, listener);
+    return _beagleJSEngine.onViewUpdate(_id, listener);
   }
 }

@@ -2,14 +2,15 @@ import 'dart:convert';
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/renderer.dart';
-import 'package:beagle/model/tree_update_mode.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle/model/tree_update_mode.dart';
 import 'package:flutter/widgets.dart';
 
 class RendererJS implements Renderer {
-  RendererJS(this._viewId);
+  RendererJS(this._beagleJSEngine, this._viewId);
 
   final String _viewId;
+  final BeagleJSEngine _beagleJSEngine;
 
   String _getJsTreeUpdateModeName(TreeUpdateMode mode) {
     /* When calling toString in an enum, it returns EnumName.EnumValue, we just need the part after
@@ -25,7 +26,7 @@ class RendererJS implements Renderer {
     final modeArg = mode == null ? '' : ", '${_getJsTreeUpdateModeName(mode)}'";
     debugPrint(
         "global.beagle.getViewById('$_viewId').getRenderer().$method($jsonTree$anchorArg$modeArg)");
-    BeagleJSEngine.js.evaluate(
+    _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getRenderer().$method($jsonTree$anchorArg$modeArg)");
   }
 
