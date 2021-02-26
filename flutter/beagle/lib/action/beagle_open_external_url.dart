@@ -15,7 +15,6 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/beagle_sdk.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;

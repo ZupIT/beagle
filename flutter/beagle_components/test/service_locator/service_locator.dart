@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-import 'package:beagle/default/default_actions.dart';
-import 'package:beagle/default/default_http_client.dart';
-import 'package:beagle/default/default_storage.dart';
-import 'package:beagle/default/empty/default_empty_config.dart';
-import 'package:beagle/default/empty/default_empty_logger.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';

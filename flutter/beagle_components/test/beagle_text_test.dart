@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'objects_fake/fake_design_system.dart';
 import 'service_locator/service_locator.dart';
 
 const text = 'Beagle Text';
