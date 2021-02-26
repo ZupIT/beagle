@@ -24,6 +24,12 @@ import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/networking/beagle_network_options.dart';
 
+/// Creates a new Beagle View. There are two optional parameters: the networkOptions and the
+/// initialControllerId. The first one sets network options for every view requested by this
+/// Beagle View (headers, http method and cache strategy). If nothing is specied, the default
+/// network options are used (beagle headers, get and beagle-with-fallback-to-cache). The
+/// initialControllerId is the id of the navigation controller for the first navigation stack.
+/// If not specified, the default navigation controller is used.
 class BeagleViewJS implements BeagleView {
   BeagleViewJS(
     this._beagleJSEngine, {

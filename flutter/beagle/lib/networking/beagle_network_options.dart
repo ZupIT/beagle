@@ -37,7 +37,7 @@ class BeagleNetworkOptions {
     }
 
     if (networkOptions.method != null) {
-      params['method'] = EnumUtils.name(networkOptions.method);
+      params['method'] = EnumUtils.getEnumValueName(networkOptions.method);
     }
     if (networkOptions.headers != null) {
       params['headers'] = networkOptions.headers;

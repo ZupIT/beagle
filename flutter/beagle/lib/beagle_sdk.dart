@@ -58,19 +58,19 @@ class BeagleSdk {
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
   }) {
-
     setupServiceLocator(
-        beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
-        httpClient: httpClient ?? const DefaultHttpClient(),
-        components: components,
-        storage: storage ?? DefaultStorage(),
-        useBeagleHeaders: useBeagleHeaders ?? true,
-        actions:
-            actions == null ? defaultActions : {...defaultActions, ...actions},
-        navigationControllers: navigationControllers,
-        designSystem: designSystem ?? DefaultEmptyDesignSystem(),
-        imageDownloader: imageDownloader,
-        strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
-        logger: logger ?? DefaultEmptyLogger());
+      beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
+      httpClient: httpClient ?? const DefaultHttpClient(),
+      components: components,
+      storage: storage ?? DefaultStorage(),
+      useBeagleHeaders: useBeagleHeaders ?? true,
+      actions:
+          actions == null ? defaultActions : {...defaultActions, ...actions},
+      navigationControllers: navigationControllers,
+      designSystem: designSystem ?? DefaultEmptyDesignSystem(),
+      imageDownloader: imageDownloader,
+      strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
+      logger: logger ?? DefaultEmptyLogger(),
+    );
   }
 }

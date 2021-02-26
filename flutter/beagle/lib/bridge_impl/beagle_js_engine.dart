@@ -42,9 +42,12 @@ typedef HttpListener = void Function(String requestId, BeagleRequest request);
 /// Provides an interface to run javascript code and listen to Beagle's core
 /// events.
 class BeagleJSEngine {
-  BeagleJSEngine(JavascriptRuntimeWrapper jsRuntime)
-      : assert(jsRuntime != null),
-        _jsRuntime = jsRuntime;
+  BeagleJSEngine(
+    JavascriptRuntimeWrapper jsRuntime,
+    Storage storage,
+  )   : assert(jsRuntime != null),
+        _jsRuntime = jsRuntime,
+        _storage = storage;
 
   final JavascriptRuntimeWrapper _jsRuntime;
   BeagleJSEngineState _engineState = BeagleJSEngineState.CREATED;
@@ -59,7 +62,7 @@ class BeagleJSEngine {
   final Map<String, List<ViewUpdateListener>> _viewUpdateListenerMap = {};
   final Map<String, List<ViewErrorListener>> _viewErrorListenerMap = {};
   final Map<String, List<NavigationListener>> _navigationListenerMap = {};
-  Storage _storage;
+  final Storage _storage;
 
   /// Runs javascript [code].
   /// It throws [BeagleJSEngineException] if [BeagleJSEngine] isn't started.
@@ -260,9 +263,8 @@ class BeagleJSEngine {
   /// Lazily starts the [BeagleJSEngine].
   /// This method must be called before any attempt to interact with Beagle's
   /// javascript core.
-  Future<void> start({Storage storage}) async {
+  Future<void> start() async {
     if (!_isEngineStarted()) {
-      _storage = storage;
       _engineState = BeagleJSEngineState.STARTED;
       _jsRuntime.enableHandlePromises();
       _setupMessages();

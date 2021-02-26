@@ -17,6 +17,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/components/beagle_undefined_widget.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
@@ -70,8 +71,8 @@ class _BeagleWidget extends State<BeagleWidget> {
 
   Future<void> _startBeagleView() async {
     await service.start();
-    _view = service.createView(
-      networkOptions: widget.screenRequest,
+    _view = beagleServiceLocator<BeagleViewJS>(
+      param1: widget.screenRequest,
     )..subscribe((tree) {
         final widgetLoaded = _buildViewFromTree(tree);
         setState(() {

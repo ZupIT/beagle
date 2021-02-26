@@ -51,11 +51,6 @@ abstract class BeagleService {
   /// `custom:`.
   Map<String, ComponentBuilder> components;
 
-  /// The persistent storage to store everything Beagle needs across multiple executions of the
-  /// application. e.g. caching views. When not specified the DefaultStorage is used. The Default
-  /// Storage uses the lib "SharedPreferences" to persist data.
-  Storage storage;
-
   /// Wether or not to send specific beagle headers in the requests to fetch a view. Default is
   /// true.
   bool useBeagleHeaders;
@@ -72,13 +67,6 @@ abstract class BeagleService {
   /// options, use `default: true` in the navigation controller.
   Map<String, NavigationController> navigationControllers;
 
-  /// Access to the Global Context API. Use it to set persistent values that can be retrieved and
-  /// manipulated by the view rendered by Beagle.
-  GlobalContext globalContext;
-
-  /// Helper to build urls relative to the baseUrl
-  UrlBuilder urlBuilder;
-
   // todo:
   /*Analytics analytics;
   LifecycleHandler lifecycles,
@@ -89,15 +77,4 @@ abstract class BeagleService {
 
   /// Starts the Beagle Service.
   Future<void> start();
-
-  /// Creates a new Beagle View. There are two optional parameters: the [networkOptions] and the
-  /// [initialControllerId]. The first one sets network options for every view requested by this
-  /// Beagle View (headers, http method and cache strategy). If nothing is specied, the default
-  /// network options are used (beagle headers, get and beagle-with-fallback-to-cache). The
-  /// [initialControllerId] is the id of the navigation controller for the first navigation stack.
-  /// If not specified, the default navigation controller is used.
-  BeagleView createView({
-    BeagleNetworkOptions networkOptions,
-    String initialControllerId,
-  });
 }

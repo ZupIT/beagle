@@ -18,16 +18,10 @@
 import 'dart:convert';
 
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
-import 'package:beagle/bridge_impl/beagle_view_js.dart';
-import 'package:beagle/bridge_impl/global_context_js.dart';
-import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_service.dart';
-import 'package:beagle/interface/beagle_view.dart';
-import 'package:beagle/interface/global_context.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
-import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/networking/beagle_request.dart';
 import 'package:beagle/utils/network_strategy.dart';
@@ -38,15 +32,11 @@ class BeagleServiceJS implements BeagleService {
     this.baseUrl,
     this.httpClient,
     this.components,
-    this.storage,
     this.useBeagleHeaders,
     this.actions,
     this.strategy,
     this.navigationControllers,
-  }) {
-    globalContext = GlobalContextJS(_beagleJSEngine);
-    urlBuilder = UrlBuilder(baseUrl);
-  }
+  });
 
   @override
   String baseUrl;
@@ -55,8 +45,6 @@ class BeagleServiceJS implements BeagleService {
   @override
   Map<String, ComponentBuilder> components;
   @override
-  Storage storage;
-  @override
   bool useBeagleHeaders;
   @override
   Map<String, ActionHandler> actions;
@@ -64,34 +52,24 @@ class BeagleServiceJS implements BeagleService {
   BeagleNetworkStrategy strategy;
   @override
   Map<String, NavigationController> navigationControllers;
-  @override
-  GlobalContext globalContext;
-  @override
-  UrlBuilder urlBuilder;
 
   final BeagleJSEngine _beagleJSEngine;
 
-  Map<String, dynamic> getNavigationControllersAsMap() {
+  Map<String, dynamic> _getNavigationControllersAsMap() {
     if (navigationControllers == null) {
       return null;
     }
     final result = <String, dynamic>{};
     for (final key in navigationControllers.keys) {
       final controller = navigationControllers[key];
-      result[key] = {
-        'errorComponent': controller.errorComponent,
-        'isDefault': controller.isDefault,
-        'loadingComponent': controller.loadingComponent,
-        'shouldShowError': controller.shouldShowError,
-        'shouldShowLoading': controller.shouldShowLoading,
-      };
+      result[key] = controller.toMap();
     }
     return result;
   }
 
   @override
   Future<void> start() async {
-    await _beagleJSEngine.start(storage: storage);
+    await _beagleJSEngine.start();
 
     _registerBeagleService();
     _registerHttpListener();
@@ -105,7 +83,7 @@ class BeagleServiceJS implements BeagleService {
       'useBeagleHeaders': useBeagleHeaders,
       'strategy': NetworkStrategyUtils.getJsStrategyName(strategy),
     };
-    final navigationControllers = getNavigationControllersAsMap();
+    final navigationControllers = _getNavigationControllersAsMap();
     if (navigationControllers != null) {
       params['navigationControllers'] = navigationControllers;
     }
@@ -128,15 +106,5 @@ class BeagleServiceJS implements BeagleService {
       }
       handler(action: action, view: view, element: element);
     });
-  }
-
-  @override
-  BeagleView createView(
-      {BeagleNetworkOptions networkOptions, String initialControllerId}) {
-    return BeagleViewJS(
-      _beagleJSEngine,
-      networkOptions: networkOptions,
-      initialControllerId: initialControllerId,
-    );
   }
 }
