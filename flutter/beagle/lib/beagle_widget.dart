@@ -17,7 +17,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:beagle/beagle_sdk.dart';
 import 'package:beagle/components/beagle_undefined_widget.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
@@ -59,7 +58,7 @@ class _BeagleWidget extends State<BeagleWidget> {
   Widget widgetState;
 
   final service = beagleServiceLocator<BeagleService>();
-  final logger = beagleServiceLocator.get<BeagleLogger>();
+  final logger = beagleServiceLocator<BeagleLogger>();
   final config = beagleServiceLocator<BeagleConfig>();
 
   @override

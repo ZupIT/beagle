@@ -37,7 +37,10 @@ class BeagleSdk {
   /// The parameters are all the attributes of the class BeagleService. Please check its
   /// documentation for more details.
   static void init({
+    /// Interface that provides initial beagle configuration attributes.
     BeagleConfig beagleConfig,
+
+    /// Interface that provides client to beagle make the requests.
     HttpClient httpClient,
     Map<String, ComponentBuilder> components,
     Storage storage,
@@ -45,8 +48,14 @@ class BeagleSdk {
     Map<String, ActionHandler> actions,
     BeagleNetworkStrategy strategy,
     Map<String, NavigationController> navigationControllers,
+
+    /// [BeagleDesignSystem] interface that provides design system to beagle components.
     BeagleDesignSystem designSystem,
+
+    /// [BeagleImageDownloader] interface that provides image resource from network.
     BeagleImageDownloader imageDownloader,
+
+    /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
   }) {
     setupServiceLocator(

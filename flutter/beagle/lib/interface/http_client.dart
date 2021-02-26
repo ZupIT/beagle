@@ -19,6 +19,8 @@ import 'package:beagle/model/response.dart';
 import 'package:beagle/networking/beagle_request.dart';
 
 // ignore: one_member_abstracts
+
+///TODO: NEED ADD DOCUMENTATION
 abstract class HttpClient {
   Future<Response> sendRequest(BeagleRequest req);
 }

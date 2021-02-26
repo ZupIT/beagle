@@ -27,8 +27,11 @@ import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:flutter/widgets.dart';
 
+///TODO: NEEDS ADD DOCUMENTATION
 typedef ComponentBuilder = Widget Function(
     BeagleUIElement element, List<Widget> children, BeagleView view);
+
+///TODO: NEEDS ADD DOCUMENTATION
 typedef ActionHandler = void Function(
     {BeagleAction action, BeagleView view, BeagleUIElement element});
 

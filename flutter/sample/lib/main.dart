@@ -22,12 +22,10 @@ import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sample/app_beagle_config.dart';
 import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
 import 'package:sample/default_logger.dart';
-
-const BASE_URL =
-    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/20e593662467d0962ac2aa4e9194a7256a1e0b48';
 
 Map<String, ComponentBuilder> myCustomComponents = {
   'custom:loading': (element, _, __) {
@@ -46,11 +44,7 @@ Map<String, ActionHandler> myCustomActions = {
 void main() {
   BeagleSdk.init(
     logger: AppLogger(),
-    beagleConfig: BeagleConfig(
-      baseUrl: BASE_URL,
-      environment:
-          kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
-    ),
+    beagleConfig: AppBeagleConfig(),
     components: {...defaultComponents, ...myCustomComponents},
     actions: myCustomActions,
     navigationControllers: {

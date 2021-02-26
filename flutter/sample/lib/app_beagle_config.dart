@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_environment.dart';
+import 'package:beagle/beagle.dart';
+import 'package:flutter/foundation.dart';
 
-/// Interface that provides initial beagle configuration attributes.
-abstract class BeagleConfig {
-  BeagleConfig({
-    this.environment,
-    this.baseUrl,
-  });
+class AppBeagleConfig implements BeagleConfig {
+  static const BASE_URL =
+      'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/20e593662467d0962ac2aa4e9194a7256a1e0b48';
 
-  /// Attribute responsible for informing Beagle about the current build status of the application.
-  final BeagleEnvironment environment;
+  @override
+  String get baseUrl => BASE_URL;
 
-  /// Informs the base URL used in Beagle in the application.
-  final String baseUrl;
+  @override
+  BeagleEnvironment get environment =>
+      kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production;
 }
