@@ -21,7 +21,6 @@ import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
-import 'package:beagle/interface/storage.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/networking/beagle_request.dart';
 import 'package:beagle/utils/network_strategy.dart';
