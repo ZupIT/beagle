@@ -17,24 +17,24 @@
 
 import 'dart:async';
 import 'package:beagle/interface/http_client.dart';
-import 'package:beagle/model/request.dart';
 import 'package:beagle/model/response.dart';
-import 'package:flutter_js/extensions/xhr.dart';
+import 'package:beagle/networking/beagle_http_method.dart';
+import 'package:beagle/networking/beagle_request.dart';
 import 'package:http/http.dart' as http;
 
 class DefaultHttpClient implements HttpClient {
   const DefaultHttpClient();
   @override
-  Future<Response> sendRequest(Request req) async {
+  Future<Response> sendRequest(BeagleRequest req) async {
     final handlers = {
-      HttpMethod.get: () => http.get(req.url, headers: req.headers),
-      HttpMethod.post: () =>
+      BeagleHttpMethod.get: () => http.get(req.url, headers: req.headers),
+      BeagleHttpMethod.post: () =>
           http.post(req.url, headers: req.headers, body: req.body),
-      HttpMethod.put: () =>
+      BeagleHttpMethod.put: () =>
           http.put(req.url, headers: req.headers, body: req.body),
-      HttpMethod.patch: () =>
+      BeagleHttpMethod.patch: () =>
           http.patch(req.url, headers: req.headers, body: req.body),
-      HttpMethod.delete: () => http.delete(req.url, headers: req.headers),
+      BeagleHttpMethod.delete: () => http.delete(req.url, headers: req.headers),
     };
     final response = await handlers[req.method]();
     return Response(response.statusCode, response.body, response.headers,

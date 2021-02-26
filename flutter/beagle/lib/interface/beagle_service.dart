@@ -23,8 +23,8 @@ import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/model/beagle_action.dart';
-import 'package:beagle/model/network_options.dart';
-import 'package:beagle/model/network_strategy.dart';
+import 'package:beagle/networking/beagle_network_options.dart';
+import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:flutter/widgets.dart';
 
 typedef ComponentBuilder = Widget Function(
@@ -63,7 +63,7 @@ abstract class BeagleService {
 
   /// The default cache strategy for fetching views from the backend. By default uses
   /// `beagle-with-fallback-to-cache`.
-  NetworkStrategy strategy;
+  BeagleNetworkStrategy strategy;
 
   /// Options for the visual feedback when navigating from a view to another. To set the default
   /// options, use `default: true` in the navigation controller.
@@ -93,6 +93,8 @@ abstract class BeagleService {
   /// network options are used (beagle headers, get and beagle-with-fallback-to-cache). The
   /// [initialControllerId] is the id of the navigation controller for the first navigation stack.
   /// If not specified, the default navigation controller is used.
-  BeagleView createView(
-      {NetworkOptions networkOptions, String initialControllerId});
+  BeagleView createView({
+    BeagleNetworkOptions networkOptions,
+    String initialControllerId,
+  });
 }

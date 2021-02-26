@@ -15,10 +15,10 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/model/request.dart';
 import 'package:beagle/model/response.dart';
+import 'package:beagle/networking/beagle_request.dart';
 
 // ignore: one_member_abstracts
 abstract class HttpClient {
-  Future<Response> sendRequest(Request req);
+  Future<Response> sendRequest(BeagleRequest req);
 }

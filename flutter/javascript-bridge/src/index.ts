@@ -2,6 +2,7 @@ import createBeagleService, {
   BeagleService,
   logger,
   NavigationController,
+  NetworkOptions,
   Strategy,
 } from '@zup-it/beagle-web'
 import { createCustomActionMap } from './action'
@@ -38,7 +39,7 @@ window.beagle = (() => {
         console.log(messages.join(' '))
       })
     },
-    createBeagleView: () => createBeagleView(service),
+    createBeagleView: (networkOptions?: NetworkOptions, initialControllerId?: string) => createBeagleView(service, networkOptions, initialControllerId),
     httpClient: { respond: respondHttpRequest },
     call: (id: string, argumentsMap?: Record<string, any>) => {
       console.log(`js: called function with id ${id} and argument map: ${JSON.stringify(argumentsMap)}`)

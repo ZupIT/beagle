@@ -22,17 +22,18 @@ import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
-import 'package:beagle/model/network_options.dart';
+import 'package:beagle/networking/beagle_network_options.dart';
 
 class BeagleViewJS implements BeagleView {
   BeagleViewJS(
     this._beagleJSEngine, {
-    // ignore: avoid_unused_constructor_parameters
-    NetworkOptions networkOptions,
-    // ignore: avoid_unused_constructor_parameters
+    BeagleNetworkOptions networkOptions,
     String initialControllerId,
   }) {
-    _id = _beagleJSEngine.createBeagleView();
+    _id = _beagleJSEngine.createBeagleView(
+      networkOptions: networkOptions,
+      initialControllerId: initialControllerId,
+    );
     BeagleViewJS.views[_id] = this;
     _navigator = BeagleNavigatorJS(_beagleJSEngine, _id);
     _renderer = RendererJS(_beagleJSEngine, _id);

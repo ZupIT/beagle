@@ -19,7 +19,6 @@ import 'dart:convert';
 
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_view.dart';
-import 'package:beagle/model/request.dart';
 import 'package:beagle/model/tree_update_mode.dart';
 import 'package:beagle_components/after_layout.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +71,7 @@ class _BeagleLazyComponent extends State<BeagleLazyComponent>
     try {
       final result = await BeagleSdk.getService()
           .httpClient
-          .sendRequest(Request(_buildUrl()));
+          .sendRequest(BeagleRequest(_buildUrl()));
       if (result.status >= 200 && result.status < 400) {
         final jsonMap = jsonDecode(result.body);
         final component = BeagleUIElement(jsonMap);
