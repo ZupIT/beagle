@@ -11,7 +11,7 @@ class GlobalContextSerializationError implements Exception {
 }
 
 /// Access to the Global Context API. Use it to set persistent values that can be retrieved and
-/// manipulated by the view rendered by Beagle.
+/// manipulated by the widgets rendered by Beagle.
 class GlobalContextJS implements GlobalContext {
   GlobalContextJS(this._beagleJSEngine);
 
