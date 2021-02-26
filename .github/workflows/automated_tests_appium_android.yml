@@ -32,8 +32,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
+
       - run: git branch
-      - run: env
 
       - name: Cache gradle dependencies of project backend
         uses: actions/cache@v2
@@ -80,8 +80,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
+
       - run: git branch
-      - run: env
 
       - name: Cache gradle dependencies of project app-android
         uses: actions/cache@v2
