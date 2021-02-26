@@ -58,6 +58,7 @@ class BeagleSdk {
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
   }) {
+
     setupServiceLocator(
         beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
         httpClient: httpClient ?? const DefaultHttpClient(),

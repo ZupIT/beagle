@@ -29,6 +29,8 @@ extension TextInput: ServerDrivenComponent {
             textInputView.beagle.applyStyle(for: textInputView as UITextField, styleId: styleId, with: renderer.controller)
         }
         
+        textInputView.beagleFormElement = self
+        
         return textInputView
     }
     
@@ -221,13 +223,14 @@ private extension TextInput.TextInputView {
         validationLabel.textColor = invalidInputColor ?? .red
         validationLabel.sizeToFit()
         validationLabel.frame.size.width = frame.width
+        let errorMessageEmpty = (errorMessage?.isEmpty ?? true)
+        layer.borderColor = (showError && !errorMessageEmpty) ? invalidInputColor?.cgColor : validInputColor?.cgColor
     }
     
     func updateLayoutForValidation() {
         validationLabel.isHidden = !showError
-        if let errorMessage = errorMessage {
-            layer.borderColor = errorMessage.isEmpty ? validInputColor?.cgColor : invalidInputColor?.cgColor
-        }
+        let errorMessageEmpty = (errorMessage?.isEmpty ?? true)
+        layer.borderColor = (showError && !errorMessageEmpty) ? invalidInputColor?.cgColor : validInputColor?.cgColor
     }
     
     func setupToolBar() {
