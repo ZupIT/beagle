@@ -17,12 +17,15 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:beagle/beagle_sdk.dart';
 import 'package:beagle/components/beagle_undefined_widget.dart';
+import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/logger/beagle_logger.dart';
+import 'package:beagle/model/beagle_config.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
 import 'package:beagle/networking/beagle_screen_request.dart';
+import 'package:beagle/service_locator.dart';
 import 'package:flutter/widgets.dart';
 
 typedef OnCreateViewListener = void Function(BeagleView view);
@@ -54,6 +57,10 @@ class _BeagleWidget extends State<BeagleWidget> {
   BeagleView _view;
   Widget widgetState;
 
+  final service = beagleServiceLocator<BeagleService>();
+  final logger = beagleServiceLocator<BeagleLogger>();
+  final config = beagleServiceLocator<BeagleConfig>();
+
   @override
   void initState() {
     super.initState();
@@ -62,8 +69,8 @@ class _BeagleWidget extends State<BeagleWidget> {
   }
 
   Future<void> _startBeagleView() async {
-    await BeagleSdk.getService().start();
-    _view = BeagleSdk.getService().createView(
+    await service.start();
+    _view = service.createView(
       networkOptions: widget.screenRequest,
     )..subscribe((tree) {
         final widgetLoaded = _buildViewFromTree(tree);
@@ -83,12 +90,11 @@ class _BeagleWidget extends State<BeagleWidget> {
 
   Widget _buildViewFromTree(BeagleUIElement tree) {
     final widgetChildren = tree.getChildren().map(_buildViewFromTree).toList();
-    final builder = BeagleSdk.getService().components[tree.getType()];
+    final builder = service.components[tree.getType()];
     if (builder == null) {
-      BeagleSdk.logger
-          .error("Can't find builder for component ${tree.getType()}");
+      logger.error("Can't find builder for component ${tree.getType()}");
       return BeagleUndefinedWidget(
-        environment: BeagleSdk.config.environment,
+        environment: config.environment,
       );
     }
     return builder(tree, widgetChildren, _view);

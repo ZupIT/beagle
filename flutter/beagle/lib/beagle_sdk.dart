@@ -15,12 +15,12 @@
  *  limitations under the License.
  */
 
-import 'package:beagle/bridge_impl/beagle_js_engine.dart';
-import 'package:beagle/bridge_impl/beagle_service_js.dart';
 import 'package:beagle/default/default_actions.dart';
 import 'package:beagle/default/default_http_client.dart';
-import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/default/default_storage.dart';
+import 'package:beagle/default/empty/default_empty_config.dart';
+import 'package:beagle/default/empty/default_empty_design_system.dart';
+import 'package:beagle/default/empty/default_empty_logger.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
@@ -32,19 +32,15 @@ import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 
-// ignore: avoid_classes_with_only_static_members
 class BeagleSdk {
-  static BeagleService _service;
-  static DesignSystem _designSystem;
-  static BeagleImageDownloader _imageDownloader;
-  static BeagleLogger _logger;
-  static BeagleConfig _config;
-
   /// Starts the BeagleService. Only a single instance of this service is allowed.
   /// The parameters are all the attributes of the class BeagleService. Please check its
   /// documentation for more details.
   static void init({
+    /// Interface that provides initial beagle configuration attributes.
     BeagleConfig beagleConfig,
+
+    /// Interface that provides client to beagle make the requests.
     HttpClient httpClient,
     Map<String, ComponentBuilder> components,
     Storage storage,
@@ -52,40 +48,29 @@ class BeagleSdk {
     Map<String, ActionHandler> actions,
     BeagleNetworkStrategy strategy,
     Map<String, NavigationController> navigationControllers,
-    DesignSystem designSystem,
+
+    /// [BeagleDesignSystem] interface that provides design system to beagle components.
+    BeagleDesignSystem designSystem,
+
+    /// [BeagleImageDownloader] interface that provides image resource from network.
     BeagleImageDownloader imageDownloader,
+
+    /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
   }) {
-    setupServiceLocator();
-    _config = beagleConfig;
-    _designSystem = designSystem;
-    _imageDownloader = imageDownloader ??
-        DefaultBeagleImageDownloader(
-            httpClient: httpClient ?? const DefaultHttpClient());
-    _logger = logger;
-    _service = BeagleServiceJS(
-      serviceLocator<BeagleJSEngine>(),
-      baseUrl: beagleConfig?.baseUrl ?? '',
-      httpClient: httpClient ?? const DefaultHttpClient(),
-      components: components,
-      storage: storage ?? DefaultStorage(),
-      useBeagleHeaders: useBeagleHeaders ?? true,
-      actions:
-          actions == null ? defaultActions : {...defaultActions, ...actions},
-      strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
-      navigationControllers: navigationControllers,
-    );
+
+    setupServiceLocator(
+        beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
+        httpClient: httpClient ?? const DefaultHttpClient(),
+        components: components,
+        storage: storage ?? DefaultStorage(),
+        useBeagleHeaders: useBeagleHeaders ?? true,
+        actions:
+            actions == null ? defaultActions : {...defaultActions, ...actions},
+        navigationControllers: navigationControllers,
+        designSystem: designSystem ?? DefaultEmptyDesignSystem(),
+        imageDownloader: imageDownloader,
+        strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
+        logger: logger ?? DefaultEmptyLogger());
   }
-
-  static BeagleService getService() {
-    return _service;
-  }
-
-  static DesignSystem get designSystem => _designSystem;
-
-  static BeagleImageDownloader get imageDownloader => _imageDownloader;
-
-  static BeagleLogger get logger => _logger;
-
-  static BeagleConfig get config => _config;
 }

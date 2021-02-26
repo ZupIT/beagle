@@ -16,16 +16,16 @@
 
 import 'package:beagle/model/beagle_environment.dart';
 
-class BeagleConfig {
+/// Interface that provides initial beagle configuration attributes.
+abstract class BeagleConfig {
   BeagleConfig({
     this.environment,
     this.baseUrl,
-    this.isLoggingEnabled,
   });
 
+  /// Attribute responsible for informing Beagle about the current build status of the application.
   final BeagleEnvironment environment;
 
+  /// Informs the base URL used in Beagle in the application.
   final String baseUrl;
-
-  final bool isLoggingEnabled;
 }

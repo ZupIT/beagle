@@ -14,33 +14,17 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
-import 'package:flutter/rendering.dart';
+import 'package:beagle/beagle.dart';
+import 'package:flutter/foundation.dart';
 
-class AppDesignSystem extends BeagleDesignSystem {
-  @override
-  String image(String id) {
-    if (id == 'bus') {
-      return 'images/bus.png';
-    } else if (id == 'car') {
-      return 'images/car.png';
-    } else if (id == 'person') {
-      return 'images/person.png';
-    } else if (id == 'beagle') {
-      return 'images/beagle.png';
-    }
-
-    return null;
-  }
+class AppBeagleConfig implements BeagleConfig {
+  static const BASE_URL =
+      'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/20e593662467d0962ac2aa4e9194a7256a1e0b48';
 
   @override
-  BeagleButtonStyle buttonStyle(String id) {
-    return null;
-  }
+  String get baseUrl => BASE_URL;
 
   @override
-  TextStyle textStyle(String id) {
-    return null;
-  }
+  BeagleEnvironment get environment =>
+      kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production;
 }

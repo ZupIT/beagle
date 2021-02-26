@@ -18,24 +18,14 @@ import 'package:beagle/model/beagle_button_style.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/rendering.dart';
 
-class AppDesignSystem extends BeagleDesignSystem {
+class DefaultEmptyDesignSystem extends BeagleDesignSystem {
   @override
-  String image(String id) {
-    if (id == 'bus') {
-      return 'images/bus.png';
-    } else if (id == 'car') {
-      return 'images/car.png';
-    } else if (id == 'person') {
-      return 'images/person.png';
-    } else if (id == 'beagle') {
-      return 'images/beagle.png';
-    }
-
+  BeagleButtonStyle buttonStyle(String id) {
     return null;
   }
 
   @override
-  BeagleButtonStyle buttonStyle(String id) {
+  String image(String id) {
     return null;
   }
 

@@ -71,7 +71,6 @@ ComponentBuilder beagleTextBuilder() {
           TextAlignment.values,
           element.getAttributeValue('alignment') ?? '',
         ),
-        designSystem: BeagleSdk.designSystem,
       );
 }
 
@@ -100,7 +99,6 @@ ComponentBuilder beagleButtonBuilder() {
         text: element.getAttributeValue('text'),
         enabled: element.getAttributeValue('enabled'),
         styleId: element.getAttributeValue('styleId'),
-        designSystem: BeagleSdk.designSystem,
       );
 }
 
@@ -121,7 +119,6 @@ ComponentBuilder beagleLazyComponentBuilder() {
 ComponentBuilder beagleTabBarBuilder() {
   return (element, _, __) => BeagleTabBar(
         key: element.getKey(),
-        designSystem: BeagleSdk.designSystem,
         items:
             element.getAttributeValue('items').map<TabBarItem>((dynamic item) {
           return TabBarItem.fromJson(item);
@@ -143,9 +140,6 @@ ComponentBuilder beaglePageViewBuilder() {
 ComponentBuilder beagleImageBuilder() {
   return (element, _, __) => BeagleImage(
         key: element.getKey(),
-        designSystem: BeagleSdk.designSystem,
-        imageDownloader: BeagleSdk.imageDownloader,
-        logger: BeagleSdk.logger,
         path: ImagePath.fromJson(element.getAttributeValue('path')),
         mode: EnumUtils.fromString(
           ImageContentMode.values,

@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'package:beagle/bridge_impl/beagle_js_engine.dart';
-import 'package:beagle/bridge_impl/beagle_service_js.dart';
-import 'package:beagle/bridge_impl/js_runtime_wrapper.dart';
+
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
@@ -24,12 +22,12 @@ import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_config.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
+import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
-import 'package:get_it/get_it.dart';
 
-final GetIt beagleServiceLocator = GetIt.instance;
+import '../objects_fake/fake_design_system.dart';
 
-void setupServiceLocator({
+Future<void> testSetupServiceLocator({
   BeagleConfig beagleConfig,
   HttpClient httpClient,
   Map<String, ComponentBuilder> components,
@@ -41,30 +39,10 @@ void setupServiceLocator({
   BeagleDesignSystem designSystem,
   BeagleImageDownloader imageDownloader,
   BeagleLogger logger,
-}) {
+}) async {
+  await beagleServiceLocator.reset();
+
   beagleServiceLocator
-    ..registerSingleton<JavascriptRuntimeWrapper>(
-        createJavascriptRuntimeWrapperInstance())
-    ..registerSingleton<BeagleJSEngine>(createBeagleJSEngineInstance())
-    ..registerSingleton<BeagleConfig>(beagleConfig)
-    ..registerSingleton<BeagleDesignSystem>(designSystem)
-    ..registerSingleton<BeagleImageDownloader>(imageDownloader)
-    ..registerSingleton<BeagleLogger>(logger)
-    ..registerSingleton<BeagleService>(BeagleServiceJS(
-      beagleServiceLocator<BeagleJSEngine>(),
-      baseUrl: beagleConfig.baseUrl,
-      httpClient: httpClient,
-      components: components,
-      storage: storage,
-      useBeagleHeaders: useBeagleHeaders,
-      actions: actions,
-      strategy: strategy,
-      navigationControllers: navigationControllers,
-    ));
+    ..registerSingleton<BeagleDesignSystem>(designSystem ?? FakeDesignSystem())
+    ..registerSingleton<BeagleImageDownloader>(imageDownloader);
 }
-
-JavascriptRuntimeWrapper createJavascriptRuntimeWrapperInstance() =>
-    JavascriptRuntimeWrapper();
-
-BeagleJSEngine createBeagleJSEngineInstance() =>
-    BeagleJSEngine(beagleServiceLocator<JavascriptRuntimeWrapper>());

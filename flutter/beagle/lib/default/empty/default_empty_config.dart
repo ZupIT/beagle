@@ -14,33 +14,12 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
-import 'package:flutter/rendering.dart';
+import 'package:beagle/beagle.dart';
 
-class AppDesignSystem extends BeagleDesignSystem {
+class DefaultEmptyConfig extends BeagleConfig {
   @override
-  String image(String id) {
-    if (id == 'bus') {
-      return 'images/bus.png';
-    } else if (id == 'car') {
-      return 'images/car.png';
-    } else if (id == 'person') {
-      return 'images/person.png';
-    } else if (id == 'beagle') {
-      return 'images/beagle.png';
-    }
-
-    return null;
-  }
+  BeagleEnvironment get environment => BeagleEnvironment.debug;
 
   @override
-  BeagleButtonStyle buttonStyle(String id) {
-    return null;
-  }
-
-  @override
-  TextStyle textStyle(String id) {
-    return null;
-  }
+  String get baseUrl => '';
 }
