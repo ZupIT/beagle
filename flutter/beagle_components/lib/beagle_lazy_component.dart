@@ -18,6 +18,7 @@
 import 'dart:convert';
 
 import 'package:beagle/beagle.dart';
+import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/model/tree_update_mode.dart';
@@ -65,18 +66,17 @@ class BeagleLazyComponent extends StatefulWidget {
 
 class _BeagleLazyComponent extends State<BeagleLazyComponent>
     with AfterLayoutMixin<BeagleLazyComponent> {
-
   final service = beagleServiceLocator<BeagleService>();
 
   String _buildUrl() {
-    return service.urlBuilder.build(widget.path);
+    final urlBuilder = beagleServiceLocator<UrlBuilder>();
+    return urlBuilder.build(widget.path);
   }
 
   Future<void> _fetchLazyView() async {
     try {
-      final result = await service
-          .httpClient
-          .sendRequest(BeagleRequest(_buildUrl()));
+      final result =
+          await service.httpClient.sendRequest(BeagleRequest(_buildUrl()));
       if (result.status >= 200 && result.status < 400) {
         final jsonMap = jsonDecode(result.body);
         final component = BeagleUIElement(jsonMap);

@@ -17,8 +17,9 @@
 import 'package:flutter_js/flutter_js.dart';
 
 class JavascriptRuntimeWrapper {
-  final JavascriptRuntime _jsRuntime =
-      getJavascriptRuntime(forceJavascriptCoreOnAndroid: true, xhr: false);
+  JavascriptRuntimeWrapper(this._jsRuntime);
+
+  final JavascriptRuntime _jsRuntime;
 
   JsEvalResult evaluate(String code) {
     return _jsRuntime.evaluate(code);

@@ -15,7 +15,10 @@
  */
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_service_js.dart';
+import 'package:beagle/bridge_impl/beagle_view_js.dart';
+import 'package:beagle/bridge_impl/global_context_js.dart';
 import 'package:beagle/bridge_impl/js_runtime_wrapper.dart';
+import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
@@ -23,8 +26,10 @@ import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_config.dart';
+import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:flutter_js/flutter_js.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt beagleServiceLocator = GetIt.instance;
@@ -45,7 +50,7 @@ void setupServiceLocator({
   beagleServiceLocator
     ..registerSingleton<JavascriptRuntimeWrapper>(
         createJavascriptRuntimeWrapperInstance())
-    ..registerSingleton<BeagleJSEngine>(createBeagleJSEngineInstance())
+    ..registerSingleton<BeagleJSEngine>(createBeagleJSEngineInstance(storage))
     ..registerSingleton<BeagleConfig>(beagleConfig)
     ..registerSingleton<BeagleDesignSystem>(designSystem)
     ..registerSingleton<BeagleImageDownloader>(imageDownloader)
@@ -55,16 +60,24 @@ void setupServiceLocator({
       baseUrl: beagleConfig.baseUrl,
       httpClient: httpClient,
       components: components,
-      storage: storage,
       useBeagleHeaders: useBeagleHeaders,
       actions: actions,
       strategy: strategy,
       navigationControllers: navigationControllers,
-    ));
+    ))
+    ..registerFactoryParam<BeagleViewJS, BeagleNetworkOptions, String>(
+        (networkOptions, initialControllerId) => BeagleViewJS(
+            beagleServiceLocator<BeagleJSEngine>(),
+            networkOptions: networkOptions,
+            initialControllerId: initialControllerId))
+    ..registerFactory<UrlBuilder>(() => UrlBuilder(beagleConfig.baseUrl))
+    ..registerFactory(
+        () => GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()));
 }
 
 JavascriptRuntimeWrapper createJavascriptRuntimeWrapperInstance() =>
-    JavascriptRuntimeWrapper();
+    JavascriptRuntimeWrapper(
+        getJavascriptRuntime(forceJavascriptCoreOnAndroid: true, xhr: false));
 
-BeagleJSEngine createBeagleJSEngineInstance() =>
-    BeagleJSEngine(beagleServiceLocator<JavascriptRuntimeWrapper>());
+BeagleJSEngine createBeagleJSEngineInstance(Storage storage) =>
+    BeagleJSEngine(beagleServiceLocator<JavascriptRuntimeWrapper>(), storage);

@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-import 'package:beagle/networking/beagle_network_strategy.dart';
-import 'package:beagle/utils/enum.dart';
+extension StringUtils on String {
+  String toKebabCase() {
+    final words = RegExp(
+            r'[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+')
+        .allMatches(this)
+        .map((m) => m.group(0))
+        .toList();
 
-class NetworkStrategyUtils {
-  // transforms the enum NetworkStrategy into the string expected by beagle web (js)
-  static String getJsStrategyName(BeagleNetworkStrategy strategy) {
-    if (strategy == null) {
-      return null;
+    if (words.isEmpty) {
+      return '';
     }
 
-    return EnumUtils.getEnumValueNameInKebabCase(strategy);
+    return words.map((word) => word.toLowerCase()).toList().join('-');
   }
 }

@@ -38,4 +38,14 @@ class NavigationController {
 
   /// A custom error component to use. The default value is "beagle:error"
   String errorComponent = 'beagle:error';
+
+  Map<String, dynamic> toMap() {
+    return {
+      'errorComponent': errorComponent,
+      'isDefault': isDefault,
+      'loadingComponent': loadingComponent,
+      'shouldShowError': shouldShowError,
+      'shouldShowLoading': shouldShowLoading,
+    };
+  }
 }

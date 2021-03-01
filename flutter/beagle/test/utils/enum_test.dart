@@ -46,7 +46,31 @@ void main() {
         expect(evaluatedValue, isNull);
       });
     });
+
+    group('When getEnumValueName is called', () {
+      test('Then it should return a string containing only the value name', () {
+        final evaluatedValueName =
+            EnumUtils.getEnumValueName(FakeEnum.thisIsTheFour);
+
+        const expectedValueName = 'thisIsTheFour';
+
+        expect(evaluatedValueName, expectedValueName);
+      });
+    });
+
+    group('When getEnumValueNameInKebabCase is called', () {
+      test(
+          'Then it should return a string containing only the value name in kebab case',
+          () {
+        final evaluatedValueName =
+            EnumUtils.getEnumValueNameInKebabCase(FakeEnum.thisIsTheFour);
+
+        const expectedValueName = 'this-is-the-four';
+
+        expect(evaluatedValueName, expectedValueName);
+      });
+    });
   });
 }
 
-enum FakeEnum { ONE, TWO, THREE }
+enum FakeEnum { ONE, TWO, THREE, thisIsTheFour }
