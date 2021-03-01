@@ -1,7 +1,7 @@
 match=""
 replace=match
 file=""
-appedTo=""
+appendToFile=""
 
 substitute() {
     while [ $# -gt 0 ]
@@ -14,10 +14,10 @@ substitute() {
         shift
     done
 
-    if [[ "$appendTo" == "" ]]
+    if [[ "$appendToFile" == "" ]]
     then
         sed -i -E "s/$match/$replace/g" $file
-    else [[ "$appendTo" != "" ]]
-        sed -E "s/$match/$replace/g" $file >> $appendTo
+    else
+        sed -E "s/$match/$replace/g" $file >> $appendToFile
     fi
 }

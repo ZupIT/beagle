@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./replace.sh
+source ./substitute.sh
 
 BACKEND_DIR=../backend/build/dokka/htmlCollector
 ANDROID_DIR=../android/build/dokka/htmlCollector
@@ -9,8 +9,10 @@ changeProjectName(){
     DIR=$2
     mv $DIR/-beagle $DIR/$SECTION
     substitute --match "<h1 class=\"cover\"><span>Beagle<\/span><\/h1>" --replace "<h1 class=\"cover\"><span>${SECTION^}<\/span><\/h1>" --file $DIR/$SECTION/index.html
-    for source in "$DIR/$SECTION"/**/*.html; do
-        substitute --match "(<div class=\"breadcrumbs\"><a href=\".*?\">)Beagle<\/a>" --replace "\1${SECTION^}<\/a>" --file $source   
+    list="$(find $DIR/$SECTION -mindepth 1 -maxdepth 10 -type f)"
+    for source in $list
+    do
+        substitute --match "(<div class=\"breadcrumbs\"><a href=\".*?\">)Beagle<\/a>" --replace "\1${SECTION^}<\/a>" --file $source
     done
 }
 
@@ -49,9 +51,9 @@ formatDoc(){
 
 mergeFormatedSearchInfo(){
     substitute --match "(\[.*)\]" --replace "\1," --file public/scripts/navigation-pane.json
-    substitute --match "\[(.*\])" --replace "\1" --file $BACKEND_DIR/scripts/navigation-pane.json --appendTo public/scripts/navigation-pane.json
+    substitute --match "\[(.*\])" --replace "\1" --file $BACKEND_DIR/scripts/navigation-pane.json --appendToFile public/scripts/navigation-pane.json
     substitute --match "(.*)\]" --replace "\1," --file public/scripts/pages.js
-    substitute --match "var pages = \[(.*\])" --replace "\1" --file $BACKEND_DIR/scripts/pages.js --appendTo public/scripts/pages.js
+    substitute --match "var pages = \[(.*\])" --replace "\1" --file $BACKEND_DIR/scripts/pages.js --appendToFile public/scripts/pages.js
 }
 
 mergeFormatedDocs(){
