@@ -35,7 +35,6 @@ public struct TextInput: Widget, AutoDecodable {
     public let showError: Expression<Bool>?
     public var widgetProperties: WidgetProperties
     
-
     @available(*, deprecated, message: "It was deprecated in version 1.6.0 and will be removed in a future version. Use field display to control visibility.")
     public init(
         value: Expression<String>? = nil,
