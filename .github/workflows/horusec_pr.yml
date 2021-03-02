@@ -11,13 +11,13 @@ jobs:
     name: horusec-security
     runs-on: ubuntu-latest
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-    - name: Running Horusec Security
-      #we need to ignore sample, automatedTests, automated-tests and .gradle because they are not being shipped the Beagle sdk
-      #The two hash was added because we have False Positive on TextInput.swift, we have an enum called PASSWORD, and UrlBuilderDefault.kt, we have a base64 failure but we don't use the base64 on this code
-      env:
-        HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ secrets.HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
-      run: |
-        curl -fsSL https://horusec.io/bin/install.sh | bash
-        horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**,**/iOS/Libraries/**,**/iOS/Tests/**,**/flutter/beagle/assets/**,**/tests/appium/**,**/**/gradlew.bat,**/flutter/tests.sh" -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -n "beagle" -e "true" -u "https://api-horusec.zup.com.br"  -G "true" -F "ba3a605f761ba4d5755128a8d87be8b9fd6e47b4ff3c0d0feba86bfe937e581e,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92, 9ebcedfab07c79c309b7e2f1112434c0641819fd6434bf413d8251f7a4698298"
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Running Horusec Security
+        #we need to ignore sample, automatedTests, automated-tests and .gradle because they are not being shipped the Beagle sdk
+        #The two hash was added because we have False Positive on TextInput.swift, we have an enum called PASSWORD, and UrlBuilderDefault.kt, we have a base64 failure but we don't use the base64 on this code
+        env:
+          HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ secrets.HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
+        run: |
+          curl -fsSL https://horusec.io/bin/install.sh | bash
+          horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**,**/iOS/Libraries/**,**/iOS/Tests/**,**/flutter/beagle/assets/**,**/tests/appium/**,**/**/gradlew.bat,**/flutter/tests.sh" -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -n "beagle" -e "true" -u "https://api-horusec.zup.com.br"  -G "true" -F "ba3a605f761ba4d5755128a8d87be8b9fd6e47b4ff3c0d0feba86bfe937e581e,ee5c797510e940f30b021f481137f5df140b2cd3d66d6a15eef07a25c0580f92, 9ebcedfab07c79c309b7e2f1112434c0641819fd6434bf413d8251f7a4698298, 578866df1b2a9a0d8b070df07e1b63ea8005a5319b2404df9f63d8a78e39df89, 80204ec26de6c0de275bd5ae063da5fd074d633ea2fd72b5254b696e0f610b8a, 1fb6475bf98f7e6deeb7aac9054e7882a7398d8d7c6a2096856eb85de826a887, bdf6b86785925a42fdf95cc910c9443689c3b182c68ac517bab04b1697b326c5"

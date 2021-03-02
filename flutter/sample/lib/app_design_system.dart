@@ -18,7 +18,7 @@ import 'package:beagle/model/beagle_button_style.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/rendering.dart';
 
-class AppDesignSystem extends DesignSystem {
+class AppDesignSystem extends BeagleDesignSystem {
   @override
   String image(String id) {
     if (id == 'bus') {

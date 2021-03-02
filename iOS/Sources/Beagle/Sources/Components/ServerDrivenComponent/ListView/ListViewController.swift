@@ -156,10 +156,6 @@ private struct AsyncActionTracker: Action {
     let uuid: UUID
     weak var delegate: ListViewDelegate?
     
-    var analytics: ActionAnalyticsConfig? {
-        return nil
-    }
-    
     init(uuid: UUID, delegate: ListViewDelegate?) {
         self.uuid = uuid
         self.delegate = delegate

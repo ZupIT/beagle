@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 
+/// Helper to build urls relative to the baseUrl
 class UrlBuilder {
   UrlBuilder(String baseUrl) {
     // removes the trailing "/" if there's one

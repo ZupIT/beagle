@@ -44,15 +44,6 @@ extension Action {
     }
 }
 
-private func pathForAttribute(_ attribute: String) -> Path? {
-    guard let path = Path(rawValue: attribute) else { return nil }
-
-    for node in path.nodes {
-        if case .index = node { return nil }
-    }
-    return path
-}
-
 extension DynamicDictionary {
 
     func getSomeAttributes(_ attributes: [String], contextProvider: UIView?) -> DynamicDictionary {
@@ -73,6 +64,15 @@ extension DynamicDictionary {
 
         return values
     }
+}
+
+private func pathForAttribute(_ attribute: String) -> Path? {
+    guard let path = Path(rawValue: attribute) else { return nil }
+
+    for node in path.nodes {
+        if case .index = node { return nil }
+    }
+    return path
 }
 
 // MARK: - JSON Transformation

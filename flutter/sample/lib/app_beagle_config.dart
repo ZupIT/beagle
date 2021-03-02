@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.action
+import 'package:beagle/beagle.dart';
+import 'package:flutter/foundation.dart';
 
-import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
+class AppBeagleConfig implements BeagleConfig {
+  static const BASE_URL =
+      'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/20e593662467d0962ac2aa4e9194a7256a1e0b48';
 
-abstract class ActionAnalytics : Action {
-    abstract var analytics: ActionAnalyticsConfig?
+  @override
+  String get baseUrl => BASE_URL;
+
+  @override
+  BeagleEnvironment get environment =>
+      kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production;
 }

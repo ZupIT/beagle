@@ -18,6 +18,7 @@ public struct SimpleForm: ServerDrivenComponent, HasContext, AutoInitiableAndDec
     
     public var context: Context?
     public let onSubmit: [Action]?
+    public let onValidationError: [Action]?
     public let children: [ServerDrivenComponent]
     public var widgetProperties: WidgetProperties
     
@@ -25,11 +26,13 @@ public struct SimpleForm: ServerDrivenComponent, HasContext, AutoInitiableAndDec
     public init(
         context: Context? = nil,
         onSubmit: [Action]? = nil,
+        onValidationError: [Action]? = nil,
         children: [ServerDrivenComponent],
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.context = context
         self.onSubmit = onSubmit
+        self.onValidationError = onValidationError
         self.children = children
         self.widgetProperties = widgetProperties
     }
@@ -38,22 +41,24 @@ public struct SimpleForm: ServerDrivenComponent, HasContext, AutoInitiableAndDec
     public init(
         context: Context? = nil,
         onSubmit: [Action]? = nil,
+        onValidationError: [Action]? = nil,
         widgetProperties: WidgetProperties = WidgetProperties(),
         @ChildrenBuilder
         _ children: () -> [ServerDrivenComponent]
     ) {
-        self.init(context: context, onSubmit: onSubmit, children: children(), widgetProperties: widgetProperties)
+        self.init(context: context, onSubmit: onSubmit, onValidationError: onValidationError, children: children(), widgetProperties: widgetProperties)
     }
     
     #if swift(<5.3)
     public init(
         context: Context? = nil,
         onSubmit: [Action]? = nil,
+        onValidationError: [Action]? = nil,
         widgetProperties: WidgetProperties = WidgetProperties(),
         @ChildBuilder
         _ children: () -> ServerDrivenComponent
     ) {
-        self.init(context: context, onSubmit: onSubmit, children: [children()], widgetProperties: widgetProperties)
+        self.init(context: context, onSubmit: onSubmit, onValidationError: onValidationError, children: [children()], widgetProperties: widgetProperties)
     }
     #endif
 }

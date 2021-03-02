@@ -16,12 +16,13 @@
  */
 
 class NavigationController {
-  NavigationController(
-      {this.errorComponent,
-      this.isDefault,
-      this.loadingComponent,
-      this.shouldShowError,
-      this.shouldShowLoading});
+  NavigationController({
+    this.errorComponent,
+    this.isDefault,
+    this.loadingComponent,
+    this.shouldShowError,
+    this.shouldShowLoading,
+  });
 
   /// If true, uses this as the default navigation controller.
   bool isDefault = false;
@@ -37,4 +38,14 @@ class NavigationController {
 
   /// A custom error component to use. The default value is "beagle:error"
   String errorComponent = 'beagle:error';
+
+  Map<String, dynamic> toMap() {
+    return {
+      'errorComponent': errorComponent,
+      'isDefault': isDefault,
+      'loadingComponent': loadingComponent,
+      'shouldShowError': shouldShowError,
+      'shouldShowLoading': shouldShowLoading,
+    };
+  }
 }

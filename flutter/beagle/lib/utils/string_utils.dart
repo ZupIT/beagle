@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-import Foundation
+extension StringUtils on String {
+  String toKebabCase() {
+    final words = RegExp(
+            r'[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+')
+        .allMatches(this)
+        .map((m) => m.group(0))
+        .toList();
 
-@discardableResult
-func assertNeverGetsHere<T>(or value: T) -> T {
-    assertionFailure("this should never happen")
-    return value
-}
+    if (words.isEmpty) {
+      return '';
+    }
 
-func assertNeverGetsHere() {
-    assertionFailure("this should never happen")
+    return words.map((word) => word.toLowerCase()).toList().join('-');
+  }
 }

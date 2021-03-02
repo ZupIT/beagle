@@ -23,7 +23,7 @@ import 'package:flutter/src/painting/text_style.dart';
 
 import 'button_one_style.dart';
 
-class FakeDesignSystem extends DesignSystem {
+class FakeDesignSystem extends BeagleDesignSystem {
   @override
   BeagleButtonStyle buttonStyle(String id) {
     BeagleButtonStyle style;
@@ -38,7 +38,7 @@ class FakeDesignSystem extends DesignSystem {
 
   @override
   String image(String id) {
-    throw UnimplementedError();
+    return null;
   }
 
   @override

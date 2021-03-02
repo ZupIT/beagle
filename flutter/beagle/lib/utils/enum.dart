@@ -15,11 +15,20 @@
  *  limitations under the License.
  */
 
+import 'package:beagle/utils/string_utils.dart';
+
 class EnumUtils {
   static T fromString<T>(List<T> values, String str) {
     return values.firstWhere(
-        (item) =>
-            item.toString().split('.')[1].toUpperCase() == str.toUpperCase(),
+        (item) => getEnumValueName(item).toUpperCase() == str.toUpperCase(),
         orElse: () => null);
+  }
+
+  static String getEnumValueName<T>(T enumValue) {
+    return enumValue.toString().split('.')[1];
+  }
+
+  static String getEnumValueNameInKebabCase<T>(T enumValue) {
+    return getEnumValueName(enumValue).toKebabCase();
   }
 }

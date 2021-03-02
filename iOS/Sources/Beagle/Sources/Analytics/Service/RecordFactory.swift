@@ -36,7 +36,7 @@ struct ActionRecordFactory {
     let globalConfig: AnalyticsConfig.AttributesByActionName
 
     func makeRecord() -> AnalyticsRecord? {
-        guard let name = getActionName() else { return assertNeverGetsHere(or: nil) }
+        guard let name = getActionName() else { return nil }
         guard let values = enabledValuesForAction(named: name) else { return nil }
 
         let attributes = info.action.getAttributes(values.attributes, contextProvider: info.origin)
@@ -60,7 +60,7 @@ struct ActionRecordFactory {
 // MARK: - Private
 
 private func timestamp() -> Double {
-    return Date().timeIntervalSince1970 * 1000
+    return (Date().timeIntervalSince1970 * 1000).rounded()
 }
 
 private func screenInfo(_ screenType: ScreenType) -> String? {
@@ -81,27 +81,35 @@ private extension ActionRecordFactory {
             ?? info.controller.dependencies.decoder.nameForAction(ofType: type(of: info.action))
     }
 
-    func enabledValuesForAction(named: String) -> EnabledValues? {
-        switch info.action.analytics {
-        case .disabled:
-            return nil
-
-        case .enabled(let analytics):
-            return .init(
-                attributes: .some(analytics?.attributes ?? []),
-                additional: analytics?.additionalEntries ?? [:]
-            )
-
-        case nil:
-            return globalConfig[named].ifSome {
-                .init(attributes: .some($0))
-            }
-        }
-    }
-
     struct EnabledValues {
         let attributes: ActionAttributes
         var additional = DynamicDictionary()
+    }
+
+    func enabledValuesForAction(named name: String) -> EnabledValues? {
+        switch (info.action as? AnalyticsAction)?.analytics {
+        case .disabled:
+            return nil
+
+        case .enabled(let analytics?):
+            return .init(
+                attributes: .some(analytics.attributes ?? []),
+                additional: analytics.additionalEntries ?? [:]
+            )
+
+        case nil:
+            return globalAttributes(action: name)
+
+        case .enabled(nil):
+            return globalAttributes(action: name)
+                ?? .init(attributes: .some([]))
+        }
+    }
+
+    private func globalAttributes(action: String) -> EnabledValues? {
+        return globalConfig[action].ifSome {
+            .init(attributes: .some($0))
+        }
     }
 
     func componentInfo() -> AnalyticsRecord.Action.Component {

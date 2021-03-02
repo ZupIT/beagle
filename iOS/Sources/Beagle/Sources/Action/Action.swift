@@ -19,12 +19,15 @@ import UIKit
 /// Markup to define an action to be triggered in response to some event
 public protocol Action: Decodable {
 
+    func execute(controller: BeagleController, origin: UIView)
+}
+
+// TODO: 2.0 - merge with Action protocol
+public protocol AnalyticsAction: Action {
     /// can be used to override the global `AnalyticsConfig`.
     ///
     /// - when `nil`: analytics behavior for this action will be determined by global `AnalyticsConfig`.
     var analytics: ActionAnalyticsConfig? { get }
-    
-    func execute(controller: BeagleController, origin: UIView)
 }
 
 public protocol AsyncAction: Action {

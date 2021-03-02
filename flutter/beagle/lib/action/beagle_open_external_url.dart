@@ -15,18 +15,16 @@
  *  limitations under the License.
  */
 
-import 'package:flutter_js/extensions/xhr.dart';
+import 'package:beagle/logger/beagle_logger.dart';
+import 'package:beagle/service_locator.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
-class Request {
-  Request(this.url,
-      {HttpMethod method, Map<String, String> headers, String body}) {
-    this.method = method ?? HttpMethod.get;
-    this.headers = headers ?? {};
-    this.body = body ?? '';
+class BeagleOpenExternalUrl {
+  static Future<void> launchURL(String url) async {
+    if (await launcher.canLaunch(url)) {
+      await launcher.launch(url);
+    } else {
+      beagleServiceLocator<BeagleLogger>().error('Could not launch $url');
+    }
   }
-
-  String url;
-  HttpMethod method;
-  Map<String, String> headers;
-  String body;
 }

@@ -1,0 +1,23 @@
+▿ 3 elements
+  ▿ Optional<ContextExpression>
+    ▿ some: ContextExpression
+      ▿ single: SingleExpression
+        ▿ value: Value
+          ▿ binding: Binding
+            - context: "expression"
+            ▿ path: Path
+              - nodes: 0 elements
+  ▿ Optional<ContextExpression>
+    ▿ some: ContextExpression
+      ▿ multiple: MultipleExpression
+        ▿ nodes: 2 elements
+          ▿ Node
+            ▿ expression: SingleExpression
+              ▿ value: Value
+                ▿ binding: Binding
+                  - context: "expression"
+                  ▿ path: Path
+                    - nodes: 0 elements
+          ▿ Node
+            - string: " + string"
+  - Optional<ContextExpression>.none

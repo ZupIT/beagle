@@ -86,14 +86,14 @@ internal class AnalyticsViewModelTest {
         @Test
         fun testCreateScreenReportShouldCallCorrectFun() = runBlockingTest {
             //given
-            every { AnalyticsService.createScreenRecord(false, "screenId") } just Runs
+            every { AnalyticsService.createScreenRecord( "screenId") } just Runs
 
             //when
-            analyticsViewModel.createScreenReport(false, "screenId")
+            analyticsViewModel.createScreenReport( "screenId")
 
             //then
             verify(exactly = 1) {
-                AnalyticsService.createScreenRecord(false, "screenId")
+                AnalyticsService.createScreenRecord("screenId")
             }
         }
     }

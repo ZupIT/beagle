@@ -1,0 +1,5 @@
+{
+  "contextId" : "context",
+  "path" : "bla.path.bla",
+  "value" : "new value from setContext [beagle]"
+}

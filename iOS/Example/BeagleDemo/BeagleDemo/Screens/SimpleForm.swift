@@ -23,10 +23,25 @@ struct SimpleFormScreen: DeeplinkScreen {
     }
     
     func screenController() -> UIViewController {
-        return Beagle.screen(.declarative(screen))
+        return Beagle.screen(.declarative(simpleFormScreen))
     }
     
-    var screen: Screen {
+    var simpleFormScreen: Screen = {
+        return Screen(navigationBar: NavigationBar(title: "Simple Form", showBackButton: true)) {
+            Container {
+                Button(
+                    text: "Declarative Simple Form",
+                    onPress: [Navigate.pushView(.declarative(declarativeScreen))]
+                )
+                Button(
+                    text: "Simple Form with validation",
+                    onPress: [Navigate.openNativeRoute(.init(route: .simpleFormValidationEndpoint))]
+                )
+            }
+        }
+    }()
+
+    static var declarativeScreen: Screen {
         return Screen(navigationBar: NavigationBar(title: "Simple Form", showBackButton: true)) {
             Container {
                 SimpleForm(
@@ -56,25 +71,225 @@ struct SimpleFormScreen: DeeplinkScreen {
             }
         }
     }
-    
 }
 
 struct FirstAction: Action {
-    var analytics: ActionAnalyticsConfig? {
-        return nil
-    }
-    
+
     func execute(controller: BeagleController, origin: UIView) {
         print("FirstAction Executed")
     }
 }
 
 struct SecondAction: Action {
-    var analytics: ActionAnalyticsConfig? {
-        return nil
-    }
     
     func execute(controller: BeagleController, origin: UIView) {
         print("SecondAction Executed")
+    }
+}
+
+struct SimpleFormValidationText: DeeplinkScreen {
+    
+    init(path: String, data: [String: String]?) {
+    }
+    
+    func screenController() -> UIViewController {
+        return BeagleScreenViewController(.declarativeText(
+        """
+          {
+             "_beagleComponent_" : "beagle:screenComponent",
+             "navigationBar" : {
+               "title" : "Beagle Context",
+               "showBackButton" : true
+             },
+             "child" : {
+              "_beagleComponent_":"beagle:simpleform",
+              "context":{
+                "id":"form",
+                "value":{
+                  "data":{
+                    "username":"",
+                    "password":"",
+                    "passwordConfirmation":""
+                  },
+                  "showFormErrors": false,
+                  "showError": {
+                    "username": false,
+                    "password": false,
+                    "passwordConfirmation": false
+                  }
+                }
+              },
+              "onValidationError": [
+                {
+                  "_beagleAction_":"beagle:setContext",
+                  "contextId":"form",
+                  "path":"showFormErrors",
+                  "value":true
+                }
+              ],
+              "onSubmit":[
+                {
+                  "_beagleAction_":"beagle:alert",
+                  "message":"form submitted!"
+                }
+              ],
+              "children":[
+                {
+                  "_beagleComponent_":"beagle:container",
+                  "children":[
+                    {
+                      "_beagleComponent_":"beagle:text",
+                      "styleId":"title",
+                      "text":"Account"
+                    },
+                    {
+                      "_beagleComponent_":"beagle:container",
+                      "children":[
+                        {
+                          "_beagleComponent_":"beagle:textInput",
+                          "styleId": "DesignSystem.TextInput.Style",
+                          "placeholder":"Username",
+                          "value":"@{form.data.username}",
+                          "showError":"@{or(form.showFormErrors, form.showError.username)}",
+                          "error":"@{condition(isEmpty(form.data.username), 'The username is required.', '')}",
+                          "onChange":[
+                            {
+                              "_beagleAction_":"beagle:setContext",
+                              "contextId":"form",
+                              "path":"data.username",
+                              "value":"@{onChange.value}"
+                            }
+                          ],
+                          "onBlur":[
+                            {
+                              "_beagleAction_":"beagle:setContext",
+                              "contextId":"form",
+                              "path":"showError.username",
+                              "value":"@{condition(isEmpty(form.data.username), true, false)}"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "_beagleComponent_":"beagle:container",
+                      "style":{
+                        "margin":{
+                          "left":{
+                            "value":0,
+                            "type":"REAL"
+                          },
+                          "right":{
+                            "value":0,
+                            "type":"REAL"
+                          },
+                          "top":{
+                            "value":50,
+                            "type":"REAL"
+                          },
+                          "bottom":{
+                            "value":30,
+                            "type":"REAL"
+                          }
+                        },
+                        "flex":{
+                          "flexDirection":"ROW",
+                          "grow":1
+                        }
+                      },
+                      "children":[
+                        {
+                          "style":{
+                            "margin":{
+                              "left":{
+                                "value":0,
+                                "type":"REAL"
+                              },
+                              "right":{
+                                "value":15,
+                                "type":"REAL"
+                              }
+                            },
+                            "flex":{
+                              "grow":1
+                            }
+                          },
+                          "_beagleComponent_":"beagle:textInput",
+                          "styleId": "DesignSystem.TextInput.Style",
+                          "placeholder":"Password",
+                          "value":"@{form.data.password}",
+                          "showError":"@{or(form.showFormErrors, form.showError.password)}",
+                          "error":"@{condition(lt(length(form.data.password), 6), 'The password must have at least 6 characters.', '')}",
+                          "type":"PASSWORD",
+                          "onChange":[
+                            {
+                              "_beagleAction_":"beagle:setContext",
+                              "contextId":"form",
+                              "path":"data.password",
+                              "value":"@{onChange.value}"
+                            }
+                          ],
+                          "onBlur":[
+                            {
+                              "_beagleAction_":"beagle:setContext",
+                              "contextId":"form",
+                              "path":"showError.password",
+                              "value":"@{condition(lt(length(form.data.password), 6), true, false)}"
+                            }
+                          ]
+                        },
+                        {
+                          "_beagleComponent_":"beagle:textInput",
+                          "styleId": "DesignSystem.TextInput.Style",
+                          "placeholder":"Confirm your password",
+                          "value":"@{form.data.passwordConfirmation}",
+                          "showError":"@{or(form.showFormErrors, form.showError.passwordConfirmation)}",
+                          "error":"@{condition(eq(form.data.password, form.data.passwordConfirmation), '', 'The password and its confirmation must match.')}",
+                          "type":"PASSWORD",
+                          "onChange":[
+                            {
+                              "_beagleAction_":"beagle:setContext",
+                              "contextId":"form",
+                              "path":"data.passwordConfirmation",
+                              "value":"@{onChange.value}"
+                            }
+                          ],
+                          "onBlur":[
+                            {
+                              "_beagleAction_":"beagle:setContext",
+                              "contextId":"form",
+                              "path":"showError.passwordConfirmation",
+                              "value":"@{condition(eq(form.data.password, form.data.passwordConfirmation), false, true)}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "_beagleComponent_":"beagle:container",
+                  "children":[
+                    {
+                      "_beagleComponent_":"beagle:button",
+                      "text":"Previous",
+                      "disabled":true
+                    },
+                    {
+                      "_beagleComponent_":"beagle:button",
+                      "text":"Next",
+                      "onPress":[
+                        {
+                          "_beagleAction_":"beagle:submitForm"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+           }
+    """
+        ))
     }
 }

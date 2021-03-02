@@ -15,7 +15,7 @@
  */
 
 /// Action that insert children components in a node hierarchy
-public struct AddChildren: Action, AutoInitiableAndDecodable {
+public struct AddChildren: AnalyticsAction, AutoInitiableAndDecodable {
     
     public let componentId: String
     public let value: [ServerDrivenComponent]

@@ -47,39 +47,25 @@ object AppiumUtil {
     @Synchronized
     fun scrollToElement(
         driver: MobileDriver<*>,
-        element: MobileElement,
-        direction: SwipeDirection,
-        timeoutInMilliseconds: Long
+        elementLocator: By,
+        swipeDirection: SwipeDirection,
+        elementSearchTimeout: Long,
+        overallSearchTimeout: Long
     ): MobileElement {
 
+        if (overallSearchTimeout <= elementSearchTimeout)
+            throw Exception("Swipe timeout must be greater than element search timeout!")
+
         val wait = FluentWait(driver)
-        wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
+        wait.withTimeout(Duration.ofMillis(overallSearchTimeout))
         return wait.until(ExpectedCondition<MobileElement> {
-            if (!element.isDisplayed) {
-                swipeScreenTo(driver, direction)
-                return@ExpectedCondition null;
-            } else
-                return@ExpectedCondition element
+            if (elementExists(driver, elementLocator, elementSearchTimeout)) {
+                return@ExpectedCondition driver.findElement(elementLocator) as MobileElement
+            } else {
+                swipeScreenTo(driver, swipeDirection)
+                return@ExpectedCondition null
+            }
         })
-
-
-        //val action = TouchActions(driver)
-        //action.scroll(element, 10, 100)
-        //action.perform()
-
-        //val actions = Actions(driver)
-        // actions.
-
-        //var androidActions = AndroidTouchAction(driver)
-        // androidActions.
-
-        /*
-        val scrollObject = HashMap<String, String>()
-        scrollObject["direction"] = "$direction"
-        scrollObject["element"] = (element as RemoteWebElement).id
-        print(scrollObject)
-        (driver as JavascriptExecutor).executeScript("mobile: scroll", scrollObject)
-         */
     }
 
     @Synchronized
@@ -159,7 +145,7 @@ object AppiumUtil {
     @Synchronized
     fun waitForElementToBePresent(driver: MobileDriver<*>, locator: By, timeoutInMilliseconds: Long): MobileElement {
         val wait: FluentWait<MobileDriver<*>> = FluentWait<MobileDriver<*>>(driver)
-        wait.pollingEvery(Duration.ofMillis(500))
+        wait.pollingEvery(Duration.ofMillis(200))
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
         wait.ignoring(NoSuchElementException::class.java)
         wait.ignoring(StaleElementReferenceException::class.java)
@@ -174,10 +160,9 @@ object AppiumUtil {
         driver: MobileDriver<*>,
         locator: By,
         timeoutInMilliseconds: Long,
-        intervalInMilliseconds: Long
     ): MobileElement {
         val wait = FluentWait(driver)
-        if (intervalInMilliseconds > 0) wait.pollingEvery(Duration.ofMillis(intervalInMilliseconds))
+        wait.pollingEvery(Duration.ofMillis(200))
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
         wait.ignoring(NoSuchElementException::class.java)
         wait.ignoring(StaleElementReferenceException::class.java)
@@ -196,6 +181,7 @@ object AppiumUtil {
         timeoutInMilliseconds: Long
     ): MobileElement {
         val wait = FluentWait(driver)
+        wait.pollingEvery(Duration.ofMillis(200))
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
         wait.ignoring(NoSuchElementException::class.java)
         wait.ignoring(StaleElementReferenceException::class.java)
@@ -225,7 +211,7 @@ object AppiumUtil {
     fun waitForElementToBeInvisible(driver: MobileDriver<*>, locator: By, timeoutInMilliseconds: Long): Boolean {
         val wait = FluentWait(driver)
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
-        wait.pollingEvery(Duration.ofMillis(500))
+        wait.pollingEvery(Duration.ofMillis(200))
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
     }
 
@@ -237,7 +223,7 @@ object AppiumUtil {
         val mobileElement = waitForElementToBePresent(driver, locator, timeoutInMilliseconds)
         val wait = FluentWait(driver)
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
-        wait.pollingEvery(Duration.ofMillis(500))
+        wait.pollingEvery(Duration.ofMillis(200))
         return wait.until {
             mobileElement.isDisplayed && !mobileElement.isEnabled
         }
@@ -267,6 +253,7 @@ object AppiumUtil {
     ): Boolean {
         val wait = FluentWait(driver)
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
+        wait.pollingEvery(Duration.ofMillis(200))
         return wait.until {
             element.getAttribute(attribute) != null && element.getAttribute(attribute) == value
         }
@@ -314,6 +301,7 @@ object AppiumUtil {
         element.sendKeys(value)
         val wait = FluentWait(driver)
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
+        wait.pollingEvery(Duration.ofMillis(200))
         return wait.until(ExpectedCondition<Boolean> {
             val currentElementValue = element.getAttribute("value")
             if (currentElementValue != null && value.equals(currentElementValue))
@@ -341,26 +329,19 @@ object AppiumUtil {
 
     @Synchronized
     fun getPropertyXpath(property: String, propertyValue: String, likeSearch: Boolean, ignoreCase: Boolean): By {
-        val xpath: By
+        var key = "@$property"
+        var value = "\"$propertyValue\""
 
         if (ignoreCase) {
-            if (likeSearch) {
-                xpath =
-                    By.xpath("//*[contains(translate(@$property, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),\"${propertyValue?.toLowerCase()}\")]")
-            } else {
-                xpath =
-                    By.xpath("//*[translate(@$property, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')=\"${propertyValue?.toLowerCase()}\"]")
-            }
-        } else {
-            if (likeSearch) {
-                xpath = By.xpath("//*[contains(@$property,\"$propertyValue\")]")
-
-            } else {
-                xpath = By.xpath("//*[@$property=\"$propertyValue\"]")
-            }
+            key = "translate(@$property, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')"
+            value = value.toLowerCase()
         }
 
-        return xpath
+        return if (likeSearch) {
+            By.xpath("//*[contains($key, $value)]")
+        } else {
+            By.xpath("//*[$key=$value]")
+        }
     }
 
     /**
@@ -408,10 +389,10 @@ object AppiumUtil {
         // crops the image selection only the base element coordinates
         val bufferedImage = ImageIO.read(screenshot)
         val baseElementScreenshot: BufferedImage = bufferedImage.getSubimage(
-                0,
-                65,
-                828,
-                1680
+            0,
+            65,
+            828,
+            1680
         )
 
         // save the cropped image overwriting the screenshot file
