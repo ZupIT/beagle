@@ -14,7 +14,7 @@ out/
 common/gradle*
 schema/gradle*
 *.orig
-/fastlane/public/
+/fastlane/kdocs/public/
 
 ### STS ###
 .apt_generated
