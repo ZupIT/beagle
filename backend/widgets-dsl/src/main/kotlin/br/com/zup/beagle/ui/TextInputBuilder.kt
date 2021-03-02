@@ -47,7 +47,8 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
     fun placeholder(placeholder: Bind<String>?) = this.apply { this.placeholder = placeholder }
 
     @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
-        " Use field enabled to control is enabled or not in this layout.", ReplaceWith("this.apply { this.enabled = enabled }"))
+        " Use field enabled to control is enabled or not in this layout.",
+        ReplaceWith("this.apply { this.enabled = enabled }"))
     fun disabled(disabled: Bind<Boolean>?) = this.apply { this.disabled = disabled }
     fun enabled(enabled: Bind<Boolean>?) = this.apply { this.enabled = enabled }
     fun readOnly(readOnly: Bind<Boolean>?) = this.apply { this.readOnly = readOnly }
@@ -69,7 +70,8 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
     }
 
     @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
-        " Use field enabled to control is enabled or not in this layout.", ReplaceWith("enabled(block.invoke())"))
+        " Use field enabled to control is enabled or not in this layout.",
+        ReplaceWith("enabled(block.invoke())"))
     fun disabled(block: () -> Bind<Boolean>?) {
         disabled(block.invoke())
     }
