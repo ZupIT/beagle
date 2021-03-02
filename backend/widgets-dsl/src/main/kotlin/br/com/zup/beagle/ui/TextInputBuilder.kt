@@ -28,7 +28,11 @@ fun textInput(block: TextInputBuilder.() -> Unit) = TextInputBuilder().apply(blo
 class TextInputBuilder : BeagleBuilder<TextInput> {
     var value: Bind<String>? = null
     var placeholder: Bind<String>? = null
+
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+        " Use field enabled to control is enabled or not in this layout.")
     var disabled: Bind<Boolean>? = null
+    var enabled: Bind<Boolean>? = null
     var readOnly: Bind<Boolean>? = null
     var type: Bind<TextInputType>? = null
     var hidden: Bind<Boolean>? = null
@@ -41,7 +45,11 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
 
     fun value(value: Bind<String>?) = this.apply { this.value = value }
     fun placeholder(placeholder: Bind<String>?) = this.apply { this.placeholder = placeholder }
+
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+        " Use field enabled to control is enabled or not in this layout.", ReplaceWith("this.apply { this.enabled = enabled }"))
     fun disabled(disabled: Bind<Boolean>?) = this.apply { this.disabled = disabled }
+    fun enabled(enabled: Bind<Boolean>?) = this.apply { this.enabled = enabled }
     fun readOnly(readOnly: Bind<Boolean>?) = this.apply { this.readOnly = readOnly }
     fun type(type: Bind<TextInputType>?) = this.apply { this.type = type }
     fun hidden(hidden: Bind<Boolean>?) = this.apply { this.hidden = hidden }
@@ -60,8 +68,14 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
         placeholder(block.invoke())
     }
 
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+        " Use field enabled to control is enabled or not in this layout.", ReplaceWith("enabled(block.invoke())"))
     fun disabled(block: () -> Bind<Boolean>?) {
         disabled(block.invoke())
+    }
+
+    fun enabled(block: () -> Bind<Boolean>?) {
+        enabled(block.invoke())
     }
 
     fun readOnly(block: () -> Bind<Boolean>?) {
@@ -112,6 +126,7 @@ class TextInputBuilder : BeagleBuilder<TextInput> {
         styleId = styleId,
         onChange = onChange,
         onFocus = onFocus,
-        onBlur = onBlur
+        onBlur = onBlur,
+        enabled = enabled
     )
 }
