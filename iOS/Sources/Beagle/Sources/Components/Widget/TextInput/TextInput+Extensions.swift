@@ -43,6 +43,12 @@ extension TextInput: ServerDrivenComponent {
                 view.isEnabled = !disabled
             }
         }
+        
+        renderer.observe(enabled, andUpdateManyIn: view) { enabled in
+            if let enabled = enabled {
+                view.isEnabled = enabled
+            }
+        }
         renderer.observe(readOnly, andUpdateManyIn: view) { readOnly in
             if let readOnly = readOnly {
                 view.isEnabled = !readOnly
