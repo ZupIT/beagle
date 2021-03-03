@@ -40,9 +40,10 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import java.net.URI
 
 private val URL = RandomData.string()
-private val SCREEN_REQUEST = ScreenRequest(URL)
+private val SCREEN_REQUEST = RequestData(url = URL, uri = URI(""))
 
 @ExperimentalCoroutinesApi
 class ComponentRequesterTest : BaseTest() {
@@ -96,7 +97,7 @@ class ComponentRequesterTest : BaseTest() {
     @Test
     fun `GIVEN a componentRequest with json in cache WHEN beagleCache is expired SHOULD fetch from api and deserialize this new json`() = runBlockingTest {
         // Given
-        val newScreenRequestMock = mockk<ScreenRequest>()
+        val newScreenRequestMock = mockk<RequestData>()
         val requestDataMock = mockk<RequestData>()
         val responseDataMock = mockk<ResponseData>()
         val newJsonMock = "newJsonMock"
@@ -105,7 +106,6 @@ class ComponentRequesterTest : BaseTest() {
         every { cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url) } returns beagleCache
         every { beagleCache.isExpired() } returns true
         every { cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache) } returns newScreenRequestMock
-        every { newScreenRequestMock.toRequestData() } returns requestDataMock
         coEvery { beagleApi.fetchData(requestDataMock) } returns responseDataMock
         every { cacheManager.handleResponseData(SCREEN_REQUEST.url, beagleCache, responseDataMock) } returns newJsonMock
         every { serializer.deserializeComponent(newJsonMock) } returns expected
@@ -117,7 +117,6 @@ class ComponentRequesterTest : BaseTest() {
         coVerifySequence {
             cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url)
             cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache)
-            newScreenRequestMock.toRequestData()
             beagleApi.fetchData(requestDataMock)
             cacheManager.handleResponseData(SCREEN_REQUEST.url, beagleCache, responseDataMock)
             serializer.deserializeComponent(newJsonMock)

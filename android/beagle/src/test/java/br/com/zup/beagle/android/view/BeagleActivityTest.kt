@@ -30,6 +30,7 @@ import br.com.zup.beagle.android.MyBeagleSetup
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.data.ComponentRequester
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
@@ -54,6 +55,7 @@ import org.junit.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
+import java.net.URI
 
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
@@ -73,7 +75,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
 
     @Before
     fun mockBeforeTest() {
-        coEvery { componentRequester.fetchComponent(ScreenRequest("/url")) } returns component
+        coEvery { componentRequester.fetchComponent(RequestData(uri = URI(""), url = "/url")) } returns component
         beagleViewModel = BeagleScreenViewModel(ioDispatcher = TestCoroutineDispatcher(), componentRequester)
         prepareViewModelMock(beagleViewModel)
         val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
@@ -87,7 +89,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     fun `Given a screen request When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
         val url = "/url"
-        val screenRequest = ScreenRequest(url)
+        val screenRequest = RequestData(uri = URI(""), url = url)
         prepareViewModelMock(analyticsViewModel)
         every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
 
@@ -102,14 +104,13 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     @Test
     fun `Given a screen with id When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
-        val screenRequest = ScreenRequest("")
+        val screenRequest = RequestData(uri = URI(""), url = "")
         val screenId = "myScreen"
         val screen = Screen(id = screenId, child = component)
 
 
         prepareViewModelMock(analyticsViewModel)
         every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
-
 
         //When
         activity?.navigateTo(screenRequest, screen)
@@ -121,7 +122,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     @Test
     fun `Given a screen with identifier When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
-        val screenRequest = ScreenRequest("")
+        val screenRequest = RequestData(uri = URI(""), url = "")
         val screenIdentifier = "myScreen"
         val screen = Screen(identifier = screenIdentifier, child = component)
 

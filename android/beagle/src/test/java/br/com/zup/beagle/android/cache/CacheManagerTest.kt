@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.cache
 
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.store.StoreHandler
@@ -41,6 +42,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import java.net.URI
 
 private val URL = RandomData.string()
 private val BEAGLE_HASH_KEY = "$URL#hash"
@@ -48,7 +50,7 @@ private val BEAGLE_JSON_KEY = "$URL#json"
 private val BEAGLE_TIME_KEY = "$URL#time"
 private val BEAGLE_HASH_VALUE = RandomData.string()
 private val BEAGLE_JSON_VALUE = RandomData.string()
-private val SCREEN_REQUEST = ScreenRequest(URL)
+private val SCREEN_REQUEST = RequestData(uri = URI(""), url = URL)
 private val RESPONSE_BODY = RandomData.string()
 private const val BEAGLE_HASH = "beagle-hash"
 private const val INVALIDATION_TIME: Long = 0

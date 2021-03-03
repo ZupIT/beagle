@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderDefault
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -46,6 +47,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import java.net.URI
 
 private val route = Route.Remote(RandomData.httpUrl())
 private val url = RandomData.httpUrl()
@@ -215,7 +217,7 @@ class BeagleNavigatorTest : BaseTest() {
         @Test
         fun testPushViewShouldCallBeagleActivityNavigateTo() {
             // Given
-            val screenRequest = ScreenRequest(route.url.value as String)
+            val screenRequest = RequestData(url = route.url.value as String, uri = URI(""))
             every { context.navigateTo(screenRequest, null) } just Runs
 
             // When
