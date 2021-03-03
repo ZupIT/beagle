@@ -21,10 +21,12 @@ import br.com.zup.beagle.core.BeagleJson
 /**
  * ResponseData is used to return data made by the request.
  *
- * @param statusCode
- * @param data
+ * @param statusCode HTTP response status codes indicate whether a specific HTTP request has been successfully
+ * completed. Responses are grouped in five classes:
+ * @param data body of request
  * @param headers Header items for the response.
- * @param statusText
+ * @param statusText Gets the HTTP response message, if any, returned along with the
+ * response code from a server.
  */
 
 @BeagleJson
@@ -32,7 +34,7 @@ data class ResponseData(
     val statusCode: Int?,
     val data: ByteArray,
     val headers: Map<String, String> = mapOf(),
-    val statusText: String? = null
+    val statusText: String? = null,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

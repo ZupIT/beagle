@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi.moshi
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
@@ -51,7 +52,12 @@ internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : Js
         val value = jsonValue as Map<String, Any>
         return if (value.containsKey(URL)) {
             val url = adapter.fromJsonValue(value[URL] as String)!!
-            Route.Remote(url, value[SHOULD_PREFETCH] as Boolean, convertScreen(value[FALLBACK]))
+            Route.Remote(
+                url,
+                value[SHOULD_PREFETCH] as Boolean,
+                convertScreen(value[FALLBACK]),
+                value[HTTP_ADDITIONAL_DATA] as? HttpAdditionalData,
+            )
         } else {
             val message = "Expected a Screen for the screen key in $value."
             Route.Local(convertScreen(value[SCREEN]) ?: throw JsonDataException(message))
@@ -85,5 +91,6 @@ internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : Js
         private const val SHOULD_PREFETCH = "shouldPrefetch"
         private const val FALLBACK: String = "fallback"
         private const val SCREEN: String = "screen"
+        private const val HTTP_ADDITIONAL_DATA: String = "HttpAdditionalData"
     }
 }
