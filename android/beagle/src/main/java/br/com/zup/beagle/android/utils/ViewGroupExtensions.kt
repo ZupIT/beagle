@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("TooManyFunctions")
+
 package br.com.zup.beagle.android.utils
 
 import android.view.ViewGroup
@@ -168,7 +170,8 @@ fun ViewGroup.loadView(
  */
 @Deprecated("This method was deprecated in version 1.7.0 and will be removed in a future version." +
     " Use the method with request data.",
-    replaceWith = ReplaceWith("loadView(activity = activity, requestData = requestData, listener = OnServerStateChanged)"))
+    replaceWith = ReplaceWith(
+        "loadView(activity = activity, requestData = requestData, listener = OnServerStateChanged)"))
 @JvmName("loadView2")
 fun ViewGroup.loadView(
     activity: AppCompatActivity,
@@ -193,7 +196,8 @@ fun ViewGroup.loadView(
 @JvmName("loadView2")
 @Deprecated("This method was deprecated in version 1.7.0 and will be removed in a future version." +
     " Use the method with request data.",
-    replaceWith = ReplaceWith("loadView(fragment = fragment, requestData = requestData, listener = OnServerStateChanged)"))
+    replaceWith = ReplaceWith(
+        "loadView(fragment = fragment, requestData = requestData, listener = OnServerStateChanged)"))
 fun ViewGroup.loadView(
     fragment: Fragment,
     screenRequest: ScreenRequest,

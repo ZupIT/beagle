@@ -20,8 +20,6 @@ import br.com.zup.beagle.android.cache.CacheManager
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.networking.RequestData
-import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlin.jvm.Throws
 
