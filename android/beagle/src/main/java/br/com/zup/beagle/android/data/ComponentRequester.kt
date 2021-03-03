@@ -31,14 +31,21 @@ internal class ComponentRequester(
 
     @Throws(BeagleException::class)
     suspend fun fetchComponent(requestData: RequestData): ServerDrivenComponent {
-        val url = requestData.url ?: ""
+        val url = requestData.url
         val beagleCache = cacheManager.restoreBeagleCacheForUrl(url)
         val responseBody = if (beagleCache?.isExpired() == false) {
             beagleCache.json
         } else {
-            val requestData = cacheManager.requestDataWithCache(requestData, beagleCache)
-            val responseData = beagleApi.fetchData(requestData)
-            cacheManager.handleResponseData(url, beagleCache, responseData)
+            val requestDataFromCache = cacheManager.requestDataWithCache(
+                requestData,
+                beagleCache,
+            )
+            val responseData = beagleApi.fetchData(requestDataFromCache)
+            cacheManager.handleResponseData(
+                url,
+                beagleCache,
+                responseData,
+            )
         }
         return serializer.deserializeComponent(responseBody)
     }

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.view.mapper
 
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
@@ -41,7 +42,7 @@ internal object ScreenRequestMapper {
         beagleEnvironment: BeagleEnvironment,
         screenRequest: ScreenRequest,
     ): RequestData {
-        val newUrl = urlBuilder.format(beagleEnvironment.beagleSdk.config.baseUrl, screenRequest.url)
+        val newUrl = screenRequest.url.formatUrl(urlBuilder, beagleEnvironment)
         val method = generateRequestDataMethod(screenRequest.method)
         return RequestData(
             uri = URI(newUrl),
