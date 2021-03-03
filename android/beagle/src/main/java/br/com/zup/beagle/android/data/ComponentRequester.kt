@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.data
 import br.com.zup.beagle.android.cache.CacheManager
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.exception.BeagleException
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -27,18 +28,17 @@ import kotlin.jvm.Throws
 internal class ComponentRequester(
     private val beagleApi: BeagleApi = BeagleApi(),
     private val serializer: BeagleSerializer = BeagleSerializer(),
-    private val cacheManager: CacheManager = CacheManager()
+    private val cacheManager: CacheManager = CacheManager(),
 ) {
 
     @Throws(BeagleException::class)
-    suspend fun fetchComponent(screenRequest: ScreenRequest): ServerDrivenComponent {
-        val url = screenRequest.url
+    suspend fun fetchComponent(requestData: RequestData): ServerDrivenComponent {
+        val url = requestData.url ?: ""
         val beagleCache = cacheManager.restoreBeagleCacheForUrl(url)
         val responseBody = if (beagleCache?.isExpired() == false) {
             beagleCache.json
         } else {
-            val newScreenRequest = cacheManager.screenRequestWithCache(screenRequest, beagleCache)
-            val requestData = newScreenRequest.toRequestData()
+            val requestData = cacheManager.screenRequestWithCache(requestData, beagleCache)
             val responseData = beagleApi.fetchData(requestData)
             cacheManager.handleResponseData(url, beagleCache, responseData)
         }

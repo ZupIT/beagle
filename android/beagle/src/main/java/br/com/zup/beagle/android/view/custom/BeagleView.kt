@@ -19,10 +19,12 @@ package br.com.zup.beagle.android.view.custom
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.Observer
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
+import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
@@ -37,7 +39,6 @@ typealias OnStateChanged = (state: BeagleViewState) -> Unit
 typealias OnServerStateChanged = (serverState: ServerDrivenState) -> Unit
 
 typealias OnLoadCompleted = () -> Unit
-
 
 sealed class BeagleViewState {
     data class Error(val throwable: Throwable) : BeagleViewState()
@@ -59,16 +60,24 @@ internal class BeagleView(
 
     var loadCompletedListener: OnLoadCompleted? = null
 
+    @Deprecated(
+        message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
+            "Use field httpAdditionalData.", replaceWith = ReplaceWith("loadView(requestData)")
+    )
     fun loadView(screenRequest: ScreenRequest) {
-        loadView(screenRequest, null)
+        loadView(screenRequest.toRequestData(), null)
+    }
+
+    fun loadView(requestData: RequestData) {
+        loadView(requestData, null)
     }
 
     fun updateView(url: String, view: View) {
-        loadView(ScreenRequest(url), view)
+        loadView(RequestData(url = url), view)
     }
 
-    private fun loadView(screenRequest: ScreenRequest, view: View?) {
-        viewModel.fetchComponent(screenRequest).observe(rootView.getLifecycleOwner(), Observer { state ->
+    private fun loadView(requestData: RequestData, view: View?) {
+        viewModel.fetchComponent(requestData).observe(rootView.getLifecycleOwner(), { state ->
             handleResponse(state, view)
         })
     }

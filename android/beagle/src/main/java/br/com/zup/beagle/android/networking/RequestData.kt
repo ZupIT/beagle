@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.networking
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.net.URI
 
 /**
@@ -25,8 +27,15 @@ import java.net.URI
  * @param method HTTP method.
  * @param headers Header items for the request.
  * @param body Content that will be deliver with the request.
+ * @param httpAdditionalData pass additional data to the request
+ *
  */
+@Parcelize
 data class RequestData(
+    @Deprecated(
+        message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
+            "Use field url.", replaceWith = ReplaceWith("url = ")
+    )
     val uri: URI,
     @Deprecated(
         message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
@@ -43,5 +52,6 @@ data class RequestData(
             "Use field httpAdditionalData.", replaceWith = ReplaceWith("httpAdditionalData = ")
     )
     val body: String? = null,
+    val url: String? = null,
     val httpAdditionalData: HttpAdditionalData? = null,
-)
+) : Parcelable

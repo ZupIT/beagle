@@ -16,13 +16,13 @@
 
 package br.com.zup.beagle.android.cache
 
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.store.StoreHandler
 import br.com.zup.beagle.android.store.StoreType
 import br.com.zup.beagle.android.utils.nanoTimeInSeconds
 import br.com.zup.beagle.android.utils.toLowerKeys
-import br.com.zup.beagle.android.view.ScreenRequest
 
 private const val BEAGLE_HASH = "beagle-hash"
 private const val CACHE_CONTROL_HEADER = "cache-control"
@@ -106,16 +106,16 @@ internal class CacheManager(
     }
 
     fun screenRequestWithCache(
-        screenRequest: ScreenRequest,
+        requestData: RequestData,
         beagleCache: BeagleCache?
-    ): ScreenRequest {
+    ): RequestData {
         return if (beagleCache != null) {
-            val headers = screenRequest.headers.toMutableMap().apply {
+            val headers = requestData.headers.toMutableMap().apply {
                 put(BEAGLE_HASH, beagleCache.hash)
             }
-            screenRequest.copy(headers = headers)
+            requestData.copy(headers = headers)
         } else {
-            screenRequest
+            requestData
         }
     }
 

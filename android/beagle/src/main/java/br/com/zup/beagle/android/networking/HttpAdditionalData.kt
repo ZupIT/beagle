@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.android.networking
 
+import android.os.Parcelable
 import br.com.zup.beagle.core.BeagleJson
+import kotlinx.android.parcel.Parcelize
 
 /**
  * HttpAdditionalData is used to do requests.
@@ -25,8 +27,9 @@ import br.com.zup.beagle.core.BeagleJson
  * @param body Content that will be deliver with the request.
  */
 @BeagleJson
+@Parcelize
 data class HttpAdditionalData(
     val method: HttpMethod? = null,
     val headers: Map<String, String>? = null,
     val body: String? = null,
-)
+): Parcelable
