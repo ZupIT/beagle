@@ -77,5 +77,8 @@ interface BeagleConfig {
     /**
      * Attribute that enables or disables all logs that Beagle generates.
      */
+
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+        " If you don't want to use logger, just pass null in BeagleLogger or configure it in your application")
     val isLoggingEnabled: Boolean
 }
