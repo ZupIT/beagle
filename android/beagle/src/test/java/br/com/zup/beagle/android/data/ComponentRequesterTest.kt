@@ -24,8 +24,6 @@ import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -33,7 +31,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -105,7 +102,7 @@ class ComponentRequesterTest : BaseTest() {
 
         every { cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url) } returns beagleCache
         every { beagleCache.isExpired() } returns true
-        every { cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache) } returns newScreenRequestMock
+        every { cacheManager.requestDataWithCache(SCREEN_REQUEST, beagleCache) } returns newScreenRequestMock
         coEvery { beagleApi.fetchData(requestDataMock) } returns responseDataMock
         every { cacheManager.handleResponseData(SCREEN_REQUEST.url, beagleCache, responseDataMock) } returns newJsonMock
         every { serializer.deserializeComponent(newJsonMock) } returns expected
@@ -116,7 +113,7 @@ class ComponentRequesterTest : BaseTest() {
         //Then
         coVerifySequence {
             cacheManager.restoreBeagleCacheForUrl(SCREEN_REQUEST.url)
-            cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache)
+            cacheManager.requestDataWithCache(SCREEN_REQUEST, beagleCache)
             beagleApi.fetchData(requestDataMock)
             cacheManager.handleResponseData(SCREEN_REQUEST.url, beagleCache, responseDataMock)
             serializer.deserializeComponent(newJsonMock)

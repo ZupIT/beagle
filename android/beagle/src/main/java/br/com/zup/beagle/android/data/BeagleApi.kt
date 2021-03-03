@@ -43,9 +43,7 @@ internal class BeagleApi(
     suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
         if (httpClient == null) throw BeagleApiException(
             ResponseData(-1, data = HTTP_CLIENT_NULL.toByteArray()), request)
-
-        var transformedRequest = request.let { it.copy(headers = it.headers + FIXED_HEADERS) }
-        transformedRequest = mapperDeprecatedFields(transformedRequest)
+        val transformedRequest = mapperDeprecatedFields(request)
 
         BeagleMessageLogs.logHttpRequestData(transformedRequest)
 
@@ -71,11 +69,17 @@ internal class BeagleApi(
     }
 
     private fun mapperDeprecatedFields(request: RequestData): RequestData {
+        val headers = request.headers + FIXED_HEADERS
         val url = request.url.formatUrl() ?: ""
         val uri = if (url.isNotEmpty()) URI(url) else request.uri
+        val additionalData = request.httpAdditionalData
         return request.copy(
             url = url,
             uri = uri,
+            headers = headers,
+            httpAdditionalData = additionalData.copy(
+                headers = additionalData.headers + FIXED_HEADERS,
+            ),
         )
     }
 

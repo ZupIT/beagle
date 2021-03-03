@@ -36,7 +36,7 @@ internal class ComponentRequester(
         val responseBody = if (beagleCache?.isExpired() == false) {
             beagleCache.json
         } else {
-            val requestData = cacheManager.screenRequestWithCache(requestData, beagleCache)
+            val requestData = cacheManager.requestDataWithCache(requestData, beagleCache)
             val responseData = beagleApi.fetchData(requestData)
             cacheManager.handleResponseData(url, beagleCache, responseData)
         }

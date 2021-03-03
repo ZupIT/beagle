@@ -35,7 +35,7 @@ internal data class BeagleCache(
     val hash: String,
     val json: String,
     val maxTime: Long,
-    val cachedTime: Long
+    val cachedTime: Long,
 ) {
     fun isExpired(): Boolean {
         val stepTime = nanoTimeInSeconds() - cachedTime
@@ -47,7 +47,7 @@ internal class CacheManager(
     private val storeHandler: StoreHandler? = BeagleEnvironment.beagleSdk.storeHandler,
     private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment,
     private val memoryCacheStore: LruCacheStore? =
-        if (beagleEnvironment.beagleSdk.config.cache.enabled) LruCacheStore.instance else null
+        if (beagleEnvironment.beagleSdk.config.cache.enabled) LruCacheStore.instance else null,
 ) {
 
     fun restoreBeagleCacheForUrl(url: String): BeagleCache? {
@@ -105,15 +105,16 @@ internal class CacheManager(
         }
     }
 
-    fun screenRequestWithCache(
+    fun requestDataWithCache(
         requestData: RequestData,
-        beagleCache: BeagleCache?
+        beagleCache: BeagleCache?,
     ): RequestData {
         return if (beagleCache != null) {
-            val headers = requestData.headers.toMutableMap().apply {
+            val headers = requestData.httpAdditionalData.headers.toMutableMap().apply {
                 put(BEAGLE_HASH, beagleCache.hash)
             }
-            requestData.copy(headers = headers)
+            val httpAdditionalData = requestData.httpAdditionalData.copy(headers = headers)
+            requestData.copy(headers = headers, httpAdditionalData = httpAdditionalData)
         } else {
             requestData
         }
@@ -122,7 +123,7 @@ internal class CacheManager(
     fun handleResponseData(
         url: String,
         beagleCache: BeagleCache?,
-        responseData: ResponseData
+        responseData: ResponseData,
     ): String {
         return if (responseData.statusCode == 304 && beagleCache != null) {
             persistCacheOnMemory(url, beagleCache.json, beagleCache.hash, null)
@@ -186,7 +187,7 @@ internal class CacheManager(
         url: String,
         responseBody: String,
         beagleHash: String,
-        cacheControl: String?
+        cacheControl: String?,
     ) {
         val cacheKey = url.toBeagleHashKey()
         val maxTime = getMaxAgeFromCacheControl(cacheControl)
