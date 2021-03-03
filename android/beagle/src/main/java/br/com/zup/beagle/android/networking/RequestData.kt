@@ -52,6 +52,6 @@ data class RequestData(
             "Use field httpAdditionalData.", replaceWith = ReplaceWith("httpAdditionalData = ")
     )
     val body: String? = null,
-    val url: String? = null,
-    val httpAdditionalData: HttpAdditionalData? = null,
+    val url: String = "",
+    val httpAdditionalData: HttpAdditionalData = HttpAdditionalData(),
 ) : Parcelable

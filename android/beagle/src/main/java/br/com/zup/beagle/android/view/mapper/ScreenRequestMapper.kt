@@ -48,7 +48,7 @@ internal object ScreenRequestMapper {
             method = method,
             headers = screenRequest.headers,
             body = screenRequest.body,
-            url = newUrl,
+            url = newUrl ?: "",
             httpAdditionalData = HttpAdditionalData(
                 method = method,
                 headers = screenRequest.headers,

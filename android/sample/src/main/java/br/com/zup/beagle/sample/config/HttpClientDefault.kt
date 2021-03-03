@@ -64,8 +64,8 @@ class HttpClientDefault : HttpClient, CoroutineScope {
     }
 
     private fun getOrDeleteOrHeadHasData(request: RequestData): Boolean {
-        val method = request.httpAdditionalData?.method ?: request.method
-        val body = request.httpAdditionalData?.body ?: request.body
+        val method = request.httpAdditionalData.method
+        val body = request.httpAdditionalData.body
         return (method == HttpMethod.GET ||
             method == HttpMethod.DELETE ||
             method == HttpMethod.HEAD) &&
@@ -79,17 +79,14 @@ class HttpClientDefault : HttpClient, CoroutineScope {
         val urlConnection: HttpURLConnection
 
         try {
-
-            val uri = if (request.url != null) URI(request.url) else request.uri
+            val uri = URI(request.url)
 
             urlConnection = uri.toURL().openConnection() as HttpURLConnection
         } catch (e: Exception) {
             throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
         }
-
-        val headers = request.httpAdditionalData?.headers ?: request.headers
-
-        headers.forEach {
+        
+        request.httpAdditionalData.headers.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
         }
 

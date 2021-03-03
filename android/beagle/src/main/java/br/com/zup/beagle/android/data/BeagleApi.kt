@@ -25,9 +25,10 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import java.net.URI
 
 internal class BeagleApi(
-    private val httpClient: HttpClient? = BeagleEnvironment.beagleSdk.httpClient
+    private val httpClient: HttpClient? = BeagleEnvironment.beagleSdk.httpClient,
 ) {
     companion object {
         const val BEAGLE_PLATFORM_HEADER_KEY = "beagle-platform"
@@ -42,8 +43,12 @@ internal class BeagleApi(
     suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
         if (httpClient == null) throw BeagleApiException(
             ResponseData(-1, data = HTTP_CLIENT_NULL.toByteArray()), request)
-        val transformedRequest = request.let { it.copy(headers = it.headers + FIXED_HEADERS) }
+
+        var transformedRequest = request.let { it.copy(headers = it.headers + FIXED_HEADERS) }
+        transformedRequest = mapperDeprecatedFields(transformedRequest)
+
         BeagleMessageLogs.logHttpRequestData(transformedRequest)
+
         val call = httpClient.execute(
             request = transformedRequest,
             onSuccess = { response ->
@@ -63,6 +68,15 @@ internal class BeagleApi(
         cont.invokeOnCancellation {
             call.cancel()
         }
+    }
+
+    private fun mapperDeprecatedFields(request: RequestData): RequestData {
+        val url = request.url.formatUrl() ?: ""
+        val uri = if (url.isNotEmpty()) URI(url) else request.uri
+        return request.copy(
+            url = url,
+            uri = uri,
+        )
     }
 
     private fun genericErrorMessage(url: String) = "fetchData error for url $url"

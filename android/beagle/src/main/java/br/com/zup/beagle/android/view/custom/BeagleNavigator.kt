@@ -25,11 +25,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.widget.RootView
 import java.net.URI
 
@@ -67,11 +67,7 @@ internal object BeagleNavigator {
         if (context is BeagleActivity) {
             when (route) {
                 is Route.Remote -> context.navigateTo(
-                    RequestData(
-                        url = route.url.value as String,
-                        httpAdditionalData = route.httpAdditionalData,
-                        uri = URI(""),
-                    ),
+                    createRequestData(route),
                     route.fallback,
                 )
                 is Route.Local -> context.navigateTo(
@@ -143,20 +139,12 @@ internal object BeagleNavigator {
             is Route.Remote -> {
                 if (route.fallback != null) {
                     BeagleActivity.bundleOf(
-                        RequestData(
-                            url = route.url.value as String,
-                            httpAdditionalData = route.httpAdditionalData,
-                            uri = URI(""),
-                        ),
+                        createRequestData(route),
                         route.fallback,
                     )
                 } else {
                     BeagleActivity.bundleOf(
-                        RequestData(
-                            url = route.url.value as String,
-                            httpAdditionalData = route.httpAdditionalData,
-                            uri = URI(""),
-                        ),
+                        createRequestData(route),
                     )
                 }
             }
@@ -169,4 +157,17 @@ internal object BeagleNavigator {
             putExtras(bundle)
         }
     }
+
+    private fun createRequestData(route: Route.Remote): RequestData {
+        val httpAdditionalData = route.httpAdditionalData ?: HttpAdditionalData()
+        return RequestData(
+            url = route.url.value as String,
+            method = httpAdditionalData.method,
+            body = httpAdditionalData.body,
+            headers = httpAdditionalData.headers,
+            httpAdditionalData = httpAdditionalData,
+            uri = URI(""),
+        )
+    }
+
 }

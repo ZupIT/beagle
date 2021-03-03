@@ -30,6 +30,7 @@ import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
+import java.net.URI
 
 @Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
     " Use OnServerStateChanged instead.", replaceWith = ReplaceWith("OnServerStateChanged",
@@ -73,7 +74,7 @@ internal class BeagleView(
     }
 
     fun updateView(url: String, view: View) {
-        loadView(RequestData(url = url), view)
+        loadView(RequestData(url = url, uri = URI("")), view)
     }
 
     private fun loadView(requestData: RequestData, view: View?) {

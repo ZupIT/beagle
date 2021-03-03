@@ -34,6 +34,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URI
 
 sealed class ViewState {
     data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
@@ -60,7 +61,7 @@ internal open class BeagleViewModel(
 
     fun fetchForCache(url: String) = viewModelScope.launch(ioDispatcher) {
         try {
-            componentRequester.fetchComponent(RequestData(url = url))
+            componentRequester.fetchComponent(RequestData(url = url, uri = URI("")))
         } catch (exception: BeagleException) {
             BeagleLoggerProxy.warning(exception.message)
         }
