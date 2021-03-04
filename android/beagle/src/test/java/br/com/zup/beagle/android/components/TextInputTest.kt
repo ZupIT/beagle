@@ -25,6 +25,7 @@ import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.setPrivateField
@@ -95,7 +96,8 @@ internal class TextInputTest : BaseComponentTest() {
     }
 
     private fun callTextInput(
-        type: TextInputType, styleId: String? = STYLE_ID,
+        type: TextInputType = TYPE,
+        styleId: String? = STYLE_ID,
         showError: Boolean = false,
     ) = TextInput(
         value = VALUE_KEY,
@@ -145,6 +147,60 @@ internal class TextInputTest : BaseComponentTest() {
             assertTrue(view is EditText)
             verify(exactly = 0) {
                 editText.error = ERROR
+            }
+        }
+    }
+
+
+    @DisplayName("When set field enabled")
+    @Nested
+    inner class TextInputSetFieldEnabled {
+
+        @Test
+        @DisplayName("Then should show edit text enabled")
+        fun testFieldEnabledTrue() {
+            // Given
+            textInput = callTextInput().copy(enabled = valueOf(true), disabled = null, readOnly = null)
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = 1) {
+                editText.isEnabled = true
+            }
+        }
+
+        @Test
+        @DisplayName("Then should show edit text disabled")
+        fun testFieldEnabledFalse() {
+            // Given
+            textInput = callTextInput().copy(enabled = valueOf(false), disabled = null, readOnly = null)
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = 1) {
+                editText.isEnabled = false
+            }
+        }
+
+        @Test
+        @DisplayName("Then should not call edit text enabled")
+        fun testFieldEnabledNotCalled() {
+            // Given
+            textInput = callTextInput().copy(enabled = null, disabled = null, readOnly = null)
+
+            // When
+            val view = textInput.buildView(rootView)
+
+            // Then
+            assertTrue(view is EditText)
+            verify(exactly = 0) {
+                editText.isEnabled = any()
             }
         }
     }

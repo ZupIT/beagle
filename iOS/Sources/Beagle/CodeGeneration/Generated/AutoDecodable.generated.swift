@@ -431,6 +431,7 @@ extension TextInput {
         case onFocus
         case error
         case showError
+        case enabled
     }
 
     public init(from decoder: Decoder) throws {
@@ -439,6 +440,7 @@ extension TextInput {
         value = try container.decodeIfPresent(Expression<String>.self, forKey: .value)
         placeholder = try container.decodeIfPresent(Expression<String>.self, forKey: .placeholder)
         disabled = try container.decodeIfPresent(Expression<Bool>.self, forKey: .disabled)
+        enabled = try container.decodeIfPresent(Expression<Bool>.self, forKey: .enabled)
         readOnly = try container.decodeIfPresent(Expression<Bool>.self, forKey: .readOnly)
         type = try container.decodeIfPresent(Expression<TextInputType>.self, forKey: .type)
         hidden = try container.decodeIfPresent(Expression<Bool>.self, forKey: .hidden)
