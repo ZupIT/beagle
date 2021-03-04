@@ -39,6 +39,9 @@ typedef ActionListener = void Function(
 
 typedef HttpListener = void Function(String requestId, BeagleRequest request);
 
+typedef OperationListener = void Function(
+    String operationName, List<dynamic> args);
+
 /// Provides an interface to run javascript code and listen to Beagle's core
 /// events.
 class BeagleJSEngine {
@@ -54,11 +57,13 @@ class BeagleJSEngine {
 
   final _httpRequestChannelName = 'httpClient.request';
   final _actionChannelName = 'action';
+  final _operationChannelName = 'operation';
   final _viewUpdateChannelName = 'beagleView.update';
   final _navigatorChannelName = 'beagleNavigator';
 
   HttpListener _httpListener;
   ActionListener _actionListener;
+  OperationListener _operationListener;
   final Map<String, List<ViewUpdateListener>> _viewUpdateListenerMap = {};
   final Map<String, List<ViewErrorListener>> _viewErrorListenerMap = {};
   final Map<String, List<NavigationListener>> _navigationListenerMap = {};
@@ -128,6 +133,7 @@ class BeagleJSEngine {
     _setupBeagleViewMessages();
     _setupBeagleNavigatorMessages();
     _setupStorageMessages();
+    _setupOperationMessages();
   }
 
   void _setupHttpMessages() {
@@ -169,6 +175,22 @@ class BeagleJSEngine {
       view: BeagleViewJS.views[actionMessage['viewId']],
       element: BeagleUIElement(actionMessage['element']),
     );
+  }
+
+  void _setupOperationMessages() {
+    _jsRuntime.onMessage(
+      _operationChannelName,
+      _notifyOperationListener,
+    );
+  }
+
+  void _notifyOperationListener(dynamic operationMessage) {
+    if (_operationListener == null) {
+      return;
+    }
+
+    _operationListener(
+        operationMessage['operation'], operationMessage['params']);
   }
 
   void _setupBeagleViewMessages() {
@@ -299,6 +321,11 @@ class BeagleJSEngine {
   // ignore: use_setters_to_change_properties
   void onHttpRequest(HttpListener listener) {
     _httpListener = listener;
+  }
+
+  // ignore: use_setters_to_change_properties
+  void onOperation(OperationListener listener) {
+    _operationListener = listener;
   }
 
   RemoveListener onViewUpdate(String viewId, ViewUpdateListener listener) {

@@ -4,6 +4,7 @@ import createBeagleService, {
   NavigationController,
   NetworkOptions,
   Strategy,
+  Operation
 } from '@zup-it/beagle-web'
 import { createCustomActionMap } from './action'
 import { createBeagleView, getView } from './view'
@@ -11,10 +12,12 @@ import { storage } from './storage'
 import { callFunction } from './function'
 import { httpClient, respondHttpRequest } from './http-client'
 import { resolvePromise, rejectPromise } from './promise'
+import { createCustomOperationMap } from './operation'
 
 interface StartParams {
   baseUrl: string,
   actionKeys: string[],
+  customOperations: string[]
   navigationControllers: Record<string, NavigationController>,
   useBeagleHeaders: boolean,
   strategy: Strategy,
@@ -25,13 +28,14 @@ window.beagle = (() => {
   let service: BeagleService
 
   const api = {
-    start: ({ actionKeys, ...other }: StartParams) => {
+    start: ({ actionKeys, customOperations, ...other }: StartParams) => {
       service = createBeagleService({
         components: {},
         disableCssTransformation: true,
         fetchData: httpClient.fetch,
         customStorage: storage,
         customActions: createCustomActionMap(actionKeys),
+        customOperations: createCustomOperationMap(customOperations),
         ...other,
       })
 

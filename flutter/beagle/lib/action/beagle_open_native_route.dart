@@ -1,6 +1,7 @@
-import 'package:beagle/beagle.dart';
+import 'package:beagle/logger/beagle_logger.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:beagle/service_locator.dart';
 
 class BeagleOpenNativeRoute {
   factory BeagleOpenNativeRoute() {
@@ -19,7 +20,8 @@ class BeagleOpenNativeRoute {
     try {
       Navigator.pushNamed(buildContext, url);
     } catch (err) {
-      BeagleSdk.logger.error('Error: $err while trying to navigate to $url');
+      beagleServiceLocator<BeagleLogger>()
+          .error('Error: $err while trying to navigate to $url');
     }
   }
 }
