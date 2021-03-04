@@ -61,7 +61,7 @@ internal open class BeagleViewModel(
 
     fun fetchForCache(url: String) = viewModelScope.launch(ioDispatcher) {
         try {
-            componentRequester.fetchComponent(RequestData(url = url, uri = URI("")))
+            componentRequester.fetchComponent(RequestData(url = url, uri = URI(url)))
         } catch (exception: BeagleException) {
             BeagleLoggerProxy.warning(exception.message)
         }

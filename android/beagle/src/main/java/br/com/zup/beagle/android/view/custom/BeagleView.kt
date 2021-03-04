@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.view.custom
 
 import android.annotation.SuppressLint
 import android.view.View
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.generateViewModelInstance
@@ -73,7 +74,8 @@ internal class BeagleView(
     }
 
     fun updateView(url: String, view: View) {
-        loadView(RequestData(url = url, uri = URI("")), view)
+        val urlFormatted = url.formatUrl()
+        loadView(RequestData(url = urlFormatted, uri = URI(urlFormatted)), view)
     }
 
     private fun loadView(requestData: RequestData, view: View?) {
