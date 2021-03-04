@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpMethod
@@ -161,13 +162,14 @@ internal object BeagleNavigator {
 
     private fun createRequestData(route: Route.Remote): RequestData {
         val httpAdditionalData = route.httpAdditionalData ?: HttpAdditionalData()
+        val url = (route.url.value as String).formatUrl()
         return RequestData(
-            url = route.url.value as String,
+            url = url,
             method = httpAdditionalData.method ?: HttpMethod.GET,
             body = httpAdditionalData.body,
             headers = httpAdditionalData.headers ?: hashMapOf(),
             httpAdditionalData = httpAdditionalData,
-            uri = URI(""),
+            uri = URI(url),
         )
     }
 

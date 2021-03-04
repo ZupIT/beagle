@@ -28,6 +28,7 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
@@ -217,14 +218,16 @@ class BeagleNavigatorTest : BaseTest() {
         @Test
         fun testPushViewShouldCallBeagleActivityNavigateTo() {
             // Given
-            val screenRequest = RequestData(url = route.url.value as String, uri = URI(""))
-            every { context.navigateTo(screenRequest, null) } just Runs
+            val url = (route.url.value as String).formatUrl()
+
+            val requestData = RequestData(url = url, uri = URI(url))
+            every { context.navigateTo(requestData, null) } just Runs
 
             // When
             BeagleNavigator.pushView(context, route)
 
             // Then
-            verify(exactly = once()) { context.navigateTo(screenRequest, null) }
+            verify(exactly = once()) { context.navigateTo(requestData, null) }
         }
 
         @DisplayName("Then should start BeagleActivity")
