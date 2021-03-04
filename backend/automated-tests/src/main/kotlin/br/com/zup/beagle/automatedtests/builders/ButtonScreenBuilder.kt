@@ -115,7 +115,7 @@ object ButtonScreenBuilder {
                 text = valueOf("Disabled Button by context") ,
                 styleId = "DesignSystem.Button.ScreenButton",
                 onPress = listOf(Alert(message = "This button must be disabled")),
-                enabled = expressionOf("@{disabled}")
+                enabled = expressionOf("@{enabled}")
             )
         )
     )
