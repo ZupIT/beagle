@@ -56,7 +56,7 @@ internal class BeagleApi(
             val exception = BeagleApiException(
                 response,
                 request,
-                genericErrorMessage(transformedRequest.url))
+                genericErrorMessage(transformedRequest.url ?: ""))
 
             BeagleMessageLogs.logUnknownHttpError(exception)
             cont.resumeWithException(
@@ -70,7 +70,7 @@ internal class BeagleApi(
 
     private fun mapperDeprecatedFields(request: RequestData): RequestData {
         val headers = request.headers + FIXED_HEADERS
-        val url = request.url.formatUrl() ?: ""
+        val url = request.url?.formatUrl() ?: ""
         val uri = if (url.isNotEmpty()) URI(url) else request.uri
         var additionalData = request.httpAdditionalData
 

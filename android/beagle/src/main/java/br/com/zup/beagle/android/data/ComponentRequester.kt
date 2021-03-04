@@ -31,7 +31,7 @@ internal class ComponentRequester(
 
     @Throws(BeagleException::class)
     suspend fun fetchComponent(requestData: RequestData): ServerDrivenComponent {
-        val url = requestData.url
+        val url = requestData.url ?: ""
         val beagleCache = cacheManager.restoreBeagleCacheForUrl(url)
         val responseBody = if (beagleCache?.isExpired() == false) {
             beagleCache.json

@@ -76,7 +76,7 @@ class ComponentRequesterTest : BaseTest() {
             val jsonMock = "jsonMock"
 
             every {
-                cacheManager.restoreBeagleCacheForUrl(REQUEST_DATA.url)
+                cacheManager.restoreBeagleCacheForUrl(REQUEST_DATA.url!!)
             } returns beagleCache
             every { beagleCache.isExpired() } returns false
             every { beagleCache.json } returns jsonMock
@@ -106,11 +106,11 @@ class ComponentRequesterTest : BaseTest() {
             val newJsonMock = "newJsonMock"
             val expected = mockk<ServerDrivenComponent>()
 
-            every { cacheManager.restoreBeagleCacheForUrl(REQUEST_DATA.url) } returns beagleCache
+            every { cacheManager.restoreBeagleCacheForUrl(REQUEST_DATA.url!!) } returns beagleCache
             every { beagleCache.isExpired() } returns true
             every { cacheManager.requestDataWithCache(REQUEST_DATA, beagleCache) } returns newRequestDataMock
             coEvery { beagleApi.fetchData(newRequestDataMock) } returns responseDataMock
-            every { cacheManager.handleResponseData(REQUEST_DATA.url, beagleCache, responseDataMock) } returns newJsonMock
+            every { cacheManager.handleResponseData(REQUEST_DATA.url!!, beagleCache, responseDataMock) } returns newJsonMock
             every { serializer.deserializeComponent(newJsonMock) } returns expected
 
             // When
@@ -118,10 +118,10 @@ class ComponentRequesterTest : BaseTest() {
 
             //Then
             coVerifySequence {
-                cacheManager.restoreBeagleCacheForUrl(REQUEST_DATA.url)
+                cacheManager.restoreBeagleCacheForUrl(REQUEST_DATA.url!!)
                 cacheManager.requestDataWithCache(REQUEST_DATA, beagleCache)
                 beagleApi.fetchData(newRequestDataMock)
-                cacheManager.handleResponseData(REQUEST_DATA.url, beagleCache, responseDataMock)
+                cacheManager.handleResponseData(REQUEST_DATA.url!!, beagleCache, responseDataMock)
                 serializer.deserializeComponent(newJsonMock)
             }
 

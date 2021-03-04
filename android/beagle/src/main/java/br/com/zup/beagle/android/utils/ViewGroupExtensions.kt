@@ -51,9 +51,7 @@ fun ViewGroup.loadView(
         rootView = ActivityRootView(activity, this.id, requestData.url ?: ""),
         requestData = requestData,
         listener = null,
-        newListener = object : OnServerStateChanged {
-            override fun invoke(serverState: ServerDrivenState) {}
-        },
+        newListener = null,
     )
 }
 
@@ -71,9 +69,7 @@ fun ViewGroup.loadView(
         rootView = FragmentRootView(fragment, this.id, requestData.url ?: ""),
         requestData = requestData,
         listener = null,
-        newListener = object : OnServerStateChanged {
-            override fun invoke(serverState: ServerDrivenState) {}
-        },
+        newListener = null,
     )
 }
 
