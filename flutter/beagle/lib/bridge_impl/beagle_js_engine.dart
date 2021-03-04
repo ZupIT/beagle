@@ -188,7 +188,6 @@ class BeagleJSEngine {
     if (_operationListener == null) {
       return;
     }
-
     _operationListener(
         operationMessage['operation'], operationMessage['params']);
   }
