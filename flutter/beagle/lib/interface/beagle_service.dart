@@ -28,8 +28,12 @@ typedef ComponentBuilder = Widget Function(
     BeagleUIElement element, List<Widget> children, BeagleView view);
 
 ///TODO: NEEDS ADD DOCUMENTATION
-typedef ActionHandler = void Function(
-    {BeagleAction action, BeagleView view, BeagleUIElement element});
+typedef ActionHandler = void Function({
+  BeagleAction action,
+  BeagleView view,
+  BeagleUIElement element,
+  BuildContext context,
+});
 
 abstract class BeagleService {
   /// URL to the backend providing the views (JSON) for Beagle.

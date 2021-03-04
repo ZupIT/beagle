@@ -36,13 +36,13 @@ Map<String, ComponentBuilder> myCustomComponents = {
   }
 };
 Map<String, ActionHandler> myCustomActions = {
-  'custom:log': ({action, view, element}) {
+  'custom:log': ({action, view, element, context}) {
     debugPrint(action.getAttributeValue('message'));
   }
 };
 
-void main() {
-  BeagleSdk.init(
+Future<void> main() async {
+  await BeagleSdk.init(
     logger: AppLogger(),
     beagleConfig: AppBeagleConfig(),
     components: {...defaultComponents, ...myCustomComponents},
@@ -97,13 +97,25 @@ class BeagleSampleApp extends StatelessWidget {
             ),
           ],
         ),
-        body: BeagleWidget(
-          screenRequest: BeagleScreenRequest('beagle_lazy'),
-          onCreateView: (view) => {
-            view.addErrorListener((errors) {
-              //TODO
-            })
-          },
+        body: Column(
+          children: [
+            BeagleWidget(
+              screenRequest: BeagleScreenRequest('beagle_lazy'),
+              onCreateView: (view) => {
+                view.addErrorListener((errors) {
+                  //TODO
+                })
+              },
+            ),
+            BeagleWidget(
+              screenRequest: BeagleScreenRequest('beagle_button'),
+              onCreateView: (view) => {
+                view.addErrorListener((errors) {
+                  //TODO
+                })
+              },
+            )
+          ],
         ),
       ),
     );

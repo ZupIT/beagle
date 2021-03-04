@@ -17,23 +17,30 @@
 import 'package:beagle/beagle.dart';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 class BeagleJSEngineMock extends Mock implements BeagleJSEngine {}
 
+class BuildContextMock extends Mock implements BuildContext {}
+
 void main() {
   const createdViewId = 'viewId';
   final jsEngineMock = BeagleJSEngineMock();
   when(jsEngineMock.createBeagleView()).thenReturn(createdViewId);
+
+  final buildContextMock = BuildContextMock();
+  BuildContext contextProvider() => buildContextMock;
 
   setUp(() {
     reset(jsEngineMock);
   });
 
   group('Given a BeagleViewJS', () {
-    final beagleView = BeagleViewJS(jsEngineMock);
+    final beagleView = BeagleViewJS(jsEngineMock, contextProvider,
+        params: BeagleViewJsParams());
 
     group('When addErrorListener is called', () {
       test(
@@ -92,6 +99,14 @@ void main() {
         beagleView.subscribe(onUpdateListener);
 
         verify(jsEngineMock.onViewUpdate(createdViewId, onUpdateListener));
+      });
+    });
+
+    group('When getContext is called', () {
+      test('Then should return the BuildContext', () {
+        final result = beagleView.getContext();
+
+        expect(result, buildContextMock);
       });
     });
   });

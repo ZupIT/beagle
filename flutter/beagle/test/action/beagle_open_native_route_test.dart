@@ -19,14 +19,14 @@ void main() {
 
     setUp(() {
       mockObserver = MockNavigatorObserver();
-      mockOpenNativeRoute.buildContext = _mockContext;
     });
 
     Future<void> _buildPage(WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         routes: {mockRoute: (context) => const Text('Test')},
         home: RaisedButton(
-            onPressed: () => {mockOpenNativeRoute.navigate(mockRoute)}),
+            onPressed: () =>
+                {mockOpenNativeRoute.navigate(_mockContext, mockRoute)}),
         navigatorObservers: [mockObserver],
       ));
     }

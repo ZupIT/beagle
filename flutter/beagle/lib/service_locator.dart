@@ -21,12 +21,12 @@ import 'package:beagle/bridge_impl/js_runtime_wrapper.dart';
 import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
+import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_config.dart';
-import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter_js/flutter_js.dart';
@@ -65,11 +65,10 @@ void setupServiceLocator({
       strategy: strategy,
       navigationControllers: navigationControllers,
     ))
-    ..registerFactoryParam<BeagleViewJS, BeagleNetworkOptions, String>(
-        (networkOptions, initialControllerId) => BeagleViewJS(
-            beagleServiceLocator<BeagleJSEngine>(),
-            networkOptions: networkOptions,
-            initialControllerId: initialControllerId))
+    ..registerFactoryParam<BeagleViewJS, ContextProvider, BeagleViewJsParams>(
+        (contextProvider, params) => BeagleViewJS(
+            beagleServiceLocator<BeagleJSEngine>(), contextProvider,
+            params: params))
     ..registerFactory<UrlBuilder>(() => UrlBuilder(beagleConfig.baseUrl))
     ..registerFactory(
         () => GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()));

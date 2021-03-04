@@ -30,7 +30,7 @@ void main() {
   final beagleJSEngineMock = MockBeagleJSEngine();
   const baseUrl = 'https://usebeagle.io';
   const useBeagleHeaders = true;
-  final actions = {'beagle:alert': ({action, view, element}) {}};
+  final actions = {'beagle:alert': ({action, view, element, context}) {}};
   const strategy = BeagleNetworkStrategy.networkOnly;
   final navigationControllers = {
     'general': NavigationController(

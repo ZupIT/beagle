@@ -69,10 +69,16 @@ class _BeagleWidget extends State<BeagleWidget> {
     _startBeagleView();
   }
 
+  @override
+  void dispose() {
+    _view.destroy();
+    super.dispose();
+  }
+
   Future<void> _startBeagleView() async {
-    await service.start();
     _view = beagleServiceLocator<BeagleViewJS>(
-      param1: widget.screenRequest,
+      param1: () => context,
+      param2: BeagleViewJsParams(networkOptions: widget.screenRequest),
     )..subscribe((tree) {
         final widgetLoaded = _buildViewFromTree(tree);
         setState(() {

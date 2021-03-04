@@ -31,12 +31,13 @@ import 'package:beagle/model/beagle_config.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:flutter/widgets.dart';
 
 class BeagleSdk {
   /// Starts the BeagleService. Only a single instance of this service is allowed.
   /// The parameters are all the attributes of the class BeagleService. Please check its
   /// documentation for more details.
-  static void init({
+  static Future<void> init({
     /// Interface that provides initial beagle configuration attributes.
     BeagleConfig beagleConfig,
 
@@ -57,7 +58,7 @@ class BeagleSdk {
 
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
-  }) {
+  }) async {
     setupServiceLocator(
       beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
       httpClient: httpClient ?? const DefaultHttpClient(),
@@ -72,5 +73,7 @@ class BeagleSdk {
       strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
       logger: logger ?? DefaultEmptyLogger(),
     );
+    WidgetsFlutterBinding.ensureInitialized();
+    await beagleServiceLocator<BeagleService>().start();
   }
 }

@@ -19,9 +19,11 @@ import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:flutter/widgets.dart';
 
 typedef ViewUpdateListener = void Function(BeagleUIElement tree);
 typedef ViewErrorListener = void Function(List<String> errors);
+typedef ContextProvider = BuildContext Function();
 
 abstract class BeagleView {
   /// Subscribes [listener] to every change to the beagle tree. This method returns a function that,
@@ -44,4 +46,7 @@ abstract class BeagleView {
   /// Destroys the current view. Should be used when the BeagleView won't be used anymore. Avoids
   /// memory leaks and calls to objects that don't exist any longer.
   void destroy();
+
+  /// Gets the [BuildContext] used to build the rendered tree.
+  BuildContext getContext();
 }

@@ -34,8 +34,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_js/flutter_js.dart';
 
-typedef ActionListener = void Function(
-    {BeagleAction action, BeagleView view, BeagleUIElement element});
+typedef ActionListener = void Function({
+  BeagleAction action,
+  BeagleView view,
+  BeagleUIElement element,
+});
 
 typedef HttpListener = void Function(String requestId, BeagleRequest request);
 

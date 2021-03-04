@@ -17,6 +17,7 @@
 
 import 'dart:convert';
 
+import 'package:beagle/beagle.dart';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
@@ -103,7 +104,12 @@ class BeagleServiceJS implements BeagleService {
       if (handler == null) {
         return;
       }
-      handler(action: action, view: view, element: element);
+      handler(
+        action: action,
+        view: view,
+        element: element,
+        context: view.getContext(),
+      );
     });
   }
 }
