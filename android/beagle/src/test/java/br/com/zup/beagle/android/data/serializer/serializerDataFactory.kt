@@ -231,7 +231,14 @@ fun makeNavigationActionJsonWithUrlHardcoded() = """
       "_beagleAction_": "beagle:pushView",
       "route": {
         "url": "http://localhost:8080/test/example",
-        "shouldPrefetch": false
+        "shouldPrefetch": false,
+        "httpAdditionalData": {
+               "method": "POST",
+               "body": "test",
+               "headers": {
+                    "test": "test"
+               }
+        }
       }
     }
 """

@@ -75,7 +75,7 @@ internal class BeagleApi(
         var additionalData = request.httpAdditionalData
 
         additionalData = additionalData.copy(
-            headers = additionalData.headers + FIXED_HEADERS,
+            headers = (additionalData.headers ?: hashMapOf()) + FIXED_HEADERS,
         )
 
         return request.copy(

@@ -110,7 +110,8 @@ internal class CacheManager(
         beagleCache: BeagleCache?,
     ): RequestData {
         return if (beagleCache != null) {
-            val headers = requestData.httpAdditionalData.headers.toMutableMap().apply {
+            var headers = requestData.httpAdditionalData.headers ?: hashMapOf()
+            headers = headers.toMutableMap().apply {
                 put(BEAGLE_HASH, beagleCache.hash)
             }
             val httpAdditionalData = requestData.httpAdditionalData.copy(headers = headers)

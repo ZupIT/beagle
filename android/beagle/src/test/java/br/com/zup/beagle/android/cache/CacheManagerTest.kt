@@ -300,7 +300,7 @@ class CacheManagerTest {
 
             // Then
             assertEquals(BEAGLE_HASH_VALUE, actualRequestData.headers[BEAGLE_HASH])
-            assertEquals(BEAGLE_HASH_VALUE, actualRequestData.httpAdditionalData.headers[BEAGLE_HASH])
+            assertEquals(BEAGLE_HASH_VALUE, actualRequestData.httpAdditionalData.headers!![BEAGLE_HASH])
         }
     }
 
@@ -319,7 +319,7 @@ class CacheManagerTest {
 
             // Then
             assertNull(actualScreenRequest.headers[BEAGLE_HASH])
-            assertNull(actualScreenRequest.httpAdditionalData.headers[BEAGLE_HASH])
+            assertNull(actualScreenRequest.httpAdditionalData.headers!![BEAGLE_HASH])
         }
     }
 

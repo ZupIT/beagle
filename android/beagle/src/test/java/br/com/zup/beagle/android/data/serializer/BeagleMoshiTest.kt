@@ -56,6 +56,8 @@ import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.mockdata.InternalObject
 import br.com.zup.beagle.android.mockdata.Person
 import br.com.zup.beagle.android.mockdata.TypeAdapterResolverImpl
+import br.com.zup.beagle.android.networking.HttpAdditionalData
+import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
@@ -472,6 +474,12 @@ class BeagleMoshiTest : BaseTest() {
         assertEquals("http://localhost:8080/test/example", (actual.route as Route.Remote).url.value)
         assertTrue((actual.route as Route.Remote).url is Bind.Value<String>)
         assertFalse((actual.route as Route.Remote).shouldPrefetch)
+        assertEquals(HttpAdditionalData(
+            method = HttpMethod.POST,
+            headers = hashMapOf("test" to "test"),
+            body = "test",
+        ),
+            (actual.route as Route.Remote).httpAdditionalData!!)
     }
 
     @Test

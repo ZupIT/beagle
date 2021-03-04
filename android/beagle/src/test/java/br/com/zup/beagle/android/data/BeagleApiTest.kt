@@ -198,7 +198,7 @@ class BeagleApiTest {
     private fun checkFixedHeaders(requestData: RequestData) {
         assertEquals(BeagleApi.APP_JSON, requestData.headers[BeagleApi.CONTENT_TYPE])
         assertEquals(BeagleApi.BEAGLE_PLATFORM_HEADER_VALUE, requestData.headers[BeagleApi.BEAGLE_PLATFORM_HEADER_KEY])
-        assertEquals(BeagleApi.APP_JSON, requestData.httpAdditionalData.headers[BeagleApi.CONTENT_TYPE])
-        assertEquals(BeagleApi.BEAGLE_PLATFORM_HEADER_VALUE, requestData.httpAdditionalData.headers[BeagleApi.BEAGLE_PLATFORM_HEADER_KEY])
+        assertEquals(BeagleApi.APP_JSON, requestData.httpAdditionalData.headers!![BeagleApi.CONTENT_TYPE])
+        assertEquals(BeagleApi.BEAGLE_PLATFORM_HEADER_VALUE, requestData.httpAdditionalData.headers!![BeagleApi.BEAGLE_PLATFORM_HEADER_KEY])
     }
 }
