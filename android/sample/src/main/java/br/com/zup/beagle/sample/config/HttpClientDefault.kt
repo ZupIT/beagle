@@ -86,7 +86,7 @@ class HttpClientDefault : HttpClient, CoroutineScope {
             throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
         }
         
-        request.httpAdditionalData.headers.forEach {
+        request.httpAdditionalData.headers?.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
         }
 
