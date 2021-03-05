@@ -54,7 +54,6 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import java.net.URI
 
-
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
 internal class BeagleViewTest : BaseTest() {
@@ -68,7 +67,7 @@ internal class BeagleViewTest : BaseTest() {
     private val screenIdentifierSlot = slot<String>()
 
     private val mutableLiveData = MutableLiveData<ViewState>()
-    private val url = "/url"
+    private val url = "/url".formatUrl()!!
     private val component = Text("Test component")
 
     private lateinit var beagleView: BeagleView
@@ -135,10 +134,7 @@ internal class BeagleViewTest : BaseTest() {
         // when
         beagleView.loadView(requestDataFake)
 
-        // Then
-        val urlFormatted = url.formatUrl()
-        val requestDataExpected = RequestData(url = urlFormatted, uri = URI(urlFormatted))
-        verify { viewModel.fetchComponent(requestData = requestDataExpected) }
+        verify { viewModel.fetchComponent(requestData = requestDataFake) }
     }
 
 }

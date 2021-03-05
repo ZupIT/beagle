@@ -192,6 +192,7 @@ sealed class Route {
      * @param url attribute that contains the navigation endpoint.
      * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
      * @param fallback screen that is rendered in case the request fails.
+     * @param httpAdditionalData additional parameters to request
      */
     @BeagleJson
     data class Remote constructor(
