@@ -88,15 +88,14 @@ class _BeagleWidget extends State<BeagleWidget> {
       })
       ..onAction(({action, element, view}) {
         final handler = service.actions[action.getType()];
-        if (handler == null) {
-          return;
+        if (handler != null) {
+          handler(
+            action: action,
+            view: view,
+            element: element,
+            context: context.findBuildContextForWidgetKey(element.getId()),
+          );
         }
-        handler(
-          action: action,
-          view: view,
-          element: element,
-          context: context.findBuildContextForWidgetKey(element.getId()),
-        );
       });
 
     if (widget.screenRequest != null) {
