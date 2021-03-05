@@ -31,8 +31,11 @@ import 'package:beagle/networking/beagle_network_options.dart';
 /// initialControllerId is the id of the navigation controller for the first navigation stack.
 /// If not specified, the default navigation controller is used.
 class BeagleViewJS implements BeagleView {
-  BeagleViewJS(this._beagleJSEngine,
-      {BeagleNetworkOptions networkOptions, String initialControllerId}) {
+  BeagleViewJS(
+    this._beagleJSEngine, {
+    BeagleNetworkOptions networkOptions,
+    String initialControllerId,
+  }) {
     _id = _beagleJSEngine.createBeagleView(
       networkOptions: networkOptions,
       initialControllerId: initialControllerId,
