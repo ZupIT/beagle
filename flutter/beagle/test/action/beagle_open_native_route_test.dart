@@ -24,15 +24,17 @@ void main() {
     Future<void> _buildPage(WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         routes: {mockRoute: (context) => const Text('Test')},
-        home: RaisedButton(
-            onPressed: () =>
-                {mockOpenNativeRoute.navigate(_mockContext, mockRoute)}),
+        home: ElevatedButton(
+          onPressed: () =>
+              {mockOpenNativeRoute.navigate(_mockContext, mockRoute)},
+          child: const SizedBox.shrink(),
+        ),
         navigatorObservers: [mockObserver],
       ));
     }
 
     Future<void> _navigate(WidgetTester tester) async {
-      await tester.tap(find.byType(RaisedButton));
+      await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
     }
 

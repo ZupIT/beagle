@@ -31,7 +31,7 @@ class BeagleAlert {
           title: Text(title),
           content: Text(message),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 if (onPressOk != null) {
