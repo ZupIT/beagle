@@ -15,15 +15,14 @@
  *  limitations under the License.
  */
 
+import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/interface/types.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
-import 'package:flutter/widgets.dart';
 
 typedef ViewUpdateListener = void Function(BeagleUIElement tree);
 typedef ViewErrorListener = void Function(List<String> errors);
-typedef ContextProvider = BuildContext Function();
 
 abstract class BeagleView {
   /// Subscribes [listener] to every change to the beagle tree. This method returns a function that,
@@ -47,6 +46,7 @@ abstract class BeagleView {
   /// memory leaks and calls to objects that don't exist any longer.
   void destroy();
 
-  /// Gets the [BuildContext] used to build the rendered tree.
-  BuildContext getContext();
+  /// Subscribes [listener] to every action triggered by the view or its children.
+  /// This method returns a function that, when called, undoes the subscription (removes the listener).
+  RemoveListener onAction(ActionListener listener);
 }

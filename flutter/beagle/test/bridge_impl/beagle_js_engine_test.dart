@@ -249,10 +249,11 @@ void main() {
     });
 
     group('When an action message is received', () {
-      test('Then should call registered action listener', () async {
+      test('Then should call all registered action listeners', () async {
         final beagleJSEngine = BeagleJSEngine(jsRuntimeMock, storageMock);
         await beagleJSEngine.start();
 
+        const viewId = '1';
         final actionMessage = {
           '_beagleAction_': 'beagle:setContext',
           'contextId': 'address',
@@ -260,21 +261,32 @@ void main() {
           'value': '@{onChange.value}',
         };
 
-        var actionListenerCalled = false;
+        var firstActionListenerCalled = false;
+        var secondActionListenerCalled = false;
+        var nonRegisteredActionListenerCalled = false;
 
-        beagleJSEngine.onAction(({action, element, view}) {
-          actionListenerCalled = true;
-          expect(action.getType(), 'beagle:setContext');
-          expect(action.getAttributeValue('contextId'), 'address');
-          expect(action.getAttributeValue('path'), 'complement');
-          expect(action.getAttributeValue('value'), '@{onChange.value}');
-        });
+        beagleJSEngine
+          ..onAction(viewId, ({action, element, view}) {
+            firstActionListenerCalled = true;
+            expect(action.getType(), 'beagle:setContext');
+            expect(action.getAttributeValue('contextId'), 'address');
+            expect(action.getAttributeValue('path'), 'complement');
+            expect(action.getAttributeValue('value'), '@{onChange.value}');
+          })
+          ..onAction(viewId, ({action, element, view}) {
+            secondActionListenerCalled = true;
+          })
+          ..onAction('2', ({action, element, view}) {
+            nonRegisteredActionListenerCalled = true;
+          });
 
         verify(jsRuntimeMock.onMessage('action', captureAny))
             .captured
-            .single({'action': actionMessage});
+            .single({'viewId': viewId, 'action': actionMessage});
 
-        expect(actionListenerCalled, true);
+        expect(firstActionListenerCalled, true);
+        expect(secondActionListenerCalled, true);
+        expect(nonRegisteredActionListenerCalled, false);
       });
     });
 
@@ -463,8 +475,7 @@ void main() {
     });
 
     group('When removeViewListeners is called by passing a view id', () {
-      test('Then should remove the view update and view error bound to view id',
-          () async {
+      test('Then should remove the listeners bound to view id', () async {
         final beagleJSEngine = BeagleJSEngine(jsRuntimeMock, storageMock);
         await beagleJSEngine.start();
         const viewId = '1';
@@ -479,6 +490,8 @@ void main() {
 
         var firstViewUpdateListenerCalled = false;
         var secondViewUpdateListenerCalled = false;
+        var viewErrorListenerCalled = false;
+        var viewActionListenerCalled = false;
 
         beagleJSEngine
           ..onViewUpdate(viewId, (tree) {
@@ -486,6 +499,12 @@ void main() {
           })
           ..onViewUpdate(viewId, (tree) {
             secondViewUpdateListenerCalled = true;
+          })
+          ..onViewUpdateError(viewId, (errors) {
+            viewErrorListenerCalled = true;
+          })
+          ..onAction(viewId, ({action, element, view}) {
+            viewActionListenerCalled = true;
           })
           ..removeViewListeners(viewId);
 
@@ -495,6 +514,8 @@ void main() {
 
         expect(firstViewUpdateListenerCalled, false);
         expect(secondViewUpdateListenerCalled, false);
+        expect(viewErrorListenerCalled, false);
+        expect(viewActionListenerCalled, false);
       });
     });
 

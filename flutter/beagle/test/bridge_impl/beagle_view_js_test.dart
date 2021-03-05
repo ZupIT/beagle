@@ -17,6 +17,8 @@
 import 'package:beagle/beagle.dart';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
+import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/model/beagle_action.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,16 +33,12 @@ void main() {
   final jsEngineMock = BeagleJSEngineMock();
   when(jsEngineMock.createBeagleView()).thenReturn(createdViewId);
 
-  final buildContextMock = BuildContextMock();
-  BuildContext contextProvider() => buildContextMock;
-
   setUp(() {
     reset(jsEngineMock);
   });
 
   group('Given a BeagleViewJS', () {
-    final beagleView = BeagleViewJS(jsEngineMock, contextProvider,
-        params: BeagleViewJsParams());
+    final beagleView = BeagleViewJS(jsEngineMock);
 
     group('When addErrorListener is called', () {
       test(
@@ -102,11 +100,15 @@ void main() {
       });
     });
 
-    group('When getContext is called', () {
-      test('Then should return the BuildContext', () {
-        final result = beagleView.getContext();
+    group('When onAction is called', () {
+      test('Then should register the view action listener at BeagleJSEngine',
+          () {
+        void onActionListener(
+            {BeagleAction action, BeagleView view, BeagleUIElement element}) {}
 
-        expect(result, buildContextMock);
+        beagleView.onAction(onActionListener);
+
+        verify(jsEngineMock.onAction(createdViewId, onActionListener));
       });
     });
   });

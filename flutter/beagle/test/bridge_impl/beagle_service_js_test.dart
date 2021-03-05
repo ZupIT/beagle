@@ -83,12 +83,6 @@ void main() {
 
         verify(beagleJSEngineMock.onHttpRequest(any)).called(1);
       });
-
-      test('Then should register action listener', () async {
-        await beagleService.start();
-
-        verify(beagleJSEngineMock.onAction(any)).called(1);
-      });
     });
   });
 }

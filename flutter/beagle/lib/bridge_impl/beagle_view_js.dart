@@ -23,15 +23,6 @@ import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/networking/beagle_network_options.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-
-class BeagleViewJsParams {
-  BeagleViewJsParams({this.networkOptions, this.initialControllerId});
-
-  final BeagleNetworkOptions networkOptions;
-  final String initialControllerId;
-}
 
 /// Creates a new Beagle View. There are two optional parameters: the networkOptions and the
 /// initialControllerId. The first one sets network options for every view requested by this
@@ -40,16 +31,12 @@ class BeagleViewJsParams {
 /// initialControllerId is the id of the navigation controller for the first navigation stack.
 /// If not specified, the default navigation controller is used.
 class BeagleViewJS implements BeagleView {
-  BeagleViewJS(
-    this._beagleJSEngine,
-    this._contextProvider, {
-    BeagleViewJsParams params,
-  }) {
+  BeagleViewJS(this._beagleJSEngine,
+      {BeagleNetworkOptions networkOptions, String initialControllerId}) {
     _id = _beagleJSEngine.createBeagleView(
-      networkOptions: params.networkOptions,
-      initialControllerId: params.initialControllerId,
+      networkOptions: networkOptions,
+      initialControllerId: initialControllerId,
     );
-    debugPrint('created view: $_id');
     BeagleViewJS.views[_id] = this;
     _navigator = BeagleNavigatorJS(_beagleJSEngine, _id);
     _renderer = RendererJS(_beagleJSEngine, _id);
@@ -58,7 +45,6 @@ class BeagleViewJS implements BeagleView {
   String _id;
   BeagleNavigatorJS _navigator;
   Renderer _renderer;
-  final ContextProvider _contextProvider;
   static Map<String, BeagleViewJS> views = {};
   final BeagleJSEngine _beagleJSEngine;
 
@@ -97,5 +83,7 @@ class BeagleViewJS implements BeagleView {
   }
 
   @override
-  BuildContext getContext() => _contextProvider();
+  void Function() onAction(ActionListener listener) {
+    return _beagleJSEngine.onAction(_id, listener);
+  }
 }

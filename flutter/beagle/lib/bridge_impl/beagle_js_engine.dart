@@ -61,7 +61,7 @@ class BeagleJSEngine {
   final _navigatorChannelName = 'beagleNavigator';
 
   HttpListener _httpListener;
-  ActionListener _actionListener;
+  final Map<String, List<ActionListener>> _viewActionListenerMap = {};
   final Map<String, List<ViewUpdateListener>> _viewUpdateListenerMap = {};
   final Map<String, List<ViewErrorListener>> _viewErrorListenerMap = {};
   final Map<String, List<NavigationListener>> _navigationListenerMap = {};
@@ -160,18 +160,26 @@ class BeagleJSEngine {
   }
 
   void _notifyActionListener(dynamic actionMessage) {
-    if (_actionListener == null) {
+    final viewId = actionMessage['viewId'];
+
+    if (!_hasActionListenerForView(viewId)) {
       return;
     }
 
     final action =
         BeagleAction(_deserializeJsFunctions(actionMessage['action']));
 
-    _actionListener(
-      action: action,
-      view: BeagleViewJS.views[actionMessage['viewId']],
-      element: BeagleUIElement(actionMessage['element']),
-    );
+    final view = BeagleViewJS.views[viewId];
+    final element = BeagleUIElement(actionMessage['element']);
+
+    for (final listener in _viewActionListenerMap[viewId]) {
+      listener(action: action, view: view, element: element);
+    }
+  }
+
+  bool _hasActionListenerForView(String viewId) {
+    return _viewActionListenerMap.containsKey(viewId) &&
+        _viewActionListenerMap[viewId].isNotEmpty;
   }
 
   void _setupBeagleViewMessages() {
@@ -295,8 +303,12 @@ class BeagleJSEngine {
   }
 
   // ignore: use_setters_to_change_properties
-  void onAction(ActionListener listener) {
-    _actionListener = listener;
+  RemoveListener onAction(String viewId, ActionListener listener) {
+    _viewActionListenerMap[viewId] = _viewActionListenerMap[viewId] ?? [];
+    _viewActionListenerMap[viewId].add(listener);
+    return () {
+      _viewActionListenerMap[viewId].remove(listener);
+    };
   }
 
   // ignore: use_setters_to_change_properties
@@ -331,6 +343,7 @@ class BeagleJSEngine {
   void removeViewListeners(String viewId) {
     _viewUpdateListenerMap.remove(viewId);
     _viewErrorListenerMap.remove(viewId);
+    _viewActionListenerMap.remove(viewId);
   }
 
   void callJsFunction(String functionId, [Map<String, dynamic> argumentsMap]) {

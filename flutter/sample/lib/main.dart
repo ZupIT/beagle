@@ -99,14 +99,14 @@ class BeagleSampleApp extends StatelessWidget {
         ),
         body: Column(
           children: [
-            BeagleWidget(
-              screenRequest: BeagleScreenRequest('beagle_lazy'),
-              onCreateView: (view) => {
-                view.addErrorListener((errors) {
-                  //TODO
-                })
-              },
-            ),
+            // BeagleWidget(
+            //   screenRequest: BeagleScreenRequest('beagle_lazy'),
+            //   onCreateView: (view) => {
+            //     view.addErrorListener((errors) {
+            //       //TODO
+            //     })
+            //   },
+            // ),
             BeagleWidget(
               screenRequest: BeagleScreenRequest('beagle_button'),
               onCreateView: (view) => {

@@ -27,6 +27,7 @@ import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_config.dart';
+import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter_js/flutter_js.dart';
@@ -49,29 +50,38 @@ void setupServiceLocator({
 }) {
   beagleServiceLocator
     ..registerSingleton<JavascriptRuntimeWrapper>(
-        createJavascriptRuntimeWrapperInstance())
-    ..registerSingleton<BeagleJSEngine>(createBeagleJSEngineInstance(storage))
+      createJavascriptRuntimeWrapperInstance(),
+    )
+    ..registerSingleton<BeagleJSEngine>(
+      createBeagleJSEngineInstance(storage),
+    )
     ..registerSingleton<BeagleConfig>(beagleConfig)
     ..registerSingleton<BeagleDesignSystem>(designSystem)
     ..registerSingleton<BeagleImageDownloader>(imageDownloader)
     ..registerSingleton<BeagleLogger>(logger)
-    ..registerSingleton<BeagleService>(BeagleServiceJS(
-      beagleServiceLocator<BeagleJSEngine>(),
-      baseUrl: beagleConfig.baseUrl,
-      httpClient: httpClient,
-      components: components,
-      useBeagleHeaders: useBeagleHeaders,
-      actions: actions,
-      strategy: strategy,
-      navigationControllers: navigationControllers,
-    ))
-    ..registerFactoryParam<BeagleViewJS, ContextProvider, BeagleViewJsParams>(
-        (contextProvider, params) => BeagleViewJS(
-            beagleServiceLocator<BeagleJSEngine>(), contextProvider,
-            params: params))
+    ..registerSingleton<BeagleService>(
+      BeagleServiceJS(
+        beagleServiceLocator<BeagleJSEngine>(),
+        baseUrl: beagleConfig.baseUrl,
+        httpClient: httpClient,
+        components: components,
+        useBeagleHeaders: useBeagleHeaders,
+        actions: actions,
+        strategy: strategy,
+        navigationControllers: navigationControllers,
+      ),
+    )
+    ..registerFactoryParam<BeagleViewJS, BeagleNetworkOptions, String>(
+      (networkOptions, initialControllerId) => BeagleViewJS(
+        beagleServiceLocator<BeagleJSEngine>(),
+        networkOptions: networkOptions,
+        initialControllerId: initialControllerId,
+      ),
+    )
     ..registerFactory<UrlBuilder>(() => UrlBuilder(beagleConfig.baseUrl))
     ..registerFactory(
-        () => GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()));
+      () => GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),
+    );
 }
 
 JavascriptRuntimeWrapper createJavascriptRuntimeWrapperInstance() =>
