@@ -64,11 +64,14 @@ private const val VALUE_KEY = "value"
  * @param onChange Actions array that this field can trigger when its value is altered.
  * @param onFocus Actions array that this field can trigger when this field is on focus.
  * @param onBlur Action array that this field can trigger when its focus is removed
+ * @param enabled Enables or disables the field.
  */
 @RegisterWidget("textInput")
 data class TextInput(
     val value: Bind<String>? = null,
     val placeholder: Bind<String>? = null,
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+        " Use field enabled to control is enabled or not in this layout.")
     val disabled: Bind<Boolean>? = null,
     val readOnly: Bind<Boolean>? = null,
     val type: Bind<TextInputType>? = null,
@@ -81,7 +84,36 @@ data class TextInput(
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
     val onBlur: List<Action>? = null,
+    val enabled: Bind<Boolean>? = null,
 ) : InputWidget() {
+
+    constructor(
+        value: String? = null,
+        placeholder: String? = null,
+        readOnly: Boolean? = null,
+        type: TextInputType? = null,
+        error: String? = null,
+        showError: Boolean? = null,
+        styleId: String? = null,
+        onChange: List<Action>? = null,
+        onFocus: List<Action>? = null,
+        onBlur: List<Action>? = null,
+        enabled: Boolean? = null,
+    ) : this(
+        expressionOrValueOfNullable(value),
+        expressionOrValueOfNullable(placeholder),
+        valueOfNullable(null),
+        valueOfNullable(readOnly),
+        valueOfNullable(type),
+        null,
+        expressionOrValueOfNullable(error),
+        valueOfNullable(showError),
+        styleId,
+        onChange,
+        onFocus,
+        onBlur,
+        valueOfNullable(enabled)
+    )
 
     @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version." +
         " Use field display to control visibility.")
@@ -113,10 +145,12 @@ data class TextInput(
         onBlur
     )
 
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+        " Use field enabled to control layout.")
     constructor(
         value: String? = null,
         placeholder: String? = null,
-        disabled: Boolean? = null,
+        disabled: Boolean?,
         readOnly: Boolean? = null,
         type: TextInputType? = null,
         error: String? = null,
@@ -238,6 +272,12 @@ data class TextInput(
         }
         textInput.readOnly?.let { bind -> observeBindChanges(rootView, this, bind) { setEnabledConfig(it) } }
         textInput.disabled?.let { bind -> observeBindChanges(rootView, this, bind) { setEnabledConfig(it) } }
+        textInput.enabled?.let { bind ->
+            observeBindChanges(rootView, this, bind) { bindField ->
+                bindField?.let { this.isEnabled = it }
+            }
+        }
+
         textInput.hidden?.let { bind ->
             observeBindChanges(rootView, this, bind) {
                 it?.let { visibility = if (it) View.INVISIBLE else View.VISIBLE }
