@@ -20,7 +20,7 @@ package br.com.zup.beagle.widget.networking
  * HttpAdditionalData is used to do requests.
  * @param method HTTP method.
  * @param headers Header items for the request.
- * @param body Content that will be deliver with the request.
+ * @param body Content that will be delivered with the request.
  */
 data class HttpAdditionalData(
     val method: HttpMethod? = HttpMethod.GET,
