@@ -21,7 +21,6 @@ import 'package:beagle/bridge_impl/js_runtime_wrapper.dart';
 import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
-import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
