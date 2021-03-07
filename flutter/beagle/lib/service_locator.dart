@@ -46,7 +46,8 @@ void setupServiceLocator(
     BeagleDesignSystem designSystem,
     BeagleImageDownloader imageDownloader,
     BeagleLogger logger,
-    Map<String, Operation> customOperations}) {
+    Map<String, Operation> customOperations,
+    }) {
   beagleServiceLocator
     ..registerSingleton<JavascriptRuntimeWrapper>(
         createJavascriptRuntimeWrapperInstance())
