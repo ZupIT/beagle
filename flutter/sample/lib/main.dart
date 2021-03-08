@@ -41,8 +41,8 @@ Map<String, ActionHandler> myCustomActions = {
   }
 };
 
-Future<void> main() async {
-  await BeagleSdk.init(
+void main() {
+  BeagleSdk.init(
     logger: AppLogger(),
     beagleConfig: AppBeagleConfig(),
     components: {...defaultComponents, ...myCustomComponents},

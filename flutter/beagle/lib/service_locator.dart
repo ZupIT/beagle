@@ -58,8 +58,8 @@ void setupServiceLocator({
     ..registerSingleton<BeagleDesignSystem>(designSystem)
     ..registerSingleton<BeagleImageDownloader>(imageDownloader)
     ..registerSingleton<BeagleLogger>(logger)
-    ..registerSingleton<BeagleService>(
-      BeagleServiceJS(
+    ..registerSingletonAsync<BeagleService>(() async {
+      final configService = BeagleServiceJS(
         beagleServiceLocator<BeagleJSEngine>(),
         baseUrl: beagleConfig.baseUrl,
         httpClient: httpClient,
@@ -68,8 +68,11 @@ void setupServiceLocator({
         actions: actions,
         strategy: strategy,
         navigationControllers: navigationControllers,
-      ),
-    )
+      );
+
+      await configService.start();
+      return configService;
+    })
     ..registerFactoryParam<BeagleViewJS, BeagleNetworkOptions, String>(
       (networkOptions, initialControllerId) => BeagleViewJS(
         beagleServiceLocator<BeagleJSEngine>(),

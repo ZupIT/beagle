@@ -59,7 +59,7 @@ class _BeagleWidget extends State<BeagleWidget> {
   BeagleView _view;
   Widget widgetState;
 
-  final service = beagleServiceLocator<BeagleService>();
+  BeagleService service;
   final logger = beagleServiceLocator<BeagleLogger>();
   final config = beagleServiceLocator<BeagleConfig>();
 
@@ -77,6 +77,8 @@ class _BeagleWidget extends State<BeagleWidget> {
   }
 
   Future<void> _startBeagleView() async {
+    await beagleServiceLocator.allReady();
+    service = beagleServiceLocator<BeagleService>();
     _view = beagleServiceLocator<BeagleViewJS>(
       param1: widget.screenRequest,
     )
