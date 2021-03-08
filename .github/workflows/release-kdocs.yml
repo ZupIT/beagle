@@ -38,4 +38,4 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: sa-east-1
             - name: S3 upload (latest version)
-              run: aws s3 sync --acl public-read --follow-symlinks public s3://${{ secrets.AWS_S3_DOC_BUCKET }}/ --delete
+              run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_S3_DOC_BUCKET }}/ --delete
