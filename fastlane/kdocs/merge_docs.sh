@@ -33,6 +33,8 @@ generateDocs(){
     copyFormattedDocsToDestination
 
     mergeFormattedDocs
+
+    cp indexTemplate/index.html public/index.html
 }
 
 generateDocs
