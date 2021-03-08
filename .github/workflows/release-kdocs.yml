@@ -1,0 +1,33 @@
+name: Beagle Release
+
+on:
+    push:
+        tags:
+            - '*'
+    pull_request:
+        branches:
+            - master
+jobs:
+    publish:
+        name: Publish kdocs to aws S3
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Cache gradle backend dependencies
+              uses: actions/cache@v2
+              env:
+                  gradle-cache-key: kdocs
+                  gradle-path: ~/.gradle
+              with:
+                  path: ${{ env.gradle-path }}
+                  key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+                  restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+            - name: generate docs android
+              run: gradle dokkaHtmlCollector
+              working-directory: android
+            - name: generate docs backend
+              run: gradle dokkaHtmlCollector
+              working-directory: backend
+            - name: merge docs
+              run: bash fastlane/kdocs/merge_docs.sh
