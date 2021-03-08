@@ -24,7 +24,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.automatedTests.activity.MainActivity
-import br.com.zup.beagle.automatedTests.cucumber.elements.LISTVIEW_SCREEN_HEADER
 import br.com.zup.beagle.automatedTests.cucumber.robots.ScreenRobot
 import br.com.zup.beagle.automatedTests.utils.transform.SingleQuoteTransform
 import cucumber.api.Transform
@@ -36,6 +35,7 @@ import cucumber.api.java.en.When
 import org.junit.Rule
 
 const val LIST_VIEW_SCREEN_BFF_URL = "/listview"
+const val LIST_VIEW_SCREEN_HEADER = "Beagle ListView"
 
 class ListViewScreenSteps {
 
@@ -62,7 +62,7 @@ class ListViewScreenSteps {
     fun checkListViewScreen() {
         ScreenRobot()
             .checkViewContainsText(
-                LISTVIEW_SCREEN_HEADER,
+                LIST_VIEW_SCREEN_HEADER,
                 true,
             )
     }
