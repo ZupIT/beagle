@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.action.RequestActionMethod
 import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.formatUrl
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
@@ -33,12 +34,19 @@ fun ResponseData.toResponse() = SendRequestActionMapper.toResponse(this)
 internal object SendRequestActionMapper {
     fun toRequestData(sendRequest: SendRequestInternal): RequestData {
         val method = toHttpMethod(sendRequest.method)
+        val headers = sendRequest.headers ?: mapOf()
         val urlFormatted = sendRequest.url.formatUrl()
         return RequestData(
             uri = URI(urlFormatted),
             method = method,
-            headers = sendRequest.headers ?: mapOf(),
-            body = sendRequest.data?.toString()
+            headers = headers,
+            body = sendRequest.data?.toString(),
+            url = urlFormatted ?: "",
+            httpAdditionalData = HttpAdditionalData(
+                method = method,
+                body = sendRequest.data?.toString(),
+                headers = headers,
+            )
         )
     }
 
@@ -60,5 +68,5 @@ internal object SendRequestActionMapper {
         )
     }
 
-    private fun getDataFormatted(byteData: ByteArray): Any? = String(byteData).normalizeContextValue()
+    private fun getDataFormatted(byteData: ByteArray): Any = String(byteData).normalizeContextValue()
 }

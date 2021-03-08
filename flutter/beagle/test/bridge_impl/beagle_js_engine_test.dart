@@ -112,6 +112,15 @@ void main() {
         verify(jsRuntimeMock.onMessage(expectedChannelName, any));
       });
 
+      test('Then should register for javascript operation messages', () async {
+        final beagleJSEngine = BeagleJSEngine(jsRuntimeMock, storageMock);
+
+        await beagleJSEngine.start();
+
+        const expectedChannelName = 'operation';
+        verify(jsRuntimeMock.onMessage(expectedChannelName, any));
+      });
+
       test('Then should register for javascript beagleView.update messages',
           () async {
         final beagleJSEngine = BeagleJSEngine(jsRuntimeMock, storageMock);
@@ -287,6 +296,32 @@ void main() {
         expect(firstActionListenerCalled, true);
         expect(secondActionListenerCalled, true);
         expect(nonRegisteredActionListenerCalled, false);
+      });
+    });
+
+    group('When an operation message is received', () {
+      test('Then should call registered operation listener', () async {
+        final beagleJSEngine = BeagleJSEngine(jsRuntimeMock, storageMock);
+        await beagleJSEngine.start();
+
+        final operationMessage = {
+          'operation': 'mockOperation',
+          'params': ['paramA', 'paramB'],
+        };
+
+        var operationListener = false;
+
+        beagleJSEngine.onOperation((operation, params) {
+          operationListener = true;
+          expect(operation, 'mockOperation');
+          expect(params, ['paramA', 'paramB']);
+        });
+
+        verify(jsRuntimeMock.onMessage('operation', captureAny))
+            .captured
+            .single(operationMessage);
+
+        expect(operationListener, true);
       });
     });
 

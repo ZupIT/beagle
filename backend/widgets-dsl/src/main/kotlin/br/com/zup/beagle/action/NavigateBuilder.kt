@@ -22,6 +22,7 @@ import br.com.zup.beagle.layout.ScreenComponentBuilder
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.networking.HttpAdditionalData
 import kotlin.properties.Delegates
 
 fun routeRemote(block: RouteRemoteBuilder.() -> Unit) = RouteRemoteBuilder().apply(block).build()
@@ -50,10 +51,13 @@ class RouteRemoteBuilder : BeagleBuilder<Route.Remote> {
     var url: String by Delegates.notNull()
     var shouldPrefetch: Boolean = false
     var fallback: Screen? = null
+    var httpAdditionalData: HttpAdditionalData? = null
 
     fun url(url: String) = this.apply { this.url = url }
     fun shouldPrefetch(shouldPrefetch: Boolean) = this.apply { this.shouldPrefetch = shouldPrefetch }
     fun fallback(fallback: Screen?) = this.apply { this.fallback = fallback }
+    fun httpAdditionalData(httpAdditionalData: HttpAdditionalData?) =
+        this.apply { this.httpAdditionalData = httpAdditionalData }
 
     fun url(block: () -> String) {
         url(block.invoke())
@@ -70,7 +74,8 @@ class RouteRemoteBuilder : BeagleBuilder<Route.Remote> {
     override fun build() = Route.Remote(
         url = url,
         shouldPrefetch = shouldPrefetch,
-        fallback = fallback
+        fallback = fallback,
+        httpAdditionalData = httpAdditionalData
     )
 }
 

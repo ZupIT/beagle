@@ -31,6 +31,7 @@ void main() {
   const baseUrl = 'https://usebeagle.io';
   const useBeagleHeaders = true;
   final actions = {'beagle:alert': ({action, view, element, context}) {}};
+  final customOperations = {'operation': ([paramA, paramB]) {}};
   const strategy = BeagleNetworkStrategy.networkOnly;
   final navigationControllers = {
     'general': NavigationController(
@@ -47,6 +48,7 @@ void main() {
       baseUrl: baseUrl,
       useBeagleHeaders: useBeagleHeaders,
       actions: actions,
+      customOperations: customOperations,
       strategy: strategy,
       navigationControllers: navigationControllers,
     );
@@ -64,6 +66,7 @@ void main() {
         final expectedParams = {
           'baseUrl': baseUrl,
           'actionKeys': actions.keys.toList(),
+          'customOperations': customOperations.keys.toList(),
           'useBeagleHeaders': useBeagleHeaders,
           'strategy': NetworkStrategyUtils.getJsStrategyName(strategy),
           'navigationControllers': {

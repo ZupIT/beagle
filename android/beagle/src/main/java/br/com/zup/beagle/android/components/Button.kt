@@ -55,13 +55,13 @@ data class Button(
         styleId: String? = null,
         onPress: List<Action>? = null,
         clickAnalyticsEvent: ClickEvent? = null,
-        disabled: Boolean? = null,
+        enabled: Boolean? = null,
     ) : this(
         expressionOrValueOf(text),
         styleId,
         onPress,
         clickAnalyticsEvent,
-        valueOfNullable(disabled)
+        valueOfNullable(enabled)
     )
 
     @Transient

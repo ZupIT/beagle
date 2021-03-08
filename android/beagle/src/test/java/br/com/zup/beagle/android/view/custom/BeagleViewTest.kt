@@ -26,7 +26,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.MyBeagleSetup
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.view.ApplicationTest
 import br.com.zup.beagle.android.view.ScreenRequest
@@ -42,6 +44,7 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
+import io.mockk.verify
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -49,7 +52,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-
+import java.net.URI
 
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
@@ -58,13 +61,16 @@ internal class BeagleViewTest : BaseTest() {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    val url = "/url"
-    private lateinit var viewModel: BeagleViewModel
-    private val component = Text("Test component")
+    private val viewModel: BeagleViewModel = mockk()
     private val analyticsViewModel = mockk<AnalyticsViewModel>()
+
     private val screenIdentifierSlot = slot<String>()
-    private lateinit var beagleView: BeagleView
+
     private val mutableLiveData = MutableLiveData<ViewState>()
+    private val url = "/url".formatUrl()!!
+    private val component = Text("Test component")
+
+    private lateinit var beagleView: BeagleView
 
     @Before
     fun setup() {
@@ -72,7 +78,6 @@ internal class BeagleViewTest : BaseTest() {
         mockYoga(application)
         BeagleSdk.setInTestMode()
         MyBeagleSetup().init(application)
-        viewModel = mockk()
         prepareViewModelMock(analyticsViewModel)
         every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
         every { viewModel.fetchComponent(any(), any()) } returns mutableLiveData
@@ -99,25 +104,37 @@ internal class BeagleViewTest : BaseTest() {
 
     @Test
     fun `Given a DoRenderState with a ScreenIdentifier not null When loadView Then Should ReportScreen`() {
-        //Given
+        // Given
         mutableLiveData.postValue(ViewState.DoRender(url, component))
 
-        //when
+        // when
         beagleView.loadView(ScreenRequest(url))
 
-        //Then
+        // Then
         Assert.assertEquals(url, screenIdentifierSlot.captured)
     }
 
     @Test
     fun `Given a DoRenderState with screen id null When loadView Then Should not ReportScreen`() {
-        //Given
+        // Given
         mutableLiveData.postValue(ViewState.DoRender(null, component))
 
-        //when
+        // when
         beagleView.loadView(ScreenRequest(url))
 
-        //Then
+        // Then
         Assert.assertEquals(false, screenIdentifierSlot.isCaptured)
     }
+
+    @Test
+    fun `Given a Beagle View When loadView with Request Data Then should call fetch component`() {
+        // Given
+        val requestDataFake = RequestData(url = url, uri = URI(url))
+
+        // when
+        beagleView.loadView(requestDataFake)
+
+        verify { viewModel.fetchComponent(requestData = requestDataFake) }
+    }
+
 }

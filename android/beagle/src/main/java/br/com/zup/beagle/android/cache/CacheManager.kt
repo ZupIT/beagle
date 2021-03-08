@@ -16,13 +16,13 @@
 
 package br.com.zup.beagle.android.cache
 
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.store.StoreHandler
 import br.com.zup.beagle.android.store.StoreType
 import br.com.zup.beagle.android.utils.nanoTimeInSeconds
 import br.com.zup.beagle.android.utils.toLowerKeys
-import br.com.zup.beagle.android.view.ScreenRequest
 
 private const val BEAGLE_HASH = "beagle-hash"
 private const val CACHE_CONTROL_HEADER = "cache-control"
@@ -35,7 +35,7 @@ internal data class BeagleCache(
     val hash: String,
     val json: String,
     val maxTime: Long,
-    val cachedTime: Long
+    val cachedTime: Long,
 ) {
     fun isExpired(): Boolean {
         val stepTime = nanoTimeInSeconds() - cachedTime
@@ -47,7 +47,7 @@ internal class CacheManager(
     private val storeHandler: StoreHandler? = BeagleEnvironment.beagleSdk.storeHandler,
     private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment,
     private val memoryCacheStore: LruCacheStore? =
-        if (beagleEnvironment.beagleSdk.config.cache.enabled) LruCacheStore.instance else null
+        if (beagleEnvironment.beagleSdk.config.cache.enabled) LruCacheStore.instance else null,
 ) {
 
     fun restoreBeagleCacheForUrl(url: String): BeagleCache? {
@@ -105,24 +105,26 @@ internal class CacheManager(
         }
     }
 
-    fun screenRequestWithCache(
-        screenRequest: ScreenRequest,
-        beagleCache: BeagleCache?
-    ): ScreenRequest {
+    fun requestDataWithCache(
+        requestData: RequestData,
+        beagleCache: BeagleCache?,
+    ): RequestData {
         return if (beagleCache != null) {
-            val headers = screenRequest.headers.toMutableMap().apply {
+            var headers = requestData.httpAdditionalData.headers ?: hashMapOf()
+            headers = headers.toMutableMap().apply {
                 put(BEAGLE_HASH, beagleCache.hash)
             }
-            screenRequest.copy(headers = headers)
+            val httpAdditionalData = requestData.httpAdditionalData.copy(headers = headers)
+            requestData.copy(headers = headers, httpAdditionalData = httpAdditionalData)
         } else {
-            screenRequest
+            requestData
         }
     }
 
     fun handleResponseData(
         url: String,
         beagleCache: BeagleCache?,
-        responseData: ResponseData
+        responseData: ResponseData,
     ): String {
         return if (responseData.statusCode == 304 && beagleCache != null) {
             persistCacheOnMemory(url, beagleCache.json, beagleCache.hash, null)
@@ -186,7 +188,7 @@ internal class CacheManager(
         url: String,
         responseBody: String,
         beagleHash: String,
-        cacheControl: String?
+        cacheControl: String?,
     ) {
         val cacheKey = url.toBeagleHashKey()
         val maxTime = getMaxAgeFromCacheControl(cacheControl)
