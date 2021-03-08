@@ -19,6 +19,7 @@ import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.networking.HttpAdditionalData
 
 /**
  * This defines navigation type,
@@ -31,21 +32,25 @@ sealed class Route {
      * @param url attribute that contains the navigation endpoint.
      * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
      * @param fallback screen that is rendered in case the request fails.
+     * @param httpAdditionalData additional parameters to request
      */
     data class Remote constructor(
         val url: Bind<String>,
         val shouldPrefetch: Boolean = false,
-        val fallback: Screen? = null
+        val fallback: Screen? = null,
+        val httpAdditionalData: HttpAdditionalData? = null
     ) : Route() {
 
         constructor(
             url: String,
             shouldPrefetch: Boolean = false,
-            fallback: Screen? = null
+            fallback: Screen? = null,
+            httpAdditionalData: HttpAdditionalData? = null
         ) : this(
             valueOf(url),
             shouldPrefetch,
-            fallback
+            fallback,
+            httpAdditionalData
         )
     }
 

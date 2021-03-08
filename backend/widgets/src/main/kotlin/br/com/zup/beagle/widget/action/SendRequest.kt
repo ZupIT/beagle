@@ -25,7 +25,7 @@ import br.com.zup.beagle.widget.context.Bind
  * @param url Required. Server URL.
  * @param method  HTTP method.
  * @param headers Header items for the request.
- * @param data Content that will be deliver with the request.
+ * @param data Content that will be delivered with the request.
  * @param onSuccess Success action.
  * @param onError  Error action.
  * @param onFinish Finish action.
