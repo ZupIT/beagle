@@ -4,9 +4,6 @@ on:
     push:
         tags:
             - '*'
-    pull_request:
-        branches:
-            - master
 jobs:
     publish:
         name: Publish kdocs to aws S3
