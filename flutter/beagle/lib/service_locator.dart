@@ -34,20 +34,20 @@ import 'package:get_it/get_it.dart';
 
 final GetIt beagleServiceLocator = GetIt.instance;
 
-void setupServiceLocator(
-    {BeagleConfig beagleConfig,
-    HttpClient httpClient,
-    Map<String, ComponentBuilder> components,
-    Storage storage,
-    bool useBeagleHeaders,
-    Map<String, ActionHandler> actions,
-    BeagleNetworkStrategy strategy,
-    Map<String, NavigationController> navigationControllers,
-    BeagleDesignSystem designSystem,
-    BeagleImageDownloader imageDownloader,
-    BeagleLogger logger,
-    Map<String, Operation> customOperations,
-    }) {
+void setupServiceLocator({
+  BeagleConfig beagleConfig,
+  HttpClient httpClient,
+  Map<String, ComponentBuilder> components,
+  Storage storage,
+  bool useBeagleHeaders,
+  Map<String, ActionHandler> actions,
+  BeagleNetworkStrategy strategy,
+  Map<String, NavigationController> navigationControllers,
+  BeagleDesignSystem designSystem,
+  BeagleImageDownloader imageDownloader,
+  BeagleLogger logger,
+  Map<String, Operation> customOperations,
+}) {
   beagleServiceLocator
     ..registerSingleton<JavascriptRuntimeWrapper>(
       createJavascriptRuntimeWrapperInstance(),
