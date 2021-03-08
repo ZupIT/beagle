@@ -29,7 +29,7 @@ import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -53,7 +53,7 @@ data class PageView(
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
     val currentPage: Bind<Int>? = null,
-) : WidgetView(), ContextComponent, MultiChildComponent {
+) : ViewConvertable, ContextComponent, MultiChildComponent {
 
     constructor(
         children: List<ServerDrivenComponent>,
