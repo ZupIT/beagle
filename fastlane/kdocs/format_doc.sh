@@ -1,4 +1,4 @@
-source ./substitute.sh
+source fastlane/kdocs/substitute.sh
 
 changeProjectName(){
     SECTION="$1"
