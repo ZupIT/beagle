@@ -30,7 +30,7 @@ void main() {
   final beagleJSEngineMock = MockBeagleJSEngine();
   const baseUrl = 'https://usebeagle.io';
   const useBeagleHeaders = true;
-  final actions = {'beagle:alert': ({action, view, element}) {}};
+  final actions = {'beagle:alert': ({action, view, element, context}) {}};
   final customOperations = {'operation': ([paramA, paramB]) {}};
   const strategy = BeagleNetworkStrategy.networkOnly;
   final navigationControllers = {
@@ -85,12 +85,6 @@ void main() {
         await beagleService.start();
 
         verify(beagleJSEngineMock.onHttpRequest(any)).called(1);
-      });
-
-      test('Then should register action listener', () async {
-        await beagleService.start();
-
-        verify(beagleJSEngineMock.onAction(any)).called(1);
       });
     });
   });

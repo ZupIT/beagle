@@ -17,58 +17,32 @@
 
 import 'package:flutter/material.dart';
 
-class BeagleAlert extends StatefulWidget {
-  const BeagleAlert({Key key, this.child}) : super(key: key);
-
-  final Widget child;
-  static _BeagleAlert dialog;
-
+class BeagleAlert {
   static void showAlertDialog(
-      {String title, String message, Function onPressOk}) {
-    dialog.show(message: message, onPressOk: onPressOk, title: title);
-  }
-
-  @override
-  _BeagleAlert createState() => _BeagleAlert();
-}
-
-class _BeagleAlert extends State<BeagleAlert> {
-  @override
-  void initState() {
-    super.initState();
-    BeagleAlert.dialog = this;
-  }
-
-  void show({String title, String message, Function onPressOk}) {
-    // set up the button
-    final Widget okButton = FlatButton(
-      onPressed: () {
-        Navigator.pop(context);
-        if (onPressOk != null) {
-          onPressOk();
-        }
-      },
-      child: const Text('OK'),
-    );
-    // set up the AlertDialog
-    final alert = AlertDialog(
-      title: Text(title),
-      content: Text(message),
-      actions: [
-        okButton,
-      ],
-    );
-    // show the dialog
+    BuildContext context, {
+    String title,
+    String message,
+    Function onPressOk,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                if (onPressOk != null) {
+                  onPressOk();
+                }
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
       },
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
   }
 }

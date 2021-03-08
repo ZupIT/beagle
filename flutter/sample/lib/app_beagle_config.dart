@@ -19,7 +19,7 @@ import 'package:flutter/foundation.dart';
 
 class AppBeagleConfig implements BeagleConfig {
   static const BASE_URL =
-      'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/20e593662467d0962ac2aa4e9194a7256a1e0b48';
+      'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/ef803a5a3f32aff8c2b7b2d65e0633d485c658a2';
 
   @override
   String get baseUrl => BASE_URL;

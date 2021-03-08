@@ -17,6 +17,7 @@
 
 import 'dart:convert';
 
+import 'package:beagle/beagle.dart';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
@@ -74,7 +75,6 @@ class BeagleServiceJS implements BeagleService {
     await _beagleJSEngine.start();
     _registerBeagleService();
     _registerHttpListener();
-    _registerActionListener();
     _registerOperationListener();
   }
 
@@ -98,16 +98,6 @@ class BeagleServiceJS implements BeagleService {
     _beagleJSEngine.onHttpRequest((String id, BeagleRequest request) async {
       final response = await httpClient.sendRequest(request);
       _beagleJSEngine.respondHttpRequest(id, response);
-    });
-  }
-
-  void _registerActionListener() {
-    _beagleJSEngine.onAction(({action, view, element}) {
-      final handler = actions[action.getType()];
-      if (handler == null) {
-        return;
-      }
-      handler(action: action, view: view, element: element);
     });
   }
 
