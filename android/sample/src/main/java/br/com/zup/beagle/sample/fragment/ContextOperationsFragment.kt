@@ -32,11 +32,21 @@ import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.TextInput
+import br.com.zup.beagle.android.components.layout.Center
+import br.com.zup.beagle.android.components.layout.Column
 import br.com.zup.beagle.android.components.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.Row
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.FlexDirection
+import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.widget.core.TextAlignment
 
 class ContextOperationsFragment : Fragment() {
 
@@ -44,50 +54,23 @@ class ContextOperationsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val declarative = screen()
 
         return context?.let { declarative.toView(this) }
     }
 
-    fun screen() = Screen(
-        navigationBar = NavigationBar(
-            title = "Choose a Component",
-            showBackButton = true
-        ),
-        child = Container(
-            context = ContextData("counter", 2),
-            children = listOf(
-                Text(expressionOf("Counter: @{sum(2, 1)}")),
-                Text(expressionOf("Counter: @{counter}")),
-                Button(
-                    text = "increment",
-                    onPress = listOf(SetContext("counter", "@{sum(counter, 1)}"))
-                ),
-                Button(
-                    text = "decrement",
-                    onPress = listOf(SetContext("counter", "@{subtract(counter, 1)}"))
-                ),
-                Text(text = "The text bellow will show if the counter + 2 is below 5 or not"),
-                Text(expressionOf(
-                    "@{condition(lt(sum(counter, 2), 5), 'less then 5', 'greater then 5')}")
-                ).applyStyle(Style(backgroundColor = "#00FF00")),
-                Container(
-                    context = ContextData("cpf", ""),
-                    children = listOf(
-                        TextInput(placeholder = "CPF", onChange = listOf(
-                            SetContext(
-                                contextId = "cpf",
-                                value = "@{onChange.value}"
-                            )
-                        )),
-                        Text("@{condition(isValidCpf(cpf), 'cpf is valid', 'cpf is not valid')}")
-                    )
-                )
-            )
-        )
+    fun screen() = Text(
+        "3",
     )
+        .applyFlex(
+            Flex(
+                justifyContent = JustifyContent.CENTER,
+                alignContent = AlignContent.CENTER,
+                alignSelf = AlignSelf.CENTER,
+                grow = 1.0,
+            ))
 
     companion object {
         fun newInstance(): ContextOperationsFragment {
