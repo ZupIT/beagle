@@ -1,4 +1,4 @@
-name: Beagle Release
+name: Beagle kdocs publish
 
 on:
     push:
@@ -11,7 +11,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - name: Cache gradle backend dependencies
+            - name: Cache gradle dependencies
               uses: actions/cache@v2
               env:
                   gradle-cache-key: kdocs
@@ -34,5 +34,5 @@ jobs:
                 aws-access-key-id: ${{ secrets.AWS_DOCS_ACCESS_KEY_ID }}
                 aws-secret-access-key: ${{ secrets.AWS_DOCS_SECRET_ACCESS_KEY }}
                 aws-region: sa-east-1
-            - name: S3 upload (latest version)
+            - name: S3 upload
               run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_S3_BUCKET }}/ --delete
