@@ -43,6 +43,7 @@ class BeagleConfig {
         dependencies.networkClient = NetworkClientDefault(dependencies: innerDependencies)
         dependencies.cacheManager = CacheManagerDefault(dependencies: innerDependencies)
         dependencies.logger = innerDependencies.logger
+        dependencies.analyticsProvider = AnalyticsProviderDemo()
 
         registerCustomOperations(in: dependencies)
         registerCustomComponents(in: dependencies)
@@ -69,6 +70,7 @@ class BeagleConfig {
         deepLink[.imageEndpoint] = ImageScreen.self
         deepLink[.globalContextEndpoint] = GlobalContexScreen.self
         deepLink[.beagleView] = BeagleViewScreen.self
+        deepLink[.simpleFormValidationEndpoint] = SimpleFormValidationText.self
         return deepLink
     }
 

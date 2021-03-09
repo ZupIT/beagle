@@ -24,6 +24,10 @@ class BeagleConfig {
         
         dependencies.networkClient = NetworkClientDefault(dependencies: innerDependencies)
         dependencies.urlBuilder = UrlBuilder(baseUrl: URL(string: "http://localhost:8080/"))
+        
+        dependencies.deepLinkHandler = DeepLinkScreenManager()
+        dependencies.analyticsProvider = LocalAnalyticsProvider.shared
+        
         dependencies.navigation.registerNavigationController(
             builder: CustomBeagleNavigationController.init,
             forId: "CustomBeagleNavigation"

@@ -16,17 +16,16 @@
 
 package br.com.zup.beagle.android.cache
 
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.store.StoreHandler
 import br.com.zup.beagle.android.store.StoreType
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.nanoTimeInSeconds
-import br.com.zup.beagle.android.view.ScreenRequest
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -41,6 +40,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import java.net.URI
 
 private val URL = RandomData.string()
 private val BEAGLE_HASH_KEY = "$URL#hash"
@@ -48,32 +50,24 @@ private val BEAGLE_JSON_KEY = "$URL#json"
 private val BEAGLE_TIME_KEY = "$URL#time"
 private val BEAGLE_HASH_VALUE = RandomData.string()
 private val BEAGLE_JSON_VALUE = RandomData.string()
-private val SCREEN_REQUEST = ScreenRequest(URL)
+private val REQUEST_DATA = RequestData(uri = URI(""), url = URL)
 private val RESPONSE_BODY = RandomData.string()
 private const val BEAGLE_HASH = "beagle-hash"
 private const val INVALIDATION_TIME: Long = 0
 private const val MAXIMUM_CAPACITY: Int = 2
 
+@DisplayName("Given a Cache Manager")
 class CacheManagerTest {
+
+    private val storeHandler: StoreHandler = mockk()
+    private val memoryCacheStore: LruCacheStore = mockk()
+    private val beagleEnvironment: BeagleEnvironment = mockk()
+    private val responseData: ResponseData = mockk()
+    private val memoryCache: BeagleCache = mockk()
 
     private val storeHandlerDataSlot = slot<Map<String, String>>()
     private val cacheKeySlot = slot<String>()
     private val beagleCacheSlot = slot<BeagleCache>()
-
-    @MockK
-    private lateinit var storeHandler: StoreHandler
-
-    @MockK
-    private lateinit var memoryCacheStore: LruCacheStore
-
-    @MockK
-    private lateinit var beagleEnvironment: BeagleEnvironment
-
-    @MockK
-    private lateinit var responseData: ResponseData
-
-    @MockK
-    private lateinit var memoryCache: BeagleCache
 
     private lateinit var cacheManager: CacheManager
 
@@ -120,327 +114,429 @@ class CacheManagerTest {
         unmockkAll()
     }
 
-    @Test
-    fun `cache should not initialize cache store when cache is disabled and memoryMaximumCapacity is zero`() {
-        // Given
-        every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
-        every { beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity } returns 0
-        every { beagleEnvironment.beagleSdk.config.cache.size } returns 0
+    @DisplayName("When cache is disabled")
+    @Nested
+    inner class CacheDisabledTest {
 
-        // When
-        CacheManager(
-            storeHandler,
-            beagleEnvironment
-        )
+        @DisplayName("Then should not call lru cache")
+        @Test
+        fun testLruCacheNotCallWhenCacheIsDisabled() {
+            // Given
+            every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
+            every { beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity } returns 0
+            every { beagleEnvironment.beagleSdk.config.cache.size } returns 0
 
-        // Then
-        verify(exactly = 0) { LruCacheStore.instance }
-    }
+            // When
+            CacheManager(
+                storeHandler,
+                beagleEnvironment
+            )
 
-    @Test
-    fun `restoreBeagleCacheForUrl should return null when cache is disabled`() {
-        // Given
-        every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
-
-        // When
-        val actual = cacheManager.restoreBeagleCacheForUrl(URL)
-
-        // Then
-        verify(exactly = 0) { memoryCacheStore.restore(any()) }
-        assertNull(actual)
-    }
-
-    @Test
-    fun `restoreBeagleCacheForUrl should return beagleCache when timer is valid`() {
-        // Given
-        every { memoryCacheStore.restore(any()) } returns memoryCache
-        every { memoryCache.isExpired() } returns false
-
-        // When
-        val actual = cacheManager.restoreBeagleCacheForUrl(URL)
-
-        // Then
-        verify(exactly = 1) { memoryCacheStore.restore(BEAGLE_HASH_KEY) }
-        assertTrue { actual?.isExpired() == false }
-        assertEquals(BEAGLE_JSON_VALUE, actual?.json)
-        assertEquals(BEAGLE_HASH_VALUE, actual?.hash)
-    }
-
-    @Test
-    fun `restoreBeagleCacheForUrl should return isExpired true when timer is not valid`() {
-        // Given
-        every { memoryCacheStore.restore(any()) } returns memoryCache
-        every { memoryCache.isExpired() } returns true
-
-        // When
-        val actual = cacheManager.restoreBeagleCacheForUrl(URL)
-
-        // Then
-        verify(exactly = 1) { memoryCacheStore.restore(BEAGLE_HASH_KEY) }
-        assertTrue { actual?.isExpired() == true }
-    }
-
-    @Test
-    fun `restoreBeagleCacheForUrl should return beagleCache from disk when timer is null and data exists and cache is valid`() {
-        // Given
-        every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf(
-            BEAGLE_HASH_KEY to BEAGLE_HASH_VALUE,
-            BEAGLE_JSON_KEY to BEAGLE_JSON_VALUE,
-            BEAGLE_TIME_KEY to Long.MAX_VALUE.toString()
-        )
-
-        mockkStatic("br.com.zup.beagle.android.utils.SystemUtilsKt")
-        every { nanoTimeInSeconds() } returns 0
-
-        // When
-        val actual = cacheManager.restoreBeagleCacheForUrl(URL)
-
-        // Then
-        verify(exactly = 1) {
-            storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY,
-                BEAGLE_TIME_KEY)
-        }
-        assertEquals(BEAGLE_JSON_VALUE, actual?.json)
-        assertEquals(BEAGLE_HASH_VALUE, actual?.hash)
-    }
-
-    @Test
-    fun `restoreBeagleCacheForUrl should return null from disk when timer is null and data exists and cache is invalid`() {
-        // Given
-        every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf(
-            BEAGLE_HASH_KEY to BEAGLE_HASH_VALUE,
-            BEAGLE_JSON_KEY to BEAGLE_JSON_VALUE,
-            BEAGLE_TIME_KEY to "0"
-        )
-
-        mockkStatic("br.com.zup.beagle.android.utils.SystemUtilsKt")
-        every { nanoTimeInSeconds() } returns Long.MAX_VALUE
-
-        // When
-        val actual = cacheManager.restoreBeagleCacheForUrl(URL)
-
-        // Then
-        verify(exactly = 1) {
-            storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY,
-                BEAGLE_TIME_KEY)
-        }
-        assertNull(actual?.json)
-        assertNull(actual?.hash)
-    }
-
-    @Test
-    fun `restoreBeagleCacheForUrl should return null from disk when timer is null and data does not exists`() {
-        // Given When
-        val actual = cacheManager.restoreBeagleCacheForUrl(URL)
-
-        // Then
-        verify(exactly = 1) { storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY, BEAGLE_TIME_KEY) }
-        assertNull(actual)
-    }
-
-    @Test
-    fun `screenRequestWithHash should add beagle hash header when beagleCache is not null`() {
-        // Given
-        val beagleCache = mockk<BeagleCache> {
-            every { hash } returns BEAGLE_HASH_VALUE
+            // Then
+            verify(exactly = 0) { LruCacheStore.instance }
         }
 
-        // When
-        val actualScreenRequest = cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache)
+        @DisplayName("Then should not call memory cache restore")
+        @Test
+        fun testRestoreNotCallWhenCacheIsDisabled() {
+            // Given
+            every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
 
-        // Then
-        assertEquals(BEAGLE_HASH_VALUE, actualScreenRequest.headers[BEAGLE_HASH])
-    }
+            // When
+            val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
-    @Test
-    fun `screenRequestWithHash should not add beagle hash header when beagleCache is null`() {
-        // Given
-        val beagleCache: BeagleCache? = null
-
-        // When
-        val actualScreenRequest = cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache)
-
-        // Then
-        assertNull(actualScreenRequest.headers[BEAGLE_HASH])
-    }
-
-    @Test
-    fun `handleResponseData should return cached json when statusCode is 304 and cache is not null`() {
-        // Given
-        val beagleCache = mockk<BeagleCache> {
-            every { json } returns BEAGLE_JSON_VALUE
-            every { hash } returns BEAGLE_HASH_VALUE
+            // Then
+            verify(exactly = 0) { memoryCacheStore.restore(any()) }
+            assertNull(actual)
         }
-        every { responseData.statusCode } returns 304
 
+        @DisplayName("Then should not call store cache")
+        @Test
+        fun testNotCallStoreHandler() {
+            // Given
+            every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
 
-        // When
-        val responseBody = cacheManager.handleResponseData(URL, beagleCache, responseData)
+            // When
+            cacheManager.handleResponseData(URL, null, responseData)
 
-        // Then
-        assertEquals(BEAGLE_JSON_VALUE, responseBody)
-    }
-
-    @Test
-    fun `handleResponseData should return responseBody from http when statusCode is not 304`() {
-        // Given
-        val beagleCache: BeagleCache? = null
-        every { responseData.statusCode } returns 200
-
-
-        // When
-        val responseBody = cacheManager.handleResponseData(URL, beagleCache, responseData)
-
-        // Then
-        assertEquals(RESPONSE_BODY, responseBody)
-    }
-
-    @Test
-    fun `handleResponseData should return responseBody from http when statusCode is 304 but beagleCache is null`() {
-        // Given
-        val beagleCache: BeagleCache? = null
-        every { responseData.statusCode } returns 304
-
-
-        // When
-        val responseBody = cacheManager.handleResponseData(URL, beagleCache, responseData)
-
-        // Then
-        assertEquals(RESPONSE_BODY, responseBody)
-    }
-
-    @Test
-    fun `handleResponseData should not call store cache if is disabled`() {
-        // Given
-        every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
-
-        // When
-        cacheManager.handleResponseData(URL, null, responseData)
-
-        // Then
-        verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
-        verify(exactly = 0) { memoryCacheStore.save(any(), any()) }
-    }
-
-    @Test
-    fun `GIVEN cache manager WHEN call handle response with storeHandle null and cache enabled THEN should not call cache`() {
-        // Given
-        every { beagleEnvironment.beagleSdk.config.cache.enabled } returns true
-        cacheManager = CacheManager(
-            null,
-            beagleEnvironment,
-            memoryCacheStore
-        )
-
-        // When
-        cacheManager.handleResponseData(URL, null, responseData)
-
-
-        // Then
-        verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
-        verify(exactly = 0) { memoryCacheStore.save(any(), any()) }
-    }
-
-
-    @Test
-    fun `GIVEN cache manager WHEN call restore beagle with storeHandle null and cache enabled THEN should not call cache`() {
-        // Given
-        every { beagleEnvironment.beagleSdk.config.cache.enabled } returns true
-        cacheManager = CacheManager(
-            null,
-            beagleEnvironment,
-            memoryCacheStore
-        )
-
-        // When
-        val actual = cacheManager.restoreBeagleCacheForUrl(URL)
-
-
-        // Then
-        verify(exactly = 0) { memoryCacheStore.restore(any()) }
-        assertNull(actual)
-    }
-
-
-    @Test
-    fun `handleResponseData should not call store cache if beagleCache header is not present`() {
-        // Given
-        val headers = mapOf<String, String>()
-        every { responseData.headers } returns headers
-
-        // When
-        cacheManager.handleResponseData(URL, null, responseData)
-
-        // Then
-        verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
-        verify(exactly = 0) { memoryCacheStore.save(any(), any()) }
-    }
-
-    @Test
-    fun `handleResponseData should not call store cache if responseData does not have beagleHash in headers`() {
-        // Given When
-        cacheManager.handleResponseData(URL, null, responseData)
-
-        // Then
-        verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
-    }
-
-    @Test
-    fun `handleResponseData should call store cache if responseData have beagleHash in headers`() {
-        // Given
-        every { responseData.headers } returns mapOf(
-            BEAGLE_HASH to BEAGLE_HASH_VALUE
-        )
-
-        // When
-        cacheManager.handleResponseData(URL, null, responseData)
-
-        // Then
-        verifySequence {
-            storeHandler.save(StoreType.DATABASE, any())
-            storeHandler.getAll(StoreType.DATABASE)
-            memoryCacheStore.save(BEAGLE_HASH_KEY, any())
+            // Then
+            verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
+            verify(exactly = 0) { memoryCacheStore.save(any(), any()) }
         }
-        val diskData = storeHandlerDataSlot.captured
-        assertEquals(BEAGLE_HASH_VALUE, diskData[BEAGLE_HASH_KEY])
-        assertEquals(RESPONSE_BODY, diskData[BEAGLE_JSON_KEY])
-        val timerCache = beagleCacheSlot.captured
-        assertEquals(BEAGLE_HASH_KEY, cacheKeySlot.captured)
-        assertEquals(INVALIDATION_TIME, timerCache.maxTime)
-        assertEquals(BEAGLE_HASH_VALUE, timerCache.hash)
-        assertEquals(RESPONSE_BODY, timerCache.json)
-        assertTrue(timerCache.cachedTime > 0)
     }
 
-    @Test
-    fun `handleResponseData should catch CacheControl header if responseData have beagleHash in headers`() {
-        // Given
-        val maxAge = RandomData.int().toLong()
-        every { responseData.headers } returns mapOf(
-            BEAGLE_HASH to BEAGLE_HASH_VALUE,
-            "cache-control" to "max-age=$maxAge"
-        )
+    @DisplayName("When time is valid")
+    @Nested
+    inner class TimeIsValidTest {
 
-        // When
-        cacheManager.handleResponseData(URL, null, responseData)
+        @DisplayName("Then should return a beagle cache")
+        @Test
+        fun testReturnABeagleCacheWhenTimeIsValid() {
+            // Given
+            every { memoryCacheStore.restore(any()) } returns memoryCache
+            every { memoryCache.isExpired() } returns false
 
-        // Then
-        assertEquals(maxAge, beagleCacheSlot.captured.maxTime)
+            // When
+            val actual = cacheManager.restoreBeagleCacheForUrl(URL)
+
+            // Then
+            verify(exactly = 1) { memoryCacheStore.restore(BEAGLE_HASH_KEY) }
+            assertTrue { actual?.isExpired() == false }
+            assertEquals(BEAGLE_JSON_VALUE, actual?.json)
+            assertEquals(BEAGLE_HASH_VALUE, actual?.hash)
+        }
     }
 
-    @Test
-    fun `handleResponseData should catch CacheControl header maxAge value only if responseData have beagleHash in headers`() {
-        // Given
-        val maxAge = RandomData.int().toLong()
-        every { responseData.headers } returns mapOf(
-            BEAGLE_HASH to BEAGLE_HASH_VALUE,
-            "cache-control" to "no-transform, max-age=$maxAge"
-        )
+    @DisplayName("When time is not valid")
+    @Nested
+    inner class TimeIsNotValidTest {
 
-        // When
-        cacheManager.handleResponseData(URL, null, responseData)
+        @DisplayName("Then should return cache is expired")
+        @Test
+        fun testCacheIsExpiredWhenTimeIsNotValid() {
+            // Given
+            every { memoryCacheStore.restore(any()) } returns memoryCache
+            every { memoryCache.isExpired() } returns true
 
-        // Then
-        assertEquals(maxAge, beagleCacheSlot.captured.maxTime)
+            // When
+            val actual = cacheManager.restoreBeagleCacheForUrl(URL)
+
+            // Then
+            verify(exactly = 1) { memoryCacheStore.restore(BEAGLE_HASH_KEY) }
+            assertTrue { actual?.isExpired() == true }
+        }
+    }
+
+    @DisplayName("When timer is null and data exists and cache is valid")
+    @Nested
+    inner class TimeIsNullAndDataExistAndCacheIsValidTest {
+
+        @DisplayName("Then should return beagleCache")
+        @Test
+        fun testReturnBeagleCache() {
+            // Given
+            every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf(
+                BEAGLE_HASH_KEY to BEAGLE_HASH_VALUE,
+                BEAGLE_JSON_KEY to BEAGLE_JSON_VALUE,
+                BEAGLE_TIME_KEY to Long.MAX_VALUE.toString()
+            )
+
+            mockkStatic("br.com.zup.beagle.android.utils.SystemUtilsKt")
+            every { nanoTimeInSeconds() } returns 0
+
+            // When
+            val actual = cacheManager.restoreBeagleCacheForUrl(URL)
+
+            // Then
+            verify(exactly = 1) {
+                storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY,
+                    BEAGLE_TIME_KEY)
+            }
+            assertEquals(BEAGLE_JSON_VALUE, actual?.json)
+            assertEquals(BEAGLE_HASH_VALUE, actual?.hash)
+        }
+    }
+
+    @DisplayName("When timer is null and data exists and cache is invalid")
+    @Nested
+    inner class TimeIsNullAndDataExistAndCacheIsInValidTest {
+
+        @DisplayName("Then should return beagle cache null")
+        @Test
+        fun testBeagleCacheIsNull() {
+            // Given
+            every { storeHandler.restore(StoreType.DATABASE, any(), any(), any()) } returns mapOf(
+                BEAGLE_HASH_KEY to BEAGLE_HASH_VALUE,
+                BEAGLE_JSON_KEY to BEAGLE_JSON_VALUE,
+                BEAGLE_TIME_KEY to "0"
+            )
+
+            mockkStatic("br.com.zup.beagle.android.utils.SystemUtilsKt")
+            every { nanoTimeInSeconds() } returns Long.MAX_VALUE
+
+            // When
+            val actual = cacheManager.restoreBeagleCacheForUrl(URL)
+
+            // Then
+            verify(exactly = 1) {
+                storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY,
+                    BEAGLE_TIME_KEY)
+            }
+            assertNull(actual?.json)
+            assertNull(actual?.hash)
+        }
+    }
+
+    @DisplayName("When timer is null and data does not exists")
+    @Nested
+    inner class TimeIsNullAndDataDoesNotExistsTest {
+
+        @DisplayName("Then should return beagle cache null")
+        @Test
+        fun testBeagleCacheIsNull() {
+            // Given When
+            val actual = cacheManager.restoreBeagleCacheForUrl(URL)
+
+            // Then
+            verify(exactly = 1) { storeHandler.restore(StoreType.DATABASE, BEAGLE_HASH_KEY, BEAGLE_JSON_KEY, BEAGLE_TIME_KEY) }
+            assertNull(actual)
+        }
+    }
+
+    @DisplayName("When beagle cache is not null")
+    @Nested
+    inner class BeagleCacheIsNotNullTest {
+
+        @DisplayName("Then should add beagle hash header")
+        @Test
+        fun testReturnBeagleHashHeader() {
+            // Given
+            val beagleCache = mockk<BeagleCache> {
+                every { hash } returns BEAGLE_HASH_VALUE
+            }
+
+            // When
+            val actualRequestData = cacheManager.requestDataWithCache(REQUEST_DATA, beagleCache)
+
+            // Then
+            assertEquals(BEAGLE_HASH_VALUE, actualRequestData.headers[BEAGLE_HASH])
+            assertEquals(BEAGLE_HASH_VALUE, actualRequestData.httpAdditionalData.headers!![BEAGLE_HASH])
+        }
+    }
+
+    @DisplayName("When beagle cache is null")
+    @Nested
+    inner class BeagleCacheIsNullTest {
+
+        @DisplayName("Then should not add beagle hash header")
+        @Test
+        fun testNotAddBeagleHashHeader() {
+            // Given
+            val beagleCache: BeagleCache? = null
+
+            // When
+            val actualScreenRequest = cacheManager.requestDataWithCache(REQUEST_DATA, beagleCache)
+
+            // Then
+            assertNull(actualScreenRequest.headers[BEAGLE_HASH])
+            assertNull(actualScreenRequest.httpAdditionalData.headers!![BEAGLE_HASH])
+        }
+    }
+
+    @DisplayName("When status code is 304 and cache is not null")
+    @Nested
+    inner class StatusCode304AndCacheIsNotNullTest {
+
+        @DisplayName("Then should return cached json")
+        @Test
+        fun testReturnCachedJson() {
+            // Given
+            val beagleCache = mockk<BeagleCache> {
+                every { json } returns BEAGLE_JSON_VALUE
+                every { hash } returns BEAGLE_HASH_VALUE
+            }
+            every { responseData.statusCode } returns 304
+
+            // When
+            val responseBody = cacheManager.handleResponseData(URL, beagleCache, responseData)
+
+            // Then
+            assertEquals(BEAGLE_JSON_VALUE, responseBody)
+        }
+    }
+
+    @DisplayName("When status code is not 304")
+    @Nested
+    inner class StatusCodeIsNot304Test {
+
+        @DisplayName("Then should return response body")
+        @Test
+        fun testReturnResponseBody() {
+            // Given
+            val beagleCache: BeagleCache? = null
+            every { responseData.statusCode } returns 200
+
+            // When
+            val responseBody = cacheManager.handleResponseData(URL, beagleCache, responseData)
+
+            // Then
+            assertEquals(RESPONSE_BODY, responseBody)
+        }
+    }
+
+    @DisplayName("When status code is 304 and beagle cache is null")
+    @Nested
+    inner class StatusCodeIs304AndBeagleCacheIsNullTest {
+
+        @DisplayName("Then should return response body")
+        @Test
+        fun testReturnResponseBody() {
+            // Given
+            val beagleCache: BeagleCache? = null
+            every { responseData.statusCode } returns 304
+
+            // When
+            val responseBody = cacheManager.handleResponseData(URL, beagleCache, responseData)
+
+            // Then
+            assertEquals(RESPONSE_BODY, responseBody)
+        }
+    }
+
+    @DisplayName("When call handle response with storeHandle null and cache enabled")
+    @Nested
+    inner class CallHandleResponseStoreHandleNullAndCacheEnabledTest {
+
+        @DisplayName("Then should not call cache")
+        @Test
+        fun testNotCallCache() {
+            // Given
+            every { beagleEnvironment.beagleSdk.config.cache.enabled } returns true
+            cacheManager = CacheManager(
+                null,
+                beagleEnvironment,
+                memoryCacheStore
+            )
+
+            // When
+            cacheManager.handleResponseData(URL, null, responseData)
+
+
+            // Then
+            verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
+            verify(exactly = 0) { memoryCacheStore.save(any(), any()) }
+        }
+    }
+
+    @DisplayName("When call restore beagle with storeHandle null and cache enabled")
+    @Nested
+    inner class CallRestoreStoreHandleNullAndCacheEnabledTest {
+
+        @DisplayName("Then should not call cache")
+        @Test
+        fun testNotCallCache() {
+            // Given
+            every { beagleEnvironment.beagleSdk.config.cache.enabled } returns true
+            cacheManager = CacheManager(
+                null,
+                beagleEnvironment,
+                memoryCacheStore
+            )
+
+            // When
+            val actual = cacheManager.restoreBeagleCacheForUrl(URL)
+
+
+            // Then
+            verify(exactly = 0) { memoryCacheStore.restore(any()) }
+            assertNull(actual)
+        }
+    }
+
+    @DisplayName("When beagle header is not present")
+    @Nested
+    inner class BeagleHeaderIsNotPresentTest {
+
+        @DisplayName("Then should not call store cache")
+        @Test
+        fun testNotCallStoreHandler() {
+            // Given
+            val headers = mapOf<String, String>()
+            every { responseData.headers } returns headers
+
+            // When
+            cacheManager.handleResponseData(URL, null, responseData)
+
+            // Then
+            verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
+            verify(exactly = 0) { memoryCacheStore.save(any(), any()) }
+        }
+    }
+
+    @DisplayName("When beagle hash is not present in headers")
+    @Nested
+    inner class BeagleHashIsNotPresentTest {
+
+        @DisplayName("Then should not call store cache")
+        @Test
+        fun testNotCallStoreHandler() {
+            // Given When
+            cacheManager.handleResponseData(URL, null, responseData)
+
+            // Then
+            verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
+        }
+    }
+
+    @DisplayName("When has beagle hash in headers")
+    @Nested
+    inner class BeagleHashInHeadersTest {
+
+        @DisplayName("Then should call store cache")
+        @Test
+        fun testCallStoreHandler() {
+            // Given
+            every { responseData.headers } returns mapOf(
+                BEAGLE_HASH to BEAGLE_HASH_VALUE
+            )
+
+            // When
+            cacheManager.handleResponseData(URL, null, responseData)
+
+            // Then
+            verifySequence {
+                storeHandler.save(StoreType.DATABASE, any())
+                storeHandler.getAll(StoreType.DATABASE)
+                memoryCacheStore.save(BEAGLE_HASH_KEY, any())
+            }
+            val diskData = storeHandlerDataSlot.captured
+            assertEquals(BEAGLE_HASH_VALUE, diskData[BEAGLE_HASH_KEY])
+            assertEquals(RESPONSE_BODY, diskData[BEAGLE_JSON_KEY])
+            val timerCache = beagleCacheSlot.captured
+            assertEquals(BEAGLE_HASH_KEY, cacheKeySlot.captured)
+            assertEquals(INVALIDATION_TIME, timerCache.maxTime)
+            assertEquals(BEAGLE_HASH_VALUE, timerCache.hash)
+            assertEquals(RESPONSE_BODY, timerCache.json)
+            assertTrue(timerCache.cachedTime > 0)
+        }
+
+        @DisplayName("Then should catch cache control")
+        @Test
+        fun testCatchCacheControl() {
+            // Given
+            val maxAge = RandomData.int().toLong()
+            every { responseData.headers } returns mapOf(
+                BEAGLE_HASH to BEAGLE_HASH_VALUE,
+                "cache-control" to "max-age=$maxAge"
+            )
+
+            // When
+            cacheManager.handleResponseData(URL, null, responseData)
+
+            // Then
+            assertEquals(maxAge, beagleCacheSlot.captured.maxTime)
+        }
+    }
+
+    @DisplayName("When has beagle hash in headers with multi parameters")
+    @Nested
+    inner class BeagleHeaderWithMultiParameters {
+
+        @DisplayName("Then should catch cache control")
+        @Test
+        fun testCatchCacheControl() {
+            // Given
+            val maxAge = RandomData.int().toLong()
+            every { responseData.headers } returns mapOf(
+                BEAGLE_HASH to BEAGLE_HASH_VALUE,
+                "cache-control" to "no-transform, max-age=$maxAge"
+            )
+
+            // When
+            cacheManager.handleResponseData(URL, null, responseData)
+
+            // Then
+            assertEquals(maxAge, beagleCacheSlot.captured.maxTime)
+        }
     }
 }

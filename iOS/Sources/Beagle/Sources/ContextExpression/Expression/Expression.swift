@@ -24,7 +24,7 @@ public enum Expression<T: Decodable> {
     case expression(ContextExpression)
 }
 
-public enum ContextExpression: Equatable, Hashable {
+public enum ContextExpression: Hashable {
     case single(SingleExpression)
     case multiple(MultipleExpression)
 }
@@ -64,7 +64,7 @@ public extension Expression {
     func evaluate(with view: UIView?) -> T? {
         switch self {
         case let .expression(expression):
-            return view?.evaluate(for: expression).transform()
+            return view?.evaluateExpression(expression).transform()
         case let .value(value):
             return value
         }
@@ -72,6 +72,19 @@ public extension Expression {
 }
 
 // MARK: - RepresentableByParsableString
+
+extension ContextExpression: RepresentableByParsableString {
+    public static var parser = singleOrMultipleExpression
+
+    public var rawValue: String {
+        switch self {
+        case .multiple(let multiple):
+            return multiple.rawValue
+        case .single(let single):
+            return single.rawValue
+        }
+    }
+}
 
 extension SingleExpression: RepresentableByParsableString {
     public static let parser = singleExpression
@@ -121,10 +134,8 @@ extension String {
 extension Expression: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         let escaped = value.escapeExpressions()
-        if let expression = SingleExpression(rawValue: value) {
-            self = .expression(.single(expression))
-        } else if let multiple = MultipleExpression(rawValue: value) {
-            self = .expression(.multiple(multiple))
+        if let expression = ContextExpression(rawValue: value) {
+            self = .expression(expression)
         } else if let value = escaped as? T {
             self = .value(value)
         } else {
@@ -187,19 +198,6 @@ extension Expression: Decodable {
             }
         } else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expression cannot be decoded")
-        }
-    }
-}
-
-extension ContextExpression: Decodable {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let expression = try? container.decode(SingleExpression.self) {
-            self = .single(expression)
-        } else if let expression = try? container.decode(MultipleExpression.self) {
-            self = .multiple(expression)
-        } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "ContextExpression cannot be decoded")
         }
     }
 }

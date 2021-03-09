@@ -59,7 +59,7 @@ final class ListViewCell: UICollectionViewCell {
         hash: Int,
         key: String,
         item: DynamicObject,
-        contexts: [String: DynamicObject]?,
+        contexts: DynamicDictionary?,
         listView: ListViewUIComponent
     ) {
         self.itemHash = hash
@@ -120,7 +120,7 @@ final class ListViewCell: UICollectionViewCell {
         return container
     }
     
-    private func restoreContexts(_ itemContexts: [String: DynamicObject]) {
+    private func restoreContexts(_ itemContexts: DynamicDictionary) {
         for (view, contexts) in viewContexts {
             contexts
                 .map { Context(id: $0.id, value: itemContexts[$0.id, default: $0.value]) }

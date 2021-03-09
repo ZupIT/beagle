@@ -1,0 +1,20 @@
+{
+  "path" : "a",
+  "result" : {
+    "a" : "UPDATED",
+    "c" : [
+      1,
+      2
+    ],
+    "d" : [
+      {
+        "code" : "123",
+        "name" : "John"
+      },
+      {
+        "code" : "321",
+        "name" : "Doe"
+      }
+    ]
+  }
+}

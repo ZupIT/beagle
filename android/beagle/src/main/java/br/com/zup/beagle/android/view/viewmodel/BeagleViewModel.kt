@@ -23,27 +23,23 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
-import br.com.zup.beagle.android.utils.removeBaseUrl
-import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import java.util.concurrent.atomic.AtomicReference
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.atomic.AtomicReference
+import java.net.URI
 
 sealed class ViewState {
     data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
     data class Loading(val value: Boolean) : ViewState()
-    data class DoRender(
-        val screenId: String?,
-        val component: ServerDrivenComponent,
-        val isLocalScreen: Boolean,
-    ) : ViewState()
+    data class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
 
     object DoCancel : ViewState()
 }
@@ -55,8 +51,8 @@ internal open class BeagleViewModel(
 
     var fetchComponent: FetchComponentLiveData? = null
 
-    fun fetchComponent(screenRequest: ScreenRequest, screen: ServerDrivenComponent? = null): LiveData<ViewState> {
-        val fetchComponentLiveData = FetchComponentLiveData(screenRequest, screen, componentRequester,
+    fun fetchComponent(requestData: RequestData, screen: ServerDrivenComponent? = null): LiveData<ViewState> {
+        val fetchComponentLiveData = FetchComponentLiveData(requestData, screen, componentRequester,
             viewModelScope, ioDispatcher)
         fetchComponent = fetchComponentLiveData
 
@@ -65,7 +61,7 @@ internal open class BeagleViewModel(
 
     fun fetchForCache(url: String) = viewModelScope.launch(ioDispatcher) {
         try {
-            componentRequester.fetchComponent(ScreenRequest(url))
+            componentRequester.fetchComponent(RequestData(url = url, uri = URI(url)))
         } catch (exception: BeagleException) {
             BeagleLoggerProxy.warning(exception.message)
         }
@@ -76,7 +72,7 @@ internal open class BeagleViewModel(
     }
 
     internal class FetchComponentLiveData(
-        private val screenRequest: ScreenRequest,
+        private val requestData: RequestData,
         private val screen: ServerDrivenComponent?,
         private val componentRequester: ComponentRequester,
         private val coroutineScope: CoroutineScope,
@@ -95,21 +91,20 @@ internal open class BeagleViewModel(
         private fun fetchComponents() {
             job = coroutineScope.launch(ioDispatcher) {
                 val identifier = getComponentIdentifier()
-                if (screenRequest.url.isNotEmpty()) {
+                if (requestData.url?.isNotEmpty() == true) {
                     try {
                         setLoading(true)
-                        val component = componentRequester.fetchComponent(screenRequest)
-                        val relativePath = screenRequest.url.removeBaseUrl()
-                        postLiveDataResponse(ViewState.DoRender(relativePath, component, false))
+                        val component = componentRequester.fetchComponent(requestData)
+                        postLiveDataResponse(ViewState.DoRender(requestData.url, component))
                     } catch (exception: BeagleException) {
                         if (screen != null) {
-                            postLiveDataResponse(ViewState.DoRender(identifier, screen, true))
+                            postLiveDataResponse(ViewState.DoRender(identifier, screen))
                         } else {
                             postLiveDataResponse(ViewState.Error(exception) { fetchComponents() })
                         }
                     }
                 } else if (screen != null) {
-                    postLiveDataResponse(ViewState.DoRender(identifier, screen, true))
+                    postLiveDataResponse(ViewState.DoRender(identifier, screen))
                 }
             }
         }

@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.testutil.RandomData
@@ -45,8 +46,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
+import java.net.URI
 
+@DisplayName("Given a BeagleViewModel")
 @ExperimentalCoroutinesApi
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class BeagleViewModelTest : BaseTest() {
@@ -82,197 +87,217 @@ class BeagleViewModelTest : BaseTest() {
         coEvery { observer.onChanged(capture(slotViewState)) } just Runs
     }
 
-    @Test
-    @Suppress("UNCHECKED_CAST")
-    fun `GIVEN a screenRequest WHEN fetch SHOULD return render ViewState`() {
-        // Given
-        val screenRequest = ScreenRequest(RandomData.httpUrl())
+    @DisplayName("When FetchComponent")
+    @Nested
+    inner class FetchComponent {
+        @DisplayName("Then should post render ViewState")
+        @Test
+        @Suppress("UNCHECKED_CAST")
+        fun testGivenAScreenRequestWhenFetchComponentShouldPostRenderViewState() {
+            // Given
+            val screenRequest = RequestData(uri = URI(""), url = RandomData.httpUrl())
 
-        // When
-        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+            // When
+            beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
 
-        // Then
-        coVerifyOrder {
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.DoRender(screenRequest.url, component, false))
-            observer.onChanged(ViewState.Loading(false))
+            // Then
+            coVerifyOrder {
+                observer.onChanged(ViewState.Loading(true))
+                observer.onChanged(ViewState.DoRender(screenRequest.url, component))
+                observer.onChanged(ViewState.Loading(false))
+            }
+        }
+
+        @DisplayName("Then should post a error ViewState")
+        @Test
+        fun testGivenAScreenRequestThrowsExceptionWhenFetchShouldPostAErrorViewState() {
+            // Given
+            val screenRequest = RequestData(uri = URI(""), url = RandomData.httpUrl())
+            val exception = BeagleException("Error")
+            coEvery { componentRequester.fetchComponent(any()) } throws exception
+
+            // When
+            beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+
+            // Then
+            coVerifySequence {
+                observer.onChanged(ViewState.Loading(true))
+                observer.onChanged(any<ViewState.Error>())
+                observer.onChanged(ViewState.Loading(false))
+            }
+        }
+
+        @DisplayName("Then should post a error ViewState retry")
+        @Test
+        fun testGivenAScreenRequestThrowsExceptionWhenFetchShouldPostAErrorViewStateRetry() {
+            // Given
+            val screenRequest = RequestData(uri = URI(""), url = RandomData.httpUrl())
+            val exception = BeagleException("Error")
+
+            coEvery { componentRequester.fetchComponent(any()) } throws exception andThen component
+
+            // When
+            beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
+            (slotViewState[1] as ViewState.Error).retry.invoke()
+
+            // Then
+            coVerifyOrder {
+                observer.onChanged(ViewState.Loading(true))
+                observer.onChanged(any<ViewState.Error>())
+                observer.onChanged(ViewState.Loading(false))
+                observer.onChanged(ViewState.Loading(true))
+                observer.onChanged(ViewState.DoRender(screenRequest.url, component))
+                observer.onChanged(ViewState.Loading(false))
+            }
+        }
+
+        @DisplayName("Then should post a ViewState doRender")
+        @Test
+        fun testGivenAServerDrivenComponentWhenFetchComponentsCalledShouldPostViewStateDoRender() {
+            //GIVEN
+            val screenRequest = RequestData(uri = URI(""), url = "")
+
+            //WHEN
+            beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
+
+            //THEN
+            verify(exactly = once()) { observer.onChanged(ViewState.DoRender(null, component)) }
+        }
+
+        @DisplayName("Then should post a ViewStateDoRender")
+        @Test
+        fun testGivenAIdentifierComponentWhenFetchComponentsCalledShouldPostViewStateDoRender() {
+            //GIVEN
+            val screenRequest = RequestData(uri = URI(""), url = "")
+            val component: IdentifierComponent = mockk()
+            val id = "id"
+            every { component.id } returns id
+
+            //WHEN
+            beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
+
+            //THEN
+            verify(exactly = once()) { observer.onChanged(ViewState.DoRender(id, component)) }
+        }
+
+        @DisplayName("Then should post ViewState doRender")
+        @Test
+        fun testGivenANullScreenComponentWhenFetchComponentsCalledShouldPostViewStateDoRender() {
+            //GIVEN
+            val screenRequest = RequestData(uri = URI(""), url = "url")
+
+
+            //WHEN
+            beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
+
+            //THEN
+            verify(exactly = once()) { observer.onChanged(ViewState.DoRender(screenRequest.url, component)) }
+        }
+
+        @DisplayName("Then should post ViewState doRender with correct screenId")
+        @Test
+        fun testGivenScreenWithFullPathWhenFetchComponentsCalledShouldPostViewStateDoRenderWithCorrectScreenId() {
+            //GIVEN
+            every { beagleSdk.config.baseUrl } returns "http://localhost:2020/"
+
+            val screenRequest = RequestData(uri = URI(""), url = "http://localhost:2020/test")
+
+            //WHEN
+            beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
+
+            //THEN
+            verify(exactly = once()) { observer.onChanged(ViewState.DoRender(screenRequest.url, component)) }
+        }
+
+        @DisplayName("Then should post ViewState doRender using identifier as screenId")
+        @Test
+        fun testGivenAScreenComponentWhenFetchComponentCalledShouldPostViewStateDoRenderUsingIdentifierAsScreenId() {
+            //Given
+            val screenRequest = RequestData(uri = URI(""), url = "")
+            val component: ScreenComponent = mockk()
+            val id = "id"
+            val identifier = "identifier"
+
+            every { component.id } returns id
+            every { component.identifier } returns identifier
+
+            //WHEN
+            beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
+
+            //THEN
+            verify(exactly = once()) { observer.onChanged(ViewState.DoRender(identifier, component)) }
+
         }
     }
 
-    @Test
-    fun `GIVEN a screenRequest throws exception WHEN fetch SHOULD return a error ViewState`() {
-        // Given
-        val screenRequest = ScreenRequest(RandomData.httpUrl())
-        val exception = BeagleException("Error")
-        coEvery { componentRequester.fetchComponent(any()) } throws exception
+    @DisplayName("When isFetchComponent")
+    @Nested
+    inner class IsFetchCompoenent {
 
-        // When
-        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+        @DisplayName("Then should return false")
+        @Test
+        fun testGivenANullFetchComponentLiveDataWhenIsFetchComponentCalledShouldReturnFalse() {
+            //Given
+            beagleUIViewModel.fetchComponent = null
 
-        // Then
-        coVerifySequence {
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(any<ViewState.Error>())
-            observer.onChanged(ViewState.Loading(false))
+            //WHEN
+            val isFetch = beagleUIViewModel.isFetchComponent()
+
+            //THEN
+            assertFalse { isFetch }
+        }
+
+        @DisplayName("Then should return false")
+        @Test
+        fun testGivenANullJobInFetchComponentLiveDataWhenIsFetchComponentCalledShouldReturnFalse() {
+            //Given
+            val screenRequest = RequestData(uri = URI(""), url = "")
+
+            beagleUIViewModel.fetchComponent(screenRequest)
+            beagleUIViewModel.fetchComponent?.job = null
+
+            // When
+            val isFetch = beagleUIViewModel.isFetchComponent()
+
+            //THEN
+            assertFalse { isFetch }
+        }
+
+        @DisplayName("Then should return false")
+        @Test
+        fun testGivenAJobCompletedInFetchComponentLiveDataWhenIsFetchComponentCalledShouldReturnFalse() {
+            //Given
+            val screenRequest = RequestData(uri = URI(""), url = "")
+            val mockJob = Job()
+            mockJob.complete()
+
+            beagleUIViewModel.fetchComponent(screenRequest)
+            beagleUIViewModel.fetchComponent?.job = mockJob
+
+            // When
+            val isFetch = beagleUIViewModel.isFetchComponent()
+
+            //THEN
+            assertFalse { isFetch }
+        }
+
+        @DisplayName("Then should post ViewState doCancel and return true")
+        @Test
+        fun testGivenAJobNotCompletedInFetchComponentLiveDataWhenIsFetchComponentCalledShouldPostViewStateDoCancelAndReturnTrue() {
+            //Given
+            val screenRequest = RequestData(uri = URI(""), url = "")
+            val mockJob = Job()
+
+            beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+            beagleUIViewModel.fetchComponent?.job = mockJob
+
+            // When
+            val isFetch = beagleUIViewModel.isFetchComponent()
+
+            //THEN
+            assertTrue { mockJob.isCancelled }
+            verify(exactly = once()) { observer.onChanged(ViewState.DoCancel) }
+            assertTrue { isFetch }
         }
     }
-
-    @Test
-    fun `GIVEN a screenRequest throws exception WHEN fetch SHOULD return a error ViewState retry`() {
-        // Given
-        val screenRequest = ScreenRequest(RandomData.httpUrl())
-        val exception = BeagleException("Error")
-
-        coEvery { componentRequester.fetchComponent(any()) } throws exception andThen component
-
-        // When
-        beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
-        (slotViewState[1] as ViewState.Error).retry.invoke()
-
-        // Then
-        coVerifyOrder {
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(any<ViewState.Error>())
-            observer.onChanged(ViewState.Loading(false))
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.DoRender(screenRequest.url, component, false))
-            observer.onChanged(ViewState.Loading(false))
-        }
-    }
-
-    @Test
-    fun `GIVEN a ServerDrivenComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
-        //GIVEN
-        val screenRequest = ScreenRequest("")
-
-        //WHEN
-        beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
-
-        //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(null, component, true)) }
-    }
-
-    @Test
-    fun `GIVEN a IdentifierComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
-        //GIVEN
-        val screenRequest = ScreenRequest("")
-        val component: IdentifierComponent = mockk()
-        val id = "id"
-        every { component.id } returns id
-
-        //WHEN
-        beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
-
-        //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(id, component, true)) }
-    }
-
-    @Test
-    fun `GIVEN a NULL ScreenComponent WHEN fetchComponents called SHOULD post ViewState doRender `() {
-        //GIVEN
-        val screenRequest = ScreenRequest("url")
-
-
-        //WHEN
-        beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
-
-        //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(screenRequest.url, component, false)) }
-    }
-
-    @Test
-    fun `GIVEN screen with full path WHEN fetchComponents called SHOULD post ViewState doRender with correct screen id`() {
-        //GIVEN
-        every { beagleSdk.config.baseUrl } returns "http://localhost:2020/"
-
-        val screenRequest = ScreenRequest("http://localhost:2020/test")
-
-        //WHEN
-        beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
-
-        //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender("test", component, false)) }
-    }
-
-    @Test
-    fun `GIIVEN a ScreenComponent WHEN fetchComponent called SHOULD use identifier as screenId on ViewState doRender`() {
-        //Given
-        val screenRequest = ScreenRequest("")
-        val component: ScreenComponent = mockk()
-        val id = "id"
-        val identifier = "identifier"
-
-        every { component.id } returns id
-        every { component.identifier } returns identifier
-
-        //WHEN
-        beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
-
-        //THEN
-        verify(exactly = once()) { observer.onChanged(ViewState.DoRender(identifier, component, true)) }
-
-    }
-
-    @Test
-    fun `GIVEN a NULL FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
-        //Given
-        beagleUIViewModel.fetchComponent = null
-
-        //WHEN
-        val isFetch = beagleUIViewModel.isFetchComponent()
-
-        //THEN
-        assertFalse { isFetch }
-    }
-
-    @Test
-    fun `GIVEN a NULL Job in FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
-        //Given
-        val screenRequest = ScreenRequest("")
-
-        beagleUIViewModel.fetchComponent(screenRequest)
-        beagleUIViewModel.fetchComponent?.job = null
-
-        // When
-        val isFetch = beagleUIViewModel.isFetchComponent()
-
-        //THEN
-        assertFalse { isFetch }
-    }
-
-    @Test
-    fun `GIVEN a Job COMPLETED in FetchComponentLiveData WHEN isFetchComponent called SHOULD return false`() {
-        //Given
-        val screenRequest = ScreenRequest("")
-        val mockJob = Job()
-        mockJob.complete()
-
-        beagleUIViewModel.fetchComponent(screenRequest)
-        beagleUIViewModel.fetchComponent?.job = mockJob
-
-        // When
-        val isFetch = beagleUIViewModel.isFetchComponent()
-
-        //THEN
-        assertFalse { isFetch }
-    }
-
-    @Test
-    fun `GIVEN a Job NOT COMPLETED in FetchComponentLiveData WHEN isFetchComponent called SHOULD post ViewState doCancel and return true`() {
-        //Given
-        val screenRequest = ScreenRequest("")
-        val mockJob = Job()
-
-        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
-        beagleUIViewModel.fetchComponent?.job = mockJob
-
-        // When
-        val isFetch = beagleUIViewModel.isFetchComponent()
-
-        //THEN
-        assertTrue { mockJob.isCancelled }
-        verify(exactly = once()) { observer.onChanged(ViewState.DoCancel) }
-        assertTrue { isFetch }
-    }
-
 }

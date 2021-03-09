@@ -65,6 +65,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var opener: URLOpener
     public var globalContext: GlobalContext
     public var operationsProvider: OperationsProvider
+    
+    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. if you don't want to use logger in the protocol BeagleLoggerType just pass null or configure it in your application")
     public var isLoggingEnabled: Bool
     
     public var logger: BeagleLoggerType {

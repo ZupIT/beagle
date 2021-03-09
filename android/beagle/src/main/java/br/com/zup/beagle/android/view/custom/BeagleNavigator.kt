@@ -24,13 +24,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.networking.HttpAdditionalData
+import br.com.zup.beagle.android.networking.HttpMethod
+import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.removeBaseUrl
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.widget.RootView
-import java.lang.Exception
+import java.net.URI
 
 internal object BeagleNavigator {
 
@@ -48,7 +51,7 @@ internal object BeagleNavigator {
         rootView: RootView,
         route: String,
         data: Map<String, String>?,
-        shouldResetApplication: Boolean
+        shouldResetApplication: Boolean,
     ) {
         BeagleEnvironment.beagleSdk.deepLinkHandler?.getDeepLinkIntent(
             rootView, route, data, shouldResetApplication)?.let {
@@ -65,8 +68,16 @@ internal object BeagleNavigator {
     fun pushView(context: Context, route: Route) {
         if (context is BeagleActivity) {
             when (route) {
-                is Route.Remote -> context.navigateTo(ScreenRequest(route.url.value as String), route.fallback)
-                is Route.Local -> context.navigateTo(ScreenRequest(""), route.screen)
+                is Route.Remote -> context.navigateTo(
+                    createRequestData(route),
+                    route.fallback,
+                )
+                is Route.Local -> context.navigateTo(
+                    RequestData(
+                        URI(""),
+                    ),
+                    route.screen,
+                )
             }
         } else {
             context.startActivity(generateIntent(context, route, null))
@@ -87,9 +98,27 @@ internal object BeagleNavigator {
 
     fun popToView(context: Context, route: String) {
         if (context is AppCompatActivity) {
-            val relativePath = route.removeBaseUrl()
-            context.supportFragmentManager.popBackStack(relativePath, 0)
+            context.supportFragmentManager.popBackStack(getFragmentName(route, context), 0)
         }
+    }
+
+    private fun getFragmentName(route: String, context: AppCompatActivity): String {
+        var fragmentName = route
+        val urlBuilder = UrlBuilderFactory().make()
+        val baseUrl = BeagleEnvironment.beagleSdk.config.baseUrl
+        val routeFormatted = urlBuilder.format(baseUrl, route)
+        for (index in 0 until context.supportFragmentManager.backStackEntryCount) {
+            val backStackEntryName = context.supportFragmentManager.getBackStackEntryAt(index).name
+            var nameFormatted: String? = null
+            backStackEntryName?.let {
+                nameFormatted = urlBuilder.format(baseUrl, it)
+            }
+            if (nameFormatted != null && nameFormatted == routeFormatted) {
+                fragmentName = backStackEntryName as String
+                break
+            }
+        }
+        return fragmentName
     }
 
     fun pushStack(context: Context, route: Route, controllerName: String?) {
@@ -111,9 +140,14 @@ internal object BeagleNavigator {
         val bundle = when (route) {
             is Route.Remote -> {
                 if (route.fallback != null) {
-                    BeagleActivity.bundleOf(ScreenRequest(route.url.value as String), route.fallback)
+                    BeagleActivity.bundleOf(
+                        createRequestData(route),
+                        route.fallback,
+                    )
                 } else {
-                    BeagleActivity.bundleOf(ScreenRequest(route.url.value as String))
+                    BeagleActivity.bundleOf(
+                        createRequestData(route),
+                    )
                 }
             }
             is Route.Local -> BeagleActivity.bundleOf(route.screen)
@@ -125,4 +159,18 @@ internal object BeagleNavigator {
             putExtras(bundle)
         }
     }
+
+    private fun createRequestData(route: Route.Remote): RequestData {
+        val httpAdditionalData = route.httpAdditionalData ?: HttpAdditionalData()
+        val url = (route.url.value as String).formatUrl()
+        return RequestData(
+            url = url,
+            method = httpAdditionalData.method ?: HttpMethod.GET,
+            body = httpAdditionalData.body,
+            headers = httpAdditionalData.headers ?: hashMapOf(),
+            httpAdditionalData = httpAdditionalData,
+            uri = URI(url),
+        )
+    }
+
 }

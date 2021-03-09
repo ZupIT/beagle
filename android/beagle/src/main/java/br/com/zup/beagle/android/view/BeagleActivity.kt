@@ -32,13 +32,16 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.utils.toComponent
+import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import kotlinx.android.parcel.Parcelize
+import java.net.URI
 
 sealed class ServerDrivenState {
 
@@ -82,12 +85,16 @@ sealed class ServerDrivenState {
 /**
  * ScreenRequest is used to do requests.
  *
- * @param url  Server URL.
+ * @param url Server URL.
  * @param method HTTP method.
  * @param headers Header items for the request.
- * @param body Content that will be deliver with the request.
+ * @param body Content that will be delivered with the request.
  */
 @Parcelize
+@Deprecated(
+    message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
+        "Use class RequestData.", replaceWith = ReplaceWith("RequestData()")
+)
 data class ScreenRequest(
     val url: String,
     val method: ScreenMethod = ScreenMethod.GET,
@@ -99,6 +106,10 @@ data class ScreenRequest(
  * Screen method to indicate the desired action to be performed for a given resource.
  *
  */
+
+@Deprecated(
+    message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
+        "Use field HttpMethod.")
 enum class ScreenMethod {
     /**
      * The GET method requests a representation of the specified resource. Requests using GET should only retrieve
@@ -140,7 +151,7 @@ private const val FIRST_SCREEN_KEY = "FIRST_SCREEN_KEY"
 abstract class BeagleActivity : AppCompatActivity() {
 
     private val screenViewModel by lazy { ViewModelProvider(this).get(BeagleScreenViewModel::class.java) }
-    private val screenRequest by lazy { intent.extras?.getParcelable<ScreenRequest>(FIRST_SCREEN_REQUEST_KEY) }
+    private val screenRequest by lazy { intent.extras?.getParcelable<RequestData>(FIRST_SCREEN_REQUEST_KEY) }
     private val screen by lazy { intent.extras?.getString(FIRST_SCREEN_KEY) }
 
     companion object {
@@ -179,12 +190,12 @@ abstract class BeagleActivity : AppCompatActivity() {
             )
         )
         fun newIntent(context: Context, screenRequest: ScreenRequest): Intent {
-            return newIntent(context, screenRequest, null)
+            return newIntent(context, screenRequest.toRequestData(), null)
         }
 
         internal fun newIntent(
             context: Context,
-            screenRequest: ScreenRequest? = null,
+            screenRequest: RequestData? = null,
             screen: Screen? = null,
         ): Intent {
             return newIntent(context).apply {
@@ -202,15 +213,42 @@ abstract class BeagleActivity : AppCompatActivity() {
             return Intent(context, activityClass)
         }
 
+        @Deprecated(
+            message = "It was deprecated in version 1.7.0 and will be removed in a future version." +
+                " To create a intent of your sub-class of BeagleActivity use Context.newServerDrivenIntent instead.",
+            replaceWith = ReplaceWith(
+                "bundleOf(requestData)"
+            )
+        )
         fun bundleOf(screenRequest: ScreenRequest): Bundle {
             return Bundle(1).apply {
-                putParcelable(FIRST_SCREEN_REQUEST_KEY, screenRequest)
+                putParcelable(FIRST_SCREEN_REQUEST_KEY, screenRequest.toRequestData())
             }
         }
 
+        fun bundleOf(requestData: RequestData): Bundle {
+            return Bundle(1).apply {
+                putParcelable(FIRST_SCREEN_REQUEST_KEY, requestData)
+            }
+        }
+
+        @Deprecated(
+            message = "It was deprecated in version 1.7.0 and will be removed in a future version." +
+                " To create a intent of your sub-class of BeagleActivity use Context.newServerDrivenIntent instead.",
+            replaceWith = ReplaceWith(
+                "bundleOf(requestData, fallbackScreen)"
+            )
+        )
         fun bundleOf(screenRequest: ScreenRequest, fallbackScreen: Screen): Bundle {
             return Bundle(2).apply {
-                putParcelable(FIRST_SCREEN_REQUEST_KEY, screenRequest)
+                putParcelable(FIRST_SCREEN_REQUEST_KEY, screenRequest.toRequestData())
+                putAll(bundleOf(fallbackScreen))
+            }
+        }
+
+        fun bundleOf(requestData: RequestData, fallbackScreen: Screen): Bundle {
+            return Bundle(2).apply {
+                putParcelable(FIRST_SCREEN_REQUEST_KEY, requestData)
                 putAll(bundleOf(fallbackScreen))
             }
         }
@@ -272,7 +310,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         if (supportFragmentManager.fragments.size == 0) {
             screen?.let { screen ->
                 fetch(
-                    ScreenRequest(""),
+                    RequestData(uri = URI.create("")),
                     beagleSerializer.deserializeComponent(screen)
                 )
             } ?: run {
@@ -295,17 +333,17 @@ abstract class BeagleActivity : AppCompatActivity() {
 
     fun hasServerDrivenScreen(): Boolean = supportFragmentManager.backStackEntryCount > 0
 
-    fun navigateTo(screenRequest: ScreenRequest, screen: Screen?) {
-        fetch(screenRequest, screen?.toComponent())
+    internal fun navigateTo(requestData: RequestData, screen: Screen?) {
+        fetch(requestData, screen?.toComponent())
     }
 
-    private fun fetch(screenRequest: ScreenRequest, screenComponent: ServerDrivenComponent? = null) {
-        val liveData = screenViewModel.fetchComponent(screenRequest, screenComponent)
+    private fun fetch(requestData: RequestData, screenComponent: ServerDrivenComponent? = null) {
+        val liveData = screenViewModel.fetchComponent(requestData, screenComponent)
         handleLiveData(liveData)
     }
 
     private fun handleLiveData(state: LiveData<ViewState>) {
-        state.observe(this, Observer {
+        state.observe(this, {
             when (it) {
                 is ViewState.Error -> {
                     onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable, it.retry))
@@ -325,13 +363,13 @@ abstract class BeagleActivity : AppCompatActivity() {
                 }
 
                 is ViewState.DoRender -> {
-                    showScreen(it.screenId, it.component, it.isLocalScreen)
+                    showScreen(it.screenId, it.component)
                 }
             }
         })
     }
 
-    private fun showScreen(screenName: String?, component: ServerDrivenComponent, isLocalScreen: Boolean) {
+    private fun showScreen(screenName: String?, component: ServerDrivenComponent) {
         val transition = getFragmentTransitionAnimation()
         supportFragmentManager
             .beginTransaction()
@@ -341,7 +379,7 @@ abstract class BeagleActivity : AppCompatActivity() {
                 transition.popEnter,
                 transition.popExit
             )
-            .replace(getServerDrivenContainerId(), BeagleFragment.newInstance(component, isLocalScreen, screenName))
+            .replace(getServerDrivenContainerId(), BeagleFragment.newInstance(component, screenName))
             .addToBackStack(screenName)
             .commit()
     }

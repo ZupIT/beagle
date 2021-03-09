@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/beagle_remote_view.dart';
+import 'package:beagle/beagle.dart';
 import 'package:flutter/material.dart';
 
 class BeagleSampleScreen extends StatefulWidget {
@@ -46,7 +46,9 @@ class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: BeagleRemoteView(route: widget.route),
+        body: BeagleWidget(
+          screenRequest: BeagleScreenRequest(widget.route)
+        ),
       ),
     );
   }

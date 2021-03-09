@@ -16,21 +16,26 @@
  */
 
 import 'package:beagle/beagle.dart';
-import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_view.dart';
-import 'package:beagle/interface/global_context.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
-import 'package:beagle/interface/storage.dart';
 import 'package:beagle/model/beagle_action.dart';
-import 'package:beagle/model/network_options.dart';
-import 'package:beagle/model/network_strategy.dart';
+import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:flutter/widgets.dart';
 
+///TODO: NEEDS ADD DOCUMENTATION
 typedef ComponentBuilder = Widget Function(
     BeagleUIElement element, List<Widget> children, BeagleView view);
-typedef ActionHandler = void Function(
-    {BeagleAction action, BeagleView view, BeagleUIElement element});
+
+///TODO: NEEDS ADD DOCUMENTATION
+typedef ActionHandler = void Function({
+  BeagleAction action,
+  BeagleView view,
+  BeagleUIElement element,
+  BuildContext context,
+});
+
+typedef Operation = void Function(List<dynamic> args);
 
 abstract class BeagleService {
   /// URL to the backend providing the views (JSON) for Beagle.
@@ -48,11 +53,6 @@ abstract class BeagleService {
   /// `custom:`.
   Map<String, ComponentBuilder> components;
 
-  /// The persistent storage to store everything Beagle needs across multiple executions of the
-  /// application. e.g. caching views. When not specified the DefaultStorage is used. The Default
-  /// Storage uses the lib "SharedPreferences" to persist data.
-  Storage storage;
-
   /// Wether or not to send specific beagle headers in the requests to fetch a view. Default is
   /// true.
   bool useBeagleHeaders;
@@ -63,18 +63,21 @@ abstract class BeagleService {
 
   /// The default cache strategy for fetching views from the backend. By default uses
   /// `beagle-with-fallback-to-cache`.
-  NetworkStrategy strategy;
+  BeagleNetworkStrategy strategy;
 
   /// Options for the visual feedback when navigating from a view to another. To set the default
   /// options, use `default: true` in the navigation controller.
   Map<String, NavigationController> navigationControllers;
 
-  /// Access to the Global Context API. Use it to set persistent values that can be retrieved and
-  /// manipulated by the view rendered by Beagle.
-  GlobalContext globalContext;
-
-  /// Helper to build urls relative to the baseUrl
-  UrlBuilder urlBuilder;
+  /*
+   * The map of custom operations that can be used to extend the capability of the Beagle expressions and are called like functions, 
+   * e.g. `@{sum(1, 2)}`.
+   * The keys of this object represent the operation name and the values must be the functions themselves. 
+   * An operation name must contain only letters, numbers and the character _, 
+   * it also must contain at least one letter or _.
+   * Note: If you create custom operations using the same name of a default from Beagle, the default will be overwritten by the custom one
+   */
+  Map<String, Operation> customOperations;
 
   // todo:
   /*Analytics analytics;
@@ -86,13 +89,4 @@ abstract class BeagleService {
 
   /// Starts the Beagle Service.
   Future<void> start();
-
-  /// Creates a new Beagle View. There are two optional parameters: the [networkOptions] and the
-  /// [initialControllerId]. The first one sets network options for every view requested by this
-  /// Beagle View (headers, http method and cache strategy). If nothing is specied, the default
-  /// network options are used (beagle headers, get and beagle-with-fallback-to-cache). The
-  /// [initialControllerId] is the id of the navigation controller for the first navigation stack.
-  /// If not specified, the default navigation controller is used.
-  BeagleView createView(
-      {NetworkOptions networkOptions, String initialControllerId});
 }

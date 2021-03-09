@@ -20,6 +20,7 @@ import android.view.View
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
@@ -191,22 +192,26 @@ sealed class Route {
      * @param url attribute that contains the navigation endpoint.
      * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
      * @param fallback screen that is rendered in case the request fails.
+     * @param httpAdditionalData additional parameters to request
      */
     @BeagleJson
     data class Remote constructor(
         val url: Bind<String>,
         val shouldPrefetch: Boolean = false,
         val fallback: Screen? = null,
+        val httpAdditionalData: HttpAdditionalData? = null,
     ) : Route() {
 
         constructor(
             url: String,
             shouldPrefetch: Boolean = false,
             fallback: Screen? = null,
+            httpAdditionalData: HttpAdditionalData? = null,
         ) : this(
             expressionOrValueOf(url),
             shouldPrefetch,
-            fallback
+            fallback,
+            httpAdditionalData
         )
     }
 

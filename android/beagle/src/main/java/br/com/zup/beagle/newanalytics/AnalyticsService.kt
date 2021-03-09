@@ -18,19 +18,10 @@ package br.com.zup.beagle.newanalytics
 
 import android.view.View
 import br.com.zup.beagle.android.action.AnalyticsAction
-import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.RootView
-import java.util.Queue
-import java.util.concurrent.ConcurrentLinkedQueue
-import java.util.concurrent.atomic.AtomicBoolean
 
 internal object AnalyticsService {
-
-    private val queueOfReportsWaitingConfig: Queue<DataReport> = ConcurrentLinkedQueue()
-    private val isQueueReported = AtomicBoolean(false)
-
-    private fun queueIsNotEmpty() = !queueOfReportsWaitingConfig.isEmpty()
 
     fun createActionRecord(
         rootView: RootView,
@@ -44,77 +35,33 @@ internal object AnalyticsService {
             }
         }
         val analyticsProvider = BeagleEnvironment.beagleSdk.analyticsProvider
-        analyticsProvider?.let {
+        analyticsProvider?.getConfig()?.let {
             val dataActionReport = ActionReportFactory.generateDataActionReport(
                 rootView,
                 origin,
                 action,
                 analyticsValue
             )
-            reportData(dataActionReport, it)
+            reportData(dataActionReport, analyticsProvider, it)
         }
     }
 
-    fun createScreenRecord(isLocalScreen: Boolean, screenIdentifier: String) {
+    fun createScreenRecord(screenIdentifier: String) {
         val analyticsProvider: AnalyticsProvider? = BeagleEnvironment.beagleSdk.analyticsProvider
-        analyticsProvider?.let {
-            val dataScreenReport = DataScreenReport(isLocalScreen, screenIdentifier)
-            reportData(dataScreenReport, it)
+        analyticsProvider?.getConfig()?.let {
+            val dataScreenReport = DataScreenReport(screenIdentifier)
+            reportData(dataScreenReport, analyticsProvider, it)
         }
     }
 
-    private fun reportData(dataReport: DataReport, analyticsProvider: AnalyticsProvider) {
-        val analyticsConfig = analyticsProvider.getConfig()
-        val queueSize = analyticsProvider.getMaximumItemsInQueue()
-        if (analyticsConfig == null) {
-            reportWithConfigNull(dataReport, queueSize)
-        } else {
-            reportWithConfigNotNull(dataReport, analyticsConfig, analyticsProvider)
-        }
-    }
-
-    private fun reportWithConfigNull(dataReport: DataReport, queueSize: Int) {
-        addReportOnQueue(dataReport, queueSize)
-        isQueueReported.set(false)
-    }
-
-    private fun addReportOnQueue(dataReport: DataReport, queueSize: Int) {
-        if (isNotQueueFull(queueSize)) {
-            queueOfReportsWaitingConfig.add(dataReport)
-        } else {
-            addItemOnFullQueue(dataReport, queueSize)
-        }
-    }
-
-    private fun isNotQueueFull(queueSize: Int) = queueOfReportsWaitingConfig.size < queueSize
-
-    private fun addItemOnFullQueue(dataReport: DataReport, queueSize: Int) {
-        BeagleMessageLogs.analyticsQueueIsFull(queueSize)
-        queueOfReportsWaitingConfig.remove()
-        queueOfReportsWaitingConfig.add(dataReport)
-    }
-
-    private fun reportWithConfigNotNull(
-        dataReport: DataReport,
-        analyticsConfig: AnalyticsConfig,
-        analyticsProvider: AnalyticsProvider,
+    private fun reportData(
+        dataReport: DataReport, 
+        analyticsProvider: AnalyticsProvider, 
+        analyticsConfig: AnalyticsConfig
     ) {
         val report = dataReport.report(analyticsConfig)
         report?.let {
             analyticsProvider.createRecord(report)
-        }
-        if (!isQueueReported.get()) {
-            isQueueReported.set(true)
-            reportElementsOnQueue(analyticsConfig, analyticsProvider)
-        }
-    }
-
-    private fun reportElementsOnQueue(analyticsConfig: AnalyticsConfig, analyticsProvider: AnalyticsProvider) {
-        while (queueIsNotEmpty()) {
-            val report = queueOfReportsWaitingConfig.poll()?.report(analyticsConfig)
-            report?.let {
-                analyticsProvider.createRecord(it)
-            }
         }
     }
 }

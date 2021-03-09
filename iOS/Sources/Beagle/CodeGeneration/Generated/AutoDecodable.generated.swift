@@ -359,6 +359,7 @@ extension SimpleForm {
     enum CodingKeys: String, CodingKey {
         case context
         case onSubmit
+        case onValidationError
         case children
     }
 
@@ -367,6 +368,7 @@ extension SimpleForm {
 
         context = try container.decodeIfPresent(Context.self, forKey: .context)
         onSubmit = try container.decodeIfPresent(forKey: .onSubmit)
+        onValidationError = try container.decodeIfPresent(forKey: .onValidationError)
         children = try container.decode(forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
     }
@@ -427,6 +429,9 @@ extension TextInput {
         case onChange
         case onBlur
         case onFocus
+        case error
+        case showError
+        case enabled
     }
 
     public init(from decoder: Decoder) throws {
@@ -435,6 +440,7 @@ extension TextInput {
         value = try container.decodeIfPresent(Expression<String>.self, forKey: .value)
         placeholder = try container.decodeIfPresent(Expression<String>.self, forKey: .placeholder)
         disabled = try container.decodeIfPresent(Expression<Bool>.self, forKey: .disabled)
+        enabled = try container.decodeIfPresent(Expression<Bool>.self, forKey: .enabled)
         readOnly = try container.decodeIfPresent(Expression<Bool>.self, forKey: .readOnly)
         type = try container.decodeIfPresent(Expression<TextInputType>.self, forKey: .type)
         hidden = try container.decodeIfPresent(Expression<Bool>.self, forKey: .hidden)
@@ -442,6 +448,8 @@ extension TextInput {
         onChange = try container.decodeIfPresent(forKey: .onChange)
         onBlur = try container.decodeIfPresent(forKey: .onBlur)
         onFocus = try container.decodeIfPresent(forKey: .onFocus)
+        error = try container.decodeIfPresent(Expression<String>.self, forKey: .error)
+        showError = try container.decodeIfPresent(Expression<Bool>.self, forKey: .showError)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }

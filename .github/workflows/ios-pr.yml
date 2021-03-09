@@ -19,6 +19,8 @@ jobs:
         steps:
             -   name: Checkout repo
                 uses: actions/checkout@v2
+                with:
+                    fetch-depth: 10 # increase this number when in a PR with many commits
 
             # Gems for Fastlane
             -   name: Cache ruby gems dependencies

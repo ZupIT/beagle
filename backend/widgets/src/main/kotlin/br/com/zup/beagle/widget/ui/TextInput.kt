@@ -45,28 +45,92 @@ import br.com.zup.beagle.widget.form.InputWidget
  * @param onChange Actions array that this field can trigger when its value is altered.
  * @param onFocus Actions array that this field can trigger when this field is on focus.
  * @param onBlur Action array that this field can trigger when its focus is removed
+ * @param enabled Enables or disables the field.
  */
 data class TextInput(
     val value: Bind<String>? = null,
     val placeholder: Bind<String>? = null,
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+        " Use field enabled to control is enabled or not in this layout.")
     val disabled: Bind<Boolean>? = null,
     val readOnly: Bind<Boolean>? = null,
     val type: Bind<TextInputType>? = null,
+    @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version." +
+        " Use field display to control visibility.")
     val hidden: Bind<Boolean>? = null,
     val error: Bind<String>? = null,
     val showError: Bind<Boolean>? = null,
     val styleId: String? = null,
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
-    val onBlur: List<Action>? = null
+    val onBlur: List<Action>? = null,
+    val enabled: Bind<Boolean>? = null,
 ) : InputWidget() {
+
+    constructor(
+        value: String? = null,
+        placeholder: String? = null,
+        readOnly: Boolean? = null,
+        type: TextInputType? = null,
+        error: String? = null,
+        showError: Boolean? = null,
+        styleId: String? = null,
+        onChange: List<Action>? = null,
+        onFocus: List<Action>? = null,
+        onBlur: List<Action>? = null,
+        enabled: Boolean? = null
+    ) : this(
+        value = valueOfNullable(value),
+        placeholder = valueOfNullable(placeholder),
+        readOnly = valueOfNullable(readOnly),
+        type = valueOfNullable(type),
+        error = valueOfNullable(error),
+        showError = valueOfNullable(showError),
+        styleId = styleId,
+        onChange = onChange,
+        onFocus = onFocus,
+        onBlur = onBlur,
+        enabled = valueOfNullable(enabled)
+    )
+
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version. " +
+        "Use field enabled to control layout.")
+    constructor(
+        value: String? = null,
+        placeholder: String? = null,
+        disabled: Boolean,
+        readOnly: Boolean? = null,
+        type: TextInputType? = null,
+        error: String? = null,
+        showError: Boolean? = null,
+        styleId: String? = null,
+        onChange: List<Action>? = null,
+        onFocus: List<Action>? = null,
+        onBlur: List<Action>? = null
+    ) : this(
+        value = valueOfNullable(value),
+        placeholder = valueOfNullable(placeholder),
+        disabled = valueOfNullable(disabled),
+        readOnly = valueOfNullable(readOnly),
+        hidden = null,
+        type = valueOfNullable(type),
+        error = valueOfNullable(error),
+        showError = valueOfNullable(showError),
+        styleId = styleId,
+        onChange = onChange,
+        onFocus = onFocus,
+        onBlur = onBlur
+    )
+
+    @Deprecated("It was deprecated in version 1.6.0 and will be removed in a future version. " +
+        "Use field display to control visibility.")
     constructor(
         value: String? = null,
         placeholder: String? = null,
         disabled: Boolean? = null,
         readOnly: Boolean? = null,
         type: TextInputType? = null,
-        hidden: Boolean? = null,
+        hidden: Boolean,
         error: String? = null,
         showError: Boolean? = null,
         styleId: String? = null,

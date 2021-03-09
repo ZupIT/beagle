@@ -22,34 +22,44 @@ import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
-import 'package:beagle/model/network_options.dart';
+import 'package:beagle/networking/beagle_network_options.dart';
 
+/// Creates a new Beagle View. There are two optional parameters: the networkOptions and the
+/// initialControllerId. The first one sets network options for every view requested by this
+/// Beagle View (headers, http method and cache strategy). If nothing is specified, the default
+/// network options are used (beagle headers, get and beagle-with-fallback-to-cache). The
+/// initialControllerId is the id of the navigation controller for the first navigation stack.
+/// If not specified, the default navigation controller is used.
 class BeagleViewJS implements BeagleView {
   BeagleViewJS(
-      {
-      // ignore: avoid_unused_constructor_parameters
-      NetworkOptions networkOptions,
-      // ignore: avoid_unused_constructor_parameters
-      String initialControllerId}) {
-    _id = BeagleJSEngine.createBeagleView();
+    this._beagleJSEngine, {
+    BeagleNetworkOptions networkOptions,
+    String initialControllerId,
+  }) {
+    _id = _beagleJSEngine.createBeagleView(
+      networkOptions: networkOptions,
+      initialControllerId: initialControllerId,
+    );
     BeagleViewJS.views[_id] = this;
-    _navigator = BeagleNavigatorJS(_id);
-    _renderer = RendererJS(_id);
+    _navigator = BeagleNavigatorJS(_beagleJSEngine, _id);
+    _renderer = RendererJS(_beagleJSEngine, _id);
   }
 
   String _id;
   BeagleNavigatorJS _navigator;
   Renderer _renderer;
   static Map<String, BeagleViewJS> views = {};
+  final BeagleJSEngine _beagleJSEngine;
 
   @override
   void Function() addErrorListener(ViewErrorListener listener) {
-    return BeagleJSEngine.onViewUpdateError(_id, listener);
+    return _beagleJSEngine.onViewUpdateError(_id, listener);
   }
 
   @override
   void destroy() {
-    BeagleJSEngine.removeViewListeners(_id);
+    _beagleJSEngine.removeViewListeners(_id);
+    views.remove(_id);
   }
 
   @override
@@ -64,14 +74,19 @@ class BeagleViewJS implements BeagleView {
 
   @override
   BeagleUIElement getTree() {
-    final result = BeagleJSEngine.js
-        .evaluate("global.beagle.getViewById('$_id').getTree()")
+    final result = _beagleJSEngine
+        .evaluateJavascriptCode("global.beagle.getViewById('$_id').getTree()")
         .rawResult;
     return BeagleUIElement(result);
   }
 
   @override
   void Function() subscribe(ViewUpdateListener listener) {
-    return BeagleJSEngine.onViewUpdate(_id, listener);
+    return _beagleJSEngine.onViewUpdate(_id, listener);
+  }
+
+  @override
+  void Function() onAction(ActionListener listener) {
+    return _beagleJSEngine.onAction(_id, listener);
   }
 }

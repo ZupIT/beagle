@@ -15,7 +15,7 @@
  */
 
 /// Action to represent a condition
-public struct Condition: Action, AutoInitiableAndDecodable {
+public struct Condition: AnalyticsAction, AutoInitiableAndDecodable {
     
     public let condition: Expression<Bool>
     public let onTrue: [Action]?

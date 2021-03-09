@@ -127,6 +127,17 @@ final class ExpressionTests: XCTestCase {
         }
     }
     
+    func testContextExpression() {
+        // Given
+        let data = ["@{expression}", "@{expression} + string", "string"]
+        
+        // When
+        let result = data.map { ContextExpression(rawValue: $0) }
+            
+        // Then
+        assertSnapshot(matching: result, as: .dump)
+    }
+    
     func testDictionarySnapShot() throws {
         guard let url = Bundle(for: ComponentDecoderTests.self).url(
             forResource: "testDictionarySnapShot",
@@ -141,29 +152,37 @@ final class ExpressionTests: XCTestCase {
         assertSnapshot(matching: result, as: .dump)
     }
     
-    func testEquatable() {
+    func testEquatableForValues() throws {
         // Given
-        let valueA = Expression.value(1)
-        let valueB = Expression.value(1)
-        let valueC = Expression.value(-1)
-        let singleExpression = SingleExpression.value(
-            .binding(.init(context: "ctx", path: .init(nodes: [])))
+        // expression with just values
+        let value1 = Expression.value(1)
+        let anotherValue1 = Expression.value(1)
+        let valueMinus1 = Expression.value(-1)
+        let notValue: Expression<Int> = "@{1}"
+
+        // Then
+        XCTAssert(value1 == anotherValue1)
+        XCTAssert(value1 != valueMinus1)
+        XCTAssert(notValue != value1)
+        XCTAssert(notValue != valueMinus1)
+    }
+
+    func testEquatableForSingleAndMultiple() throws {
+        // Given
+        let common = try XCTUnwrap(SingleExpression(rawValue: "@{ctx}"))
+        let single = Expression<Int>.expression(
+            .single(common)
         )
-        
-        let expressionA = Expression<Int>.expression(.single(singleExpression))
-        let expressionB = expressionA
-        let expressionC = Expression<Int>.expression(
-            .multiple(.init(nodes: [.expression(singleExpression)]))
+        let multiple = Expression<Int>.expression(
+            .multiple(.init(nodes: [.expression(common)]))
         )
-        
-        // When / Then
-        XCTAssertTrue(valueA == valueB)
-        XCTAssertTrue(expressionA == expressionB)
-        
-        XCTAssertFalse(valueA == valueC)
-        XCTAssertFalse(expressionA == expressionC)
-        
-        XCTAssertFalse(valueA == expressionA)
-        XCTAssertFalse(expressionC == valueC)
+
+        // Then
+        // even when they have different structure (single and multiple), their result will be equal
+        XCTAssert(single == multiple)
+
+        // copy works as well
+        let copy = single
+        XCTAssert(copy == single)
     }
 }

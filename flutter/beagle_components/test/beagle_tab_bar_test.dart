@@ -23,7 +23,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockDesignSystem extends Mock implements DesignSystem {}
+import 'service_locator/service_locator.dart';
+
+class MockDesignSystem extends Mock implements BeagleDesignSystem {}
 
 void main() {
   final designSystemMock = MockDesignSystem();
@@ -36,18 +38,21 @@ void main() {
     TabBarItem('Tab 3', LocalImagePath('')),
   ];
 
-  Widget createWidget({
+  Future<Widget> createWidget({
     Key key = tabBarKey,
-    DesignSystem designSystem,
+    BeagleDesignSystem designSystem,
     List<TabBarItem> items = const [],
     int currentTab = 0,
     Function onTabSelection,
-  }) {
+  }) async {
+    await testSetupServiceLocator(
+      designSystem: designSystem,
+    );
+
     return MaterialApp(
       home: Scaffold(
         body: BeagleTabBar(
           key: tabBarKey,
-          designSystem: designSystem,
           items: items,
           currentTab: currentTab,
           onTabSelection: onTabSelection,
@@ -62,7 +67,7 @@ void main() {
     group('When the platform is android', () {
       testWidgets('Then it should have a TabBar child',
           (WidgetTester tester) async {
-        await tester.pumpWidget(createWidget());
+        await tester.pumpWidget(await createWidget());
 
         final tabBarFinder = find.byType(TabBar);
 
@@ -71,7 +76,7 @@ void main() {
 
       testWidgets('Then it should have the correct number of Tabs',
           (WidgetTester tester) async {
-        await tester.pumpWidget(createWidget(items: tabBarItems));
+        await tester.pumpWidget(await createWidget(items: tabBarItems));
 
         final tabFinder = find.byType(Tab);
 
@@ -83,7 +88,7 @@ void main() {
       testWidgets('Then it should have a CupertinoTabBar child',
           (WidgetTester tester) async {
         debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-        await tester.pumpWidget(createWidget(
+        await tester.pumpWidget(await createWidget(
           designSystem: designSystemMock,
           items: tabBarItems,
         ));
@@ -97,8 +102,8 @@ void main() {
       testWidgets('Then it should have correct number of tabs',
           (WidgetTester tester) async {
         debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-        await tester.pumpWidget(
-            createWidget(designSystem: designSystemMock, items: tabBarItems));
+        await tester.pumpWidget(await createWidget(
+            designSystem: designSystemMock, items: tabBarItems));
 
         // CupertinoTabBar does not have a specific Widget to define a tab item
         // so, we are checking for the quantity of Text widgets
@@ -113,7 +118,7 @@ void main() {
     group('When it has tabs', () {
       testWidgets('Then it should show correct tabs text',
           (WidgetTester tester) async {
-        await tester.pumpWidget(createWidget(items: tabBarItems));
+        await tester.pumpWidget(await createWidget(items: tabBarItems));
 
         final textFinderTab1 = find.text('Tab 1');
         expect(textFinderTab1, findsOneWidget);
@@ -132,7 +137,7 @@ void main() {
           log.add(0);
         }
 
-        await tester.pumpWidget(createWidget(
+        await tester.pumpWidget(await createWidget(
           items: tabBarItems,
           onTabSelection: onTabSelection,
         ));
@@ -164,7 +169,7 @@ void main() {
           currentTab = map['value'];
         }
 
-        final widget = createWidget(
+        final widget = await createWidget(
           items: tabBarItems,
           onTabSelection: onTabSelection,
         );

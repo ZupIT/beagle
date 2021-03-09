@@ -16,14 +16,24 @@
  */
 
 import 'package:beagle/action/beagle_alert.dart';
+import 'package:beagle/action/beagle_open_native_route.dart';
+import 'package:beagle/action/beagle_open_external_url.dart';
 import 'package:beagle/interface/beagle_service.dart';
 
 final Map<String, ActionHandler> defaultActions = {
-  'beagle:alert': ({action, view, element}) {
+  'beagle:alert': ({action, view, element, context}) {
     BeagleAlert.showAlertDialog(
+      context,
       message: action.getAttributeValue('message'),
       onPressOk: action.getAttributeValue('onPressOk', () {}),
       title: action.getAttributeValue('title', 'Alert'),
     );
+  },
+  'beagle:openNativeRoute': ({action, view, element, context}) {
+    BeagleOpenNativeRoute()
+        .navigate(context, action.getAttributeValue('route'));
+  },
+  'beagle:openExternalURL': ({action, view, element, context}) {
+    BeagleOpenExternalUrl.launchURL(action.getAttributeValue('url'));
   }
 };

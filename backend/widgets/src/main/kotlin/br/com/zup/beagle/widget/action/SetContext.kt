@@ -30,4 +30,4 @@ data class SetContext(
     val value: Any,
     val path: String? = null,
     override var analytics: ActionAnalyticsConfig? = null
-) : ActionAnalytics()
+) : AnalyticsAction

@@ -133,7 +133,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.values?.get("component"))
+            Assert.assertEquals(componentReport, report.component)
         }
 
         @Test
@@ -150,7 +150,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.values?.get("component"))
+            Assert.assertEquals(componentReport, report.component)
         }
 
         @Test
@@ -165,7 +165,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             val report = reportDataAction(dataActionReport)
 
             //Then
-            Assert.assertEquals(componentReport, report.values?.get("component"))
+            Assert.assertEquals(componentReport, report.component)
         }
 
         private fun generateComponentReport() = hashMapOf<String, Any>(
@@ -215,8 +215,8 @@ internal class ActionReportFactoryTest : BaseTest() {
 
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(route, report.values?.get("route"))
-            assertTrue(report.values?.get("additionalEntries") as Boolean)
+            Assert.assertEquals(route, report.attributes?.get("route"))
+            assertTrue(report.additionalEntries?.get("additionalEntries") as Boolean)
         }
 
         @Test
@@ -235,8 +235,8 @@ internal class ActionReportFactoryTest : BaseTest() {
 
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(url, report.values?.get(ROUTE_URL_CONSTANT))
-            Assert.assertEquals(false, report.values?.get(ROUTE_SHOULD_PREFETCH_CONSTANT))
+            Assert.assertEquals(url, report.attributes?.get(ROUTE_URL_CONSTANT))
+            Assert.assertEquals(false, report.attributes?.get(ROUTE_SHOULD_PREFETCH_CONSTANT))
         }
 
         @Test
@@ -255,13 +255,13 @@ internal class ActionReportFactoryTest : BaseTest() {
             print(report)
             //Then
             commonAsserts(report, dataActionReport)
-            Assert.assertEquals(null, report.values?.get("route.a"))
+            Assert.assertEquals(null, report.attributes?.get("route.a"))
         }
 
         private fun commonAsserts(report: AnalyticsRecord, dataReport: DataReport) {
             Assert.assertEquals(dataReport.timestamp, report.timestamp)
-            Assert.assertEquals("onPress", report.values?.get("event"))
-            Assert.assertEquals(actionType, report.values?.get("beagleAction"))
+            Assert.assertEquals("onPress", report.event)
+            Assert.assertEquals(actionType, report.beagleAction)
         }
 
     }

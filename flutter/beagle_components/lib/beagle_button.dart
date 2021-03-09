@@ -15,6 +15,7 @@
  */
 
 import 'package:beagle/model/beagle_button_style.dart';
+import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,14 +30,12 @@ class BeagleButton extends StatelessWidget {
     this.onPress,
     this.enabled,
     this.styleId,
-    DesignSystem designSystem,
-  })  : _designSystem = designSystem,
-        super(key: key);
+  }) : super(key: key);
 
   /// Define the button text content.
   final String text;
 
-  /// References a [BeagleButtonStyle] declared natively and locally in [DesignSystem] 
+  /// References a [BeagleButtonStyle] declared natively and locally in [BeagleDesignSystem]
   /// to be applied to this widget.
   final String styleId;
 
@@ -46,10 +45,8 @@ class BeagleButton extends StatelessWidget {
   /// Whether button will be enabled.
   final bool enabled;
 
-  /// [DesignSystem] that will provide the style referenced by [styleId].
-  final DesignSystem _designSystem;
-
-  BeagleButtonStyle get _buttonStyle => _designSystem?.buttonStyle(styleId);
+  BeagleButtonStyle get _buttonStyle =>
+      beagleServiceLocator<BeagleDesignSystem>()?.buttonStyle(styleId);
 
   @override
   Widget build(BuildContext context) {

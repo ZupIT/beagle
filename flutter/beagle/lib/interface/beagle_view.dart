@@ -15,6 +15,7 @@
  *  limitations under the License.
  */
 
+import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/interface/types.dart';
@@ -44,4 +45,8 @@ abstract class BeagleView {
   /// Destroys the current view. Should be used when the BeagleView won't be used anymore. Avoids
   /// memory leaks and calls to objects that don't exist any longer.
   void destroy();
+
+  /// Subscribes [listener] to every action triggered by the view or its children.
+  /// This method returns a function that, when called, undoes the subscription (removes the listener).
+  RemoveListener onAction(ActionListener listener);
 }

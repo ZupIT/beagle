@@ -1,4 +1,4 @@
-import { BeagleService, BeagleView, BeagleUIElement } from '@zup-it/beagle-web'
+import { BeagleService, BeagleView, BeagleUIElement, NetworkOptions } from '@zup-it/beagle-web'
 import get from 'lodash/get'
 
 export interface JsBridgeBeagleView extends BeagleView {
@@ -31,8 +31,8 @@ function serializeFunctions(value: any, path = '__beagleFn:'): any {
   return value
 }
 
-export function createBeagleView(service: BeagleService) {
-  const view = service.createView() as JsBridgeBeagleView
+export function createBeagleView(service: BeagleService, networkOptions?: NetworkOptions, initialControllerId?: string) {
+  const view = service.createView(networkOptions, initialControllerId) as JsBridgeBeagleView
   view.id = `${nextViewId++}`
   let currentTree: BeagleUIElement | null = null
 

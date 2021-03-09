@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.dp
@@ -42,6 +43,7 @@ import br.com.zup.beagle.android.view.custom.BeagleView
 import br.com.zup.beagle.android.view.custom.OnLoadCompleted
 import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
+import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -127,7 +129,7 @@ class ViewExtensionsKtTest : BaseTest() {
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
         every { viewGroup.context } returns activity
-        every { beagleView.loadView(any()) } just Runs
+        every { beagleView.loadView(any<RequestData>()) } just Runs
         every { activity.getSystemService(Activity.INPUT_METHOD_SERVICE) } returns inputMethodManager
         every { beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
@@ -136,202 +138,226 @@ class ViewExtensionsKtTest : BaseTest() {
 
     }
 
-    @Test
-    fun loadView_should_create_BeagleView_and_call_loadView_with_fragment() {
-        // Given When
-        viewGroup.loadView(fragment, screenRequest, onStateChanged)
+    @DisplayName("When hideKeyboard")
+    @Nested
+    inner class HideKeyboard {
 
-        // Then
-        verifySequence {
-            generateIdViewModel.createIfNotExisting(0)
-            viewFactory.makeBeagleView(any<FragmentRootView>())
-            beagleView.stateChangedListener = any()
-            beagleView.serverStateChangedListener = any()
-            beagleView.loadView(screenRequest)
-            beagleView.loadCompletedListener = any()
-            beagleView.listenerOnViewDetachedFromWindow = any()
+        @DisplayName("Then should call hideSoftInputFromWindow with currentFocus")
+        @Test
+        fun testHideKeyboardShouldCallHideSoftInputFromWindowWithCurrentFocus() {
+            // Given
+            every { activity.currentFocus } returns beagleView
+
+            // When
+            viewGroup.hideKeyboard()
+
+            // Then
+            verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(any(), 0) }
+        }
+
+        @DisplayName("Then should call hideSoftInputFromWindow with created view")
+        @Test
+        fun testHideKeyboardShouldCallHideSoftInputFromWindowWithCreatedView() {
+            // Given
+            every { activity.currentFocus } returns null
+            every { viewExtensionsViewFactory.makeView(activity) } returns beagleView
+
+            // When
+            viewGroup.hideKeyboard()
+
+            // Then
+            verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(any(), 0) }
         }
     }
 
-    @Test
-    fun loadView_should_create_BeagleView_and_call_loadView_with_activity() {
-        // When
-        viewGroup.loadView(activity, screenRequest, onStateChanged)
+    @DisplayName("When applyStroke")
+    @Nested
+    inner class ApplyStroke {
 
-        // Then
-        verify { viewFactory.makeBeagleView(any<ActivityRootView>()) }
-        verify { beagleView.loadView(screenRequest) }
-    }
+        @DisplayName("Then must call setStroke")
+        @Test
+        fun testGivenColorValuesAndBorderSizeWhenApplyStrokeIsCalledThenMustCallSetStroke() {
+            // Given
+            val defaultColor = "#000000"
+            val resultWidth = 5
+            val resultColor = 0
+            val styleWidget = mockk<StyleComponent>()
+            val style = Style(borderWidth = resultWidth.toDouble(), borderColor = defaultColor)
+            val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
 
-    @Test
-    fun `loadView should removeAllViews and addView when load complete`() {
-        // Given
-        val slot = slot<OnLoadCompleted>()
-        every { beagleView.loadCompletedListener = capture(slot) } just Runs
+            every { viewGroup.background } returns gradientDrawable
+            every { styleWidget.style } returns style
+            every { resultWidth.dp() } returns resultWidth
+            every { defaultColor.toAndroidColor() } returns resultColor
 
-        // When
-        viewGroup.loadView(fragment, screenRequest, onStateChanged)
-        slot.captured.invoke()
+            // When
+            viewGroup.applyStroke(styleWidget)
 
-        // Then
-        assertEquals(beagleView, viewSlot.captured)
-        verifyOrder {
-            viewGroup.removeAllViews()
-            viewGroup.addView(beagleView)
+            // Then
+            verify {
+                gradientDrawable.setStroke(resultWidth, resultColor)
+            }
         }
-    }
 
+        @DisplayName("Then should not call setStroke")
+        @Test
+        fun testGivenBorderWidthWithNullValueWhenApplyStrokeIsCalledThenShouldNotCallSetStroke() {
+            // Given
+            val defaultColor = "#000000"
+            val resultWidth = 5
+            val resultColor = 0
+            val styleWidget = mockk<StyleComponent>()
+            val style = Style(borderWidth = null, borderColor = defaultColor)
+            val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
 
-    @Test
-    fun `loadView without state should addView when load complete`() {
-        // Given
-        val slot = slot<OnLoadCompleted>()
-        every { beagleView.loadCompletedListener = capture(slot) } just Runs
+            every { viewGroup.background } returns gradientDrawable
+            every { styleWidget.style } returns style
+            every { defaultColor.toAndroidColor() } returns resultColor
 
-        // When
-        viewGroup.loadView(fragment, screenRequest)
-        slot.captured.invoke()
+            // When
+            viewGroup.applyStroke(styleWidget)
 
-        // Then
-        assertEquals(beagleView, viewSlot.captured)
-        verify(exactly = once()) { viewGroup.addView(beagleView) }
-    }
-
-    @Test
-    fun `loadView should set stateChangedListener to beagleView`() {
-        // Given
-        val slot = slot<OnStateChanged>()
-        every { beagleView.stateChangedListener = capture(slot) } just Runs
-
-        // When
-        viewGroup.loadView(fragment, screenRequest, onStateChanged)
-
-        // Then
-        assertEquals(slot.captured, onStateChanged)
-    }
-
-    @Test
-    fun hideKeyboard_should_call_hideSoftInputFromWindow_with_currentFocus() {
-        // Given
-        every { activity.currentFocus } returns beagleView
-
-        // When
-        viewGroup.hideKeyboard()
-
-        // Then
-        verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(any(), 0) }
-    }
-
-    @Test
-    fun hideKeyboard_should_call_hideSoftInputFromWindow_with_created_view() {
-        // Given
-        every { activity.currentFocus } returns null
-        every { viewExtensionsViewFactory.makeView(activity) } returns beagleView
-
-        // When
-        viewGroup.hideKeyboard()
-
-        // Then
-        verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(any(), 0) }
-    }
-
-    @Test
-    fun `GIVEN color values and border size WHEN applyStroke is called THEN must callsetStroke`() {
-        // Given
-        val defaultColor = "#000000"
-        val resultWidth = 5
-        val resultColor = 0
-        val styleWidget = mockk<StyleComponent>()
-        val style = Style(borderWidth = resultWidth.toDouble(), borderColor = defaultColor)
-        val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
-
-        every { viewGroup.background } returns gradientDrawable
-        every { styleWidget.style } returns style
-        every { resultWidth.dp() } returns resultWidth
-        every { defaultColor.toAndroidColor() } returns resultColor
-
-        // When
-        viewGroup.applyStroke(styleWidget)
-
-        // Then
-        verify {
-            gradientDrawable.setStroke(resultWidth, resultColor)
+            // Then
+            verify(exactly = 0) {
+                gradientDrawable.setStroke(resultWidth, resultColor)
+            }
         }
-    }
 
-    @Test
-    fun `GIVEN borderWidth with null value  WHEN applyStroke is called THEN should not call setStroke`() {
-        // Given
-        val defaultColor = "#000000"
-        val resultWidth = 5
-        val resultColor = 0
-        val styleWidget = mockk<StyleComponent>()
-        val style = Style(borderWidth = null, borderColor = defaultColor)
-        val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
+        @DisplayName("Then should not call setStroke")
+        @Test
+        fun testGivenBorderColorWithNullValueWhenApplyStrokeIsCalledThenShouldNotCallSetStroke() {
+            // Given
+            val resultWidth = 5
+            val resultColor = 0
+            val styleWidget = mockk<StyleComponent>()
+            val style = Style(borderWidth = resultWidth.toDouble(), borderColor = null)
+            val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
 
-        every { viewGroup.background } returns gradientDrawable
-        every { styleWidget.style } returns style
-        every { defaultColor.toAndroidColor() } returns resultColor
+            every { viewGroup.background } returns gradientDrawable
+            every { styleWidget.style } returns style
+            every { resultWidth.dp() } returns resultWidth
 
-        // When
-        viewGroup.applyStroke(styleWidget)
+            // When
+            viewGroup.applyStroke(styleWidget)
 
-        // Then
-        verify(exactly = 0) {
-            gradientDrawable.setStroke(resultWidth, resultColor)
+            // Then
+            verify(exactly = 0) {
+                gradientDrawable.setStroke(resultWidth, resultColor)
+            }
         }
-    }
 
-    @Test
-    fun `GIVEN borderColor with null value  WHEN applyStroke is called THEN should not call setStroke`() {
-        // Given
-        val resultWidth = 5
-        val resultColor = 0
-        val styleWidget = mockk<StyleComponent>()
-        val style = Style(borderWidth = resultWidth.toDouble(), borderColor = null)
-        val gradientDrawable = mockk<GradientDrawable>(relaxUnitFun = true, relaxed = true)
+        @DisplayName("Then create a new instance")
+        @Test
+        fun testGivenBackgroundWithNullValueWhenValueIsNullThenCreateANewInstance() {
+            // Given
+            val defaultColor = "#gf5487"
+            val resultWidth = 5
+            val resultColor = 0
+            val styleWidget = mockk<StyleComponent>()
+            val style = Style(borderWidth = resultWidth.toDouble(), borderColor = defaultColor)
+            mockkConstructor(GradientDrawable::class)
 
-        every { viewGroup.background } returns gradientDrawable
-        every { styleWidget.style } returns style
-        every { resultWidth.dp() } returns resultWidth
+            every { viewGroup.background } returns null
+            every { styleWidget.style } returns style
+            every { resultWidth.dp() } returns resultWidth
+            every { defaultColor.toAndroidColor() } returns resultColor
+            every { anyConstructed<GradientDrawable>().setStroke(resultWidth, resultColor) } just Runs
 
-        // When
-        viewGroup.applyStroke(styleWidget)
+            // When
+            viewGroup.applyStroke(styleWidget)
 
-        // Then
-        verify(exactly = 0) {
-            gradientDrawable.setStroke(resultWidth, resultColor)
-        }
-    }
-
-    @Test
-    fun `GIVEN background with null value  WHEN value is null THEN create a new instance`() {
-        // Given
-        val defaultColor = "#gf5487"
-        val resultWidth = 5
-        val resultColor = 0
-        val styleWidget = mockk<StyleComponent>()
-        val style = Style(borderWidth = resultWidth.toDouble(), borderColor = defaultColor)
-        mockkConstructor(GradientDrawable::class)
-
-        every { viewGroup.background } returns null
-        every { styleWidget.style } returns style
-        every { resultWidth.dp() } returns resultWidth
-        every { defaultColor.toAndroidColor() } returns resultColor
-        every { anyConstructed<GradientDrawable>().setStroke(resultWidth, resultColor) } just Runs
-
-        // When
-        viewGroup.applyStroke(styleWidget)
-
-        // Then
-        verify(exactly = 1) {
-            anyConstructed<GradientDrawable>().setStroke(resultWidth, resultColor)
+            // Then
+            verify(exactly = 1) {
+                anyConstructed<GradientDrawable>().setStroke(resultWidth, resultColor)
+            }
         }
     }
 
     @DisplayName("When load view")
     @Nested
     inner class LoadView {
+
+        @DisplayName("Then should create BeagleView and call loadView with fragment")
+        @Test
+        fun testLoadViewShouldCreateBeagleViewAndCallLoadViewWithFragment() {
+            // Given When
+            viewGroup.loadView(fragment, screenRequest, onStateChanged)
+
+            // Then
+            val requestData = screenRequest.toRequestData()
+            verifySequence {
+                generateIdViewModel.createIfNotExisting(0)
+                viewFactory.makeBeagleView(any<FragmentRootView>())
+                beagleView.stateChangedListener = any()
+                beagleView.serverStateChangedListener = any()
+                beagleView.loadView(requestData)
+                beagleView.loadCompletedListener = any()
+                beagleView.listenerOnViewDetachedFromWindow = any()
+            }
+        }
+
+        @DisplayName("Then should create BeagleView and call loadView with activity")
+        @Test
+        fun testLoadViewShouldCreateBeagleViewAndCallLoadViewWithActivity() {
+            // When
+            viewGroup.loadView(activity, screenRequest, onStateChanged)
+
+            // Then
+            val requestData = screenRequest.toRequestData()
+            verify {
+                viewFactory.makeBeagleView(any<ActivityRootView>())
+                beagleView.loadView(requestData)
+            }
+        }
+
+        @DisplayName("Then should call removeAllViews and call addView when load comples")
+        @Test
+        fun testLoadViewShouldCalRemoveAllViewsAndCallAddViewWhenLoadComplete() {
+            // Given
+            val slot = slot<OnLoadCompleted>()
+            every { beagleView.loadCompletedListener = capture(slot) } just Runs
+
+            // When
+            viewGroup.loadView(fragment, screenRequest, onStateChanged)
+            slot.captured.invoke()
+
+            // Then
+            assertEquals(beagleView, viewSlot.captured)
+            verifyOrder {
+                viewGroup.removeAllViews()
+                viewGroup.addView(beagleView)
+            }
+        }
+
+        @DisplayName("Then should call addView when load complete")
+        @Test
+        fun testLoadViewWwithoutStateShouldAddViewWhenLoadComplete() {
+            // Given
+            val slot = slot<OnLoadCompleted>()
+            every { beagleView.loadCompletedListener = capture(slot) } just Runs
+
+            // When
+            viewGroup.loadView(fragment, screenRequest)
+            slot.captured.invoke()
+
+            // Then
+            assertEquals(beagleView, viewSlot.captured)
+            verify(exactly = once()) { viewGroup.addView(beagleView) }
+        }
+
+        @DisplayName("Then should set stateChangedListener to beagleView")
+        @Test
+        fun testLoadViewShouldSetStateChangedListenerToBeagleView() {
+            // Given
+            val slot = slot<OnStateChanged>()
+            every { beagleView.stateChangedListener = capture(slot) } just Runs
+
+            // When
+            viewGroup.loadView(fragment, screenRequest, onStateChanged)
+
+            // Then
+            assertEquals(slot.captured, onStateChanged)
+        }
 
         @DisplayName("Then should create the rootView with right parameters")
         @Test
@@ -420,7 +446,7 @@ class ViewExtensionsKtTest : BaseTest() {
 
     @DisplayName("When render screen")
     @Nested
-    inner class RenderScreen() {
+    inner class RenderScreen {
         private val json = """{
                 "_beagleComponent_" : "beagle:screenComponent",
                 "child" : {
@@ -436,13 +462,13 @@ class ViewExtensionsKtTest : BaseTest() {
             val beagleFragment: BeagleFragment = mockk()
 
             mockkObject(BeagleFragment)
-            every { BeagleFragment.newInstance(component = any(), any(), any()) } returns beagleFragment
+            every { BeagleFragment.newInstance(component = any(), any()) } returns beagleFragment
 
             //then
-            viewGroup.renderScreen(activity, json, "screenId", false)
+            viewGroup.renderScreen(activity, json, "screenId")
 
             //when
-            verify(exactly = 1) { BeagleFragment.newInstance(component = any(), false, "screenId") }
+            verify(exactly = 1) { BeagleFragment.newInstance(component = any(), "screenId") }
         }
 
         @DisplayName("Then should create the rootView with right parameters")
@@ -451,13 +477,13 @@ class ViewExtensionsKtTest : BaseTest() {
             //given
             val beagleFragment: BeagleFragment = mockk()
             mockkObject(BeagleFragment)
-            every { BeagleFragment.newInstance(component = any(), any(), any()) } returns beagleFragment
+            every { BeagleFragment.newInstance(component = any(), any()) } returns beagleFragment
             every { fragment.requireContext() } returns activity
             //then
-            viewGroup.renderScreen(fragment, json, "screenId", false)
+            viewGroup.renderScreen(fragment, json, "screenId")
 
             //when
-            verify(exactly = 1) { BeagleFragment.newInstance(component = any(), false, "screenId") }
+            verify(exactly = 1) { BeagleFragment.newInstance(component = any(), "screenId") }
         }
     }
 }

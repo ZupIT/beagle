@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:beagle/utils/color.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,7 @@ class BeagleText extends StatelessWidget {
     this.textColor,
     this.alignment,
     this.styleId,
-    DesignSystem designSystem,
-  })  : _designSystem = designSystem,
-        super(key: key);
+  }) : super(key: key);
 
   /// The text to display.
   final String text;
@@ -43,9 +42,6 @@ class BeagleText extends StatelessWidget {
   /// Reference a native style in your local styles file to be applied on this
   /// Text.
   final String styleId;
-
-  /// [DesignSystem] that will provide the style referenced by [styleId].
-  final DesignSystem _designSystem;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +69,8 @@ class BeagleText extends StatelessWidget {
   }
 
   TextStyle getTextStyle() {
-    var textStyle = _designSystem?.textStyle(styleId) ?? const TextStyle();
+    final designSystem = beagleServiceLocator<BeagleDesignSystem>();
+    var textStyle = designSystem?.textStyle(styleId) ?? const TextStyle();
     if (textColor != null && textColor.isNotEmpty) {
       textStyle = textStyle.copyWith(color: getTextColor(textColor));
     }

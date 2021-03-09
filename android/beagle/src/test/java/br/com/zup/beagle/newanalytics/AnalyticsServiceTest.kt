@@ -50,9 +50,7 @@ class AnalyticsServiceTest : BaseTest() {
         mockkConstructor(DataActionReport::class)
         every { rootView.activity } returns mockk()
         mockkObject(BeagleMessageLogs)
-        every { BeagleMessageLogs.analyticsQueueIsFull(any()) } just Runs
         every { beagleSdk.analyticsProvider } returns analyticsProvider
-        every { analyticsProvider.getMaximumItemsInQueue() } returns 5
         every { analyticsProvider.createRecord(any()) } just Runs
     }
 
@@ -67,13 +65,13 @@ class AnalyticsServiceTest : BaseTest() {
 
         @Test
         @DisplayName("Then should call the right functions")
-        fun testCreateLocalScreenRecordShouldCallDataScreenReportReportReturningNotNullReportAndThenShouldCreateTheRecord() {
+        fun testCreateScreenRecordShouldCallDataScreenReportReportReturningNotNullReportAndThenShouldCreateTheRecord() {
             //Given
             val analyticsRecord: AnalyticsRecord = mockk()
             every { anyConstructed<DataScreenReport>().report(capture(slot)) } returns analyticsRecord
 
             //When
-            AnalyticsService.createScreenRecord(true, "url")
+            AnalyticsService.createScreenRecord( "url")
 
             //Then
             verify(exactly = 1) { analyticsProvider.createRecord(any()) }
@@ -83,7 +81,7 @@ class AnalyticsServiceTest : BaseTest() {
 
         @Test
         @DisplayName("Then should call the right functions")
-        fun testCreateLocalScreenRecordShouldCallDataScreenReportReportReturningNNullReportAndThenShouldNotCreateTheRecord() {
+        fun testCreateScreenRecordShouldCallDataScreenReportReportReturningNNullReportAndThenShouldNotCreateTheRecord() {
             //Given
             val analyticsConfig: AnalyticsConfig = mockk()
             val slot = slot<AnalyticsConfig>()
@@ -91,7 +89,7 @@ class AnalyticsServiceTest : BaseTest() {
             every { beagleSdk.analyticsProvider } returns analyticsProvider
             every { anyConstructed<DataScreenReport>().report(capture(slot)) } returns null
             //When
-            AnalyticsService.createScreenRecord(true, "url")
+            AnalyticsService.createScreenRecord( "url")
 
 
             //then
@@ -99,114 +97,8 @@ class AnalyticsServiceTest : BaseTest() {
             assertTrue(slot.isCaptured)
             assertEquals(analyticsConfig, slot.captured)
         }
-
-        @Test
-        @DisplayName("Then should call the right functions")
-        fun testCreateRemoteScreenRecordShouldCallDataScreenReportReportReturningNotNullReportAndThenShouldCreateTheRecord() {
-            //Given
-            val analyticsRecord: AnalyticsRecord = mockk()
-            every { anyConstructed<DataScreenReport>().report(capture(slot)) } returns analyticsRecord
-
-            //When
-            AnalyticsService.createScreenRecord(false, "url")
-
-            //Then
-            verify(exactly = 1) { analyticsProvider.createRecord(any()) }
-            assertTrue(slot.isCaptured)
-            assertEquals(analyticsConfig, slot.captured)
-        }
-
-        @Test
-        @DisplayName("Then should call the right functions")
-        fun testCreateRemoteScreenRecordShouldCallDataScreenReportReportReturningNNullReportAndThenShouldNotCreateTheRecord() {
-            //Given
-            every { anyConstructed<DataScreenReport>().report(capture(slot)) } returns null
-
-            //When
-            AnalyticsService.createScreenRecord(false, "/url")
-
-            //Then
-            verify(exactly = 0) { analyticsProvider.createRecord(any()) }
-            assertTrue(slot.isCaptured)
-            assertEquals(analyticsConfig, slot.captured)
-        }
     }
-
-    @DisplayName("When create screen record")
-    @Nested
-    inner class ReportScreenWithAnalyticsConfigNull {
-        @BeforeEach
-        fun setUp() {
-            every { analyticsProvider.getConfig() } returns null
-        }
-
-        @Test
-        @DisplayName("Then should call the right functions")
-        fun testCreateLocalScreenRecordShouldReportTheQueueWhenConfigNotNull() {
-            //Given
-            every { anyConstructed<DataScreenReport>().report(any()) } returns mockk()
-
-            //When
-            //this is the flow to add an item on the queue and then report
-            AnalyticsService.createScreenRecord(true, "url")
-            every { analyticsProvider.getConfig() } returns mockk()
-            AnalyticsService.createScreenRecord(true, "url")
-
-
-            //Then
-            verify(exactly = 2) { analyticsProvider.createRecord(any()) }
-        }
-
-        @Test
-        @DisplayName("Then should call the right functions")
-        fun testCreateRemoteScreenRecordShouldReportTheQueueWhenConfigNotNull() {
-            //Given
-            every { anyConstructed<DataScreenReport>().report(any()) } returns mockk()
-
-            //when
-            //this is the flow to add an item on the queue and then report
-            AnalyticsService.createScreenRecord(false, "url")
-            every { analyticsProvider.getConfig() } returns mockk()
-            AnalyticsService.createScreenRecord(true, "url")
-
-
-            //Then
-            verify(exactly = 2) { analyticsProvider.createRecord(any()) }
-        }
-    }
-
-    @DisplayName("When queue is full and try to add more items")
-    @Nested
-    inner class QueueIsFull {
-
-        @BeforeEach
-        fun setUp() {
-            every { analyticsProvider.getConfig() } returns null
-            every { analyticsProvider.getMaximumItemsInQueue() } returns 5
-        }
-
-        @Test
-        @DisplayName("Then should report the queue is full and then report for the last reports")
-        fun testQueueIsFullCallBeagleMessagesLogAnalyticsQueueIsFullAndReportTheLastAction() {
-            //Given
-            every { anyConstructed<DataScreenReport>().report(any()) } returns mockk()
-            AnalyticsService.createScreenRecord(false, "url")
-            AnalyticsService.createScreenRecord(false, "url")
-            AnalyticsService.createScreenRecord(false, "url")
-            AnalyticsService.createScreenRecord(false, "url")
-            AnalyticsService.createScreenRecord(false, "url")
-            //When
-
-            AnalyticsService.createScreenRecord(false, "url")
-            every { analyticsProvider.getConfig() } returns mockk()
-            AnalyticsService.createScreenRecord(false, "url")
-
-            //Then
-            verify(exactly = 1) { BeagleMessageLogs.analyticsQueueIsFull(5) }
-            verify(exactly = 6) { analyticsProvider.createRecord(any()) }
-        }
-    }
-
+    
     @DisplayName("When CreateActionRecord")
     @Nested
     inner class CreateActionRecordWithAnalyticsConfigDisabled {

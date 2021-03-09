@@ -30,11 +30,6 @@ class GenericSteps : AbstractStep() {
         waitForElementWithTextToBeClickable(string1, false, true).click()
     }
 
-    @When("^Scroll to (.*)$")
-    fun scrollTo(string1: String) {
-        scrollDownToElementWithText(string1, false, true).click()
-    }
-
     @Then("^The Text should show (.*)$")
     fun textShouldShow(string1: String) {
         waitForElementWithTextToBeClickable(string1, false, true)
@@ -53,5 +48,10 @@ class GenericSteps : AbstractStep() {
     @When("hide keyboard")
     fun hideKeyboardStep() {
         hideKeyboard()
+    }
+
+    @Then("^a dialog should appear on the screen with text (.*)$")
+    fun checkDialog(string : String){
+        waitForElementWithTextToBeClickable(string, true, true)
     }
 }

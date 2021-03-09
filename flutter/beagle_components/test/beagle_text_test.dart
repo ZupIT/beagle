@@ -20,7 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'objects_fake/fake_design_system.dart';
+import 'service_locator/service_locator.dart';
 
 const text = 'Beagle Text';
 const textColor = '#00FF00';
@@ -45,12 +45,16 @@ Widget createWidget({
       textColor: textColor,
       alignment: alignment,
       styleId: styleId,
-      designSystem: FakeDesignSystem(),
     ),
   );
 }
 
 void main() {
+
+  setUpAll(() async {
+    await testSetupServiceLocator();
+  });
+
   group('Given a BeagleText', () {
     group('When the widget is rendered', () {
       testWidgets('Then it should have the correct text',

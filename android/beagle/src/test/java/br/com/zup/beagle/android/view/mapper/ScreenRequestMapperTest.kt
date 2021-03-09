@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.view.mapper
 
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
@@ -33,10 +34,20 @@ import org.junit.jupiter.api.Test
 import java.net.URI
 
 private val PATH = RandomData.httpUrl()
-private val SCREEN_REQUEST = ScreenRequest(PATH, body = "body",
-    headers = mapOf("header" to "teste"))
-private val EXPECTED_RESULT = RequestData(uri = URI(""), body = "body",
-    headers = mapOf("header" to "teste"))
+private val SCREEN_REQUEST = ScreenRequest(
+    url = PATH,
+    body = "body",
+    headers = mapOf("header" to "teste"),
+)
+private val EXPECTED_RESULT = RequestData(
+    uri = URI(""),
+    body = "body",
+    headers = mapOf("header" to "teste"),
+    httpAdditionalData = HttpAdditionalData(
+        headers = mapOf("header" to "teste"),
+        body = "body",
+    ),
+)
 
 class ScreenRequestMapperTest {
 
@@ -91,7 +102,9 @@ class ScreenRequestMapperTest {
 
         // Then
         val expectedResult = screenRequests.map {
-            EXPECTED_RESULT.copy(method = HttpMethod.valueOf(it.method.name))
+            val method = HttpMethod.valueOf(it.method.name)
+            val httpAdditionalData = EXPECTED_RESULT.httpAdditionalData.copy(method = method)
+            EXPECTED_RESULT.copy(method = method, httpAdditionalData = httpAdditionalData)
         }
         assertEquals(expectedResult, result)
     }

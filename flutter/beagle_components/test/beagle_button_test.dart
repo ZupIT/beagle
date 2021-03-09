@@ -22,7 +22,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'objects_fake/button_one_style.dart';
-import 'objects_fake/fake_design_system.dart';
+import 'service_locator/service_locator.dart';
 
 const buttonText = 'Beagle Button';
 const buttonKey = Key('BeagleButton');
@@ -43,12 +43,15 @@ Widget createWidget({
       onPress: buttonOnPress,
       enabled: buttonEnabled,
       styleId: styleId,
-      designSystem: FakeDesignSystem(),
     ),
   );
 }
 
 void main() {
+  setUpAll(() async {
+    await testSetupServiceLocator();
+  });
+
   group('Given a BeagleButton', () {
     group('When the widget is created and platform is android', () {
       testWidgets('Then it should have a ElevatedButton child',
