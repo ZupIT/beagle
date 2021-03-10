@@ -35,8 +35,3 @@ val BEAGLE_PAGE_INDICATOR = BeagleClass(
     "br.com.zup.beagle.android.components.page",
     "PageIndicatorComponent"
 )
-
-val BEAGLE_PAGE_VIEW = BeagleClass(
-    "br.com.zup.beagle.android.components.page",
-    "PageView"
-)

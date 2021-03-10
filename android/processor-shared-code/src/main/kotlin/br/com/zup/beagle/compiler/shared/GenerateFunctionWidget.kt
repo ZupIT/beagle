@@ -69,7 +69,6 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
         return typeElement.implements(WIDGET_VIEW, processingEnv)
             || typeElement.implements(BEAGLE_INPUT_WIDGET, processingEnv)
             || typeElement.implements(BEAGLE_PAGE_INDICATOR, processingEnv)
-            || typeElement.qualifiedName.contentEquals(BEAGLE_PAGE_VIEW.toString())
     }
 
     companion object {
