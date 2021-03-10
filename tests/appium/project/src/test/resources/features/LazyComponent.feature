@@ -30,9 +30,12 @@ Feature: Lazy component Validation
         When I click on button Call lazy successful component screen
         Then an screen with an element WebView screen should be visible
 
-    Scenario: LazyComponent 02 - Create LazyComponent component and check if it shows the initial component
-    and after making the request with error and check if it only shows the initial component
-
-        When I click on button Call lazy failure component screen
-        Then an screen with an element LazyComponent Failure Screen should be visible
-        Then an screen with an element Loading to failure should be visible
+#
+#    Scenario 2 is being removed until we have a proper definition on what will happen with error cases.
+#
+#    Scenario: LazyComponent 02 - Create LazyComponent component and check if it shows the initial component
+#    and after making the request with error and check if it only shows the initial component
+#
+#        When I click on button Call lazy failure component screen
+#        Then an screen with an element LazyComponent Failure Screen should be visible
+#        Then an screen with an element Loading to failure should be visible
