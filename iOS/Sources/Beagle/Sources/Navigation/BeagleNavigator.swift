@@ -282,7 +282,7 @@ class BeagleNavigator: BeagleNavigation {
         controller.serverDrivenState = .started
 
         let newPath: String? = path.url.evaluate(with: origin)
-        let remote = ScreenType.Remote(url: newPath ?? "", fallback: path.fallback, additionalData: nil)
+        let remote = ScreenType.Remote(url: newPath ?? "", fallback: path.fallback, additionalData: path.httpAdditionalData)
         
         return BeagleScreenViewController.remote(remote, dependencies: controller.dependencies) {
             [weak controller] result in guard let controller = controller else { return }
