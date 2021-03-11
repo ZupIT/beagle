@@ -16,39 +16,69 @@
 
 import Foundation
 
+/// HTTP Method to indicate the desired action to be performed for a given resource
+public enum HTTPMethod: String, Codable {
+    /// The GET method requests a representation of the specified resource. Requests using GET should only retrieve data.
+    case get = "GET"
+    /// The POST method is used to submit an entity to the specified resource, often causing a change in state or side effects on the server.
+    case post = "POST"
+    /// The PUT method replaces all current representations of the target resource with the request payload.
+    case put = "PUT"
+    /// The DELETE method deletes the specified resource.
+    case delete = "DELETE"
+    /// The HEAD method asks for a response identical to that of a GET request, but without the response body.
+    case head = "HEAD"
+    /// The PATCH method is used to apply partial modifications to a resource.
+    case patch = "PATCH"
+}
+
 /// You can pass this to a Remote Beagle Screen to pass additional http data on requests
 /// triggered by Beagle.
 public struct HttpAdditionalData: RemoteScreenAdditionalData {
 
+    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the fields available in HttpAdditionalData instead.")
     public let httpData: HttpData?
+    public let method: HTTPMethod?
+    public let body: Data?
     public var headers: [String: String]
 
+    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the fields available in HttpAdditionalData instead.")
     public struct HttpData {
-        public let method: Method
+        public let method: HTTPMethod
         public let body: Data
 
-        public init(method: Method, body: Data) {
+        public init(method: HTTPMethod, body: Data) {
             self.method = method
             self.body = body
         }
     }
-
-    public enum Method: String {
-        case POST, PUT
+    
+    public init(
+        method: HTTPMethod? = .get,
+        headers: [String: String] = [:],
+        body: Data? = nil
+    ) {
+        self.method = method
+        self.headers = headers
+        self.body = body
+        self.httpData = nil
     }
 
+    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Please use new initializer instead.")
     public init(
         httpData: HttpData?,
         headers: [String: String] = [:]
     ) {
         self.httpData = httpData
         self.headers = headers
+        self.method = httpData?.method
+        self.body = httpData?.body
     }
 }
 
-extension HttpAdditionalData: Equatable {
+extension HttpAdditionalData: Equatable, Decodable {
 }
 
-extension HttpAdditionalData.HttpData: Equatable {
+extension HttpAdditionalData.HttpData: Equatable, Decodable {
 
 }

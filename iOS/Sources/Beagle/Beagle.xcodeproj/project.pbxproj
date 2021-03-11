@@ -337,6 +337,7 @@
 		E7523AF8239E8F2100F93385 /* BeagleDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523AF7239E8F2100F93385 /* BeagleDependencies.swift */; };
 		E7716B9D2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7716B9C2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift */; };
 		E79D846D23AABFA100BAE9FA /* BeaglePrefetchHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79D846C23AABFA100BAE9FA /* BeaglePrefetchHelperTests.swift */; };
+		FA46B7BC25F98CD5009C2AF2 /* pushViewWithAdditionalData.json in Resources */ = {isa = PBXBuildFile; fileRef = FA46B7BB25F98CD5009C2AF2 /* pushViewWithAdditionalData.json */; };
 		FA7AA63C25C3564100385A36 /* BeagleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7AA63B25C3564100385A36 /* BeagleErrorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -717,6 +718,7 @@
 		E7716B9C2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleDeepLinkHandler.swift; sourceTree = "<group>"; };
 		E79D846C23AABFA100BAE9FA /* BeaglePrefetchHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaglePrefetchHelperTests.swift; sourceTree = "<group>"; };
 		E7F8CF50239190F4004C6C19 /* CustomPageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageIndicator.swift; sourceTree = "<group>"; };
+		FA46B7BB25F98CD5009C2AF2 /* pushViewWithAdditionalData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pushViewWithAdditionalData.json; sourceTree = "<group>"; };
 		FA7AA63B25C3564100385A36 /* BeagleErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1057,6 +1059,7 @@
 		9398CABA255475640003A010 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				FA46B7BB25F98CD5009C2AF2 /* pushViewWithAdditionalData.json */,
 				9398CABB255475770003A010 /* opennativeroute.json */,
 				9398CABC255475770003A010 /* pushview.json */,
 			);
@@ -2238,6 +2241,7 @@
 				3D526B5D25CA14140027AB03 /* PopView-1.json in Resources */,
 				A0EB6C1C2591192C001A3E65 /* Condition-1.json in Resources */,
 				76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */,
+				FA46B7BC25F98CD5009C2AF2 /* pushViewWithAdditionalData.json in Resources */,
 				9398CAF725557B510003A010 /* buttonComponent.json in Resources */,
 				9398CABE255475770003A010 /* pushview.json in Resources */,
 				C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */,

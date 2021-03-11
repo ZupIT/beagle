@@ -1,0 +1,14 @@
+{
+    "_beagleAction_": "beagle:pushView",
+    "route": {
+        "url": "http://localhost:8080/test/example",
+        "shouldPrefetch": false,
+        "httpAdditionalData": {
+            "method": "POST",
+            "body": "test",
+                "headers": {
+                    "test": "test"
+                }
+        }
+    }
+}

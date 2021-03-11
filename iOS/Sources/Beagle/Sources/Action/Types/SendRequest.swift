@@ -16,16 +16,8 @@
 
 public struct SendRequest: Action, AutoInitiableAndDecodable, AnalyticsAction {
     
-    public enum HTTPMethod: String, Codable {
-        case get = "GET"
-        case post = "POST"
-        case put = "PUT"
-        case patch = "PATCH"
-        case delete = "DELETE"
-    }
-    
     public let url: Expression<String>
-    public let method: Expression<SendRequest.HTTPMethod>?
+    public let method: Expression<HTTPMethod>?
     public let data: DynamicObject?
     public let headers: Expression<[String: String]>?
     public let onSuccess: [Action]?
@@ -36,7 +28,7 @@ public struct SendRequest: Action, AutoInitiableAndDecodable, AnalyticsAction {
 // sourcery:inline:auto:SendRequest.Init
     public init(
         url: Expression<String>,
-        method: Expression<SendRequest.HTTPMethod>? = nil,
+        method: Expression<HTTPMethod>? = nil,
         data: DynamicObject? = nil,
         headers: Expression<[String: String]>? = nil,
         onSuccess: [Action]? = nil,
@@ -58,7 +50,7 @@ public struct SendRequest: Action, AutoInitiableAndDecodable, AnalyticsAction {
     @available(*, deprecated, message: "Since version 1.3, we allow expressions in the parameters method and headers, please consider using the new method for initialization instead.")
     public init(
         url: Expression<String>,
-        method: SendRequest.HTTPMethod? = nil,
+        method: HTTPMethod? = nil,
         data: DynamicObject? = nil,
         headers: [String: String]? = nil,
         onSuccess: [Action]? = nil,

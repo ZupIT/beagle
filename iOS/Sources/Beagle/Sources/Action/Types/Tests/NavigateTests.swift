@@ -71,6 +71,7 @@ class NavigateTests: XCTestCase {
             - some: "my-controller-id"
           ▿ route: Route
             - fallback: Optional<Screen>.none
+            - httpAdditionalData: Optional<HttpAdditionalData>.none
             - shouldPrefetch: false
             ▿ url: Expression<String>
               - value: "schema://path"
@@ -93,6 +94,7 @@ class NavigateTests: XCTestCase {
           - analytics: Optional<ActionAnalyticsConfig>.none
           ▿ route: Route
             - fallback: Optional<Screen>.none
+            - httpAdditionalData: Optional<HttpAdditionalData>.none
             - shouldPrefetch: false
             ▿ url: Expression<String>
               - value: "schema://path"
@@ -135,6 +137,7 @@ class NavigateTests: XCTestCase {
             - some: "customid"
           ▿ route: Route
             - fallback: Optional<Screen>.none
+            - httpAdditionalData: Optional<HttpAdditionalData>.none
             - shouldPrefetch: false
             ▿ url: Expression<String>
               - value: "schema://path"
@@ -201,6 +204,11 @@ class NavigateTests: XCTestCase {
           - analytics: Optional<ActionAnalyticsConfig>.none
           - route: "viewId"
         """)
+    }
+    
+    func testDecodingPushViewWithAdditionalData() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "pushViewWithAdditionalData")
+        assertSnapshot(matching: action, as: .dump)
     }
 
     func testNullNewPathInNavigation() {
