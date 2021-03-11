@@ -27,8 +27,9 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import java.net.URI
 
+// TODO: utilizar a factory de HttpClient
 internal class BeagleApi(
-    private val httpClient: HttpClient? = BeagleEnvironment.beagleSdk.httpClient,
+private val httpClient: HttpClient? = BeagleEnvironment.beagleSdk.httpClientFactory?.create()
 ) {
     companion object {
         const val BEAGLE_PLATFORM_HEADER_KEY = "beagle-platform"

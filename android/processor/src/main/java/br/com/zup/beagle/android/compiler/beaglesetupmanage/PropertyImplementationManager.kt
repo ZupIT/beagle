@@ -45,7 +45,7 @@ internal object PropertyImplementationManager {
                 DEEP_LINK_HANDLER
             ),
             propertySpec(
-                propertySpecifications?.httpClient,
+                propertySpecifications?.httpClientFactory,
                 HTTP_CLIENT_HANDLER
             ),
             propertySpec(

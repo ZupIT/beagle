@@ -14,8 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.constants
+package br.com.zup.beagle.android.networking.grpc
 
-const val BASE_URL = "http://10.0.2.2:50051"
-const val SAMPLE_ENDPOINT = "/button"
-//const val SAMPLE_ENDPOINT = "http://10.0.2.2:8080/sample"
+import beagle.Messages
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import java.lang.reflect.Type
+
+class MessageAdapterFactory : JsonAdapter.Factory {
+    override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi): JsonAdapter<Messages.ViewNode>? {
+        return if (Types.getRawType(type) == Messages.ViewNode::class.java) {
+            MessageAdapter()
+        } else {
+            null
+        }
+    }
+}

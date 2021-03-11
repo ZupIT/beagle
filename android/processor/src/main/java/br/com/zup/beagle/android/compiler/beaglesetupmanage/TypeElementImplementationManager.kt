@@ -53,8 +53,8 @@ internal object TypeElementImplementationManager {
                 propertySpecifications?.deepLinkHandler = manage.manageTypeElement(element, DEEP_LINK_HANDLER.className)
             }
             typeElement.implements(HTTP_CLIENT_HANDLER, processingEnv) -> {
-                val element = propertySpecifications?.httpClient
-                propertySpecifications?.httpClient = manage.manageTypeElement(element, HTTP_CLIENT_HANDLER.className)
+                val element = propertySpecifications?.httpClientFactory
+                propertySpecifications?.httpClientFactory = manage.manageTypeElement(element, HTTP_CLIENT_HANDLER.className)
             }
             typeElement.implements(STORE_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.storeHandler

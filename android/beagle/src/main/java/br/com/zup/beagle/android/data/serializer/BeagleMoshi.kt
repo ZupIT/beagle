@@ -60,5 +60,7 @@ internal object BeagleMoshi {
         .add(BeagleKotlinJsonAdapterFactory())
         .add(SimpleJsonAdapter())
         .add(SimpleJsonArrayAdapter())
+//        .add(MessageAdapterFactory())
+//        .add(DataContextAdapter())
         .build()
 }

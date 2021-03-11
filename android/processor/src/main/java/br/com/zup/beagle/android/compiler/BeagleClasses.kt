@@ -28,7 +28,7 @@ val DEEP_LINK_HANDLER = BeagleClass(
 )
 val HTTP_CLIENT_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.networking",
-    "HttpClient"
+    "HttpClientFactory"
 )
 val VALIDATOR_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.components.form.core",

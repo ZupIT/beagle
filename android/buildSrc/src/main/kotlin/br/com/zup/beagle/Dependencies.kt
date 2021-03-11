@@ -35,6 +35,7 @@ class Dependencies : Plugin<Project> {
         const val preview = ":preview"
         const val commonProcessorSharedCode = ":processor-shared-code"
         const val test = ":test"
+        const val grpc = ":beagle-grpc"
     }
 
     object Releases {
@@ -45,7 +46,7 @@ class Dependencies : Plugin<Project> {
 
     object Versions {
         const val compileSdk = 30
-        const val minSdk = 19
+        const val minSdk = 21
         const val targetSdk = 30
         const val buildTools = "30.0.0"
         const val kotlin = "1.4.10"

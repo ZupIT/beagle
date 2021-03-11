@@ -22,6 +22,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mannodermaus.android-junit5'
 apply from: new File('./../jacoco-android.gradle')
+apply plugin: 'com.google.protobuf'
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -69,6 +70,16 @@ android {
 }
 
 dependencies {
+
+    //    implementation 'com.google.protobuf:protobuf-lite:3.0.1'
+    implementation 'io.grpc:grpc-okhttp:1.35.0'// CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-protobuf-lite:1.35.0'// CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-stub:1.35.0'// CURRENT_GRPC_VERSION
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+//    api("com.google.protobuf:protobuf-javalite:3.13.0")
+    api("io.grpc:grpc-kotlin-stub-lite:1.0.0")
+
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.AndroidxLibraries.recyclerView
@@ -120,6 +131,38 @@ apply from: new File('./../../maven-publish.gradle')
 task dokkaHugo(type: org.jetbrains.dokka.gradle.DokkaTask) {
     dependencies {
         dokkaHugoPlugin 'com.github.cotechde:dokka-hugo-plugin:master-SNAPSHOT'
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.13.0"
+    }
+    plugins {
+        java {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.35.0"
+        }
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.35.0"
+        }
+        grpckt {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.0.0:jdk7@jar"
+        }
+    }
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                java {
+                    option("lite")
+                }
+                grpc {
+                    option("lite")
+                }
+                grpckt {
+                    option("lite")
+                }
+            }
+        }
     }
 }
 

@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.constants
+package br.com.zup.beagle.sample.config
 
-const val BASE_URL = "http://10.0.2.2:50051"
-const val SAMPLE_ENDPOINT = "/button"
-//const val SAMPLE_ENDPOINT = "http://10.0.2.2:8080/sample"
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.networking.HttpClient
+import br.com.zup.beagle.android.networking.HttpClientFactory
+import br.com.zup.beagle.android.networking.grpc.GrpcClient
+import br.com.zup.beagle.sample.constants.BASE_URL
+
+@BeagleComponent
+class AppHttpClientFactory: HttpClientFactory {
+    override fun create(): HttpClient {
+        return GrpcClient(BASE_URL, HttpClientDefault())
+    }
+}

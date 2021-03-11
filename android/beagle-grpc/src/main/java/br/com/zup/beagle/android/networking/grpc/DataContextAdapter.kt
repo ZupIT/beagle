@@ -14,8 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.constants
+package br.com.zup.beagle.android.networking.grpc
 
-const val BASE_URL = "http://10.0.2.2:50051"
-const val SAMPLE_ENDPOINT = "/button"
-//const val SAMPLE_ENDPOINT = "http://10.0.2.2:8080/sample"
+import beagle.Messages
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+
+data class DataContextJson(val id: String, val value: String)
+class DataContextAdapter {
+    @ToJson
+    fun dataContextToJson(context: Messages.DataContext) = DataContextJson(
+        id = context.id,
+        value = context.value
+    )
+
+    @FromJson
+    fun dataContextFromJson(contextJson: DataContextJson) : Messages.DataContext {
+        TODO("Not yet implemented")
+    }
+}
