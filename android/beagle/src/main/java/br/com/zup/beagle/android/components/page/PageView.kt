@@ -29,8 +29,8 @@ import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
@@ -45,7 +45,7 @@ import br.com.zup.beagle.widget.core.Flex
  * @param onPageChange List of actions that are performed when you are on the selected page.
  * @param currentPage Integer number that identifies that selected.
  */
-@RegisterWidget("pageView")
+@BeagleJson(name = "pageView")
 data class PageView(
     override val children: List<ServerDrivenComponent>,
     @Deprecated(message = "This property was deprecated in version 1.1.0 and will be removed in a future version.")
@@ -53,7 +53,7 @@ data class PageView(
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
     val currentPage: Bind<Int>? = null,
-) : WidgetView(), ContextComponent, MultiChildComponent {
+) : ViewConvertable, ContextComponent, MultiChildComponent {
 
     constructor(
         children: List<ServerDrivenComponent>,
