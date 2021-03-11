@@ -44,15 +44,26 @@ public struct HttpAdditionalData: RemoteScreenAdditionalData {
 
     @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the fields available in HttpAdditionalData instead.")
     public struct HttpData {
-        public let method: HTTPMethod
+        public let method: Method
         public let body: Data
 
-        public init(method: HTTPMethod, body: Data) {
+        public init(method: Method, body: Data) {
             self.method = method
             self.body = body
         }
     }
     
+    public enum Method: String, Codable {
+        case POST, PUT
+        
+        func toMethod() -> HTTPMethod {
+            switch self {
+            case .POST: return .post
+            case .PUT: return .put
+            }
+        }
+    }
+
     public init(
         method: HTTPMethod? = .get,
         headers: [String: String] = [:],
@@ -71,7 +82,7 @@ public struct HttpAdditionalData: RemoteScreenAdditionalData {
     ) {
         self.httpData = httpData
         self.headers = headers
-        self.method = httpData?.method
+        self.method = httpData?.method.toMethod()
         self.body = httpData?.body
     }
 }

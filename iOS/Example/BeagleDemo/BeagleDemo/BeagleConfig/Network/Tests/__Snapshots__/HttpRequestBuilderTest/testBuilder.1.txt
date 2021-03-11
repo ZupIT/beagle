@@ -21,6 +21,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -29,6 +31,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       - requestType: RequestType.fetchComponent
       - url: scheme://baseUrl/
     ▿ result: Result
@@ -68,6 +72,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -76,6 +82,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       - requestType: RequestType.fetchImage
       - url: scheme://baseUrl/
     ▿ result: Result
@@ -121,6 +129,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -129,6 +139,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       ▿ requestType: RequestType
         ▿ submitForm: FormData
           - method: Method.get
@@ -177,6 +189,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -185,6 +199,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       ▿ requestType: RequestType
         ▿ submitForm: FormData
           - method: Method.get
@@ -234,6 +250,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -242,6 +260,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       ▿ requestType: RequestType
         ▿ submitForm: FormData
           - method: Method.post
@@ -291,6 +311,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -299,6 +321,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       ▿ requestType: RequestType
         ▿ submitForm: FormData
           - method: Method.post
@@ -348,6 +372,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -356,6 +382,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       ▿ requestType: RequestType
         ▿ submitForm: FormData
           - method: Method.put
@@ -405,6 +433,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -413,6 +443,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       ▿ requestType: RequestType
         ▿ submitForm: FormData
           - method: Method.put
@@ -461,6 +493,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -469,6 +503,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       ▿ requestType: RequestType
         ▿ submitForm: FormData
           - method: Method.delete
@@ -517,6 +553,8 @@
     ▿ parameters: Parameters
       ▿ data: Optional<RemoteScreenAdditionalData>
         ▿ some: HttpAdditionalData
+          ▿ body: Optional<Data>
+            - some: 0 bytes
           ▿ headers: 1 key/value pair
             ▿ (2 elements)
               - key: "header"
@@ -525,6 +563,8 @@
             ▿ some: HttpData
               - body: 0 bytes
               - method: Method.POST
+          ▿ method: Optional<HTTPMethod>
+            - some: HTTPMethod.post
       ▿ requestType: RequestType
         ▿ submitForm: FormData
           - method: Method.delete
