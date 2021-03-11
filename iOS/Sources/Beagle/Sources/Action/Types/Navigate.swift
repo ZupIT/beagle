@@ -111,7 +111,7 @@ extension Route {
         /// A screen that should be rendered in case of request fail.
         public let fallback: Screen?
 
-        ///
+        /// Used to pass additional http data on requests
         public let httpAdditionalData: HttpAdditionalData?
         
         /// Constructs a new path to a remote screen.
@@ -120,6 +120,7 @@ extension Route {
         ///   - url: Contains the navigation endpoint. Since its a _ExpressibleString_ type you can pass a Expression<String> or a regular String.
         ///   - shouldPrefetch: Changes _when_ this screen is requested.
         ///   - fallback: A screen that should be rendered in case of request fail.
+        ///   - httpAdditionalData: Used to pass additional http data on requests
         public init(url: StringOrExpression, shouldPrefetch: Bool = false, fallback: Screen? = nil, httpAdditionalData: HttpAdditionalData? = nil) {
             self.url = "\(url)"
             self.shouldPrefetch = shouldPrefetch

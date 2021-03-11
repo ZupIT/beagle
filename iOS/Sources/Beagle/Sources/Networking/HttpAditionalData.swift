@@ -32,7 +32,7 @@ public enum HTTPMethod: String, Codable {
     case patch = "PATCH"
 }
 
-/// You can pass this to a Remote Beagle Screen to pass additional http data on requests
+/// HttpAdditionalData can be used on Remote Beagle Screen and on Navigate actions to pass additional http data on requests
 /// triggered by Beagle.
 public struct HttpAdditionalData: RemoteScreenAdditionalData {
 
