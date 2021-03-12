@@ -21,6 +21,7 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 
 data class DataContextJson(val id: String, val value: String)
+
 class DataContextAdapter {
     @ToJson
     fun dataContextToJson(context: Messages.DataContext) = DataContextJson(
@@ -29,7 +30,11 @@ class DataContextAdapter {
     )
 
     @FromJson
-    fun dataContextFromJson(contextJson: DataContextJson) : Messages.DataContext {
-        TODO("Not yet implemented")
+    fun dataContextFromJson(contextJson: DataContextJson): Messages.DataContext {
+        return Messages.DataContext
+            .newBuilder()
+            .setId(contextJson.id)
+            .setValue(contextJson.value)
+            .build()
     }
 }

@@ -17,19 +17,15 @@
 package br.com.zup.beagle.android.networking.grpc
 
 import beagle.Messages
+import br.com.zup.beagle.android.networking.grpc.NetworkingMoshi.moshi
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
-import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import java.lang.reflect.Type
-import java.util.logging.Logger
 
 class MessageAdapter : JsonAdapter<Messages.ViewNode>() {
-    //TODO: ver sobre inicialização do moshi
-    private val moshi: Moshi = Moshi.Builder()
-        .add(MessageAdapterFactory())
-        .add(DataContextAdapter()).build()
+
     override fun fromJson(reader: JsonReader): Messages.ViewNode? {
         TODO("Not yet implemented")
     }
@@ -39,7 +35,7 @@ class MessageAdapter : JsonAdapter<Messages.ViewNode>() {
         value?.let {
             writer.name("_beagleComponent_")
 
-            writer.value(value?.beagleComponent)
+            writer.value(value.beagleComponent)
 
             if (value.id != null && value.id.isNotEmpty()) {
                 writer.name("id")
@@ -59,10 +55,8 @@ class MessageAdapter : JsonAdapter<Messages.ViewNode>() {
             }
 
             if (value.hasChild()) {
-                val logger = Logger.getLogger(this.javaClass.name)
-                logger.info("child style: ${value.child.style}")
                 writer.name("child")
-                val json = moshi.adapter(Messages.ViewNode::class.java).toJson(writer, value.child)
+                moshi.adapter(Messages.ViewNode::class.java).toJson(writer, value.child)
             }
 
             if (value.style != null && value.style.isNotEmpty()) {
@@ -83,10 +77,7 @@ class MessageAdapter : JsonAdapter<Messages.ViewNode>() {
 
                 }
             }
-
-
         }
         writer.endObject()
     }
-
 }

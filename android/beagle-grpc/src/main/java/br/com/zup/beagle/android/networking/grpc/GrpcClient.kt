@@ -22,30 +22,36 @@ import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.RequestCall
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
-import com.squareup.moshi.*
+import br.com.zup.beagle.android.networking.grpc.NetworkingMoshi.moshi
+import com.squareup.moshi.JsonAdapter
+import io.grpc.CallOptions
+import io.grpc.Channel
+import io.grpc.ClientInterceptor
+import io.grpc.ClientInterceptors
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
+import io.grpc.Metadata
 import io.grpc.StatusException
-import kotlinx.coroutines.*
+import io.grpc.stub.AbstractStub
+import io.grpc.stub.MetadataUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.net.URL
-import java.util.logging.Logger
-import com.squareup.moshi.Moshi
 
 
 class GrpcClient(
     private val grpcAddress: String,
     private val customHttpClient: HttpClient?,
 ) : HttpClient, CoroutineScope {
+
     companion object {
         const val HTTP_CLIENT_NULL = "an instance of HttpClient was not found."
     }
 
-    // TODO: remover o logger
-    private val logger = Logger.getLogger(this.javaClass.name)
-
-    //TODO: ver sobre inicialização do moshi
-    private val moshi: Moshi = Moshi.Builder().add(MessageAdapterFactory())
-        .add(DataContextAdapter()).build()
     private val job = Job()
     override val coroutineContext = job + Dispatchers.IO
     private val stub by lazy { ScreenControllerGrpcKt.ScreenControllerCoroutineStub(channel()) }
@@ -62,10 +68,19 @@ class GrpcClient(
                 try {
                     getScreenName(request)?.let { screenName ->
                         val req = Messages.ScreenRequest.newBuilder().setName(screenName).build()
-                        val response = stub.getScreen(req)
+
+                        // coloca os headers. Separar em um método
+                        val headers = Metadata()
+                        request.httpAdditionalData.headers?.forEach { entry ->
+                            val customHeaderKey = Metadata.Key.of(entry.key, Metadata.ASCII_STRING_MARSHALLER)
+                            headers.put(customHeaderKey, entry.value)
+                        }
+
+                        val newStub = MetadataUtils.attachHeaders(stub, headers)
+
+                        val response = newStub.getScreen(req)
                         val responseData = parseResponse(response)
                         onSuccess(responseData)
-                        logger.info(response.beagleComponent)
                     }
 
                 } catch (e: StatusException) {
@@ -100,9 +115,6 @@ class GrpcClient(
         val jsonAdapter: JsonAdapter<Messages.ViewNode> = moshi.adapter(Messages.ViewNode::class.java)
         val json = jsonAdapter.toJson(response)
 
-        logger.info(json)
-
-
         //TODO: headers e status text
         return ResponseData(
             statusCode = 200,
@@ -110,12 +122,11 @@ class GrpcClient(
         )
     }
 
-    private fun channel(): ManagedChannel {
+//        private fun channel(): ManagedChannel {
+    private fun channel(): Channel {
 
         val url = URL(grpcAddress)
         val port = if (url.port == -1) url.defaultPort else url.port
-
-        logger.info("Connecting to ${url.host}:$port")
 
         val builder = ManagedChannelBuilder.forAddress(url.host, port)
         if (url.protocol == "https") {
@@ -124,7 +135,13 @@ class GrpcClient(
             builder.usePlaintext()
         }
 
-        return builder.executor(Dispatchers.IO.asExecutor()).build()
+        val originChannel = builder.executor(Dispatchers.IO.asExecutor()).build()
+
+        val interceptor: ClientInterceptor = HeaderClientInterceptor()
+        val channel: Channel = ClientInterceptors.intercept(originChannel, interceptor)
+
+//        return builder.executor(Dispatchers.IO.asExecutor()).build()
+        return channel
     }
 
     private fun createRequestCall() = object : RequestCall {

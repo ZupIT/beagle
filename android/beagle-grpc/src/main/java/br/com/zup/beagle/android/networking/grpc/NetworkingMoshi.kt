@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample
+package br.com.zup.beagle.android.networking.grpc
 
-import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.setup.BeagleConfig
-import br.com.zup.beagle.android.setup.Cache
-import br.com.zup.beagle.android.setup.Environment
-import br.com.zup.beagle.sample.constants.BASE_URL
+import androidx.annotation.VisibleForTesting
+import com.squareup.moshi.Moshi
 
-@BeagleComponent
-class AppBeagleConfig : BeagleConfig {
-    override val environment: Environment get() = Environment.DEBUG
-    override val baseUrl: String get() = BASE_URL
-    override val isLoggingEnabled: Boolean = true
-    override val cache: Cache = Cache(
-        enabled = true,
-        maxAge = 300,
-        size = 15
-    )
+object NetworkingMoshi {
+    val moshi: Moshi by lazy {
+        createMoshi()
+    }
+
+    @VisibleForTesting
+    fun createMoshi(): Moshi =
+        Moshi.Builder()
+            .add(MessageAdapterFactory())
+            .add(DataContextAdapter())
+            .build()
+
 }
