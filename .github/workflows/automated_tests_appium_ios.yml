@@ -16,11 +16,23 @@
 
 name: Beagle Appium iOS Tests
 
+#on:
+#  workflow_run:
+#    workflows: ["Beagle Appium Tests"]
+#    types:
+#      - completed
+
 on:
-  workflow_run:
-    workflows: ["Beagle Appium Tests"]
-    types:
-      - completed
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '.github/**'
 
 jobs:
   appium_tests:
@@ -80,12 +92,19 @@ jobs:
       # Emulator config - start
       ##################################################################################################
 
-      - name: Install iOS Runtime
+#      - name: Install iOS Runtime
+#        run: |
+#          set -e
+#          echo "##### List of iOS Devices & Platforms:"
+#          xcrun simctl list
+#          xcversion simulators --install='iOS 13.5'
+      - name: Prepare iOS 13.5 simulator
         run: |
-          set -e
-          echo "##### List of iOS Devices & Platforms:"
-          xcrun simctl list
-          xcversion simulators --install='iOS 13.5'
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.5.simruntime
+          # xcrun simctl list runtimes
+          # xcrun simctl create custom-test-device "iPad Pro (9.7-inch)" "com.apple.CoreSimulator.SimRuntime.iOS-12-4"
+          # xcrun simctl list devices 12.4
 
       - name: Create and Run iOS Emulator
         run: |
