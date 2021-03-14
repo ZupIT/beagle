@@ -85,6 +85,12 @@ class SampleNavigationTypeService {
                     navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)),
                     backgroundColor = LIGHT_RED
                 ),
+
+                createButton(
+                    text = "POPTOVIEW (Step 1)",
+                    navigate = Navigate.PopToView(NAVIGATION_TYPE_ENDPOINT),
+                    backgroundColor = LIGHT_RED
+                ),
                 createButton(
                     text = "PushView (Step 2) with context",
                     navigate = Navigate.PushView(Route.Remote(expressionOf("@{context}"))),
@@ -146,6 +152,11 @@ class SampleNavigationTypeService {
                     text = "ResetApplication (Step 1)",
                     navigate = Navigate.ResetApplication(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
                     backgroundColor = RED_ORANGE
+                ),
+                createButton(
+                    text = "PushView (Step 1)",
+                    navigate = Navigate.PushView(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
+                    backgroundColor = RED
                 ),
                 createButton(
                     text = "PopToView (Step 1)",
