@@ -16,5 +16,7 @@
 
 package br.com.zup.beagle.builder
 
+
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.")
 @DslMarker
 annotation class BeagleDsl

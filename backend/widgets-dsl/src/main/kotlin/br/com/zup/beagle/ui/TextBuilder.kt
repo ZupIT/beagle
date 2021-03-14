@@ -22,8 +22,12 @@ import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.ui.Text
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Text.", ReplaceWith("Text()"))
 fun text(block: TextBuilder.() -> Unit) = TextBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Text.", ReplaceWith("Text()"))
 class TextBuilder: BeagleBuilder<Text> {
     var text: Bind<String> by Delegates.notNull()
     var styleId: String? = null

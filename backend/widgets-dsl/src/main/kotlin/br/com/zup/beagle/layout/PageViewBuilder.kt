@@ -26,8 +26,12 @@ import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.layout.PageView
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class PageView.", ReplaceWith("PageView()"))
 fun pageView(block: PageViewBuilder.() -> Unit) = PageViewBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class PageView.", ReplaceWith("PageView()"))
 class PageViewBuilder: BeagleBuilder<PageView> {
     var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
     var context: ContextData? = null

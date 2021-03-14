@@ -24,9 +24,15 @@ import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.layout.Screen
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Route.Remote.", ReplaceWith("Route.Remote()"))
 fun routeRemote(block: RouteRemoteBuilder.() -> Unit) = RouteRemoteBuilder().apply(block).build()
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Route.Local.", ReplaceWith("Route.Local()"))
 fun routeLocal(block: RouteLocalBuilder.() -> Unit) = RouteLocalBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Route.", ReplaceWith("Route()"))
 interface RouteBuilderHelper {
     var route: Route
 
@@ -45,6 +51,8 @@ interface RouteBuilderHelper {
     }
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Route.Remote.", ReplaceWith("Route.Remote()"))
 class RouteRemoteBuilder : BeagleBuilder<Route.Remote> {
 
     var url: String by Delegates.notNull()
@@ -74,7 +82,8 @@ class RouteRemoteBuilder : BeagleBuilder<Route.Remote> {
     )
 }
 
-
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Route.Local.", ReplaceWith("Route.Local()"))
 class RouteLocalBuilder : BeagleBuilder<Route.Local> {
     var screen: Screen by Delegates.notNull()
 
@@ -88,28 +97,48 @@ class RouteLocalBuilder : BeagleBuilder<Route.Local> {
 
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.OpenExternalURL.", ReplaceWith("Navigate.OpenExternalURL()"))
 fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit) =
     NavigateOpenExternalURLBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.OpenNativeRoute.", ReplaceWith("Navigate.OpenNativeRoute()"))
 fun navigateOpenNativeRoute(block: NavigateOpenNativeRouteBuilder.() -> Unit) =
     NavigateOpenNativeRouteBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PushStack.", ReplaceWith("Navigate.PushStack()"))
 fun navigatePushStack(block: NavigatePushStackBuilder.() -> Unit) = NavigatePushStackBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PopStack.", ReplaceWith("Navigate.PopStack()"))
 fun navigatePopStack(block: NavigatePopStackBuilder.() -> Unit) = NavigatePopStackBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PushView.", ReplaceWith("Navigate.PushView()"))
 fun navigatePushView(block: NavigatePushViewBuilder.() -> Unit) = NavigatePushViewBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PopView.", ReplaceWith("Navigate.PopView()"))
 fun navigatePopView(block: NavigatePopViewBuilder.() -> Unit) = NavigatePopViewBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PopToView.", ReplaceWith("Navigate.PopToView()"))
 fun navigatePopToView(block: NavigatePopToViewBuilder.() -> Unit) = NavigatePopToViewBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.ResetApplication.", ReplaceWith("Navigate.ResetApplication()"))
 fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit) =
     NavigateResetApplicationBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.ResetStack.", ReplaceWith("Navigate.ResetStack()"))
 fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit) =
     NavigateResetStackBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.", ReplaceWith("Navigate()"))
 interface NavigateBuilderHelper {
     var navigate: Navigate
 
@@ -156,6 +185,8 @@ interface NavigateBuilderHelper {
     }
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.OpenExternalURL.", ReplaceWith("Navigate.OpenExternalURL()"))
 class NavigateOpenExternalURLBuilder : BeagleBuilder<Navigate.OpenExternalURL> {
     var url: String by Delegates.notNull()
 
@@ -169,6 +200,8 @@ class NavigateOpenExternalURLBuilder : BeagleBuilder<Navigate.OpenExternalURL> {
 
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.OpenNativeRoute.", ReplaceWith("Navigate.OpenNativeRoute()"))
 class NavigateOpenNativeRouteBuilder : BeagleBuilder<Navigate.OpenNativeRoute> {
     var route: String by Delegates.notNull()
     var shouldResetApplication: Boolean = false
@@ -200,6 +233,8 @@ class NavigateOpenNativeRouteBuilder : BeagleBuilder<Navigate.OpenNativeRoute> {
 
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PushStack.", ReplaceWith("Navigate.PushStack()"))
 class NavigatePushStackBuilder : BeagleBuilder<Navigate.PushStack>, RouteBuilderHelper {
     override var route: Route by Delegates.notNull()
     var controllerId: String? = null
@@ -210,11 +245,15 @@ class NavigatePushStackBuilder : BeagleBuilder<Navigate.PushStack>, RouteBuilder
 
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PopStack.", ReplaceWith("Navigate.PopStack()"))
 class NavigatePopStackBuilder : BeagleBuilder<Navigate.PopStack> {
     override fun build() = Navigate.PopStack()
 }
 
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PushView.", ReplaceWith("Navigate.PushView()"))
 class NavigatePushViewBuilder : BeagleBuilder<Navigate.PushView>, RouteBuilderHelper {
     override var route: Route by Delegates.notNull()
 
@@ -222,11 +261,14 @@ class NavigatePushViewBuilder : BeagleBuilder<Navigate.PushView>, RouteBuilderHe
 
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PopView.", ReplaceWith("Navigate.PopView()"))
 class NavigatePopViewBuilder : BeagleBuilder<Navigate.PopView> {
     override fun build() = Navigate.PopView()
 }
 
-
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.PopToView.", ReplaceWith("Navigate.PopToView()"))
 class NavigatePopToViewBuilder : BeagleBuilder<Navigate.PopToView> {
     var route: String by Delegates.notNull()
 
@@ -239,7 +281,8 @@ class NavigatePopToViewBuilder : BeagleBuilder<Navigate.PopToView> {
     override fun build() = Navigate.PopToView(route)
 }
 
-
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.ResetApplication.", ReplaceWith("Navigate.ResetApplication()"))
 class NavigateResetApplicationBuilder : BeagleBuilder<Navigate.ResetApplication>, RouteBuilderHelper {
     override var route: Route by Delegates.notNull()
     var controllerId: String? = null
@@ -250,6 +293,8 @@ class NavigateResetApplicationBuilder : BeagleBuilder<Navigate.ResetApplication>
 
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Navigate.ResetStack.", ReplaceWith("Navigate.ResetStack()"))
 class NavigateResetStackBuilder : BeagleBuilder<Navigate.ResetStack>, RouteBuilderHelper {
     override var route: Route by Delegates.notNull()
     var controllerId: String? = null

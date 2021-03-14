@@ -20,8 +20,12 @@ import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.builder.BeagleBuilder
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ScreenEvent.", ReplaceWith("ScreenEvent()"))
 fun screenEvent(block: ScreenEventBuilder.() -> Unit) = ScreenEventBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ScreenEvent.", ReplaceWith("ScreenEvent()"))
 class ScreenEventBuilder: BeagleBuilder<ScreenEvent> {
     var screenName: String by Delegates.notNull()
 

@@ -19,8 +19,12 @@ package br.com.zup.beagle.action
 import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.widget.action.SubmitForm
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SubmitForm.", ReplaceWith("SubmitForm()"))
 fun submitForm(block: SubmitFormBuilder.() -> Unit) = SubmitFormBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SubmitForm.", ReplaceWith("SubmitForm()"))
 class SubmitFormBuilder: BeagleBuilder<SubmitForm> {
     override fun build() = SubmitForm()
 }

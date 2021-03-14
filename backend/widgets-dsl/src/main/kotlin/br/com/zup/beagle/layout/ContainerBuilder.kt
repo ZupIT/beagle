@@ -25,8 +25,12 @@ import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.layout.Container
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Container.", ReplaceWith("Container()"))
 fun container(block: ContainerBuilder.() -> Unit) = ContainerBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Container.", ReplaceWith("Container()"))
 class ContainerBuilder : BeagleBuilder<Container> {
     var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
     var context: ContextData? = null

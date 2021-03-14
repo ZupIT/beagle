@@ -23,6 +23,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Image
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.EdgeValue
@@ -32,25 +34,62 @@ import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.TextInput
+import br.com.zup.beagle.android.components.center
+import br.com.zup.beagle.android.components.column
 import br.com.zup.beagle.android.components.layout.Center
 import br.com.zup.beagle.android.components.layout.Column
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Row
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.styled
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.FlexDirection
+import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.TextAlignment
 
-class ContextOperationsFragment : Fragment() {
+fun MyButton(text: String) = styled(Button(text = text), {
+    backgroundColor = "#00FFFF"
+    padding = EdgeValue(all = UnitValue(10.0, UnitType.REAL))
+})
 
-    private val style = Style(margin = EdgeValue(all = UnitValue(50.0, UnitType.REAL)), flex = Flex(shrink = 0.0))
+fun MyButtonSecond(text: String) = styled(Button(text = text), {
+    backgroundColor = "#0000A0"
+    padding = EdgeValue(all = UnitValue(10.0, UnitType.REAL))
+})
+
+fun MyButtonSecondWithPadding(text: String) = styled(MyButtonSecond(text), {
+    padding = EdgeValue(all = UnitValue(20.0, UnitType.REAL))
+})
+
+fun MyCenter(child: ServerDrivenComponent) = styled(center(child), {
+    padding = EdgeValue(all = UnitValue(20.0, UnitType.REAL))
+})
+
+fun MyImage(
+    path: Bind<ImagePath>,
+    mode: ImageContentMode? = null,
+) = styled(Image(path, mode), {
+    padding = EdgeValue(all = UnitValue(20.0, UnitType.REAL))
+})
+
+fun MySecondImage(
+    path: Bind<ImagePath>,
+    mode: ImageContentMode? = null,
+) = styled(MyImage(path, mode), {
+    padding = EdgeValue(all = UnitValue(20.0, UnitType.REAL))
+})
+
+class ContextOperationsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,16 +100,17 @@ class ContextOperationsFragment : Fragment() {
         return context?.let { declarative.toView(this) }
     }
 
-    fun screen() = Text(
-        "3",
+    fun screen() = column(
+        listOf(
+            Text("text"),
+            MyImage(path = valueOf(ImagePath.Remote(url = "blabla"))),
+            MyButton("UZIAS"),
+            MyButtonSecond("UZIAS"),
+            MyButtonSecondWithPadding("UZIAS"),
+            center(Text("text")),
+            center(Text("text"))
+        ),
     )
-        .applyFlex(
-            Flex(
-                justifyContent = JustifyContent.CENTER,
-                alignContent = AlignContent.CENTER,
-                alignSelf = AlignSelf.CENTER,
-                grow = 1.0,
-            ))
 
     companion object {
         fun newInstance(): ContextOperationsFragment {

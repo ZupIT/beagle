@@ -23,8 +23,12 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.ui.TextInput
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TextInput.", ReplaceWith("TextInput()"))
 fun textInput(block: TextInputBuilder.() -> Unit) = TextInputBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TextInput.", ReplaceWith("TextInput()"))
 class TextInputBuilder : BeagleBuilder<TextInput> {
     var value: Bind<String>? = null
     var placeholder: Bind<String>? = null

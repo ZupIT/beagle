@@ -20,8 +20,12 @@ import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.widget.context.ContextData
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ContextData.", ReplaceWith("ContextData()"))
 fun contextData(block: ContextDataBuilder.() -> Unit) = ContextDataBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ContextData.", ReplaceWith("ContextData()"))
 class ContextDataBuilder: BeagleBuilder<ContextData> {
     var id: String by Delegates.notNull()
     var value: Any by Delegates.notNull()

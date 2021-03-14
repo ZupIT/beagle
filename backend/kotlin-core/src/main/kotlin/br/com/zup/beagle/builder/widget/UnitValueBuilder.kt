@@ -21,8 +21,12 @@ import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class UnitValue.", ReplaceWith("UnitValue()"))
 fun unitValue(block: UnitValueBuilder.() -> Unit) = UnitValueBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class UnitValue.", ReplaceWith("UnitValue()"))
 class UnitValueBuilder: BeagleBuilder<UnitValue> {
     var value: Double by Delegates.notNull()
     var type: UnitType by Delegates.notNull()

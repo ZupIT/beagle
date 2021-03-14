@@ -17,53 +17,49 @@
 package br.com.zup.beagle.android.components.layout
 
 import android.view.View
-import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.OnInitiableComponent
-import br.com.zup.beagle.android.components.OnInitiableComponentImpl
-import br.com.zup.beagle.android.context.ContextComponent
-import br.com.zup.beagle.android.context.ContextData
+
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.MultiChildComponent
+import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.SingleChildComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.AlignItems
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.JustifyContent
 
 /**
  *  The container component is a general container that can hold other components inside.
  *
- * @param children define a list of components that are part of the container.
- * @param context define the contextData that be set to container.
- * @param onInit it is a parameter that allows you to define a list of actions to be performed
  * when the Widget is displayed.
  */
-@RegisterWidget("container")
-data class Container(
-    override val children: List<ServerDrivenComponent>,
-    override val context: ContextData? = null,
-    override val onInit: List<Action>? = null,
-) : WidgetView(), OnInitiableComponent by OnInitiableComponentImpl(onInit), ContextComponent, MultiChildComponent {
+data class Padding(
+    override val child: ServerDrivenComponent,
+) : ViewConvertable, SingleChildComponent {
 
     @Transient
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val view = viewFactory.makeBeagleFlexView(rootView, style ?: Style(flex = Flex(
-            alignItems = AlignItems.AUTO
-        )))
-        handleOnInit(rootView, view)
+        val view = viewFactory.makeBeagleFlexView(
+            rootView,
+            Style(
+                flex = Flex(
+                    justifyContent = JustifyContent.CENTER,
+                    alignContent = AlignContent.CENTER,
+                    alignSelf = AlignSelf.CENTER,
+                    grow = 1.0
+                ),
+            ),
+        )
         return view.apply {
             addChildren(this)
         }
     }
 
     private fun addChildren(beagleFlexView: BeagleFlexView) {
-        children.forEach { child ->
-            beagleFlexView.addServerDrivenComponent(child)
-        }
+        beagleFlexView.addServerDrivenComponent(child)
     }
 }
