@@ -30,8 +30,6 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.MultiChildComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.Flex
 
 /**
  *  The container component is a general container that can hold other components inside.
@@ -52,9 +50,7 @@ data class Container(
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val view = viewFactory.makeBeagleFlexView(rootView, style ?: Style(flex = Flex(
-            alignItems = AlignItems.AUTO
-        )))
+        val view = viewFactory.makeBeagleFlexView(rootView, style ?: Style())
         handleOnInit(rootView, view)
         return view.apply {
             addChildren(this)

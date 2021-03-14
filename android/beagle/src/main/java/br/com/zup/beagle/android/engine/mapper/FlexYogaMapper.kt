@@ -57,7 +57,6 @@ internal fun makeYogaAlignItems(alignItems: AlignItems?): YogaAlign? =
         AlignItems.FLEX_END -> YogaAlign.FLEX_END
         AlignItems.BASELINE -> YogaAlign.BASELINE
         AlignItems.STRETCH -> YogaAlign.STRETCH
-        AlignItems.AUTO -> YogaAlign.AUTO
         else -> null
     }
 

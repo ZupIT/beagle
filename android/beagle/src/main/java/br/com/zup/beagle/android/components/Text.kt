@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.components
 
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
@@ -70,7 +69,6 @@ data class Text(
     override fun buildView(rootView: RootView): View {
         val textView = viewFactory.makeTextView(rootView.getContext(), styleManagerFactory.getTextStyle(styleId))
 
-        textView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         textView.setTextWidget(this, rootView)
         return textView
     }

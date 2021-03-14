@@ -375,8 +375,6 @@ enum class AlignItems {
     /**
      * Stretch wrapped lines to match the height of the container's cross axis.
      */
-    STRETCH,
-
-    AUTO
+    STRETCH
 }
 
