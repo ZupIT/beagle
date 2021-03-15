@@ -68,13 +68,8 @@ fun <T : Widget> T.applyStyle(style: Style) = this.apply {
 }
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
-    ReplaceWith("setStyle{}"))
+    ReplaceWith("setStyle { }"))
 fun <T : Widget> T.style(block: OldStyle.() -> Unit) = this.applyStyle(OldStyle().apply(block).build())
-
-fun <T : StyleComponent> T.setStyle(block: StyleBuilder.() -> Unit): T {
-    this.style = StyleBuilder(this.style).apply(block).build()
-    return this
-}
 
 /**
  * Apply the accessibility .
@@ -83,5 +78,11 @@ fun <T : StyleComponent> T.setStyle(block: StyleBuilder.() -> Unit): T {
  *
  * @return the current widget
  */
+
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("setAccessibility { }"))
 fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply { this.accessibility = accessibility }
+
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("setAccessibility { }"))
 fun <T : Widget> T.accessibility(block: AccessibilityBuilder.() -> Unit) = this.applyAccessibility(AccessibilityBuilder().apply(block).build())

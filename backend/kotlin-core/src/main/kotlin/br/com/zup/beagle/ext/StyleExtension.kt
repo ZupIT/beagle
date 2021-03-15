@@ -31,6 +31,11 @@ fun <T : StyleComponent> Styled(component: T, block: StyleBuilder.() -> Unit): T
     return component
 }
 
+fun <T : StyleComponent> T.setStyle(block: StyleBuilder.() -> Unit): T {
+    this.style = StyleBuilder(this.style).apply(block).build()
+    return this
+}
+
 data class StyleBuilder(private val style: Style?) {
     var backgroundColor: String? = style?.backgroundColor
     var cornerRadius: CornerRadius? = style?.cornerRadius ?: CornerRadius()

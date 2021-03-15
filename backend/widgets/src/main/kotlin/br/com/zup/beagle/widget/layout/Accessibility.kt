@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.widget.layout
 
-/**
- * Component that hold the accessibility
- * @property accessibility attribute will enable a textual information to explain
- * the view content in case a screen reader is use
- */
-interface AccessibilityComponent: ServerDrivenComponent {
-    var accessibility: Accessibility?
+import br.com.zup.beagle.core.AccessibilityComponent
+import br.com.zup.beagle.ext.setAccessibility
+
+fun <T : AccessibilityComponent> Accessibility(accessible: Boolean = true,
+                                               accessibilityLabel: String? = null,
+                                               isHeader: Boolean = false,
+                                               child: T): T {
+    return child.setAccessibility {
+        this.accessible = accessible
+        this.accessibilityLabel = accessibilityLabel
+        this.isHeader = isHeader
+    }
 }
