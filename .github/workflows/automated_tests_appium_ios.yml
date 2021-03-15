@@ -103,10 +103,10 @@ jobs:
         run: |
           set -e
           XCODE-PATH=$(xcode-select --print-path)
-          echo "XCODE PATH: $XCODE-PATH"
-          echo "XCODE VERSION: $(xcodebuild -version)"
+          echo $XCODE-PATH
+          echo $(xcodebuild -version)
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          sudo ln -s $XCODE-PATH/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.5.simruntime
+          sudo ln -s $XCODE-PATH/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.5.simruntime
           # xcrun simctl list runtimes
           xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt
           xcrun simctl list devices 13.5
