@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.unitReal
 import com.sun.org.apache.bcel.internal.generic.VariableLengthInstruction
 
@@ -79,7 +80,28 @@ data class Size(
     var minWidth: UnitValue? = null,
     var minHeight: UnitValue? = null,
     var aspectRatio: Double? = null
-)
+) {
+    //TODO: discuss with team
+    companion object {
+
+        fun box(
+            width: Int,
+            height: Int
+        ): Size =
+            box(width = UnitValue.real(width),
+                height = UnitValue.real(height))
+
+        fun box(width: Double,
+                height: Double): Size =
+            box(width = UnitValue.real(width),
+                height = UnitValue.real(height))
+
+        fun box(width: UnitValue,
+                height: UnitValue) =
+            Size(width = width,
+                height = height)
+    }
+}
 
 /**
  *
