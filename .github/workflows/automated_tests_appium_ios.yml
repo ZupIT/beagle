@@ -92,50 +92,16 @@ jobs:
       # Emulator config - start
       ##################################################################################################
 
-#      - name: Install iOS Runtime
-#        run: |
-#          set -e
-#          echo "##### List of iOS Devices & Platforms:"
-#          xcrun simctl list
-#          xcversion simulators --install='iOS 13.5'
-
+      # simulator 13.5 uses xcode 11.5 (https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md)
+      # based on: https://github.com/actions/virtual-environments/issues/551#issuecomment-637344435
       - name: Prepare iOS 13.5 simulator
         run: |
-          echo "XCODE VERSION: $(xcodebuild -version)"
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
           sudo ln -s /Applications/Xcode_11.5.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.5.simruntime
-          echo "XCODE VERSION: $(xcodebuild -version)"
-          xcrun simctl list runtimes
           xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt
-          # xcrun simctl list devices 13.5
           DEVICEUUID=`cat ~/deviceIdTemp.txt`
-          echo "Device id: $DEVICEUUID"
           xcrun simctl boot $DEVICEUUID
           sleep 30
-
-#          set -e
-#          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-#          sudo ln -s /Applications/Xcode_10.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.5.simruntime
-#          xcrun simctl list runtimes
-#          xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt
-#          xcrun simctl list devices 13.5
-#          DEVICEUUID=`cat ~/deviceIdTemp.txt`
-#          echo "Device id: $DEVICEUUID"
-#          xcrun simctl boot $DEVICEUUID
-#          sleep 30
-
-
-#      - name: Create and Run iOS Emulator
-#        run: |
-#          set -e
-#          echo "##### Devicetypes runtime:"
-#          xcrun simctl list devicetypes runtimes
-#          echo "##### Creating iOS image and starting emulator with it ..."
-#          xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt
-#          DEVICEUUID=`cat ~/deviceIdTemp.txt`
-#          echo "Device id: $DEVICEUUID"
-#          xcrun simctl boot $DEVICEUUID
-#          sleep 30
 
       ##################################################################################################
       # Emulator config - end
