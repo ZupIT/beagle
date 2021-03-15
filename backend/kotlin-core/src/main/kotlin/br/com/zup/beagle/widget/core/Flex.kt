@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.ext.unitReal
+import com.sun.org.apache.bcel.internal.generic.VariableLengthInstruction
+
 /**
  *
  * The flex is a Layout component that will handle your visual component positioning at the screen.
@@ -112,7 +115,80 @@ data class EdgeValue(
     val horizontal: UnitValue? = null,
     val vertical: UnitValue? = null,
     val all: UnitValue? = null
-)
+) {
+
+    companion object {
+
+        private fun createUnitValueIfValueNotNull(value: Double?, unitType: UnitType): UnitValue? {
+            if (value == null) return null
+
+            return UnitValue(value, unitType)
+        }
+
+        fun only(
+            left: Int? = null,
+            unitTypeLeft: UnitType = UnitType.REAL,
+            top: Int? = null,
+            unitTypeTop: UnitType = UnitType.REAL,
+            right: Int? = null,
+            unitTypeRight: UnitType = UnitType.REAL,
+            bottom: Int? = null,
+            unitTypeBottom: UnitType = UnitType.REAL,
+        ): EdgeValue {
+            return only(
+                left = left,
+                unitTypeLeft = unitTypeLeft,
+                top = top,
+                unitTypeTop = unitTypeTop,
+                right = right,
+                unitTypeRight = unitTypeRight,
+                bottom = bottom,
+                unitTypeBottom = unitTypeBottom)
+        }
+
+        fun only(
+            left: Double? = null,
+            unitTypeLeft: UnitType = UnitType.REAL,
+            top: Double? = null,
+            unitTypeTop: UnitType = UnitType.REAL,
+            right: Double? = null,
+            unitTypeRight: UnitType = UnitType.REAL,
+            bottom: Double? = null,
+            unitTypeBottom: UnitType = UnitType.REAL,
+        ): EdgeValue {
+            return EdgeValue(
+                left = createUnitValueIfValueNotNull(left, unitTypeLeft),
+                top = createUnitValueIfValueNotNull(top, unitTypeTop),
+                right = createUnitValueIfValueNotNull(right, unitTypeRight),
+                bottom = createUnitValueIfValueNotNull(bottom, unitTypeBottom)
+            )
+        }
+
+        fun all(all: Int,
+                unitType: UnitType = UnitType.REAL): EdgeValue =
+            all(all.toDouble(), unitType)
+
+        fun all(all: Double,
+                unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(all = UnitValue(all, unitType))
+
+        fun horizontal(horizontal: Int,
+                       unitType: UnitType = UnitType.REAL): EdgeValue =
+            horizontal(horizontal.toDouble(), unitType)
+
+        fun horizontal(horizontal: Double,
+                       unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(horizontal = UnitValue(horizontal, unitType))
+
+        fun vertical(vertical: Int,
+                     unitType: UnitType = UnitType.REAL): EdgeValue =
+            vertical(vertical.toDouble(), unitType)
+
+        fun vertical(vertical: Double,
+                     unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(vertical = UnitValue(vertical, unitType))
+    }
+}
 
 /**
  *  controls the direction in which the children of a node are laid out. This is also referred to as the main axis.

@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.ext.unitReal
+
 /**
  * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
  * @property value the numeric measurement value.
@@ -23,8 +25,18 @@ package br.com.zup.beagle.widget.core
  */
 data class UnitValue(
     val value: Double,
-    val type: UnitType
-)
+    val type: UnitType = UnitType.REAL
+) {
+    companion object {
+        fun real(real: Int) = real(real.toDouble())
+
+        fun real(real: Double) = UnitValue(real, UnitType.REAL)
+
+        fun percent(percent: Int) = percent(percent.toDouble())
+
+        fun percent(percent: Double) = UnitValue(percent, UnitType.PERCENT)
+    }
+}
 
 /**
  * This defines of a unit type;
