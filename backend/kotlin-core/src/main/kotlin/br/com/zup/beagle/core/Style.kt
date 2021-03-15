@@ -49,18 +49,18 @@ import br.com.zup.beagle.widget.core.Size
  * @param positionType The position type of an element defines how it is positioned within its parent.
  * @param display enables a flex context for all its direct children.
  */
-data class Style (
-    val backgroundColor: String? = null,
-    val cornerRadius: CornerRadius? = null,
-    val borderColor: String? = null,
-    val borderWidth: Double? = null,
-    val size: Size? = null,
-    val margin: EdgeValue? = null,
-    val padding: EdgeValue? = null,
-    val position: EdgeValue? = null,
-    val flex: Flex? = null,
-    val positionType: PositionType? = null,
-    val display: Bind<Display>? = null
+data class Style(
+    var backgroundColor: String? = null,
+    var cornerRadius: CornerRadius? = null,
+    var borderColor: String? = null,
+    var borderWidth: Double? = null,
+    var size: Size? = null,
+    var margin: EdgeValue? = null,
+    var padding: EdgeValue? = null,
+    var position: EdgeValue? = null,
+    var flex: Flex? = null,
+    var positionType: PositionType? = null,
+    var display: Bind<Display>? = null
 )
 
 /**
@@ -113,3 +113,6 @@ enum class PositionType {
      */
     RELATIVE
 }
+
+
+

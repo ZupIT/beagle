@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.widget.layout
 
-/**
- * Component that hold the style
- * @property style attribute will enable a few visual options to be changed.
- */
+import br.com.zup.beagle.core.StyleComponent
+import br.com.zup.beagle.ext.Styled
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.JustifyContent
 
-@BeagleJson
-interface StyleComponent : ServerDrivenComponent {
-    var style: Style?
+fun <T : StyleComponent> Center(child: T): T {
+    return Styled(child, {
+        flex.justifyContent = JustifyContent.CENTER
+        flex.alignContent = AlignContent.CENTER
+        flex.alignSelf = AlignSelf.CENTER
+    })
 }

@@ -62,7 +62,7 @@ internal class FlexMapper {
     ) {
 
         if (style.display != null) {
-            internalObserveBindChanges(rootView, view, style.display) {
+            internalObserveBindChanges(rootView, view, style.display!!) {
                 yogaNode.display = makeYogaDisplay(it) ?: YogaDisplay.FLEX
                 view.requestLayout()
             }
