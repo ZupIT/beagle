@@ -16,6 +16,15 @@
 
 package br.com.zup.beagle.platform
 
+import br.com.zup.beagle.core.ServerDrivenComponent
+
+fun <T : ServerDrivenComponent> Platform(platform: BeaglePlatform,
+                                         child: T): BeaglePlatformWrapper<T> {
+    return child.setPlatform(platform)
+}
+
+fun <T: ServerDrivenComponent> T.setPlatform(platform: BeaglePlatform) = BeaglePlatformWrapper(this, platform)
+
 enum class BeaglePlatform {
     ALL,
     MOBILE,

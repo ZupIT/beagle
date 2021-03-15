@@ -18,4 +18,6 @@ package br.com.zup.beagle.platform
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("setPlatform()") )
 fun <T: ServerDrivenComponent> T.forPlatform(platform: BeaglePlatform) = BeaglePlatformWrapper(this, platform)

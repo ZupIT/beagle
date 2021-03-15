@@ -21,7 +21,6 @@ import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.FlexDirection
-import com.sun.rowset.internal.Row
 
 fun Row(
     context: ContextData? = null,
