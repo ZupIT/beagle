@@ -19,7 +19,7 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
 
-fun <T : StyleComponent> Expanded(child: T, grow: Double = 1.0): T {
+fun <T : StyleComponent> Expanded(grow: Double = 1.0, child: T): T {
     return Styled(child, {
         flex.grow = grow
     })

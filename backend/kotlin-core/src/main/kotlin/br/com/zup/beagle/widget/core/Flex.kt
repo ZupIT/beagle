@@ -72,13 +72,13 @@ data class Flex(
  *
  */
 data class Size(
-    val width: UnitValue? = null,
-    val height: UnitValue? = null,
-    val maxWidth: UnitValue? = null,
-    val maxHeight: UnitValue? = null,
-    val minWidth: UnitValue? = null,
-    val minHeight: UnitValue? = null,
-    val aspectRatio: Double? = null
+    var width: UnitValue? = null,
+    var height: UnitValue? = null,
+    var maxWidth: UnitValue? = null,
+    var maxHeight: UnitValue? = null,
+    var minWidth: UnitValue? = null,
+    var minHeight: UnitValue? = null,
+    var aspectRatio: Double? = null
 )
 
 /**

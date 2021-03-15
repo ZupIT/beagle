@@ -18,10 +18,23 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
-import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.UnitValue
 
-fun <T : StyleComponent> Margin(margin: EdgeValue, child: T): T {
+fun <T : StyleComponent> SizedBox(width: Int,
+                                  height: Int,
+                                  child: T): T =
+    SizedBox(width = UnitValue.real(width), height = UnitValue.real(height), child)
+
+fun <T : StyleComponent> SizedBox(width: Double,
+                                  height: Double,
+                                  child: T): T =
+    SizedBox(width = UnitValue.real(width), height = UnitValue.real(height), child)
+
+fun <T : StyleComponent> SizedBox(width: UnitValue,
+                                  height: UnitValue,
+                                  child: T): T {
     return Styled(child, {
-        this.margin = margin
+        this.size?.width = width
+        this.size?.height = height
     })
 }

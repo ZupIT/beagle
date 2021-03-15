@@ -20,7 +20,7 @@ import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.EdgeValue
 
-fun <T : StyleComponent> Padding(child: T, padding: EdgeValue): T {
+fun <T : StyleComponent> Padding(padding: EdgeValue, child: T): T {
     return Styled(child, {
         this.padding = padding
     })
