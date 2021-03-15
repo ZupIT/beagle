@@ -25,6 +25,14 @@ sealed class Bind<T> : Serializable {
     }
 
     data class Value<T : Any>(val value: T) : Bind<T>()
+
+    companion object {
+        fun <T> expression(expression: String) = expressionOf<T>(expression)
+
+        fun <T : Any> value(value: T) = valueOf(value)
+
+        fun <T : Any> valueNullable(value: T?) = valueOfNullable(value)
+    }
 }
 
 /**
