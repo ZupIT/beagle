@@ -23,5 +23,5 @@ package br.com.zup.beagle.core
 
 @BeagleJson
 interface StyleComponent : ServerDrivenComponent {
-    var style: Style?
+    val style: Style?
 }

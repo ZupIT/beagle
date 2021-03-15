@@ -47,16 +47,16 @@ import br.com.zup.beagle.core.BeagleJson
 
 @BeagleJson
 data class Flex(
-    var flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
-    var flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
-    var justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
-    var alignItems: AlignItems? = null, /* = Alignment.STRETCH */
-    var alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
-    var alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
-    var basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
-    var flex: Double? = null, /* = 0.0 */
-    var grow: Double? = null, /* = 0.0 */
-    var shrink: Double? = null, /* = 1.0 */
+    val flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
+    val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
+    val justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
+    val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
+    val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
+    val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
+    val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
+    val flex: Double? = null, /* = 0.0 */
+    val grow: Double? = null, /* = 0.0 */
+    val shrink: Double? = null, /* = 1.0 */
 )
 
 /**
