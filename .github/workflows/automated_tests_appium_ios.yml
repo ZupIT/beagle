@@ -101,7 +101,7 @@ jobs:
 
       - name: Prepare iOS 13.5 simulator
         run: |
-          XCODE-PATH=`which xcode`
+          XCODE-PATH=`xcode-select --print-path`
           echo "XCODE-PATH:"
           $XCODE-PATH
           echo "XCODE VERSION:"
