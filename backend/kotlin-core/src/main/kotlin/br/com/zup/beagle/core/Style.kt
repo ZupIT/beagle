@@ -69,7 +69,7 @@ data class Style(
  * @param radius define size of radius
  */
 data class CornerRadius(
-    val radius: Double = 0.0
+    var radius: Double = 0.0
 )
 
 /**
