@@ -18,7 +18,6 @@ package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Flex
-import br.com.zup.beagle.ext.Styled
 
 /**
  *  The Expanded it is a helper to apply grow in your component

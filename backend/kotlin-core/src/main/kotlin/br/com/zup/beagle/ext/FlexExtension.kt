@@ -71,7 +71,8 @@ fun <T : StyleComponent> T.setFlex(block: FlexBuilder.() -> Unit): T {
  *                      but instead of affecting the children within a container.
  * @property alignContent Align content defines the distribution of lines along the cross-axis..
  * @property basis is an axis-independent way of providing the default size of an item along the main axis.
- * @property grow describes how any space within a container should be distributed among its children along the main axis.
+ * @property grow describes how any space within a container should be distributed among
+ *                  its children along the main axis.
  * @property shrink
  *              describes how to shrink children along the main axis in the case that
  *              the total size of the children overflow the size of the container on the main axis.
