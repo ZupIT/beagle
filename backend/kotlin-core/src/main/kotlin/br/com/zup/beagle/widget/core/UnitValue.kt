@@ -26,12 +26,28 @@ data class UnitValue(
     val type: UnitType = UnitType.REAL
 ) {
     companion object {
+        /**
+         * convert the int to value based in platform
+         * @return the unit value for real
+         */
         fun real(real: Int) = real(real.toDouble())
 
+        /**
+         * convert the int to value based in platform
+         * @return the unit value for real
+         */
         fun real(real: Double) = UnitValue(real, UnitType.REAL)
 
+        /**
+         * convert the value based in percentage.
+         * @return the unit value for percent
+         */
         fun percent(percent: Int) = percent(percent.toDouble())
 
+        /**
+         * convert the value based in percentage.
+         * @return the unit value for percent
+         */
         fun percent(percent: Double) = UnitValue(percent, UnitType.PERCENT)
     }
 }

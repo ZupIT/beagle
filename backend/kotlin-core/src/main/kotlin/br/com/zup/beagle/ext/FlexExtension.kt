@@ -26,6 +26,22 @@ import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.UnitValue
 
+/**
+ *  The Flex it is a helper to apply flex in your component
+ *
+ * @param self the component will apply flex
+ *
+ */
+@Suppress("FunctionNaming")
+fun <T : StyleComponent> Flex(self: T, block: FlexBuilder.() -> Unit): T {
+    return self.setFlex(block)
+}
+
+/**
+ *  The FlexBuilder it is a helper to set flex options in your component.
+ *  with this method you don't need instance any object, just set fields
+ *
+ */
 fun <T : StyleComponent> T.setFlex(block: FlexBuilder.() -> Unit): T {
     style = StyleBuilder(style).apply {
         flex = FlexBuilder(style?.flex)
@@ -36,6 +52,31 @@ fun <T : StyleComponent> T.setFlex(block: FlexBuilder.() -> Unit): T {
     return this
 }
 
+/**
+ *
+ * The flex is a Layout component that will handle your visual component positioning at the screen.
+ * Internally Beagle uses a Layout engine called Yoga Layout to position elements on screen.
+ * In fact it will use the HTML Flexbox properties applied on the visual components and its children.
+ *
+ * @property flexDirection
+ *                          controls the direction in which the children of a node are laid out.
+ *                          This is also referred to as the main axis
+ * @property flexWrap
+ *                  set on containers and controls what happens when children
+ *                  overflow the size of the container along the main axis.
+ * @property justifyContent align children within the main axis of their container.
+ * @property alignItems Align items describes how to align children along the cross axis of their container.
+ * @property alignSelf
+ *                      Align self has the same options and effect as align items
+ *                      but instead of affecting the children within a container.
+ * @property alignContent Align content defines the distribution of lines along the cross-axis..
+ * @property basis is an axis-independent way of providing the default size of an item along the main axis.
+ * @property grow describes how any space within a container should be distributed among its children along the main axis.
+ * @property shrink
+ *              describes how to shrink children along the main axis in the case that
+ *              the total size of the children overflow the size of the container on the main axis.
+ *
+ */
 class FlexBuilder(private val flexObject: Flex?) {
     var flexDirection: FlexDirection? = flexObject?.flexDirection
     var flexWrap: FlexWrap? = flexObject?.flexWrap

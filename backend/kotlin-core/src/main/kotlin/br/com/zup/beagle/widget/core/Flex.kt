@@ -143,6 +143,11 @@ data class EdgeValue(
             return UnitValue(value, unitType)
         }
 
+        /**
+         *
+         * Creates edge value with only field set non-null
+         *
+         */
         @Suppress("LongParameterList")
         fun only(
             left: Int? = null,
@@ -165,6 +170,11 @@ data class EdgeValue(
                 unitTypeBottom = unitTypeBottom)
         }
 
+        /**
+         *
+         * Creates edge value with only field set non-null
+         *
+         */
         @Suppress("LongParameterList")
         fun only(
             left: Double? = null,
@@ -184,26 +194,55 @@ data class EdgeValue(
             )
         }
 
+        /**
+         *
+         * Creates edge value where field all will be set
+         *
+         */
         fun all(all: Int,
                 unitType: UnitType = UnitType.REAL): EdgeValue =
             all(all.toDouble(), unitType)
 
+        /**
+         *
+         * Creates edge value where field all will be set
+         *
+         */
         fun all(all: Double,
                 unitType: UnitType = UnitType.REAL): EdgeValue =
             EdgeValue(all = UnitValue(all, unitType))
-
+        /**
+         *
+         * Creates edge value where field horizontal will be set
+         *
+         */
         fun horizontal(horizontal: Int,
                        unitType: UnitType = UnitType.REAL): EdgeValue =
             horizontal(horizontal.toDouble(), unitType)
 
+        /**
+         *
+         * Creates edge value where field horizontal will be set
+         *
+         */
         fun horizontal(horizontal: Double,
                        unitType: UnitType = UnitType.REAL): EdgeValue =
             EdgeValue(horizontal = UnitValue(horizontal, unitType))
 
+        /**
+         *
+         * Creates edge value where field vertical will be set
+         *
+         */
         fun vertical(vertical: Int,
                      unitType: UnitType = UnitType.REAL): EdgeValue =
             vertical(vertical.toDouble(), unitType)
 
+        /**
+         *
+         * Creates edge value where field vertical will be set
+         *
+         */
         fun vertical(vertical: Double,
                      unitType: UnitType = UnitType.REAL): EdgeValue =
             EdgeValue(vertical = UnitValue(vertical, unitType))

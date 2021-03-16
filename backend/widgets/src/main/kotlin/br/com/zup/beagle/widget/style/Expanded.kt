@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.StyleComponent
+import br.com.zup.beagle.ext.Flex
 import br.com.zup.beagle.ext.Styled
 
 /**
@@ -27,7 +28,7 @@ import br.com.zup.beagle.ext.Styled
  */
 @Suppress("FunctionNaming")
 fun <T : StyleComponent> Expanded(grow: Double = 1.0, self: T): T {
-    return Styled(self, {
-        flex.grow = grow
+    return Flex(self, {
+        this.grow = grow
     })
 }

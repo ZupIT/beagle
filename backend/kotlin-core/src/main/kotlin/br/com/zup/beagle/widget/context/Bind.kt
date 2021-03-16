@@ -19,18 +19,38 @@ package br.com.zup.beagle.widget.context
 import br.com.zup.beagle.widget.expression.ExpressionHelper
 import java.io.Serializable
 
+/**
+ * Bind is a representation of an expression in the form of a string that can then become any type of data
+ */
 sealed class Bind<T> : Serializable {
+
+    /**
+     * Represents the expression of bind
+     */
     data class Expression<T>(val value: String) : Bind<T>() {
         constructor(expression: ExpressionHelper<T>) : this(expression.representation)
     }
 
+    /**
+     * Represents the value of bind
+     */
     data class Value<T : Any>(val value: T) : Bind<T>()
 
     companion object {
+
+        /**
+         * Transform the reference value of the expression string to Bind.Expression<Type>
+         */
         fun <T> expression(expression: String) = expressionOf<T>(expression)
 
+        /**
+         * Transform Type value to Bind<Type>.
+         */
         fun <T : Any> value(value: T) = valueOf(value)
 
+        /**
+         * Checks if the value is null. Returns if the value is not null.
+         */
         fun <T : Any> valueNullable(value: T?) = valueOfNullable(value)
     }
 }

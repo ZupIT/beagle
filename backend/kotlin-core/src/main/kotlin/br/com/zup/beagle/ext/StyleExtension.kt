@@ -26,17 +26,56 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 
+/**
+ *  The Styled it is a helper to apply style in your component
+ *
+ * @param self the component will apply style
+ *
+ */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Styled(component: T, block: StyleBuilder.() -> Unit): T {
-    component.style = StyleBuilder(component.style).apply(block).build()
-    return component
+inline fun <T : StyleComponent> Styled(self: T, block: StyleBuilder.() -> Unit): T {
+    self.style = StyleBuilder(self.style).apply(block).build()
+    return self
 }
 
-fun <T : StyleComponent> T.setStyle(block: StyleBuilder.() -> Unit): T {
+/**
+ *  The StyleBuilder it is a helper to set style options in your component.
+ *  with this method you don't need instance any object, just set fields
+ *
+ */
+inline fun <T : StyleComponent> T.setStyle(block: StyleBuilder.() -> Unit): T {
     this.style = StyleBuilder(this.style).apply(block).build()
     return this
 }
 
+/**
+ * The style class will enable a few visual options to be changed.
+ *
+ * @property backgroundColor
+ *                          Using a String parameter it sets the background color on this visual component.
+ *                          It must be listed as an Hexadecimal color format without the "#".
+ *                          For example, for a WHITE background type in "FFFFFF".
+ * @property cornerRadius Using a Double parameters it sets the corner of your view to make it round.
+ * @property borderColor Sets the color of your view border. Supported formats:#RRGGBB[AA] and #RGB[A].
+ * @property borderWidth Sets the width of your view border.
+ * @property size add size to current view applying the flex.
+ * @property margin
+ *                  effects the spacing around the outside of a node.
+ *                  A node with margin will offset itself from the bounds of its parent
+ *                  but also offset the location of any siblings.
+ *                  The margin of a node contributes to the total size of its parent if the parent is auto sized.
+ * @property padding
+ *                  affects the size of the node it is applied to.
+ *                  Padding in Yoga acts as if box-sizing: border-box; was set.
+ *                  That is padding will not add to the total size of an element if it has an explicit size set.
+ *                  For auto sized nodes padding will increase the size of the
+ *                  node as well as offset the location of any children..
+ * @property position add padding to position.
+ * @property flex
+ * @see Flex
+ * @property positionType The position type of an element defines how it is positioned within its parent.
+ * @property display enables a flex context for all its direct children.
+ */
 data class StyleBuilder(private val style: Style?) {
     var backgroundColor: String? = style?.backgroundColor
     var cornerRadius: CornerRadius? = style?.cornerRadius ?: CornerRadius()
