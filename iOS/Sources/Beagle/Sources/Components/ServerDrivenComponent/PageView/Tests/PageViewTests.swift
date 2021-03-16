@@ -126,5 +126,26 @@ class PageViewTests: XCTestCase {
         
         XCTAssertEqual(page?.navigationController, navigation)
     }
+    
+    func test_viewShouldBeReleased() {
+        // Given
+        let controller = BeagleScreenViewController(ComponentDummy())
+        var strongReference: UIView? = PageView(
+            children: [ComponentDummy()],
+            context: .init(id: "context", value: 0),
+            onPageChange: [ActionDummy()],
+            currentPage: "@{context}"
+        ).toView(renderer: controller.renderer)
+        
+        // When
+        weak var weakReference = strongReference
+        // Then
+        XCTAssertNotNil(weakReference)
+        
+        // When
+        strongReference = nil
+        // Then
+        XCTAssertNil(weakReference)
+    }
 
 }
