@@ -25,9 +25,13 @@ import br.com.zup.beagle.widget.ui.TabBar
 import br.com.zup.beagle.widget.ui.TabBarItem
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabBarItem.", ReplaceWith("TabBar()"))
 fun tabBar(block: TabBarBuilder.() -> Unit) = TabBarBuilder().apply(block).build()
 
-class TabBarBuilder: BeagleBuilder<TabBar> {
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabBarItem.", ReplaceWith("TabBar()"))
+class TabBarBuilder : BeagleBuilder<TabBar> {
     var items: MutableList<TabBarItem> by Delegates.notNull()
     var styleId: String? = null
     var currentTab: Bind<Int>? = null
@@ -36,22 +40,22 @@ class TabBarBuilder: BeagleBuilder<TabBar> {
     fun items(items: List<TabBarItem>) = this.apply { this.items = items.toMutableList() }
     fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
     fun currentTab(currentTab: Bind<Int>?) = this.apply { this.currentTab = currentTab }
-    fun onTabSelection(onTabSelection: List<Action>?)
-        = this.apply { this.onTabSelection = onTabSelection?.toMutableList() }
+    fun onTabSelection(onTabSelection: List<Action>?) =
+        this.apply { this.onTabSelection = onTabSelection?.toMutableList() }
 
     fun items(block: BeagleListBuilder<TabBarItem>.() -> Unit) {
         items(BeagleListBuilder<TabBarItem>().apply(block).build())
     }
 
-    fun styleId(block: () -> String?){
+    fun styleId(block: () -> String?) {
         styleId(block.invoke())
     }
 
-    fun currentTab(block: () -> Bind<Int>?){
+    fun currentTab(block: () -> Bind<Int>?) {
         currentTab(block.invoke())
     }
 
-    fun onTabSelection(block: BeagleListBuilder<Action>.() -> Unit){
+    fun onTabSelection(block: BeagleListBuilder<Action>.() -> Unit) {
         onTabSelection(BeagleListBuilder<Action>().apply(block).buildNullable())
     }
 
@@ -63,20 +67,24 @@ class TabBarBuilder: BeagleBuilder<TabBar> {
     )
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabBarItem.", ReplaceWith("TabBarItem()"))
 fun tabBarItem(block: TabBarItemBuilder.() -> Unit) = TabBarItemBuilder().apply(block).build()
 
-class TabBarItemBuilder: BeagleBuilder<TabBarItem>{
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabBarItem.", ReplaceWith("TabBarItem()"))
+class TabBarItemBuilder : BeagleBuilder<TabBarItem> {
     var title: String? = null
     var icon: ImagePath.Local? = null
 
     fun title(title: String?) = this.apply { this.title = title }
     fun icon(icon: ImagePath.Local?) = this.apply { this.icon = icon }
 
-    fun title(block: () -> String?){
+    fun title(block: () -> String?) {
         title(block.invoke())
     }
 
-    fun icon(block: ImagePathLocalBuilder.() -> Unit){
+    fun icon(block: ImagePathLocalBuilder.() -> Unit) {
         icon(ImagePathLocalBuilder().apply(block).build())
     }
 

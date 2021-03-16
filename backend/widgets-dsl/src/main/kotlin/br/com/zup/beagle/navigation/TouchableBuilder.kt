@@ -25,8 +25,12 @@ import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.navigation.Touchable
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Touchable.", ReplaceWith("Touchable()"))
 fun touchable(block: TouchableBuilder.() -> Unit) = TouchableBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Touchable.", ReplaceWith("Touchable()"))
 class TouchableBuilder : BeagleBuilder<Touchable> {
     var onPress: MutableList<Action> by Delegates.notNull()
     var child: ServerDrivenComponent by Delegates.notNull()

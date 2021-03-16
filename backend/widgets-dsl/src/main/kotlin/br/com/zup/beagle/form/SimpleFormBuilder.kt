@@ -25,8 +25,12 @@ import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.form.SimpleForm
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SimpleForm.", ReplaceWith("SimpleForm()"))
 fun simpleForm(block: SimpleFormBuilder.() -> Unit) = SimpleFormBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SimpleForm.", ReplaceWith("SimpleForm()"))
 class SimpleFormBuilder : BeagleBuilder<SimpleForm> {
     var context: ContextData by Delegates.notNull()
     var onSubmit: MutableList<Action> by Delegates.notNull()

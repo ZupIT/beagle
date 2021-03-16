@@ -19,9 +19,13 @@ package br.com.zup.beagle.builder.core
 import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.core.Accessibility
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Accessibility.", ReplaceWith("Accessibility()"))
 fun accessibility(block: AccessibilityBuilder.() -> Unit)
         = AccessibilityBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Accessibility.", ReplaceWith("Accessibility()"))
 class AccessibilityBuilder: BeagleBuilder<Accessibility> {
     var accessible: Boolean = true
     var isHeader: Boolean = false

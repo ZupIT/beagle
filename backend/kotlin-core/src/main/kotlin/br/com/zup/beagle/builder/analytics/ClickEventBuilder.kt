@@ -20,8 +20,12 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.builder.BeagleBuilder
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ClickEvent.", ReplaceWith("ClickEvent()"))
 fun clickEvent(block: ClickEventBuilder.() -> Unit) = ClickEventBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ClickEvent.", ReplaceWith("ClickEvent()"))
 class ClickEventBuilder: BeagleBuilder<ClickEvent> {
     var category: String by Delegates.notNull()
     var label: String? = null

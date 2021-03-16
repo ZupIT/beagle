@@ -25,8 +25,12 @@ import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ScrollView.", ReplaceWith("ScrollView()"))
 fun scrollView(block: ScrollViewBuilder.() -> Unit) = ScrollViewBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ScrollView.", ReplaceWith("ScrollView()"))
 class ScrollViewBuilder : BeagleBuilder<ScrollView> {
     var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
     var scrollDirection: ScrollAxis? = null

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.builder
 
 @BeagleDsl
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.")
 interface BeagleBuilder<T> {
 
     fun <F> listBuilder(block: BeagleListBuilder<F>.() -> Unit)
@@ -34,6 +35,7 @@ interface BeagleBuilder<T> {
     fun build(): T
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.")
 class BeagleListBuilder<T> {
     private var list: MutableList<T>? = null
 
@@ -81,6 +83,7 @@ class BeagleListBuilder<T> {
     }
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.")
 class BeagleMapBuilder<T : Any, F> {
     private var map: MutableMap<T, F>? = null
 

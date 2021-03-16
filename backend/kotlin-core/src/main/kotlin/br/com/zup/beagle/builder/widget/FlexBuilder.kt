@@ -28,8 +28,12 @@ import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitValue
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Flex.", ReplaceWith("Flex()"))
 fun flex(block: FlexBuilder.() -> Unit) = FlexBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Flex.", ReplaceWith("Flex()"))
 class FlexBuilder : BeagleBuilder<Flex> {
     var flexDirection: FlexDirection? = null
     var flexWrap: FlexWrap? = null
@@ -107,8 +111,12 @@ class FlexBuilder : BeagleBuilder<Flex> {
     )
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Flex.", ReplaceWith("Size()"))
 fun size(block: SizeBuilder.() -> Unit) = SizeBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Flex.", ReplaceWith("Size()"))
 class SizeBuilder : BeagleBuilder<Size> {
     var width: UnitValue? = null
     var height: UnitValue? = null
@@ -166,8 +174,12 @@ class SizeBuilder : BeagleBuilder<Size> {
     )
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Flex.", ReplaceWith("EdgeValue()"))
 fun edgeValue(block: EdgeValueBuilder.() -> Unit) = EdgeValueBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Flex.", ReplaceWith("EdgeValue()"))
 class EdgeValueBuilder : BeagleBuilder<EdgeValue> {
     var left: UnitValue? = null
     var top: UnitValue? = null
@@ -212,7 +224,6 @@ class EdgeValueBuilder : BeagleBuilder<EdgeValue> {
     fun all(block: () -> UnitValue?) {
         all(block.invoke())
     }
-
 
     override fun build() = EdgeValue(
         left = left,
