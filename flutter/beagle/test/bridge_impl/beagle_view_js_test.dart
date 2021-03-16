@@ -17,11 +17,16 @@
 import 'package:beagle/beagle.dart';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
+import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/model/beagle_action.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 class BeagleJSEngineMock extends Mock implements BeagleJSEngine {}
+
+class BuildContextMock extends Mock implements BuildContext {}
 
 void main() {
   const createdViewId = 'viewId';
@@ -92,6 +97,18 @@ void main() {
         beagleView.subscribe(onUpdateListener);
 
         verify(jsEngineMock.onViewUpdate(createdViewId, onUpdateListener));
+      });
+    });
+
+    group('When onAction is called', () {
+      test('Then should register the view action listener at BeagleJSEngine',
+          () {
+        void onActionListener(
+            {BeagleAction action, BeagleView view, BeagleUIElement element}) {}
+
+        beagleView.onAction(onActionListener);
+
+        verify(jsEngineMock.onAction(createdViewId, onActionListener));
       });
     });
   });

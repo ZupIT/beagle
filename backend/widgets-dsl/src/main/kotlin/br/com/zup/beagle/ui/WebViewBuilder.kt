@@ -21,8 +21,12 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.ui.WebView
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class WebView.", ReplaceWith("WebView()"))
 fun webView(block: WebViewBuilder.() -> Unit) = WebViewBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class WebView.", ReplaceWith("WebView()"))
 class WebViewBuilder: BeagleBuilder<WebView> {
     var url: Bind<String> by Delegates.notNull()
 

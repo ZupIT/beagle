@@ -22,8 +22,12 @@ import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.context.Bind
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Confirm.", ReplaceWith("Confirm()"))
 fun confirm(block: ConfirmBuilder.() -> Unit): Confirm = ConfirmBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Confirm.", ReplaceWith("Confirm()"))
 class ConfirmBuilder : BeagleBuilder<Confirm> {
     var title: Bind<String>? = null
     var message: Bind<String> by Delegates.notNull()

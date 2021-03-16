@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.dp
@@ -42,6 +43,7 @@ import br.com.zup.beagle.android.view.custom.BeagleView
 import br.com.zup.beagle.android.view.custom.OnLoadCompleted
 import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
+import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -127,7 +129,7 @@ class ViewExtensionsKtTest : BaseTest() {
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
         every { viewGroup.context } returns activity
-        every { beagleView.loadView(any()) } just Runs
+        every { beagleView.loadView(any<RequestData>()) } just Runs
         every { activity.getSystemService(Activity.INPUT_METHOD_SERVICE) } returns inputMethodManager
         every { beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
@@ -282,12 +284,13 @@ class ViewExtensionsKtTest : BaseTest() {
             viewGroup.loadView(fragment, screenRequest, onStateChanged)
 
             // Then
+            val requestData = screenRequest.toRequestData()
             verifySequence {
                 generateIdViewModel.createIfNotExisting(0)
                 viewFactory.makeBeagleView(any<FragmentRootView>())
                 beagleView.stateChangedListener = any()
                 beagleView.serverStateChangedListener = any()
-                beagleView.loadView(screenRequest)
+                beagleView.loadView(requestData)
                 beagleView.loadCompletedListener = any()
                 beagleView.listenerOnViewDetachedFromWindow = any()
             }
@@ -300,8 +303,11 @@ class ViewExtensionsKtTest : BaseTest() {
             viewGroup.loadView(activity, screenRequest, onStateChanged)
 
             // Then
-            verify { viewFactory.makeBeagleView(any<ActivityRootView>()) }
-            verify { beagleView.loadView(screenRequest) }
+            val requestData = screenRequest.toRequestData()
+            verify {
+                viewFactory.makeBeagleView(any<ActivityRootView>())
+                beagleView.loadView(requestData)
+            }
         }
 
         @DisplayName("Then should call removeAllViews and call addView when load comples")

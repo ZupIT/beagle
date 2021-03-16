@@ -18,13 +18,22 @@ import 'package:beagle/action/beagle_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const beagleAlertKey = Key('BeagleAlert');
+const showAlertButtonText = 'Show Alert';
 
-MaterialApp _buildApp() {
+MaterialApp _buildApp(String title, String message, Function onPressOk) {
   return MaterialApp(
-    home: BeagleAlert(
-      key: beagleAlertKey,
-      child: Container(),
+    home: Builder(
+      builder: (context) {
+        return Center(
+          child: ElevatedButton(
+            onPressed: () {
+              BeagleAlert.showAlertDialog(context,
+                  title: title, message: message, onPressOk: onPressOk);
+            },
+            child: const Text(showAlertButtonText),
+          ),
+        );
+      },
     ),
   );
 }
@@ -34,8 +43,8 @@ void main() {
     group('When I call showAlertDialog', () {
       testWidgets('Then it should show an AlertDialog widget',
           (WidgetTester tester) async {
-        await tester.pumpWidget(_buildApp());
-        BeagleAlert.showAlertDialog(title: '', message: '', onPressOk: () {});
+        await tester.pumpWidget(_buildApp('', '', () {}));
+        await tester.tap(find.text(showAlertButtonText));
         await tester.pumpAndSettle();
 
         final alertDialogFinder = find.byType(AlertDialog);
@@ -48,9 +57,9 @@ void main() {
         const expectedTitle = 'Title';
         const expectedMessage = 'This is a message.';
 
-        await tester.pumpWidget(_buildApp());
-        BeagleAlert.showAlertDialog(
-            title: expectedTitle, message: expectedMessage, onPressOk: () {});
+        await tester
+            .pumpWidget(_buildApp(expectedTitle, expectedMessage, () {}));
+        await tester.tap(find.text(showAlertButtonText));
         await tester.pumpAndSettle();
 
         final titleFinder = find.text(expectedTitle);
@@ -63,8 +72,8 @@ void main() {
       testWidgets('Then it should have a button with OK text',
           (WidgetTester tester) async {
         const buttonText = 'OK';
-        await tester.pumpWidget(_buildApp());
-        BeagleAlert.showAlertDialog(title: '', message: '', onPressOk: () {});
+        await tester.pumpWidget(_buildApp('', '', () {}));
+        await tester.tap(find.text(showAlertButtonText));
         await tester.pumpAndSettle();
 
         final textFinder = find.text(buttonText);
@@ -81,9 +90,8 @@ void main() {
           didPressOk = true;
         }
 
-        await tester.pumpWidget(_buildApp());
-        BeagleAlert.showAlertDialog(
-            title: '', message: '', onPressOk: onPressOK);
+        await tester.pumpWidget(_buildApp('', '', onPressOK));
+        await tester.tap(find.text(showAlertButtonText));
         await tester.pumpAndSettle();
 
         expect(didPressOk, false);

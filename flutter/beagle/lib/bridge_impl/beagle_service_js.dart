@@ -17,6 +17,7 @@
 
 import 'dart:convert';
 
+import 'package:beagle/beagle.dart';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
@@ -35,6 +36,7 @@ class BeagleServiceJS implements BeagleService {
     this.actions,
     this.strategy,
     this.navigationControllers,
+    this.customOperations,
   });
 
   @override
@@ -51,6 +53,8 @@ class BeagleServiceJS implements BeagleService {
   BeagleNetworkStrategy strategy;
   @override
   Map<String, NavigationController> navigationControllers;
+  @override
+  Map<String, Operation> customOperations;
 
   final BeagleJSEngine _beagleJSEngine;
 
@@ -69,16 +73,16 @@ class BeagleServiceJS implements BeagleService {
   @override
   Future<void> start() async {
     await _beagleJSEngine.start();
-
     _registerBeagleService();
     _registerHttpListener();
-    _registerActionListener();
+    _registerOperationListener();
   }
 
   void _registerBeagleService() {
     final params = {
       'baseUrl': baseUrl,
       'actionKeys': actions.keys.toList(),
+      'customOperations': customOperations.keys.toList(),
       'useBeagleHeaders': useBeagleHeaders,
       'strategy': NetworkStrategyUtils.getJsStrategyName(strategy),
     };
@@ -97,13 +101,13 @@ class BeagleServiceJS implements BeagleService {
     });
   }
 
-  void _registerActionListener() {
-    _beagleJSEngine.onAction(({action, view, element}) {
-      final handler = actions[action.getType()];
+  void _registerOperationListener() {
+    _beagleJSEngine.onOperation((operationName, params) {
+      final handler = customOperations[operationName];
       if (handler == null) {
         return;
       }
-      handler(action: action, view: view, element: element);
+      handler(params);
     });
   }
 }

@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi.moshi
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
@@ -51,7 +52,15 @@ internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : Js
         val value = jsonValue as Map<String, Any>
         return if (value.containsKey(URL)) {
             val url = adapter.fromJsonValue(value[URL] as String)!!
-            Route.Remote(url, value[SHOULD_PREFETCH] as Boolean, convertScreen(value[FALLBACK]))
+            val httpAdditionalData = moshi.adapter(HttpAdditionalData::class.java)
+                .fromJsonValue(value[HTTP_ADDITIONAL_DATA])
+
+            Route.Remote(
+                url,
+                value[SHOULD_PREFETCH] as Boolean,
+                convertScreen(value[FALLBACK]),
+                httpAdditionalData,
+            )
         } else {
             val message = "Expected a Screen for the screen key in $value."
             Route.Local(convertScreen(value[SCREEN]) ?: throw JsonDataException(message))
@@ -68,6 +77,8 @@ internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : Js
                 moshi.adapter(Boolean::class.java).toJson(writer, value.shouldPrefetch)
                 writer.name(FALLBACK)
                 moshi.adapter(Screen::class.java).toJson(writer, value.fallback)
+                writer.name(HTTP_ADDITIONAL_DATA)
+                moshi.adapter(HttpAdditionalData::class.java).toJson(writer, value.httpAdditionalData)
             }
             is Route.Local -> {
                 writer.name(SCREEN)
@@ -85,5 +96,6 @@ internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : Js
         private const val SHOULD_PREFETCH = "shouldPrefetch"
         private const val FALLBACK: String = "fallback"
         private const val SCREEN: String = "screen"
+        private const val HTTP_ADDITIONAL_DATA: String = "httpAdditionalData"
     }
 }

@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.builder
+package br.com.zup.beagle.android.networking
 
+import android.os.Parcelable
+import br.com.zup.beagle.core.BeagleJson
+import kotlinx.android.parcel.Parcelize
 
-@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.")
-@DslMarker
-annotation class BeagleDsl
+/**
+ * HttpAdditionalData is used to do requests.
+ * @param method HTTP method.
+ * @param headers Header items for the request.
+ * @param body Content that will be delivered with the request.
+ */
+@BeagleJson
+@Parcelize
+data class HttpAdditionalData(
+    val method: HttpMethod? = HttpMethod.GET,
+    val headers: Map<String, String>? = hashMapOf(),
+    val body: String? = null,
+): Parcelable

@@ -25,9 +25,10 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import java.net.URI
 
 internal class BeagleApi(
-    private val httpClient: HttpClient? = BeagleEnvironment.beagleSdk.httpClient
+    private val httpClient: HttpClient? = BeagleEnvironment.beagleSdk.httpClient,
 ) {
     companion object {
         const val BEAGLE_PLATFORM_HEADER_KEY = "beagle-platform"
@@ -42,8 +43,10 @@ internal class BeagleApi(
     suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
         if (httpClient == null) throw BeagleApiException(
             ResponseData(-1, data = HTTP_CLIENT_NULL.toByteArray()), request)
-        val transformedRequest = request.let { it.copy(headers = it.headers + FIXED_HEADERS) }
+        val transformedRequest = mapperDeprecatedFields(request)
+
         BeagleMessageLogs.logHttpRequestData(transformedRequest)
+
         val call = httpClient.execute(
             request = transformedRequest,
             onSuccess = { response ->
@@ -53,7 +56,7 @@ internal class BeagleApi(
             val exception = BeagleApiException(
                 response,
                 request,
-                genericErrorMessage(transformedRequest.uri.toString()))
+                genericErrorMessage(transformedRequest.url ?: ""))
 
             BeagleMessageLogs.logUnknownHttpError(exception)
             cont.resumeWithException(
@@ -63,6 +66,24 @@ internal class BeagleApi(
         cont.invokeOnCancellation {
             call.cancel()
         }
+    }
+
+    private fun mapperDeprecatedFields(request: RequestData): RequestData {
+        val headers = request.headers + FIXED_HEADERS
+        val url = request.url?.formatUrl() ?: ""
+        val uri = if (url.isNotEmpty()) URI(url) else request.uri
+        var additionalData = request.httpAdditionalData
+
+        additionalData = additionalData.copy(
+            headers = (additionalData.headers ?: hashMapOf()) + FIXED_HEADERS,
+        )
+
+        return request.copy(
+            url = url,
+            uri = uri,
+            headers = headers,
+            httpAdditionalData = additionalData,
+        )
     }
 
     private fun genericErrorMessage(url: String) = "fetchData error for url $url"

@@ -22,8 +22,12 @@ import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ImagePath
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabBarItem.", ReplaceWith("Image()"))
 fun image(block: ImageBuilder.() -> Unit) = ImageBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabBarItem.", ReplaceWith("Image()"))
 class ImageBuilder : BeagleBuilder<Image> {
     var path: ImagePath by Delegates.notNull()
     var mode: ImageContentMode? = null
@@ -42,7 +46,12 @@ class ImageBuilder : BeagleBuilder<Image> {
     override fun build() = Image(path, mode)
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ImagePath.Local.", ReplaceWith("ImagePath.Local"))
 fun imagePathLocal(block: ImagePathLocalBuilder.() -> Unit) = ImagePathLocalBuilder().apply(block).build()
+
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ImagePath.Remote.", ReplaceWith("ImagePath.Remote()"))
 fun imagePathRemote(block: ImagePathRemoteBuilder.() -> Unit) = ImagePathRemoteBuilder().apply(block).build()
 
 interface ImagePathBuilderHelper {
@@ -64,6 +73,8 @@ interface ImagePathBuilderHelper {
 
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ImagePath.Remote.", ReplaceWith("ImagePath.Remote()"))
 class ImagePathRemoteBuilder : BeagleBuilder<ImagePath.Remote> {
     var remoteUrl: String by Delegates.notNull()
     var placeholder: ImagePath.Local? = null
@@ -82,6 +93,8 @@ class ImagePathRemoteBuilder : BeagleBuilder<ImagePath.Remote> {
     override fun build() = ImagePath.Remote(remoteUrl, placeholder)
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ImagePath.Local.", ReplaceWith("ImagePath.Local"))
 class ImagePathLocalBuilder : BeagleBuilder<ImagePath.Local> {
     var webUrl: String? = null
     var mobileId: String? = null

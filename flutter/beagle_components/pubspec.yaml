@@ -10,17 +10,17 @@ environment:
   flutter: ">=1.22.5"
 
 dependencies:
-  flutter:
-    sdk: flutter
   beagle:
     path: '../beagle'
+  flutter:
+    sdk: flutter
   webview_flutter: ^1.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.9.0
   mockito: ^4.1.4
+  pedantic: ^1.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

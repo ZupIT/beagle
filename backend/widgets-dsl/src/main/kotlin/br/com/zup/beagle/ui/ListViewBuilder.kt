@@ -23,14 +23,17 @@ import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.ui.ListView
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ListView.", ReplaceWith("ListView()"))
 fun listView(block: ListViewBuilder.() -> Unit) = ListViewBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class ListView.", ReplaceWith("ListView()"))
 class ListViewBuilder : BeagleBuilder<ListView> {
     var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
     var direction: ListDirection = ListDirection.VERTICAL
 
-    fun children(children: List<ServerDrivenComponent>)
-        = this.apply { this.children = children.toMutableList() }
+    fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children.toMutableList() }
     fun direction(direction: ListDirection) = this.apply { this.direction = direction }
 
     fun children(block: BeagleListBuilder<ServerDrivenComponent>.() -> Unit) {

@@ -29,6 +29,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.EOFException
 import java.net.HttpURLConnection
+import java.net.URI
 
 typealias OnSuccess = (responseData: ResponseData) -> Unit
 typealias OnError = (responseData: ResponseData) -> Unit
@@ -39,10 +40,11 @@ class HttpClientDefault : HttpClient, CoroutineScope {
     private val job = Job()
     override val coroutineContext = job + CoroutineDispatchers.IO
 
+
     override fun execute(
         request: RequestData,
         onSuccess: OnSuccess,
-        onError: OnError
+        onError: OnError,
     ): RequestCall {
         if (getOrDeleteOrHeadHasData(request)) {
             onError(ResponseData(-1, data = byteArrayOf()))
@@ -62,31 +64,36 @@ class HttpClientDefault : HttpClient, CoroutineScope {
     }
 
     private fun getOrDeleteOrHeadHasData(request: RequestData): Boolean {
-        return (request.method == HttpMethod.GET ||
-            request.method == HttpMethod.DELETE ||
-            request.method == HttpMethod.HEAD) &&
-            request.body != null
+        val method = request.httpAdditionalData.method
+        val body = request.httpAdditionalData.body
+        return (method == HttpMethod.GET ||
+            method == HttpMethod.DELETE ||
+            method == HttpMethod.HEAD) &&
+            body != null
     }
 
     @Throws(BeagleApiException::class)
     private fun doHttpRequest(
-        request: RequestData
+        request: RequestData,
     ): ResponseData {
         val urlConnection: HttpURLConnection
 
         try {
-            urlConnection = request.uri.toURL().openConnection() as HttpURLConnection
+            val uri = URI(request.url)
+
+            urlConnection = uri.toURL().openConnection() as HttpURLConnection
         } catch (e: Exception) {
             throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
         }
-
-        request.headers.forEach {
+        
+        request.httpAdditionalData.headers?.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
         }
 
         addRequestMethod(urlConnection, request.method)
 
-        if (request.body != null) {
+        val body = request.httpAdditionalData?.body ?: request.body
+        if (body != null) {
             setRequestBody(urlConnection, request)
         }
 

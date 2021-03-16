@@ -57,6 +57,7 @@ class BeagleSdk {
 
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
+    Map<String, Operation> customOperations,
   }) {
     setupServiceLocator(
       beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
@@ -71,6 +72,7 @@ class BeagleSdk {
       imageDownloader: imageDownloader,
       strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
       logger: logger ?? DefaultEmptyLogger(),
+      customOperations: customOperations,
     );
   }
 }

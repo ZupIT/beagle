@@ -28,8 +28,14 @@ typedef ComponentBuilder = Widget Function(
     BeagleUIElement element, List<Widget> children, BeagleView view);
 
 ///TODO: NEEDS ADD DOCUMENTATION
-typedef ActionHandler = void Function(
-    {BeagleAction action, BeagleView view, BeagleUIElement element});
+typedef ActionHandler = void Function({
+  BeagleAction action,
+  BeagleView view,
+  BeagleUIElement element,
+  BuildContext context,
+});
+
+typedef Operation = void Function(List<dynamic> args);
 
 abstract class BeagleService {
   /// URL to the backend providing the views (JSON) for Beagle.
@@ -62,6 +68,16 @@ abstract class BeagleService {
   /// Options for the visual feedback when navigating from a view to another. To set the default
   /// options, use `default: true` in the navigation controller.
   Map<String, NavigationController> navigationControllers;
+
+  /*
+   * The map of custom operations that can be used to extend the capability of the Beagle expressions and are called like functions, 
+   * e.g. `@{sum(1, 2)}`.
+   * The keys of this object represent the operation name and the values must be the functions themselves. 
+   * An operation name must contain only letters, numbers and the character _, 
+   * it also must contain at least one letter or _.
+   * Note: If you create custom operations using the same name of a default from Beagle, the default will be overwritten by the custom one
+   */
+  Map<String, Operation> customOperations;
 
   // todo:
   /*Analytics analytics;

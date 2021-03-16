@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.networking
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.net.URI
 
 /**
@@ -24,49 +26,32 @@ import java.net.URI
  * @param uri Server URL.
  * @param method HTTP method.
  * @param headers Header items for the request.
- * @param body Content that will be deliver with the request.
- */
-data class RequestData(
-    val uri: URI,
-    val method: HttpMethod = HttpMethod.GET,
-    val headers: Map<String, String> = mapOf(),
-    val body: String? = null
-)
-
-/**
- * Http method to indicate the desired action to be performed for a given resource.
+ * @param body Content that will be delivered with the request.
+ * @param httpAdditionalData pass additional data to the request
  *
  */
-enum class HttpMethod {
-    /**
-     * The GET method requests a representation of the specified resource. Requests using GET should only retrieve
-     * data.
-     */
-    GET,
-
-    /**
-     * The POST method is used to submit an entity to the specified resource, often causing
-     * a change in state or side effects on the server.
-     */
-    POST,
-
-    /**
-     * The PUT method replaces all current representations of the target resource with the request payload.
-     */
-    PUT,
-
-    /**
-     * The DELETE method deletes the specified resource.
-     */
-    DELETE,
-
-    /**
-     * The HEAD method asks for a response identical to that of a GET request, but without the response body.
-     */
-    HEAD,
-
-    /**
-     * The PATCH method is used to apply partial modifications to a resource.
-     */
-    PATCH
-}
+@Parcelize
+data class RequestData(
+    @Deprecated(
+        message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
+            "Use field url.", replaceWith = ReplaceWith("url = ")
+    )
+    val uri: URI,
+    @Deprecated(
+        message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
+            "Use field httpAdditionalData.", replaceWith = ReplaceWith("httpAdditionalData = ")
+    )
+    val method: HttpMethod = HttpMethod.GET,
+    @Deprecated(
+        message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
+            "Use field httpAdditionalData.", replaceWith = ReplaceWith("httpAdditionalData = ")
+    )
+    val headers: Map<String, String> = mapOf(),
+    @Deprecated(
+        message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
+            "Use field httpAdditionalData.", replaceWith = ReplaceWith("httpAdditionalData = ")
+    )
+    val body: String? = null,
+    val url: String? = "",
+    val httpAdditionalData: HttpAdditionalData = HttpAdditionalData(),
+) : Parcelable
