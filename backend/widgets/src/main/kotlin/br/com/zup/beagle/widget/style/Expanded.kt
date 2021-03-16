@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
 
+@Suppress("FunctionNaming")
 fun <T : StyleComponent> Expanded(grow: Double = 1.0, child: T): T {
     return Styled(child, {
         flex.grow = grow

@@ -26,6 +26,7 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 
+@Suppress("FunctionNaming")
 fun <T : StyleComponent> Styled(component: T, block: StyleBuilder.() -> Unit): T {
     component.style = StyleBuilder(component.style).apply(block).build()
     return component

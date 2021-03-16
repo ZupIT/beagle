@@ -18,6 +18,7 @@ package br.com.zup.beagle.platform
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@Suppress("FunctionNaming")
 fun <T : ServerDrivenComponent> Platform(platform: BeaglePlatform,
                                          child: T): BeaglePlatformWrapper<T> {
     return child.setPlatform(platform)

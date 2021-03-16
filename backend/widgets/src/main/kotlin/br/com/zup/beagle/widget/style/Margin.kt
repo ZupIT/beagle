@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.EdgeValue
 
+@Suppress("FunctionNaming")
 fun <T : StyleComponent> Margin(margin: EdgeValue, child: T): T {
     return Styled(child, {
         this.margin = margin

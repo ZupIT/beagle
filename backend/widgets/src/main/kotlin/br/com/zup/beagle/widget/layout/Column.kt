@@ -22,6 +22,7 @@ import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.FlexDirection
 
+@Suppress("FunctionNaming")
 fun Column(
     context: ContextData? = null,
     onInit: List<Action>? = null,

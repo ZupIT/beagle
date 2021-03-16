@@ -43,16 +43,9 @@ fun <T : Widget> T.id(block: () -> String) = this.setId(block.invoke())
     ReplaceWith("flex { }"))
 fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.style = (this.style ?: Style()).copy(flex = flex) }
 
-
-fun <T : StyleComponent> T.flex(block: FlexBuilder.() -> Unit): T {
-    style = StyleBuilder(style).apply {
-        flex = FlexBuilder(style?.flex)
-            .apply(block)
-            .build()
-    }.build()
-
-    return this
-}
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("setFlex { }"))
+fun <T : StyleComponent> T.flex(block: FlexBuilder.() -> Unit): T = setFlex(block)
 
 /**
  * Apply the appearance.
@@ -85,4 +78,5 @@ fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
     ReplaceWith("setAccessibility { }"))
-fun <T : Widget> T.accessibility(block: AccessibilityBuilder.() -> Unit) = this.applyAccessibility(AccessibilityBuilder().apply(block).build())
+fun <T : Widget> T.accessibility(block: AccessibilityBuilder.() -> Unit) =
+    this.applyAccessibility(AccessibilityBuilder().apply(block).build())

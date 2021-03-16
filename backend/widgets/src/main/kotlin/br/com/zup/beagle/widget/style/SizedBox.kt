@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.UnitValue
 
+@Suppress("FunctionNaming")
 fun <T : StyleComponent> SizedBox(width: Int,
                                   height: Int,
                                   child: T): T =
     SizedBox(width = UnitValue.real(width), height = UnitValue.real(height), child)
 
+@Suppress("FunctionNaming")
 fun <T : StyleComponent> SizedBox(width: Double,
                                   height: Double,
                                   child: T): T =
     SizedBox(width = UnitValue.real(width), height = UnitValue.real(height), child)
 
+@Suppress("FunctionNaming")
 fun <T : StyleComponent> SizedBox(width: UnitValue,
                                   height: UnitValue,
                                   child: T): T {

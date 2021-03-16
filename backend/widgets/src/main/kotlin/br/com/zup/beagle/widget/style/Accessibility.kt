@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.widget.style
 
-import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.ext.Styled
-import br.com.zup.beagle.widget.core.AlignContent
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.core.AccessibilityComponent
+import br.com.zup.beagle.ext.setAccessibility
 
-fun <T : StyleComponent> Center(child: T): T {
-    return Styled(child, {
-        flex.justifyContent = JustifyContent.CENTER
-        flex.alignContent = AlignContent.CENTER
-        flex.alignSelf = AlignSelf.CENTER
-    })
+@Suppress("FunctionNaming")
+fun <T : AccessibilityComponent> Accessibility(accessible: Boolean = true,
+                                               accessibilityLabel: String? = null,
+                                               isHeader: Boolean = false,
+                                               child: T): T {
+    return child.setAccessibility {
+        this.accessible = accessible
+        this.accessibilityLabel = accessibilityLabel
+        this.isHeader = isHeader
+    }
 }

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.ext
 
+import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -24,6 +25,16 @@ import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.UnitValue
+
+fun <T : StyleComponent> T.setFlex(block: FlexBuilder.() -> Unit): T {
+    style = StyleBuilder(style).apply {
+        flex = FlexBuilder(style?.flex)
+            .apply(block)
+            .build()
+    }.build()
+
+    return this
+}
 
 class FlexBuilder(private val flexObject: Flex?) {
     var flexDirection: FlexDirection? = flexObject?.flexDirection

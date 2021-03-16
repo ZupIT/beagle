@@ -16,10 +16,6 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.ext.unitReal
-import com.sun.org.apache.bcel.internal.generic.VariableLengthInstruction
-
 /**
  *
  * The flex is a Layout component that will handle your visual component positioning at the screen.
@@ -81,7 +77,7 @@ data class Size(
     var minHeight: UnitValue? = null,
     var aspectRatio: Double? = null
 ) {
-    //TODO: discuss with team
+
     companion object {
 
         fun box(
@@ -147,6 +143,7 @@ data class EdgeValue(
             return UnitValue(value, unitType)
         }
 
+        @Suppress("LongParameterList")
         fun only(
             left: Int? = null,
             unitTypeLeft: UnitType = UnitType.REAL,
@@ -168,6 +165,7 @@ data class EdgeValue(
                 unitTypeBottom = unitTypeBottom)
         }
 
+        @Suppress("LongParameterList")
         fun only(
             left: Double? = null,
             unitTypeLeft: UnitType = UnitType.REAL,
