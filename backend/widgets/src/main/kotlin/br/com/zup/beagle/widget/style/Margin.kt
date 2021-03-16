@@ -20,9 +20,15 @@ import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.EdgeValue
 
+/**
+ *  The Margin it is a helper to apply margin in your component
+ *
+ * @param self the component will apply margin
+ *
+ */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Margin(margin: EdgeValue, child: T): T {
-    return Styled(child, {
+fun <T : StyleComponent> Margin(margin: EdgeValue, self: T): T {
+    return Styled(self, {
         this.margin = margin
     })
 }

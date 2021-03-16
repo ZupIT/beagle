@@ -22,6 +22,15 @@ import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.FlexDirection
 
+/**
+ *  The Column component displays its children in a vertical array.
+ *
+ * @param children define a list of components that are rendered.
+ * @param context define the contextData that be set to column.
+ * @param onInit it is a parameter that allows you to define a list of actions to be performed
+ * when the Widget is displayed.
+ * @param reverse define direction of column
+ */
 @Suppress("FunctionNaming")
 fun Column(
     context: ContextData? = null,

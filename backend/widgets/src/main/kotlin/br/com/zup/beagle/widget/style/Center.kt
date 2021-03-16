@@ -22,9 +22,15 @@ import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.JustifyContent
 
+/**
+ *  The Center it is a helper to apply center options in flex
+ *
+ * @param self the component will apply flex
+ *
+ */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Center(child: T): T {
-    return Styled(child, {
+fun <T : StyleComponent> Center(self: T): T {
+    return Styled(self, {
         flex.justifyContent = JustifyContent.CENTER
         flex.alignContent = AlignContent.CENTER
         flex.alignSelf = AlignSelf.CENTER

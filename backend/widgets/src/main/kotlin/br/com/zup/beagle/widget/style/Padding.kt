@@ -20,9 +20,15 @@ import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.EdgeValue
 
+/**
+ *  The Padding it is a helper to apply padding in your component
+ *
+ * @param self the component will apply padding
+ *
+ */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Padding(padding: EdgeValue, child: T): T {
-    return Styled(child, {
+fun <T : StyleComponent> Padding(padding: EdgeValue, self: T): T {
+    return Styled(self, {
         this.padding = padding
     })
 }

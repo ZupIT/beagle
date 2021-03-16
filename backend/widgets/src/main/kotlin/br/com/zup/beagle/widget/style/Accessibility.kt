@@ -19,12 +19,28 @@ package br.com.zup.beagle.widget.style
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.ext.setAccessibility
 
+/**
+ *  The Accessibility it is a helper to apply accessible in your component
+ *
+ * @param accessible
+ *                      that will inform when the accessibilityLabel is available.
+ *                      By default is kept as true and it indicates that the view is an accessibility element.
+ * @param accessibilityLabel
+ *                      that will hold the textual information to be read by VoiceOver programs.
+ *                      By enabling this, the VoiceOver will read this if a user selects this view,
+ *                      them he will now where he is on the app.
+ * @param isHeader
+ *                      that will inform when the view is heading for a section of content.
+ *                      By default is kept as false.
+ * @param self the component will apply accessibility
+ *
+ */
 @Suppress("FunctionNaming")
 fun <T : AccessibilityComponent> Accessibility(accessible: Boolean = true,
-                                               accessibilityLabel: String? = null,
+                                               accessibilityLabel: String,
                                                isHeader: Boolean = false,
-                                               child: T): T {
-    return child.setAccessibility {
+                                               self: T): T {
+    return self.setAccessibility {
         this.accessible = accessible
         this.accessibilityLabel = accessibilityLabel
         this.isHeader = isHeader

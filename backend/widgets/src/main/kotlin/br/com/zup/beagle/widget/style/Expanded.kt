@@ -19,9 +19,15 @@ package br.com.zup.beagle.widget.style
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Styled
 
+/**
+ *  The Expanded it is a helper to apply grow in your component
+ *
+ * @param self the component will apply grow
+ *
+ */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Expanded(grow: Double = 1.0, child: T): T {
-    return Styled(child, {
+fun <T : StyleComponent> Expanded(grow: Double = 1.0, self: T): T {
+    return Styled(self, {
         flex.grow = grow
     })
 }
