@@ -19,14 +19,13 @@ package br.com.zup.beagle.ext
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
 
-
 fun <T : AccessibilityComponent> T.setAccessibility(block: AccessibilityBuilder.() -> Unit): T {
     this.accessibility = AccessibilityBuilder(accessibility).apply(block).build()
     return this
 }
 
 class AccessibilityBuilder(private val accessibility: Accessibility?) {
-    var accessible: Boolean = accessibility?.accessible ?: false
+    var accessible: Boolean = accessibility?.accessible ?: true
     var isHeader: Boolean = accessibility?.isHeader ?: false
     var accessibilityLabel: String? = accessibility?.accessibilityLabel
 

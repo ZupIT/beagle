@@ -78,7 +78,7 @@ inline fun <T : StyleComponent> T.setStyle(block: StyleBuilder.() -> Unit): T {
  */
 data class StyleBuilder(private val style: Style?) {
     var backgroundColor: String? = style?.backgroundColor
-    var cornerRadius: CornerRadius? = style?.cornerRadius ?: CornerRadius()
+    var cornerRadius: CornerRadius? = style?.cornerRadius
     var size: Size? = style?.size ?: Size()
     var margin: EdgeValue? = style?.margin
     var padding: EdgeValue? = style?.padding

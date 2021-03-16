@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.fake
 
-apply from: rootProject.file('../maven-publish.gradle')
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.core.StyleComponent
 
-test {
-    useJUnitPlatform()
-}
-
-dependencies {
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.junit5Api
-    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
-}
-
+data class FlexComponentFake(
+    override var style: Style? = null
+) : StyleComponent
