@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.ext.Flex
 import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.UnitValue
