@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.networking.grpc
+package br.com.zup.beagle.android.networking.grpc.serializer.adapter
 
 import beagle.Messages
 import com.squareup.moshi.JsonAdapter

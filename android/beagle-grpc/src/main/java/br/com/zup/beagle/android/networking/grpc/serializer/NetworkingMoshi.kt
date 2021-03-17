@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.networking.grpc
+package br.com.zup.beagle.android.networking.grpc.serializer
 
 import androidx.annotation.VisibleForTesting
+import br.com.zup.beagle.android.networking.grpc.serializer.adapter.DataContextAdapter
+import br.com.zup.beagle.android.networking.grpc.serializer.adapter.MessageAdapterFactory
 import com.squareup.moshi.Moshi
 
 object NetworkingMoshi {

@@ -24,32 +24,29 @@ import io.grpc.ForwardingClientCall
 import io.grpc.ForwardingClientCallListener
 import io.grpc.Metadata
 import io.grpc.MethodDescriptor
-import io.grpc.stub.MetadataUtils
-import java.util.logging.Logger
 
 class HeaderClientInterceptor : ClientInterceptor {
 
-    private val logger: Logger = Logger.getLogger(HeaderClientInterceptor::class.java.name)
-
-    val CUSTOM_HEADER_KEY: Metadata.Key<String> = Metadata.Key.of("custom_client_header_key", Metadata.ASCII_STRING_MARSHALLER)
+    val headersMap = mutableMapOf<String, String>()
 
     override fun <ReqT : Any?, RespT : Any?> interceptCall(method: MethodDescriptor<ReqT, RespT>?, callOptions: CallOptions?, next: Channel?): ClientCall<ReqT, RespT> {
         return object : ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT>(next!!.newCall(method, callOptions)) {
             override fun start(responseListener: Listener<RespT>?, headers: Metadata) {
-                /* put custom header */
-//                headers.put(CUSTOM_HEADER_KEY, "customRequestValue")
                 super.start(object : ForwardingClientCallListener.SimpleForwardingClientCallListener<RespT>(responseListener) {
                     override fun onHeaders(headers: Metadata) {
-                        /**
-                         * if you don't need receive header from server,
-                         * you can use [io.grpc.stub.MetadataUtils.attachHeaders]
-                         * directly to send header
-                         */
-                        logger.info("header received from server:$headers")
+
+                        extractHeaders(headers)
                         super.onHeaders(headers)
                     }
                 }, headers)
             }
         }
+    }
+
+    private fun extractHeaders(headers: Metadata?): Map<String, String> {
+        headers?.keys()?.forEach { key ->
+            headersMap[key] = headers.get(Metadata.Key.of(key, Metadata.ASCII_STRING_MARSHALLER)) as String
+        }
+        return headersMap
     }
 }
