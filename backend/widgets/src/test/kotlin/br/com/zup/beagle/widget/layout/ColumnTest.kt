@@ -41,7 +41,7 @@ internal class ColumnTest {
                 flex.flexDirection = FlexDirection.COLUMN
             })
 
-            assertEquals(expected, result)
+            assertEquals(expected.style, result.style)
         }
     }
 
@@ -60,7 +60,7 @@ internal class ColumnTest {
                 flex.flexDirection = FlexDirection.COLUMN_REVERSE
             })
 
-            assertEquals(expected, result)
+            assertEquals(expected.style, result.style)
         }
     }
 }

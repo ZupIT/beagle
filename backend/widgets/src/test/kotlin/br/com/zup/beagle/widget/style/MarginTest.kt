@@ -53,7 +53,7 @@ internal class MarginTest {
                 size = Size()
             )
 
-            assertEquals(expected, component)
+            assertEquals(expected.style, component.style)
         }
     }
 }

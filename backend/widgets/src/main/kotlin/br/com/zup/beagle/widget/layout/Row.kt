@@ -44,6 +44,5 @@ fun Row(
         onInit = onInit
     ), {
         flex.flexDirection = if (!reverse) FlexDirection.ROW else FlexDirection.ROW_REVERSE
-        flex.grow = 1.0
     })
 }

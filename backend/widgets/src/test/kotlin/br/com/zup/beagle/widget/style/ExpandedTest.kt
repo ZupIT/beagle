@@ -22,6 +22,7 @@ import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -47,11 +48,17 @@ internal class ExpandedTest {
             // Then
             val expected = Container()
             expected.style = Style(
-                flex = Flex(grow = 1.0),
-                size = Size()
+                flex = Flex(
+                    grow = 1.0,
+                    alignSelf = AlignSelf.STRETCH
+                ),
+                size = Size(
+                    width = UnitValue.percent(100),
+                    height = UnitValue.percent(100)
+                )
             )
 
-            assertEquals(expected, component)
+            assertEquals(expected.style, component.style)
         }
     }
 }

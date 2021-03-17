@@ -98,10 +98,14 @@ internal class SizedBoxTest {
             val expected = Container()
             expected.style = Style(
                 flex = Flex(),
-                size = Size(width = UnitValue.percent(10), UnitValue.percent(10))
+                size = Size(
+                    width = UnitValue.percent(10),
+                    height = UnitValue.percent(10)
+                )
             )
 
-            assertEquals(expected, component)
+            assertEquals(expected.style,
+                component.style)
         }
     }
 }

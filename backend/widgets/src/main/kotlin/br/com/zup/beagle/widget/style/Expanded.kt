@@ -18,6 +18,9 @@ package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.ext.Flex
+import br.com.zup.beagle.ext.Styled
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.UnitValue
 
 /**
  *  The Expanded it is a helper to apply grow in your component
@@ -26,8 +29,11 @@ import br.com.zup.beagle.ext.Flex
  *
  */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Expanded(grow: Double = 1.0, self: T): T {
-    return Flex(self, {
-        this.grow = grow
+fun <T : StyleComponent> Expanded(self: T): T {
+    return Styled(self, {
+        size!!.width = UnitValue.percent(100)
+        size!!.height = UnitValue.percent(100)
+        this.flex.alignSelf = AlignSelf.STRETCH
+        this.flex.grow = 1.0
     })
 }

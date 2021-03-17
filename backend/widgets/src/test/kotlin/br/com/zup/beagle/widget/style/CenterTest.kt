@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
@@ -46,14 +47,17 @@ internal class CenterTest {
 
             // Then
             val expected = Container()
-            expected.style = Style(flex = Flex(
-                justifyContent = JustifyContent.CENTER,
-                alignContent = AlignContent.CENTER,
-                alignSelf = AlignSelf.CENTER),
+            expected.style = Style(
+                flex = Flex(
+                    justifyContent = JustifyContent.CENTER,
+                    alignContent = AlignContent.CENTER,
+                    alignSelf = AlignSelf.CENTER,
+                    alignItems = AlignItems.CENTER
+                ),
                 size = Size()
             )
 
-            assertEquals(expected, component)
+            assertEquals(expected.style, component.style)
         }
     }
 }

@@ -41,7 +41,7 @@ internal class RowTest {
                 flex.flexDirection = FlexDirection.ROW
             })
 
-            assertEquals(expected, result)
+            assertEquals(expected.style, result.style)
         }
     }
 
@@ -60,7 +60,7 @@ internal class RowTest {
                 flex.flexDirection = FlexDirection.ROW_REVERSE
             })
 
-            assertEquals(expected, result)
+            assertEquals(expected.style, result.style)
         }
     }
 }

@@ -53,7 +53,7 @@ internal class PaddingTest {
                 size = Size()
             )
 
-            assertEquals(expected, component)
+            assertEquals(expected.style, component.style)
         }
     }
 }

@@ -42,7 +42,7 @@ internal class AccessibilityTest {
             val expected = Container()
             expected.accessibility = br.com.zup.beagle.core.Accessibility(accessibilityLabel = "test")
 
-            assertEquals(expected, component)
+            assertEquals(expected.accessibility, component.accessibility)
         }
     }
 }
