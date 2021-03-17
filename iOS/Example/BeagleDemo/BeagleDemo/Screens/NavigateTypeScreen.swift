@@ -63,7 +63,7 @@ struct NavigateStep2Screen: DeeplinkScreen {
         return Beagle.screen(.declarative(step2Screen))
     }
     
-    private var step2Screen: Screen {
+    private var step2Screen: Screen =
         Screen(navigationBar: NavigationBar(title: "Step 2")) {
             Container {
                 createButton(text: "PopView", action: Navigate.popView(), backgroundColor: .blueButton)
@@ -74,9 +74,8 @@ struct NavigateStep2Screen: DeeplinkScreen {
                              backgroundColor: .lightOrangeButton)
             }
         }
-    }
     
-    private var step3Screen: Screen {
+    static var step3Screen: Screen =
         Screen(navigationBar: NavigationBar(title: "Step 3")) {
             Container {
                 createButton(text: "PopView", action: Navigate.popView(), backgroundColor: .blueButton)
@@ -85,16 +84,14 @@ struct NavigateStep2Screen: DeeplinkScreen {
                 createButton(text: "PushView (Step 1)", action: Navigate.pushView(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .redButton)
             }
         }
-    }
     
-    private var presentView: Screen {
+    static var presentView: Screen =
         Screen(navigationBar: NavigationBar(title: "Present")) {
             Container {
                 createButton(text: "PushView (Step 1)", action: Navigate.pushView(.declarative(NavigateStep1Screen().step1Screen)), backgroundColor: .salmonButton)
                 createButton(text: "PopStack", action: Navigate.popStack(), backgroundColor: .greenWaterButton)
             }
         }
-    }
 }
 
 private func createButton(text: String, action: Navigate, backgroundColor: String) -> Button {

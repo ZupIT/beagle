@@ -17,7 +17,7 @@
 import UIKit
 import Beagle
 
-var operationsMenuScreen: Screen {
+let operationsMenuScreen: Screen = {
     return Screen(navigationBar: NavigationBar(title: "Context Operations", showBackButton: true)) {
         Container {
             Button(
@@ -30,9 +30,9 @@ var operationsMenuScreen: Screen {
             )
         }
     }
-}
+}()
 
-var operationsScreen: Screen {
+let operationsScreen: Screen = {
     return Screen(navigationBar: NavigationBar(title: "Operations", showBackButton: true)) {
         Container(context: Context(id: "context1", value: 2)) {
             Container(context: Context(id: "context2", value: 3)) {
@@ -70,9 +70,9 @@ var operationsScreen: Screen {
             }
         }
     }
-}
+}()
 
-var operationsWebSampleScreen: Screen {
+let operationsWebSampleScreen: Screen = {
     return Screen(navigationBar: NavigationBar(title: "Operations Web Sample", showBackButton: true)) {
         
         Container(context: Context(id: "counter", value: 0)) {
@@ -103,7 +103,7 @@ var operationsWebSampleScreen: Screen {
         }
         
     }
-}
+}()
 
 struct BoxComponent: Widget {
     let backgroundColor: Expression<String>?
