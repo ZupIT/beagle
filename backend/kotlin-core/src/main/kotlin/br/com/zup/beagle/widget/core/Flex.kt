@@ -216,7 +216,7 @@ data class EdgeValue(
          */
         fun horizontal(horizontal: Int,
                        unitType: UnitType = UnitType.REAL): EdgeValue =
-            horizontal(horizontal.toDouble(), unitType)
+            EdgeValue(horizontal = UnitValue(horizontal.toDouble(), unitType))
 
         /**
          *
@@ -234,7 +234,7 @@ data class EdgeValue(
          */
         fun vertical(vertical: Int,
                      unitType: UnitType = UnitType.REAL): EdgeValue =
-            vertical(vertical.toDouble(), unitType)
+            EdgeValue(vertical = UnitValue(vertical.toDouble(), unitType))
 
         /**
          *
