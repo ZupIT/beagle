@@ -30,7 +30,7 @@ data class UnitValue(
          * convert the int to value based in platform
          * @return the unit value for real
          */
-        fun real(real: Int) = real(real.toDouble())
+        fun real(real: Int) = UnitValue(real.toDouble(), UnitType.REAL)
 
         /**
          * convert the int to value based in platform
@@ -42,7 +42,7 @@ data class UnitValue(
          * convert the value based in percentage.
          * @return the unit value for percent
          */
-        fun percent(percent: Int) = percent(percent.toDouble())
+        fun percent(percent: Int) = UnitValue(percent.toDouble(), UnitType.PERCENT)
 
         /**
          * convert the value based in percentage.

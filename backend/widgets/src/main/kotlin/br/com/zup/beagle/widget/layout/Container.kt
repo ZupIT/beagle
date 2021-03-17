@@ -31,7 +31,7 @@ import br.com.zup.beagle.widget.context.ContextData
  * when the Widget is displayed.
  */
 data class Container(
-    val children: List<ServerDrivenComponent>,
+    val children: List<ServerDrivenComponent> = listOf(),
     override val context: ContextData? = null,
     val onInit: List<Action>? = null
 ) : Widget(), ContextComponent
