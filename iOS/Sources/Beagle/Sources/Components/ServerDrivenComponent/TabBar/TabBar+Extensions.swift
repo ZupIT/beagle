@@ -18,8 +18,9 @@ import UIKit
 
 extension TabBar {
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let tabBarScroll = TabBarUIComponent(model: .init(tabBarItems: items, styleId: styleId, renderer: renderer))
-            
+        let controller = renderer.controller
+        let tabBarScroll = TabBarUIComponent(model: .init(tabBarItems: items, styleId: styleId, beagleController: controller))
+
         if let currentTab = currentTab {
             renderer.observe(currentTab, andUpdateManyIn: tabBarScroll) {
                 if let tab = $0 {
@@ -29,8 +30,9 @@ extension TabBar {
             }
         }
 
-        tabBarScroll.onTabSelection = { tab in
-            renderer.controller.execute(actions: self.onTabSelection, with: "onTabSelection", and: .int(tab), origin: tabBarScroll)
+        tabBarScroll.onTabSelection = { [weak controller, weak tabBarScroll] tab in
+            guard let controller = controller, let view = tabBarScroll else { return }
+            controller.execute(actions: self.onTabSelection, with: "onTabSelection", and: .int(tab), origin: view)
         }
         
         return tabBarScroll

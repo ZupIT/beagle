@@ -72,13 +72,11 @@ final class ListViewUIComponent: UIView {
     
     private(set) var onScrollEndExecuted = false
     
-    lazy var renderer = listController.dependencies.renderer(listController)
-    
     // MARK: - Initialization
     
-    init(model: Model, renderer: BeagleRenderer) {
+    init(model: Model, beagleController: BeagleController) {
         self.model = model
-        self.listController = ListViewController(renderer: renderer)
+        self.listController = ListViewController(beagleController: beagleController)
         super.init(frame: .zero)
         setupViews()
     }
@@ -99,8 +97,8 @@ final class ListViewUIComponent: UIView {
         collection.showsHorizontalScrollIndicator = model.isScrollIndicatorVisible
         collection.showsVerticalScrollIndicator = model.isScrollIndicatorVisible
         
-        let parentController = listController.renderer.controller
-        parentController.addChild(listController)
+        let parentController = listController.beagleController
+        parentController?.addChild(listController)
         addSubview(listController.view)
         listController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         listController.view.frame = bounds
@@ -194,7 +192,7 @@ final class ListViewUIComponent: UIView {
         
         if items?.count == 0 || didReachScrollThreshol {
             onScrollEndExecuted = true
-            renderer.controller.execute(actions: model.onScrollEnd, event: "onScrollEnd", origin: self)
+            listController.execute(actions: model.onScrollEnd, event: "onScrollEnd", origin: self)
         }
     }
     

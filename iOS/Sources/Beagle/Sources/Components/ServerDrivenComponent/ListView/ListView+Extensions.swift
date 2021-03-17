@@ -36,7 +36,7 @@ extension ListView {
                 scrollEndThreshold: CGFloat(scrollEndThreshold ?? 100),
                 isScrollIndicatorVisible: isScrollIndicatorVisible ?? false
             ),
-            renderer: renderer
+            beagleController: renderer.controller
         )
         renderer.observe(dataSource, andUpdate: \.items, in: view)
         return view

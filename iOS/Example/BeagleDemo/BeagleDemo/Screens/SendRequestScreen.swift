@@ -17,7 +17,7 @@
 import UIKit
 import Beagle
 
-let sendRequestDeclarativeScreen: Screen = {
+var sendRequestDeclarativeScreen: Screen {
     let containerStyle = Style().size(Size().width(100%).height(50%)).flex(Flex().alignItems(.center).justifyContent(.spaceEvenly))
  
     return Screen(
@@ -73,7 +73,7 @@ let sendRequestDeclarativeScreen: Screen = {
             )
         }
     }
-}()
+}
 
 struct CustomConsoleLogAction: Action {
     

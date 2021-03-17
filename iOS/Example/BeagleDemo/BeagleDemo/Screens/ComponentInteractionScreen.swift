@@ -17,7 +17,7 @@
 import UIKit
 import Beagle
 
-let componentInteractionScreen: Screen = {
+var componentInteractionScreen: Screen {
     return Screen(navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true)) {
         Container {
             Button(
@@ -34,9 +34,9 @@ let componentInteractionScreen: Screen = {
             )
         }
     }
-}()
+}
 
-let declarativeScreen: Screen = {
+var declarativeScreen: Screen {
     return Screen(navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true)) {
         Container(context: Context(id: "context2", value: nil)) {
             Container(context: Context(id: "context1", value: "Joao")) {
@@ -71,7 +71,7 @@ let declarativeScreen: Screen = {
             }
         }
     }
-}()
+}
 
 var displayScreen: Screen {
     Screen(

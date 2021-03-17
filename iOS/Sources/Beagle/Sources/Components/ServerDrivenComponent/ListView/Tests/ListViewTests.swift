@@ -49,7 +49,7 @@ final class ListViewTests: XCTestCase {
     private lazy var controller = BeagleScreenViewController(ComponentDummy())
     
     private func renderListView(_ listComponent: ListView) -> UIView {
-        let host = ComponentHostController(listComponent, renderer: controller.renderer)
+        let host = ComponentHostController(listComponent, beagleController: controller)
         return host.view
     }
     

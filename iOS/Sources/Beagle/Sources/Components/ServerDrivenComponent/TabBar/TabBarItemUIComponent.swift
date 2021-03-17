@@ -49,16 +49,16 @@ final class TabBarItemUIComponent: UIView {
         }
     }
     
-    private var renderer: BeagleRenderer?
+    private weak var beagleController: BeagleController?
     
     // MARK: - Initialization
     
     init(
         index: Int,
-        renderer: BeagleRenderer
+        beagleController: BeagleController?
     ) {
         super.init(frame: .zero)
-        self.renderer = renderer
+        self.beagleController = beagleController
         self.index = index
         addSubview(icon)
         addSubview(title)
@@ -123,13 +123,14 @@ final class TabBarItemUIComponent: UIView {
     }
     
     private func handleContextOnImage(iconName: String) {
+        guard let controller = beagleController else { return }
+        let renderer = controller.dependencies.renderer(controller)
         let expression: Expression<String> = "\(iconName)"
-                   
-        renderer?.observe(expression, andUpdateManyIn: self) { icon in
+        renderer.observe(expression, andUpdateManyIn: self) { [weak controller] icon in
             if let icon = icon {
                 self.icon.image = self.theme?.selectedIconColor == nil ?
-                    UIImage(named: icon, in: self.renderer?.controller.dependencies.appBundle, compatibleWith: nil) :
-                    UIImage(named: icon, in: self.renderer?.controller.dependencies.appBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+                    UIImage(named: icon, in: controller?.dependencies.appBundle, compatibleWith: nil) :
+                    UIImage(named: icon, in: controller?.dependencies.appBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             }
         }
     }

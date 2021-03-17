@@ -19,43 +19,43 @@ import UIKit
 class ComponentHostController: BeagleController {
 
     let component: ServerDrivenComponent
-    let renderer: BeagleRenderer
+    weak var controller: BeagleController?
 
     let bindings = Bindings()
 
     var dependencies: BeagleDependenciesProtocol {
-        return renderer.controller.dependencies
+        return controller?.dependencies ?? Beagle.dependencies
     }
     var serverDrivenState: ServerDrivenState {
-        get { renderer.controller.serverDrivenState }
-        set { renderer.controller.serverDrivenState = newValue }
+        get { controller?.serverDrivenState ?? .finished }
+        set { controller?.serverDrivenState = newValue }
     }
     var screenType: ScreenType {
-        return renderer.controller.screenType
+        return controller?.screenType ?? .declarativeText("")
     }
     var screen: Screen? {
-        return renderer.controller.screen
+        return controller?.screen
     }
 
     func addOnInit(_ onInit: [Action], in view: UIView) {
-        renderer.controller.addOnInit(onInit, in: view)
+        controller?.addOnInit(onInit, in: view)
     }
     
     func execute(actions: [Action]?, event: String?, origin: UIView) {
-        renderer.controller.execute(actions: actions, event: event, origin: origin)
+        controller?.execute(actions: actions, event: event, origin: origin)
     }
 
     func execute(actions: [Action]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
-        renderer.controller.execute(actions: actions, with: contextId, and: contextValue, origin: origin)
+        controller?.execute(actions: actions, with: contextId, and: contextValue, origin: origin)
     }
     
     public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
         bindings.add(self, expression, view, update)
     }
 
-    init(_ component: ServerDrivenComponent, renderer: BeagleRenderer) {
+    init(_ component: ServerDrivenComponent, beagleController: BeagleController) {
         self.component = component
-        self.renderer = renderer
+        self.controller = beagleController
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -64,7 +64,11 @@ class ComponentHostController: BeagleController {
     }
 
     override func loadView() {
-        let beagleRenderer = BeagleRenderer(controller: self)
+        guard let controller = controller else {
+            view = UIView()
+            return
+        }
+        let beagleRenderer = controller.dependencies.renderer(self)
         view = beagleRenderer.render(component)
     }
 

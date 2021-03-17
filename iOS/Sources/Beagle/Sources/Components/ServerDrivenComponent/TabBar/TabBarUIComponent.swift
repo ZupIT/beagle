@@ -31,7 +31,7 @@ final class TabBarUIComponent: UIScrollView {
         var tabIndex: Int?
         var tabBarItems: [TabBarItem]
         var styleId: String?
-        var renderer: BeagleRenderer
+        weak var beagleController: BeagleController?
     }
     
     // MARK: - Properties
@@ -97,7 +97,7 @@ final class TabBarUIComponent: UIScrollView {
         }
         guard let selectedTabItem = tabItemViews[model.tabIndex ?? 0] else { return }
         setupIndicatorViewStyle(for: selectedTabItem)
-        model.renderer.controller.setNeedsLayout(component: self)
+        model.beagleController?.setNeedsLayout(component: self)
     }
     
     private func setupScrollView() {
@@ -129,12 +129,12 @@ final class TabBarUIComponent: UIScrollView {
         }
         
         if let styleId = model.styleId {
-            beagle.applyStyle(for: self as UIView, styleId: styleId, with: model.renderer.controller)
+            beagle.applyStyle(for: self as UIView, styleId: styleId, with: model.beagleController)
         }
     }
     
     private func createTabBarItemsView(with item: TabBarItem, index: Int) -> TabBarItemUIComponent {
-        let itemView = TabBarItemUIComponent(index: index, renderer: model.renderer)
+        let itemView = TabBarItemUIComponent(index: index, beagleController: model.beagleController)
         itemView.setupTab(with: item)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(didSelectTabItem(sender:)))
@@ -234,10 +234,8 @@ private extension TabBarUIComponent {
             options: .curveLinear,
             animations: {
                 self.setupIndicatorViewStyle(for: tabItem)
-                
-                // TODO: setNeedLayout should call layoutIfNeeded
-                self.model.renderer.controller.setNeedsLayout(component: self)
-                self.model.renderer.controller.view.layoutIfNeeded()
+                self.model.beagleController?.setNeedsLayout(component: self)
+                self.model.beagleController?.view.layoutIfNeeded()
             }
         )
     }

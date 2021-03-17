@@ -35,49 +35,51 @@ extension Image {
         switch path {
         case .local(let mobileId):
             let expression: Expression<String> = "\(mobileId)"
+            let bundle = renderer.controller.dependencies.appBundle
             renderer.observe(expression, andUpdateManyIn: image) { mobileId in
                 guard let mobileId = mobileId, !mobileId.isEmpty else { return }
-                self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
+                self.setImageFromAsset(named: mobileId, bundle: bundle, imageView: image)
             }
         case .remote(let remote):
+            let controller = renderer.controller
             let expression: Expression<String> = "\(remote.url)"
-            renderer.observe(expression, andUpdateManyIn: image) { url in
+            renderer.observe(expression, andUpdateManyIn: image) { [weak controller] url in
                 guard let url = url else { return }
                 image.token?.cancel()
-                image.token = self.setRemoteImage(from: url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
+                image.token = self.setRemoteImage(from: url, placeholder: remote.placeholder, imageView: image, controller: controller)
             }
         }
     }
     
     private func observePath(_ renderer: BeagleRenderer, _ image: BeagleImageView) {
-        renderer.observe(path, andUpdateManyIn: image) { path in
+        let controller = renderer.controller
+        renderer.observe(path, andUpdateManyIn: image) { [weak controller] path in
             image.token?.cancel()
             switch path {
             case .local(let mobileId):
-                self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
+                self.setImageFromAsset(named: mobileId, bundle: controller?.dependencies.appBundle, imageView: image)
             case .remote(let remote):
-                image.token = self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
+                image.token = self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, controller: controller)
             case .none: ()
             }
         }
     }
 
-    private func setImageFromAsset(named: String, bundle: Bundle, imageView: UIImageView) {
+    private func setImageFromAsset(named: String, bundle: Bundle?, imageView: UIImageView) {
         imageView.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
 
-    private func setRemoteImage(from url: String, placeholder: String?, imageView: UIImageView, renderer: BeagleRenderer) -> RequestToken? {
+    private func setRemoteImage(from url: String, placeholder: String?, imageView: UIImageView, controller: BeagleController?) -> RequestToken? {
         var imagePlaceholder: UIImage?
         if let placeholder = placeholder {
-            imagePlaceholder = UIImage(named: placeholder, in: renderer.controller.dependencies.appBundle, compatibleWith: nil)
+            imagePlaceholder = UIImage(named: placeholder, in: controller?.dependencies.appBundle, compatibleWith: nil)
             imageView.image = imagePlaceholder
         }
-        return lazyLoadImage(path: url, placeholderImage: imagePlaceholder, imageView: imageView, renderer: renderer)
+        return lazyLoadImage(path: url, placeholderImage: imagePlaceholder, imageView: imageView, controller: controller)
     }
     
-    private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, renderer: BeagleRenderer) -> RequestToken? {
-        let controller = renderer.controller
-        return controller.dependencies.imageDownloader.fetchImage(url: path, additionalData: nil) {
+    private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, controller: BeagleController?) -> RequestToken? {
+        return controller?.dependencies.imageDownloader.fetchImage(url: path, additionalData: nil) {
             [weak imageView, weak controller] result in
             guard let imageView = imageView else { return }
             switch result {

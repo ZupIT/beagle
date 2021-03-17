@@ -24,7 +24,6 @@ extension TabViewUIComponent {
         var unselectedTextColor: UIColor?
         var selectedIconColor: UIColor?
         var unselectedIconColor: UIColor?
-        var renderer: BeagleRenderer
 
 // sourcery:inline:auto:TabViewUIComponent.Model.Init
      init(
@@ -33,8 +32,7 @@ extension TabViewUIComponent {
         selectedTextColor: UIColor? = nil,
         unselectedTextColor: UIColor? = nil,
         selectedIconColor: UIColor? = nil,
-        unselectedIconColor: UIColor? = nil,
-        renderer: BeagleRenderer
+        unselectedIconColor: UIColor? = nil
     ) {
         self.tabIndex = tabIndex
         self.tabViewItems = tabViewItems
@@ -42,7 +40,6 @@ extension TabViewUIComponent {
         self.unselectedTextColor = unselectedTextColor
         self.selectedIconColor = selectedIconColor
         self.unselectedIconColor = unselectedIconColor
-        self.renderer = renderer
     }
 // sourcery:end
     }
@@ -54,12 +51,12 @@ final class TabViewUIComponent: UIView {
     
     var tabBar: TabBarUIComponent
     
-    static func contentView(items: [TabItem], renderer: BeagleRenderer) -> PageViewUIComponent {
-        let pages = items.map { ComponentHostController($0.child, renderer: renderer) }
+    static func contentView(items: [TabItem], beagleController: BeagleController) -> PageViewUIComponent {
+        let pages = items.map { ComponentHostController($0.child, beagleController: beagleController) }
         let view = PageViewUIComponent(
             model: .init(pages: pages),
             indicatorView: nil,
-            controller: renderer.controller
+            controller: beagleController
         )
         view.style.setup(Style(flex: Flex().grow(1)))
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -72,16 +69,16 @@ final class TabViewUIComponent: UIView {
     
     init(
         model: Model,
-        renderer: BeagleRenderer
+        beagleController: BeagleController
     ) {
         self.tabBar = TabBarUIComponent(
             model: .init(
                 tabIndex: model.tabIndex,
                 tabBarItems: model.tabViewItems.map { TabBarItem(icon: $0.icon, title: $0.title) },
-                renderer: model.renderer
+                beagleController: beagleController
             )
         )
-        self.contentView = Self.contentView(items: model.tabViewItems, renderer: renderer)
+        self.contentView = Self.contentView(items: model.tabViewItems, beagleController: beagleController)
         super.init(frame: .zero)
         setupViews()
         setupTabBarSelectionEvent()

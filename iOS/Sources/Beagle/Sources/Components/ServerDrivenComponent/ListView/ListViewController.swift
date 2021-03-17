@@ -55,13 +55,10 @@ final class ListViewController: UIViewController {
         return layout
     }()
     
-    let renderer: BeagleRenderer
-    
     private(set) weak var beagleController: BeagleController?
     
-    init(renderer: BeagleRenderer) {
-        self.renderer = renderer
-        self.beagleController = renderer.controller
+    init(beagleController: BeagleController) {
+        self.beagleController = beagleController
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,16 +75,16 @@ final class ListViewController: UIViewController {
 extension ListViewController: BeagleControllerProtocol {
     
     var dependencies: BeagleDependenciesProtocol {
-        return renderer.controller.dependencies
+        return beagleController?.dependencies ?? Beagle.dependencies
     }
     
     var serverDrivenState: ServerDrivenState {
-        get { return renderer.controller.serverDrivenState }
-        set { renderer.controller.serverDrivenState = newValue }
+        get { return beagleController?.serverDrivenState ?? .finished }
+        set { beagleController?.serverDrivenState = newValue }
     }
     
     var screenType: ScreenType {
-        return renderer.controller.screenType
+        return beagleController?.screenType ?? .declarativeText("")
     }
     
     var screen: Screen? {

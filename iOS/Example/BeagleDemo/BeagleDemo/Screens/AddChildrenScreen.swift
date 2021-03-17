@@ -16,7 +16,7 @@
 
 import Beagle
 
-let addChildrenScreen: Screen = {
+var addChildrenScreen: Screen {
     return Screen(navigationBar: NavigationBar(title: "AddChildren", showBackButton: true)) {
         ScrollView {
             Container(context: Context(id: "context", value: "new text"), widgetProperties: WidgetProperties(id: "containerId")) {
@@ -47,4 +47,4 @@ let addChildrenScreen: Screen = {
             }
         }
     }
-}()
+}

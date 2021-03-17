@@ -23,7 +23,7 @@ public protocol DependencyRenderer {
 /// Use this class whenever you want to transform a Component into a UIView
 public struct BeagleRenderer {
 
-    public unowned var controller: BeagleController
+    public let controller: BeagleController
 
     internal init(controller: BeagleController) {
         self.controller = controller

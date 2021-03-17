@@ -17,7 +17,7 @@
 import UIKit
 import Beagle
 
-let conditionActionScreen: Screen = {
+var conditionActionScreen: Screen {
     Screen(navigationBar: NavigationBar(title: "Conditional Action", showBackButton: true)) {
         Container(context: Context(id: "context", value: true)) {
             Button(
@@ -30,9 +30,9 @@ let conditionActionScreen: Screen = {
             )
         }
     }
-}()
+}
 
-private let conditionActionDeclarativeScreen: Screen = {
+private var conditionActionDeclarativeScreen: Screen {
     let title = "The condition is..."
     
     return Screen(navigationBar: NavigationBar(title: "Conditional Action Declarative", showBackButton: true)) {
@@ -53,7 +53,7 @@ private let conditionActionDeclarativeScreen: Screen = {
             )
         }
     }
-}()
+}
 
 struct ConditionActionText: DeeplinkScreen {
     

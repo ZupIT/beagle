@@ -47,7 +47,9 @@ public class BeagleScreenViewController: BeagleController {
     
     lazy var layoutManager = LayoutManager(self)
     
-    lazy var renderer = dependencies.renderer(self)
+    var renderer: BeagleRenderer {
+        dependencies.renderer(self)
+    }
     
     let bindings = Bindings()
     

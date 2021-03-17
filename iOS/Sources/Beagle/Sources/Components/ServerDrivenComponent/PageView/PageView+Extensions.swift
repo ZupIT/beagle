@@ -19,8 +19,9 @@ import UIKit
 extension PageView {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
+        let beagleController = renderer.controller
         let pagesControllers = children.map {
-            ComponentHostController($0, renderer: renderer)
+            ComponentHostController($0, beagleController: beagleController)
         }
 
         var indicatorView: PageIndicatorUIView?
@@ -31,13 +32,13 @@ extension PageView {
         let view = PageViewUIComponent(
             model: .init(pages: pagesControllers),
             indicatorView: indicatorView,
-            controller: renderer.controller
+            controller: beagleController
         )
         
         if let actions = onPageChange {
-            view.onPageChange = { [weak view] page in
-                guard let view = view else { return }
-                renderer.controller.execute(actions: actions, with: "onPageChange", and: .int(page), origin: view)
+            view.onPageChange = { [weak beagleController, weak view] page in
+                guard let beagleController = beagleController, let view = view else { return }
+                beagleController.execute(actions: actions, with: "onPageChange", and: .int(page), origin: view)
             }
         }
 

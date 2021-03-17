@@ -30,7 +30,6 @@ class TabBarTests: XCTestCase {
     }
 
     lazy var controller = BeagleControllerStub(dependencies: dependencies)
-    lazy var renderer = BeagleRenderer(controller: controller)
 
     private let imageSize = ImageSize.custom(CGSize(width: 150, height: 80))
 
@@ -89,7 +88,7 @@ class TabBarTests: XCTestCase {
                  TabBarItem(icon: "shuttle"),
                  TabBarItem(icon: "shuttle", title: "Tab 2")
             ],
-            renderer: renderer)
+            beagleController: controller)
         )
 
         sut.setupTabBarItems()

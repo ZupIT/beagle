@@ -102,8 +102,10 @@ final class ListViewCell: UICollectionViewCell {
         if let templateContainer = self.templateContainer {
             return templateContainer
         }
+        let beagleController = listView.listController
+        let renderer = beagleController.dependencies.renderer(beagleController)
         let flexDirection = listView.model.direction.flexDirection
-        let template = listView.renderer.render(listView.model.template)
+        let template = renderer.render(listView.model.template)
         let container = TemplateContainer(template: template)
         container.parentContext = listView
         listView.listController.dependencies.style(container).setup(
