@@ -159,15 +159,12 @@ data class EdgeValue(
             bottom: Int? = null,
             unitTypeBottom: UnitType = UnitType.REAL,
         ): EdgeValue {
-            return only(
-                left = left,
-                unitTypeLeft = unitTypeLeft,
-                top = top,
-                unitTypeTop = unitTypeTop,
-                right = right,
-                unitTypeRight = unitTypeRight,
-                bottom = bottom,
-                unitTypeBottom = unitTypeBottom)
+            return EdgeValue(
+                left = createUnitValueIfValueNotNull(left?.toDouble(), unitTypeLeft),
+                top = createUnitValueIfValueNotNull(top?.toDouble(), unitTypeTop),
+                right = createUnitValueIfValueNotNull(right?.toDouble(), unitTypeRight),
+                bottom = createUnitValueIfValueNotNull(bottom?.toDouble(), unitTypeBottom)
+            )
         }
 
         /**
@@ -201,7 +198,7 @@ data class EdgeValue(
          */
         fun all(all: Int,
                 unitType: UnitType = UnitType.REAL): EdgeValue =
-            all(all.toDouble(), unitType)
+            EdgeValue(all = UnitValue(all.toDouble(), unitType))
 
         /**
          *
@@ -211,6 +208,7 @@ data class EdgeValue(
         fun all(all: Double,
                 unitType: UnitType = UnitType.REAL): EdgeValue =
             EdgeValue(all = UnitValue(all, unitType))
+
         /**
          *
          * Creates edge value where field horizontal will be set
