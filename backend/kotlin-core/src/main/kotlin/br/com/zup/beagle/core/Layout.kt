@@ -28,10 +28,5 @@ data class Layout(
     var position: EdgeValue? = null,
     var flex: Flex? = null,
     var positionType: PositionType? = null,
-    var visibility: Bind<Visibility>? = null
+    var visible: Bind<Boolean>? = null,
 )
-
-enum class Visibility {
-    VISIBLE,
-    HIDDEN
-}
