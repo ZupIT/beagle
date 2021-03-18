@@ -27,7 +27,7 @@ import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.UnitValue
 
 /**
- *  The Flex it is a helper to apply flex in your component
+ *  The Flex is a helper to apply Flex in your component
  *
  * @param self the component will apply flex
  *
