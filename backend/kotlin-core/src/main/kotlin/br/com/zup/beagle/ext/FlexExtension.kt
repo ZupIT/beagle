@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.ext
 
-import br.com.zup.beagle.core.StyleComponent
+import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -33,7 +33,7 @@ import br.com.zup.beagle.widget.core.UnitValue
  *
  */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Flex(self: T, block: FlexBuilder.() -> Unit): T {
+fun <T : LayoutComponent> Flex(self: T, block: FlexBuilder.() -> Unit): T {
     return self.setFlex(block)
 }
 
@@ -42,9 +42,9 @@ fun <T : StyleComponent> Flex(self: T, block: FlexBuilder.() -> Unit): T {
  *  with this method you don't need to instantiate any object, just set fields
  *
  */
-fun <T : StyleComponent> T.setFlex(block: FlexBuilder.() -> Unit): T {
-    style = StyleBuilder(style).apply {
-        flex = FlexBuilder(style?.flex)
+fun <T : LayoutComponent> T.setFlex(block: FlexBuilder.() -> Unit): T {
+    layout = LayoutBuilder(layout).apply {
+        flex = FlexBuilder(layout?.flex)
             .apply(block)
             .build()
     }.build()

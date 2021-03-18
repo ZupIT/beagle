@@ -18,8 +18,8 @@ package br.com.zup.beagle.ext
 
 import br.com.zup.beagle.builder.core.AccessibilityBuilder
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.builder.core.StyleBuilder as OldStyle
@@ -40,12 +40,12 @@ fun <T : Widget> T.id(block: () -> String) = this.setId(block.invoke())
  */
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
-    ReplaceWith("flex { }"))
+    ReplaceWith("setFlex { }"))
 fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.style = (this.style ?: Style()).copy(flex = flex) }
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
     ReplaceWith("setFlex { }"))
-fun <T : StyleComponent> T.flex(block: FlexBuilder.() -> Unit): T = setFlex(block)
+fun <T : LayoutComponent> T.flex(block: FlexBuilder.() -> Unit): T = setFlex(block)
 
 /**
  * Apply the appearance.
@@ -55,7 +55,7 @@ fun <T : StyleComponent> T.flex(block: FlexBuilder.() -> Unit): T = setFlex(bloc
  * @return the current widget
  */
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
-    ReplaceWith("Styled(component, { })"))
+    ReplaceWith("setLayout {}"))
 fun <T : Widget> T.applyStyle(style: Style) = this.apply {
     this.style = if (style.flex != null) style else style.copy(flex = this.style?.flex)
 }

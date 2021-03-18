@@ -18,36 +18,36 @@ package br.com.zup.beagle.ext
 
 import br.com.zup.beagle.core.Layout
 import br.com.zup.beagle.fake.FlexComponentFake
+import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-@DisplayName("Given a Flex")
-internal class FunctionFlexTest {
+@DisplayName("Given a Layouted")
+internal class FunctionLayoutedTest {
 
     @DisplayName("When call this function")
     @Nested
-    inner class FlexTest {
+    inner class LayoutedTest {
 
         @Test
         @DisplayName("Then should return the current widget with instance of style")
-        fun testFunctionFlex() {
+        fun testFunctionStyled() {
             // Given
-            val grow = 1.0
+            val padding = EdgeValue.all(10)
 
             // When
-            val styleComponent = Flex(FlexComponentFake(), {
-                this.grow = grow
+            val styleComponent = Layouted(FlexComponentFake(), {
+                this.padding = padding
             })
 
             // Then
             val expected = FlexComponentFake(
                 Layout(
-                    flex = br.com.zup.beagle.widget.core.Flex(
-                        grow = grow
-                    ),
+                    padding = padding,
+                    flex = br.com.zup.beagle.widget.core.Flex(),
                     size = Size()
                 )
             )

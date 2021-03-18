@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.layout
 
-import br.com.zup.beagle.ext.Styled
+import br.com.zup.beagle.ext.Layouted
 import br.com.zup.beagle.widget.core.FlexDirection
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -37,7 +37,7 @@ internal class ColumnTest {
             val result = Column()
 
             // Then
-            val expected = Styled(Container(), {
+            val expected = Layouted(Container(), {
                 flex.flexDirection = FlexDirection.COLUMN
             })
 
@@ -56,7 +56,7 @@ internal class ColumnTest {
             val result = Column(reverse = true)
 
             // Then
-            val expected = Styled(Container(), {
+            val expected = Layouted(Container(), {
                 flex.flexDirection = FlexDirection.COLUMN_REVERSE
             })
 

@@ -14,45 +14,43 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.ext
+package br.com.zup.beagle.widget.helpers
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.fake.FlexComponentFake
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.layout.Container
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
-@DisplayName("Given a Styled")
-internal class FunctionStyledTest {
+@DisplayName("Given a Padding")
+internal class PaddingTest {
 
-    @DisplayName("When call this function")
+    @DisplayName("When call function")
     @Nested
-    inner class StyledTest {
+    inner class PaddingTest {
 
         @Test
-        @DisplayName("Then should return the current widget with instance of style")
-        fun testFunctionStyled() {
+        @DisplayName("Then should return a current component with correct style options")
+        fun testPadding() {
             // Given
-            val backgroundColor = "#fafafa"
+            val component = Container()
 
             // When
-            val styleComponent = Styled(FlexComponentFake(), {
-                this.backgroundColor = backgroundColor
-            })
+            Padding(padding = EdgeValue.all(10), self = component)
 
             // Then
-            val expected = FlexComponentFake(
-                Style(
-                    backgroundColor = backgroundColor,
-                    flex = br.com.zup.beagle.widget.core.Flex(),
-                    size = Size()
-                )
+            val expected = Container()
+            expected.style = Style(
+                padding = EdgeValue.all(10),
+                flex = Flex(),
+                size = Size()
             )
 
-            assertEquals(expected, styleComponent)
+            assertEquals(expected.style, component.style)
         }
     }
 }

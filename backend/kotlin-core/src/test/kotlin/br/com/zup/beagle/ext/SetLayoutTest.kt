@@ -16,38 +16,40 @@
 
 package br.com.zup.beagle.ext
 
+import br.com.zup.beagle.core.Layout
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.fake.FlexComponentFake
+import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-@DisplayName("Given an Style Component")
-internal class SetStyleTest {
+@DisplayName("Given an Layout Component")
+internal class SetLayoutTest {
 
-    @DisplayName("When call setStyle")
+    @DisplayName("When call setLayout")
     @Nested
-    inner class StyleTest {
+    inner class LayoutTest {
 
         @Test
         @DisplayName("Then should return the current widget with instance of style")
         fun testWidgetSetStyle() {
             // Given
             val styleComponent = FlexComponentFake()
-            val backgroundColor = "#fafafa"
+            val padding = EdgeValue.all(10)
 
             // When
-            styleComponent.setStyle {
-                this.backgroundColor = backgroundColor
+            styleComponent.setLayout {
+                this.padding = padding
             }
 
             // Then
             val expected = FlexComponentFake(
-                Style(
-                    backgroundColor = backgroundColor,
+                Layout(
+                    padding = padding,
                     flex = br.com.zup.beagle.widget.core.Flex(),
                     size = Size()
                 )
@@ -66,23 +68,23 @@ internal class SetStyleTest {
         fun testWidgetTwiceSetStyle() {
             // Given
             val styleComponent = FlexComponentFake()
-            val backgroundColor = "#fafafa"
-            val borderColor = "#f1f1f1"
+            val padding = EdgeValue.all(10)
+            val margin = EdgeValue.all(10)
 
             // When
-            styleComponent.setStyle {
-                this.backgroundColor = backgroundColor
+            styleComponent.setLayout {
+                this.padding = padding
             }
-            styleComponent.setStyle {
-                this.borderColor = borderColor
+            styleComponent.setLayout {
+                this.margin = margin
             }
 
 
             // Then
             val expected = FlexComponentFake(
-                Style(
-                    backgroundColor = backgroundColor,
-                    borderColor = borderColor,
+                Layout(
+                    padding = padding,
+                    margin = margin,
                     flex = br.com.zup.beagle.widget.core.Flex(),
                     size = Size()
                 )

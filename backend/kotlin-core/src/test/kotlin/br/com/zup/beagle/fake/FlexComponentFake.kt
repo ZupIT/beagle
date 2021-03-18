@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.fake
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.StyleComponent
+import br.com.zup.beagle.core.Layout
+import br.com.zup.beagle.core.LayoutComponent
 
 data class FlexComponentFake(
-    override var style: Style? = null
-) : StyleComponent
+    override var layout: Layout? = null
+) : LayoutComponent

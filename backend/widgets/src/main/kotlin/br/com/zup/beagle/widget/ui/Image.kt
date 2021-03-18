@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.core.WidgetStyle
+import br.com.zup.beagle.core.WidgetStyleComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
@@ -28,7 +30,10 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  * @param path defines where the source of the image is
  * @param mode defines how the declared image will fit the view.
  */
-data class Image(val path: ImagePath, val mode: ImageContentMode? = null) : Widget()
+data class Image(val path: ImagePath, val mode: ImageContentMode? = null) : Widget(), WidgetStyleComponent {
+
+    override var widgetStyle: WidgetStyle? = null
+}
 
 /**
  * Define the source of image data to populate the image view.

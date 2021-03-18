@@ -16,48 +16,40 @@
 
 package br.com.zup.beagle.ext
 
-import br.com.zup.beagle.core.CornerRadius
-import br.com.zup.beagle.core.Display
+import br.com.zup.beagle.core.Layout
+import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.PositionType
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.StyleComponent
+import br.com.zup.beagle.core.Visibility
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 
 /**
- *  The Styled is a helper to apply style in your component
+ *  The Layouted is a helper to apply layout in your component
  *
- * @param self the component will apply style
+ * @param self the component will apply layout
  *
  */
 @Suppress("FunctionNaming")
-inline fun <T : StyleComponent> Styled(self: T, block: StyleBuilder.() -> Unit): T {
-    self.style = StyleBuilder(self.style).apply(block).build()
+inline fun <T : LayoutComponent> Layouted(self: T, block: LayoutBuilder.() -> Unit): T {
+    self.layout = LayoutBuilder(self.layout).apply(block).build()
     return self
 }
 
 /**
- *  The StyleBuilder is a helper to set style options in your component.
+ *  The LayoutBuilder is a helper to set style options in your component.
  *  with this method you don't need instance any object, just set fields
  *
  */
-inline fun <T : StyleComponent> T.setStyle(block: StyleBuilder.() -> Unit): T {
-    this.style = StyleBuilder(this.style).apply(block).build()
+inline fun <T : LayoutComponent> T.setLayout(block: LayoutBuilder.() -> Unit): T {
+    this.layout = LayoutBuilder(this.layout).apply(block).build()
     return this
 }
 
 /**
  * The style class will enable a few visual options to be changed.
  *
- * @property backgroundColor
- *                          Using a String parameter it sets the background color on this visual component.
- *                          It must be listed as an Hexadecimal color format without the "#".
- *                          For example, for a WHITE background type in "FFFFFF".
- * @property cornerRadius Using a Double parameters it sets the corner of your view to make it round.
- * @property borderColor Sets the color of your view border. Supported formats:#RRGGBB[AA] and #RGB[A].
- * @property borderWidth Sets the width of your view border.
  * @property size add size to current view applying the flex.
  * @property margin
  *                  effects the spacing around the outside of a node.
@@ -74,35 +66,27 @@ inline fun <T : StyleComponent> T.setStyle(block: StyleBuilder.() -> Unit): T {
  * @property flex
  * @see Flex
  * @property positionType The position type of an element defines how it is positioned within its parent.
- * @property display enables a flex context for all its direct children.
+ * @property visibility show or hide the layout.
  */
-data class StyleBuilder(private val style: Style?) {
-    var backgroundColor: String? = style?.backgroundColor
-    var cornerRadius: CornerRadius? = style?.cornerRadius
-    var size: Size? = style?.size ?: Size()
-    var margin: EdgeValue? = style?.margin
-    var padding: EdgeValue? = style?.padding
-    var position: EdgeValue? = style?.position
-    var flex: Flex = style?.flex ?: Flex()
-    var positionType: PositionType? = style?.positionType
-    var display: Bind<Display>? = style?.display
-    var borderColor: String? = style?.borderColor
-    var borderWidth: Double? = style?.borderWidth
+data class LayoutBuilder(private val layout: Layout?) {
+    var size: Size = layout?.size ?: Size()
+    var margin: EdgeValue? = layout?.margin
+    var padding: EdgeValue? = layout?.padding
+    var position: EdgeValue? = layout?.position
+    var flex: Flex = layout?.flex ?: Flex()
+    var positionType: PositionType? = layout?.positionType
+    var visibility: Bind<Visibility>? = layout?.visibility
 
-    private fun getStyle() = style ?: Style()
+    private fun getLayout() = layout ?: Layout()
 
-    fun build() = getStyle().copy(
-        backgroundColor = backgroundColor,
-        cornerRadius = cornerRadius,
-        borderColor = borderColor,
-        borderWidth = borderWidth,
+    fun build() = getLayout().copy(
         size = size,
         margin = margin,
         padding = padding,
         position = position,
         flex = flex,
         positionType = positionType,
-        display = display,
+        visibility = visibility,
     )
 
 }

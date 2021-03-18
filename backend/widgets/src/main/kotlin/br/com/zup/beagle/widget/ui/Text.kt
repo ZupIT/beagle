@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.core.WidgetStyle
+import br.com.zup.beagle.core.WidgetStyleComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
@@ -38,7 +40,10 @@ data class Text(
     val styleId: String? = null,
     val textColor: Bind<String>? = null,
     val alignment: Bind<TextAlignment>? = null
-) : Widget() {
+) : Widget(), WidgetStyleComponent {
+
+    override var widgetStyle: WidgetStyle? = null
+
     constructor(
         text: String,
         styleId: String? = null,

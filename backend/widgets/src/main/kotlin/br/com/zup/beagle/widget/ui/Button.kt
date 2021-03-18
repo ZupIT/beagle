@@ -18,6 +18,8 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
+import br.com.zup.beagle.core.WidgetStyle
+import br.com.zup.beagle.core.WidgetStyleComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
@@ -39,8 +41,11 @@ data class Button(
     val styleId: String? = null,
     val onPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null,
-    val enabled: Bind<Boolean>? = null
-) : Widget(), TouchableAnalytics {
+    val enabled: Bind<Boolean>? = null,
+) : Widget(), TouchableAnalytics, WidgetStyleComponent {
+
+    override var widgetStyle: WidgetStyle? = null
+
     constructor(
         text: String,
         styleId: String? = null,

@@ -14,50 +14,35 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.style
+package br.com.zup.beagle.widget.helpers
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.AlignContent
-import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Center")
-internal class CenterTest {
+@DisplayName("Given an Accessibility")
+internal class AccessibilityTest {
 
     @DisplayName("When call function")
     @Nested
-    inner class CenterTest {
+    inner class AccessibilityTest {
 
         @Test
-        @DisplayName("Then should return a current component with correct flex options")
-        fun testCenter() {
+        @DisplayName("Then should return a current component with correct accessibility")
+        fun testAccessibility() {
             // Given
             val component = Container()
 
             // When
-            Center(component)
+            Accessibility(accessibilityLabel = "test", self = component)
 
             // Then
             val expected = Container()
-            expected.style = Style(
-                flex = Flex(
-                    justifyContent = JustifyContent.CENTER,
-                    alignContent = AlignContent.CENTER,
-                    alignSelf = AlignSelf.CENTER,
-                    alignItems = AlignItems.CENTER
-                ),
-                size = Size()
-            )
+            expected.accessibility = br.com.zup.beagle.core.Accessibility(accessibilityLabel = "test")
 
-            assertEquals(expected.style, component.style)
+            assertEquals(expected.accessibility, component.accessibility)
         }
     }
 }

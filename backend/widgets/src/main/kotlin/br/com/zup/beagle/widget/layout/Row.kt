@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.ext.Styled
+import br.com.zup.beagle.ext.Layouted
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.FlexDirection
@@ -38,11 +38,12 @@ fun Row(
     reverse: Boolean = false,
     children: List<ServerDrivenComponent> = listOf(),
 ): Container {
-    return Styled(Container(
-        children = children,
-        context = context,
-        onInit = onInit
-    ), {
+    return Layouted(
+        Container(
+            children = children,
+            context = context,
+            onInit = onInit
+        ), {
         flex.flexDirection = if (!reverse) FlexDirection.ROW else FlexDirection.ROW_REVERSE
     })
 }

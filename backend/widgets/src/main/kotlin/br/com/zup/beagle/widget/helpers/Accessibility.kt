@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.style
+package br.com.zup.beagle.widget.helpers
 
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.ext.setAccessibility

@@ -14,48 +14,47 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.style
+package br.com.zup.beagle.widget.helpers
 
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Expanded")
-internal class ExpandedTest {
+@DisplayName("Given a Center")
+internal class CenterTest {
 
     @DisplayName("When call function")
     @Nested
-    inner class ExpandedTest {
+    inner class CenterTest {
 
         @Test
         @DisplayName("Then should return a current component with correct flex options")
-        fun testExpanded() {
+        fun testCenter() {
             // Given
             val component = Container()
 
             // When
-            Expanded(self = component)
+            Center(component)
 
             // Then
             val expected = Container()
             expected.style = Style(
                 flex = Flex(
-                    grow = 1.0,
-                    alignSelf = AlignSelf.STRETCH
+                    justifyContent = JustifyContent.CENTER,
+                    alignContent = AlignContent.CENTER,
+                    alignSelf = AlignSelf.CENTER,
+                    alignItems = AlignItems.CENTER
                 ),
-                size = Size(
-                    width = UnitValue.percent(100),
-                    height = UnitValue.percent(100)
-                )
+                size = Size()
             )
 
             assertEquals(expected.style, component.style)

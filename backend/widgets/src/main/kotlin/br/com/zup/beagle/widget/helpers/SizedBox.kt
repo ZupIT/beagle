@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.style
+package br.com.zup.beagle.widget.helpers
 
-import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.ext.Styled
+import br.com.zup.beagle.core.LayoutComponent
+import br.com.zup.beagle.ext.Layouted
 import br.com.zup.beagle.widget.core.UnitValue
 
 /**
@@ -28,9 +28,9 @@ import br.com.zup.beagle.widget.core.UnitValue
  *
  */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> SizedBox(width: Int,
-                                  height: Int,
-                                  self: T): T =
+fun <T : LayoutComponent> SizedBox(width: Int,
+                                   height: Int,
+                                   self: T): T =
     SizedBox(
         width = UnitValue.real(width),
         height = UnitValue.real(height),
@@ -44,7 +44,7 @@ fun <T : StyleComponent> SizedBox(width: Int,
  *
  */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> SizedBox(width: Double,
+fun <T : LayoutComponent> SizedBox(width: Double,
                                   height: Double,
                                   self: T): T =
     SizedBox(
@@ -60,13 +60,13 @@ fun <T : StyleComponent> SizedBox(width: Double,
  *
  */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> SizedBox(
+fun <T : LayoutComponent> SizedBox(
     width: UnitValue,
     height: UnitValue,
     self: T): T {
 
-    return Styled(self, {
-        this.size?.width = width
-        this.size?.height = height
+    return Layouted(self, {
+        this.size.width = width
+        this.size.height = height
     })
 }

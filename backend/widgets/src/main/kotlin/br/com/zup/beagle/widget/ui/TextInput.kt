@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.core.WidgetStyle
+import br.com.zup.beagle.core.WidgetStyleComponent
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOfNullable
@@ -65,7 +67,9 @@ data class TextInput(
     val onFocus: List<Action>? = null,
     val onBlur: List<Action>? = null,
     val enabled: Bind<Boolean>? = null,
-) : InputWidget() {
+) : InputWidget(), WidgetStyleComponent {
+
+    override var widgetStyle: WidgetStyle? = null
 
     constructor(
         value: String? = null,

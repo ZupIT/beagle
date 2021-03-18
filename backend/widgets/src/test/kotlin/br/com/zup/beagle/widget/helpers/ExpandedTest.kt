@@ -14,43 +14,46 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.style
+package br.com.zup.beagle.widget.helpers
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Margin")
-internal class MarginTest {
+@DisplayName("Given a Expanded")
+internal class ExpandedTest {
 
     @DisplayName("When call function")
     @Nested
-    inner class MarginTest {
+    inner class ExpandedTest {
 
         @Test
-        @DisplayName("Then should return a current component with correct style options")
-        fun testMargin() {
+        @DisplayName("Then should return a current component with correct flex options")
+        fun testExpanded() {
             // Given
             val component = Container()
 
             // When
-            Margin(margin = EdgeValue.all(10), self = component)
+            Expanded(self = component)
 
             // Then
             val expected = Container()
             expected.style = Style(
-                margin = EdgeValue.all(10),
-                flex = Flex(),
-                size = Size()
+                flex = Flex(
+                    grow = 1.0,
+                    alignSelf = AlignSelf.STRETCH
+                ),
+                size = Size(
+                    width = UnitValue.percent(100),
+                    height = UnitValue.percent(100)
+                )
             )
 
             assertEquals(expected.style, component.style)

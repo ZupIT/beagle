@@ -14,27 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.style
+package br.com.zup.beagle.widget.helpers
 
-import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.ext.Flex
-import br.com.zup.beagle.widget.core.AlignContent
-import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.core.LayoutComponent
+import br.com.zup.beagle.ext.Layouted
+import br.com.zup.beagle.widget.core.EdgeValue
 
 /**
- *  The Center it is a helper to apply center options in flex
+ *  The Padding is a helper to apply padding in your component
  *
- * @param self the component will apply flex
+ * @param self the component will apply padding
  *
  */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Center(self: T): T {
-    return Flex(self, {
-        justifyContent = JustifyContent.CENTER
-        alignContent = AlignContent.CENTER
-        alignSelf = AlignSelf.CENTER
-        alignItems = AlignItems.CENTER
+fun <T : LayoutComponent> Padding(padding: EdgeValue, self: T): T {
+    return Layouted(self, {
+        this.padding = padding
     })
 }

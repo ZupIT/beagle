@@ -14,35 +14,43 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.style
+package br.com.zup.beagle.widget.helpers
 
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given an Accessibility")
-internal class AccessibilityTest {
+@DisplayName("Given a Margin")
+internal class MarginTest {
 
     @DisplayName("When call function")
     @Nested
-    inner class AccessibilityTest {
+    inner class MarginTest {
 
         @Test
-        @DisplayName("Then should return a current component with correct accessibility")
-        fun testAccessibility() {
+        @DisplayName("Then should return a current component with correct style options")
+        fun testMargin() {
             // Given
             val component = Container()
 
             // When
-            Accessibility(accessibilityLabel = "test", self = component)
+            Margin(margin = EdgeValue.all(10), self = component)
 
             // Then
             val expected = Container()
-            expected.accessibility = br.com.zup.beagle.core.Accessibility(accessibilityLabel = "test")
+            expected.style = Style(
+                margin = EdgeValue.all(10),
+                flex = Flex(),
+                size = Size()
+            )
 
-            assertEquals(expected.accessibility, component.accessibility)
+            assertEquals(expected.style, component.style)
         }
     }
 }

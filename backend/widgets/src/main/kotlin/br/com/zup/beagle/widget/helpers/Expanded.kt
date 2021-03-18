@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.style
+package br.com.zup.beagle.widget.helpers
 
-import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.ext.Styled
-import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.core.LayoutComponent
+import br.com.zup.beagle.ext.Layouted
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.UnitValue
 
 /**
- *  The Margin is a helper to apply margin in your component
+ *  The Expanded it is a helper to apply grow in your component
  *
- * @param self the component will apply margin
+ * @param self the component will apply grow
  *
  */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Margin(margin: EdgeValue, self: T): T {
-    return Styled(self, {
-        this.margin = margin
+fun <T : LayoutComponent> Expanded(self: T): T {
+    return Layouted(self, {
+        size.width = UnitValue.percent(100)
+        size.height = UnitValue.percent(100)
+        this.flex.alignSelf = AlignSelf.STRETCH
+        this.flex.grow = 1.0
     })
 }
