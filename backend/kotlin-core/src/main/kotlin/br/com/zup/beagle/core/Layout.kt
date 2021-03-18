@@ -16,13 +16,22 @@
 
 package br.com.zup.beagle.core
 
-/**
- * Component that hold the style
- * @property style attribute will enable a few visual options to be changed.
- */
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Size
 
-@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
-    " Use class WidgetStyleComponent or LayoutComponent.")
-interface StyleComponent : ServerDrivenComponent {
-    var style: Style?
+data class Layout(
+    var size: Size? = null,
+    var margin: EdgeValue? = null,
+    var padding: EdgeValue? = null,
+    var position: EdgeValue? = null,
+    var flex: Flex? = null,
+    var positionType: PositionType? = null,
+    var visibility: Bind<Visibility>? = null
+)
+
+enum class Visibility {
+    VISIBLE,
+    HIDDEN
 }

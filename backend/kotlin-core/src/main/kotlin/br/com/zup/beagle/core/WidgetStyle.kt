@@ -16,13 +16,9 @@
 
 package br.com.zup.beagle.core
 
-/**
- * Component that hold the style
- * @property style attribute will enable a few visual options to be changed.
- */
-
-@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
-    " Use class WidgetStyleComponent or LayoutComponent.")
-interface StyleComponent : ServerDrivenComponent {
-    var style: Style?
-}
+data class WidgetStyle(
+    var backgroundColor: String? = null,
+    var cornerRadius: Double? = null,
+    var borderColor: String? = null,
+    var borderWidth: Double? = null,
+)

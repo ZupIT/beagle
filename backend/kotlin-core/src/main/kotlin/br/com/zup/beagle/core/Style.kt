@@ -49,6 +49,8 @@ import br.com.zup.beagle.widget.core.Size
  * @param positionType The position type of an element defines how it is positioned within its parent.
  * @param display enables a flex context for all its direct children.
  */
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Layout, WidgetStyle.")
 data class Style(
     var backgroundColor: String? = null,
     var cornerRadius: CornerRadius? = null,
@@ -68,6 +70,9 @@ data class Style(
  *
  * @param radius define size of radius
  */
+
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class WidgetStyle.")
 data class CornerRadius(
     var radius: Double = 0.0
 )
@@ -79,6 +84,9 @@ data class CornerRadius(
  * @property FLEX
  * @property NONE
  */
+
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Visibility")
 enum class Display {
     /**
      * Apply the flex properties.

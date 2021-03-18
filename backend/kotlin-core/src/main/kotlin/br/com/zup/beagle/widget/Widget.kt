@@ -19,17 +19,24 @@ package br.com.zup.beagle.widget
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.IdentifierComponent
+import br.com.zup.beagle.core.Layout
+import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
+import br.com.zup.beagle.core.WidgetStyle
+import br.com.zup.beagle.core.WidgetStyleComponent
 
 /**
  * Base of all widgets
  *
  */
 abstract class Widget : StyleComponent, AccessibilityComponent,
-    IdentifierComponent {
+    IdentifierComponent, WidgetStyleComponent, LayoutComponent {
 
     override var id: String? = null
     override var style: Style? = null
     override var accessibility: Accessibility? = null
+    override var widgetStyle: WidgetStyle? = null
+    override var layout: Layout? = null
+
 }

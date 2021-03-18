@@ -17,12 +17,9 @@
 package br.com.zup.beagle.core
 
 /**
- * Component that hold the style
- * @property style attribute will enable a few visual options to be changed.
+ * Component that hold the layout
+ * @property layout attribute will enable a few layout options to be changed.
  */
-
-@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
-    " Use class WidgetStyleComponent or LayoutComponent.")
-interface StyleComponent : ServerDrivenComponent {
-    var style: Style?
+interface LayoutComponent : ServerDrivenComponent {
+    var layout: Layout?
 }
