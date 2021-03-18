@@ -32,7 +32,7 @@ fun <T : ServerDrivenComponent> Platform(platform: BeaglePlatform,
 
 /**
  *
- *  The BeaglePlatform it is a helper to set what platform do you want to render this component
+ *  The BeaglePlatform class is a helper used to set the platform that will render the component
  *
  */
 fun <T : ServerDrivenComponent> T.setPlatform(platform: BeaglePlatform) = BeaglePlatformWrapper(this, platform)
