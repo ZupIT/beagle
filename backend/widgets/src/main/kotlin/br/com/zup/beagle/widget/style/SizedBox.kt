@@ -21,7 +21,7 @@ import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.UnitValue
 
 /**
- *  The SizedBox it is a helper to apply a size in your component
+ *  The SizedBox is a helper to apply a size in your component
  * @param width The value specifies the view's width
  * @param height The value specifies the view's height
  * @param self the component will apply size
