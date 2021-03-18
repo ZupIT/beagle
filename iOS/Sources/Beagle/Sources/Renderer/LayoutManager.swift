@@ -18,15 +18,15 @@ import UIKit
 
 final class LayoutManager {
 
-    private unowned var viewController: BeagleScreenViewController
+    private weak var viewController: BeagleScreenViewController?
     
     private var safeArea: SafeArea? {
-        return viewController.screen?.safeArea
+        return viewController?.screen?.safeArea
     }
     
     private var keyboardFrame = CGRect.zero
     private var keyboardHeight: CGFloat {
-        guard let view = viewController.viewIfLoaded else { return 0 }
+        guard let view = viewController?.viewIfLoaded else { return 0 }
         let viewFrame = view.convert(view.bounds, to: nil)
         let keyboardRect = keyboardFrame.intersection(viewFrame)
         return keyboardRect.isNull ? 0 : keyboardRect.height
@@ -42,7 +42,8 @@ final class LayoutManager {
     }
     
     public func applyLayout() {
-        guard case .view(let view) = viewController.content else { return }
+        guard let viewController = viewController,
+              case .view(let view) = viewController.content else { return }
         let style = Style(padding: contentPadding)
         view.frame = viewController.view.bounds
         view.style.setup(style)
@@ -73,12 +74,12 @@ final class LayoutManager {
     
     private var contentInsets: UIEdgeInsets {
         if #available(iOS 11.0, *) {
-            return viewController.viewIfLoaded?.safeAreaInsets ?? .zero
+            return viewController?.viewIfLoaded?.safeAreaInsets ?? .zero
         }
         return UIEdgeInsets(
-            top: viewController.topLayoutGuide.length,
+            top: viewController?.topLayoutGuide.length ?? 0,
             left: 0,
-            bottom: viewController.bottomLayoutGuide.length,
+            bottom: viewController?.bottomLayoutGuide.length ?? 0,
             right: 0
         )
     }

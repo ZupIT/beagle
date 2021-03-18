@@ -24,29 +24,29 @@ class ComponentHostController: BeagleController {
     let bindings = Bindings()
 
     var dependencies: BeagleDependenciesProtocol {
-        return renderer.controller.dependencies
+        return renderer.dependencies
     }
     var serverDrivenState: ServerDrivenState {
-        get { renderer.controller.serverDrivenState }
-        set { renderer.controller.serverDrivenState = newValue }
+        get { renderer.controller?.serverDrivenState ?? .finished }
+        set { renderer.controller?.serverDrivenState = newValue }
     }
     var screenType: ScreenType {
-        return renderer.controller.screenType
+        return renderer.controller?.screenType ?? .declarativeText("")
     }
     var screen: Screen? {
-        return renderer.controller.screen
+        return renderer.controller?.screen
     }
 
     func addOnInit(_ onInit: [Action], in view: UIView) {
-        renderer.controller.addOnInit(onInit, in: view)
+        renderer.controller?.addOnInit(onInit, in: view)
     }
     
     func execute(actions: [Action]?, event: String?, origin: UIView) {
-        renderer.controller.execute(actions: actions, event: event, origin: origin)
+        renderer.controller?.execute(actions: actions, event: event, origin: origin)
     }
 
     func execute(actions: [Action]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
-        renderer.controller.execute(actions: actions, with: contextId, and: contextValue, origin: origin)
+        renderer.controller?.execute(actions: actions, with: contextId, and: contextValue, origin: origin)
     }
     
     public func addBinding<T: Decodable>(expression: ContextExpression, in view: UIView, update: @escaping (T?) -> Void) {
