@@ -80,3 +80,4 @@ fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply
     ReplaceWith("setAccessibility { }"))
 fun <T : Widget> T.accessibility(block: AccessibilityBuilder.() -> Unit) =
     this.applyAccessibility(AccessibilityBuilder().apply(block).build())
+

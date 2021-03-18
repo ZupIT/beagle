@@ -16,13 +16,8 @@
 
 package br.com.zup.beagle.ext
 
-import br.com.zup.beagle.core.Layout
-import br.com.zup.beagle.core.LayoutComponent
-import br.com.zup.beagle.core.PositionType
-import br.com.zup.beagle.widget.context.Bind
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.core.WidgetStyle
+import br.com.zup.beagle.core.WidgetStyleComponent
 
 /**
  *  The Layouted is a helper to apply layout in your component
@@ -31,8 +26,8 @@ import br.com.zup.beagle.widget.core.Size
  *
  */
 @Suppress("FunctionNaming")
-inline fun <T : LayoutComponent> Layouted(self: T, block: LayoutBuilder.() -> Unit): T {
-    self.layout = LayoutBuilder(self.layout).apply(block).build()
+inline fun <T : WidgetStyleComponent> WidgetStyled(self: T, block: WidgetStyleBuilder.() -> Unit): T {
+    self.widgetStyle = WidgetStyleBuilder(self.widgetStyle).apply(block).build()
     return self
 }
 
@@ -41,8 +36,8 @@ inline fun <T : LayoutComponent> Layouted(self: T, block: LayoutBuilder.() -> Un
  *  with this method you don't need instance any object, just set fields
  *
  */
-inline fun <T : LayoutComponent> T.setLayout(block: LayoutBuilder.() -> Unit): T {
-    this.layout = LayoutBuilder(this.layout).apply(block).build()
+inline fun <T : WidgetStyleComponent> T.setWidgetStyle(block: WidgetStyleBuilder.() -> Unit): T {
+    this.widgetStyle = WidgetStyleBuilder(this.widgetStyle).apply(block).build()
     return this
 }
 
@@ -67,25 +62,21 @@ inline fun <T : LayoutComponent> T.setLayout(block: LayoutBuilder.() -> Unit): T
  * @property positionType The position type of an element defines how it is positioned within its parent.
  * @property visible show or hide the layout.
  */
-data class LayoutBuilder(private val layout: Layout?) {
-    var size: Size = layout?.size ?: Size()
-    var margin: EdgeValue? = layout?.margin
-    var padding: EdgeValue? = layout?.padding
-    var position: EdgeValue? = layout?.position
-    var flex: Flex = layout?.flex ?: Flex()
-    var positionType: PositionType? = layout?.positionType
-    var visible: Bind<Boolean>? = layout?.visible
+data class WidgetStyleBuilder(private val widgetStyle: WidgetStyle?) {
+    var backgroundColor: String? = widgetStyle?.backgroundColor
+    var cornerRadius: Double? = widgetStyle?.cornerRadius
+    var borderColor: String? = widgetStyle?.borderColor
+    var borderWidth: Double? = widgetStyle?.borderWidth
 
-    private fun getLayout() = layout ?: Layout()
+    private fun getWidgetStyle() = widgetStyle ?: WidgetStyle()
 
-    fun build() = getLayout().copy(
-        size = size,
-        margin = margin,
-        padding = padding,
-        position = position,
-        flex = flex,
-        positionType = positionType,
-        visible = visible,
+    fun build() = getWidgetStyle().copy(
+        backgroundColor = backgroundColor,
+        cornerRadius = cornerRadius,
+        borderColor = borderColor,
+        borderWidth = borderWidth,
     )
 
 }
+
+
