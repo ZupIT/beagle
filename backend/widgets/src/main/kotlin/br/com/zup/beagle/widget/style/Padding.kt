@@ -21,7 +21,7 @@ import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.EdgeValue
 
 /**
- *  The Padding it is a helper to apply padding in your component
+ *  The Padding is a helper to apply padding in your component
  *
  * @param self the component will apply padding
  *
