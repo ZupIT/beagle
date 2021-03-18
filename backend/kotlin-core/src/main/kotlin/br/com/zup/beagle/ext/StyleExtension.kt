@@ -39,7 +39,7 @@ inline fun <T : StyleComponent> Styled(self: T, block: StyleBuilder.() -> Unit):
 }
 
 /**
- *  The StyleBuilder it is a helper to set style options in your component.
+ *  The StyleBuilder is a helper to set style options in your component.
  *  with this method you don't need instance any object, just set fields
  *
  */
