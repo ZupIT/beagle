@@ -39,7 +39,7 @@ fun <T : StyleComponent> Flex(self: T, block: FlexBuilder.() -> Unit): T {
 
 /**
  *  The FlexBuilder is a helper to set Flex options in your component.
- *  with this method you don't need instance any object, just set fields
+ *  with this method you don't need to instantiate any object, just set fields
  *
  */
 fun <T : StyleComponent> T.setFlex(block: FlexBuilder.() -> Unit): T {
