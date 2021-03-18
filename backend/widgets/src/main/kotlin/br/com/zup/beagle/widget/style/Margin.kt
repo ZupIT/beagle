@@ -21,7 +21,7 @@ import br.com.zup.beagle.ext.Styled
 import br.com.zup.beagle.widget.core.EdgeValue
 
 /**
- *  The Margin it is a helper to apply margin in your component
+ *  The Margin is a helper to apply margin in your component
  *
  * @param self the component will apply margin
  *

@@ -27,7 +27,7 @@ import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.UnitValue
 
 /**
- *  The Flex it is a helper to apply flex in your component
+ *  The Flex is a helper to apply Flex in your component
  *
  * @param self the component will apply flex
  *
@@ -38,8 +38,8 @@ fun <T : StyleComponent> Flex(self: T, block: FlexBuilder.() -> Unit): T {
 }
 
 /**
- *  The FlexBuilder it is a helper to set flex options in your component.
- *  with this method you don't need instance any object, just set fields
+ *  The FlexBuilder is a helper to set Flex options in your component.
+ *  with this method you don't need to instantiate any object, just set fields
  *
  */
 fun <T : StyleComponent> T.setFlex(block: FlexBuilder.() -> Unit): T {
