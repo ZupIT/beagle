@@ -27,7 +27,7 @@ import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 
 /**
- *  The Styled it is a helper to apply style in your component
+ *  The Styled is a helper to apply style in your component
  *
  * @param self the component will apply style
  *
