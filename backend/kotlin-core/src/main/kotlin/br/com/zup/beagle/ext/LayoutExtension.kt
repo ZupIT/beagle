@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.ext
 
+import br.com.zup.beagle.core.Display
 import br.com.zup.beagle.core.Layout
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.PositionType
@@ -74,7 +75,7 @@ data class LayoutBuilder(private val layout: Layout?) {
     var position: EdgeValue? = layout?.position
     var flex: Flex = layout?.flex ?: Flex()
     var positionType: PositionType? = layout?.positionType
-    var visible: Bind<Boolean>? = layout?.visible
+    var display: Bind<Display>? = layout?.display
 
     private fun getLayout() = layout ?: Layout()
 
@@ -85,7 +86,7 @@ data class LayoutBuilder(private val layout: Layout?) {
         position = position,
         flex = flex,
         positionType = positionType,
-        visible = visible,
+        display = display,
     )
 
 }

@@ -84,9 +84,6 @@ data class CornerRadius(
  * @property FLEX
  * @property NONE
  */
-
-@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
-    " Use class Visibility")
 enum class Display {
     /**
      * Apply the flex properties.
