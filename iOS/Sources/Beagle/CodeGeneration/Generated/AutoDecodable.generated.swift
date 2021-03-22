@@ -422,6 +422,7 @@ extension TextInput {
         case value
         case placeholder
         case disabled
+        case enabled
         case readOnly
         case type
         case hidden
@@ -431,7 +432,6 @@ extension TextInput {
         case onFocus
         case error
         case showError
-        case enabled
     }
 
     public init(from decoder: Decoder) throws {
