@@ -69,6 +69,8 @@ class StyleManager(
 
     fun getButtonStyle(styleId: String?) = designSystem?.buttonStyle(styleId ?: "") ?: 0
 
+    fun getContainerStyle(styleId: String?) = designSystem?.containerStyle(styleId ?: "") ?: 0
+
     fun getTextStyle(styleId: String?) = designSystem?.textStyle(styleId ?: "") ?: 0
 
     fun getInputTextStyle(styleId: String?) = designSystem?.inputTextStyle(styleId ?: "")
