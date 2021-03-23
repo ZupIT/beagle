@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.ColorUtils
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
@@ -29,13 +30,20 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 
+private const val SELECTED_COLOR = "#000000"
+private const val UNSELECTED_COLOR = "#FF0000"
+
+@DisplayName("Given Page Indicator")
 class PageIndicatorTest : BaseComponentTest() {
 
     private val beaglePageIndicatorView: BeaglePageIndicatorView = mockk(relaxed = true, relaxUnitFun = true)
@@ -49,10 +57,16 @@ class PageIndicatorTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), numberOfPages, currentPage)
+        pageIndicator = PageIndicator(
+            selectedColor = SELECTED_COLOR,
+            unselectedColor = UNSELECTED_COLOR,
+            numberOfPages = numberOfPages,
+            currentPage = currentPage,
+        )
 
         mockkStatic(Color::class)
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
+        mockkObject(ColorUtils::class)
         every { Color.parseColor(any()) } returns 0
         every { anyConstructed<ViewFactory>().makePageIndicator(any()) } returns beaglePageIndicatorView
         every {
@@ -65,62 +79,104 @@ class PageIndicatorTest : BaseComponentTest() {
         } just Runs
     }
 
-    @Test
-    fun buildView_should_return_BeaglePageIndicatorView_and_set_colors() {
-        val view = pageIndicator.buildView(rootView)
+    @DisplayName("When build view")
+    @Nested
+    inner class ColorTest {
 
-        assertEquals(beaglePageIndicatorView, view)
-        verify(exactly = once()) { beaglePageIndicatorView.setSelectedColor(0) }
-        verify(exactly = once()) { beaglePageIndicatorView.setUnselectedColor(0) }
+        @DisplayName("Then should call correct color")
+        @Test
+        fun testCorrectColorCalled() {
+            // When
+            val view = pageIndicator.buildView(rootView)
+
+            // Then
+            assertEquals(beaglePageIndicatorView, view)
+            verify(exactly = once()) {
+                ColorUtils.hexColor(SELECTED_COLOR)
+                ColorUtils.hexColor(UNSELECTED_COLOR)
+                beaglePageIndicatorView.setSelectedColor(0)
+                beaglePageIndicatorView.setUnselectedColor(0)
+            }
+        }
+
     }
 
-    @Test
-    fun buildView_should_call_onItemUpdate_when_currentPage_change() {
-        //GIVEN
-        val newPosition = RandomData.int()
 
-        //WHEN
-        pageIndicator.buildView(rootView = rootView)
-        currentPageSlot.captured.invoke(newPosition)
+    @DisplayName("When current page change")
+    @Nested
+    inner class OnItemUpdatedTest {
 
-        //THEN
-        verify(exactly = once()) { pageIndicator.onItemUpdated(newPosition) }
+        @DisplayName("Then should call on item update")
+        @Test
+        fun testCallItemUpdate() {
+            // Given
+            val newPosition = RandomData.int()
+
+            // When
+            pageIndicator.buildView(rootView = rootView)
+            currentPageSlot.captured.invoke(newPosition)
+
+            // Then
+            verify(exactly = once()) { pageIndicator.onItemUpdated(newPosition) }
+        }
+
     }
 
-    @Test
-    fun buildView_should_call_setCount_when_numberOfPage_is_not_null() {
-        //GIVEN
 
-        //WHEN
-        pageIndicator.buildView(rootView = rootView)
+    @DisplayName("When numbers of page is not null")
+    @Nested
+    inner class CountTest {
 
-        //THEN
-        verify(exactly = once()) { pageIndicator.setCount(numberOfPages) }
+        @DisplayName("Then should call set count")
+        @Test
+        fun testCallSetCount() {
+            // When
+            pageIndicator.buildView(rootView = rootView)
+
+            // Then
+            verify(exactly = once()) { pageIndicator.setCount(numberOfPages) }
+        }
+
     }
 
-    @Test
-    fun setCount_should_call_BeaglePageIndicatorView_setCount() {
-        // Given
-        val count = RandomData.int()
 
-        // When
-        pageIndicator.buildView(rootView)
-        pageIndicator.setCount(count)
+    @DisplayName("When set count")
+    @Nested
+    inner class CountCallTest {
 
-        // Then
-        verify(exactly = once()) { beaglePageIndicatorView.setCount(count) }
+        @DisplayName("Then should call set count from beagle page view")
+        @Test
+        fun testCallSetCount() {
+            // Given
+            val count = RandomData.int()
+
+            // When
+            pageIndicator.buildView(rootView)
+            pageIndicator.setCount(count)
+
+            // Then
+            verify(exactly = once()) { beaglePageIndicatorView.setCount(count) }
+        }
+
     }
 
-    @Test
-    fun onItemUpdated_should_call_BeaglePageIndicatorView_onItemUpdated() {
-        // Given
-        val count = RandomData.int()
+    @DisplayName("When call item updated")
+    @Nested
+    inner class ItemUpdatedTest {
 
-        // When
-        pageIndicator.buildView(rootView)
-        pageIndicator.onItemUpdated(count)
+        @DisplayName("Then should set current index")
+        @Test
+        fun testSetCurrentIndex() {
+            // Given
+            val count = RandomData.int()
 
-        // Then
-        verify(exactly = once()) { beaglePageIndicatorView.setCurrentIndex(count) }
+            // When
+            pageIndicator.buildView(rootView)
+            pageIndicator.onItemUpdated(count)
+
+            // Then
+            verify(exactly = once()) { beaglePageIndicatorView.setCurrentIndex(count) }
+        }
+
     }
 }
