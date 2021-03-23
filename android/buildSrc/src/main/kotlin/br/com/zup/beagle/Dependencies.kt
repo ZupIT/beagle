@@ -46,7 +46,7 @@ class Dependencies : Plugin<Project> {
 
     object Versions {
         const val compileSdk = 30
-        const val minSdk = 21
+        const val minSdk = 19
         const val targetSdk = 30
         const val buildTools = "30.0.0"
         const val kotlin = "1.4.10"

@@ -56,11 +56,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     //    implementation 'com.google.protobuf:protobuf-lite:3.0.1'
-    implementation 'io.grpc:grpc-okhttp:1.35.0'// CURRENT_GRPC_VERSION
-    implementation 'io.grpc:grpc-protobuf-lite:1.35.0'// CURRENT_GRPC_VERSION
-    implementation 'io.grpc:grpc-stub:1.35.0'// CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-okhttp:1.36.0'// CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-protobuf-lite:1.36.0'// CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-stub:1.36.0'// CURRENT_GRPC_VERSION
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
 //    api("com.google.protobuf:protobuf-javalite:3.13.0")
     api("io.grpc:grpc-kotlin-stub-lite:1.0.0")
 
@@ -69,6 +69,11 @@ dependencies {
     implementation Dependencies.MoshiLibraries.adapters
 
     api project(Dependencies.Modules.core)
+
+    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
+    testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.junitApi
+    testImplementation Dependencies.TestLibraries.junitEngine
 }
 
 protobuf {

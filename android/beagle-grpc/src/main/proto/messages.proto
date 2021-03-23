@@ -6,6 +6,7 @@ package beagle;
 
 message ScreenRequest {
   string name = 1;
+  string parameters = 2;
 }
 
 /* Response */
