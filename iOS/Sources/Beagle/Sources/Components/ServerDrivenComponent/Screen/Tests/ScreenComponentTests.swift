@@ -134,9 +134,9 @@ final class ScreenComponentTests: XCTestCase {
     
     func test_shouldPrefetchNavigateAction() {
         let prefetch = BeaglePrefetchHelpingSpy()
-        let controller = BeagleControllerStub()
+        let dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
+        let controller = BeagleControllerStub(dependencies: dependencies)
         let renderer = BeagleRenderer(controller: controller)
-        controller.dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "button-item-prefetch"
         let navigate = Navigate.pushView(.remote(.init(url: navigatePath, shouldPrefetch: true)))
