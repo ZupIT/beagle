@@ -33,7 +33,7 @@ import br.com.zup.beagle.core.StyleComponent
 import com.facebook.yoga.YogaNode
 import com.facebook.yoga.YogaNodeJNIBase
 
-@Suppress("LeakingThis")
+@Suppress("LeakingThis", "LongParameterList")
 @SuppressLint("ViewConstructor")
 internal open class BeagleFlexView(
     private val rootView: RootView,
