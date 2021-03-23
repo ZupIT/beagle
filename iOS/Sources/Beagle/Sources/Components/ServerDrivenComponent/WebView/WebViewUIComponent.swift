@@ -39,7 +39,7 @@ final class WebViewUIComponent: UIView {
         didSet { updateView() }
     }
     
-    init(url: String? = nil, controller: BeagleController) {
+    init(url: String? = nil, controller: BeagleController?) {
         self.url = url
         self.controller = controller
         super.init(frame: .zero)

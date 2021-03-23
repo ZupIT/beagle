@@ -36,7 +36,7 @@ extension Button {
             }
         }
         
-        let preFetchHelper = renderer.controller.dependencies.preFetchHelper
+        let preFetchHelper = renderer.dependencies.preFetchHelper
         onPress?
             .compactMap { ($0 as? Navigate)?.newPath }
             .forEach { preFetchHelper.prefetchComponent(newPath: $0) }
@@ -61,7 +61,7 @@ extension Button {
         required init(
             onPress: [Action]?,
             clickAnalyticsEvent: AnalyticsClick? = nil,
-            controller: BeagleController
+            controller: BeagleController?
         ) {
             super.init(frame: .zero)
             self.onPress = onPress

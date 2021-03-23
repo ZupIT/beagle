@@ -100,7 +100,7 @@ final class ListViewUIComponent: UIView {
         collection.showsVerticalScrollIndicator = model.isScrollIndicatorVisible
         
         let parentController = listController.renderer.controller
-        parentController.addChild(listController)
+        parentController?.addChild(listController)
         addSubview(listController.view)
         listController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         listController.view.frame = bounds
@@ -194,7 +194,7 @@ final class ListViewUIComponent: UIView {
         
         if items?.count == 0 || didReachScrollThreshol {
             onScrollEndExecuted = true
-            renderer.controller.execute(actions: model.onScrollEnd, event: "onScrollEnd", origin: self)
+            renderer.controller?.execute(actions: model.onScrollEnd, event: "onScrollEnd", origin: self)
         }
     }
     
