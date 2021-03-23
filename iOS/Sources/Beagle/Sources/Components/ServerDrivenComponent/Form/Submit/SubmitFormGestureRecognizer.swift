@@ -23,7 +23,7 @@ final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
     weak var formSubmitView: UIView?
     weak var controller: BeagleController?
     
-    init(form: Deprecated.Form, formView: UIView, formSubmitView: UIView, controller: BeagleController) {
+    init(form: Deprecated.Form, formView: UIView, formSubmitView: UIView, controller: BeagleController?) {
         self.form = form
         self.formView = formView
         self.formSubmitView = formSubmitView

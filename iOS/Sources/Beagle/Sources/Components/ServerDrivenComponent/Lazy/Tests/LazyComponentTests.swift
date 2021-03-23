@@ -77,9 +77,8 @@ final class LazyComponentTests: XCTestCase {
             initialState: ComponentDummy(resultView: initialView)
         )
         let repository = LazyRepositoryStub()
-        let controller = BeagleControllerStub()
+        let controller = BeagleControllerStub(dependencies: BeagleScreenDependencies(repository: repository))
         let renderer = BeagleRenderer(controller: controller)
-        controller.dependencies = BeagleScreenDependencies(repository: repository)
         
         let view = sut.toView(renderer: renderer)
         repository.componentCompletion?(.success(ComponentDummy()))
@@ -97,9 +96,8 @@ final class LazyComponentTests: XCTestCase {
             initialState: ComponentDummy(resultView: initialView)
         )
         let repository = LazyRepositoryStub()
-        let controller = BeagleControllerStub()
+        let controller = BeagleControllerStub(dependencies: BeagleScreenDependencies(repository: repository))
         let renderer = BeagleRenderer(controller: controller)
-        controller.dependencies = BeagleScreenDependencies(repository: repository)
         
         // When
         let view = sut.toView(renderer: renderer)

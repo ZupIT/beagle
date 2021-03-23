@@ -35,8 +35,9 @@ extension PageView {
         )
         
         if let actions = onPageChange {
-            view.onPageChange = { page in
-                renderer.controller.execute(actions: actions, with: "onPageChange", and: .int(page), origin: view)
+            view.onPageChange = { [weak view] page in
+                guard let view = view else { return }
+                renderer.controller?.execute(actions: actions, with: "onPageChange", and: .int(page), origin: view)
             }
         }
 

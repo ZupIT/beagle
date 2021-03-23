@@ -45,7 +45,9 @@ class NativeViewController: UIViewController {
         )
     })
     
-    private lazy var serverDrivenBeagleView = BeagleView(.init(url: .textLazyComponentEndpoint)) { state in
+    private lazy var serverDrivenBeagleView = BeagleView(.init(url: .textLazyComponentEndpoint)) {
+        [weak self] state in
+        guard let self = self else { return }
         switch state {
         case .started:
             self.loadingLabel.isHidden = false
