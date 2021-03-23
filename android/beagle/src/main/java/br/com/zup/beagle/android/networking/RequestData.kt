@@ -17,6 +17,8 @@
 package br.com.zup.beagle.android.networking
 
 import android.os.Parcelable
+import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.core.BeagleJson
 import kotlinx.android.parcel.Parcelize
 import java.net.URI
 

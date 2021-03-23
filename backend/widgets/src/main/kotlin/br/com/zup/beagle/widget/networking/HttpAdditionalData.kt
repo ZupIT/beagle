@@ -25,7 +25,7 @@ package br.com.zup.beagle.widget.networking
 data class HttpAdditionalData(
     val method: HttpMethod? = HttpMethod.GET,
     val headers: Map<String, String>? = hashMapOf(),
-    val body: String? = null,
+    val body: Any? = null,
 )
 
 /**

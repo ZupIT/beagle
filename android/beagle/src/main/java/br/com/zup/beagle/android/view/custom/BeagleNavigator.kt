@@ -161,7 +161,12 @@ internal object BeagleNavigator {
     }
 
     private fun createRequestData(route: Route.Remote): RequestData {
-        val httpAdditionalData = route.httpAdditionalData ?: HttpAdditionalData()
+        val httpAdditionalData = HttpAdditionalData(
+            body = route.httpAdditionalData?.body?.toString(),
+            method = route.httpAdditionalData?.method ?: HttpMethod.GET,
+            headers = route.httpAdditionalData?.headers ?: hashMapOf()
+        )
+
         val url = (route.url.value as String).formatUrl()
         return RequestData(
             url = url,
