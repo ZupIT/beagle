@@ -32,12 +32,14 @@ public enum HTTPMethod: String, Codable {
     case patch = "PATCH"
     
     func toDeprecatedMethod() -> HttpAdditionalData.Method? {
-        if case .put = self {
-            return .PUT
-        } else if case .post = self {
-            return .POST
+        switch self {
+        case .post: return .POST
+        case .put: return .PUT
+        case .get: return .GET
+        case .delete: return .DELETE
+        case .head: return .HEAD
+        case .patch: return .PATCH
         }
-        return nil
     }
 }
 
@@ -45,7 +47,7 @@ public enum HTTPMethod: String, Codable {
 /// triggered by Beagle.
 public struct HttpAdditionalData: RemoteScreenAdditionalData {
 
-    public var httpData: HttpData?
+    public let httpData: HttpData?
     public var headers: [String: String]
 
     public struct HttpData {
@@ -54,12 +56,12 @@ public struct HttpAdditionalData: RemoteScreenAdditionalData {
         public let method: Method
         
         public let httpMethod: HTTPMethod?
-        public var body: Data
+        public let body: Data
 
         public init(httpMethod: HTTPMethod? = .get, body: Data) {
             self.httpMethod = httpMethod
             self.body = body
-            self.method = httpMethod?.toDeprecatedMethod() ?? .POST
+            self.method = httpMethod?.toDeprecatedMethod() ?? .GET
         }
         
         @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the httpMethod field instead.")
@@ -83,12 +85,16 @@ extension HttpAdditionalData: Equatable, Decodable {
     
     @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the httpMethod field instead.")
     public enum Method: String, Codable {
-        case POST, PUT
+        case POST, PUT, GET, DELETE, HEAD, PATCH
         
         func toMethod() -> HTTPMethod {
             switch self {
             case .POST: return .post
             case .PUT: return .put
+            case .GET: return .get
+            case .DELETE: return .delete
+            case .HEAD: return .head
+            case .PATCH: return .patch
             }
         }
     }

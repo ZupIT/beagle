@@ -136,7 +136,7 @@ extension Route.NewPath {
     public struct HttpAdditionalData: AutoDecodable {
         
         public var method: HTTPMethod?
-        public var headers: [String: String]
+        public var headers: [String: String]?
         public var body: DynamicObject?
         
         /// Constructs new http additional data
@@ -146,7 +146,7 @@ extension Route.NewPath {
         ///   - body: Contains additional body for a http request.
         public init(
             method: HTTPMethod? = .get,
-            headers: [String: String] = [:],
+            headers: [String: String]? = [:],
             body: DynamicObject?
         ) {
             self.method = method

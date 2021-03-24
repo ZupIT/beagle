@@ -301,12 +301,16 @@ class BeagleNavigator: BeagleNavigation {
         from path: Route.NewPath,
         with origin: UIView?
     ) -> HttpAdditionalData {
-        let encoder = JSONEncoder()
-        let bodyEvaluated = path.httpAdditionalData?.body?.evaluate(with: origin)
-        let data: Data? = try? encoder.encode(bodyEvaluated) 
+        guard let method = path.httpAdditionalData?.method,
+              let body = path.httpAdditionalData?.body else {
+            return HttpAdditionalData(httpData: nil, headers: path.httpAdditionalData?.headers ?? ["": ""])
+        }
         
+        let encoder = JSONEncoder()
+        let bodyEvaluated = body.evaluate(with: origin)
+        let data: Data? = try? encoder.encode(bodyEvaluated)
         return HttpAdditionalData(
-            httpData: .init(httpMethod: path.httpAdditionalData?.method ?? .get,
+            httpData: .init(httpMethod: method,
                             body: data ?? Data()),
             headers: path.httpAdditionalData?.headers ?? ["": ""]
         )

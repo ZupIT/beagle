@@ -292,7 +292,7 @@ extension Route.NewPath.HttpAdditionalData {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         method = try container.decodeIfPresent(HTTPMethod.self, forKey: .method)
-        headers = try container.decode([String: String].self, forKey: .headers)
+        headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
         body = try container.decodeIfPresent(DynamicObject.self, forKey: .body)
     }
 }

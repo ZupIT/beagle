@@ -7,10 +7,11 @@
       ▿ some: HttpAdditionalData
         ▿ body: Optional<DynamicObject>
           - some: [confirmPassword: password, email: john@email.com, name: John, password: password]
-        ▿ headers: 1 key/value pair
-          ▿ (2 elements)
-            - key: "test"
-            - value: "test"
+        ▿ headers: Optional<Dictionary<String, String>>
+          ▿ some: 1 key/value pair
+            ▿ (2 elements)
+              - key: "test"
+              - value: "test"
         ▿ method: Optional<HTTPMethod>
           - some: HTTPMethod.post
     - shouldPrefetch: false
