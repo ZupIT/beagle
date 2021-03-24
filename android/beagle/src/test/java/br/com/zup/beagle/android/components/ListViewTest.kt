@@ -63,7 +63,7 @@ class ListViewTest : BaseComponentTest() {
     )
     private val onInit = listOf(SendRequest("http://www.init.com"))
     private val dataSource = expressionOf<List<Any>>("@{context}")
-    private val template = Container(children = listOf(Text(expressionOf("@{item.name}"))))
+    private val template by lazy { Container(children = listOf(Text(expressionOf("@{item.name}")))) }
     private val onScrollEnd = listOf(mockk<Action>(relaxed = true))
     private val iteratorName = "list"
     private val key = "id"

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test
 @DisplayName("Given a ViewRendererFactory")
 class ViewRendererFactoryTest : BaseTest() {
 
-    private val component = Text("")
+    private val component by lazy { Text("") }
     private val viewRendererFactory = ViewRendererFactory()
 
     @DisplayName("When a component is requested")

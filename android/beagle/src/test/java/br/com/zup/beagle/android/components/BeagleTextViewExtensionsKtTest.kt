@@ -56,9 +56,11 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
 
         mockkStatic(TextViewCompat::class)
         mockkStatic(Color::class)
+        mockkConstructor(StyleManager::class)
 
         styleManagerFactory = styleManager
         every { styleManager.getTextStyle(any()) } returns STYLE_RES
+        every { anyConstructed<StyleManager>().getTextStyle(any()) } returns STYLE_RES
 
         every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs

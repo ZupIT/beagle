@@ -112,7 +112,7 @@ internal class ActionReportFactoryTest : BaseTest() {
     inner class ComponentValues {
 
         private val action: AnalyticsAction = mockk()
-        private val originComponent: WidgetView = Text("test")
+        private val originComponent: WidgetView by lazy { Text("test") }
 
         @BeforeEach
         fun setup() {
