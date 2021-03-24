@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.style
 
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -50,7 +51,8 @@ internal class MarginTest {
             expected.style = Style(
                 margin = EdgeValue.all(10),
                 flex = Flex(),
-                size = Size()
+                size = Size(),
+                cornerRadius = CornerRadius()
             )
 
             assertEquals(expected.style, component.style)

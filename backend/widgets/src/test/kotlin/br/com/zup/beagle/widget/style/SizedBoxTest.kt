@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.style
 
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -101,7 +102,8 @@ internal class SizedBoxTest {
                 size = Size(
                     width = UnitValue.percent(10),
                     height = UnitValue.percent(10)
-                )
+                ),
+                cornerRadius = CornerRadius()
             )
 
             assertEquals(expected.style,

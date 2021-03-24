@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.style
 
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
@@ -54,7 +55,8 @@ internal class CenterTest {
                     alignSelf = AlignSelf.CENTER,
                     alignItems = AlignItems.CENTER
                 ),
-                size = Size()
+                size = Size(),
+                cornerRadius = CornerRadius()
             )
 
             assertEquals(expected.style, component.style)

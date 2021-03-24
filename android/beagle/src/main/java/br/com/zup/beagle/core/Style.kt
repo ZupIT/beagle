@@ -71,7 +71,7 @@ data class Style(
  */
 @BeagleJson
 data class CornerRadius(
-    val radius: Double = 0.0,
+    val radius: Double? = null,
 )
 
 /**

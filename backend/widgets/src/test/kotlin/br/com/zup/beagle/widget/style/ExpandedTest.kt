@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.style
 
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -55,7 +56,8 @@ internal class ExpandedTest {
                 size = Size(
                     width = UnitValue.percent(100),
                     height = UnitValue.percent(100)
-                )
+                ),
+                cornerRadius = CornerRadius()
             )
 
             assertEquals(expected.style, component.style)

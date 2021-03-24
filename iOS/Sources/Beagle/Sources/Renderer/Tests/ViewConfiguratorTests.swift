@@ -34,11 +34,12 @@ class ViewConfiguratorTests: XCTestCase {
         // swiftlint:disable force_unwrapping
         XCTAssertEqual(view.backgroundColor, UIColor(hex: style.backgroundColor!))
         XCTAssertTrue(view.layer.masksToBounds)
-        XCTAssertEqual(view.layer.cornerRadius, CGFloat(style.cornerRadius!.radius))
+        XCTAssertEqual(view.layer.cornerRadius, CGFloat(style.cornerRadius!.radius!))
         XCTAssertEqual(view.layer.borderWidth, CGFloat(style.borderWidth!))
         XCTAssertEqual(view.layer.borderColor, UIColor(hex: style.borderColor!)!.cgColor)
         
-        XCTAssertEqual(view.accessibilityLabel, accessibility.accessibilityLabel)
+        XCTAssertEqual(view.accessibilityLabel, accessibility
+                        .accessibilityLabel)
         XCTAssertTrue(view.isAccessibilityElement)
         // swiftlint:enable force_unwrapping
     }
