@@ -51,14 +51,14 @@ import br.com.zup.beagle.widget.core.Size
  */
 data class Style(
     var backgroundColor: String? = null,
-    var cornerRadius: CornerRadius? = null,
+    var cornerRadius: CornerRadius = CornerRadius(),
     var borderColor: String? = null,
     var borderWidth: Double? = null,
-    var size: Size? = null,
+    var size: Size = Size(),
     var margin: EdgeValue? = null,
     var padding: EdgeValue? = null,
     var position: EdgeValue? = null,
-    var flex: Flex? = null,
+    var flex: Flex = Flex(),
     var positionType: PositionType? = null,
     var display: Bind<Display>? = null
 )

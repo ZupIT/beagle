@@ -45,7 +45,7 @@ fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.style = (this.style
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
     ReplaceWith("setFlex { }"))
-fun <T : StyleComponent> T.flex(block: FlexBuilder.() -> Unit): T = setFlex(block)
+fun <T : StyleComponent> T.flex(block: Flex.() -> Unit): T = setFlex(block)
 
 /**
  * Apply the appearance.
@@ -57,7 +57,7 @@ fun <T : StyleComponent> T.flex(block: FlexBuilder.() -> Unit): T = setFlex(bloc
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
     ReplaceWith("Styled(component, { })"))
 fun <T : Widget> T.applyStyle(style: Style) = this.apply {
-    this.style = if (style.flex != null) style else style.copy(flex = this.style?.flex)
+    this.style = style
 }
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
