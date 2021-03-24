@@ -206,6 +206,7 @@
 		A05C74DD2498162B009DBB66 /* FormValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C74DC2498162B009DBB66 /* FormValidationTests.swift */; };
 		A068234C238430C500CEE57A /* ValidatorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A068234B238430C500CEE57A /* ValidatorProvider.swift */; };
 		A068234E2384320000CEE57A /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A068234D2384320000CEE57A /* Validator.swift */; };
+		A0C4BF152600EEEC004B0422 /* BindingConfiguratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C4BF142600EEEB004B0422 /* BindingConfiguratorTests.swift */; };
 		A0D608D82448DF8700F7D851 /* ScreenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D608D52448DF8600F7D851 /* ScreenType.swift */; };
 		A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */; };
 		A0EB6BD725910FC8001A3E65 /* AnalyticsRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EB6BD425910FC8001A3E65 /* AnalyticsRecord.swift */; };
@@ -573,6 +574,7 @@
 		A05C74DC2498162B009DBB66 /* FormValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidationTests.swift; sourceTree = "<group>"; };
 		A068234B238430C500CEE57A /* ValidatorProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorProvider.swift; sourceTree = "<group>"; };
 		A068234D2384320000CEE57A /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		A0C4BF142600EEEB004B0422 /* BindingConfiguratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingConfiguratorTests.swift; sourceTree = "<group>"; };
 		A0D608D52448DF8600F7D851 /* ScreenType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenType.swift; sourceTree = "<group>"; };
 		A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleNavigationController.swift; sourceTree = "<group>"; };
 		A0EB6BD425910FC8001A3E65 /* AnalyticsRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsRecord.swift; sourceTree = "<group>"; };
@@ -1876,6 +1878,7 @@
 				2532D5DB25099ABB001D1469 /* BeagleViewTests.swift */,
 				93D24A56251402B8005A5CBD /* AutoLayoutWrapperTests.swift */,
 				93EE0CA3252D0EE50032BE77 /* ViewConfiguratorTests.swift */,
+				A0C4BF142600EEEB004B0422 /* BindingConfiguratorTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2568,6 +2571,7 @@
 				C08D4E3624857CBA00AAAC0A /* URLOpenerTests.swift in Sources */,
 				9398CA5A255325730003A010 /* PathTests.swift in Sources */,
 				A05C74DD2498162B009DBB66 /* FormValidationTests.swift in Sources */,
+				A0C4BF152600EEEC004B0422 /* BindingConfiguratorTests.swift in Sources */,
 				E5A7763F237DA1F3002F5515 /* FormTests.swift in Sources */,
 				C08D4E472485804D00AAAC0A /* LazyComponentTests.swift in Sources */,
 				93ADB87923FAD31D005B7CD2 /* ComposeComponentTests.swift in Sources */,

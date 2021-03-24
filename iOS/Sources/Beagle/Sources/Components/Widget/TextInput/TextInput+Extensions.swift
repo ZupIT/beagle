@@ -112,7 +112,7 @@ extension TextInput: ServerDrivenComponent {
             onChange: [Action]? =  nil,
             onBlur: [Action]? =  nil,
             onFocus: [Action]? =  nil,
-            controller: BeagleController
+            controller: BeagleController?
         ) {
             self.onChange = onChange
             self.onBlur = onBlur
