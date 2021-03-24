@@ -18,7 +18,6 @@ package br.com.zup.beagle.ext
 
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.fake.FlexComponentFake
 import br.com.zup.beagle.widget.core.Size
 import org.junit.jupiter.api.DisplayName
@@ -26,21 +25,21 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-@DisplayName("Given a Flex")
-internal class FunctionFlexTest {
+@DisplayName("Given a Flexible")
+internal class FunctionFlexibleTest {
 
     @DisplayName("When call this function")
     @Nested
-    inner class FlexTest {
+    inner class FlexibleTest {
 
         @Test
         @DisplayName("Then should return the current widget with instance of style")
-        fun testFunctionFlex() {
+        fun testFunctionFlexible() {
             // Given
             val grow = 1.0
 
             // When
-            val styleComponent = Flex(FlexComponentFake(), {
+            val styleComponent = Flexible(FlexComponentFake(), {
                 this.grow = grow
             })
 

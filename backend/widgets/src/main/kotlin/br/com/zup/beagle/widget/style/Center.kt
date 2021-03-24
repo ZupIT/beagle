@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.style
 
 import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.ext.Flex
+import br.com.zup.beagle.ext.Flexible
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -31,7 +31,7 @@ import br.com.zup.beagle.widget.core.JustifyContent
  */
 @Suppress("FunctionNaming")
 fun <T : StyleComponent> Center(self: T): T {
-    return Flex(self, {
+    return Flexible(self, {
         justifyContent = JustifyContent.CENTER
         alignContent = AlignContent.CENTER
         alignSelf = AlignSelf.CENTER

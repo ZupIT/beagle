@@ -27,7 +27,7 @@ import br.com.zup.beagle.widget.core.Flex
  *
  */
 @Suppress("FunctionNaming")
-fun <T : StyleComponent> Flex(self: T, block: Flex.() -> Unit): T {
+fun <T : StyleComponent> Flexible(self: T, block: Flex.() -> Unit): T {
     return self.setFlex(block)
 }
 

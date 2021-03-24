@@ -34,7 +34,7 @@ fun <T : Widget> T.id(block: () -> String) = this.setId(block.invoke())
 /**
  * Apply the layout component.
  *
- * @see Flex
+ * @see Flexible
  *
  * @return the current widget
  */
