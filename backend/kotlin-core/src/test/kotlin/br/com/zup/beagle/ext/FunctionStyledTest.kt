@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.ext
 
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.fake.FlexComponentFake
@@ -48,7 +49,8 @@ internal class FunctionStyledTest {
                 Style(
                     backgroundColor = backgroundColor,
                     flex = br.com.zup.beagle.widget.core.Flex(),
-                    size = Size()
+                    size = Size(),
+                    cornerRadius = CornerRadius()
                 )
             )
 

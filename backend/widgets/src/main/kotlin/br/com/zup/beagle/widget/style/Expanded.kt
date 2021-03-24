@@ -30,8 +30,8 @@ import br.com.zup.beagle.widget.core.UnitValue
 @Suppress("FunctionNaming")
 fun <T : StyleComponent> Expanded(self: T): T {
     return Styled(self, {
-        size!!.width = UnitValue.percent(100)
-        size!!.height = UnitValue.percent(100)
+        size.width = UnitValue.percent(100)
+        size.height = UnitValue.percent(100)
         this.flex.alignSelf = AlignSelf.STRETCH
         this.flex.grow = 1.0
     })

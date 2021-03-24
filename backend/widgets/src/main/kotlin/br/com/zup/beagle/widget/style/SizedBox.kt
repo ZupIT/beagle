@@ -66,7 +66,7 @@ fun <T : StyleComponent> SizedBox(
     self: T): T {
 
     return Styled(self, {
-        this.size?.width = width
-        this.size?.height = height
+        this.size.width = width
+        this.size.height = height
     })
 }
