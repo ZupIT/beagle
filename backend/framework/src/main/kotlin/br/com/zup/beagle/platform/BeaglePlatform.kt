@@ -19,7 +19,7 @@ package br.com.zup.beagle.platform
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
- *  The Platform it is a helper to apply platform in your component
+ *  The Platform is a helper to apply platform in your component
  *
  * @param self the component will apply platform
  *
