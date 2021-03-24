@@ -132,12 +132,12 @@ final class NetworkCacheTests: XCTestCase {
         cacheSpy.references.append(.init(cache: reference, isValid: false))
 
         // When
-        let cache = subject.checkCache(identifiedBy: id, additionalData: .Http(body: nil))
+        let cache = subject.checkCache(identifiedBy: id, additionalData: .Http(httpData: nil))
 
         // Then
         let expected: NetworkCache.CacheCheck = .invalidCachedData(
             data: data,
-            additional: .Http(headers: [subject.cacheHashHeader: id], body: nil)
+            additional: .Http(httpData: nil, headers: [subject.cacheHashHeader: id])
         )
 
         XCTAssert(cache == expected)

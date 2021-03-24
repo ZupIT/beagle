@@ -130,6 +130,32 @@ extension Route {
     }
 }
 
+extension Route.NewPath {
+
+    /// RouteAdditionalData can be used on navigate actions to pass additional http data on requests triggered by Beagle.
+    public struct HttpAdditionalData: AutoDecodable {
+        
+        public var method: HTTPMethod?
+        public var headers: [String: String]
+        public var body: DynamicObject?
+        
+        /// Constructs new http additional data
+        /// - Parameters:
+        ///   - method: Contains the HTTP method for the request.
+        ///   - headers: Contains the additional headers for a http request.
+        ///   - body: Contains additional body for a http request.
+        public init(
+            method: HTTPMethod? = .get,
+            headers: [String: String] = [:],
+            body: DynamicObject?
+        ) {
+            self.method = method
+            self.headers = headers
+            self.body = body
+        }
+    }
+}
+
 // MARK: Decodable
 
 extension Navigate.OpenNativeRoute: Decodable {}
@@ -295,6 +321,6 @@ extension Route.NewPath: Decodable {
         self.url = try container.decode(Expression<String>.self, forKey: .url)
         self.shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch) ?? false
         self.fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .fallback)?.toScreen()
-        self.httpAdditionalData = try container.decodeIfPresent(HttpAdditionalData.self, forKey: .httpAdditionalData)   
+        self.httpAdditionalData = try container.decodeIfPresent(HttpAdditionalData.self, forKey: .httpAdditionalData)
     }
 }

@@ -279,6 +279,24 @@ extension PageView {
     }
 }
 
+// MARK: Route.NewPath.HttpAdditionalData Decodable
+extension Route.NewPath.HttpAdditionalData {
+
+    enum CodingKeys: String, CodingKey {
+        case method
+        case headers
+        case body
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        method = try container.decodeIfPresent(HTTPMethod.self, forKey: .method)
+        headers = try container.decode([String: String].self, forKey: .headers)
+        body = try container.decodeIfPresent(DynamicObject.self, forKey: .body)
+    }
+}
+
 // MARK: ScreenComponent Decodable
 extension ScreenComponent {
 

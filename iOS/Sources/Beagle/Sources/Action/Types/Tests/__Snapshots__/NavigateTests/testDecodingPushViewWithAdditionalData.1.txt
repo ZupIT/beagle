@@ -5,13 +5,12 @@
     - fallback: Optional<Screen>.none
     ▿ httpAdditionalData: Optional<HttpAdditionalData>
       ▿ some: HttpAdditionalData
-        ▿ body: Optional<Data>
-          - some: 3 bytes
+        ▿ body: Optional<DynamicObject>
+          - some: [confirmPassword: password, email: john@email.com, name: John, password: password]
         ▿ headers: 1 key/value pair
           ▿ (2 elements)
             - key: "test"
             - value: "test"
-        - httpData: Optional<HttpData>.none
         ▿ method: Optional<HTTPMethod>
           - some: HTTPMethod.post
     - shouldPrefetch: false

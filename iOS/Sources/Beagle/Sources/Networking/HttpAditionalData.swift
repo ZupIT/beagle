@@ -30,29 +30,58 @@ public enum HTTPMethod: String, Codable {
     case head = "HEAD"
     /// The PATCH method is used to apply partial modifications to a resource.
     case patch = "PATCH"
+    
+    func toDeprecatedMethod() -> HttpAdditionalData.Method? {
+        if case .put = self {
+            return .PUT
+        } else if case .post = self {
+            return .POST
+        }
+        return nil
+    }
 }
 
-/// HttpAdditionalData can be used on Remote Beagle Screen and on Navigate actions to pass additional http data on requests
+/// HttpAdditionalData can be used on Remote Beagle Screen to pass additional http data on requests
 /// triggered by Beagle.
 public struct HttpAdditionalData: RemoteScreenAdditionalData {
 
-    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the fields available in HttpAdditionalData instead.")
-    public let httpData: HttpData?
-    public let method: HTTPMethod?
-    public let body: Data?
+    public var httpData: HttpData?
     public var headers: [String: String]
 
-    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the fields available in HttpAdditionalData instead.")
     public struct HttpData {
+        
+        @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the httpMethod field instead.")
         public let method: Method
-        public let body: Data
+        
+        public let httpMethod: HTTPMethod?
+        public var body: Data
 
+        public init(httpMethod: HTTPMethod? = .get, body: Data) {
+            self.httpMethod = httpMethod
+            self.body = body
+            self.method = httpMethod?.toDeprecatedMethod() ?? .POST
+        }
+        
+        @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the httpMethod field instead.")
         public init(method: Method, body: Data) {
             self.method = method
             self.body = body
+            self.httpMethod = method.toMethod()
         }
     }
+
+    public init(
+        httpData: HttpData?,
+        headers: [String: String] = [:]
+    ) {
+        self.httpData = httpData
+        self.headers = headers
+    }
+}
+
+extension HttpAdditionalData: Equatable, Decodable {
     
+    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the httpMethod field instead.")
     public enum Method: String, Codable {
         case POST, PUT
         
@@ -63,33 +92,7 @@ public struct HttpAdditionalData: RemoteScreenAdditionalData {
             }
         }
     }
-
-    public init(
-        method: HTTPMethod? = .get,
-        headers: [String: String] = [:],
-        body: Data? = nil
-    ) {
-        self.method = method
-        self.headers = headers
-        self.body = body
-        self.httpData = nil
-    }
-
-    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Please use new initializer instead.")
-    public init(
-        httpData: HttpData?,
-        headers: [String: String] = [:]
-    ) {
-        self.httpData = httpData
-        self.headers = headers
-        self.method = httpData?.method.toMethod()
-        self.body = httpData?.body
-    }
-}
-
-extension HttpAdditionalData: Equatable, Decodable {
 }
 
 extension HttpAdditionalData.HttpData: Equatable, Decodable {
-
 }
