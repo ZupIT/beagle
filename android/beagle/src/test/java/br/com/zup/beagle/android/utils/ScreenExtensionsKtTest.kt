@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.SafeArea
@@ -25,12 +26,24 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.core.Style
 import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a ScreenExtension")
-internal class ScreenExtensionsKtTest {
+internal class ScreenExtensionsKtTest : BaseTest() {
+
+    @BeforeEach
+    override fun setUp() {
+        super.setUp()
+    }
+
+    @AfterEach
+    override fun tearDown() {
+        super.tearDown()
+    }
 
     @DisplayName("When call Screen to ScreenComponent")
     @Nested
@@ -39,7 +52,7 @@ internal class ScreenExtensionsKtTest {
         private val identifier = "identifier"
         private val safeArea = SafeArea()
         private val navigationBar = NavigationBar("navigationBar")
-        private val child = Text("Test component")
+        private val child by lazy { Text("Test component") }
         private val style = Style()
         private val screenAnalyticsEvent = ScreenEvent("ScreenName")
         private val context = ContextData("id", false)
@@ -92,7 +105,7 @@ internal class ScreenExtensionsKtTest {
             assertEquals(null, screenComponent.id)
         }
 
-        private fun commonAssert(screenComponent : ScreenComponent){
+        private fun commonAssert(screenComponent: ScreenComponent) {
             assertEquals(safeArea, screenComponent.safeArea)
             assertEquals(navigationBar, screenComponent.navigationBar)
             assertEquals(child, screenComponent.child)
