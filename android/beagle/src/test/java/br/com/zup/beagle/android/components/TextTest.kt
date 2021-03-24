@@ -42,11 +42,6 @@ class TextTest : BaseComponentTest() {
 
     private lateinit var text: Text
 
-    @AfterEach
-    override fun tearDown() {
-        super.tearDown()
-    }
-
     @DisplayName("When build view without style id")
     @Nested
     inner class WithoutStyleIdTest {

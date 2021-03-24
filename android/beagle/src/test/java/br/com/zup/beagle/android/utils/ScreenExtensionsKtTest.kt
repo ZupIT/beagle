@@ -35,16 +35,6 @@ import org.junit.jupiter.api.Test
 @DisplayName("Given a ScreenExtension")
 internal class ScreenExtensionsKtTest : BaseTest() {
 
-    @BeforeEach
-    override fun setUp() {
-        super.setUp()
-    }
-
-    @AfterEach
-    override fun tearDown() {
-        super.tearDown()
-    }
-
     @DisplayName("When call Screen to ScreenComponent")
     @Nested
     inner class ScreenToScreenComponent {
