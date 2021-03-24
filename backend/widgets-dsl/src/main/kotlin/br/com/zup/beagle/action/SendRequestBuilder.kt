@@ -24,8 +24,12 @@ import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.context.Bind
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SendRequest.", ReplaceWith("SendRequest()"))
 fun sendRequest(block: SendRequestBuilder.() -> Unit) = SendRequestBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SendRequest.", ReplaceWith("SendRequest()"))
 class SendRequestBuilder: BeagleBuilder<SendRequest> {
     var url: Bind<String> by Delegates.notNull()
     var method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET)

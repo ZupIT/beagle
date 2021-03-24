@@ -22,9 +22,14 @@ import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.context.Bind
 import kotlin.properties.Delegates
 
+
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Alert.", ReplaceWith("Alert()"))
 fun alert(block: AlertBuilder.() -> Unit) = AlertBuilder().apply(block).build()
 
-class AlertBuilder: BeagleBuilder<Alert> {
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Alert.", ReplaceWith("Alert()"))
+class AlertBuilder : BeagleBuilder<Alert> {
     var title: Bind<String>? = null
     var message: Bind<String> by Delegates.notNull()
     var onPressOk: Action? = null

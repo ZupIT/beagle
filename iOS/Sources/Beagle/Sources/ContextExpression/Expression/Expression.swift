@@ -50,12 +50,12 @@ public struct MultipleExpression: Hashable {
 public extension Expression {
     func observe(
         view: UIView,
-        controller: BeagleControllerProtocol,
+        controller: BeagleControllerProtocol?,
         updateFunction: @escaping (T?) -> Void
     ) {
         switch self {
         case let .expression(expression):
-            controller.addBinding(expression: expression, in: view, update: updateFunction)
+            controller?.addBinding(expression: expression, in: view, update: updateFunction)
         case let .value(value):
             updateFunction(value)
         }

@@ -34,12 +34,12 @@ extension Deprecated.Form {
         
         registerFormSubmit(view: childView)
         if !hasFormSubmit {
-            renderer.controller.dependencies.logger.log(Log.form(.submitNotFound(form: self)))
+            renderer.dependencies.logger.log(Log.form(.submitNotFound(form: self)))
         }
         return childView
     }
     
-    private func register(formView: UIView, submitView: UIView, controller: BeagleController) {
+    private func register(formView: UIView, submitView: UIView, controller: BeagleController?) {
         let gestureRecognizer = SubmitFormGestureRecognizer(
             form: self,
             formView: formView,

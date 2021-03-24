@@ -36,11 +36,11 @@ extension Touchable {
         }
         
         register(events: events, inView: childView, controller: renderer.controller)
-        prefetchComponent(helper: renderer.controller.dependencies.preFetchHelper)
+        prefetchComponent(helper: renderer.dependencies.preFetchHelper)
         return childView
     }
     
-    private func register(events: [Event], inView view: UIView, controller: BeagleController) {
+    private func register(events: [Event], inView view: UIView, controller: BeagleController?) {
         let eventsGestureRecognizer = EventsGestureRecognizer(
             events: events,
             controller: controller
@@ -49,10 +49,10 @@ extension Touchable {
         view.isUserInteractionEnabled = true
     }
     
-    private func prefetchComponent(helper: BeaglePrefetchHelping) {
+    private func prefetchComponent(helper: BeaglePrefetchHelping?) {
         onPress.forEach { action in
             guard let newPath = (action as? Navigate)?.newPath else { return }
-            helper.prefetchComponent(newPath: newPath)
+            helper?.prefetchComponent(newPath: newPath)
         }
     }
 }

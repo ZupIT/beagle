@@ -25,17 +25,25 @@ class Bindings {
         }
     }
     
-    func add<T: Decodable>(_ controller: UIViewController, _ expression: ContextExpression, _ view: UIView, _ update: @escaping (T?) -> Void) {
-        bindings.append { [weak self, weak view] in
-            guard let self = self else { return }
+    func add<T: Decodable>(
+        _ controller: UIViewController,
+        _ expression: ContextExpression,
+        _ view: UIView,
+        _ update: @escaping (T?) -> Void
+    ) {
+        bindings.append { [weak view, weak controller] in
             view?.configBinding(
                 for: expression,
-                completion: self.bindBlock(controller, view, update)
+                completion: Self.bindBlock(controller, view, update)
             )
         }
     }
 
-    private func bindBlock<T: Decodable>(_ controller: UIViewController, _ view: UIView?, _ update: @escaping (T?) -> Void) -> (T?) -> Void {
+    private static func bindBlock<T: Decodable>(
+        _ controller: UIViewController?,
+        _ view: UIView?,
+        _ update: @escaping (T?) -> Void
+    ) -> (T?) -> Void {
         return { [weak view, weak controller] value in
             update(value)
             view?.yoga.markDirty()

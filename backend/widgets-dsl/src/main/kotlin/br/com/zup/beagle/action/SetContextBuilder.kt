@@ -20,8 +20,12 @@ import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.widget.action.SetContext
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SetContext.", ReplaceWith("SetContext()"))
 fun setContext(block: SetContextBuilder.() -> Unit) = SetContextBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SetContext.", ReplaceWith("SetContext()"))
 class SetContextBuilder: BeagleBuilder<SetContext> {
     var contextId: String by Delegates.notNull()
     var value: Any by Delegates.notNull()

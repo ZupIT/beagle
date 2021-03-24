@@ -113,16 +113,17 @@ class BeagleErrorView: UIVisualEffectView {
     }
     
     @objc private func retryAction() {
-        dismiss()
-        retry.forEach { $0?() }
-        retry.removeAll()
+        dismiss {
+            self.retry.forEach { $0?() }
+            self.retry.removeAll()
+        }
     }
     
     @objc private func cancelAction() {
         dismiss()
     }
     
-    private func dismiss() {
+    private func dismiss(completion: (() -> Void)? = nil) {
         UIView.animate(
             withDuration: 0.2,
             animations: {
@@ -130,6 +131,7 @@ class BeagleErrorView: UIVisualEffectView {
             },
             completion: { _ in
                 self.removeFromSuperview()
+                completion?()
             }
         )
     }

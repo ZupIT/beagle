@@ -25,8 +25,12 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.ui.Button
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Button.", ReplaceWith("Button()"))
 fun button(block: ButtonBuilder.() -> Unit) = ButtonBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Button.", ReplaceWith("Button()"))
 class ButtonBuilder : BeagleBuilder<Button> {
     var text: Bind<String> by Delegates.notNull()
     var styleId: String? = null

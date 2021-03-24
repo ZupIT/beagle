@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.page.PageIndicatorComponent
+import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.generateNameSpaceToDefaultWidget
 import br.com.zup.beagle.android.data.serializer.generateNameSpaceToWidget
@@ -65,6 +66,7 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(Touchable::class.java, createNameSpaceToDefaultWidget<Touchable>("touchable"))
             .withSubtype(FormInput::class.java, createNameSpaceToDefaultWidget<FormInput>("formInput"))
             .withSubtype(FormSubmit::class.java, createNameSpaceToDefaultWidget<FormSubmit>("formSubmit"))
+            .withSubtype(PageView::class.java, createNameSpaceToDefaultWidget<FormSubmit>("pageView"))
     }
 
     private fun registerWidgets(

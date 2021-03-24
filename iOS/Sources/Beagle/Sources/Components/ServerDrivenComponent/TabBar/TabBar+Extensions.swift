@@ -29,8 +29,9 @@ extension TabBar {
             }
         }
 
-        tabBarScroll.onTabSelection = { tab in
-            renderer.controller.execute(actions: self.onTabSelection, with: "onTabSelection", and: .int(tab), origin: tabBarScroll)
+        tabBarScroll.onTabSelection = { [weak tabBarScroll] tab in
+            guard let view = tabBarScroll else { return }
+            renderer.controller?.execute(actions: self.onTabSelection, with: "onTabSelection", and: .int(tab), origin: view)
         }
         
         return tabBarScroll

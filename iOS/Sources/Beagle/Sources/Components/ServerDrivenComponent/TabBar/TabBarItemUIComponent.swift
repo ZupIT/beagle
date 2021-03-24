@@ -124,12 +124,13 @@ final class TabBarItemUIComponent: UIView {
     
     private func handleContextOnImage(iconName: String) {
         let expression: Expression<String> = "\(iconName)"
-                   
-        renderer?.observe(expression, andUpdateManyIn: self) { icon in
+
+        renderer?.observe(expression, andUpdateManyIn: self) { [weak self] icon in
+            guard let self = self else { return }
             if let icon = icon {
                 self.icon.image = self.theme?.selectedIconColor == nil ?
-                    UIImage(named: icon, in: self.renderer?.controller.dependencies.appBundle, compatibleWith: nil) :
-                    UIImage(named: icon, in: self.renderer?.controller.dependencies.appBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+                    UIImage(named: icon, in: self.renderer?.dependencies.appBundle, compatibleWith: nil) :
+                    UIImage(named: icon, in: self.renderer?.dependencies.appBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             }
         }
     }

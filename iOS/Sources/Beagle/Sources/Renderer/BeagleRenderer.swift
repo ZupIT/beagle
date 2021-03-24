@@ -23,10 +23,12 @@ public protocol DependencyRenderer {
 /// Use this class whenever you want to transform a Component into a UIView
 public struct BeagleRenderer {
 
-    public unowned var controller: BeagleController
+    public let dependencies: BeagleDependenciesProtocol
+    public private(set) weak var controller: BeagleController?
 
     internal init(controller: BeagleController) {
         self.controller = controller
+        self.dependencies = controller.dependencies
     }
 
     /// main function of this class. Call it to transform a Component into a UIView
@@ -46,13 +48,13 @@ public struct BeagleRenderer {
         view.beagle.setupView(of: component)
         
         if let id = (component as? IdentifiableComponent)?.id {
-            controller.setIdentifier(id, in: view)
+            controller?.setIdentifier(id, in: view)
         }
         if let context = (component as? HasContext)?.context {
-            controller.setContext(context, in: view)
+            controller?.setContext(context, in: view)
         }
         if let onInit = (component as? InitiableComponent)?.onInit {
-            controller.addOnInit(onInit, in: view)
+            controller?.addOnInit(onInit, in: view)
         }
         
         if let style = (component as? StyleComponent)?.style {

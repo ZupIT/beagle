@@ -21,8 +21,12 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.pager.PageIndicator
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class PageIndicator.", ReplaceWith("PageIndicator()"))
 fun pageIndicator(block: PageIndicatorBuilder.() -> Unit) = PageIndicatorBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class PageIndicator.", ReplaceWith("PageIndicator()"))
 class PageIndicatorBuilder : BeagleBuilder<PageIndicator> {
     var selectedColor: String by Delegates.notNull()
     var unselectedColor: String by Delegates.notNull()

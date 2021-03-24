@@ -112,6 +112,49 @@ class TextInputTests: XCTestCase {
         // Then
         assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 300, height: 70)))
     }
+    
+    func test_renderTextInputWithDisabled() {
+        // Given
+        let textInput = TextInput(
+            value: "@{textinput.value}",
+            disabled: "@{textinput.disabled}",
+            widgetProperties: WidgetProperties(style: .init(size: Size().width(100).height(50)))
+        )
+                
+        // When // Then
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(textInput.toScreen()), dependencies: dependencies))
+        controller.view.setContext(Context(id: "textinput", value: ["value": "enabled", "disabled": false]))
+        assertSnapshotImage(controller, size: ImageSize.custom(CGSize(width: 100, height: 50)))
+        
+        controller.view.setContext(Context(id: "textinput", value: ["value": "disabled", "disabled": true]))
+        assertSnapshotImage(controller, size: ImageSize.custom(CGSize(width: 100, height: 50)))
+    }
+    
+    func test_renderTextInputWithEnabled() {
+        // Given
+        let textInput = TextInput(
+            value: "@{textinput.value}",
+            enabled: "@{textinput.enabled}",
+            styleId: "customStyle",
+            widgetProperties: WidgetProperties(style: .init(size: Size().width(100).height(50)))
+        )
+        
+        func customStyle() -> (UITextField?) -> Void {
+            return {
+                $0?.textColor = ($0?.isEnabled ?? false) ? .blue : .red
+            }
+        }
+        let theme = AppTheme(styles: ["customStyle": customStyle])
+        let customDependencies = BeagleScreenDependencies(theme: theme)
+        
+        // When // Then
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(textInput.toScreen()), dependencies: customDependencies))
+        controller.view.setContext(Context(id: "textinput", value: ["value": "enabled", "enabled": true]))
+        assertSnapshotImage(controller, size: ImageSize.custom(CGSize(width: 100, height: 50)))
+        
+        controller.view.setContext(Context(id: "textinput", value: ["value": "disabled", "enabled": false]))
+        assertSnapshotImage(controller, size: ImageSize.custom(CGSize(width: 100, height: 50)))
+    }
 
     private func inputTypeToKeyboardType(_ inputType: TextInputType?) -> UIKeyboardType {
         guard let inputType = inputType else { return .default }

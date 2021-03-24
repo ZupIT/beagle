@@ -36,8 +36,12 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.ImagePath
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SafeArea.", ReplaceWith("SafeArea()"))
 fun safeArea(block: SafeAreaBuilder.() -> Unit) = SafeAreaBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class SafeArea.", ReplaceWith("SafeArea()"))
 class SafeAreaBuilder : BeagleBuilder<SafeArea> {
     var top: Boolean? = null
     var leading: Boolean? = null
@@ -73,9 +77,13 @@ class SafeAreaBuilder : BeagleBuilder<SafeArea> {
     )
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class NavigationBarItem.", ReplaceWith("NavigationBarItem()"))
 fun navigationBarItem(block: NavigationBarItemBuilder.() -> Unit)
     = NavigationBarItemBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class NavigationBarItem.", ReplaceWith("NavigationBarItem()"))
 class NavigationBarItemBuilder : BeagleBuilder<NavigationBarItem> {
     var text: String by Delegates.notNull()
     var image: ImagePath.Local? = null
@@ -111,8 +119,12 @@ class NavigationBarItemBuilder : BeagleBuilder<NavigationBarItem> {
     )
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class NavigationBar.", ReplaceWith("NavigationBar()"))
 fun navigationBar(block: NavigationBarBuilder.() -> Unit) = NavigationBarBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class NavigationBar.", ReplaceWith("NavigationBar()"))
 class NavigationBarBuilder : BeagleBuilder<NavigationBar> {
     var title: String by Delegates.notNull()
     var showBackButton: Boolean = true
@@ -157,8 +169,12 @@ class NavigationBarBuilder : BeagleBuilder<NavigationBar> {
     )
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Screen.", ReplaceWith("Screen()"))
 fun screen(block: ScreenComponentBuilder.() -> Unit) = ScreenComponentBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Screen.", ReplaceWith("Screen()"))
 class ScreenComponentBuilder: BeagleBuilder<Screen> {
     var identifier: String? = null
     var safeArea: SafeArea? = null

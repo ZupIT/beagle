@@ -234,7 +234,7 @@ object ListViewScreenBuilder {
                 ),
             categoriesListView()
         )
-    ).applyStyle(Style(size = Size(height = 350.unitReal())))
+    )
 
     private fun categoriesListView(): ListView {
         return ListView(
@@ -373,7 +373,8 @@ object ListViewScreenBuilder {
                     margin = EdgeValue(
                         top = 8.unitReal(),
                         bottom = 8.unitReal(),
-                        left = 8.unitReal()))
+                        left = 8.unitReal())
+                )
             ),
             onScrollEnd = listOf(
                 Condition(

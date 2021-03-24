@@ -29,9 +29,13 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Style.", ReplaceWith("Style()"))
 fun style(block: StyleBuilder.() -> Unit) = StyleBuilder()
     .apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class Style.", ReplaceWith("Style()"))
 class StyleBuilder : BeagleBuilder<Style> {
     var backgroundColor: String? = null
     var cornerRadius: CornerRadius? = null
@@ -116,8 +120,12 @@ class StyleBuilder : BeagleBuilder<Style> {
     )
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class CornerRadius.", ReplaceWith("CornerRadius()"))
 fun cornerRadius(block: CornerRadiusBuilder.() -> Unit) = CornerRadiusBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class CornerRadius.", ReplaceWith("CornerRadius()"))
 class CornerRadiusBuilder : BeagleBuilder<CornerRadius> {
     var radius: Double = 0.0
 

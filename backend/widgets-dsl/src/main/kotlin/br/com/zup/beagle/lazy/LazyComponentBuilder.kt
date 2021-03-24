@@ -21,8 +21,12 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class LazyComponent.", ReplaceWith("LazyComponent()"))
 fun lazyComponent(block: LazyComponentBuilder.() -> Unit) = LazyComponentBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class LazyComponent.", ReplaceWith("LazyComponent()"))
 class LazyComponentBuilder: BeagleBuilder<LazyComponent> {
     var path: String by Delegates.notNull()
     var initialState: ServerDrivenComponent by Delegates.notNull()

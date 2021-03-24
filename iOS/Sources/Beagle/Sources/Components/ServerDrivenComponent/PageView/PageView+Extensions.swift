@@ -35,13 +35,14 @@ extension PageView {
         )
         
         if let actions = onPageChange {
-            view.onPageChange = { page in
-                renderer.controller.execute(actions: actions, with: "onPageChange", and: .int(page), origin: view)
+            view.onPageChange = { [weak view] page in
+                guard let view = view else { return }
+                renderer.controller?.execute(actions: actions, with: "onPageChange", and: .int(page), origin: view)
             }
         }
 
-        renderer.observe(currentPage, andUpdateManyIn: view) { page in
-            if let page = page {
+        renderer.observe(currentPage, andUpdateManyIn: view) { [weak view] page in
+            if let view = view, let page = page {
                 view.swipeToPage(at: page)
             }
         }

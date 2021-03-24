@@ -26,8 +26,12 @@ import br.com.zup.beagle.widget.ui.TabItem
 import br.com.zup.beagle.widget.ui.TabView
 import kotlin.properties.Delegates
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabView.", ReplaceWith("TabView()"))
 fun tabView(block: TabViewBuilder.() -> Unit) = TabViewBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabView.", ReplaceWith("TabView()"))
 class TabViewBuilder : BeagleBuilder<TabView> {
     var children: MutableList<TabItem> by Delegates.notNull()
     var styleId: String? = null
@@ -56,8 +60,12 @@ class TabViewBuilder : BeagleBuilder<TabView> {
     )
 }
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabItem.", ReplaceWith("TabItem()"))
 fun tabItem(block: TabItemBuilder.() -> Unit) = TabItemBuilder().apply(block).build()
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+    " Use class TabItem.", ReplaceWith("TabItem()"))
 class TabItemBuilder : BeagleBuilder<TabItem> {
     var title: String? = null
     var child: ServerDrivenComponent by Delegates.notNull()
