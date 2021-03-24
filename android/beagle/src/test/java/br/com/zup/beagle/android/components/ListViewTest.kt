@@ -56,14 +56,14 @@ class ListViewTest : BaseComponentTest() {
     private val deprecatedAdapterSlot = slot<ListView.ListViewRecyclerAdapter>()
     private val adapterSlot = slot<ListAdapter>()
 
-    private val children = listOf(Container(listOf()))
+    private val children by lazy { listOf(Container(listOf())) }
     private val context = ContextData(
         id = "context",
         value = listOf(Cell(10, "Item 1"), Cell(20, "Item 2"), Cell(30, "Item 3"))
     )
     private val onInit = listOf(SendRequest("http://www.init.com"))
     private val dataSource = expressionOf<List<Any>>("@{context}")
-    private val template = Container(children = listOf(Text(expressionOf("@{item.name}"))))
+    private val template by lazy { Container(children = listOf(Text(expressionOf("@{item.name}")))) }
     private val onScrollEnd = listOf(mockk<Action>(relaxed = true))
     private val iteratorName = "list"
     private val key = "id"
