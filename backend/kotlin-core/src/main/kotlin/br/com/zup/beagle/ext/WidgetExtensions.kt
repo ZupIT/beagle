@@ -40,7 +40,7 @@ fun <T : Widget> T.id(block: () -> String) = this.setId(block.invoke())
  */
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
-    ReplaceWith("flex { }"))
+    ReplaceWith("setFlex { }"))
 fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.style = (this.style ?: Style()).copy(flex = flex) }
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
