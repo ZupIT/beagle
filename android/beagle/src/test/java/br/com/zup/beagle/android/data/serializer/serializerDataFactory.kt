@@ -236,6 +236,17 @@ fun makeNavigationActionJsonWithUrlHardcoded() = """
     }
 """
 
+fun makeActionWithAnalyticsNull() = """
+    {
+      "_beagleAction_": "beagle:pushView",
+      "route": {
+        "url": "http://localhost:8080/test/example",
+        "shouldPrefetch": false
+      },
+      "analytics": null
+    }
+"""
+
 fun makeAlertActionJson() = """
     {
         "_beagleAction_": "beagle:alert",
