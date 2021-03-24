@@ -54,7 +54,8 @@ internal class ViewFactory {
         style: Style,
         styleId: Int,
     ) = BeagleFlexView(
-        rootView, style,
+        rootView,
+        style,
         styleId = styleId,
     )
 
