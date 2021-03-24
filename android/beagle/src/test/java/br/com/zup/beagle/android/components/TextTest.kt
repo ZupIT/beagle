@@ -17,40 +17,83 @@
 package br.com.zup.beagle.android.components
 
 import android.widget.TextView
+import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.unmockkAll
 import io.mockk.verify
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 
 private const val DEFAULT_TEXT = "Hello"
 private const val DEFAULT_STYLE = "DummyStyle"
+private const val DEFAULT_STYLE_INTEGER = 123
 
+@DisplayName("Given a Container")
 class TextTest : BaseComponentTest() {
 
     private val textView: TextView = mockk(relaxed = true)
 
     private lateinit var text: Text
 
-    @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
-        every { anyConstructed<ViewFactory>().makeTextView(any(), any()) } returns textView
-
-        text = Text(DEFAULT_TEXT, DEFAULT_STYLE)
+    @AfterEach
+    override fun tearDown() {
+        super.tearDown()
     }
 
+    @DisplayName("When build view without style id")
+    @Nested
+    inner class WithoutStyleIdTest {
 
-    @Test
-    fun build_should_return_a_TextView_instance_and_setTextWidget() {
-        // When
-        val view = text.buildView(rootView)
+        @Test
+        @DisplayName("Then should create correct text")
+        fun testBuildCorrectText() {
+            // Given
+            every { anyConstructed<ViewFactory>().makeTextView(any()) } returns textView
 
-        // Then
-        assertTrue(view is TextView)
-        verify(exactly = 1) { textView.text = DEFAULT_TEXT }
+            text = Text(DEFAULT_TEXT)
+
+            // When
+            val view = text.buildView(rootView)
+
+            // Then
+            assertTrue(view is TextView)
+            verify(exactly = 1) { anyConstructed<ViewFactory>().makeTextView(rootView.getContext()) }
+        }
+
+    }
+
+    @DisplayName("When build view with style")
+    @Nested
+    inner class WithStyleIdTest {
+
+        @Test
+        @DisplayName("Then should create correct text")
+        fun testBuildCorrectText() {
+            // Given
+            mockkConstructor(StyleManager::class)
+
+            every { anyConstructed<StyleManager>().getTextStyle(DEFAULT_STYLE) } returns DEFAULT_STYLE_INTEGER
+            every { anyConstructed<ViewFactory>().makeTextView(any(), any()) } returns textView
+
+            text = Text(text = DEFAULT_TEXT, styleId = DEFAULT_STYLE)
+
+            // When
+            val view = text.buildView(rootView)
+
+            // Then
+            assertTrue(view is TextView)
+
+            verify(exactly = 1) {
+                anyConstructed<ViewFactory>().makeTextView(any(), any())
+            }
+        }
+
     }
 }
