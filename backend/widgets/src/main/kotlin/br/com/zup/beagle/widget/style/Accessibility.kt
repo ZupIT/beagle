@@ -39,7 +39,7 @@ import br.com.zup.beagle.ext.setAccessibility
 fun <T : AccessibilityComponent> Accessibility(accessible: Boolean = true,
                                                accessibilityLabel: String,
                                                isHeader: Boolean = false,
-                                               self: T): T {
+                                               self: T,): T {
     return self.setAccessibility {
         this.accessible = accessible
         this.accessibilityLabel = accessibilityLabel
