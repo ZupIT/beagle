@@ -36,5 +36,5 @@ data class Container(
     val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     val onInit: List<Action>? = null,
-    val styleId: String? = null
+    val styleId: String? = null,
 ) : Widget(), ContextComponent
