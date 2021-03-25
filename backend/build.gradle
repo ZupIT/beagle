@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 buildscript {
-    repositories {
-        jcenter()
-    }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.1"
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.12.0'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
     }
 }
 
@@ -28,6 +24,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.10" apply false
     id "io.gitlab.arturbosch.detekt" version "1.14.2" apply false
     id "br.com.zup.beagle.dependencies" apply false
+    id "org.jetbrains.dokka" version "1.4.20"
 }
 
 allprojects {
