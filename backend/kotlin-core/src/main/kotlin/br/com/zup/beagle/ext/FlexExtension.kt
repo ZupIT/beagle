@@ -21,7 +21,7 @@ import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.widget.core.Flex
 
 /**
- *  The Flex is a helper to apply Flex in your component
+ *  The Flexible is a helper to apply Flex in your component
  *
  * @param self the component will apply flex
  *
@@ -32,7 +32,7 @@ fun <T : StyleComponent> Flexible(self: T, block: Flex.() -> Unit): T {
 }
 
 /**
- *  The FlexBuilder is a helper to set Flex options in your component.
+ *  Helper to set Flex options in your component.
  *  with this method you don't need to instantiate any object, just set fields
  *
  */
