@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.components.OnInitiableComponent
 import br.com.zup.beagle.android.components.OnInitiableComponentImpl
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
@@ -38,19 +39,28 @@ import br.com.zup.beagle.core.Style
  * @param context define the contextData that be set to container.
  * @param onInit it is a parameter that allows you to define a list of actions to be performed
  * when the Widget is displayed.
+ * @param styleId reference a native style in your local styles file to be applied on this container
  */
 @RegisterWidget("container")
 data class Container(
     override val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     override val onInit: List<Action>? = null,
-) : WidgetView(), OnInitiableComponent by OnInitiableComponentImpl(onInit), ContextComponent, MultiChildComponent {
+    val styleId: String? = null,
+) : WidgetView(), OnInitiableComponent by OnInitiableComponentImpl(onInit),
+    ContextComponent, MultiChildComponent {
 
     @Transient
     private val viewFactory = ViewFactory()
 
+    @Transient
+    private val styleManager: StyleManager = StyleManager()
+
     override fun buildView(rootView: RootView): View {
-        val view = viewFactory.makeBeagleFlexView(rootView, style ?: Style())
+        val styleId = styleManager.getContainerStyle(styleId)
+        val view = if (styleId == 0) viewFactory.makeBeagleFlexView(rootView, style ?: Style())
+        else viewFactory.makeBeagleFlexView(rootView, style ?: Style(), styleId)
+
         handleOnInit(rootView, view)
         return view.apply {
             addChildren(this)
