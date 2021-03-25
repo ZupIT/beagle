@@ -62,6 +62,7 @@ extension String {
     static let textInputStyle = "DesignSystem.TextInput.Style"
     static let textInputBFFStyle = "DesignSystem.TextInput.Style.Bff"
     static let buttonContextStyle = "DesignSystem.Button.Context"
+    static let containerStyle = "DesignSystem.Container.Image"
     
     // MARK: - Hex Colors
     static let blueButton = "#0f4c81"

@@ -135,6 +135,7 @@ extension Container {
         case children
         case onInit
         case context
+        case styleId
     }
 
     public init(from decoder: Decoder) throws {
@@ -144,6 +145,7 @@ extension Container {
         widgetProperties = try WidgetProperties(from: decoder)
         onInit = try container.decodeIfPresent(forKey: .onInit)
         context = try container.decodeIfPresent(Context.self, forKey: .context)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
     }
 }
 

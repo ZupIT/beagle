@@ -32,6 +32,7 @@
           - some: false
     - context: Optional<Context>.none
     - onInit: Optional<Array<Action>>.none
+    - styleId: Optional<String>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
       - id: Optional<String>.none
