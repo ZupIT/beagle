@@ -56,7 +56,7 @@ class ListViewTest : BaseComponentTest() {
     private val deprecatedAdapterSlot = slot<ListView.ListViewRecyclerAdapter>()
     private val adapterSlot = slot<ListAdapter>()
 
-    private val children = listOf(Container(listOf()))
+    private val children by lazy { listOf(Container(listOf())) }
     private val context = ContextData(
         id = "context",
         value = listOf(Cell(10, "Item 1"), Cell(20, "Item 2"), Cell(30, "Item 3"))

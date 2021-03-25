@@ -27,7 +27,7 @@ final class EventsGestureRecognizer: UITapGestureRecognizer {
     let events: [Event]
     weak var controller: BeagleController?
     
-    init(events: [Event], controller: BeagleController) {
+    init(events: [Event], controller: BeagleController?) {
         self.events = events
         self.controller = controller
         super.init(target: nil, action: nil)

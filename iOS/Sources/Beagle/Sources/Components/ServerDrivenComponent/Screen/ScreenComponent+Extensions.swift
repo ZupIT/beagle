@@ -20,7 +20,7 @@ extension ScreenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
 
-        prefetch(helper: renderer.controller.dependencies.preFetchHelper)
+        prefetch(helper: renderer.dependencies.preFetchHelper)
         
         return buildChildView(renderer: renderer)
     }

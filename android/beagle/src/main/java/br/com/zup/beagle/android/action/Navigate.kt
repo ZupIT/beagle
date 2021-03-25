@@ -17,10 +17,12 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
-import br.com.zup.beagle.android.networking.HttpAdditionalData
+import br.com.zup.beagle.android.context.normalizeContextValue
+import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
@@ -174,7 +176,13 @@ sealed class Navigate : AnalyticsAction {
     internal fun Route.getSafe(rootView: RootView, origin: View): Route {
         if (this is Route.Remote) {
             val newValue = evaluateExpression(rootView, origin, url)
-            return this.copy(url = Bind.Value(newValue ?: ""))
+            val body = httpAdditionalData?.body?.normalizeContextValue()
+                ?.let { evaluateExpression(rootView, origin, it) }
+
+            return this.copy(
+                url = Bind.Value(newValue ?: ""),
+                httpAdditionalData = httpAdditionalData?.copy(body = body),
+            )
         }
         return this
     }
@@ -224,3 +232,18 @@ sealed class Route {
         val screen: Screen,
     ) : Route()
 }
+
+
+/**
+ * HttpAdditionalData is used to do requests.
+ * @param method HTTP method.
+ * @param headers Header items for the request.
+ * @param body Content that will be delivered with the request.
+ */
+@BeagleJson
+data class HttpAdditionalData(
+    val method: HttpMethod? = HttpMethod.GET,
+    val headers: Map<String, String>? = hashMapOf(),
+    @ContextDataValue
+    val body: Any? = null,
+)

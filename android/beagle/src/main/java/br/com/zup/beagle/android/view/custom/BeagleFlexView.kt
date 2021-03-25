@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.view.custom
 
 import android.annotation.SuppressLint
+import android.view.ContextThemeWrapper
 import android.view.View
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -32,7 +33,7 @@ import br.com.zup.beagle.core.StyleComponent
 import com.facebook.yoga.YogaNode
 import com.facebook.yoga.YogaNodeJNIBase
 
-@Suppress("LeakingThis")
+@Suppress("LeakingThis", "LongParameterList")
 @SuppressLint("ViewConstructor")
 internal open class BeagleFlexView(
     private val rootView: RootView,
@@ -40,8 +41,10 @@ internal open class BeagleFlexView(
     private val flexMapper: FlexMapper = FlexMapper(),
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory(),
     private val viewModel: ScreenContextViewModel = rootView.generateViewModelInstance(),
-    private val generateIdManager: GenerateIdManager = GenerateIdManager(rootView)
-) : YogaLayout(rootView.getContext(), flexMapper.makeYogaNode(style)) {
+    private val generateIdManager: GenerateIdManager = GenerateIdManager(rootView),
+    styleId: Int = 0,
+) : YogaLayout(if (styleId == 0) rootView.getContext() else ContextThemeWrapper(rootView.getContext(), styleId),
+    flexMapper.makeYogaNode(style)) {
 
     init {
         observeStyleChanges(style, this, yogaNode)
@@ -57,7 +60,7 @@ internal open class BeagleFlexView(
 
     fun addServerDrivenComponent(
         serverDrivenComponent: ServerDrivenComponent,
-        addLayoutChangeListener: Boolean = true
+        addLayoutChangeListener: Boolean = true,
     ) {
         val component = if (serverDrivenComponent is GhostComponent) {
             serverDrivenComponent.child

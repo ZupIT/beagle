@@ -52,7 +52,7 @@ class PageViewUIComponent: UIView {
     init(
         model: Model,
         indicatorView: PageIndicatorUIView?,
-        controller: BeagleController
+        controller: BeagleController?
     ) {
         self.model = model
         self.indicatorView = indicatorView
@@ -76,8 +76,8 @@ class PageViewUIComponent: UIView {
         navigationOrientation: .horizontal
     )
     
-    private func setupLayout(controller: BeagleController) {
-        controller.addChild(pageViewController)
+    private func setupLayout(controller: BeagleController?) {
+        controller?.addChild(pageViewController)
         addSubview(pageViewController.view)
         pageViewController.didMove(toParent: controller)
         
