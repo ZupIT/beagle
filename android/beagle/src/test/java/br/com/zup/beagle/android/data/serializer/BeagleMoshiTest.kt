@@ -1101,6 +1101,26 @@ class BeagleMoshiTest : BaseTest() {
         assertNotNull(JSONObject(json))
     }
 
+    @DisplayName("When try deserialize action with analytics null")
+    @Nested
+    inner class AnalyticsNullTest {
+
+        @DisplayName("Then should return a correct parse action")
+        @Test
+        fun testActionWithAnalyticsNull() {
+            // Given
+            val json = makeActionWithAnalyticsNull()
+
+            // When
+            val actual = moshi.adapter(Action::class.java).fromJson(json)
+
+            // Then
+            assertNotNull(actual)
+            assertTrue(actual is Navigate.PushView)
+        }
+
+    }
+
     @DisplayName("When to JSON")
     @Nested
     inner class AnalyticsActionConfigAdapterToJson {
