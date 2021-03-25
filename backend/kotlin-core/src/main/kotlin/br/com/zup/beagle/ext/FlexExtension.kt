@@ -21,7 +21,7 @@ import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.widget.core.Flex
 
 /**
- *  The Flex is a helper to apply Flex in your component
+ *  The Flexible is a helper to apply Flex in your component
  *
  * @param self the component will apply flex
  *
