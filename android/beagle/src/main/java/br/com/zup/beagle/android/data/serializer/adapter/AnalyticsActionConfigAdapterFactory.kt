@@ -44,7 +44,7 @@ internal class AnalyticsActionConfigAdapterFactory : JsonAdapter.Factory {
 internal class AnalyticsActionConfigAdapter : JsonAdapter<ActionAnalyticsConfig>() {
     override fun fromJson(reader: JsonReader): ActionAnalyticsConfig? {
         val jsonValue = reader.readJsonValue()
-        var actionAnalyticsConfig: ActionAnalyticsConfig? = null
+        val actionAnalyticsConfig: ActionAnalyticsConfig?
         if (jsonValue is Boolean) {
             actionAnalyticsConfig = if (jsonValue) {
                 ActionAnalyticsConfig.Enabled()
@@ -52,7 +52,8 @@ internal class AnalyticsActionConfigAdapter : JsonAdapter<ActionAnalyticsConfig>
                 ActionAnalyticsConfig.Disabled()
             }
         } else {
-            val value = jsonValue as Map<String, Any>
+            val value = jsonValue as? Map<String, Any>? ?: return null
+
             var attributes: List<String>? = null
             var additionalEntries: Map<String, Any>? = null
             if (value.containsKey(ATTRIBUTES)) {

@@ -32,4 +32,6 @@ open class DesignSystem {
     open fun toolbarStyle(id: String): Int? = null
     @StyleRes
     open fun tabViewStyle(id: String): Int? = null
+    @StyleRes
+    open fun containerStyle(id: String): Int? = null
 }

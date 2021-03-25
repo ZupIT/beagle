@@ -68,7 +68,7 @@ class ListAdapterTest : BaseTest() {
     private val asyncActionStatusObserverSlot = slot<Observer<AsyncActionStatus>>()
     private val asyncActionStatusSlot = slot<AsyncActionStatus>()
     private val orientation = RecyclerView.VERTICAL
-    private val template = Container(children = listOf())
+    private val template by lazy { Container(children = listOf()) }
     private val iteratorName = "iteratorName"
     private val key = "id"
     private val generatedId = 10

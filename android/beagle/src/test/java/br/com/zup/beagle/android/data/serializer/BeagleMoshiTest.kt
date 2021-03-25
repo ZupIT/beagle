@@ -28,6 +28,7 @@ import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.action.HttpAdditionalData
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.action.UndefinedAction
@@ -56,7 +57,6 @@ import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.mockdata.InternalObject
 import br.com.zup.beagle.android.mockdata.Person
 import br.com.zup.beagle.android.mockdata.TypeAdapterResolverImpl
-import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
@@ -1099,6 +1099,26 @@ class BeagleMoshiTest : BaseTest() {
 
         // Then
         assertNotNull(JSONObject(json))
+    }
+
+    @DisplayName("When try deserialize action with analytics null")
+    @Nested
+    inner class AnalyticsNullTest {
+
+        @DisplayName("Then should return a correct parse action")
+        @Test
+        fun testActionWithAnalyticsNull() {
+            // Given
+            val json = makeActionWithAnalyticsNull()
+
+            // When
+            val actual = moshi.adapter(Action::class.java).fromJson(json)
+
+            // Then
+            assertNotNull(actual)
+            assertTrue(actual is Navigate.PushView)
+        }
+
     }
 
     @DisplayName("When to JSON")

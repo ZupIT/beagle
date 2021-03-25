@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import android.view.View
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
@@ -39,9 +40,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a GenerateIdManager")
-class GenerateIdManagerTest {
+class GenerateIdManagerTest: BaseTest() {
 
-    private val rootView = mockk<RootView>(relaxed = true)
     private val generateIdViewModel = mockk<GenerateIdViewModel>(relaxed = true)
     private val listViewIdViewModel = mockk<ListViewIdViewModel>(relaxed = true)
     private val onInitViewModel = mockk<OnInitViewModel>(relaxed = true)
@@ -50,7 +50,9 @@ class GenerateIdManagerTest {
     private lateinit var generateIdManager: GenerateIdManager
 
     @BeforeEach
-    fun setUp() {
+    override fun setUp() {
+        super.setUp()
+
         mockkStatic(View::class)
         every { View.generateViewId() } returns generatedId
         every { rootView.generateViewModelInstance<GenerateIdViewModel>() } returns generateIdViewModel
@@ -61,8 +63,8 @@ class GenerateIdManagerTest {
     }
 
     @AfterEach
-    fun tearDown() {
-        unmockkStatic(View::class)
+    override fun tearDown() {
+        super.tearDown()
     }
 
     @DisplayName("When createSingleManagerByRootViewId is called")

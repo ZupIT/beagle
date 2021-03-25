@@ -29,9 +29,12 @@ import br.com.zup.beagle.widget.context.ContextData
  * @param context define the contextData that be set to container.
  * @param onInit it is a parameter that allows you to define a list of actions to be performed
  * when the Widget is displayed.
+ * @param styleId reference a native style in your local styles file to be applied on this container.
+ *
  */
 data class Container(
     val children: List<ServerDrivenComponent> = listOf(),
     override val context: ContextData? = null,
-    val onInit: List<Action>? = null
+    val onInit: List<Action>? = null,
+    val styleId: String? = null,
 ) : Widget(), ContextComponent

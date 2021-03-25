@@ -18,16 +18,24 @@ package br.com.zup.beagle.android.components.layout
 
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
+private const val STYLE_ID = "TEST"
+private const val STYLE_ID_INTEGER = 123
+
+@DisplayName("Given a Container")
 class ContainerTest : BaseComponentTest() {
 
     private val style: Style = mockk(relaxed = true)
@@ -40,26 +48,53 @@ class ContainerTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
+        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), any(), any()) } returns beagleFlexView
         every { style.copy(flex = any()) } returns style
+        mockkConstructor(StyleManager::class)
 
-        container = Container(containerChildren).applyStyle(style)
+        every { anyConstructed<StyleManager>().getContainerStyle(STYLE_ID) } returns STYLE_ID_INTEGER
+
+        container = Container(
+            children = containerChildren,
+            styleId = STYLE_ID,
+        ).applyStyle(style)
     }
 
-    @Test
-    fun build_should_makeBeagleFlexView() {
-        // WHEN
-        container.buildView(rootView)
+    @DisplayName("When build view")
+    @Nested
+    inner class BeagleFlexViewTest {
 
-        // THEN
-        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView, style) }
+        @Test
+        @DisplayName("Then should create correct beagle flex view")
+        fun testBuildCorrectBeagleFlexView() {
+            // When
+            container.buildView(rootView)
+
+            // Then
+            verify {
+                anyConstructed<ViewFactory>().makeBeagleFlexView(
+                    rootView = rootView,
+                    style = style,
+                    styleId = STYLE_ID_INTEGER,
+                )
+            }
+        }
+
     }
 
-    @Test
-    fun build_should_addServerDrivenComponent() {
-        // WHEN
-        container.buildView(rootView)
+    @DisplayName("When build view with children")
+    @Nested
+    inner class ChildrenTest {
 
-        // THEN
-        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(containerChildren[0]) }
+        @Test
+        @DisplayName("Then should create correct beagle flex view with children")
+        fun testCorrectCallChildren() {
+            // When
+            container.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(containerChildren[0]) }
+        }
+
     }
 }
