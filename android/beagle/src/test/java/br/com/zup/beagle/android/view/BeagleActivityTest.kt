@@ -66,7 +66,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val component = Text("Test component")
+    private val component by lazy { Text("Test component") }
     private val componentRequester: ComponentRequester = mockk()
     private lateinit var beagleViewModel: BeagleScreenViewModel
     private var activity: ServerDrivenActivity? = null

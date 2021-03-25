@@ -62,11 +62,6 @@ class GenerateIdManagerTest: BaseTest() {
         generateIdManager = GenerateIdManager(rootView, generateIdViewModel, listViewIdViewModel, onInitViewModel)
     }
 
-    @AfterEach
-    override fun tearDown() {
-        super.tearDown()
-    }
-
     @DisplayName("When createSingleManagerByRootViewId is called")
     @Nested
     inner class CreateManager {
