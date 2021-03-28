@@ -32,7 +32,6 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.BeagleRecyclerView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
-import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout

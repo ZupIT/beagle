@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.view.custom
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -30,6 +31,9 @@ import br.com.zup.beagle.core.Style
  * @param style class will enable a few visual options to be changed.
  *
  */
+
+@Suppress("TooManyFunctions", "TooGenericExceptionThrown")
+@SuppressLint("ViewConstructor")
 class BeagleFlexView(
     rootView: RootView,
     style: Style = Style(),
