@@ -36,17 +36,18 @@ class BeagleFlexView(
     styleId: Int = 0,
 ) : FrameLayout(rootView.getContext()) {
 
-    private lateinit var internalView: InternalBeagleFlexView
+    private val internalView: InternalBeagleFlexView by lazy {
+        InternalBeagleFlexView(
+            rootView = rootView,
+            style = style,
+            styleId = styleId,
+        )
+    }
 
     init {
         this.layoutParams =
             LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 
-        internalView = InternalBeagleFlexView(
-            rootView = rootView,
-            style = style,
-            styleId = 0,
-        )
         super.addView(internalView, -1, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
     }
 

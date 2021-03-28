@@ -17,11 +17,7 @@
 package br.com.zup.beagle.android.view.custom
 
 import android.view.View
-import br.com.zup.beagle.android.engine.mapper.FlexMapper
-import br.com.zup.beagle.android.engine.renderer.ViewRenderer
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.utils.GenerateIdManager
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
@@ -30,123 +26,210 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.spyk
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
 import io.mockk.verify
 import io.mockk.verifySequence
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class BeagleFlexViewTest {
+@DisplayName("Given a Beagle Flex View")
+internal class BeagleFlexViewTest : BaseTest() {
 
-    private val rootViewMock = mockk<RootView>(relaxed = true, relaxUnitFun = true)
-    private val flexMapperMock = mockk<FlexMapper>(relaxUnitFun = true, relaxed = true)
-    private val styleMock = mockk<Style>()
-    private val viewRendererFactoryMock = mockk<ViewRendererFactory>()
-    private val screenContextViewModelMock = mockk<ScreenContextViewModel>()
-    private val generateIdManagerMock = mockk<GenerateIdManager>(relaxed = true)
+    private val styleMock = mockk<Style>(relaxUnitFun = true, relaxed = true)
 
-    @Test
-    fun `GIVEN a BeagleFlexView WHEN instance the class THEN should call bind changes`() {
-        // When
-        val beagleFlexView = InternalBeagleFlexView(
-            rootView = rootViewMock,
-            style = styleMock,
-            flexMapper = flexMapperMock,
-            viewRendererFactory = viewRendererFactoryMock,
-            viewModel = screenContextViewModelMock
-        )
+    private lateinit var beagleFlexView: BeagleFlexView
 
-        // Then
-        verify {
-            flexMapperMock.observeBindChangesFlex(styleMock, rootViewMock, beagleFlexView, beagleFlexView.yogaNode)
+    @BeforeEach
+    override fun setUp() {
+        super.setUp()
+
+        mockkConstructor(InternalBeagleFlexView::class)
+        mockYoga()
+
+        every { anyConstructed<InternalBeagleFlexView>().addView(any()) } just Runs
+        every { anyConstructed<InternalBeagleFlexView>().addView(any(), any<Style>()) } just Runs
+
+        beagleFlexView = BeagleFlexView(rootView, styleMock)
+    }
+
+    @DisplayName("When call add view")
+    @Nested
+    inner class TestAddView {
+
+        @DisplayName("Then it should call internal view")
+        @Test
+        fun testInternalViewCalled() {
+            // Given
+            val view = mockk<View>()
+
+            // When
+            beagleFlexView.addView(view)
+
+            // Then
+            verify {
+                anyConstructed<InternalBeagleFlexView>().addView(view, Style())
+            }
+
         }
     }
 
-    @Test
-    fun `GIVEN beagle flex view WHEN call addView THEN should call bind changes`() {
-        // Given
-        val viewAddChild = mockk<View>()
-        val styleAddChild = mockk<Style>()
-        val yogaNodeChild = mockk<YogaNode>()
+    @DisplayName("When call add view with component")
+    @Nested
+    inner class TestAddComponentView {
 
-        every { flexMapperMock.makeYogaNode(styleAddChild) } returns yogaNodeChild
+        @DisplayName("Then it should call internal view")
+        @Test
+        fun testInternalComponentViewCalled() {
+            // Given
+            val view = mockk<ServerDrivenComponent>()
+            every {
+                anyConstructed<InternalBeagleFlexView>()
+                    .addServerDrivenComponent(view, true)
+            } just Runs
 
-        val beagleFlexView = spyk(
-            InternalBeagleFlexView(
-                rootView = rootViewMock,
-                style = styleMock,
-                flexMapper = flexMapperMock,
-                viewRendererFactory = viewRendererFactoryMock,
-                viewModel = screenContextViewModelMock
-            )
-        )
-        every { beagleFlexView.addView(viewAddChild, yogaNodeChild) } just Runs
+            // When
+            beagleFlexView.addView(view)
 
-        // When
-        beagleFlexView.addView(viewAddChild, styleAddChild)
+            // Then
+            verify {
+                anyConstructed<InternalBeagleFlexView>().addServerDrivenComponent(view, true)
+            }
 
-        // Then
-        verify {
-            flexMapperMock.observeBindChangesFlex(styleAddChild, rootViewMock, beagleFlexView, yogaNodeChild)
         }
     }
 
-    @Test
-    fun `GIVEN beagle flex view WHEN call addServerDrivenComponent THEN should call bind changes`() {
-        // Given
-        val viewAddChild = mockk<View>()
-        val yogaNodeChild = mockk<YogaNode>()
-        val style = Style()
-        val serverDrivenComponent = mockk<ServerDrivenComponent>()
+    @DisplayName("When call add view with list of component")
+    @Nested
+    inner class TestAddListComponentView {
 
-        every { flexMapperMock.makeYogaNode(style) } returns yogaNodeChild
-        every { viewRendererFactoryMock.make(serverDrivenComponent).build(rootViewMock) } returns viewAddChild
+        @DisplayName("Then it should call internal view")
+        @Test
+        fun testInternalComponentViewCalled() {
+            // Given
+            val list = listOf<ServerDrivenComponent>(mockk(), mockk())
+            every {
+                anyConstructed<InternalBeagleFlexView>()
+                    .addServerDrivenComponent(any(), true)
+            } just Runs
 
-        val beagleFlexView = spyk(
-            InternalBeagleFlexView(
-                rootView = rootViewMock,
-                style = styleMock,
-                flexMapper = flexMapperMock,
-                viewRendererFactory = viewRendererFactoryMock,
-                viewModel = screenContextViewModelMock
-            )
-        )
-        every { beagleFlexView.addView(viewAddChild, yogaNodeChild) } just Runs
+            // When
+            beagleFlexView.addView(list)
 
-        // When
-        beagleFlexView.addServerDrivenComponent(serverDrivenComponent, false)
+            // Then
+            verifySequence {
+                anyConstructed<InternalBeagleFlexView>().addServerDrivenComponent(list[0], true)
+                anyConstructed<InternalBeagleFlexView>().addServerDrivenComponent(list[1], true)
+            }
 
-        // Then
-        verify {
-            flexMapperMock.observeBindChangesFlex(style, rootViewMock, viewAddChild, yogaNodeChild)
         }
     }
 
-    @Test
-    fun `GIVEN a BeagleFlexView WHEN addServerDrivenComponent THEN should call manageId before make and build`() {
-        // Given
-        val beagleFlexView = InternalBeagleFlexView(
-            rootView = rootViewMock,
-            style = styleMock,
-            flexMapper = flexMapperMock,
-            viewRendererFactory = viewRendererFactoryMock,
-            viewModel = screenContextViewModelMock,
-            generateIdManager = generateIdManagerMock
-        )
+    @DisplayName("When call setHeightAutoAndDirtyAllViews")
+    @Nested
+    inner class TestSetHeightAutoAndDirtyAllViews {
 
-        val serverDrivenComponent = mockk<ServerDrivenComponent>()
-        val viewRenderer = mockk<ViewRenderer<*>>(relaxed = true)
-        every { viewRendererFactoryMock.make(serverDrivenComponent) } returns viewRenderer
-        val beagleFlexViewSpy = spyk(beagleFlexView)
-        every { beagleFlexViewSpy.addView(any(), any<YogaNode>()) } just Runs
+        @DisplayName("Then it should call internal view")
+        @Test
+        fun testCallSetHeightAutoAndDirtyAllViews() {
+            // Given
+            every {
+                anyConstructed<InternalBeagleFlexView>()
+                    .setHeightAutoAndDirtyAllViews()
+            } just Runs
 
-        // When
-        beagleFlexViewSpy.addServerDrivenComponent(serverDrivenComponent)
+            // When
+            beagleFlexView.setHeightAutoAndDirtyAllViews()
 
-        // Then
-        verifySequence {
-            generateIdManagerMock.manageId(serverDrivenComponent, beagleFlexViewSpy)
-            viewRendererFactoryMock.make(serverDrivenComponent)
-            viewRenderer.build(rootViewMock)
+            // Then
+            verify {
+                anyConstructed<InternalBeagleFlexView>().setHeightAutoAndDirtyAllViews()
+            }
+
         }
+    }
+
+    @DisplayName("When call setWidthAndHeightAutoAndDirtyAllViews")
+    @Nested
+    inner class TestSetWidthAndHeightAutoAndDirtyAllViews {
+
+        @DisplayName("Then it should call internal view")
+        @Test
+        fun testCallSetWidthAndHeightAutoAndDirtyAllViews() {
+            // Given
+            every {
+                anyConstructed<InternalBeagleFlexView>()
+                    .setWidthAndHeightAutoAndDirtyAllViews()
+            } just Runs
+
+            // When
+            beagleFlexView.setWidthAndHeightAutoAndDirtyAllViews()
+
+            // Then
+            verify {
+                anyConstructed<InternalBeagleFlexView>().setWidthAndHeightAutoAndDirtyAllViews()
+            }
+
+        }
+    }
+
+    @DisplayName("When call setWidthAutoAndDirtyAllViews")
+    @Nested
+    inner class TestSetWidthAutoAndDirtyAllViews {
+
+        @DisplayName("Then it should call internal view")
+        @Test
+        fun testCallSetWidthAutoAndDirtyAllViews() {
+            // Given
+            every {
+                anyConstructed<InternalBeagleFlexView>()
+                    .setWidthAutoAndDirtyAllViews()
+            } just Runs
+
+            // When
+            beagleFlexView.setWidthAutoAndDirtyAllViews()
+
+            // Then
+            verify {
+                anyConstructed<InternalBeagleFlexView>().setWidthAutoAndDirtyAllViews()
+            }
+
+        }
+    }
+
+    @DisplayName("When call addListenerOnViewDetachedFromWindow")
+    @Nested
+    inner class TestAddListenerOnViewDetachedFromWindow {
+
+        @DisplayName("Then it should call internal view")
+        @Test
+        fun testCallAddListenerOnViewDetachedFromWindow() {
+            // Given
+            val listenerMock = mockk<() -> Unit>()
+            every {
+                anyConstructed<InternalBeagleFlexView>()
+                    .listenerOnViewDetachedFromWindow = any()
+            } just Runs
+
+            // When
+            beagleFlexView.addListenerOnViewDetachedFromWindow(listenerMock)
+
+            // Then
+            verify {
+                anyConstructed<InternalBeagleFlexView>().listenerOnViewDetachedFromWindow = listenerMock
+            }
+
+        }
+    }
+
+
+    private fun mockYoga() {
+        val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
+        val view = View(mockk())
+        mockkStatic(YogaNode::class)
+        every { YogaNode.create() } returns yogaNode
+        every { yogaNode.data } returns view
     }
 }
