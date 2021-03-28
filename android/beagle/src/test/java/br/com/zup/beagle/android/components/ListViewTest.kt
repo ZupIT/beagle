@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 import io.mockk.Runs
 import io.mockk.every
@@ -78,7 +79,7 @@ class ListViewTest : BaseComponentTest() {
         deprecatedListView = ListView(children, ListDirection.VERTICAL)
         listView = ListView(ListDirection.VERTICAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key)
 
-        every { beagleFlexView.addView(any()) } just Runs
+        every { beagleFlexView.addView(any<ServerDrivenComponent>()) } just Runs
         every { anyConstructed<ViewFactory>().makeRecyclerView(rootView.getContext()) } returns recyclerView
         every { anyConstructed<ViewFactory>().makeBeagleRecyclerView(rootView.getContext()) } returns beagleRecyclerView
         every { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext()) } returns beagleRecyclerView

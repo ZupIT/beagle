@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.context
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.widget.ActivityRootView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just

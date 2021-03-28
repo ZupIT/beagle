@@ -27,7 +27,6 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.MyBeagleSetup
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.data.formatUrl
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.view.ApplicationTest
@@ -36,6 +35,7 @@ import br.com.zup.beagle.android.view.ServerDrivenActivity
 import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
+import br.com.zup.beagle.android.widget.ActivityRootView
 import com.facebook.yoga.YogaNode
 import io.mockk.Runs
 import io.mockk.every

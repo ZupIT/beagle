@@ -64,6 +64,6 @@ class ComposeComponentTest : BaseComponentTest() {
         composeComponent.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(child) }
+        verify(exactly = once()) { beagleFlexView.addView(child) }
     }
 }

@@ -23,7 +23,7 @@ import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
 import io.mockk.every
@@ -65,7 +65,7 @@ internal class SimpleFormTest : BaseComponentTest() {
             val view = simpleForm.buildView(rootView)
 
             // Then
-            assertTrue(view is InternalBeagleFlexView)
+            assertTrue(view is BeagleFlexView)
         }
 
         @Test
@@ -75,7 +75,7 @@ internal class SimpleFormTest : BaseComponentTest() {
             simpleForm.buildView(rootView)
 
             // Then
-            verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(children[0]) }
+            verify(exactly = once()) { beagleFlexView.addView(children) }
         }
 
     }

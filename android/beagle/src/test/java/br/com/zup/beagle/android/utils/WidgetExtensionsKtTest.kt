@@ -26,7 +26,7 @@ import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.mockdata.createViewForContext
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -101,7 +101,7 @@ class WidgetExtensionsKtTest : BaseTest() {
         @Test
         fun testToViewShouldCallSomeFunOnSequence() {
             // Given
-            val beagleFlexView = mockk<InternalBeagleFlexView>(relaxed = true, relaxUnitFun = true)
+            val beagleFlexView = mockk<BeagleFlexView>(relaxed = true, relaxUnitFun = true)
 
             every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
             every { rootView.getContext() } returns mockk()
@@ -113,8 +113,8 @@ class WidgetExtensionsKtTest : BaseTest() {
             verifySequence {
                 generateIdViewModel.createIfNotExisting(0)
                 beagleFlexView.id = 0
-                beagleFlexView.addServerDrivenComponent(component)
-                beagleFlexView.listenerOnViewDetachedFromWindow = any()
+                beagleFlexView.addView(component)
+                beagleFlexView.addListenerOnViewDetachedFromWindow(any())
             }
 
             assertEquals(beagleFlexView, actual)

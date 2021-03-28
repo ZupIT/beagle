@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.page
 
+import android.view.View
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
@@ -101,7 +102,7 @@ class PageViewTest : BaseComponentTest() {
         pageView.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { beagleFlexView.addView(any()) }
+        verify(exactly = once()) { beagleFlexView.addView(any<View>()) }
     }
 
     @Test

@@ -18,9 +18,9 @@ package br.com.zup.beagle.android
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.android.widget.ActivityRootView
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk

@@ -93,7 +93,7 @@ class ContainerTest : BaseComponentTest() {
             container.buildView(rootView)
 
             // Then
-            verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(containerChildren[0]) }
+            verify(exactly = once()) { beagleFlexView.addView(containerChildren) }
         }
 
     }
