@@ -27,7 +27,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import io.mockk.CapturingSlot
@@ -137,7 +137,7 @@ class ScreenComponentTest : BaseComponentTest() {
         val view = screenComponent.buildView(rootView)
 
         // Then
-        assertTrue(view is BeagleFlexView)
+        assertTrue(view is InternalBeagleFlexView)
         verify { view.addOnAttachStateChangeListener(any()) }
     }
 
@@ -147,7 +147,7 @@ class ScreenComponentTest : BaseComponentTest() {
         val view = screenComponent.buildView(rootView)
 
         // Then
-        assertTrue(view is BeagleFlexView)
+        assertTrue(view is InternalBeagleFlexView)
         verify(exactly = 0) { view.addOnAttachStateChangeListener(any()) }
     }
 

@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -67,7 +67,7 @@ data class Container(
         }
     }
 
-    private fun addChildren(beagleFlexView: BeagleFlexView) {
+    private fun addChildren(beagleFlexView: InternalBeagleFlexView) {
         children.forEach { child ->
             beagleFlexView.addServerDrivenComponent(child)
         }

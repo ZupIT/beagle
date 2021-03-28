@@ -21,7 +21,7 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
 import io.mockk.every
@@ -34,7 +34,7 @@ abstract class BaseComponentTest : BaseTest() {
 
     internal val viewRender: ViewRenderer<ServerDrivenComponent> = mockk()
 
-    internal val beagleFlexView: BeagleFlexView = mockk(relaxed = true)
+    internal val beagleFlexView: InternalBeagleFlexView = mockk(relaxed = true)
 
     protected val view = mockk<View>()
 

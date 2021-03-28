@@ -51,7 +51,7 @@ sealed class BeagleViewState {
 internal class BeagleView(
     private val rootView: RootView,
     private val viewModel: BeagleViewModel = rootView.generateViewModelInstance(),
-) : BeagleFlexView(rootView) {
+) : InternalBeagleFlexView(rootView) {
 
     @Deprecated("It was deprecated in version 1.2.0 and will be removed in a future version." +
         " Use serverStateChangedListener instead.")

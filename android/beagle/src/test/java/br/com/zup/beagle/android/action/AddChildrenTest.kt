@@ -21,10 +21,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
-import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.utils.viewFactory
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
@@ -40,7 +39,7 @@ class AddChildrenTest {
     private val origin = mockk<View>(relaxed = true)
     private val viewGroup = mockk<ViewGroup>(relaxed = true)
     private val context = mockk<AppCompatActivity>(relaxed = true)
-    private val view = mockk<BeagleFlexView>(relaxed = true)
+    private val view = mockk<InternalBeagleFlexView>(relaxed = true)
     private val beagleSdk = mockk<BeagleSdk>(relaxed = true)
     private val id = "id"
     private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)

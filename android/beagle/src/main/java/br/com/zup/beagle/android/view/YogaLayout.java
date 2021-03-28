@@ -39,7 +39,7 @@ import com.facebook.yoga.YogaNodeJNIBase;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.zup.beagle.android.view.custom.BeagleFlexView;
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView;
 
 @SuppressLint("ViewConstructor")
 public class YogaLayout extends ViewGroup {
@@ -194,7 +194,7 @@ public class YogaLayout extends ViewGroup {
      * @param view the view to mark as dirty
      */
     public void invalidate(View view) {
-        if (mYogaNodes.containsKey(view) && !(view instanceof BeagleFlexView)) {
+        if (mYogaNodes.containsKey(view) && !(view instanceof InternalBeagleFlexView)) {
             mYogaNodes.get(view).dirty();
             return;
         }
@@ -267,7 +267,7 @@ public class YogaLayout extends ViewGroup {
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    public void onLayout(boolean changed, int l, int t, int r, int b) {
         // Either we are a root of a tree, or this function is called by our owner's onLayout, in which
         // case our r-l and b-t are the size of our node.
         if (!(getParent() instanceof YogaLayout)) {

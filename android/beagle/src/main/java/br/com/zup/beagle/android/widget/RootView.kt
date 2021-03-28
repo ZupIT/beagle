@@ -17,6 +17,8 @@
 package br.com.zup.beagle.android.widget
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 
@@ -49,3 +51,50 @@ interface RootView {
      */
     fun getScreenId(): String
 }
+
+/**
+ * The FragmentRootView holder the reference of a fragment.
+ *
+ * @param fragment that is the parent of a view.
+ * @param parentId parent view id.
+ */
+class FragmentRootView(
+    val fragment: Fragment,
+    private val parentId: Int,
+    private val screenId : String
+) : RootView {
+
+    override fun getContext(): Context = fragment.requireContext()
+
+    override fun getLifecycleOwner(): LifecycleOwner = fragment.viewLifecycleOwner
+
+    override fun getViewModelStoreOwner(): ViewModelStoreOwner = fragment
+
+    override fun getParentId(): Int = parentId
+
+    override fun getScreenId(): String = screenId
+}
+
+/**
+ * The ActivityRootView holder the reference of activity.
+ *
+ * @param activity that is the parent of a view.
+ * @param parentId parent view id.
+ */
+class ActivityRootView(
+    val activity: AppCompatActivity,
+    private val parentId: Int,
+    private val screenId : String
+) : RootView {
+
+    override fun getContext(): Context = activity
+
+    override fun getLifecycleOwner(): LifecycleOwner = activity
+
+    override fun getViewModelStoreOwner(): ViewModelStoreOwner = activity
+
+    override fun getParentId(): Int = parentId
+
+    override fun getScreenId(): String = screenId
+}
+

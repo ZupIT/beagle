@@ -31,7 +31,7 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.AsyncActionData
 import br.com.zup.beagle.android.utils.setIsAutoGenerateIdEnabled
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.AsyncActionViewModel
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
@@ -56,7 +56,7 @@ class ListAdapterTest : BaseTest() {
     @get:Rule
     var executorTestRule = InstantTaskExecutorRule()
 
-    private val viewHolderItemView = mockk<BeagleFlexView>(relaxed = true)
+    private val viewHolderItemView = mockk<InternalBeagleFlexView>(relaxed = true)
     private val viewGroupMock = mockk<ViewGroup>(relaxed = true)
     private val viewTypeMock = 0
     private val recyclerViewMock = mockk<RecyclerView>(relaxed = true)

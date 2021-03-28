@@ -37,7 +37,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.utils.ToolbarTextManager
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -68,7 +68,7 @@ internal class ToolbarManagerTest : BaseTest() {
     private var icon = mockk<Drawable>()
     private var navigationBar = mockk<NavigationBar>(relaxed = true)
     private var context = mockk<BeagleActivity>(relaxed = true)
-    private var beagleFlexView = mockk<BeagleFlexView>(relaxed = true)
+    private var beagleFlexView = mockk<InternalBeagleFlexView>(relaxed = true)
     private var actionBar = mockk<ActionBar>(relaxed = true)
     private var toolbar = mockk<Toolbar>(relaxed = true)
     private var menu = mockk<Menu>(relaxed = true)

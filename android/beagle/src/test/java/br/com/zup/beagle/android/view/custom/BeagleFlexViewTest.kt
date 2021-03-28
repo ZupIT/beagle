@@ -47,7 +47,7 @@ class BeagleFlexViewTest {
     @Test
     fun `GIVEN a BeagleFlexView WHEN instance the class THEN should call bind changes`() {
         // When
-        val beagleFlexView = BeagleFlexView(
+        val beagleFlexView = InternalBeagleFlexView(
             rootView = rootViewMock,
             style = styleMock,
             flexMapper = flexMapperMock,
@@ -71,7 +71,7 @@ class BeagleFlexViewTest {
         every { flexMapperMock.makeYogaNode(styleAddChild) } returns yogaNodeChild
 
         val beagleFlexView = spyk(
-            BeagleFlexView(
+            InternalBeagleFlexView(
                 rootView = rootViewMock,
                 style = styleMock,
                 flexMapper = flexMapperMock,
@@ -102,7 +102,7 @@ class BeagleFlexViewTest {
         every { viewRendererFactoryMock.make(serverDrivenComponent).build(rootViewMock) } returns viewAddChild
 
         val beagleFlexView = spyk(
-            BeagleFlexView(
+            InternalBeagleFlexView(
                 rootView = rootViewMock,
                 style = styleMock,
                 flexMapper = flexMapperMock,
@@ -124,7 +124,7 @@ class BeagleFlexViewTest {
     @Test
     fun `GIVEN a BeagleFlexView WHEN addServerDrivenComponent THEN should call manageId before make and build`() {
         // Given
-        val beagleFlexView = BeagleFlexView(
+        val beagleFlexView = InternalBeagleFlexView(
             rootView = rootViewMock,
             style = styleMock,
             flexMapper = flexMapperMock,

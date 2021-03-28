@@ -16,86 +16,105 @@
 
 package br.com.zup.beagle.android.view.custom
 
-import android.annotation.SuppressLint
-import android.view.ContextThemeWrapper
 import android.view.View
-import br.com.zup.beagle.android.engine.mapper.FlexMapper
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.utils.GenerateIdManager
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.view.YogaLayout
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import android.view.ViewGroup
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.StyleComponent
-import com.facebook.yoga.YogaNode
-import com.facebook.yoga.YogaNodeJNIBase
 
-@Suppress("LeakingThis", "LongParameterList")
-@SuppressLint("ViewConstructor")
-internal open class BeagleFlexView(
-    private val rootView: RootView,
-    style: Style,
-    private val flexMapper: FlexMapper = FlexMapper(),
-    private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory(),
-    private val viewModel: ScreenContextViewModel = rootView.generateViewModelInstance(),
-    private val generateIdManager: GenerateIdManager = GenerateIdManager(rootView),
-    styleId: Int = 0,
-) : YogaLayout(if (styleId == 0) rootView.getContext() else ContextThemeWrapper(rootView.getContext(), styleId),
-    flexMapper.makeYogaNode(style)) {
+/**
+ *  The Beagle Flex View is a view group that support style options
+ *
+ * @param rootView  holder the reference of current context.
+ * @param style class will enable a few visual options to be changed.
+ *
+ */
+class BeagleFlexView(rootView: RootView, style: Style = Style()) : ViewGroup(rootView.getContext()) {
+
+    private val internalView: InternalBeagleFlexView by lazy {
+        InternalBeagleFlexView(
+            rootView = rootView,
+            style = style,
+        )
+    }
 
     init {
-        observeStyleChanges(style, this, yogaNode)
+        super.addView(internalView)
     }
 
-    constructor(rootView: RootView, flexMapper: FlexMapper = FlexMapper()) : this(rootView, Style(), flexMapper)
-
-    var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
-
-    fun addView(child: View, style: Style) {
-        addViewWithBind(style, child, this)
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        internalView.onLayout(changed, l, t, r, b)
     }
 
-    fun addServerDrivenComponent(
-        serverDrivenComponent: ServerDrivenComponent,
+    override fun addView(child: View?) {
+        internalView.addView(child)
+    }
+
+    override fun addView(child: View?, index: Int) {
+        internalView.addView(child, index)
+    }
+
+    override fun addView(child: View?, width: Int, height: Int) {
+        throw RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE)
+    }
+
+    override fun addView(child: View?, params: LayoutParams?) {
+        throw RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE)
+    }
+
+    override fun removeView(view: View?) {
+        internalView.removeView(view)
+    }
+
+    override fun removeViewAt(index: Int) {
+        internalView.removeViewAt(index)
+    }
+
+    override fun removeViewInLayout(view: View?) {
+        internalView.removeViewInLayout(view)
+    }
+
+    override fun removeViews(start: Int, count: Int) {
+        internalView.removeViews(start, count)
+    }
+
+    override fun removeViewsInLayout(start: Int, count: Int) {
+        internalView.removeViewsInLayout(start, count)
+    }
+
+    override fun removeAllViews() {
+        internalView.removeAllViews()
+    }
+
+    override fun removeAllViewsInLayout() {
+        internalView.removeAllViewsInLayout()
+    }
+
+    
+    fun addView(
+        child: View,
+        style: Style = Style(),
+    ) {
+        internalView.addView(child, style)
+    }
+
+    fun addView(
+        components: List<ServerDrivenComponent>,
         addLayoutChangeListener: Boolean = true,
     ) {
-        val component = if (serverDrivenComponent is GhostComponent) {
-            serverDrivenComponent.child
-        } else {
-            serverDrivenComponent
+        components.forEach {
+            addView(it, addLayoutChangeListener)
         }
-        generateIdManager.manageId(component, this)
-
-        val style = (component as? StyleComponent)?.style ?: Style()
-        val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
-        if (addLayoutChangeListener) {
-            view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-                (yogaNode as YogaNodeJNIBase).dirtyAllDescendants()
-            }
-        }
-        addViewWithBind(style, view, view)
     }
 
-    private fun addViewWithBind(style: Style, child: View, viewBind: View) {
-        val childYogaNode = flexMapper.makeYogaNode(style)
-        observeStyleChanges(style, viewBind, childYogaNode)
-        super.addView(child, childYogaNode)
+    fun addView(
+        component: ServerDrivenComponent,
+        addLayoutChangeListener: Boolean = true,
+    ) {
+        internalView.addServerDrivenComponent(component, addLayoutChangeListener)
     }
 
-    private fun observeStyleChanges(style: Style, view: View, yogaNode: YogaNode) {
-        flexMapper.observeBindChangesFlex(style, rootView, view, yogaNode)
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        viewModel.linkBindingToContextAndEvaluateThem(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        listenerOnViewDetachedFromWindow?.invoke()
+    companion object {
+        private const val ADD_VIEW_EXCEPTION_MESSAGE = "You should call addView(view) or addView(view, style)"
     }
 }
