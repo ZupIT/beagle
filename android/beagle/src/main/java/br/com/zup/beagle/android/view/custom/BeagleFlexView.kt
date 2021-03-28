@@ -90,7 +90,11 @@ class BeagleFlexView(rootView: RootView, style: Style = Style()) : ViewGroup(roo
         internalView.removeAllViewsInLayout()
     }
 
-    
+    /**
+     * Adds a child view with the specified style.
+     * @property child view will be added
+     * @property style style will be applied in this child.
+     */
     fun addView(
         child: View,
         style: Style = Style(),
@@ -98,6 +102,11 @@ class BeagleFlexView(rootView: RootView, style: Style = Style()) : ViewGroup(roo
         internalView.addView(child, style)
     }
 
+    /**
+     * Adds a list of components in view.
+     * @property components views will be added
+     * @property addLayoutChangeListener force recalculate layout when view change, prefer use true always
+     */
     fun addView(
         components: List<ServerDrivenComponent>,
         addLayoutChangeListener: Boolean = true,
@@ -107,6 +116,11 @@ class BeagleFlexView(rootView: RootView, style: Style = Style()) : ViewGroup(roo
         }
     }
 
+    /**
+     * Adds a component in view.
+     * @property component view will be added
+     * @property addLayoutChangeListener force recalculate layout when view change, prefer use true always
+     */
     fun addView(
         component: ServerDrivenComponent,
         addLayoutChangeListener: Boolean = true,
