@@ -123,7 +123,7 @@ internal class ListAdapter(
     private fun generateView(newTemplate: ServerDrivenComponent) =
         viewFactory.makeBeagleFlexView(listViewModels.rootView).apply {
             setIsAutoGenerateIdEnabled(false)
-            addServerDrivenComponent(newTemplate, false)
+            addView(newTemplate, false)
             layoutParams = generateLayoutParams()
             if (orientation == RecyclerView.VERTICAL) {
                 setHeightAutoAndDirtyAllViews()

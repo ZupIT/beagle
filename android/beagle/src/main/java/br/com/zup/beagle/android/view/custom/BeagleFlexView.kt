@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.view.custom
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
@@ -29,21 +30,24 @@ import br.com.zup.beagle.core.Style
  * @param style class will enable a few visual options to be changed.
  *
  */
-class BeagleFlexView(rootView: RootView, style: Style = Style()) : ViewGroup(rootView.getContext()) {
+class BeagleFlexView(
+    rootView: RootView,
+    style: Style = Style(),
+    styleId: Int = 0,
+) : FrameLayout(rootView.getContext()) {
 
-    private val internalView: InternalBeagleFlexView by lazy {
-        InternalBeagleFlexView(
-            rootView = rootView,
-            style = style,
-        )
-    }
+    private lateinit var internalView: InternalBeagleFlexView
 
     init {
-        super.addView(internalView)
-    }
+        this.layoutParams =
+            LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        internalView.onLayout(changed, l, t, r, b)
+        internalView = InternalBeagleFlexView(
+            rootView = rootView,
+            style = style,
+            styleId = 0,
+        )
+        super.addView(internalView, -1, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
     }
 
     override fun addView(child: View?) {
@@ -58,7 +62,11 @@ class BeagleFlexView(rootView: RootView, style: Style = Style()) : ViewGroup(roo
         throw RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE)
     }
 
-    override fun addView(child: View?, params: LayoutParams?) {
+    override fun addView(child: View?, params: ViewGroup.LayoutParams?) {
+        throw RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE)
+    }
+
+    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
         throw RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE)
     }
 
@@ -126,6 +134,22 @@ class BeagleFlexView(rootView: RootView, style: Style = Style()) : ViewGroup(roo
         addLayoutChangeListener: Boolean = true,
     ) {
         internalView.addServerDrivenComponent(component, addLayoutChangeListener)
+    }
+
+    internal fun addListenerOnViewDetachedFromWindow(listener: (() -> Unit)) {
+        internalView.listenerOnViewDetachedFromWindow = listener
+    }
+
+    fun setWidthAutoAndDirtyAllViews() {
+        internalView.setWidthAutoAndDirtyAllViews()
+    }
+
+    fun setWidthAndHeightAutoAndDirtyAllViews() {
+        internalView.setWidthAndHeightAutoAndDirtyAllViews()
+    }
+
+    fun setHeightAutoAndDirtyAllViews() {
+        internalView.setHeightAutoAndDirtyAllViews()
     }
 
     companion object {

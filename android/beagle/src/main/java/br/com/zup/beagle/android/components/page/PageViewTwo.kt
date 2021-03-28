@@ -27,7 +27,7 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -102,7 +102,7 @@ internal data class PageViewTwo(
         }
     }
 
-    private fun observerCurrentPage(viewPager: BeaglePageView, container: InternalBeagleFlexView, rootView: RootView) {
+    private fun observerCurrentPage(viewPager: BeaglePageView, container: BeagleFlexView, rootView: RootView) {
         currentPage?.let {
             observeBindChanges(rootView = rootView, view = container, bind = it) { position ->
                 position?.let {
@@ -121,7 +121,7 @@ internal class PageViewAdapterTwo(
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = viewFactory.makeBeagleFlexView(rootView).also {
-            it.addServerDrivenComponent(children[position])
+            it.addView(children[position])
         }
         container.addView(view)
         return view

@@ -37,7 +37,7 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 
@@ -80,7 +80,7 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
     fun configureToolbar(
         rootView: RootView,
         navigationBar: NavigationBar,
-        container: InternalBeagleFlexView,
+        container: BeagleFlexView,
         screenComponent: ScreenComponent,
     ) {
         (rootView.getContext() as BeagleActivity).getToolbar().apply {
@@ -148,7 +148,7 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
         rootView: RootView,
         toolbar: Toolbar,
         items: List<NavigationBarItem>,
-        container: InternalBeagleFlexView,
+        container: BeagleFlexView,
         screenComponent: ScreenComponent,
     ) {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
@@ -188,7 +188,7 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
         items: List<NavigationBarItem>,
         i: Int,
         rootView: RootView,
-        container: InternalBeagleFlexView,
+        container: BeagleFlexView,
         screenComponent: ScreenComponent,
     ) {
         design?.let { designSystem ->

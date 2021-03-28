@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -56,7 +57,7 @@ data class SimpleForm(
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
     @Transient
-    private lateinit var simpleFormViewCreated: InternalBeagleFlexView
+    private lateinit var simpleFormViewCreated: BeagleFlexView
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -70,7 +71,7 @@ data class SimpleForm(
         simpleFormViewCreated = viewFactory.makeBeagleFlexView(rootView, style ?: Style())
             .apply {
                 beagleComponent = this@SimpleForm
-                addChildrenForm(this)
+                addView(children)
             }
         return simpleFormViewCreated
     }
@@ -79,12 +80,6 @@ data class SimpleForm(
         val hasError = searchErrorInHierarchy(simpleFormViewCreated)
         val actions = if (hasError) onValidationError ?: emptyList() else onSubmit
         handleEvent(rootView, view, actions, analyticsValue = "onSubmit")
-    }
-
-    private fun addChildrenForm(beagleFlexView: InternalBeagleFlexView) {
-        children.forEach { child ->
-            beagleFlexView.addServerDrivenComponent(child)
-        }
     }
 
     private fun searchErrorInHierarchy(parent: ViewGroup): Boolean {

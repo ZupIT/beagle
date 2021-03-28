@@ -189,9 +189,9 @@ internal fun ServerDrivenComponent.toView(
     generateIdManager.createSingleManagerByRootViewId()
     val view = viewFactory.makeBeagleFlexView(rootView).apply {
         id = rootView.getParentId()
-        addServerDrivenComponent(this@toView)
+        addView(this@toView)
     }
-    view.listenerOnViewDetachedFromWindow = {
+    view.addListenerOnViewDetachedFromWindow {
         generateIdManager.onViewDetachedFromWindow(view)
     }
     return view

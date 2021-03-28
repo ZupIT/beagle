@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -59,7 +60,7 @@ internal data class ScreenComponent(
 
         addNavigationBarIfNecessary(rootView, navigationBar, container)
 
-        container.addServerDrivenComponent(child)
+        container.addView(child)
 
         screenAnalyticsEvent?.let {
             container.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
@@ -79,7 +80,7 @@ internal data class ScreenComponent(
     private fun addNavigationBarIfNecessary(
         rootView: RootView,
         navigationBar: NavigationBar?,
-        container: InternalBeagleFlexView,
+        container: BeagleFlexView,
     ) {
 
         (rootView.getContext() as? BeagleActivity)?.let {
@@ -102,7 +103,7 @@ internal data class ScreenComponent(
     private fun configNavigationBar(
         rootView: RootView,
         navigationBar: NavigationBar,
-        container: InternalBeagleFlexView,
+        container: BeagleFlexView,
     ) {
         (rootView.getContext() as? BeagleActivity)?.let {
             toolbarManager.configureNavigationBarForScreen(it, navigationBar)

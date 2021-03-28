@@ -32,7 +32,7 @@ import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -81,7 +81,7 @@ data class TabBar(
         return container
     }
 
-    private fun makeTabLayout(rootView: RootView, container: InternalBeagleFlexView): TabLayout = viewFactory.makeTabLayout(
+    private fun makeTabLayout(rootView: RootView, container: BeagleFlexView): TabLayout = viewFactory.makeTabLayout(
         rootView.getContext(),
         styleManagerFactory.getTabViewStyle(styleId)
     ).apply {
@@ -109,7 +109,7 @@ data class TabBar(
         }
     }
 
-    private fun TabLayout.addTabs(rootView: RootView, container: InternalBeagleFlexView) {
+    private fun TabLayout.addTabs(rootView: RootView, container: BeagleFlexView) {
         for (i in items.indices) {
             addTab(newTab().apply {
                 text = items[i].title
@@ -153,7 +153,7 @@ data class TabBar(
         })
     }
 
-    private fun configCurrentTabObserver(tabBar: TabLayout, container: InternalBeagleFlexView, rootView: RootView) {
+    private fun configCurrentTabObserver(tabBar: TabLayout, container: BeagleFlexView, rootView: RootView) {
         currentTab?.let {
             observeBindChanges(rootView, container, it) { position ->
                 position?.let { newPosition ->

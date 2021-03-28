@@ -63,13 +63,7 @@ data class Container(
 
         handleOnInit(rootView, view)
         return view.apply {
-            addChildren(this)
-        }
-    }
-
-    private fun addChildren(beagleFlexView: InternalBeagleFlexView) {
-        children.forEach { child ->
-            beagleFlexView.addServerDrivenComponent(child)
+            addView(children)
         }
     }
 }

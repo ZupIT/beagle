@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.BeagleRecyclerView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
@@ -45,15 +46,15 @@ internal class ViewFactory {
 
     fun makeBeagleView(rootView: RootView) = BeagleView(rootView)
 
-    fun makeBeagleFlexView(rootView: RootView) = InternalBeagleFlexView(rootView)
+    fun makeBeagleFlexView(rootView: RootView) = BeagleFlexView(rootView)
 
-    fun makeBeagleFlexView(rootView: RootView, style: Style) = InternalBeagleFlexView(rootView, style)
+    fun makeBeagleFlexView(rootView: RootView, style: Style) = BeagleFlexView(rootView, style)
 
     fun makeBeagleFlexView(
         rootView: RootView,
         style: Style,
         styleId: Int,
-    ) = InternalBeagleFlexView(
+    ) = BeagleFlexView(
         rootView,
         style,
         styleId = styleId,
