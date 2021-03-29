@@ -82,7 +82,7 @@ class InternalBeagleFlexViewTest {
         every { beagleFlexView.addView(viewAddChild, yogaNodeChild) } just Runs
 
         // When
-        beagleFlexView.addView(viewAddChild, styleAddChild)
+        beagleFlexView.addViewWithStyle(viewAddChild, styleAddChild)
 
         // Then
         verify {

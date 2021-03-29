@@ -18,8 +18,6 @@ package br.com.zup.beagle.android.view.custom
 
 import android.annotation.SuppressLint
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
@@ -31,76 +29,28 @@ import br.com.zup.beagle.core.Style
  * @param style class will enable a few visual options to be changed.
  *
  */
-
-@Suppress("TooManyFunctions", "TooGenericExceptionThrown")
 @SuppressLint("ViewConstructor")
-class BeagleFlexView(
+class BeagleFlexView private constructor(
     rootView: RootView,
     style: Style = Style(),
     styleId: Int = 0,
-) : FrameLayout(rootView.getContext()) {
+) : InternalBeagleFlexView(
+    rootView = rootView,
+    style = style,
+    styleId = styleId,
+) {
 
-    private val internalView: InternalBeagleFlexView by lazy {
-        InternalBeagleFlexView(
+    companion object {
+
+        operator fun invoke(
+            rootView: RootView,
+            style: Style = Style(),
+            styleId: Int = 0,
+        ) = BeagleFlexView(
             rootView = rootView,
             style = style,
             styleId = styleId,
         )
-    }
-
-    init {
-        this.layoutParams =
-            LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-
-        super.addView(internalView, -1, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
-    }
-
-    override fun addView(child: View?) {
-        internalView.addView(child)
-    }
-
-    override fun addView(child: View?, index: Int) {
-        internalView.addView(child, index)
-    }
-
-    override fun addView(child: View?, width: Int, height: Int) {
-        throw RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE)
-    }
-
-    override fun addView(child: View?, params: ViewGroup.LayoutParams?) {
-        throw RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE)
-    }
-
-    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
-        throw RuntimeException(ADD_VIEW_EXCEPTION_MESSAGE)
-    }
-
-    override fun removeView(view: View?) {
-        internalView.removeView(view)
-    }
-
-    override fun removeViewAt(index: Int) {
-        internalView.removeViewAt(index)
-    }
-
-    override fun removeViewInLayout(view: View?) {
-        internalView.removeViewInLayout(view)
-    }
-
-    override fun removeViews(start: Int, count: Int) {
-        internalView.removeViews(start, count)
-    }
-
-    override fun removeViewsInLayout(start: Int, count: Int) {
-        internalView.removeViewsInLayout(start, count)
-    }
-
-    override fun removeAllViews() {
-        internalView.removeAllViews()
-    }
-
-    override fun removeAllViewsInLayout() {
-        internalView.removeAllViewsInLayout()
     }
 
     /**
@@ -110,9 +60,9 @@ class BeagleFlexView(
      */
     fun addView(
         child: View,
-        style: Style = Style(),
+        style: Style,
     ) {
-        internalView.addView(child, style)
+        addViewWithStyle(child, style)
     }
 
     /**
@@ -138,26 +88,10 @@ class BeagleFlexView(
         component: ServerDrivenComponent,
         addLayoutChangeListener: Boolean = true,
     ) {
-        internalView.addServerDrivenComponent(component, addLayoutChangeListener)
+        addServerDrivenComponent(component, addLayoutChangeListener)
     }
 
-    internal fun addListenerOnViewDetachedFromWindow(listener: (() -> Unit)) {
-        internalView.listenerOnViewDetachedFromWindow = listener
-    }
-
-    fun setWidthAutoAndDirtyAllViews() {
-        internalView.setWidthAutoAndDirtyAllViews()
-    }
-
-    fun setWidthAndHeightAutoAndDirtyAllViews() {
-        internalView.setWidthAndHeightAutoAndDirtyAllViews()
-    }
-
-    fun setHeightAutoAndDirtyAllViews() {
-        internalView.setHeightAutoAndDirtyAllViews()
-    }
-
-    companion object {
-        private const val ADD_VIEW_EXCEPTION_MESSAGE = "You should call addView(view) or addView(view, style)"
+    fun addListenerOnViewDetachedFromWindow(listener: (() -> Unit)) {
+        listenerOnViewDetachedFromWindow = listener
     }
 }

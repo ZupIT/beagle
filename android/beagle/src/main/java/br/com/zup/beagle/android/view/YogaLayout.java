@@ -187,6 +187,43 @@ public class YogaLayout extends ViewGroup {
         super.removeAllViewsInLayout();
     }
 
+    @Override
+    public void onLayout(boolean changed, int l, int t, int r, int b) {
+        // Either we are a root of a tree, or this function is called by our owner's onLayout, in which
+        // case our r-l and b-t are the size of our node.
+        if (!(getParent() instanceof YogaLayout)) {
+            createLayout(
+                MeasureSpec.makeMeasureSpec(r - l, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(b - t, MeasureSpec.EXACTLY));
+        }
+
+        applyLayoutRecursive(mYogaNode, 0, 0);
+    }
+
+    /**
+     * This function is mostly unneeded, because Yoga is doing the measuring.  Hence we only need to
+     * return accurate results if we are the root.
+     *
+     * @param widthMeasureSpec  the suggested specification for the width
+     * @param heightMeasureSpec the suggested specification for the height
+     */
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (!(getParent() instanceof YogaLayout)) {
+            createLayout(widthMeasureSpec, heightMeasureSpec);
+        }
+
+        setMeasuredDimension(
+            Math.round(mYogaNode.getLayoutWidth()),
+            Math.round(mYogaNode.getLayoutHeight()));
+    }
+
+    @Override
+    protected LayoutParams generateDefaultLayoutParams() {
+        return new LayoutParams(LayoutParams.MATCH_PARENT,
+            LayoutParams.MATCH_PARENT);
+    }
+
     /**
      * Marks a particular view as "dirty" and to be relaid out.  If the view is not a child of this
      * {@link YogaLayout}, the entire tree is traversed to find it.
@@ -207,6 +244,41 @@ public class YogaLayout extends ViewGroup {
             }
         }
         invalidate();
+    }
+
+    public void setHeightAutoAndDirtyAllViews() {
+        addOnLayoutChangeListener(new OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int left, int top, int right,
+                                       int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                mYogaNode.setHeightAuto();
+                ((YogaNodeJNIBase) mYogaNode).dirtyAllDescendants();
+            }
+        });
+    }
+
+    public void setWidthAutoAndDirtyAllViews() {
+        addOnLayoutChangeListener(new OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int left, int top, int right,
+                                       int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                mYogaNode.setWidthAuto();
+                ((YogaNodeJNIBase) mYogaNode).dirtyAllDescendants();
+            }
+        });
+    }
+
+
+    public void setWidthAndHeightAutoAndDirtyAllViews() {
+        addOnLayoutChangeListener(new OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int left, int top, int right,
+                                       int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                mYogaNode.setWidthAuto();
+                mYogaNode.setHeightAuto();
+                ((YogaNodeJNIBase) mYogaNode).dirtyAllDescendants();
+            }
+        });
     }
 
     private void removeViewFromYogaTree(View view, boolean inLayout) {
@@ -266,37 +338,6 @@ public class YogaLayout extends ViewGroup {
         }
     }
 
-    @Override
-    public void onLayout(boolean changed, int l, int t, int r, int b) {
-        // Either we are a root of a tree, or this function is called by our owner's onLayout, in which
-        // case our r-l and b-t are the size of our node.
-        if (!(getParent() instanceof YogaLayout)) {
-            createLayout(
-                MeasureSpec.makeMeasureSpec(r - l, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(b - t, MeasureSpec.EXACTLY));
-        }
-
-        applyLayoutRecursive(mYogaNode, 0, 0);
-    }
-
-    /**
-     * This function is mostly unneeded, because Yoga is doing the measuring.  Hence we only need to
-     * return accurate results if we are the root.
-     *
-     * @param widthMeasureSpec  the suggested specification for the width
-     * @param heightMeasureSpec the suggested specification for the height
-     */
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (!(getParent() instanceof YogaLayout)) {
-            createLayout(widthMeasureSpec, heightMeasureSpec);
-        }
-
-        setMeasuredDimension(
-            Math.round(mYogaNode.getLayoutWidth()),
-            Math.round(mYogaNode.getLayoutHeight()));
-    }
-
     private void createLayout(int widthMeasureSpec, int heightMeasureSpec) {
         final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
@@ -316,12 +357,6 @@ public class YogaLayout extends ViewGroup {
             mYogaNode.setMaxWidth(widthSize);
         }
         mYogaNode.calculateLayout(YogaConstants.UNDEFINED, YogaConstants.UNDEFINED);
-    }
-
-    @Override
-    protected LayoutParams generateDefaultLayoutParams() {
-        return new LayoutParams(LayoutParams.MATCH_PARENT,
-            LayoutParams.MATCH_PARENT);
     }
 
     /**
@@ -373,37 +408,5 @@ public class YogaLayout extends ViewGroup {
                 return MeasureSpec.UNSPECIFIED;
             }
         }
-    }
-
-    public void setHeightAutoAndDirtyAllViews() {
-        addOnLayoutChangeListener(new OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                mYogaNode.setHeightAuto();
-                ((YogaNodeJNIBase) mYogaNode).dirtyAllDescendants();
-            }
-        });
-    }
-
-    public void setWidthAutoAndDirtyAllViews() {
-        addOnLayoutChangeListener(new OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                mYogaNode.setWidthAuto();
-                ((YogaNodeJNIBase) mYogaNode).dirtyAllDescendants();
-            }
-        });
-    }
-
-
-    public void setWidthAndHeightAutoAndDirtyAllViews() {
-        addOnLayoutChangeListener(new OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                mYogaNode.setWidthAuto();
-                mYogaNode.setHeightAuto();
-                ((YogaNodeJNIBase) mYogaNode).dirtyAllDescendants();
-            }
-        });
     }
 }

@@ -35,9 +35,9 @@ import com.facebook.yoga.YogaNodeJNIBase
 
 @Suppress("LeakingThis", "LongParameterList")
 @SuppressLint("ViewConstructor")
-internal open class InternalBeagleFlexView(
+open class InternalBeagleFlexView internal constructor(
     private val rootView: RootView,
-    style: Style,
+    style: Style = Style(),
     private val flexMapper: FlexMapper = FlexMapper(),
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory(),
     private val viewModel: ScreenContextViewModel = rootView.generateViewModelInstance(),
@@ -50,15 +50,13 @@ internal open class InternalBeagleFlexView(
         observeStyleChanges(style, this, yogaNode)
     }
 
-    constructor(rootView: RootView, flexMapper: FlexMapper = FlexMapper()) : this(rootView, Style(), flexMapper)
+    internal var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
 
-    var listenerOnViewDetachedFromWindow: (() -> Unit)? = null
-
-    fun addView(child: View, style: Style) {
+    internal fun addViewWithStyle(child: View, style: Style) {
         addViewWithBind(style, child, this)
     }
 
-    fun addServerDrivenComponent(
+    internal fun addServerDrivenComponent(
         serverDrivenComponent: ServerDrivenComponent,
         addLayoutChangeListener: Boolean = true,
     ) {
@@ -92,10 +90,6 @@ internal open class InternalBeagleFlexView(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         viewModel.linkBindingToContextAndEvaluateThem(this)
-    }
-
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
     }
 
     override fun onDetachedFromWindow() {

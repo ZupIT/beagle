@@ -25,10 +25,10 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
+import io.mockk.spyk
 import io.mockk.verify
-import io.mockk.verifySequence
+import io.mockk.verifyOrder
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -45,16 +45,12 @@ internal class BeagleFlexViewTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkConstructor(InternalBeagleFlexView::class)
         mockYoga()
 
-        every { anyConstructed<InternalBeagleFlexView>().addView(any()) } just Runs
-        every { anyConstructed<InternalBeagleFlexView>().addView(any(), any<Style>()) } just Runs
-
-        beagleFlexView = BeagleFlexView(rootView, styleMock)
+        beagleFlexView = spyk(BeagleFlexView(rootView, styleMock))
     }
 
-    @DisplayName("When call add view")
+    @DisplayName("When call add view with style")
     @Nested
     inner class TestAddView {
 
@@ -63,13 +59,15 @@ internal class BeagleFlexViewTest : BaseTest() {
         fun testInternalViewCalled() {
             // Given
             val view = mockk<View>()
+            val style = Style()
+            every { beagleFlexView.addViewWithStyle(view, style) } just Runs
 
             // When
-            beagleFlexView.addView(view)
+            beagleFlexView.addView(view, style)
 
             // Then
             verify {
-                anyConstructed<InternalBeagleFlexView>().addView(view, Style())
+                beagleFlexView.addViewWithStyle(view, style)
             }
 
         }
@@ -85,7 +83,7 @@ internal class BeagleFlexViewTest : BaseTest() {
             // Given
             val view = mockk<ServerDrivenComponent>()
             every {
-                anyConstructed<InternalBeagleFlexView>()
+                beagleFlexView
                     .addServerDrivenComponent(view, true)
             } just Runs
 
@@ -94,7 +92,7 @@ internal class BeagleFlexViewTest : BaseTest() {
 
             // Then
             verify {
-                anyConstructed<InternalBeagleFlexView>().addServerDrivenComponent(view, true)
+                beagleFlexView.addServerDrivenComponent(view, true)
             }
 
         }
@@ -110,7 +108,7 @@ internal class BeagleFlexViewTest : BaseTest() {
             // Given
             val list = listOf<ServerDrivenComponent>(mockk(), mockk())
             every {
-                anyConstructed<InternalBeagleFlexView>()
+                beagleFlexView
                     .addServerDrivenComponent(any(), true)
             } just Runs
 
@@ -118,81 +116,9 @@ internal class BeagleFlexViewTest : BaseTest() {
             beagleFlexView.addView(list)
 
             // Then
-            verifySequence {
-                anyConstructed<InternalBeagleFlexView>().addServerDrivenComponent(list[0], true)
-                anyConstructed<InternalBeagleFlexView>().addServerDrivenComponent(list[1], true)
-            }
-
-        }
-    }
-
-    @DisplayName("When call setHeightAutoAndDirtyAllViews")
-    @Nested
-    inner class TestSetHeightAutoAndDirtyAllViews {
-
-        @DisplayName("Then it should call internal view")
-        @Test
-        fun testCallSetHeightAutoAndDirtyAllViews() {
-            // Given
-            every {
-                anyConstructed<InternalBeagleFlexView>()
-                    .setHeightAutoAndDirtyAllViews()
-            } just Runs
-
-            // When
-            beagleFlexView.setHeightAutoAndDirtyAllViews()
-
-            // Then
-            verify {
-                anyConstructed<InternalBeagleFlexView>().setHeightAutoAndDirtyAllViews()
-            }
-
-        }
-    }
-
-    @DisplayName("When call setWidthAndHeightAutoAndDirtyAllViews")
-    @Nested
-    inner class TestSetWidthAndHeightAutoAndDirtyAllViews {
-
-        @DisplayName("Then it should call internal view")
-        @Test
-        fun testCallSetWidthAndHeightAutoAndDirtyAllViews() {
-            // Given
-            every {
-                anyConstructed<InternalBeagleFlexView>()
-                    .setWidthAndHeightAutoAndDirtyAllViews()
-            } just Runs
-
-            // When
-            beagleFlexView.setWidthAndHeightAutoAndDirtyAllViews()
-
-            // Then
-            verify {
-                anyConstructed<InternalBeagleFlexView>().setWidthAndHeightAutoAndDirtyAllViews()
-            }
-
-        }
-    }
-
-    @DisplayName("When call setWidthAutoAndDirtyAllViews")
-    @Nested
-    inner class TestSetWidthAutoAndDirtyAllViews {
-
-        @DisplayName("Then it should call internal view")
-        @Test
-        fun testCallSetWidthAutoAndDirtyAllViews() {
-            // Given
-            every {
-                anyConstructed<InternalBeagleFlexView>()
-                    .setWidthAutoAndDirtyAllViews()
-            } just Runs
-
-            // When
-            beagleFlexView.setWidthAutoAndDirtyAllViews()
-
-            // Then
-            verify {
-                anyConstructed<InternalBeagleFlexView>().setWidthAutoAndDirtyAllViews()
+            verifyOrder {
+                beagleFlexView.addServerDrivenComponent(list[0], true)
+                beagleFlexView.addServerDrivenComponent(list[1], true)
             }
 
         }
@@ -208,8 +134,7 @@ internal class BeagleFlexViewTest : BaseTest() {
             // Given
             val listenerMock = mockk<() -> Unit>()
             every {
-                anyConstructed<InternalBeagleFlexView>()
-                    .listenerOnViewDetachedFromWindow = any()
+                beagleFlexView.listenerOnViewDetachedFromWindow = any()
             } just Runs
 
             // When
@@ -217,7 +142,7 @@ internal class BeagleFlexViewTest : BaseTest() {
 
             // Then
             verify {
-                anyConstructed<InternalBeagleFlexView>().listenerOnViewDetachedFromWindow = listenerMock
+                beagleFlexView.listenerOnViewDetachedFromWindow = listenerMock
             }
 
         }
