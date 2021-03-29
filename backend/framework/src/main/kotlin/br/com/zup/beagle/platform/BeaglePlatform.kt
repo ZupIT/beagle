@@ -16,6 +16,27 @@
 
 package br.com.zup.beagle.platform
 
+import br.com.zup.beagle.core.ServerDrivenComponent
+
+/**
+ *  The Platform is a helper to apply platform in your component
+ *
+ * @param self the component will apply platform
+ *
+ */
+@Suppress("FunctionNaming")
+fun <T : ServerDrivenComponent> Platform(platform: BeaglePlatform,
+                                         self: T): BeaglePlatformWrapper<T> {
+    return self.setPlatform(platform)
+}
+
+/**
+ *
+ *  The setPlatform method is a helper used to set the platform that will render the component
+ *
+ */
+fun <T : ServerDrivenComponent> T.setPlatform(platform: BeaglePlatform) = BeaglePlatformWrapper(this, platform)
+
 enum class BeaglePlatform {
     ALL,
     MOBILE,

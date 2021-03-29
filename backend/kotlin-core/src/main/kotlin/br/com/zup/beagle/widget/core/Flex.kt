@@ -43,16 +43,16 @@ package br.com.zup.beagle.widget.core
  *
  */
 data class Flex(
-    val flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
-    val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
-    val justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
-    val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
-    val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
-    val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
-    val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
-    val flex: Double? = null, /* = 0.0 */
-    val grow: Double? = null, /* = 0.0 */
-    val shrink: Double? = null /* = 1.0 */
+    var flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
+    var flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
+    var justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
+    var alignItems: AlignItems? = null, /* = Alignment.STRETCH */
+    var alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
+    var alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
+    var basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
+    var flex: Double? = null, /* = 0.0 */
+    var grow: Double? = null, /* = 0.0 */
+    var shrink: Double? = null /* = 1.0 */
 )
 
 /**
@@ -69,14 +69,35 @@ data class Flex(
  *
  */
 data class Size(
-    val width: UnitValue? = null,
-    val height: UnitValue? = null,
-    val maxWidth: UnitValue? = null,
-    val maxHeight: UnitValue? = null,
-    val minWidth: UnitValue? = null,
-    val minHeight: UnitValue? = null,
-    val aspectRatio: Double? = null
-)
+    var width: UnitValue? = null,
+    var height: UnitValue? = null,
+    var maxWidth: UnitValue? = null,
+    var maxHeight: UnitValue? = null,
+    var minWidth: UnitValue? = null,
+    var minHeight: UnitValue? = null,
+    var aspectRatio: Double? = null
+) {
+
+    companion object {
+
+        fun box(
+            width: Int,
+            height: Int
+        ): Size =
+            box(width = UnitValue.real(width),
+                height = UnitValue.real(height))
+
+        fun box(width: Double,
+                height: Double): Size =
+            box(width = UnitValue.real(width),
+                height = UnitValue.real(height))
+
+        fun box(width: UnitValue,
+                height: UnitValue) =
+            Size(width = width,
+                height = height)
+    }
+}
 
 /**
  *
@@ -112,7 +133,119 @@ data class EdgeValue(
     val horizontal: UnitValue? = null,
     val vertical: UnitValue? = null,
     val all: UnitValue? = null
-)
+) {
+
+    companion object {
+
+        private fun createUnitValueIfValueNotNull(value: Double?, unitType: UnitType): UnitValue? {
+            if (value == null) return null
+
+            return UnitValue(value, unitType)
+        }
+
+        /**
+         *
+         * Creates edge value with only field set non-null
+         *
+         */
+        @Suppress("LongParameterList")
+        fun only(
+            left: Int? = null,
+            unitTypeLeft: UnitType = UnitType.REAL,
+            top: Int? = null,
+            unitTypeTop: UnitType = UnitType.REAL,
+            right: Int? = null,
+            unitTypeRight: UnitType = UnitType.REAL,
+            bottom: Int? = null,
+            unitTypeBottom: UnitType = UnitType.REAL,
+        ): EdgeValue {
+            return EdgeValue(
+                left = createUnitValueIfValueNotNull(left?.toDouble(), unitTypeLeft),
+                top = createUnitValueIfValueNotNull(top?.toDouble(), unitTypeTop),
+                right = createUnitValueIfValueNotNull(right?.toDouble(), unitTypeRight),
+                bottom = createUnitValueIfValueNotNull(bottom?.toDouble(), unitTypeBottom)
+            )
+        }
+
+        /**
+         *
+         * Creates edge value with only field set non-null
+         *
+         */
+        @Suppress("LongParameterList")
+        fun only(
+            left: Double? = null,
+            unitTypeLeft: UnitType = UnitType.REAL,
+            top: Double? = null,
+            unitTypeTop: UnitType = UnitType.REAL,
+            right: Double? = null,
+            unitTypeRight: UnitType = UnitType.REAL,
+            bottom: Double? = null,
+            unitTypeBottom: UnitType = UnitType.REAL,
+        ): EdgeValue {
+            return EdgeValue(
+                left = createUnitValueIfValueNotNull(left, unitTypeLeft),
+                top = createUnitValueIfValueNotNull(top, unitTypeTop),
+                right = createUnitValueIfValueNotNull(right, unitTypeRight),
+                bottom = createUnitValueIfValueNotNull(bottom, unitTypeBottom)
+            )
+        }
+
+        /**
+         *
+         * Creates edge value where field all will be set
+         *
+         */
+        fun all(all: Int,
+                unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(all = UnitValue(all.toDouble(), unitType))
+
+        /**
+         *
+         * Creates edge value where field all will be set
+         *
+         */
+        fun all(all: Double,
+                unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(all = UnitValue(all, unitType))
+
+        /**
+         *
+         * Creates edge value where field horizontal will be set
+         *
+         */
+        fun horizontal(horizontal: Int,
+                       unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(horizontal = UnitValue(horizontal.toDouble(), unitType))
+
+        /**
+         *
+         * Creates edge value where field horizontal will be set
+         *
+         */
+        fun horizontal(horizontal: Double,
+                       unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(horizontal = UnitValue(horizontal, unitType))
+
+        /**
+         *
+         * Creates edge value where field vertical will be set
+         *
+         */
+        fun vertical(vertical: Int,
+                     unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(vertical = UnitValue(vertical.toDouble(), unitType))
+
+        /**
+         *
+         * Creates edge value where field vertical will be set
+         *
+         */
+        fun vertical(vertical: Double,
+                     unitType: UnitType = UnitType.REAL): EdgeValue =
+            EdgeValue(vertical = UnitValue(vertical, unitType))
+    }
+}
 
 /**
  *  controls the direction in which the children of a node are laid out. This is also referred to as the main axis.

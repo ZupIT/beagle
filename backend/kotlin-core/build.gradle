@@ -14,4 +14,18 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply from: rootProject.file('../maven-publish.gradle')
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.junit5Api
+    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
+}
+

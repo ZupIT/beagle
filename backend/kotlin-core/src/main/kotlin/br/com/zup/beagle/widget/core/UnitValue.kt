@@ -23,8 +23,34 @@ package br.com.zup.beagle.widget.core
  */
 data class UnitValue(
     val value: Double,
-    val type: UnitType
-)
+    val type: UnitType = UnitType.REAL
+) {
+    companion object {
+        /**
+         * convert the int to value based in platform
+         * @return the unit value for real
+         */
+        fun real(real: Int) = UnitValue(real.toDouble(), UnitType.REAL)
+
+        /**
+         * convert the int to value based in platform
+         * @return the unit value for real
+         */
+        fun real(real: Double) = UnitValue(real, UnitType.REAL)
+
+        /**
+         * convert the value based in percentage.
+         * @return the unit value for percent
+         */
+        fun percent(percent: Int) = UnitValue(percent.toDouble(), UnitType.PERCENT)
+
+        /**
+         * convert the value based in percentage.
+         * @return the unit value for percent
+         */
+        fun percent(percent: Double) = UnitValue(percent, UnitType.PERCENT)
+    }
+}
 
 /**
  * This defines of a unit type;

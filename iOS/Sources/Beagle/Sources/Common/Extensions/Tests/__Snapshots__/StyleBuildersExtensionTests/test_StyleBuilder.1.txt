@@ -7,7 +7,8 @@
     - some: 2.0
   ▿ cornerRadius: Optional<CornerRadius>
     ▿ some: CornerRadius
-      - radius: 5.0
+      ▿ radius: Optional<Double>
+        - some: 5.0
   ▿ display: Optional<Expression<Display>>
     ▿ some: Expression<Display>
       - value: Display.flex

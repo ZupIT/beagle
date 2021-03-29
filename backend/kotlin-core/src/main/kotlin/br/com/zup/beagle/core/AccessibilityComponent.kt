@@ -22,5 +22,5 @@ package br.com.zup.beagle.core
  * the view content in case a screen reader is use
  */
 interface AccessibilityComponent: ServerDrivenComponent {
-    val accessibility: Accessibility?
+    var accessibility: Accessibility?
 }

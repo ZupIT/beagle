@@ -20,7 +20,6 @@ import br.com.zup.beagle.builder.widget.UnitValueBuilder
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 
-
 /**
  * UnitValue extensions
  *
@@ -30,24 +29,34 @@ import br.com.zup.beagle.widget.core.UnitValue
  * convert the int to value based in platform, like android this represent dp.
  * @return the unit value for real
  */
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("UnitValue.real()") )
 fun Int.unitReal() = UnitValue(this.toDouble(), UnitType.REAL)
 
 /**
  * convert the value based in percentage.
  * @return the unit value for percent
  */
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("UnitValue.percent()") )
 fun Int.unitPercent() = UnitValue(this.toDouble(), UnitType.PERCENT)
 
 /**
  * convert the int to value based in platform, like android this represent dp.
  * @return the unit value for real
  */
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("UnitValue.real()") )
 fun Double.unitReal() = UnitValue(this, UnitType.REAL)
 
 /**
  * convert the value based in percentage.
  * @return the unit value for percent
  */
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("UnitValue.percent()") )
 fun Double.unitPercent() = UnitValue(this, UnitType.PERCENT)
 
+@Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
+    ReplaceWith("UnitValue()") )
 fun unitValue(block: UnitValueBuilder.() -> Unit) = UnitValueBuilder().apply(block).build()

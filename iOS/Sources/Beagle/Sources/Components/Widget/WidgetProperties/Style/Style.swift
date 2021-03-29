@@ -81,11 +81,11 @@ public class Style: Decodable, AutoEquatable, AutoInitiable {
 }
 
 public struct CornerRadius: Decodable, AutoEquatable, AutoInitiable {
-    public let radius: Double
+    public let radius: Double?
 
 // sourcery:inline:auto:CornerRadius.Init
     public init(
-        radius: Double
+        radius: Double? = nil
     ) {
         self.radius = radius
     }
