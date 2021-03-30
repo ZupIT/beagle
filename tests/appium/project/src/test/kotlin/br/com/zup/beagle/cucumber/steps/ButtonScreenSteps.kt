@@ -35,7 +35,7 @@ class ButtonScreenSteps : AbstractStep() {
 
     @Before("@button")
     fun setup() {
-        loadBffScreenFromMainScreen()
+      loadBffScreen()
     }
 
     @Given("^that I'm on the button screen$")

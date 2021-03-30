@@ -29,7 +29,7 @@ class NavigateScreenSteps : AbstractStep() {
 
     @Before("@navigation")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the navigation screen url$")

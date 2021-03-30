@@ -28,7 +28,7 @@ class AlertScreenSteps : AbstractStep() {
 
     @Before("@alert")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the alert screen url$")

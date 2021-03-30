@@ -47,10 +47,23 @@ abstract class AbstractStep {
         return driver!!
     }
 
-    protected fun loadBffScreenFromMainScreen() {
+    protected fun loadBffScreenFromMainScreen(){
         val mainScreen = MainScreen(getDriver())
         mainScreen.setBffUrl(SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
         mainScreen.clickOnGoButton()
+    }
+
+    protected fun loadBffScreenFromDeepLink(){
+        getDriver().get("appiumapp://bffurl/" + SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
+    }
+
+    protected fun loadBffScreen(){
+        if (SuiteSetup.isAndroid()) {
+            loadBffScreenFromDeepLink()
+        }
+        else{
+            loadBffScreenFromMainScreen()
+        }
     }
 
     /**

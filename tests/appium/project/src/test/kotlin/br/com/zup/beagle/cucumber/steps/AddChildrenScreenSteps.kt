@@ -32,7 +32,7 @@ class AddChildrenScreenSteps : AbstractStep() {
 
     @Before("@addChildren")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^that I'm on the addChildren Screen$")

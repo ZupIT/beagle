@@ -26,7 +26,7 @@ class SendRequestScreenSteps : AbstractStep() {
 
     @Before("@sendrequest")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the send request screen url$")

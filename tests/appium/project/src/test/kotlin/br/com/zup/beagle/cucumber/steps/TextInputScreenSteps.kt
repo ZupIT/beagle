@@ -28,7 +28,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Before("@textinput")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the textInput on screen$")

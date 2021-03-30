@@ -49,6 +49,16 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name="br.com.zup.beagle.appiumapp.activity.BffDeepLinkActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "appiumapp://bffurl” -->
+                <data android:scheme="appiumapp"
+                    android:host="bffurl" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

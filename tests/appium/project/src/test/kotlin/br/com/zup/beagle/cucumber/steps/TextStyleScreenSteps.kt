@@ -26,7 +26,7 @@ class TextStyleScreenSteps: AbstractStep() {
 
     @Before("@textStyle")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the texts on the screen$")

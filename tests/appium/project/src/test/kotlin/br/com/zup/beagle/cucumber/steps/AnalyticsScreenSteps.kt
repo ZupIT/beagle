@@ -48,7 +48,7 @@ class AnalyticsScreenSteps : AbstractStep() {
     @Given("AppiumApp did navigate to remote screen with url {string}")
     fun checkBaseScreen(url: String) {
         bffRelativeUrlPath = url
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
         waitForElementWithTextToBeClickable("Analytics 2.0", false, false)
     }
 

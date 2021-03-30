@@ -26,7 +26,7 @@ class SetContextScreenSteps: AbstractStep() {
 
     @Before("@setcontext")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the SetContext screen url$")

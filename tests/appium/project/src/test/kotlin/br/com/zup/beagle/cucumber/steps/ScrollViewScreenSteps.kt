@@ -51,7 +51,7 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     @Before("@scrollview")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^that I'm on the scrollview screen$")

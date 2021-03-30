@@ -29,7 +29,7 @@ class TabBarScreenSteps : AbstractStep() {
 
     @Before("@tabBar")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^that I'm on the tabBar screen$")

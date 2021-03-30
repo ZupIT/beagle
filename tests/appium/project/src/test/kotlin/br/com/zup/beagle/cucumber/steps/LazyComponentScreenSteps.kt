@@ -25,7 +25,7 @@ class LazyComponentScreenSteps : AbstractStep() {
 
     @Before("@lazyComponent")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the LazyComponent Screen$")

@@ -25,7 +25,7 @@ class ActionNotRegisteredScreenSteps : AbstractStep() {
 
     @Before("@unregisteredaction")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the ActionNotRegistered Screen url$")
