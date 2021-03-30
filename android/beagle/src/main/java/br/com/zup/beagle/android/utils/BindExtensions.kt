@@ -25,20 +25,34 @@ import br.com.zup.beagle.android.widget.RootView
 
 typealias Observer<T> = (value: T) -> Unit
 
-// This method should be used if its inside a ServerDrivenComponent
-internal fun <T> Bind<T>.observe(
+/**
+ * Observe a specific Bind to changes. If the Bind is type of Value, then the actual value will be returned.
+ * But if the value is an Expression, then the evaluation will be make.
+ * @property rootView from buildView
+ * @property view that will receive the binding
+ * @property observes is function that will be called when a expression is evaluated
+ */
+fun <T> Bind<T>.observe(
     rootView: RootView,
     view: View,
-    observes: Observer<T?>? = null
-): T? {
-    return evaluateBind(rootView, view, this, null, observes)
+    observes: Observer<T?>? = null,
+) {
+    val value = evaluateBind(rootView, view, this, null, observes)
+    if (this is Bind.Value) {
+        observes?.invoke(value)
+    }
 }
 
-// This method should be used if its inside a Action
-internal fun <T> Bind<T>.evaluateForAction(
+/**
+ * Evaluate the expression to a value
+ * @property rootView from buildView
+ * @property origin received on execute method
+ * @property caller action called function
+ */
+fun <T> Bind<T>.evaluate(
     rootView: RootView,
     origin: View,
-    caller: Action
+    caller: Action,
 ): T? {
     return evaluateBind(rootView, origin, this, caller, null)
 }
@@ -48,7 +62,7 @@ private fun <T> evaluateBind(
     view: View,
     bind: Bind<T>,
     caller: Action?,
-    observes: Observer<T?>?
+    observes: Observer<T?>?,
 ): T? {
     return try {
         when (bind) {
@@ -66,7 +80,7 @@ private fun <T> evaluateExpression(
     view: View,
     bind: Bind.Expression<T>,
     observes: Observer<T?>? = null,
-    caller: Action? = null
+    caller: Action? = null,
 ): T? {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     return if (caller != null) {
