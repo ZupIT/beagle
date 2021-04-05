@@ -303,7 +303,7 @@ class BeagleNavigator: BeagleNavigation {
     ) -> HttpAdditionalData {
         guard let method = path.httpAdditionalData?.method,
               let body = path.httpAdditionalData?.body else {
-            return HttpAdditionalData(httpData: nil, headers: path.httpAdditionalData?.headers ?? ["": ""])
+            return HttpAdditionalData(httpData: nil, headers: path.httpAdditionalData?.headers ?? [:])
         }
         
         let encoder = JSONEncoder()
