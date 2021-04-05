@@ -26,7 +26,7 @@ class ConfirmScreenSteps : AbstractStep() {
 
     @Before("@confirm")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the confirm screen url$")

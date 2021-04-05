@@ -27,7 +27,7 @@ class SimpleFormScreenSteps : AbstractStep() {
 
     @Before("@simpleform")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^that I'm on the simple form screen$")

@@ -31,7 +31,7 @@ class PageViewScreenSteps : AbstractStep() {
 
     @Before("@pageview")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^that I'm on the pageview screen$")

@@ -26,7 +26,7 @@ class ContainerScreenSteps : AbstractStep() {
 
     @Before("@container")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the container screen url$")

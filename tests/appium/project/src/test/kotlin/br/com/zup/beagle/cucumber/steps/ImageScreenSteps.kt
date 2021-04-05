@@ -29,7 +29,7 @@ class ImageScreenSteps : AbstractStep() {
 
     @Before("@image")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^that I'm on the image screen$")

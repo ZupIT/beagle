@@ -33,7 +33,7 @@ class TouchScreenSteps : AbstractStep() {
 
     @Before("@touchable")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^that I'm on the touchable screen$")

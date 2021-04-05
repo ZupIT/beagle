@@ -26,7 +26,7 @@ class ConditionalScreenSteps : AbstractStep() {
 
     @Before("@conditional")
     fun setup() {
-        loadBffScreenFromMainScreen()
+        loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the conditional screen url$")
