@@ -22,6 +22,24 @@ import SnapshotTesting
 
 final class ContainerTests: XCTestCase {
     
+    private lazy var theme = AppTheme(
+        styles: [
+           "test.container.style": containerStyle
+        ]
+    )
+    
+    private lazy var dependencies = BeagleScreenDependencies(theme: theme)
+    private lazy var controller = BeagleControllerStub(dependencies: dependencies)
+    private lazy var renderer = BeagleRenderer(controller: controller)
+    
+    private func containerStyle() -> (UIView?) -> Void {
+        return {
+            $0?.layer.cornerRadius = 5
+            $0?.backgroundColor = .cyan
+            $0?.alpha = 0.7
+        }
+    }
+    
     func test_whenDecodingJson_shouldReturnAContainer() throws {
         let component: Container = try componentFromJsonFile(fileName: "Container")
         assertSnapshot(matching: component, as: .dump)
@@ -59,8 +77,6 @@ final class ContainerTests: XCTestCase {
     
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         let numberOfChildren = 3
         let containerChildren = Array(repeating: ComponentDummy(), count: numberOfChildren)
         let container = Container(children: containerChildren)
@@ -93,7 +109,7 @@ final class ContainerTests: XCTestCase {
         assertSnapshotImage(screen, size: .custom(ViewImageConfig.iPhoneXr.size!))
     }
     
-    func testRenderContainerWithBorder() throws {
+    func test_renderContainer_withBorder() throws {
         // Given
         let container = Container(
             children: [Text("Content")],
@@ -116,7 +132,7 @@ final class ContainerTests: XCTestCase {
         assertSnapshotImage(screen, size: .custom(CGSize(width: 100, height: 100)))
     }
     
-    func test_testActionExecuting() {
+    func test_actionExecuting() {
         //Given
         
         let expectation = self.expectation(description: "ActionExetuting")
@@ -134,6 +150,24 @@ final class ContainerTests: XCTestCase {
         
         waitForExpectations(timeout: 5, handler: nil)
         XCTAssert(controllerSpy.didCalledExecute)
+    }
+    
+    func test_containerStyleId() {
+        // Given
+        let theme = ThemeSpy()
+        controller.dependencies = BeagleScreenDependencies(theme: theme)
+        
+        let style = "test.container.style"
+        let container = Container(styleId: style, widgetProperties: WidgetProperties(style: Style().size(Size().width(100).height(100)))) {
+            Text("teste", textColor: "#FFFFFF")
+        }
+
+        // When
+        let view = renderer.render(container)
+
+        // Then
+        XCTAssertEqual(view, theme.styledView)
+        XCTAssertEqual(style, theme.styleApplied)
     }
 }
 

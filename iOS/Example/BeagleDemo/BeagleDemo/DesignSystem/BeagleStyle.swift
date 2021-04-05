@@ -32,7 +32,8 @@ struct AppTheme {
         .tabViewStyle: Self.tabView,
         .textInputStyle: Self.designSystemTextInput,
         .textInputBFFStyle: textInput,
-        .buttonContextStyle: designSystemButtonScreenContext
+        .buttonContextStyle: designSystemButtonScreenContext,
+        .containerStyle: containerStyle
     ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
@@ -104,9 +105,20 @@ struct AppTheme {
     }
   
     static func designSystemButtonScreenContext() -> (UIButton?) -> Void {
-           return BeagleStyle.button(withTitleColor: .white)
-               <> {
-                   $0?.titleLabel |> BeagleStyle.label(withFont: .systemFont(ofSize: 16, weight: .semibold))
-           }
-       }
+        return BeagleStyle.button(withTitleColor: .white)
+            <> {
+                $0?.titleLabel |> BeagleStyle.label(withFont: .systemFont(ofSize: 16, weight: .semibold))
+        }
+    }
+    
+    static func containerStyle() -> (UIView?) -> Void {
+        return {
+            // swiftlint:disable object_literal
+            UIGraphicsBeginImageContext(CGSize(width: 100, height: 100))
+            UIImage(named: "blackHole")?.draw(in: CGRect(x: 0, y: 0, width: 100, height: 100))
+            guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
+            UIGraphicsEndImageContext()
+            $0?.backgroundColor = UIColor(patternImage: image)
+        }
+    }
 }

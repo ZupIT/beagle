@@ -73,6 +73,9 @@ struct TabBarScreen: DeeplinkScreen {
                 Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
                     Text("Text1 Tab 2")
                     Text("Text2 Tab 2")
+                    Container(styleId: .containerStyle, widgetProperties: WidgetProperties(style: Style().size(Size().width(200).height(100)))) {
+                        Text("Container with background image", alignment: .value(.center), textColor: "#FFFFFF")
+                    }
                     Button(text: "change Context Tab 2", onPress: [
                         SetContext(contextId: "tab", path: "icon", value: [
                         "tab1": "blackHole",
