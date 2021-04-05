@@ -28,8 +28,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       - requestType: RequestType.fetchComponent
       - url: scheme://baseUrl/
@@ -77,8 +75,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       - requestType: RequestType.fetchImage
       - url: scheme://baseUrl/
@@ -132,8 +128,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       ▿ requestType: RequestType
         ▿ submitForm: FormData
@@ -190,8 +184,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       ▿ requestType: RequestType
         ▿ submitForm: FormData
@@ -249,8 +241,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       ▿ requestType: RequestType
         ▿ submitForm: FormData
@@ -308,8 +298,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       ▿ requestType: RequestType
         ▿ submitForm: FormData
@@ -367,8 +355,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       ▿ requestType: RequestType
         ▿ submitForm: FormData
@@ -426,8 +412,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       ▿ requestType: RequestType
         ▿ submitForm: FormData
@@ -484,8 +468,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       ▿ requestType: RequestType
         ▿ submitForm: FormData
@@ -542,8 +524,6 @@
           ▿ httpData: Optional<HttpData>
             ▿ some: HttpData
               - body: 0 bytes
-              ▿ httpMethod: Optional<HTTPMethod>
-                - some: HTTPMethod.post
               - method: Method.POST
       ▿ requestType: RequestType
         ▿ submitForm: FormData
