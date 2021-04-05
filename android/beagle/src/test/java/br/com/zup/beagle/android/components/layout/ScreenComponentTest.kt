@@ -105,7 +105,7 @@ class ScreenComponentTest : BaseComponentTest() {
         screenComponent.buildView(rootView)
 
         // Then
-        verify(atLeast = once()) { beagleFlexView.addServerDrivenComponent(component) }
+        verify(atLeast = once()) { beagleFlexView.addView(component) }
     }
 
     @Test

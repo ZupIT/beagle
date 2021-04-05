@@ -70,7 +70,7 @@ data class SimpleForm(
         simpleFormViewCreated = viewFactory.makeBeagleFlexView(rootView, style ?: Style())
             .apply {
                 beagleComponent = this@SimpleForm
-                addChildrenForm(this)
+                addView(children)
             }
         return simpleFormViewCreated
     }
@@ -79,12 +79,6 @@ data class SimpleForm(
         val hasError = searchErrorInHierarchy(simpleFormViewCreated)
         val actions = if (hasError) onValidationError ?: emptyList() else onSubmit
         handleEvent(rootView, view, actions, analyticsValue = "onSubmit")
-    }
-
-    private fun addChildrenForm(beagleFlexView: BeagleFlexView) {
-        children.forEach { child ->
-            beagleFlexView.addServerDrivenComponent(child)
-        }
     }
 
     private fun searchErrorInHierarchy(parent: ViewGroup): Boolean {

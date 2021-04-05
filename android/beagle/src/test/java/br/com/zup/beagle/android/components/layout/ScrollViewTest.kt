@@ -58,7 +58,7 @@ class ScrollViewTest : BaseComponentTest() {
         every { scrollView.addView(any()) } just Runs
         every { horizontalScrollView.addView(any()) } just Runs
         every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(style)) } returns beagleFlexView
-        every { beagleFlexView.addServerDrivenComponent(any(), false) } just Runs
+        every { beagleFlexView.addView(any<ServerDrivenComponent>(), false) } just Runs
         every { beagleFlexView.context } returns context
         every { anyConstructed<ViewFactory>().makeScrollView(any()) } returns scrollView
         every { anyConstructed<ViewFactory>().makeHorizontalScrollView(any()) } returns horizontalScrollView
@@ -77,7 +77,7 @@ class ScrollViewTest : BaseComponentTest() {
         // Then
         verify {
             anyConstructed<ViewFactory>().makeBeagleFlexView(rootView, style.first())
-            beagleFlexView.addServerDrivenComponent(components[0], false)
+            beagleFlexView.addView(components, false)
             beagleFlexView.setHeightAutoAndDirtyAllViews()
         }
         verify(exactly = once()) { anyConstructed<ViewFactory>().makeScrollView(context) }
@@ -106,7 +106,7 @@ class ScrollViewTest : BaseComponentTest() {
         }
         verify(exactly = once()) {
             anyConstructed<ViewFactory>().makeHorizontalScrollView(context)
-            beagleFlexView.addServerDrivenComponent(components[0], false)
+            beagleFlexView.addView(components, false)
             beagleFlexView.setWidthAndHeightAutoAndDirtyAllViews()
         }
         assertEquals(false, scrollBarEnabled.captured)

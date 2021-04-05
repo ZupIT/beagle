@@ -90,9 +90,7 @@ data class ScrollView(
     ) {
         val viewGroup = viewFactory.makeBeagleFlexView(rootView, styleChild)
 
-        children.forEach { component ->
-            viewGroup.addServerDrivenComponent(component, false)
-        }
+        viewGroup.addView(children, false)
 
         scrollView.addView(viewGroup)
         if (isHorizontal) {

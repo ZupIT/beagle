@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout
+import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -65,7 +66,7 @@ class TabViewTest : BaseComponentTest() {
         every { viewPager.adapter = any() } just runs
         every { viewPager.addOnPageChangeListener(any()) } just runs
 
-        every { beagleFlexView.addView(any()) } just runs
+        every { beagleFlexView.addView(any<ServerDrivenComponent>()) } just runs
 
 
         tabView = TabView(listOf(tabItem), DEFAULT_STYLE)

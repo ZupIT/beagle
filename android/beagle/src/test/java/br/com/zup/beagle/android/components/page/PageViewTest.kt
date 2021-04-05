@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.page
 
+import android.view.View
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
@@ -26,7 +27,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.core.Style
 import io.mockk.Runs
@@ -101,7 +102,7 @@ class PageViewTest : BaseComponentTest() {
         pageView.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { beagleFlexView.addView(any()) }
+        verify(exactly = once()) { beagleFlexView.addView(any<View>()) }
     }
 
     @Test
@@ -126,7 +127,7 @@ class PageViewTest : BaseComponentTest() {
     @Test
     fun buildView_should_return_page_view_two_when_current_page_is_not_null() {
         // GIVEN
-        val mockedView: BeagleFlexView = mockk()
+        val mockedView: InternalBeagleFlexView = mockk()
         mockkConstructor(PageViewTwo::class)
         every { anyConstructed<PageViewTwo>().buildView(any()) } returns mockedView
         pageView = PageView(children, context, actions, currentPage)

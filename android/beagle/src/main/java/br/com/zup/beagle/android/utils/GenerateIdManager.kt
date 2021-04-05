@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import android.view.View
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
@@ -49,7 +49,7 @@ internal class GenerateIdManager(
         onInitViewModel.markToRerun()
     }
 
-    fun manageId(component: ServerDrivenComponent, view: BeagleFlexView) {
+    fun manageId(component: ServerDrivenComponent, view: InternalBeagleFlexView) {
         (component as? IdentifierComponent)?.let { identifierComponent ->
             if (view.isAutoGenerateIdEnabled()) {
                 if (identifierComponent.id.isNullOrEmpty()) {

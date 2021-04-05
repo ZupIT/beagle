@@ -75,7 +75,7 @@ internal class SimpleFormTest : BaseComponentTest() {
             simpleForm.buildView(rootView)
 
             // Then
-            verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(children[0]) }
+            verify(exactly = once()) { beagleFlexView.addView(children) }
         }
 
     }

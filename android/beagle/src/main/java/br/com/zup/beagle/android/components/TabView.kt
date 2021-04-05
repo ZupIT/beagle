@@ -184,7 +184,7 @@ internal class ContentAdapter(
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = viewFactory.makeBeagleFlexView(rootView).also {
-            it.addServerDrivenComponent(children[position].child)
+            it.addView(children[position].child)
         }
         container.addView(view)
         return view

@@ -26,8 +26,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
-import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.DesignSystem
@@ -46,6 +44,8 @@ import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.widget.ActivityRootView
+import br.com.zup.beagle.android.widget.FragmentRootView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent

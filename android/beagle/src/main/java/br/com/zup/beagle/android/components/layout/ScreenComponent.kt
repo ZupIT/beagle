@@ -59,7 +59,7 @@ internal data class ScreenComponent(
 
         addNavigationBarIfNecessary(rootView, navigationBar, container)
 
-        container.addServerDrivenComponent(child)
+        container.addView(child)
 
         screenAnalyticsEvent?.let {
             container.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {

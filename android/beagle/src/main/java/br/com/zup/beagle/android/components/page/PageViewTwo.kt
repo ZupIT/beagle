@@ -121,7 +121,7 @@ internal class PageViewAdapterTwo(
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = viewFactory.makeBeagleFlexView(rootView).also {
-            it.addServerDrivenComponent(children[position])
+            it.addView(children[position])
         }
         container.addView(view)
         return view

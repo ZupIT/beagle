@@ -194,7 +194,7 @@ constructor(
                 val width = if (orientation == RecyclerView.VERTICAL) MATCH_PARENT else WRAP_CONTENT
                 val layoutParams = ViewGroup.LayoutParams(width, WRAP_CONTENT)
                 it.layoutParams = layoutParams
-                it.addServerDrivenComponent(children[position])
+                it.addView(children[position])
             }
             return ViewHolder(view)
         }

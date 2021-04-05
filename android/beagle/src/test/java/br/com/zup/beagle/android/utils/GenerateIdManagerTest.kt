@@ -20,20 +20,17 @@ import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.GenerateIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.ListViewIdViewModel
 import br.com.zup.beagle.android.view.viewmodel.OnInitViewModel
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.setId
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.unmockkStatic
 import io.mockk.verify
 import org.junit.Assert.assertEquals
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -45,7 +42,7 @@ class GenerateIdManagerTest: BaseTest() {
     private val generateIdViewModel = mockk<GenerateIdViewModel>(relaxed = true)
     private val listViewIdViewModel = mockk<ListViewIdViewModel>(relaxed = true)
     private val onInitViewModel = mockk<OnInitViewModel>(relaxed = true)
-    private val view = mockk<BeagleFlexView>()
+    private val view = mockk<InternalBeagleFlexView>()
     private val generatedId = 1
     private lateinit var generateIdManager: GenerateIdManager
 

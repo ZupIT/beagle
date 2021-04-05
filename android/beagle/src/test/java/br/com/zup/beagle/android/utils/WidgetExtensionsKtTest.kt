@@ -113,8 +113,8 @@ class WidgetExtensionsKtTest : BaseTest() {
             verifySequence {
                 generateIdViewModel.createIfNotExisting(0)
                 beagleFlexView.id = 0
-                beagleFlexView.addServerDrivenComponent(component)
-                beagleFlexView.listenerOnViewDetachedFromWindow = any()
+                beagleFlexView.addView(component)
+                beagleFlexView.addListenerOnViewDetachedFromWindow(any())
             }
 
             assertEquals(beagleFlexView, actual)
