@@ -310,9 +310,9 @@ class BeagleNavigator: BeagleNavigation {
         let bodyEvaluated = body.evaluate(with: origin)
         let data: Data? = try? encoder.encode(bodyEvaluated)
         return HttpAdditionalData(
-            httpData: .init(httpMethod: method,
+            httpData: .init(method: method.toMethod() ?? .GET,
                             body: data ?? Data()),
-            headers: path.httpAdditionalData?.headers ?? ["": ""]
+            headers: path.httpAdditionalData?.headers ?? [:]
         )
         
     }

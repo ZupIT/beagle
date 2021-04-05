@@ -133,7 +133,7 @@ final class RepositoryTests: XCTestCase {
         dependencies.networkClient = clientStub
 
         let additionalData = HttpAdditionalData(
-            httpData: .init(httpMethod: .post, body: body),
+            httpData: .init(method: .POST, body: body),
             headers: ["headerKey": "headerValue"]
         )
 

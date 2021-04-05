@@ -31,7 +31,7 @@ public enum HTTPMethod: String, Codable {
     /// The PATCH method is used to apply partial modifications to a resource.
     case patch = "PATCH"
     
-    func toDeprecatedMethod() -> HttpAdditionalData.Method? {
+    func toMethod() -> HttpAdditionalData.Method? {
         switch self {
         case .post: return .POST
         case .put: return .PUT
@@ -51,25 +51,18 @@ public struct HttpAdditionalData: RemoteScreenAdditionalData {
     public var headers: [String: String]
 
     public struct HttpData {
-        
-        @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the httpMethod field instead.")
         public let method: Method
-        
-        public let httpMethod: HTTPMethod?
         public let body: Data
 
-        public init(httpMethod: HTTPMethod? = .get, body: Data) {
-            self.httpMethod = httpMethod
-            self.body = body
-            self.method = httpMethod?.toDeprecatedMethod() ?? .GET
-        }
-        
-        @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the httpMethod field instead.")
         public init(method: Method, body: Data) {
             self.method = method
             self.body = body
-            self.httpMethod = method.toMethod()
         }
+    }
+    
+    /// This enum will be removed in a future version, please use `HTTPMethod` instead.
+    public enum Method: String {
+        case POST, PUT, GET, DELETE, HEAD, PATCH
     }
 
     public init(
@@ -81,24 +74,8 @@ public struct HttpAdditionalData: RemoteScreenAdditionalData {
     }
 }
 
-extension HttpAdditionalData: Equatable, Decodable {
-    
-    @available(*, deprecated, message: "It was deprecated in version 1.7.0 and will be removed in a future version. Use the httpMethod field instead.")
-    public enum Method: String, Codable {
-        case POST, PUT, GET, DELETE, HEAD, PATCH
-        
-        func toMethod() -> HTTPMethod {
-            switch self {
-            case .POST: return .post
-            case .PUT: return .put
-            case .GET: return .get
-            case .DELETE: return .delete
-            case .HEAD: return .head
-            case .PATCH: return .patch
-            }
-        }
-    }
+extension HttpAdditionalData: Equatable {
 }
 
-extension HttpAdditionalData.HttpData: Equatable, Decodable {
+extension HttpAdditionalData.HttpData: Equatable {
 }
