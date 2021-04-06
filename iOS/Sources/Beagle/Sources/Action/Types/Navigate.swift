@@ -111,16 +111,47 @@ extension Route {
         /// A screen that should be rendered in case of request fail.
         public let fallback: Screen?
 
+        /// Used to pass additional http data on requests
+        public let httpAdditionalData: HttpAdditionalData?
+        
         /// Constructs a new path to a remote screen.
         ///
         /// - Parameters:
         ///   - url: Contains the navigation endpoint. Since its a _ExpressibleString_ type you can pass a Expression<String> or a regular String.
         ///   - shouldPrefetch: Changes _when_ this screen is requested.
         ///   - fallback: A screen that should be rendered in case of request fail.
-        public init(url: StringOrExpression, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
+        ///   - httpAdditionalData: Used to pass additional http data on requests
+        public init(url: StringOrExpression, shouldPrefetch: Bool = false, fallback: Screen? = nil, httpAdditionalData: HttpAdditionalData? = nil) {
             self.url = "\(url)"
             self.shouldPrefetch = shouldPrefetch
             self.fallback = fallback
+            self.httpAdditionalData = httpAdditionalData
+        }
+    }
+}
+
+extension Route.NewPath {
+
+    /// RouteAdditionalData can be used on navigate actions to pass additional http data on requests triggered by Beagle.
+    public struct HttpAdditionalData: AutoDecodable {
+        
+        public var method: HTTPMethod?
+        public var headers: [String: String]?
+        public var body: DynamicObject?
+        
+        /// Constructs new http additional data
+        /// - Parameters:
+        ///   - method: Contains the HTTP method for the request.
+        ///   - headers: Contains the additional headers for a http request.
+        ///   - body: Contains additional body for a http request.
+        public init(
+            method: HTTPMethod? = .get,
+            headers: [String: String]? = [:],
+            body: DynamicObject?
+        ) {
+            self.method = method
+            self.headers = headers
+            self.body = body
         }
     }
 }
@@ -282,6 +313,7 @@ extension Route.NewPath: Decodable {
         case url
         case shouldPrefetch
         case fallback
+        case httpAdditionalData
     }
     
     public init(from decoder: Decoder) throws {
@@ -289,5 +321,6 @@ extension Route.NewPath: Decodable {
         self.url = try container.decode(Expression<String>.self, forKey: .url)
         self.shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch) ?? false
         self.fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .fallback)?.toScreen()
+        self.httpAdditionalData = try container.decodeIfPresent(HttpAdditionalData.self, forKey: .httpAdditionalData)
     }
 }

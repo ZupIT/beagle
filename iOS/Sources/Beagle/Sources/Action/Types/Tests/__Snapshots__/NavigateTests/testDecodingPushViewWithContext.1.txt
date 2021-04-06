@@ -3,6 +3,7 @@
   - analytics: Optional<ActionAnalyticsConfig>.none
   ▿ route: Route
     - fallback: Optional<Screen>.none
+    - httpAdditionalData: Optional<HttpAdditionalData>.none
     - shouldPrefetch: false
     ▿ url: Expression<String>
       ▿ expression: ContextExpression

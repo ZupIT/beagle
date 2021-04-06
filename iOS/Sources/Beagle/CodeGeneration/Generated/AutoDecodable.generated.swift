@@ -281,6 +281,24 @@ extension PageView {
     }
 }
 
+// MARK: Route.NewPath.HttpAdditionalData Decodable
+extension Route.NewPath.HttpAdditionalData {
+
+    enum CodingKeys: String, CodingKey {
+        case method
+        case headers
+        case body
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        method = try container.decodeIfPresent(HTTPMethod.self, forKey: .method)
+        headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
+        body = try container.decodeIfPresent(DynamicObject.self, forKey: .body)
+    }
+}
+
 // MARK: ScreenComponent Decodable
 extension ScreenComponent {
 
@@ -345,7 +363,7 @@ extension SendRequest {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         url = try container.decode(Expression<String>.self, forKey: .url)
-        method = try container.decodeIfPresent(Expression<SendRequest.HTTPMethod>.self, forKey: .method)
+        method = try container.decodeIfPresent(Expression<HTTPMethod>.self, forKey: .method)
         data = try container.decodeIfPresent(DynamicObject.self, forKey: .data)
         headers = try container.decodeIfPresent(Expression<[String: String]>.self, forKey: .headers)
         onSuccess = try container.decodeIfPresent(forKey: .onSuccess)

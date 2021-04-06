@@ -19,7 +19,7 @@ import UIKit
 
 public extension DynamicObject {
 
-    func evaluate(with view: UIView) -> DynamicObject {
+    func evaluate(with view: UIView?) -> DynamicObject {
         switch self {
         case .empty, .bool, .int, .double, .string:
             return self
@@ -29,7 +29,7 @@ public extension DynamicObject {
         case let .dictionary(dictionary):
             return .dictionary(dictionary.mapValues { $0.evaluate(with: view) })
         case let .expression(expression):
-            let dynamicObject: DynamicObject? = view.evaluateExpression(expression)
+            let dynamicObject: DynamicObject? = view?.evaluateExpression(expression)
             return dynamicObject ?? .empty
         }
     }

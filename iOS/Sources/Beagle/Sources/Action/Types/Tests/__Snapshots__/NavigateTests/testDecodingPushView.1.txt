@@ -21,6 +21,7 @@
               - some: true
         - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
         - style: Optional<Style>.none
+    - httpAdditionalData: Optional<HttpAdditionalData>.none
     - shouldPrefetch: true
     ▿ url: Expression<String>
       - value: "schema://path"

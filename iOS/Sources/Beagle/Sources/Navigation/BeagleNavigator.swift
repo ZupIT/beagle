@@ -280,10 +280,10 @@ class BeagleNavigator: BeagleNavigation {
         success: @escaping (BeagleScreenViewController) -> Void
     ) -> RequestToken? {
         controller.serverDrivenState = .started
-
         let newPath: String? = path.url.evaluate(with: origin)
-        let remote = ScreenType.Remote(url: newPath ?? "", fallback: path.fallback, additionalData: nil)
-        
+        let httpAdditionalData = transformAdditionalDataObject(from: path, with: origin)
+        let remote = ScreenType.Remote(url: newPath ?? "", fallback: path.fallback, additionalData: httpAdditionalData)
+                
         return BeagleScreenViewController.remote(remote, dependencies: controller.dependencies) {
             [weak controller] result in guard let controller = controller else { return }
             controller.serverDrivenState = .finished
@@ -295,5 +295,25 @@ class BeagleNavigator: BeagleNavigation {
                 controller.serverDrivenState = .error(.remoteScreen(error), retry)
             }
         }
+    }
+    
+    private func transformAdditionalDataObject(
+        from path: Route.NewPath,
+        with origin: UIView?
+    ) -> HttpAdditionalData {
+        let body: Data?
+        let method = path.httpAdditionalData?.method?.toMethod()
+        if let evaluated = path.httpAdditionalData?.body?.evaluate(with: origin) {
+            body = try? JSONEncoder().encode(evaluated)
+        } else {
+            body = nil
+        }
+        return HttpAdditionalData(
+            httpData: .init(
+                method: method ?? .GET,
+                body: body ?? Data()
+            ),
+            headers: path.httpAdditionalData?.headers ?? [:]
+        )
     }
 }

@@ -16,7 +16,34 @@
 
 import Foundation
 
-/// You can pass this to a Remote Beagle Screen to pass additional http data on requests
+/// HTTP Method to indicate the desired action to be performed for a given resource
+public enum HTTPMethod: String, Codable {
+    /// The GET method requests a representation of the specified resource. Requests using GET should only retrieve data.
+    case get = "GET"
+    /// The POST method is used to submit an entity to the specified resource, often causing a change in state or side effects on the server.
+    case post = "POST"
+    /// The PUT method replaces all current representations of the target resource with the request payload.
+    case put = "PUT"
+    /// The DELETE method deletes the specified resource.
+    case delete = "DELETE"
+    /// The HEAD method asks for a response identical to that of a GET request, but without the response body.
+    case head = "HEAD"
+    /// The PATCH method is used to apply partial modifications to a resource.
+    case patch = "PATCH"
+    
+    func toMethod() -> HttpAdditionalData.Method? {
+        switch self {
+        case .post: return .POST
+        case .put: return .PUT
+        case .get: return .GET
+        case .delete: return .DELETE
+        case .head: return .HEAD
+        case .patch: return .PATCH
+        }
+    }
+}
+
+/// HttpAdditionalData can be used on Remote Beagle Screen to pass additional http data on requests
 /// triggered by Beagle.
 public struct HttpAdditionalData: RemoteScreenAdditionalData {
 
@@ -32,9 +59,10 @@ public struct HttpAdditionalData: RemoteScreenAdditionalData {
             self.body = body
         }
     }
-
+    
+    /// This enum will be removed in a future version, please use `HTTPMethod` instead.
     public enum Method: String {
-        case POST, PUT
+        case POST, PUT, GET, DELETE, HEAD, PATCH
     }
 
     public init(
@@ -50,5 +78,4 @@ extension HttpAdditionalData: Equatable {
 }
 
 extension HttpAdditionalData.HttpData: Equatable {
-
 }
