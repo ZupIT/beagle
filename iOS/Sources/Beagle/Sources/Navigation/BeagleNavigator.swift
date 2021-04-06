@@ -301,19 +301,19 @@ class BeagleNavigator: BeagleNavigation {
         from path: Route.NewPath,
         with origin: UIView?
     ) -> HttpAdditionalData {
-        guard let method = path.httpAdditionalData?.method,
-              let body = path.httpAdditionalData?.body else {
-            return HttpAdditionalData(httpData: nil, headers: path.httpAdditionalData?.headers ?? [:])
+        let body: Data?
+        let method = path.httpAdditionalData?.method?.toMethod()
+        if let evaluated = path.httpAdditionalData?.body?.evaluate(with: origin) {
+            body = try? JSONEncoder().encode(evaluated)
+        } else {
+            body = nil
         }
-        
-        let encoder = JSONEncoder()
-        let bodyEvaluated = body.evaluate(with: origin)
-        let data: Data? = try? encoder.encode(bodyEvaluated)
         return HttpAdditionalData(
-            httpData: .init(method: method.toMethod() ?? .GET,
-                            body: data ?? Data()),
+            httpData: .init(
+                method: method ?? .GET,
+                body: body ?? Data()
+            ),
             headers: path.httpAdditionalData?.headers ?? [:]
         )
-        
     }
 }
