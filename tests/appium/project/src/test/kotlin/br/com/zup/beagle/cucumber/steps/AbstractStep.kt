@@ -49,28 +49,27 @@ abstract class AbstractStep {
         return driver!!
     }
 
-    protected fun loadBffScreenFromMainScreen(){
+    protected fun loadBffScreenFromMainScreen() {
         val mainScreen = MainScreen(getDriver())
         mainScreen.setBffUrl(SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
         mainScreen.clickOnGoButton()
     }
 
-    protected fun loadBffScreenFromDeepLink(){
-        if(SuiteSetup.isAndroid()){
+    protected fun loadBffScreenFromDeepLink() {
+        if (SuiteSetup.isAndroid()) {
             val params = HashMap<String, String>()
             params["url"] = "appiumapp://bffurl/" + SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath
             params["package"] = "br.com.zup.beagle.appiumapp"
             (getDriver() as JavascriptExecutor).executeScript("mobile:deepLink", params)
-        }else{
+        } else {
             // TODO: iOS
         }
     }
 
-    protected fun loadBffScreen(){
+    protected fun loadBffScreen() {
         if (SuiteSetup.isAndroid()) {
             loadBffScreenFromDeepLink()
-        }
-        else{
+        } else {
             loadBffScreenFromMainScreen()
         }
     }
