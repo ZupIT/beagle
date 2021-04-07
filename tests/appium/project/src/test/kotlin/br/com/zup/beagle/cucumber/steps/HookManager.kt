@@ -62,6 +62,9 @@ class HookManager {
             } catch (exception: Exception) {
                 println("ERROR taking a screenshot on error: ${exception.message}")
             }
+
+            // Always restarts after a test failure because the failure might be caused by a random app crash
+            SuiteSetup.restartApp()
         }
 
         // Android tests by default won't restart app anymore because they now use deep links to load bff screens

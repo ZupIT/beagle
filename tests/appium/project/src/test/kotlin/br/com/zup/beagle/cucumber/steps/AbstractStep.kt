@@ -30,8 +30,10 @@ import io.appium.java_client.touch.offset.PointOption
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
 import org.openqa.selenium.By
+import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.ScreenOrientation
 import java.io.File
+import java.util.HashMap
 
 
 abstract class AbstractStep {
@@ -47,21 +49,27 @@ abstract class AbstractStep {
         return driver!!
     }
 
-    protected fun loadBffScreenFromMainScreen(){
+    protected fun loadBffScreenFromMainScreen() {
         val mainScreen = MainScreen(getDriver())
         mainScreen.setBffUrl(SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
         mainScreen.clickOnGoButton()
     }
 
-    protected fun loadBffScreenFromDeepLink(){
-        getDriver().get("appiumapp://bffurl/" + SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
+    protected fun loadBffScreenFromDeepLink() {
+        if (SuiteSetup.isAndroid()) {
+            val params = HashMap<String, String>()
+            params["url"] = "appiumapp://bffurl/" + SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath
+            params["package"] = "br.com.zup.beagle.appiumapp"
+            (getDriver() as JavascriptExecutor).executeScript("mobile:deepLink", params)
+        } else {
+            // TODO: iOS
+        }
     }
 
-    protected fun loadBffScreen(){
+    protected fun loadBffScreen() {
         if (SuiteSetup.isAndroid()) {
             loadBffScreenFromDeepLink()
-        }
-        else{
+        } else {
             loadBffScreenFromMainScreen()
         }
     }
