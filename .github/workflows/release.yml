@@ -7,7 +7,7 @@ on:
 jobs:
     generate-release:
         name: Generate release
-        runs-on: macos-latest
+        runs-on: macos-10.15
         steps:
             - uses: actions/checkout@v2.1.0
               with:

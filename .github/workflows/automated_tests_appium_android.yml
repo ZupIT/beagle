@@ -71,7 +71,7 @@ jobs:
   appium_tests:
     needs: bff_config_job
     name: Tests job
-    runs-on: macos-latest
+    runs-on: macos-10.15
     env:
       BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
       BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
