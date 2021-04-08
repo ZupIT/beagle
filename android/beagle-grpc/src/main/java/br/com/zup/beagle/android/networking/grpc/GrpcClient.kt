@@ -85,14 +85,16 @@ class GrpcClient(
     }
 
     private fun isGrpcRequest(request: RequestData): Boolean {
-        return request.url?.startsWith(grpcAddress) ?: false
+        //return request.url?.startsWith(grpcAddress) ?: false
+        return request.uri.toString().startsWith(grpcAddress) ?: false
     }
 
     private fun getScreenName(request: RequestData): String? {
-        val screenName = request.url
-            ?.removePrefix("$grpcAddress")
-            ?.removePrefix("/")
-            ?.substringBefore("?")
+//        val screenName = request.url
+//            ?.removePrefix("$grpcAddress")
+//            ?.removePrefix("/")
+//            ?.substringBefore("?")
+        val screenName = request.uri.path.removePrefix("/")
 
         if (screenName.isNullOrEmpty()) {
             throw BeagleApiException(createErrorResponseData(SCREEN_NAME_NULL), request)
@@ -149,8 +151,15 @@ class GrpcClient(
 
     private fun extractRequestQueryParams(request: RequestData): Map<String, String> {
         return try {
-            request.url
-                ?.substringAfter("?", "")
+//            request.url
+//                ?.substringAfter("?", "")
+//                ?.split("&")
+//                ?.map { param ->
+//                    val list = param.split("=")
+//                    list[0] to list[1]
+//                }
+//                ?.toMap() ?: mutableMapOf()
+            request.uri.query
                 ?.split("&")
                 ?.map { param ->
                     val list = param.split("=")

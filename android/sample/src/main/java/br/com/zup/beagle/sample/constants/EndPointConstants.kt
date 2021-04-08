@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.constants
 
 //const val BASE_URL = "http://10.0.2.2:8080"
-const val SAMPLE_ENDPOINT = "http://10.0.2.2:8080/components"
+//const val SAMPLE_ENDPOINT = "http://10.0.2.2:8080/components"
 const val BASE_URL = "http://10.0.2.2:50051"
-//const val SAMPLE_ENDPOINT = "/button?foo1=a&foo2=b"
+const val SAMPLE_ENDPOINT = "/button?foo1=a&foo2=b"
 //const val SAMPLE_ENDPOINT = "/text"
