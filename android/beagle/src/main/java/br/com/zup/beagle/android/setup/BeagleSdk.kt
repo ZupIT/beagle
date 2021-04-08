@@ -47,6 +47,7 @@ interface BeagleSdk {
     val formLocalActionHandler: FormLocalActionHandler?
     val deepLinkHandler: DeepLinkHandler?
     val validatorHandler: ValidatorHandler?
+    val httpClient: HttpClient?
     val httpClientFactory: HttpClientFactory?
     val designSystem: DesignSystem?
     val imageDownloader: BeagleImageDownloader?
