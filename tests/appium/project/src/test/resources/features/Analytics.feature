@@ -25,29 +25,29 @@ Feature: Analytics
     Given AppiumApp is properly configured with an AnalyticsProvider and with a native screen with id "screen-analytics-link"
     Given AppiumApp did navigate to remote screen with url "/analytics2"
 
-#  Scenario: Analytics 01 - Action with no remote analytics config and not declared in the local config (should not create record)
-#    When I click on text Alert with no specific analytics configuration
-#    Then a dialog should appear on the screen with text AlertMessage
-#    When I click on text OK
-#    Then no analytics record should be created
-#
-#  Scenario: Analytics 02 - Action with no remote analytics config and declared in the local config (should create record with params in config)
-#    When I click on text Confirm with analytics local configuration
-#    Then a dialog should appear on the screen with text Confirm Message
-#    When I click on text ACCEPT
-#    Then an analytics record should be created for Analytics 02
-#
-#  Scenario: Analytics 03 - Action with remote analytics config and not declared in the local config (should create record with params from remote config)
-#    When I click on text Alert with remote analytics configuration
-#    Then a dialog should appear on the screen with text AlertMessage
-#    When I click on text OK
-#    Then an analytics record should be created for Analytics 03
-#
-#  Scenario: Analytics 04 - Action with analytics disabled in the remote config (should not create record)
-#    When I click on text Confirm with disabled analytics configuration
-#    Then a dialog should appear on the screen with text Confirm Message
-#    When I click on text ACCEPT
-#    Then no analytics record should be created
+  Scenario: Analytics 01 - Action with no remote analytics config and not declared in the local config (should not create record)
+    When I click on text Alert with no specific analytics configuration
+    Then a dialog should appear on the screen with text AlertMessage
+    When I click on text OK
+    Then no analytics record should be created
+
+  Scenario: Analytics 02 - Action with no remote analytics config and declared in the local config (should create record with params in config)
+    When I click on text Confirm with analytics local configuration
+    Then a dialog should appear on the screen with text Confirm Message
+    When I click on text ACCEPT
+    Then an analytics record should be created for Analytics 02
+
+  Scenario: Analytics 03 - Action with remote analytics config and not declared in the local config (should create record with params from remote config)
+    When I click on text Alert with remote analytics configuration
+    Then a dialog should appear on the screen with text AlertMessage
+    When I click on text OK
+    Then an analytics record should be created for Analytics 03
+
+  Scenario: Analytics 04 - Action with analytics disabled in the remote config (should not create record)
+    When I click on text Confirm with disabled analytics configuration
+    Then a dialog should appear on the screen with text Confirm Message
+    When I click on text ACCEPT
+    Then no analytics record should be created
 
   Scenario: Analytics 05 - View loaded, screen analytics enabled in the config (should create record)
     When I click on text navigateToPage
