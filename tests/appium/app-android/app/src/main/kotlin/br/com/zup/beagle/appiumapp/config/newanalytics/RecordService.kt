@@ -13,8 +13,8 @@ object RecordService {
         if(report.size > 1){
             val reportToShow = report.get(report.size - 1)
             reportListener.onReport(reportToShow)
-            report.remove(reportToShow)
         }
+        report.clear()
     }
 
     fun saveReport(report: AnalyticsRecord) {
