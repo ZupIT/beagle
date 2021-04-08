@@ -41,9 +41,9 @@ jobs:
                 aws-region: sa-east-1
 
             - name: S3 upload
-              if: contains($GITHUB_REF, 'tags')
+              if: ${{ contains(github.ref, 'tags') }}
               run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_S3_BUCKET }}/ --delete
 
             - name: S3 BETA upload
-              if: contains($GITHUB_REF, 'heads/master'
+              if: ${{ contains(github.ref, 'heads/master' }}
               run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_BETA_BUCKET }}/ --delete
