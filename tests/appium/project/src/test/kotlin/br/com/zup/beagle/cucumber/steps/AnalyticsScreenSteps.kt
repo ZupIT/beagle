@@ -1,6 +1,7 @@
 package br.com.zup.beagle.cucumber.steps
 
 import br.com.zup.beagle.setup.SuiteSetup
+import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 
@@ -39,6 +40,11 @@ class AnalyticsScreenSteps : AbstractStep() {
             "platform" to platformCheck()
         )
     )
+
+    @Before("@analytics2.0")
+    fun setup() {
+        SuiteSetup.restartApp()
+    }
 
     @Given("AppiumApp is properly configured with an AnalyticsProvider and with a native screen with id \"screen-analytics-link\"")
     fun properlyConfigured() {
