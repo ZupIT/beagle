@@ -2,6 +2,9 @@ name: Beagle kdocs publish
 
 on:
     push:
+        branches: [master]
+        tags-ignore:
+            - "*-iOS"
         tags:
             - '*'
 jobs:
@@ -20,19 +23,29 @@ jobs:
                   path: ${{ env.gradle-path }}
                   key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
                   restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+
             - name: generate docs android
               run: gradle dokkaHtmlCollector
               working-directory: android
+
             - name: generate docs backend
               run: gradle dokkaHtmlCollector
               working-directory: backend
+
             - name: merge docs
               run: bash fastlane/kdocs/merge_docs.sh
+
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v1
               with:
                 aws-access-key-id: ${{ secrets.AWS_DOCS_ACCESS_KEY_ID }}
                 aws-secret-access-key: ${{ secrets.AWS_DOCS_SECRET_ACCESS_KEY }}
                 aws-region: sa-east-1
+
             - name: S3 upload
+              if: contains(github.ref, "tags")
               run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_S3_BUCKET }}/ --delete
+
+            - name: S3 BETA upload
+              if: contains(github.ref, "heads/master"
+              run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_BETA_BUCKET }}/ --delete
