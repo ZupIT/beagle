@@ -2,7 +2,7 @@ name: Beagle kdocs publish
 
 on:
     push:
-        branches: [master]
+        branches: [master, fix/dokka-workflow]
         tags-ignore:
             - "*-iOS"
         tags:
