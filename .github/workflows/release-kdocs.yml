@@ -1,7 +1,9 @@
 name: Beagle kdocs publish
 
-on: workflow_dispatch
-
+on:
+    push:
+        tags:
+            - '*'
 jobs:
     publish:
         name: Publish kdocs to aws S3
