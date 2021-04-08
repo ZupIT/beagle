@@ -5,8 +5,6 @@ on:
         branches: [master, fix/dokka-workflow]
         tags-ignore:
             - "*-iOS"
-        tags:
-            - '*'
 jobs:
     publish:
         name: Publish kdocs to aws S3
