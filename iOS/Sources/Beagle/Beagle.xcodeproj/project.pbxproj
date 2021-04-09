@@ -73,6 +73,7 @@
 		9337F838249A7F0000B0A260 /* TouchableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337F833249A7F0000B0A260 /* TouchableTests.swift */; };
 		9337F839249A7F0000B0A260 /* LocalFormHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337F834249A7F0000B0A260 /* LocalFormHandlerTests.swift */; };
 		935278F62499728400AB9D1F /* DynamicObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278F52499728400AB9D1F /* DynamicObject+Extensions.swift */; };
+		9356CB552620C7940021EFC6 /* YogaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9356CB542620C7940021EFC6 /* YogaKit */; };
 		9380222A249A989300FA8519 /* FormSubmit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5223784237C3CC500E555BB /* FormSubmit+Extensions.swift */; };
 		9380222B249A98CA00FA8519 /* FormManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9999542448A38000D77F07 /* FormManagerTests.swift */; };
 		938B13CE2497FBF900AA8E3B /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B13CD2497FBF900AA8E3B /* CollectionExtension.swift */; };
@@ -303,7 +304,6 @@
 		C89E816D239827D500C2D0ED /* CustomPageIndicatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E816C239827D500C2D0ED /* CustomPageIndicatorTests.swift */; };
 		C89FFA922412DC2300C1B53B /* ViewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89FFA912412DC2300C1B53B /* ViewConfigurator.swift */; };
 		C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89FFA932412EA4200C1B53B /* UrlBuilder.swift */; };
-		C8D5F02024A3FD840037B11C /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F01F24A3FD840037B11C /* YogaKit.framework */; };
 		C8ECF2CD24BD1D9800525CF5 /* NetworkCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECF2CC24BD1D9800525CF5 /* NetworkCache.swift */; };
 		C8ECF2D024BD2AB000525CF5 /* NetworkCacheTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECF2CE24BD2A8000525CF5 /* NetworkCacheTest.swift */; };
 		C8F953162395960200615CF0 /* PageViewUIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F95314239595C500615CF0 /* PageViewUIComponentTests.swift */; };
@@ -729,7 +729,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8D5F02024A3FD840037B11C /* YogaKit.framework in Frameworks */,
+				9356CB552620C7940021EFC6 /* YogaKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2159,6 +2159,9 @@
 			dependencies = (
 			);
 			name = Beagle;
+			packageProductDependencies = (
+				9356CB542620C7940021EFC6 /* YogaKit */,
+			);
 			productName = BeagleUI;
 			productReference = 932925CF2327E11000A61F01 /* Beagle.framework */;
 			productType = "com.apple.product-type.framework";
@@ -2214,6 +2217,7 @@
 			mainGroup = 932925C52327E11000A61F01;
 			packageReferences = (
 				933078EC24AE4F00009D92F2 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				9356CB532620C7940021EFC6 /* XCRemoteSwiftPackageReference "yoga" */,
 			);
 			productRefGroup = 932925D02327E11000A61F01 /* Products */;
 			projectDirPath = "";
@@ -2905,6 +2909,14 @@
 				version = 1.7.2;
 			};
 		};
+		9356CB532620C7940021EFC6 /* XCRemoteSwiftPackageReference "yoga" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZupIT/yoga.git";
+			requirement = {
+				branch = "spm-support";
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2912,6 +2924,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 933078EC24AE4F00009D92F2 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
+		};
+		9356CB542620C7940021EFC6 /* YogaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9356CB532620C7940021EFC6 /* XCRemoteSwiftPackageReference "yoga" */;
+			productName = YogaKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

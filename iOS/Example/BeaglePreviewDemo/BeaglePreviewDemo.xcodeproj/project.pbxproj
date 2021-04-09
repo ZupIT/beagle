@@ -12,8 +12,6 @@
 		7615577324801E7700E1EEEE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7615577124801E7700E1EEEE /* Main.storyboard */; };
 		7615577524801E7B00E1EEEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7615577424801E7B00E1EEEE /* Assets.xcassets */; };
 		7615577824801E7B00E1EEEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7615577624801E7B00E1EEEE /* LaunchScreen.storyboard */; };
-		7615579324801FB600E1EEEE /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7615579224801FB600E1EEEE /* YogaKit.framework */; };
-		7615579424801FB600E1EEEE /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7615579224801FB600E1EEEE /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		761557A9248024DF00E1EEEE /* BeaglePreview.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761557A8248024DF00E1EEEE /* BeaglePreview.framework */; };
 		761557AA248024DF00E1EEEE /* BeaglePreview.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 761557A8248024DF00E1EEEE /* BeaglePreview.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C833058D249BF63E0091FE5E /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C833058C249BF63E0091FE5E /* Beagle.framework */; };
@@ -28,7 +26,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				C833058E249BF63E0091FE5E /* Beagle.framework in Embed Frameworks */,
-				7615579424801FB600E1EEEE /* YogaKit.framework in Embed Frameworks */,
 				761557AA248024DF00E1EEEE /* BeaglePreview.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -44,7 +41,6 @@
 		7615577424801E7B00E1EEEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7615577724801E7B00E1EEEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7615577924801E7B00E1EEEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7615579224801FB600E1EEEE /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		761557A8248024DF00E1EEEE /* BeaglePreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeaglePreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C833058C249BF63E0091FE5E /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -55,7 +51,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C833058D249BF63E0091FE5E /* Beagle.framework in Frameworks */,
-				7615579324801FB600E1EEEE /* YogaKit.framework in Frameworks */,
 				761557A9248024DF00E1EEEE /* BeaglePreview.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,7 +93,6 @@
 			children = (
 				C833058C249BF63E0091FE5E /* Beagle.framework */,
 				761557A8248024DF00E1EEEE /* BeaglePreview.framework */,
-				7615579224801FB600E1EEEE /* YogaKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
