@@ -2,7 +2,7 @@ name: Beagle kdocs publish
 
 on:
   push:
-    branches: [master, fix/dokka-workflow]
+    branches: [ master ]
     tags-ignore:
       - "*-iOS"
 jobs:
@@ -51,5 +51,5 @@ jobs:
         run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_S3_BUCKET }}/ --delete
 
       - name: S3 BETA upload
-        if: ${{ github.ref == 'refs/heads/fix/dokka-workflow' }}
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_BETA_BUCKET }}/ --delete
