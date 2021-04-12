@@ -41,5 +41,3 @@ internal object LruImageCache {
         contentHeight: Int
     ) = StringBuilder().append(url).append(contentWidth).append(contentHeight).toString()
 }
-
-
