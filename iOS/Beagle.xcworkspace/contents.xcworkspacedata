@@ -27,13 +27,6 @@
    </Group>
    <Group
       location = "container:"
-      name = "Playgrounds">
-      <FileRef
-         location = "group:Sources/Beagle/BeaglePlayground.playground">
-      </FileRef>
-   </Group>
-   <Group
-      location = "container:"
       name = "Preview">
       <FileRef
          location = "group:Sources/Preview/BeaglePreview.xcodeproj">
