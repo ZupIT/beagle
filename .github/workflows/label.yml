@@ -7,6 +7,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/labeler@v2
+    - name: Read secrets from AWS Secrets Manager into environment variables
+      uses: abhilash1in/aws-secrets-manager-action@v1.0.1
       with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+        secrets: |
+          beagle/core/*
+          beagle/docs/aws
+          parse-json: true
+    - name: Labeler
+      uses: actions/labeler@v2
+      with:
+        repo-token: "${{ env.BEAGLE_CORE_GITHUB_GITHUB_TOKEN }}"

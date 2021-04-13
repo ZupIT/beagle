@@ -41,9 +41,19 @@ jobs:
                     path: ${{ env.pub-path }}
                     key: ${{ runner.os }}-build-${{ env.pub-cache-key }}
                     restore-keys: ${{ runner.os }}-build-${{ env.pub-cache-key }}
+            -   name: Read secrets from AWS Secrets Manager into environment variables
+                uses: abhilash1in/aws-secrets-manager-action@v1.0.1
+                with:
+                    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                    aws-region: us-east-1
+                    secrets: |
+                        beagle/core/*
+                        beagle/docs/aws
+                    parse-json: true
             -   name: Run pr check
                 env:
-                    GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
-                    GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-                    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+                    GITHUB_USER: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_USER }}
+                    GITHUB_TOKEN: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_TOKEN }}
+                    CODECOV_TOKEN: ${{ env.BEAGLE_CORE_COVERAGE_CODECOV_TOKEN }}
                 run: bundle exec fastlane flutter pull_request_verification
