@@ -81,6 +81,7 @@ platform :ios do
     )
     run_codecov(platform: 'ios')
     check_if_beagle_works_via_cocoapods_integration
+    check_if_beagle_works_via_spm_integration
   end
 
   desc "Check wether Beagle is working via CocoaPods in an Example Project"
@@ -93,6 +94,15 @@ platform :ios do
     scan(
       workspace: "iOS/Example/CocoaPodsTest/CocoaPodsTest.xcworkspace",
       scheme: "CocoaPodsTest",
+      device: "iPhone 11"
+    )
+  end
+
+  desc "Check wether Beagle is working via SPM in an Example Project"
+  private_lane :check_if_beagle_works_via_spm_integration do
+    scan(
+      project: "iOS/Example/SPMTest/SPMTest.xcodeproj",
+      scheme: "SPMTest",
       device: "iPhone 11"
     )
   end
