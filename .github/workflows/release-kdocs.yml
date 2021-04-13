@@ -47,7 +47,7 @@ jobs:
           secrets: |
             beagle/core/*
             beagle/docs/aws
-            parse-json: true
+          parse-json: true
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

@@ -20,9 +20,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
           secrets: |
-            beagle/core/*
-            beagle/docs/aws
-            parse-json: true
+              beagle/core/*
+          parse-json: true
       - name: Running Horusec Security
         #we need to ignore sample, automatedTests, automated-tests and .gradle because they are not being shipped the Beagle sdk
         #The two hash was added because we have False Positive on TextInput.swift, we have an enum called PASSWORD, and UrlBuilderDefault.kt, we have a base64 failure but we don't use the base64 on this code

@@ -66,9 +66,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
           secrets: |
-            beagle/core/*
-            beagle/docs/aws
-            parse-json: true
+              beagle/core/*
+          parse-json: true
       - name: Deploy to AWS
         run: bash ./fastlane/automatedTests/deploy_test_backend.sh
         env:
@@ -105,8 +104,7 @@ jobs:
           aws-region: us-east-1
           secrets: |
               beagle/core/*
-              beagle/docs/aws
-              parse-json: true
+          parse-json: true
       - name: Build project app-android to generate the .apk file
         env:
           BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt

@@ -26,7 +26,6 @@ jobs:
                     aws-region: us-east-1
                     secrets: |
                         beagle/core/*
-                        beagle/docs/aws
                     parse-json: true
             -   name: Create backend image and publish it
                 run: bash fastlane/automatedTests/publish_test_backend.sh
