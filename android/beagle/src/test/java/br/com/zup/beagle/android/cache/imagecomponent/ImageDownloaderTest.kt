@@ -21,19 +21,23 @@ import android.graphics.BitmapFactory
 import android.util.LruCache
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
+import java.io.InputStream
+import java.net.URL
 
-internal class ImageDownloaderTest {
+@DisplayName("Given ImageDownloader")
+class ImageDownloaderTest {
 
     private val imageDownloader = ImageDownloader()
     private val bitmap: Bitmap = mockk(relaxed = true)
     private val bitmapImproved: Bitmap = mockk(relaxed = true)
     private val contentWidth = 300
     private val contentHeight = 200
-    private val url = "https://vitafelice.com.br/wp-content/uploads/2019/01/beagle.jpg"
+    private val url = "https://www.stub.com/image.png"
     private val bitmapId = url + contentWidth + contentHeight
+    private val inputStream: InputStream = mockk(relaxed = true)
+    private val javaUrl: URL = mockk(relaxed = true)
 
     @BeforeEach
     fun setUp() {
@@ -41,11 +45,14 @@ internal class ImageDownloaderTest {
         mockkObject(LruImageCache)
         mockkStatic(LruCache::class)
         mockkStatic(Bitmap::class)
+        mockkObject(URLFactory)
         every { bitmapImproved.width } returns contentWidth
         every { bitmapImproved.height } returns contentHeight
         every { LruImageCache.get(any()) } returns null
         every { LruImageCache.put(any(), any()) } just runs
-        every { BitmapFactory.decodeStream(any()) } returns bitmap
+        every { URLFactory.createURL(any()) } returns javaUrl
+        every { javaUrl.openStream() } returns inputStream
+        every { BitmapFactory.decodeStream(inputStream) } returns bitmap
         every { Bitmap.createScaledBitmap(
             any(),
             contentWidth,
@@ -54,33 +61,68 @@ internal class ImageDownloaderTest {
         ) } returns bitmapImproved
     }
 
-    @Test
-    fun `GIVEN url and ImageViewSize WHEN download image bitmap THEN keep size and save on cache`() = runBlocking {
-        // Given
-        every { bitmap.width } returns contentWidth
-        every { bitmap.height } returns contentHeight
-
-        // When
-        val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
-
-        // Then
-        verify(exactly = 1) { LruImageCache.put(bitmapId, bitmap) }
-        verify(exactly = 1) { LruImageCache.get(bitmapId) }
-        assertEquals(contentWidth, bitmap?.width)
-        assertEquals(contentHeight, bitmap?.height)
+    @AfterEach
+    fun tearDown() {
+        unmockkAll()
     }
 
-    @Test
-    fun `GIVEN bitmap data WHEN download image THEN should load image bitmap from cache`() = runBlocking {
-        // Given
-        every { LruImageCache.get(any()) } returns bitmapImproved
+    @DisplayName("When download image")
+    @Nested
+    inner class Download {
 
-        // When
-        val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
+        @DisplayName("Then should keep passed size and save the bitmap on cache")
+        @Test
+        fun keepSizeAndSaveOnCache() = runBlocking {
+            // Given
+            every { bitmap.width } returns contentWidth
+            every { bitmap.height } returns contentHeight
 
-        // Then
-        verify(exactly = 1) { LruImageCache.get(bitmapId) }
-        assertEquals(contentWidth, bitmap?.width)
-        assertEquals(contentHeight, bitmap?.height)
+            // When
+            val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
+
+            // Then
+            verify(exactly = 1) { LruImageCache.put(bitmapId, bitmap) }
+            verify(exactly = 1) { LruImageCache.get(bitmapId) }
+            assertEquals(contentWidth, bitmap.width)
+            assertEquals(contentHeight, bitmap.height)
+        }
+
+        @DisplayName("Then should load bitmap from cache when exists")
+        @Test
+        fun loadBitmapFromCache() = runBlocking {
+            // Given
+            every { LruImageCache.get(any()) } returns bitmapImproved
+
+            // When
+            val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
+
+            // Then
+            verify(exactly = 1) { LruImageCache.get(bitmapId) }
+            assertEquals(contentWidth, bitmap.width)
+            assertEquals(contentHeight, bitmap.height)
+        }
+    }
+}
+
+@DisplayName("Given URLFactory")
+class ImageDownloaderUrlFactory {
+
+    @DisplayName("When createURL method in URLFactory is called")
+    @Nested
+    inner class Factory {
+
+        @DisplayName("Then should return a new instance of URL")
+        @Test
+        fun factoryUrl() {
+            // Given
+            val url = "https://www.stub.com"
+
+            // When
+            val result = URLFactory.createURL(url)
+
+            // Then
+            assertEquals("https", result.protocol)
+            assertEquals("www.stub.com", result.host)
+        }
     }
 }

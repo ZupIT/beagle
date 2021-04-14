@@ -152,10 +152,7 @@ internal fun <T> internalObserveBindChanges(
     bind: Bind<T>,
     observes: Observer<T?>,
 ) {
-    val value = bind.observe(rootView, view, observes)
-    if (bind is Bind.Value) {
-        observes(value)
-    }
+    bind.observe(rootView, view, observes)
 }
 
 /**

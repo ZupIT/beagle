@@ -121,7 +121,7 @@ fun <T> Action.evaluateExpression(
     origin: View,
     bind: Bind<T>,
 ): T? {
-    return bind.evaluateForAction(rootView, origin, this)
+    return bind.evaluate(rootView, origin, this)
 }
 
 internal fun Action.evaluateExpression(rootView: RootView, view: View, data: Any): Any? {
@@ -147,5 +147,5 @@ internal fun Action.evaluateExpression(rootView: RootView, view: View, data: Any
 }
 
 private fun String.generateBindAndEvaluateForAction(rootView: RootView, view: View, caller: Action): Any? {
-    return expressionOf<Any>(this).evaluateForAction(rootView, view, caller)
+    return expressionOf<Any>(this).evaluate(rootView, view, caller)
 }
