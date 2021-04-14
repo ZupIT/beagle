@@ -23,7 +23,9 @@ jobs:
             -   uses: actions/checkout@v2
             -   uses: ./.github/actions/configure-secrets
             -   uses: ./.github/actions/secrets
-
+                with:
+                    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             # Gems for Fastlane
             -   name: Cache ruby gems dependencies
                 uses: actions/cache@v2
