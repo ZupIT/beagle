@@ -15,21 +15,24 @@
  */
 
 import 'package:beagle/model/beagle_button_style.dart';
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:beagle/style/beagle_style_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// Defines a button widget that will be rendered according to the style of the
 /// running platform.
-class BeagleButton extends StatelessWidget {
+class BeagleButton extends StatelessWidget with StyleWidget {
   const BeagleButton({
     Key key,
     this.text,
     this.onPress,
     this.enabled,
     this.styleId,
+    this.style,
   }) : super(key: key);
 
   /// Define the button text content.
@@ -45,6 +48,8 @@ class BeagleButton extends StatelessWidget {
   /// Whether button will be enabled.
   final bool enabled;
 
+  final BeagleStyle style;
+
   BeagleButtonStyle get _buttonStyle =>
       beagleServiceLocator<BeagleDesignSystem>()?.buttonStyle(styleId);
 
@@ -52,9 +57,15 @@ class BeagleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final _platform = Theme.of(context).platform;
 
-    return _platform == TargetPlatform.iOS
+    final beagleButton = _platform == TargetPlatform.iOS
         ? buildCupertinoWidget()
         : buildMaterialWidget();
+
+    return prepareYogaLeaf(
+        key: key,
+        style: style,
+        child: beagleButton
+    );
   }
 
   Widget buildCupertinoWidget() {

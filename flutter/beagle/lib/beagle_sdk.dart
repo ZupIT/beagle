@@ -31,6 +31,7 @@ import 'package:beagle/model/beagle_config.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:yoga_engine/yoga_engine.dart';
 
 class BeagleSdk {
   /// Starts the BeagleService. Only a single instance of this service is allowed.
@@ -59,6 +60,7 @@ class BeagleSdk {
     BeagleLogger logger,
     Map<String, Operation> customOperations,
   }) {
+    Yoga.init();
     setupServiceLocator(
       beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
       httpClient: httpClient ?? const DefaultHttpClient(),

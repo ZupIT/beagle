@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:beagle/style/beagle_style_widget.dart';
 import 'package:beagle/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// A Text widget that displays a string of text with single style.
-class BeagleText extends StatelessWidget {
+class BeagleText extends StatelessWidget with StyleWidget {
   const BeagleText({
     Key key,
     this.text,
     this.textColor,
     this.alignment,
     this.styleId,
+    this.style,
   }) : super(key: key);
 
   /// The text to display.
@@ -43,12 +46,19 @@ class BeagleText extends StatelessWidget {
   /// Text.
   final String styleId;
 
+  final BeagleStyle style;
+
   @override
   Widget build(BuildContext context) {
-    return Text(
+    final beagleText = Text(
       text,
       textAlign: getTextAlign(alignment),
       style: getTextStyle(),
+    );
+    return prepareYogaLeaf(
+      key: key,
+      style: style,
+      child: beagleText
     );
   }
 

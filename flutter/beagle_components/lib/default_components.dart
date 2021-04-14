@@ -20,6 +20,7 @@ import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
+import 'package:beagle_components/beagle_container.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
 import 'package:beagle_components/beagle_page_indicator.dart';
@@ -71,13 +72,17 @@ ComponentBuilder beagleTextBuilder() {
           TextAlignment.values,
           element.getAttributeValue('alignment') ?? '',
         ),
+        style: element.getStyle(),
       );
 }
 
 ComponentBuilder beagleContainerBuilder() {
-  return (element, children, _) => Container(
+  return (element, children, _) => BeagleContainer(
         key: element.getKey(),
-        child: Column(children: children),
+        context: element.getContext(),
+        style: element.getStyle(),
+        onInit: element.getAttributeValue('onInit'),
+        children: children,
       );
 }
 
@@ -99,6 +104,7 @@ ComponentBuilder beagleButtonBuilder() {
         text: element.getAttributeValue('text'),
         enabled: element.getAttributeValue('enabled'),
         styleId: element.getAttributeValue('styleId'),
+        style: element.getStyle(),
       );
 }
 

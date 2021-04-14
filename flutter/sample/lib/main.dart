@@ -18,7 +18,14 @@
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
+import 'package:beagle/model/beagle_style.dart';
+import 'package:beagle/style/beagle_style_widget.dart';
+import 'package:beagle_components/beagle_button.dart';
 import 'package:beagle_components/beagle_components.dart';
+import 'package:beagle_components/beagle_container.dart';
+import 'package:beagle_components/beagle_page_indicator.dart';
+import 'package:beagle_components/beagle_page_view.dart';
+import 'package:beagle_components/beagle_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -98,17 +105,54 @@ class BeagleSampleApp extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            BeagleWidget(
-              screenRequest: BeagleScreenRequest('beagle_lazy'),
-              onCreateView: (view) => {
-                view.addErrorListener((errors) {
-                  //TODO
-                })
-              },
-            ),
-          ],
+        // body: const BeagleContainer(
+        //   children: [
+        //     BeaglePageView(
+        //       currentPage: 0,
+        //       children: [
+        //         Center(child: Text('1')),
+        //         Center(child: Text('2')),
+        //       ],
+        //     ),
+        //   ],
+        // ),
+        // body: BeagleContainer(
+        //   children: [
+        //     BeagleContainer(
+        //       style: BeagleStyle(
+        //         flex: BeagleFlex(grow: 1.0),
+        //       ),
+        //       children: const [
+        //         BeaglePageView(
+        //           currentPage: 0,
+        //           children: [
+        //             Center(child: Text('1')),
+        //             Center(child: Text('2')),
+        //           ],
+        //         ),
+        //         BeaglePageIndicator(
+        //           currentPage: 0,
+        //           selectedColor: 'FF0000',
+        //           unselectedColor: '00FF00',
+        //           numberOfPages: 2,
+        //         ),
+        //       ],
+        //     ),
+        //   ],
+        // ),
+        // body: const BeagleContainer(
+        //   children: [
+        //     BeagleText(text: 'Value of \\@{global.counter} is:'),
+        //     BeagleButton(text: 'One more'),
+        //   ],
+        // ),
+        body: BeagleWidget(
+          screenRequest: BeagleScreenRequest('beagle_pageview'),
+          onCreateView: (view) => {
+            view.addErrorListener((errors) {
+              //TODO
+            })
+          },
         ),
       ),
     );

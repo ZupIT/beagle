@@ -16,13 +16,22 @@
 
 package br.com.zup.beagle.sample
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.components.ListView
+import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenActivity
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
@@ -38,8 +47,45 @@ import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
 import br.com.zup.beagle.sample.fragment.list.ListViewFragment
+import br.com.zup.beagle.widget.core.*
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(
+            Container(
+                children = listOf(
+                    Container(
+                        children = listOf(
+                            Text("Child 1 - Test layout").applyStyle(
+                                Style(
+                                    backgroundColor = "#2196F3",
+                                    margin = EdgeValue(top = 20.unitReal())
+                                )
+                            ),
+                            Text("Child 2").applyStyle(
+                                Style(
+                                    backgroundColor = "#FFC107",
+                                    flex = Flex(shrink = 0.0)
+                                )
+                            )
+                        )
+                    ).applyStyle(
+                        Style(
+                            backgroundColor = "#673AB7",
+                            flex = Flex(flexDirection = FlexDirection.ROW, justifyContent = JustifyContent.SPACE_AROUND)
+                        )
+                    )
+                )
+            ).applyStyle(
+                Style(
+                    size = Size(
+                        width = UnitValue(value = 300.0, type = UnitType.REAL)
+                    )
+                )
+            ).toView(this))
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_navigation_drawer, menu)

@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
+import 'package:beagle/model/beagle_style.dart';
+import 'package:beagle/style/beagle_style_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// Defines a specialized container to hold pages [children] that will be
 /// displayed horizontally.
-class BeaglePageView extends StatefulWidget {
+class BeaglePageView extends StatefulWidget with StyleWidget {
   const BeaglePageView({
     Key key,
     this.children,
@@ -112,13 +114,18 @@ class _BeaglePageViewState extends State<BeaglePageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return buildBeagleWidget(
+      style: BeagleStyle(flex: BeagleFlex(grow: 1.0, flexDirection: FlexDirection.COLUMN)),
       child: PageView(
         controller: _pageController,
         onPageChanged: (page) {
           _selectedPage = page;
         },
-        children: widget.children,
+        children: widget.children
+            .map((child) => child is StyleWidget
+                ? buildBeagleWidget(children: [child])
+                : child)
+            .toList(),
       ),
     );
   }

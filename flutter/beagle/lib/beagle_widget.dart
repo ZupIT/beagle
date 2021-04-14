@@ -17,6 +17,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:beagle/model/beagle_style.dart';
+import 'package:beagle/style/beagle_style_widget.dart';
+import 'package:beagle/style/style_mapper.dart';
 import 'package:beagle/utils/build_context_utils.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/components/beagle_undefined_widget.dart';
@@ -29,6 +32,7 @@ import 'package:beagle/model/route.dart';
 import 'package:beagle/networking/beagle_screen_request.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:flutter/widgets.dart';
+import 'package:yoga_engine/yoga_engine.dart';
 
 typedef OnCreateViewListener = void Function(BeagleView view);
 
@@ -85,7 +89,10 @@ class _BeagleWidget extends State<BeagleWidget> {
       ..subscribe((tree) {
         final widgetLoaded = _buildViewFromTree(tree);
         setState(() {
-          widgetState = widgetLoaded;
+          widgetState = YogaTree(
+            node: mapToYogaNode(BeagleStyle()),
+            children: [widgetLoaded],
+          );
         });
       })
       ..onAction(({action, element, view}) {
@@ -118,7 +125,14 @@ class _BeagleWidget extends State<BeagleWidget> {
         environment: config.environment,
       );
     }
-    return builder(tree, widgetChildren, _view);
+    final child = builder(tree, widgetChildren, _view);
+    return child is StyleWidget
+        ? child
+        : buildBeagleWidget(
+            style: tree.getStyle(),
+            child: child,
+            children: widgetChildren,
+          );
   }
 
   @override

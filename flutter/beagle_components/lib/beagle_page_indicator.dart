@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
+import 'package:beagle/model/beagle_style.dart';
+import 'package:beagle/style/beagle_style_widget.dart';
 import 'package:beagle/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// Defines a widget to indicate the number of pages and the current selected
 /// page of a [PageView].
-class BeaglePageIndicator extends StatelessWidget {
+class BeaglePageIndicator extends StatelessWidget with StyleWidget {
   const BeaglePageIndicator({
     Key key,
     this.selectedColor,
@@ -47,6 +49,7 @@ class BeaglePageIndicator extends StatelessWidget {
   Widget buildDot(int index) {
     return SizedBox(
       width: dotSpacing,
+      height: dotSpacing,
       child: Center(
         child: Material(
           color:
@@ -63,8 +66,16 @@ class BeaglePageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    final style = BeagleStyle(
+      flex: BeagleFlex(
+        flexDirection: FlexDirection.ROW,
+        justifyContent: JustifyContent.CENTER,
+        alignItems: AlignItems.CENTER,
+        shrink: 0.0,
+      ),
+    );
+    return buildBeagleWidget(
+      style: style,
       children: List<Widget>.generate(numberOfPages, buildDot),
     );
   }

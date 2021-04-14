@@ -4,14 +4,26 @@ PODS:
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
+  - url_launcher (0.0.1):
+    - Flutter
   - webview_flutter (0.0.1):
     - Flutter
+  - Yoga (1.14.0)
+  - yoga_engine (0.0.1):
+    - Flutter
+    - Yoga
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_js (from `.symlinks/plugins/flutter_js/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
+  - yoga_engine (from `.symlinks/plugins/yoga_engine/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Yoga
 
 EXTERNAL SOURCES:
   Flutter:
@@ -20,14 +32,21 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_js/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
   webview_flutter:
     :path: ".symlinks/plugins/webview_flutter/ios"
+  yoga_engine:
+    :path: ".symlinks/plugins/yoga_engine/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_js: 95929d4e146e8ceb1c8e1889d8c2065c5d840076
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
+  Yoga: cff67a400f6b74dc38eb0bad4f156673d9aa980c
+  yoga_engine: 7d9ea3c5870eea478a80f5d631691a60d87c8610
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

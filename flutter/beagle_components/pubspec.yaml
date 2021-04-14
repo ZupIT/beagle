@@ -4,6 +4,7 @@ description: Beagle Components is a set of tools and components to be used with 
 version: 1.0.0
 author: Zup
 homepage: https://usebeagle.io/
+publish_to: none
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
