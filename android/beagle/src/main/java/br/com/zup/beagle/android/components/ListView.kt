@@ -249,7 +249,7 @@ constructor(
         observeBindChanges(rootView, recyclerView, dataSource!!) { value ->
             canScrollEnd = true
             val adapter = recyclerView.adapter as ListAdapter
-            adapter.setList(value)
+            adapter.setList(value, this.id)
             if (value?.isEmpty() == true) {
                 executeScrollEndActions()
             }

@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.context.AsyncActionData
 import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.setIsAutoGenerateIdEnabled
+import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -155,11 +156,11 @@ internal class ListAdapter(
         holder.onViewAttachedToWindow()
     }
 
-    fun setList(list: List<Any>?) {
+    fun setList(list: List<Any>?, componentId: String?) {
         list?.let {
             if (list != listItems) {
                 clearAdapterContent()
-                notifyListViewIdViewModel(listItems.isEmpty())
+                notifyListViewIdViewModel(listItems.isEmpty(), componentId)
                 listItems = list
                 adapterItems = list.map { ListItem(data = it.normalizeContextValue()) }
                 notifyDataSetChanged()
@@ -172,10 +173,10 @@ internal class ListAdapter(
         createdViewHolders.clear()
     }
 
-    private fun notifyListViewIdViewModel(adapterPreviouslyEmpty: Boolean) {
+    private fun notifyListViewIdViewModel(adapterPreviouslyEmpty: Boolean, componentId: String?) {
         listViewModels
             .listViewIdViewModel
-            .createSingleManagerByListViewId(getRecyclerId(), adapterPreviouslyEmpty)
+            .createSingleManagerByListViewId(getRecyclerId(componentId), adapterPreviouslyEmpty)
     }
 
     private fun clearList() {
@@ -192,10 +193,11 @@ internal class ListAdapter(
         }
     }
 
-    private fun getRecyclerId(): Int {
-        return recyclerId.takeIf {
+    private fun getRecyclerId(componentId: String?): Int {
+        val id = recyclerId.takeIf {
             it != View.NO_ID
-        } ?: createTempId()
+        } ?: componentId?.toAndroidId()
+        return id ?: createTempId()
     }
 
     private fun createTempId(): Int {
