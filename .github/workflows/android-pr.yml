@@ -21,6 +21,7 @@ jobs:
         runs-on: macos-latest
         steps:
             -   uses: actions/checkout@v2
+            -   uses: ./.github/actions/configure-secrets
             -   uses: ./.github/actions/secrets
                 with:
                     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
