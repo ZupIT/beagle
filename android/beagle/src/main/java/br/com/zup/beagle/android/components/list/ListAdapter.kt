@@ -156,7 +156,7 @@ internal class ListAdapter(
         holder.onViewAttachedToWindow()
     }
 
-    fun setList(list: List<Any>?, componentId: String?) {
+    fun setList(list: List<Any>?, componentId: String? = null) {
         list?.let {
             if (list != listItems) {
                 clearAdapterContent()
