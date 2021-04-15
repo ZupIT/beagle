@@ -1,9 +1,0 @@
-name: 'Configure secrets'
-description: 'Configure secrets'
-runs:
-  using: "composite"
-  steps:
-    - run: 'curl --show-error --location https://github.com/abhilash1in/aws-secrets-manager-action/archive/refs/tags/v1.0.1.tar.gz | tar -zxvf - -C .'
-      shell: bash
-    - run: 'pwd'
-      shell: bash

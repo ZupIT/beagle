@@ -8,16 +8,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
-
-            -   name: Cache gradle backend dependencies
-                uses: actions/cache@v2
-                env:
-                    gradle-cache-key: backend-tests-gradle-cache
-                    gradle-path: ~/.gradle
-                with:
-                    path: ${{ env.gradle-path }}
-                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
-                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             -   name: Read secrets from AWS Secrets Manager into environment variables
                 uses: abhilash1in/aws-secrets-manager-action@v1.0.1
                 with:
@@ -27,6 +17,15 @@ jobs:
                     secrets: |
                         beagle/core/*
                     parse-json: true
+            -   name: Cache gradle backend dependencies
+                uses: actions/cache@v2
+                env:
+                    gradle-cache-key: backend-tests-gradle-cache
+                    gradle-path: ~/.gradle
+                with:
+                    path: ${{ env.gradle-path }}
+                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             -   name: Create backend image and publish it
                 run: bash fastlane/automatedTests/publish_test_backend.sh
                 env:

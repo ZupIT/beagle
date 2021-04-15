@@ -21,11 +21,15 @@ jobs:
         runs-on: macos-latest
         steps:
             -   uses: actions/checkout@v2
-            -   uses: ./.github/actions/configure-secrets
-            -   uses: ./.github/actions/secrets
+            -   name: Read secrets from AWS Secrets Manager into environment variables
+                uses: abhilash1in/aws-secrets-manager-action@v1.0.1
                 with:
                     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                    aws-region: us-east-1
+                    secrets: |
+                        beagle/core/*
+                    parse-json: true
             # Gems for Fastlane
             -   name: Cache ruby gems dependencies
                 uses: actions/cache@v2

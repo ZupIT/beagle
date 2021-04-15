@@ -13,17 +13,17 @@ jobs:
               with:
                   fetch-depth: '0'
                   ref: 'master'
-            - name: Install Fastlane
-              run: bundle install
             - name: Read secrets from AWS Secrets Manager into environment variables
               uses: abhilash1in/aws-secrets-manager-action@v1.0.1
               with:
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: us-east-1
-                  secrets: |
-                      beagle/core/*
-                  parse-json: true
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: us-east-1
+                secrets: |
+                  beagle/core/*
+                parse-json: true
+            - name: Install Fastlane
+              run: bundle install
             - name: Deploy new version
               env:
                 REPO_TOKEN: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_TOKEN }}
