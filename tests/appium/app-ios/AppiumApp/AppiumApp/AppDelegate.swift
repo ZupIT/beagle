@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         BeagleConfig.config()
         
-        // extracts the suffix of the link "appiumapp:"
+        // extracts the suffix of the link "appiumapp://"
         let deepLinkValue = url.absoluteString
         var bffUrl: String = ""
         if let range = deepLinkValue.range(of: "appiumapp://") {
