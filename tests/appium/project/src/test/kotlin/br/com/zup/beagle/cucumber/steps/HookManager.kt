@@ -66,5 +66,9 @@ class HookManager {
             // Always restarts after a test failure because the failure might be caused by a random app crash
             SuiteSetup.restartApp()
         }
+
+        // Android tests by default won't restart app anymore because they now use deep links to load bff screens
+        if (SuiteSetup.isIos())
+            SuiteSetup.restartApp()
     }
 }
