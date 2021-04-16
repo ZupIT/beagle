@@ -67,7 +67,7 @@ class HookManager {
             SuiteSetup.restartApp()
         }
 
-        // Android tests by default won't restart app anymore because they now use deep links to load bff screens
+        // iOS simulator needs to restart the app after each test scenario due to speed issues
         if (SuiteSetup.isIos())
             SuiteSetup.restartApp()
     }
