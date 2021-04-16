@@ -23,25 +23,10 @@ class DeepLinkViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
         
         // calls the bff screen using the bffUrl
         let viewController = Beagle.screen(.remote(.init(url: bffUrl)), controllerId: "CustomBeagleNavigation")
         navigationController?.pushViewController(viewController, animated: true)
-    }
-}
-
-extension DeepLinkViewController: ViewLayoutHelper {
-    func setupConstraints() {
-        
-    }
-    
-    func setupAdditionalConfiguration() {
-        
-    }
-    
-    func buildViewHierarchy() {
-   
     }
 }
 
