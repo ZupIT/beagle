@@ -17,10 +17,15 @@
 name: Beagle Appium iOS Tests
 
 on:
-  workflow_run:
-    workflows: ["Beagle Appium Tests"]
-    types:
-      - completed
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/**'
+  pull_request:
+    paths:
+      - '.github/**'
+
 
 jobs:
   appium_tests:
@@ -91,6 +96,7 @@ jobs:
           DEVICEUUID=`cat ~/deviceIdTemp.txt`
           xcrun simctl boot $DEVICEUUID
           sleep 30
+          xcrun simctl list
 
       ##################################################################################################
       # Emulator config - end
