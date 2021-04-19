@@ -179,8 +179,9 @@ object SuiteSetup {
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName)
             capabilities.setCapability(MobileCapabilityType.APP, appFile)
 
-
+            println("#### starting iOS driver ... ")
             driver = IOSDriver<MobileElement>(URL(APPIUM_URL), capabilities)
+            println("#### iOS driver started! ")
         }
     }
 
