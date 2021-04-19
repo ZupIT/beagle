@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package beagle;
-
-import "messages.proto";
-
-service ScreenController {
-  rpc getScreen (beagle.ScreenRequest) returns (beagle.ViewNode) {}
-}
