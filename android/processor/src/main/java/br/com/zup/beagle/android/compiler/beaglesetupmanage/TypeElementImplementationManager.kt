@@ -59,7 +59,8 @@ internal object TypeElementImplementationManager {
             }
             typeElement.implements(HTTP_CLIENT_FACTORY_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.httpClientFactory
-                propertySpecifications?.httpClientFactory = manage.manageTypeElement(element, HTTP_CLIENT_FACTORY_HANDLER.className)
+                propertySpecifications?.httpClientFactory =
+                    manage.manageTypeElement(element, HTTP_CLIENT_FACTORY_HANDLER.className)
             }
             typeElement.implements(STORE_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.storeHandler
