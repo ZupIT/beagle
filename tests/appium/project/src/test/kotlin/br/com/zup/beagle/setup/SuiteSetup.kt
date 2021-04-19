@@ -172,7 +172,14 @@ object SuiteSetup {
                 appFile = "COMPLETE-PATH-TO/AppiumApp.app"
 
             capabilities.setCapability("noReset", true)
-            capabilities.setCapability("waitForQuiescence", false)
+            // capabilities.setCapability("waitForQuiescence", false)
+
+            capabilities.setCapability("clearSystemFiles", "true");
+            capabilities.setCapability("wdaStartupRetryInterval", "1000");
+            capabilities.setCapability("useNewWDA", "true");
+            capabilities.setCapability("waitForQuiescence", "false");
+            capabilities.setCapability("shouldUseSingletonTestManager", "false");
+
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion)
