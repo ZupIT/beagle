@@ -69,6 +69,6 @@ class HookManager {
 
         // iOS simulator needs to restart the app after each test scenario due to speed issues
         if (SuiteSetup.isIos())
-            SuiteSetup.getDriver().closeApp()
+            SuiteSetup.restartApp()
     }
 }

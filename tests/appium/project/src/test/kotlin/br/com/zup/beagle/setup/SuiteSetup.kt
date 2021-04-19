@@ -181,7 +181,7 @@ object SuiteSetup {
 
             // Helps to prevent the iOS driver from getting stuck at initialization. source: https://developers.perfectomobile.com/pages/viewpage.action?pageId=38012661
             //capabilities.setCapability("clearSystemFiles", "true")
-            capabilities.setCapability("wdaStartupRetryInterval", "2000")
+            // capabilities.setCapability("wdaStartupRetryInterval", "2000")
             //capabilities.setCapability("useNewWDA", "true")
             //capabilities.setCapability("shouldUseSingletonTestManager", "false")
 
