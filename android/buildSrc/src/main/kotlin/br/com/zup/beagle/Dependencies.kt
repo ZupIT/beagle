@@ -35,7 +35,6 @@ class Dependencies : Plugin<Project> {
         const val preview = ":preview"
         const val commonProcessorSharedCode = ":processor-shared-code"
         const val test = ":test"
-        const val grpc = ":beagle-grpc"
     }
 
     object Releases {

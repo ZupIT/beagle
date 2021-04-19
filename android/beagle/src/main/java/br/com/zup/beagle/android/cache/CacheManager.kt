@@ -127,7 +127,6 @@ internal class CacheManager(
         responseData: ResponseData,
     ): String {
         return if (responseData.statusCode == 304 && beagleCache != null) {
-            println("los headers ${responseData.headers}")
             persistCacheOnMemory(url, beagleCache.json, beagleCache.hash, null)
             persistCacheDataOnDisk(url, beagleCache.json, beagleCache.hash)
             beagleCache.json

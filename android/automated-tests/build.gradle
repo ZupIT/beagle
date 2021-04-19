@@ -36,7 +36,7 @@ android {
 
     defaultConfig {
         applicationId "br.com.zup.beagle.automatedTests"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
