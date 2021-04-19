@@ -100,7 +100,7 @@ extension KeyedDecodingContainer {
         }
     }
     
-    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> [ServerDrivenComponent]? {
+    public func decodeIfPresent(forKey key: KeyedDecodingContainer<K>.Key) throws -> [ServerDrivenComponent]? {
         let content = try decodeIfPresent([AnyDecodableContainer].self, forKey: key)
         
         if let components = content {

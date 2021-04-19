@@ -16,14 +16,14 @@
 
 public struct Container: Widget, HasContext, InitiableComponent, AutoDecodable {
     // MARK: - Public Properties
-    public let children: [ServerDrivenComponent]
+    public let children: [ServerDrivenComponent]?
     public var widgetProperties: WidgetProperties
     public let onInit: [Action]?
     public let context: Context?
     public let styleId: String?
 
     public init(
-        children: [ServerDrivenComponent],
+        children: [ServerDrivenComponent]? = nil,
         widgetProperties: WidgetProperties = WidgetProperties(),
         context: Context? = nil,
         onInit: [Action]? = nil,

@@ -19,7 +19,7 @@ import SnapshotTesting
 @testable import Beagle
 
 final class ScrollViewTests: XCTestCase {
-
+    
     func test_initWithChildBuilder_shouldReturnExpectedInstance() {
         // Given / When
         let component = ScrollView(children: [
@@ -27,8 +27,8 @@ final class ScrollViewTests: XCTestCase {
         ])
         
         // Then
-        XCTAssert(component.children.count == 1)
-        XCTAssert(component.children[safe: 0] is Text)
+        XCTAssert(component.children?.count == 1)
+        XCTAssert(component.children?[safe: 0] is Text)
     }
     
     func test_initWithChildrenBuilder_shouldReturnExpectedInstance() {
@@ -39,9 +39,9 @@ final class ScrollViewTests: XCTestCase {
         ])
         
         // Then
-        XCTAssert(component.children.count == 2)
-        XCTAssert(component.children[safe: 0] is Text)
-        XCTAssert(component.children[safe: 1] is Button)
+        XCTAssert(component.children?.count == 2)
+        XCTAssert(component.children?[safe: 0] is Text)
+        XCTAssert(component.children?[safe: 1] is Button)
     }
     
     func test_toView_shouldReturnTheExpectedView() {

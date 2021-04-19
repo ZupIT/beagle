@@ -19,7 +19,7 @@ public struct SimpleForm: ServerDrivenComponent, HasContext, AutoInitiableAndDec
     public var context: Context?
     public let onSubmit: [Action]?
     public let onValidationError: [Action]?
-    public let children: [ServerDrivenComponent]
+    public let children: [ServerDrivenComponent]?
     public var widgetProperties: WidgetProperties
     
 // sourcery:inline:auto:SimpleForm.Init
@@ -27,7 +27,7 @@ public struct SimpleForm: ServerDrivenComponent, HasContext, AutoInitiableAndDec
         context: Context? = nil,
         onSubmit: [Action]? = nil,
         onValidationError: [Action]? = nil,
-        children: [ServerDrivenComponent],
+        children: [ServerDrivenComponent]? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.context = context

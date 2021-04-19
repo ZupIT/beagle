@@ -24,7 +24,7 @@ extension ScrollView {
         let scrollView = BeagleContainerScrollView()
         let contentView = UIView()
         
-        children.forEach {
+        children?.forEach {
             let childView = renderer.render($0)
             contentView.addSubview(childView)
         }
