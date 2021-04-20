@@ -68,7 +68,7 @@ class HookManager {
                 SuiteSetup.resetApp()
         }
 
-        // iOS simulator needs to reset app the app after each test scenario due to speed issues
+        // iOS simulator needs to reset the app after each test scenario due to speed issues
         if (SuiteSetup.isIos())
             SuiteSetup.resetApp()
     }

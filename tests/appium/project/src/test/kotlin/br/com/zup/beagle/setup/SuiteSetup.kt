@@ -172,7 +172,7 @@ object SuiteSetup {
                 appFile = "COMPLETE-PATH-TO/AppiumApp.app"
 
             capabilities.setCapability("noReset", true)
-            capabilities.setCapability("waitForQuiescence", false);
+            capabilities.setCapability("waitForQuiescence", false)
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion)
@@ -180,15 +180,18 @@ object SuiteSetup {
             capabilities.setCapability(MobileCapabilityType.APP, appFile)
 
             // helps with caching and socket hangup problems
-            //capabilities.setCapability("clearSystemFiles", "true")
-            //capabilities.setCapability("shouldUseSingletonTestManager", "false")
+            capabilities.setCapability("clearSystemFiles", "true")
+            capabilities.setCapability("shouldUseSingletonTestManager", "false")
 
             println("#### starting iOS driver ... ")
             driver = IOSDriver<MobileElement>(URL(APPIUM_URL), capabilities)
         }
     }
 
-
+    /**
+     * App resetting behavior depends on some capabilities:
+     * https://appium.io/docs/en/writing-running-appium/other/reset-strategies/index.html
+     */
     fun resetApp() {
         try {
             driver?.resetApp();
