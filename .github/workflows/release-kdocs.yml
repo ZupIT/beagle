@@ -11,7 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
+      - name: Read secrets from AWS Secrets Manager into environment variables
+        uses: abhilash1in/aws-secrets-manager-action@v1.0.1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          secrets: |
+            beagle/core/*
+            beagle/docs/aws
+          parse-json: true
       - name: Setup JDK (8)
         uses: actions/setup-java@v2
         with:
@@ -38,18 +47,17 @@ jobs:
 
       - name: merge docs
         run: bash fastlane/kdocs/merge_docs.sh
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_DOCS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_DOCS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ env.BEAGLE_DOCS_AWS_AWS_DOCS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.BEAGLE_DOCS_AWS_AWS_DOCS_SECRET_ACCESS_KEY }}
           aws-region: sa-east-1
 
       - name: S3 upload
         if: contains(github.ref, 'tags')
-        run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_S3_BUCKET }}/ --delete
+        run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ env.BEAGLE_DOCS_AWS_AWS_DOCS_S3_BUCKET }}/ --delete
 
       - name: S3 BETA upload
         if: ${{ github.ref == 'refs/heads/master' }}
-        run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ secrets.AWS_DOCS_BETA_BUCKET }}/ --delete
+        run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ env.BEAGLE_DOCS_AWS_AWS_DOCS_BETA_BUCKET }}/ --delete
