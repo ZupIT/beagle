@@ -179,11 +179,6 @@ object SuiteSetup {
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName)
             capabilities.setCapability(MobileCapabilityType.APP, appFile)
 
-            // helps with caching and socket hangup problems
-            capabilities.setCapability("clearSystemFiles", "true")
-            capabilities.setCapability("shouldUseSingletonTestManager", "false")
-
-            println("#### starting iOS driver ... ")
             driver = IOSDriver<MobileElement>(URL(APPIUM_URL), capabilities)
         }
     }
