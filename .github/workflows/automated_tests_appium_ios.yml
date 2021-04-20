@@ -97,8 +97,8 @@ jobs:
           #xcrun simctl boot $DEVICEUUID
           #sleep 30
           xcrun simctl list
-          # Boots simulator iOS 13.5 with iPhone 11 (B2B21604-C907-430E-8E6A-7A7001E5348C)
-          open -a Simulator --args -CurrentDeviceUDID B2B21604-C907-430E-8E6A-7A7001E5348C
+          # Boots simulator with iPhone 11 (E387E3DB-87ED-4005-B890-73FD5FE1DDA3)
+          open -a Simulator --args -CurrentDeviceUDID E387E3DB-87ED-4005-B890-73FD5FE1DDA3
 
       ##################################################################################################
       # Emulator config - end
