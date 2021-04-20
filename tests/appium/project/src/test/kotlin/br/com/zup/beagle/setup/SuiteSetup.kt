@@ -173,7 +173,6 @@ object SuiteSetup {
 
             capabilities.setCapability("noReset", true)
             capabilities.setCapability("waitForQuiescence", false)
-            capabilities.setCapability("isHeadless", true)
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion)
