@@ -49,7 +49,7 @@ class HookManager {
         if (scenario.isFailed) {
             try {
                 val scrFile: File = (SuiteSetup.getDriver() as TakesScreenshot).getScreenshotAs(OutputType.FILE)
-                val scenarioName = scenario.name.replace("[^A-Za-z0-9]".toRegex()," ")
+                val scenarioName = scenario.name.replace("[^A-Za-z0-9]".toRegex(), " ")
                 val destFile = File("${SuiteSetup.ERROR_SCREENSHOTS_FOLDER}/ERROR-${scenarioName}-${System.currentTimeMillis()}.png")
 
                 if (destFile.exists())
@@ -63,12 +63,13 @@ class HookManager {
                 println("ERROR taking a screenshot on error: ${exception.message}")
             }
 
-            // Always restarts after a test failure because the failure might be caused by a random app crash
-            SuiteSetup.restartApp()
+            // Android tests reset app only on errors
+            if (SuiteSetup.isAndroid())
+                SuiteSetup.resetApp()
         }
 
-        // iOS simulator needs to restart the app after each test scenario due to speed issues
+        // iOS simulator needs to reset app the app after each test scenario due to speed issues
         if (SuiteSetup.isIos())
-            SuiteSetup.restartApp()
+            SuiteSetup.resetApp()
     }
 }

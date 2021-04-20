@@ -172,7 +172,7 @@ object SuiteSetup {
                 appFile = "COMPLETE-PATH-TO/AppiumApp.app"
 
             capabilities.setCapability("noReset", true)
-            capabilities.setCapability("waitForQuiescence", "false");
+            capabilities.setCapability("waitForQuiescence", false);
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest")
             capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion)
@@ -185,7 +185,6 @@ object SuiteSetup {
 
             println("#### starting iOS driver ... ")
             driver = IOSDriver<MobileElement>(URL(APPIUM_URL), capabilities)
-            println("#### iOS driver started! ")
         }
     }
 
