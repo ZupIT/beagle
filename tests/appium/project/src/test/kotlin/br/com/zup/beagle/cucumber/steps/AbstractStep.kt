@@ -49,7 +49,6 @@ abstract class AbstractStep {
         return driver!!
     }
 
-    @Deprecated("Use deep links instead. See method loadBffScreenFromDeepLink")
     protected fun loadBffScreenFromMainScreen() {
         val mainScreen = MainScreen(getDriver())
         mainScreen.setBffUrl(SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
@@ -71,8 +70,7 @@ abstract class AbstractStep {
     }
 
     protected fun loadBffScreen() {
-        // loadBffScreenFromDeepLink()
-        loadBffScreenFromMainScreen()
+        loadBffScreenFromDeepLink()
     }
 
     /**
