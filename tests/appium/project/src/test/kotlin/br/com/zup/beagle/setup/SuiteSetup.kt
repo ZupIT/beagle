@@ -179,10 +179,8 @@ object SuiteSetup {
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName)
             capabilities.setCapability(MobileCapabilityType.APP, appFile)
 
-            // Helps to prevent the iOS driver from getting stuck at initialization. source: https://developers.perfectomobile.com/pages/viewpage.action?pageId=38012661
+            // helps with caching and socket hangup problems
             //capabilities.setCapability("clearSystemFiles", "true")
-            // capabilities.setCapability("wdaStartupRetryInterval", "2000")
-            //capabilities.setCapability("useNewWDA", "true")
             //capabilities.setCapability("shouldUseSingletonTestManager", "false")
 
             println("#### starting iOS driver ... ")
@@ -192,7 +190,6 @@ object SuiteSetup {
     }
 
 
-    @Deprecated("Too slow on iOS. Use restartApp instead")
     fun resetApp() {
         try {
             driver?.resetApp();
