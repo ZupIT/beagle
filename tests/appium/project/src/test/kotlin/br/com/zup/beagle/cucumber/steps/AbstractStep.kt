@@ -71,7 +71,8 @@ abstract class AbstractStep {
     }
 
     protected fun loadBffScreen() {
-        loadBffScreenFromDeepLink()
+        // loadBffScreenFromDeepLink()
+        loadBffScreenFromMainScreen()
     }
 
     /**
