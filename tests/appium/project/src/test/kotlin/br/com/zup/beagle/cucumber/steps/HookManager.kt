@@ -63,7 +63,7 @@ class HookManager {
                 println("ERROR taking a screenshot on error: ${exception.message}")
             }
 
-            // Android tests reset app only on errors
+            // Android tests reset the app only on errors
             if (SuiteSetup.isAndroid())
                 SuiteSetup.resetApp()
         }
