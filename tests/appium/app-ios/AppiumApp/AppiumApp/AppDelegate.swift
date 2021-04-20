@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         BeagleConfig.config()
         
+        UIView.setAnimationsEnabled(false)
+        
         // extracts the suffix of the link "appiumapp://"
         let deepLinkValue = url.absoluteString
         var bffUrl: String = ""
