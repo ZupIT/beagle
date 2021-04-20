@@ -98,7 +98,7 @@ jobs:
           #sleep 30
           xcrun simctl list
           # Boots simulator with iPhone 11 (E387E3DB-87ED-4005-B890-73FD5FE1DDA3)
-          open -a Simulator --args -CurrentDeviceUDID E387E3DB-87ED-4005-B890-73FD5FE1DDA3
+          xcrun simctl boot E387E3DB-87ED-4005-B890-73FD5FE1DDA3
 
       ##################################################################################################
       # Emulator config - end
