@@ -63,13 +63,13 @@ class HookManager {
                 println("ERROR taking a screenshot on error: ${exception.message}")
             }
 
-            // Android tests reset the app only on errors
+            // Android tests restart the app only on errors
             if (SuiteSetup.isAndroid())
-                SuiteSetup.resetApp()
+                SuiteSetup.restartApp()
         }
 
-        // iOS simulator needs to reset the app after each test scenario due to speed issues
+        // iOS simulator needs to restart the app after each test scenario due to speed issues
         if (SuiteSetup.isIos())
-            SuiteSetup.resetApp()
+            SuiteSetup.restartApp()
     }
 }
