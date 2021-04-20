@@ -418,4 +418,23 @@ internal class BeagleMessageLogsTest {
             verify(exactly = 1) { BeagleLoggerProxy.warning(expectedMessage) }
         }
     }
+
+    @DisplayName("When try to download an invalid image")
+    @Nested
+    inner class DownloadImage {
+
+        @DisplayName("Then should call BeagleLoggerProxy.error with image and exception")
+        @Test
+        fun downloadInvalidImage() {
+            // Given
+            val image = "/image"
+            val exceptionMessage = "Error while trying to download image: $image"
+
+            // When
+            BeagleMessageLogs.errorWhileTryingToDownloadImage(image, exception)
+
+            // Then
+            verify(exactly = 1) { BeagleLoggerProxy.error(exceptionMessage, exception) }
+        }
+    }
 }

@@ -84,7 +84,7 @@ platform :ios do
     check_if_beagle_works_via_spm_integration
   end
 
-  desc "Check wether Beagle is working via CocoaPods in an Example Project"
+  desc "Check whether Beagle is working via CocoaPods in an Example Project"
   private_lane :check_if_beagle_works_via_cocoapods_integration do
     xcversion(version: "~> 11.5.0")
     cocoapods(
@@ -98,7 +98,7 @@ platform :ios do
     )
   end
 
-  desc "Check wether Beagle is working via SPM in an Example Project"
+  desc "Check whether Beagle is working via SPM in an Example Project"
   private_lane :check_if_beagle_works_via_spm_integration do
     scan(
       project: "iOS/Example/SPMTest/SPMTest.xcodeproj",

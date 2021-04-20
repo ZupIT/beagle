@@ -23,9 +23,13 @@ import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.net.URL
 
+internal object URLFactory {
+    fun createURL(url: String?) = URL(url)
+}
+
 internal class ImageDownloader {
 
-    suspend fun getRemoteImage(url: String, contentWidth: Int, contentHeight: Int) : Bitmap? {
+    suspend fun getRemoteImage(url: String, contentWidth: Int, contentHeight: Int) : Bitmap {
         val cacheId = LruImageCache.generateBitmapId(url, contentWidth, contentHeight)
 
         return withContext(CoroutineDispatchers.IO) {
@@ -33,15 +37,15 @@ internal class ImageDownloader {
 
             bitmapCached
                 ?: url.let {
-                    downloadBitmap(it, contentWidth, contentHeight).apply {
+                    downloadBitmap(it).apply {
                         LruImageCache.put(cacheId, this)
                     }
                 }
         }
     }
 
-    private fun downloadBitmap(url: String?, contentWidth: Int, contentHeight: Int) : Bitmap {
-        val inputStream: InputStream = URL(url).openStream()
+    private fun downloadBitmap(url: String?) : Bitmap {
+        val inputStream: InputStream = URLFactory.createURL(url).openStream()
         return BitmapFactory.decodeStream(inputStream)
     }
 }

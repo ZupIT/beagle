@@ -152,4 +152,9 @@ internal object BeagleMessageLogs {
         val warningMessage = "Cannot get some attributes of property $propertyName."
         BeagleLoggerProxy.warning(warningMessage)
     }
+
+    fun errorWhileTryingToDownloadImage(image: String, ex: Exception) {
+        val errorMessage = "Error while trying to download image: $image"
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
 }
