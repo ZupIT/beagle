@@ -95,7 +95,7 @@ jobs:
           xcrun simctl create TestiPhoneX com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-13-5 > ~/deviceIdTemp.txt
           DEVICEUUID=`cat ~/deviceIdTemp.txt`
           xcrun simctl boot $DEVICEUUID
-          sleep 60
+          sleep 30
 
       ##################################################################################################
       # Emulator config - end
