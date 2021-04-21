@@ -41,7 +41,7 @@ import br.com.zup.beagle.widget.core.ScrollAxis
  */
 @RegisterWidget("scrollview")
 data class ScrollView(
-    override val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>? = null,
     val scrollDirection: ScrollAxis? = null,
     val scrollBarEnabled: Boolean? = null,
     override val context: ContextData? = null,
@@ -64,20 +64,21 @@ data class ScrollView(
         val styleChild = Style(flex = Flex(flexDirection = flexDirection))
 
         return viewFactory.makeBeagleFlexView(rootView, styleParent).apply {
-
-            addView(if (scrollDirection == ScrollAxis.HORIZONTAL) {
-                viewFactory.makeHorizontalScrollView(context).apply {
-                    isHorizontalScrollBarEnabled = scrollBarEnabled
-                    addChildrenViews(this, children, rootView, styleChild, true)
-                }
-            } else {
-
-                viewFactory.makeScrollView(context).apply {
-                    isVerticalScrollBarEnabled = scrollBarEnabled
-                    addChildrenViews(this, children, rootView, styleChild, false)
-                }
-
-            }, styleParent)
+            children?.let {
+                addView(
+                    if (scrollDirection == ScrollAxis.HORIZONTAL) {
+                        viewFactory.makeHorizontalScrollView(context).apply {
+                            isHorizontalScrollBarEnabled = scrollBarEnabled
+                            addChildrenViews(this, children, rootView, styleChild, true)
+                        }
+                    } else {
+                        viewFactory.makeScrollView(context).apply {
+                            isVerticalScrollBarEnabled = scrollBarEnabled
+                            addChildrenViews(this, children, rootView, styleChild, false)
+                        }
+                    }, styleParent
+                )
+            }
         }
     }
 

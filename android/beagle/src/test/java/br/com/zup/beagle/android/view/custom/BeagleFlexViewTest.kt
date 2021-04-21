@@ -21,20 +21,13 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import com.facebook.yoga.YogaNode
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.spyk
-import io.mockk.verify
-import io.mockk.verifyOrder
+import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Beagle Flex View")
+@DisplayName("Given a BeagleFlexView")
 internal class BeagleFlexViewTest : BaseTest() {
 
     private val styleMock = mockk<Style>(relaxUnitFun = true, relaxed = true)
@@ -120,7 +113,20 @@ internal class BeagleFlexViewTest : BaseTest() {
                 beagleFlexView.addServerDrivenComponent(list[0], true)
                 beagleFlexView.addServerDrivenComponent(list[1], true)
             }
+        }
 
+        @DisplayName("Then it should not call internal view if it's null")
+        @Test
+        fun testInternalComponentViewNotCalled() {
+            // Given
+            val list = null
+            val addLayoutChangeListener = true
+
+            // When
+            beagleFlexView.addView(list, addLayoutChangeListener)
+
+            // Then
+            verify(exactly = 0) { beagleFlexView.addServerDrivenComponent(any(), addLayoutChangeListener) }
         }
     }
 
