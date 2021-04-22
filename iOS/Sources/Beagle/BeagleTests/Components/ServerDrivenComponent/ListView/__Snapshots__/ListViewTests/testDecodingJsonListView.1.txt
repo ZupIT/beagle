@@ -14,7 +14,13 @@
   - scrollEndThreshold: Optional<Int>.none
   ▿ template: Container
     ▿ children: Optional<Array<ServerDrivenComponent>>
-      - some: 0 elements
+      ▿ some: 3 elements
+        ▿ UnknownComponent
+          - type: "custom:beagleschematestscomponent"
+        ▿ UnknownComponent
+          - type: "custom:beagleschematestscomponent"
+        ▿ UnknownComponent
+          - type: "custom:beagleschematestscomponent"
     - context: Optional<Context>.none
     - onInit: Optional<Array<Action>>.none
     - styleId: Optional<String>.none

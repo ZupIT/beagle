@@ -19,7 +19,7 @@ import UIKit
 extension PageView {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let pagesControllers = children.map {
+        let pagesControllers = children?.map {
             ComponentHostController($0, renderer: renderer)
         }
 
@@ -29,7 +29,7 @@ extension PageView {
         }
 
         let view = PageViewUIComponent(
-            model: .init(pages: pagesControllers),
+            model: .init(pages: pagesControllers ?? []),
             indicatorView: indicatorView,
             controller: renderer.controller
         )

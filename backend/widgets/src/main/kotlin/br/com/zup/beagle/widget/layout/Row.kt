@@ -37,14 +37,16 @@ fun Row(
     onInit: List<Action>? = null,
     reverse: Boolean = false,
     styleId: String? = null,
-    children: List<ServerDrivenComponent> = listOf(),
+    children: List<ServerDrivenComponent>? = null,
 ): Container {
-    return Styled(Container(
-        children = children,
-        context = context,
-        onInit = onInit,
-        styleId = styleId
-    ), {
+    return Styled(
+        Container(
+            children = children,
+            context = context,
+            onInit = onInit,
+            styleId = styleId,
+        )
+    ) {
         flex.flexDirection = if (!reverse) FlexDirection.ROW else FlexDirection.ROW_REVERSE
-    })
+    }
 }

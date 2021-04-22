@@ -38,7 +38,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
     """.data(using: .utf8) ?? Data()
     
     func testPrefetchAndDequeue() {
-        //Given
+        // Given
         guard let remoteComponent = decodeComponent(from: jsonData) else {
             XCTFail("Could not decode component.")
             return
@@ -49,18 +49,18 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let url = "url-test"
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         
-        //When
+        // When
         sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
         
         cacheManager.addToCache(reference)
         let result = dependencies.cacheManager?.getReference(identifiedBy: url)
 
-        //Then
+        // Then
         XCTAssertEqual(result?.data, jsonData, "Retrieved wrong component.")
     }
     
     func testPrefetchTheSameScreenTwice() {
-        //Given
+        // Given
         guard let remoteComponent = decodeComponent(from: jsonData) else {
             XCTFail("Could not decode component.")
             return
@@ -71,20 +71,20 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let url = "url-test"
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         
-        //When
+        // When
         cacheManager.addToCache(reference)
         sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
         let result1 = dependencies.cacheManager?.getReference(identifiedBy: url)
         sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
         let result2 = dependencies.cacheManager?.getReference(identifiedBy: url)
         
-        //Then
+        // Then
         XCTAssertEqual(result1?.data, jsonData, "Retrieved wrong component.")
         XCTAssertEqual(result2?.data, jsonData, "Retrieved wrong component.")
     }
 
     func testNavigationIsPrefetchable() {
-        //Given //When
+        // Given // When
         let path = "path"
         let data = ["data": "value"]
         let container = Container(children: [])
@@ -116,14 +116,14 @@ final class BeaglePrefetchHelperTests: XCTestCase {
 
             Navigate.popStack(),
             Navigate.popView(),
-            Navigate.popToView(path)
+            Navigate.popToView(.init(stringLiteral: path))
         ]
         let bools = actions.map { $0.newPath }
         let result: String = zip(actions, bools).reduce("") { partial, zip in
             "\(partial)  \(zip.0)  -->  \(descriptionWithoutOptional(zip.1)) \n\n"
         }
         
-        //Then
+        // Then
         assertSnapshot(matching: result, as: .description)
     }
     

@@ -8,28 +8,29 @@
         - key: "id"
         - value: "11111"
   ▿ child: Container
-    ▿ children: 3 elements
-      ▿ FormInput
-        ▿ child: UnknownComponent
-          - type: "custom:beagleschematestscomponent"
-        - errorMessage: Optional<String>.none
-        - name: "optional-field"
-        - required: Optional<Bool>.none
-        - validator: Optional<String>.none
-      ▿ FormInput
-        ▿ child: UnknownComponent
-          - type: "custom:unknown"
-        - errorMessage: Optional<String>.none
-        - name: "another-required-field"
-        ▿ required: Optional<Bool>
-          - some: true
-        ▿ validator: Optional<String>
-          - some: "text-is-not-blank"
-      ▿ FormSubmit
-        ▿ child: UnknownComponent
-          - type: "custom:beagleschematestscomponent"
-        ▿ enabled: Optional<Bool>
-          - some: false
+    ▿ children: Optional<Array<ServerDrivenComponent>>
+      ▿ some: 3 elements
+        ▿ FormInput
+          ▿ child: UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+          - errorMessage: Optional<String>.none
+          - name: "optional-field"
+          - required: Optional<Bool>.none
+          - validator: Optional<String>.none
+        ▿ FormInput
+          ▿ child: UnknownComponent
+            - type: "custom:unknown"
+          - errorMessage: Optional<String>.none
+          - name: "another-required-field"
+          ▿ required: Optional<Bool>
+            - some: true
+          ▿ validator: Optional<String>
+            - some: "text-is-not-blank"
+        ▿ FormSubmit
+          ▿ child: UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+          ▿ enabled: Optional<Bool>
+            - some: false
     - context: Optional<Context>.none
     - onInit: Optional<Array<Action>>.none
     - styleId: Optional<String>.none

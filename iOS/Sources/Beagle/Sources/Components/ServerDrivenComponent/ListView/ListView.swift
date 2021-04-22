@@ -67,13 +67,13 @@ public struct ListView: Widget, HasContext, InitiableComponent {
 
     @available(*, deprecated, message: "use the dataSource and template instead of children")
     public init(
-        children: [ServerDrivenComponent],
+        children: [ServerDrivenComponent]? = nil,
         direction: Direction = .vertical
     ) {
         self.init(
             dataSource: .value([.empty]),
             direction: direction,
-            template: Self.templateFor(children: children, direction: direction),
+            template: Self.templateFor(children: children ?? [], direction: direction),
             iteratorName: Self.randomIteratorName()
         )
     }
@@ -131,17 +131,17 @@ extension ListView: Decodable {
         isScrollIndicatorVisible = try container.decodeIfPresent(Bool.self, forKey: .isScrollIndicatorVisible)
         widgetProperties = try WidgetProperties(listFrom: decoder)
         
-        if container.contains(.children) {
+        if let template: ServerDrivenComponent = try? container.decode(forKey: .template) {
+            dataSource = try container.decode(Expression<[DynamicObject]>.self, forKey: .dataSource)
+            self.template = template
+            self.iteratorName = iteratorName
+        } else {
             template = Self.templateFor(
-                children: try container.decode(forKey: .children),
+                children: try container.decodeIfPresent(forKey: .children) ?? [],
                 direction: direction
             )
             dataSource = .value([.empty])
             self.iteratorName = iteratorName ?? Self.randomIteratorName()
-        } else {
-            dataSource = try container.decode(Expression<[DynamicObject]>.self, forKey: .dataSource)
-            template = try container.decode(forKey: .template)
-            self.iteratorName = iteratorName
         }
     }
 }

@@ -42,7 +42,7 @@ import br.com.zup.beagle.core.Style
  */
 @RegisterWidget("container")
 data class Container(
-    override val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>? = null,
     override val context: ContextData? = null,
     override val onInit: List<Action>? = null,
     val styleId: String? = null,

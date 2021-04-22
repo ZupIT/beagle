@@ -36,13 +36,9 @@ import br.com.zup.beagle.core.Style
 
 /**
  * Component will define a submit handler for a SimpleForm.
- *
  * @param context define the contextData that be set to form
- *
  * @param children define the items on the simple form.
- *
  * @param onSubmit define the actions you want to execute when action submit form
- *
  * @param onValidationError this event is executed every time a form is submitted,
  * but because of a validation error, the onSubmit event is not run.
  *
@@ -51,7 +47,7 @@ import br.com.zup.beagle.core.Style
 data class SimpleForm(
     override val context: ContextData? = null,
     val onSubmit: List<Action>,
-    override val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>? = null,
     val onValidationError: List<Action>? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 

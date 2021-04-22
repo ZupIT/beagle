@@ -1,19 +1,20 @@
 ▿ SimpleForm
-  ▿ children: 1 element
-    ▿ Button
-      - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-      - enabled: Optional<Expression<Bool>>.none
-      ▿ onPress: Optional<Array<Action>>
-        ▿ some: 1 element
-          ▿ SubmitForm
-            - analytics: Optional<ActionAnalyticsConfig>.none
-      - styleId: Optional<String>.none
-      ▿ text: Expression<String>
-        - value: "Dados"
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
+  ▿ children: Optional<Array<ServerDrivenComponent>>
+    ▿ some: 1 element
+      ▿ Button
+        - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+        - enabled: Optional<Expression<Bool>>.none
+        ▿ onPress: Optional<Array<Action>>
+          ▿ some: 1 element
+            ▿ SubmitForm
+              - analytics: Optional<ActionAnalyticsConfig>.none
+        - styleId: Optional<String>.none
+        ▿ text: Expression<String>
+          - value: "Dados"
+        ▿ widgetProperties: WidgetProperties
+          - accessibility: Optional<Accessibility>.none
+          - id: Optional<String>.none
+          - style: Optional<Style>.none
   ▿ context: Optional<Context>
     ▿ some: Context
       - id: "cadastro"
