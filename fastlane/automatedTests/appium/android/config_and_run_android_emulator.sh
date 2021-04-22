@@ -64,9 +64,9 @@ echo "hw.lcd.density=440
 hw.lcd.height=2220
 hw.lcd.width=1080
 hw.ramSize=1536
-vm.heapSize=512
-hw.gpu.enabled=yes
-hw.gpu.mode=auto" >> $AVD_CONFIG_FILE
+vm.heapSize = 512
+hw.gpu.enabled = yes
+hw.gpu.mode = auto" >> $AVD_CONFIG_FILE
 
 #echo "##### Checking if a hypervisor is installed"
 #"$ANDROID_HOME"/emulator/emulator -accel-check
