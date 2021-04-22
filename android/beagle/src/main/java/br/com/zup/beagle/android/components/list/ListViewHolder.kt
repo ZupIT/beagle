@@ -74,7 +74,7 @@ internal class ListViewHolder(
         if (component is SingleChildComponent) {
             extractViewInfoFromHolderTemplate(component.child)
         } else if (component is MultiChildComponent) {
-            component.children.forEach { child ->
+            component.children?.forEach { child ->
                 extractViewInfoFromHolderTemplate(child)
             }
         }
@@ -165,7 +165,7 @@ internal class ListViewHolder(
         if (component is SingleChildComponent) {
             initializeContextComponents(component.child)
         } else if (component is MultiChildComponent) {
-            component.children.forEach { child ->
+            component.children?.forEach { child ->
                 initializeContextComponents(child)
             }
         }

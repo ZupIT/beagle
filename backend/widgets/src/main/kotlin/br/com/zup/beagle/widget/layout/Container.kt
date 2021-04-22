@@ -33,7 +33,7 @@ import br.com.zup.beagle.widget.context.ContextData
  *
  */
 data class Container(
-    val children: List<ServerDrivenComponent> = listOf(),
+    val children: List<ServerDrivenComponent>? = null,
     override val context: ContextData? = null,
     val onInit: List<Action>? = null,
     val styleId: String? = null,

@@ -71,10 +71,10 @@ class BeagleFlexView private constructor(
      * @property addLayoutChangeListener force recalculate layout when view change, prefer use true always
      */
     fun addView(
-        components: List<ServerDrivenComponent>,
+        components: List<ServerDrivenComponent>? = null,
         addLayoutChangeListener: Boolean = true,
     ) {
-        components.forEach {
+        components?.forEach {
             addView(it, addLayoutChangeListener)
         }
     }

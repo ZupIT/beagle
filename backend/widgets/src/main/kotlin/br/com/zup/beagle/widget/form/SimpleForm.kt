@@ -36,6 +36,6 @@ import br.com.zup.beagle.widget.context.ContextData
 class SimpleForm(
     override val context: ContextData? = null,
     val onSubmit: List<Action>,
-    val children: List<ServerDrivenComponent>,
-    val onValidationError: List<Action>? = null
+    val children: List<ServerDrivenComponent>? = null,
+    val onValidationError: List<Action>? = null,
 ) : ServerDrivenComponent, ContextComponent
