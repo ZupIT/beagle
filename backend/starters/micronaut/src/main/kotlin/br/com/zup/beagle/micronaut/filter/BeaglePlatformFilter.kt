@@ -23,7 +23,7 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.annotation.Filter
-import io.micronaut.http.filter.HttpServerFilter
+import io.micronaut.http.filter.OncePerRequestHttpServerFilter
 import io.micronaut.http.filter.ServerFilterChain
 import io.micronaut.http.server.netty.types.files.NettySystemFileCustomizableResponseType
 import io.reactivex.Flowable
@@ -31,9 +31,9 @@ import org.reactivestreams.Publisher
 
 @Filter("/**")
 @Requirements(Requires(classes = [BeaglePlatformUtil::class]))
-class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : HttpServerFilter {
+class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : OncePerRequestHttpServerFilter() {
 
-    override fun doFilter(request: HttpRequest<*>, chain: ServerFilterChain): Publisher<MutableHttpResponse<*>>? {
+    override fun doFilterOnce(request: HttpRequest<*>, chain: ServerFilterChain): Publisher<MutableHttpResponse<*>> {
         val currentPlatform = request.headers.get(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
         request.attributes.put(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER, currentPlatform)
         return Flowable.fromPublisher(chain.proceed(request))
