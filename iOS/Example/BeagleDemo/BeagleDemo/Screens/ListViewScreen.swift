@@ -173,14 +173,18 @@ struct ListViewScreen: DeeplinkScreen {
         return Container(
             widgetProperties: .init(
                 style: Style()
+                    .backgroundColor("#ddd")
+                    .cornerRadius(.init(radius: 5))
                     .flex(Flex().flexDirection(.row))
-                    .margin(EdgeValue().all(10)))
+                    .margin(EdgeValue().all(5))
+                    .padding(EdgeValue().all(5))
+            )
         ) {
             Image(
                 .value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{item.poster_path}"))),
                 widgetProperties: .init(
                     style: Style()
-                        .size(Size().width(120).height(180))
+                        .size(Size().width(120))
                         .margin(EdgeValue().right(15))
                 )
             )
