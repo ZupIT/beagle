@@ -18,14 +18,14 @@ public struct ScrollView: ServerDrivenComponent, AutoInitiableAndDecodable, HasC
     
     // MARK: - Public Properties
     
-    public let children: [ServerDrivenComponent]
+    public let children: [ServerDrivenComponent]?
     public let scrollDirection: ScrollAxis?
     public let scrollBarEnabled: Bool?
     public let context: Context?
 
 // sourcery:inline:auto:ScrollView.Init
     public init(
-        children: [ServerDrivenComponent],
+        children: [ServerDrivenComponent]? = nil,
         scrollDirection: ScrollAxis? = nil,
         scrollBarEnabled: Bool? = nil,
         context: Context? = nil

@@ -400,8 +400,18 @@ extension ListViewTests {
         assertSnapshotImage(view, size: imageSize)
     }
     
-    func test_whenDecodingJson_thenItShouldReturnAListView() throws {
+    func testDecodingJsonListView() throws {
         let component: ListView = try componentFromJsonFile(fileName: "listViewComponent")
+        assertSnapshot(matching: component, as: .dump)
+    }
+    
+    func testDecodingJsonListViewWithoutChildren() throws {
+        let component: ListView = try componentFromJsonFile(fileName: "listViewWithoutChildren")
+        assertSnapshot(matching: component, as: .dump)
+    }
+    
+    func testDecodingJsonListViewWithTemplate() throws {
+        let component: ListView = try componentFromJsonFile(fileName: "listViewWithTemplate")
         assertSnapshot(matching: component, as: .dump)
     }
     

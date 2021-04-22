@@ -162,6 +162,9 @@
 		9398CB10255591310003A010 /* RepresentableByParsableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9398CB0F255591310003A010 /* RepresentableByParsableString.swift */; };
 		93A2EE1C24EC4BB00085B3CF /* AddChildren+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1B24EC4BB00085B3CF /* AddChildren+Extensions.swift */; };
 		93A2EE2024EC71EA0085B3CF /* AddChildrenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1F24EC71EA0085B3CF /* AddChildrenTests.swift */; };
+		93A73AB8262DEE50000A01E6 /* ContainerWithoutChildren.json in Resources */ = {isa = PBXBuildFile; fileRef = 93A73AB7262DEE50000A01E6 /* ContainerWithoutChildren.json */; };
+		93A73ADF262E0E30000A01E6 /* listViewWithoutChildren.json in Resources */ = {isa = PBXBuildFile; fileRef = 93A73ADE262E0E30000A01E6 /* listViewWithoutChildren.json */; };
+		93A73AE3262E0E71000A01E6 /* listViewWithTemplate.json in Resources */ = {isa = PBXBuildFile; fileRef = 93A73AE2262E0E71000A01E6 /* listViewWithTemplate.json */; };
 		93ADB87923FAD31D005B7CD2 /* ComposeComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ADB87823FAD31D005B7CD2 /* ComposeComponentTests.swift */; };
 		93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9743F23A2833600B0D1CF /* NetworkClient.swift */; };
 		93B9746E23A287A800B0D1CF /* NSErrorExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */; };
@@ -527,6 +530,9 @@
 		9398CB15255594DE0003A010 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		93A2EE1B24EC4BB00085B3CF /* AddChildren+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddChildren+Extensions.swift"; sourceTree = "<group>"; };
 		93A2EE1F24EC71EA0085B3CF /* AddChildrenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildrenTests.swift; sourceTree = "<group>"; };
+		93A73AB7262DEE50000A01E6 /* ContainerWithoutChildren.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContainerWithoutChildren.json; sourceTree = "<group>"; };
+		93A73ADE262E0E30000A01E6 /* listViewWithoutChildren.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = listViewWithoutChildren.json; sourceTree = "<group>"; };
+		93A73AE2262E0E71000A01E6 /* listViewWithTemplate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = listViewWithTemplate.json; sourceTree = "<group>"; };
 		93ADB87823FAD31D005B7CD2 /* ComposeComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeComponentTests.swift; sourceTree = "<group>"; };
 		93B9743F23A2833600B0D1CF /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSErrorExtensionTests.swift; sourceTree = "<group>"; };
@@ -1106,6 +1112,8 @@
 			isa = PBXGroup;
 			children = (
 				9398CAC9255497C60003A010 /* listViewComponent.json */,
+				93A73ADE262E0E30000A01E6 /* listViewWithoutChildren.json */,
+				93A73AE2262E0E71000A01E6 /* listViewWithTemplate.json */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -1227,6 +1235,7 @@
 			isa = PBXGroup;
 			children = (
 				9398CAFF25557C090003A010 /* Container.json */,
+				93A73AB7262DEE50000A01E6 /* ContainerWithoutChildren.json */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -2248,8 +2257,10 @@
 				9398CAF725557B510003A010 /* buttonComponent.json in Resources */,
 				9398CABE255475770003A010 /* pushview.json in Resources */,
 				C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */,
+				93A73AE3262E0E71000A01E6 /* listViewWithTemplate.json in Resources */,
 				A0EB6C192591192C001A3E65 /* Alert-1.json in Resources */,
 				3D8209AB25E3F48300DCAA0E /* SetContext-1.json in Resources */,
+				93A73AB8262DEE50000A01E6 /* ContainerWithoutChildren.json in Resources */,
 				9398CAD925549F900003A010 /* PageViewWith3Pages.json in Resources */,
 				9398CABD255475770003A010 /* opennativeroute.json in Resources */,
 				A0EB6C182591192C001A3E65 /* FormLocalAction-1.json in Resources */,
@@ -2258,6 +2269,7 @@
 				76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */,
 				A0EB6C172591192C001A3E65 /* SendRequest-1.json in Resources */,
 				9398CB0025557C090003A010 /* Container.json in Resources */,
+				93A73ADF262E0E30000A01E6 /* listViewWithoutChildren.json in Resources */,
 				9398CB0625557DA10003A010 /* TextComponent.json in Resources */,
 				C08D4E1C24857B2A00AAAC0A /* HorizontalScrollView.json in Resources */,
 				C05E1652243663C20088F9D2 /* screenAnalyticsComponent.json in Resources */,

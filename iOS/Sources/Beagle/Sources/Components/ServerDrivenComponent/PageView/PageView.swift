@@ -16,7 +16,7 @@
 
 public struct PageView: ServerDrivenComponent, AutoDecodable, HasContext {
 
-    public let children: [ServerDrivenComponent]
+    public let children: [ServerDrivenComponent]?
     public let pageIndicator: PageIndicatorComponent?
     public let context: Context?
     public let onPageChange: [Action]?
@@ -24,7 +24,7 @@ public struct PageView: ServerDrivenComponent, AutoDecodable, HasContext {
 
     @available(*, deprecated, message: "If you want to use page indicator place it as a separate component and comunicate then using context.")
     public init(
-        children: [ServerDrivenComponent],
+        children: [ServerDrivenComponent]? = nil,
         pageIndicator: PageIndicatorComponent? = nil,
         context: Context? = nil,
         onPageChange: [Action]? = nil,
@@ -38,7 +38,7 @@ public struct PageView: ServerDrivenComponent, AutoDecodable, HasContext {
     }
     
     public init(
-        children: [ServerDrivenComponent],
+        children: [ServerDrivenComponent]? = nil,
         context: Context? = nil,
         onPageChange: [Action]? = nil,
         currentPage: Expression<Int>? = nil

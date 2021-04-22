@@ -45,6 +45,11 @@ final class ContainerTests: XCTestCase {
         assertSnapshot(matching: component, as: .dump)
     }
     
+    func test_whenDecodingJson2_shouldReturnAContainer() throws {
+        let component: Container = try componentFromJsonFile(fileName: "ContainerWithoutChildren")
+        assertSnapshot(matching: component, as: .dump)
+    }
+    
     func test_initWithChildren_shouldReturnContainerAndSetDependenciesProperly() {
         // Given
         let sut = Container(children: [
@@ -59,7 +64,7 @@ final class ContainerTests: XCTestCase {
         let component = mirror.firstChild(of: [ServerDrivenComponent].self)
 
         // Then
-        XCTAssertTrue(sut.children.count == 2)
+        XCTAssertTrue(sut.children?.count == 2)
         XCTAssertNotNil(style)
         XCTAssertNotNil(component)
     }
