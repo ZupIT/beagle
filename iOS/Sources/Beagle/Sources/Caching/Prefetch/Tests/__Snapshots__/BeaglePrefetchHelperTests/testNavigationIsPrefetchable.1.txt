@@ -1,8 +1,8 @@
-  Navigate(_beagleAction_: "beagle:openexternalurl", analytics: nil, url: "http://localhost")  -->  NULL 
+  Navigate(_beagleAction_: "beagle:openexternalurl", analytics: nil, url: Beagle.Expression<Swift.String>.value("http://localhost"))  -->  NULL 
 
-  Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: "path", data: nil, shouldResetApplication: false)  -->  NULL 
+  Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: Beagle.Expression<Swift.String>.value("path"), data: nil, shouldResetApplication: false)  -->  NULL 
 
-  Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: "path", data: Optional(["data": "value"]), shouldResetApplication: false)  -->  NULL 
+  Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: Beagle.Expression<Swift.String>.value("path"), data: Optional(["data": "value"]), shouldResetApplication: false)  -->  NULL 
 
   Navigate(_beagleAction_: "beagle:resetapplication", analytics: nil, route: Beagle.Route(screen: Beagle.Screen(identifier: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Beagle.Container(children: Optional([]), widgetProperties: Beagle.WidgetProperties(id: nil, style: nil, accessibility: nil), onInit: nil, context: nil, styleId: nil), context: nil)), controllerId: nil)  -->  NULL 
 
@@ -38,5 +38,5 @@
 
   Navigate(_beagleAction_: "beagle:popview", analytics: nil)  -->  NULL 
 
-  Navigate(_beagleAction_: "beagle:poptoview", analytics: nil, route: "path")  -->  NULL 
+  Navigate(_beagleAction_: "beagle:poptoview", analytics: nil, route: Beagle.Expression<Swift.String>.value("path"))  -->  NULL 
 
