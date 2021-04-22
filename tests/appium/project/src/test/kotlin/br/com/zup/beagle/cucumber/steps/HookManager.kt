@@ -57,5 +57,9 @@ class HookManager {
 
             SuiteSetup.restartApp()
         }
+
+        if (SuiteSetup.isIos())
+            SuiteSetup.restartApp()
+
     }
 }
