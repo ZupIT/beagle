@@ -83,7 +83,7 @@ jobs:
       - name: Prepare iOS 13.5 simulator
         run: |
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          # We use simulator 13.5 for the tests. It uses Xcode 11.5, according to https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md.
+          # We use simulator 13.5 for the tests. It uses Xcode 11.5, according to https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md. 
           # Since GitHub Actions uses another Xcode version, we need to make a symlink inside Xcode, pointing to the iOS version we want.
           # More details: https://github.com/actions/virtual-environments/issues/551#issuecomment-637344435
           sudo ln -s /Applications/Xcode_11.5.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.5.simruntime
