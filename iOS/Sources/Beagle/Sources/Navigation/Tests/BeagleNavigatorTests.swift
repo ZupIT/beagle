@@ -189,7 +189,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let screenURL2 = "https://example.com/screen2.json"
         let screenURL3 = "https://example.com/screen3.json"
         let sut = BeagleNavigator()
-        let action = Navigate.popToView(screenURL2)
+        let action = Navigate.popToView("https://example.com/@{'screen2.json'}")
         let dependencies = BeagleScreenDependencies(urlBuilder: UrlBuilder())
         let vc1 = BeagleControllerStub(.remote(.init(url: screenURL1)), dependencies: dependencies)
         let vc2 = BeagleControllerStub(.remote(.init(url: screenURL2)), dependencies: dependencies)
@@ -199,7 +199,7 @@ final class BeagleNavigatorTests: XCTestCase {
         navigation.viewControllers = [vc1, vc2, vc3, vc4]
 
         // When
-        sut.navigate(action: action, controller: vc3, origin: nil)
+        sut.navigate(action: action, controller: vc3, origin: UIView())
 
         // Then
         XCTAssertEqual(navigation.viewControllers.count, 2)

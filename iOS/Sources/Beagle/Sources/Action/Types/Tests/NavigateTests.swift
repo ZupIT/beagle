@@ -32,7 +32,8 @@ class NavigateTests: XCTestCase {
         ▿ Navigate
           - _beagleAction_: "beagle:openexternalurl"
           - analytics: Optional<ActionAnalyticsConfig>.none
-          - url: "schema://domain/path"
+          ▿ url: Expression<String>
+            - value: "schema://domain/path"
         """)
     }
     
@@ -47,7 +48,8 @@ class NavigateTests: XCTestCase {
               ▿ (2 elements)
                 - key: "a"
                 - value: "value a"
-          - route: "deeplink"
+          ▿ route: Expression<String>
+            - value: "deeplink"
           - shouldResetApplication: true
         """)
     }
@@ -202,7 +204,8 @@ class NavigateTests: XCTestCase {
         ▿ Navigate
           - _beagleAction_: "beagle:poptoview"
           - analytics: Optional<ActionAnalyticsConfig>.none
-          - route: "viewId"
+          ▿ route: Expression<String>
+            - value: "viewId"
         """)
     }
     
@@ -212,7 +215,7 @@ class NavigateTests: XCTestCase {
     }
 
     func testNullNewPathInNavigation() {
-        //given
+        // given
         let arrayWithNullNewPaths: [Navigate] = [
             .openExternalURL(""),
             .openNativeRoute(.init(route: "")),
