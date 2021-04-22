@@ -27,8 +27,6 @@ import java.io.File
  */
 class SuiteSetupPlugin : EventListener {
 
-
-    private var lastTestedFeature: String = ""
     private var lastTestedScenario: String = ""
     private var startTimeTemp = 0L
 
@@ -38,23 +36,10 @@ class SuiteSetupPlugin : EventListener {
         publisher.registerHandlerFor(
             TestCaseStarted::class.java,
             EventHandler<TestCaseStarted> {
-
-//                if (lastTestedFeature.isEmpty())
-//                    lastTestedFeature = getCurrentFeatureName(it.testCase.uri.toString())
-//
-//                // iOS tests restart the app before every new test feature due to performance issues
-//                val currentTestFeatureName = getCurrentFeatureName(it.testCase.uri.toString())
-//                if (currentTestFeatureName != lastTestedFeature) {
-//                    println("### restarting the app before the test feature $currentTestFeatureName")
-//                    lastTestedFeature = currentTestFeatureName
-//                    SuiteSetup.restartApp()
-//                }
-
-
                 if (startTimeTemp > 0) {
                     var timeElapsed = (System.nanoTime() - startTimeTemp) / 1000000
                     if (timeElapsed > 8000) {
-                        println("The following test scenario took more than 8s (${timeElapsed/1000}s) to be execute: ${lastTestedScenario}")
+                        println("The following test scenario took more than 8s (${timeElapsed / 1000}s) to be executed: ${lastTestedScenario}")
                         println("Restarting app...")
                         SuiteSetup.restartApp()
                     }
