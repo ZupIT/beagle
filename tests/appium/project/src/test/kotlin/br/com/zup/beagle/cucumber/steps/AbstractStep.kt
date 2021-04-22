@@ -56,9 +56,6 @@ abstract class AbstractStep {
     }
 
     protected fun loadBffScreenFromDeepLink() {
-
-        println("### Calling bff " + SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
-
         if (SuiteSetup.isAndroid()) {
             val params = HashMap<String, String>()
             params["url"] = "appiumapp://bffurl/" + SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath

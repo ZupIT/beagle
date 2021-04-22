@@ -18,6 +18,7 @@ package br.com.zup.beagle.cucumber.steps
 
 import br.com.zup.beagle.setup.SuiteSetup
 import io.cucumber.java.After
+import io.cucumber.java.Before
 import io.cucumber.java.Scenario
 import org.apache.commons.io.FileUtils
 import org.openqa.selenium.OutputType
@@ -30,16 +31,6 @@ import java.io.File
 class HookManager {
 
     /**
-     * Before each Scenario and its Examples
-     */
-    /*
-    @Before
-    fun setupBeforeScenario() {
-        //...
-    }
-    */
-
-    /**
      * After each Scenario and its Examples
      */
     @After
@@ -50,7 +41,8 @@ class HookManager {
             try {
                 val scrFile: File = (SuiteSetup.getDriver() as TakesScreenshot).getScreenshotAs(OutputType.FILE)
                 val scenarioName = scenario.name.replace("[^A-Za-z0-9]".toRegex(), " ")
-                val destFile = File("${SuiteSetup.ERROR_SCREENSHOTS_FOLDER}/ERROR-${scenarioName}-${System.currentTimeMillis()}.png")
+                val destFile =
+                    File("${SuiteSetup.ERROR_SCREENSHOTS_FOLDER}/ERROR-${scenarioName}-${System.currentTimeMillis()}.png")
 
                 if (destFile.exists())
                     destFile.delete()
@@ -63,13 +55,7 @@ class HookManager {
                 println("ERROR taking a screenshot on error: ${exception.message}")
             }
 
-            // Android tests restart the app only on errors
-            if (SuiteSetup.isAndroid())
-                SuiteSetup.restartApp()
-        }
-
-        // iOS simulator needs to restart the app after each test scenario due to speed issues
-        if (SuiteSetup.isIos())
             SuiteSetup.restartApp()
+        }
     }
 }
