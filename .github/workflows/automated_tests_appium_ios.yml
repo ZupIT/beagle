@@ -17,15 +17,10 @@
 name: Beagle Appium iOS Tests
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - '.github/**'
-  pull_request:
-    paths:
-      - '.github/**'
-
+  workflow_run:
+    workflows: ["Beagle Appium Tests"]
+    types:
+      - completed
 
 jobs:
   appium_tests:
