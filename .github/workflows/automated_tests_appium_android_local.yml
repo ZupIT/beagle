@@ -1,0 +1,84 @@
+#
+# Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+name: Beagle Appium Android Tests
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/**'
+  pull_request:
+    paths:
+      - '.github/**'
+
+jobs:
+  appium_tests:
+    name: Tests job
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - run: git branch
+
+      - name: Cache gradle dependencies of project backend
+        uses: actions/cache@v2
+        env:
+          gradle-cache-key: backend-tests-gradle-cache
+          gradle-path: ~/.gradle
+        with:
+          path: ${{ env.gradle-path }}
+          key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+
+      - name: Cache gradle dependencies of project app-android
+        uses: actions/cache@v2
+        env:
+          gradle-cache-key: app-android-tests-gradle-cache
+          gradle-path: ~/.gradle
+        with:
+          path: ${{ env.gradle-path }}
+          key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+
+#      - name: Install Fastlane
+#        run: bundle config set path '~/.gem' && bundle install
+
+      - name: Start backend in background
+        run: bash fastlane/automatedTests/start_test_backend.sh && sleep 15
+
+      - name: Build project app-android to generate the .apk file
+        run: bash ./tests/appium/app-android/gradlew --build-cache -p tests/appium/app-android assembleDebug
+
+      - name: Config and run Appium server
+        run: bash fastlane/automatedTests/appium/config_and_run_appium_server.sh
+
+      - name: Config and run the emulator
+        run: bash fastlane/automatedTests/appium/android/config_and_run_android_emulator.sh
+
+      - name: Start the tests
+        run: bash fastlane/automatedTests/appium/android/run_appium_android_tests.sh
+
+      - name: Expose failed test screenshot files
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: failed_tests_screenshots
+          path: tests/appium/project/build/screenshots/
+
