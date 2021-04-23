@@ -253,8 +253,8 @@ internal class ToolbarManagerTest : BaseTest() {
     inner class ConfigureToolbar {
 
         @Test
-        @DisplayName("Then should check the title settings")
-        fun verifyCallTheGenerateTitle() {
+        @DisplayName("Then should check the center title settings")
+        fun verifyCallTheGenerateCenterTitle() {
             // GIVEN
             every { toolbar.findViewById<TextView>(any()) } returns textView
             every { navigationBar.title } returns title
@@ -281,6 +281,65 @@ internal class ToolbarManagerTest : BaseTest() {
                 toolbar.addView(textViewMock)
                 toolbarTextManagerMock.centerTitle(toolbar, textViewMock)
             }
+        }
+
+        @Test
+        @DisplayName("Then you should check if the title and the style have been applied")
+        fun checkIfTheTitleAndStyleHasBeenApplied() {
+            // GIVEN
+            toolbar = mockk()
+            val beagleActivityMock = mockk<BeagleActivity>(relaxed = true)
+            every { (rootView.getContext() as BeagleActivity) } returns beagleActivityMock
+            val slotStyle = slot<Int>()
+            every { beagleActivityMock.obtainStyledAttributes(capture(slotStyle),R.styleable.BeagleToolbarStyle) } returns mockk(relaxed = true)
+            every { toolbar.title } returns title
+            every { beagleActivityMock.getToolbar() } returns toolbar
+            every { navigationBar.styleId } returns style
+            every { beagleSdk.designSystem } returns designSystemMock
+            every { designSystemMock.toolbarStyle(style) } returns styleInt
+            every { toolbar.visibility = View.VISIBLE } just runs
+            every { toolbar.menu } returns menu
+            every { toolbar.navigationIcon = null } just runs
+            every { toolbar.findViewById<TextView>(any()) } returns textView
+            every { toolbar.removeView(textView) } just runs
+            every { toolbar.title  = title } just runs
+            every { toolbar.setTitleTextAppearance(beagleActivityMock, styleInt)  } just runs
+            every { navigationBar.title } returns title
+            every {
+                typedArray.getResourceId(R.styleable.BeagleToolbarStyle_titleTextAppearance, 0)
+            } returns textAppearanceMock
+
+            // WHEN
+            toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
+
+            // THEN
+            assertEquals(title, toolbar.title.toString())
+            assertEquals(styleInt, slotStyle.captured)
+        }
+
+        @Test
+        @DisplayName("Then you should check if the title has been applied")
+        fun checkIfTheTitleHasBeenApplied() {
+            // GIVEN
+            toolbar = mockk()
+            val beagleActivityMock = mockk<BeagleActivity>(relaxed = true)
+            every { (rootView.getContext() as BeagleActivity) } returns beagleActivityMock
+            every { toolbar.title } returns title
+            every { beagleActivityMock.getToolbar() } returns toolbar
+            every { navigationBar.styleId } returns null
+            every { toolbar.visibility = View.VISIBLE } just runs
+            every { toolbar.menu } returns menu
+            every { toolbar.navigationIcon = null } just runs
+            every { toolbar.findViewById<TextView>(any()) } returns textView
+            every { toolbar.removeView(textView) } just runs
+            every { toolbar.title  = title } just runs
+            every { navigationBar.title } returns title
+
+            // WHEN
+            toolbarManager.configureToolbar(rootView, navigationBar, beagleFlexView, screenComponent)
+
+            // THEN
+            assertEquals(title, toolbar.title.toString())
         }
     }
 }
