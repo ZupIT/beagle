@@ -248,14 +248,14 @@ sealed class Route {
     @BeagleJson
     data class Remote constructor(
         val url: Bind<String>,
-        val shouldPrefetch: Boolean = false,
+        val shouldPrefetch: Boolean? = null,
         val fallback: Screen? = null,
         val httpAdditionalData: HttpAdditionalData? = null,
     ) : Route() {
 
         constructor(
             url: String,
-            shouldPrefetch: Boolean = false,
+            shouldPrefetch: Boolean? = null,
             fallback: Screen? = null,
             httpAdditionalData: HttpAdditionalData? = null,
         ) : this(

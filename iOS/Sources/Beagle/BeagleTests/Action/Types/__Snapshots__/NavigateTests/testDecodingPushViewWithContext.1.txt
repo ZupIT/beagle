@@ -4,7 +4,7 @@
   ▿ route: Route
     - fallback: Optional<Screen>.none
     - httpAdditionalData: Optional<HttpAdditionalData>.none
-    - shouldPrefetch: false
+    - shouldPrefetch: Optional<Bool>.none
     ▿ url: Expression<String>
       ▿ expression: ContextExpression
         ▿ single: SingleExpression

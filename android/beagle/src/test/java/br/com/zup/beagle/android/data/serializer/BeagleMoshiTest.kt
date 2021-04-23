@@ -458,7 +458,7 @@ class BeagleMoshiTest : BaseTest() {
         assertNotNull(actual)
         assertEquals("@{test}", (actual.route as Route.Remote).url.value)
         assertTrue((actual.route as Route.Remote).url is Bind.Expression<String>)
-        assertFalse((actual.route as Route.Remote).shouldPrefetch)
+        assertNull((actual.route as Route.Remote).shouldPrefetch)
     }
 
     @Test
@@ -473,7 +473,7 @@ class BeagleMoshiTest : BaseTest() {
         assertNotNull(actual)
         assertEquals("http://localhost:8080/test/example", (actual.route as Route.Remote).url.value)
         assertTrue((actual.route as Route.Remote).url is Bind.Value<String>)
-        assertFalse((actual.route as Route.Remote).shouldPrefetch)
+        assertFalse((actual.route as Route.Remote).shouldPrefetch!!)
         assertEquals(HttpAdditionalData(
             method = HttpMethod.POST,
             headers = hashMapOf("test" to "test"),
