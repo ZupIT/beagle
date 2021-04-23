@@ -28,7 +28,7 @@ let package = Package(
     .library(name: "Beagle", targets: ["Beagle"])
   ],
   dependencies: [
-    .package(url: "https://github.com/ZupIT/yoga.git", .branch ("spm-support"))
+    .package(url: "https://github.com/ZupIT/yoga.git", from: "1.19.0"),
   ],
   targets: [
     .target(
