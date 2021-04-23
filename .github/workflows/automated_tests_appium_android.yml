@@ -109,14 +109,16 @@ jobs:
         env:
           BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
           BFF_URL: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BFF_URL }}
-          BROWSERSTACK_USER: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BROWSERSTACK_USER }}
-          BROWSERSTACK_KEY: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BROWSERSTACK_KEY }}
         run: | # builds the app replacing localhost for the $BFF_URL
           sed -i --expression "s@http://10.0.2.2:8080@$BFF_URL@g" $BEAGLE_CONFIG_FILE
           bash ./tests/appium/app-android/gradlew --build-cache -p tests/appium/app-android assembleDebug
           # sed -i --expression "s@$BFF_URL@http://10.0.2.2:8080@g" $BEAGLE_CONFIG_FILE
 
       - name: Upload .apk file in BrowserStack and run the Appium test suite
+        env:
+          BFF_URL: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BFF_URL }}
+          BROWSERSTACK_USER: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BROWSERSTACK_USER }}
+          BROWSERSTACK_KEY: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BROWSERSTACK_KEY }}
         run: bash fastlane/automatedTests/appium/android/browserstack/setup_apk_in_browserstack_and_run_android_tests.sh
 
       - name: Expose failed test screenshot files
