@@ -71,11 +71,11 @@ abstract class AbstractStep {
             loadBffScreenFromDeepLink()
         } else {
             /**
-             * Using deep links on the iOS Simulator in software mode (Github Actions) is very slow,
-             * so by default iOS tests won't use deep links
+             * Deep link test strategy on iOS (URL Scheme) doesn't boost test speed when tests run on non-gpu Simulators (ex. GitHub Actions)
+             * or real Devices (ex. Browserstack). Because of this, deep link is turned off by default on iOS.
              *
-             * However, when the tests run on an iOS Simulator with GPU enabled, it is recommended to use
-             * deep links (method loadBffScreenFromDeepLink)
+             * When testing on a gpu-enabled Simulator (ex. testing locally on a mac computer), the deep link strategy might result on some
+             * speed boost. To enable deep link on iOS, use method loadBffScreenFromDeepLink() instead of method loadBffScreenFromMainScreen().
              */
             loadBffScreenFromMainScreen()
         }

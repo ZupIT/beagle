@@ -58,7 +58,10 @@ class HookManager {
             SuiteSetup.restartApp()
         }
 
-        // Android tests by default won't restart app anymore because they now use deep links to load bff screens
+        /**
+         * Android tests by default won't restart app anymore because they now use deep links to load bff screens.
+         * Refer to method loadBffScreen() in AbstractStep class for more details
+         */
         if (SuiteSetup.isIos())
             SuiteSetup.restartApp()
 
