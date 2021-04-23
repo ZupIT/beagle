@@ -47,6 +47,8 @@ interface BeagleSdk {
     val formLocalActionHandler: FormLocalActionHandler?
     val deepLinkHandler: DeepLinkHandler?
     val validatorHandler: ValidatorHandler?
+    @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version." +
+        " Use @BeagleComponent with HttpClientFactory instead.")
     val httpClient: HttpClient?
     val httpClientFactory: HttpClientFactory?
     val designSystem: DesignSystem?
