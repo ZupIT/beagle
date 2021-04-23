@@ -73,7 +73,7 @@ Pod::Spec.new do |spec|
     # pod 'YogaKit', :git => 'git@github.com:lucasaraujo/yoga.git'
     # We need this because we fixed an issue in the original repository and our PR was not merged yet.
     beagle.frameworks = 'Foundation'
-    beagle.dependency 'YogaKit'
+    beagle.dependency 'BeagleYogaKit'
   end
 
   # ――― Beagle Preview ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
