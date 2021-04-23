@@ -86,10 +86,24 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
         (rootView.getContext() as BeagleActivity).getToolbar().apply {
             visibility = View.VISIBLE
             menu.clear()
-            configToolbarStyle(rootView.getContext(), this, navigationBar)
+            setAttributeToolbar(rootView.getContext(), this, navigationBar)
             navigationBar.navigationBarItems?.let { items ->
                 configToolbarItems(rootView, this, items, container, screenComponent)
             }
+        }
+    }
+
+    private fun setAttributeToolbar(
+        context: Context,
+        toolbar: Toolbar,
+        navigationBar: NavigationBar
+    ) {
+        val designSystem = BeagleEnvironment.beagleSdk.designSystem
+        val toolbarStyle = navigationBar.styleId?.let { designSystem?.toolbarStyle(it) }
+        if (toolbarStyle == null) {
+            setTitle(context, toolbar, navigationBar)
+        } else {
+            configToolbarStyle(context, toolbar, navigationBar, toolbarStyle)
         }
     }
 
@@ -97,45 +111,70 @@ internal class ToolbarManager(private val toolbarTextManager: ToolbarTextManager
         context: Context,
         toolbar: Toolbar,
         navigationBar: NavigationBar,
+        toolbarStyle: Int
     ) {
-        val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        val style = navigationBar.styleId ?: ""
-        designSystem?.toolbarStyle(style)?.let { toolbarStyle ->
-            val typedArray = context.obtainStyledAttributes(
-                toolbarStyle,
-                R.styleable.BeagleToolbarStyle
-            )
-            if (navigationBar.showBackButton) {
-                typedArray.getDrawable(R.styleable.BeagleToolbarStyle_navigationIcon)?.let {
-                    toolbar.navigationIcon = it
-                }
-            } else {
-                toolbar.navigationIcon = null
+        val typedArray = context.obtainStyledAttributes(
+            toolbarStyle,
+            R.styleable.BeagleToolbarStyle
+        )
+        if (navigationBar.showBackButton) {
+            typedArray.getDrawable(R.styleable.BeagleToolbarStyle_navigationIcon)?.let {
+                toolbar.navigationIcon = it
             }
-            val textAppearance = typedArray.getResourceId(
-                R.styleable.BeagleToolbarStyle_titleTextAppearance, 0
-            )
-            removePreviousToolbarTitle(toolbar)
-            if (typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false)) {
-                val titleTextView = toolbarTextManager.generateTitle(context, navigationBar, textAppearance)
-                toolbar.addView(titleTextView)
-                toolbarTextManager.centerTitle(toolbar, titleTextView)
-                toolbar.title = "title"
-                toolbar.contentInsetStartWithNavigation = CONTENT_INSET_ZERO
-                toolbar.setContentInsetsAbsolute(CONTENT_INSET_LEFT_ZERO, CONTENT_INSET_RIGHT_ZERO)
-            } else {
-                toolbar.title = navigationBar.title
-                if (textAppearance != 0) {
-                    toolbar.setTitleTextAppearance(context, textAppearance)
-                }
-            }
-            val backgroundColor = typedArray.getColor(
-                R.styleable.BeagleToolbarStyle_backgroundColor, 0
-            )
-            if (backgroundColor != 0) {
-                toolbar.setBackgroundColor(backgroundColor)
-            }
-            typedArray.recycle()
+        } else {
+            toolbar.navigationIcon = null
+        }
+        val textAppearance = typedArray.getResourceId(
+            R.styleable.BeagleToolbarStyle_titleTextAppearance, 0
+        )
+        val isCenterTitle = typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false)
+        setTitle(context, toolbar, navigationBar, textAppearance, isCenterTitle)
+        val backgroundColor = typedArray.getColor(
+            R.styleable.BeagleToolbarStyle_backgroundColor, 0
+        )
+        if (backgroundColor != 0) {
+            toolbar.setBackgroundColor(backgroundColor)
+        }
+        typedArray.recycle()
+    }
+
+    private fun setTitle(
+        context: Context,
+        toolbar: Toolbar,
+        navigationBar: NavigationBar,
+        textAppearance: Int = 0,
+        isCenterTitle: Boolean = false
+    ) {
+        removePreviousToolbarTitle(toolbar)
+        if (isCenterTitle) {
+            setCenterTitle(context, toolbar, navigationBar, textAppearance)
+        } else {
+            setDefaultTitle(context, toolbar, navigationBar, textAppearance)
+        }
+    }
+
+    private fun setCenterTitle(
+        context: Context,
+        toolbar: Toolbar,
+        navigationBar: NavigationBar,
+        textAppearance: Int = 0,
+    ) {
+        val titleTextView = toolbarTextManager.generateTitle(context, navigationBar, textAppearance)
+        toolbar.addView(titleTextView)
+        toolbarTextManager.centerTitle(toolbar, titleTextView)
+        toolbar.contentInsetStartWithNavigation = CONTENT_INSET_ZERO
+        toolbar.setContentInsetsAbsolute(CONTENT_INSET_LEFT_ZERO, CONTENT_INSET_RIGHT_ZERO)
+    }
+
+    private fun setDefaultTitle(
+        context: Context,
+        toolbar: Toolbar,
+        navigationBar: NavigationBar,
+        textAppearance: Int = 0,
+    ) {
+        toolbar.title = navigationBar.title
+        if (textAppearance != 0) {
+            toolbar.setTitleTextAppearance(context, textAppearance)
         }
     }
 
