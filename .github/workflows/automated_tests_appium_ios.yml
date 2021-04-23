@@ -108,4 +108,3 @@ jobs:
 
       - name: Cleanup
         run: bundle exec fastlane automated_tests cleanup
-        
