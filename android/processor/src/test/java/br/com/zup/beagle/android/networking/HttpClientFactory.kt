@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.android.networking
 
-apply plugin: 'kotlin'
-apply from: "./../../jacoco.gradle"
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.ProcessorLibraries.kotlinPoet
-    implementation project(Dependencies.Modules.androidAnnotation)
-}
-
-apply from: new File('./../../maven-publish.gradle')
+interface HttpClientFactory

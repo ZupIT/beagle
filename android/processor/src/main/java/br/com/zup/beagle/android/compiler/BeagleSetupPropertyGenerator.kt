@@ -122,6 +122,7 @@ internal data class PropertySpecifications(
     var deepLinkHandler: TypeElement? = null,
     var formLocalActionHandler: TypeElement? = null,
     var httpClient: TypeElement? = null,
+    var httpClientFactory: TypeElement? = null,
     var designSystem: TypeElement? = null,
     var defaultBeagleActivity: TypeElement? = null,
     var beagleActivities: List<TypeElement>? = null,
