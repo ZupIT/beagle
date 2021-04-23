@@ -14,6 +14,7 @@
               - value: "test"
         ▿ method: Optional<HTTPMethod>
           - some: HTTPMethod.post
-    - shouldPrefetch: false
+    ▿ shouldPrefetch: Optional<Bool>
+      - some: false
     ▿ url: Expression<String>
       - value: "http://localhost:8080/test/example"

@@ -106,7 +106,7 @@ extension Route {
         /// - If __false__, Beagle will only request this screen when the Navigate action gets triggered (e.g: user taps a button).
         /// - If __true__, Beagle will trigger the request as soon as it renders the component that have
         /// this action. (e.g: when a button appears on the screen it will trigger)
-        public let shouldPrefetch: Bool
+        public let shouldPrefetch: Bool?
         
         /// A screen that should be rendered in case of request fail.
         public let fallback: Screen?
@@ -121,7 +121,7 @@ extension Route {
         ///   - shouldPrefetch: Changes _when_ this screen is requested.
         ///   - fallback: A screen that should be rendered in case of request fail.
         ///   - httpAdditionalData: Used to pass additional http data on requests
-        public init(url: StringOrExpression, shouldPrefetch: Bool = false, fallback: Screen? = nil, httpAdditionalData: HttpAdditionalData? = nil) {
+        public init(url: StringOrExpression, shouldPrefetch: Bool? = nil, fallback: Screen? = nil, httpAdditionalData: HttpAdditionalData? = nil) {
             self.url = "\(url)"
             self.shouldPrefetch = shouldPrefetch
             self.fallback = fallback
@@ -319,7 +319,7 @@ extension Route.NewPath: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.url = try container.decode(Expression<String>.self, forKey: .url)
-        self.shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch) ?? false
+        self.shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch)
         self.fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .fallback)?.toScreen()
         self.httpAdditionalData = try container.decodeIfPresent(HttpAdditionalData.self, forKey: .httpAdditionalData)
     }

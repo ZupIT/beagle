@@ -42,8 +42,8 @@ internal class PreFetchHelper {
         }
     }
 
-    fun preFetch(rootView: RootView, route: Route) {
-        if (route is Route.Remote && route.shouldPrefetch) {
+    private fun preFetch(rootView: RootView, route: Route) {
+        if (route is Route.Remote && route.shouldPrefetch == true) {
             if (route.url is Bind.Expression) {
                 BeagleMessageLogs.expressionNotSupportInPreFetch()
                 return

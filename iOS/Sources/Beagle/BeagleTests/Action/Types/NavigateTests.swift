@@ -74,7 +74,7 @@ class NavigateTests: XCTestCase {
           ▿ route: Route
             - fallback: Optional<Screen>.none
             - httpAdditionalData: Optional<HttpAdditionalData>.none
-            - shouldPrefetch: false
+            - shouldPrefetch: Optional<Bool>.none
             ▿ url: Expression<String>
               - value: "schema://path"
         """)
@@ -97,7 +97,7 @@ class NavigateTests: XCTestCase {
           ▿ route: Route
             - fallback: Optional<Screen>.none
             - httpAdditionalData: Optional<HttpAdditionalData>.none
-            - shouldPrefetch: false
+            - shouldPrefetch: Optional<Bool>.none
             ▿ url: Expression<String>
               - value: "schema://path"
         """)
@@ -140,7 +140,7 @@ class NavigateTests: XCTestCase {
           ▿ route: Route
             - fallback: Optional<Screen>.none
             - httpAdditionalData: Optional<HttpAdditionalData>.none
-            - shouldPrefetch: false
+            - shouldPrefetch: Optional<Bool>.none
             ▿ url: Expression<String>
               - value: "schema://path"
         """)
@@ -170,8 +170,7 @@ class NavigateTests: XCTestCase {
         {
           "_beagleAction_": "beagle:pushView",
           "route": {
-            "url": "@{test}",
-            "shouldPrefetch": false
+            "url": "@{test}"
           }
         }
         """)
