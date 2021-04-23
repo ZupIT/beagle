@@ -18,6 +18,15 @@
           "revision": "114882386a815f4a2e6d8f2f7ee4857acd372438",
           "version": "1.7.2"
         }
+      },
+      {
+        "package": "YogaKit",
+        "repositoryURL": "https://github.com/ZupIT/yoga.git",
+        "state": {
+          "branch": "spm-support",
+          "revision": "0a1b43f3da59dd309f2d1e56a0a47e9d0b14ba47",
+          "version": null
+        }
       }
     ]
   },

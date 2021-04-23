@@ -12,8 +12,6 @@
 		5C29639F258BB016000194EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C29639D258BB016000194EE /* LaunchScreen.storyboard */; };
 		5C2963AA258BB0E7000194EE /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2963A8258BB0E7000194EE /* Beagle.framework */; };
 		5C2963AB258BB0E7000194EE /* Beagle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2963A8258BB0E7000194EE /* Beagle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5C2963AC258BB0E7000194EE /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2963A9258BB0E7000194EE /* YogaKit.framework */; };
-		5C2963AD258BB0E7000194EE /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5C2963A9258BB0E7000194EE /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5C2963B1258BB3BD000194EE /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963B0258BB3BD000194EE /* CustomNavigationController.swift */; };
 		5C2963BB258BB457000194EE /* BeagleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963B5258BB457000194EE /* BeagleConfig.swift */; };
 		5C2963BC258BB457000194EE /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2963B7258BB457000194EE /* BeagleLoggerDefault.swift */; };
@@ -34,7 +32,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5C2963AB258BB0E7000194EE /* Beagle.framework in Embed Frameworks */,
-				5C2963AD258BB0E7000194EE /* YogaKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,7 +45,6 @@
 		5C29639E258BB016000194EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5C2963A0258BB016000194EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5C2963A8258BB0E7000194EE /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C2963A9258BB0E7000194EE /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2963B0258BB3BD000194EE /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		5C2963B5258BB457000194EE /* BeagleConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleConfig.swift; sourceTree = "<group>"; };
 		5C2963B7258BB457000194EE /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
@@ -67,7 +63,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C2963AA258BB0E7000194EE /* Beagle.framework in Frameworks */,
-				5C2963AC258BB0E7000194EE /* YogaKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				5C2963A8258BB0E7000194EE /* Beagle.framework */,
-				5C2963A9258BB0E7000194EE /* YogaKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

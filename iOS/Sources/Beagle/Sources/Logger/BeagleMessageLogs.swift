@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public protocol LogType {
     var category: String { get }
     var message: String { get }

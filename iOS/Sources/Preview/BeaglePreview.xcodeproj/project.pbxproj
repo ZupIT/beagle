@@ -34,8 +34,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		761557A52480249800E1EEEE /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
-		761557AB2480250700E1EEEE /* BeagleUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7623CF7E24254C9600688C4B /* BeaglePreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BeaglePreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7623CF8124254C9600688C4B /* BeaglePreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeaglePreview.h; sourceTree = "<group>"; };
 		7623CF8224254C9600688C4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,7 +44,6 @@
 		7659EC5B247C3EFD00F5BE17 /* WSConnectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSConnectionHandler.swift; sourceTree = "<group>"; };
 		7659EC60247C482400F5BE17 /* BeaglePreviewDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaglePreviewDependencies.swift; sourceTree = "<group>"; };
 		C833058F249BF6A40091FE5E /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C838415A24A447FD00EDD344 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,10 +102,7 @@
 		7623CF902425529A00688C4B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C838415A24A447FD00EDD344 /* Starscream.framework */,
 				C833058F249BF6A40091FE5E /* Beagle.framework */,
-				761557AB2480250700E1EEEE /* BeagleUI.framework */,
-				761557A52480249800E1EEEE /* Starscream.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -355,6 +349,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeaglePreview;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -380,6 +375,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeaglePreview;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

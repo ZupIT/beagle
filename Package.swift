@@ -1,3 +1,6 @@
+// swift-tools-version:5.1
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,18 +17,25 @@
  * limitations under the License.
  */
 
-import Foundation
+import PackageDescription
 
-extension NSError {
-    
-    /// A convenience initializer for NSError to set its description.
-    ///
-    /// - Parameters:
-    ///   - domain: The error domain.
-    ///   - code: The error code.
-    ///   - description: Some description for this error.
-    convenience init(domain: String, code: Int, description: String) {
-        self.init(domain: domain, code: code, userInfo: [(kCFErrorLocalizedDescriptionKey as CFString) as String: description])
-    }
-    
-}
+let package = Package(
+  name: "Beagle",
+  platforms: [
+    .iOS(.v10)
+  ],
+  products: [
+    .library(name: "Beagle", targets: ["Beagle"])
+  ],
+  dependencies: [
+    .package(url: "https://github.com/ZupIT/yoga.git", .branch ("spm-support"))
+  ],
+  targets: [
+    .target(
+      name: "Beagle",
+      dependencies: ["YogaKit"],
+      path: "iOS/Sources/Beagle",
+      exclude: ["BeagleTests"]
+    )
+  ]
+)
