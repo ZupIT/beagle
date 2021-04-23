@@ -285,7 +285,7 @@ internal class ToolbarManagerTest : BaseTest() {
 
         @Test
         @DisplayName("Then you should check if the title and the style have been applied")
-        fun checkIfTheTitleAndStyleHasBeenApplied() {
+        fun shouldToolbarWithTitleAndStyleWhenCallConfigureToolbarThenTheToolbarMustHaveATitleAndStyle() {
             // GIVEN
             toolbar = mockk()
             val beagleActivityMock = mockk<BeagleActivity>(relaxed = true)
@@ -319,14 +319,13 @@ internal class ToolbarManagerTest : BaseTest() {
 
         @Test
         @DisplayName("Then you should check if the title has been applied")
-        fun checkIfTheTitleHasBeenApplied() {
+        fun shouldToolbarWithTitleWhenCallConfigureToolbarThenTheToolbarMustHaveATitle() {
             // GIVEN
             toolbar = mockk()
             val beagleActivityMock = mockk<BeagleActivity>(relaxed = true)
             every { (rootView.getContext() as BeagleActivity) } returns beagleActivityMock
             every { toolbar.title } returns title
             every { beagleActivityMock.getToolbar() } returns toolbar
-            every { navigationBar.styleId } returns null
             every { toolbar.visibility = View.VISIBLE } just runs
             every { toolbar.menu } returns menu
             every { toolbar.navigationIcon = null } just runs
