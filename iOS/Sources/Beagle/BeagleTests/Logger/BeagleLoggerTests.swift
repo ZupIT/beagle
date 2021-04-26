@@ -40,7 +40,7 @@ class BeagleLoggerTests: XCTestCase {
             Log.form(.validatorNotFound(named: "validatorName")),
             Log.form(.keyDuplication(data: ["key": "value"])),
 
-            Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: "identifier")),
+            Log.navigation(.routeDoesNotExistInTheCurrentStack(path: "identifier")),
             Log.navigation(.didReceiveAction(Navigate.pushView(.remote(.init(url: path))))),
             Log.navigation(.didReceiveAction(Navigate.openNativeRoute(.init(route: path)))),
             Log.navigation(.didReceiveAction(Navigate.openNativeRoute(.init(route: path, data: ["key": "value"])))),

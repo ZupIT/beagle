@@ -31,7 +31,7 @@ validatorNotFound(named: "validatorName")
 Found a key duplication when merging form data:
 ["key": "value"]
 
-cantPopToAlreadyCurrentScreen(identifier: "identifier")
+routeDoesNotExistInTheCurrentStack(path: "identifier")
 
 didReceiveAction(Beagle.Navigate(_beagleAction_: "beagle:pushview", analytics: nil, route: Beagle.Route(url: Beagle.Expression<Swift.String>.value("path"), shouldPrefetch: nil, fallback: nil, httpAdditionalData: nil)))
 
