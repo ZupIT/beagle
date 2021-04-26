@@ -8,7 +8,7 @@
   
 
 
-Please, refer to [Beagle's wiki](https://github.com/ZupIT/beagle/wiki) to get detailed info about Beagle's Appium tests implementation
+Please, refer to [Beagle's wiki](https://github.com/ZupIT/beagle/wiki/Mobile-tests-with-Appium) to get detailed info about Beagle's Appium tests implementation
 
 
 
