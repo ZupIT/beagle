@@ -201,7 +201,7 @@ class BeagleNavigator: BeagleNavigation {
         }
 
         guard let target = last else {
-            controller.dependencies.logger.log(Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: identifier)))
+            controller.dependencies.logger.log(Log.navigation(.routeDoesNotExistInTheCurrentStack(path: identifier)))
             return
         }
         if let transition = defaultAnimation?.getTransition(.pop) {
