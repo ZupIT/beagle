@@ -141,7 +141,7 @@ extension Container {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        children = try container.decode(forKey: .children)
+        children = try container.decodeIfPresent(forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
         onInit = try container.decodeIfPresent(forKey: .onInit)
         context = try container.decodeIfPresent(Context.self, forKey: .context)
@@ -272,7 +272,7 @@ extension PageView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        children = try container.decode(forKey: .children)
+        children = try container.decodeIfPresent(forKey: .children)
         let rawPageIndicator: ServerDrivenComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
         pageIndicator = rawPageIndicator as? PageIndicatorComponent
         context = try container.decodeIfPresent(Context.self, forKey: .context)
@@ -338,7 +338,7 @@ extension ScrollView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        children = try container.decode(forKey: .children)
+        children = try container.decodeIfPresent(forKey: .children)
         scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
         context = try container.decodeIfPresent(Context.self, forKey: .context)
@@ -389,7 +389,7 @@ extension SimpleForm {
         context = try container.decodeIfPresent(Context.self, forKey: .context)
         onSubmit = try container.decodeIfPresent(forKey: .onSubmit)
         onValidationError = try container.decodeIfPresent(forKey: .onValidationError)
-        children = try container.decode(forKey: .children)
+        children = try container.decodeIfPresent(forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }

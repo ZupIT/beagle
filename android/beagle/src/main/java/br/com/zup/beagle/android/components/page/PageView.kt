@@ -47,7 +47,7 @@ import br.com.zup.beagle.widget.core.Flex
  */
 @BeagleJson(name = "pageView")
 data class PageView(
-    override val children: List<ServerDrivenComponent>,
+    override val children: List<ServerDrivenComponent>? = null,
     @Deprecated(message = "This property was deprecated in version 1.1.0 and will be removed in a future version.")
     val pageIndicator: PageIndicatorComponent? = null,
     override val context: ContextData? = null,
@@ -56,7 +56,7 @@ data class PageView(
 ) : ViewConvertable, ContextComponent, MultiChildComponent {
 
     constructor(
-        children: List<ServerDrivenComponent>,
+        children: List<ServerDrivenComponent>? = null,
         context: ContextData? = null,
         onPageChange: List<Action>? = null,
         currentPage: Int,
@@ -65,7 +65,7 @@ data class PageView(
     @Deprecated(message = "This constructor was deprecated in version 1.1.0 and will be removed in a future version.",
         replaceWith = ReplaceWith("PageView(children, context, onPageChange=null, currentPage=null)"))
     constructor(
-        children: List<ServerDrivenComponent>,
+        children: List<ServerDrivenComponent>? = null,
         pageIndicator: PageIndicatorComponent? = null,
         context: ContextData? = null,
     ) : this(
@@ -77,7 +77,7 @@ data class PageView(
     )
 
     constructor(
-        children: List<ServerDrivenComponent>,
+        children: List<ServerDrivenComponent>? = null,
         context: ContextData? = null,
         onPageChange: List<Action>? = null,
         currentPage: Bind<Int>? = null,
@@ -96,7 +96,6 @@ data class PageView(
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
 
     override fun buildView(rootView: RootView): View {
-
         currentPage?.let {
             return PageViewTwo(
                 children,
@@ -107,12 +106,17 @@ data class PageView(
         }
 
         val style = Style(flex = Flex(grow = 1.0))
+        val container = viewFactory.makeBeagleFlexView(rootView, style)
+
+        if (children == null) {
+            return container
+        }
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = PageViewAdapter(rootView, children, viewFactory)
         }
 
-        val container = viewFactory.makeBeagleFlexView(rootView, style).apply {
+        container.apply {
             addView(viewPager, style)
         }
 

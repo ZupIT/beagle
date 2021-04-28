@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.navigation.BeagleControllerReference
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.HttpClient
+import br.com.zup.beagle.android.networking.HttpClientFactory
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.setup.BeagleConfig
@@ -57,6 +58,8 @@ class MyBeagleSetup(override val analyticsProvider: AnalyticsProvider? = null) :
     override val validatorHandler: ValidatorHandler? = null
 
     override val httpClient: HttpClient? = null
+
+    override val httpClientFactory: HttpClientFactory? = null
 
     override val designSystem: DesignSystem? = null
 

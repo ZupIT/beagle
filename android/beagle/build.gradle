@@ -122,4 +122,3 @@ task dokkaHugo(type: org.jetbrains.dokka.gradle.DokkaTask) {
         dokkaHugoPlugin 'com.github.cotechde:dokka-hugo-plugin:master-SNAPSHOT'
     }
 }
-

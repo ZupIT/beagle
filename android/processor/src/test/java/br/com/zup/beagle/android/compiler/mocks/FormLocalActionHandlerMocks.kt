@@ -49,6 +49,7 @@ const val VALID_FORM_LOCAL_ACTION_HANDLER_BEAGLE_SDK =
         import br.com.zup.beagle.android.navigation.BeagleControllerReference
         import br.com.zup.beagle.android.navigation.DeepLinkHandler
         import br.com.zup.beagle.android.networking.HttpClient
+        import br.com.zup.beagle.android.networking.HttpClientFactory
         import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
         import br.com.zup.beagle.android.operation.Operation
         import br.com.zup.beagle.android.setup.BeagleConfig
@@ -72,6 +73,8 @@ const val VALID_FORM_LOCAL_ACTION_HANDLER_BEAGLE_SDK =
             public override val deepLinkHandler : DeepLinkHandler? = null
             
             public override val httpClient : HttpClient? = null
+            
+            public override val httpClientFactory : HttpClientFactory? = null
 
             public override val designSystem : DesignSystem? = null
 

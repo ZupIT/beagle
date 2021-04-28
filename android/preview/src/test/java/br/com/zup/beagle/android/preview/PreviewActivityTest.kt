@@ -146,7 +146,6 @@ class PreviewActivityTest {
         incrementButton?.performClick()
 
         // THEN
-        assertNotNull(activity!!.supportFragmentManager.fragments.first().view)
         assertNotNull(textComponent)
         assertEquals("Counter: 3", textComponent?.text)
         assertNotNull(incrementButton)

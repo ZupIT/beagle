@@ -30,6 +30,10 @@ val HTTP_CLIENT_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.networking",
     "HttpClient"
 )
+val HTTP_CLIENT_FACTORY_HANDLER = BeagleClass(
+    "br.com.zup.beagle.android.networking",
+    "HttpClientFactory"
+)
 val VALIDATOR_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.components.form.core",
     "ValidatorHandler"

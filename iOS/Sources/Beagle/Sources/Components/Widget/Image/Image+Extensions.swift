@@ -96,6 +96,25 @@ extension Image {
 private class BeagleImageView: UIImageView {
     var token: RequestToken?
     
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        guard let imageSize = image?.size else {
+            return .zero
+        }
+        guard imageSize.width > size.width || imageSize.height > size.height else {
+            return imageSize
+        }
+        let sizeRatio = size.height != 0 ? size.width / size.height : .zero
+        let imageRatio = imageSize.height != 0 ? imageSize.width / imageSize.height : .zero
+        
+        if imageRatio > sizeRatio {
+            return CGSize(width: size.width, height: size.width / imageRatio)
+        } else if imageRatio < sizeRatio {
+            return CGSize(width: size.height * imageRatio, height: size.height)
+        } else { // imageRatio == sizeRatio
+            return size
+        }
+    }
+    
     init(with mode: ImageContentMode?) {
         super.init(frame: .zero)
         clipsToBounds = true

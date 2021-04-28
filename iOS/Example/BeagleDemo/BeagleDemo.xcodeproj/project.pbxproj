@@ -67,8 +67,6 @@
 		C09F412D249C0683002605EE /* TextContainerWithAction.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F4129249C0683002605EE /* TextContainerWithAction.json */; };
 		C09F412F249C1B86002605EE /* TextContainerMissingSecondAction.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F412E249C1B86002605EE /* TextContainerMissingSecondAction.json */; };
 		C09F4131249C219D002605EE /* SingleTextContainerWithoutActions.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F4130249C219D002605EE /* SingleTextContainerWithoutActions.json */; };
-		C0B1AAB623F326BB00F94ECA /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0B1AAB523F326BB00F94ECA /* YogaKit.framework */; };
-		C0B1AAB723F326BB00F94ECA /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0B1AAB523F326BB00F94ECA /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C80AF1342493F0950097D200 /* OtherComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80AF1332493F0950097D200 /* OtherComponent.swift */; };
 		C8A2F6F32464C1F9002198B1 /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */; };
 		C8A2F6F42464C1F9002198B1 /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A2F6F22464C1F9002198B1 /* AutoDecodable.generated.swift */; };
@@ -99,7 +97,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				C8D5F03724A4005C0037B11C /* Beagle.framework in Embed Frameworks */,
-				C0B1AAB723F326BB00F94ECA /* YogaKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,7 +169,6 @@
 		C09F4129249C0683002605EE /* TextContainerWithAction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TextContainerWithAction.json; sourceTree = "<group>"; };
 		C09F412E249C1B86002605EE /* TextContainerMissingSecondAction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TextContainerMissingSecondAction.json; sourceTree = "<group>"; };
 		C09F4130249C219D002605EE /* SingleTextContainerWithoutActions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SingleTextContainerWithoutActions.json; sourceTree = "<group>"; };
-		C0B1AAB523F326BB00F94ECA /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80AF1332493F0950097D200 /* OtherComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherComponent.swift; sourceTree = "<group>"; };
 		C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C8A2F6F22464C1F9002198B1 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
@@ -190,7 +186,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8D5F03624A4005C0037B11C /* Beagle.framework in Frameworks */,
-				C0B1AAB623F326BB00F94ECA /* YogaKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				C8D5F03524A4005C0037B11C /* Beagle.framework */,
-				C0B1AAB523F326BB00F94ECA /* YogaKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

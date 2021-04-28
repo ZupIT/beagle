@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public protocol LogType {
     var category: String { get }
     var message: String { get }
@@ -62,7 +64,7 @@ public enum Log {
         case unableToPrefetchWhenUrlIsExpression
         case errorTryingToPopScreenOnNavigatorWithJustOneScreen
         case didNotFindDeepLinkScreen(path: String)
-        case cantPopToAlreadyCurrentScreen(identifier: String)
+        case routeDoesNotExistInTheCurrentStack(path: String)
         case didNavigateToExternalUrl(path: String)
         case invalidExternalUrl(path: String)
         case unableToOpenExternalUrl(path: String)
@@ -220,7 +222,7 @@ extension Log: LogType {
 
         case .navigation(let nav):
             switch nav {
-            case .errorTryingToPopScreenOnNavigatorWithJustOneScreen, .didNotFindDeepLinkScreen, .cantPopToAlreadyCurrentScreen, .invalidExternalUrl, .unableToOpenExternalUrl, .unableToPrefetchWhenUrlIsExpression:
+            case .errorTryingToPopScreenOnNavigatorWithJustOneScreen, .didNotFindDeepLinkScreen, .routeDoesNotExistInTheCurrentStack, .invalidExternalUrl, .unableToOpenExternalUrl, .unableToPrefetchWhenUrlIsExpression:
                 return .error
             case .didReceiveAction, .didNavigateToExternalUrl:
                 return .info

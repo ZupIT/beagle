@@ -67,9 +67,5 @@ flags:
     carryforward: true
 ignore:
   - "iOS/Example"
-  - "iOS/Libraries"
-  - "iOS/Test"
   - "iOS/Tests"
-  - "iOS/Sources/Beagle/BeagleTests"
-  - "iOS/Sources/Beagle/**/*Test*.swift"
-  - "iOS/Sources/Beagle/**/*Tests*.swift"  
+  - "iOS/Sources/Beagle/BeagleTests" 

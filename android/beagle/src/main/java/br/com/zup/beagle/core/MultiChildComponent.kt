@@ -23,5 +23,5 @@ package br.com.zup.beagle.core
 
 @BeagleJson
 interface MultiChildComponent {
-    val children: List<ServerDrivenComponent>
+    val children: List<ServerDrivenComponent>?
 }

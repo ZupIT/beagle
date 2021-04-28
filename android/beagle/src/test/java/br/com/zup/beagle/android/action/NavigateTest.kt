@@ -33,10 +33,9 @@ import br.com.zup.beagle.android.widget.RootView
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
+@DisplayName("Given a Navigate class")
 class NavigateTest : BaseTest() {
 
     @MockK
@@ -51,160 +50,238 @@ class NavigateTest : BaseTest() {
         mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
     }
 
-    @Test
-    fun handle_should_call_openNativeRoute_with_null_deepLinkHandler() {
-        // Given
-        val navigate = Navigate.OpenNativeRoute(RandomData.httpUrl())
-        every { BeagleEnvironment.beagleSdk.deepLinkHandler } returns null
+    @DisplayName("When execute method is called")
+    @Nested
+    inner class Execute {
 
-        // When
-        navigate.execute(rootView, view)
+        @DisplayName("Then should not call deepLinkIntent if handler is null and type is OpenNativeRoute")
+        @Test
+        fun testDeepLinkHandlerNull() {
+            // Given
+            val navigate = Navigate.OpenNativeRoute(RandomData.httpUrl())
+            every { BeagleEnvironment.beagleSdk.deepLinkHandler } returns null
 
-        // Then
-        verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any(), any(), any()) }
-    }
+            // When
+            navigate.execute(rootView, view)
 
-    @Test
-    fun handle_should_call_openExternalURL() {
-        // Given
-        val url = RandomData.httpUrl()
-        val navigate = Navigate.OpenExternalURL(url)
-        every { BeagleNavigator.openExternalURL(any(), any()) } just Runs
-
-        // When
-        navigate.execute(rootView, view)
-
-        // Then
-        verify(exactly = once()) { BeagleNavigator.openExternalURL(rootView.getContext(), url) }
-    }
-
-    @Test
-    fun handle_should_call_openNativeRoute() {
-        // Given
-        val route = RandomData.httpUrl()
-        val data = mapOf("keyStub" to "valueStub")
-        val shouldResetApplication = true
-        val navigate = Navigate.OpenNativeRoute(route, shouldResetApplication, data)
-        every { BeagleNavigator.openNativeRoute(any(), any(), any(), any()) } just Runs
-
-        // When
-        navigate.execute(rootView, view)
-
-        // Then
-        verify(exactly = once()) { BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication) }
-    }
-
-    @Test
-    fun handle_should_call_resetApplication() {
-        // Given
-        val route = Route.Remote(RandomData.httpUrl())
-        val navigate = Navigate.ResetApplication(route)
-        every { BeagleNavigator.resetApplication(any(), any(), any()) } just Runs
-
-        // When
-        navigate.execute(rootView, view)
-
-        // Then
-        verify(exactly = once()) { BeagleNavigator.resetApplication(rootView.getContext(), route, null) }
-    }
-
-    @Test
-    fun handle_should_call_resetStack() {
-        // Given
-        val route = Route.Remote(RandomData.httpUrl())
-        val navigate = Navigate.ResetStack(route)
-        every { BeagleNavigator.resetStack(any(), any(), any()) } just Runs
-
-        // When
-        navigate.execute(rootView, view)
-
-        // Then
-        verify(exactly = once()) { BeagleNavigator.resetStack(rootView.getContext(), route, null) }
-    }
-
-    @Test
-    fun handle_should_call_pushView() {
-        // Given
-        val route = Route.Remote(RandomData.httpUrl())
-        val navigate = Navigate.PushView(route)
-        every { BeagleNavigator.pushView(any(), any()) } just Runs
-
-        // When
-        navigate.execute(rootView, view)
-
-        // Then
-        verify(exactly = once()) { BeagleNavigator.pushView(rootView.getContext(), route) }
-    }
-
-    @Test
-    fun handle_should_call_pushView_with_expression() {
-        // Given
-        val route = Route.Remote(expressionOf("@{test}"))
-        val navigate = Navigate.PushView(route).apply {
-            every {
-                evaluateExpression(rootView, view, any<Bind<Any>>())
-            } returns "test"
+            // Then
+            verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any(), any(), any()) }
         }
-        every { BeagleNavigator.pushView(any(), any()) } just Runs
 
-        // When
-        navigate.execute(rootView, view)
+        @DisplayName("Then should call openExternalUrl if type is OpenExternalURL")
+        @Test
+        fun testOpenExternalURL() {
+            // Given
+            val url = RandomData.httpUrl()
+            val navigate = Navigate.OpenExternalURL(url)
+            every { BeagleNavigator.openExternalURL(any(), any()) } just Runs
 
-        // Then
-        verify(exactly = once()) { BeagleNavigator.pushView(rootView.getContext(), route.copy(url = Bind.Value("test"))) }
-    }
+            // When
+            navigate.execute(rootView, view)
 
-    @Test
-    fun handle_should_call_popStack() {
-        // Given
-        val navigate = Navigate.PopStack()
-        every { BeagleNavigator.popStack(any()) } just Runs
+            // Then
+            verify(exactly = 1) { BeagleNavigator.openExternalURL(rootView.getContext(), url) }
+        }
 
-        // When
-        navigate.execute(rootView, view)
+        @DisplayName("Then should call openExternalUrl with expression if type is OpenExternalURL")
+        @Test
+        fun testOpenExternalURLWithExpression() {
+            // Given
+            val url = expressionOf<String>("@{test}")
+            val urlValue = "test"
+            val navigate = Navigate.OpenExternalURL(url).apply {
+                every {
+                    evaluateExpression(rootView, view, any<Bind<Any>>())
+                } returns urlValue
+            }
+            every { BeagleNavigator.openExternalURL(any(), any()) } just Runs
 
-        // Then
-        verify(exactly = once()) { BeagleNavigator.popStack(rootView.getContext()) }
-    }
+            // When
+            navigate.execute(rootView, view)
 
-    @Test
-    fun handle_should_call_popView() {
-        // Given
-        val navigate = Navigate.PopView()
-        every { BeagleNavigator.popView(any()) } just Runs
+            // Then
+            verify(exactly = 1) { BeagleNavigator.openExternalURL(rootView.getContext(), urlValue) }
+        }
 
-        // When
-        navigate.execute(rootView, view)
+        @DisplayName("Then should call openNativeRoute if type is OpenNativeRoute")
+        @Test
+        fun testOpenNativeRoute() {
+            // Given
+            val route = RandomData.httpUrl()
+            val data = mapOf("keyStub" to "valueStub")
+            val shouldResetApplication = true
+            val navigate = Navigate.OpenNativeRoute(route, shouldResetApplication, data)
+            every { BeagleNavigator.openNativeRoute(any(), any(), any(), any()) } just Runs
 
-        // Then
-        verify(exactly = once()) { BeagleNavigator.popView(rootView.getContext()) }
-    }
+            // When
+            navigate.execute(rootView, view)
 
-    @Test
-    fun handle_should_call_popToView() {
-        // Given
-        val path = RandomData.httpUrl()
-        val navigate = Navigate.PopToView(path)
-        every { BeagleNavigator.popToView(any(), any()) } just Runs
+            // Then
+            verify(exactly = 1) { BeagleNavigator.openNativeRoute(rootView, route, data, shouldResetApplication) }
+        }
 
-        // When
-        navigate.execute(rootView, view)
+        @DisplayName("Then should call openNativeRoute with expression if type is OpenNativeRoute")
+        @Test
+        fun testOpenNativeRouteWithExpression() {
+            // Given
+            val url = expressionOf<String>("@{test}")
+            val urlValue = "test"
+            val data = mapOf("keyStub" to "valueStub")
+            val shouldResetApplication = true
+            val navigate = Navigate.OpenNativeRoute(url, shouldResetApplication, data).apply {
+                every {
+                    evaluateExpression(rootView, view, any<Bind<Any>>())
+                } returns urlValue
+            }
+            every { BeagleNavigator.openNativeRoute(any(), any(), any(), any()) } just Runs
 
-        // Then
-        verify(exactly = once()) { BeagleNavigator.popToView(rootView.getContext(), path) }
-    }
+            // When
+            navigate.execute(rootView, view)
 
-    @Test
-    fun handle_should_call_pushStack() {
-        // Given
-        val route = Route.Remote(RandomData.httpUrl())
-        val navigate = Navigate.PushStack(route)
-        every { BeagleNavigator.pushStack(any(), any(), any()) } just Runs
+            // Then
+            verify(exactly = 1) { BeagleNavigator.openNativeRoute(rootView, urlValue, data, shouldResetApplication) }
+        }
 
-        // When
-        navigate.execute(rootView, view)
+        @DisplayName("Then should call resetApplication if type is ResetApplication")
+        @Test
+        fun testResetApplication() {
+            // Given
+            val route = Route.Remote(RandomData.httpUrl())
+            val navigate = Navigate.ResetApplication(route)
+            every { BeagleNavigator.resetApplication(any(), any(), any()) } just Runs
 
-        // Then
-        verify(exactly = once()) { BeagleNavigator.pushStack(rootView.getContext(), route, null) }
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.resetApplication(rootView.getContext(), route, null) }
+        }
+
+        @DisplayName("Then should call resetStack if type is ResetStack")
+        @Test
+        fun testResetStack() {
+            // Given
+            val route = Route.Remote(RandomData.httpUrl())
+            val navigate = Navigate.ResetStack(route)
+            every { BeagleNavigator.resetStack(any(), any(), any()) } just Runs
+
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.resetStack(rootView.getContext(), route, null) }
+        }
+
+        @DisplayName("Then should call pushView if type is PushView")
+        @Test
+        fun testPushView() {
+            // Given
+            val route = Route.Remote(RandomData.httpUrl())
+            val navigate = Navigate.PushView(route)
+            every { BeagleNavigator.pushView(any(), any()) } just Runs
+
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.pushView(rootView.getContext(), route) }
+        }
+
+        @DisplayName("Then should call pushView with expression if type is PushView")
+        @Test
+        fun testPushViewWithExpression() {
+            // Given
+            val route = Route.Remote(expressionOf("@{test}"))
+            val navigate = Navigate.PushView(route).apply {
+                every {
+                    evaluateExpression(rootView, view, any<Bind<Any>>())
+                } returns "test"
+            }
+            every { BeagleNavigator.pushView(any(), any()) } just Runs
+
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.pushView(rootView.getContext(), route.copy(url = Bind.Value("test"))) }
+        }
+
+        @DisplayName("Then should call popStack if type is PopStack")
+        @Test
+        fun testPopStack() {
+            // Given
+            val navigate = Navigate.PopStack()
+            every { BeagleNavigator.popStack(any()) } just Runs
+
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.popStack(rootView.getContext()) }
+        }
+
+        @DisplayName("Then should call popView if type is PopView")
+        @Test
+        fun testPopView() {
+            // Given
+            val navigate = Navigate.PopView()
+            every { BeagleNavigator.popView(any()) } just Runs
+
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.popView(rootView.getContext()) }
+        }
+
+        @DisplayName("Then should call popToView if type is PopToView")
+        @Test
+        fun testPopToView() {
+            // Given
+            val path = RandomData.httpUrl()
+            val navigate = Navigate.PopToView(path)
+            every { BeagleNavigator.popToView(any(), any()) } just Runs
+
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.popToView(rootView.getContext(), path) }
+        }
+
+        @DisplayName("Then should call popToView with expression if type is PopToView")
+        @Test
+        fun testPopToViewWithExpression() {
+            // Given
+            val path = expressionOf<String>("@{test}")
+            val pathValue = "test"
+            val navigate = Navigate.PopToView(path).apply {
+                every {
+                    evaluateExpression(rootView, view, any<Bind<Any>>())
+                } returns pathValue
+            }
+            every { BeagleNavigator.popToView(any(), any()) } just Runs
+
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.popToView(rootView.getContext(), pathValue) }
+        }
+
+        @DisplayName("Then should call pushStack if type is PushStack")
+        @Test
+        fun testPushStack() {
+            // Given
+            val route = Route.Remote(RandomData.httpUrl())
+            val navigate = Navigate.PushStack(route)
+            every { BeagleNavigator.pushStack(any(), any(), any()) } just Runs
+
+            // When
+            navigate.execute(rootView, view)
+
+            // Then
+            verify(exactly = 1) { BeagleNavigator.pushStack(rootView.getContext(), route, null) }
+        }
     }
 }

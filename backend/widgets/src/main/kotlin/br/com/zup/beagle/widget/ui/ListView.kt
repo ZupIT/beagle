@@ -59,7 +59,7 @@ data class ListView(
                 "iteratorName, key)")
     )
     constructor(
-        children: List<ServerDrivenComponent>,
+        children: List<ServerDrivenComponent>? = null,
         direction: ListDirection
     ) : this(
         children = children,

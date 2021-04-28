@@ -24,7 +24,6 @@ import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.networking.RequestData
-import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.custom.OnServerStateChanged
@@ -274,13 +273,73 @@ private fun loadView(
 }
 
 /**
+ * Render a Json in String format from a ServerDrivenComponent into this ViewGroup
+ * @param activity that is parent of this view.
+ * Make sure to use this method if you are inside a Activity because of the lifecycle.
+ * @param screenJson Json in String format that represents your component.
+ * @param screenId that represents an screen identifier to create the analytics when the screen is created.
+ * @param shouldResetContext when true, this clear at the time of calling this function all de context data
+ * linked to the lifecycle owner.
+ */
+fun ViewGroup.loadView(
+    activity: AppCompatActivity,
+    screenJson: String,
+    screenId: String = "",
+    shouldResetContext: Boolean = false,
+) {
+    loadView(ActivityRootView(activity, this.id, screenId), screenJson, shouldResetContext)
+}
+
+/**
+ * Render a Json in String format from a ServerDrivenComponent into this ViewGroup
+ * @param fragment that is parent of this view.
+ * Make sure to use this method if you are inside a Fragment because of the lifecycle.
+ * @param screenJson Json in String format that represents your component.
+ * @param screenId that represents an screen identifier to create the analytics when the screen is created.
+ * @param shouldResetContext when true, this clear at the time of calling this function all de context data
+ * linked to the lifecycle owner.
+ */
+fun ViewGroup.loadView(
+    fragment: Fragment,
+    screenJson: String,
+    screenId: String = "",
+    shouldResetContext: Boolean = false,
+) {
+    loadView(FragmentRootView(fragment, this.id, screenId), screenJson, shouldResetContext)
+}
+
+internal fun ViewGroup.loadView(
+    rootView: RootView,
+    screenJson: String,
+    shouldResetContext: Boolean,
+    generateIdManager: GenerateIdManager = GenerateIdManager(rootView),
+) {
+    if (shouldResetContext) {
+        val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+        viewModel.clearContexts()
+    }
+    generateIdManager.createSingleManagerByRootViewId()
+    val component = beagleSerializerFactory.deserializeComponent(screenJson)
+    val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
+        addServerDrivenComponent(component)
+        listenerOnViewDetachedFromWindow = {
+            generateIdManager.onViewDetachedFromWindow(this)
+        }
+    }
+    removeAllViews()
+    addView(view)
+}
+
+/**
  * Render a ServerDrivenComponent into this ViewGroup
  * @property activity that is parent of this view.
  * Make sure to use this method if you are inside a Activity because of the lifecycle
  * @property screenJson that represents your component
  * @property screenId that represents an screen identifier to create the analytics when the screen is created
- * the screen is created
  */
+@Deprecated("This method was deprecated in version 1.7.0 and will be removed in a future version. " +
+    "Use the loadView method with screenJson param to avoid problems with navigation and have control over context.",
+    replaceWith = ReplaceWith("loadView(activity = activity, screenJson = screenJson)"))
 fun ViewGroup.renderScreen(
     activity: AppCompatActivity,
     screenJson: String,
@@ -291,13 +350,14 @@ fun ViewGroup.renderScreen(
 
 /**
  * Render a ServerDrivenComponent into this ViewGroup
- * @property fragment <p>that is parent of this view.
- * Make sure to use this method if you are inside a Fragment bec
- * ause of the lifecycle</p>
+ * @property fragment that is parent of this view.
+ * Make sure to use this method if you are inside a Fragment because of the lifecycle
  * @property screenJson that represents your component
  * @property screenId that represents an screen identifier to create the analytics when the screen is created
- * the screen is created
  */
+@Deprecated("This method was deprecated in version 1.7.0 and will be removed in a future version. " +
+    "Use the loadView method with screenJson param to avoid problems with navigation and have control over context.",
+    replaceWith = ReplaceWith("loadView(fragment = fragment, screenJson = screenJson)"))
 fun ViewGroup.renderScreen(
     fragment: Fragment,
     screenJson: String,
@@ -310,13 +370,5 @@ internal fun ViewGroup.renderScreen(
     rootView: RootView,
     screenJson: String,
 ) {
-    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-    viewModel.clearContexts()
-    val component = beagleSerializerFactory.deserializeComponent(screenJson)
-    (rootView.getContext() as AppCompatActivity)
-        .supportFragmentManager
-        .beginTransaction()
-        .replace(this.id, BeagleFragment.newInstance(component, rootView.getScreenId()))
-        .addToBackStack(null)
-        .commit()
+    loadView(rootView, screenJson, shouldResetContext = true)
 }

@@ -62,9 +62,10 @@ class BeagleNavigator: BeagleNavigation {
         controller.dependencies.logger.log(Log.navigation(.didReceiveAction(action)))
         switch action {
         case let .openExternalURL(url, _):
-            openExternalURL(path: url, controller: controller)
+            let path = url.evaluate(with: origin) ?? ""
+            openExternalURL(path: path, controller: controller)
         case let .openNativeRoute(nativeRoute, _):
-            openNativeRoute(controller: controller, animated: animated, nativeRoute: nativeRoute)
+            openNativeRoute(controller: controller, origin: origin, animated: animated, nativeRoute: nativeRoute)
         case let .resetApplication(route, controllerId, _):
             navigate(
                 route: route,
@@ -81,7 +82,8 @@ class BeagleNavigator: BeagleNavigation {
         case .popView:
             popView(controller: controller, animated: animated)
         case let .popToView(route, _):
-            popToView(identifier: route, controller: controller, animated: animated)
+            let identifier = route.evaluate(with: origin) ?? ""
+            popToView(identifier: identifier, controller: controller, animated: animated)
         case let .pushStack(route, controllerId, _):
             navigate(route: route,
                      controller: controller,
@@ -141,10 +143,11 @@ class BeagleNavigator: BeagleNavigation {
         controller.dependencies.opener.tryToOpen(path: path)
     }
     
-    private func openNativeRoute(controller: BeagleController, animated: Bool, nativeRoute: Navigate.OpenNativeRoute) {
+    private func openNativeRoute(controller: BeagleController, origin: UIView?, animated: Bool, nativeRoute: Navigate.OpenNativeRoute) {
+        let path = nativeRoute.route.evaluate(with: origin) ?? ""
         do {
             guard let deepLinkHandler = controller.dependencies.deepLinkHandler else { return }
-            let viewController = try deepLinkHandler.getNativeScreen(with: nativeRoute.route, data: nativeRoute.data)
+            let viewController = try deepLinkHandler.getNativeScreen(with: path, data: nativeRoute.data)
             
             if let transition = defaultAnimation?.getTransition(.push) {
                 controller.navigationController?.view.layer.add(transition, forKey: nil)
@@ -156,7 +159,7 @@ class BeagleNavigator: BeagleNavigation {
                 controller.navigationController?.pushViewController(viewController, animated: animated)
             }
         } catch {
-            controller.dependencies.logger.log(Log.navigation(.didNotFindDeepLinkScreen(path: nativeRoute.route)))
+            controller.dependencies.logger.log(Log.navigation(.didNotFindDeepLinkScreen(path: path)))
             return
         }
     }
@@ -198,7 +201,7 @@ class BeagleNavigator: BeagleNavigation {
         }
 
         guard let target = last else {
-            controller.dependencies.logger.log(Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: identifier)))
+            controller.dependencies.logger.log(Log.navigation(.routeDoesNotExistInTheCurrentStack(path: identifier)))
             return
         }
         if let transition = defaultAnimation?.getTransition(.pop) {

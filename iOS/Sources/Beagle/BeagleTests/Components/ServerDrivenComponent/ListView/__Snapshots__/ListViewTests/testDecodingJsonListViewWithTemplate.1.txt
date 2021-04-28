@@ -1,0 +1,85 @@
+▿ ListView
+  - context: Optional<Context>.none
+  ▿ dataSource: Expression<Array<DynamicObject>>
+    ▿ value: 1 element
+      - [name: Kelsier]
+  ▿ direction: Optional<Direction>
+    - some: Direction.vertical
+  - isScrollIndicatorVisible: Optional<Bool>.none
+  - iteratorName: Optional<String>.none
+  - key: Optional<String>.none
+  - onInit: Optional<Array<Action>>.none
+  - onScrollEnd: Optional<Array<Action>>.none
+  - scrollEndThreshold: Optional<Int>.none
+  ▿ template: Container
+    ▿ children: Optional<Array<ServerDrivenComponent>>
+      ▿ some: 1 element
+        ▿ Text
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<String>.none
+          ▿ text: Expression<String>
+            ▿ expression: ContextExpression
+              ▿ multiple: MultipleExpression
+                ▿ nodes: 2 elements
+                  ▿ Node
+                    - string: "Name: "
+                  ▿ Node
+                    ▿ expression: SingleExpression
+                      ▿ value: Value
+                        ▿ binding: Binding
+                          - context: "item"
+                          ▿ path: Path
+                            ▿ nodes: 1 element
+                              ▿ Node
+                                - key: "name"
+          - textColor: Optional<Expression<String>>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - id: Optional<String>.none
+            - style: Optional<Style>.none
+    - context: Optional<Context>.none
+    - onInit: Optional<Array<Action>>.none
+    - styleId: Optional<String>.none
+    ▿ widgetProperties: WidgetProperties
+      - accessibility: Optional<Accessibility>.none
+      - id: Optional<String>.none
+      ▿ style: Optional<Style>
+        ▿ some: Style
+          - backgroundColor: Optional<String>.none
+          - borderColor: Optional<String>.none
+          - borderWidth: Optional<Double>.none
+          - cornerRadius: Optional<CornerRadius>.none
+          - display: Optional<Expression<Display>>.none
+          - flex: Optional<Flex>.none
+          ▿ margin: Optional<EdgeValue>
+            ▿ some: EdgeValue
+              - all: Optional<UnitValue>.none
+              ▿ bottom: Optional<UnitValue>
+                ▿ some: UnitValue
+                  - type: UnitType.real
+                  - value: 20.0
+              - horizontal: Optional<UnitValue>.none
+              - left: Optional<UnitValue>.none
+              - right: Optional<UnitValue>.none
+              - top: Optional<UnitValue>.none
+              - vertical: Optional<UnitValue>.none
+          - padding: Optional<EdgeValue>.none
+          - position: Optional<EdgeValue>.none
+          - positionType: Optional<PositionType>.none
+          - size: Optional<Size>.none
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    - id: Optional<String>.none
+    ▿ style: Optional<Style>
+      ▿ some: Style
+        - backgroundColor: Optional<String>.none
+        - borderColor: Optional<String>.none
+        - borderWidth: Optional<Double>.none
+        - cornerRadius: Optional<CornerRadius>.none
+        - display: Optional<Expression<Display>>.none
+        - flex: Optional<Flex>.none
+        - margin: Optional<EdgeValue>.none
+        - padding: Optional<EdgeValue>.none
+        - position: Optional<EdgeValue>.none
+        - positionType: Optional<PositionType>.none
+        - size: Optional<Size>.none

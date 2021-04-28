@@ -236,7 +236,7 @@ internal class ActionReportFactoryTest : BaseTest() {
             //Then
             commonAsserts(report, dataActionReport)
             Assert.assertEquals(url, report.attributes?.get(ROUTE_URL_CONSTANT))
-            Assert.assertEquals(false, report.attributes?.get(ROUTE_SHOULD_PREFETCH_CONSTANT))
+            Assert.assertEquals(null, report.attributes?.get(ROUTE_SHOULD_PREFETCH_CONSTANT))
         }
 
         @Test
@@ -284,7 +284,6 @@ internal class ActionReportFactoryTest : BaseTest() {
                 originY = 400f,
                 attributes = hashMapOf(
                     "route.url.length" to 4,
-                    ROUTE_SHOULD_PREFETCH_CONSTANT to false,
                     "route" to route,
                     ROUTE_URL_CONSTANT to url
                 ),

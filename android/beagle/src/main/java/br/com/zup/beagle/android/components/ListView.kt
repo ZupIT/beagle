@@ -79,7 +79,7 @@ constructor(
             "ListView(direction, context, onInit, dataSource, template, onScrollEnd, scrollEndThreshold," +
                 "iteratorName, key)"))
     constructor(
-        children: List<ServerDrivenComponent>,
+        children: List<ServerDrivenComponent>? = null,
         direction: ListDirection,
     ) : this(
         children = children,
@@ -149,15 +149,14 @@ constructor(
         }
     }
 
-    @Deprecated(message = "It was deprecated in version 1.5 and will be removed in a future version. " +
-        "Use new ListView implementation instead.",
-        replaceWith = ReplaceWith("buildNewListView()"))
     private fun buildOldListView(): View {
         val recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
-        recyclerView.apply {
-            val orientation = listDirectionToRecyclerViewOrientation()
-            layoutManager = LinearLayoutManager(context, orientation, false)
-            adapter = ListViewRecyclerAdapter(children!!, viewFactory, orientation, this@ListView.rootView)
+        children?.let { children ->
+            recyclerView.apply {
+                val orientation = listDirectionToRecyclerViewOrientation()
+                layoutManager = LinearLayoutManager(context, orientation, false)
+                adapter = ListViewRecyclerAdapter(children, viewFactory, orientation, this@ListView.rootView)
+            }
         }
         return recyclerView
     }
@@ -249,7 +248,7 @@ constructor(
         observeBindChanges(rootView, recyclerView, dataSource!!) { value ->
             canScrollEnd = true
             val adapter = recyclerView.adapter as ListAdapter
-            adapter.setList(value)
+            adapter.setList(value, this.id)
             if (value?.isEmpty() == true) {
                 executeScrollEndActions()
             }
@@ -309,11 +308,8 @@ constructor(
             return 100f
         }
 
-        val percentage = 100.0f * offset / (range - extent).toFloat()
-
-        return percentage
+        return 100.0f * offset / (range - extent).toFloat()
     }
-
 }
 
 class BeagleRecyclerView(context: Context) : RecyclerView(context) {

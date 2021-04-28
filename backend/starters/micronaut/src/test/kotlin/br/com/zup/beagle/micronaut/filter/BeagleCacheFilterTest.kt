@@ -20,12 +20,15 @@ import br.com.zup.beagle.cache.BeagleCacheHandler
 import br.com.zup.beagle.constants.BEAGLE_CACHE_ENABLED
 import br.com.zup.beagle.micronaut.STRING
 import br.com.zup.beagle.micronaut.containsBeans
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import io.micronaut.context.ApplicationContext
+import io.micronaut.core.convert.value.MutableConvertibleValuesMap
 import io.micronaut.http.HttpHeaders
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.filter.ServerFilterChain
+import io.mockk.Called
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifyAll
@@ -67,6 +70,7 @@ internal class BeagleCacheFilterTest {
         every { request.path } returns STRING
         every { request.headers } returns headers
         every { headers[any()] } returns STRING
+        every { request.attributes } returns MutableConvertibleValuesMap()
 
         val chain = mockk<ServerFilterChain>()
         val result = BeagleCacheFilter(handler).doFilter(request, chain)
@@ -77,20 +81,29 @@ internal class BeagleCacheFilterTest {
             it.assertComplete()
             it.assertValue(response)
         }
-        verifyAll { handler.handleCache(STRING, STRING, STRING, any()) }
-    }
-
-    @Test
-    fun `Test doFilter when request is null`() {
-        val result = BeagleCacheFilter(mockk()).doFilter(null, mockk())
-
-        assertNull(result)
+        verifyAll {
+            request.path
+            request.headers
+            request.attributes
+            headers[BeagleCacheHandler.CACHE_HEADER]
+            headers[BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER]
+            handler.handleCache(STRING, STRING, STRING, any())
+        }
     }
 
     @Test
     fun `Test doFilter when chain is null`() {
-        val result = BeagleCacheFilter(mockk()).doFilter(mockk(), null)
+        val request = mockk<HttpRequest<*>>()
+        val handler = mockk<BeagleCacheHandler>()
+
+        every { request.attributes } returns MutableConvertibleValuesMap()
+
+        val result = BeagleCacheFilter(handler).doFilter(request, null)
 
         assertNull(result)
+        verifyAll {
+            request.attributes
+            handler wasNot Called
+        }
     }
 }

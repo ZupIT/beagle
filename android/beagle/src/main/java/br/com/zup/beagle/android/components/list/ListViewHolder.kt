@@ -74,7 +74,7 @@ internal class ListViewHolder(
         if (component is SingleChildComponent) {
             extractViewInfoFromHolderTemplate(component.child)
         } else if (component is MultiChildComponent) {
-            component.children.forEach { child ->
+            component.children?.forEach { child ->
                 extractViewInfoFromHolderTemplate(child)
             }
         }
@@ -165,7 +165,7 @@ internal class ListViewHolder(
         if (component is SingleChildComponent) {
             initializeContextComponents(component.child)
         } else if (component is MultiChildComponent) {
-            component.children.forEach { child ->
+            component.children?.forEach { child ->
                 initializeContextComponents(child)
             }
         }
@@ -211,7 +211,7 @@ internal class ListViewHolder(
         position: Int,
         recyclerId: Int
     ) {
-        val itemViewId = bindIdToViewModel(itemView, isRecycled, position, recyclerId)
+        val itemViewId = bindIdToViewModel(position, recyclerId)
         setUpdatedIdToViewAndManagers(itemView, itemViewId, listItem, isRecycled)
 
         viewsWithId.forEach { (id, view) ->
@@ -223,14 +223,14 @@ internal class ListViewHolder(
 
         val viewsWithContextAndWithoutId = viewsWithContext.filterNot { viewsWithId.containsValue(it) }
         viewsWithContextAndWithoutId.forEach { view ->
-            val subViewId = bindIdToViewModel(view, isRecycled, position, recyclerId)
+            val subViewId = bindIdToViewModel(position, recyclerId)
             setUpdatedIdToViewAndManagers(view, subViewId, listItem, isRecycled)
         }
 
         val viewsWithOnInitAndWithoutIdAndContext =
             viewsWithOnInit.filterNot { viewsWithId.containsValue(it) || viewsWithContext.contains(it) }
         viewsWithOnInitAndWithoutIdAndContext.forEach { view ->
-            val subViewId = bindIdToViewModel(view, isRecycled, position, recyclerId)
+            val subViewId = bindIdToViewModel(position, recyclerId)
             setUpdatedIdToViewAndManagers(view, subViewId, listItem, isRecycled)
         }
 
@@ -241,12 +241,12 @@ internal class ListViewHolder(
                     viewsWithOnInit.contains(it)
             }
             .forEach { innerRecyclerWithoutId ->
-                val subViewId = bindIdToViewModel(innerRecyclerWithoutId, isRecycled, position, recyclerId)
+                val subViewId = bindIdToViewModel(position, recyclerId)
                 setUpdatedIdToViewAndManagers(innerRecyclerWithoutId, subViewId, listItem, isRecycled)
             }
     }
 
-    private fun bindIdToViewModel(view: View, isRecycled: Boolean, position: Int, recyclerId: Int): Int {
+    private fun bindIdToViewModel(position: Int, recyclerId: Int): Int {
         return listViewModels.listViewIdViewModel.getViewId(recyclerId, position)
     }
 

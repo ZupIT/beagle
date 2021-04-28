@@ -32,6 +32,15 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
+      - name: Read secrets from AWS Secrets Manager into environment variables
+        uses: abhilash1in/aws-secrets-manager-action@v1.0.1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          secrets: |
+            beagle/core/*
+          parse-json: true
 
       - run: git branch
 
@@ -59,23 +68,18 @@ jobs:
       - name: Login to ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
       - name: Deploy to AWS
         run: bash ./fastlane/automatedTests/deploy_test_backend.sh
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           VERSION: ${{ github.sha }}
-          CLUSTER: ${{ secrets.AWS_CLUSTER_NAME }}
-          NAMESPACE: ${{ secrets.AWS_CLUSTER_NAMESPACE }}
+          CLUSTER: ${{ env.BEAGLE_CORE_AWS_AWS_CLUSTER_NAME }}
+          NAMESPACE: ${{ env.BEAGLE_CORE_AWS_AWS_CLUSTER_NAMESPACE }}
 
   appium_tests:
     needs: bff_config_job
     name: Tests job
     runs-on: macos-latest
-    env:
-      BFF_URL: ${{ secrets.BEAGLE_TESTS_BFF_URL }}
-      BROWSERSTACK_USER: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_USER }}
-      BROWSERSTACK_KEY: ${{ secrets.BEAGLE_TESTS_BROWSERSTACK_KEY }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -92,16 +96,29 @@ jobs:
           path: ${{ env.gradle-path }}
           key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('/tests/appium/app-android/buildSrc/**') }}
           restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
-
+      - name: Read secrets from AWS Secrets Manager into environment variables
+        uses: abhilash1in/aws-secrets-manager-action@v1.0.1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          secrets: |
+              beagle/core/*
+          parse-json: true
       - name: Build project app-android to generate the .apk file
         env:
           BEAGLE_CONFIG_FILE: tests/appium/app-android/app/src/main/kotlin/br/com/zup/beagle/appiumapp/AppBeagleConfig.kt
+          BFF_URL: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BFF_URL }}
         run: | # builds the app replacing localhost for the $BFF_URL
           sed -i --expression "s@http://10.0.2.2:8080@$BFF_URL@g" $BEAGLE_CONFIG_FILE
           bash ./tests/appium/app-android/gradlew --build-cache -p tests/appium/app-android assembleDebug
           # sed -i --expression "s@$BFF_URL@http://10.0.2.2:8080@g" $BEAGLE_CONFIG_FILE
 
       - name: Upload .apk file in BrowserStack and run the Appium test suite
+        env:
+          BFF_URL: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BFF_URL }}
+          BROWSERSTACK_USER: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BROWSERSTACK_USER }}
+          BROWSERSTACK_KEY: ${{ env.BEAGLE_CORE_TEST_BEAGLE_TESTS_BROWSERSTACK_KEY }}
         run: bash fastlane/automatedTests/appium/android/browserstack/setup_apk_in_browserstack_and_run_android_tests.sh
 
       - name: Expose failed test screenshot files

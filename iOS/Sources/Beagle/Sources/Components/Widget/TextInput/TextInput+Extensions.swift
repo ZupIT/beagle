@@ -40,6 +40,7 @@ extension TextInput: ServerDrivenComponent {
         }
         
         renderer.observe(enabled, andUpdateManyIn: view) { enabled in
+            if self.disabled != nil { return }
             view.layoutUpdate(with: enabled ?? true)
         }
         renderer.observe(readOnly, andUpdateManyIn: view) { readOnly in

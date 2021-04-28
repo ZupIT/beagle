@@ -220,8 +220,7 @@ fun makeNavigationActionJsonWithExpression() = """
     {
       "_beagleAction_": "beagle:pushView",
       "route": {
-        "url": "@{test}",
-        "shouldPrefetch": false
+        "url": "@{test}"
       }
     }
 """

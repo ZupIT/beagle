@@ -40,7 +40,7 @@ extension Container: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let containerView = UIView()
         
-        children.forEach {
+        children?.forEach {
             let view = renderer.render($0)
             containerView.addSubview(view)
         }

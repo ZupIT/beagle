@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.automatedtests.model.Genre
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -49,10 +50,6 @@ data class PageResponse(
     var currentPage: Bind<Int>,
     var totalPages: Bind<Int>,
     var result: Bind<List<Any>>
-)
-
-data class GenreResponse(
-    var genres: Any? = null
 )
 
 data class CategoryResponse(
@@ -209,20 +206,6 @@ object ListViewScreenBuilder {
         )
 
     private fun secondListView() = Container(
-        context = ContextData(id = "genreResponse", value = GenreResponse()),
-        onInit = listOf(
-            SendRequest(
-                url = "/book-database/categories",
-                onSuccess = listOf(
-                    SetContext(
-                        contextId = "genreResponse",
-                        value = GenreResponse(
-                            genres = "@{onSuccess.data}"
-                        )
-                    )
-                )
-            )
-        ),
         children = listOf(
             Text("Categories List View (nested)")
                 .applyStyle(
@@ -240,7 +223,7 @@ object ListViewScreenBuilder {
         return ListView(
             key = "id",
             direction = ListDirection.VERTICAL,
-            dataSource = expressionOf("@{genreResponse.genres}"),
+            dataSource = valueOf(Genre.createMock()),
             template = Container(
                 context = ContextData(id = "categoryResponse", value = CategoryResponse()),
                 children = listOf(

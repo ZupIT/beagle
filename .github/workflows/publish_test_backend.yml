@@ -8,7 +8,15 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
-
+            -   name: Read secrets from AWS Secrets Manager into environment variables
+                uses: abhilash1in/aws-secrets-manager-action@v1.0.1
+                with:
+                    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                    aws-region: us-east-1
+                    secrets: |
+                        beagle/core/*
+                    parse-json: true
             -   name: Cache gradle backend dependencies
                 uses: actions/cache@v2
                 env:
@@ -22,7 +30,7 @@ jobs:
                 run: bash fastlane/automatedTests/publish_test_backend.sh
                 env:
                     user: ${{ github.actor }}
-                    token: ${{ secrets.GITHUB_TOKEN }}
+                    token: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_TOKEN }}
                     repository: ${{ github.repository }}
                     registry: docker.pkg.github.com
                     image: automated-test-backend
