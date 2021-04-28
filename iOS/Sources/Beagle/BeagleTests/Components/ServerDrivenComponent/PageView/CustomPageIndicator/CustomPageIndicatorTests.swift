@@ -59,12 +59,9 @@ class CustomPageIndicatorTests: XCTestCase {
             children: Array(repeating: page, count: 3),
             pageIndicator: indicator
         )
+        let view = BeagleView(component)
+        view.backgroundColor = .white
 
-        let screen = BeagleScreenViewController(viewModel: .init(
-            screenType: .declarative(component.toScreen()),
-            dependencies: dependencies
-        ))
-
-        assertSnapshotImage(screen)
+        assertSnapshotImage(view)
     }
 }
