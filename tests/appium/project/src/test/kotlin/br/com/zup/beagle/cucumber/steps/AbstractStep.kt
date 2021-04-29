@@ -62,7 +62,7 @@ abstract class AbstractStep {
             params["package"] = "br.com.zup.beagle.appiumapp"
             (getDriver() as JavascriptExecutor).executeScript("mobile:deepLink", params)
         } else {
-            // TODO: iOS
+            getDriver().get("appiumapp://" + SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
         }
     }
 
@@ -70,6 +70,13 @@ abstract class AbstractStep {
         if (SuiteSetup.isAndroid()) {
             loadBffScreenFromDeepLink()
         } else {
+            /**
+             * Deep link test strategy on iOS (URL Scheme) doesn't boost test speed when tests run on non-gpu simulators (ex. GitHub Actions)
+             * or on real devices (ex. BrowserStack). Because of this, deep link is turned off by default on iOS.
+             *
+             * When testing on a gpu-enabled simulator (ex. testing locally on a mac computer), the deep link strategy might result on some
+             * speed boost. To enable deep link on iOS, use method loadBffScreenFromDeepLink() instead of method loadBffScreenFromMainScreen().
+             */
             loadBffScreenFromMainScreen()
         }
     }

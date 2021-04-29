@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.cucumber.steps
+import UIKit
+import Beagle
 
-import io.cucumber.junit.Cucumber
-import io.cucumber.junit.CucumberOptions
-import org.junit.runner.RunWith
-
-/**
- * Used for debugging since cucumber task in gradle.build won't hit breakpoints.
- * Must be in the steps folder
- */
-@RunWith(Cucumber::class)
-@CucumberOptions(
-    /**
-     * running all tests on Android: "@android and not @inProgress"
-     * running all tests on iOS: "@ios and not @inProgress"
-     */
-    tags = "@ios and not @inProgress",
-    features = ["src/test/resources/features"],
-    plugin = ["br.com.zup.beagle.setup.SuiteSetupPlugin"]
-)
-class Runner {
+class DeepLinkViewController: UIViewController {
+    
+    var bffUrl:String = ""
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // calls the bff screen using the bffUrl
+        let viewController = Beagle.screen(.remote(.init(url: bffUrl)), controllerId: "CustomBeagleNavigation")
+        navigationController?.pushViewController(viewController, animated: false)
+    }
 }
+

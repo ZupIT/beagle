@@ -179,13 +179,14 @@ object SuiteSetup {
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName)
             capabilities.setCapability(MobileCapabilityType.APP, appFile)
 
-
             driver = IOSDriver<MobileElement>(URL(APPIUM_URL), capabilities)
         }
     }
 
-
-    @Deprecated("Too slow on iOS. Use restartApp instead")
+    /**
+     * App resetting behavior depends on some capabilities:
+     * https://appium.io/docs/en/writing-running-appium/other/reset-strategies/index.html
+     */
     fun resetApp() {
         try {
             driver?.resetApp();
