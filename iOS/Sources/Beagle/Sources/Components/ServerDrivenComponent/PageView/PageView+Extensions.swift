@@ -19,35 +19,42 @@ import UIKit
 extension PageView {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let pagesControllers = children?.map {
-            ComponentHostController($0, renderer: renderer)
+        let view = UIView()
+        let indicatorView = pageIndicator.ifSome {
+            renderer.render($0) as? PageIndicatorUIView & UIView
         }
-
-        var indicatorView: PageIndicatorUIView?
-        if let indicator = pageIndicator {
-            indicatorView = renderer.render(indicator) as? PageIndicatorUIView
-        }
-
-        let view = PageViewUIComponent(
-            model: .init(pages: pagesControllers ?? []),
+        let pagesView = PageViewUIComponent(
+            model: .init(pages: (children ?? []).map {
+                ComponentHostController($0, renderer: renderer)
+            }),
             indicatorView: indicatorView,
             controller: renderer.controller
         )
-        
-        if let actions = onPageChange {
-            view.onPageChange = { [weak view] page in
-                guard let view = view else { return }
-                renderer.controller?.execute(actions: actions, with: "onPageChange", and: .int(page), origin: view)
+        pagesView.onPageChange = { [weak view] page in
+            guard let view = view else { return }
+            renderer.controller?.execute(actions: self.onPageChange, with: "onPageChange", and: .int(page), origin: view)
+        }
+        renderer.observe(currentPage, andUpdateManyIn: view) { [weak pagesView] page in
+            if let page = page {
+                pagesView?.swipeToPage(at: page)
             }
         }
 
-        renderer.observe(currentPage, andUpdateManyIn: view) { [weak view] page in
-            if let view = view, let page = page {
-                view.swipeToPage(at: page)
-            }
+        view.backgroundColor = .clear
+        renderer.dependencies.style(view).setup(Style(flex: Flex().flexDirection(.column)))
+
+        view.addSubview(pagesView)
+        renderer.dependencies.style(pagesView).setup(Style(flex: Flex(grow: 1)))
+
+        if let indicatorView = indicatorView {
+            view.addSubview(indicatorView)
+            let style = Style()
+                .size(Size().height(40))
+                .margin(EdgeValue().top(10))
+                .flex(Flex().shrink(0))
+            renderer.dependencies.style(indicatorView).setup(style)
         }
-        
-        view.style.setup(Style(flex: Flex(grow: 1.0)))
+
         return view
     }
 }
