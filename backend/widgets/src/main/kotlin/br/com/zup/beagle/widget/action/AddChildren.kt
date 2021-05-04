@@ -18,6 +18,9 @@ package br.com.zup.beagle.widget.action
 
 import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
 
 /**
  * Defines the placement of where the children will be inserted in the list or if the contents
@@ -55,7 +58,19 @@ enum class Mode {
  */
 data class AddChildren(
     var componentId: String,
-    var value: List<ServerDrivenComponent>,
+    var value: Bind<List<ServerDrivenComponent>>,
     var mode: Mode? = Mode.APPEND,
     override var analytics: ActionAnalyticsConfig? = null
-) : AnalyticsAction
+) : AnalyticsAction {
+    constructor(
+        componentId: String,
+        value: List<ServerDrivenComponent>,
+        mode: Mode? = Mode.APPEND,
+        analytics: ActionAnalyticsConfig? = null
+    ) : this(
+        componentId = componentId,
+        value = valueOf(value),
+        mode = mode,
+        analytics = analytics
+    )
+}

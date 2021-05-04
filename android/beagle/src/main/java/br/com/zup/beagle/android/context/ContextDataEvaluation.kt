@@ -22,6 +22,8 @@ import br.com.zup.beagle.android.context.tokenizer.ExpressionTokenExecutor
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types.newParameterizedType
+import com.squareup.moshi.asArrayType
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
@@ -73,7 +75,14 @@ internal class ContextDataEvaluation(
                 expressions.size == 1 && type == null && bind.type == Any::class.java -> response
                 expressions.size == 1 && type == null -> moshi.adapter<Any>(bind.type).fromJsonValue(response)
                 else -> {
-                    val newType = if (bind.type == Any::class.java) type else bind.type
+                    var newType = if (bind.type == Any::class.java) type else bind.type
+
+                    if (newType == List::class.java) {
+
+                        newType = newParameterizedType(List::class.java, bind.type.javaClass)
+
+                    }
+
                     moshi.adapter<Any>(newType ?: bind.type).fromJson(response.toString())
                         ?: showLogErrorAndReturn(bind)
                 }

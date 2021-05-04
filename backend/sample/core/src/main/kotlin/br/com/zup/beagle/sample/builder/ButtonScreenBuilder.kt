@@ -19,15 +19,19 @@ package br.com.zup.beagle.sample.builder
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.setId
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
 import br.com.zup.beagle.sample.constants.CYAN_BLUE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.AddChildren
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.action.SendRequest
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -82,7 +86,7 @@ object ButtonScreenBuilder : ScreenBuilder {
                     styleId = BUTTON_STYLE_APPEARANCE
                 )
             )
-        )
+        ).setId(id = "movie-container")
     )
 
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
@@ -107,7 +111,12 @@ object ButtonScreenBuilder : ScreenBuilder {
         val button = Button(
             text = text,
             styleId = styleId,
-            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
+            onPress = listOf(
+                SendRequest(url = "https://run.mocky.io/v3/04de2494-9161-444f-937b-33e541ebdc00", onSuccess =
+                listOf(
+                    AddChildren(componentId = "movie-container", value = expressionOf("[@{onSuccess.data}]"))
+                ))
+            )
         )
 
         if (style != null) {
