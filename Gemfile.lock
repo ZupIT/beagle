@@ -1,9 +1,3 @@
-GIT
-  remote: https://github.com/uziasferreirazup/fastlane-plugin-codecov_reporter
-  revision: 6a17f8f74565505c9bb970002d868a1472f424e6
-  specs:
-    fastlane-plugin-codecov_reporter (0.1.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -342,7 +336,6 @@ DEPENDENCIES
   danger-junit
   danger-swiftlint
   fastlane
-  fastlane-plugin-codecov_reporter!
   fastlane-plugin-semantic_release
   xcode-install
 

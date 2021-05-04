@@ -22,7 +22,6 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
 }
-apply from: rootProject.file('jacoco-android.gradle')
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk

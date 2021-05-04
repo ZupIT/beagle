@@ -21,7 +21,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mannodermaus.android-junit5'
-apply from: new File('./../jacoco-android.gradle')
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
