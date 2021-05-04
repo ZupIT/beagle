@@ -12,9 +12,6 @@
   <a href="https://github.com/ZupIT/beagle/blob/master/LICENSE.md">
     <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Beagle is released under the Apache 2.0 license." />
   </a>
-  <a href="https://codecov.io/gh/ZupIT/beagle">
-    <img src="https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg" />
-  </a>
   <a href="https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome!" />
   </a>

@@ -56,5 +56,4 @@ jobs:
                 env:
                     GITHUB_USER: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_USER }}
                     GITHUB_TOKEN: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_TOKEN }}
-                    CODECOV_TOKEN: ${{ env.BEAGLE_CORE_COVERAGE_CODECOV_TOKEN }}
                 run: bundle exec fastlane ios pull_request_verification
