@@ -524,7 +524,7 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun `GIVEN AddChildren action WHEN moshi to serialize the action THEN it should return action serialized `() {
         // Given
-        val component = AddChildren(componentId = "", value = listOf())
+        val component = AddChildren(componentId = "", value = valueOf(listOf()))
 
         // When
         val actual = moshi.adapter(Action::class.java).toJson(component)

@@ -19,94 +19,141 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.utils.viewFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 
-class AddChildrenTest {
+@DisplayName("Given an Add Children")
+class AddChildrenTest : BaseTest() {
 
     private val serverDrivenComponent = mockk<ServerDrivenComponent>(relaxed = true)
     private val value = listOf(serverDrivenComponent)
-    private val rootView = mockk<RootView>(relaxed = true)
     private val origin = mockk<View>(relaxed = true)
     private val viewGroup = mockk<ViewGroup>(relaxed = true)
     private val context = mockk<AppCompatActivity>(relaxed = true)
     private val view = mockk<BeagleFlexView>(relaxed = true)
-    private val beagleSdk = mockk<BeagleSdk>(relaxed = true)
     private val id = "id"
     private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
 
     @BeforeEach
-    fun setUp() {
-        mockkObject(BeagleEnvironment)
+    override fun setUp() {
+        super.setUp()
         viewFactory = viewFactoryMock
-        every { BeagleEnvironment.beagleSdk } returns beagleSdk
+
+        mockkObject(BeagleMessageLogs)
+
+        mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
+
         every { beagleSdk.logger } returns mockk(relaxed = true)
         every { rootView.getContext() } returns context
-        every { context.findViewById<ViewGroup>(any()) } returns viewGroup
+        every { context.findViewById<ViewGroup>(id.toAndroidId()) } returns viewGroup
         every { viewFactory.makeBeagleFlexView(rootView) } returns view
         every { viewGroup.addView(any()) } just Runs
     }
 
-    @AfterEach
-    fun tearDown() {
-        unmockkObject(BeagleEnvironment)
+
+    @DisplayName("When call execute with mode APPEND")
+    @Nested
+    inner class ModeAppendTest {
+
+        @DisplayName("Then should execute action correctly")
+        @Test
+        fun testModeAppend() {
+            // Given
+            val action = AddChildren(id, value, Mode.APPEND)
+
+            // When
+            action.execute(rootView, origin)
+
+            // Then
+            verify(exactly = 1) { viewGroup.addView(view) }
+        }
     }
 
-    @Test
-    fun addChildren_with_no_mode_should_append() {
-        //GIVEN
-        val action = AddChildren(id, value)
+    @DisplayName("When call execute with mode REPLACE")
+    @Nested
+    inner class ModeReplaceTest {
 
-        //WHEN
-        action.execute(rootView, origin)
+        @DisplayName("Then should execute action correctly")
+        @Test
+        fun testModeReplace() {
+            // Given
+            val action = AddChildren(id, value, Mode.REPLACE)
 
-        //THEN
-        verify(exactly = 1) { viewGroup.addView(view) }
+            // When
+            action.execute(rootView, origin)
+
+            // Then
+            verify(exactly = 1) {
+                viewGroup.removeAllViews()
+                viewGroup.addView(view)
+            }
+        }
     }
 
-    @Test
-    fun addChildren_with_append_mode_should_call_view_group_add_view() {
-        //GIVEN
-        val action = AddChildren(id, value, Mode.APPEND)
+    @DisplayName("When call execute with mode PREPEND")
+    @Nested
+    inner class ModePrependTest {
 
-        //WHEN
-        action.execute(rootView, origin)
+        @DisplayName("Then should execute action correctly")
+        @Test
+        fun testModePrepend() {
+            // Given
+            val action = AddChildren(id, value, Mode.PREPEND)
 
-        //THEN
-        verify(exactly = 1) { viewGroup.addView(view) }
+            // When
+            action.execute(rootView, origin)
+
+            // Then
+            verify(exactly = 1) { viewGroup.addView(view, 0) }
+        }
     }
 
-    @Test
-    fun addChildren_with_replace_mode_should_call_view_group_remove_all_views_than_add_view() {
-        //GIVEN
-        val action = AddChildren(id, value, Mode.REPLACE)
+    @DisplayName("When call execute with invalid component id")
+    @Nested
+    inner class WrongViewTest {
 
-        //WHEN
-        action.execute(rootView, origin)
+        @DisplayName("Then should emit log exception")
+        @Test
+        fun testLogException() {
+            // Given
+            val action = AddChildren("test", value, Mode.PREPEND)
 
-        //THEN
-        verify(exactly = 1) { viewGroup.removeAllViews() }
-        verify(exactly = 1) { viewGroup.addView(view) }
+            // When
+            action.execute(rootView, origin)
+
+            // Then
+            verify(exactly = 1) { BeagleMessageLogs.errorWhileTryingToAddViewWithAddChildrenAction("test") }
+        }
     }
 
-    @Test
-    fun addChildren_with_prepend_mode_should_call_view_group_add_view_index_zero() {
-        //GIVEN
-        val action = AddChildren(id, value, Mode.PREPEND)
+    @DisplayName("When call execute with expression value")
+    @Nested
+    inner class ExpressionValueTest {
 
-        //WHEN
-        action.execute(rootView, origin)
+        @DisplayName("Then should execute action correctly")
+        @Test
+        fun testExpressionValue() {
+            // Given
+            val action = AddChildren(id, expressionOf("@{test}"), Mode.APPEND)
 
-        //THEN
-        verify(exactly = 1) { viewGroup.addView(view, 0) }
+            val list = arrayListOf(linkedMapOf(Pair("_beagleComponent_", " beagle:container")))
+
+            every { action.evaluateExpression(rootView, origin, action.value) } returns list as List<ServerDrivenComponent>
+
+            // When
+            action.execute(rootView, origin)
+
+            // Then
+            verify(exactly = 1) { viewGroup.addView(view) }
+        }
     }
 }

@@ -20,7 +20,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
+import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.toAndroidId
@@ -28,6 +29,9 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
+import com.squareup.moshi.Types
+import java.lang.reflect.Type
 
 /**
  * Defines the placement of where the children will be inserted in the list or if the contents
@@ -72,16 +76,42 @@ data class AddChildren(
     override var analytics: ActionAnalyticsConfig? = null,
 ) : AnalyticsAction {
 
+    constructor(
+        componentId: String,
+        value: List<ServerDrivenComponent>,
+        mode: Mode? = Mode.APPEND,
+        analytics: ActionAnalyticsConfig? = null,
+    ) : this(
+        componentId = componentId,
+        value = valueOf(value),
+        mode = mode,
+        analytics = analytics
+    )
+
     override fun execute(rootView: RootView, origin: View) {
         try {
             val view = (rootView.getContext() as AppCompatActivity).findViewById<ViewGroup>(componentId.toAndroidId())
-
-            val list = evaluateExpression(rootView, view, value) ?: emptyList()
+            val list = getList(rootView, origin)
             val viewList = convertServerDrivenListOnViewList(list, rootView)
             addValueToView(view, viewList)
         } catch (exception: Exception) {
             BeagleMessageLogs.errorWhileTryingToAddViewWithAddChildrenAction(componentId)
         }
+    }
+
+    // Temporary solution to evaluate expression of server driven component
+    private fun getList(rootView: RootView, origin: View): List<ServerDrivenComponent> {
+        val result = evaluateExpression(rootView, origin, value)
+
+        if (value is Bind.Value<*>) {
+            return result ?: emptyList()
+        }
+
+        val moshi = BeagleMoshi.moshi
+
+        val type: Type = Types.newParameterizedType(List::class.java, ServerDrivenComponent::class.java)
+
+        return moshi.adapter<List<ServerDrivenComponent>>(type).fromJsonValue(result) ?: emptyList()
     }
 
     private fun convertServerDrivenListOnViewList(list: List<ServerDrivenComponent>, rootView: RootView): List<View> {
