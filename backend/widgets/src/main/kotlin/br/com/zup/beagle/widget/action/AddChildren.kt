@@ -20,7 +20,6 @@ import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
-import br.com.zup.beagle.widget.context.valueOfNullable
 
 /**
  * Defines the placement of where the children will be inserted in the list or if the contents
