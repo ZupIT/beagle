@@ -18,9 +18,11 @@ import UIKit
 
 extension AddChildren {
     public func execute(controller: BeagleController, origin: UIView) {
-        guard let view = controller.view.getView(by: componentId) else { return }
+        guard let view = controller.view.getView(by: componentId),
+              let components = evaluateValue(origin: origin) else { return }
+        
         let renderer = controller.dependencies.renderer(controller)
-        let views = renderer.render(value)
+        let views = renderer.render(components)
         
         switch mode {
         case .append:
@@ -35,6 +37,14 @@ extension AddChildren {
         }
         
         views.forEach(controller.setNeedsLayout)
+    }
+    
+    private func evaluateValue(origin: UIView) -> [ServerDrivenComponent]? {
+        if let staticValue = staticValue { return staticValue }
+        guard case .array(let dynamicObjects) = value.evaluate(with: origin) else { return nil }
+        return dynamicObjects
+            .compactMap { obj -> AnyDecodableContainer? in obj.transform() }
+            .compactMap { $0.content as? ServerDrivenComponent }
     }
 }
 
