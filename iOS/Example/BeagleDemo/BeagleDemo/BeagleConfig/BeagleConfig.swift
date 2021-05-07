@@ -61,6 +61,7 @@ class BeagleConfig {
         deepLink[.customComponentEndpoint] = CustomComponentScreen.self
         deepLink[.screenDeeplinkEndpoint] = ScreenDeepLink.self
         deepLink[.listViewEndpoint] = ListViewScreen.self
+        deepLink[.gridViewEndpoint] = GridViewScreen.self
         deepLink[.webViewEndpoint] = WebViewScreen.self
         deepLink[.componentInterationEndpoint] = ComponentInteractionText.self
         deepLink[.conditionActionEndpoint] = ConditionActionText.self

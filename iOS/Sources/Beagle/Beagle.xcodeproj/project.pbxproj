@@ -22,6 +22,8 @@
 		57A8097F243CF44A0034D180 /* CacheReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A8097E243CF44A0034D180 /* CacheReference.swift */; };
 		57A80981243CF4620034D180 /* DependencyCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A80980243CF4620034D180 /* DependencyCacheManager.swift */; };
 		57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */; };
+		5C5B90E72638920C0005BD93 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B90E62638920C0005BD93 /* GridView.swift */; };
+		5C5B90E92638931E0005BD93 /* GridView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B90E82638931E0005BD93 /* GridView+Extensions.swift */; };
 		6EB3368A24A52C1B000A9D17 /* SimpleForm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368924A52C1A000A9D17 /* SimpleForm+Extensions.swift */; };
 		6EB3368C24A52D34000A9D17 /* SubmitForm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368B24A52D34000A9D17 /* SubmitForm+Extensions.swift */; };
 		7685B045249A8880007EDED0 /* SendRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B044249A8880007EDED0 /* SendRequest+Extensions.swift */; };
@@ -370,6 +372,8 @@
 		57A8097E243CF44A0034D180 /* CacheReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheReference.swift; sourceTree = "<group>"; };
 		57A80980243CF4620034D180 /* DependencyCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyCacheManager.swift; sourceTree = "<group>"; };
 		57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Context.swift"; sourceTree = "<group>"; };
+		5C5B90E62638920C0005BD93 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		5C5B90E82638931E0005BD93 /* GridView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GridView+Extensions.swift"; sourceTree = "<group>"; };
 		6EB3368924A52C1A000A9D17 /* SimpleForm+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SimpleForm+Extensions.swift"; sourceTree = "<group>"; };
 		6EB3368B24A52D34000A9D17 /* SubmitForm+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubmitForm+Extensions.swift"; sourceTree = "<group>"; };
 		7685B044249A8880007EDED0 /* SendRequest+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SendRequest+Extensions.swift"; sourceTree = "<group>"; };
@@ -777,6 +781,15 @@
 				57A80980243CF4620034D180 /* DependencyCacheManager.swift */,
 			);
 			path = CacheManager;
+			sourceTree = "<group>";
+		};
+		5C5B90E5263891F30005BD93 /* GridView */ = {
+			isa = PBXGroup;
+			children = (
+				5C5B90E62638920C0005BD93 /* GridView.swift */,
+				5C5B90E82638931E0005BD93 /* GridView+Extensions.swift */,
+			);
+			path = GridView;
 			sourceTree = "<group>";
 		};
 		6EB3368824A52C1A000A9D17 /* SimpleForm */ = {
@@ -1631,6 +1644,7 @@
 		9398CA6C25532B520003A010 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
+				5C5B90E5263891F30005BD93 /* GridView */,
 				9327116423F1C9D100778B56 /* Widget.swift */,
 				C08D4E6A2485939900AAAC0A /* Button */,
 				C08D4DF524857AC300AAAC0A /* Container */,
@@ -2438,6 +2452,7 @@
 				9398CA3C25531EC00003A010 /* Navigate.swift in Sources */,
 				C08D4E77248593A800AAAC0A /* Button+Extensions.swift in Sources */,
 				25BFEDA1252BC0A500365889 /* ImageDownloader.swift in Sources */,
+				5C5B90E72638920C0005BD93 /* GridView.swift in Sources */,
 				C852A0F3247F246B009535D9 /* BeagleRenderer.swift in Sources */,
 				E5223783237C3CAF00E555BB /* FormInput+Extensions.swift in Sources */,
 				C862606223B504850084A086 /* BeagleScreenViewModel.swift in Sources */,
@@ -2526,6 +2541,7 @@
 				C89E80A72397FFFD00C2D0ED /* PageIndicator+Extensions.swift in Sources */,
 				9398CA5C255328D60003A010 /* LazyComponent.swift in Sources */,
 				9398CA8D2553349B0003A010 /* Image.swift in Sources */,
+				5C5B90E92638931E0005BD93 /* GridView+Extensions.swift in Sources */,
 				E5CB5DAB23550012009783A7 /* BeagleSetup.swift in Sources */,
 				C08D4EA82486B72300AAAC0A /* FormManager.swift in Sources */,
 				9398CA60255329D70003A010 /* Container.swift in Sources */,

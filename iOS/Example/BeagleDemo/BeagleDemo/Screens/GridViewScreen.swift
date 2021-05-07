@@ -1,0 +1,123 @@
+//
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import UIKit
+import Beagle
+
+struct GridViewScreen: DeeplinkScreen {
+    
+    private static var moviesDatabase: String { "https://gist.githubusercontent.com/Tiagoperes/95f5900f956659e594d7c4a6d1b8a4c0/raw/3192187fd2f19fa3c3b483ae09efe44b9e2a9f90"
+    }
+    
+    init(path: String, data: [String: String]?) {
+        // Intentionally unimplemented...
+    }
+    
+    func screenController() -> UIViewController {
+        return Beagle.screen(.declarative(screen))
+    }
+    
+    var screen: Screen {
+        return infinityScrollScreen
+    }
+    
+    var infinityScrollScreen: Screen {
+        return Screen(
+            navigationBar: NavigationBar(title: "GridView"),
+            context: Context(id: "database", value: .string(Self.moviesDatabase))
+        ) {
+            infinityScrollListView
+        }
+    }
+    
+    var infinityScrollListView: GridView {
+        return GridView(
+            context: Context(
+                id: "moviePage",
+                value: ["page": 0, "total_pages": 0, "results": []]
+            ),
+            dataSource: "@{moviePage.results}",
+            numColumns: 2,
+            template: movieTemplate,
+            onScrollEnd: [
+                SendRequest(
+                    url: "@{database}/trending.@{sum(moviePage.page, 1)}.json",
+                    method: .value(.get),
+                    onSuccess: [
+                        SetContext(contextId: "moviePage", path: "page", value: "@{onSuccess.data.page}"),
+                        SetContext(contextId: "moviePage", path: "total_pages", value: "@{onSuccess.data.total_pages}"),
+                        SetContext(
+                            contextId: "moviePage",
+                            path: "results",
+                            value: "@{union(moviePage.results, onSuccess.data.results)}"
+                        )
+                    ]
+                )
+            ],
+            scrollEndThreshold: 50
+        )
+    }
+    
+    var movieTemplate: Container {
+        return Container(
+            widgetProperties: .init(
+                id: "containerId",
+                style: Style()
+//                    .margin(EdgeValue().all(5))
+//                    .backgroundColor("#E1FC06")
+            )
+        ) {
+//            Image(
+//                .local("imageBeagle")
+////                widgetProperties: .init(
+////                    style: Style()
+////                        .size(Size().width(90%))
+////                )
+//            )
+//            Button(
+//                text: "Append",
+//                onPress: [
+//                    AddChildren(componentId: "containerId", value: [ Text("Teste")])
+//                ]
+//            )
+//            Text("@{item.original_title}")
+//            Text("hvdshjvhjfdvhdfvhdjf")
+            Image(.value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{item.poster_path}"))))
+//            LazyComponent(
+//                path: .textLazyComponentEndpoint,
+//                initialState: Text("luis")
+//            )
+//            Image(.value(.remote(.init(url: "https://mcdn.wallpapersafari.com/medium/8/37/zlwnoM.jpg"))))
+        }
+    }
+}
+
+//            Text(
+//                "Teste",
+//                widgetProperties: .init(
+//                    style: Style()
+////                    .size(Size().width(100%).height(120))
+//              )
+//            )
+//            Image(
+//                .local("imageBeagle")
+////                widgetProperties: .init(
+////                    style: Style()
+//////                        .backgroundColor("#E1FC06")
+//////                        .size(Size().width(100%).height(100%))
+////                )
+//            )

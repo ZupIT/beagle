@@ -219,6 +219,7 @@ extension ListViewUIComponent {
         var onScrollEnd: [Action]?
         var scrollEndThreshold: CGFloat
         var isScrollIndicatorVisible: Bool
+        var numColumns: Int?
     }
 }
 
@@ -295,7 +296,16 @@ extension ListViewUIComponent: UICollectionViewDataSource {
 extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var size = collectionView.frame.size
+        var size: CGSize
+        // Montar estrutura do grid ou lista
+        if let numColumns = model.numColumns {
+            size = CGSize(
+                width: (collectionView.frame.width / CGFloat(numColumns)).rounded(.down),
+                height: collectionView.frame.height
+            )
+        } else {
+            size = collectionView.frame.size
+        }
         guard let items = items, indexPath.item < items.count else {
             return size
         }
