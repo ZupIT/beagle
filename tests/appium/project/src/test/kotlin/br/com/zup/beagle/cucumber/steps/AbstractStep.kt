@@ -254,6 +254,16 @@ abstract class AbstractStep {
         AppiumUtil.swipeScreenTo(getDriver(), SwipeDirection.DOWN)
     }
 
+    protected fun swipeFromElementToScreenEdge(element: MobileElement, swipeDirection: SwipeDirection){
+        if (SuiteSetup.isAndroid()){
+            AppiumUtil.androidSwipeScreenFromPointToPercentageOfScreenEdge(getDriver(),
+                element.location, swipeDirection, 0.8F)
+        }else{
+            // todo...
+        }
+
+    }
+
     protected fun rotateToLandscapePosition() {
         getDriver().rotate(ScreenOrientation.LANDSCAPE);
     }

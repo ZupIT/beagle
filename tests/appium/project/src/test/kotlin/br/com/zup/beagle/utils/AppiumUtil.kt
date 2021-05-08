@@ -139,6 +139,55 @@ object AppiumUtil {
     }
 
     /**
+     * Starting from a given point, swipes % of the distance of the point to the edge of the screen.
+     */
+    fun androidSwipeScreenFromPointToPercentageOfScreenEdge(driver: MobileDriver<*>, pointOfStart: Point,
+                                                   swipeDirection: SwipeDirection, percentageOfDistanceToBorder: Float) {
+
+        val ANIMATION_TIME = 200 // ms
+        val PRESS_TIME = 200 // ms
+        val EDGE_BORDER = 10 // better avoid edges
+        val pointOfEnd: PointOption<*>
+
+        if (percentageOfDistanceToBorder > 1)
+            throw IllegalArgumentException("Wrong percentage value")
+
+        // init screen variables
+        val screenDimension: Dimension = driver.manage().window().getSize()
+
+        pointOfEnd = when (swipeDirection) {
+            SwipeDirection.DOWN -> {
+                var resultCoordination = ((screenDimension.width - pointOfStart.x)*percentageOfDistanceToBorder).toInt()
+                PointOption.point(resultCoordination, screenDimension.height - EDGE_BORDER)
+            }
+            SwipeDirection.UP -> {
+                var resultCoordination = ((screenDimension.width - pointOfStart.x)*percentageOfDistanceToBorder).toInt()
+                PointOption.point(resultCoordination, EDGE_BORDER)
+            }
+            SwipeDirection.LEFT -> {
+                var resultCoordination = ((screenDimension.height - pointOfStart.y)*percentageOfDistanceToBorder).toInt()
+                PointOption.point(EDGE_BORDER, resultCoordination)
+            }
+            SwipeDirection.RIGHT -> {
+                var resultCoordination = ((screenDimension.height - pointOfStart.y)*percentageOfDistanceToBorder).toInt()
+                PointOption.point(screenDimension.width - EDGE_BORDER, resultCoordination)
+            }
+            else -> throw IllegalArgumentException("swipeScreen(): dir: '$swipeDirection' NOT supported")
+        }
+
+        // execute swipe using TouchAction
+        AndroidTouchAction(driver)
+            .press(PointOption.point(pointOfStart.x, pointOfStart.y)) // a bit more reliable when we add small wait
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(PRESS_TIME.toLong())))
+            .moveTo(pointOfEnd)
+            .release().perform()
+
+
+        Thread.sleep(ANIMATION_TIME.toLong())
+
+    }
+
+    /**
      * Waits for an element to be found on the screen element tree. This does not
      * necessarily mean that the element is visible.
      */
