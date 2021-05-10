@@ -13,7 +13,7 @@ import { callFunction } from './function'
 import { httpClient, respondHttpRequest } from './http-client'
 import { resolvePromise, rejectPromise } from './promise'
 import { createCustomOperationMap } from './operation'
-import flutterJsLogger from 'utils/flutter-js-logger'
+import flutterJsLogger from './utils/flutter-js-logger'
 
 interface StartParams {
   baseUrl: string,
