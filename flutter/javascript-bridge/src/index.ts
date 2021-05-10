@@ -13,6 +13,7 @@ import { callFunction } from './function'
 import { httpClient, respondHttpRequest } from './http-client'
 import { resolvePromise, rejectPromise } from './promise'
 import { createCustomOperationMap } from './operation'
+import flutterJsLogger from 'utils/flutter-js-logger'
 
 interface StartParams {
   baseUrl: string,
@@ -40,7 +41,7 @@ window.beagle = (() => {
       })
 
       logger.setCustomLogFunction((_, ...messages) => {
-        console.log(messages.join(' '))
+        flutterJsLogger.info(messages.join(' '))
       })
     },
     createBeagleView: (networkOptions?: NetworkOptions, initialControllerId?: string) => createBeagleView(service, networkOptions, initialControllerId),

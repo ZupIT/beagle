@@ -8,6 +8,9 @@ type FlutterJSChannel = (
   | 'storage.remove'
   | 'storage.clear'
   | 'operation'
+  | 'logger'
 )
 
 declare function sendMessage(channel: FlutterJSChannel, message: String)
+
+

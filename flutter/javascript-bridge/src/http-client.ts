@@ -1,7 +1,7 @@
 import { HttpClient } from '@zup-it/beagle-web'
 import { createStaticPromise } from './utils/promise'
-import { logger } from '@zup-it/beagle-web'
 import { registerPromise, resolvePromise, unregisterPromise } from './promise'
+import flutterLogger from './utils/flutter-js-logger'
 
 interface HttpClientResponse {
   body?: string,
@@ -36,7 +36,7 @@ function parseJsonResponse(json: string) {
   try {
     return JSON.parse(json)
   } catch (error) {
-    logger.error(`Unable to parse json response:\n${json}\n`)
+    flutterLogger.error(`Unable to parse json response:\n${json}\n`)
     throw error
   }
 }
