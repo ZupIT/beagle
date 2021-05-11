@@ -20,7 +20,9 @@ import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
@@ -30,6 +32,7 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -47,7 +50,8 @@ internal class ImageTest : BaseComponentTest() {
 
     private val imageView: RoundedImageView = mockk(relaxed = true, relaxUnitFun = true)
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
-    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
+    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()),
+        cornerRadius = CornerRadius(radius = 10.0))
 
     private lateinit var imageLocal: Image
     private lateinit var imageRemote: Image
@@ -57,9 +61,12 @@ internal class ImageTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
+        mockkStatic("br.com.zup.beagle.android.utils.NumberExtensionsKt")
+
         every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), any()) } returns imageView
         every { beagleSdk.designSystem } returns mockk(relaxed = true)
         every { beagleSdk.designSystem!!.image(any()) } returns IMAGE_RES
+        every { 10.0.dp() } returns 20.0
 
         imageLocal = Image(ImagePath.Local("imageName"))
         imageRemote = Image(ImagePath.Remote(DEFAULT_URL, ImagePath.Local("imageName"))).applyStyle(style)
@@ -169,6 +176,18 @@ internal class ImageTest : BaseComponentTest() {
 
             // Then
             verify(exactly = 1) { imageView.setImageResource(IMAGE_RES) }
+        }
+
+        @Test
+        @DisplayName("Then set corner radius correctly")
+        fun testCornerRadius() {
+            // When
+            imageRemote.buildView(rootView)
+
+            // Then
+            verify {
+                anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), 20.0)
+            }
         }
     }
 }
