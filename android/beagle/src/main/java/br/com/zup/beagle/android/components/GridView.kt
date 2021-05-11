@@ -27,10 +27,6 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
-//    public struct GridView: Widget {
-//        public var widgetProperties: WidgetProperties
-//    }
-
 @RegisterWidget("gridView")
 data class GridView constructor(
     override val context: ContextData? = null,
@@ -63,6 +59,4 @@ data class GridView constructor(
 
         return beagleListView.buildView(rootView)
     }
-
-
 }
