@@ -25,12 +25,12 @@ class ListViewScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the listView screen$")
     fun checkListViewScreen() {
-        waitForElementWithTextToBeClickable("Beagle ListView", false, true)
+        waitForElementWithTextToBeClickable("Beagle ListView", likeSearch = false, ignoreCase = true)
     }
 
     @Then("^listView with id (.*) should have exactly (.*) items$")
     fun checkListViewItemsCount(listViewId: String, expectedItemCount: Int) {
-        Assert.assertEquals(countChildrenOfListView(listViewId, true), 34)
+        Assert.assertEquals(countChildrenOfListView(listViewId, horizontalScroll = true), 34)
     }
 
     @Then("^listView with id (.*) should be in vertical orientation$")
@@ -114,12 +114,17 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
     private fun countChildrenOfListView(listViewId: String, horizontalScroll: Boolean): Int {
-
-        // AppiumUtil.waitForElementToBePresent(getDriver(),By.xpath("//androidx.recyclerview.widget.RecyclerView//android.view.ViewGroup"),5000)
-        // getDriver().findElementsByXPath("(//androidx.recyclerview.widget.RecyclerView)[1]//android.view.ViewGroup[.//android.view.ViewGroup]")
-
         val listViewElement = getListViewElement(listViewId)
-        val childrenNames = LinkedHashSet(getChildrenNamesOfListView(listViewElement!!)) // ignores identical values
+        return when (listViewId){
+            "charactersList" -> countChildrenOfListViewCharactersList(listViewElement!!, horizontalScroll = horizontalScroll)
+            else -> {
+                0
+            }
+        }
+    }
+
+    private fun countChildrenOfListViewCharactersList(listViewElement: MobileElement, horizontalScroll: Boolean): Int {
+        var childrenNames = LinkedHashSet(getChildrenNamesOfListViewCharactersList(listViewElement!!)) // ignores identical values
         var lastChildElement: MobileElement
 
 
@@ -131,18 +136,17 @@ class ListViewScreenSteps : AbstractStep() {
             lastChildElement = getLastChildOfListView(listViewElement)
 
             if (horizontalScroll)
-                swipeFromElementToScreenEdge(lastChildElement, SwipeDirection.LEFT)
+                swipeFromOneElementToBorder(lastChildElement, SwipeDirection.LEFT)
             else
-                swipeFromElementToScreenEdge(lastChildElement, SwipeDirection.UP)
+                swipeFromOneElementToBorder(lastChildElement, SwipeDirection.UP)
 
-            childrenNamesTemp = getChildrenNamesOfListView(listViewElement!!)
+            childrenNamesTemp = getChildrenNamesOfListViewCharactersList(listViewElement!!)
             childrenNames.addAll(childrenNamesTemp)
 
-        } while (getChildElementText(lastChildElement) != childrenNamesTemp.last())
 
+        } while (getContentOfChildOfListViewCharactersList(lastChildElement) != childrenNamesTemp.last())
 
         return childrenNames.size
-
     }
 
     private fun getListViewElement(listViewId: String): MobileElement? {
@@ -168,30 +172,32 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
     /**
-     * @return a list of names representing each child element of a list view
+     * @return a list of names representing each child element of the list view charactersList
      */
-    private fun getChildrenNamesOfListView(listViewElement: MobileElement): List<String> {
+    private fun getChildrenNamesOfListViewCharactersList(listViewElement: MobileElement): List<String> {
         val childrenNames = mutableListOf<String>()
 
         var childrenElements = getChildrenOfListView(listViewElement)
         childrenElements.forEach() {
-            childrenNames.add(getChildElementText(it)!!)
+            childrenNames.add(getContentOfChildOfListViewCharactersList(it)!!)
         }
 
         return childrenNames
     }
 
     /**
-     * This method gets the name / text property of the first element inside the child element,
-     * to help identity the child element.
+     * Returns a text representing the content of a child of the list view charactersList, thus
+     * helping identifying the child element.
      */
-    private fun getChildElementText(childElement: MobileElement): String? {
+    private fun getContentOfChildOfListViewCharactersList(childElement: MobileElement): String? {
         var childElementText: String? = null
         if (SuiteSetup.isIos()) {
             // TODO
         } else {
-            var element = childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
-            childElementText = (element as AndroidElement).text
+            var element1 = childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[1]") // name
+            var element2 = childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[2]") // book
+
+            childElementText = (element1 as AndroidElement).text + "; " + (element2 as AndroidElement).text
 
         }
         return childElementText
@@ -226,6 +232,25 @@ class ListViewScreenSteps : AbstractStep() {
 
         if (SuiteSetup.isAndroid()) {
             lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[last()]")
+        } else {
+            // TODO...
+        }
+
+        return listViewElement.findElement(lastChildOfListViewLocator)
+
+    }
+
+    /**
+     * Locates the first child element of a list view. The child element refers only to a element showing
+     * on the screen. The first element of a horizontal list will be the one most to the left, and the
+     * last on a vertical list will be the one most to the top of the list.
+     */
+    private fun getFirstChildOfListView(listViewElement: MobileElement): MobileElement {
+
+        var lastChildOfListViewLocator: By? = null
+
+        if (SuiteSetup.isAndroid()) {
+            lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[1]")
         } else {
             // TODO...
         }

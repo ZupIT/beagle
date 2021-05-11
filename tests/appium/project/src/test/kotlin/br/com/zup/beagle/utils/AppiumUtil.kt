@@ -139,52 +139,50 @@ object AppiumUtil {
     }
 
     /**
-     * Starting from a given point, swipes % of the distance of the point to the edge of the screen.
+     * Swipe from the position of a given element to the border of the screen
      */
-    fun androidSwipeScreenFromPointToPercentageOfScreenEdge(driver: MobileDriver<*>, pointOfStart: Point,
-                                                   swipeDirection: SwipeDirection, percentageOfDistanceToBorder: Float) {
+    fun androidSwipeScreenFromOneElementToBorder(
+        driver: MobileDriver<*>,
+        originElement: MobileElement,
+        swipeDirection: SwipeDirection
+    ) {
 
-        val ANIMATION_TIME = 200 // ms
-        val PRESS_TIME = 200 // ms
-        val EDGE_BORDER = 10 // better avoid edges
-        val pointOfEnd: PointOption<*>
+        val animationTime = 200 // ms
+        val pressTime = 200 // ms
+        val pointOfStart = originElement.location
+        val border_edge = 1
+        val screenSize = driver.manage().window().size
 
-        if (percentageOfDistanceToBorder > 1)
-            throw IllegalArgumentException("Wrong percentage value")
+        // [el.getLocation().getX() +el.getSize().getWidth(), el.getLocation().getY()+el.getSize().getHeight()]
 
-        // init screen variables
-        val screenDimension: Dimension = driver.manage().window().getSize()
-
-        pointOfEnd = when (swipeDirection) {
-            SwipeDirection.DOWN -> {
-                var resultCoordination = ((screenDimension.width - pointOfStart.x)*percentageOfDistanceToBorder).toInt()
-                PointOption.point(resultCoordination, screenDimension.height - EDGE_BORDER)
-            }
-            SwipeDirection.UP -> {
-                var resultCoordination = ((screenDimension.width - pointOfStart.x)*percentageOfDistanceToBorder).toInt()
-                PointOption.point(resultCoordination, EDGE_BORDER)
-            }
-            SwipeDirection.LEFT -> {
-                var resultCoordination = ((screenDimension.height - pointOfStart.y)*percentageOfDistanceToBorder).toInt()
-                PointOption.point(EDGE_BORDER, resultCoordination)
-            }
-            SwipeDirection.RIGHT -> {
-                var resultCoordination = ((screenDimension.height - pointOfStart.y)*percentageOfDistanceToBorder).toInt()
-                PointOption.point(screenDimension.width - EDGE_BORDER, resultCoordination)
-            }
+        val pointOfDestination = when (swipeDirection) {
+            SwipeDirection.DOWN -> PointOption.point(pointOfStart.x, screenSize.height - border_edge)
+            SwipeDirection.UP -> PointOption.point(pointOfStart.x, border_edge)
+            SwipeDirection.LEFT -> PointOption.point(border_edge, pointOfStart.y)
+            SwipeDirection.RIGHT -> PointOption.point(screenSize.width - border_edge, pointOfStart.y)
             else -> throw IllegalArgumentException("swipeScreen(): dir: '$swipeDirection' NOT supported")
         }
 
         // execute swipe using TouchAction
         AndroidTouchAction(driver)
             .press(PointOption.point(pointOfStart.x, pointOfStart.y)) // a bit more reliable when we add small wait
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(PRESS_TIME.toLong())))
-            .moveTo(pointOfEnd)
-            .release().perform()
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
+            .moveTo(pointOfDestination).perform()
 
+        Thread.sleep(animationTime.toLong())
 
-        Thread.sleep(ANIMATION_TIME.toLong())
+    }
 
+    /**
+     * Move from position pointOfStart to position pointOfEnd
+     */
+    fun iosSwipeScreenFromOneElementToBorder(
+        driver: MobileDriver<*>,
+        originElement: MobileElement,
+        swipeDirection: SwipeDirection
+    ) {
+
+        // TODO
     }
 
     /**
