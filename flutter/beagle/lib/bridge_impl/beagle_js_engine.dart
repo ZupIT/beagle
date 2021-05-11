@@ -173,7 +173,6 @@ class BeagleJSEngine {
     final logger = beagleServiceLocator<BeagleLogger>();
     final message = loggerMessage['message'];
     final level = loggerMessage['level'];
-    final exception = loggerMessage['exception'];
 
     if (level == 'info') {
       logger.info(message);
@@ -183,9 +182,6 @@ class BeagleJSEngine {
     }
     if (level == 'error') {
       logger.error(message);
-    }
-    if (level == 'errorWithException') {
-      logger.errorWithException(message, Exception(exception));
     }
   }
 

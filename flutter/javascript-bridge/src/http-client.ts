@@ -36,7 +36,7 @@ function parseJsonResponse(json: string) {
   try {
     return JSON.parse(json)
   } catch (error) {
-    flutterJsLogger.error(`Unable to parse json response:\n${json}\n`)
+    flutterJsLogger('error', `Unable to parse json response:\n${json}\n`)
     throw error
   }
 }

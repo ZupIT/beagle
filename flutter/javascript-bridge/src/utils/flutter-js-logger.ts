@@ -1,24 +1,17 @@
-type LoggerLevel = 'info' | 'warning' | 'error' | 'errorWithException'
+import { LogFunction, LogType } from '@zup-it/beagle-web/logger/types'
+type FlutterLoggerLevel = 'info' | 'warning' | 'error'
 
-function createLogger() {
-  
-  function log(level: LoggerLevel, message: String, exception?: String) {
-    
-    let toLogMessage = {
-      level,
-      message,
-      exception
-    }
-    sendMessage('logger', JSON.stringify(toLogMessage))
-  }
-
-  return {
-    log,
-    info: (message: String) => log('info', message),
-    error: (message: String) => log('error', message),
-    warning: (message: String) => log('warning', message),
-    errorWithException: (message:String, exception: String) => log('errorWithException', message, exception)
-  }
+const levelMap: Record<LogType, FlutterLoggerLevel> = {
+  error: 'error',
+  info: 'info',
+  warn: 'warning',
+  lifecycle: 'info',
+  expression: 'info',
 }
 
-export default createLogger()
+const logToFlutter: LogFunction = (level, ...messages) => {
+  const logMessage = { level: levelMap[level], message: messages.join(' ') }
+  sendMessage('logger', JSON.stringify(logMessage))
+}
+
+export default logToFlutter
