@@ -20,7 +20,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
         classpath "com.karumi:shot:4.3.0"
