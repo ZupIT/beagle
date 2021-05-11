@@ -74,8 +74,6 @@
 		639CA24124B51B40009FAC90 /* BeagleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639CA24024B51B40009FAC90 /* BeagleConfig.swift */; };
 		63ED0EFC24B785960086E433 /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF624B782EB0086E433 /* Beagle.framework */; };
 		63ED0EFD24B785960086E433 /* Beagle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF624B782EB0086E433 /* Beagle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		63ED0F0124B785A10086E433 /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EFA24B782EB0086E433 /* YogaKit.framework */; };
-		63ED0F0224B785A10086E433 /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EFA24B782EB0086E433 /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6B4F7E7B24C65A76003F461A /* ScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7A24C65A76003F461A /* ScreenRobot.swift */; };
 		6B4F7E7D24C65AFE003F461A /* ScreenElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7C24C65AFE003F461A /* ScreenElements.swift */; };
 		6B4F7E8524C9C5F9003F461A /* ListViewSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8424C9C5F9003F461A /* ListViewSteps.swift */; };
@@ -111,7 +109,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				63ED0EFD24B785960086E433 /* Beagle.framework in Embed Frameworks */,
-				63ED0F0224B785A10086E433 /* YogaKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,7 +265,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				63ED0EFC24B785960086E433 /* Beagle.framework in Frameworks */,
-				63ED0F0124B785A10086E433 /* YogaKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

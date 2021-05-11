@@ -18,6 +18,7 @@ package br.com.zup.beagle.cucumber.steps
 
 import br.com.zup.beagle.setup.SuiteSetup
 import io.cucumber.java.After
+import io.cucumber.java.Before
 import io.cucumber.java.Scenario
 import org.apache.commons.io.FileUtils
 import org.openqa.selenium.OutputType
@@ -30,16 +31,6 @@ import java.io.File
 class HookManager {
 
     /**
-     * Before each Scenario and its Examples
-     */
-    /*
-    @Before
-    fun setupBeforeScenario() {
-        //...
-    }
-    */
-
-    /**
      * After each Scenario and its Examples
      */
     @After
@@ -49,8 +40,9 @@ class HookManager {
         if (scenario.isFailed) {
             try {
                 val scrFile: File = (SuiteSetup.getDriver() as TakesScreenshot).getScreenshotAs(OutputType.FILE)
-                val scenarioName = scenario.name.replace("[^A-Za-z0-9]".toRegex()," ")
-                val destFile = File("${SuiteSetup.ERROR_SCREENSHOTS_FOLDER}/ERROR-${scenarioName}-${System.currentTimeMillis()}.png")
+                val scenarioName = scenario.name.replace("[^A-Za-z0-9]".toRegex(), " ")
+                val destFile =
+                    File("${SuiteSetup.ERROR_SCREENSHOTS_FOLDER}/ERROR-${scenarioName}-${System.currentTimeMillis()}.png")
 
                 if (destFile.exists())
                     destFile.delete()
@@ -63,12 +55,15 @@ class HookManager {
                 println("ERROR taking a screenshot on error: ${exception.message}")
             }
 
-            // Always restarts after a test failure because the failure might be caused by a random app crash
             SuiteSetup.restartApp()
         }
 
-        // Android tests by default won't restart app anymore because they now use deep links to load bff screens
+        /**
+         * Android tests by default won't restart app anymore because they now use deep links to load bff screens.
+         * Refer to method loadBffScreen() in AbstractStep class for more details
+         */
         if (SuiteSetup.isIos())
-          SuiteSetup.restartApp()
+            SuiteSetup.restartApp()
+
     }
 }

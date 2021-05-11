@@ -124,7 +124,10 @@ class PageViewTests: XCTestCase {
         
         let pageView = PageView(children: [ComponentDummy()], pageIndicator: nil)
         let view = pageView.toView(renderer: controller.renderer)
-        let page = (view as? PageViewUIComponent)?.pageViewController.viewControllers?.first
+        let componentView = view.subviews.compactMap {
+            $0 as? PageViewUIComponent
+        }.first
+        let page = componentView?.pageViewController.viewControllers?.first
         
         XCTAssertEqual(page?.navigationController, navigation)
     }

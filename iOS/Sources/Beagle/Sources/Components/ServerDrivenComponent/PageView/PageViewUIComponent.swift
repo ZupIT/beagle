@@ -80,6 +80,7 @@ class PageViewUIComponent: UIView {
         controller?.addChild(pageViewController)
         addSubview(pageViewController.view)
         pageViewController.didMove(toParent: controller)
+        pageViewController.view.anchorTo(superview: self)
         
         if let firstPage = model.pages.first {
             pageViewController.setViewControllers(
@@ -88,15 +89,10 @@ class PageViewUIComponent: UIView {
         }
         pageViewController.dataSource = self
         pageViewController.delegate = self
-        pageViewController.view.style.setup(Style(flex: Flex().grow(1)))
-        
-        if let indicator = indicatorView as? UIView {
-            indicator.style.setup(Style(size: Size().height(40), margin: EdgeValue().top(10)))
-            indicator.yoga.isEnabled = true
-            addSubview(indicator)
-        }
-        
-        style.applyLayout()
+    }
+
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return size
     }
 
     // MARK: - Update

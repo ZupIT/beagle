@@ -21,14 +21,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    
+    func application(_ app: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
         BeagleConfig.config()
-     
+        
+        UIView.setAnimationsEnabled(false)
+        
+        // extracts the suffix of the link "appiumapp://"
+        let deepLinkValue = url.absoluteString
+        var bffUrl: String = ""
+        if let range = deepLinkValue.range(of: "appiumapp://") {
+            bffUrl = String(deepLinkValue[range.upperBound...])
+        }
+        
+        // fixes http pattern
+        bffUrl = bffUrl.replacingOccurrences(of: "http//", with: "http://")
+        bffUrl = bffUrl.replacingOccurrences(of: "https//", with: "https://")
+        
+        let deepLinkController = DeepLinkViewController()
+        deepLinkController.bffUrl = bffUrl
+        let screen = UINavigationController(rootViewController: deepLinkController)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = screen
+        window?.makeKeyAndVisible()
+        
+        return true
+    }
+    
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        BeagleConfig.config()
+                
         let screen = UINavigationController(rootViewController: MainViewController())
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = screen
         window?.makeKeyAndVisible()
-
+        
         return true
     }
+    
 }

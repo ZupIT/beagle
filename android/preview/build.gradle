@@ -20,7 +20,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'de.mannodermaus.android-junit5'
-apply from: rootProject.file('jacoco-android.gradle')
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -83,7 +82,3 @@ dependencies {
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
-
-
-
-

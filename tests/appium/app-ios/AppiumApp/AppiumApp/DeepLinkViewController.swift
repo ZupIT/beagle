@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.hiya.jacoco-android'
+import UIKit
+import Beagle
 
-jacoco {
-    toolVersion = '0.8.5'
+class DeepLinkViewController: UIViewController {
+    
+    var bffUrl:String = ""
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // calls the bff screen using the bffUrl
+        let viewController = Beagle.screen(.remote(.init(url: bffUrl)), controllerId: "CustomBeagleNavigation")
+        navigationController?.pushViewController(viewController, animated: false)
+    }
 }
 
-jacocoAndroidUnitTestReport {
-
-    csv.enabled false
-    html.enabled true
-    xml.enabled true
-}
-
-tasks.withType(Test) {
-    useJUnitPlatform()
-    jacoco.includeNoLocationClasses = true
-}
