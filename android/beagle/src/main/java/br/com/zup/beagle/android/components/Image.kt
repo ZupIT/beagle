@@ -98,6 +98,7 @@ data class Image constructor(
         }
 
         observeBindChanges(rootView, imageView, pathType.url) { url ->
+            imageView.setImageDrawable(null)
             downloadImage(imageView, url ?: "", rootView)
         }
     }
