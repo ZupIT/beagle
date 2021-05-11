@@ -90,6 +90,7 @@ internal class ImageTest : BaseComponentTest() {
 
             // Then
             assertTrue(view is ImageView)
+            verify (exactly = 1) { (view as ImageView).setImageDrawable(null)  }
         }
     }
 
