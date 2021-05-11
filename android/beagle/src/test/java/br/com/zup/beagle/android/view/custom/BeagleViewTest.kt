@@ -37,6 +37,7 @@ import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.ActivityRootView
 import com.facebook.yoga.YogaNode
+import com.facebook.yoga.YogaNodeFactory
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -98,7 +99,8 @@ internal class BeagleViewTest : BaseTest() {
         val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
         val view = View(application)
         mockkStatic(YogaNode::class)
-        every { YogaNode.create() } returns yogaNode
+        mockkStatic(YogaNodeFactory::class)
+        every { YogaNodeFactory.create() } returns yogaNode
         every { yogaNode.data } returns view
     }
 

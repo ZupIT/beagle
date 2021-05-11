@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import com.facebook.yoga.YogaNode
+import com.facebook.yoga.YogaNodeFactory
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -159,7 +160,8 @@ internal class BeagleFlexViewTest : BaseTest() {
         val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
         val view = View(mockk())
         mockkStatic(YogaNode::class)
-        every { YogaNode.create() } returns yogaNode
+        mockkStatic(YogaNodeFactory::class)
+        every { YogaNodeFactory.create() } returns yogaNode
         every { yogaNode.data } returns view
     }
 }
