@@ -21,6 +21,7 @@ import android.view.View
 import androidx.test.core.app.ApplicationProvider
 import com.facebook.soloader.SoLoader
 import com.facebook.yoga.YogaNode
+import com.facebook.yoga.YogaNodeFactory
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -51,12 +52,13 @@ internal class BeagleComponentsStatement(private val base: Statement?) : Stateme
 
     private fun createYogaNodeMocks(){
         mockkStatic(YogaNode::class)
+        mockkStatic(YogaNodeFactory::class)
 
         val application = ApplicationProvider.getApplicationContext() as Application
         val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
         val view = View(application)
 
-        every { YogaNode.create() } returns yogaNode
+        every { YogaNodeFactory.create() } returns yogaNode
         every { yogaNode.data } returns view
     }
 
