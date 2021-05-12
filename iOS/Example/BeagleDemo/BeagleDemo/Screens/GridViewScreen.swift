@@ -51,15 +51,13 @@ struct GridViewScreen: DeeplinkScreen {
                 value: ["page": 0, "total_pages": 0, "results": []]
             ),
             dataSource: "@{moviePage.results}",
-            numColumns: 2,
+            numColumns: 3,
             template: movieTemplate,
             onScrollEnd: [
                 SendRequest(
                     url: "@{database}/trending.@{sum(moviePage.page, 1)}.json",
                     method: .value(.get),
                     onSuccess: [
-                        SetContext(contextId: "moviePage", path: "page", value: "@{onSuccess.data.page}"),
-                        SetContext(contextId: "moviePage", path: "total_pages", value: "@{onSuccess.data.total_pages}"),
                         SetContext(
                             contextId: "moviePage",
                             path: "results",
@@ -75,49 +73,11 @@ struct GridViewScreen: DeeplinkScreen {
     var movieTemplate: Container {
         return Container(
             widgetProperties: .init(
-                id: "containerId",
                 style: Style()
-//                    .margin(EdgeValue().all(5))
-//                    .backgroundColor("#E1FC06")
+                    .padding(EdgeValue().all(2))
             )
         ) {
-//            Image(
-//                .local("imageBeagle")
-////                widgetProperties: .init(
-////                    style: Style()
-////                        .size(Size().width(90%))
-////                )
-//            )
-//            Button(
-//                text: "Append",
-//                onPress: [
-//                    AddChildren(componentId: "containerId", value: [ Text("Teste")])
-//                ]
-//            )
-//            Text("@{item.original_title}")
-//            Text("hvdshjvhjfdvhdfvhdjf")
             Image(.value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{item.poster_path}"))))
-//            LazyComponent(
-//                path: .textLazyComponentEndpoint,
-//                initialState: Text("luis")
-//            )
-//            Image(.value(.remote(.init(url: "https://mcdn.wallpapersafari.com/medium/8/37/zlwnoM.jpg"))))
         }
     }
 }
-
-//            Text(
-//                "Teste",
-//                widgetProperties: .init(
-//                    style: Style()
-////                    .size(Size().width(100%).height(120))
-//              )
-//            )
-//            Image(
-//                .local("imageBeagle")
-////                widgetProperties: .init(
-////                    style: Style()
-//////                        .backgroundColor("#E1FC06")
-//////                        .size(Size().width(100%).height(100%))
-////                )
-//            )

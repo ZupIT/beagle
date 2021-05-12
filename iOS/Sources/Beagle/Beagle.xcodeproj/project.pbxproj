@@ -24,6 +24,8 @@
 		57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */; };
 		5C5B90E72638920C0005BD93 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B90E62638920C0005BD93 /* GridView.swift */; };
 		5C5B90E92638931E0005BD93 /* GridView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B90E82638931E0005BD93 /* GridView+Extensions.swift */; };
+		5C5B9113264962830005BD93 /* GridViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B9112264962820005BD93 /* GridViewTests.swift */; };
+		5C5B911526496A060005BD93 /* __Snapshots__ in Resources */ = {isa = PBXBuildFile; fileRef = 5C5B911426496A050005BD93 /* __Snapshots__ */; };
 		6EB3368A24A52C1B000A9D17 /* SimpleForm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368924A52C1A000A9D17 /* SimpleForm+Extensions.swift */; };
 		6EB3368C24A52D34000A9D17 /* SubmitForm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368B24A52D34000A9D17 /* SubmitForm+Extensions.swift */; };
 		7685B045249A8880007EDED0 /* SendRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B044249A8880007EDED0 /* SendRequest+Extensions.swift */; };
@@ -374,6 +376,8 @@
 		57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Context.swift"; sourceTree = "<group>"; };
 		5C5B90E62638920C0005BD93 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		5C5B90E82638931E0005BD93 /* GridView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GridView+Extensions.swift"; sourceTree = "<group>"; };
+		5C5B9112264962820005BD93 /* GridViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewTests.swift; sourceTree = "<group>"; };
+		5C5B911426496A050005BD93 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		6EB3368924A52C1A000A9D17 /* SimpleForm+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SimpleForm+Extensions.swift"; sourceTree = "<group>"; };
 		6EB3368B24A52D34000A9D17 /* SubmitForm+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SubmitForm+Extensions.swift"; sourceTree = "<group>"; };
 		7685B044249A8880007EDED0 /* SendRequest+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SendRequest+Extensions.swift"; sourceTree = "<group>"; };
@@ -788,6 +792,15 @@
 			children = (
 				5C5B90E62638920C0005BD93 /* GridView.swift */,
 				5C5B90E82638931E0005BD93 /* GridView+Extensions.swift */,
+			);
+			path = GridView;
+			sourceTree = "<group>";
+		};
+		5C5B91112649622B0005BD93 /* GridView */ = {
+			isa = PBXGroup;
+			children = (
+				5C5B911426496A050005BD93 /* __Snapshots__ */,
+				5C5B9112264962820005BD93 /* GridViewTests.swift */,
 			);
 			path = GridView;
 			sourceTree = "<group>";
@@ -1356,6 +1369,7 @@
 			children = (
 				9356CED626248B190021EFC6 /* __Snapshots__ */,
 				9356CCDB262482810021EFC6 /* WidgetTests.swift */,
+				5C5B91112649622B0005BD93 /* GridView */,
 				9356CCDC262482810021EFC6 /* TextInput */,
 				9356CCEA262482810021EFC6 /* Image */,
 				9356CCF6262482810021EFC6 /* Container */,
@@ -2327,6 +2341,7 @@
 				9356CDED262482820021EFC6 /* TabBar.json in Resources */,
 				9356CDAF262482820021EFC6 /* screenAnalyticsComponent.json in Resources */,
 				9356CE2A262482820021EFC6 /* widgetWithAllAttributes.json in Resources */,
+				5C5B911526496A060005BD93 /* __Snapshots__ in Resources */,
 				9356CDD7262482820021EFC6 /* PageViewWith3Pages.json in Resources */,
 				9356CE25262482820021EFC6 /* Container.json in Resources */,
 				9356CDF3262482820021EFC6 /* TabView.json in Resources */,
@@ -2682,6 +2697,7 @@
 				9356CE1E262482820021EFC6 /* ImageTests.swift in Sources */,
 				9356CDF4262482820021EFC6 /* TabViewUIComponentTests.swift in Sources */,
 				9356CDD2262482820021EFC6 /* CustomPageIndicatorTests.swift in Sources */,
+				5C5B9113264962830005BD93 /* GridViewTests.swift in Sources */,
 				9356CD7A262482820021EFC6 /* CustomOperationsTests.swift in Sources */,
 				9356CD85262482820021EFC6 /* DynamicObjectTests.swift in Sources */,
 				9356CE53262482820021EFC6 /* ObservableTests.swift in Sources */,
