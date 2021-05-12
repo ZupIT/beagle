@@ -31,6 +31,7 @@ import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.Point
 import org.openqa.selenium.ScreenOrientation
 import java.io.File
 import java.util.HashMap
@@ -271,17 +272,17 @@ abstract class AbstractStep {
         AppiumUtil.swipeScreenTo(getDriver(), SwipeDirection.DOWN)
     }
 
-    protected fun swipeFromOneElementToBorder(
-        origin: MobileElement,
+    protected fun scrollFromOnePointToBorder(
+        originPoint: Point,
         swipeDirection: SwipeDirection
     ) {
         if (SuiteSetup.isAndroid()) {
-            AppiumUtil.androidSwipeScreenFromOneElementToBorder(
-                getDriver(), origin, swipeDirection
+            AppiumUtil.androidScrollScreenFromOnePointToBorder(
+                getDriver(), originPoint, swipeDirection
             )
         } else {
-            AppiumUtil.iosSwipeScreenFromOneElementToBorder(
-                getDriver(), origin, swipeDirection
+            AppiumUtil.iosScrollScreenFromOnePointToBorder(
+                getDriver(), originPoint, swipeDirection
             )
         }
 

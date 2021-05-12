@@ -22,6 +22,7 @@ import io.appium.java_client.MobileElement
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.android.AndroidTouchAction
 import io.appium.java_client.functions.ExpectedCondition
+import io.appium.java_client.ios.IOSTouchAction
 import io.appium.java_client.touch.WaitOptions
 import io.appium.java_client.touch.offset.PointOption
 import org.openqa.selenium.*
@@ -40,6 +41,10 @@ import kotlin.IllegalArgumentException
 import kotlin.Int
 import kotlin.Long
 import kotlin.String
+import java.util.HashMap
+
+
+
 
 
 object AppiumUtil {
@@ -139,50 +144,73 @@ object AppiumUtil {
     }
 
     /**
-     * Swipe from the position of a given element to the border of the screen
+     * Scroll from the position of a given point to the border of the screen
      */
-    fun androidSwipeScreenFromOneElementToBorder(
+    fun androidScrollScreenFromOnePointToBorder(
         driver: MobileDriver<*>,
-        originElement: MobileElement,
+        originPoint: Point,
         swipeDirection: SwipeDirection
     ) {
 
         val animationTime = 200 // ms
         val pressTime = 200 // ms
-        val pointOfStart = originElement.location
-        val border_edge = 1
+        val borderEdge = 1
         val screenSize = driver.manage().window().size
 
-        // [el.getLocation().getX() +el.getSize().getWidth(), el.getLocation().getY()+el.getSize().getHeight()]
-
-        val pointOfDestination = when (swipeDirection) {
-            SwipeDirection.DOWN -> PointOption.point(pointOfStart.x, screenSize.height - border_edge)
-            SwipeDirection.UP -> PointOption.point(pointOfStart.x, border_edge)
-            SwipeDirection.LEFT -> PointOption.point(border_edge, pointOfStart.y)
-            SwipeDirection.RIGHT -> PointOption.point(screenSize.width - border_edge, pointOfStart.y)
-            else -> throw IllegalArgumentException("swipeScreen(): dir: '$swipeDirection' NOT supported")
+        val destinationPoint = when (swipeDirection) {
+            SwipeDirection.DOWN -> PointOption.point(originPoint.x, screenSize.height - borderEdge)
+            SwipeDirection.UP -> PointOption.point(originPoint.x, borderEdge)
+            SwipeDirection.LEFT -> PointOption.point(borderEdge, originPoint.y)
+            SwipeDirection.RIGHT -> PointOption.point(screenSize.width - borderEdge, originPoint.y)
+            else -> throw IllegalArgumentException("Diretion '$swipeDirection' not supported")
         }
 
-        // execute swipe using TouchAction
         AndroidTouchAction(driver)
-            .press(PointOption.point(pointOfStart.x, pointOfStart.y)) // a bit more reliable when we add small wait
+            .press(PointOption.point(originPoint.x, originPoint.y)) // a bit more reliable when we add small wait
             .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
-            .moveTo(pointOfDestination).perform()
+            .moveTo(destinationPoint).perform()
 
         Thread.sleep(animationTime.toLong())
 
     }
 
     /**
-     * Move from position pointOfStart to position pointOfEnd
+     * Scroll from the position of a given element to the border of the screen
      */
-    fun iosSwipeScreenFromOneElementToBorder(
+    fun iosScrollScreenFromOnePointToBorder(
         driver: MobileDriver<*>,
-        originElement: MobileElement,
+        originPoint: Point,
         swipeDirection: SwipeDirection
     ) {
 
-        // TODO
+        val animationTime = 200 // ms
+        val pressTime = 200 // ms
+        val borderEdge = 10
+        val screenSize = driver.manage().window().size
+
+        val destinationPoint = when (swipeDirection) {
+            SwipeDirection.DOWN -> Point(originPoint.x, screenSize.height - borderEdge)
+            SwipeDirection.UP -> Point(originPoint.x, borderEdge)
+            SwipeDirection.LEFT -> Point(borderEdge, originPoint.y)
+            SwipeDirection.RIGHT -> Point(screenSize.width - borderEdge, originPoint.y)
+            else -> throw IllegalArgumentException("Diretion '$swipeDirection' not supported")
+        }
+
+//        IOSTouchAction(driver)
+//            .press(PointOption.point(originPoint.x, originPoint.y)) // a bit more reliable when we add small wait
+//            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
+//            .moveTo(destinationPoint).perform()
+//
+//        Thread.sleep(animationTime.toLong())
+
+        // touch, hold, and drag based on coordinates
+        val args: MutableMap<String, Any> = HashMap()
+        args["duration"] = 1.5
+        args["fromX"] = 210 //originPoint.x
+        args["fromY"] = originPoint.y
+        args["toX"] = destinationPoint.x
+        args["toY"] = destinationPoint.y
+        (driver as JavascriptExecutor).executeScript("mobile: dragFromToForDuration", args)
     }
 
     /**

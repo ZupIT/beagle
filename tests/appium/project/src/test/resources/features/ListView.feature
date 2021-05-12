@@ -23,7 +23,6 @@ Feature: ListView Component Validation
 
     Background:
         Given that I'm on the listView screen
-#        And the view port size is 720x480
 
   # First ListView: characters: horizontal with pagination and custom iteratorName
 
