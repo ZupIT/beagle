@@ -17,26 +17,6 @@
 * limitations under the License.
 */
 
-// MARK: AddChildren Decodable
-extension AddChildren {
-
-    enum CodingKeys: String, CodingKey {
-        case componentId
-        case value
-        case mode
-        case analytics
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        componentId = try container.decode(String.self, forKey: .componentId)
-        value = try container.decode(forKey: .value)
-        mode = try container.decodeIfPresent(Mode.self, forKey: .mode) ?? .append
-        analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
-    }
-}
-
 // MARK: Alert Decodable
 extension Alert {
 
