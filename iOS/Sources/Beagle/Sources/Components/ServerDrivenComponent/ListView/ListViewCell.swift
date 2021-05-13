@@ -169,7 +169,6 @@ final class ListViewCell: UICollectionViewCell {
             yoga.flexShrink = shrink
         }
         
-        // passa o tamanho para contentView
         var rect = listView.bounds
         if let numColumns = listView.model.numColumns {
             rect.size.width = (rect.width / CGFloat(numColumns)).rounded(.down)

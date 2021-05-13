@@ -65,6 +65,7 @@ struct GridViewScreen: DeeplinkScreen {
                                 "total_pages": "@{onSuccess.data.total_pages}",
                                 "results": "@{union(moviePage.results, onSuccess.data.results)}"
                             ]
+                        )
                     ]
                 )
             ],

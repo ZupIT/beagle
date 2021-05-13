@@ -87,27 +87,3 @@ extension GridView: Decodable {
         widgetProperties = try WidgetProperties(listFrom: decoder)
     }
 }
-
-extension WidgetProperties {
-   private enum DefaultCodingKeys: String, CodingKey {
-        case id
-        case style
-        case accessibility
-    }
-
-    fileprivate init(listFrom decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: DefaultCodingKeys.self)
-
-        id = try container.decodeIfPresent(String.self, forKey: .id)
-        style = try container.decodeIfPresent(Style.self, forKey: .style) ?? Style()
-        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-    }
-
-}
-
-extension GridView {
-    public enum Direction: String, Decodable {
-        case vertical = "VERTICAL"
-        case horizontal = "HORIZONTAL"
-    }
-}
