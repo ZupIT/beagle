@@ -170,24 +170,16 @@ final class ListViewCell: UICollectionViewCell {
         }
         
         // passa o tamanho para contentView
+        var rect = listView.bounds
         if let numColumns = listView.model.numColumns {
-            contentView.frame = CGRect(
-                x: 0,
-                y: 0,
-                width: (listView.bounds.width / CGFloat(numColumns)).rounded(.down),
-                height: listView.bounds.height
-            )
-            listView.listController.dependencies.style(contentView).applyLayout()
-            
-            let size = container.bounds.size
-            contentView.frame.size = CGSize(width: (size.width / CGFloat(numColumns)).rounded(.down), height: size.height)
-        } else {
-            contentView.frame = listView.bounds
-            listView.listController.dependencies.style(contentView).applyLayout()
-            
-            let size = container.bounds.size
-            contentView.frame.size = size
+            rect.size.width = (rect.width / CGFloat(numColumns)).rounded(.down)
         }
+        
+        contentView.frame = rect
+        listView.listController.dependencies.style(contentView).applyLayout()
+        
+        let size = container.bounds.size
+        contentView.frame.size = size
         
         if let itemHash = itemHash {
             listView.saveSize(container.bounds.size, forItem: itemHash)
