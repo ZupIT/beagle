@@ -453,4 +453,8 @@ abstract class AbstractStep {
         return dataBaseFolderPath
     }
 
+    protected fun restartApp(){
+        SuiteSetup.restartApp()
+    }
+
 }

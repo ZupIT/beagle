@@ -44,9 +44,6 @@ import kotlin.String
 import java.util.HashMap
 
 
-
-
-
 object AppiumUtil {
 
     @Synchronized
@@ -182,11 +179,17 @@ object AppiumUtil {
         originPoint: Point,
         swipeDirection: SwipeDirection
     ) {
-
-        val animationTime = 200 // ms
-        val pressTime = 200 // ms
-        val borderEdge = 10
+        val borderEdge = 1
         val screenSize = driver.manage().window().size
+
+        // should not click outside the screen border. For some reason on iOS, clicks near the border won't work, so
+        // the origin point is reworked to half the size of the screen
+        if (originPoint.x >= screenSize.width / 2)
+            originPoint.x = screenSize.width / 2
+        if (originPoint.y >= screenSize.height / 2)
+            originPoint.y = screenSize.height / 2
+
+        originPoint.x = 200
 
         val destinationPoint = when (swipeDirection) {
             SwipeDirection.DOWN -> Point(originPoint.x, screenSize.height - borderEdge)
@@ -196,21 +199,11 @@ object AppiumUtil {
             else -> throw IllegalArgumentException("Diretion '$swipeDirection' not supported")
         }
 
-//        IOSTouchAction(driver)
-//            .press(PointOption.point(originPoint.x, originPoint.y)) // a bit more reliable when we add small wait
-//            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
-//            .moveTo(destinationPoint).perform()
-//
-//        Thread.sleep(animationTime.toLong())
+        IOSTouchAction(driver)
+            .press(PointOption.point(originPoint.x, originPoint.y))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
+            .moveTo(PointOption.point(destinationPoint)).perform()
 
-        // touch, hold, and drag based on coordinates
-        val args: MutableMap<String, Any> = HashMap()
-        args["duration"] = 1.5
-        args["fromX"] = 210 //originPoint.x
-        args["fromY"] = originPoint.y
-        args["toX"] = destinationPoint.x
-        args["toY"] = destinationPoint.y
-        (driver as JavascriptExecutor).executeScript("mobile: dragFromToForDuration", args)
     }
 
     /**

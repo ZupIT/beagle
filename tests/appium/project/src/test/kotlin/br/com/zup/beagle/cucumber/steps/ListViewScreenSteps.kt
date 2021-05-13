@@ -36,12 +36,25 @@ class ListViewScreenSteps : AbstractStep() {
 
     @Then("^listView with id (.*) should be in vertical orientation$")
     fun checkListViewIsVertical(listViewId: String) {
+        if (SuiteSetup.isAndroid()) // reset list state
+            loadBffScreen()
+        else{
+            restartApp()
+            loadBffScreen()
+        }
+
         Assert.assertFalse(isListViewHorizontal(listViewId))
     }
 
     @Then("^listView with id (.*) should be in horizontal orientation$")
     fun checkListViewIsHorizontal(listViewId: String) {
-        loadBffScreen()
+        if (SuiteSetup.isAndroid()) // reset list state
+            loadBffScreen()
+        else{
+            restartApp()
+            loadBffScreen()
+        }
+
         Assert.assertTrue(isListViewHorizontal(listViewId))
     }
 
@@ -140,6 +153,7 @@ class ListViewScreenSteps : AbstractStep() {
         var childrenNames =
             LinkedHashSet(getChildrenNamesOfListViewCharactersList(listViewElement!!)) // ignores identical values
         var lastChildElement: MobileElement
+        var lastChildName = ""
 
 
         if (childrenNames.isEmpty())
@@ -148,6 +162,7 @@ class ListViewScreenSteps : AbstractStep() {
         var childrenNamesTemp: List<String> = mutableListOf()
         do {
             lastChildElement = getLastChildOfListView(listViewElement)
+            lastChildName = getContentOfChildOfListViewCharactersList(lastChildElement)!!
 
             if (horizontalScroll)
                 scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.LEFT)
@@ -155,10 +170,11 @@ class ListViewScreenSteps : AbstractStep() {
                 scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.UP)
 
             childrenNamesTemp = getChildrenNamesOfListViewCharactersList(listViewElement!!)
+
             childrenNames.addAll(childrenNamesTemp)
 
 
-        } while (getContentOfChildOfListViewCharactersList(lastChildElement) != childrenNamesTemp.last())
+        } while (lastChildName != childrenNamesTemp.last())
 
         return childrenNames.size
     }
