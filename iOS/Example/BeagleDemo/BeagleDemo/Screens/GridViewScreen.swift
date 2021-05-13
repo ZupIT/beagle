@@ -60,9 +60,11 @@ struct GridViewScreen: DeeplinkScreen {
                     onSuccess: [
                         SetContext(
                             contextId: "moviePage",
-                            path: "results",
-                            value: "@{union(moviePage.results, onSuccess.data.results)}"
-                        )
+                            value: [
+                                "page": "@{onSuccess.data.page}",
+                                "total_pages": "@{onSuccess.data.total_pages}",
+                                "results": "@{union(moviePage.results, onSuccess.data.results)}"
+                            ]
                     ]
                 )
             ],
