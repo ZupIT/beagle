@@ -36,7 +36,7 @@ extension GridView {
                 onScrollEnd: onScrollEnd,
                 scrollEndThreshold: CGFloat(scrollEndThreshold ?? 100),
                 isScrollIndicatorVisible: isScrollIndicatorVisible ?? false,
-                numColumns: numColumns
+                columns: max(1, numColumns)
             ),
             renderer: renderer
         )

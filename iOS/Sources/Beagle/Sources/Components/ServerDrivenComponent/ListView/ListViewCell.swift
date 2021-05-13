@@ -170,9 +170,7 @@ final class ListViewCell: UICollectionViewCell {
         }
         
         var rect = listView.bounds
-        if let numColumns = listView.model.numColumns {
-            rect.size.width = (rect.width / CGFloat(numColumns)).rounded(.down)
-        }
+        rect.size.width = (rect.width / CGFloat(listView.model.columns)).rounded(.down)
         
         contentView.frame = rect
         listView.listController.dependencies.style(contentView).applyLayout()
