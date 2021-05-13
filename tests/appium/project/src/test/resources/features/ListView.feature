@@ -28,21 +28,22 @@ Feature: ListView Component Validation
 
     Scenario: ListView 01 - Characters ListView
         Then listView with id charactersList should have exactly 34 items
-        And listView with id charactersList should be in horizontal orientation
         And screen should show text: 1/2
+        And listView with id charactersList should be in horizontal orientation
 
-#    Scenario: ListView 02 - Characters ListView: going from page 1 to 2
-#        When I click on button next
-#        Then listView with id charactersList should have exactly 33 items
-#        And listView with id charactersList should be in horizontal orientation
-#        And screen should show text: 2/2
-#
-#    Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
-#        When I click on button next
-#        And I click on button prev
-#        Then listView with id charactersList should have exactly 34 items
-#        And listView with id charactersList should be in horizontal orientation
-#        And screen should show text: 1/2
+    Scenario: ListView 02 - Characters ListView: going from page 1 to 2
+        When I click on button next
+        Then screen should show text: 2/2
+        And listView with id charactersList should have exactly 33 items
+        And listView with id charactersList should be in horizontal orientation
+
+    Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
+        When I click on button next
+        And I click on button prev
+        And screen should show text: 1/2
+        Then listView with id charactersList should have exactly 34 items
+        And listView with id charactersList should be in horizontal orientation
+
 #
 #    Scenario Outline: ListView 04 - Characters ListView: page 1 item by item
 #        When I scroll listView with id charactersList to position <position>

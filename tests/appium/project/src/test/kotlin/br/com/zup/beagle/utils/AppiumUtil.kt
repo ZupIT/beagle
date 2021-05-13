@@ -179,7 +179,7 @@ object AppiumUtil {
         originPoint: Point,
         swipeDirection: SwipeDirection
     ) {
-        val borderEdge = 1
+        val borderEdge = 10
         val screenSize = driver.manage().window().size
 
         // should not click outside the screen border. For some reason on iOS, clicks near the border won't work, so
@@ -188,8 +188,6 @@ object AppiumUtil {
             originPoint.x = screenSize.width / 2
         if (originPoint.y >= screenSize.height / 2)
             originPoint.y = screenSize.height / 2
-
-        originPoint.x = 200
 
         val destinationPoint = when (swipeDirection) {
             SwipeDirection.DOWN -> Point(originPoint.x, screenSize.height - borderEdge)
@@ -201,7 +199,7 @@ object AppiumUtil {
 
         IOSTouchAction(driver)
             .press(PointOption.point(originPoint.x, originPoint.y))
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(400)))
             .moveTo(PointOption.point(destinationPoint)).perform()
 
     }

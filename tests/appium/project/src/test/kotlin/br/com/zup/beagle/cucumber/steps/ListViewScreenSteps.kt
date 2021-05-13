@@ -31,14 +31,14 @@ class ListViewScreenSteps : AbstractStep() {
 
     @Then("^listView with id (.*) should have exactly (.*) items$")
     fun checkListViewItemsCount(listViewId: String, expectedItemCount: Int) {
-        Assert.assertEquals(countChildrenOfListView(listViewId, horizontalScroll = true), 34)
+        Assert.assertEquals(countChildrenOfListView(listViewId, horizontalScroll = true), expectedItemCount)
     }
 
     @Then("^listView with id (.*) should be in vertical orientation$")
     fun checkListViewIsVertical(listViewId: String) {
         if (SuiteSetup.isAndroid()) // reset list state
             loadBffScreen()
-        else{
+        else {
             restartApp()
             loadBffScreen()
         }
@@ -50,7 +50,7 @@ class ListViewScreenSteps : AbstractStep() {
     fun checkListViewIsHorizontal(listViewId: String) {
         if (SuiteSetup.isAndroid()) // reset list state
             loadBffScreen()
-        else{
+        else {
             restartApp()
             loadBffScreen()
         }
@@ -126,14 +126,23 @@ class ListViewScreenSteps : AbstractStep() {
         }
     }
 
+    /**
+     * Tells if a list is horizontal by first comparing its elements' y position. When there's only one element showing,
+     * then scrolls horizontally to compare with more elements
+     */
     private fun isListViewCharactersListHorizontal(listViewElement: MobileElement): Boolean {
 
-        val initialChildrenList = getChildrenNamesOfListViewCharactersList(listViewElement)
+        var initialChildrenList = getChildrenOfListView(listViewElement)
+        if (initialChildrenList.size > 1) {
+            return initialChildrenList[0].location.y == initialChildrenList[1].location.y
+        }
 
-        scrollFromOnePointToBorder(getChildrenOfListView(listViewElement).last().location, SwipeDirection.LEFT)
-
-        // if the list is horizontally oriented, then a horizontal scroll results in new elements showing
-        return initialChildrenList != getChildrenNamesOfListViewCharactersList(listViewElement)
+        scrollFromOnePointToBorder(initialChildrenList.get(0).location, SwipeDirection.LEFT)
+        initialChildrenList = getChildrenOfListView(listViewElement)
+        if (initialChildrenList.size > 1) {
+            return initialChildrenList[0].location.y == initialChildrenList[1].location.y
+        } else
+            throw Exception("The given list contains only one element")
     }
 
     private fun countChildrenOfListView(listViewId: String, horizontalScroll: Boolean): Int {
@@ -155,7 +164,6 @@ class ListViewScreenSteps : AbstractStep() {
         var lastChildElement: MobileElement
         var lastChildName = ""
 
-
         if (childrenNames.isEmpty())
             return 0
 
@@ -176,6 +184,7 @@ class ListViewScreenSteps : AbstractStep() {
 
         } while (lastChildName != childrenNamesTemp.last())
 
+        println(childrenNames)
         return childrenNames.size
     }
 
@@ -222,12 +231,14 @@ class ListViewScreenSteps : AbstractStep() {
     private fun getContentOfChildOfListViewCharactersList(childElement: MobileElement): String? {
         var childElementText: String? = null
         if (SuiteSetup.isIos()) {
-            var element1 = // .//XCUIElementTypeCell[.//XCUIElementTypeTextView//XCUIElementTypeOther//XCUIElementTypeTextView]
+            var element1 =
+                // .//XCUIElementTypeCell[.//XCUIElementTypeTextView//XCUIElementTypeOther//XCUIElementTypeTextView]
                 childElement.findElementByXPath("(.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeTextView)[1]") // name
             var element2 =
                 childElement.findElementByXPath("(.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeTextView)[2]") // book
 
-            childElementText = (element1 as IOSElement).getAttribute("value") + "; " + (element2 as IOSElement).getAttribute("value")
+            childElementText =
+                (element1 as IOSElement).getAttribute("value") + "; " + (element2 as IOSElement).getAttribute("value")
         } else {
             var element1 =
                 childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[1]") // name
@@ -249,7 +260,8 @@ class ListViewScreenSteps : AbstractStep() {
         var lastChildOfListViewLocator: By? = null
 
         if (SuiteSetup.isIos()) {
-            lastChildOfListViewLocator = By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther]")
+            lastChildOfListViewLocator =
+                By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther]")
         } else {
             lastChildOfListViewLocator = By.xpath(".//android.view.ViewGroup[.//android.view.ViewGroup]")
         }
@@ -268,7 +280,8 @@ class ListViewScreenSteps : AbstractStep() {
         var lastChildOfListViewLocator: By? = null
 
         if (SuiteSetup.isIos()) {
-            lastChildOfListViewLocator = By.xpath("(.//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther])[last()]")
+            lastChildOfListViewLocator =
+                By.xpath("(.//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther])[last()]")
         } else {
             lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[last()]")
         }
@@ -287,7 +300,8 @@ class ListViewScreenSteps : AbstractStep() {
         var lastChildOfListViewLocator: By? = null
 
         if (SuiteSetup.isIos()) {
-            lastChildOfListViewLocator = By.xpath("(.//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther])[1]")
+            lastChildOfListViewLocator =
+                By.xpath("(.//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther])[1]")
         } else {
             lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[1]")
         }
