@@ -296,15 +296,9 @@ extension ListViewUIComponent: UICollectionViewDataSource {
 extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var size: CGSize
-        // Montar estrutura do grid ou lista
+        var size = collectionView.frame.size
         if let numColumns = model.numColumns {
-            size = CGSize(
-                width: (collectionView.frame.width / CGFloat(numColumns)).rounded(.down),
-                height: collectionView.frame.height
-            )
-        } else {
-            size = collectionView.frame.size
+            size.width = (size.width / CGFloat(numColumns)).rounded(.down)
         }
         guard let items = items, indexPath.item < items.count else {
             return size
