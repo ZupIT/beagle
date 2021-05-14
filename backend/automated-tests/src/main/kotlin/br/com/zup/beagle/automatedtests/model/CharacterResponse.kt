@@ -180,161 +180,161 @@ data class Character(
                 book = "The Final Empire",
                 collection = "Mistborn Era 1",
             ),
-            Character(
-                name = "Elend Venture",
-                book = "The Final Empire",
-                collection = "Mistborn Era 1",
-            ),
-            Character(
-                name = "Waxillium \"Wax\" Ladrian",
-                book = "The Alloy of Law",
-                collection = "Mistborn Era 2",
-            ),
-            Character(
-                name = "Wayne",
-                book = "The Alloy of Law",
-                collection = "Mistborn Era 2",
-            ),
-            Character(
-                name = "Marasi Colms",
-                book = "The Alloy of Law",
-                collection = "Mistborn Era 2",
-            ),
-            Character(
-                name = "Steris Harms",
-                book = "The Alloy of Law",
-                collection = "Mistborn Era 2",
-            ),
-            Character(
-                name = "Miles Dagouter",
-                book = "The Alloy of Law",
-                collection = "Mistborn Era 2",
-            ),
-
-            Character(
-                name = "Eddard \"Ned\" Stark",
-                book = "A Game of Thrones",
-                collection = "A Song of Ice and Fire",
-            ),
-            Character(
-                name = "Catelyn Stark",
-                book = "A Game of Thrones",
-                collection = "A Song of Ice and Fire",
-            ),
-            Character(
-                name = "Sansa Stark",
-                book = "A Game of Thrones",
-                collection = "A Song of Ice and Fire",
-            ),
-            Character(
-                name = "Arya Stark",
-                book = "A Game of Thrones",
-                collection = "A Song of Ice and Fire",
-            ),
-            Character(
-                name = "Bran Stark",
-                book = "A Game of Thrones",
-                collection = "A Song of Ice and Fire",
-            ),
-
-            Character(
-                name = "Szeth-son-son-Vallano",
-                book = "Words of Radiance",
-                collection = "The Stormlight Archive",
-            ),
-            Character(
-                name = "Shallan Davar",
-                book = "Words of Radiance",
-                collection = "The Stormlight Archive",
-            ),
-            Character(
-                name = "Kaladin",
-                book = "Words of Radiance",
-                collection = "The Stormlight Archive",
-            ),
-            Character(
-                name = "Dalinar Kholin",
-                book = "Words of Radiance",
-                collection = "The Stormlight Archive",
-            ),
-            Character(
-                name = "Adolin Kholin",
-                book = "Words of Radiance",
-                collection = "The Stormlight Archive",
-            ),
-
-            Character(
-                name = "Talanji",
-                book = "Shadows Rising",
-                collection = "World of Warcraft",
-            ),
-            Character(
-                name = "Zekhan",
-                book = "Shadows Rising",
-                collection = "World of Warcraft",
-            ),
-            Character(
-                name = "Anduin Wrynn",
-                book = "Shadows Rising",
-                collection = "World of Warcraft",
-            ),
-            Character(
-                name = "Turalyon",
-                book = "Shadows Rising",
-                collection = "World of Warcraft",
-            ),
-            Character(
-                name = "Aleria Windrunner",
-                book = "Shadows Rising",
-                collection = "World of Warcraft",
-            ),
-
-            Character(
-                name = "Anduin Wrynn",
-                book = "Before the Storm",
-                collection = "World of Warcraft",
-            ),
-            Character(
-                name = "Sylvanas Windrunner",
-                book = "Before the Storm",
-                collection = "World of Warcraft",
-            ),
-            Character(
-                name = "Grizzek Fizzwrench",
-                book = "Before the Storm",
-                collection = "World of Warcraft",
-            ),
-            Character(
-                name = "Sapphronetta Flivvers",
-                book = "Before the Storm",
-                collection = "World of Warcraft",
-            ),
-            Character(
-                name = "Calia Menethil",
-                book = "Before the Storm",
-                collection = "World of Warcraft",
-            ),
-
-            Character(
-                name = "Harry Potter",
-                book = "Harry Potter and the Philosopher's Stone",
-                collection = "Harry Potter",
-            ),
-            Character(
-                name = "Ronald Weasley",
-                book = "Harry Potter and the Philosopher's Stone",
-                collection = "Harry Potter",
-            ),
-            Character(
-                name = "Hermione Granger",
-                book = "Harry Potter and the Philosopher's Stone",
-                collection = "Harry Potter",
-            ),
-            Character(
-                name = "Rúbeo Hagrid",
-                book = "Harry Potter and the Philosopher's Stone",
-                collection = "Harry Potter",
-            ),
+//            Character(
+//                name = "Elend Venture",
+//                book = "The Final Empire",
+//                collection = "Mistborn Era 1",
+//            ),
+//            Character(
+//                name = "Waxillium \"Wax\" Ladrian",
+//                book = "The Alloy of Law",
+//                collection = "Mistborn Era 2",
+//            ),
+//            Character(
+//                name = "Wayne",
+//                book = "The Alloy of Law",
+//                collection = "Mistborn Era 2",
+//            ),
+//            Character(
+//                name = "Marasi Colms",
+//                book = "The Alloy of Law",
+//                collection = "Mistborn Era 2",
+//            ),
+//            Character(
+//                name = "Steris Harms",
+//                book = "The Alloy of Law",
+//                collection = "Mistborn Era 2",
+//            ),
+//            Character(
+//                name = "Miles Dagouter",
+//                book = "The Alloy of Law",
+//                collection = "Mistborn Era 2",
+//            ),
+//
+//            Character(
+//                name = "Eddard \"Ned\" Stark",
+//                book = "A Game of Thrones",
+//                collection = "A Song of Ice and Fire",
+//            ),
+//            Character(
+//                name = "Catelyn Stark",
+//                book = "A Game of Thrones",
+//                collection = "A Song of Ice and Fire",
+//            ),
+//            Character(
+//                name = "Sansa Stark",
+//                book = "A Game of Thrones",
+//                collection = "A Song of Ice and Fire",
+//            ),
+//            Character(
+//                name = "Arya Stark",
+//                book = "A Game of Thrones",
+//                collection = "A Song of Ice and Fire",
+//            ),
+//            Character(
+//                name = "Bran Stark",
+//                book = "A Game of Thrones",
+//                collection = "A Song of Ice and Fire",
+//            ),
+//
+//            Character(
+//                name = "Szeth-son-son-Vallano",
+//                book = "Words of Radiance",
+//                collection = "The Stormlight Archive",
+//            ),
+//            Character(
+//                name = "Shallan Davar",
+//                book = "Words of Radiance",
+//                collection = "The Stormlight Archive",
+//            ),
+//            Character(
+//                name = "Kaladin",
+//                book = "Words of Radiance",
+//                collection = "The Stormlight Archive",
+//            ),
+//            Character(
+//                name = "Dalinar Kholin",
+//                book = "Words of Radiance",
+//                collection = "The Stormlight Archive",
+//            ),
+//            Character(
+//                name = "Adolin Kholin",
+//                book = "Words of Radiance",
+//                collection = "The Stormlight Archive",
+//            ),
+//
+//            Character(
+//                name = "Talanji",
+//                book = "Shadows Rising",
+//                collection = "World of Warcraft",
+//            ),
+//            Character(
+//                name = "Zekhan",
+//                book = "Shadows Rising",
+//                collection = "World of Warcraft",
+//            ),
+//            Character(
+//                name = "Anduin Wrynn",
+//                book = "Shadows Rising",
+//                collection = "World of Warcraft",
+//            ),
+//            Character(
+//                name = "Turalyon",
+//                book = "Shadows Rising",
+//                collection = "World of Warcraft",
+//            ),
+//            Character(
+//                name = "Aleria Windrunner",
+//                book = "Shadows Rising",
+//                collection = "World of Warcraft",
+//            ),
+//
+//            Character(
+//                name = "Anduin Wrynn",
+//                book = "Before the Storm",
+//                collection = "World of Warcraft",
+//            ),
+//            Character(
+//                name = "Sylvanas Windrunner",
+//                book = "Before the Storm",
+//                collection = "World of Warcraft",
+//            ),
+//            Character(
+//                name = "Grizzek Fizzwrench",
+//                book = "Before the Storm",
+//                collection = "World of Warcraft",
+//            ),
+//            Character(
+//                name = "Sapphronetta Flivvers",
+//                book = "Before the Storm",
+//                collection = "World of Warcraft",
+//            ),
+//            Character(
+//                name = "Calia Menethil",
+//                book = "Before the Storm",
+//                collection = "World of Warcraft",
+//            ),
+//
+//            Character(
+//                name = "Harry Potter",
+//                book = "Harry Potter and the Philosopher's Stone",
+//                collection = "Harry Potter",
+//            ),
+//            Character(
+//                name = "Ronald Weasley",
+//                book = "Harry Potter and the Philosopher's Stone",
+//                collection = "Harry Potter",
+//            ),
+//            Character(
+//                name = "Hermione Granger",
+//                book = "Harry Potter and the Philosopher's Stone",
+//                collection = "Harry Potter",
+//            ),
+//            Character(
+//                name = "Rúbeo Hagrid",
+//                book = "Harry Potter and the Philosopher's Stone",
+//                collection = "Harry Potter",
+//            ),
         )
 
         private val charactersPage2 = listOf(
@@ -358,151 +358,151 @@ data class Character(
                 book = "Starsight",
                 collection = "Skyward",
             ),
-            Character(
-                name = "M-Bot",
-                book = "Starsight",
-                collection = "Skyward",
-            ),
-            Character(
-                name = "Alanik",
-                book = "Starsight",
-                collection = "Skyward",
-            ),
-            Character(
-                name = "Bob",
-                book = "Heaven's River",
-                collection = "Bobiverse",
-            ),
-            Character(
-                name = "Brigit",
-                book = "Heaven's River",
-                collection = "Bobiverse",
-            ),
-            Character(
-                name = "Bender",
-                book = "Heaven's River",
-                collection = "Bobiverse",
-            ),
-            Character(
-                name = "Howard",
-                book = "Heaven's River",
-                collection = "Bobiverse",
-            ),
-            Character(
-                name = "Juliette Andromeda Mao",
-                book = "Leviathan Wakes",
-                collection = "The Expanse",
-            ),
-            Character(
-                name = "James Holden",
-                book = "Leviathan Wakes",
-                collection = "The Expanse",
-            ),
-            Character(
-                name = "Naomi Nagata",
-                book = "Leviathan Wakes",
-                collection = "The Expanse",
-            ),
-            Character(
-                name = "Amos Burton",
-                book = "Leviathan Wakes",
-                collection = "The Expanse",
-            ),
-            Character(
-                name = "Shed Garvey",
-                book = "Leviathan Wakes",
-                collection = "The Expanse",
-            ),
-            Character(
-                name = "Paul Atreides",
-                book = "Dune",
-                collection = "Dune",
-            ),
-            Character(
-                name = "Duke Leto Atreides",
-                book = "Dune",
-                collection = "Dune",
-            ),
-            Character(
-                name = "Lady Jessica",
-                book = "Dune",
-                collection = "Dune",
-            ),
-            Character(
-                name = "Alia Atreides",
-                book = "Dune",
-                collection = "Dune",
-            ),
-            Character(
-                name = "Thufir Hawat",
-                book = "Dune",
-                collection = "Dune",
-            ),
-            Character(
-                name = "Dirk t'Larien",
-                book = "Dying of the Light",
-                collection = "",
-            ),
-            Character(
-                name = "Jaan Vikary",
-                book = "Dying of the Light",
-                collection = "",
-            ),
-            Character(
-                name = "Garse Janacek",
-                book = "Dying of the Light",
-                collection = "",
-            ),
-            Character(
-                name = "Greg Dixon",
-                book = "The Last Tribe",
-                collection = "",
-            ),
-            Character(
-                name = "John Dixon",
-                book = "The Last Tribe",
-                collection = "",
-            ),
-            Character(
-                name = "Emily Dixon",
-                book = "The Last Tribe",
-                collection = "",
-            ),
-            Character(
-                name = "Rebecca",
-                book = "The Last Tribe",
-                collection = "",
-            ),
-            Character(
-                name = "Don Barlow",
-                book = "The Cuckoo's Cry",
-                collection = "",
-            ),
-            Character(
-                name = "Offred",
-                book = "The Handmaid's Tale",
-                collection = "The Handmaid's Tale",
-            ),
-            Character(
-                name = "The Commander",
-                book = "The Handmaid's Tale",
-                collection = "The Handmaid's Tale",
-            ),
-            Character(
-                name = "Serena Joy",
-                book = "The Handmaid's Tale",
-                collection = "The Handmaid's Tale",
-            ),
-            Character(
-                name = "Ofglen",
-                book = "The Handmaid's Tale",
-                collection = "The Handmaid's Tale",
-            ),
-            Character(
-                name = "Nick",
-                book = "The Handmaid's Tale",
-                collection = "The Handmaid's Tale",
-            ),
+//            Character(
+//                name = "M-Bot",
+//                book = "Starsight",
+//                collection = "Skyward",
+//            ),
+//            Character(
+//                name = "Alanik",
+//                book = "Starsight",
+//                collection = "Skyward",
+//            ),
+//            Character(
+//                name = "Bob",
+//                book = "Heaven's River",
+//                collection = "Bobiverse",
+//            ),
+//            Character(
+//                name = "Brigit",
+//                book = "Heaven's River",
+//                collection = "Bobiverse",
+//            ),
+//            Character(
+//                name = "Bender",
+//                book = "Heaven's River",
+//                collection = "Bobiverse",
+//            ),
+//            Character(
+//                name = "Howard",
+//                book = "Heaven's River",
+//                collection = "Bobiverse",
+//            ),
+//            Character(
+//                name = "Juliette Andromeda Mao",
+//                book = "Leviathan Wakes",
+//                collection = "The Expanse",
+//            ),
+//            Character(
+//                name = "James Holden",
+//                book = "Leviathan Wakes",
+//                collection = "The Expanse",
+//            ),
+//            Character(
+//                name = "Naomi Nagata",
+//                book = "Leviathan Wakes",
+//                collection = "The Expanse",
+//            ),
+//            Character(
+//                name = "Amos Burton",
+//                book = "Leviathan Wakes",
+//                collection = "The Expanse",
+//            ),
+//            Character(
+//                name = "Shed Garvey",
+//                book = "Leviathan Wakes",
+//                collection = "The Expanse",
+//            ),
+//            Character(
+//                name = "Paul Atreides",
+//                book = "Dune",
+//                collection = "Dune",
+//            ),
+//            Character(
+//                name = "Duke Leto Atreides",
+//                book = "Dune",
+//                collection = "Dune",
+//            ),
+//            Character(
+//                name = "Lady Jessica",
+//                book = "Dune",
+//                collection = "Dune",
+//            ),
+//            Character(
+//                name = "Alia Atreides",
+//                book = "Dune",
+//                collection = "Dune",
+//            ),
+//            Character(
+//                name = "Thufir Hawat",
+//                book = "Dune",
+//                collection = "Dune",
+//            ),
+//            Character(
+//                name = "Dirk t'Larien",
+//                book = "Dying of the Light",
+//                collection = "",
+//            ),
+//            Character(
+//                name = "Jaan Vikary",
+//                book = "Dying of the Light",
+//                collection = "",
+//            ),
+//            Character(
+//                name = "Garse Janacek",
+//                book = "Dying of the Light",
+//                collection = "",
+//            ),
+//            Character(
+//                name = "Greg Dixon",
+//                book = "The Last Tribe",
+//                collection = "",
+//            ),
+//            Character(
+//                name = "John Dixon",
+//                book = "The Last Tribe",
+//                collection = "",
+//            ),
+//            Character(
+//                name = "Emily Dixon",
+//                book = "The Last Tribe",
+//                collection = "",
+//            ),
+//            Character(
+//                name = "Rebecca",
+//                book = "The Last Tribe",
+//                collection = "",
+//            ),
+//            Character(
+//                name = "Don Barlow",
+//                book = "The Cuckoo's Cry",
+//                collection = "",
+//            ),
+//            Character(
+//                name = "Offred",
+//                book = "The Handmaid's Tale",
+//                collection = "The Handmaid's Tale",
+//            ),
+//            Character(
+//                name = "The Commander",
+//                book = "The Handmaid's Tale",
+//                collection = "The Handmaid's Tale",
+//            ),
+//            Character(
+//                name = "Serena Joy",
+//                book = "The Handmaid's Tale",
+//                collection = "The Handmaid's Tale",
+//            ),
+//            Character(
+//                name = "Ofglen",
+//                book = "The Handmaid's Tale",
+//                collection = "The Handmaid's Tale",
+//            ),
+//            Character(
+//                name = "Nick",
+//                book = "The Handmaid's Tale",
+//                collection = "The Handmaid's Tale",
+//            ),
         )
     }
 }
