@@ -25,6 +25,7 @@ import 'package:beagle/interface/beagle_navigator.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/interface/types.dart';
+import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_action.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/response.dart';
@@ -33,6 +34,7 @@ import 'package:beagle/networking/beagle_request.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_js/flutter_js.dart';
+import 'package:beagle/service_locator.dart';
 
 typedef ActionListener = void Function({
   BeagleAction action,
@@ -63,6 +65,7 @@ class BeagleJSEngine {
   final _operationChannelName = 'operation';
   final _viewUpdateChannelName = 'beagleView.update';
   final _navigatorChannelName = 'beagleNavigator';
+  final _loggerChannelName = 'logger';
 
   HttpListener _httpListener;
   final Map<String, List<ActionListener>> _viewActionListenerMap = {};
@@ -137,6 +140,7 @@ class BeagleJSEngine {
     _setupBeagleNavigatorMessages();
     _setupStorageMessages();
     _setupOperationMessages();
+    _setupLoggerMessage();
   }
 
   void _setupHttpMessages() {
@@ -156,6 +160,29 @@ class BeagleJSEngine {
     final req = jsRequestMessage.toRequest();
 
     _httpListener(requestId, req);
+  }
+
+  void _setupLoggerMessage() {
+    _jsRuntime.onMessage(
+      _loggerChannelName,
+      _notifyLoggerListener,
+    );
+  }
+
+  void _notifyLoggerListener(dynamic loggerMessage) {
+    final logger = beagleServiceLocator<BeagleLogger>();
+    final message = loggerMessage['message'];
+    final level = loggerMessage['level'];
+
+    if (level == 'info') {
+      logger.info(message);
+    }
+    if (level == 'warning') {
+      logger.warning(message);
+    }
+    if (level == 'error') {
+      logger.error(message);
+    }
   }
 
   void _setupActionMessages() {
