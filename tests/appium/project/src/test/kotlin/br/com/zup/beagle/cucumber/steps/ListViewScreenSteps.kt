@@ -10,6 +10,7 @@ import io.cucumber.java.en.When
 import org.openqa.selenium.By
 import br.com.zup.beagle.setup.DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
 import br.com.zup.beagle.utils.SwipeDirection
+import io.appium.java_client.MobileBy
 import io.appium.java_client.android.AndroidElement
 import io.appium.java_client.ios.IOSElement
 import org.junit.Assert
@@ -31,7 +32,7 @@ class ListViewScreenSteps : AbstractStep() {
 
     @Then("^listView with id (.*) should have exactly (.*) items$")
     fun checkListViewItemsCount(listViewId: String, expectedItemCount: Int) {
-        Assert.assertEquals(countChildrenOfListView(listViewId, horizontalScroll = true), expectedItemCount)
+        Assert.assertEquals(countAllChildrenOfListView(listViewId, horizontalScroll = true), expectedItemCount)
     }
 
     @Then("^listView with id (.*) should be in vertical orientation$")
@@ -60,20 +61,20 @@ class ListViewScreenSteps : AbstractStep() {
 
     @When("^I scroll listView with id (.*) to position (.*)$")
     fun scrollListViewToPosition(listViewId: String, position: Int) {
-//        ScreenRobot()
-//            .scrollListToPosition(
-//                listViewId.toAndroidId(),
-//                position,
-//            )
+        //        ScreenRobot()
+        //            .scrollListToPosition(
+        //                listViewId.toAndroidId(),
+        //                position,
+        //            )
     }
 
     @When("^I scroll listView with id (.*) to (.*) percent$")
     fun scrollListViewByPercent(listViewId: String, scrollPercent: Int) {
-//        ScreenRobot()
-//            .scrollListByPercent(
-//                listViewId.toAndroidId(),
-//                scrollPercent,
-//            )
+        //        ScreenRobot()
+        //            .scrollListByPercent(
+        //                listViewId.toAndroidId(),
+        //                scrollPercent,
+        //            )
     }
 
     @Then("^screen should show text: (.*)$")
@@ -88,32 +89,32 @@ class ListViewScreenSteps : AbstractStep() {
         expectedText: String,
     ) {
         val parsedText = transform(expectedText)
-//        ScreenRobot()
-//            .checkListViewItemContainsText(
-//                listViewId.toAndroidId(),
-//                listViewPosition,
-//                expectedText,
-//            )
+        //        ScreenRobot()
+        //            .checkListViewItemContainsText(
+        //                listViewId.toAndroidId(),
+        //                listViewPosition,
+        //                expectedText,
+        //            )
     }
 
     @Then("^listView with id (.*) at position (.*) should have a view with id (.*)$")
     fun checkListViewItemContainsViewWithId(listViewId: String, listViewPosition: Int, expectedViewId: String) {
-//        ScreenRobot()
-//            .checkListViewItemContainsViewWithId(
-//                listViewId.toAndroidId(),
-//                listViewPosition,
-//                expectedViewId.toAndroidId(),
-//            )
+        //        ScreenRobot()
+        //            .checkListViewItemContainsViewWithId(
+        //                listViewId.toAndroidId(),
+        //                listViewPosition,
+        //                expectedViewId.toAndroidId(),
+        //            )
     }
 
     @Then("^I click on view with id (.*) at position (.*) of listView with id (.*)$")
     fun clickOnTextInsideListViewItem(viewId: String, position: Int, listViewId: String) {
-//        ScreenRobot()
-//            .clickOnTextInsideListViewItem(
-//                listViewId.toAndroidId(),
-//                position,
-//                viewId.toAndroidId(),
-//            )
+        //        ScreenRobot()
+        //            .clickOnTextInsideListViewItem(
+        //                listViewId.toAndroidId(),
+        //                position,
+        //                viewId.toAndroidId(),
+        //            )
     }
 
     private fun isListViewHorizontal(listViewId: String): Boolean {
@@ -145,7 +146,8 @@ class ListViewScreenSteps : AbstractStep() {
             throw Exception("The given list contains only one element")
     }
 
-    private fun countChildrenOfListView(listViewId: String, horizontalScroll: Boolean): Int {
+    // Scrolls a given list to count all of its elements
+    private fun countAllChildrenOfListView(listViewId: String, horizontalScroll: Boolean): Int {
         val listViewElement = getListViewElement(listViewId)
         return when (listViewId) {
             "charactersList" -> countChildrenOfListViewCharactersList(
@@ -158,6 +160,9 @@ class ListViewScreenSteps : AbstractStep() {
         }
     }
 
+    /**
+     * Scrolls the list to count all of its elements
+     */
     private fun countChildrenOfListViewCharactersList(listViewElement: MobileElement, horizontalScroll: Boolean): Int {
         var childrenNames =
             LinkedHashSet(getChildrenNamesOfListViewCharactersList(listViewElement!!)) // ignores identical values
@@ -184,13 +189,19 @@ class ListViewScreenSteps : AbstractStep() {
 
         } while (lastChildName != childrenNamesTemp.last())
 
-        println(childrenNames)
+        // println(childrenNames)
         return childrenNames.size
     }
 
     private fun getListViewElement(listViewId: String): MobileElement? {
         if (SuiteSetup.isIos()) {
-            return waitForElementWithTextToBePresent(listViewId, false, true)
+            //return waitForElementWithTextToBePresent(listViewId, false, true)
+            return AppiumUtil.waitForElementToBePresent(
+                getDriver(),
+                MobileBy.id("charactersList"),
+                DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+            )
+
         } else {
             when (listViewId) {
                 "charactersList" -> {
@@ -231,21 +242,29 @@ class ListViewScreenSteps : AbstractStep() {
     private fun getContentOfChildOfListViewCharactersList(childElement: MobileElement): String? {
         var childElementText: String? = null
         if (SuiteSetup.isIos()) {
+            // name
             var element1 =
-                // .//XCUIElementTypeCell[.//XCUIElementTypeTextView//XCUIElementTypeOther//XCUIElementTypeTextView]
-                childElement.findElementByXPath("(.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeTextView)[1]") // name
+                (childElement as IOSElement).findElementByIosClassChain("**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView")
+            // book
             var element2 =
-                childElement.findElementByXPath("(.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeTextView)[2]") // book
+                (childElement as IOSElement).findElementByIosClassChain("**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView[2]")
+            // collection
+            var element3 =
+                (childElement as IOSElement).findElementByIosClassChain("**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView[3]")
 
-            childElementText =
-                (element1 as IOSElement).getAttribute("value") + "; " + (element2 as IOSElement).getAttribute("value")
+            childElementText = element1.text + ";" + element2.text + ";" + element3.text
         } else {
+            // name
             var element1 =
-                childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[1]") // name
+                childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
+            // book
             var element2 =
-                childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[2]") // book
+                childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[2]")
+            // collection
+            var element3 =
+                childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[3]")
 
-            childElementText = (element1 as AndroidElement).text + "; " + (element2 as AndroidElement).text
+            childElementText = element1.text + ";" + element2.text + ";" + element3.text
 
         }
         return childElementText

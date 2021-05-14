@@ -199,7 +199,7 @@ object AppiumUtil {
 
         IOSTouchAction(driver)
             .press(PointOption.point(originPoint.x, originPoint.y))
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(400)))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
             .moveTo(PointOption.point(destinationPoint)).perform()
 
     }
