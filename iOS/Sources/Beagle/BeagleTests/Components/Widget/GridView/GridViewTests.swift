@@ -70,6 +70,20 @@ class GridViewTests: XCTestCase {
         // Then
         assertSnapshotImage(view, size: imageSize)
     }
+    
+    func testeGridViewWithNumColumnsZero() {
+        // Given
+        let component = createGridView(
+            contextValue: contextDifferentSizes,
+            numColumns: 0
+        )
+        
+        // When
+        let view = renderGridView(component)
+
+        // Then
+        assertSnapshotImage(view, size: imageSize)
+    }
 }
 
 extension GridViewTests {
