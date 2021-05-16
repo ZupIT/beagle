@@ -28,7 +28,6 @@ import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
@@ -42,14 +41,13 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.net.URI
 
 @DisplayName("Given a BeagleViewModel")
 @ExperimentalCoroutinesApi
@@ -95,7 +93,7 @@ class BeagleViewModelTest : BaseTest() {
         @Suppress("UNCHECKED_CAST")
         fun testGivenAScreenRequestWhenFetchComponentShouldPostRenderViewState() {
             // Given
-            val screenRequest = RequestData(uri = URI(""), url = RandomData.httpUrl())
+            val screenRequest = RequestData(url = RandomData.httpUrl())
 
             // When
             beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
@@ -112,7 +110,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenAScreenRequestThrowsExceptionWhenFetchShouldPostAErrorViewState() {
             // Given
-            val screenRequest = RequestData(uri = URI(""), url = RandomData.httpUrl())
+            val screenRequest = RequestData(url = RandomData.httpUrl())
             val exception = BeagleException("Error")
             coEvery { componentRequester.fetchComponent(any()) } throws exception
 
@@ -131,7 +129,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenAScreenRequestThrowsExceptionWhenFetchShouldPostAErrorViewStateRetry() {
             // Given
-            val screenRequest = RequestData(uri = URI(""), url = RandomData.httpUrl())
+            val screenRequest = RequestData(url = RandomData.httpUrl())
             val exception = BeagleException("Error")
 
             coEvery { componentRequester.fetchComponent(any()) } throws exception andThen component
@@ -155,7 +153,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenAServerDrivenComponentWhenFetchComponentsCalledShouldPostViewStateDoRender() {
             //GIVEN
-            val screenRequest = RequestData(uri = URI(""), url = "")
+            val screenRequest = RequestData(url = "")
 
             //WHEN
             beagleUIViewModel.fetchComponent(screenRequest, component).observeForever(observer)
@@ -168,7 +166,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenAIdentifierComponentWhenFetchComponentsCalledShouldPostViewStateDoRender() {
             //GIVEN
-            val screenRequest = RequestData(uri = URI(""), url = "")
+            val screenRequest = RequestData(url = "")
             val component: IdentifierComponent = mockk()
             val id = "id"
             every { component.id } returns id
@@ -184,7 +182,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenANullScreenComponentWhenFetchComponentsCalledShouldPostViewStateDoRender() {
             //GIVEN
-            val screenRequest = RequestData(uri = URI(""), url = "url")
+            val screenRequest = RequestData(url = "url")
 
 
             //WHEN
@@ -200,7 +198,7 @@ class BeagleViewModelTest : BaseTest() {
             //GIVEN
             every { beagleSdk.config.baseUrl } returns "http://localhost:2020/"
 
-            val screenRequest = RequestData(uri = URI(""), url = "http://localhost:2020/test")
+            val screenRequest = RequestData(url = "http://localhost:2020/test")
 
             //WHEN
             beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
@@ -213,7 +211,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenAScreenComponentWhenFetchComponentCalledShouldPostViewStateDoRenderUsingIdentifierAsScreenId() {
             //Given
-            val screenRequest = RequestData(uri = URI(""), url = "")
+            val screenRequest = RequestData(url = "")
             val component: ScreenComponent = mockk()
             val id = "id"
             val identifier = "identifier"
@@ -251,7 +249,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenANullJobInFetchComponentLiveDataWhenIsFetchComponentCalledShouldReturnFalse() {
             //Given
-            val screenRequest = RequestData(uri = URI(""), url = "")
+            val screenRequest = RequestData(url = "")
 
             beagleUIViewModel.fetchComponent(screenRequest)
             beagleUIViewModel.fetchComponent?.job = null
@@ -267,7 +265,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenAJobCompletedInFetchComponentLiveDataWhenIsFetchComponentCalledShouldReturnFalse() {
             //Given
-            val screenRequest = RequestData(uri = URI(""), url = "")
+            val screenRequest = RequestData(url = "")
             val mockJob = Job()
             mockJob.complete()
 
@@ -285,7 +283,7 @@ class BeagleViewModelTest : BaseTest() {
         @Test
         fun testGivenAJobNotCompletedInFetchComponentLiveDataWhenIsFetchComponentCalledShouldPostViewStateDoCancelAndReturnTrue() {
             //Given
-            val screenRequest = RequestData(uri = URI(""), url = "")
+            val screenRequest = RequestData(url = "")
             val mockJob = Job()
 
             beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)

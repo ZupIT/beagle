@@ -28,13 +28,12 @@ import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import java.util.concurrent.atomic.AtomicReference
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.net.URI
+import java.util.concurrent.atomic.AtomicReference
 
 sealed class ViewState {
     data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
@@ -61,7 +60,7 @@ internal open class BeagleViewModel(
 
     fun fetchForCache(url: String) = viewModelScope.launch(ioDispatcher) {
         try {
-            componentRequester.fetchComponent(RequestData(url = url, uri = URI(url)))
+            componentRequester.fetchComponent(RequestData(url = url))
         } catch (exception: BeagleException) {
             BeagleLoggerProxy.warning(exception.message)
         }
@@ -91,7 +90,7 @@ internal open class BeagleViewModel(
         private fun fetchComponents() {
             job = coroutineScope.launch(ioDispatcher) {
                 val identifier = getComponentIdentifier()
-                if (requestData.url?.isNotEmpty() == true) {
+                if (requestData.url.isNotEmpty()) {
                     try {
                         setLoading(true)
                         val component = componentRequester.fetchComponent(requestData)

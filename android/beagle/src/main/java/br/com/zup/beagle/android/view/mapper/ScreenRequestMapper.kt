@@ -25,14 +25,16 @@ import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.ScreenMethod
 import br.com.zup.beagle.android.view.ScreenRequest
-import java.net.URI
 
 internal fun ScreenRequest.toRequestData(
     urlBuilder: UrlBuilder = UrlBuilderFactory().make(),
     beagleEnvironment: BeagleEnvironment = BeagleEnvironment,
 ): RequestData {
-    return ScreenRequestMapper.toRequestData(urlBuilder = urlBuilder,
-        beagleEnvironment = beagleEnvironment, screenRequest = this)
+    return ScreenRequestMapper.toRequestData(
+        urlBuilder = urlBuilder,
+        beagleEnvironment = beagleEnvironment,
+        screenRequest = this,
+    )
 }
 
 internal object ScreenRequestMapper {
@@ -45,11 +47,7 @@ internal object ScreenRequestMapper {
         val newUrl = screenRequest.url.formatUrl(urlBuilder, beagleEnvironment)
         val method = generateRequestDataMethod(screenRequest.method)
         return RequestData(
-            uri = URI(newUrl),
-            method = method,
-            headers = screenRequest.headers,
-            body = screenRequest.body,
-            url = newUrl ?: "",
+            url = newUrl,
             httpAdditionalData = HttpAdditionalData(
                 method = method,
                 headers = screenRequest.headers,

@@ -53,7 +53,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import java.net.URI
 
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
@@ -131,7 +130,7 @@ internal class BeagleViewTest : BaseTest() {
     @Test
     fun `Given a Beagle View When loadView with Request Data Then should call fetch component`() {
         // Given
-        val requestDataFake = RequestData(url = url, uri = URI(url))
+        val requestDataFake = RequestData(url = url)
 
         // when
         beagleView.loadView(requestDataFake)

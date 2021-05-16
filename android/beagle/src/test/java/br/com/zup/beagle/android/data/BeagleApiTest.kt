@@ -19,18 +19,18 @@ package br.com.zup.beagle.android.data
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpClient
+import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestCall
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
@@ -42,16 +42,16 @@ import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import java.net.URI
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import java.net.URI
 
 private val FINAL_URL = RandomData.string()
-private val REQUEST_DATA = RequestData(URI(""), url = FINAL_URL)
+private val REQUEST_DATA = RequestData(url = FINAL_URL)
 
 @DisplayName("Given a Beagle Api")
 @ExperimentalCoroutinesApi
@@ -151,6 +151,36 @@ class BeagleApiTest {
             checkFixedHeaders(requestDataSlot[0])
         }
 
+        @Test
+        @DisplayName("Then should replace all attributes with the given ones")
+        fun testAllAttributes() = runBlockingTest {
+            // Given
+            val headers = mapOf("key" to "value")
+            val body = RandomData.string()
+            val requestData = RequestData(
+                url = FINAL_URL,
+                httpAdditionalData = HttpAdditionalData(
+                    method = HttpMethod.POST,
+                    headers = headers,
+                    body = body,
+                )
+            )
+
+            // When
+            beagleApi.fetchData(requestData)
+
+            // Then
+            val convertedRequestData = requestDataSlot[0]
+            checkFixedHeaders(convertedRequestData)
+            assertEquals(FINAL_URL, convertedRequestData.url)
+            assertEquals(URI(FINAL_URL), convertedRequestData.uri)
+            assertEquals(headers["key"], convertedRequestData.headers["key"])
+            assertEquals(headers["key"], convertedRequestData.httpAdditionalData.headers["key"])
+            assertEquals(HttpMethod.POST, convertedRequestData.method)
+            assertEquals(HttpMethod.POST, convertedRequestData.httpAdditionalData.method)
+            assertEquals(body, convertedRequestData.body)
+            assertEquals(body, convertedRequestData.httpAdditionalData.body)
+        }
     }
 
     @DisplayName("When fetch data with error")
@@ -175,7 +205,6 @@ class BeagleApiTest {
             assertEquals(expectedException.message, exceptionThrown.message)
             verify(exactly = once()) { BeagleMessageLogs.logUnknownHttpError(expectedException) }
         }
-
     }
 
     private fun mockListenersAndExecuteHttpClient(executionLambda: (() -> Unit)? = null) {
@@ -198,7 +227,7 @@ class BeagleApiTest {
     private fun checkFixedHeaders(requestData: RequestData) {
         assertEquals(BeagleApi.APP_JSON, requestData.headers[BeagleApi.CONTENT_TYPE])
         assertEquals(BeagleApi.BEAGLE_PLATFORM_HEADER_VALUE, requestData.headers[BeagleApi.BEAGLE_PLATFORM_HEADER_KEY])
-        assertEquals(BeagleApi.APP_JSON, requestData.httpAdditionalData.headers!![BeagleApi.CONTENT_TYPE])
-        assertEquals(BeagleApi.BEAGLE_PLATFORM_HEADER_VALUE, requestData.httpAdditionalData.headers!![BeagleApi.BEAGLE_PLATFORM_HEADER_KEY])
+        assertEquals(BeagleApi.APP_JSON, requestData.httpAdditionalData.headers[BeagleApi.CONTENT_TYPE])
+        assertEquals(BeagleApi.BEAGLE_PLATFORM_HEADER_VALUE, requestData.httpAdditionalData.headers[BeagleApi.BEAGLE_PLATFORM_HEADER_KEY])
     }
 }

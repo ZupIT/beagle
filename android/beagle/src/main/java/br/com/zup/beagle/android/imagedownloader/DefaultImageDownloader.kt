@@ -36,7 +36,8 @@ internal class DefaultImageDownloader : BeagleImageDownloader {
         imageView.post {
             rootView.getLifecycleOwner().lifecycleScope.launch(CoroutineDispatchers.IO) {
                 val bitmap = try {
-                    imageDownloader.getRemoteImage(url.formatUrl() ?: url, imageView.width, imageView.height)
+                    val formattedUrl = url.formatUrl().takeIf { it.isNotEmpty() } ?: url
+                    imageDownloader.getRemoteImage(formattedUrl, imageView.width, imageView.height)
                 } catch (e: Exception) {
                     BeagleMessageLogs.errorWhileTryingToDownloadImage(url, e)
                     null
