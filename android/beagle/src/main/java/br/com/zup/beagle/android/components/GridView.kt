@@ -41,7 +41,7 @@ import br.com.zup.beagle.widget.core.ListDirection
  * @param numColumns Defines how many columns to show.
  */
 @RegisterWidget("gridView")
-data class GridView constructor(
+data class GridView(
     override val context: ContextData? = null,
     val onInit: List<Action>? = null,
     val dataSource: Bind<List<Any>>? = null,
