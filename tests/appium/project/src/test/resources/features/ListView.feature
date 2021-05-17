@@ -17,32 +17,77 @@
 @listView @android @ios
 Feature: ListView Component Validation
 
-    As a Beagle developer/user
-    I'd like to make sure my listView component works as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my listView component works as expected
+  In order to guarantee that my application never fails
 
-    Background:
-        Given that I'm on the listView screen
+  Background:
+    Given that I'm on the listView screen
+        
+    # --------------------------------------------------------------------------------------------------    
+    # ListView charactersList: horizontal with pagination and custom iteratorName    
+    # --------------------------------------------------------------------------------------------------
 
-  # First ListView: characters: horizontal with pagination and custom iteratorName
+  Scenario: ListView 01 - Characters ListView on pagination 1
+    When I scroll left the listView with id charactersList on pagination 1
+    Then the listView with id charactersList on pagination 1 should have exactly 4 items
+    And  the screen should show text: status: read
+    And  the screen should show text: 1/2
 
-    Scenario: ListView 01 - Characters ListView
-        Then listView with id charactersList should have exactly 34 items
-        And screen should show text: 1/2
-        And listView with id charactersList should be in horizontal orientation
+  Scenario Outline: ListView 02 - Characters ListView on page 1: item by item
+    When the listView with id charactersList on pagination 1 has value at position <position>
+    Then the listView with id charactersList on pagination 1, at position <position>, should show text <name>, book <book> and collection <collection>
+    Examples:
+      | position | name             | book                   | collection                 |
+      | 0        | Name: Vin        | Book: The Final Empire | Collection: Mistborn Era 1 |
+      | 1        | Name: Kelsier    | Book: The Final Empire | Collection: Mistborn Era 1 |
+      | 2        | Name: Lord Ruler | Book: The Final Empire | Collection: Mistborn Era 1 |
+      | 3        | Name: Sazed      | Book: The Final Empire | Collection: Mistborn Era 1 |
 
-    Scenario: ListView 02 - Characters ListView: going from page 1 to 2
-        When I click on button next
-        Then screen should show text: 2/2
-        And listView with id charactersList should have exactly 33 items
-        And listView with id charactersList should be in horizontal orientation
+  Scenario: ListView 03 - Characters ListView on pagination 2
+    When I click on button next
+    And  I scroll left the listView with id charactersList on pagination 2
+    Then the listView with id charactersList on pagination 2 should have exactly 4 items
+    And  the screen should show text: status: read
+    And  the screen should show text: 2/2
 
-    Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
-        When I click on button next
-        And I click on button prev
-        And screen should show text: 1/2
-        Then listView with id charactersList should have exactly 34 items
-        And listView with id charactersList should be in horizontal orientation
+  Scenario Outline: ListView 04 - Characters ListView on page 2: item by item
+    When the listView with id charactersList on pagination 2 has value at position <position>
+    Then the listView with id charactersList on pagination 2, at position <position>, should show text <name>, book <book> and collection <collection>
+    Examples:
+      | position | name                    | book                                           | collection               |
+      | 0        | Name: Dumbledore        | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter |
+      | 1        | Name: Spensa Nightshade | Book: Starsight                                | Collection: Skyward      |
+      | 2        | Name: Jorgen Weight     | Book: Starsight                                | Collection: Skyward      |
+      | 3        | Name: Admiral Cobb      | Book: Starsight                                | Collection: Skyward      |
+
+  Scenario: ListView 05 - Characters ListView: going back from page 2 to 1
+    When I click on button next
+    And I click on button prev
+    Then the screen should show text: 1/2
+    And the listView with id charactersList should be on pagination 1 
+  # up: compare the cache with the first vale of the list by retriving it on the screen
+
+    
+#  # First ListView: characters: horizontal with pagination and custom iteratorName
+#
+#    Scenario: ListView 01 - Characters ListView
+#        Then listView with id charactersList should have exactly 4 items
+#        And the screen should show text: 1/2
+#        And listView with id charactersList should be in horizontal orientation
+#
+#    Scenario: ListView 02 - Characters ListView: going from page 1 to 2
+#        When I click on button next
+#        Then the screen should show text: 2/2
+#        And listView with id charactersList should have exactly 4 items
+#        And listView with id charactersList should be in horizontal orientation
+#
+#    Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
+#        When I click on button next
+#        And I click on button prev
+#        And the screen should show text: 1/2
+#        Then listView with id charactersList should have exactly 4 items
+#        And listView with id charactersList should be in horizontal orientation
 
 #
 #    Scenario Outline: ListView 04 - Characters ListView: page 1 item by item
@@ -89,7 +134,7 @@ Feature: ListView Component Validation
 #    Scenario Outline: ListView 05 - Characters ListView: page 2 item by item
 #        When I click on button next
 #        And I scroll listView with id charactersList to position <position>
-#        Then screen should show text: 2/2
+#        Then the screen should show text: 2/2
 #        And listView with id charactersList at position <position> should show text: <name>
 #        And listView with id charactersList at position <position> should show text: <book>
 #        And listView with id charactersList at position <position> should show text: <collection>
@@ -132,7 +177,7 @@ Feature: ListView Component Validation
 #
 #    Scenario: ListView 06 - Characters ListView: read status
 #        When I scroll listView with id charactersList to position 34
-#        Then screen should show text: status: read
+#        Then the screen should show text: status: read
 #
 ##  # Second ListView: categories: nested with three levels:
 ##  # 1. Categories: vertical with fixed height.
@@ -247,7 +292,7 @@ Feature: ListView Component Validation
 #    Scenario: ListView 11 - Books ListView (infinite scroll): check onInit calls
 #        When I scroll to view with id booksList
 #        And I scroll listView with id booksList to position 5
-#        Then screen should show text: Books List View (infinite scroll): 5 items initialized
+#        Then the screen should show text: Books List View (infinite scroll): 5 items initialized
 #
 #    Scenario: ListView 12 - Books ListView (infinite scroll): second set of books: scroll lower than 80% (threshold)
 #        When I scroll to view with id booksList
@@ -263,7 +308,7 @@ Feature: ListView Component Validation
 #        When I scroll to view with id booksList
 #        And I scroll listView with id booksList to position 5
 #        And I scroll listView with id booksList to position 10
-#        Then screen should show text: Books List View (infinite scroll): 10 items initialized
+#        Then the screen should show text: Books List View (infinite scroll): 10 items initialized
 #
 #   # In this test we scroll the list up to 81 percent, to fetch books data source second page
 #   # then we scroll the new concatenated list up to 70 percent.

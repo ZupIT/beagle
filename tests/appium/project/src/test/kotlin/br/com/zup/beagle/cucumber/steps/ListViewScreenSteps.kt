@@ -77,7 +77,7 @@ class ListViewScreenSteps : AbstractStep() {
         //            )
     }
 
-    @Then("^screen should show text: (.*)$")
+    @Then("^the screen should show text: (.*)$")
     fun checkScreenDisplaysText(expectedText: String) {
         waitForElementWithTextToBeClickable(expectedText, likeSearch = false, ignoreCase = false)
     }
