@@ -34,7 +34,7 @@ import br.com.zup.beagle.widget.context.ContextData
  * @param iteratorName is the context identifier of each cell.
  * @param key points to a unique value present in each dataSource item
  * used as a suffix in the component ids within the Widget.
- * @param numColumns Defines how many columns to show..
+ * @param numColumns Defines how many columns to show.
  */
 data class GridView(
     override val context: ContextData? = null,
