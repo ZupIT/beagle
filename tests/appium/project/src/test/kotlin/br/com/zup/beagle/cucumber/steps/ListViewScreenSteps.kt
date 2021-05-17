@@ -64,7 +64,7 @@ class ListViewScreenSteps : AbstractStep() {
 
     @Then("^the listView with id charactersList on pagination 1, at position (.*), should show text (.*), book (.*) and collection (.*)$")
     fun checkListViewCharactersListChildValuesPage1(listIndex: Int, name: String, book: String, collection: String){
-        val childText = charactersListPage1.toList()[listIndex].split(":")
+        val childText = charactersListPage1.toList()[listIndex].split(";")
         Assert.assertEquals(name, childText[0])
         Assert.assertEquals(book, childText[1])
         Assert.assertEquals(collection, childText[2])
@@ -78,7 +78,7 @@ class ListViewScreenSteps : AbstractStep() {
 
     @Then("^the listView with id charactersList on pagination 2, at position (.*), should show text (.*), book (.*) and collection (.*)$")
     fun checkListViewCharactersListChildValuesPage2(listIndex: Int, name: String, book: String, collection: String){
-        val childText = charactersListPage2.toList()[listIndex].split(":")
+        val childText = charactersListPage2.toList()[listIndex].split(";")
         Assert.assertEquals(name, childText[0])
         Assert.assertEquals(book, childText[1])
         Assert.assertEquals(collection, childText[2])
