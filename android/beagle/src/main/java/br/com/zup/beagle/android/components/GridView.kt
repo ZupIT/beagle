@@ -38,7 +38,7 @@ import br.com.zup.beagle.widget.core.ListDirection
  * @param iteratorName is the context identifier of each cell.
  * @param key points to a unique value present in each dataSource item
  * used as a suffix in the component ids within the Widget.
- * @param numColumns number of columns you will have in your gridview.
+ * @param numColumns Defines how many columns to show.
  */
 @RegisterWidget("gridView")
 data class GridView constructor(
