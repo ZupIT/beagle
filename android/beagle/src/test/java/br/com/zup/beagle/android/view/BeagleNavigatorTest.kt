@@ -34,21 +34,26 @@ import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
-import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderDefault
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
-import br.com.zup.beagle.android.widget.RootView
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
+import io.mockk.verifyOrder
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
-import java.net.URI
+import org.junit.jupiter.api.Test
 
 private val route = Route.Remote(RandomData.httpUrl())
 private val url = RandomData.httpUrl()
@@ -220,7 +225,7 @@ class BeagleNavigatorTest : BaseTest() {
             // Given
             val url = (route.url.value as String).formatUrl()
 
-            val requestData = RequestData(url = url, uri = URI(url))
+            val requestData = RequestData(url = url)
             every { context.navigateTo(requestData, null) } just Runs
 
             // When

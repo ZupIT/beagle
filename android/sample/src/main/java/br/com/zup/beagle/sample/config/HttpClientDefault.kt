@@ -80,19 +80,18 @@ class HttpClientDefault : HttpClient, CoroutineScope {
 
         try {
             val uri = URI(request.url)
-
             urlConnection = uri.toURL().openConnection() as HttpURLConnection
         } catch (e: Exception) {
             throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
         }
         
-        request.httpAdditionalData.headers?.forEach {
+        request.httpAdditionalData.headers.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
         }
 
-        addRequestMethod(urlConnection, request.method)
+        addRequestMethod(urlConnection, request.httpAdditionalData.method)
 
-        val body = request.httpAdditionalData?.body ?: request.body
+        val body = request.httpAdditionalData.body
         if (body != null) {
             setRequestBody(urlConnection, request)
         }
@@ -128,9 +127,9 @@ class HttpClientDefault : HttpClient, CoroutineScope {
     }
 
     private fun setRequestBody(urlConnection: HttpURLConnection, request: RequestData) {
-        urlConnection.setRequestProperty("Content-Length", request.body?.length.toString())
+        urlConnection.setRequestProperty("Content-Length", request.httpAdditionalData.body?.length.toString())
         try {
-            urlConnection.outputStream.write(request.body?.toByteArray())
+            urlConnection.outputStream.write(request.httpAdditionalData.body?.toByteArray())
         } catch (e: Exception) {
             throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
         }
