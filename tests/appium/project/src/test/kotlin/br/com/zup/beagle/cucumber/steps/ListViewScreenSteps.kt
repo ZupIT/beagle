@@ -11,14 +11,20 @@ import org.openqa.selenium.By
 import br.com.zup.beagle.setup.DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
 import br.com.zup.beagle.utils.SwipeDirection
 import io.appium.java_client.MobileBy
-import io.appium.java_client.android.AndroidElement
 import io.appium.java_client.ios.IOSElement
+import io.cucumber.java.en.And
 import org.junit.Assert
 import java.util.LinkedHashSet
 
 class ListViewScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = "/listview"
+
+    companion object{
+        val charactersListPage1 = LinkedHashSet<String>()
+        val charactersListPage2 = LinkedHashSet<String>()
+    }
+
 
     @Before("@listView")
     fun setup() {
@@ -30,9 +36,68 @@ class ListViewScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable("Beagle ListView", likeSearch = false, ignoreCase = true)
     }
 
+    @When("^I scroll left the listView with id charactersList on pagination 1$")
+    fun cacheCharacterListPage1(){
+        charactersListPage1.addAll(getAllChildrenNamesOfListView("charactersList", horizontalScroll = true)!!)
+    }
+
+    @Then("^the listView with id charactersList on pagination 1 should have exactly (.*) items$")
+    fun countListViewCharactersListPage1(expectedItemCount: Int) {
+        Assert.assertEquals(charactersListPage1.size, expectedItemCount)
+    }
+
+    @When("^I scroll left the listView with id charactersList on pagination 2$")
+    fun cacheCharacterListPage2(){
+        charactersListPage2.addAll(getAllChildrenNamesOfListView("charactersList", horizontalScroll = true)!!)
+    }
+
+    @Then("^the listView with id charactersList on pagination 2 should have exactly (.*) items$")
+    fun countListViewCharactersListPage2(expectedItemCount: Int) {
+        Assert.assertEquals(charactersListPage2.size, expectedItemCount)
+    }
+
+    @When("^the listView with id charactersList on pagination 1 has some value at position (.*)$")
+    fun checkValueNotNullAtListViewCharactersListPage1(listIndex: Int){
+        Assert.assertTrue(listIndex < charactersListPage1.size)
+        Assert.assertNotNull(charactersListPage1.toList()[listIndex])
+    }
+
+    @Then("^the listView with id charactersList on pagination 1, at position (.*), should show text (.*), book (.*) and collection (.*)$")
+    fun checkListViewCharactersListChildValuesPage1(listIndex: Int, name: String, book: String, collection: String){
+        val childText = charactersListPage1.toList()[listIndex].split(":")
+        Assert.assertEquals(name, childText[0])
+        Assert.assertEquals(book, childText[1])
+        Assert.assertEquals(collection, childText[2])
+    }
+
+    @When("^the listView with id charactersList on pagination 2 has some value at position (.*)$")
+    fun checkValueNotNullAtListViewCharactersListPage2(listIndex: Int){
+        Assert.assertTrue(listIndex < charactersListPage2.size)
+        Assert.assertNotNull(charactersListPage2.toList()[listIndex])
+    }
+
+    @Then("^the listView with id charactersList on pagination 2, at position (.*), should show text (.*), book (.*) and collection (.*)$")
+    fun checkListViewCharactersListChildValuesPage2(listIndex: Int, name: String, book: String, collection: String){
+        val childText = charactersListPage2.toList()[listIndex].split(":")
+        Assert.assertEquals(name, childText[0])
+        Assert.assertEquals(book, childText[1])
+        Assert.assertEquals(collection, childText[2])
+    }
+
+    @And("^the listView with id charactersList should be on pagination 1 $")
+    fun checkIfListViewCharactersListIsInPage1(){
+        var currentFirstChildText = getContentOfChildOfListViewCharactersList(getFirstChildOfListView(getListViewElement("charactersList")!!))
+        Assert.assertEquals(charactersListPage1.toList()[0], currentFirstChildText)
+    }
+
+
+
+    // --------- OLD STEPS
+
+
     @Then("^listView with id (.*) should have exactly (.*) items$")
     fun checkListViewItemsCount(listViewId: String, expectedItemCount: Int) {
-        Assert.assertEquals(countAllChildrenOfListView(listViewId, horizontalScroll = true), expectedItemCount)
+        // Assert.assertEquals(countAllChildrenOfListView(listViewId, horizontalScroll = true), expectedItemCount)
     }
 
     @Then("^listView with id (.*) should be in vertical orientation$")
@@ -117,7 +182,7 @@ class ListViewScreenSteps : AbstractStep() {
         //            )
     }
 
-    private fun isListViewHorizontal(listViewId: String): Boolean {
+     fun isListViewHorizontal(listViewId: String): Boolean {
         val listViewElement = getListViewElement(listViewId)
         return when (listViewId) {
             "charactersList" -> isListViewCharactersListHorizontal(listViewElement!!)
@@ -147,30 +212,30 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
     // Scrolls a given list to count all of its elements
-    private fun countAllChildrenOfListView(listViewId: String, horizontalScroll: Boolean): Int {
+    private fun getAllChildrenNamesOfListView(listViewId: String, horizontalScroll: Boolean): Collection<String>? {
         val listViewElement = getListViewElement(listViewId)
         return when (listViewId) {
-            "charactersList" -> countChildrenOfListViewCharactersList(
+            "charactersList" -> getAllChildrenNamesOfListViewCharactersList(
                 listViewElement!!,
                 horizontalScroll = horizontalScroll
             )
             else -> {
-                0
+                null
             }
         }
     }
 
     /**
-     * Scrolls the list to count all of its elements
+     * Scrolls the list of id charactersList to read all of its elements and return them
      */
-    private fun countChildrenOfListViewCharactersList(listViewElement: MobileElement, horizontalScroll: Boolean): Int {
+    private fun getAllChildrenNamesOfListViewCharactersList(listViewElement: MobileElement, horizontalScroll: Boolean): Collection<String>? {
         var childrenNames =
             LinkedHashSet(getChildrenNamesOfListViewCharactersList(listViewElement!!)) // ignores identical values
         var lastChildElement: MobileElement
         var lastChildName = ""
 
         if (childrenNames.isEmpty())
-            return 0
+            return null
 
         var childrenNamesTemp: List<String> = mutableListOf()
         do {
@@ -189,8 +254,7 @@ class ListViewScreenSteps : AbstractStep() {
 
         } while (lastChildName != childrenNamesTemp.last())
 
-        // println(childrenNames)
-        return childrenNames.size
+        return childrenNames
     }
 
     private fun getListViewElement(listViewId: String): MobileElement? {

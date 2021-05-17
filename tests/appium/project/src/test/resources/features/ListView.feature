@@ -35,7 +35,7 @@ Feature: ListView Component Validation
     And  the screen should show text: 1/2
 
   Scenario Outline: ListView 02 - Characters ListView on page 1: item by item
-    When the listView with id charactersList on pagination 1 has value at position <position>
+    When the listView with id charactersList on pagination 1 has some value at position <position>
     Then the listView with id charactersList on pagination 1, at position <position>, should show text <name>, book <book> and collection <collection>
     Examples:
       | position | name             | book                   | collection                 |
@@ -52,7 +52,7 @@ Feature: ListView Component Validation
     And  the screen should show text: 2/2
 
   Scenario Outline: ListView 04 - Characters ListView on page 2: item by item
-    When the listView with id charactersList on pagination 2 has value at position <position>
+    When the listView with id charactersList on pagination 2 has some value at position <position>
     Then the listView with id charactersList on pagination 2, at position <position>, should show text <name>, book <book> and collection <collection>
     Examples:
       | position | name                    | book                                           | collection               |
@@ -66,7 +66,6 @@ Feature: ListView Component Validation
     And I click on button prev
     Then the screen should show text: 1/2
     And the listView with id charactersList should be on pagination 1 
-  # up: compare the cache with the first vale of the list by retriving it on the screen
 
     
 #  # First ListView: characters: horizontal with pagination and custom iteratorName
