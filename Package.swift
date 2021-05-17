@@ -25,10 +25,12 @@ let package = Package(
     .iOS(.v10)
   ],
   products: [
-    .library(name: "Beagle", targets: ["Beagle"])
+    .library(name: "Beagle", targets: ["Beagle"]),
+    .library(name: "BeaglePreview", targets: ["BeaglePreview"])
   ],
   dependencies: [
     .package(url: "https://github.com/ZupIT/yoga.git", from: "1.19.0"),
+    .package(url: "https://github.com/daltoniam/Starscream.git", from: "4.0.4"),
   ],
   targets: [
     .target(
@@ -36,6 +38,11 @@ let package = Package(
       dependencies: ["YogaKit"],
       path: "iOS/Sources/Beagle",
       exclude: ["BeagleTests"]
+    ),
+    .target(
+      name: "BeaglePreview",
+      dependencies: ["Beagle", "Starscream"],
+      path: "iOS/Sources/Preview"
     )
   ]
 )
