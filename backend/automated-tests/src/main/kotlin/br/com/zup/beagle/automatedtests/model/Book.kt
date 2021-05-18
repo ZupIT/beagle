@@ -55,14 +55,14 @@ data class Book(
                     book = Book(title = "Words of Radiance", author = "Brandon Sanderson")
                     bookList.add(book)
 
-//                    book = Book(title = "Shadows Rising", author = "Madeleine Roux")
-//                    bookList.add(book)
-//
-//                    book = Book(title = "Before the Storm", author = "Christie Golden")
-//                    bookList.add(book)
-//
-//                    book = Book(title = "Harry Potter and the Philosopher's Stone", author = "J. K. Rowling")
-//                    bookList.add(book)
+                    book = Book(title = "Shadows Rising", author = "Madeleine Roux")
+                    bookList.add(book)
+
+                    book = Book(title = "Before the Storm", author = "Christie Golden")
+                    bookList.add(book)
+
+                    book = Book(title = "Harry Potter and the Philosopher's Stone", author = "J. K. Rowling")
+                    bookList.add(book)
                 }
                 "Sci-fi" -> {
                     var book = Book(title = "Starsight", author = "Brandon Sanderson")
