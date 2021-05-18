@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
+/// The LazyComponent is used when an asynchronous BFF request is made. An initialState view is set on this component.
+/// It works like a loading component or a default picture that is set until the request is fulfilled.
  public struct LazyComponent: ServerDrivenComponent, AutoInitiableAndDecodable {
     
-    // MARK: - Public Properties
-    
+    /// The URL to make the request.
     public let path: String
+    
+    /// Defines a ServerDrivenComponent that is set to be on view while the asynchronous request made is being fulfilled.
     public let initialState: ServerDrivenComponent
 
 // sourcery:inline:auto:LazyComponent.Init

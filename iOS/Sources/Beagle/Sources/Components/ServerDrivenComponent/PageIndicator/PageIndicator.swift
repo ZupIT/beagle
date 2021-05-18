@@ -12,13 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
+/// The PageIndicator is a component to be used with PageView to sinalize the page selected.
 public class PageIndicator: PageIndicatorComponent, AutoInitiable {
-
+    
+    /// Configures the color of the selected dot. Must be filled as HEX (Hexadecimal).
     public var selectedColor: String?
+    
+    /// Configures the color of the unselected dots. Must be filled as HEX (Hexadecimal).
     public var unselectedColor: String?
+    
+    /// Numbers of pages of the PageView.
     public var numberOfPages: Int?
+    
+    /// Integer number that identifies the page selected.
     public var currentPage: Expression<Int>?
 
 // sourcery:inline:auto:PageIndicator.Init

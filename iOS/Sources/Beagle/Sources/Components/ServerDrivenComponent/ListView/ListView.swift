@@ -14,18 +14,40 @@
  * limitations under the License.
  */
 
+/// ListView is a Layout component that will define a list of views natively. These views could be any ServerDrivenComponent.
 public struct ListView: Widget, HasContext, InitiableComponent {
     
+    /// Defines the context of the component.
     public var context: Context?
+    
+    /// Allows to define a list of actions to be performed when the ListView is displayed.
     public let onInit: [Action]?
+    
+    /// It's an expression that points to a list of values used to populate the ListView.
     public let dataSource: Expression<[DynamicObject]>
+    
+    /// Points to a unique value present in each dataSource item used as a suffix in the component ids within the ListView.
     public let key: String?
+    
+    /// Defines the list direction.
     public let direction: Direction?
+    
+    /// Represents each cell in the list through a ServerDrivenComponent.
     public let template: ServerDrivenComponent
+    
+    /// Is the context identifier of each cell.
     public let iteratorName: String?
+    
+    /// List of actions performed when the list is scrolled to the end.
     public let onScrollEnd: [Action]?
+    
+    /// Sets the scrolled percentage of the list to trigger onScrollEnd.
     public let scrollEndThreshold: Int?
+    
+    /// This attribute enables or disables the scroll indicator.
     public let isScrollIndicatorVisible: Bool?
+    
+    /// Properties that all widgets have in common.
     public var widgetProperties: WidgetProperties
     
     public init(
@@ -65,6 +87,11 @@ public struct ListView: Widget, HasContext, InitiableComponent {
         return "__list_\(Int.random(in: 0...Int.max))"
     }
 
+    
+    /// Creates a list with content of the children. Deprecated: use the dataSource and template instead of children.
+    /// - Parameters:
+    ///   - children: Defines each cell of the ListView.
+    ///   - direction: Defines the list direction.
     @available(*, deprecated, message: "use the dataSource and template instead of children")
     public init(
         children: [ServerDrivenComponent]? = nil,

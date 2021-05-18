@@ -14,15 +14,28 @@
  * limitations under the License.
  */
 
-/// Action that represents confirm
+/// This action will show alert natively, such as an error alert indicating alternative flows, business system errors and others.
 public struct Confirm: AnalyticsAction, AutoInitiableAndDecodable {
     
+    /// Defines the title on the alert.
     public let title: Expression<String>?
+    
+    /// Defines the alert message.
     public let message: Expression<String>
+    
+    /// Defines action of button positive in alert.
     public let onPressOk: Action?
+    
+    /// Defines action of button negative in alert.
     public let onPressCancel: Action?
+    
+    /// Defines text of button positive in alert.
     public let labelOk: String?
+    
+    /// define text of button negative in alert.
     public let labelCancel: String?
+    
+    /// Defines a analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:Confirm.Init
