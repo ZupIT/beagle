@@ -31,16 +31,17 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 
 class ImageViewFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val declarative = Screen(
             child = Container(
                 children = listOf(
                     Image(
                         path = ImagePath.Remote(
-                            "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png",
+                            url = "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png",
                             placeholder = ImagePath.Local("imageBeagle")
                         )
                     ),

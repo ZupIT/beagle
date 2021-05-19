@@ -89,7 +89,7 @@ internal class ImageTest : BaseComponentTest() {
         @Test
         @DisplayName("Then it should return a imageView if imagePath is remote")
         fun testsIfViewIsBuiltAsImageViewWhenImagePathIsRemote() {
-            //Given
+            // Given
             imageRemote = Image(ImagePath.Remote(""))
 
             // When
@@ -97,7 +97,32 @@ internal class ImageTest : BaseComponentTest() {
 
             // Then
             assertTrue(view is ImageView)
-            verify (exactly = 1) { (view as ImageView).setImageDrawable(null)  }
+        }
+
+        @Test
+        @DisplayName("Then it should clear drawable if placeholder is null")
+        fun testsIfClearDrawableWhenPlaceholderIsNull() {
+            // Given
+            imageRemote = Image(ImagePath.Remote(url = ""))
+
+            // When
+            val view = imageRemote.buildView(rootView)
+
+            // Then
+            verify(exactly = 1) { (view as ImageView).setImageDrawable(null) }
+        }
+
+        @Test
+        @DisplayName("Then it should not clear drawable with placeholder")
+        fun testsIfDrawableNullWasNotCalledWithPlaceholder() {
+            // Given
+            imageRemote = Image(ImagePath.Remote(url = "", placeholder = ImagePath.Local("imageName")))
+
+            // When
+            val view = imageRemote.buildView(rootView)
+
+            // Then
+            verify(exactly = 0) { (view as ImageView).setImageDrawable(null) }
         }
     }
 
@@ -175,7 +200,7 @@ internal class ImageTest : BaseComponentTest() {
             imageRemote.buildView(rootView)
 
             // Then
-            verify(exactly = 1) { imageView.setImageResource(IMAGE_RES) }
+            verify(atLeast = 1) { imageView.setImageResource(IMAGE_RES) }
         }
 
         @Test
