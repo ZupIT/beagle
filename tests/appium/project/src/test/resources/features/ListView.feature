@@ -30,52 +30,102 @@ Feature: ListView Component Validation
 
   Scenario: ListView 01 - Characters ListView on pagination 1
     When I scroll left the listView with id charactersList on pagination 1
-    Then the listView with id charactersList on pagination 1 should have exactly 4 items
+    Then the listView with id charactersList on pagination 1 should have exactly 34 items
     And  the screen should show text: status: read
     And  the screen should show text: 1/2
+    And  the values of the listView with id charactersList on pagination 1 should be:
+      | Name: Vin                     | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+      | Name: Kelsier                 | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+      | Name: Lord Ruler              | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+      | Name: Sazed                   | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+      | Name: Elend Venture           | Book: The Final Empire                         | Collection: Mistborn Era 1         |
+      | Name: Waxillium "Wax" Ladrian | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+      | Name: Wayne                   | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+      | Name: Marasi Colms            | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+      | Name: Steris Harms            | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+      | Name: Miles Dagouter          | Book: The Alloy of Law                         | Collection: Mistborn Era 2         |
+      | Name: Eddard "Ned" Stark      | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+      | Name: Catelyn Stark           | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+      | Name: Sansa Stark             | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+      | Name: Arya Stark              | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+      | Name: Bran Stark              | Book: A Game of Thrones                        | Collection: A Song of Ice and Fire |
+      | Name: Szeth-son-son-Vallano   | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+      | Name: Shallan Davar           | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+      | Name: Kaladin                 | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+      | Name: Dalinar Kholin          | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+      | Name: Adolin Kholin           | Book: Words of Radiance                        | Collection: The Stormlight Archive |
+      | Name: Talanji                 | Book: Shadows Rising                           | Collection: World of Warcraft      |
+      | Name: Zekhan                  | Book: Shadows Rising                           | Collection: World of Warcraft      |
+      | Name: Anduin Wrynn            | Book: Shadows Rising                           | Collection: World of Warcraft      |
+      | Name: Turalyon                | Book: Shadows Rising                           | Collection: World of Warcraft      |
+      | Name: Aleria Windrunner       | Book: Shadows Rising                           | Collection: World of Warcraft      |
+      | Name: Anduin Wrynn            | Book: Before the Storm                         | Collection: World of Warcraft      |
+      | Name: Sylvanas Windrunner     | Book: Before the Storm                         | Collection: World of Warcraft      |
+      | Name: Grizzek Fizzwrench      | Book: Before the Storm                         | Collection: World of Warcraft      |
+      | Name: Sapphronetta Flivvers   | Book: Before the Storm                         | Collection: World of Warcraft      |
+      | Name: Calia Menethil          | Book: Before the Storm                         | Collection: World of Warcraft      |
+      | Name: Harry Potter            | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
+      | Name: Ronald Weasley          | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
+      | Name: Hermione Granger        | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
+      | Name: Rúbeo Hagrid            | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter           |
 
-  Scenario Outline: ListView 02 - Characters ListView on page 1: item by item
-    When the listView with id charactersList on pagination 1 has some value at position <position>
-    Then the listView with id charactersList on pagination 1, at position <position>, should show text <name>, book <book> and collection <collection>
-    Examples:
-      | position | name             | book                   | collection                 |
-      | 0        | Name: Vin        | Book: The Final Empire | Collection: Mistborn Era 1 |
-      | 1        | Name: Kelsier    | Book: The Final Empire | Collection: Mistborn Era 1 |
-      | 2        | Name: Lord Ruler | Book: The Final Empire | Collection: Mistborn Era 1 |
-      | 3        | Name: Sazed      | Book: The Final Empire | Collection: Mistborn Era 1 |
 
-  Scenario: ListView 03 - Characters ListView on pagination 2
+  Scenario: ListView 02 - Characters ListView on pagination 2
     When I click on button next
     And  I scroll left the listView with id charactersList on pagination 2
-    Then the listView with id charactersList on pagination 2 should have exactly 4 items
+    Then the listView with id charactersList on pagination 2 should have exactly 33 items
     And  the screen should show text: status: read
     And  the screen should show text: 2/2
+    And  the values of the listView with id charactersList on pagination 2 should be:
+      | Name: Dumbledore             | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter        |
+      | Name: Spensa Nightshade      | Book: Starsight                                | Collection: Skyward             |
+      | Name: Jorgen Weight          | Book: Starsight                                | Collection: Skyward             |
+      | Name: Admiral Cobb           | Book: Starsight                                | Collection: Skyward             |
+      | Name: M-Bot                  | Book: Starsight                                | Collection: Skyward             |
+      | Name: Alanik                 | Book: Starsight                                | Collection: Skyward             |
+      | Name: Bob                    | Book: Heaven's River                           | Collection: Bobiverse           |
+      | Name: Brigit                 | Book: Heaven's River                           | Collection: Bobiverse           |
+      | Name: Bender                 | Book: Heaven's River                           | Collection: Bobiverse           |
+      | Name: Howard                 | Book: Heaven's River                           | Collection: Bobiverse           |
+      | Name: Juliette Andromeda Mao | Book: Leviathan Wakes                          | Collection: The Expanse         |
+      | Name: James Holden           | Book: Leviathan Wakes                          | Collection: The Expanse         |
+      | Name: Naomi Nagata           | Book: Leviathan Wakes                          | Collection: The Expanse         |
+      | Name: Amos Burton            | Book: Leviathan Wakes                          | Collection: The Expanse         |
+      | Name: Shed Garvey            | Book: Leviathan Wakes                          | Collection: The Expanse         |
+      | Name: Paul Atreides          | Book: Dune                                     | Collection: Dune                |
+      | Name: Duke Leto Atreides     | Book: Dune                                     | Collection: Dune                |
+      | Name: Lady Jessica           | Book: Dune                                     | Collection: Dune                |
+      | Name: Alia Atreides          | Book: Dune                                     | Collection: Dune                |
+      | Name: Thufir Hawat           | Book: Dune                                     | Collection: Dune                |
+      | Name: Dirk t'Larien          | Book: Dying of the Light                       | Collection:                     |
+      | Name: Jaan Vikary            | Book: Dying of the Light                       | Collection:                     |
+      | Name: Garse Janacek          | Book: Dying of the Light                       | Collection:                     |
+      | Name: Greg Dixon             | Book: The Last Tribe                           | Collection:                     |
+      | Name: John Dixon             | Book: The Last Tribe                           | Collection:                     |
+      | Name: Emily Dixon            | Book: The Last Tribe                           | Collection:                     |
+      | Name: Rebecca                | Book: The Last Tribe                           | Collection:                     |
+      | Name: Don Barlow             | Book: The Cuckoo's Cry                         | Collection:                     |
+      | Name: Offred                 | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale |
+      | Name: The Commander          | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale |
+      | Name: Serena Joy             | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale |
+      | Name: Ofglen                 | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale |
+      | Name: Nick                   | Book: The Handmaid's Tale                      | Collection: The Handmaid's Tale |
 
-  Scenario Outline: ListView 04 - Characters ListView on page 2: item by item
-    When the listView with id charactersList on pagination 2 has some value at position <position>
-    Then the listView with id charactersList on pagination 2, at position <position>, should show text <name>, book <book> and collection <collection>
-    Examples:
-      | position | name                    | book                                           | collection               |
-      | 0        | Name: Dumbledore        | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter |
-      | 1        | Name: Spensa Nightshade | Book: Starsight                                | Collection: Skyward      |
-      | 2        | Name: Jorgen Weight     | Book: Starsight                                | Collection: Skyward      |
-      | 3        | Name: Admiral Cobb      | Book: Starsight                                | Collection: Skyward      |
-#
-#  Scenario: ListView 05 - Characters ListView: going back from page 2 to 1
-#    When I click on button next
-#    And I click on button prev
-#    Then the screen should show text: 1/2
-#    And the listView with id charactersList should be on pagination 1
+
+  Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
+    When I click on button next
+    And I click on button prev
+    Then the screen should show text: 1/2
+    And the listView with id charactersList should be on pagination 1
 
 
+    # --------------------------------------------------------------------------------------------------
+    # Second ListView: categories: nested with three levels:
+    # 1. Categories: vertical with fixed height.
+    # 2. Books: books for each of the categories. Horizontal.
+    # 3. Characters: characters for each book. Vertical, no-scroll.
+    # --------------------------------------------------------------------------------------------------
 
-
-  # refactor bellow ...
-#
-##  # Second ListView: categories: nested with three levels:
-##  # 1. Categories: vertical with fixed height.
-##  # 2. Books: books for each of the categories. Horizontal.
-##  # 3. Characters: characters for each book. Vertical, no-scroll.
 #
 #    Scenario: ListView 07 - Categories ListView (nested): categories
 #        Then listView with id categoriesList should be in vertical orientation

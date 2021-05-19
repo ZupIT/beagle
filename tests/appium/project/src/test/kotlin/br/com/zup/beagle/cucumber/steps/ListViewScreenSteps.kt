@@ -12,14 +12,20 @@ import br.com.zup.beagle.setup.DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
 import br.com.zup.beagle.utils.SwipeDirection
 import io.appium.java_client.MobileBy
 import io.appium.java_client.ios.IOSElement
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.en.And
 import org.junit.Assert
 import java.util.LinkedHashSet
+import java.awt.print.Book
+
+
+
 
 class ListViewScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = "/listview"
 
+    // cache
     companion object{
         val charactersListPage1 = LinkedHashSet<String>()
         val charactersListPage2 = LinkedHashSet<String>()
@@ -36,55 +42,38 @@ class ListViewScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable("Beagle ListView", likeSearch = false, ignoreCase = true)
     }
 
-    @When("^I scroll left the listView with id charactersList on pagination 1$")
-    fun cacheCharacterListPage1(){
-        charactersListPage1.addAll(getAllChildrenNamesOfListView("charactersList", horizontalScroll = true)!!)
+    @When("^I scroll left the listView with id charactersList on pagination (.*)$")
+    fun cacheCharacterListPage1(paginationNumber: Int){
+        when (paginationNumber){
+            1 -> charactersListPage1.addAll(getAllChildrenNamesOfListView("charactersList", horizontalScroll = true)!!)
+            else -> charactersListPage2.addAll(getAllChildrenNamesOfListView("charactersList", horizontalScroll = true)!!)
+        }
     }
 
-    @Then("^the listView with id charactersList on pagination 1 should have exactly (.*) items$")
-    fun countListViewCharactersListPage1(expectedItemCount: Int) {
-        Assert.assertEquals(charactersListPage1.size, expectedItemCount)
+    @Then("^the listView with id charactersList on pagination (.*) should have exactly (.*) items$")
+    fun countListViewCharactersListPage1(paginationNumber: Int, expectedItemCount: Int) {
+        when (paginationNumber){
+            1 ->  Assert.assertEquals(charactersListPage1.size, expectedItemCount)
+            else -> Assert.assertEquals(charactersListPage2.size, expectedItemCount)
+        }
     }
 
-    @When("^I scroll left the listView with id charactersList on pagination 2$")
-    fun cacheCharacterListPage2(){
-        charactersListPage2.addAll(getAllChildrenNamesOfListView("charactersList", horizontalScroll = true)!!)
+    @And("^the values of the listView with id charactersList on pagination (.*) should be:$")
+    fun checkValuesOfListViewCharactersListPage1(paginationNumber: Int, dataTable: DataTable){
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val cachedList = when (paginationNumber){
+            1 -> charactersListPage1.toList()
+            else -> charactersListPage2.toList()
+        }
+        for ((lineCount, columns) in rows.withIndex()) {
+            val childText = cachedList[lineCount].split(";")
+            Assert.assertEquals(columns[0]!!.trim(), childText[0].trim()) // name
+            Assert.assertEquals(columns[1]!!.trim(), childText[1].trim()) // book
+            Assert.assertEquals(columns[2]!!.trim(), childText[2].trim()) // collection
+        }
     }
 
-    @Then("^the listView with id charactersList on pagination 2 should have exactly (.*) items$")
-    fun countListViewCharactersListPage2(expectedItemCount: Int) {
-        Assert.assertEquals(charactersListPage2.size, expectedItemCount)
-    }
-
-    @When("^the listView with id charactersList on pagination 1 has some value at position (.*)$")
-    fun checkValueNotNullAtListViewCharactersListPage1(listIndex: Int){
-        Assert.assertTrue(listIndex < charactersListPage1.size)
-        Assert.assertNotNull(charactersListPage1.toList()[listIndex])
-    }
-
-    @Then("^the listView with id charactersList on pagination 1, at position (.*), should show text (.*), book (.*) and collection (.*)$")
-    fun checkListViewCharactersListChildValuesPage1(listIndex: Int, name: String, book: String, collection: String){
-        val childText = charactersListPage1.toList()[listIndex].split(";")
-        Assert.assertEquals(name, childText[0])
-        Assert.assertEquals(book, childText[1])
-        Assert.assertEquals(collection, childText[2])
-    }
-
-    @When("^the listView with id charactersList on pagination 2 has some value at position (.*)$")
-    fun checkValueNotNullAtListViewCharactersListPage2(listIndex: Int){
-        Assert.assertTrue(listIndex < charactersListPage2.size)
-        Assert.assertNotNull(charactersListPage2.toList()[listIndex])
-    }
-
-    @Then("^the listView with id charactersList on pagination 2, at position (.*), should show text (.*), book (.*) and collection (.*)$")
-    fun checkListViewCharactersListChildValuesPage2(listIndex: Int, name: String, book: String, collection: String){
-        val childText = charactersListPage2.toList()[listIndex].split(";")
-        Assert.assertEquals(name, childText[0])
-        Assert.assertEquals(book, childText[1])
-        Assert.assertEquals(collection, childText[2])
-    }
-
-    @And("^the listView with id charactersList should be on pagination 1 $")
+    @And("^the listView with id charactersList should be on pagination 1$")
     fun checkIfListViewCharactersListIsInPage1(){
         var currentFirstChildText = getContentOfChildOfListViewCharactersList(getFirstChildOfListView(getListViewElement("charactersList")!!))
         Assert.assertEquals(charactersListPage1.toList()[0], currentFirstChildText)
