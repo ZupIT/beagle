@@ -47,7 +47,7 @@ class WidgetExtensionsTest {
 
             // Then
             assertNotNull(result)
-            assertEquals(result.style, style)
+            assertEquals(style, result.style)
         }
     }
 
@@ -70,7 +70,7 @@ class WidgetExtensionsTest {
 
             // Then
             assertNotNull(result)
-            assertEquals(result.style, styleResult)
+            assertEquals(styleResult, result.style)
         }
     }
 
@@ -91,7 +91,7 @@ class WidgetExtensionsTest {
 
             // Then
             assertNotNull(result)
-            assertEquals(result.style, styleResult)
+            assertEquals(styleResult, result.style)
         }
     }
 
@@ -110,7 +110,7 @@ class WidgetExtensionsTest {
 
             // Then
             assertNotNull(result)
-            assertEquals(result.accessibility, accessibility)
+            assertEquals(accessibility, result.accessibility)
         }
 
         @Test
@@ -124,7 +124,7 @@ class WidgetExtensionsTest {
 
             // Then
             assertNotNull(result)
-            assertEquals(result.accessibility, accessibility)
+            assertEquals(accessibility, result.accessibility)
         }
     }
 
