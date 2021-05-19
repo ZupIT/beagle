@@ -142,7 +142,7 @@ extension ListViewController: BeagleControllerProtocol {
             
             let context = UICollectionViewFlowLayoutInvalidationContext()
             context.invalidateFlowLayoutDelegateMetrics = true
-            context.invalidateFlowLayoutAttributes = false
+            context.invalidateFlowLayoutAttributes = true
             context.invalidateItems(at: [indexPath])
             collectionViewFlowLayout.invalidateLayout(with: context)
             
