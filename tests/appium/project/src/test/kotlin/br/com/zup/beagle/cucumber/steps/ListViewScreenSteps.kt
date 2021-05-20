@@ -107,13 +107,13 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
     @When("^I read all the elements of the listView with id categoriesList$")
-    fun getAllElementsOfListViewCategoriesList(){
+    fun getAllElementsOfListViewCategoriesList() {
         val listViewElement = getListViewElement("categoriesList")
         categoriesList.addAll(extractAllItemsOfListViewCategoriesList(listViewElement!!, horizontalScroll = true)!!)
     }
 
     @Then("^the listView with id categoriesList should have exactly (.*) items$")
-    fun countListViewCategoriesList(itemsCount: Int){
+    fun countListViewCategoriesList(itemsCount: Int) {
         Assert.assertEquals(itemsCount, categoriesList.size)
     }
 
@@ -249,13 +249,25 @@ class ListViewScreenSteps : AbstractStep() {
         } else {
 
             var title =
-                categoriesListViewChildItemElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[1]")).text
+                waitForChildElementToBePresent(
+                    categoriesListViewChildItemElement,
+                    By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[1]")
+                ).text
+            //categoriesListViewChildItemElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[1]")).text
 
             var author =
-                categoriesListViewChildItemElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[2]")).text
+                waitForChildElementToBePresent(
+                    categoriesListViewChildItemElement,
+                    By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[2]")
+                ).text
+            //categoriesListViewChildItemElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[2]")).text
 
             var characters = extractCharactersListViewValues(
-                categoriesListViewChildItemElement.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView"))
+                waitForChildElementToBePresent(
+                    categoriesListViewChildItemElement,
+                    By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView")
+                )
+                //categoriesListViewChildItemElement.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView"))
             )
 
             categoryListViewItemTemp = CategoryListViewItem(title = title, author = author, characters = characters!!)
@@ -306,11 +318,17 @@ class ListViewScreenSteps : AbstractStep() {
         val characterNamesList = LinkedList<String>()
         val elementsOfList = getChildrenOfListView(charactersListViewElement)
 
-        for (element in elementsOfList){
-            if (SuiteSetup.isIos()){
+        for (element in elementsOfList) {
+            if (SuiteSetup.isIos()) {
                 // TODO
-            }else{
-                characterNamesList.add(element.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")).text)
+            } else {
+                characterNamesList.add(
+                    waitForChildElementToBePresent(
+                        element,
+                        By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")
+                    ).text
+                )
+                //characterNamesList.add(element.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")).text)
             }
         }
         return characterNamesList
@@ -327,7 +345,11 @@ class ListViewScreenSteps : AbstractStep() {
             // TODO
         } else {
             listTitle =
-                categoriesListViewElement.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")).text
+                waitForChildElementToBePresent(
+                    categoriesListViewElement,
+                    By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")
+                ).text
+            //categoriesListViewElement.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")).text
 
         }
         return listTitle
@@ -377,7 +399,11 @@ class ListViewScreenSteps : AbstractStep() {
             // TODO
             return null
         } else {
-            return parentElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView)[1]"))
+            return waitForChildElementToBePresent(
+                parentElement,
+                By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView)[1]")
+            )
+            //parentElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView)[1]"))
         }
     }
 
@@ -385,11 +411,7 @@ class ListViewScreenSteps : AbstractStep() {
         if (SuiteSetup.isIos()) {
             when (listViewId) {
                 "charactersList" -> {
-                    return AppiumUtil.waitForElementToBePresent(
-                        getDriver(),
-                        MobileBy.id("charactersList"),
-                        DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
-                    )
+                    return waitForElementToBePresent(MobileBy.id("charactersList"))
                 }
                 "categoriesList" -> return null // todo...
                 else -> {
@@ -399,18 +421,10 @@ class ListViewScreenSteps : AbstractStep() {
         } else {
             when (listViewId) {
                 "charactersList" -> {
-                    return AppiumUtil.waitForElementToBePresent(
-                        getDriver(),
-                        By.xpath("(//androidx.recyclerview.widget.RecyclerView)[1]"),
-                        DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
-                    )
+                    return waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[1]"))
                 }
                 "categoriesList" -> {
-                    return AppiumUtil.waitForElementToBePresent(
-                        getDriver(),
-                        By.xpath("(//androidx.recyclerview.widget.RecyclerView)[2]"),
-                        DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
-                    )
+                    return waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[2]"))
                 }
                 else -> {
                     return null
@@ -454,14 +468,23 @@ class ListViewScreenSteps : AbstractStep() {
             childElementText = element1.text + ";" + element2.text + ";" + element3.text
         } else {
             // name
-            var element1 =
-                childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
+            var element1 = waitForChildElementToBePresent(
+                childElement,
+                By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
+            )
+            // childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
             // book
-            var element2 =
-                childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[2]")
+            var element2 = waitForChildElementToBePresent(
+                childElement,
+                By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[2]")
+            )
+            // childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[2]")
             // collection
-            var element3 =
-                childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[3]")
+            var element3 = waitForChildElementToBePresent(
+                childElement,
+                By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[3]")
+            )
+            // childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[3]")
 
             childElementText = element1.text + ";" + element2.text + ";" + element3.text
 
@@ -484,7 +507,10 @@ class ListViewScreenSteps : AbstractStep() {
             lastChildOfListViewLocator = By.xpath(".//android.view.ViewGroup[.//android.view.ViewGroup]")
         }
 
-        return listViewElement.findElements(lastChildOfListViewLocator)
+        return waitForChildrenElementsToBePresent(
+            listViewElement,
+            lastChildOfListViewLocator
+        )//listViewElement.findElements(lastChildOfListViewLocator)
 
     }
 
@@ -504,7 +530,8 @@ class ListViewScreenSteps : AbstractStep() {
             lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[last()]")
         }
 
-        return listViewElement.findElement(lastChildOfListViewLocator)
+        return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
+        //listViewElement.findElement(lastChildOfListViewLocator)
 
     }
 
@@ -524,7 +551,8 @@ class ListViewScreenSteps : AbstractStep() {
             lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[1]")
         }
 
-        return listViewElement.findElement(lastChildOfListViewLocator)
+        return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
+        //return listViewElement.findElement(lastChildOfListViewLocator)
 
     }
 

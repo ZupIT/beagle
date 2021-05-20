@@ -219,6 +219,38 @@ object AppiumUtil {
     }
 
     /**
+     * Waits for an element, child of a given parent element, to be found on the screen element tree. This does not
+     * necessarily mean that the element is visible.
+     */
+    @Synchronized
+    fun waitForChildElementToBePresent(driver: MobileDriver<*>, parentElement: MobileElement, locator: By, timeoutInMilliseconds: Long): MobileElement {
+        val wait: FluentWait<MobileDriver<*>> = FluentWait<MobileDriver<*>>(driver)
+        wait.pollingEvery(Duration.ofMillis(200))
+        wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
+        wait.ignoring(NoSuchElementException::class.java)
+        wait.ignoring(StaleElementReferenceException::class.java)
+        return wait.until {
+            parentElement.findElement(locator)
+        } as MobileElement
+    }
+
+    /**
+     * Waits for a list of elements, children of a given parent element, to be found on the screen element tree. This does not
+     * necessarily mean that these elements are visible.
+     */
+    @Synchronized
+    fun waitForChildrenElementsToBePresent(driver: MobileDriver<*>, parentElement: MobileElement, locator: By, timeoutInMilliseconds: Long): List<MobileElement> {
+        val wait: FluentWait<MobileDriver<*>> = FluentWait<MobileDriver<*>>(driver)
+        wait.pollingEvery(Duration.ofMillis(200))
+        wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
+        wait.ignoring(NoSuchElementException::class.java)
+        wait.ignoring(StaleElementReferenceException::class.java)
+        return wait.until {
+            parentElement.findElements(locator)
+        } as List<MobileElement>
+    }
+
+    /**
      * Waits for an element to be visible and enabled (clickable)
      */
     @Synchronized

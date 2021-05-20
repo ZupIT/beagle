@@ -150,6 +150,18 @@ abstract class AbstractStep {
 
     }
 
+    protected fun waitForElementToBePresent(locator: By): MobileElement{
+        return AppiumUtil.waitForElementToBePresent(getDriver(), locator, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
+    }
+
+    protected fun waitForChildElementToBePresent(parentElement: MobileElement, locator: By): MobileElement{
+        return AppiumUtil.waitForChildElementToBePresent(getDriver(), parentElement, locator, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
+    }
+
+    protected fun waitForChildrenElementsToBePresent(parentElement: MobileElement, locator: By): List<MobileElement>{
+        return AppiumUtil.waitForChildrenElementsToBePresent(getDriver(), parentElement, locator, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
+    }
+
     /**
      * Waits for an element to be visible and disabled (not clickable)
      */
