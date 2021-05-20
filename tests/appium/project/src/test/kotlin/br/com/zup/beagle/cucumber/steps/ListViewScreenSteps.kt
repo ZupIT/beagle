@@ -230,7 +230,7 @@ class ListViewScreenSteps : AbstractStep() {
             else
                 scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.UP)
 
-            childrenOfCategoriesListViewOfTypeA = getChildrenOfListView(listViewElement)
+            childrenOfCategoriesListViewOfTypeA = getChildrenOfCategoriesListViewOfTypeA(listViewElement)
 
 
         } while (lastChildElementTitle != extractTitleOfChildOfCategoriesListViewOfTypeA(
@@ -238,6 +238,7 @@ class ListViewScreenSteps : AbstractStep() {
             )
         )
 
+        println("LINES" + allItems.toString())
         return allItems
     }
 
@@ -266,13 +267,15 @@ class ListViewScreenSteps : AbstractStep() {
 
             scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.LEFT)
 
-            childrenElementsOfCategoriesListOfTypeB = getChildrenOfListView(categoriesListViewOfTypeBElement!!)
+            childrenElementsOfCategoriesListOfTypeB =
+                getChildrenElementsOfCategoriesListViewOfTypeB(categoriesListViewOfTypeBElement!!)
 
         } while (parsedChildrenElementsTemp!!.last() != parseElementToCategoryListViewItem(
                 childrenElementsOfCategoriesListOfTypeB.last()
             )
         )
 
+        println("COLUMNS: " + allItems.toString())
         return allItems
     }
 
