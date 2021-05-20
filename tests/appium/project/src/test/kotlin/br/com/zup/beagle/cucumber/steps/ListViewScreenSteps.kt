@@ -1,23 +1,65 @@
 package br.com.zup.beagle.cucumber.steps
 
 import br.com.zup.beagle.setup.SuiteSetup
-import br.com.zup.beagle.utils.AppiumUtil
+import br.com.zup.beagle.utils.SwipeDirection
+import io.appium.java_client.MobileBy
 import io.appium.java_client.MobileElement
+import io.appium.java_client.ios.IOSElement
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
+import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
-import org.openqa.selenium.By
-import br.com.zup.beagle.setup.DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
-import br.com.zup.beagle.utils.SwipeDirection
-import io.appium.java_client.MobileBy
-import io.appium.java_client.ios.IOSElement
-import io.cucumber.datatable.DataTable
-import io.cucumber.java.en.And
 import org.junit.Assert
+import org.openqa.selenium.By
 import java.util.*
 import kotlin.collections.LinkedHashSet
 
+
+/**
+ *
+ * For the Categories ListView tests, some methods include in its name references to lists of Type A or C. Refer to
+ * the drawing bellow to understand these references.
+ *
+ *  categoriesListViewA [listView]
+ *         |
+ *         |-------------> Title ...
+ *         |-------------> categoryListViewB1 [listView]
+ *         |                      |
+ *         |                      |------------> Title ...
+ *         |                      |------------> Author ...
+ *         |                      |------------> CharactersListView [listView]
+ *         |                      |                    |
+ *         |                      |                    |-------------> Character 1
+ *         |                      |                    |-------------> Character 2
+ *         |                      |                    |-------------> Character 3
+ *         |                      |                    | ...
+ *         |                      |
+ *         |                      |
+ *         |                      |------------> Title ...
+ *         |                      |------------> Author ...
+ *         |                      |------------> CharactersListView [listView]
+ *         |                      |                    |
+ *         |                      |                    |-------------> Character 1
+ *         |                      |                    |-------------> Character 2
+ *         |                      |                    | ...
+ *         |                      | ....
+ *         |
+ *         |
+ *         |-------------> Title ...
+ *         |-------------> categoryListViewB2 [listView]
+ *         |                      |
+ *         |                      | ...
+ *         |
+ *         |
+ *         |-------------> Title ...
+ *         |-------------> categoryListViewB3 [listView]
+ *         |                      |
+ *         |                      | ...
+ *         |
+ *         | ...
+ */
 
 class ListViewScreenSteps : AbstractStep() {
 
@@ -109,7 +151,7 @@ class ListViewScreenSteps : AbstractStep() {
     @When("^I read all the elements of the listView with id categoriesList$")
     fun getAllElementsOfListViewCategoriesList() {
         val listViewElement = getListViewElement("categoriesList")
-        categoriesList.addAll(extractAllItemsOfListViewCategoriesList(listViewElement!!, horizontalScroll = true)!!)
+        categoriesList.addAll(extractAllItemsOfCategoriesListViewOfTypeA(listViewElement!!, horizontalScroll = true)!!)
     }
 
     @Then("^the listView with id categoriesList should have exactly (.*) items$")
@@ -162,25 +204,25 @@ class ListViewScreenSteps : AbstractStep() {
     /**
      * Scrolls the list of id categoriesList to read all of its elements and return them parsed
      */
-    private fun extractAllItemsOfListViewCategoriesList(
+    private fun extractAllItemsOfCategoriesListViewOfTypeA(
         listViewElement: MobileElement,
         horizontalScroll: Boolean
     ): Collection<LinkedHashSet<CategoryListViewItem>>? {
 
-        var childrenElementsTemp = getChildrenOfListView(listViewElement)
+        var childrenOfCategoriesListViewOfTypeA = getChildrenOfCategoriesListViewOfTypeA(listViewElement)
 
-        if (childrenElementsTemp.isEmpty())
+        if (childrenOfCategoriesListViewOfTypeA.isEmpty())
             return null
 
         val allItems = LinkedHashSet<LinkedHashSet<CategoryListViewItem>>()
         do {
 
-            for (itemElement in childrenElementsTemp) {
-                allItems.add(extractAllItemsOfListViewCategoriesListItem(itemElement)!!)
+            for (childOfCategoriesListViewOfTypeA in childrenOfCategoriesListViewOfTypeA) {
+                allItems.add(extractAllItemsOfACategoriesListViewOfTypeB(childOfCategoriesListViewOfTypeA)!!)
             }
 
-            var lastChildElement = childrenElementsTemp.last()
-            var lastChildElementTitle = extractTitleOfItemOfListViewCategoriesList(lastChildElement)!!
+            var lastChildElement = childrenOfCategoriesListViewOfTypeA.last()
+            var lastChildElementTitle = extractTitleOfChildOfCategoriesListViewOfTypeA(lastChildElement)!!
 
 
             if (horizontalScroll)
@@ -188,33 +230,35 @@ class ListViewScreenSteps : AbstractStep() {
             else
                 scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.UP)
 
-            childrenElementsTemp = getChildrenOfListView(listViewElement)
+            childrenOfCategoriesListViewOfTypeA = getChildrenOfListView(listViewElement)
 
 
-        } while (lastChildElementTitle != extractTitleOfItemOfListViewCategoriesList(childrenElementsTemp.last()))
+        } while (lastChildElementTitle != extractTitleOfChildOfCategoriesListViewOfTypeA(
+                childrenOfCategoriesListViewOfTypeA.last()
+            )
+        )
 
         return allItems
     }
 
-    /**
-     * Scrolls the list categoriesListViewElement, which is a child element of list CategoriesList, to read all of its elements,
-     * then return these elements parsed. List categoriesListViewElement represent either 'Fantasy', 'Sci-fi' or 'Other' lists.
-     */
-    private fun extractAllItemsOfListViewCategoriesListItem(categoriesListViewItemElement: MobileElement): LinkedHashSet<CategoryListViewItem>? {
 
-        // extracts the list view child element since the element 'categoriesListViewItemElement' has other children elements
-        val listViewItemElement = getListViewElement(categoriesListViewItemElement)
+    private fun extractAllItemsOfACategoriesListViewOfTypeB(childOfCategoriesListViewOfTypeA: MobileElement): LinkedHashSet<CategoryListViewItem>? {
 
-        var childrenElementsTemp = getChildrenOfListView(listViewItemElement!!)
+        // extracts the listView of type B since childOfCategoriesListViewOfTypeA is not the list B itself
+        val categoriesListViewOfTypeBElement = getListViewElement(childOfCategoriesListViewOfTypeA)
 
-        if (childrenElementsTemp.isEmpty())
+        var childrenElementsOfCategoriesListOfTypeB =
+            getChildrenElementsOfCategoriesListViewOfTypeB(categoriesListViewOfTypeBElement!!)
+
+        if (childrenElementsOfCategoriesListOfTypeB.isEmpty())
             return null
 
         val allItems = LinkedHashSet<CategoryListViewItem>()
         do {
 
-            var parsedChildrenElementsTemp = extractCategoryListViewItems(childrenElementsTemp)
-            var lastChildElement = childrenElementsTemp.last()
+            var parsedChildrenElementsTemp =
+                parseElementsToCategoryListViewItems(childrenElementsOfCategoriesListOfTypeB)
+            var lastChildElement = childrenElementsOfCategoriesListOfTypeB.last()
 
             for (parsedItem in parsedChildrenElementsTemp!!) {
                 allItems.add(parsedItem)
@@ -222,27 +266,30 @@ class ListViewScreenSteps : AbstractStep() {
 
             scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.LEFT)
 
-            childrenElementsTemp = getChildrenOfListView(listViewItemElement!!)
+            childrenElementsOfCategoriesListOfTypeB = getChildrenOfListView(categoriesListViewOfTypeBElement!!)
 
-        } while (parsedChildrenElementsTemp!!.last() != extractCategoryListViewItem(childrenElementsTemp.last()))
+        } while (parsedChildrenElementsTemp!!.last() != parseElementToCategoryListViewItem(
+                childrenElementsOfCategoriesListOfTypeB.last()
+            )
+        )
 
         return allItems
     }
 
     /**
-     * Parse the contents of a given list of items, of a listView item (child) of the listView categoriesList
+     * Parse the contents of a given category list of type C to a CategoryListViewItem object
      */
-    private fun extractCategoryListViewItems(listViewItemElements: List<MobileElement>): LinkedHashSet<CategoryListViewItem>? {
+    private fun parseElementsToCategoryListViewItems(categoriesListViewOfTypeCElements: List<MobileElement>): LinkedHashSet<CategoryListViewItem>? {
         val list = LinkedHashSet<CategoryListViewItem>()
-        for (element in listViewItemElements)
-            list.add(extractCategoryListViewItem(element)!!)
+        for (element in categoriesListViewOfTypeCElements)
+            list.add(parseElementToCategoryListViewItem(element)!!)
         return list
     }
 
     /**
-     * Parse the content of a given item element that is a child of a listView item, and this list is a child of the listView categoriesList
+     * Parse the contents of a given cell, of a category list of type C, to a CategoryListViewItem object
      */
-    private fun extractCategoryListViewItem(categoriesListViewChildItemElement: MobileElement): CategoryListViewItem? {
+    private fun parseElementToCategoryListViewItem(categoriesListViewOfTypeCElement: MobileElement): CategoryListViewItem? {
         lateinit var categoryListViewItemTemp: CategoryListViewItem
         if (SuiteSetup.isIos()) {
             // TODO
@@ -250,24 +297,24 @@ class ListViewScreenSteps : AbstractStep() {
 
             var title =
                 waitForChildElementToBePresent(
-                    categoriesListViewChildItemElement,
+                    categoriesListViewOfTypeCElement,
                     By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[1]")
                 ).text
-            //categoriesListViewChildItemElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[1]")).text
+
 
             var author =
                 waitForChildElementToBePresent(
-                    categoriesListViewChildItemElement,
+                    categoriesListViewOfTypeCElement,
                     By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[2]")
                 ).text
-            //categoriesListViewChildItemElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[2]")).text
+
 
             var characters = extractCharactersListViewValues(
                 waitForChildElementToBePresent(
-                    categoriesListViewChildItemElement,
+                    categoriesListViewOfTypeCElement,
                     By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView")
                 )
-                //categoriesListViewChildItemElement.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView"))
+
             )
 
             categoryListViewItemTemp = CategoryListViewItem(title = title, author = author, characters = characters!!)
@@ -277,42 +324,7 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
     /**
-     *
-     * Extract all the values from a given CharactersListView
-     *
-     *  categoriesListView [listView]
-     *         |
-     *         |-------------> Title
-     *         |-------------> categoryListView1 [listView]
-     *         |       |
-     *         |       |-------------> categoryListViewItem1 [listView]
-     *         |       |                          |
-     *         |       |                          |------------> Title ...
-     *         |       |                          |------------> Author ...
-     *         |       |                          |------------> CharactersListView [listView]
-     *         |       |                          |                    |
-     *         |       |                          |                    |-------------> Character 1
-     *         |       |                          |                    |-------------> Character 2
-     *         |       |                          |                    |-------------> Character 3
-     *         |       |                          |                    | ...
-     *         |       |                          |
-     *         |       |                          |
-     *         |       |                          |------------> Title ...
-     *         |       |                          |------------> Author ...
-     *         |       |                          |------------> CharactersListView [listView]
-     *         |       |                          |                    |
-     *         |       |                          |                    |-------------> Character 1
-     *         |       |                          |                    |-------------> Character 2
-     *         |       |                          |                    | ...
-     *         |       |                          | ....
-     *         |       |-------------> categoryListViewItem2 [listView]
-     *         |       |-------------> categoryListViewItem3 [listView]
-     *         |
-     *         |-------------> Title
-     *         |-------------> categoryListView2 [listView]
-     *         |                       |
-     *         |                       |-------------> ...
-     *         |...
+     * Extracts all the values from a given CharactersListView
      */
     private fun extractCharactersListViewValues(charactersListViewElement: MobileElement): List<String>? {
         val characterNamesList = LinkedList<String>()
@@ -325,36 +337,85 @@ class ListViewScreenSteps : AbstractStep() {
                 characterNamesList.add(
                     waitForChildElementToBePresent(
                         element,
-                        By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")
+                        By.xpath(".//android.view.ViewGroup//android.widget.TextView")
                     ).text
                 )
-                //characterNamesList.add(element.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")).text)
             }
         }
         return characterNamesList
     }
 
     /**
-     * Return the title of an item of the list categoriesList.
+     * Returns the title of an item of the main Categories ListView.
      * Title values are 'Fantasy', 'Sci-fi' or 'Other'
      */
-    private fun extractTitleOfItemOfListViewCategoriesList(categoriesListViewElement: MobileElement): String? {
+    private fun extractTitleOfChildOfCategoriesListViewOfTypeA(childOfCategoriesListViewOfTypeAElement: MobileElement): String? {
 
-        var listTitle: String? = null
+        var title: String? = null
         if (SuiteSetup.isIos()) {
             // TODO
         } else {
-            listTitle =
+            title =
                 waitForChildElementToBePresent(
-                    categoriesListViewElement,
-                    By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")
+                    childOfCategoriesListViewOfTypeAElement,
+                    By.xpath(".//android.view.ViewGroup//android.widget.TextView")
                 ).text
-            //categoriesListViewElement.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")).text
-
         }
-        return listTitle
+        return title
     }
 
+    /**
+     * Returns the children elements of the main CategoriesListView list. These elements refer only to elements showing
+     * on the screen.
+     */
+    private fun getChildrenOfCategoriesListViewOfTypeA(categoriesListViewOfTypeAElement: MobileElement): List<MobileElement> {
+
+        var childrenOfCategoryListViewOfTypeALocator: By? = null
+
+        if (SuiteSetup.isIos()) {
+            // TODO: fix this locator using ids!
+            childrenOfCategoryListViewOfTypeALocator =
+                By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther]")
+
+        } else {
+            childrenOfCategoryListViewOfTypeALocator =
+                By.xpath(
+                    ".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView" +
+                            "//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView]"
+                )
+        }
+
+        return waitForChildrenElementsToBePresent(
+            categoriesListViewOfTypeAElement,
+            childrenOfCategoryListViewOfTypeALocator
+        )
+    }
+
+    /**
+     * Returns the children elements of a Categories ListView of type B. These elements refer only to elements showing
+     * on the screen.
+     */
+    private fun getChildrenElementsOfCategoriesListViewOfTypeB(categoriesListViewOfTypeBElement: MobileElement): List<MobileElement> {
+
+        var childrenOfCategoryListViewOfTypeBLocator: By? = null
+
+        if (SuiteSetup.isIos()) {
+            // TODO: fix this locator using ids!
+            childrenOfCategoryListViewOfTypeBLocator =
+                By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther]")
+
+        } else {
+            childrenOfCategoryListViewOfTypeBLocator =
+                By.xpath(
+                    ".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView]"
+                )
+        }
+
+        return waitForChildrenElementsToBePresent(
+            categoriesListViewOfTypeBElement,
+            childrenOfCategoryListViewOfTypeBLocator
+        )
+    }
 
     /**
      * Scrolls the list of id charactersList to read all of its elements and return them parsed
@@ -403,7 +464,6 @@ class ListViewScreenSteps : AbstractStep() {
                 parentElement,
                 By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView)[1]")
             )
-            //parentElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView)[1]"))
         }
     }
 
@@ -510,7 +570,7 @@ class ListViewScreenSteps : AbstractStep() {
         return waitForChildrenElementsToBePresent(
             listViewElement,
             lastChildOfListViewLocator
-        )//listViewElement.findElements(lastChildOfListViewLocator)
+        )
 
     }
 
