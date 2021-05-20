@@ -15,20 +15,27 @@ import io.appium.java_client.ios.IOSElement
 import io.cucumber.datatable.DataTable
 import io.cucumber.java.en.And
 import org.junit.Assert
-import java.util.LinkedHashSet
-import java.awt.print.Book
-
-
+import java.util.*
+import kotlin.collections.LinkedHashSet
 
 
 class ListViewScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = "/listview"
 
-    // cache
-    companion object{
+    /**
+     * Caching
+     */
+    data class CategoryListViewItem(
+        val title: String,
+        val author: String,
+        val characters: List<String>
+    )
+
+    companion object {
         val charactersListPage1 = LinkedHashSet<String>()
         val charactersListPage2 = LinkedHashSet<String>()
+        val categoriesList = LinkedHashSet<LinkedHashSet<CategoryListViewItem>>()
     }
 
 
@@ -43,25 +50,27 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
     @When("^I scroll left the listView with id charactersList on pagination (.*)$")
-    fun cacheCharacterListPage1(paginationNumber: Int){
-        when (paginationNumber){
-            1 -> charactersListPage1.addAll(getAllChildrenNamesOfListView("charactersList", horizontalScroll = true)!!)
-            else -> charactersListPage2.addAll(getAllChildrenNamesOfListView("charactersList", horizontalScroll = true)!!)
+    fun cacheCharacterListPage1(paginationNumber: Int) {
+        val listElement = getListViewElement("charactersList")
+        val listElements = extractAllItemsOfListViewCharactersList(listElement!!, horizontalScroll = true)!!
+        when (paginationNumber) {
+            1 -> charactersListPage1.addAll(listElements)
+            else -> charactersListPage2.addAll(listElements)
         }
     }
 
     @Then("^the listView with id charactersList on pagination (.*) should have exactly (.*) items$")
     fun countListViewCharactersListPage1(paginationNumber: Int, expectedItemCount: Int) {
-        when (paginationNumber){
-            1 ->  Assert.assertEquals(charactersListPage1.size, expectedItemCount)
+        when (paginationNumber) {
+            1 -> Assert.assertEquals(charactersListPage1.size, expectedItemCount)
             else -> Assert.assertEquals(charactersListPage2.size, expectedItemCount)
         }
     }
 
     @And("^the values of the listView with id charactersList on pagination (.*) should be:$")
-    fun checkValuesOfListViewCharactersListPage1(paginationNumber: Int, dataTable: DataTable){
+    fun checkValuesOfListViewCharactersListPage1(paginationNumber: Int, dataTable: DataTable) {
         val rows: List<List<String?>> = dataTable.asLists(String::class.java)
-        val cachedList = when (paginationNumber){
+        val cachedList = when (paginationNumber) {
             1 -> charactersListPage1.toList()
             else -> charactersListPage2.toList()
         }
@@ -74,31 +83,10 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
     @And("^the listView with id charactersList should be on pagination 1$")
-    fun checkIfListViewCharactersListIsInPage1(){
-        var currentFirstChildText = getContentOfChildOfListViewCharactersList(getFirstChildOfListView(getListViewElement("charactersList")!!))
+    fun checkIfListViewCharactersListIsInPage1() {
+        var currentFirstChildText =
+            extractContentOfChildOfListViewCharactersList(getFirstChildOfListView(getListViewElement("charactersList")!!))
         Assert.assertEquals(charactersListPage1.toList()[0], currentFirstChildText)
-    }
-
-
-
-    // --------- OLD STEPS
-
-
-    @Then("^listView with id (.*) should have exactly (.*) items$")
-    fun checkListViewItemsCount(listViewId: String, expectedItemCount: Int) {
-        // Assert.assertEquals(countAllChildrenOfListView(listViewId, horizontalScroll = true), expectedItemCount)
-    }
-
-    @Then("^listView with id (.*) should be in vertical orientation$")
-    fun checkListViewIsVertical(listViewId: String) {
-        if (SuiteSetup.isAndroid()) // reset list state
-            loadBffScreen()
-        else {
-            restartApp()
-            loadBffScreen()
-        }
-
-        Assert.assertFalse(isListViewHorizontal(listViewId))
     }
 
     @Then("^listView with id (.*) should be in horizontal orientation$")
@@ -113,65 +101,35 @@ class ListViewScreenSteps : AbstractStep() {
         Assert.assertTrue(isListViewHorizontal(listViewId))
     }
 
-    @When("^I scroll listView with id (.*) to position (.*)$")
-    fun scrollListViewToPosition(listViewId: String, position: Int) {
-        //        ScreenRobot()
-        //            .scrollListToPosition(
-        //                listViewId.toAndroidId(),
-        //                position,
-        //            )
-    }
-
-    @When("^I scroll listView with id (.*) to (.*) percent$")
-    fun scrollListViewByPercent(listViewId: String, scrollPercent: Int) {
-        //        ScreenRobot()
-        //            .scrollListByPercent(
-        //                listViewId.toAndroidId(),
-        //                scrollPercent,
-        //            )
-    }
-
     @Then("^the screen should show text: (.*)$")
     fun checkScreenDisplaysText(expectedText: String) {
         waitForElementWithTextToBeClickable(expectedText, likeSearch = false, ignoreCase = false)
     }
 
-    @Then("^listView with id (.*) at position (.*) should show text: (.*)$")
-    fun checkListViewItemContainsText(
-        listViewId: String,
-        listViewPosition: Int,
-        expectedText: String,
-    ) {
-        val parsedText = transform(expectedText)
-        //        ScreenRobot()
-        //            .checkListViewItemContainsText(
-        //                listViewId.toAndroidId(),
-        //                listViewPosition,
-        //                expectedText,
-        //            )
+    @When("^I read all the elements of the listView with id categoriesList$")
+    fun getAllElementsOfListViewCategoriesList(){
+        val listViewElement = getListViewElement("categoriesList")
+        categoriesList.addAll(extractAllItemsOfListViewCategoriesList(listViewElement!!, horizontalScroll = true)!!)
     }
 
-    @Then("^listView with id (.*) at position (.*) should have a view with id (.*)$")
-    fun checkListViewItemContainsViewWithId(listViewId: String, listViewPosition: Int, expectedViewId: String) {
-        //        ScreenRobot()
-        //            .checkListViewItemContainsViewWithId(
-        //                listViewId.toAndroidId(),
-        //                listViewPosition,
-        //                expectedViewId.toAndroidId(),
-        //            )
+    @Then("^the listView with id categoriesList should have exactly (.*) items$")
+    fun countListViewCategoriesList(itemsCount: Int){
+        Assert.assertEquals(itemsCount, categoriesList.size)
     }
 
-    @Then("^I click on view with id (.*) at position (.*) of listView with id (.*)$")
-    fun clickOnTextInsideListViewItem(viewId: String, position: Int, listViewId: String) {
-        //        ScreenRobot()
-        //            .clickOnTextInsideListViewItem(
-        //                listViewId.toAndroidId(),
-        //                position,
-        //                viewId.toAndroidId(),
-        //            )
+    @And("^the values of the listView with id categoriesList and its items should be:$")
+    fun checkValuesOfListViewCategoriesList(dataTable: DataTable) {
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        for ((lineCount, columns) in rows.withIndex()) {
+            // parei aqui
+//            Assert.assertEquals(columns[0]!!.trim(), childText[0].trim()) // name
+//            Assert.assertEquals(columns[1]!!.trim(), childText[1].trim()) // book
+//            Assert.assertEquals(columns[2]!!.trim(), childText[2].trim()) // collection
+        }
     }
 
-     fun isListViewHorizontal(listViewId: String): Boolean {
+    // TODO: keep this method?
+    fun isListViewHorizontal(listViewId: String): Boolean {
         val listViewElement = getListViewElement(listViewId)
         return when (listViewId) {
             "charactersList" -> isListViewCharactersListHorizontal(listViewElement!!)
@@ -181,6 +139,7 @@ class ListViewScreenSteps : AbstractStep() {
         }
     }
 
+    // TODO: keep this method?
     /**
      * Tells if a list is horizontal by first comparing its elements' y position. When there's only one element showing,
      * then scrolls horizontally to compare with more elements
@@ -200,24 +159,188 @@ class ListViewScreenSteps : AbstractStep() {
             throw Exception("The given list contains only one element")
     }
 
-    // Scrolls a given list to count all of its elements
-    private fun getAllChildrenNamesOfListView(listViewId: String, horizontalScroll: Boolean): Collection<String>? {
-        val listViewElement = getListViewElement(listViewId)
-        return when (listViewId) {
-            "charactersList" -> getAllChildrenNamesOfListViewCharactersList(
-                listViewElement!!,
-                horizontalScroll = horizontalScroll
-            )
-            else -> {
-                null
+    /**
+     * Scrolls the list of id categoriesList to read all of its elements and return them parsed
+     */
+    private fun extractAllItemsOfListViewCategoriesList(
+        listViewElement: MobileElement,
+        horizontalScroll: Boolean
+    ): Collection<LinkedHashSet<CategoryListViewItem>>? {
+
+        var childrenElementsTemp = getChildrenOfListView(listViewElement)
+
+        if (childrenElementsTemp.isEmpty())
+            return null
+
+        val allItems = LinkedHashSet<LinkedHashSet<CategoryListViewItem>>()
+        do {
+
+            for (itemElement in childrenElementsTemp) {
+                allItems.add(extractAllItemsOfListViewCategoriesListItem(itemElement)!!)
             }
-        }
+
+            var lastChildElement = childrenElementsTemp.last()
+            var lastChildElementTitle = extractTitleOfItemOfListViewCategoriesList(lastChildElement)!!
+
+
+            if (horizontalScroll)
+                scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.LEFT)
+            else
+                scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.UP)
+
+            childrenElementsTemp = getChildrenOfListView(listViewElement)
+
+
+        } while (lastChildElementTitle != extractTitleOfItemOfListViewCategoriesList(childrenElementsTemp.last()))
+
+        return allItems
     }
 
     /**
-     * Scrolls the list of id charactersList to read all of its elements and return them
+     * Scrolls the list categoriesListViewElement, which is a child element of list CategoriesList, to read all of its elements,
+     * then return these elements parsed. List categoriesListViewElement represent either 'Fantasy', 'Sci-fi' or 'Other' lists.
      */
-    private fun getAllChildrenNamesOfListViewCharactersList(listViewElement: MobileElement, horizontalScroll: Boolean): Collection<String>? {
+    private fun extractAllItemsOfListViewCategoriesListItem(categoriesListViewItemElement: MobileElement): LinkedHashSet<CategoryListViewItem>? {
+
+        // extracts the list view child element since the element 'categoriesListViewItemElement' has other children elements
+        val listViewItemElement = getListViewElement(categoriesListViewItemElement)
+
+        var childrenElementsTemp = getChildrenOfListView(listViewItemElement!!)
+
+        if (childrenElementsTemp.isEmpty())
+            return null
+
+        val allItems = LinkedHashSet<CategoryListViewItem>()
+        do {
+
+            var parsedChildrenElementsTemp = extractCategoryListViewItems(childrenElementsTemp)
+            var lastChildElement = childrenElementsTemp.last()
+
+            for (parsedItem in parsedChildrenElementsTemp!!) {
+                allItems.add(parsedItem)
+            }
+
+            scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.LEFT)
+
+            childrenElementsTemp = getChildrenOfListView(listViewItemElement!!)
+
+        } while (parsedChildrenElementsTemp!!.last() != extractCategoryListViewItem(childrenElementsTemp.last()))
+
+        return allItems
+    }
+
+    /**
+     * Parse the contents of a given list of items, of a listView item (child) of the listView categoriesList
+     */
+    private fun extractCategoryListViewItems(listViewItemElements: List<MobileElement>): LinkedHashSet<CategoryListViewItem>? {
+        val list = LinkedHashSet<CategoryListViewItem>()
+        for (element in listViewItemElements)
+            list.add(extractCategoryListViewItem(element)!!)
+        return list
+    }
+
+    /**
+     * Parse the content of a given item element that is a child of a listView item, and this list is a child of the listView categoriesList
+     */
+    private fun extractCategoryListViewItem(categoriesListViewChildItemElement: MobileElement): CategoryListViewItem? {
+        lateinit var categoryListViewItemTemp: CategoryListViewItem
+        if (SuiteSetup.isIos()) {
+            // TODO
+        } else {
+
+            var title =
+                categoriesListViewChildItemElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[1]")).text
+
+            var author =
+                categoriesListViewChildItemElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[2]")).text
+
+            var characters = extractCharactersListViewValues(
+                categoriesListViewChildItemElement.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView"))
+            )
+
+            categoryListViewItemTemp = CategoryListViewItem(title = title, author = author, characters = characters!!)
+        }
+
+        return categoryListViewItemTemp
+    }
+
+    /**
+     *
+     * Extract all the values from a given CharactersListView
+     *
+     *  categoriesListView [listView]
+     *         |
+     *         |-------------> Title
+     *         |-------------> categoryListView1 [listView]
+     *         |       |
+     *         |       |-------------> categoryListViewItem1 [listView]
+     *         |       |                          |
+     *         |       |                          |------------> Title ...
+     *         |       |                          |------------> Author ...
+     *         |       |                          |------------> CharactersListView [listView]
+     *         |       |                          |                    |
+     *         |       |                          |                    |-------------> Character 1
+     *         |       |                          |                    |-------------> Character 2
+     *         |       |                          |                    |-------------> Character 3
+     *         |       |                          |                    | ...
+     *         |       |                          |
+     *         |       |                          |
+     *         |       |                          |------------> Title ...
+     *         |       |                          |------------> Author ...
+     *         |       |                          |------------> CharactersListView [listView]
+     *         |       |                          |                    |
+     *         |       |                          |                    |-------------> Character 1
+     *         |       |                          |                    |-------------> Character 2
+     *         |       |                          |                    | ...
+     *         |       |                          | ....
+     *         |       |-------------> categoryListViewItem2 [listView]
+     *         |       |-------------> categoryListViewItem3 [listView]
+     *         |
+     *         |-------------> Title
+     *         |-------------> categoryListView2 [listView]
+     *         |                       |
+     *         |                       |-------------> ...
+     *         |...
+     */
+    private fun extractCharactersListViewValues(charactersListViewElement: MobileElement): List<String>? {
+        val characterNamesList = LinkedList<String>()
+        val elementsOfList = getChildrenOfListView(charactersListViewElement)
+
+        for (element in elementsOfList){
+            if (SuiteSetup.isIos()){
+                // TODO
+            }else{
+                characterNamesList.add(element.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")).text)
+            }
+        }
+        return characterNamesList
+    }
+
+    /**
+     * Return the title of an item of the list categoriesList.
+     * Title values are 'Fantasy', 'Sci-fi' or 'Other'
+     */
+    private fun extractTitleOfItemOfListViewCategoriesList(categoriesListViewElement: MobileElement): String? {
+
+        var listTitle: String? = null
+        if (SuiteSetup.isIos()) {
+            // TODO
+        } else {
+            listTitle =
+                categoriesListViewElement.findElement(By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")).text
+
+        }
+        return listTitle
+    }
+
+
+    /**
+     * Scrolls the list of id charactersList to read all of its elements and return them parsed
+     */
+    private fun extractAllItemsOfListViewCharactersList(
+        listViewElement: MobileElement,
+        horizontalScroll: Boolean
+    ): Collection<String>? {
         var childrenNames =
             LinkedHashSet(getChildrenNamesOfListViewCharactersList(listViewElement!!)) // ignores identical values
         var lastChildElement: MobileElement
@@ -229,7 +352,7 @@ class ListViewScreenSteps : AbstractStep() {
         var childrenNamesTemp: List<String> = mutableListOf()
         do {
             lastChildElement = getLastChildOfListView(listViewElement)
-            lastChildName = getContentOfChildOfListViewCharactersList(lastChildElement)!!
+            lastChildName = extractContentOfChildOfListViewCharactersList(lastChildElement)!!
 
             if (horizontalScroll)
                 scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.LEFT)
@@ -246,15 +369,33 @@ class ListViewScreenSteps : AbstractStep() {
         return childrenNames
     }
 
+    /**
+     * Returns the first listView element that is a child of a given element.
+     */
+    private fun getListViewElement(parentElement: MobileElement): MobileElement? {
+        if (SuiteSetup.isIos()) {
+            // TODO
+            return null
+        } else {
+            return parentElement.findElement(By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView)[1]"))
+        }
+    }
+
     private fun getListViewElement(listViewId: String): MobileElement? {
         if (SuiteSetup.isIos()) {
-            //return waitForElementWithTextToBePresent(listViewId, false, true)
-            return AppiumUtil.waitForElementToBePresent(
-                getDriver(),
-                MobileBy.id("charactersList"),
-                DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
-            )
-
+            when (listViewId) {
+                "charactersList" -> {
+                    return AppiumUtil.waitForElementToBePresent(
+                        getDriver(),
+                        MobileBy.id("charactersList"),
+                        DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+                    )
+                }
+                "categoriesList" -> return null // todo...
+                else -> {
+                    return null
+                }
+            }
         } else {
             when (listViewId) {
                 "charactersList" -> {
@@ -264,8 +405,13 @@ class ListViewScreenSteps : AbstractStep() {
                         DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
                     )
                 }
-                "categoriesList" -> return null // todo...
-                "booksList" -> return null // todo...
+                "categoriesList" -> {
+                    return AppiumUtil.waitForElementToBePresent(
+                        getDriver(),
+                        By.xpath("(//androidx.recyclerview.widget.RecyclerView)[2]"),
+                        DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+                    )
+                }
                 else -> {
                     return null
                 }
@@ -282,7 +428,7 @@ class ListViewScreenSteps : AbstractStep() {
 
         var childrenElements = getChildrenOfListView(listViewElement)
         childrenElements.forEach() {
-            childrenNames.add(getContentOfChildOfListViewCharactersList(it)!!)
+            childrenNames.add(extractContentOfChildOfListViewCharactersList(it)!!)
         }
 
         return childrenNames
@@ -292,7 +438,7 @@ class ListViewScreenSteps : AbstractStep() {
      * Returns a text representing the content of a child of the list view charactersList, thus
      * helping identifying the child element.
      */
-    private fun getContentOfChildOfListViewCharactersList(childElement: MobileElement): String? {
+    private fun extractContentOfChildOfListViewCharactersList(childElement: MobileElement): String? {
         var childElementText: String? = null
         if (SuiteSetup.isIos()) {
             // name
@@ -382,16 +528,5 @@ class ListViewScreenSteps : AbstractStep() {
 
     }
 
-    // TODO: fix name (what is it for?)
-    fun transform(value: String?): String {
-        value?.let {
-            if (it.matches(Regex("'(.*?)'"))) {
-                val match = Regex("'(.*?)'").find(it)!!
-                val (text) = match.destructured
-                return text
-            }
-        }
-        return value ?: ""
-    }
 }
 
