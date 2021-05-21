@@ -16,47 +16,56 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
+import br.com.zup.beagle.automatedtests.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
 import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE_URL
 import br.com.zup.beagle.automatedtests.constants.TITLE_SCREEN
-import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.core.ScrollAxis
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object ImageScreenBuilder {
-     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle Image",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "Image",
-                        message = "This widget will define a image view natively using the server driven " +
-                            "information received through Beagle.",
-                        labelOk = "OK"
-                    )
-                )
+    fun build() = Screen(
+        child = Container(
+            children = listOf(
+//                createText("Image without size"),
+//                Image(
+//                    Local.justMobile(LOGO_BEAGLE),
+//                ),
+                createText("${ImageContentMode.FIT_XY} and height = 100"),
+                Image(
+                    Local.justMobile(LOGO_BEAGLE), ImageContentMode.FIT_XY,
+                ).setStyle {
+                    size = Size(height = UnitValue.real(100))
+                },
+                createText("${ImageContentMode.FIT_CENTER} and width = 200"),
+                Image(
+                    Local.justMobile(LOGO_BEAGLE), ImageContentMode.FIT_CENTER,
+                ).setStyle {
+                    size = Size(width = UnitValue.real(200))
+                },
+                createText("${ImageContentMode.CENTER_CROP} and width = 200 and height = 100"),
+                Image(
+                    Local.justMobile(LOGO_BEAGLE), ImageContentMode.CENTER_CROP,
+                ).setStyle {
+                    size = Size.box(200, 100)
+                },
+                createText("${ImageContentMode.CENTER} and width = 300 and height = 100"),
+                Image(
+                    Local.justMobile(LOGO_BEAGLE), ImageContentMode.CENTER,
+                ).setStyle {
+                    size = Size.box(300, 100)
+                },
             )
-        ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE))) +
-                ImageContentMode.values().flatMap(this::createImageWithModeAndText)
         )
     )
 
-    private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
-
-    private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE), mode))
+    private fun createText(text: String) = Text(text = "Image with contentMode = $text", styleId = TITLE_SCREEN)
 }

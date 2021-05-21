@@ -28,7 +28,13 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexDirection
+import br.com.zup.beagle.widget.core.ImageContentMode
+import br.com.zup.beagle.widget.core.Size
 
 class ImageViewFragment : Fragment() {
 
@@ -41,15 +47,21 @@ class ImageViewFragment : Fragment() {
                 children = listOf(
                     Image(
                         path = ImagePath.Remote(
-                            url = "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png",
+                            url = "https://camo.githubusercontent.com/476cecf6bc0acaabb0012031c2b9406088eb8cd8e466c16" +
+                                "70324090a1d29af72/68747470733a2f2f67626c6f627363646e2e676974626f6f6b2e636f6d2f737061" +
+                                "6365732532462d4d2d5179376a5a6255707a475250354762435a2532466176617461722e706e67",
                             placeholder = ImagePath.Local("imageBeagle")
-                        )
-                    ),
-                    Text(text = "Test!!!").applyStyle(
+                        ),
+                        mode = ImageContentMode.FIT_XY
+                    ).applyStyle(
                         Style(
-                            backgroundColor = "#CCC"
+                            size = Size(height = 100.unitReal())
                         )
                     )
+                )
+            ).applyFlex(
+                Flex(
+                    flexDirection = FlexDirection.COLUMN
                 )
             )
         )

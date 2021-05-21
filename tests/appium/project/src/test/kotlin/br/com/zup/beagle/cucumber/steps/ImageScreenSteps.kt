@@ -41,6 +41,5 @@ class ImageScreenSteps : AbstractStep() {
     fun checkImageScreenTexts() {
         waitForElementWithTextToBeClickable(IMAGE_TEXT_1, false, false)
         waitForElementWithTextToBeClickable(IMAGE_TEXT_2, false, false)
-
     }
 }
