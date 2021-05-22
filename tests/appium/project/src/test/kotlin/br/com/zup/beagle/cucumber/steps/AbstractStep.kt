@@ -300,6 +300,22 @@ abstract class AbstractStep {
 
     }
 
+    protected fun scrollFromOnePointToCenterPoint(
+        originPoint: Point,
+        horizontalScroll: Boolean
+    ) {
+        if (SuiteSetup.isAndroid()) {
+            AppiumUtil.androidScrollScreenFromOnePointToCenterPoint(
+                getDriver(), originPoint, horizontalScroll
+            )
+        } else {
+            AppiumUtil.iosScrollScreenFromOnePointToCenterPoint(
+                getDriver(), originPoint, horizontalScroll
+            )
+        }
+
+    }
+
     protected fun rotateToLandscapePosition() {
         getDriver().rotate(ScreenOrientation.LANDSCAPE);
     }

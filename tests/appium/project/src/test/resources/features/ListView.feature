@@ -129,6 +129,9 @@ Feature: ListView Component Validation
     Scenario: ListView 04 - Categories ListView
     When I read all the elements of the listView with id categoriesList
     Then the listView with id categoriesList should have exactly 3 items
+    And the listView with id category:1 should have exactly 7 items
+    And the listView with id category:2 should have exactly 5 items
+    And the listView with id category:3 should have exactly 3 items
     And  the values of the listView with id categoriesList and its items should be:
       | categoryListPosition | bookListPosition | title                                    | author              | characterListPosition | character                 |
       | 0                    | 0                | The Final Empire                         | Brandon Sanderson   | 0                     | - Vin                     |

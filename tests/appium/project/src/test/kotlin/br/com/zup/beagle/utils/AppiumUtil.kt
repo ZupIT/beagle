@@ -85,7 +85,7 @@ object AppiumUtil {
      */
     private fun iosSwipeScreenTo(driver: MobileDriver<*>, swipeDirection: SwipeDirection) {
 
-        val ANIMATION_TIME = 200 // ms
+        val animationTime = 200 // ms
         val scrollObject = HashMap<String, String>()
         when (swipeDirection) {
             SwipeDirection.DOWN -> scrollObject["direction"] = "down"
@@ -96,9 +96,8 @@ object AppiumUtil {
         }
 
         (driver as JavascriptExecutor).executeScript("mobile:swipe", scrollObject)
-        //driver.execute("mobile:swipe", scrollObject)
 
-        Thread.sleep(ANIMATION_TIME.toLong()) // always allow swipe action to complete
+        Thread.sleep(animationTime.toLong())
     }
 
 
@@ -109,9 +108,9 @@ object AppiumUtil {
      */
     private fun androidSwipeScreenTo(driver: MobileDriver<*>, swipeDirection: SwipeDirection) {
 
-        val ANIMATION_TIME = 200 // ms
-        val PRESS_TIME = 200 // ms
-        val EDGE_BORDER = 10 // better avoid edges
+        val animationTime = 200
+        val pressTime = 200
+        val edgeBorder = 10
         val pointOptionStart: PointOption<*>
         val pointOptionEnd: PointOption<*>
 
@@ -121,27 +120,27 @@ object AppiumUtil {
         // init start point = center of screen
         pointOptionStart = PointOption.point(dims.width / 2, dims.height / 2)
         pointOptionEnd = when (swipeDirection) {
-            SwipeDirection.DOWN -> PointOption.point(dims.width / 2, dims.height - EDGE_BORDER)
-            SwipeDirection.UP -> PointOption.point(dims.width / 2, EDGE_BORDER)
-            SwipeDirection.LEFT -> PointOption.point(EDGE_BORDER, dims.height / 2)
-            SwipeDirection.RIGHT -> PointOption.point(dims.width - EDGE_BORDER, dims.height / 2)
+            SwipeDirection.DOWN -> PointOption.point(dims.width / 2, dims.height - edgeBorder)
+            SwipeDirection.UP -> PointOption.point(dims.width / 2, edgeBorder)
+            SwipeDirection.LEFT -> PointOption.point(edgeBorder, dims.height / 2)
+            SwipeDirection.RIGHT -> PointOption.point(dims.width - edgeBorder, dims.height / 2)
             else -> throw IllegalArgumentException("swipeScreen(): dir: '$swipeDirection' NOT supported")
         }
 
         // execute swipe using TouchAction
         AndroidTouchAction(driver)
-            .press(pointOptionStart) // a bit more reliable when we add small wait
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(PRESS_TIME.toLong())))
+            .press(pointOptionStart)
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
             .moveTo(pointOptionEnd)
             .release().perform()
 
 
-        Thread.sleep(ANIMATION_TIME.toLong())
+        Thread.sleep(animationTime.toLong())
 
     }
 
     /**
-     * Scroll from the position of a given point to the border of the screen
+     * Scrolls from the position of a given point to the border of the screen
      */
     fun androidScrollScreenFromOnePointToBorder(
         driver: MobileDriver<*>,
@@ -163,7 +162,7 @@ object AppiumUtil {
         }
 
         AndroidTouchAction(driver)
-            .press(PointOption.point(originPoint.x, originPoint.y)) // a bit more reliable when we add small wait
+            .press(PointOption.point(originPoint.x, originPoint.y))
             .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
             .moveTo(destinationPoint).perform()
 
@@ -172,15 +171,86 @@ object AppiumUtil {
     }
 
     /**
-     * Scroll from the position of a given element to the border of the screen
+     * Scrolls from the position of a given point to the center of the screen
+     */
+    fun androidScrollScreenFromOnePointToCenterPoint(
+        driver: MobileDriver<*>,
+        originPoint: Point,
+        horizontalScroll: Boolean
+    ) {
+
+        val animationTime = 200 // ms
+        val pressTime = 200 // ms
+        val screenSize = driver.manage().window().size
+        var destinationPointX = originPoint.x
+        var destinationPointY = originPoint.y
+
+        if (horizontalScroll){
+            destinationPointX = screenSize.width/2
+        }else{
+            destinationPointY = screenSize.height/2
+        }
+
+        val destinationPoint = PointOption.point(destinationPointX, destinationPointY)
+
+        AndroidTouchAction(driver)
+            .press(PointOption.point(originPoint.x, originPoint.y))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
+            .moveTo(destinationPoint).perform()
+
+        Thread.sleep(animationTime.toLong())
+
+    }
+
+    /**
+     * Scrolls from the position of a given element to the border of the screen
      */
     fun iosScrollScreenFromOnePointToBorder(
         driver: MobileDriver<*>,
         originPoint: Point,
         swipeDirection: SwipeDirection
     ) {
-        val borderEdge = 10
+        val horizontalBorderEdge = 10
+        val verticalBorderEdge = 300
         val screenSize = driver.manage().window().size
+
+        /**
+         * Should not click outside the screen border. On iOS, clicks near the border sometimes won't work, so
+         * the origin point is reworked to half the size of the screen
+         */
+        if (originPoint.x >= screenSize.width / 2)
+            originPoint.x = screenSize.width / 2
+        if (originPoint.y >= screenSize.height / 2)
+            originPoint.y = screenSize.height / 2
+
+        val destinationPoint = when (swipeDirection) {
+            SwipeDirection.DOWN -> Point(originPoint.x, screenSize.height - verticalBorderEdge)
+            SwipeDirection.UP -> Point(originPoint.x, verticalBorderEdge)
+            SwipeDirection.LEFT -> Point(horizontalBorderEdge, originPoint.y)
+            SwipeDirection.RIGHT -> Point(screenSize.width - horizontalBorderEdge, originPoint.y)
+            else -> throw IllegalArgumentException("Diretion '$swipeDirection' not supported")
+        }
+
+        IOSTouchAction(driver)
+            .press(PointOption.point(originPoint.x, originPoint.y))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
+            .moveTo(PointOption.point(destinationPoint)).perform()
+    }
+
+    /**
+     * Scrolls from the position of a given point to the center of the screen
+     */
+    fun iosScrollScreenFromOnePointToCenterPoint(
+        driver: MobileDriver<*>,
+        originPoint: Point,
+        horizontalScroll: Boolean
+    ) {
+
+        val animationTime = 200 // ms
+        val pressTime = 200 // ms
+        val screenSize = driver.manage().window().size
+        var destinationPointX = originPoint.x
+        var destinationPointY = originPoint.y
 
         // should not click outside the screen border. For some reason on iOS, clicks near the border won't work, so
         // the origin point is reworked to half the size of the screen
@@ -189,18 +259,20 @@ object AppiumUtil {
         if (originPoint.y >= screenSize.height / 2)
             originPoint.y = screenSize.height / 2
 
-        val destinationPoint = when (swipeDirection) {
-            SwipeDirection.DOWN -> Point(originPoint.x, screenSize.height - borderEdge)
-            SwipeDirection.UP -> Point(originPoint.x, borderEdge)
-            SwipeDirection.LEFT -> Point(borderEdge, originPoint.y)
-            SwipeDirection.RIGHT -> Point(screenSize.width - borderEdge, originPoint.y)
-            else -> throw IllegalArgumentException("Diretion '$swipeDirection' not supported")
+        if (horizontalScroll){
+            destinationPointX = screenSize.width/2
+        }else{
+            destinationPointY = screenSize.height/2
         }
+
+        val destinationPoint = PointOption.point(destinationPointX, destinationPointY)
 
         IOSTouchAction(driver)
             .press(PointOption.point(originPoint.x, originPoint.y))
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
-            .moveTo(PointOption.point(destinationPoint)).perform()
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
+            .moveTo(destinationPoint).perform()
+
+        Thread.sleep(animationTime.toLong())
 
     }
 
