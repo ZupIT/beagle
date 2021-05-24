@@ -19,7 +19,7 @@ import kotlin.collections.LinkedHashSet
 
 /**
  *
- * For the Categories ListView tests, some methods include in its name references to lists of Type A or C. Refer to
+ * For the Categories ListView tests, some methods include in its name references to lists of Type A or B. Refer to
  * the drawing bellow to understand these references.
  *
  *  categoriesListViewA [listView]
