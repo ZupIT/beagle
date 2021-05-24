@@ -210,9 +210,18 @@ object AppiumUtil {
         originPoint: Point,
         swipeDirection: SwipeDirection
     ) {
-        val horizontalBorderEdge = 10
-        val verticalBorderEdge = 300
+        val horizontalBorderEdge = 100
+        val verticalBorderEdge = 300 // parei aqui, rever estrategia de scroll
         val screenSize = driver.manage().window().size
+
+
+        /**
+         * Origin point should not be located before border limits
+         */
+        if (originPoint.x < horizontalBorderEdge)
+            originPoint.x = horizontalBorderEdge
+        if (originPoint.y < verticalBorderEdge)
+            originPoint.y = verticalBorderEdge
 
         /**
          * Should not click outside the screen border. On iOS, clicks near the border sometimes won't work, so
@@ -222,6 +231,7 @@ object AppiumUtil {
             originPoint.x = screenSize.width / 2
         if (originPoint.y >= screenSize.height / 2)
             originPoint.y = screenSize.height / 2
+
 
         val destinationPoint = when (swipeDirection) {
             SwipeDirection.DOWN -> Point(originPoint.x, screenSize.height - verticalBorderEdge)
@@ -252,8 +262,10 @@ object AppiumUtil {
         var destinationPointX = originPoint.x
         var destinationPointY = originPoint.y
 
-        // should not click outside the screen border. For some reason on iOS, clicks near the border won't work, so
-        // the origin point is reworked to half the size of the screen
+        /**
+         * Should not click outside the screen border. On iOS, clicks near the border sometimes won't work, so
+         * the origin point is reworked to half the size of the screen
+         */
         if (originPoint.x >= screenSize.width / 2)
             originPoint.x = screenSize.width / 2
         if (originPoint.y >= screenSize.height / 2)

@@ -184,15 +184,13 @@ class ListViewScreenSteps : AbstractStep() {
             characterListPosition = columns[4]!!.toInt()
             character = columns[5]!!
 
-            //try { // TODO: remove this try-catch, it's for debug only on iOS
-                categoryListViewItem = categoriesList.elementAt(categoryListPosition).elementAt(bookListPosition)
 
-                Assert.assertEquals(title, categoryListViewItem.title.removePrefix("Title: "))
-                Assert.assertEquals(author, categoryListViewItem.author.removePrefix("Author: "))
-                Assert.assertEquals(character, categoryListViewItem.characters[characterListPosition])
-//            }catch (e : Exception){
-//                println(e)
-//            }
+            categoryListViewItem = categoriesList.elementAt(categoryListPosition).elementAt(bookListPosition)
+
+            Assert.assertEquals(title, categoryListViewItem.title.removePrefix("Title: "))
+            Assert.assertEquals(author, categoryListViewItem.author.removePrefix("Author: "))
+            Assert.assertEquals(character, categoryListViewItem.characters[characterListPosition])
+
         }
     }
 
@@ -519,7 +517,8 @@ class ListViewScreenSteps : AbstractStep() {
      */
     private fun getListViewElement(parentElement: MobileElement): MobileElement? {
         if (SuiteSetup.isIos()) {
-            return waitForChildElementToBePresent(parentElement, By.xpath("(.//XCUIElementTypeCollectionView)[1]")
+            return waitForChildElementToBePresent(
+                parentElement, By.xpath("(.//XCUIElementTypeCollectionView)[1]")
             )
         } else {
             return waitForChildElementToBePresent(
