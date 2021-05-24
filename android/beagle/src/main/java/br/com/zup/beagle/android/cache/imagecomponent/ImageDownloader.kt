@@ -22,7 +22,6 @@ import android.graphics.BitmapFactory
 import android.util.DisplayMetrics
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import kotlinx.coroutines.withContext
-import java.io.InputStream
 import java.net.URL
 
 internal object URLFactory {
