@@ -205,14 +205,21 @@ object AppiumUtil {
     /**
      * Scrolls from the position of a given element to the border of the screen
      */
+    @Deprecated("Not accurate. Currently, iOS only supports scrolling within an element or to a element, " +
+            "without specifying a starting point.")
     fun iosScrollScreenFromOnePointToBorder(
         driver: MobileDriver<*>,
         originPoint: Point,
         swipeDirection: SwipeDirection
     ) {
         val horizontalBorderEdge = 100
-        val verticalBorderEdge = 300 // parei aqui, rever estrategia de scroll
+        val verticalBorderEdge = 100
         val screenSize = driver.manage().window().size
+
+        var timeout = 200L
+        if (swipeDirection == SwipeDirection.UP || swipeDirection == SwipeDirection.DOWN) {
+            timeout = 2000L
+        }
 
 
         /**
@@ -243,13 +250,15 @@ object AppiumUtil {
 
         IOSTouchAction(driver)
             .press(PointOption.point(originPoint.x, originPoint.y))
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(timeout)))
             .moveTo(PointOption.point(destinationPoint)).perform()
     }
 
     /**
      * Scrolls from the position of a given point to the center of the screen
      */
+    @Deprecated("Not precise. Currently, iOS only supports scrolling within an element or to a element, " +
+            "without specifying a starting point.")
     fun iosScrollScreenFromOnePointToCenterPoint(
         driver: MobileDriver<*>,
         originPoint: Point,
@@ -286,6 +295,30 @@ object AppiumUtil {
 
         Thread.sleep(animationTime.toLong())
 
+    }
+
+    /**
+     * Uses the visible part of the given element as the unit of  the scrolling. If the direction is up or
+     * down, the display will be scrolled by the height of the element. If the direction is right or left the element
+     * will be scrolled by its visible width.
+     * source: https://developers.perfectomobile.com/pages/viewpage.action?pageId=25199704
+     */
+    fun iosScrollScreenWithinElement(
+        driver: MobileDriver<*>,
+        element: MobileElement,
+        swipeDirection: SwipeDirection
+    ) {
+
+        val scrollObject = HashMap<String, String>()
+        when (swipeDirection) {
+            SwipeDirection.DOWN -> scrollObject["direction"] = "down"
+            SwipeDirection.UP -> scrollObject["direction"] = "up"
+            SwipeDirection.LEFT -> scrollObject["direction"] = "left"
+            SwipeDirection.RIGHT -> scrollObject["direction"] = "right"
+            else -> throw IllegalArgumentException("mobileSwipeScreenIOS(): dir: '$swipeDirection' NOT supported")
+        }
+        scrollObject["element"] = element.id
+        (driver as JavascriptExecutor).executeScript("mobile:scroll", scrollObject)
     }
 
     /**
