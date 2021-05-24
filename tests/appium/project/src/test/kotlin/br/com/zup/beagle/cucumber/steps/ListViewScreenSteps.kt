@@ -287,7 +287,6 @@ class ListViewScreenSteps : AbstractStep() {
             if (SuiteSetup.isIos())
                 iosScrollWithinElement(categoriesListViewOfTypeBElement, SwipeDirection.RIGHT)
             else
-
                 scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.LEFT)
 
             childrenElementsOfCategoriesListOfTypeB =
