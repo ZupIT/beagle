@@ -18,23 +18,43 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.automatedtests.constants.TEXT_IMAGE_REMOTE
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 
 object ImageRemoteScreenBuilder {
+
     fun build() = Screen(
-        child = Container(
+        navigationBar = NavigationBar(
+            title = "Beagle Image Remote",
+            showBackButton = true,
+            navigationBarItems = listOf(
+                NavigationBarItem(
+                    text = "",
+                    image = ImagePath.Local.justMobile("informationImage"),
+                    action = Alert(
+                        title = "Image Remote",
+                        message = "It is a widget that implements an image with a URL.",
+                        labelOk = "OK"
+                    )
+                )
+            )
+        ),
+        child = ScrollView(
+            scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(buildImage(title = "Image Remote")) +
                 ImageContentMode.values().map { buildImage("Image Remote with Mode.$it", it) }
         )
@@ -43,27 +63,18 @@ object ImageRemoteScreenBuilder {
     private fun buildImage(title: String, mode: ImageContentMode? = null) = Container(
         children = listOf(
             buildText(title),
-            Image(ImagePath.Remote(BEACH_NETWORK_IMAGE), mode).applyStyle(Style(
-                flex = Flex(
-                    alignSelf = AlignSelf.CENTER
-                ),
-                size = Size(
-                    width = 150.unitReal(),
-                    height = 130.unitReal()
-                ))
-            )
+            Image(ImagePath.Remote(BEACH_NETWORK_IMAGE), mode).setStyle {
+                flex = Flex(alignSelf = AlignSelf.CENTER)
+                size = Size.box(width = 150, height = 130)
+            }
         )
     )
 
     private fun buildText(text: String) = Text(
         text = text,
         styleId = TEXT_IMAGE_REMOTE
-    ).applyStyle(Style(
-        flex = Flex(
-            alignSelf = AlignSelf.CENTER
-        ),
-        margin = EdgeValue(
-            top = 2.unitReal()
-        ))
-    )
+    ).setStyle {
+        flex = Flex(alignSelf = AlignSelf.CENTER)
+        margin = EdgeValue.only(top = 8)
+    }
 }
