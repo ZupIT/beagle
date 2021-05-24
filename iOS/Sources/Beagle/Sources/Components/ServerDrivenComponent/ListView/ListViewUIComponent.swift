@@ -57,7 +57,7 @@ final class ListViewUIComponent: UIView {
     private var cellsContextManager = CellsContextManager()
     private var itemsSize = [Int: CGSize]()
     
-    let model: Model
+    var model: Model
     
     var items: [DynamicObject]? {
         didSet {
@@ -219,6 +219,7 @@ extension ListViewUIComponent {
         var onScrollEnd: [Action]?
         var scrollEndThreshold: CGFloat
         var isScrollIndicatorVisible: Bool
+        var columns: Int = 1
     }
 }
 
@@ -296,6 +297,7 @@ extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var size = collectionView.frame.size
+        size.width = (size.width / CGFloat(model.columns)).rounded(.down)
         guard let items = items, indexPath.item < items.count else {
             return size
         }

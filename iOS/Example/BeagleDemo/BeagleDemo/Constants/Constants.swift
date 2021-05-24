@@ -28,6 +28,7 @@ extension String {
     static let pageViewEndpoint = "pageview"
     static let tabBarEndpoint = "tabbar"
     static let listViewEndpoint = "listview"
+    static let gridViewEndpoint = "gridview"
     static let formEndpoint = "form"
     static let customComponentEndpoint = "customComponent"
     static let componentsEndpoint = "/components"

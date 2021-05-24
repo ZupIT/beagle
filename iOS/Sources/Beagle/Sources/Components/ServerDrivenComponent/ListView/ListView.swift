@@ -153,7 +153,7 @@ extension WidgetProperties {
         case accessibility
     }
 
-    fileprivate init(listFrom decoder: Decoder) throws {
+    internal init(listFrom decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: DefaultCodingKeys.self)
 
         id = try container.decodeIfPresent(String.self, forKey: .id)
