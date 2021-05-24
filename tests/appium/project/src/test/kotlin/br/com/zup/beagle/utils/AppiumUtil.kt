@@ -265,6 +265,8 @@ object AppiumUtil {
         horizontalScroll: Boolean
     ) {
 
+        val horizontalBorderEdge = 100
+        val verticalBorderEdge = 100
         val animationTime = 200 // ms
         val pressTime = 200 // ms
         val screenSize = driver.manage().window().size
@@ -275,10 +277,10 @@ object AppiumUtil {
          * Should not click outside the screen border. On iOS, clicks near the border sometimes won't work, so
          * the origin point is reworked to half the size of the screen
          */
-        if (originPoint.x >= screenSize.width / 2)
-            originPoint.x = screenSize.width / 2
-        if (originPoint.y >= screenSize.height / 2)
-            originPoint.y = screenSize.height / 2
+        if (originPoint.x > (screenSize.width - horizontalBorderEdge))
+            originPoint.x = screenSize.width - horizontalBorderEdge
+        if (originPoint.y >= (screenSize.height - verticalBorderEdge))
+            originPoint.y = screenSize.height - verticalBorderEdge
 
         if (horizontalScroll){
             destinationPointX = screenSize.width/2

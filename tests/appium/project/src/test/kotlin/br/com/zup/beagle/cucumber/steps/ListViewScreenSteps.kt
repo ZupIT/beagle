@@ -246,8 +246,6 @@ class ListViewScreenSteps : AbstractStep() {
         if (childrenOfCategoriesListViewOfTypeA.size != 3)
             throw Exception("couldn't find all three lists")
 
-        // TODO: review the stategy bellow, because on iOS it is not scrolling to center
-
         // Fantasy list
         scrollFromOnePointToCenterPoint(childrenOfCategoriesListViewOfTypeA[0].location, false)
         allItems.add(extractAllItemsOfACategoriesListViewOfTypeB(childrenOfCategoriesListViewOfTypeA[0])!!)
