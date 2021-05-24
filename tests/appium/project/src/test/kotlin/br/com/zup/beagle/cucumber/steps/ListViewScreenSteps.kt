@@ -467,7 +467,6 @@ class ListViewScreenSteps : AbstractStep() {
         if (SuiteSetup.isIos()) {
             childrenOfCategoryListViewOfTypeBLocator =
                 MobileBy.iOSClassChain("**/XCUIElementTypeCell[\$type == 'XCUIElementTypeCollectionView'\$]")
-            //By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeCollectionView]")
 
         } else {
             childrenOfCategoryListViewOfTypeBLocator =
@@ -597,19 +596,14 @@ class ListViewScreenSteps : AbstractStep() {
                 childElement,
                 By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
             )
-            // childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
-            // book
             var element2 = waitForChildElementToBePresent(
                 childElement,
                 By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[2]")
             )
-            // childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[2]")
-            // collection
             var element3 = waitForChildElementToBePresent(
                 childElement,
                 By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[3]")
             )
-            // childElement.findElementByXPath("(.//android.view.ViewGroup//android.widget.TextView)[3]")
 
             childElementText = element1.text + ";" + element2.text + ";" + element3.text
 
@@ -656,7 +650,6 @@ class ListViewScreenSteps : AbstractStep() {
         }
 
         return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
-        //listViewElement.findElement(lastChildOfListViewLocator)
 
     }
 
@@ -677,7 +670,6 @@ class ListViewScreenSteps : AbstractStep() {
         }
 
         return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
-        //return listViewElement.findElement(lastChildOfListViewLocator)
 
     }
 
