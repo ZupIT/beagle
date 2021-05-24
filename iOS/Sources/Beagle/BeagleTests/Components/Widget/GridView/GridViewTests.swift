@@ -27,7 +27,7 @@ class GridViewTests: XCTestCase {
 
     let simpleContext: DynamicObject = ["L", "I", "S", "T", "V", "I", "E", "W"]
     
-    func testeGridViewTemplateSimple() {
+    func testGridViewTemplateSimple() {
         // Given
         let component = createGridView(
             contextValue: simpleContext,
@@ -41,7 +41,7 @@ class GridViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
     
-    func testeGridViewWithFourColumns() {
+    func testGridViewWithFourColumns() {
         // Given
         let component = createGridView(
             contextValue: simpleContext,
@@ -57,7 +57,7 @@ class GridViewTests: XCTestCase {
     
     let contextDifferentSizes: DynamicObject = ["LIST VIEW", "LIST VIEW, LIST VIEW, LIST VIEW", "1", "LIST VIEW", "TEST 1, TEST 1, TEST 1", "TEST LIST VIEW, LIST VIEW, LIST VIEW", "12345, 12345, 12345"]
   
-    func testeGridViewTemplateWithDifferentSizes() {
+    func testGridViewTemplateWithDifferentSizes() {
         // Given
         let component = createGridView(
             contextValue: contextDifferentSizes,
@@ -71,7 +71,7 @@ class GridViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
     
-    func testeGridViewWithNumColumnsZero() {
+    func testGridViewWithNumColumnsZero() {
         // Given
         let component = createGridView(
             contextValue: contextDifferentSizes,
