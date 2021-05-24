@@ -76,8 +76,10 @@ data class Image constructor(
         rootView.getContext(),
         getCornerRadius(),
     ).apply {
-        if (style?.size?.width == null || style?.size?.height == null) {
-            adjustViewBounds = true
+        style?.size?.let { size ->
+            if (size.width == null || size.height == null) {
+                adjustViewBounds = true
+            }
         }
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
     }

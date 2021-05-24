@@ -173,7 +173,6 @@ internal class ImageTest : BaseComponentTest() {
                     )
                 )
             )
-            every { imageView.adjustViewBounds = any() } just Runs
 
             // When
             image.buildView(rootView)
@@ -188,7 +187,6 @@ internal class ImageTest : BaseComponentTest() {
             // Given
             val image = imageLocal.applyStyle(Style(size = Size(width = 100.unitReal())))
             every { imageView.scaleType = any() } just Runs
-            every { imageView.adjustViewBounds = any() } just Runs
 
             // When
             image.buildView(rootView)

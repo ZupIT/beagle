@@ -30,7 +30,7 @@ import org.junit.runner.RunWith
      * running all tests on Android: "@android and not @inProgress"
      * running all tests on iOS: "@ios and not @inProgress"
      */
-    tags = "@image and not @inProgress",
+    tags = "@android and not @inProgress",
     features = ["src/test/resources/features"],
     plugin = ["br.com.zup.beagle.setup.SuiteSetupPlugin"]
 )

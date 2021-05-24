@@ -31,7 +31,7 @@ class AppDesignSystem : DesignSystem() {
     override fun tabViewStyle(id: String) = R.style.DesignSystem_TabView_Default
 
     override fun image(id: String) = when (id) {
-        "imageBeagle" -> R.drawable.beagle_logo
+        "beagle_logo" -> R.drawable.beagle_logo
         "informationImage" -> android.R.drawable.ic_menu_help
         "delete" -> android.R.drawable.ic_delete
         "TestImage" -> android.R.drawable.editbox_dropdown_dark_frame
