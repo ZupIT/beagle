@@ -19,6 +19,7 @@ package br.com.zup.beagle.cucumber.steps
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
+import org.junit.Assert
 
 private const val IMAGE_SCREEN_HEADER = "without size"
 
@@ -37,7 +38,6 @@ class ImageScreenSteps : AbstractStep() {
 
     @Then("^take a screenshot from ImageScreenBuilder and assert it is identical to the (.*) image$")
     fun checkImageAttributes(imageDbToCompare: String) {
-        registerCurrentScreenInDatabase(imageDbToCompare)
-//        Assert.assertTrue(compareCurrentScreenWithDatabase(imageDbToCompare))
+        Assert.assertTrue(compareCurrentScreenWithDatabase(imageDbToCompare))
     }
 }
