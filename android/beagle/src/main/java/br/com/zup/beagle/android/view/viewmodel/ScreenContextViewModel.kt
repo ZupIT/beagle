@@ -74,6 +74,12 @@ internal class ScreenContextViewModel(
         return contextDataEvaluation.evaluateBindExpression(contexts, bind)
     }
 
+    fun evaluateExpressionForGivenContext(originView: View, givenContext: ContextData, bind: Bind.Expression<*>): Any? {
+        val contexts = contextDataManager.getContextsFromBind(originView, bind).toMutableList()
+        contexts += givenContext
+        return contextDataEvaluation.evaluateBindExpression(contexts, bind)
+    }
+
     fun clearContexts() {
         contextDataManager.clearContexts()
     }

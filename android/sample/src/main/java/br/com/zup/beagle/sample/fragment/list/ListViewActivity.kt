@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.list.ListViewTemplate
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.utils.toView
@@ -58,16 +59,31 @@ class ListViewActivity : AppCompatActivity() {
         dataSource = expressionOf("@{outsideContext}"),
         direction = ListDirection.VERTICAL,
         isScrollIndicatorVisible = true,
-        template = Container(
-            children = listOf(
-                Text(text = expressionOf("@{item}")),
-                list
-            )
-        ).applyStyle(
-            Style(
-                size = Size(width = 100.unitPercent(), height = 600.unitReal())
+//        template = Container(
+//            children = listOf(
+//                Text(text = expressionOf("@{item}")),
+//                list
+//            )
+//        ).applyStyle(
+//            Style(
+//                size = Size(width = 100.unitPercent(), height = 600.unitReal())
+//            )
+//        )
+    templates = listOf(
+        ListViewTemplate(
+            case = null,
+            view = Container(
+                children = listOf(
+                    Text(text = expressionOf("@{item}")),
+                    list
+                )
+            ).applyStyle(
+                Style(
+                    size = Size(width = 100.unitPercent(), height = 600.unitReal())
+                )
             )
         )
+    )
     )
 
     data class Person(
@@ -149,24 +165,47 @@ class ListViewActivity : AppCompatActivity() {
         dataSource = expressionOf("@{insideContext}"),
         direction = ListDirection.HORIZONTAL,
         isScrollIndicatorVisible = true,
-        template = Container(
-            children = listOf(
-                Button(
-                    text = expressionOf("@{item.name} - @{item.cpf}"),
-                    onPress = listOf(
-                        SetContext(
-                            contextId = "insideContext",
-                            path = "[0].name",
-                            value = "Updated John"
+//        template = Container(
+//            children = listOf(
+//                Button(
+//                    text = expressionOf("@{item.name} - @{item.cpf}"),
+//                    onPress = listOf(
+//                        SetContext(
+//                            contextId = "insideContext",
+//                            path = "[0].name",
+//                            value = "Updated John"
+//                        )
+//                    )
+//                ).applyStyle(
+//                    Style(
+//                        size = Size(width = 300.unitReal(), height = 80.unitReal())
+//                    )
+//                )
+//            )
+//        )
+    templates = listOf(
+        ListViewTemplate(
+            case = null,
+            view = Container(
+                children = listOf(
+                    Button(
+                        text = expressionOf("@{item.name} - @{item.cpf}"),
+                        onPress = listOf(
+                            SetContext(
+                                contextId = "insideContext",
+                                path = "[0].name",
+                                value = "Updated John"
+                            )
                         )
-                    )
-                ).applyStyle(
-                    Style(
-                        size = Size(width = 300.unitReal(), height = 80.unitReal())
+                    ).applyStyle(
+                        Style(
+                            size = Size(width = 300.unitReal(), height = 80.unitReal())
+                        )
                     )
                 )
             )
         )
+    ),
     ).applyStyle(
         Style(
             backgroundColor = "#CCC"

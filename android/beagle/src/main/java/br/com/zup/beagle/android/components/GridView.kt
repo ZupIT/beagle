@@ -55,7 +55,7 @@ data class GridView constructor(
             key = key,
         )
 
-        beagleListView.numColums = numColumns
+        beagleListView.numColumns = numColumns
 
         return beagleListView.buildView(rootView)
     }
