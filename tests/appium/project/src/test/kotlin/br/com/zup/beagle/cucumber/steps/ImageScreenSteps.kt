@@ -21,7 +21,7 @@ import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import org.junit.Assert
 
-private const val IMAGE_SCREEN_HEADER = "without size"
+private const val TEXT_CONTAINED_IN_IMAGE_SCREEN = "without size"
 
 class ImageScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/image"
@@ -33,7 +33,7 @@ class ImageScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the image screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(IMAGE_SCREEN_HEADER, likeSearch = true, ignoreCase = false)
+        waitForElementWithTextToBeClickable(TEXT_CONTAINED_IN_IMAGE_SCREEN, likeSearch = true, ignoreCase = false)
     }
 
     @Then("^take a screenshot from ImageScreenBuilder and assert it is identical to the (.*) image$")

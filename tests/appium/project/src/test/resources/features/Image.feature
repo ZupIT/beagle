@@ -24,5 +24,5 @@ Feature: Image Component Validation
     Background:
         Given that I'm on the image screen
 
-    Scenario: Image - Snapshot test
+    Scenario: Image - Screenshot test
         Then take a screenshot from ImageScreenBuilder and assert it is identical to the ImageScreen image
