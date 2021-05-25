@@ -72,7 +72,7 @@ jobs:
         run: bash ./fastlane/automatedTests/deploy_test_backend.sh
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          VERSION: ${{ github.sha }}
+          VERSION: ${{ github.event.workflow_run.head_sha }}
           CLUSTER: ${{ env.BEAGLE_CORE_AWS_AWS_CLUSTER_NAME }}
           NAMESPACE: ${{ env.BEAGLE_CORE_AWS_AWS_CLUSTER_NAMESPACE }}
 
@@ -127,4 +127,3 @@ jobs:
         with:
           name: failed_tests_screenshots
           path: tests/appium/project/build/screenshots/
-
