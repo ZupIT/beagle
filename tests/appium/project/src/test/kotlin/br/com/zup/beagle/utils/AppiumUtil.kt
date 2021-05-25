@@ -205,8 +205,6 @@ object AppiumUtil {
     /**
      * Scrolls from the position of a given element to the border of the screen
      */
-    @Deprecated("Not accurate. Currently, iOS only supports scrolling within an element or to a element, " +
-            "without specifying a starting point.")
     fun iosScrollScreenFromOnePointToBorder(
         driver: MobileDriver<*>,
         originPoint: Point,
@@ -257,8 +255,6 @@ object AppiumUtil {
     /**
      * Scrolls from the position of a given point to the center of the screen
      */
-    @Deprecated("Not precise. Currently, iOS only supports scrolling within an element or to a element, " +
-            "without specifying a starting point.")
     fun iosScrollScreenFromOnePointToCenterPoint(
         driver: MobileDriver<*>,
         originPoint: Point,
