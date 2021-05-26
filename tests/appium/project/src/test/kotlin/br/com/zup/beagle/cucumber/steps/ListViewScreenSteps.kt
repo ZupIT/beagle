@@ -279,7 +279,6 @@ class ListViewScreenSteps : AbstractStep() {
         val allItems = LinkedHashSet<CategoryListViewItem>()
         do {
 
-            var lastChildElementTemp = childrenTextElementsOfCategoriesListOfTypeBTemp.last()
             var lastParsedChildElementTemp = parsedChildrenElementsTemp!!.last()
 
             for (parsedItem in parsedChildrenElementsTemp!!) {
@@ -288,8 +287,12 @@ class ListViewScreenSteps : AbstractStep() {
 
             if (SuiteSetup.isIos())
                 iosScrollWithinElement(categoriesListViewOfTypeBElement, SwipeDirection.RIGHT)
-            else
-                scrollFromOnePointToBorder(lastChildElementTemp.location, SwipeDirection.LEFT)
+            else {
+                scrollFromOnePointToBorder(
+                    getLastChildOfListViewOfTypeB(categoriesListViewOfTypeBElement).location,
+                    SwipeDirection.LEFT
+                )
+            }
 
             childrenTextElementsOfCategoriesListOfTypeBTemp =
                 getChildrenTextElementsOfCategoriesListViewOfTypeB(categoriesListViewOfTypeBElement)
@@ -719,6 +722,22 @@ class ListViewScreenSteps : AbstractStep() {
         }
 
         return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
+
+    }
+
+    private fun getLastChildOfListViewOfTypeB(listViewOfTypeBElement: MobileElement): MobileElement {
+
+        var lastChildOfListViewLocator: By?
+
+        if (SuiteSetup.isIos()) {
+            lastChildOfListViewLocator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeCell[\$type == 'XCUIElementTypeCollectionView'\$][-1]")
+        } else {
+            lastChildOfListViewLocator =
+                By.xpath(".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView][last()]")
+        }
+
+        return waitForChildElementToBePresent(listViewOfTypeBElement, lastChildOfListViewLocator)
 
     }
 
