@@ -226,8 +226,8 @@ Feature: ListView Component Validation
       | 8        | Genre: Sci-fi   | Heaven's River                           | Author: Dennis E. Taylor    | Collection: Bobiverse              | Book Number: 4.0  | Rating: 4.8 |
       | 9        | Genre: Sci-fi   | Leviathan Wakes                          | Author: James S.A. Corey    | Collection: The Expanse            | Book Number: 1.0  | Rating: 4.7 |
       | 10       | Genre: Sci-fi   | Dune                                     | Author: Frank Herbert       | Collection: Dune                   | Book Number: 1.0  | Rating: 4.6 |
-      | 11       | Genre: Sci-fi   | Dying of the Light                       | Author: George R.R. Martin  | Collection:                        | 'Book Number: '   | Rating: 4.1 |
-      | 12       | Genre: Other    | The Last Tribe                           | Author: Brad Manuel         | Collection:                        | 'Book Number: '   | Rating: 4.3 |
-      | 13       | Genre: Other    | The Cuckoo's Cry                         | Author: Caroline Overington | Collection:                        | 'Book Number: '   | Rating: 4.3 |
+      | 11       | Genre: Sci-fi   | Dying of the Light                       | Author: George R.R. Martin  | Collection:                        | Book Number:      | Rating: 4.1 |
+      | 12       | Genre: Other    | The Last Tribe                           | Author: Brad Manuel         | Collection:                        | Book Number:      | Rating: 4.3 |
+      | 13       | Genre: Other    | The Cuckoo's Cry                         | Author: Caroline Overington | Collection:                        | Book Number:      | Rating: 4.3 |
       | 14       | Genre: Other    | The Handmaid's Tale                      | Author: Margaret Atwood     | Collection: The Handmaid's Tale    | Book Number: 1.0  | Rating: 4.6 |
 

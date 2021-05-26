@@ -290,8 +290,8 @@ class ListViewScreenSteps : AbstractStep() {
             Assert.assertEquals(genreTemp, booksListItemTemp.genre)
             Assert.assertEquals(titleTemp, booksListItemTemp.title)
             Assert.assertEquals(authorTemp, booksListItemTemp.author)
-            Assert.assertEquals(collectionTemp, booksListItemTemp.collection)
-            Assert.assertEquals(bookNumberTemp, booksListItemTemp.bookNumber)
+            Assert.assertEquals(collectionTemp.trim(), booksListItemTemp.collection.trim())
+            Assert.assertEquals(bookNumberTemp.trim(), booksListItemTemp.bookNumber.trim())
             Assert.assertEquals(ratingTemp, booksListItemTemp.rating)
 
         }
