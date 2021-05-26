@@ -1,6 +1,7 @@
 package br.com.zup.beagle.cucumber.steps
 
 import br.com.zup.beagle.setup.SuiteSetup
+import br.com.zup.beagle.utils.AppiumUtil
 import br.com.zup.beagle.utils.SwipeDirection
 import io.appium.java_client.MobileBy
 import io.appium.java_client.MobileElement
@@ -158,6 +159,7 @@ class ListViewScreenSteps : AbstractStep() {
                 categoriesList.addAll(extractAllThreeListsOfCategoriesListViewOfTypeA(listViewElement!!)!!)
             }
             "booksList" -> {
+                swipeUp()
                 swipeUp()
                 val listViewElement = getListViewElement("booksList")
                 booksListList.addAll(extractAllItemsOfListViewBooksList(listViewElement!!)!!)
@@ -372,7 +374,6 @@ class ListViewScreenSteps : AbstractStep() {
 
         } while (parsedChildrenElementsTemp!!.last() != lastParsedChildElementTemp)
 
-        println("LINE: " + allItems.toString())
         return allItems
     }
 
@@ -527,12 +528,20 @@ class ListViewScreenSteps : AbstractStep() {
             if (SuiteSetup.isIos())
                 iosScrollWithinElement(listViewElement, SwipeDirection.DOWN)
             else
-                scrollFromOnePointToBorder(getLastChildOfListView(listViewElement).location, SwipeDirection.UP)
+                AppiumUtil.androidScrollScreenFromOnePointToAnother(
+                    getDriver(),
+                    getLastChildOfListView(listViewElement).location,
+                    listViewElement.location
+                )
 
             childrenElementsValuesTemp = getChildrenOfListViewBooksList(listViewElement)
             childrenElementsValues.addAll(childrenElementsValuesTemp)
 
         } while (lastChildElementValue != childrenElementsValuesTemp.last())
+
+        // TODO: temp, remover esse print
+        for (item in childrenElementsValues)
+            println("LINE: " + item.toString())
 
         return childrenElementsValues
     }
@@ -568,9 +577,13 @@ class ListViewScreenSteps : AbstractStep() {
                 "categoriesList" ->
                     return waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[2]"))
                 "booksList" ->
-                    return waitForElementToBePresent(By.xpath("//android.widget.TextView[contains(@text," +
-                            "'Books List View (infinite scroll):')]/following-sibling::" +
-                            "androidx.recyclerview.widget.RecyclerView[1]"))
+                    return waitForElementToBePresent(
+                        By.xpath(
+                            "//android.widget.TextView[contains(@text," +
+                                    "'Books List View (infinite scroll):')]/following-sibling::" +
+                                    "androidx.recyclerview.widget.RecyclerView[1]"
+                        )
+                    )
                 else -> return null
             }
         }
@@ -617,6 +630,7 @@ class ListViewScreenSteps : AbstractStep() {
         var elementTextTemp = ""
         for (textElement in getTextChildrenElementsOfListView(booksListListViewElement)) {
             elementTextTemp = textElement.text
+
             when {
                 elementTextTemp.startsWith("Author:", ignoreCase = true) -> authorTemp = elementTextTemp
                 elementTextTemp.startsWith("Collection:", ignoreCase = true) -> collectionTemp = elementTextTemp
@@ -624,6 +638,17 @@ class ListViewScreenSteps : AbstractStep() {
                 elementTextTemp.startsWith("Genre:", ignoreCase = true) -> genreTemp = elementTextTemp
                 elementTextTemp.startsWith("Rating:", ignoreCase = true) -> {
                     ratingTemp = elementTextTemp
+
+                    if (titleTemp.isEmpty() ||
+                        authorTemp.isEmpty() ||
+                        collectionTemp.isEmpty() ||
+                        bookNumberTemp.isEmpty() ||
+                        genreTemp.isEmpty() ||
+                        ratingTemp.isEmpty()
+                    )
+                        continue
+
+
                     childrenList.add(
                         BooksListListViewItem(
                             titleTemp,

@@ -140,8 +140,31 @@ object AppiumUtil {
     }
 
     /**
+     * Scrolls from the position of originPoint to destinationPoint
+     */
+    @Synchronized
+    fun androidScrollScreenFromOnePointToAnother(
+        driver: MobileDriver<*>,
+        originPoint: Point,
+        destinationPoint: Point,
+    ) {
+
+        val animationTime = 200 // ms
+        val pressTime = 200 // ms
+
+        AndroidTouchAction(driver)
+            .press(PointOption.point(originPoint.x, originPoint.y))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
+            .moveTo(PointOption.point(destinationPoint.x, destinationPoint.y)).perform()
+
+        Thread.sleep(animationTime.toLong())
+
+    }
+
+    /**
      * Scrolls from the position of a given point to the border of the screen
      */
+    @Synchronized
     fun androidScrollScreenFromOnePointToBorder(
         driver: MobileDriver<*>,
         originPoint: Point,
@@ -173,6 +196,7 @@ object AppiumUtil {
     /**
      * Scrolls from the position of a given point to the center of the screen
      */
+    @Synchronized
     fun androidScrollScreenFromOnePointToCenterPoint(
         driver: MobileDriver<*>,
         originPoint: Point,
@@ -205,6 +229,7 @@ object AppiumUtil {
     /**
      * Scrolls from the position of a given element to the border of the screen
      */
+    @Synchronized
     fun iosScrollScreenFromOnePointToBorder(
         driver: MobileDriver<*>,
         originPoint: Point,
@@ -255,6 +280,7 @@ object AppiumUtil {
     /**
      * Scrolls from the position of a given point to the center of the screen
      */
+    @Synchronized
     fun iosScrollScreenFromOnePointToCenterPoint(
         driver: MobileDriver<*>,
         originPoint: Point,
@@ -301,6 +327,7 @@ object AppiumUtil {
      * will be scrolled by its visible width.
      * source: https://developers.perfectomobile.com/pages/viewpage.action?pageId=25199704
      */
+    @Synchronized
     fun iosScrollScreenWithinElement(
         driver: MobileDriver<*>,
         element: MobileElement,
