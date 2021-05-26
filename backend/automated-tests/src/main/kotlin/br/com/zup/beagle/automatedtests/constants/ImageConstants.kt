@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.constants
 
-const val LOGO_BEAGLE = "imageBeagle"
+const val LOGO_BEAGLE = "beagle_logo"
 
 const val LOGO_BEAGLE_URL = "/public/logo.png"
 
