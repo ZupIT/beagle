@@ -73,10 +73,20 @@ class ListViewScreenSteps : AbstractStep() {
         val characters: List<String>
     )
 
+    data class BooksListListViewItem(
+        val title: String,
+        val author: String,
+        val collection: String,
+        val bookNumber: String,
+        val genre: String,
+        val rating: String
+    )
+
     companion object {
         val charactersListPage1 = LinkedHashSet<String>()
         val charactersListPage2 = LinkedHashSet<String>()
         val categoriesList = LinkedHashSet<LinkedHashSet<CategoryListViewItem>>()
+        val booksListList = LinkedHashSet<BooksListListViewItem>()
     }
 
 
@@ -90,16 +100,6 @@ class ListViewScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable("Beagle ListView", likeSearch = false, ignoreCase = true)
     }
 
-    @When("^I scroll left the listView with id charactersList on pagination (.*)$")
-    fun cacheCharacterListPage1(paginationNumber: Int) {
-        val listElement = getListViewElement("charactersList")
-        val listElements = extractAllItemsOfListViewCharactersList(listElement!!)!!
-        when (paginationNumber) {
-            1 -> charactersListPage1.addAll(listElements)
-            else -> charactersListPage2.addAll(listElements)
-        }
-    }
-
     @Then("^the listView with id (.*) should have exactly (.*) items$")
     fun countListViewCharactersListPage1(listViewId: String, expectedItemCount: Int) {
         when (listViewId) {
@@ -109,22 +109,8 @@ class ListViewScreenSteps : AbstractStep() {
             "category:1" -> Assert.assertEquals(categoriesList.elementAt(0).size, expectedItemCount)
             "category:2" -> Assert.assertEquals(categoriesList.elementAt(1).size, expectedItemCount)
             "category:3" -> Assert.assertEquals(categoriesList.elementAt(2).size, expectedItemCount)
+            "booksList" -> Assert.assertEquals(booksListList.size, expectedItemCount)
             else -> throw Exception("List $listViewId not found!")
-        }
-    }
-
-    @And("^the values of the listView with id charactersList on pagination (.*) should be:$")
-    fun checkValuesOfListViewCharactersListPage1(paginationNumber: Int, dataTable: DataTable) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
-        val cachedList = when (paginationNumber) {
-            1 -> charactersListPage1.toList()
-            else -> charactersListPage2.toList()
-        }
-        for ((lineCount, columns) in rows.withIndex()) {
-            val childText = cachedList[lineCount].split(";")
-            Assert.assertEquals(columns[0]!!.trim(), childText[0].trim()) // name
-            Assert.assertEquals(columns[1]!!.trim(), childText[1].trim()) // book
-            Assert.assertEquals(columns[2]!!.trim(), childText[2].trim()) // collection
         }
     }
 
@@ -153,44 +139,41 @@ class ListViewScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable(expectedText, likeSearch = false, ignoreCase = false)
     }
 
-    @When("^I read all the elements of the listView with id categoriesList$")
-    fun getAllElementsOfListViewCategoriesList() {
-        val listViewElement = getListViewElement("categoriesList")
-        categoriesList.addAll(extractAllThreeListsOfCategoriesListViewOfTypeA(listViewElement!!)!!)
+
+    @When("^I read all the elements of the listView with id (.*)$")
+    fun getAllElementsOfListView(listViewId: String) {
+        when (listViewId) {
+            "charactersList on pagination 1" -> {
+                val listElement = getListViewElement("charactersList")
+                val listElements = extractAllItemsOfListViewCharactersList(listElement!!)!!
+                charactersListPage1.addAll(listElements)
+            }
+            "charactersList on pagination 2" -> {
+                val listElement = getListViewElement("charactersList")
+                val listElements = extractAllItemsOfListViewCharactersList(listElement!!)!!
+                charactersListPage2.addAll(listElements)
+            }
+            "categoriesList" -> {
+                val listViewElement = getListViewElement("categoriesList")
+                categoriesList.addAll(extractAllThreeListsOfCategoriesListViewOfTypeA(listViewElement!!)!!)
+            }
+            "booksList" -> {
+                swipeUp()
+                val listViewElement = getListViewElement("booksList")
+                booksListList.addAll(extractAllItemsOfListViewBooksList(listViewElement!!)!!)
+            }
+            else -> throw Exception("List $listViewId not found!")
+        }
     }
 
-
-    @And("^the values of the listView with id categoriesList and its items should be:$")
-    fun checkValuesOfListViewCategoriesList(dataTable: DataTable) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
-        var categoryListPosition: Int
-        var bookListPosition: Int
-        var title: String
-        var author: String
-        var characterListPosition: Int
-        var character: String
-        var categoryListViewItem: CategoryListViewItem
-        var categoriesList = categoriesList.toList()
-
-        for ((lineCount, columns) in rows.withIndex()) {
-
-            if (lineCount == 0) // skip header
-                continue
-
-            categoryListPosition = columns[0]!!.toInt()
-            bookListPosition = columns[1]!!.toInt()
-            title = columns[2]!!
-            author = columns[3]!!
-            characterListPosition = columns[4]!!.toInt()
-            character = columns[5]!!
-
-
-            categoryListViewItem = categoriesList.elementAt(categoryListPosition).elementAt(bookListPosition)
-
-            Assert.assertEquals(title, categoryListViewItem.title.removePrefix("Title: "))
-            Assert.assertEquals(author, categoryListViewItem.author.removePrefix("Author: "))
-            Assert.assertEquals(character, categoryListViewItem.characters[characterListPosition])
-
+    @Then("^the values of the listView with id (.*) should be:$")
+    fun checkListValues(listViewId: String, dataTable: DataTable) {
+        when (listViewId) {
+            "charactersList on pagination 1" -> validateCharactersListViewValues(dataTable, 1)
+            "charactersList on pagination 2" -> validateCharactersListViewValues(dataTable, 2)
+            "categoriesList" -> validateCategoriesListViewValues(dataTable)
+            "booksList" -> validateBooksListListViewValues(dataTable)
+            else -> throw Exception("List $listViewId not found!")
         }
     }
 
@@ -223,6 +206,93 @@ class ListViewScreenSteps : AbstractStep() {
             return initialChildrenList[0].location.y == initialChildrenList[1].location.y
         } else
             throw Exception("The given list contains only one element")
+    }
+
+
+    fun validateCharactersListViewValues(dataTable: DataTable, paginationNumber: Int) {
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val cachedList = when (paginationNumber) {
+            1 -> charactersListPage1.toList()
+            else -> charactersListPage2.toList()
+        }
+        for ((lineCount, columns) in rows.withIndex()) {
+            val childText = cachedList[lineCount].split(";")
+            Assert.assertEquals(columns[0]!!.trim(), childText[0].trim()) // name
+            Assert.assertEquals(columns[1]!!.trim(), childText[1].trim()) // book
+            Assert.assertEquals(columns[2]!!.trim(), childText[2].trim()) // collection
+        }
+    }
+
+    fun validateCategoriesListViewValues(dataTable: DataTable) {
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        var categoryListPosition: Int
+        var bookListPosition: Int
+        var title: String
+        var author: String
+        var characterListPosition: Int
+        var character: String
+        var categoryListViewItem: CategoryListViewItem
+        var categoriesList = categoriesList.toList()
+
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            categoryListPosition = columns[0]!!.toInt()
+            bookListPosition = columns[1]!!.toInt()
+            title = columns[2]!!
+            author = columns[3]!!
+            characterListPosition = columns[4]!!.toInt()
+            character = columns[5]!!
+
+
+            categoryListViewItem = categoriesList.elementAt(categoryListPosition).elementAt(bookListPosition)
+
+            Assert.assertEquals(title, categoryListViewItem.title.removePrefix("Title: "))
+            Assert.assertEquals(author, categoryListViewItem.author.removePrefix("Author: "))
+            Assert.assertEquals(character, categoryListViewItem.characters[characterListPosition])
+
+        }
+    }
+
+    fun validateBooksListListViewValues(dataTable: DataTable) {
+
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+
+        var booksListIndexTemp = 0
+        var genreTemp = ""
+        var titleTemp = ""
+        var authorTemp = ""
+        var collectionTemp = ""
+        var bookNumberTemp = ""
+        var ratingTemp = ""
+        var booksListItemTemp: BooksListListViewItem
+
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            booksListIndexTemp = columns[0]!!.toInt()
+            genreTemp = columns[1]!!
+            titleTemp = columns[2]!!
+            authorTemp = columns[3]!!
+            collectionTemp = columns[4]!!
+            bookNumberTemp = columns[5]!!
+            ratingTemp = columns[6]!!
+
+
+            booksListItemTemp = booksListList.elementAt(booksListIndexTemp)
+
+            Assert.assertEquals(genreTemp, booksListItemTemp.genre)
+            Assert.assertEquals(titleTemp, booksListItemTemp.title)
+            Assert.assertEquals(authorTemp, booksListItemTemp.author)
+            Assert.assertEquals(collectionTemp, booksListItemTemp.collection)
+            Assert.assertEquals(bookNumberTemp, booksListItemTemp.bookNumber)
+            Assert.assertEquals(ratingTemp, booksListItemTemp.rating)
+
+        }
     }
 
     /**
@@ -350,30 +420,6 @@ class ListViewScreenSteps : AbstractStep() {
         return resultList
     }
 
-
-    /**
-     * Returns the title of an item of the main Categories ListView.
-     * Title values are 'Fantasy', 'Sci-fi' or 'Other'
-     */
-    private fun extractTitleOfChildOfCategoriesListViewOfTypeA(childOfCategoriesListViewOfTypeAElement: MobileElement): String? {
-
-        var title: String?
-        if (SuiteSetup.isIos()) {
-            title =
-                waitForChildElementToBePresent(
-                    childOfCategoriesListViewOfTypeAElement,
-                    MobileBy.iOSClassChain("**/XCUIElementTypeTextView[1]")
-                ).text
-        } else {
-            title =
-                waitForChildElementToBePresent(
-                    childOfCategoriesListViewOfTypeAElement,
-                    By.xpath(".//android.view.ViewGroup//android.widget.TextView")
-                ).text
-        }
-        return title
-    }
-
     /**
      * Returns the children elements of the main CategoriesListView list. These elements refer only to elements showing
      * on the screen.
@@ -440,7 +486,7 @@ class ListViewScreenSteps : AbstractStep() {
         if (childrenElementsValues.isEmpty())
             return null
 
-        var childrenElementsValuesTemp: List<String> = mutableListOf()
+        var childrenElementsValuesTemp: List<String>
         var lastChildElementValue: String?
 
         do {
@@ -452,6 +498,38 @@ class ListViewScreenSteps : AbstractStep() {
                 scrollFromOnePointToBorder(getLastChildOfListView(listViewElement).location, SwipeDirection.LEFT)
 
             childrenElementsValuesTemp = getChildrenOfListViewCharactersList(listViewElement)
+            childrenElementsValues.addAll(childrenElementsValuesTemp)
+
+        } while (lastChildElementValue != childrenElementsValuesTemp.last())
+
+        return childrenElementsValues
+    }
+
+    /**
+     * Scrolls the list of id booksList to read all of its elements and return them parsed
+     */
+    private fun extractAllItemsOfListViewBooksList(
+        listViewElement: MobileElement
+    ): Collection<BooksListListViewItem>? {
+
+        var childrenElementsValues = LinkedHashSet<BooksListListViewItem>()
+        childrenElementsValues.addAll(getChildrenOfListViewBooksList(listViewElement))
+
+        if (childrenElementsValues.isEmpty())
+            return null
+
+        var childrenElementsValuesTemp: List<BooksListListViewItem>
+        var lastChildElementValue: BooksListListViewItem?
+
+        do {
+            lastChildElementValue = childrenElementsValues.last()
+
+            if (SuiteSetup.isIos())
+                iosScrollWithinElement(listViewElement, SwipeDirection.DOWN)
+            else
+                scrollFromOnePointToBorder(getLastChildOfListView(listViewElement).location, SwipeDirection.UP)
+
+            childrenElementsValuesTemp = getChildrenOfListViewBooksList(listViewElement)
             childrenElementsValues.addAll(childrenElementsValuesTemp)
 
         } while (lastChildElementValue != childrenElementsValuesTemp.last())
@@ -478,25 +556,22 @@ class ListViewScreenSteps : AbstractStep() {
     private fun getListViewElement(listViewId: String): MobileElement? {
         if (SuiteSetup.isIos()) {
             when (listViewId) {
-                "charactersList" -> {
-                    return waitForElementToBePresent(MobileBy.id("charactersList"))
-                }
+                "charactersList" -> return waitForElementToBePresent(MobileBy.id("charactersList"))
                 "categoriesList" -> return waitForElementToBePresent(MobileBy.id("categoriesList"))
-                else -> {
-                    return null
-                }
+                "booksList" -> return waitForElementToBePresent(MobileBy.id("booksList"))
+                else -> return null
             }
         } else {
             when (listViewId) {
-                "charactersList" -> {
+                "charactersList" ->
                     return waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[1]"))
-                }
-                "categoriesList" -> {
+                "categoriesList" ->
                     return waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[2]"))
-                }
-                else -> {
-                    return null
-                }
+                "booksList" ->
+                    return waitForElementToBePresent(By.xpath("//android.widget.TextView[contains(@text," +
+                            "'Books List View (infinite scroll):')]/following-sibling::" +
+                            "androidx.recyclerview.widget.RecyclerView[1]"))
+                else -> return null
             }
         }
 
@@ -521,6 +596,46 @@ class ListViewScreenSteps : AbstractStep() {
                     collectionTemp = elementTextTemp
                     childrenList.add("$nameTemp;$bookTemp;$collectionTemp")
                 }
+            }
+        }
+
+        return childrenList
+    }
+
+    /**
+     * @return a list of names representing each child element of the list view booksList
+     */
+    private fun getChildrenOfListViewBooksList(booksListListViewElement: MobileElement): List<BooksListListViewItem> {
+        val childrenList = mutableListOf<BooksListListViewItem>()
+
+        var titleTemp = ""
+        var authorTemp = ""
+        var collectionTemp = ""
+        var bookNumberTemp = ""
+        var genreTemp = ""
+        var ratingTemp = ""
+        var elementTextTemp = ""
+        for (textElement in getTextChildrenElementsOfListView(booksListListViewElement)) {
+            elementTextTemp = textElement.text
+            when {
+                elementTextTemp.startsWith("Author:", ignoreCase = true) -> authorTemp = elementTextTemp
+                elementTextTemp.startsWith("Collection:", ignoreCase = true) -> collectionTemp = elementTextTemp
+                elementTextTemp.startsWith("Book Number:", ignoreCase = true) -> bookNumberTemp = elementTextTemp
+                elementTextTemp.startsWith("Genre:", ignoreCase = true) -> genreTemp = elementTextTemp
+                elementTextTemp.startsWith("Rating:", ignoreCase = true) -> {
+                    ratingTemp = elementTextTemp
+                    childrenList.add(
+                        BooksListListViewItem(
+                            titleTemp,
+                            authorTemp,
+                            collectionTemp,
+                            bookNumberTemp,
+                            genreTemp,
+                            ratingTemp
+                        )
+                    )
+                }
+                else -> titleTemp = elementTextTemp
             }
         }
 
