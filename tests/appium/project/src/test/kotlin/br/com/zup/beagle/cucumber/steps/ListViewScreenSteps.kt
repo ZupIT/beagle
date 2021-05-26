@@ -4,7 +4,6 @@ import br.com.zup.beagle.setup.SuiteSetup
 import br.com.zup.beagle.utils.SwipeDirection
 import io.appium.java_client.MobileBy
 import io.appium.java_client.MobileElement
-import io.appium.java_client.ios.IOSElement
 import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.And
@@ -131,9 +130,10 @@ class ListViewScreenSteps : AbstractStep() {
 
     @And("^the listView with id charactersList should be on pagination 1$")
     fun checkIfListViewCharactersListIsInPage1() {
-        var currentFirstChildText =
-            extractContentOfChildOfListViewCharactersList(getFirstChildOfListView(getListViewElement("charactersList")!!))
-        Assert.assertEquals(charactersListPage1.toList()[0], currentFirstChildText)
+        val childrenElementValues = getTextChildrenElementsOfListView(getListViewElement("charactersList")!!)
+        val currentFirstChildElementValue =
+            childrenElementValues[0].text + ";" + childrenElementValues[1].text + ";" + childrenElementValues[2].text
+        Assert.assertEquals(charactersListPage1.toList()[0], currentFirstChildElementValue)
     }
 
     @Then("^listView with id (.*) should be in horizontal orientation$")
@@ -350,79 +350,6 @@ class ListViewScreenSteps : AbstractStep() {
         return resultList
     }
 
-//    /**
-//     * Parse the contents of a given cell, of a category list of type C, to a CategoryListViewItem object
-//     */
-//    private fun parseElementToCategoryListViewItem(childOfCategoriesListViewOfTypeB: MobileElement): CategoryListViewItem? {
-//        lateinit var categoryListViewItemTemp: CategoryListViewItem
-//        if (SuiteSetup.isIos()) {
-//
-//            var title =
-//                (childOfCategoriesListViewOfTypeB as IOSElement)
-//                    .findElementByIosClassChain(
-//                        "**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther" +
-//                                "/XCUIElementTypeTextView[1]"
-//                    )
-//                    .text
-//
-//            var author = childOfCategoriesListViewOfTypeB
-//                .findElementByIosClassChain(
-//                    "**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther" +
-//                            "/XCUIElementTypeTextView[2]"
-//                )
-//                .text
-//
-//            var characters = extractCategoryCharactersListViewValues(
-//                waitForChildElementToBePresent(
-//                    childOfCategoriesListViewOfTypeB,
-//                    MobileBy.iOSClassChain("**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeCollectionView")
-//                )
-//            )
-//
-//            categoryListViewItemTemp = CategoryListViewItem(title = title, author = author, characters = characters!!)
-//
-//        } else {
-//
-//            var title =
-//                waitForChildElementToBePresent(
-//                    childOfCategoriesListViewOfTypeB,
-//                    By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[1]")
-//                ).text
-//
-//
-//            var author =
-//                waitForChildElementToBePresent(
-//                    childOfCategoriesListViewOfTypeB,
-//                    By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView)[2]")
-//                ).text
-//
-//
-//            var characters = extractCategoryCharactersListViewValues(
-//                waitForChildElementToBePresent(
-//                    childOfCategoriesListViewOfTypeB,
-//                    By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView")
-//                )
-//
-//            )
-//
-//            categoryListViewItemTemp = CategoryListViewItem(title = title, author = author, characters = characters!!)
-//        }
-//
-//        return categoryListViewItemTemp
-//    }
-
-//    /**
-//     * Extracts all the values from a given CharactersListView, child of a CategoryListView
-//     */
-//    private fun extractCategoryCharactersListViewValues(charactersListViewElement: MobileElement): List<String>? {
-//        val characterNamesList = LinkedList<String>()
-//        val elementsOfList = getTextChildrenElementsOfListView(charactersListViewElement)
-//
-//        for (element in elementsOfList)
-//            characterNamesList.add(element.text)
-//
-//        return characterNamesList
-//    }
 
     /**
      * Returns the title of an item of the main Categories ListView.
@@ -473,29 +400,6 @@ class ListViewScreenSteps : AbstractStep() {
         )
     }
 
-//    /**
-//     * Returns the children elements of a Categories ListView of type B. These elements refer only to elements showing
-//     * on the screen.
-//     */
-//    private fun getChildrenElementsOfCategoriesListViewOfTypeB(categoriesListViewOfTypeBElement: MobileElement): List<MobileElement> {
-//
-//        var childrenOfCategoryListViewOfTypeBLocator: By?
-//
-//        if (SuiteSetup.isIos()) {
-//            childrenOfCategoryListViewOfTypeBLocator =
-//                MobileBy.iOSClassChain("**/XCUIElementTypeCell[\$type == 'XCUIElementTypeCollectionView'\$]")
-//        } else {
-//            childrenOfCategoryListViewOfTypeBLocator =
-//                By.xpath(
-//                    ".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView]"
-//                )
-//        }
-//
-//        return waitForChildrenElementsToBePresent(
-//            categoriesListViewOfTypeBElement,
-//            childrenOfCategoryListViewOfTypeBLocator
-//        )
-//    }
 
     /**
      * Returns the children text elements of a Categories ListView of type B. These elements refer only to elements showing
@@ -509,7 +413,6 @@ class ListViewScreenSteps : AbstractStep() {
             childrenOfCategoryListViewOfTypeBLocator =
                 MobileBy.iOSClassChain("**/XCUIElementTypeCell[\$type == 'XCUIElementTypeCollectionView'\$]/**/XCUIElementTypeTextView")
 
-            // categoriesListViewOfTypeBElement.findElement(By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeCollectionView]//XCUIElementTypeTextView"))
 
         } else {
             childrenOfCategoryListViewOfTypeBLocator =
@@ -530,32 +433,30 @@ class ListViewScreenSteps : AbstractStep() {
     private fun extractAllItemsOfListViewCharactersList(
         listViewElement: MobileElement
     ): Collection<String>? {
-        var childrenNames =
-            LinkedHashSet(getChildrenNamesOfListViewCharactersList(listViewElement)) // ignores identical values
-        var lastChildElement: MobileElement
-        var lastChildName = ""
 
-        if (childrenNames.isEmpty())
+        var childrenElementsValues = LinkedHashSet<String>()
+        childrenElementsValues.addAll(getChildrenOfListViewCharactersList(listViewElement))
+
+        if (childrenElementsValues.isEmpty())
             return null
 
-        var childrenNamesTemp: List<String> = mutableListOf()
+        var childrenElementsValuesTemp: List<String> = mutableListOf()
+        var lastChildElementValue: String?
+
         do {
-            lastChildElement = getLastChildOfListView(listViewElement)
-            lastChildName = extractContentOfChildOfListViewCharactersList(lastChildElement)!!
+            lastChildElementValue = childrenElementsValues.last()
 
             if (SuiteSetup.isIos())
                 iosScrollWithinElement(listViewElement, SwipeDirection.RIGHT)
             else
-                scrollFromOnePointToBorder(lastChildElement.location, SwipeDirection.LEFT)
+                scrollFromOnePointToBorder(getLastChildOfListView(listViewElement).location, SwipeDirection.LEFT)
 
-            childrenNamesTemp = getChildrenNamesOfListViewCharactersList(listViewElement)
+            childrenElementsValuesTemp = getChildrenOfListViewCharactersList(listViewElement)
+            childrenElementsValues.addAll(childrenElementsValuesTemp)
 
-            childrenNames.addAll(childrenNamesTemp)
+        } while (lastChildElementValue != childrenElementsValuesTemp.last())
 
-
-        } while (lastChildName != childrenNamesTemp.last())
-
-        return childrenNames
+        return childrenElementsValues
     }
 
     /**
@@ -604,55 +505,28 @@ class ListViewScreenSteps : AbstractStep() {
     /**
      * @return a list of names representing each child element of the list view charactersList
      */
-    private fun getChildrenNamesOfListViewCharactersList(listViewElement: MobileElement): List<String> {
-        val childrenNames = mutableListOf<String>()
+    private fun getChildrenOfListViewCharactersList(charactersListViewElement: MobileElement): List<String> {
+        val childrenList = mutableListOf<String>()
 
-        var childrenElements = getChildrenElementsOfListView(listViewElement)
-        childrenElements.forEach() {
-            childrenNames.add(extractContentOfChildOfListViewCharactersList(it)!!)
+        var nameTemp = ""
+        var bookTemp = ""
+        var collectionTemp = ""
+        var elementTextTemp = ""
+        for (textElement in getTextChildrenElementsOfListView(charactersListViewElement)) {
+            elementTextTemp = textElement.text
+            when {
+                elementTextTemp.startsWith("Name:", ignoreCase = true) -> nameTemp = elementTextTemp
+                elementTextTemp.startsWith("Book:", ignoreCase = true) -> bookTemp = elementTextTemp
+                elementTextTemp.startsWith("Collection:", ignoreCase = true) -> {
+                    collectionTemp = elementTextTemp
+                    childrenList.add("$nameTemp;$bookTemp;$collectionTemp")
+                }
+            }
         }
 
-        return childrenNames
+        return childrenList
     }
 
-    /**
-     * Returns a text representing the content of a child of the list view charactersList, thus
-     * helping identifying the child element.
-     */
-    private fun extractContentOfChildOfListViewCharactersList(childElement: MobileElement): String? {
-        var childElementText: String?
-        if (SuiteSetup.isIos()) {
-            // name
-            var element1 =
-                (childElement as IOSElement).findElementByIosClassChain("**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView")
-            // book
-            var element2 =
-                childElement.findElementByIosClassChain("**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView[2]")
-            // collection
-            var element3 =
-                childElement.findElementByIosClassChain("**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView[3]")
-
-            childElementText = element1.text + ";" + element2.text + ";" + element3.text
-        } else {
-            // name
-            var element1 = waitForChildElementToBePresent(
-                childElement,
-                By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
-            )
-            var element2 = waitForChildElementToBePresent(
-                childElement,
-                By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[2]")
-            )
-            var element3 = waitForChildElementToBePresent(
-                childElement,
-                By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[3]")
-            )
-
-            childElementText = element1.text + ";" + element2.text + ";" + element3.text
-
-        }
-        return childElementText
-    }
 
     /**
      * Locates the children elements of a list view. These elements refer only to elements showing
@@ -676,34 +550,29 @@ class ListViewScreenSteps : AbstractStep() {
 
     }
 
-//    /**
-//     * Locates the text children elements of a list view. These elements refer only to elements showing
-//     * on the screen.
-//     */
-//    private fun getTextChildrenElementsOfListView(listViewElement: MobileElement): List<MobileElement> {
-//
-//        var lastChildOfListViewLocator: By?
-//
-//        if (SuiteSetup.isIos()) {
-//            lastChildOfListViewLocator =
-//                By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther]//XCUIElementTypeTextView")
-//            //By.xpath("**/XCUIElementTypeCell/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView")
-//
-//
-//            // (childElement as IOSElement).findElementByIosClassChain("**/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView")
-//        } else {
-//            lastChildOfListViewLocator =
-//                By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")
-//
-//            // By.xpath("(.//android.view.ViewGroup//android.widget.TextView)[1]")
-//        }
-//
-//        return waitForChildrenElementsToBePresent(
-//            listViewElement,
-//            lastChildOfListViewLocator
-//        )
-//
-//    }
+    /**
+     * Locates the text children elements of a list view. These elements refer only to elements showing
+     * on the screen.
+     */
+    private fun getTextChildrenElementsOfListView(listViewElement: MobileElement): List<MobileElement> {
+
+        var lastChildOfListViewLocator: By?
+
+        if (SuiteSetup.isIos()) {
+            lastChildOfListViewLocator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeCell/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView")
+
+        } else {
+            lastChildOfListViewLocator =
+                By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")
+        }
+
+        return waitForChildrenElementsToBePresent(
+            listViewElement,
+            lastChildOfListViewLocator
+        )
+
+    }
 
     /**
      * Locates the last child element of a list view. The child element refers only to a element showing
