@@ -31,4 +31,4 @@ jobs:
           HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ env.BEAGLE_CORE_SECURITY_HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
         run: |
           curl -fsSL https://horusec.io/bin/install.sh | bash
-          horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**,**/iOS/Tests/**,**/flutter/beagle/assets/**,**/tests/appium/**,**/**/gradlew.bat,**/flutter/tests.sh,Gemfile.lock" -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -n "${GITHUB_REPOSITORY}_${GITHUB_REF##*/}" -e true -u "https://api-horusec.zup.com.br" -G true
+          horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**,**/iOS/Tests/**,**/flutter/beagle/assets/**,**/tests/appium/**,**/**/gradlew.bat,**/flutter/tests.sh,**/Gemfile.lock" -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -n "${GITHUB_REPOSITORY}_${GITHUB_REF##*/}" -e true -u "https://api-horusec.zup.com.br" -G true
