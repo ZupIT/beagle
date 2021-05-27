@@ -162,7 +162,7 @@ class ListViewScreenSteps : AbstractStep() {
 
                 val anchorElementForSwipe = getChildrenElementsOfListView(getListViewElement("categoriesList")!!)[1]
                 scrollFromOnePointToBorder(anchorElementForSwipe!!.location, SwipeDirection.UP)
-
+                swipeUp()
 
                 val listViewElement = getListViewElement("booksList")
                 booksListList.addAll(extractAllItemsOfListViewBooksList(listViewElement!!)!!)
@@ -541,10 +541,6 @@ class ListViewScreenSteps : AbstractStep() {
             childrenElementsValues.addAll(childrenElementsValuesTemp)
 
         } while (lastChildElementValue != childrenElementsValuesTemp.last())
-
-        // TODO: temp, remover esse print
-        for (item in childrenElementsValues)
-            println("LINE: " + item.toString())
 
         return childrenElementsValues
     }
