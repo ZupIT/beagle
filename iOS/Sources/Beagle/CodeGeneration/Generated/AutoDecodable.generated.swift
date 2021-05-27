@@ -394,6 +394,22 @@ extension TabBar {
     }
 }
 
+// MARK: Template Decodable
+extension Template {
+
+    enum CodingKeys: String, CodingKey {
+        case `case`
+        case view
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        `case` = try container.decodeIfPresent(Expression<Bool>.self, forKey: .`case`)
+        view = try container.decode(forKey: .view)
+    }
+}
+
 // MARK: Text Decodable
 extension Text {
 

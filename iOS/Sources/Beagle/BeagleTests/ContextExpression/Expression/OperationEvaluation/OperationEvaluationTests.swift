@@ -27,7 +27,7 @@ class OperationEvaluationTests: XCTestCase {
         // When
         contexts.forEach { view.setContext($0) }
         let evaluatedResults = operations.map {
-            $0.evaluate(in: view)
+            $0.evaluate(in: view, implicitContext: nil)
         }
         
         // Then

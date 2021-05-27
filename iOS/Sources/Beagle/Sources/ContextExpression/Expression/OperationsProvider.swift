@@ -31,7 +31,13 @@ public protocol OperationsProvider {
     ///   - handler: A closure where you tell us what your custom operation should do.
     func register(operationId: String, handler: @escaping OperationHandler)
     
-    func evaluate(with operation: Operation, in view: UIView) -> DynamicObject
+    func evaluate(with operation: Operation, in view: UIView, implicitContext: Context?) -> DynamicObject
+}
+
+extension OperationsProvider {
+    public func evaluate(with operation: Operation, in view: UIView) -> DynamicObject {
+        evaluate(with: operation, in: view, implicitContext: nil)
+    }
 }
 
 public class OperationsDefault: OperationsProvider {
@@ -64,23 +70,23 @@ public class OperationsDefault: OperationsProvider {
         operations[operationId] = handler
     }
     
-    public func evaluate(with operation: Operation, in view: UIView) -> DynamicObject {
+    public func evaluate(with operation: Operation, in view: UIView, implicitContext: Context?) -> DynamicObject {
         guard let operationHandler = operations[operation.name] else {
             dependencies.logger.log(Log.customOperations(.notFound))
             return nil
         }
         
-        let parameters = evaluatedParameters(in: view, with: operation)
+        let parameters = evaluatedParameters(in: view, with: operation, implicitContext: implicitContext)
         return operationHandler(parameters)
     }
     
-    func evaluatedParameters(in view: UIView, with operation: Operation) -> [DynamicObject] {
+    func evaluatedParameters(in view: UIView, with operation: Operation, implicitContext: Context?) -> [DynamicObject] {
         return operation.parameters.map { parameter in
             switch parameter {
             case .operation(let operation):
-                return operation.evaluate(in: view)
+                return operation.evaluate(in: view, implicitContext: implicitContext)
             case .value(.binding(let binding)):
-                return binding.evaluate(in: view)
+                return binding.evaluate(in: view, implicitContext: implicitContext)
             case .value(.literal(let literal)):
                 return literal.evaluate()
             }

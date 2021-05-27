@@ -61,10 +61,10 @@ public extension Expression {
         }
     }
 
-    func evaluate(with view: UIView?) -> T? {
+    func evaluate(with view: UIView?, implicitContext: Context? = nil) -> T? {
         switch self {
         case let .expression(expression):
-            return view?.evaluateExpression(expression).transform()
+            return view?.evaluateExpression(expression, implicitContext: implicitContext).transform()
         case let .value(value):
             return value
         }

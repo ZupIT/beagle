@@ -226,7 +226,7 @@ class OperationsProviderDummy: OperationsProvider {
         // Intentionally unimplemented...
     }
     
-    func evaluate(with operation: Operation, in view: UIView) -> DynamicObject {
+    func evaluate(with operation: Operation, in view: UIView, implicitContext: Context?) -> DynamicObject {
         // Intentionally unimplemented...
         return nil
     }

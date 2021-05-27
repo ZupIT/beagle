@@ -31,7 +31,7 @@ extension GridView {
             model: ListViewUIComponent.Model(
                 key: path,
                 direction: .vertical,
-                template: template,
+                templates: [Template(view: template)],
                 iteratorName: iteratorName ?? "item",
                 onScrollEnd: onScrollEnd,
                 scrollEndThreshold: CGFloat(scrollEndThreshold ?? 100),

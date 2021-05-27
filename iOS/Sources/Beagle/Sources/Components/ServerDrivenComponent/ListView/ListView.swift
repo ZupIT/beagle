@@ -21,7 +21,7 @@ public struct ListView: Widget, HasContext, InitiableComponent {
     public let dataSource: Expression<[DynamicObject]>
     public let key: String?
     public let direction: Direction?
-    public let template: ServerDrivenComponent
+    public let templates: [Template]
     public let iteratorName: String?
     public let onScrollEnd: [Action]?
     public let scrollEndThreshold: Int?
@@ -46,7 +46,7 @@ public struct ListView: Widget, HasContext, InitiableComponent {
         self.dataSource = dataSource
         self.key = key
         self.direction = direction
-        self.template = template
+        self.templates = [Template(view: template)]
         self.iteratorName = iteratorName
         self.onScrollEnd = onScrollEnd
         self.scrollEndThreshold = scrollEndThreshold
@@ -110,6 +110,7 @@ extension ListView: Decodable {
         case key
         case direction
         case template
+        case templates
         case iteratorName
         case onScrollEnd
         case scrollEndThreshold
@@ -131,16 +132,21 @@ extension ListView: Decodable {
         isScrollIndicatorVisible = try container.decodeIfPresent(Bool.self, forKey: .isScrollIndicatorVisible)
         widgetProperties = try WidgetProperties(listFrom: decoder)
         
-        if let template: ServerDrivenComponent = try? container.decode(forKey: .template) {
-            dataSource = try container.decode(Expression<[DynamicObject]>.self, forKey: .dataSource)
-            self.template = template
+        if let templates: [Template] = try? container.decode([Template].self, forKey: .templates), !templates.isEmpty {
+            self.dataSource = try container.decode(Expression<[DynamicObject]>.self, forKey: .dataSource)
+            self.templates = templates
+            self.iteratorName = iteratorName
+        } else if let template: ServerDrivenComponent = try? container.decode(forKey: .template) {
+            self.dataSource = try container.decode(Expression<[DynamicObject]>.self, forKey: .dataSource)
+            self.templates = [Template(view: template)]
             self.iteratorName = iteratorName
         } else {
-            template = Self.templateFor(
+            let view = Self.templateFor(
                 children: try container.decodeIfPresent(forKey: .children) ?? [],
                 direction: direction
             )
-            dataSource = .value([.empty])
+            self.dataSource = .value([.empty])
+            self.templates = [Template(view: view)]
             self.iteratorName = iteratorName ?? Self.randomIteratorName()
         }
     }
@@ -167,4 +173,20 @@ extension ListView {
         case vertical = "VERTICAL"
         case horizontal = "HORIZONTAL"
     }
+}
+
+public struct Template: AutoInitiableAndDecodable {
+
+    public let `case`: Expression<Bool>?
+    public let view: ServerDrivenComponent
+
+// sourcery:inline:auto:Template.Init
+    public init(
+        `case`: Expression<Bool>? = nil,
+        view: ServerDrivenComponent
+    ) {
+        self.`case` = `case`
+        self.view = view
+    }
+// sourcery:end
 }

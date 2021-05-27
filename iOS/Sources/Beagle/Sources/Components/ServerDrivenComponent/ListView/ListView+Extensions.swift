@@ -30,7 +30,7 @@ extension ListView {
             model: ListViewUIComponent.Model(
                 key: path,
                 direction: direction ?? .vertical,
-                template: template,
+                templates: templates,
                 iteratorName: iteratorName ?? "item",
                 onScrollEnd: onScrollEnd,
                 scrollEndThreshold: CGFloat(scrollEndThreshold ?? 100),
