@@ -108,24 +108,28 @@ extension GridViewTests {
             onInit: onInit,
             dataSource: Expression("@{initialContext}"),
             numColumns: numColumns,
-            template: Container(
-                children: [
-                    Text(
-                        "@{item}",
+            templates: [
+                Template(
+                    view: Container(
+                        children: [
+                            Text(
+                                "@{item}",
+                                widgetProperties: WidgetProperties(
+                                    style: Style(
+                                        backgroundColor: "#bfdcae"
+                                    )
+                                )
+                            )
+                        ],
                         widgetProperties: WidgetProperties(
                             style: Style(
-                                backgroundColor: "#bfdcae"
+                                backgroundColor: "#81b214",
+                                margin: EdgeValue().all(10)
                             )
                         )
                     )
-                ],
-                widgetProperties: WidgetProperties(
-                    style: Style(
-                        backgroundColor: "#81b214",
-                        margin: EdgeValue().all(10)
-                    )
                 )
-            ),
+            ],
             onScrollEnd: onScrollEnd,
             isScrollIndicatorVisible: isScrollIndicatorVisible,
             widgetProperties: WidgetProperties(

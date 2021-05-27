@@ -52,7 +52,7 @@ struct GridViewScreen: DeeplinkScreen {
             ),
             dataSource: "@{moviePage.results}",
             numColumns: 3,
-            template: movieTemplate,
+            templates: [movieTemplate, badMovieTemplate],
             onScrollEnd: [
                 SendRequest(
                     url: "@{database}/trending.@{sum(moviePage.page, 1)}.json",
@@ -73,14 +73,21 @@ struct GridViewScreen: DeeplinkScreen {
         )
     }
     
-    var movieTemplate: Container {
-        return Container(
+    var badMovieTemplate: Template {
+        return Template(
+            case: "@{lt(item.vote_average, 7)}",
+            view: Text(#"People don't think "@{item.title}" is a masterpiece, try something else."#)
+        )
+    }
+    
+    var movieTemplate: Template {
+        return Template(view: Container(
             widgetProperties: .init(
                 style: Style()
                     .padding(EdgeValue().all(2))
             )
         ) {
             Image(.value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{item.poster_path}"))))
-        }
+        })
     }
 }

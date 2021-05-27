@@ -19,19 +19,12 @@ import UIKit
 
 extension GridView {
     
-    private var path: Path? {
-        if let key = key {
-            return Path(rawValue: key)
-        }
-        return nil
-    }
-    
     public func toView(renderer: BeagleRenderer) -> UIView {
         let view = ListViewUIComponent(
             model: ListViewUIComponent.Model(
-                key: path,
+                key: key.ifSome { Path(rawValue: $0) },
                 direction: .vertical,
-                templates: [Template(view: template)],
+                templates: templates,
                 iteratorName: iteratorName ?? "item",
                 onScrollEnd: onScrollEnd,
                 scrollEndThreshold: CGFloat(scrollEndThreshold ?? 100),

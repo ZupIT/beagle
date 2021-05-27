@@ -18,17 +18,10 @@ import UIKit
 
 extension ListView {
 
-    private var path: Path? {
-        if let key = key {
-            return Path(rawValue: key)
-        }
-        return nil
-    }
-    
     public func toView(renderer: BeagleRenderer) -> UIView {
         let view = ListViewUIComponent(
             model: ListViewUIComponent.Model(
-                key: path,
+                key: key.ifSome { Path(rawValue: $0) },
                 direction: direction ?? .vertical,
                 templates: templates,
                 iteratorName: iteratorName ?? "item",

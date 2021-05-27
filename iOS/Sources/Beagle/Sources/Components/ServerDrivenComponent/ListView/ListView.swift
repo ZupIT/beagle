@@ -14,19 +14,70 @@
  * limitations under the License.
  */
 
-public struct ListView: Widget, HasContext, InitiableComponent {
+public struct ListView: Widget, HasContext, InitiableComponent, AutoInitiable {
     
+    /// Defines the context of the component.
     public var context: Context?
+    
+    /// Allows to define a list of actions to be performed when the ListView is displayed.
     public let onInit: [Action]?
+    
+    /// It's an expression that points to a list of values used to populate the ListView.
     public let dataSource: Expression<[DynamicObject]>
+    
+    /// Points to a unique value present in each dataSource item used as a suffix in the component ids within the ListView.
     public let key: String?
+    
+    /// Direction of the list scroll.
     public let direction: Direction?
+    
+    /// Templates available to the list items.
+    /// The list will use the first template which matches the `Template.case`.
+    /// When there is no match, the first template without a `case` will be used.
     public let templates: [Template]
+    
+    /// Is the context identifier of each cell.
     public let iteratorName: String?
+    
+    /// List of actions performed when the list is scrolled to the end.
     public let onScrollEnd: [Action]?
+    
+    /// Sets the scrolled percentage of the list to trigger onScrollEnd.
     public let scrollEndThreshold: Int?
+    
+    /// This attribute enables or disables the scroll indicator.
     public let isScrollIndicatorVisible: Bool?
+    
+    /// Properties that all widgets have in common.
     public var widgetProperties: WidgetProperties
+    
+// sourcery:inline:auto:ListView.Init
+    public init(
+        context: Context? = nil,
+        onInit: [Action]? = nil,
+        dataSource: Expression<[DynamicObject]>,
+        key: String? = nil,
+        direction: Direction? = nil,
+        templates: [Template],
+        iteratorName: String? = nil,
+        onScrollEnd: [Action]? = nil,
+        scrollEndThreshold: Int? = nil,
+        isScrollIndicatorVisible: Bool? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
+    ) {
+        self.context = context
+        self.onInit = onInit
+        self.dataSource = dataSource
+        self.key = key
+        self.direction = direction
+        self.templates = templates
+        self.iteratorName = iteratorName
+        self.onScrollEnd = onScrollEnd
+        self.scrollEndThreshold = scrollEndThreshold
+        self.isScrollIndicatorVisible = isScrollIndicatorVisible
+        self.widgetProperties = widgetProperties
+    }
+// sourcery:end
     
     public init(
         context: Context? = nil,
@@ -41,19 +92,21 @@ public struct ListView: Widget, HasContext, InitiableComponent {
         isScrollIndicatorVisible: Bool? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
-        self.context = context
-        self.onInit = onInit
-        self.dataSource = dataSource
-        self.key = key
-        self.direction = direction
-        self.templates = [Template(view: template)]
-        self.iteratorName = iteratorName
-        self.onScrollEnd = onScrollEnd
-        self.scrollEndThreshold = scrollEndThreshold
-        self.isScrollIndicatorVisible = isScrollIndicatorVisible
-        self.widgetProperties = widgetProperties
+        self.init(
+            context: context,
+            onInit: onInit,
+            dataSource: dataSource,
+            key: key,
+            direction: direction,
+            templates: [Template(view: template)],
+            iteratorName: iteratorName,
+            onScrollEnd: onScrollEnd,
+            scrollEndThreshold: scrollEndThreshold,
+            isScrollIndicatorVisible: isScrollIndicatorVisible,
+            widgetProperties: widgetProperties
+        )
     }
-    
+
     // MARK: Deprecated initializers
     
     private static func templateFor(children: [ServerDrivenComponent], direction: Direction?) -> ServerDrivenComponent {
@@ -65,7 +118,7 @@ public struct ListView: Widget, HasContext, InitiableComponent {
         return "__list_\(Int.random(in: 0...Int.max))"
     }
 
-    @available(*, deprecated, message: "use the dataSource and template instead of children")
+    @available(*, deprecated, message: "use the dataSource and templates instead of children")
     public init(
         children: [ServerDrivenComponent]? = nil,
         direction: Direction = .vertical
@@ -79,7 +132,7 @@ public struct ListView: Widget, HasContext, InitiableComponent {
     }
 
     #if swift(<5.3)
-    @available(*, deprecated, message: "use the dataSource and template instead of children")
+    @available(*, deprecated, message: "use the dataSource and templates instead of children")
     public init(
         direction: Direction = .vertical,
         @ChildBuilder
@@ -89,7 +142,7 @@ public struct ListView: Widget, HasContext, InitiableComponent {
     }
     #endif
 
-    @available(*, deprecated, message: "use the dataSource and template instead of children")
+    @available(*, deprecated, message: "use the dataSource and templates instead of children")
     public init(
         direction: Direction = .vertical,
         @ChildrenBuilder
