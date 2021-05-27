@@ -83,7 +83,8 @@ object AppiumUtil {
      * Performs swipe from the center of screen
      * Adapted from http://appium.io/docs/en/writing-running-appium/tutorial/swipe/ios-mobile-screen/
      */
-    private fun iosSwipeScreenTo(driver: MobileDriver<*>, swipeDirection: SwipeDirection) {
+    @Synchronized
+    fun iosSwipeScreenTo(driver: MobileDriver<*>, swipeDirection: SwipeDirection) {
 
         val animationTime = 200 // ms
         val scrollObject = HashMap<String, String>()
@@ -106,7 +107,8 @@ object AppiumUtil {
      * Performs swipe from the center of screen
      * Adapted from http://appium.io/docs/en/writing-running-appium/tutorial/swipe/simple-screen/
      */
-    private fun androidSwipeScreenTo(driver: MobileDriver<*>, swipeDirection: SwipeDirection) {
+    @Synchronized
+    fun androidSwipeScreenTo(driver: MobileDriver<*>, swipeDirection: SwipeDirection) {
 
         val animationTime = 200
         val pressTime = 200
@@ -134,9 +136,7 @@ object AppiumUtil {
             .moveTo(pointOptionEnd)
             .release().perform()
 
-
         Thread.sleep(animationTime.toLong())
-
     }
 
     /**
@@ -244,7 +244,6 @@ object AppiumUtil {
             timeout = 2000L
         }
 
-
         /**
          * Origin point should not be located before border limits
          */
@@ -255,12 +254,12 @@ object AppiumUtil {
 
         /**
          * Should not click outside the screen border. On iOS, clicks near the border sometimes won't work, so
-         * the origin point is reworked to half the size of the screen
+         * the origin point is reworked
          */
-        if (originPoint.x >= screenSize.width / 2)
-            originPoint.x = screenSize.width / 2
-        if (originPoint.y >= screenSize.height / 2)
-            originPoint.y = screenSize.height / 2
+        if (originPoint.x > (screenSize.width - horizontalBorderEdge))
+            originPoint.x = screenSize.width - horizontalBorderEdge
+        if (originPoint.y >= (screenSize.height - verticalBorderEdge))
+            originPoint.y = screenSize.height - verticalBorderEdge
 
 
         val destinationPoint = when (swipeDirection) {
@@ -297,7 +296,7 @@ object AppiumUtil {
 
         /**
          * Should not click outside the screen border. On iOS, clicks near the border sometimes won't work, so
-         * the origin point is reworked to half the size of the screen
+         * the origin point is reworked
          */
         if (originPoint.x > (screenSize.width - horizontalBorderEdge))
             originPoint.x = screenSize.width - horizontalBorderEdge
@@ -328,7 +327,7 @@ object AppiumUtil {
      * source: https://developers.perfectomobile.com/pages/viewpage.action?pageId=25199704
      */
     @Synchronized
-    fun iosScrollScreenWithinElement(
+    fun iosScrollInsideElement(
         driver: MobileDriver<*>,
         element: MobileElement,
         swipeDirection: SwipeDirection
@@ -336,15 +335,88 @@ object AppiumUtil {
 
         val scrollObject = HashMap<String, String>()
         when (swipeDirection) {
-            SwipeDirection.DOWN -> scrollObject["direction"] = "down"
-            SwipeDirection.UP -> scrollObject["direction"] = "up"
-            SwipeDirection.LEFT -> scrollObject["direction"] = "left"
-            SwipeDirection.RIGHT -> scrollObject["direction"] = "right"
+            SwipeDirection.DOWN -> scrollObject["direction"] = "down" // from down to up (! differs from mobile:swipe)
+            SwipeDirection.UP -> scrollObject["direction"] = "up" // from up to down (! differs from mobile:swipe)
+            SwipeDirection.LEFT -> scrollObject["direction"] = "left" // from left to right (! differs from mobile:swipe)
+            SwipeDirection.RIGHT -> scrollObject["direction"] = "right" // from right to left (! differs from mobile:swipe)
             else -> throw IllegalArgumentException("mobileSwipeScreenIOS(): dir: '$swipeDirection' NOT supported")
         }
         scrollObject["element"] = element.id
         (driver as JavascriptExecutor).executeScript("mobile:scroll", scrollObject)
     }
+
+    /**
+     * Same as iosScrollInsideElement.
+     * Adapted from http://appium.io/docs/en/writing-running-appium/tutorial/swipe/simple-element/
+     */
+    @Synchronized
+     fun androidScrollInsideElement(
+        driver: MobileDriver<*>,
+        element: MobileElement,
+        swipeDirection: SwipeDirection
+    ) {
+
+        val animationTime = 200 // ms
+        val pressTime = 200 // ms
+
+        val edgeBorder = 0
+        val pointOptionStart: PointOption<*>
+        val pointOptionEnd: PointOption<*>
+
+        val rect: Rectangle = element.getRect()
+
+        when (swipeDirection) {
+            SwipeDirection.DOWN -> {
+                pointOptionStart = PointOption.point(
+                    rect.x + rect.width / 2,
+                    rect.y + edgeBorder
+                )
+                pointOptionEnd = PointOption.point(
+                    rect.x + rect.width / 2,
+                    rect.y + rect.height - edgeBorder
+                )
+            }
+            SwipeDirection.UP -> {
+                pointOptionStart = PointOption.point(
+                    rect.x + rect.width / 2,
+                    rect.y + rect.height - edgeBorder
+                )
+                pointOptionEnd = PointOption.point(
+                    rect.x + rect.width / 2,
+                    rect.y + edgeBorder
+                )
+            }
+            SwipeDirection.LEFT -> {
+                pointOptionStart = PointOption.point(
+                    rect.x + rect.width - edgeBorder,
+                    rect.y + rect.height / 2
+                )
+                pointOptionEnd = PointOption.point(
+                    rect.x + edgeBorder,
+                    rect.y + rect.height / 2
+                )
+            }
+            SwipeDirection.RIGHT -> {
+                pointOptionStart = PointOption.point(
+                    rect.x + edgeBorder,
+                    rect.y + rect.height / 2
+                )
+                pointOptionEnd = PointOption.point(
+                    rect.x + rect.width - edgeBorder,
+                    rect.y + rect.height / 2
+                )
+            }
+            else -> throw IllegalArgumentException("swipeElementAndroid(): dir: '" + swipeDirection.toString() + "' NOT supported")
+        }
+
+        AndroidTouchAction(driver)
+            .press(pointOptionStart) // a bit more reliable when we add small wait
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(pressTime.toLong())))
+            .moveTo(pointOptionEnd).perform()
+
+        Thread.sleep(animationTime.toLong())
+    }
+
 
     /**
      * Waits for an element to be found on the screen element tree. This does not

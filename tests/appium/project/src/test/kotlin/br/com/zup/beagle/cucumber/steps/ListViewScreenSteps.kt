@@ -159,8 +159,11 @@ class ListViewScreenSteps : AbstractStep() {
                 categoriesList.addAll(extractAllThreeListsOfCategoriesListViewOfTypeA(listViewElement!!)!!)
             }
             "booksList" -> {
-                swipeUp()
-                swipeUp()
+
+                val anchorElementForSwipe = getChildrenElementsOfListView(getListViewElement("categoriesList")!!)[1]
+                scrollFromOnePointToBorder(anchorElementForSwipe!!.location, SwipeDirection.UP)
+
+
                 val listViewElement = getListViewElement("booksList")
                 booksListList.addAll(extractAllItemsOfListViewBooksList(listViewElement!!)!!)
             }
@@ -358,7 +361,7 @@ class ListViewScreenSteps : AbstractStep() {
             }
 
             if (SuiteSetup.isIos())
-                iosScrollWithinElement(categoriesListViewOfTypeBElement, SwipeDirection.RIGHT)
+                AppiumUtil.iosScrollInsideElement(getDriver(), categoriesListViewOfTypeBElement, SwipeDirection.RIGHT)
             else {
                 scrollFromOnePointToBorder(
                     getLastChildOfListViewOfTypeB(categoriesListViewOfTypeBElement).location,
@@ -494,7 +497,7 @@ class ListViewScreenSteps : AbstractStep() {
             lastChildElementValue = childrenElementsValues.last()
 
             if (SuiteSetup.isIos())
-                iosScrollWithinElement(listViewElement, SwipeDirection.RIGHT)
+                AppiumUtil.iosScrollInsideElement(getDriver(), listViewElement, SwipeDirection.RIGHT)
             else
                 scrollFromOnePointToBorder(getLastChildOfListView(listViewElement).location, SwipeDirection.LEFT)
 
@@ -526,7 +529,7 @@ class ListViewScreenSteps : AbstractStep() {
             lastChildElementValue = childrenElementsValues.last()
 
             if (SuiteSetup.isIos())
-                iosScrollWithinElement(listViewElement, SwipeDirection.DOWN)
+                AppiumUtil.iosScrollInsideElement(getDriver(), listViewElement, SwipeDirection.DOWN)
             else
                 AppiumUtil.androidScrollScreenFromOnePointToAnother(
                     getDriver(),
@@ -725,7 +728,8 @@ class ListViewScreenSteps : AbstractStep() {
 
         if (SuiteSetup.isIos()) {
             lastChildOfListViewLocator =
-                By.xpath("(.//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther])[last()]")
+                By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther][last()]")
+
         } else {
             lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[last()]")
         }
@@ -750,25 +754,25 @@ class ListViewScreenSteps : AbstractStep() {
 
     }
 
-    /**
-     * Locates the first child element of a list view. The child element refers only to a element showing
-     * on the screen. The first element of a horizontal list will be the one most to the left, and the
-     * last on a vertical list will be the one most to the top of the list.
-     */
-    private fun getFirstChildOfListView(listViewElement: MobileElement): MobileElement {
-
-        var lastChildOfListViewLocator: By?
-
-        if (SuiteSetup.isIos()) {
-            lastChildOfListViewLocator =
-                By.xpath("(.//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther])[1]")
-        } else {
-            lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[1]")
-        }
-
-        return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
-
-    }
+//    /**
+//     * Locates the first child element of a list view. The child element refers only to a element showing
+//     * on the screen. The first element of a horizontal list will be the one most to the left, and the
+//     * last on a vertical list will be the one most to the top of the list.
+//     */
+//    private fun getFirstChildOfListView(listViewElement: MobileElement): MobileElement {
+//
+//        var lastChildOfListViewLocator: By?
+//
+//        if (SuiteSetup.isIos()) {
+//            lastChildOfListViewLocator =
+//                By.xpath("(.//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther])[1]")
+//        } else {
+//            lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[1]")
+//        }
+//
+//        return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
+//
+//    }
 
 }
 

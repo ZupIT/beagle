@@ -316,9 +316,6 @@ abstract class AbstractStep {
 
     }
 
-    protected fun iosScrollWithinElement(element: MobileElement, swipeDirection: SwipeDirection){
-        AppiumUtil.iosScrollScreenWithinElement(getDriver(), element, swipeDirection)
-    }
 
     protected fun rotateToLandscapePosition() {
         getDriver().rotate(ScreenOrientation.LANDSCAPE);

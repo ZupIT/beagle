@@ -25,7 +25,7 @@ Feature: ListView Component Validation
     Given that I'm on the listView screen
         
     # --------------------------------------------------------------------------------------------------    
-    # ListView charactersList: horizontal with pagination and custom iteratorName    
+    # First ListView charactersList: horizontal with pagination and custom iteratorName
     # --------------------------------------------------------------------------------------------------
 
 #  Scenario: ListView 01 - Characters ListView on pagination 1
@@ -132,7 +132,7 @@ Feature: ListView Component Validation
 #    And the listView with id category:1 should have exactly 7 items
 #    And the listView with id category:2 should have exactly 5 items
 #    And the listView with id category:3 should have exactly 3 items
-#    And  the values of the listView with id categoriesList and its items should be:
+#    And  the values of the listView with id categoriesList should be:
 #      | categoryListPosition | bookListPosition | title                                    | author              | characterListPosition | character                 |
 #      | 0                    | 0                | The Final Empire                         | Brandon Sanderson   | 0                     | - Vin                     |
 #      | 0                    | 0                | The Final Empire                         | Brandon Sanderson   | 1                     | - Kelsier                 |
