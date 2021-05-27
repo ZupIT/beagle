@@ -215,19 +215,19 @@ Feature: ListView Component Validation
     And  the screen should show text: Books List View (infinite scroll): 15 items initialized
     And  the values of the listView with id booksList should be:
       | position | genre           | title                                    | author                      | collection                         | bookNumber        | rating      |
-      | 0        | Genre: Fantasy  | The Final Empire                         | Author: Brandon Sanderson   | Collection: Mistborn Era 1         | Book Number: 1.0  | Rating: 4.7 |
-      | 1        | Genre: Fantasy  | The Alloy of Law                         | Author: Brandon Sanderson   | Collection: Mistborn Era 2         | Book Number: 1.0  | Rating: 4.5 |
-      | 2        | Genre: Fantasy  | A Game of Thrones                        | Author: George R.R. Martin  | Collection: A Song of Ice and Fire | Book Number: 1.0  | Rating: 4.8 |
-      | 3        | Genre: Fantasy  | Words of Radiance                        | Author: Brandon Sanderson   | Collection: The Stormlight Archive | Book Number: 2.0  | Rating: 4.8 |
-      | 4        | Genre: Fantasy  | Shadows Rising                           | Author: Madeleine Roux      | Collection: World of Warcraft      | Book Number: 24.0 | Rating: 4.3 |
-      | 5        | Genre: Fantasy  | Before the Storm                         | Author: Christie Golden     | Collection: World of Warcraft      | Book Number: 23.0 | Rating: 4.6 |
-      | 6        | Genre: Fantasy  | Harry Potter and the Philosopher's Stone | Author: J. K. Rowling       | Collection: Harry Potter           | Book Number: 1.0  | Rating: 4.9 |
-      | 7        | Genre: Sci-fi   | Starsight                                | Author: Brandon Sanderson   | Collection: Skyward                | Book Number: 2.0  | Rating: 4.8 |
-      | 8        | Genre: Sci-fi   | Heaven's River                           | Author: Dennis E. Taylor    | Collection: Bobiverse              | Book Number: 4.0  | Rating: 4.8 |
-      | 9        | Genre: Sci-fi   | Leviathan Wakes                          | Author: James S.A. Corey    | Collection: The Expanse            | Book Number: 1.0  | Rating: 4.7 |
-      | 10       | Genre: Sci-fi   | Dune                                     | Author: Frank Herbert       | Collection: Dune                   | Book Number: 1.0  | Rating: 4.6 |
+      | 0        | Genre: Fantasy  | The Final Empire                         | Author: Brandon Sanderson   | Collection: Mistborn Era 1         | Book Number: 1    | Rating: 4.7 |
+      | 1        | Genre: Fantasy  | The Alloy of Law                         | Author: Brandon Sanderson   | Collection: Mistborn Era 2         | Book Number: 1    | Rating: 4.5 |
+      | 2        | Genre: Fantasy  | A Game of Thrones                        | Author: George R.R. Martin  | Collection: A Song of Ice and Fire | Book Number: 1    | Rating: 4.8 |
+      | 3        | Genre: Fantasy  | Words of Radiance                        | Author: Brandon Sanderson   | Collection: The Stormlight Archive | Book Number: 2    | Rating: 4.8 |
+      | 4        | Genre: Fantasy  | Shadows Rising                           | Author: Madeleine Roux      | Collection: World of Warcraft      | Book Number: 24   | Rating: 4.3 |
+      | 5        | Genre: Fantasy  | Before the Storm                         | Author: Christie Golden     | Collection: World of Warcraft      | Book Number: 23   | Rating: 4.6 |
+      | 6        | Genre: Fantasy  | Harry Potter and the Philosopher's Stone | Author: J. K. Rowling       | Collection: Harry Potter           | Book Number: 1    | Rating: 4.9 |
+      | 7        | Genre: Sci-fi   | Starsight                                | Author: Brandon Sanderson   | Collection: Skyward                | Book Number: 2    | Rating: 4.8 |
+      | 8        | Genre: Sci-fi   | Heaven's River                           | Author: Dennis E. Taylor    | Collection: Bobiverse              | Book Number: 4    | Rating: 4.8 |
+      | 9        | Genre: Sci-fi   | Leviathan Wakes                          | Author: James S.A. Corey    | Collection: The Expanse            | Book Number: 1    | Rating: 4.7 |
+      | 10       | Genre: Sci-fi   | Dune                                     | Author: Frank Herbert       | Collection: Dune                   | Book Number: 1    | Rating: 4.6 |
       | 11       | Genre: Sci-fi   | Dying of the Light                       | Author: George R.R. Martin  | Collection:                        | Book Number:      | Rating: 4.1 |
       | 12       | Genre: Other    | The Last Tribe                           | Author: Brad Manuel         | Collection:                        | Book Number:      | Rating: 4.3 |
       | 13       | Genre: Other    | The Cuckoo's Cry                         | Author: Caroline Overington | Collection:                        | Book Number:      | Rating: 4.3 |
-      | 14       | Genre: Other    | The Handmaid's Tale                      | Author: Margaret Atwood     | Collection: The Handmaid's Tale    | Book Number: 1.0  | Rating: 4.6 |
+      | 14       | Genre: Other    | The Handmaid's Tale                      | Author: Margaret Atwood     | Collection: The Handmaid's Tale    | Book Number: 1    | Rating: 4.6 |
 

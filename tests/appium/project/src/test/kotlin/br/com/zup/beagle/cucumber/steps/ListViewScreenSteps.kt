@@ -633,7 +633,7 @@ class ListViewScreenSteps : AbstractStep() {
             when {
                 elementTextTemp.startsWith("Author:", ignoreCase = true) -> authorTemp = elementTextTemp
                 elementTextTemp.startsWith("Collection:", ignoreCase = true) -> collectionTemp = elementTextTemp
-                elementTextTemp.startsWith("Book Number:", ignoreCase = true) -> bookNumberTemp = elementTextTemp
+                elementTextTemp.startsWith("Book Number:", ignoreCase = true) -> bookNumberTemp = elementTextTemp.removeSuffix(".0")
                 elementTextTemp.startsWith("Genre:", ignoreCase = true) -> genreTemp = elementTextTemp
                 elementTextTemp.startsWith("Rating:", ignoreCase = true) -> {
                     ratingTemp = elementTextTemp
