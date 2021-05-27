@@ -227,5 +227,5 @@ Feature: ListView Component Validation
       | 11       | Genre: Sci-fi  | Dying of the Light                       | Author: George R.R. Martin  | Collection:                        | Book Number:    | Rating: 4.1 |
       | 12       | Genre: Other   | The Last Tribe                           | Author: Brad Manuel         | Collection:                        | Book Number:    | Rating: 4.3 |
       | 13       | Genre: Other   | The Cuckoo's Cry                         | Author: Caroline Overington | Collection:                        | Book Number:    | Rating: 4.3 |
-      | 14       | Genre: Other   | The Handmaid's Tale                      | Author: Margaret Atwood     | Collection: The Handmaid's Tale    | Book Number: 1  | Rating: 4.6 |
+      | 14       | Genre: Other   | The Handmaid's Tale-                      | Author: Margaret Atwood     | Collection: The Handmaid's Tale    | Book Number: 1  | Rating: 4.6 |
 

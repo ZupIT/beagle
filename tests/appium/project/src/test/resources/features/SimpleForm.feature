@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-@simpleform @android @ios @inProgress
+@simpleform @android @ios
 Feature: SimpleForm Component Validation
 
     As a Beagle developer/user
