@@ -40,6 +40,7 @@ import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
 import br.com.zup.beagle.sample.fragment.list.ListViewFragment
 
+
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
